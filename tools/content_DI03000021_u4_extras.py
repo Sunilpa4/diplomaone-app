@@ -61,12 +61,12 @@ def insert_paths(vals):
         p, steps = root, []
         while True:
             if v < p.v:
-                steps.append(f"{v}&lt;{p.v} L")
+                steps.append(f"{v}<{p.v} L")
                 if p.l is None:
                     p.l = BN(v); break
                 p = p.l
             else:
-                steps.append(f"{v}&gt;{p.v} R")
+                steps.append(f"{v}>{p.v} R")
                 if p.r is None:
                     p.r = BN(v); break
                 p = p.r

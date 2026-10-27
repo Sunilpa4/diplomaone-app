@@ -140,7 +140,7 @@ int main(void)
 <li><b>Postorder (L R N):</b> node last; the root is always the <b>last</b> value.</li>
 <li>The three functions differ only in <b>where the printf is placed</b>. The recursion stops at NULL.</li></ul>"""),
 
-    PE("ds4p3", "Construct a Binary Search Tree and display it [Practical 7]", r'''
+    PE("ds4p3", "Construct a Binary Search Tree and display it [Practical 10]", r'''
 #include <stdio.h>
 #include <stdlib.h>
 

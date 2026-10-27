@@ -569,7 +569,7 @@ int main(void)
 <li><b>search()</b> compares each node's data with x and returns its <b>position</b> (1-based), or −1 if it reaches NULL.</li>
 <li>A linked list has no index, so only <b>linear search</b> is possible (O(n)); binary search is not practical.</li></ul>"""),
 
-    PE("ds3p13", "Singly linked list menu: insert, delete, search, count [Practical 6]", r'''
+    PE("ds3p13", "Singly linked list menu: insert, delete, search, count [Practicals 6-9]", r'''
 #include <stdio.h>
 #include <stdlib.h>
 
