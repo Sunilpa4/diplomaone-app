@@ -1,0 +1,965 @@
+{
+ "subject": "DI03000011",
+ "unit": 3,
+ "format": "notes",
+ "title": {
+  "en": "Simplification using Karnaugh Map",
+  "gu": "Karnaugh Map દ્વારા Simplification"
+ },
+ "weightage": 23,
+ "hours": 7,
+ "notes": [
+  {
+   "title": {
+    "en": "3.1 Need for Simplification",
+    "gu": "3.1 Simplification ની જરૂરિયાત"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "3.1.1 Need for Simplification and Methods",
+      "gu": "3.1.1 Simplification ની જરૂરિયાત અને Methods"
+     },
+     "body": {
+      "en": "<p>A Boolean function obtained from a truth table (canonical SOP or POS) usually has many terms. Each term needs a gate, so the circuit becomes large. <b>Simplification</b> reduces the expression to the minimum number of terms and literals <b>without changing its truth table</b>.</p>\n<h4>Advantages of a simplified circuit</h4>\n<ul>\n<li><b>Fewer gates and ICs</b>: lower cost</li>\n<li><b>Less wiring</b>: smaller size, easier to build and troubleshoot</li>\n<li><b>Less propagation delay</b>: higher speed</li>\n<li><b>Less power</b> consumption and heat</li>\n<li><b>Higher reliability</b> (fewer components can fail)</li>\n</ul>\n<h4>Methods of simplification</h4>\n<ol>\n<li><b>Algebraic method</b> (Boolean laws, Unit 2): no fixed procedure; depends on skill and it is hard to know whether the result is minimum.</li>\n<li><b>Karnaugh map (K-map) method</b>: a graphical, systematic method; best for 2 to 4 (up to 6) variables.</li>\n<li><b>Quine–McCluskey (tabular) method</b>: suitable for many variables and for computer programs.</li>\n</ol>\n<p><b>Example:</b> Y = <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">B</span>C + <span style=\"text-decoration:overline\">A</span>BC + A<span style=\"text-decoration:overline\">B</span>C + ABC needs 4 AND, 1 OR and 2 NOT gates. With a K-map it reduces to <b>Y = C</b>, which needs no gate at all.</p>",
+      "gu": "<p>Truth table પરથી મળતું Boolean function (canonical SOP કે POS) સામાન્ય રીતે ઘણા terms ધરાવે છે. દરેક term માટે gate જોઈએ, તેથી circuit મોટો બને છે. <b>Simplification</b> એટલે expression ને <b>truth table બદલ્યા વગર</b> ઓછામાં ઓછા terms અને literals માં લાવવું.</p>\n<h4>Simplified circuit ના ફાયદા</h4>\n<ul>\n<li><b>ઓછા gates અને ICs</b>: ઓછી cost</li>\n<li><b>ઓછું wiring</b>: નાનું size, બનાવવામાં અને troubleshoot કરવામાં સરળ</li>\n<li><b>ઓછો propagation delay</b>: વધુ speed</li>\n<li><b>ઓછો power</b> વપરાશ અને ગરમી</li>\n<li><b>વધુ reliability</b> (ઓછા components ખરાબ થઈ શકે)</li>\n</ul>\n<h4>Simplification ની methods</h4>\n<ol>\n<li><b>Algebraic method</b> (Boolean laws, Unit 2): નિશ્ચિત પદ્ધતિ નથી; આવડત પર આધાર રાખે અને જવાબ minimum છે કે નહીં તે જાણવું અઘરું.</li>\n<li><b>Karnaugh map (K-map) method</b>: graphical અને systematic method; 2 થી 4 (6 સુધી) variables માટે શ્રેષ્ઠ.</li>\n<li><b>Quine–McCluskey (tabular) method</b>: ઘણા variables અને computer programs માટે યોગ્ય.</li>\n</ol>\n<p><b>ઉદાહરણ:</b> Y = <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">B</span>C + <span style=\"text-decoration:overline\">A</span>BC + A<span style=\"text-decoration:overline\">B</span>C + ABC માટે 4 AND, 1 OR અને 2 NOT gates જોઈએ. K-map વડે તે <b>Y = C</b> બને છે, જેમાં કોઈ gate જોઈતો નથી.</p>"
+     },
+     "diagram": "de3_need",
+     "key": true
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3.2 Karnaugh Map (K-map) Method",
+    "gu": "3.2 Karnaugh Map (K-map) Method"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "3.2.1 K-map and Two-Variable K-map",
+      "gu": "3.2.1 K-map અને Two-Variable K-map"
+     },
+     "body": {
+      "en": "<p>A <b>Karnaugh map</b> (introduced by Maurice Karnaugh, 1953) is a <b>diagram of squares (cells)</b>, one cell for each minterm of the function. For n variables it has <b>2<sup>n</sup> cells</b>.</p>\n<p>The cells are arranged so that <b>adjacent cells differ in only one variable</b> (Gray code order). Grouping adjacent 1s therefore removes the variable that changes, using the law A + <span style=\"text-decoration:overline\">A</span> = 1.</p>\n<h4>Two-variable K-map</h4>\n<ul>\n<li>4 cells: rows for A (0, 1), columns for B (0, 1).</li>\n<li>Cells: m0 = <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">B</span>, m1 = <span style=\"text-decoration:overline\">A</span>B, m2 = A<span style=\"text-decoration:overline\">B</span>, m3 = AB.</li>\n</ul>\n<p><b>Example:</b> Y = Σm(1, 2, 3). Plot 1s in cells 1, 2, 3. Group the right column (m1, m3): A changes, B = 1 → <b>B</b>. Group the bottom row (m2, m3): <b>A</b>. Cell m3 may be used twice.</p>\n<p><b>Y = A + B</b> (an OR gate). Check: <span style=\"text-decoration:overline\">A</span>B + A<span style=\"text-decoration:overline\">B</span> + AB = A + B ✓</p>",
+      "gu": "<p><b>Karnaugh map</b> (Maurice Karnaugh, 1953) એ <b>ચોરસ (cells) ની આકૃતિ</b> છે, function ના દરેક minterm માટે એક cell. n variables માટે <b>2<sup>n</sup> cells</b> હોય છે.</p>\n<p>Cells એવી રીતે ગોઠવાય છે કે <b>બાજુ-બાજુના cells માં માત્ર એક જ variable બદલાય</b> (Gray code ક્રમ). તેથી પાસ-પાસેના 1s નો group બનાવવાથી A + <span style=\"text-decoration:overline\">A</span> = 1 નિયમ મુજબ બદલાતો variable દૂર થાય છે.</p>\n<h4>Two-variable K-map</h4>\n<ul>\n<li>4 cells: A માટે rows (0, 1), B માટે columns (0, 1).</li>\n<li>Cells: m0 = <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">B</span>, m1 = <span style=\"text-decoration:overline\">A</span>B, m2 = A<span style=\"text-decoration:overline\">B</span>, m3 = AB.</li>\n</ul>\n<p><b>ઉદાહરણ:</b> Y = Σm(1, 2, 3). Cells 1, 2, 3 માં 1 લખો. જમણો column (m1, m3) group કરો: A બદલાય, B = 1 → <b>B</b>. નીચેની row (m2, m3) group કરો: <b>A</b>. Cell m3 બે વાર વાપરી શકાય.</p>\n<p><b>Y = A + B</b> (OR gate). ચકાસણી: <span style=\"text-decoration:overline\">A</span>B + A<span style=\"text-decoration:overline\">B</span> + AB = A + B ✓</p>"
+     },
+     "diagram": "de3_kmap2",
+     "examples": [
+      "de3n1"
+     ],
+     "key": true
+    },
+    {
+     "h": {
+      "en": "3.2.2 Three-Variable K-map",
+      "gu": "3.2.2 Three-Variable K-map"
+     },
+     "body": {
+      "en": "<ul>\n<li><b>8 cells</b> (2<sup>3</sup>). Usually A is written on the rows (0, 1) and BC on the columns.</li>\n<li>Columns are in <b>Gray code order: 00, 01, 11, 10</b>. Hence the cell order in a row is m0, m1, m3, m2 and m4, m5, m7, m6.</li>\n<li>The <b>left-most and right-most columns are adjacent</b> (the map is like a cylinder), e.g. m0 and m2, m4 and m6.</li>\n</ul>\n<h4>Groups in a 3-variable map</h4>\n<table><tr><th>Group</th><th>Variables eliminated</th><th>Literals in term</th></tr>\n<tr><td>1 cell</td><td>0</td><td>3</td></tr><tr><td>Pair (2)</td><td>1</td><td>2</td></tr>\n<tr><td>Quad (4)</td><td>2</td><td>1</td></tr><tr><td>All 8</td><td>3</td><td>Y = 1</td></tr></table>\n<p><b>Why Gray code?</b> In binary order (00, 01, 10, 11) the cells 01 and 10 would be neighbours but differ in two bits, so they could not be combined.</p>",
+      "gu": "<ul>\n<li><b>8 cells</b> (2<sup>3</sup>). સામાન્ય રીતે A rows (0, 1) પર અને BC columns પર લખાય છે.</li>\n<li>Columns <b>Gray code ક્રમમાં: 00, 01, 11, 10</b> હોય છે. તેથી row માં cells નો ક્રમ m0, m1, m3, m2 અને m4, m5, m7, m6 છે.</li>\n<li><b>સૌથી ડાબો અને સૌથી જમણો column adjacent છે</b> (map cylinder જેવો છે), દા.ત. m0 અને m2, m4 અને m6.</li>\n</ul>\n<h4>3-variable map માં groups</h4>\n<table><tr><th>Group</th><th>દૂર થતા variables</th><th>Term માં literals</th></tr>\n<tr><td>1 cell</td><td>0</td><td>3</td></tr><tr><td>Pair (2)</td><td>1</td><td>2</td></tr>\n<tr><td>Quad (4)</td><td>2</td><td>1</td></tr><tr><td>બધા 8</td><td>3</td><td>Y = 1</td></tr></table>\n<p><b>Gray code કેમ?</b> Binary ક્રમ (00, 01, 10, 11) માં 01 અને 10 cells બાજુ-બાજુમાં આવે પણ બે bits માં જુદા પડે, તેથી તેમને જોડી ન શકાય.</p>"
+     },
+     "diagram": "de3_kmap3",
+     "examples": [
+      "de3n2",
+      "de3n3"
+     ],
+     "key": true
+    },
+    {
+     "h": {
+      "en": "3.2.3 Four-Variable K-map",
+      "gu": "3.2.3 Four-Variable K-map"
+     },
+     "body": {
+      "en": "<ul>\n<li><b>16 cells</b> (2<sup>4</sup>). Rows: AB = 00, 01, 11, 10. Columns: CD = 00, 01, 11, 10 (both in Gray code).</li>\n<li>Cell order by rows: 0 1 3 2 / 4 5 7 6 / 12 13 15 14 / 8 9 11 10.</li>\n<li><b>Adjacency:</b> left and right edges are adjacent, top and bottom edges are adjacent, and the <b>four corners</b> (m0, m2, m8, m10) form one group.</li>\n</ul>\n<table><tr><th>Group</th><th>Variables eliminated</th><th>Literals in term</th></tr>\n<tr><td>1 cell</td><td>0</td><td>4</td></tr><tr><td>Pair (2)</td><td>1</td><td>3</td></tr>\n<tr><td>Quad (4)</td><td>2</td><td>2</td></tr><tr><td>Octet (8)</td><td>3</td><td>1</td></tr><tr><td>All 16</td><td>4</td><td>Y = 1</td></tr></table>\n<p><b>Rule:</b> a group of 2<sup>k</sup> cells eliminates k variables.</p>",
+      "gu": "<ul>\n<li><b>16 cells</b> (2<sup>4</sup>). Rows: AB = 00, 01, 11, 10. Columns: CD = 00, 01, 11, 10 (બંને Gray code માં).</li>\n<li>Rows મુજબ cells નો ક્રમ: 0 1 3 2 / 4 5 7 6 / 12 13 15 14 / 8 9 11 10.</li>\n<li><b>Adjacency:</b> ડાબી અને જમણી ધાર adjacent, ઉપરની અને નીચેની ધાર adjacent, અને <b>ચાર ખૂણા</b> (m0, m2, m8, m10) એક group બનાવે છે.</li>\n</ul>\n<table><tr><th>Group</th><th>દૂર થતા variables</th><th>Term માં literals</th></tr>\n<tr><td>1 cell</td><td>0</td><td>4</td></tr><tr><td>Pair (2)</td><td>1</td><td>3</td></tr>\n<tr><td>Quad (4)</td><td>2</td><td>2</td></tr><tr><td>Octet (8)</td><td>3</td><td>1</td></tr><tr><td>બધા 16</td><td>4</td><td>Y = 1</td></tr></table>\n<p><b>નિયમ:</b> 2<sup>k</sup> cells નો group k variables દૂર કરે છે.</p>"
+     },
+     "diagram": "de3_kmap4",
+     "key": true
+    },
+    {
+     "h": {
+      "en": "3.2.4 Rules for Grouping",
+      "gu": "3.2.4 Grouping ના નિયમો"
+     },
+     "body": {
+      "en": "<ol>\n<li>Group only <b>adjacent</b> cells containing 1 (horizontally or vertically, <b>not diagonally</b>).</li>\n<li>The number of cells in a group must be a <b>power of 2</b>: 1, 2, 4, 8, 16. A group of 3 or 6 is not allowed.</li>\n<li>Groups must be <b>rectangles</b> (including wrap-around across edges and the four corners).</li>\n<li>Make each group <b>as large as possible</b> (larger group → fewer literals).</li>\n<li>Use the <b>fewest groups</b> that cover all 1s (fewer groups → fewer terms).</li>\n<li>A 1 may be used in <b>more than one group</b> (overlapping is allowed) if it makes a group larger.</li>\n<li>Every 1 must be in at least one group. Do not make a group whose 1s are all already covered (a <b>redundant group</b>).</li>\n<li>Start with 1s that can be grouped in <b>only one way</b> (these give essential prime implicants).</li>\n</ol>\n<h4>Writing the term of a group</h4>\n<p>Look at the row and column labels of the group. A variable that <b>changes</b> inside the group is dropped. A variable that stays <b>1</b> is written as it is; one that stays <b>0</b> is written complemented.</p>\n<h4>Implicant terms</h4>\n<ul>\n<li><b>Implicant:</b> any group of 1s (a product term that implies the function).</li>\n<li><b>Prime implicant (PI):</b> a group that cannot be made larger.</li>\n<li><b>Essential prime implicant (EPI):</b> a PI that covers at least one 1 that no other PI covers. All EPIs must appear in the answer.</li>\n</ul>",
+      "gu": "<ol>\n<li>માત્ર <b>adjacent</b> (પાસ-પાસેના) 1 વાળા cells નો જ group બનાવો (આડા કે ઊભા, <b>ત્રાંસા નહીં</b>).</li>\n<li>Group માં cells ની સંખ્યા <b>2 ની ઘાત</b> હોવી જોઈએ: 1, 2, 4, 8, 16. 3 કે 6 નો group ન ચાલે.</li>\n<li>Groups <b>લંબચોરસ (rectangle)</b> હોવા જોઈએ (ધાર પારના wrap-around અને ચાર ખૂણા સહિત).</li>\n<li>દરેક group <b>શક્ય તેટલો મોટો</b> બનાવો (મોટો group → ઓછા literals).</li>\n<li>બધા 1s ને આવરી લેતા <b>ઓછામાં ઓછા groups</b> વાપરો (ઓછા groups → ઓછા terms).</li>\n<li>Group મોટો થતો હોય તો એક 1 ને <b>એકથી વધુ groups</b> માં વાપરી શકાય (overlapping ચાલે).</li>\n<li>દરેક 1 ઓછામાં ઓછા એક group માં હોવો જોઈએ. જેના બધા 1s પહેલેથી આવરાઈ ગયા હોય એવો group (<b>redundant group</b>) ન બનાવો.</li>\n<li>જે 1s ને <b>માત્ર એક જ રીતે</b> group કરી શકાય ત્યાંથી શરૂઆત કરો (તે essential prime implicants આપે છે).</li>\n</ol>\n<h4>Group નો term લખવો</h4>\n<p>Group ના row અને column labels જુઓ. Group માં જે variable <b>બદલાય</b> તે દૂર થાય. જે <b>1</b> રહે તે સીધો લખાય; જે <b>0</b> રહે તે complement સાથે લખાય.</p>\n<h4>Implicant terms</h4>\n<ul>\n<li><b>Implicant:</b> 1s નો કોઈ પણ group (function ને imply કરતો product term).</li>\n<li><b>Prime implicant (PI):</b> જેને વધુ મોટો ન કરી શકાય એવો group.</li>\n<li><b>Essential prime implicant (EPI):</b> એવો PI જે ઓછામાં ઓછો એક એવો 1 આવરે જેને બીજો કોઈ PI ન આવરે. બધા EPIs જવાબમાં હોવા જ જોઈએ.</li>\n</ul>"
+     },
+     "diagram": "de3_groups",
+     "key": true
+    },
+    {
+     "h": {
+      "en": "3.2.5 Steps of K-map Simplification",
+      "gu": "3.2.5 K-map Simplification ના Steps"
+     },
+     "body": {
+      "en": "<ol>\n<li>Draw a K-map with 2<sup>n</sup> cells and label rows and columns in Gray code.</li>\n<li>Write <b>1</b> in the cells of the given minterms (and X for don't-cares); the other cells are 0 (may be left blank).</li>\n<li>Look for <b>octets</b>, then <b>quads</b>, then <b>pairs</b>, then single 1s that cannot be combined.</li>\n<li>Check that every 1 is covered with the minimum number of largest groups; remove redundant groups.</li>\n<li>Write the product term for each group.</li>\n<li>OR all terms to get the minimal SOP expression.</li>\n<li>Draw the logic diagram (AND-OR or NAND-NAND).</li>\n</ol>\n<p><b>If the function is given as an expression</b> (not as minterms), first convert each term to minterms (or plot each term directly: e.g. in a 3-variable map the term A covers the whole A = 1 row).</p>",
+      "gu": "<ol>\n<li>2<sup>n</sup> cells વાળો K-map દોરો અને rows તથા columns ને Gray code માં label કરો.</li>\n<li>આપેલા minterms ના cells માં <b>1</b> લખો (અને don't-cares માટે X); બાકીના cells 0 છે (ખાલી રાખી શકાય).</li>\n<li>પહેલાં <b>octets</b>, પછી <b>quads</b>, પછી <b>pairs</b>, પછી જોડી ન શકાય તેવા એકલા 1s શોધો.</li>\n<li>દરેક 1 ઓછામાં ઓછા અને મોટામાં મોટા groups વડે આવરાય છે તે ચકાસો; redundant groups દૂર કરો.</li>\n<li>દરેક group નો product term લખો.</li>\n<li>બધા terms નો OR કરી minimal SOP expression મેળવો.</li>\n<li>Logic diagram દોરો (AND-OR અથવા NAND-NAND).</li>\n</ol>\n<p><b>Function expression તરીકે આપ્યું હોય</b> (minterms નહીં) તો પહેલાં દરેક term ને minterms માં ફેરવો (અથવા term સીધો plot કરો: દા.ત. 3-variable map માં term A આખી A = 1 row આવરે છે).</p>"
+     },
+     "diagram": "de3_steps",
+     "examples": [
+      "de3n12"
+     ]
+    },
+    {
+     "h": {
+      "en": "3.2.6 Solved Example: Three-Variable K-map",
+      "gu": "3.2.6 Solved Example: Three-Variable K-map"
+     },
+     "body": {
+      "en": "<p><b>Simplify Y = Σm(1, 3, 5, 6, 7) using a K-map.</b></p><p>Y = Σm(1, 3, 5, 6, 7)</p><p><b>Step 1:</b> Plot the map (8 cells; 1 for minterms):</p><table><tr><th>A\\BC</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>0</th><td>0 <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td><b>1</b> <sub>m3</sub></td><td>0 <sub>m2</sub></td></tr><tr><th>1</th><td>0 <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td><b>1</b> <sub>m7</sub></td><td><b>1</b> <sub>m6</sub></td></tr></table><p><b>Step 2:</b> Group the 1s (largest groups first):</p><table><tr><th>Group</th><th>Cells</th><th>Reason</th><th>Term</th></tr><tr><td>1. quad</td><td>m1, m3, m5, m7</td><td>A changes → eliminated; B changes → eliminated; C stays 1 → C</td><td><b>C</b></td></tr><tr><td>2. pair</td><td>m6, m7</td><td>A stays 1 → A; B stays 1 → B; C changes → eliminated</td><td><b>AB</b></td></tr></table><p><b>Step 3:</b> OR the terms:</p><p><b>Y = C + AB</b></p><p>The quad (m1, m3, m5, m7) is the whole C = 1 area. The pair (m6, m7) shares m7 with the quad; overlapping is allowed.</p>",
+      "gu": "<p><b>K-map વડે Y = Σm(1, 3, 5, 6, 7) simplify કરો.</b></p><p>Y = Σm(1, 3, 5, 6, 7)</p><p><b>Step 1:</b> Map દોરો (8 cells; minterms માટે 1):</p><table><tr><th>A\\BC</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>0</th><td>0 <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td><b>1</b> <sub>m3</sub></td><td>0 <sub>m2</sub></td></tr><tr><th>1</th><td>0 <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td><b>1</b> <sub>m7</sub></td><td><b>1</b> <sub>m6</sub></td></tr></table><p><b>Step 2:</b> 1s ના groups બનાવો (પહેલાં મોટા groups):</p><table><tr><th>Group</th><th>Cells</th><th>કારણ</th><th>Term</th></tr><tr><td>1. quad</td><td>m1, m3, m5, m7</td><td>A બદલાય છે → દૂર; B બદલાય છે → દૂર; C = 1 સ્થિર → C</td><td><b>C</b></td></tr><tr><td>2. pair</td><td>m6, m7</td><td>A = 1 સ્થિર → A; B = 1 સ્થિર → B; C બદલાય છે → દૂર</td><td><b>AB</b></td></tr></table><p><b>Step 3:</b> Terms નો OR કરો:</p><p><b>Y = C + AB</b></p><p>Quad (m1, m3, m5, m7) આખો C = 1 વિસ્તાર છે. Pair (m6, m7) quad સાથે m7 વહેંચે છે; overlapping ચાલે છે.</p>"
+     },
+     "diagram": "de3_ex3",
+     "examples": [
+      "de3n4"
+     ],
+     "key": true
+    },
+    {
+     "h": {
+      "en": "3.2.7 Solved Example: Four-Variable K-map",
+      "gu": "3.2.7 Solved Example: Four-Variable K-map"
+     },
+     "body": {
+      "en": "<p><b>Simplify Y = Σm(0, 1, 2, 4, 5, 6, 8, 9, 12, 13, 14) using a K-map.</b></p><p>Y = Σm(0, 1, 2, 4, 5, 6, 8, 9, 12, 13, 14)</p><p><b>Step 1:</b> Plot the map (16 cells; 1 for minterms):</p><table><tr><th>AB\\CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>00</th><td><b>1</b> <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td>0 <sub>m3</sub></td><td><b>1</b> <sub>m2</sub></td></tr><tr><th>01</th><td><b>1</b> <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td>0 <sub>m7</sub></td><td><b>1</b> <sub>m6</sub></td></tr><tr><th>11</th><td><b>1</b> <sub>m12</sub></td><td><b>1</b> <sub>m13</sub></td><td>0 <sub>m15</sub></td><td><b>1</b> <sub>m14</sub></td></tr><tr><th>10</th><td><b>1</b> <sub>m8</sub></td><td><b>1</b> <sub>m9</sub></td><td>0 <sub>m11</sub></td><td>0 <sub>m10</sub></td></tr></table><p><b>Step 2:</b> Group the 1s (largest groups first):</p><table><tr><th>Group</th><th>Cells</th><th>Reason</th><th>Term</th></tr><tr><td>1. octet</td><td>m0, m1, m4, m5, m8, m9, m12, m13</td><td>A changes → eliminated; B changes → eliminated; C stays 0 → <span style=\"text-decoration:overline\">C</span>; D changes → eliminated</td><td><b><span style=\"text-decoration:overline\">C</span></b></td></tr><tr><td>2. quad</td><td>m0, m2, m4, m6</td><td>A stays 0 → <span style=\"text-decoration:overline\">A</span>; B changes → eliminated; C changes → eliminated; D stays 0 → <span style=\"text-decoration:overline\">D</span></td><td><b><span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">D</span></b></td></tr><tr><td>3. quad</td><td>m4, m6, m12, m14</td><td>A changes → eliminated; B stays 1 → B; C changes → eliminated; D stays 0 → <span style=\"text-decoration:overline\">D</span></td><td><b>B<span style=\"text-decoration:overline\">D</span></b></td></tr></table><p><b>Step 3:</b> OR the terms:</p><p><b>Y = <span style=\"text-decoration:overline\">C</span> + <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">D</span> + B<span style=\"text-decoration:overline\">D</span></b></p><p>The octet uses the two left columns (C = 0). The quad <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">D</span> wraps from the left edge to the right edge.</p><p>Original function: 11 minterms (11 four-input AND gates). Simplified: 2 AND + 1 OR + 3 NOT gates.</p>",
+      "gu": "<p><b>K-map વડે Y = Σm(0, 1, 2, 4, 5, 6, 8, 9, 12, 13, 14) simplify કરો.</b></p><p>Y = Σm(0, 1, 2, 4, 5, 6, 8, 9, 12, 13, 14)</p><p><b>Step 1:</b> Map દોરો (16 cells; minterms માટે 1):</p><table><tr><th>AB\\CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>00</th><td><b>1</b> <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td>0 <sub>m3</sub></td><td><b>1</b> <sub>m2</sub></td></tr><tr><th>01</th><td><b>1</b> <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td>0 <sub>m7</sub></td><td><b>1</b> <sub>m6</sub></td></tr><tr><th>11</th><td><b>1</b> <sub>m12</sub></td><td><b>1</b> <sub>m13</sub></td><td>0 <sub>m15</sub></td><td><b>1</b> <sub>m14</sub></td></tr><tr><th>10</th><td><b>1</b> <sub>m8</sub></td><td><b>1</b> <sub>m9</sub></td><td>0 <sub>m11</sub></td><td>0 <sub>m10</sub></td></tr></table><p><b>Step 2:</b> 1s ના groups બનાવો (પહેલાં મોટા groups):</p><table><tr><th>Group</th><th>Cells</th><th>કારણ</th><th>Term</th></tr><tr><td>1. octet</td><td>m0, m1, m4, m5, m8, m9, m12, m13</td><td>A બદલાય છે → દૂર; B બદલાય છે → દૂર; C = 0 સ્થિર → <span style=\"text-decoration:overline\">C</span>; D બદલાય છે → દૂર</td><td><b><span style=\"text-decoration:overline\">C</span></b></td></tr><tr><td>2. quad</td><td>m0, m2, m4, m6</td><td>A = 0 સ્થિર → <span style=\"text-decoration:overline\">A</span>; B બદલાય છે → દૂર; C બદલાય છે → દૂર; D = 0 સ્થિર → <span style=\"text-decoration:overline\">D</span></td><td><b><span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">D</span></b></td></tr><tr><td>3. quad</td><td>m4, m6, m12, m14</td><td>A બદલાય છે → દૂર; B = 1 સ્થિર → B; C બદલાય છે → દૂર; D = 0 સ્થિર → <span style=\"text-decoration:overline\">D</span></td><td><b>B<span style=\"text-decoration:overline\">D</span></b></td></tr></table><p><b>Step 3:</b> Terms નો OR કરો:</p><p><b>Y = <span style=\"text-decoration:overline\">C</span> + <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">D</span> + B<span style=\"text-decoration:overline\">D</span></b></p><p>Octet ડાબા બે columns (C = 0) વાપરે છે. Quad <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">D</span> ડાબી ધારથી જમણી ધાર સુધી wrap થાય છે.</p><p>મૂળ function: 11 minterms (11 four-input AND gates). Simplified: 2 AND + 1 OR + 3 NOT gates.</p>"
+     },
+     "diagram": "de3_ex4",
+     "examples": [
+      "de3n5",
+      "de3n6",
+      "de3n7",
+      "de3n8"
+     ],
+     "key": true
+    },
+    {
+     "h": {
+      "en": "3.2.8 POS Simplification using K-map",
+      "gu": "3.2.8 K-map વડે POS Simplification"
+     },
+     "body": {
+      "en": "<p>To get the minimal <b>Product of Sums</b>:</p>\n<ol>\n<li>Plot the function; write <b>0</b> in the cells where Y = 0 (maxterms).</li>\n<li><b>Group the 0s</b> using the same rules as for 1s.</li>\n<li>For each group write a <b>sum term</b>: a variable that stays <b>0</b> is written as it is, one that stays <b>1</b> is written <b>complemented</b> (opposite of SOP).</li>\n<li>AND all sum terms.</li>\n</ol>\n<p>(Grouping 0s gives <span style=\"text-decoration:overline\">Y</span> in SOP form; applying De Morgan gives Y in POS form.)</p>\n<p><b>Example:</b> Y = Σm(0, 1, 2, 5, 8, 9, 10) in POS form:</p><p>Y = Σm(0, 1, 2, 5, 8, 9, 10)</p><p><b>Step 1:</b> Plot the map (16 cells; 1 for minterms):</p><table><tr><th>AB\\CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>00</th><td><b>1</b> <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td>0 <sub>m3</sub></td><td><b>1</b> <sub>m2</sub></td></tr><tr><th>01</th><td>0 <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td>0 <sub>m7</sub></td><td>0 <sub>m6</sub></td></tr><tr><th>11</th><td>0 <sub>m12</sub></td><td>0 <sub>m13</sub></td><td>0 <sub>m15</sub></td><td>0 <sub>m14</sub></td></tr><tr><th>10</th><td><b>1</b> <sub>m8</sub></td><td><b>1</b> <sub>m9</sub></td><td>0 <sub>m11</sub></td><td><b>1</b> <sub>m10</sub></td></tr></table><p><b>Step 2:</b> Group the 0s (for POS) (largest groups first):</p><table><tr><th>Group</th><th>Cells</th><th>Reason</th><th>Term</th></tr><tr><td>1. quad</td><td>m3, m7, m11, m15</td><td>A changes → eliminated; B changes → eliminated; C stays 1 → <span style=\"text-decoration:overline\">C</span>; D stays 1 → <span style=\"text-decoration:overline\">D</span></td><td><b>(<span style=\"text-decoration:overline\">C</span> + <span style=\"text-decoration:overline\">D</span>)</b></td></tr><tr><td>2. quad</td><td>m4, m6, m12, m14</td><td>A changes → eliminated; B stays 1 → <span style=\"text-decoration:overline\">B</span>; C changes → eliminated; D stays 0 → D</td><td><b>(<span style=\"text-decoration:overline\">B</span> + D)</b></td></tr><tr><td>3. quad</td><td>m12, m13, m14, m15</td><td>A stays 1 → <span style=\"text-decoration:overline\">A</span>; B stays 1 → <span style=\"text-decoration:overline\">B</span>; C changes → eliminated; D changes → eliminated</td><td><b>(<span style=\"text-decoration:overline\">A</span> + <span style=\"text-decoration:overline\">B</span>)</b></td></tr></table><p><b>Step 3:</b> AND the terms:</p><p><b>Y = (<span style=\"text-decoration:overline\">C</span> + <span style=\"text-decoration:overline\">D</span>)(<span style=\"text-decoration:overline\">B</span> + D)(<span style=\"text-decoration:overline\">A</span> + <span style=\"text-decoration:overline\">B</span>)</b></p><p>For comparison, the minimal SOP is Y = <span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">C</span> + <span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">D</span> + <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">C</span>D. Choose the form with fewer gates.</p>",
+      "gu": "<p>Minimal <b>Product of Sums</b> મેળવવા:</p>\n<ol>\n<li>Function plot કરો; જ્યાં Y = 0 હોય ત્યાં (maxterms) <b>0</b> લખો.</li>\n<li>1s ના જ નિયમો વડે <b>0s ના groups</b> બનાવો.</li>\n<li>દરેક group માટે <b>sum term</b> લખો: જે variable <b>0</b> રહે તે સીધો, જે <b>1</b> રહે તે <b>complement</b> સાથે લખાય (SOP થી ઉલટું).</li>\n<li>બધા sum terms નો AND કરો.</li>\n</ol>\n<p>(0s group કરવાથી <span style=\"text-decoration:overline\">Y</span> SOP સ્વરૂપમાં મળે; De Morgan લગાવવાથી Y POS સ્વરૂપમાં મળે.)</p>\n<p><b>ઉદાહરણ:</b> Y = Σm(0, 1, 2, 5, 8, 9, 10) POS સ્વરૂપમાં:</p><p>Y = Σm(0, 1, 2, 5, 8, 9, 10)</p><p><b>Step 1:</b> Map દોરો (16 cells; minterms માટે 1):</p><table><tr><th>AB\\CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>00</th><td><b>1</b> <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td>0 <sub>m3</sub></td><td><b>1</b> <sub>m2</sub></td></tr><tr><th>01</th><td>0 <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td>0 <sub>m7</sub></td><td>0 <sub>m6</sub></td></tr><tr><th>11</th><td>0 <sub>m12</sub></td><td>0 <sub>m13</sub></td><td>0 <sub>m15</sub></td><td>0 <sub>m14</sub></td></tr><tr><th>10</th><td><b>1</b> <sub>m8</sub></td><td><b>1</b> <sub>m9</sub></td><td>0 <sub>m11</sub></td><td><b>1</b> <sub>m10</sub></td></tr></table><p><b>Step 2:</b> 0s (POS માટે) ના groups બનાવો (પહેલાં મોટા groups):</p><table><tr><th>Group</th><th>Cells</th><th>કારણ</th><th>Term</th></tr><tr><td>1. quad</td><td>m3, m7, m11, m15</td><td>A બદલાય છે → દૂર; B બદલાય છે → દૂર; C = 1 સ્થિર → <span style=\"text-decoration:overline\">C</span>; D = 1 સ્થિર → <span style=\"text-decoration:overline\">D</span></td><td><b>(<span style=\"text-decoration:overline\">C</span> + <span style=\"text-decoration:overline\">D</span>)</b></td></tr><tr><td>2. quad</td><td>m4, m6, m12, m14</td><td>A બદલાય છે → દૂર; B = 1 સ્થિર → <span style=\"text-decoration:overline\">B</span>; C બદલાય છે → દૂર; D = 0 સ્થિર → D</td><td><b>(<span style=\"text-decoration:overline\">B</span> + D)</b></td></tr><tr><td>3. quad</td><td>m12, m13, m14, m15</td><td>A = 1 સ્થિર → <span style=\"text-decoration:overline\">A</span>; B = 1 સ્થિર → <span style=\"text-decoration:overline\">B</span>; C બદલાય છે → દૂર; D બદલાય છે → દૂર</td><td><b>(<span style=\"text-decoration:overline\">A</span> + <span style=\"text-decoration:overline\">B</span>)</b></td></tr></table><p><b>Step 3:</b> Terms નો AND કરો:</p><p><b>Y = (<span style=\"text-decoration:overline\">C</span> + <span style=\"text-decoration:overline\">D</span>)(<span style=\"text-decoration:overline\">B</span> + D)(<span style=\"text-decoration:overline\">A</span> + <span style=\"text-decoration:overline\">B</span>)</b></p><p>સરખામણી માટે, minimal SOP Y = <span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">C</span> + <span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">D</span> + <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">C</span>D છે. ઓછા gates વાળું સ્વરૂપ પસંદ કરો.</p>"
+     },
+     "diagram": "de3_pos",
+     "examples": [
+      "de3n11"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3.3 K-map with Don't-Care Conditions",
+    "gu": "3.3 Don't-Care Conditions સાથે K-map"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "3.3.1 Don't-Care Conditions",
+      "gu": "3.3.1 Don't-Care Conditions"
+     },
+     "body": {
+      "en": "<p>In some circuits, certain input combinations <b>never occur</b>, or the output for them <b>does not matter</b>. These are called <b>don't-care conditions</b>. They are marked <b>X</b> (or d, or φ) in the truth table and K-map and written as <b>d(…)</b>.</p>\n<p><i>Examples:</i> in BCD only 0000–1001 occur, so 1010–1111 are don't-cares; a lift cannot be at two floors at once.</p>\n<h4>How to use X in a K-map</h4>\n<ul>\n<li>An X may be treated as <b>1 or 0</b>, whichever gives a <b>larger group</b> or fewer groups.</li>\n<li>Use an X <b>only if it helps</b>. Never make a group of only X cells.</li>\n<li>Xs not used in any group are treated as 0.</li>\n</ul>\n<p><b>Example:</b> Y = Σm(1, 3, 7, 11, 15) + d(0, 2, 5)</p><p>Y = Σm(1, 3, 7, 11, 15) + d(0, 2, 5)</p><p><b>Step 1:</b> Plot the map (16 cells; 1 for minterms, X for don't-cares):</p><table><tr><th>AB\\CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>00</th><td>X <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td><b>1</b> <sub>m3</sub></td><td>X <sub>m2</sub></td></tr><tr><th>01</th><td>0 <sub>m4</sub></td><td>X <sub>m5</sub></td><td><b>1</b> <sub>m7</sub></td><td>0 <sub>m6</sub></td></tr><tr><th>11</th><td>0 <sub>m12</sub></td><td>0 <sub>m13</sub></td><td><b>1</b> <sub>m15</sub></td><td>0 <sub>m14</sub></td></tr><tr><th>10</th><td>0 <sub>m8</sub></td><td>0 <sub>m9</sub></td><td><b>1</b> <sub>m11</sub></td><td>0 <sub>m10</sub></td></tr></table><p><b>Step 2:</b> Group the 1s (largest groups first, using X only where it helps):</p><table><tr><th>Group</th><th>Cells</th><th>Reason</th><th>Term</th></tr><tr><td>1. quad</td><td>m0, m1, m2, m3</td><td>A stays 0 → <span style=\"text-decoration:overline\">A</span>; B stays 0 → <span style=\"text-decoration:overline\">B</span>; C changes → eliminated; D changes → eliminated</td><td><b><span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">B</span></b></td></tr><tr><td>2. quad</td><td>m3, m7, m11, m15</td><td>A changes → eliminated; B changes → eliminated; C stays 1 → C; D stays 1 → D</td><td><b>CD</b></td></tr></table><p><b>Step 3:</b> OR the terms:</p><p><b>Y = <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">B</span> + CD</b></p><p><i>Note: this map has more than one minimal answer. Y = <span style=\"text-decoration:overline\">A</span>D + CD is equally correct (same number of terms and literals).</i></p><p>Using X0 and X2 turns the pair <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">B</span>D into the quad <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">B</span>. X5 is not needed, so it is taken as 0. Without don't-cares the answer would be <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">B</span>D + CD (more literals).</p>",
+      "gu": "<p>કેટલાક circuits માં અમુક input combinations <b>ક્યારેય આવતા નથી</b>, અથવા તેમના માટે output <b>મહત્વનું નથી</b>. તેમને <b>don't-care conditions</b> કહે છે. Truth table અને K-map માં તેમને <b>X</b> (અથવા d, φ) વડે દર્શાવાય છે અને <b>d(…)</b> તરીકે લખાય છે.</p>\n<p><i>ઉદાહરણ:</i> BCD માં માત્ર 0000–1001 આવે છે, તેથી 1010–1111 don't-cares છે; lift એક સાથે બે માળ પર ન હોઈ શકે.</p>\n<h4>K-map માં X નો ઉપયોગ</h4>\n<ul>\n<li>X ને <b>1 અથવા 0</b> ગણી શકાય, જેનાથી <b>મોટો group</b> કે ઓછા groups બને તે મુજબ.</li>\n<li>X નો ઉપયોગ <b>ફાયદો થાય ત્યારે જ</b> કરો. માત્ર X cells નો group ક્યારેય ન બનાવો.</li>\n<li>કોઈ group માં ન વપરાયેલા X ને 0 ગણાય.</li>\n</ul>\n<p><b>ઉદાહરણ:</b> Y = Σm(1, 3, 7, 11, 15) + d(0, 2, 5)</p><p>Y = Σm(1, 3, 7, 11, 15) + d(0, 2, 5)</p><p><b>Step 1:</b> Map દોરો (16 cells; minterms માટે 1, don't-cares માટે X):</p><table><tr><th>AB\\CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>00</th><td>X <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td><b>1</b> <sub>m3</sub></td><td>X <sub>m2</sub></td></tr><tr><th>01</th><td>0 <sub>m4</sub></td><td>X <sub>m5</sub></td><td><b>1</b> <sub>m7</sub></td><td>0 <sub>m6</sub></td></tr><tr><th>11</th><td>0 <sub>m12</sub></td><td>0 <sub>m13</sub></td><td><b>1</b> <sub>m15</sub></td><td>0 <sub>m14</sub></td></tr><tr><th>10</th><td>0 <sub>m8</sub></td><td>0 <sub>m9</sub></td><td><b>1</b> <sub>m11</sub></td><td>0 <sub>m10</sub></td></tr></table><p><b>Step 2:</b> 1s ના groups બનાવો (પહેલાં મોટા groups, X નો ઉપયોગ જ્યાં ફાયદો હોય ત્યાં જ):</p><table><tr><th>Group</th><th>Cells</th><th>કારણ</th><th>Term</th></tr><tr><td>1. quad</td><td>m0, m1, m2, m3</td><td>A = 0 સ્થિર → <span style=\"text-decoration:overline\">A</span>; B = 0 સ્થિર → <span style=\"text-decoration:overline\">B</span>; C બદલાય છે → દૂર; D બદલાય છે → દૂર</td><td><b><span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">B</span></b></td></tr><tr><td>2. quad</td><td>m3, m7, m11, m15</td><td>A બદલાય છે → દૂર; B બદલાય છે → દૂર; C = 1 સ્થિર → C; D = 1 સ્થિર → D</td><td><b>CD</b></td></tr></table><p><b>Step 3:</b> Terms નો OR કરો:</p><p><b>Y = <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">B</span> + CD</b></p><p><i>નોંધ: આ map ના એકથી વધુ minimal જવાબ છે. Y = <span style=\"text-decoration:overline\">A</span>D + CD પણ એટલો જ સાચો છે (સરખા terms અને literals).</i></p><p>X0 અને X2 વાપરવાથી pair <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">B</span>D, quad <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">B</span> બને છે. X5 ની જરૂર નથી, તેથી તેને 0 ગણાય. Don't-cares વગર જવાબ <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">B</span>D + CD આવે (વધુ literals).</p>"
+     },
+     "diagram": "de3_dontcare",
+     "examples": [
+      "de3n9"
+     ],
+     "key": true
+    },
+    {
+     "h": {
+      "en": "3.3.2 Application: BCD Circuits",
+      "gu": "3.3.2 ઉપયોગ: BCD Circuits"
+     },
+     "body": {
+      "en": "<p>For a circuit with a <b>BCD input</b> (ABCD, A = MSB), the inputs 10 to 15 never occur, so m10–m15 are don't-cares. This makes BCD circuits very simple.</p>\n<p><b>Example:</b> design a circuit whose output is 1 when the BCD input is 5 or more (5, 6, 7, 8, 9).</p><p>Y = Σm(5, 6, 7, 8, 9) + d(10, 11, 12, 13, 14, 15)</p><p><b>Step 1:</b> Plot the map (16 cells; 1 for minterms, X for don't-cares):</p><table><tr><th>AB\\CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>00</th><td>0 <sub>m0</sub></td><td>0 <sub>m1</sub></td><td>0 <sub>m3</sub></td><td>0 <sub>m2</sub></td></tr><tr><th>01</th><td>0 <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td><b>1</b> <sub>m7</sub></td><td><b>1</b> <sub>m6</sub></td></tr><tr><th>11</th><td>X <sub>m12</sub></td><td>X <sub>m13</sub></td><td>X <sub>m15</sub></td><td>X <sub>m14</sub></td></tr><tr><th>10</th><td><b>1</b> <sub>m8</sub></td><td><b>1</b> <sub>m9</sub></td><td>X <sub>m11</sub></td><td>X <sub>m10</sub></td></tr></table><p><b>Step 2:</b> Group the 1s (largest groups first, using X only where it helps):</p><table><tr><th>Group</th><th>Cells</th><th>Reason</th><th>Term</th></tr><tr><td>1. octet</td><td>m8, m9, m10, m11, m12, m13, m14, m15</td><td>A stays 1 → A; B changes → eliminated; C changes → eliminated; D changes → eliminated</td><td><b>A</b></td></tr><tr><td>2. quad</td><td>m5, m7, m13, m15</td><td>A changes → eliminated; B stays 1 → B; C changes → eliminated; D stays 1 → D</td><td><b>BD</b></td></tr><tr><td>3. quad</td><td>m6, m7, m14, m15</td><td>A changes → eliminated; B stays 1 → B; C stays 1 → C; D changes → eliminated</td><td><b>BC</b></td></tr></table><p><b>Step 3:</b> OR the terms:</p><p><b>Y = A + BD + BC</b></p><p>Using the six don't-cares, the answer needs only 2 AND gates and 1 OR gate. Without them, the result would be A<span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">C</span> + <span style=\"text-decoration:overline\">A</span>BD + <span style=\"text-decoration:overline\">A</span>BC.</p>",
+      "gu": "<p><b>BCD input</b> (ABCD, A = MSB) વાળા circuit માં inputs 10 થી 15 ક્યારેય આવતા નથી, તેથી m10–m15 don't-cares છે. આથી BCD circuits ખૂબ સાદા બને છે.</p>\n<p><b>ઉદાહરણ:</b> BCD input 5 કે વધુ (5, 6, 7, 8, 9) હોય ત્યારે output 1 આપતો circuit design કરો.</p><p>Y = Σm(5, 6, 7, 8, 9) + d(10, 11, 12, 13, 14, 15)</p><p><b>Step 1:</b> Map દોરો (16 cells; minterms માટે 1, don't-cares માટે X):</p><table><tr><th>AB\\CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>00</th><td>0 <sub>m0</sub></td><td>0 <sub>m1</sub></td><td>0 <sub>m3</sub></td><td>0 <sub>m2</sub></td></tr><tr><th>01</th><td>0 <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td><b>1</b> <sub>m7</sub></td><td><b>1</b> <sub>m6</sub></td></tr><tr><th>11</th><td>X <sub>m12</sub></td><td>X <sub>m13</sub></td><td>X <sub>m15</sub></td><td>X <sub>m14</sub></td></tr><tr><th>10</th><td><b>1</b> <sub>m8</sub></td><td><b>1</b> <sub>m9</sub></td><td>X <sub>m11</sub></td><td>X <sub>m10</sub></td></tr></table><p><b>Step 2:</b> 1s ના groups બનાવો (પહેલાં મોટા groups, X નો ઉપયોગ જ્યાં ફાયદો હોય ત્યાં જ):</p><table><tr><th>Group</th><th>Cells</th><th>કારણ</th><th>Term</th></tr><tr><td>1. octet</td><td>m8, m9, m10, m11, m12, m13, m14, m15</td><td>A = 1 સ્થિર → A; B બદલાય છે → દૂર; C બદલાય છે → દૂર; D બદલાય છે → દૂર</td><td><b>A</b></td></tr><tr><td>2. quad</td><td>m5, m7, m13, m15</td><td>A બદલાય છે → દૂર; B = 1 સ્થિર → B; C બદલાય છે → દૂર; D = 1 સ્થિર → D</td><td><b>BD</b></td></tr><tr><td>3. quad</td><td>m6, m7, m14, m15</td><td>A બદલાય છે → દૂર; B = 1 સ્થિર → B; C = 1 સ્થિર → C; D બદલાય છે → દૂર</td><td><b>BC</b></td></tr></table><p><b>Step 3:</b> Terms નો OR કરો:</p><p><b>Y = A + BD + BC</b></p><p>છ don't-cares વાપરવાથી જવાબ માટે માત્ર 2 AND અને 1 OR gate જોઈએ. તેમના વગર જવાબ A<span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">C</span> + <span style=\"text-decoration:overline\">A</span>BD + <span style=\"text-decoration:overline\">A</span>BC આવે.</p>"
+     },
+     "diagram": "de3_bcd",
+     "examples": [
+      "de3n10"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3.4 Implementation using Logic Gates",
+    "gu": "3.4 Logic Gates વડે Implementation"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "3.4.1 Implementation using Basic Gates (AND, OR, NOT)",
+      "gu": "3.4.1 Basic Gates (AND, OR, NOT) વડે Implementation"
+     },
+     "body": {
+      "en": "<p>A minimal SOP expression is implemented as a <b>two-level AND-OR circuit</b>:</p>\n<ol>\n<li><b>NOT gates</b> produce the complemented inputs needed (<span style=\"text-decoration:overline\">A</span>, <span style=\"text-decoration:overline\">C</span>, <span style=\"text-decoration:overline\">D</span> …).</li>\n<li><b>Level 1:</b> one <b>AND gate</b> for each product term (number of inputs = literals in the term). A single-literal term needs no AND gate.</li>\n<li><b>Level 2:</b> one <b>OR gate</b> whose inputs are the AND outputs (number of inputs = number of terms).</li>\n</ol>\n<p>A minimal POS expression is implemented as an <b>OR-AND circuit</b> in the same way.</p>\n<p><b>Example:</b> Y = <span style=\"text-decoration:overline\">C</span> + <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">D</span> + B<span style=\"text-decoration:overline\">D</span> (from 3.2.7)</p>\n<ul><li>NOT gates: 3 (<span style=\"text-decoration:overline\">A</span>, <span style=\"text-decoration:overline\">C</span>, <span style=\"text-decoration:overline\">D</span>) &nbsp; ICs: 7404</li>\n<li>AND gates: 2 two-input (<span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">D</span>, B<span style=\"text-decoration:overline\">D</span>) &nbsp; IC: 7408</li>\n<li>OR gate: 1 three-input (or two 2-input OR gates) &nbsp; IC: 7432</li></ul>\n<p><b>Gate count</b> = NOT + AND + OR gates. The number of gate inputs (literals) is also used to compare circuits.</p>",
+      "gu": "<p>Minimal SOP expression ને <b>two-level AND-OR circuit</b> તરીકે બનાવાય છે:</p>\n<ol>\n<li><b>NOT gates</b> જરૂરી complemented inputs (<span style=\"text-decoration:overline\">A</span>, <span style=\"text-decoration:overline\">C</span>, <span style=\"text-decoration:overline\">D</span> …) બનાવે છે.</li>\n<li><b>Level 1:</b> દરેક product term માટે એક <b>AND gate</b> (inputs ની સંખ્યા = term ના literals). એક literal વાળા term માટે AND gate ની જરૂર નથી.</li>\n<li><b>Level 2:</b> એક <b>OR gate</b> જેના inputs AND outputs છે (inputs = terms ની સંખ્યા).</li>\n</ol>\n<p>Minimal POS expression ને એ જ રીતે <b>OR-AND circuit</b> તરીકે બનાવાય છે.</p>\n<p><b>ઉદાહરણ:</b> Y = <span style=\"text-decoration:overline\">C</span> + <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">D</span> + B<span style=\"text-decoration:overline\">D</span> (3.2.7 માંથી)</p>\n<ul><li>NOT gates: 3 (<span style=\"text-decoration:overline\">A</span>, <span style=\"text-decoration:overline\">C</span>, <span style=\"text-decoration:overline\">D</span>) &nbsp; IC: 7404</li>\n<li>AND gates: 2 two-input (<span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">D</span>, B<span style=\"text-decoration:overline\">D</span>) &nbsp; IC: 7408</li>\n<li>OR gate: 1 three-input (અથવા બે 2-input OR gates) &nbsp; IC: 7432</li></ul>\n<p><b>Gate count</b> = NOT + AND + OR gates. Circuits ની સરખામણી માટે gate inputs (literals) ની સંખ્યા પણ વપરાય છે.</p>"
+     },
+     "diagram": "de3_impl",
+     "examples": [
+      "de3n13"
+     ],
+     "key": true
+    },
+    {
+     "h": {
+      "en": "3.4.2 NAND-NAND Implementation, Advantages and Limitations of K-map",
+      "gu": "3.4.2 NAND-NAND Implementation, K-map ના ફાયદા અને મર્યાદાઓ"
+     },
+     "body": {
+      "en": "<h4>NAND-NAND implementation</h4>\n<p>An AND-OR (SOP) circuit can be converted to an all-NAND circuit by <b>replacing every AND and OR gate with a NAND gate</b> (inputs complemented with NAND-inverters). This follows from De Morgan's theorem:</p>\n<p style=\"text-align:center\">AB + CD = <span style=\"text-decoration:overline\">AB·CD</span></p>\n<p>Similarly, an OR-AND (POS) circuit becomes an all-NOR circuit.</p>\n<h4>Advantages of the K-map method</h4>\n<ul><li>Simple, graphical and systematic; gives the minimal result directly.</li>\n<li>Fewer chances of error than algebra; easy to use don't-cares.</li></ul>\n<h4>Limitations</h4>\n<ul><li>Difficult for more than 4 variables (5 and 6-variable maps need two or four 4-variable maps); impractical beyond 6.</li>\n<li>Depends on visual identification of groups, so it is not suitable for computers. The <b>Quine–McCluskey</b> method is used then.</li></ul>",
+      "gu": "<h4>NAND-NAND implementation</h4>\n<p>AND-OR (SOP) circuit માં <b>દરેક AND અને OR gate ને NAND gate વડે બદલવાથી</b> (complemented inputs NAND-inverters વડે) તે all-NAND circuit બને છે. આ De Morgan's theorem પરથી મળે છે:</p>\n<p style=\"text-align:center\">AB + CD = <span style=\"text-decoration:overline\">AB·CD</span></p>\n<p>તે જ રીતે OR-AND (POS) circuit all-NOR circuit બને છે.</p>\n<h4>K-map method ના ફાયદા</h4>\n<ul><li>સરળ, graphical અને systematic; સીધો minimal જવાબ આપે.</li>\n<li>Algebra કરતાં ભૂલની શક્યતા ઓછી; don't-cares વાપરવા સરળ.</li></ul>\n<h4>મર્યાદાઓ</h4>\n<ul><li>4 થી વધુ variables માટે અઘરું (5 અને 6-variable maps માટે બે કે ચાર 4-variable maps જોઈએ); 6 થી વધુ માટે અવ્યવહારુ.</li>\n<li>Groups ની દૃષ્ટિથી ઓળખ પર આધાર, તેથી computers માટે યોગ્ય નથી. ત્યારે <b>Quine–McCluskey</b> method વપરાય છે.</li></ul>"
+     },
+     "examples": [
+      "de3n14"
+     ]
+    }
+   ]
+  }
+ ],
+ "numericals": [
+  {
+   "id": "de3n1",
+   "q": {
+    "en": "Simplify Y = Σm(0, 1, 3) using a K-map (SOP form).",
+    "gu": "K-map વડે Y = Σm(0, 1, 3) simplify કરો (SOP સ્વરૂપ)."
+   },
+   "a": {
+    "en": "<p>Y = Σm(0, 1, 3)</p><p><b>Step 1:</b> Plot the map (4 cells; 1 for minterms):</p><table><tr><th>A\\B</th><th>0</th><th>1</th></tr><tr><th>0</th><td><b>1</b> <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td></tr><tr><th>1</th><td>0 <sub>m2</sub></td><td><b>1</b> <sub>m3</sub></td></tr></table><p><b>Step 2:</b> Group the 1s (largest groups first):</p><table><tr><th>Group</th><th>Cells</th><th>Reason</th><th>Term</th></tr><tr><td>1. pair</td><td>m0, m1</td><td>A stays 0 → <span style=\"text-decoration:overline\">A</span>; B changes → eliminated</td><td><b><span style=\"text-decoration:overline\">A</span></b></td></tr><tr><td>2. pair</td><td>m1, m3</td><td>A changes → eliminated; B stays 1 → B</td><td><b>B</b></td></tr></table><p><b>Step 3:</b> OR the terms:</p><p><b>Y = <span style=\"text-decoration:overline\">A</span> + B</b></p>",
+    "gu": "<p>Y = Σm(0, 1, 3)</p><p><b>Step 1:</b> Map દોરો (4 cells; minterms માટે 1):</p><table><tr><th>A\\B</th><th>0</th><th>1</th></tr><tr><th>0</th><td><b>1</b> <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td></tr><tr><th>1</th><td>0 <sub>m2</sub></td><td><b>1</b> <sub>m3</sub></td></tr></table><p><b>Step 2:</b> 1s ના groups બનાવો (પહેલાં મોટા groups):</p><table><tr><th>Group</th><th>Cells</th><th>કારણ</th><th>Term</th></tr><tr><td>1. pair</td><td>m0, m1</td><td>A = 0 સ્થિર → <span style=\"text-decoration:overline\">A</span>; B બદલાય છે → દૂર</td><td><b><span style=\"text-decoration:overline\">A</span></b></td></tr><tr><td>2. pair</td><td>m1, m3</td><td>A બદલાય છે → દૂર; B = 1 સ્થિર → B</td><td><b>B</b></td></tr></table><p><b>Step 3:</b> Terms નો OR કરો:</p><p><b>Y = <span style=\"text-decoration:overline\">A</span> + B</b></p>"
+   }
+  },
+  {
+   "id": "de3n2",
+   "q": {
+    "en": "Simplify Y = Σm(0, 2, 4, 6) using a K-map (SOP form).",
+    "gu": "K-map વડે Y = Σm(0, 2, 4, 6) simplify કરો (SOP સ્વરૂપ)."
+   },
+   "a": {
+    "en": "<p>Y = Σm(0, 2, 4, 6)</p><p><b>Step 1:</b> Plot the map (8 cells; 1 for minterms):</p><table><tr><th>A\\BC</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>0</th><td><b>1</b> <sub>m0</sub></td><td>0 <sub>m1</sub></td><td>0 <sub>m3</sub></td><td><b>1</b> <sub>m2</sub></td></tr><tr><th>1</th><td><b>1</b> <sub>m4</sub></td><td>0 <sub>m5</sub></td><td>0 <sub>m7</sub></td><td><b>1</b> <sub>m6</sub></td></tr></table><p><b>Step 2:</b> Group the 1s (largest groups first):</p><table><tr><th>Group</th><th>Cells</th><th>Reason</th><th>Term</th></tr><tr><td>1. quad</td><td>m0, m2, m4, m6</td><td>A changes → eliminated; B changes → eliminated; C stays 0 → <span style=\"text-decoration:overline\">C</span></td><td><b><span style=\"text-decoration:overline\">C</span></b></td></tr></table><p><b>Step 3:</b> OR the terms:</p><p><b>Y = <span style=\"text-decoration:overline\">C</span></b></p>",
+    "gu": "<p>Y = Σm(0, 2, 4, 6)</p><p><b>Step 1:</b> Map દોરો (8 cells; minterms માટે 1):</p><table><tr><th>A\\BC</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>0</th><td><b>1</b> <sub>m0</sub></td><td>0 <sub>m1</sub></td><td>0 <sub>m3</sub></td><td><b>1</b> <sub>m2</sub></td></tr><tr><th>1</th><td><b>1</b> <sub>m4</sub></td><td>0 <sub>m5</sub></td><td>0 <sub>m7</sub></td><td><b>1</b> <sub>m6</sub></td></tr></table><p><b>Step 2:</b> 1s ના groups બનાવો (પહેલાં મોટા groups):</p><table><tr><th>Group</th><th>Cells</th><th>કારણ</th><th>Term</th></tr><tr><td>1. quad</td><td>m0, m2, m4, m6</td><td>A બદલાય છે → દૂર; B બદલાય છે → દૂર; C = 0 સ્થિર → <span style=\"text-decoration:overline\">C</span></td><td><b><span style=\"text-decoration:overline\">C</span></b></td></tr></table><p><b>Step 3:</b> Terms નો OR કરો:</p><p><b>Y = <span style=\"text-decoration:overline\">C</span></b></p>"
+   }
+  },
+  {
+   "id": "de3n3",
+   "q": {
+    "en": "Simplify Y = Σm(1, 2, 3, 5, 7) using a K-map (SOP form).",
+    "gu": "K-map વડે Y = Σm(1, 2, 3, 5, 7) simplify કરો (SOP સ્વરૂપ)."
+   },
+   "a": {
+    "en": "<p>Y = Σm(1, 2, 3, 5, 7)</p><p><b>Step 1:</b> Plot the map (8 cells; 1 for minterms):</p><table><tr><th>A\\BC</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>0</th><td>0 <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td><b>1</b> <sub>m3</sub></td><td><b>1</b> <sub>m2</sub></td></tr><tr><th>1</th><td>0 <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td><b>1</b> <sub>m7</sub></td><td>0 <sub>m6</sub></td></tr></table><p><b>Step 2:</b> Group the 1s (largest groups first):</p><table><tr><th>Group</th><th>Cells</th><th>Reason</th><th>Term</th></tr><tr><td>1. quad</td><td>m1, m3, m5, m7</td><td>A changes → eliminated; B changes → eliminated; C stays 1 → C</td><td><b>C</b></td></tr><tr><td>2. pair</td><td>m2, m3</td><td>A stays 0 → <span style=\"text-decoration:overline\">A</span>; B stays 1 → B; C changes → eliminated</td><td><b><span style=\"text-decoration:overline\">A</span>B</b></td></tr></table><p><b>Step 3:</b> OR the terms:</p><p><b>Y = C + <span style=\"text-decoration:overline\">A</span>B</b></p>",
+    "gu": "<p>Y = Σm(1, 2, 3, 5, 7)</p><p><b>Step 1:</b> Map દોરો (8 cells; minterms માટે 1):</p><table><tr><th>A\\BC</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>0</th><td>0 <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td><b>1</b> <sub>m3</sub></td><td><b>1</b> <sub>m2</sub></td></tr><tr><th>1</th><td>0 <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td><b>1</b> <sub>m7</sub></td><td>0 <sub>m6</sub></td></tr></table><p><b>Step 2:</b> 1s ના groups બનાવો (પહેલાં મોટા groups):</p><table><tr><th>Group</th><th>Cells</th><th>કારણ</th><th>Term</th></tr><tr><td>1. quad</td><td>m1, m3, m5, m7</td><td>A બદલાય છે → દૂર; B બદલાય છે → દૂર; C = 1 સ્થિર → C</td><td><b>C</b></td></tr><tr><td>2. pair</td><td>m2, m3</td><td>A = 0 સ્થિર → <span style=\"text-decoration:overline\">A</span>; B = 1 સ્થિર → B; C બદલાય છે → દૂર</td><td><b><span style=\"text-decoration:overline\">A</span>B</b></td></tr></table><p><b>Step 3:</b> Terms નો OR કરો:</p><p><b>Y = C + <span style=\"text-decoration:overline\">A</span>B</b></p>"
+   }
+  },
+  {
+   "id": "de3n4",
+   "q": {
+    "en": "Simplify Y = Σm(0, 2, 3, 4, 5, 7) using a K-map (SOP form).",
+    "gu": "K-map વડે Y = Σm(0, 2, 3, 4, 5, 7) simplify કરો (SOP સ્વરૂપ)."
+   },
+   "a": {
+    "en": "<p>Y = Σm(0, 2, 3, 4, 5, 7)</p><p><b>Step 1:</b> Plot the map (8 cells; 1 for minterms):</p><table><tr><th>A\\BC</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>0</th><td><b>1</b> <sub>m0</sub></td><td>0 <sub>m1</sub></td><td><b>1</b> <sub>m3</sub></td><td><b>1</b> <sub>m2</sub></td></tr><tr><th>1</th><td><b>1</b> <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td><b>1</b> <sub>m7</sub></td><td>0 <sub>m6</sub></td></tr></table><p><b>Step 2:</b> Group the 1s (largest groups first):</p><table><tr><th>Group</th><th>Cells</th><th>Reason</th><th>Term</th></tr><tr><td>1. pair</td><td>m0, m2</td><td>A stays 0 → <span style=\"text-decoration:overline\">A</span>; B changes → eliminated; C stays 0 → <span style=\"text-decoration:overline\">C</span></td><td><b><span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">C</span></b></td></tr><tr><td>2. pair</td><td>m3, m7</td><td>A changes → eliminated; B stays 1 → B; C stays 1 → C</td><td><b>BC</b></td></tr><tr><td>3. pair</td><td>m4, m5</td><td>A stays 1 → A; B stays 0 → <span style=\"text-decoration:overline\">B</span>; C changes → eliminated</td><td><b>A<span style=\"text-decoration:overline\">B</span></b></td></tr></table><p><b>Step 3:</b> OR the terms:</p><p><b>Y = <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">C</span> + BC + A<span style=\"text-decoration:overline\">B</span></b></p><p><i>Note: this map has more than one minimal answer. Y = <span style=\"text-decoration:overline\">A</span>B + AC + <span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">C</span> is equally correct (same number of terms and literals).</i></p>",
+    "gu": "<p>Y = Σm(0, 2, 3, 4, 5, 7)</p><p><b>Step 1:</b> Map દોરો (8 cells; minterms માટે 1):</p><table><tr><th>A\\BC</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>0</th><td><b>1</b> <sub>m0</sub></td><td>0 <sub>m1</sub></td><td><b>1</b> <sub>m3</sub></td><td><b>1</b> <sub>m2</sub></td></tr><tr><th>1</th><td><b>1</b> <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td><b>1</b> <sub>m7</sub></td><td>0 <sub>m6</sub></td></tr></table><p><b>Step 2:</b> 1s ના groups બનાવો (પહેલાં મોટા groups):</p><table><tr><th>Group</th><th>Cells</th><th>કારણ</th><th>Term</th></tr><tr><td>1. pair</td><td>m0, m2</td><td>A = 0 સ્થિર → <span style=\"text-decoration:overline\">A</span>; B બદલાય છે → દૂર; C = 0 સ્થિર → <span style=\"text-decoration:overline\">C</span></td><td><b><span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">C</span></b></td></tr><tr><td>2. pair</td><td>m3, m7</td><td>A બદલાય છે → દૂર; B = 1 સ્થિર → B; C = 1 સ્થિર → C</td><td><b>BC</b></td></tr><tr><td>3. pair</td><td>m4, m5</td><td>A = 1 સ્થિર → A; B = 0 સ્થિર → <span style=\"text-decoration:overline\">B</span>; C બદલાય છે → દૂર</td><td><b>A<span style=\"text-decoration:overline\">B</span></b></td></tr></table><p><b>Step 3:</b> Terms નો OR કરો:</p><p><b>Y = <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">C</span> + BC + A<span style=\"text-decoration:overline\">B</span></b></p><p><i>નોંધ: આ map ના એકથી વધુ minimal જવાબ છે. Y = <span style=\"text-decoration:overline\">A</span>B + AC + <span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">C</span> પણ એટલો જ સાચો છે (સરખા terms અને literals).</i></p>"
+   }
+  },
+  {
+   "id": "de3n5",
+   "q": {
+    "en": "Simplify Y = Σm(0, 2, 5, 7, 8, 10, 13, 15) using a K-map (SOP form).",
+    "gu": "K-map વડે Y = Σm(0, 2, 5, 7, 8, 10, 13, 15) simplify કરો (SOP સ્વરૂપ)."
+   },
+   "a": {
+    "en": "<p>Y = Σm(0, 2, 5, 7, 8, 10, 13, 15)</p><p><b>Step 1:</b> Plot the map (16 cells; 1 for minterms):</p><table><tr><th>AB\\CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>00</th><td><b>1</b> <sub>m0</sub></td><td>0 <sub>m1</sub></td><td>0 <sub>m3</sub></td><td><b>1</b> <sub>m2</sub></td></tr><tr><th>01</th><td>0 <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td><b>1</b> <sub>m7</sub></td><td>0 <sub>m6</sub></td></tr><tr><th>11</th><td>0 <sub>m12</sub></td><td><b>1</b> <sub>m13</sub></td><td><b>1</b> <sub>m15</sub></td><td>0 <sub>m14</sub></td></tr><tr><th>10</th><td><b>1</b> <sub>m8</sub></td><td>0 <sub>m9</sub></td><td>0 <sub>m11</sub></td><td><b>1</b> <sub>m10</sub></td></tr></table><p><b>Step 2:</b> Group the 1s (largest groups first):</p><table><tr><th>Group</th><th>Cells</th><th>Reason</th><th>Term</th></tr><tr><td>1. quad</td><td>m0, m2, m8, m10</td><td>A changes → eliminated; B stays 0 → <span style=\"text-decoration:overline\">B</span>; C changes → eliminated; D stays 0 → <span style=\"text-decoration:overline\">D</span></td><td><b><span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">D</span></b></td></tr><tr><td>2. quad</td><td>m5, m7, m13, m15</td><td>A changes → eliminated; B stays 1 → B; C changes → eliminated; D stays 1 → D</td><td><b>BD</b></td></tr></table><p><b>Step 3:</b> OR the terms:</p><p><b>Y = <span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">D</span> + BD</b></p><p>This is the EX-NOR of B and D: Y = B⊙D.</p>",
+    "gu": "<p>Y = Σm(0, 2, 5, 7, 8, 10, 13, 15)</p><p><b>Step 1:</b> Map દોરો (16 cells; minterms માટે 1):</p><table><tr><th>AB\\CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>00</th><td><b>1</b> <sub>m0</sub></td><td>0 <sub>m1</sub></td><td>0 <sub>m3</sub></td><td><b>1</b> <sub>m2</sub></td></tr><tr><th>01</th><td>0 <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td><b>1</b> <sub>m7</sub></td><td>0 <sub>m6</sub></td></tr><tr><th>11</th><td>0 <sub>m12</sub></td><td><b>1</b> <sub>m13</sub></td><td><b>1</b> <sub>m15</sub></td><td>0 <sub>m14</sub></td></tr><tr><th>10</th><td><b>1</b> <sub>m8</sub></td><td>0 <sub>m9</sub></td><td>0 <sub>m11</sub></td><td><b>1</b> <sub>m10</sub></td></tr></table><p><b>Step 2:</b> 1s ના groups બનાવો (પહેલાં મોટા groups):</p><table><tr><th>Group</th><th>Cells</th><th>કારણ</th><th>Term</th></tr><tr><td>1. quad</td><td>m0, m2, m8, m10</td><td>A બદલાય છે → દૂર; B = 0 સ્થિર → <span style=\"text-decoration:overline\">B</span>; C બદલાય છે → દૂર; D = 0 સ્થિર → <span style=\"text-decoration:overline\">D</span></td><td><b><span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">D</span></b></td></tr><tr><td>2. quad</td><td>m5, m7, m13, m15</td><td>A બદલાય છે → દૂર; B = 1 સ્થિર → B; C બદલાય છે → દૂર; D = 1 સ્થિર → D</td><td><b>BD</b></td></tr></table><p><b>Step 3:</b> Terms નો OR કરો:</p><p><b>Y = <span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">D</span> + BD</b></p><p>આ B અને D નો EX-NOR છે: Y = B⊙D.</p>"
+   }
+  },
+  {
+   "id": "de3n6",
+   "q": {
+    "en": "Simplify Y = Σm(1, 3, 4, 5, 6, 7, 9, 11, 13, 15) using a K-map (SOP form).",
+    "gu": "K-map વડે Y = Σm(1, 3, 4, 5, 6, 7, 9, 11, 13, 15) simplify કરો (SOP સ્વરૂપ)."
+   },
+   "a": {
+    "en": "<p>Y = Σm(1, 3, 4, 5, 6, 7, 9, 11, 13, 15)</p><p><b>Step 1:</b> Plot the map (16 cells; 1 for minterms):</p><table><tr><th>AB\\CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>00</th><td>0 <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td><b>1</b> <sub>m3</sub></td><td>0 <sub>m2</sub></td></tr><tr><th>01</th><td><b>1</b> <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td><b>1</b> <sub>m7</sub></td><td><b>1</b> <sub>m6</sub></td></tr><tr><th>11</th><td>0 <sub>m12</sub></td><td><b>1</b> <sub>m13</sub></td><td><b>1</b> <sub>m15</sub></td><td>0 <sub>m14</sub></td></tr><tr><th>10</th><td>0 <sub>m8</sub></td><td><b>1</b> <sub>m9</sub></td><td><b>1</b> <sub>m11</sub></td><td>0 <sub>m10</sub></td></tr></table><p><b>Step 2:</b> Group the 1s (largest groups first):</p><table><tr><th>Group</th><th>Cells</th><th>Reason</th><th>Term</th></tr><tr><td>1. octet</td><td>m1, m3, m5, m7, m9, m11, m13, m15</td><td>A changes → eliminated; B changes → eliminated; C changes → eliminated; D stays 1 → D</td><td><b>D</b></td></tr><tr><td>2. quad</td><td>m4, m5, m6, m7</td><td>A stays 0 → <span style=\"text-decoration:overline\">A</span>; B stays 1 → B; C changes → eliminated; D changes → eliminated</td><td><b><span style=\"text-decoration:overline\">A</span>B</b></td></tr></table><p><b>Step 3:</b> OR the terms:</p><p><b>Y = D + <span style=\"text-decoration:overline\">A</span>B</b></p>",
+    "gu": "<p>Y = Σm(1, 3, 4, 5, 6, 7, 9, 11, 13, 15)</p><p><b>Step 1:</b> Map દોરો (16 cells; minterms માટે 1):</p><table><tr><th>AB\\CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>00</th><td>0 <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td><b>1</b> <sub>m3</sub></td><td>0 <sub>m2</sub></td></tr><tr><th>01</th><td><b>1</b> <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td><b>1</b> <sub>m7</sub></td><td><b>1</b> <sub>m6</sub></td></tr><tr><th>11</th><td>0 <sub>m12</sub></td><td><b>1</b> <sub>m13</sub></td><td><b>1</b> <sub>m15</sub></td><td>0 <sub>m14</sub></td></tr><tr><th>10</th><td>0 <sub>m8</sub></td><td><b>1</b> <sub>m9</sub></td><td><b>1</b> <sub>m11</sub></td><td>0 <sub>m10</sub></td></tr></table><p><b>Step 2:</b> 1s ના groups બનાવો (પહેલાં મોટા groups):</p><table><tr><th>Group</th><th>Cells</th><th>કારણ</th><th>Term</th></tr><tr><td>1. octet</td><td>m1, m3, m5, m7, m9, m11, m13, m15</td><td>A બદલાય છે → દૂર; B બદલાય છે → દૂર; C બદલાય છે → દૂર; D = 1 સ્થિર → D</td><td><b>D</b></td></tr><tr><td>2. quad</td><td>m4, m5, m6, m7</td><td>A = 0 સ્થિર → <span style=\"text-decoration:overline\">A</span>; B = 1 સ્થિર → B; C બદલાય છે → દૂર; D બદલાય છે → દૂર</td><td><b><span style=\"text-decoration:overline\">A</span>B</b></td></tr></table><p><b>Step 3:</b> Terms નો OR કરો:</p><p><b>Y = D + <span style=\"text-decoration:overline\">A</span>B</b></p>"
+   }
+  },
+  {
+   "id": "de3n7",
+   "q": {
+    "en": "Simplify Y = Σm(0, 1, 2, 3, 5, 7, 8, 9, 10, 11, 13, 15) using a K-map (SOP form).",
+    "gu": "K-map વડે Y = Σm(0, 1, 2, 3, 5, 7, 8, 9, 10, 11, 13, 15) simplify કરો (SOP સ્વરૂપ)."
+   },
+   "a": {
+    "en": "<p>Y = Σm(0, 1, 2, 3, 5, 7, 8, 9, 10, 11, 13, 15)</p><p><b>Step 1:</b> Plot the map (16 cells; 1 for minterms):</p><table><tr><th>AB\\CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>00</th><td><b>1</b> <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td><b>1</b> <sub>m3</sub></td><td><b>1</b> <sub>m2</sub></td></tr><tr><th>01</th><td>0 <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td><b>1</b> <sub>m7</sub></td><td>0 <sub>m6</sub></td></tr><tr><th>11</th><td>0 <sub>m12</sub></td><td><b>1</b> <sub>m13</sub></td><td><b>1</b> <sub>m15</sub></td><td>0 <sub>m14</sub></td></tr><tr><th>10</th><td><b>1</b> <sub>m8</sub></td><td><b>1</b> <sub>m9</sub></td><td><b>1</b> <sub>m11</sub></td><td><b>1</b> <sub>m10</sub></td></tr></table><p><b>Step 2:</b> Group the 1s (largest groups first):</p><table><tr><th>Group</th><th>Cells</th><th>Reason</th><th>Term</th></tr><tr><td>1. octet</td><td>m0, m1, m2, m3, m8, m9, m10, m11</td><td>A changes → eliminated; B stays 0 → <span style=\"text-decoration:overline\">B</span>; C changes → eliminated; D changes → eliminated</td><td><b><span style=\"text-decoration:overline\">B</span></b></td></tr><tr><td>2. octet</td><td>m1, m3, m5, m7, m9, m11, m13, m15</td><td>A changes → eliminated; B changes → eliminated; C changes → eliminated; D stays 1 → D</td><td><b>D</b></td></tr></table><p><b>Step 3:</b> OR the terms:</p><p><b>Y = <span style=\"text-decoration:overline\">B</span> + D</b></p>",
+    "gu": "<p>Y = Σm(0, 1, 2, 3, 5, 7, 8, 9, 10, 11, 13, 15)</p><p><b>Step 1:</b> Map દોરો (16 cells; minterms માટે 1):</p><table><tr><th>AB\\CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>00</th><td><b>1</b> <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td><b>1</b> <sub>m3</sub></td><td><b>1</b> <sub>m2</sub></td></tr><tr><th>01</th><td>0 <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td><b>1</b> <sub>m7</sub></td><td>0 <sub>m6</sub></td></tr><tr><th>11</th><td>0 <sub>m12</sub></td><td><b>1</b> <sub>m13</sub></td><td><b>1</b> <sub>m15</sub></td><td>0 <sub>m14</sub></td></tr><tr><th>10</th><td><b>1</b> <sub>m8</sub></td><td><b>1</b> <sub>m9</sub></td><td><b>1</b> <sub>m11</sub></td><td><b>1</b> <sub>m10</sub></td></tr></table><p><b>Step 2:</b> 1s ના groups બનાવો (પહેલાં મોટા groups):</p><table><tr><th>Group</th><th>Cells</th><th>કારણ</th><th>Term</th></tr><tr><td>1. octet</td><td>m0, m1, m2, m3, m8, m9, m10, m11</td><td>A બદલાય છે → દૂર; B = 0 સ્થિર → <span style=\"text-decoration:overline\">B</span>; C બદલાય છે → દૂર; D બદલાય છે → દૂર</td><td><b><span style=\"text-decoration:overline\">B</span></b></td></tr><tr><td>2. octet</td><td>m1, m3, m5, m7, m9, m11, m13, m15</td><td>A બદલાય છે → દૂર; B બદલાય છે → દૂર; C બદલાય છે → દૂર; D = 1 સ્થિર → D</td><td><b>D</b></td></tr></table><p><b>Step 3:</b> Terms નો OR કરો:</p><p><b>Y = <span style=\"text-decoration:overline\">B</span> + D</b></p>"
+   }
+  },
+  {
+   "id": "de3n8",
+   "q": {
+    "en": "Simplify Y = <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">C</span> + <span style=\"text-decoration:overline\">B</span>C<span style=\"text-decoration:overline\">D</span> + <span style=\"text-decoration:overline\">A</span>BC<span style=\"text-decoration:overline\">D</span> + A<span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">C</span> using a K-map.",
+    "gu": "K-map વડે Y = <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">C</span> + <span style=\"text-decoration:overline\">B</span>C<span style=\"text-decoration:overline\">D</span> + <span style=\"text-decoration:overline\">A</span>BC<span style=\"text-decoration:overline\">D</span> + A<span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">C</span> simplify કરો."
+   },
+   "a": {
+    "en": "<p><b>Convert to minterms:</b> <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">C</span> → m0, m1; <span style=\"text-decoration:overline\">B</span>C<span style=\"text-decoration:overline\">D</span> → m2, m10; <span style=\"text-decoration:overline\">A</span>BC<span style=\"text-decoration:overline\">D</span> → m6; A<span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">C</span> → m8, m9.</p><p>So Y = Σm(0, 1, 2, 6, 8, 9, 10).</p><p>Y = Σm(0, 1, 2, 6, 8, 9, 10)</p><p><b>Step 1:</b> Plot the map (16 cells; 1 for minterms):</p><table><tr><th>AB\\CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>00</th><td><b>1</b> <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td>0 <sub>m3</sub></td><td><b>1</b> <sub>m2</sub></td></tr><tr><th>01</th><td>0 <sub>m4</sub></td><td>0 <sub>m5</sub></td><td>0 <sub>m7</sub></td><td><b>1</b> <sub>m6</sub></td></tr><tr><th>11</th><td>0 <sub>m12</sub></td><td>0 <sub>m13</sub></td><td>0 <sub>m15</sub></td><td>0 <sub>m14</sub></td></tr><tr><th>10</th><td><b>1</b> <sub>m8</sub></td><td><b>1</b> <sub>m9</sub></td><td>0 <sub>m11</sub></td><td><b>1</b> <sub>m10</sub></td></tr></table><p><b>Step 2:</b> Group the 1s (largest groups first):</p><table><tr><th>Group</th><th>Cells</th><th>Reason</th><th>Term</th></tr><tr><td>1. quad</td><td>m0, m1, m8, m9</td><td>A changes → eliminated; B stays 0 → <span style=\"text-decoration:overline\">B</span>; C stays 0 → <span style=\"text-decoration:overline\">C</span>; D changes → eliminated</td><td><b><span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">C</span></b></td></tr><tr><td>2. quad</td><td>m0, m2, m8, m10</td><td>A changes → eliminated; B stays 0 → <span style=\"text-decoration:overline\">B</span>; C changes → eliminated; D stays 0 → <span style=\"text-decoration:overline\">D</span></td><td><b><span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">D</span></b></td></tr><tr><td>3. pair</td><td>m2, m6</td><td>A stays 0 → <span style=\"text-decoration:overline\">A</span>; B changes → eliminated; C stays 1 → C; D stays 0 → <span style=\"text-decoration:overline\">D</span></td><td><b><span style=\"text-decoration:overline\">A</span>C<span style=\"text-decoration:overline\">D</span></b></td></tr></table><p><b>Step 3:</b> OR the terms:</p><p><b>Y = <span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">C</span> + <span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">D</span> + <span style=\"text-decoration:overline\">A</span>C<span style=\"text-decoration:overline\">D</span></b></p>",
+    "gu": "<p><b>Minterms માં ફેરવો:</b> <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">C</span> → m0, m1; <span style=\"text-decoration:overline\">B</span>C<span style=\"text-decoration:overline\">D</span> → m2, m10; <span style=\"text-decoration:overline\">A</span>BC<span style=\"text-decoration:overline\">D</span> → m6; A<span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">C</span> → m8, m9.</p><p>તેથી Y = Σm(0, 1, 2, 6, 8, 9, 10).</p><p>Y = Σm(0, 1, 2, 6, 8, 9, 10)</p><p><b>Step 1:</b> Map દોરો (16 cells; minterms માટે 1):</p><table><tr><th>AB\\CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>00</th><td><b>1</b> <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td>0 <sub>m3</sub></td><td><b>1</b> <sub>m2</sub></td></tr><tr><th>01</th><td>0 <sub>m4</sub></td><td>0 <sub>m5</sub></td><td>0 <sub>m7</sub></td><td><b>1</b> <sub>m6</sub></td></tr><tr><th>11</th><td>0 <sub>m12</sub></td><td>0 <sub>m13</sub></td><td>0 <sub>m15</sub></td><td>0 <sub>m14</sub></td></tr><tr><th>10</th><td><b>1</b> <sub>m8</sub></td><td><b>1</b> <sub>m9</sub></td><td>0 <sub>m11</sub></td><td><b>1</b> <sub>m10</sub></td></tr></table><p><b>Step 2:</b> 1s ના groups બનાવો (પહેલાં મોટા groups):</p><table><tr><th>Group</th><th>Cells</th><th>કારણ</th><th>Term</th></tr><tr><td>1. quad</td><td>m0, m1, m8, m9</td><td>A બદલાય છે → દૂર; B = 0 સ્થિર → <span style=\"text-decoration:overline\">B</span>; C = 0 સ્થિર → <span style=\"text-decoration:overline\">C</span>; D બદલાય છે → દૂર</td><td><b><span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">C</span></b></td></tr><tr><td>2. quad</td><td>m0, m2, m8, m10</td><td>A બદલાય છે → દૂર; B = 0 સ્થિર → <span style=\"text-decoration:overline\">B</span>; C બદલાય છે → દૂર; D = 0 સ્થિર → <span style=\"text-decoration:overline\">D</span></td><td><b><span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">D</span></b></td></tr><tr><td>3. pair</td><td>m2, m6</td><td>A = 0 સ્થિર → <span style=\"text-decoration:overline\">A</span>; B બદલાય છે → દૂર; C = 1 સ્થિર → C; D = 0 સ્થિર → <span style=\"text-decoration:overline\">D</span></td><td><b><span style=\"text-decoration:overline\">A</span>C<span style=\"text-decoration:overline\">D</span></b></td></tr></table><p><b>Step 3:</b> Terms નો OR કરો:</p><p><b>Y = <span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">C</span> + <span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">D</span> + <span style=\"text-decoration:overline\">A</span>C<span style=\"text-decoration:overline\">D</span></b></p>"
+   }
+  },
+  {
+   "id": "de3n9",
+   "q": {
+    "en": "Simplify Y = Σm(0, 1, 2, 5, 8, 9) + d(10, 11, 14, 15) using a K-map (SOP form).",
+    "gu": "K-map વડે Y = Σm(0, 1, 2, 5, 8, 9) + d(10, 11, 14, 15) simplify કરો (SOP સ્વરૂપ)."
+   },
+   "a": {
+    "en": "<p>Y = Σm(0, 1, 2, 5, 8, 9) + d(10, 11, 14, 15)</p><p><b>Step 1:</b> Plot the map (16 cells; 1 for minterms, X for don't-cares):</p><table><tr><th>AB\\CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>00</th><td><b>1</b> <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td>0 <sub>m3</sub></td><td><b>1</b> <sub>m2</sub></td></tr><tr><th>01</th><td>0 <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td>0 <sub>m7</sub></td><td>0 <sub>m6</sub></td></tr><tr><th>11</th><td>0 <sub>m12</sub></td><td>0 <sub>m13</sub></td><td>X <sub>m15</sub></td><td>X <sub>m14</sub></td></tr><tr><th>10</th><td><b>1</b> <sub>m8</sub></td><td><b>1</b> <sub>m9</sub></td><td>X <sub>m11</sub></td><td>X <sub>m10</sub></td></tr></table><p><b>Step 2:</b> Group the 1s (largest groups first, using X only where it helps):</p><table><tr><th>Group</th><th>Cells</th><th>Reason</th><th>Term</th></tr><tr><td>1. quad</td><td>m0, m1, m8, m9</td><td>A changes → eliminated; B stays 0 → <span style=\"text-decoration:overline\">B</span>; C stays 0 → <span style=\"text-decoration:overline\">C</span>; D changes → eliminated</td><td><b><span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">C</span></b></td></tr><tr><td>2. quad</td><td>m0, m2, m8, m10</td><td>A changes → eliminated; B stays 0 → <span style=\"text-decoration:overline\">B</span>; C changes → eliminated; D stays 0 → <span style=\"text-decoration:overline\">D</span></td><td><b><span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">D</span></b></td></tr><tr><td>3. pair</td><td>m1, m5</td><td>A stays 0 → <span style=\"text-decoration:overline\">A</span>; B changes → eliminated; C stays 0 → <span style=\"text-decoration:overline\">C</span>; D stays 1 → D</td><td><b><span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">C</span>D</b></td></tr></table><p><b>Step 3:</b> OR the terms:</p><p><b>Y = <span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">C</span> + <span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">D</span> + <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">C</span>D</b></p><p><i>Note: this map has more than one minimal answer. Y = <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">C</span>D + A<span style=\"text-decoration:overline\">B</span> + <span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">D</span> is equally correct (same number of terms and literals).</i></p>",
+    "gu": "<p>Y = Σm(0, 1, 2, 5, 8, 9) + d(10, 11, 14, 15)</p><p><b>Step 1:</b> Map દોરો (16 cells; minterms માટે 1, don't-cares માટે X):</p><table><tr><th>AB\\CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>00</th><td><b>1</b> <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td>0 <sub>m3</sub></td><td><b>1</b> <sub>m2</sub></td></tr><tr><th>01</th><td>0 <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td>0 <sub>m7</sub></td><td>0 <sub>m6</sub></td></tr><tr><th>11</th><td>0 <sub>m12</sub></td><td>0 <sub>m13</sub></td><td>X <sub>m15</sub></td><td>X <sub>m14</sub></td></tr><tr><th>10</th><td><b>1</b> <sub>m8</sub></td><td><b>1</b> <sub>m9</sub></td><td>X <sub>m11</sub></td><td>X <sub>m10</sub></td></tr></table><p><b>Step 2:</b> 1s ના groups બનાવો (પહેલાં મોટા groups, X નો ઉપયોગ જ્યાં ફાયદો હોય ત્યાં જ):</p><table><tr><th>Group</th><th>Cells</th><th>કારણ</th><th>Term</th></tr><tr><td>1. quad</td><td>m0, m1, m8, m9</td><td>A બદલાય છે → દૂર; B = 0 સ્થિર → <span style=\"text-decoration:overline\">B</span>; C = 0 સ્થિર → <span style=\"text-decoration:overline\">C</span>; D બદલાય છે → દૂર</td><td><b><span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">C</span></b></td></tr><tr><td>2. quad</td><td>m0, m2, m8, m10</td><td>A બદલાય છે → દૂર; B = 0 સ્થિર → <span style=\"text-decoration:overline\">B</span>; C બદલાય છે → દૂર; D = 0 સ્થિર → <span style=\"text-decoration:overline\">D</span></td><td><b><span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">D</span></b></td></tr><tr><td>3. pair</td><td>m1, m5</td><td>A = 0 સ્થિર → <span style=\"text-decoration:overline\">A</span>; B બદલાય છે → દૂર; C = 0 સ્થિર → <span style=\"text-decoration:overline\">C</span>; D = 1 સ્થિર → D</td><td><b><span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">C</span>D</b></td></tr></table><p><b>Step 3:</b> Terms નો OR કરો:</p><p><b>Y = <span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">C</span> + <span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">D</span> + <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">C</span>D</b></p><p><i>નોંધ: આ map ના એકથી વધુ minimal જવાબ છે. Y = <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">C</span>D + A<span style=\"text-decoration:overline\">B</span> + <span style=\"text-decoration:overline\">B</span><span style=\"text-decoration:overline\">D</span> પણ એટલો જ સાચો છે (સરખા terms અને literals).</i></p>"
+   }
+  },
+  {
+   "id": "de3n10",
+   "q": {
+    "en": "Simplify Y = Σm(1, 2, 5, 6, 9) + d(10, 11, 12, 13, 14, 15) using a K-map (SOP form).",
+    "gu": "K-map વડે Y = Σm(1, 2, 5, 6, 9) + d(10, 11, 12, 13, 14, 15) simplify કરો (SOP સ્વરૂપ)."
+   },
+   "a": {
+    "en": "<p>Y = Σm(1, 2, 5, 6, 9) + d(10, 11, 12, 13, 14, 15)</p><p><b>Step 1:</b> Plot the map (16 cells; 1 for minterms, X for don't-cares):</p><table><tr><th>AB\\CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>00</th><td>0 <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td>0 <sub>m3</sub></td><td><b>1</b> <sub>m2</sub></td></tr><tr><th>01</th><td>0 <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td>0 <sub>m7</sub></td><td><b>1</b> <sub>m6</sub></td></tr><tr><th>11</th><td>X <sub>m12</sub></td><td>X <sub>m13</sub></td><td>X <sub>m15</sub></td><td>X <sub>m14</sub></td></tr><tr><th>10</th><td>0 <sub>m8</sub></td><td><b>1</b> <sub>m9</sub></td><td>X <sub>m11</sub></td><td>X <sub>m10</sub></td></tr></table><p><b>Step 2:</b> Group the 1s (largest groups first, using X only where it helps):</p><table><tr><th>Group</th><th>Cells</th><th>Reason</th><th>Term</th></tr><tr><td>1. quad</td><td>m1, m5, m9, m13</td><td>A changes → eliminated; B changes → eliminated; C stays 0 → <span style=\"text-decoration:overline\">C</span>; D stays 1 → D</td><td><b><span style=\"text-decoration:overline\">C</span>D</b></td></tr><tr><td>2. quad</td><td>m2, m6, m10, m14</td><td>A changes → eliminated; B changes → eliminated; C stays 1 → C; D stays 0 → <span style=\"text-decoration:overline\">D</span></td><td><b>C<span style=\"text-decoration:overline\">D</span></b></td></tr></table><p><b>Step 3:</b> OR the terms:</p><p><b>Y = <span style=\"text-decoration:overline\">C</span>D + C<span style=\"text-decoration:overline\">D</span></b></p>",
+    "gu": "<p>Y = Σm(1, 2, 5, 6, 9) + d(10, 11, 12, 13, 14, 15)</p><p><b>Step 1:</b> Map દોરો (16 cells; minterms માટે 1, don't-cares માટે X):</p><table><tr><th>AB\\CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>00</th><td>0 <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td>0 <sub>m3</sub></td><td><b>1</b> <sub>m2</sub></td></tr><tr><th>01</th><td>0 <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td>0 <sub>m7</sub></td><td><b>1</b> <sub>m6</sub></td></tr><tr><th>11</th><td>X <sub>m12</sub></td><td>X <sub>m13</sub></td><td>X <sub>m15</sub></td><td>X <sub>m14</sub></td></tr><tr><th>10</th><td>0 <sub>m8</sub></td><td><b>1</b> <sub>m9</sub></td><td>X <sub>m11</sub></td><td>X <sub>m10</sub></td></tr></table><p><b>Step 2:</b> 1s ના groups બનાવો (પહેલાં મોટા groups, X નો ઉપયોગ જ્યાં ફાયદો હોય ત્યાં જ):</p><table><tr><th>Group</th><th>Cells</th><th>કારણ</th><th>Term</th></tr><tr><td>1. quad</td><td>m1, m5, m9, m13</td><td>A બદલાય છે → દૂર; B બદલાય છે → દૂર; C = 0 સ્થિર → <span style=\"text-decoration:overline\">C</span>; D = 1 સ્થિર → D</td><td><b><span style=\"text-decoration:overline\">C</span>D</b></td></tr><tr><td>2. quad</td><td>m2, m6, m10, m14</td><td>A બદલાય છે → દૂર; B બદલાય છે → દૂર; C = 1 સ્થિર → C; D = 0 સ્થિર → <span style=\"text-decoration:overline\">D</span></td><td><b>C<span style=\"text-decoration:overline\">D</span></b></td></tr></table><p><b>Step 3:</b> Terms નો OR કરો:</p><p><b>Y = <span style=\"text-decoration:overline\">C</span>D + C<span style=\"text-decoration:overline\">D</span></b></p>"
+   }
+  },
+  {
+   "id": "de3n11",
+   "q": {
+    "en": "Simplify Y = Σm(0, 1, 4, 5, 6, 8, 9, 12, 13, 14) using a K-map (POS form).",
+    "gu": "K-map વડે Y = Σm(0, 1, 4, 5, 6, 8, 9, 12, 13, 14) simplify કરો (POS સ્વરૂપ)."
+   },
+   "a": {
+    "en": "<p>Y = Σm(0, 1, 4, 5, 6, 8, 9, 12, 13, 14)</p><p><b>Step 1:</b> Plot the map (16 cells; 1 for minterms):</p><table><tr><th>AB\\CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>00</th><td><b>1</b> <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td>0 <sub>m3</sub></td><td>0 <sub>m2</sub></td></tr><tr><th>01</th><td><b>1</b> <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td>0 <sub>m7</sub></td><td><b>1</b> <sub>m6</sub></td></tr><tr><th>11</th><td><b>1</b> <sub>m12</sub></td><td><b>1</b> <sub>m13</sub></td><td>0 <sub>m15</sub></td><td><b>1</b> <sub>m14</sub></td></tr><tr><th>10</th><td><b>1</b> <sub>m8</sub></td><td><b>1</b> <sub>m9</sub></td><td>0 <sub>m11</sub></td><td>0 <sub>m10</sub></td></tr></table><p><b>Step 2:</b> Group the 0s (for POS) (largest groups first):</p><table><tr><th>Group</th><th>Cells</th><th>Reason</th><th>Term</th></tr><tr><td>1. quad</td><td>m2, m3, m10, m11</td><td>A changes → eliminated; B stays 0 → B; C stays 1 → <span style=\"text-decoration:overline\">C</span>; D changes → eliminated</td><td><b>(B + <span style=\"text-decoration:overline\">C</span>)</b></td></tr><tr><td>2. quad</td><td>m3, m7, m11, m15</td><td>A changes → eliminated; B changes → eliminated; C stays 1 → <span style=\"text-decoration:overline\">C</span>; D stays 1 → <span style=\"text-decoration:overline\">D</span></td><td><b>(<span style=\"text-decoration:overline\">C</span> + <span style=\"text-decoration:overline\">D</span>)</b></td></tr></table><p><b>Step 3:</b> AND the terms:</p><p><b>Y = (B + <span style=\"text-decoration:overline\">C</span>)(<span style=\"text-decoration:overline\">C</span> + <span style=\"text-decoration:overline\">D</span>)</b></p>",
+    "gu": "<p>Y = Σm(0, 1, 4, 5, 6, 8, 9, 12, 13, 14)</p><p><b>Step 1:</b> Map દોરો (16 cells; minterms માટે 1):</p><table><tr><th>AB\\CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>00</th><td><b>1</b> <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td>0 <sub>m3</sub></td><td>0 <sub>m2</sub></td></tr><tr><th>01</th><td><b>1</b> <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td>0 <sub>m7</sub></td><td><b>1</b> <sub>m6</sub></td></tr><tr><th>11</th><td><b>1</b> <sub>m12</sub></td><td><b>1</b> <sub>m13</sub></td><td>0 <sub>m15</sub></td><td><b>1</b> <sub>m14</sub></td></tr><tr><th>10</th><td><b>1</b> <sub>m8</sub></td><td><b>1</b> <sub>m9</sub></td><td>0 <sub>m11</sub></td><td>0 <sub>m10</sub></td></tr></table><p><b>Step 2:</b> 0s (POS માટે) ના groups બનાવો (પહેલાં મોટા groups):</p><table><tr><th>Group</th><th>Cells</th><th>કારણ</th><th>Term</th></tr><tr><td>1. quad</td><td>m2, m3, m10, m11</td><td>A બદલાય છે → દૂર; B = 0 સ્થિર → B; C = 1 સ્થિર → <span style=\"text-decoration:overline\">C</span>; D બદલાય છે → દૂર</td><td><b>(B + <span style=\"text-decoration:overline\">C</span>)</b></td></tr><tr><td>2. quad</td><td>m3, m7, m11, m15</td><td>A બદલાય છે → દૂર; B બદલાય છે → દૂર; C = 1 સ્થિર → <span style=\"text-decoration:overline\">C</span>; D = 1 સ્થિર → <span style=\"text-decoration:overline\">D</span></td><td><b>(<span style=\"text-decoration:overline\">C</span> + <span style=\"text-decoration:overline\">D</span>)</b></td></tr></table><p><b>Step 3:</b> Terms નો AND કરો:</p><p><b>Y = (B + <span style=\"text-decoration:overline\">C</span>)(<span style=\"text-decoration:overline\">C</span> + <span style=\"text-decoration:overline\">D</span>)</b></p>"
+   }
+  },
+  {
+   "id": "de3n12",
+   "q": {
+    "en": "Design a 3-input majority circuit (output 1 when two or more inputs are 1) using a K-map.",
+    "gu": "K-map વડે 3-input majority circuit (બે કે વધુ inputs 1 હોય ત્યારે output 1) design કરો."
+   },
+   "a": {
+    "en": "<p><b>Truth table:</b></p><table><tr><th>A</th><th>B</th><th>C</th><th>Y</th></tr><tr><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr><tr><td>0</td><td>0</td><td>1</td><td><b>0</b></td></tr><tr><td>0</td><td>1</td><td>0</td><td><b>0</b></td></tr><tr><td>0</td><td>1</td><td>1</td><td><b>1</b></td></tr><tr><td>1</td><td>0</td><td>0</td><td><b>0</b></td></tr><tr><td>1</td><td>0</td><td>1</td><td><b>1</b></td></tr><tr><td>1</td><td>1</td><td>0</td><td><b>1</b></td></tr><tr><td>1</td><td>1</td><td>1</td><td><b>1</b></td></tr></table><p>Y = Σm(3, 5, 6, 7)</p><p><b>Step 1:</b> Plot the map (8 cells; 1 for minterms):</p><table><tr><th>A\\BC</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>0</th><td>0 <sub>m0</sub></td><td>0 <sub>m1</sub></td><td><b>1</b> <sub>m3</sub></td><td>0 <sub>m2</sub></td></tr><tr><th>1</th><td>0 <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td><b>1</b> <sub>m7</sub></td><td><b>1</b> <sub>m6</sub></td></tr></table><p><b>Step 2:</b> Group the 1s (largest groups first):</p><table><tr><th>Group</th><th>Cells</th><th>Reason</th><th>Term</th></tr><tr><td>1. pair</td><td>m3, m7</td><td>A changes → eliminated; B stays 1 → B; C stays 1 → C</td><td><b>BC</b></td></tr><tr><td>2. pair</td><td>m5, m7</td><td>A stays 1 → A; B changes → eliminated; C stays 1 → C</td><td><b>AC</b></td></tr><tr><td>3. pair</td><td>m6, m7</td><td>A stays 1 → A; B stays 1 → B; C changes → eliminated</td><td><b>AB</b></td></tr></table><p><b>Step 3:</b> OR the terms:</p><p><b>Y = BC + AC + AB</b></p><p><b>Circuit:</b> three 2-input AND gates (AB, BC, AC) and one 3-input OR gate. Used as the carry of a full adder.</p>",
+    "gu": "<p><b>Truth table:</b></p><table><tr><th>A</th><th>B</th><th>C</th><th>Y</th></tr><tr><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr><tr><td>0</td><td>0</td><td>1</td><td><b>0</b></td></tr><tr><td>0</td><td>1</td><td>0</td><td><b>0</b></td></tr><tr><td>0</td><td>1</td><td>1</td><td><b>1</b></td></tr><tr><td>1</td><td>0</td><td>0</td><td><b>0</b></td></tr><tr><td>1</td><td>0</td><td>1</td><td><b>1</b></td></tr><tr><td>1</td><td>1</td><td>0</td><td><b>1</b></td></tr><tr><td>1</td><td>1</td><td>1</td><td><b>1</b></td></tr></table><p>Y = Σm(3, 5, 6, 7)</p><p><b>Step 1:</b> Map દોરો (8 cells; minterms માટે 1):</p><table><tr><th>A\\BC</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>0</th><td>0 <sub>m0</sub></td><td>0 <sub>m1</sub></td><td><b>1</b> <sub>m3</sub></td><td>0 <sub>m2</sub></td></tr><tr><th>1</th><td>0 <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td><b>1</b> <sub>m7</sub></td><td><b>1</b> <sub>m6</sub></td></tr></table><p><b>Step 2:</b> 1s ના groups બનાવો (પહેલાં મોટા groups):</p><table><tr><th>Group</th><th>Cells</th><th>કારણ</th><th>Term</th></tr><tr><td>1. pair</td><td>m3, m7</td><td>A બદલાય છે → દૂર; B = 1 સ્થિર → B; C = 1 સ્થિર → C</td><td><b>BC</b></td></tr><tr><td>2. pair</td><td>m5, m7</td><td>A = 1 સ્થિર → A; B બદલાય છે → દૂર; C = 1 સ્થિર → C</td><td><b>AC</b></td></tr><tr><td>3. pair</td><td>m6, m7</td><td>A = 1 સ્થિર → A; B = 1 સ્થિર → B; C બદલાય છે → દૂર</td><td><b>AB</b></td></tr></table><p><b>Step 3:</b> Terms નો OR કરો:</p><p><b>Y = BC + AC + AB</b></p><p><b>Circuit:</b> ત્રણ 2-input AND gates (AB, BC, AC) અને એક 3-input OR gate. Full adder ના carry તરીકે વપરાય છે.</p>"
+   }
+  },
+  {
+   "id": "de3n13",
+   "q": {
+    "en": "Simplify Y = Σm(2, 3, 6, 7, 8, 10, 12, 14) and implement it using basic gates.",
+    "gu": "Y = Σm(2, 3, 6, 7, 8, 10, 12, 14) simplify કરી basic gates વડે બનાવો."
+   },
+   "a": {
+    "en": "<p>Y = Σm(2, 3, 6, 7, 8, 10, 12, 14)</p><p><b>Step 1:</b> Plot the map (16 cells; 1 for minterms):</p><table><tr><th>AB\\CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>00</th><td>0 <sub>m0</sub></td><td>0 <sub>m1</sub></td><td><b>1</b> <sub>m3</sub></td><td><b>1</b> <sub>m2</sub></td></tr><tr><th>01</th><td>0 <sub>m4</sub></td><td>0 <sub>m5</sub></td><td><b>1</b> <sub>m7</sub></td><td><b>1</b> <sub>m6</sub></td></tr><tr><th>11</th><td><b>1</b> <sub>m12</sub></td><td>0 <sub>m13</sub></td><td>0 <sub>m15</sub></td><td><b>1</b> <sub>m14</sub></td></tr><tr><th>10</th><td><b>1</b> <sub>m8</sub></td><td>0 <sub>m9</sub></td><td>0 <sub>m11</sub></td><td><b>1</b> <sub>m10</sub></td></tr></table><p><b>Step 2:</b> Group the 1s (largest groups first):</p><table><tr><th>Group</th><th>Cells</th><th>Reason</th><th>Term</th></tr><tr><td>1. quad</td><td>m2, m3, m6, m7</td><td>A stays 0 → <span style=\"text-decoration:overline\">A</span>; B changes → eliminated; C stays 1 → C; D changes → eliminated</td><td><b><span style=\"text-decoration:overline\">A</span>C</b></td></tr><tr><td>2. quad</td><td>m8, m10, m12, m14</td><td>A stays 1 → A; B changes → eliminated; C changes → eliminated; D stays 0 → <span style=\"text-decoration:overline\">D</span></td><td><b>A<span style=\"text-decoration:overline\">D</span></b></td></tr></table><p><b>Step 3:</b> OR the terms:</p><p><b>Y = <span style=\"text-decoration:overline\">A</span>C + A<span style=\"text-decoration:overline\">D</span></b></p><p><b>Implementation:</b> 2 NOT gate(s) for <span style=\"text-decoration:overline\">A</span>, <span style=\"text-decoration:overline\">D</span>; 2 two-input AND gates; 1 2-input OR gate. Total 5 gates.</p>",
+    "gu": "<p>Y = Σm(2, 3, 6, 7, 8, 10, 12, 14)</p><p><b>Step 1:</b> Map દોરો (16 cells; minterms માટે 1):</p><table><tr><th>AB\\CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>00</th><td>0 <sub>m0</sub></td><td>0 <sub>m1</sub></td><td><b>1</b> <sub>m3</sub></td><td><b>1</b> <sub>m2</sub></td></tr><tr><th>01</th><td>0 <sub>m4</sub></td><td>0 <sub>m5</sub></td><td><b>1</b> <sub>m7</sub></td><td><b>1</b> <sub>m6</sub></td></tr><tr><th>11</th><td><b>1</b> <sub>m12</sub></td><td>0 <sub>m13</sub></td><td>0 <sub>m15</sub></td><td><b>1</b> <sub>m14</sub></td></tr><tr><th>10</th><td><b>1</b> <sub>m8</sub></td><td>0 <sub>m9</sub></td><td>0 <sub>m11</sub></td><td><b>1</b> <sub>m10</sub></td></tr></table><p><b>Step 2:</b> 1s ના groups બનાવો (પહેલાં મોટા groups):</p><table><tr><th>Group</th><th>Cells</th><th>કારણ</th><th>Term</th></tr><tr><td>1. quad</td><td>m2, m3, m6, m7</td><td>A = 0 સ્થિર → <span style=\"text-decoration:overline\">A</span>; B બદલાય છે → દૂર; C = 1 સ્થિર → C; D બદલાય છે → દૂર</td><td><b><span style=\"text-decoration:overline\">A</span>C</b></td></tr><tr><td>2. quad</td><td>m8, m10, m12, m14</td><td>A = 1 સ્થિર → A; B બદલાય છે → દૂર; C બદલાય છે → દૂર; D = 0 સ્થિર → <span style=\"text-decoration:overline\">D</span></td><td><b>A<span style=\"text-decoration:overline\">D</span></b></td></tr></table><p><b>Step 3:</b> Terms નો OR કરો:</p><p><b>Y = <span style=\"text-decoration:overline\">A</span>C + A<span style=\"text-decoration:overline\">D</span></b></p><p><b>Implementation:</b> <span style=\"text-decoration:overline\">A</span>, <span style=\"text-decoration:overline\">D</span> માટે 2 NOT gate(s); 2 two-input AND gates; 1 2-input OR gate. કુલ 5 gates.</p>"
+   }
+  },
+  {
+   "id": "de3n14",
+   "q": {
+    "en": "Simplify Y = Σm(1, 3, 7, 11, 15) + d(0, 2, 5) and implement it using NAND gates only.",
+    "gu": "Y = Σm(1, 3, 7, 11, 15) + d(0, 2, 5) simplify કરી માત્ર NAND gates વડે બનાવો."
+   },
+   "a": {
+    "en": "<p>Y = Σm(1, 3, 7, 11, 15) + d(0, 2, 5)</p><p><b>Step 1:</b> Plot the map (16 cells; 1 for minterms, X for don't-cares):</p><table><tr><th>AB\\CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>00</th><td>X <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td><b>1</b> <sub>m3</sub></td><td>X <sub>m2</sub></td></tr><tr><th>01</th><td>0 <sub>m4</sub></td><td>X <sub>m5</sub></td><td><b>1</b> <sub>m7</sub></td><td>0 <sub>m6</sub></td></tr><tr><th>11</th><td>0 <sub>m12</sub></td><td>0 <sub>m13</sub></td><td><b>1</b> <sub>m15</sub></td><td>0 <sub>m14</sub></td></tr><tr><th>10</th><td>0 <sub>m8</sub></td><td>0 <sub>m9</sub></td><td><b>1</b> <sub>m11</sub></td><td>0 <sub>m10</sub></td></tr></table><p><b>Step 2:</b> Group the 1s (largest groups first, using X only where it helps):</p><table><tr><th>Group</th><th>Cells</th><th>Reason</th><th>Term</th></tr><tr><td>1. quad</td><td>m0, m1, m2, m3</td><td>A stays 0 → <span style=\"text-decoration:overline\">A</span>; B stays 0 → <span style=\"text-decoration:overline\">B</span>; C changes → eliminated; D changes → eliminated</td><td><b><span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">B</span></b></td></tr><tr><td>2. quad</td><td>m3, m7, m11, m15</td><td>A changes → eliminated; B changes → eliminated; C stays 1 → C; D stays 1 → D</td><td><b>CD</b></td></tr></table><p><b>Step 3:</b> OR the terms:</p><p><b>Y = <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">B</span> + CD</b></p><p><i>Note: this map has more than one minimal answer. Y = <span style=\"text-decoration:overline\">A</span>D + CD is equally correct (same number of terms and literals).</i></p><p><b>NAND-NAND form:</b> Y = <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">B</span> + CD = <span style=\"text-decoration:overline\">AB·CD</span></p><p>Gates: 2 NAND-inverters (for <span style=\"text-decoration:overline\">A</span>, <span style=\"text-decoration:overline\">B</span>), 2 NAND gates at level 1, 1 NAND gate at level 2 = <b>5 NAND gates</b> (two 7400 ICs).</p>",
+    "gu": "<p>Y = Σm(1, 3, 7, 11, 15) + d(0, 2, 5)</p><p><b>Step 1:</b> Map દોરો (16 cells; minterms માટે 1, don't-cares માટે X):</p><table><tr><th>AB\\CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>00</th><td>X <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td><b>1</b> <sub>m3</sub></td><td>X <sub>m2</sub></td></tr><tr><th>01</th><td>0 <sub>m4</sub></td><td>X <sub>m5</sub></td><td><b>1</b> <sub>m7</sub></td><td>0 <sub>m6</sub></td></tr><tr><th>11</th><td>0 <sub>m12</sub></td><td>0 <sub>m13</sub></td><td><b>1</b> <sub>m15</sub></td><td>0 <sub>m14</sub></td></tr><tr><th>10</th><td>0 <sub>m8</sub></td><td>0 <sub>m9</sub></td><td><b>1</b> <sub>m11</sub></td><td>0 <sub>m10</sub></td></tr></table><p><b>Step 2:</b> 1s ના groups બનાવો (પહેલાં મોટા groups, X નો ઉપયોગ જ્યાં ફાયદો હોય ત્યાં જ):</p><table><tr><th>Group</th><th>Cells</th><th>કારણ</th><th>Term</th></tr><tr><td>1. quad</td><td>m0, m1, m2, m3</td><td>A = 0 સ્થિર → <span style=\"text-decoration:overline\">A</span>; B = 0 સ્થિર → <span style=\"text-decoration:overline\">B</span>; C બદલાય છે → દૂર; D બદલાય છે → દૂર</td><td><b><span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">B</span></b></td></tr><tr><td>2. quad</td><td>m3, m7, m11, m15</td><td>A બદલાય છે → દૂર; B બદલાય છે → દૂર; C = 1 સ્થિર → C; D = 1 સ્થિર → D</td><td><b>CD</b></td></tr></table><p><b>Step 3:</b> Terms નો OR કરો:</p><p><b>Y = <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">B</span> + CD</b></p><p><i>નોંધ: આ map ના એકથી વધુ minimal જવાબ છે. Y = <span style=\"text-decoration:overline\">A</span>D + CD પણ એટલો જ સાચો છે (સરખા terms અને literals).</i></p><p><b>NAND-NAND સ્વરૂપ:</b> Y = <span style=\"text-decoration:overline\">A</span><span style=\"text-decoration:overline\">B</span> + CD = <span style=\"text-decoration:overline\">AB·CD</span></p><p>Gates: 2 NAND-inverters (<span style=\"text-decoration:overline\">A</span>, <span style=\"text-decoration:overline\">B</span> માટે), level 1 પર 2 NAND, level 2 પર 1 NAND = <b>5 NAND gates</b> (બે 7400 ICs).</p>"
+   }
+  }
+ ],
+ "equations": [
+  {
+   "title": {
+    "en": "K-map Size and Groups",
+    "gu": "K-map Size અને Groups"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Number of cells",
+      "gu": "Cells ની સંખ્યા"
+     },
+     "f": "Cells = 2<sup>n</sup>",
+     "terms": {
+      "en": "n = number of variables (2 → 4, 3 → 8, 4 → 16)",
+      "gu": "n = variables ની સંખ્યા (2 → 4, 3 → 8, 4 → 16)"
+     }
+    },
+    {
+     "name": {
+      "en": "Group size",
+      "gu": "Group size"
+     },
+     "f": "Group = 2<sup>k</sup> cells (1, 2, 4, 8, 16)",
+     "terms": {
+      "en": "k variables are eliminated",
+      "gu": "k variables દૂર થાય"
+     }
+    },
+    {
+     "name": {
+      "en": "Literals in a term",
+      "gu": "Term માં literals"
+     },
+     "f": "Literals = n − k",
+     "terms": {
+      "en": "4-var: pair 3, quad 2, octet 1",
+      "gu": "4-var: pair 3, quad 2, octet 1"
+     }
+    },
+    {
+     "name": {
+      "en": "Gray code order",
+      "gu": "Gray code ક્રમ"
+     },
+     "f": "00, 01, 11, 10",
+     "terms": {
+      "en": "Adjacent cells differ in one bit",
+      "gu": "Adjacent cells માં એક જ bit બદલાય"
+     }
+    },
+    {
+     "name": {
+      "en": "3-variable cell order",
+      "gu": "3-variable cell ક્રમ"
+     },
+     "f": "0 1 3 2 / 4 5 7 6",
+     "terms": {
+      "en": "Rows A = 0, 1; columns BC",
+      "gu": "Rows A = 0, 1; columns BC"
+     }
+    },
+    {
+     "name": {
+      "en": "4-variable cell order",
+      "gu": "4-variable cell ક્રમ"
+     },
+     "f": "0 1 3 2 / 4 5 7 6 / 12 13 15 14 / 8 9 11 10",
+     "terms": {
+      "en": "Rows AB, columns CD",
+      "gu": "Rows AB, columns CD"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Writing Terms",
+    "gu": "Terms લખવા"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "SOP (group 1s)",
+      "gu": "SOP (1s નો group)"
+     },
+     "f": "Variable = 1 → A; = 0 → <span style=\"text-decoration:overline\">A</span>; changes → dropped",
+     "terms": {
+      "en": "Terms are ORed",
+      "gu": "Terms નો OR"
+     }
+    },
+    {
+     "name": {
+      "en": "POS (group 0s)",
+      "gu": "POS (0s નો group)"
+     },
+     "f": "Variable = 0 → A; = 1 → <span style=\"text-decoration:overline\">A</span>; changes → dropped",
+     "terms": {
+      "en": "Sum terms are ANDed",
+      "gu": "Sum terms નો AND"
+     }
+    },
+    {
+     "name": {
+      "en": "Don't care",
+      "gu": "Don't care"
+     },
+     "f": "X = 1 or 0, whichever gives larger groups",
+     "terms": {
+      "en": "Never group only Xs",
+      "gu": "માત્ર Xs નો group નહીં"
+     }
+    },
+    {
+     "name": {
+      "en": "Basis of grouping",
+      "gu": "Grouping નો આધાર"
+     },
+     "f": "AB + A<span style=\"text-decoration:overline\">B</span> = A(B + <span style=\"text-decoration:overline\">B</span>) = A",
+     "terms": {
+      "en": "",
+      "gu": ""
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "K-map Basics",
+    "gu": "K-map Basics"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Why do we simplify Boolean functions?",
+      "gu": "Boolean functions નું simplification કેમ કરીએ?"
+     },
+     "a": {
+      "en": "To reduce gates, cost, size, delay and power.",
+      "gu": "Gates, cost, size, delay અને power ઘટાડવા."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a K-map?",
+      "gu": "K-map શું છે?"
+     },
+     "a": {
+      "en": "A graphical method of simplifying Boolean functions using a map of 2ⁿ cells.",
+      "gu": "2ⁿ cells ના map વડે Boolean functions simplify કરવાની graphical method."
+     }
+    },
+    {
+     "q": {
+      "en": "Who introduced the K-map?",
+      "gu": "K-map કોણે રજૂ કર્યો?"
+     },
+     "a": {
+      "en": "Maurice Karnaugh in 1953.",
+      "gu": "Maurice Karnaugh એ 1953 માં."
+     }
+    },
+    {
+     "q": {
+      "en": "How many cells are in a 4-variable K-map?",
+      "gu": "4-variable K-map માં કેટલા cells હોય?"
+     },
+     "a": {
+      "en": "16.",
+      "gu": "16."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is Gray code used in a K-map?",
+      "gu": "K-map માં Gray code કેમ વપરાય છે?"
+     },
+     "a": {
+      "en": "So that adjacent cells differ in only one variable.",
+      "gu": "જેથી adjacent cells માં માત્ર એક variable બદલાય."
+     }
+    },
+    {
+     "q": {
+      "en": "Which cells are adjacent in a 4-variable K-map besides neighbours?",
+      "gu": "4-variable K-map માં પાડોશી સિવાય કયા cells adjacent છે?"
+     },
+     "a": {
+      "en": "Cells on opposite edges and the four corners.",
+      "gu": "સામસામેની ધારના cells અને ચાર ખૂણા."
+     }
+    },
+    {
+     "q": {
+      "en": "What group sizes are allowed?",
+      "gu": "કયા group sizes માન્ય છે?"
+     },
+     "a": {
+      "en": "Powers of 2: 1, 2, 4, 8, 16.",
+      "gu": "2 ની ઘાત: 1, 2, 4, 8, 16."
+     }
+    },
+    {
+     "q": {
+      "en": "Can a cell be used in more than one group?",
+      "gu": "એક cell એકથી વધુ groups માં વાપરી શકાય?"
+     },
+     "a": {
+      "en": "Yes, overlapping is allowed.",
+      "gu": "હા, overlapping ચાલે છે."
+     }
+    },
+    {
+     "q": {
+      "en": "Can diagonal cells be grouped?",
+      "gu": "ત્રાંસા cells નો group બનાવી શકાય?"
+     },
+     "a": {
+      "en": "No.",
+      "gu": "ના."
+     }
+    },
+    {
+     "q": {
+      "en": "How many variables does a quad eliminate?",
+      "gu": "Quad કેટલા variables દૂર કરે?"
+     },
+     "a": {
+      "en": "Two.",
+      "gu": "બે."
+     }
+    },
+    {
+     "q": {
+      "en": "What is an octet?",
+      "gu": "Octet શું છે?"
+     },
+     "a": {
+      "en": "A group of 8 adjacent 1s; it eliminates 3 variables.",
+      "gu": "8 adjacent 1s નો group; તે 3 variables દૂર કરે છે."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Implicants, Don't-Cares and Implementation",
+    "gu": "Implicants, Don't-Cares અને Implementation"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a prime implicant?",
+      "gu": "Prime implicant શું છે?"
+     },
+     "a": {
+      "en": "A group of 1s that cannot be enlarged further.",
+      "gu": "1s નો એવો group જેને વધુ મોટો ન કરી શકાય."
+     }
+    },
+    {
+     "q": {
+      "en": "What is an essential prime implicant?",
+      "gu": "Essential prime implicant શું છે?"
+     },
+     "a": {
+      "en": "A prime implicant that covers a 1 not covered by any other prime implicant.",
+      "gu": "એવો prime implicant જે બીજા કોઈ PI ન આવરે તેવો 1 આવરે."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a redundant group?",
+      "gu": "Redundant group શું છે?"
+     },
+     "a": {
+      "en": "A group whose 1s are all covered by other groups; it must be removed.",
+      "gu": "જેના બધા 1s બીજા groups વડે આવરાઈ ગયા હોય તેવો group; તેને દૂર કરવો."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a don't-care condition?",
+      "gu": "Don't-care condition શું છે?"
+     },
+     "a": {
+      "en": "An input combination that never occurs or whose output does not matter.",
+      "gu": "એવું input combination જે ક્યારેય ન આવે અથવા જેનું output મહત્વનું ન હોય."
+     }
+    },
+    {
+     "q": {
+      "en": "How is a don't-care shown?",
+      "gu": "Don't-care કેવી રીતે દર્શાવાય?"
+     },
+     "a": {
+      "en": "By X (or d, φ) in the map; d(…) in the expression.",
+      "gu": "Map માં X (અથવા d, φ) વડે; expression માં d(…)."
+     }
+    },
+    {
+     "q": {
+      "en": "Is it necessary to cover every X?",
+      "gu": "દરેક X ને આવરવો જરૂરી છે?"
+     },
+     "a": {
+      "en": "No. Use an X only if it makes a group larger.",
+      "gu": "ના. Group મોટો થાય ત્યારે જ X વાપરો."
+     }
+    },
+    {
+     "q": {
+      "en": "Which inputs are don't-cares for a BCD circuit?",
+      "gu": "BCD circuit માટે કયા inputs don't-cares છે?"
+     },
+     "a": {
+      "en": "1010 to 1111 (10 to 15).",
+      "gu": "1010 થી 1111 (10 થી 15)."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you get a POS expression from a K-map?",
+      "gu": "K-map પરથી POS expression કેવી રીતે મળે?"
+     },
+     "a": {
+      "en": "Group the 0s and write complemented sum terms, then AND them.",
+      "gu": "0s ના groups બનાવી sum terms લખો અને તેમનો AND કરો."
+     }
+    },
+    {
+     "q": {
+      "en": "Which circuit implements an SOP expression?",
+      "gu": "SOP expression કયા circuit થી બને?"
+     },
+     "a": {
+      "en": "AND-OR (two-level), or NAND-NAND.",
+      "gu": "AND-OR (two-level), અથવા NAND-NAND."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the main limitation of a K-map?",
+      "gu": "K-map ની મુખ્ય મર્યાદા શું છે?"
+     },
+     "a": {
+      "en": "It becomes difficult for more than 4 variables.",
+      "gu": "4 થી વધુ variables માટે અઘરો બને છે."
+     }
+    },
+    {
+     "q": {
+      "en": "Which method is used for many variables?",
+      "gu": "ઘણા variables માટે કઈ method વપરાય?"
+     },
+     "a": {
+      "en": "Quine–McCluskey (tabular) method.",
+      "gu": "Quine–McCluskey (tabular) method."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Explain the need for simplification of Boolean functions.",
+    "gu": "Boolean functions ના simplification ની જરૂરિયાત સમજાવો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Draw 2, 3 and 4-variable K-maps showing minterm numbers.",
+    "gu": "Minterm numbers સાથે 2, 3 અને 4-variable K-maps દોરો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "State the rules for grouping 1s in a K-map.",
+    "gu": "K-map માં 1s ના grouping ના નિયમો લખો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Define: prime implicant, essential prime implicant, don't-care condition.",
+    "gu": "વ્યાખ્યા આપો: prime implicant, essential prime implicant, don't-care condition."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Simplify Y = Σm(1, 3, 5, 6, 7) using a K-map.",
+    "gu": "K-map વડે Y = Σm(1, 3, 5, 6, 7) simplify કરો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Simplify Y = Σm(0, 2, 3, 4, 5, 7) using a K-map.",
+    "gu": "K-map વડે Y = Σm(0, 2, 3, 4, 5, 7) simplify કરો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Simplify Y = Σm(0, 1, 2, 4, 5, 6, 8, 9, 12, 13, 14) and draw the logic diagram.",
+    "gu": "Y = Σm(0, 1, 2, 4, 5, 6, 8, 9, 12, 13, 14) simplify કરી logic diagram દોરો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Simplify Y = Σm(0, 2, 5, 7, 8, 10, 13, 15) using a K-map.",
+    "gu": "K-map વડે Y = Σm(0, 2, 5, 7, 8, 10, 13, 15) simplify કરો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain don't-care conditions. Simplify Y = Σm(1, 3, 7, 11, 15) + d(0, 2, 5).",
+    "gu": "Don't-care conditions સમજાવો. Y = Σm(1, 3, 7, 11, 15) + d(0, 2, 5) simplify કરો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Simplify Y = Σm(0, 1, 2, 5, 8, 9, 10) in SOP and POS forms.",
+    "gu": "Y = Σm(0, 1, 2, 5, 8, 9, 10) ને SOP અને POS સ્વરૂપમાં simplify કરો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Simplify Y = A'B'C' + B'CD' + A'BCD' + AB'C' using a K-map and implement it with basic gates.",
+    "gu": "K-map વડે Y = A'B'C' + B'CD' + A'BCD' + AB'C' simplify કરી basic gates વડે બનાવો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Design a circuit that gives output 1 when a BCD input is 5 or more.",
+    "gu": "BCD input 5 કે વધુ હોય ત્યારે output 1 આપતો circuit design કરો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Design a 3-input majority circuit using a K-map.",
+    "gu": "K-map વડે 3-input majority circuit design કરો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Simplify Y = Σm(1, 3, 7, 11, 15) + d(0, 2, 5) and implement using NAND gates only.",
+    "gu": "Y = Σm(1, 3, 7, 11, 15) + d(0, 2, 5) simplify કરી માત્ર NAND gates વડે બનાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Give advantages and limitations of the K-map method.",
+    "gu": "K-map method ના ફાયદા અને મર્યાદાઓ આપો."
+   },
+   "marks": 3
+  }
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "equations",
+  "numericals",
+  "viva",
+  "exam"
+ ],
+ "diagrams": [
+  {
+   "id": "de3_need",
+   "title": {
+    "en": "Why Simplify: Before and After",
+    "gu": "Simplification કેમ: પહેલાં અને પછી"
+   },
+   "file": "diagrams/de3_need.svg"
+  },
+  {
+   "id": "de3_kmap2",
+   "title": {
+    "en": "Two-Variable K-map",
+    "gu": "Two-Variable K-map"
+   },
+   "file": "diagrams/de3_kmap2.svg"
+  },
+  {
+   "id": "de3_kmap3",
+   "title": {
+    "en": "Three-Variable K-map (Cells and Minterms)",
+    "gu": "Three-Variable K-map (Cells અને Minterms)"
+   },
+   "file": "diagrams/de3_kmap3.svg"
+  },
+  {
+   "id": "de3_kmap4",
+   "title": {
+    "en": "Four-Variable K-map (Minterm Numbers)",
+    "gu": "Four-Variable K-map (Minterm Numbers)"
+   },
+   "file": "diagrams/de3_kmap4.svg"
+  },
+  {
+   "id": "de3_groups",
+   "title": {
+    "en": "Pairs, Quads, Octets and Wrap-around Groups",
+    "gu": "Pairs, Quads, Octets અને Wrap-around Groups"
+   },
+   "file": "diagrams/de3_groups.svg"
+  },
+  {
+   "id": "de3_steps",
+   "title": {
+    "en": "Steps of K-map Simplification",
+    "gu": "K-map Simplification ના Steps"
+   },
+   "file": "diagrams/de3_steps.svg"
+  },
+  {
+   "id": "de3_ex3",
+   "title": {
+    "en": "Solved 3-Variable K-map",
+    "gu": "Solved 3-Variable K-map"
+   },
+   "file": "diagrams/de3_ex3.svg"
+  },
+  {
+   "id": "de3_ex4",
+   "title": {
+    "en": "Solved 4-Variable K-map",
+    "gu": "Solved 4-Variable K-map"
+   },
+   "file": "diagrams/de3_ex4.svg"
+  },
+  {
+   "id": "de3_pos",
+   "title": {
+    "en": "POS Simplification by Grouping 0s",
+    "gu": "0s ના Grouping વડે POS Simplification"
+   },
+   "file": "diagrams/de3_pos.svg"
+  },
+  {
+   "id": "de3_dontcare",
+   "title": {
+    "en": "K-map with Don't-Care Conditions",
+    "gu": "Don't-Care Conditions સાથે K-map"
+   },
+   "file": "diagrams/de3_dontcare.svg"
+  },
+  {
+   "id": "de3_bcd",
+   "title": {
+    "en": "BCD ≥ 5 Detector using Don't-Cares",
+    "gu": "Don't-Cares વડે BCD ≥ 5 Detector"
+   },
+   "file": "diagrams/de3_bcd.svg"
+  },
+  {
+   "id": "de3_impl",
+   "title": {
+    "en": "Implementation with Basic Gates",
+    "gu": "Basic Gates વડે Implementation"
+   },
+   "file": "diagrams/de3_impl.svg"
+  }
+ ]
+}
