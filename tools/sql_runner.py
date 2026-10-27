@@ -413,12 +413,13 @@ class OraSim:
 
     def _nextval(self, name):
         s = self.seqs[name.upper()]
-        s["cur"] = s["start"] if s["cur"] is None else s["cur"] + s["inc"]
-        if s.get("max") is not None and s["cur"] > s["max"]:
+        nxt = s["start"] if s["cur"] is None else s["cur"] + s["inc"]
+        if s.get("max") is not None and nxt > s["max"]:
             if s.get("cycle"):
-                s["cur"] = s.get("min") or 1
+                nxt = s.get("min") or 1
             else:
                 self._raise(f"ORA-08004: sequence {name.upper()}.NEXTVAL exceeds MAXVALUE and cannot be instantiated")
+        s["cur"] = nxt
         return s["cur"]
 
     def _currval(self, name):
@@ -795,7 +796,7 @@ class OraSim:
             if u.startswith("TRUNCATE TABLE"):
                 self.c.execute(f"DELETE FROM {s.split()[2]}")
                 return "Table truncated."
-            m = re.match(r"CREATE (OR REPLACE )?(FORCE )?VIEW (\w+)(?:\s*\(([^)]*)\))? AS (.*)$", s, re.I | re.S)
+            m = re.match(r"CREATE\s+(OR\s+REPLACE\s+)?(FORCE\s+)?VIEW\s+(\w+)(?:\s*\(([^)]*)\))?\s+AS\s+(.*)$", s, re.I | re.S)
             if m:
                 body = re.sub(r"\s+WITH\s+(CHECK\s+OPTION|READ\s+ONLY)\s*$", "", m.group(5), flags=re.I)
                 if m.group(1):
@@ -897,7 +898,8 @@ def run_sql(code, setup="", rewrite=()):
     """Run setup silently, then code; return the output text.
     rewrite: (oracle_text, simulator_text) pairs applied only to the executed SQL, e.g.
     ("SYSDATE - hiredate", "__DSUB(SYSDATE, hiredate)"); headings still come from the Oracle text."""
-    sim = OraSim()
+    from sql_objects import OraSim2
+    sim = OraSim2()
     if setup:
         for st in OraSim.split(setup):
             r = sim.exec1(st)
