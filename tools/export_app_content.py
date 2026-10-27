@@ -125,6 +125,9 @@ def main():
             for dg in unit.get("diagrams", []):
                 with open(os.path.join(d, "diagrams", dg["id"] + ".svg"), encoding="utf-8") as f:
                     svgs[dg["id"]] = clean_svg(f.read())
+            for sec in unit.get("notes", []):          # no star / key-point marks in the app (user request)
+                for it in sec.get("items", []):
+                    it.pop("key", None)
             unit["svgs"] = svgs
             with open(os.path.join(OUT, "units", f'{code}_u{u["no"]}.json'), "w", encoding="utf-8") as f:
                 json.dump(unit, f, ensure_ascii=False, separators=(",", ":"))

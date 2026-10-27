@@ -345,13 +345,11 @@ class _TabListState extends State<_TabList> with AutomaticKeepAliveClientMixin {
       for (var i = 0; i < items.length; i++) {
         final it = items[i];
         if (it['h'] != null) {
-          final isKey = it['key'] == true;
           rows.add(_Row.card(keys[i], (o, t) => ExpandCard(
                 open: o,
                 onTap: t,
                 heading: true,
-                keyPoints: isKey,
-                title: Text('${isKey ? '⭐ ' : ''}${tr(it['h'])}'),
+                title: Text(tr(it['h'])),
                 bodyPadding: const EdgeInsets.fromLTRB(18, 0, 16, 16),
                 body: (_) => Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
                   HtmlBody(tr(it['body']), codeLang: c.codeLang),
