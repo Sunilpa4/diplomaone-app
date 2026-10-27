@@ -116,13 +116,13 @@ const STR = {
  en:{notes:'Notes',diagrams:'Diagrams',equations:'Formulas',viva:'Viva',exam:'Exam Qs',expand:'Expand all',collapse:'Collapse all',
      numericals:'Numericals',ex:'✏️ Solved Example',tapzoom:'Tap diagram to zoom',unit:'Unit',examhead:'Important Exam Questions',
      intro:'weightage',hours:'hours',introd:'Detailed notes as per GTU syllabus with diagrams, formulas, solved numericals and viva.',
-     marks:'Marks',programs:'Programs',flowcharts:'Flowcharts',syntax:'Syntax',prog:'💻 Program',code:'Code',output:'Output',plot:'Plot window (output)',expl:'Explanation',
+     marks:'Marks',programs:'Programs',flowcharts:'Flowcharts',syntax:'Syntax',algorithms:'Algorithms',prog:'💻 Program',code:'Code',output:'Output',plot:'Plot window (output)',expl:'Explanation',
      introc:'Detailed notes as per GTU syllabus with flowcharts, solved C programs with real output, syntax and viva.',
      intropy:'Detailed notes as per GTU syllabus with diagrams, solved Python programs with real output, syntax and viva.'},
  gu:{notes:'નોટ્સ',diagrams:'આકૃતિઓ',equations:'સૂત્રો',viva:'વાઈવા',exam:'પરીક્ષા પ્રશ્નો',expand:'બધા ખોલો',collapse:'બધા બંધ કરો',
      numericals:'દાખલા',ex:'✏️ ઉકેલેલો દાખલો',tapzoom:'મોટું જોવા આકૃતિ પર ટેપ કરો',unit:'એકમ',examhead:'મહત્વના પરીક્ષા પ્રશ્નો',
      intro:'વેઇટેજ',hours:'કલાક',introd:'GTU syllabus મુજબ આકૃતિ, સૂત્રો, ઉકેલેલા દાખલા અને viva સાથે વિગતવાર નોટ્સ.',
-     marks:'ગુણ',programs:'પ્રોગ્રામ્સ',flowcharts:'ફ્લોચાર્ટ',syntax:'સિન્ટેક્સ',prog:'💻 પ્રોગ્રામ',code:'કોડ',output:'આઉટપુટ',plot:'પ્લોટ (આઉટપુટ)',expl:'સમજૂતી',
+     marks:'ગુણ',programs:'પ્રોગ્રામ્સ',flowcharts:'ફ્લોચાર્ટ',syntax:'સિન્ટેક્સ',algorithms:'અલ્ગોરિધમ',prog:'💻 પ્રોગ્રામ',code:'કોડ',output:'આઉટપુટ',plot:'પ્લોટ (આઉટપુટ)',expl:'સમજૂતી',
      introc:'GTU syllabus મુજબ flowcharts, આઉટપુટ સાથેના ઉકેલેલા C programs, syntax અને viva સાથે વિગતવાર નોટ્સ.'}};
 const L = k => STR[S.lang][k];
 const t = o => (o && typeof o === 'object') ? (o[S.lang] || o.en) : (o || '');
@@ -214,13 +214,15 @@ function programs(){
   return `<div class="sec">${head(L('programs'))}` + (U.programs||[]).map((p,i)=>
     `<div class="card"><div class="q hd"><span class="n">${i+1}.</span><span class="t">${t(p.title)}</span>${chev}</div><div class="a pa">${progBody(p)}</div></div>`).join('') + `</div>`;
 }
-function syntax(){
-  return (U.syntax||[]).map(g=>`<div class="sec">${head(t(g.title))}` + g.items.map((e,i)=>
+function syntax(key){
+  return (U[typeof key==='string'?key:'syntax']||[]).map(g=>`<div class="sec">${head(t(g.title))}` + g.items.map((e,i)=>
     `<div class="card"><div class="q"><span class="n">${i+1}.</span><span class="t"><span class="nm">${t(e.name)}</span><pre class="code sx">${hl(e.f)}</pre></span>${chev}</div>
      <div class="a">${e.terms && t(e.terms) ? fixTables(t(e.terms)) : ''}</div></div>`).join('') + `</div>`).join('');
 }
 const flowcharts = diagrams;
-const VIEWS = U.programs ? (META.code_lang==='python' ? {notes, programs, diagrams, syntax, viva, exam} : {notes, programs, flowcharts, syntax, viva, exam}) : U.numericals ? {notes, diagrams, equations, numericals, viva, exam} : {notes, diagrams, equations, viva, exam};
+const algorithms = () => syntax('algorithms');
+const ALLV = {notes, programs, diagrams, flowcharts, algorithms, syntax, equations, numericals, viva, exam};
+const VIEWS = U.tabs ? Object.fromEntries(U.tabs.map(k=>[k, ALLV[k]])) : U.programs ? (META.code_lang==='python' ? {notes, programs, diagrams, syntax, viva, exam} : {notes, programs, flowcharts, syntax, viva, exam}) : U.numericals ? {notes, diagrams, equations, numericals, viva, exam} : {notes, diagrams, equations, viva, exam};
 function render(){
   document.getElementById('title').textContent = `${L('unit')} ${U.unit}: ${t(U.title)}`;
   document.getElementById('sub').textContent = `${t(META.name)} · ${META.code}`;

@@ -68,6 +68,13 @@ SUBJECTS = {
     "DI02000131": ("Contributor Personality Development", "કન્ટ્રિબ્યુટર પર્સનાલિટી ડેવલપમેન્ટ", "Humanities (Elective)", 3, "theory", "DI02C00131"),
     "DI02000141": ("Integrated Personality Development Course", "ઇન્ટિગ્રેટેડ પર્સનાલિટી ડેવલપમેન્ટ કોર્સ", "Humanities (Elective)", 3, "theory", "DI02C00141"),
     "DI02000151": ("Essence of Indian Knowledge and Tradition", "એસેન્સ ઓફ ઇન્ડિયન નોલેજ એન્ડ ટ્રેડિશન", "Humanities (Elective)", 3, "theory", "DI02C00151"),
+    # Computer Sem 3 (2025-26 scheme)
+    "DI03000011": ("Digital Electronics Fundamentals", "ડિજિટલ ઇલેક્ટ્રોનિક્સ ફંડામેન્ટલ્સ", "Engineering Science", 3, "theory", None),
+    "DI03000021": ("Data Structures", "ડેટા સ્ટ્રક્ચર્સ", "Professional Core", 4, "programming", None),
+    "DI03000031": ("Relational Database Management System", "રિલેશનલ ડેટાબેઝ મેનેજમેન્ટ સિસ્ટમ", "Professional Core", 4, "programming", None),
+    "DI03000041": ("Fundamentals of Operating System", "ફંડામેન્ટલ્સ ઓફ ઓપરેટિંગ સિસ્ટમ", "Professional Core", 4, "theory", None),
+    "DI03000051": ("Computer Networks", "કમ્પ્યુટર નેટવર્ક્સ", "Professional Core", 4, "theory", None),
+    "DI03000061": ("Responsive Web Page Design", "રિસ્પોન્સિવ વેબ પેજ ડિઝાઇન", "Professional Core", 3, "practical", None),
 }
 # branch key -> {semester: [subject codes in display order]}
 BRANCH_SEMS = {
@@ -75,6 +82,7 @@ BRANCH_SEMS = {
         1: ["DI01000131", "DI01000151", "DI01000021", "DI01000061", "DI01000031", "DI01000141"],
         2: ["DI02000101", "DI02000091", "DI02000011", "DI01000071", "DI02000051", "DI02000061",
             "DI02000131", "DI02000141", "DI02000151"],
+        3: ["DI03000021", "DI03000011", "DI03000031", "DI03000041", "DI03000051", "DI03000061"],
     },
 }
 
@@ -109,7 +117,7 @@ def main():
     for code, (d, s) in done.items():
         units = []
         for u in s["units"]:
-            fp = os.path.join(d, u.get("file", f'unit{u["no"]}.json'))
+            fp = os.path.join(d, u.get("file") or f'unit{u["no"]}.json')
             if not os.path.exists(fp):
                 continue
             unit = json.load(open(fp, encoding="utf-8"))

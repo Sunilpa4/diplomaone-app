@@ -1,0 +1,1151 @@
+{
+ "subject": "DI03000021",
+ "unit": 1,
+ "format": "notes",
+ "title": {
+  "en": "Basic Concepts of Data Structures"
+ },
+ "weightage": 14,
+ "hours": 6,
+ "notes": [
+  {
+   "title": {
+    "en": "1.1 Basic Concepts of Data Structures"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "1.1.1 Data and Information"
+     },
+     "body": {
+      "en": "<p><b>Data</b> are raw facts and figures, such as numbers, characters, names or marks, that have no meaning on their own. Example: <i>67, 82, 45, 91</i>.</p>\n<p><b>Information</b> is data that has been <b>processed</b> (organised, calculated, compared) so that it has a meaning and is useful for decisions. Example: <i>\"Sara is the topper with 91 marks; class average is 71.25\"</i>.</p>\n<table>\n<tr><th>Data</th><th>Information</th></tr>\n<tr><td>Raw, unorganised facts</td><td>Processed, organised data</td></tr>\n<tr><td>No meaning by itself</td><td>Meaningful and useful</td></tr>\n<tr><td>Input to processing</td><td>Output of processing</td></tr>\n<tr><td>Example: list of marks</td><td>Example: result, rank, average</td></tr>\n</table>\n<h4>Related terms</h4>\n<ul><li><b>Data item / field:</b> a single unit of value, e.g. roll number.</li>\n<li><b>Group item:</b> a data item made of sub-items, e.g. name = first name + last name.</li>\n<li><b>Record:</b> a collection of related fields about one entity, e.g. one student's roll no, name and marks.</li>\n<li><b>File:</b> a collection of records of the same type, e.g. all students of a class.</li>\n<li><b>Entity:</b> something that has attributes, e.g. student. <b>Attribute:</b> a property of the entity, e.g. age.</li></ul>"
+     },
+     "diagram": "ds1_data_info"
+    },
+    {
+     "h": {
+      "en": "1.1.2 Data Structure: Definition and Need"
+     },
+     "body": {
+      "en": "<p>A <b>data structure</b> is a particular way of <b>organising, storing and managing data in memory</b> so that it can be used (accessed and modified) <b>efficiently</b>.</p>\n<p>In short: <b>Data Structure = organised data + allowed operations</b>.</p>\n<p>Niklaus Wirth summed it up as: <b>Algorithms + Data Structures = Programs</b>.</p>\n<h4>Need for data structures</h4>\n<ul><li><b>Efficient processing:</b> a good structure makes searching, inserting and deleting faster. Example: searching a sorted array with binary search takes about 20 comparisons for 10 lakh items, while linear search may take 10 lakh.</li>\n<li><b>Large amounts of data:</b> real applications (banking, railway reservation, social media) handle millions of records that must be organised.</li>\n<li><b>Proper use of memory:</b> structures like linked lists use memory only when needed.</li>\n<li><b>Reusability:</b> a stack or queue, once written, can be used in many programs.</li>\n<li><b>Abstraction:</b> the user works with operations (push, pop) without worrying about how they are stored.</li></ul>\n<h4>Real-life examples</h4>\n<ul><li><b>Stack:</b> pile of plates, undo in an editor, browser back button.</li>\n<li><b>Queue:</b> ticket counter line, printer jobs, CPU scheduling.</li>\n<li><b>Tree:</b> folders on a computer, family tree, organisation chart.</li>\n<li><b>Graph:</b> road map (Google Maps), friends on social media, computer networks.</li></ul>"
+     },
+     "key": true
+    },
+    {
+     "h": {
+      "en": "1.1.3 Types of Data Structures: Primitive and Non-Primitive"
+     },
+     "body": {
+      "en": "<p>Data structures are classified as shown in the diagram.</p>\n<h4>1. Primitive data structures</h4>\n<ul><li>Basic data types that are <b>directly operated upon by machine instructions</b>.</li>\n<li>Each holds a <b>single value</b>.</li>\n<li>Examples: <code>int</code>, <code>float</code>, <code>double</code>, <code>char</code>, pointer.</li>\n<li>Their size depends on the machine and compiler (e.g. int = 2 bytes in Turbo C, 4 bytes in GCC).</li></ul>\n<h4>2. Non-primitive data structures</h4>\n<ul><li><b>Derived</b> from primitive data structures.</li>\n<li>Store a <b>group of values</b> (homogeneous or heterogeneous) and the relationship between them.</li>\n<li>Examples: arrays, stacks, queues, linked lists, trees, graphs, files.</li>\n<li>They are further divided into <b>linear</b> and <b>non-linear</b> data structures.</li></ul>\n<table>\n<tr><th>Primitive</th><th>Non-primitive</th></tr>\n<tr><td>Basic, built-in types</td><td>Derived from primitive types</td></tr>\n<tr><td>Hold a single value</td><td>Hold a collection of values</td></tr>\n<tr><td>Operated directly by the CPU</td><td>Operated through algorithms</td></tr>\n<tr><td>Fixed size</td><td>Size may be fixed or dynamic</td></tr>\n<tr><td>int, float, char, double, pointer</td><td>Array, stack, queue, list, tree, graph</td></tr>\n</table>"
+     },
+     "diagram": "ds1_classification",
+     "programs": [
+      "ds1p2"
+     ],
+     "key": true
+    },
+    {
+     "h": {
+      "en": "1.1.4 Linear and Non-Linear Data Structures"
+     },
+     "body": {
+      "en": "<h4>Linear data structure</h4>\n<p>Elements are arranged in a <b>sequence</b>, one after another. Every element (except the first and the last) has exactly one <b>predecessor</b> and one <b>successor</b>. Elements can be traversed in a single run.</p>\n<p>Examples: <b>array, stack, queue, linked list</b>.</p>\n<h4>Non-linear data structure</h4>\n<p>Elements are arranged in a <b>hierarchical</b> or <b>network</b> manner. One element can be connected to several other elements, so they cannot be traversed in a single run.</p>\n<p>Examples: <b>tree, graph</b>.</p>\n<table>\n<tr><th>Linear</th><th>Non-linear</th></tr>\n<tr><td>Elements in a sequence</td><td>Elements in a hierarchy or network</td></tr>\n<tr><td>Each element has at most one predecessor and one successor</td><td>An element may be linked to many elements</td></tr>\n<tr><td>Single level</td><td>Multiple levels</td></tr>\n<tr><td>Traversed in a single run</td><td>Needs special traversals (inorder, BFS, DFS…)</td></tr>\n<tr><td>Easy to implement</td><td>More complex to implement</td></tr>\n<tr><td>Memory may be wasted (array)</td><td>Memory used efficiently</td></tr>\n<tr><td>Array, stack, queue, linked list</td><td>Tree, graph</td></tr>\n</table>\n<h4>Static and dynamic data structures</h4>\n<ul><li><b>Static:</b> size fixed at compile time, e.g. array.</li>\n<li><b>Dynamic:</b> size can grow or shrink at run time, e.g. linked list.</li></ul>"
+     },
+     "diagram": "ds1_linear_nonlinear",
+     "key": true
+    },
+    {
+     "h": {
+      "en": "1.1.5 Operations on Data Structures"
+     },
+     "body": {
+      "en": "<p>The following operations are performed on almost every data structure:</p>\n<ol><li><b>Traversing:</b> accessing each element exactly once to process it (print, count, sum).</li>\n<li><b>Searching:</b> finding the location of an element with a given value (key).</li>\n<li><b>Insertion:</b> adding a new element.</li>\n<li><b>Deletion:</b> removing an existing element.</li>\n<li><b>Sorting:</b> arranging elements in ascending or descending order.</li>\n<li><b>Merging:</b> combining the elements of two structures into one.</li></ol>\n<p>Some structures allow these operations only in a restricted way. In a <b>stack</b>, insertion (push) and deletion (pop) happen only at the top. In a <b>queue</b>, insertion is at the rear and deletion at the front.</p>\n<p>The choice of data structure depends on which operations are needed most often. For example, arrays give fast access by index, while linked lists give fast insertion and deletion.</p>"
+     },
+     "diagram": "ds1_operations"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "1.2 Introduction to Algorithms"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "1.2.1 Algorithm: Definition and Writing Conventions"
+     },
+     "body": {
+      "en": "<p>An <b>algorithm</b> is a <b>finite sequence of well-defined steps</b> for solving a particular problem. It takes some input, processes it, and produces the required output in a finite amount of time.</p>\n<p>The word comes from the name of the Persian mathematician <b>al-Khwarizmi</b>.</p>\n<h4>Conventions used in GTU-style algorithms</h4>\n<ul><li>Name of the algorithm with its parameters: <code>Algorithm MAX(A, N)</code>.</li>\n<li>Numbered steps: Step 1, Step 2, …, each with a comment in [ ] brackets.</li>\n<li>Assignment with <b>Set</b> or <code>←</code>: <code>Set MAX = A[0]</code>.</li>\n<li>Decision: <code>If condition then … [End of If]</code>.</li>\n<li>Loop: <code>Repeat for I = 1 to N</code> or <code>Repeat while condition</code>.</li>\n<li>Input/Output: <code>Read</code>, <code>Write</code> / <code>Print</code>; and <code>Exit</code> at the end.</li></ul>\n<h4>Example: largest of N numbers</h4>\n<pre class=\"c\">Algorithm MAX(A, N)\nA = array of N elements, MAX = largest\nStep 1: [Initialize]  Set MAX = A[0]\nStep 2: [Loop]  Repeat for I = 1 to N-1\n            If A[I] &gt; MAX then\n                Set MAX = A[I]\n        [End of loop]\nStep 3: [Output]  Print MAX\nStep 4: Exit</pre>\n<h4>Algorithm vs program</h4>\n<table>\n<tr><th>Algorithm</th><th>Program</th></tr>\n<tr><td>Step-by-step solution in simple language</td><td>Implementation of the algorithm in a programming language</td></tr>\n<tr><td>Independent of language and machine</td><td>Depends on the language (C, Python…)</td></tr>\n<tr><td>Written at the design stage</td><td>Written at the implementation stage</td></tr>\n<tr><td>Must terminate (finite)</td><td>May run forever (e.g. an OS)</td></tr>\n<tr><td>Analysed for time and space</td><td>Tested and executed</td></tr>\n</table>"
+     },
+     "programs": [
+      "ds1p1"
+     ]
+    },
+    {
+     "h": {
+      "en": "1.2.2 Characteristics of an Algorithm"
+     },
+     "body": {
+      "en": "<p>Every algorithm must have the following five properties (see diagram):</p>\n<ol><li><b>Input:</b> it takes <b>zero or more</b> inputs from outside.</li>\n<li><b>Output:</b> it produces <b>at least one</b> output (result).</li>\n<li><b>Definiteness:</b> each step is <b>clear and unambiguous</b>; it has only one meaning. \"Add a few numbers\" is not definite; \"add A and B\" is.</li>\n<li><b>Finiteness:</b> the algorithm must <b>terminate after a finite number of steps</b> for every input. A loop with no end condition breaks this rule.</li>\n<li><b>Effectiveness:</b> every step must be <b>basic enough</b> to be carried out exactly, in a finite time, using pencil and paper.</li></ol>\n<p>Other desirable properties:</p>\n<ul><li><b>Correctness:</b> gives the right output for every valid input.</li>\n<li><b>Generality:</b> works for all inputs of the problem, not just one case.</li>\n<li><b>Efficiency:</b> uses as little time and memory as possible.</li>\n<li><b>Language independence:</b> can be coded in any language.</li></ul>"
+     },
+     "diagram": "ds1_characteristics",
+     "key": true
+    },
+    {
+     "h": {
+      "en": "1.2.3 Analysis of an Algorithm: Best, Worst and Average Case"
+     },
+     "body": {
+      "en": "<p><b>Analysis of an algorithm</b> means estimating the <b>resources</b> (time and memory) it needs, as a function of the input size <b>n</b>. It helps us choose the best of several algorithms for the same problem.</p>\n<h4>Two approaches</h4>\n<ul><li><b>A priori analysis</b> (theoretical): done before running, by counting steps. Independent of machine and language. This is what we use.</li>\n<li><b>A posteriori analysis</b> (empirical): run the program and measure the actual time. Depends on the machine, compiler and load.</li></ul>\n<h4>Three cases</h4>\n<p>The running time often depends not only on n but also on the arrangement of the input. Example: linear search for a key in n elements.</p>\n<ul><li><b>Best case:</b> the minimum time, for the most favourable input. Key found at the first position → 1 comparison → <b>O(1)</b>.</li>\n<li><b>Worst case:</b> the maximum time, for the most unfavourable input. Key at the last position or absent → n comparisons → <b>O(n)</b>.</li>\n<li><b>Average case:</b> the expected time over all inputs. Key equally likely anywhere → about (n + 1)/2 comparisons → <b>O(n)</b>.</li></ul>\n<p>The <b>worst case</b> is usually the most important, because it gives a guarantee: the algorithm will never take longer than this.</p>"
+     },
+     "programs": [
+      "ds1p8"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "1.3 Time Complexity, Space Complexity and Asymptotic Notations"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "1.3.1 Time Complexity"
+     },
+     "body": {
+      "en": "<p>The <b>time complexity</b> of an algorithm is the <b>amount of time it needs to run to completion, expressed as a function of the input size n</b>. We do not measure seconds (they depend on the machine). Instead we count the number of <b>basic operations</b> (comparisons, assignments, additions) executed.</p>\n<h4>Frequency count (step count) method</h4>\n<p>Count how many times each statement executes, then add them up. Keep only the <b>highest-order term</b> and drop constants to get the Big O.</p>\n<p><b>Example 1: sum of an array → O(n)</b></p>\n<pre class=\"c\">int sum(int a[], int n)\n{\n    /* 1          */\n    int s = 0, i;\n    /* n + 1 tests */\n    for (i = 0; i &lt; n; i++)\n        /* n          */\n        s = s + a[i];\n    /* 1          */\n    return s;\n/* total 2n+3 */\n}</pre>\n<p>Total = 1 + (n + 1) + n + 1 = <b>2n + 3</b> → <b>O(n)</b>.</p>\n<p><b>Example 2: nested loops → O(n²)</b></p>\n<pre class=\"c\">/* outer: n   */\nfor (i = 0; i &lt; n; i++)\n    /* inner: n   */\n    for (j = 0; j &lt; n; j++)\n        /* n x n = n2 */\n        c = c + 1;</pre>\n<p><b>Example 3: loop variable doubles → O(log n)</b></p>\n<pre class=\"c\">i = 1;\nwhile (i &lt; n)        /* i = 1,2,4,8 ... */\n    /* runs log2(n) times */\n    i = i * 2;</pre>\n<p><b>Example 4: no loop → O(1)</b></p>\n<pre class=\"c\">int square(int x)\n{\n    /* always 1 step: O(1) */\n    return x * x;\n}</pre>\n<h4>Common complexities (fastest to slowest)</h4>\n<table>\n<tr><th>Big O</th><th>Name</th><th>Example</th></tr>\n<tr><td>O(1)</td><td>Constant</td><td>Access a[i], push/pop</td></tr>\n<tr><td>O(log n)</td><td>Logarithmic</td><td>Binary search</td></tr>\n<tr><td>O(n)</td><td>Linear</td><td>Linear search, traversal</td></tr>\n<tr><td>O(n log n)</td><td>Linearithmic</td><td>Merge sort, quick sort (avg)</td></tr>\n<tr><td>O(n²)</td><td>Quadratic</td><td>Bubble, selection, insertion sort</td></tr>\n<tr><td>O(2ⁿ)</td><td>Exponential</td><td>Recursive Fibonacci</td></tr>\n</table>"
+     },
+     "diagram": "ds1_growth",
+     "programs": [
+      "ds1p3"
+     ],
+     "key": true,
+     "examples": [
+      "ds1n6",
+      "ds1n7",
+      "ds1n8"
+     ]
+    },
+    {
+     "h": {
+      "en": "1.3.2 Space Complexity"
+     },
+     "body": {
+      "en": "<p>The <b>space complexity</b> of an algorithm is the <b>amount of memory it needs to run to completion</b>, as a function of the input size n.</p>\n<p>Space needed S(P) = <b>Fixed part (c)</b> + <b>Variable part (S<sub>p</sub>)</b></p>\n<ul><li><b>Fixed part:</b> independent of the input size. Space for the code (instructions), simple variables, constants and fixed-size structures.</li>\n<li><b>Variable part:</b> depends on the input size. Space for arrays of size n, dynamically allocated memory, and the <b>recursion stack</b> (each recursive call needs space for its parameters, local variables and return address).</li></ul>\n<p><b>Example 1: constant space → O(1)</b></p>\n<pre class=\"c\">int add(int a, int b)\n{\n    int c = a + b;   /* a, b, c: fixed */\n    return c;        /* S(P) = c -&gt; O(1) */\n}</pre>\n<p><b>Example 2: space grows with n → O(n)</b></p>\n<pre class=\"c\">int total(int a[], int n)\n{\n    int i, s = 0;    /* fixed: i, s, n  */\n    for (i = 0; i &lt; n; i++)\n        s += a[i];   /* a[] : n words    */\n    /* S(P) = n + 3 = O(n) */\n    return s;\n}</pre>\n<p>The array needs n words; i, s and n need 3 words. S(P) = n + 3 → <b>O(n)</b>.</p>\n<h4>Time–space trade-off</h4>\n<p>Often we can make an algorithm faster by using more memory, or save memory at the cost of time. Example: a lookup table of pre-computed squares answers in O(1) time but needs O(n) extra space.</p>"
+     },
+     "examples": [
+      "ds1n11"
+     ]
+    },
+    {
+     "h": {
+      "en": "1.3.3 Asymptotic Notations: Big O, Big Omega, Big Theta"
+     },
+     "body": {
+      "en": "<p><b>Asymptotic notations</b> are mathematical tools that describe the <b>growth rate</b> of an algorithm's running time when the input size n becomes very large. Constants and lower-order terms are ignored, because for large n only the highest-order term matters.</p>\n<h4>1. Big O notation (upper bound)</h4>\n<p>f(n) = O(g(n)) if there exist positive constants <b>c</b> and <b>n₀</b> such that</p>\n<p style=\"text-align:center\"><b>f(n) ≤ c · g(n)</b> for all n ≥ n₀</p>\n<ul><li>g(n) is an <b>upper bound</b>: the algorithm takes <b>at most</b> this much time.</li>\n<li>Used to express the <b>worst case</b>. It is the most widely used notation.</li>\n<li>Example: 3n + 2 = O(n), because 3n + 2 ≤ 4n for all n ≥ 2 (c = 4, n₀ = 2).</li></ul>\n<h4>2. Big Omega (Ω) notation (lower bound)</h4>\n<p>f(n) = Ω(g(n)) if there exist positive constants c and n₀ such that</p>\n<p style=\"text-align:center\"><b>f(n) ≥ c · g(n)</b> for all n ≥ n₀</p>\n<ul><li>g(n) is a <b>lower bound</b>: the algorithm takes <b>at least</b> this much time.</li>\n<li>Used to express the <b>best case</b>.</li>\n<li>Example: 3n + 2 = Ω(n), because 3n + 2 ≥ 3n for all n ≥ 1 (c = 3, n₀ = 1).</li></ul>\n<h4>3. Big Theta (Θ) notation (tight bound)</h4>\n<p>f(n) = Θ(g(n)) if there exist positive constants c₁, c₂ and n₀ such that</p>\n<p style=\"text-align:center\"><b>c₁ · g(n) ≤ f(n) ≤ c₂ · g(n)</b> for all n ≥ n₀</p>\n<ul><li>g(n) is both an upper and a lower bound: an <b>exact</b> (tight) growth rate.</li>\n<li>Often used for the <b>average case</b>.</li>\n<li>Example: 3n + 2 = Θ(n), because 3n ≤ 3n + 2 ≤ 4n for all n ≥ 2.</li></ul>\n<table>\n<tr><th>Notation</th><th>Bound</th><th>Meaning</th><th>Case</th></tr>\n<tr><td>O</td><td>Upper</td><td>at most</td><td>Worst</td></tr>\n<tr><td>Ω</td><td>Lower</td><td>at least</td><td>Best</td></tr>\n<tr><td>Θ</td><td>Tight</td><td>exactly</td><td>Average</td></tr>\n</table>\n<h4>Rules for finding Big O quickly</h4>\n<ul><li>Drop constants: O(5n) = O(n).</li>\n<li>Keep only the largest term: O(n² + 3n + 7) = O(n²).</li>\n<li>Consecutive blocks add: O(n) + O(n²) = O(n²).</li>\n<li>Nested blocks multiply: a loop of n inside a loop of n = O(n × n) = O(n²).</li></ul>"
+     },
+     "diagram": "ds1_asymptotic",
+     "key": true,
+     "examples": [
+      "ds1n9",
+      "ds1n10"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "1.4 Arrays and Their Representation"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "1.4.1 Array: Definition and Representation in Memory"
+     },
+     "body": {
+      "en": "<p>An <b>array</b> is a <b>finite, ordered collection of homogeneous (same type) elements</b> stored in <b>contiguous memory locations</b> and referred to by a <b>common name</b>. Each element is accessed with an <b>index</b> (subscript).</p>\n<pre class=\"c\">/* 5 ints        */\nint marks[5];\nfloat price[3] = {9.5, 12, 7.25};\nchar name[20] = \"GTU\";\nint a[] = {4, 8, 15, 16, 23};  /* size 5 */</pre>\n<h4>Features of arrays</h4>\n<ul><li><b>Homogeneous:</b> all elements have the same data type.</li>\n<li><b>Contiguous:</b> elements are stored side by side in memory.</li>\n<li><b>Fixed size:</b> the size is decided at declaration and cannot change (static).</li>\n<li><b>Indexed:</b> in C the index starts from 0 (lower bound LB = 0) and ends at size − 1 (upper bound UB).</li>\n<li><b>Random access:</b> any element can be reached directly in O(1) time using its index.</li></ul>\n<h4>Number of elements (length)</h4>\n<p><b>Length = UB − LB + 1</b>. For A[5..50], length = 50 − 5 + 1 = 46.</p>\n<h4>Address of an element in a 1-D array</h4>\n<p>Because the elements are contiguous, the address of any element can be calculated from the address of the first element (the <b>base address</b>):</p>\n<p style=\"text-align:center\"><b>LOC(A[i]) = Base + w × (i − LB)</b></p>\n<ul><li><b>Base</b> = address of the first element</li>\n<li><b>w</b> = size of one element in bytes (word size)</li>\n<li><b>LB</b> = lower bound of the index (0 in C)</li></ul>\n<p>Example: int A[6], base = 1000, w = 4. LOC(A[2]) = 1000 + 4 × (2 − 0) = <b>1008</b>.</p>"
+     },
+     "diagram": "ds1_array_memory",
+     "programs": [
+      "ds1p4"
+     ],
+     "key": true,
+     "examples": [
+      "ds1n1",
+      "ds1n2",
+      "ds1n3"
+     ]
+    },
+    {
+     "h": {
+      "en": "1.4.2 Two-Dimensional Arrays: Row Major and Column Major"
+     },
+     "body": {
+      "en": "<p>A <b>2-D array</b> stores elements in the form of a table (matrix) of <b>M rows and N columns</b>. It has M × N elements.</p>\n<pre class=\"c\">int m[2][3] = { {1, 2, 3},\n                /* 2 rows, 3 cols */\n                {4, 5, 6} };\nprintf(\"%d\", m[1][2]);         /* 6 */</pre>\n<p>Memory, however, is one-dimensional (a single line of bytes). The table is therefore stored in one of two orders:</p>\n<h4>1. Row major order</h4>\n<ul><li>Elements are stored <b>row by row</b>: all elements of row 0, then all of row 1, and so on.</li>\n<li>Used by <b>C, C++, Java and Python</b>.</li>\n<li>For a matrix [[a b c],[d e f]] the memory order is: a b c d e f.</li></ul>\n<p style=\"text-align:center\"><b>LOC(A[i][j]) = Base + w × [ (i − L<sub>r</sub>) × N + (j − L<sub>c</sub>) ]</b></p>\n<h4>2. Column major order</h4>\n<ul><li>Elements are stored <b>column by column</b>: all elements of column 0, then column 1, and so on.</li>\n<li>Used by <b>FORTRAN, MATLAB and R</b>.</li>\n<li>For the same matrix the memory order is: a d b e c f.</li></ul>\n<p style=\"text-align:center\"><b>LOC(A[i][j]) = Base + w × [ (j − L<sub>c</sub>) × M + (i − L<sub>r</sub>) ]</b></p>\n<p>where M = number of rows, N = number of columns, L<sub>r</sub> = lower bound of rows, L<sub>c</sub> = lower bound of columns, w = element size.</p>\n<p>If the bounds are given as A[L<sub>r</sub>..U<sub>r</sub>][L<sub>c</sub>..U<sub>c</sub>], then M = U<sub>r</sub> − L<sub>r</sub> + 1 and N = U<sub>c</sub> − L<sub>c</sub> + 1.</p>\n<table>\n<tr><th>Row major</th><th>Column major</th></tr>\n<tr><td>Row by row</td><td>Column by column</td></tr>\n<tr><td>Uses N (columns) in the formula</td><td>Uses M (rows) in the formula</td></tr>\n<tr><td>C, C++, Java</td><td>FORTRAN, MATLAB</td></tr>\n<tr><td>a b c d e f</td><td>a d b e c f</td></tr>\n</table>\n<p><i>Tip:</i> in row major, to reach row i you skip i complete rows of N elements each. In column major, to reach column j you skip j complete columns of M elements each.</p>"
+     },
+     "diagram": "ds1_row_col_major",
+     "programs": [
+      "ds1p10",
+      "ds1p11"
+     ],
+     "key": true,
+     "examples": [
+      "ds1n4",
+      "ds1n5"
+     ]
+    },
+    {
+     "h": {
+      "en": "1.4.3 Advantages, Disadvantages and Applications of Arrays"
+     },
+     "body": {
+      "en": "<h4>Advantages</h4>\n<ul><li><b>Random access:</b> any element is accessed in O(1) time with its index.</li>\n<li>Simple to declare and use; many items with <b>one name</b>.</li>\n<li>Easy traversal with a loop; good for sorting and searching (binary search needs an array).</li>\n<li>No extra memory for links (unlike a linked list).</li>\n<li>Used to implement other structures: stack, queue, heap, hash table, matrix.</li></ul>\n<h4>Disadvantages</h4>\n<ul><li><b>Fixed size:</b> must be known in advance; cannot grow or shrink at run time.</li>\n<li><b>Memory wastage</b> if fewer elements are stored than declared; <b>overflow</b> if more are needed.</li>\n<li><b>Insertion and deletion are slow (O(n))</b>, because elements must be shifted.</li>\n<li>Only <b>homogeneous</b> elements can be stored.</li>\n<li>Needs a <b>contiguous</b> block of memory, which may not be available for very large arrays.</li></ul>\n<h4>Applications</h4>\n<ul><li>Storing lists of data: marks, salaries, temperatures.</li>\n<li>Matrices and tables (2-D arrays), images (pixels).</li>\n<li>Implementing stack, queue, heap and hash tables.</li>\n<li>Lookup tables, sorting and searching algorithms.</li>\n<li>CPU scheduling tables and database records.</li></ul>"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "1.5 Array Operations: Traverse, Insert, Delete, Update, Search"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "1.5.1 Traversing an Array"
+     },
+     "body": {
+      "en": "<p><b>Traversing</b> means accessing (visiting) <b>each element exactly once</b> in order to process it: print it, add it to a sum, count it, find the maximum, etc.</p>\n<pre class=\"c\">Algorithm TRAVERSE(A, LB, UB)\nStep 1: Set K = LB\nStep 2: Repeat while K &lt;= UB\n            Process A[K]   (e.g. print)\n            Set K = K + 1\n        [End of loop]\nStep 3: Exit</pre>\n<ul><li>Number of steps = number of elements = n.</li>\n<li>Time complexity: <b>O(n)</b>. Space: O(1) extra.</li></ul>\n<p>Applications: displaying elements, sum and average, maximum and minimum, counting even/odd numbers, reversing an array.</p>"
+     },
+     "programs": [
+      "ds1p12",
+      "ds1p13"
+     ]
+    },
+    {
+     "h": {
+      "en": "1.5.2 Insertion in an Array"
+     },
+     "body": {
+      "en": "<p><b>Insertion</b> adds a new element at a given position. Since array elements are contiguous, all elements from that position to the end must first be <b>shifted one place to the right</b> to create space.</p>\n<ul><li>Shifting must start from the <b>last element</b> and move backwards. Starting from the front would overwrite values.</li>\n<li>Before inserting, check for <b>overflow</b> (array already full, N = MAX).</li></ul>\n<pre class=\"c\">Algorithm INSERT(A, N, POS, ITEM)\nStep 1: [Check overflow]\n        If N = MAX then\n            Write \"Overflow\" and Exit\nStep 2: Set J = N - 1\nStep 3: Repeat while J &gt;= POS\n            Set A[J + 1] = A[J]\n            Set J = J - 1\n        [End of loop]\nStep 4: Set A[POS] = ITEM\nStep 5: Set N = N + 1\nStep 6: Exit</pre>\n<p>(POS here is the array index, starting from 0.)</p>\n<h4>Complexity</h4>\n<ul><li><b>Best case</b> O(1): insert at the end, no shifting.</li>\n<li><b>Worst case</b> O(n): insert at the beginning, all n elements shift.</li>\n<li><b>Average case</b> O(n): about n/2 shifts.</li></ul>\n<p><b>Inserting into a sorted array:</b> start from the end, shift every element larger than the new item one place right, then place the item in the gap.</p>"
+     },
+     "diagram": "ds1_insert_delete",
+     "programs": [
+      "ds1p5",
+      "ds1p9"
+     ],
+     "key": true
+    },
+    {
+     "h": {
+      "en": "1.5.3 Deletion from an Array"
+     },
+     "body": {
+      "en": "<p><b>Deletion</b> removes the element at a given position. All the elements after it are <b>shifted one place to the left</b> to fill the gap, and the number of elements N is reduced by 1.</p>\n<ul><li>Shifting starts from the element <b>just after</b> the deleted position and moves forward.</li>\n<li>Before deleting, check for <b>underflow</b> (array empty, N = 0).</li></ul>\n<pre class=\"c\">Algorithm DELETE(A, N, POS)\nStep 1: [Check underflow]\n        If N = 0 then\n            Write \"Underflow\" and Exit\nStep 2: Set ITEM = A[POS]\nStep 3: Repeat for J = POS to N - 2\n            Set A[J] = A[J + 1]\n        [End of loop]\nStep 4: Set N = N - 1\nStep 5: Write ITEM deleted\nStep 6: Exit</pre>\n<h4>Complexity</h4>\n<ul><li><b>Best case</b> O(1): delete the last element.</li>\n<li><b>Worst case</b> O(n): delete the first element, n − 1 elements shift.</li>\n<li><b>Average case</b> O(n).</li></ul>\n<p>Deleting <b>by value</b> means first searching for the value (O(n)) and then deleting at that position.</p>"
+     },
+     "programs": [
+      "ds1p6"
+     ],
+     "key": true
+    },
+    {
+     "h": {
+      "en": "1.5.4 Updating an Element"
+     },
+     "body": {
+      "en": "<p><b>Update</b> (modify) changes the value of an existing element. No shifting is needed and the number of elements does not change.</p>\n<pre class=\"c\">Algorithm UPDATE(A, N, POS, NEW)\nStep 1: If POS &lt; 0 or POS &gt;= N then\n            Write \"Invalid\" and Exit\nStep 2: Set A[POS] = NEW\nStep 3: Exit</pre>\n<ul><li><b>Update by index:</b> a single assignment <code>A[POS] = NEW</code> → <b>O(1)</b>.</li>\n<li><b>Update by value:</b> first search for the old value (O(n)), then replace it → <b>O(n)</b>.</li></ul>"
+     },
+     "programs": [
+      "ds1p7"
+     ]
+    },
+    {
+     "h": {
+      "en": "1.5.5 Searching in an Array"
+     },
+     "body": {
+      "en": "<p><b>Searching</b> finds the location (index or position) of an element with a given value, called the <b>key</b>. The search is <b>successful</b> if the key is found, and <b>unsuccessful</b> otherwise.</p>\n<h4>Linear (sequential) search</h4>\n<p>The key is compared with every element, one by one from the first, until it is found or the array ends.</p>\n<pre class=\"c\">Algorithm LSEARCH(A, N, KEY)\nStep 1: Set I = 0, LOC = -1\nStep 2: Repeat while I &lt; N\n            If A[I] = KEY then\n                Set LOC = I, go to Step 3\n            Set I = I + 1\n        [End of loop]\nStep 3: If LOC = -1 then\n            Write \"Not found\"\n        Else\n            Write \"Found at\", LOC + 1\nStep 4: Exit</pre>\n<ul><li>Works on <b>unsorted and sorted</b> arrays.</li>\n<li>Best case O(1), worst case O(n), average about n/2 comparisons → O(n).</li></ul>\n<p><b>Binary search</b> (Unit 5) works only on <b>sorted</b> arrays. It repeatedly halves the search range, giving O(log n).</p>\n<h4>Summary of array operations</h4>\n<table>\n<tr><th>Operation</th><th>Best</th><th>Worst</th></tr>\n<tr><td>Access by index</td><td>O(1)</td><td>O(1)</td></tr>\n<tr><td>Traverse</td><td>O(n)</td><td>O(n)</td></tr>\n<tr><td>Insert</td><td>O(1) at end</td><td>O(n) at start</td></tr>\n<tr><td>Delete</td><td>O(1) at end</td><td>O(n) at start</td></tr>\n<tr><td>Update by index</td><td>O(1)</td><td>O(1)</td></tr>\n<tr><td>Linear search</td><td>O(1)</td><td>O(n)</td></tr>\n</table>"
+     },
+     "programs": [
+      "ds1p14"
+     ]
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "ds1p1",
+   "title": {
+    "en": "Maximum of 10 numbers using an array (with time complexity) [Practical 1]"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#define N 10\n\nint main(void)\n{\n    int a[N], i, max, count = 0;\n\n    printf(\"Enter %d numbers:\\n\", N);\n    for (i = 0; i < N; i++)\n        scanf(\"%d\", &a[i]);\n\n    // assume first\n    max = a[0];\n    for (i = 1; i < N; i++) {\n        // one comparison\n        count++;\n        if (a[i] > max)\n            max = a[i];\n    }\n\n    printf(\"Maximum = %d\\n\", max);\n    printf(\"Comparisons = %d\\n\", count);\n    printf(\"Time complexity = O(n)\\n\");\n    return 0;\n}"
+   },
+   "out": "Enter 10 numbers:\n12 45 7 89 23 56 34 91 18 60\nMaximum = 91\nComparisons = 9\nTime complexity = O(n)",
+   "expl": {
+    "en": "<ul><li>The first element is taken as the maximum. Each of the remaining <b>n − 1</b> elements is compared once with <code>max</code>.</li>\n<li>The counter proves it: for n = 10 there are exactly <b>9 comparisons</b>.</li>\n<li>The number of steps grows in direct proportion to n, so the time complexity is <b>O(n)</b> (linear). It is the same in the best, average and worst case, because every element must be checked.</li>\n<li>Space complexity: array of n elements + 4 variables → <b>O(n)</b>; extra space apart from the input is O(1).</li></ul>"
+   }
+  },
+  {
+   "id": "ds1p2",
+   "title": {
+    "en": "Primitive data types and their sizes"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nint main(void)\n{\n    int    i = 25;\n    float  f = 3.5f;\n    double d = 3.14159;\n    char   c = 'A';\n    int   *p = &i;            // pointer\n\n    printf(\"Type  B Value\\n\");  // B = bytes\n    printf(\"int   %zu %d\\n\", sizeof i, i);\n    printf(\"float %zu %g\\n\", sizeof f, f);\n    printf(\"dbl   %zu %g\\n\", sizeof d, d);\n    printf(\"char  %zu %c\\n\", sizeof c, c);\n    printf(\"ptr   %zu %d\\n\", sizeof p, *p);\n    return 0;\n}"
+   },
+   "out": "Type  B Value\nint   4 25\nfloat 4 3.5\ndbl   8 3.14159\nchar  1 A\nptr   8 25",
+   "expl": {
+    "en": "<ul><li>These are <b>primitive data structures</b>: the basic types that the machine works on directly. Each holds a <b>single value</b>.</li>\n<li>Sizes depend on the compiler and machine. On a 64-bit GCC system an int is 4 bytes, a double 8 bytes and a pointer 8 bytes. On Turbo C (16-bit) an int is 2 bytes.</li>\n<li>Non-primitive structures such as arrays, stacks and linked lists are built from these primitive types.</li></ul>"
+   }
+  },
+  {
+   "id": "ds1p3",
+   "title": {
+    "en": "Counting steps: O(n), O(n²) and O(log n) loops"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nint main(void)\n{\n    int sizes[] = {8, 16, 32, 64};\n    int k, n, i, j;\n    long c1, c2, c3;\n\n    printf(\"   n  O(n) O(n^2) O(logn)\\n\");\n    for (k = 0; k < 4; k++) {\n        n = sizes[k];\n        c1 = c2 = c3 = 0;\n        // single\n        for (i = 0; i < n; i++)\n            c1++;\n        // nested\n        for (i = 0; i < n; i++)\n            for (j = 0; j < n; j++)\n                c2++;\n        // doubling\n        for (i = 1; i < n; i = i * 2)\n            c3++;\n        printf(\"%4d %5ld %6ld %7ld\\n\",\n               n, c1, c2, c3);\n    }\n    return 0;\n}"
+   },
+   "out": "   n  O(n) O(n^2) O(logn)\n   8     8     64       3\n  16    16    256       4\n  32    32   1024       5\n  64    64   4096       6",
+   "expl": {
+    "en": "<ul><li><b>Single loop:</b> the body runs n times → <b>O(n)</b>. Doubling n doubles the count.</li>\n<li><b>Nested loop:</b> n × n runs → <b>O(n²)</b>. Doubling n makes the count <b>four times</b> bigger (64 → 256 → 1024 → 4096).</li>\n<li><b>Doubling loop</b> (<code>i = i * 2</code>): i takes the values 1, 2, 4, 8 … so it runs log₂n times → <b>O(log n)</b>. Even for n = 64 it runs only 6 times.</li>\n<li>This is exactly how the <b>frequency count</b> method finds time complexity: count how many times the key statement executes as a function of n.</li></ul>"
+   }
+  },
+  {
+   "id": "ds1p4",
+   "title": {
+    "en": "Traversing an array with addresses (contiguous memory)"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nint main(void)\n{\n    int a[6] = {15, 7, 42, 9, 23, 31};\n    int i, n = 6, sum = 0;\n    long off;\n\n    printf(\"Index Value Offset\\n\");\n    for (i = 0; i < n; i++) {  // traverse\n        off = (char *)&a[i] - (char *)a;\n        printf(\"a[%d] %5d %5ld\\n\",\n               i, a[i], off);\n        sum += a[i];\n    }\n    printf(\"Sum = %d\\n\", sum);\n    printf(\"a[i] at base + %zu * i\\n\",\n           sizeof a[0]);\n    return 0;\n}"
+   },
+   "out": "Index Value Offset\na[0]    15     0\na[1]     7     4\na[2]    42     8\na[3]     9    12\na[4]    23    16\na[5]    31    20\nSum = 127\na[i] at base + 4 * i",
+   "expl": {
+    "en": "<ul><li><b>Traversing</b> means visiting every element exactly once. Here each element is printed and added to <code>sum</code>.</li>\n<li>The offset column shows the distance of each element from the start of the array. It goes up by <b>4 bytes</b> (the size of an int), which proves the elements are stored in <b>contiguous</b> (side-by-side) memory.</li>\n<li>So the address of a[i] = base address + 4 × i. This is the formula LOC(A[i]) = Base + w × (i − LB) with LB = 0.</li>\n<li>(Real addresses change on every run, so only the offsets are printed.) Time complexity of traversal: <b>O(n)</b>.</li></ul>"
+   }
+  },
+  {
+   "id": "ds1p5",
+   "title": {
+    "en": "Insert an element at a given position"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#define MAX 20\n\nint main(void)\n{\n    int a[MAX], n, i, pos, item;\n\n    printf(\"Enter number of elements: \");\n    scanf(\"%d\", &n);\n    printf(\"Enter %d elements: \", n);\n    for (i = 0; i < n; i++)\n        scanf(\"%d\", &a[i]);\n    printf(\"Position (1-%d): \", n + 1);\n    scanf(\"%d\", &pos);\n    printf(\"Enter element to insert: \");\n    scanf(\"%d\", &item);\n\n    if (n == MAX || pos < 1 || pos > n+1) {\n        printf(\"Insertion not possible\\n\");\n        return 0;\n    }\n    for (i = n - 1; i >= pos - 1; i--)\n        a[i + 1] = a[i];   // shift right\n    a[pos - 1] = item;\n    n++;\n\n    printf(\"Array after insertion: \");\n    for (i = 0; i < n; i++)\n        printf(\"%d \", a[i]);\n    printf(\"\\n\");\n    return 0;\n}"
+   },
+   "out": "Enter number of elements: 5\nEnter 5 elements: 10 20 30 40 50\nPosition (1-6): 3\nEnter element to insert: 25\nArray after insertion: 10 20 25 30 40 50 ",
+   "expl": {
+    "en": "<ul><li>The user gives the position from 1, so the array index is <code>pos − 1</code>.</li>\n<li>Elements from the <b>last one down to index pos − 1</b> are shifted one place right. The loop must run from the end; shifting from the front would overwrite values.</li>\n<li>The new item is then placed in the free slot and <code>n</code> is increased by 1.</li>\n<li>The check <code>n == MAX</code> prevents <b>overflow</b> (no free space).</li>\n<li>Complexity: best case O(1) (insert at the end), worst case <b>O(n)</b> (insert at the beginning, all n elements shift).</li></ul>"
+   }
+  },
+  {
+   "id": "ds1p6",
+   "title": {
+    "en": "Delete an element from a given position"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nint main(void)\n{\n    int a[20], n, i, pos, item;\n\n    printf(\"Enter number of elements: \");\n    scanf(\"%d\", &n);\n    printf(\"Enter %d elements: \", n);\n    for (i = 0; i < n; i++)\n        scanf(\"%d\", &a[i]);\n    printf(\"Delete position (1-%d): \", n);\n    scanf(\"%d\", &pos);\n\n    if (n == 0 || pos < 1 || pos > n) {\n        printf(\"Deletion not possible\\n\");\n        return 0;\n    }\n    item = a[pos - 1];\n    for (i = pos - 1; i < n - 1; i++)\n        a[i] = a[i + 1];      // shift left\n    n--;\n\n    printf(\"Deleted element = %d\\n\", item);\n    printf(\"Array after deletion: \");\n    for (i = 0; i < n; i++)\n        printf(\"%d \", a[i]);\n    printf(\"\\n\");\n    return 0;\n}"
+   },
+   "out": "Enter number of elements: 6\nEnter 6 elements: 10 20 25 30 40 50\nDelete position (1-6): 2\nDeleted element = 20\nArray after deletion: 10 25 30 40 50 ",
+   "expl": {
+    "en": "<ul><li>The element at index <code>pos − 1</code> is saved in <code>item</code>, so it can be reported.</li>\n<li>All elements <b>after</b> it move one place left, starting from the front. This closes the gap.</li>\n<li><code>n</code> is reduced by 1. The old last slot still holds a value, but it is no longer part of the array.</li>\n<li><code>n == 0</code> means the array is empty (<b>underflow</b>).</li>\n<li>Complexity: best case O(1) (delete the last element), worst case <b>O(n)</b> (delete the first element).</li></ul>"
+   }
+  },
+  {
+   "id": "ds1p7",
+   "title": {
+    "en": "Update (replace) a value in an array"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nint main(void)\n{\n    int a[] = {10, 20, 30, 40, 50};\n    int n = 5, i, old, new, found = 0;\n\n    printf(\"Array: \");\n    for (i = 0; i < n; i++)\n        printf(\"%d \", a[i]);\n    printf(\"\\nEnter value to update: \");\n    scanf(\"%d\", &old);\n    printf(\"Enter new value: \");\n    scanf(\"%d\", &new);\n\n    for (i = 0; i < n; i++) {\n        if (a[i] == old) {\n            a[i] = new;       // update\n            found = 1;\n            printf(\"Updated a[%d]\\n\", i);\n            break;\n        }\n    }\n    if (!found)\n        printf(\"%d not found\\n\", old);\n\n    printf(\"Array: \");\n    for (i = 0; i < n; i++)\n        printf(\"%d \", a[i]);\n    printf(\"\\n\");\n    return 0;\n}"
+   },
+   "out": "Array: 10 20 30 40 50 \nEnter value to update: 30\nEnter new value: 35\nUpdated a[2]\nArray: 10 20 35 40 50 ",
+   "expl": {
+    "en": "<ul><li><b>Update</b> changes the value of an existing element. No shifting is needed, so the array size stays the same.</li>\n<li>If the <b>index</b> is known, the update is a single statement <code>a[i] = new;</code> → <b>O(1)</b>.</li>\n<li>If only the <b>value</b> is known (as here), it must first be searched → <b>O(n)</b> in the worst case.</li></ul>"
+   }
+  },
+  {
+   "id": "ds1p8",
+   "title": {
+    "en": "Linear search in an array"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nint main(void)\n{\n    int a[] = {34, 12, 78, 45, 90, 23, 56};\n    int n = 7, i, key, comp = 0;\n\n    printf(\"Enter element to search: \");\n    scanf(\"%d\", &key);\n\n    for (i = 0; i < n; i++) {\n        comp++;\n        if (a[i] == key)\n            break;\n    }\n    if (i < n)\n        printf(\"%d found at position %d\\n\",\n               key, i + 1);\n    else\n        printf(\"%d not found\\n\", key);\n    printf(\"Comparisons = %d\\n\", comp);\n    return 0;\n}"
+   },
+   "out": "Enter element to search: 90\n90 found at position 5\nComparisons = 5",
+   "expl": {
+    "en": "<ul><li>Linear search compares the key with each element <b>one by one</b>, from the first element onwards.</li>\n<li>The search stops at the first match. If the loop ends with <code>i == n</code>, the key is not present.</li>\n<li>Here 90 is the 5th element, so 5 comparisons are needed.</li>\n<li><b>Best case</b> O(1): the key is the first element. <b>Worst case</b> O(n): the key is the last element or absent. <b>Average</b> ≈ n/2 comparisons → O(n).</li>\n<li>It works on <b>unsorted</b> arrays too. Binary search (Unit 5) is faster but needs a sorted array.</li></ul>"
+   }
+  },
+  {
+   "id": "ds1p9",
+   "title": {
+    "en": "Insert a value into a sorted array (keeps order)"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nint main(void)\n{\n    int a[20] = {5, 12, 18, 27, 33, 41};\n    int n = 6, i, item;\n\n    printf(\"Sorted array: \");\n    for (i = 0; i < n; i++)\n        printf(\"%d \", a[i]);\n    printf(\"\\nEnter value to insert: \");\n    scanf(\"%d\", &item);\n\n    i = n - 1;\n    while (i >= 0 && a[i] > item) {\n        // shift bigger\n        a[i + 1] = a[i];\n        i--;\n    }\n    a[i + 1] = item;\n    n++;\n\n    printf(\"New array: \");\n    for (i = 0; i < n; i++)\n        printf(\"%d \", a[i]);\n    printf(\"\\n\");\n    return 0;\n}"
+   },
+   "out": "Sorted array: 5 12 18 27 33 41 \nEnter value to insert: 20\nNew array: 5 12 18 20 27 33 41 ",
+   "expl": {
+    "en": "<ul><li>The position does not need to be given. Starting from the end, every element <b>bigger</b> than the new item is shifted one place right.</li>\n<li>When a smaller (or equal) element is found, or the start is reached, the item goes into the gap at <code>i + 1</code>.</li>\n<li>The array stays sorted after insertion. This same idea is the heart of <b>insertion sort</b> (Unit 5).</li>\n<li>Worst case O(n), when the new item is the smallest.</li></ul>"
+   }
+  },
+  {
+   "id": "ds1p10",
+   "title": {
+    "en": "Row major and column major order of a matrix"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#define M 2\n#define N 3\n\nint main(void)\n{\n    int a[M][N] = {{1, 2, 3}, {4, 5, 6}};\n    int i, j, *p = &a[0][0];\n\n    printf(\"Matrix:\\n\");\n    for (i = 0; i < M; i++) {\n        for (j = 0; j < N; j++)\n            printf(\"%3d\", a[i][j]);\n        printf(\"\\n\");\n    }\n    printf(\"Memory order in C: \");\n    for (i = 0; i < M * N; i++)\n        printf(\"%d \", p[i]);\n    printf(\"\\nRow major order   : \");\n    for (i = 0; i < M; i++)\n        for (j = 0; j < N; j++)\n            printf(\"%d \", a[i][j]);\n    printf(\"\\nColumn major order: \");\n    for (j = 0; j < N; j++)\n        for (i = 0; i < M; i++)\n            printf(\"%d \", a[i][j]);\n    printf(\"\\n\");\n    return 0;\n}"
+   },
+   "out": "Matrix:\n  1  2  3\n  4  5  6\nMemory order in C: 1 2 3 4 5 6 \nRow major order   : 1 2 3 4 5 6 \nColumn major order: 1 4 2 5 3 6 ",
+   "expl": {
+    "en": "<ul><li>A 2-D array is a table, but memory is a single line of bytes, so the table must be <b>linearised</b>.</li>\n<li>Reading memory directly through a pointer (<code>p[0]</code> … <code>p[5]</code>) gives 1 2 3 4 5 6: <b>C stores arrays in row major order</b> (row 0 first, then row 1).</li>\n<li><b>Row major</b>: outer loop on rows, inner loop on columns. <b>Column major</b>: outer loop on columns, inner loop on rows → 1 4 2 5 3 6 (used by FORTRAN and MATLAB).</li></ul>"
+   }
+  },
+  {
+   "id": "ds1p11",
+   "title": {
+    "en": "Address calculation: 1-D, row major and column major"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nint main(void)\n{\n    long base, w, lb, lr, lc, m, n, i, j;\n\n    printf(\"1-D: base w LB i: \");\n    scanf(\"%ld %ld %ld %ld\",\n          &base, &w, &lb, &i);\n    printf(\"A[%ld] = %ld\\n\", i,\n           base + w * (i - lb));\n\n    printf(\"2-D: base w LR LC M N: \");\n    scanf(\"%ld %ld %ld %ld %ld %ld\",\n          &base, &w, &lr, &lc, &m, &n);\n    printf(\"Find A[i][j], enter i j: \");\n    scanf(\"%ld %ld\", &i, &j);\n\n    printf(\"Row major    = %ld\\n\",\n           base + w*((i-lr)*n + (j-lc)));\n    printf(\"Column major = %ld\\n\",\n           base + w*((j-lc)*m + (i-lr)));\n    return 0;\n}"
+   },
+   "out": "1-D: base w LB i: 2000 2 0 23\nA[23] = 2046\n2-D: base w LR LC M N: 1000 4 1 1 4 5\nFind A[i][j], enter i j: 3 4\nRow major    = 1052\nColumn major = 1056",
+   "expl": {
+    "en": "<ul><li><b>1-D:</b> LOC(A[i]) = Base + w × (i − LB). For base 2000, w = 2, LB = 0, i = 23 → 2000 + 46 = <b>2046</b>.</li>\n<li><b>2-D:</b> array A[1..4][1..5] (M = 4 rows, N = 5 columns), base 1000, w = 4, find A[3][4]:\n<br>Row major = 1000 + 4 × [(3−1) × 5 + (4−1)] = 1000 + 4 × 13 = <b>1052</b>\n<br>Column major = 1000 + 4 × [(4−1) × 4 + (3−1)] = 1000 + 4 × 14 = <b>1056</b></li>\n<li>In row major, the number of <b>columns N</b> is used (whole rows are skipped). In column major, the number of <b>rows M</b> is used (whole columns are skipped).</li></ul>"
+   }
+  },
+  {
+   "id": "ds1p12",
+   "title": {
+    "en": "Reverse an array in place"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nint main(void)\n{\n    int a[] = {1, 2, 3, 4, 5, 6, 7};\n    int n = 7, i, t;\n\n    printf(\"Original: \");\n    for (i = 0; i < n; i++)\n        printf(\"%d \", a[i]);\n\n    for (i = 0; i < n / 2; i++) {\n        // swap ends\n        t = a[i];\n        a[i] = a[n - 1 - i];\n        a[n - 1 - i] = t;\n    }\n\n    printf(\"\\nReversed: \");\n    for (i = 0; i < n; i++)\n        printf(\"%d \", a[i]);\n    printf(\"\\n\");\n    return 0;\n}"
+   },
+   "out": "Original: 1 2 3 4 5 6 7 \nReversed: 7 6 5 4 3 2 1 ",
+   "expl": {
+    "en": "<ul><li>The first and last elements are swapped, then the second and second-last, and so on, until the middle is reached.</li>\n<li>Only <b>n / 2</b> swaps are needed (3 swaps for 7 elements; the middle element stays in place).</li>\n<li>Time complexity <b>O(n)</b>. Only one extra variable <code>t</code> is used, so the extra space is <b>O(1)</b>. This is called an <b>in-place</b> algorithm.</li></ul>"
+   }
+  },
+  {
+   "id": "ds1p13",
+   "title": {
+    "en": "Largest and second largest in one traversal"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <limits.h>\n\nint main(void)\n{\n    int a[] = {45, 89, 12, 89, 67, 34, 78};\n    int n = 7, i, first, second;\n\n    first = second = INT_MIN;\n    for (i = 0; i < n; i++) {\n        if (a[i] > first) {\n            second = first;\n            first = a[i];\n        } else if (a[i] > second\n                   && a[i] != first) {\n            second = a[i];\n        }\n    }\n    printf(\"Largest = %d\\n\", first);\n    printf(\"Second = %d\\n\", second);\n    return 0;\n}"
+   },
+   "out": "Largest = 89\nSecond = 78",
+   "expl": {
+    "en": "<ul><li>Sorting first would cost O(n log n) or O(n²). A single traversal does the job in <b>O(n)</b>, a better algorithm for the same problem.</li>\n<li>When a new largest is found, the old largest moves down to <code>second</code>.</li>\n<li><code>a[i] != first</code> skips duplicates of the largest (89 appears twice), so the answer is 78 and not 89.</li>\n<li><code>INT_MIN</code> (from limits.h) is the smallest int, a safe starting value.</li></ul>"
+   }
+  },
+  {
+   "id": "ds1p14",
+   "title": {
+    "en": "Menu-driven program for array operations"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#define MAX 10\n\nint a[MAX], n = 0;\n\nvoid display(void)\n{\n    int i;\n    printf(\"Array: \");\n    for (i = 0; i < n; i++)\n        printf(\"%d \", a[i]);\n    printf(\"\\n\");\n}\n\nvoid insert(int pos, int item)\n{\n    int i;\n    if (n == MAX || pos < 1 || pos > n+1) {\n        printf(\"Invalid insert\\n\");\n        return;\n    }\n    for (i = n - 1; i >= pos - 1; i--)\n        a[i + 1] = a[i];\n    a[pos - 1] = item;\n    n++;\n}\n\nvoid delete(int pos)\n{\n    int i;\n    if (pos < 1 || pos > n) {\n        printf(\"Invalid delete\\n\");\n        return;\n    }\n    for (i = pos - 1; i < n - 1; i++)\n        a[i] = a[i + 1];\n    n--;\n}\n\nint search(int key)\n{\n    int i;\n    for (i = 0; i < n; i++)\n        if (a[i] == key)\n            return i + 1;\n    return -1;\n}\n\nint main(void)\n{\n    int ch, pos, item;\n    do {\n        puts(\"1.Insert 2.Delete 3.Search\");\n        puts(\"4.Display 5.Exit\");\n        printf(\"Choice: \");\n        scanf(\"%d\", &ch);\n        switch (ch) {\n        case 1:\n            printf(\"Position and item: \");\n            scanf(\"%d %d\", &pos, &item);\n            insert(pos, item);\n            break;\n        case 2:\n            printf(\"Position: \");\n            scanf(\"%d\", &pos);\n            delete(pos);\n            break;\n        case 3:\n            printf(\"Key: \");\n            scanf(\"%d\", &item);\n            pos = search(item);\n            printf(\"Position = %d\\n\", pos);\n            break;\n        case 4:\n            display();\n            break;\n        }\n    } while (ch != 5);\n    return 0;\n}"
+   },
+   "out": "1.Insert 2.Delete 3.Search\n4.Display 5.Exit\nChoice: 1\nPosition and item: 1 10\n1.Insert 2.Delete 3.Search\n4.Display 5.Exit\nChoice: 1\nPosition and item: 2 30\n1.Insert 2.Delete 3.Search\n4.Display 5.Exit\nChoice: 1\nPosition and item: 2 20\n1.Insert 2.Delete 3.Search\n4.Display 5.Exit\nChoice: 4\nArray: 10 20 30 \n1.Insert 2.Delete 3.Search\n4.Display 5.Exit\nChoice: 3\nKey: 30\nPosition = 3\n1.Insert 2.Delete 3.Search\n4.Display 5.Exit\nChoice: 2\nPosition: 1\n1.Insert 2.Delete 3.Search\n4.Display 5.Exit\nChoice: 4\nArray: 20 30 \n1.Insert 2.Delete 3.Search\n4.Display 5.Exit\nChoice: 5",
+   "expl": {
+    "en": "<ul><li>Each operation is a separate function working on the <b>global</b> array <code>a</code> and its count <code>n</code>.</li>\n<li>Sequence used: insert 10 at 1 → [10]; insert 30 at 2 → [10 30]; insert 20 at 2 → [10 20 30]; search 30 → position 3; delete position 1 → [20 30].</li>\n<li><code>search()</code> returns <b>−1</b> when the key is absent.</li>\n<li>This menu-driven style (do-while + switch) is used for the stack, queue and linked list programs in the next units too.</li></ul>"
+   }
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "ds1_data_info",
+   "title": {
+    "en": "Data, Processing and Information"
+   },
+   "file": "diagrams/ds1_data_info.svg"
+  },
+  {
+   "id": "ds1_classification",
+   "title": {
+    "en": "Classification of Data Structures"
+   },
+   "file": "diagrams/ds1_classification.svg"
+  },
+  {
+   "id": "ds1_linear_nonlinear",
+   "title": {
+    "en": "Linear vs Non-Linear Data Structure"
+   },
+   "file": "diagrams/ds1_linear_nonlinear.svg"
+  },
+  {
+   "id": "ds1_operations",
+   "title": {
+    "en": "Operations on Data Structures"
+   },
+   "file": "diagrams/ds1_operations.svg"
+  },
+  {
+   "id": "ds1_characteristics",
+   "title": {
+    "en": "Characteristics of an Algorithm"
+   },
+   "file": "diagrams/ds1_characteristics.svg"
+  },
+  {
+   "id": "ds1_growth",
+   "title": {
+    "en": "Growth of Common Time Complexities"
+   },
+   "file": "diagrams/ds1_growth.svg"
+  },
+  {
+   "id": "ds1_asymptotic",
+   "title": {
+    "en": "Asymptotic Notations: O, Ω, Θ"
+   },
+   "file": "diagrams/ds1_asymptotic.svg"
+  },
+  {
+   "id": "ds1_array_memory",
+   "title": {
+    "en": "One-Dimensional Array in Memory"
+   },
+   "file": "diagrams/ds1_array_memory.svg"
+  },
+  {
+   "id": "ds1_row_col_major",
+   "title": {
+    "en": "Row Major vs Column Major"
+   },
+   "file": "diagrams/ds1_row_col_major.svg"
+  },
+  {
+   "id": "ds1_insert_delete",
+   "title": {
+    "en": "Insertion and Deletion in an Array"
+   },
+   "file": "diagrams/ds1_insert_delete.svg"
+  }
+ ],
+ "algorithms": [
+  {
+   "title": {
+    "en": "Array Algorithms"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Find the largest element"
+     },
+     "f": "Algorithm MAX(A, N)\nA = array of N elements, MAX = largest\nStep 1: [Initialize]  Set MAX = A[0]\nStep 2: [Loop]  Repeat for I = 1 to N-1\n            If A[I] > MAX then\n                Set MAX = A[I]\n        [End of loop]\nStep 3: [Output]  Print MAX\nStep 4: Exit",
+     "terms": {
+      "en": "Comparisons = n − 1 → O(n)."
+     }
+    },
+    {
+     "name": {
+      "en": "Traverse an array"
+     },
+     "f": "Algorithm TRAVERSE(A, LB, UB)\nStep 1: Set K = LB\nStep 2: Repeat while K <= UB\n            Process A[K]   (e.g. print)\n            Set K = K + 1\n        [End of loop]\nStep 3: Exit",
+     "terms": {
+      "en": "Visits each element once → O(n)."
+     }
+    },
+    {
+     "name": {
+      "en": "Insert at a position"
+     },
+     "f": "Algorithm INSERT(A, N, POS, ITEM)\nStep 1: [Check overflow]\n        If N = MAX then\n            Write \"Overflow\" and Exit\nStep 2: Set J = N - 1\nStep 3: Repeat while J >= POS\n            Set A[J + 1] = A[J]\n            Set J = J - 1\n        [End of loop]\nStep 4: Set A[POS] = ITEM\nStep 5: Set N = N + 1\nStep 6: Exit",
+     "terms": {
+      "en": "Shift right from the end. Worst O(n)."
+     }
+    },
+    {
+     "name": {
+      "en": "Delete from a position"
+     },
+     "f": "Algorithm DELETE(A, N, POS)\nStep 1: [Check underflow]\n        If N = 0 then\n            Write \"Underflow\" and Exit\nStep 2: Set ITEM = A[POS]\nStep 3: Repeat for J = POS to N - 2\n            Set A[J] = A[J + 1]\n        [End of loop]\nStep 4: Set N = N - 1\nStep 5: Write ITEM deleted\nStep 6: Exit",
+     "terms": {
+      "en": "Shift left from POS + 1. Worst O(n)."
+     }
+    },
+    {
+     "name": {
+      "en": "Update an element"
+     },
+     "f": "Algorithm UPDATE(A, N, POS, NEW)\nStep 1: If POS < 0 or POS >= N then\n            Write \"Invalid\" and Exit\nStep 2: Set A[POS] = NEW\nStep 3: Exit",
+     "terms": {
+      "en": "By index O(1)."
+     }
+    },
+    {
+     "name": {
+      "en": "Linear search"
+     },
+     "f": "Algorithm LSEARCH(A, N, KEY)\nStep 1: Set I = 0, LOC = -1\nStep 2: Repeat while I < N\n            If A[I] = KEY then\n                Set LOC = I, go to Step 3\n            Set I = I + 1\n        [End of loop]\nStep 3: If LOC = -1 then\n            Write \"Not found\"\n        Else\n            Write \"Found at\", LOC + 1\nStep 4: Exit",
+     "terms": {
+      "en": "Best O(1), worst O(n)."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Address Formulas"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "1-D array"
+     },
+     "f": "LOC(A[i]) = Base + w*(i - LB)\nLength  = UB - LB + 1",
+     "terms": {
+      "en": "w = element size, LB = lower bound."
+     }
+    },
+    {
+     "name": {
+      "en": "2-D row major"
+     },
+     "f": "LOC(A[i][j]) = Base + w*\n  [(i - Lr)*N + (j - Lc)]",
+     "terms": {
+      "en": "N = number of columns. Used by C."
+     }
+    },
+    {
+     "name": {
+      "en": "2-D column major"
+     },
+     "f": "LOC(A[i][j]) = Base + w*\n  [(j - Lc)*M + (i - Lr)]",
+     "terms": {
+      "en": "M = number of rows. Used by FORTRAN."
+     }
+    },
+    {
+     "name": {
+      "en": "Rows and columns from bounds"
+     },
+     "f": "M = Ur - Lr + 1\nN = Uc - Lc + 1",
+     "terms": {
+      "en": "For A[Lr..Ur][Lc..Uc]."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Asymptotic Notations"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Big O (upper bound)"
+     },
+     "f": "f(n) <= c*g(n)  for all n >= n0",
+     "terms": {
+      "en": "Worst case: at most."
+     }
+    },
+    {
+     "name": {
+      "en": "Big Omega (lower bound)"
+     },
+     "f": "f(n) >= c*g(n)  for all n >= n0",
+     "terms": {
+      "en": "Best case: at least."
+     }
+    },
+    {
+     "name": {
+      "en": "Big Theta (tight bound)"
+     },
+     "f": "c1*g(n) <= f(n) <= c2*g(n)\nfor all n >= n0",
+     "terms": {
+      "en": "Average / exact."
+     }
+    },
+    {
+     "name": {
+      "en": "Order of growth"
+     },
+     "f": "1 < log n < n < n log n\n  < n^2 < n^3 < 2^n < n!",
+     "terms": {
+      "en": "Left = faster."
+     }
+    }
+   ]
+  }
+ ],
+ "numericals": [
+  {
+   "id": "ds1n1",
+   "q": {
+    "en": "An integer array A[50] has base address 2000 and each element takes 2 bytes. Find the address of A[23] and of the last element (index starts from 0)."
+   },
+   "a": {
+    "en": "<p>Given: Base = 2000, w = 2, LB = 0, UB = 49.</p>\n<p>LOC(A[i]) = Base + w × (i − LB)</p>\n<p>LOC(A[23]) = 2000 + 2 × (23 − 0) = 2000 + 46 = <b>2046</b></p>\n<p>Last element is A[49]: LOC(A[49]) = 2000 + 2 × 49 = <b>2098</b></p>"
+   }
+  },
+  {
+   "id": "ds1n2",
+   "q": {
+    "en": "An array is declared as A[5:50]. Each element needs 4 bytes and the base address is 1000. Find (i) the number of elements, (ii) the address of A[20], (iii) the address of the last element."
+   },
+   "a": {
+    "en": "<p>Given: LB = 5, UB = 50, w = 4, Base = 1000.</p>\n<p>(i) Length = UB − LB + 1 = 50 − 5 + 1 = <b>46 elements</b></p>\n<p>(ii) LOC(A[20]) = 1000 + 4 × (20 − 5) = 1000 + 60 = <b>1060</b></p>\n<p>(iii) LOC(A[50]) = 1000 + 4 × (50 − 5) = 1000 + 180 = <b>1180</b></p>"
+   }
+  },
+  {
+   "id": "ds1n3",
+   "q": {
+    "en": "An array A[−10 .. 20] is stored from address 500, with 2 bytes per element. Find the number of elements and the addresses of A[0] and A[15]."
+   },
+   "a": {
+    "en": "<p>Given: LB = −10, UB = 20, w = 2, Base = 500.</p>\n<p>Length = 20 − (−10) + 1 = <b>31 elements</b></p>\n<p>LOC(A[0]) = 500 + 2 × (0 − (−10)) = 500 + 20 = <b>520</b></p>\n<p>LOC(A[15]) = 500 + 2 × (15 + 10) = 500 + 50 = <b>550</b></p>"
+   }
+  },
+  {
+   "id": "ds1n4",
+   "q": {
+    "en": "A 2-D array A[10][20] (indexes start from 0) has base address 100 and each element needs 2 bytes. Find the address of A[5][8] using (i) row major and (ii) column major order."
+   },
+   "a": {
+    "en": "<p>Given: M = 10 rows, N = 20 columns, Lr = Lc = 0, w = 2, Base = 100, i = 5, j = 8.</p>\n<p><b>(i) Row major</b><br>LOC = Base + w × [(i − Lr) × N + (j − Lc)]<br>= 100 + 2 × [5 × 20 + 8] = 100 + 2 × 108 = <b>316</b></p>\n<p><b>(ii) Column major</b><br>LOC = Base + w × [(j − Lc) × M + (i − Lr)]<br>= 100 + 2 × [8 × 10 + 5] = 100 + 2 × 85 = <b>270</b></p>"
+   }
+  },
+  {
+   "id": "ds1n5",
+   "q": {
+    "en": "An array A[1..4][1..5] has base address 1000 and element size 4 bytes. Find the address of A[3][4] in row major and column major order."
+   },
+   "a": {
+    "en": "<p>Given: Lr = 1, Ur = 4 → M = 4; Lc = 1, Uc = 5 → N = 5; w = 4; Base = 1000; i = 3, j = 4.</p>\n<p><b>Row major:</b> 1000 + 4 × [(3 − 1) × 5 + (4 − 1)] = 1000 + 4 × [10 + 3] = 1000 + 52 = <b>1052</b></p>\n<p><b>Column major:</b> 1000 + 4 × [(4 − 1) × 4 + (3 − 1)] = 1000 + 4 × [12 + 2] = 1000 + 56 = <b>1056</b></p>\n<p><i>Checked with Program ds1p11.</i></p>"
+   }
+  },
+  {
+   "id": "ds1n12",
+   "q": {
+    "en": "An array A[−2..2][2..6] is stored from base address 1500 and each element takes 4 bytes. Find the address of A[1][4] in row major and column major order."
+   },
+   "a": {
+    "en": "<p>Rows: Lr = −2, Ur = 2 → M = 2 − (−2) + 1 = 5. Columns: Lc = 2, Uc = 6 → N = 6 − 2 + 1 = 5. w = 4, Base = 1500.</p>\n<p><b>Row major:</b> 1500 + 4 × [(1 − (−2)) × 5 + (4 − 2)] = 1500 + 4 × [15 + 2] = 1500 + 68 = <b>1568</b></p>\n<p><b>Column major:</b> 1500 + 4 × [(4 − 2) × 5 + (1 − (−2))] = 1500 + 4 × [10 + 3] = 1500 + 52 = <b>1552</b></p>"
+   }
+  },
+  {
+   "id": "ds1n6",
+   "q": {
+    "en": "Find the frequency count and time complexity of the function that adds the n elements of an array (s = 0; for i = 0 to n−1: s = s + a[i]; return s). How many steps for n = 10?"
+   },
+   "a": {
+    "en": "<table><tr><th>Statement</th><th>Count</th></tr>\n<tr><td>s = 0</td><td>1</td></tr>\n<tr><td>for (i = 0; i &lt; n; i++) (condition tests)</td><td>n + 1</td></tr>\n<tr><td>s = s + a[i]</td><td>n</td></tr>\n<tr><td>return s</td><td>1</td></tr>\n<tr><td><b>Total</b></td><td><b>2n + 3</b></td></tr></table>\n<p>Highest-order term is n → <b>O(n)</b>.</p>\n<p>For n = 10: 2 × 10 + 3 = <b>23 steps</b>.</p>"
+   }
+  },
+  {
+   "id": "ds1n7",
+   "q": {
+    "en": "Find the time complexity of: for (i = 0; i < n; i++) for (j = 0; j < i; j++) count++; How many times does count++ run for n = 10?"
+   },
+   "a": {
+    "en": "<p>For each value of i, the inner loop runs i times:</p>\n<p>i = 0 → 0, i = 1 → 1, i = 2 → 2, …, i = n − 1 → n − 1</p>\n<p>Total = 0 + 1 + 2 + … + (n − 1) = <b>n(n − 1) / 2</b> = (n² − n)/2</p>\n<p>Highest-order term n²/2 → <b>O(n²)</b>.</p>\n<p>For n = 10: 10 × 9 / 2 = <b>45 times</b>.</p>"
+   }
+  },
+  {
+   "id": "ds1n8",
+   "q": {
+    "en": "Find the time complexity of: i = 1; while (i < n) i = i * 2; How many iterations for n = 64 and n = 1000?"
+   },
+   "a": {
+    "en": "<p>i takes the values 1, 2, 4, 8, …, 2ᵏ. The loop stops when 2ᵏ ≥ n, i.e. after k = ⌈log₂ n⌉ iterations.</p>\n<p>Time complexity = <b>O(log n)</b>.</p>\n<p>n = 64: i = 1, 2, 4, 8, 16, 32 → <b>6 iterations</b> (log₂ 64 = 6).</p>\n<p>n = 1000: 2⁹ = 512 &lt; 1000 ≤ 2¹⁰ = 1024 → <b>10 iterations</b>.</p>"
+   }
+  },
+  {
+   "id": "ds1n9",
+   "q": {
+    "en": "Show that f(n) = 3n + 2 is O(n), Ω(n) and Θ(n)."
+   },
+   "a": {
+    "en": "<p><b>Big O:</b> 3n + 2 ≤ 3n + n = 4n when n ≥ 2. So f(n) ≤ 4·n for all n ≥ 2 → c = 4, n₀ = 2 → <b>f(n) = O(n)</b>.</p>\n<p><b>Big Ω:</b> 3n + 2 ≥ 3n for all n ≥ 1 → c = 3, n₀ = 1 → <b>f(n) = Ω(n)</b>.</p>\n<p><b>Big Θ:</b> combining both, 3n ≤ 3n + 2 ≤ 4n for all n ≥ 2 → c₁ = 3, c₂ = 4, n₀ = 2 → <b>f(n) = Θ(n)</b>.</p>"
+   }
+  },
+  {
+   "id": "ds1n10",
+   "q": {
+    "en": "Show that f(n) = 10n² + 4n + 2 is O(n²). Find suitable c and n₀."
+   },
+   "a": {
+    "en": "<p>Try c = 11: we need 10n² + 4n + 2 ≤ 11n², i.e. 4n + 2 ≤ n².</p>\n<table><tr><th>n</th><th>4n + 2</th><th>n²</th><th>holds?</th></tr>\n<tr><td>4</td><td>18</td><td>16</td><td>No</td></tr>\n<tr><td>5</td><td>22</td><td>25</td><td>Yes</td></tr>\n<tr><td>6</td><td>26</td><td>36</td><td>Yes</td></tr></table>\n<p>For all n ≥ 5 the condition holds (n² grows faster than 4n + 2).</p>\n<p>So 10n² + 4n + 2 ≤ 11n² for n ≥ 5 → c = 11, n₀ = 5 → <b>f(n) = O(n²)</b>.</p>\n<p>(Also 10n² + 4n + 2 ≥ 10n² for n ≥ 1, so f(n) = Ω(n²) and hence Θ(n²).)</p>"
+   }
+  },
+  {
+   "id": "ds1n11",
+   "q": {
+    "en": "Find the memory needed for int A[10][20] if an int takes 4 bytes. What is the space complexity of adding two n × n matrices into a third matrix?"
+   },
+   "a": {
+    "en": "<p>Number of elements = 10 × 20 = <b>200</b>. Memory = 200 × 4 = <b>800 bytes</b>.</p>\n<p>Matrix addition C = A + B for n × n matrices needs 3 matrices of n² elements each, plus the loop variables i, j and n (fixed part).</p>\n<p>S(P) = 3n² + 3 → <b>O(n²)</b>.</p>"
+   }
+  }
+ ],
+ "syntax": [],
+ "viva": [
+  {
+   "title": {
+    "en": "Data and Data Structures"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a data structure?"
+     },
+     "a": {
+      "en": "A way of organising and storing data in memory so that it can be accessed and modified efficiently."
+     }
+    },
+    {
+     "q": {
+      "en": "Differentiate data and information."
+     },
+     "a": {
+      "en": "Data are raw facts with no meaning (e.g. marks). Information is processed, meaningful data (e.g. result, average)."
+     }
+    },
+    {
+     "q": {
+      "en": "What are primitive data structures? Give examples."
+     },
+     "a": {
+      "en": "Basic types operated directly by machine instructions and holding a single value: int, float, char, double, pointer."
+     }
+    },
+    {
+     "q": {
+      "en": "What are non-primitive data structures?"
+     },
+     "a": {
+      "en": "Structures derived from primitive types that store a collection of values: array, stack, queue, linked list, tree, graph."
+     }
+    },
+    {
+     "q": {
+      "en": "Differentiate linear and non-linear data structures."
+     },
+     "a": {
+      "en": "Linear: elements in a sequence, traversed in one run (array, stack, queue, list). Non-linear: hierarchy or network (tree, graph)."
+     }
+    },
+    {
+     "q": {
+      "en": "Is a stack linear or non-linear?"
+     },
+     "a": {
+      "en": "Linear. Its elements are kept in a sequence, though insertion and deletion happen only at the top."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the difference between static and dynamic data structures?"
+     },
+     "a": {
+      "en": "Static: size fixed at compile time (array). Dynamic: size changes at run time (linked list)."
+     }
+    },
+    {
+     "q": {
+      "en": "List the common operations on data structures."
+     },
+     "a": {
+      "en": "Traversing, searching, insertion, deletion, sorting and merging."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Algorithms and Complexity"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is an algorithm?"
+     },
+     "a": {
+      "en": "A finite sequence of well-defined steps that solves a problem, taking input and producing output in finite time."
+     }
+    },
+    {
+     "q": {
+      "en": "State the characteristics of an algorithm."
+     },
+     "a": {
+      "en": "Input, output, definiteness, finiteness and effectiveness."
+     }
+    },
+    {
+     "q": {
+      "en": "What is time complexity?"
+     },
+     "a": {
+      "en": "The amount of time an algorithm needs as a function of input size n, measured by counting basic operations."
+     }
+    },
+    {
+     "q": {
+      "en": "What is space complexity?"
+     },
+     "a": {
+      "en": "The amount of memory an algorithm needs as a function of n: fixed part + variable part."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the frequency count method?"
+     },
+     "a": {
+      "en": "Counting how many times each statement executes and adding them to get the total steps as a function of n."
+     }
+    },
+    {
+     "q": {
+      "en": "What is Big O notation?"
+     },
+     "a": {
+      "en": "An upper bound on growth: f(n) ≤ c·g(n) for all n ≥ n₀. It gives the worst case."
+     }
+    },
+    {
+     "q": {
+      "en": "What is Big Omega notation?"
+     },
+     "a": {
+      "en": "A lower bound: f(n) ≥ c·g(n) for all n ≥ n₀. It gives the best case."
+     }
+    },
+    {
+     "q": {
+      "en": "What is Big Theta notation?"
+     },
+     "a": {
+      "en": "A tight bound: c₁·g(n) ≤ f(n) ≤ c₂·g(n). Both upper and lower bound."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the time complexity of a nested loop of n inside n?"
+     },
+     "a": {
+      "en": "O(n²)."
+     }
+    },
+    {
+     "q": {
+      "en": "Which is faster: O(n log n) or O(n²)?"
+     },
+     "a": {
+      "en": "O(n log n). For large n it grows much more slowly."
+     }
+    },
+    {
+     "q": {
+      "en": "What are the best and worst cases of linear search?"
+     },
+     "a": {
+      "en": "Best O(1) (key at the first position), worst O(n) (key at the end or absent)."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Arrays"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is an array?"
+     },
+     "a": {
+      "en": "A finite collection of same-type elements stored in contiguous memory under one name and accessed by index."
+     }
+    },
+    {
+     "q": {
+      "en": "Why does the array index start at 0 in C?"
+     },
+     "a": {
+      "en": "The index is the offset from the base address: a[i] is at base + i × w, so the first element has offset 0."
+     }
+    },
+    {
+     "q": {
+      "en": "Give the address formula for a 1-D array."
+     },
+     "a": {
+      "en": "LOC(A[i]) = Base + w × (i − LB)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is row major order?"
+     },
+     "a": {
+      "en": "Storing a 2-D array row by row. C uses it."
+     }
+    },
+    {
+     "q": {
+      "en": "What is column major order?"
+     },
+     "a": {
+      "en": "Storing a 2-D array column by column. FORTRAN uses it."
+     }
+    },
+    {
+     "q": {
+      "en": "Why are insertion and deletion slow in arrays?"
+     },
+     "a": {
+      "en": "Elements must be shifted to make or close a gap, which takes O(n) time."
+     }
+    },
+    {
+     "q": {
+      "en": "What is overflow and underflow in an array?"
+     },
+     "a": {
+      "en": "Overflow: inserting into a full array. Underflow: deleting from an empty array."
+     }
+    },
+    {
+     "q": {
+      "en": "Give two disadvantages of arrays."
+     },
+     "a": {
+      "en": "Fixed size (wastage or overflow) and slow insertion and deletion."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Define data structure. Explain the classification of data structures with a diagram."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Differentiate primitive and non-primitive data structures."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Differentiate linear and non-linear data structures with examples."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Differentiate data and information."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "List and explain the operations performed on data structures."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Define algorithm. Explain the characteristics of an algorithm."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain time complexity and space complexity with examples."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain Big O, Big Omega and Big Theta notations with graphs."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain best case, worst case and average case analysis with an example."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Find the time complexity of a given code segment using the frequency count method."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "What is an array? Explain the representation of a 1-D array in memory with the address formula."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain row major and column major representation of a 2-D array with formulas."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "An array A[1..4][1..5] has base address 1000 and w = 4. Find the address of A[3][4] in row major and column major order."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Write an algorithm to insert an element at a given position in an array."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write an algorithm to delete an element from a given position in an array."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a C program to find the maximum of 10 numbers using an array and state its time complexity."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a menu-driven C program to perform insert, delete, search and display operations on an array."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Give the advantages, disadvantages and applications of arrays."
+   },
+   "marks": 3
+  }
+ ],
+ "tabs": [
+  "notes",
+  "programs",
+  "diagrams",
+  "algorithms",
+  "numericals",
+  "viva",
+  "exam"
+ ],
+ "intro": "intro_ds"
+}

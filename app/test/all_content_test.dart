@@ -34,15 +34,18 @@ void main() {
       }
       for (final p in c.list('programs')) { parts['prog ${p['id']}'] = c.programBody(p); }
       for (final n in c.list('numericals')) { parts['num ${n['id']}'] = Column(children: [HtmlBody(en(n['q'])), HtmlBody(en(n['a']))]); }
-      for (final g in [...c.list('equations'), ...c.list('syntax'), ...c.list('viva')]) {
+      for (final g in [...c.list('equations'), ...c.list('syntax'), ...c.list('algorithms'), ...c.list('viva')]) {
         for (final e in (g['items'] as List)) {
           parts['item ${en(e['name'] ?? e['q'])}'] = Column(children: [
-            if (e['f'] != null) (c.unit['syntax'] != null ? CodeBlock(e['f'], lang: c.codeLang, compact: true) : HtmlBody('<b>${e['f']}</b>')),
+            if (e['f'] != null) (c.unit['syntax'] != null || c.unit['algorithms'] != null ? CodeBlock(e['f'], lang: c.codeLang, compact: true) : HtmlBody('<b>${e['f']}</b>')),
             HtmlBody(en(e['terms'] ?? e['a']), codeLang: c.codeLang),
           ]);
         }
       }
       for (final d in c.list('diagrams')) { parts['dg ${d['id']}'] = DiagramPicture(svg: c.svgs[d['id']]); }
+      for (final tab in c.tabs()) {
+        expect(UnitCtx.knownTabs.contains(tab), true, reason: 'unknown tab $tab');
+      }
       var bad = 0;
       for (final e in parts.entries) {
         await t.pumpWidget(MaterialApp(home: Scaffold(body: ListView(children: [e.value]))));
@@ -56,6 +59,7 @@ void main() {
       }
       // ignore: avoid_print
       print('${f.uri.pathSegments.last}: ${parts.length} parts, $bad bad');
+      expect(bad, 0, reason: 'some content parts failed to render');
     });
   }
 }

@@ -81,7 +81,14 @@ class UnitCtx {
   List<Map<String, dynamic>> list(String k) => ((unit[k] as List?) ?? []).cast<Map<String, dynamic>>();
   Map<String, dynamic> get svgs => (unit['svgs'] as Map?)?.cast<String, dynamic>() ?? {};
 
+  static const knownTabs = {
+    'notes', 'programs', 'diagrams', 'flowcharts', 'algorithms', 'syntax', 'equations', 'numericals', 'viva', 'exam'
+  };
+
   List<String> tabs() {
+    // A unit may list its own tabs (newer content); unknown names are skipped so old apps stay safe.
+    final custom = (unit['tabs'] as List?)?.cast<String>().where(knownTabs.contains).toList();
+    if (custom != null && custom.isNotEmpty) return custom;
     if (unit['programs'] != null) {
       return ['notes', 'programs', isPy ? 'diagrams' : 'flowcharts', 'syntax', 'viva', 'exam'];
     }
@@ -270,7 +277,8 @@ class _TabListState extends State<_TabList> with AutomaticKeepAliveClientMixin {
                 )),
         ];
       case 'syntax':
-        return _grouped(c, 'syntax', 's', (e, i, o, t) => ExpandCard(
+      case 'algorithms':
+        return _grouped(c, widget.tab, widget.tab == 'syntax' ? 's' : 'a', (e, i, o, t) => ExpandCard(
               open: o,
               onTap: tr(e['terms']).isEmpty ? null : t,
               number: '${i + 1}.',
@@ -311,7 +319,9 @@ class _TabListState extends State<_TabList> with AutomaticKeepAliveClientMixin {
 
   List<_Row> _notes(UnitCtx c) {
     final u = c.unit;
-    final introKey = c.unit['programs'] != null ? (c.isPy ? 'intro_py' : 'intro_c') : 'intro_d';
+    final introKey = c.unit['intro'] is String
+        ? c.unit['intro'] as String
+        : (c.unit['programs'] != null ? (c.isPy ? 'intro_py' : 'intro_c') : 'intro_d');
     final rows = <_Row>[
       _Row.widget(Container(
         margin: const EdgeInsets.fromLTRB(10, 12, 10, 12),
