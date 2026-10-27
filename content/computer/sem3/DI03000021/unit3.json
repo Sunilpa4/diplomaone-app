@@ -1,0 +1,1095 @@
+{
+ "subject": "DI03000021",
+ "unit": 3,
+ "format": "notes",
+ "title": {
+  "en": "Linked List"
+ },
+ "weightage": 24,
+ "hours": 11,
+ "notes": [
+  {
+   "title": {
+    "en": "3.1 Pointer, Structure and Dynamic Memory Allocation"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "3.1.1 Pointer"
+     },
+     "body": {
+      "en": "<p>A <b>pointer</b> is a variable that stores the <b>memory address</b> of another variable.</p>\n<h4>Declaration and use</h4>\n<pre class=\"c\">int x = 10;\nint *p;          /* declaration */\np = &amp;x;          /* initialisation */\nprintf(\"%d\", *p);   /* prints 10 */\nint *q = NULL;   /* NULL pointer */\nint **pp = &amp;p;   /* pointer to pointer */</pre>\n<h4>Pointer operators</h4>\n<ul><li><b>&amp; (address-of):</b> gives the address of a variable. <code>&amp;x</code> is the address of x.</li>\n<li><b>* (indirection / value-at):</b> gives the value stored at the address held by the pointer. <code>*p</code> is the value of x.</li></ul>\n<h4>Important points</h4>\n<ul><li><b>NULL pointer:</b> a pointer that points to nothing (<code>p = NULL</code>). The last node of a linked list has <code>next = NULL</code>.</li>\n<li><b>Pointer arithmetic:</b> <code>p + 1</code> moves by <code>sizeof(data type)</code> bytes. For an int pointer at address 1000, <code>p + 1</code> is 1004 (4-byte int).</li>\n<li><b>Pointer and array:</b> the array name is the address of its first element, so <code>a[i]</code> = <code>*(a + i)</code>.</li>\n<li><b>Pointer to pointer:</b> <code>int **pp = &amp;p;</code> stores the address of another pointer; <code>**pp</code> is the value of x.</li>\n<li><b>Size</b> of every pointer is the same (4 bytes on 32-bit and 8 bytes on 64-bit systems), whatever type it points to.</li></ul>\n<h4>Uses / advantages of pointers</h4>\n<ul><li>Dynamic memory allocation (malloc, calloc).</li>\n<li>Building dynamic data structures: <b>linked list, tree, graph</b>.</li>\n<li>Call by reference: a function can change the caller's variables (swap).</li>\n<li>Efficient handling of arrays and strings; returning more than one value.</li></ul>"
+     },
+     "diagram": "ds3_pointer",
+     "programs": [
+      "ds3p1",
+      "ds3p2"
+     ],
+     "key": true,
+     "examples": [
+      "ds3n1",
+      "ds3n2"
+     ]
+    },
+    {
+     "h": {
+      "en": "3.1.2 Structure"
+     },
+     "body": {
+      "en": "<p>A <b>structure</b> is a <b>user-defined data type</b> that groups related data items of <b>different data types</b> under one name. Each item is called a <b>member</b> (field).</p>\n<h4>Syntax and example</h4>\n<pre class=\"c\">struct student {\n    int roll;\n    char name[20];\n    float marks;\n};\nstruct student s1 = {1, \"Ravi\", 78.5};\nstruct student s[60];  /* array */\ns1.marks = 80;         /* dot operator */</pre>\n<ul><li>The keyword <code>struct</code> defines the structure; the definition itself takes no memory.</li>\n<li>Memory is allocated when a variable is declared (<code>s1</code>). Its size is at least the sum of the member sizes (the compiler may add padding).</li>\n<li>Members are accessed using the <b>dot (.) operator</b>: <code>s1.roll</code>.</li>\n<li>An <b>array of structures</b> stores many records, e.g. 60 students.</li></ul>\n<h4>Array vs structure</h4>\n<table>\n<tr><th>Array</th><th>Structure</th></tr>\n<tr><td>Collection of elements of the <b>same</b> type</td><td>Collection of members of <b>different</b> types</td></tr>\n<tr><td>Elements accessed by index <code>a[i]</code></td><td>Members accessed by name <code>s.roll</code></td></tr>\n<tr><td>Built-in (derived) type</td><td>User-defined type (keyword struct)</td></tr>\n<tr><td>e.g. marks of 60 students</td><td>e.g. one student's roll, name and marks</td></tr>\n</table>"
+     },
+     "diagram": "ds3_structure",
+     "programs": [
+      "ds3p3"
+     ],
+     "key": true,
+     "examples": [
+      "ds3n3"
+     ]
+    },
+    {
+     "h": {
+      "en": "3.1.3 Structure using Pointer"
+     },
+     "body": {
+      "en": "<p>A pointer can store the address of a structure variable. Such a pointer is called a <b>structure pointer</b>.</p>\n<pre class=\"c\">struct student *ptr;\nptr = &amp;s1;\nptr-&gt;roll = 5;       /* arrow operator */\n(*ptr).roll = 5;     /* same meaning */</pre>\n<ul><li>Members are accessed through a pointer with the <b>arrow operator (-&gt;)</b>.</li>\n<li><code>ptr-&gt;roll</code> is the same as <code>(*ptr).roll</code>. The brackets are needed because <b>.</b> has higher precedence than <b>*</b>.</li>\n<li>Passing a structure pointer to a function is faster than passing the whole structure (no copy is made).</li>\n<li>Incrementing the pointer (<code>ptr++</code>) moves to the next structure in an array.</li></ul>\n<h4>Self-referential structure</h4>\n<p>A structure that contains a <b>pointer to a structure of the same type</b> is called a self-referential structure. It is the <b>building block of a linked list</b> (and of trees).</p>\n<pre class=\"c\">struct node {\n    int data;\n    struct node *next;  /* same type */\n};</pre>"
+     },
+     "programs": [
+      "ds3p4"
+     ],
+     "key": true
+    },
+    {
+     "h": {
+      "en": "3.1.4 Dynamic Memory Allocation (DMA)"
+     },
+     "body": {
+      "en": "<p><b>Dynamic memory allocation</b> means allocating memory <b>at run time</b> (during program execution) from the <b>heap</b>, as much as is actually needed. The functions are declared in <code>&lt;stdlib.h&gt;</code>.</p>\n<h4>Static vs dynamic allocation</h4>\n<table>\n<tr><th>Static allocation</th><th>Dynamic allocation</th></tr>\n<tr><td>Memory allocated at <b>compile time</b></td><td>Memory allocated at <b>run time</b></td></tr>\n<tr><td>Size is fixed and cannot change</td><td>Size can grow or shrink (realloc)</td></tr>\n<tr><td>Memory may be wasted or be insufficient</td><td>No wastage: allocate as needed</td></tr>\n<tr><td>Uses stack memory</td><td>Uses heap memory</td></tr>\n<tr><td>Freed automatically</td><td>Must be freed with <code>free()</code></td></tr>\n<tr><td>e.g. <code>int a[100];</code></td><td>e.g. <code>malloc(n * sizeof(int))</code></td></tr>\n</table>\n<h4>DMA functions</h4>\n<pre class=\"c\">ptr = (type *) malloc(byte_size);\nptr = (type *) calloc(n, elem_size);\nptr = (type *) realloc(ptr, new_size);\nfree(ptr);</pre>\n<ol><li><b>malloc()</b> (memory allocation): allocates <b>one block</b> of the given size in bytes. The memory contains <b>garbage values</b>. It returns a <code>void *</code> pointer, or NULL if memory is not available.</li>\n<li><b>calloc()</b> (contiguous allocation): allocates <b>n blocks</b> of the given size and initialises all bytes to <b>zero</b>.</li>\n<li><b>realloc()</b> (re-allocation): changes the size of previously allocated memory and keeps the old data.</li>\n<li><b>free()</b>: releases dynamically allocated memory back to the heap.</li></ol>\n<pre class=\"c\">int *a = (int *) malloc(5 * sizeof(int));\nif (a == NULL)\n    printf(\"Out of memory\");\n...\nfree(a);\na = NULL;   /* avoid dangling pointer */</pre>\n<h4>malloc vs calloc</h4>\n<table>\n<tr><th>malloc()</th><th>calloc()</th></tr>\n<tr><td>One argument: total bytes</td><td>Two arguments: number of blocks and size of each</td></tr>\n<tr><td>Memory has garbage values</td><td>Memory is set to 0</td></tr>\n<tr><td>Slightly faster</td><td>Slightly slower (initialisation)</td></tr>\n</table>\n<ul><li><b>Memory leak:</b> allocated memory that is never freed.</li>\n<li><b>Dangling pointer:</b> a pointer that still holds the address of freed memory. Set it to NULL after <code>free()</code>.</li></ul>"
+     },
+     "diagram": "ds3_dma",
+     "programs": [
+      "ds3p5",
+      "ds3p6"
+     ],
+     "key": true,
+     "examples": [
+      "ds3n4"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3.2 Linked List"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "3.2.1 Linked List Representation"
+     },
+     "body": {
+      "en": "<p>A <b>linked list</b> is a <b>linear</b> collection of data elements called <b>nodes</b>, in which the linear order is given by <b>pointers</b>. Each node points to the next node.</p>\n<h4>Node</h4>\n<p>Each node has two parts:</p>\n<ul><li><b>INFO (data) field:</b> stores the actual data.</li>\n<li><b>LINK (next) field:</b> stores the address of the next node.</li></ul>\n<pre class=\"c\">struct node {\n    int data;\n    struct node *next;  /* same type */\n};</pre>\n<h4>Representation</h4>\n<ul><li>A pointer variable <b>START</b> (or HEAD) holds the address of the <b>first node</b>.</li>\n<li>The LINK field of the <b>last node</b> contains <b>NULL</b>, which marks the end of the list.</li>\n<li>If <code>START = NULL</code>, the list is <b>empty</b>.</li>\n<li>Nodes are created with <b>malloc()</b> and need <b>not</b> be stored in continuous memory locations.</li></ul>\n<h4>Creating a node</h4>\n<pre class=\"c\">struct node *getnode(int x)\n{\n    struct node *nw;\n    nw = (struct node *)\n         malloc(sizeof(struct node));\n    nw-&gt;data = x;\n    nw-&gt;next = NULL;\n    return nw;\n}</pre>\n<h4>Advantages</h4>\n<ul><li><b>Dynamic size:</b> grows and shrinks at run time; no memory wastage.</li>\n<li><b>Easy insertion and deletion:</b> only links change; no shifting of elements.</li>\n<li>Used to implement stacks, queues, trees and graphs.</li></ul>\n<h4>Disadvantages</h4>\n<ul><li><b>Extra memory</b> is needed for the pointer in every node.</li>\n<li><b>No random access:</b> to reach the n-th node all previous nodes must be visited (O(n)); binary search is not practical.</li>\n<li>Reverse traversal is not possible in a singly linked list.</li></ul>"
+     },
+     "diagram": "ds3_representation",
+     "programs": [
+      "ds3p7"
+     ],
+     "key": true,
+     "examples": [
+      "ds3n7"
+     ]
+    },
+    {
+     "h": {
+      "en": "3.2.2 Array vs Linked List"
+     },
+     "body": {
+      "en": "<table>\n<tr><th>Array</th><th>Linked list</th></tr>\n<tr><td>Fixed size, decided at compile time</td><td>Dynamic size, grows and shrinks at run time</td></tr>\n<tr><td>Elements stored in <b>continuous</b> memory</td><td>Nodes can be <b>anywhere</b> in memory</td></tr>\n<tr><td><b>Random access</b> by index: O(1)</td><td><b>Sequential access</b> only: O(n)</td></tr>\n<tr><td>Insertion and deletion need shifting: O(n)</td><td>Insertion and deletion change only links</td></tr>\n<tr><td>No extra memory for links</td><td>Extra memory for a pointer in each node</td></tr>\n<tr><td>Memory may be wasted (unused size)</td><td>Memory is used as needed</td></tr>\n<tr><td>Binary search possible (sorted)</td><td>Only linear search</td></tr>\n<tr><td>Static memory allocation</td><td>Dynamic memory allocation</td></tr>\n</table>"
+     },
+     "key": true
+    },
+    {
+     "h": {
+      "en": "3.2.3 Types of Linked List"
+     },
+     "body": {
+      "en": "<h4>1. Singly linked list</h4>\n<ul><li>Each node has <b>data</b> and <b>one pointer</b> (next) to the next node.</li>\n<li>The last node's next is NULL.</li>\n<li>Traversal is possible in the <b>forward direction only</b>.</li></ul>\n<h4>2. Circular linked list</h4>\n<ul><li>A singly linked list in which the <b>last node points back to the first node</b> instead of NULL.</li>\n<li>No node contains NULL. Any node can be the starting point, and the list can be traversed again and again.</li>\n<li>Traversal stops when the pointer comes back to START (<code>do … while (p != start)</code>).</li>\n<li>Used in round-robin CPU scheduling and multiplayer turn-taking games.</li></ul>\n<h4>3. Doubly linked list</h4>\n<ul><li>Each node has <b>three</b> parts: <b>prev</b> (address of the previous node), <b>data</b> and <b>next</b> (address of the next node).</li>\n<li>The first node's prev and the last node's next are NULL.</li>\n<li>Traversal is possible in <b>both directions</b>; deleting a given node is easier.</li>\n<li>Needs more memory (two pointers per node).</li>\n<li>Used in browser back/forward navigation and in undo/redo.</li></ul>\n<pre class=\"c\">/* singly / circular */\nstruct node {\n    int data;\n    struct node *next;\n};\n/* doubly */\nstruct dnode {\n    struct dnode *prev;\n    int data;\n    struct dnode *next;\n};</pre>\n<p>A <b>circular doubly linked list</b> combines both: the last node's next points to the first node, and the first node's prev points to the last node.</p>\n<h4>Comparison</h4>\n<table>\n<tr><th>Point</th><th>Singly</th><th>Circular</th><th>Doubly</th></tr>\n<tr><td>Pointers per node</td><td>1</td><td>1</td><td>2</td></tr>\n<tr><td>Last node's next</td><td>NULL</td><td>first node</td><td>NULL</td></tr>\n<tr><td>Traversal</td><td>forward</td><td>forward, circular</td><td>forward and backward</td></tr>\n<tr><td>Memory</td><td>less</td><td>less</td><td>more</td></tr>\n</table>"
+     },
+     "diagram": "ds3_types",
+     "programs": [
+      "ds3p14",
+      "ds3p15"
+     ],
+     "key": true
+    },
+    {
+     "h": {
+      "en": "3.2.4 Applications of Linked List"
+     },
+     "body": {
+      "en": "<ol><li><b>Implementation of stack and queue</b> without a size limit (dynamic stack and queue).</li>\n<li><b>Polynomial representation and arithmetic:</b> each node stores a coefficient and an exponent, e.g. 5x³ + 4x² + 2 → (5,3) → (4,2) → (2,0).</li>\n<li><b>Dynamic memory management:</b> the operating system keeps lists of free memory blocks.</li>\n<li><b>Representation of trees and graphs</b> (adjacency list).</li>\n<li><b>Sparse matrix</b> representation: only non-zero elements are stored.</li>\n<li><b>Undo/redo</b> in editors and <b>back/forward</b> in browsers (doubly linked list).</li>\n<li><b>Music playlist and image viewer:</b> next and previous item; a circular list repeats the playlist.</li>\n<li><b>Round-robin scheduling</b> in an operating system (circular linked list).</li>\n<li>Large-number arithmetic: each node stores some digits of a very long number.</li></ol>"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3.3 Basic Operations on Singly Linked List"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "3.3.1 Operations and Notation; Traversal"
+     },
+     "body": {
+      "en": "<p>The basic operations on a singly linked list are:</p>\n<ul><li><b>Traversal:</b> visiting every node once.</li>\n<li><b>Insertion:</b> at the beginning, at the end, after or before a given node, in a sorted list.</li>\n<li><b>Deletion:</b> of the first node, the last node (or a given node).</li>\n<li><b>Searching</b> a node and <b>counting</b> the nodes.</li></ul>\n<h4>Notation used in the algorithms</h4>\n<table>\n<tr><th>Algorithm</th><th>C code</th><th>Meaning</th></tr>\n<tr><td>INFO(PTR)</td><td><code>ptr-&gt;data</code></td><td>data of node PTR</td></tr>\n<tr><td>LINK(PTR)</td><td><code>ptr-&gt;next</code></td><td>address of the next node</td></tr>\n<tr><td>getnode()</td><td><code>malloc(…)</code></td><td>create a new node</td></tr>\n<tr><td>Free(PTR)</td><td><code>free(ptr)</code></td><td>release the node</td></tr>\n</table>\n<h4>Traversal algorithm</h4>\n<pre class=\"c\">Algorithm TRAVERSE(START)\nStep 1: Set PTR = START\nStep 2: Repeat Steps 3 and 4\n        while PTR != NULL\nStep 3:   Process INFO(PTR)\nStep 4:   Set PTR = LINK(PTR)\nStep 5: Exit</pre>\n<p>A temporary pointer PTR is used so that START is not lost. Traversal takes <b>O(n)</b> time.</p>"
+     },
+     "programs": [
+      "ds3p7"
+     ]
+    },
+    {
+     "h": {
+      "en": "3.3.2 Insertion of a Node at the Beginning"
+     },
+     "body": {
+      "en": "<p>The new node becomes the first node, and START points to it.</p>\n<pre class=\"c\">Algorithm INSBEG(START, ITEM)\nStep 1: [Create a new node]\n        NEW = getnode()\n        If NEW = NULL then\n            Write \"Overflow\" and Exit\nStep 2: Set INFO(NEW) = ITEM\nStep 3: Set LINK(NEW) = START\nStep 4: Set START = NEW\nStep 5: Exit</pre>\n<h4>C function</h4>\n<pre class=\"c\">void ins_beg(int x)\n{\n    struct node *nw = getnode(x);\n    nw-&gt;next = start;\n    start = nw;\n}</pre>\n<ul><li><b>Order is important:</b> first link the new node to the old first node (<code>nw-&gt;next = start</code>), and only then move START. If START is moved first, the rest of the list is lost.</li>\n<li>The algorithm also works for an empty list: the new node's next becomes NULL.</li>\n<li>Time complexity: <b>O(1)</b>, because no traversal is needed.</li></ul>"
+     },
+     "diagram": "ds3_insert_begin",
+     "programs": [
+      "ds3p8"
+     ],
+     "key": true
+    },
+    {
+     "h": {
+      "en": "3.3.3 Insertion of a Node at the End"
+     },
+     "body": {
+      "en": "<p>The new node is attached after the current last node, and its link is NULL.</p>\n<pre class=\"c\">Algorithm INSEND(START, ITEM)\nStep 1: NEW = getnode()\n        If NEW = NULL then\n            Write \"Overflow\" and Exit\nStep 2: Set INFO(NEW) = ITEM\n        Set LINK(NEW) = NULL\nStep 3: If START = NULL then\n            Set START = NEW and Exit\nStep 4: Set PTR = START\nStep 5: Repeat while LINK(PTR) != NULL\n            Set PTR = LINK(PTR)\nStep 6: Set LINK(PTR) = NEW\nStep 7: Exit</pre>\n<h4>C function</h4>\n<pre class=\"c\">void ins_end(int x)\n{\n    struct node *nw = getnode(x), *p;\n    if (start == NULL) {\n        start = nw;\n        return;\n    }\n    p = start;\n    while (p-&gt;next != NULL)\n        p = p-&gt;next;\n    p-&gt;next = nw;\n}</pre>\n<ul><li>The last node is the one whose LINK is NULL. The loop condition is <code>p-&gt;next != NULL</code>, not <code>p != NULL</code>, so that p stops <b>on</b> the last node.</li>\n<li>If the list is empty, the new node becomes START.</li>\n<li>Time complexity: <b>O(n)</b> because of the traversal. Keeping an extra LAST pointer makes it O(1).</li></ul>"
+     },
+     "diagram": "ds3_insert_end",
+     "programs": [
+      "ds3p8"
+     ],
+     "key": true
+    },
+    {
+     "h": {
+      "en": "3.3.4 Insertion of a Node After / Before a Given Node"
+     },
+     "body": {
+      "en": "<h4>(a) Insert after a given node (KEY)</h4>\n<p>Search for the node containing KEY, then place the new node between it and its next node.</p>\n<pre class=\"c\">Algorithm INSAFTER(START, KEY, ITEM)\nStep 1: Set PTR = START\nStep 2: Repeat while PTR != NULL and\n        INFO(PTR) != KEY\n            Set PTR = LINK(PTR)\nStep 3: If PTR = NULL then\n            Write \"Key not found\" and Exit\nStep 4: NEW = getnode()\n        Set INFO(NEW) = ITEM\nStep 5: Set LINK(NEW) = LINK(PTR)\nStep 6: Set LINK(PTR) = NEW\nStep 7: Exit</pre>\n<p><b>Important:</b> Step 5 must be done before Step 6. If <code>LINK(PTR) = NEW</code> is done first, the address of the rest of the list is lost.</p>\n<h4>(b) Insert before a given node (KEY)</h4>\n<p>In a singly linked list we cannot move backwards, so a second pointer <b>PREV</b> follows one node behind PTR.</p>\n<pre class=\"c\">Algorithm INSBEFORE(START, KEY, ITEM)\nStep 1: Set PTR = START, PREV = NULL\nStep 2: Repeat while PTR != NULL and\n        INFO(PTR) != KEY\n            Set PREV = PTR\n            Set PTR = LINK(PTR)\nStep 3: If PTR = NULL then\n            Write \"Key not found\" and Exit\nStep 4: NEW = getnode()\n        Set INFO(NEW) = ITEM\n        Set LINK(NEW) = PTR\nStep 5: If PREV = NULL then\n            Set START = NEW\n        Else\n            Set LINK(PREV) = NEW\nStep 6: Exit</pre>\n<ul><li>If KEY is in the first node, PREV stays NULL and the new node becomes the new START (same as insert at beginning).</li>\n<li>Both operations take <b>O(n)</b> time in the worst case (searching for KEY).</li></ul>"
+     },
+     "diagram": "ds3_insert_after",
+     "programs": [
+      "ds3p9"
+     ],
+     "key": true,
+     "examples": [
+      "ds3n9"
+     ]
+    },
+    {
+     "h": {
+      "en": "3.3.5 Insertion of a Node in a Sorted Linked List"
+     },
+     "body": {
+      "en": "<p>In a sorted (ascending) list, the new node must be inserted at its correct position so that the list <b>stays sorted</b>.</p>\n<pre class=\"c\">Algorithm INSORD(START, ITEM)\nStep 1: NEW = getnode()\n        Set INFO(NEW) = ITEM\nStep 2: If START = NULL or\n        ITEM &lt; INFO(START) then\n            Set LINK(NEW) = START\n            Set START = NEW and Exit\nStep 3: Set PTR = START\nStep 4: Repeat while LINK(PTR) != NULL\n        and INFO(LINK(PTR)) &lt; ITEM\n            Set PTR = LINK(PTR)\nStep 5: Set LINK(NEW) = LINK(PTR)\nStep 6: Set LINK(PTR) = NEW\nStep 7: Exit</pre>\n<h4>Working</h4>\n<ul><li><b>Case 1:</b> the list is empty or ITEM is smaller than the first node → insert at the beginning.</li>\n<li><b>Case 2:</b> otherwise, move PTR while the <b>next</b> node's data is smaller than ITEM. PTR stops at the node after which ITEM must go (this also covers insertion at the end).</li>\n<li>Example: inserting 25 into 10 → 20 → 30 → 40: PTR stops at 20 (because 30 &gt; 25), so the list becomes 10 → 20 → 25 → 30 → 40.</li>\n<li>Inserting every element this way builds a sorted list (the idea of insertion sort).</li></ul>"
+     },
+     "diagram": "ds3_insert_sorted",
+     "programs": [
+      "ds3p10"
+     ],
+     "key": true,
+     "examples": [
+      "ds3n6"
+     ]
+    },
+    {
+     "h": {
+      "en": "3.3.6 Deleting the First and the Last Node"
+     },
+     "body": {
+      "en": "<h4>(a) Delete the first node</h4>\n<pre class=\"c\">Algorithm DELFIRST(START)\nStep 1: If START = NULL then\n            Write \"Underflow\" and Exit\nStep 2: Set PTR = START\nStep 3: Set START = LINK(START)\nStep 4: Free(PTR)\nStep 5: Exit</pre>\n<ul><li>Save START in PTR, move START to the second node, then free the old first node. <b>O(1)</b>.</li>\n<li>Deleting from an empty list is <b>underflow</b>.</li></ul>\n<h4>(b) Delete the last node</h4>\n<pre class=\"c\">Algorithm DELLAST(START)\nStep 1: If START = NULL then\n            Write \"Underflow\" and Exit\nStep 2: If LINK(START) = NULL then\n            Free(START), Set START = NULL\n            and Exit\nStep 3: Set PREV = START\n        Set PTR = LINK(START)\nStep 4: Repeat while LINK(PTR) != NULL\n            Set PREV = PTR\n            Set PTR = LINK(PTR)\nStep 5: Set LINK(PREV) = NULL\nStep 6: Free(PTR)\nStep 7: Exit</pre>\n<ul><li>Two pointers are needed: PTR reaches the last node and PREV the second-last. PREV becomes the new last node (its link is set to NULL).</li>\n<li>Special case: if the list has only one node, START becomes NULL.</li>\n<li>Time complexity: <b>O(n)</b>.</li>\n<li>Always <code>free()</code> the deleted node; otherwise memory leaks.</li></ul>"
+     },
+     "diagram": "ds3_delete",
+     "programs": [
+      "ds3p11"
+     ],
+     "key": true
+    },
+    {
+     "h": {
+      "en": "3.3.7 Searching a Node and Counting the Nodes"
+     },
+     "body": {
+      "en": "<h4>(a) Searching</h4>\n<p>Starting from START, each node's data is compared with ITEM until it is found or NULL is reached (<b>linear search</b>).</p>\n<pre class=\"c\">Algorithm SEARCH(START, ITEM)\nStep 1: Set PTR = START, POS = 1\nStep 2: Repeat while PTR != NULL\n          If INFO(PTR) = ITEM then\n              Write \"Found at\", POS\n              and Exit\n          Set PTR = LINK(PTR)\n          Set POS = POS + 1\nStep 3: Write \"Not found\"\nStep 4: Exit</pre>\n<ul><li>Best case O(1) (first node); worst case <b>O(n)</b> (last node or not present).</li>\n<li>Binary search is not practical because there is no direct access to the middle node.</li></ul>\n<h4>(b) Counting the nodes</h4>\n<pre class=\"c\">Algorithm COUNT(START)\nStep 1: Set COUNT = 0, PTR = START\nStep 2: Repeat while PTR != NULL\n          Set COUNT = COUNT + 1\n          Set PTR = LINK(PTR)\nStep 3: Return COUNT</pre>\n<ul><li>Every node visited adds 1 to COUNT. An empty list gives 0.</li>\n<li>Time complexity: <b>O(n)</b>.</li></ul>"
+     },
+     "diagram": "ds3_traverse",
+     "programs": [
+      "ds3p12"
+     ],
+     "key": true,
+     "examples": [
+      "ds3n8"
+     ]
+    },
+    {
+     "h": {
+      "en": "3.3.8 Summary: Complete Program and Time Complexity"
+     },
+     "body": {
+      "en": "<p>The practical combines all operations in one menu-driven program (see the program below).</p>\n<table>\n<tr><th>Operation</th><th>Time</th><th>Pointer changes</th></tr>\n<tr><td>Insert at beginning</td><td>O(1)</td><td>new→next = start; start = new</td></tr>\n<tr><td>Insert at end</td><td>O(n)</td><td>last→next = new</td></tr>\n<tr><td>Insert after node</td><td>O(n)</td><td>new→next = p→next; p→next = new</td></tr>\n<tr><td>Insert in sorted list</td><td>O(n)</td><td>find position, then insert after</td></tr>\n<tr><td>Delete first</td><td>O(1)</td><td>start = start→next</td></tr>\n<tr><td>Delete last</td><td>O(n)</td><td>prev→next = NULL</td></tr>\n<tr><td>Search / Count</td><td>O(n)</td><td>none (traversal only)</td></tr>\n</table>\n<h4>Common mistakes</h4>\n<ul><li>Losing the list by moving START without saving it.</li>\n<li>Not checking for an empty list (START = NULL) before deleting.</li>\n<li>Not handling the one-node list when deleting the last node.</li>\n<li>Forgetting to set the new last node's next to NULL.</li>\n<li>Not freeing the deleted node.</li></ul>"
+     },
+     "programs": [
+      "ds3p13"
+     ],
+     "examples": [
+      "ds3n5"
+     ]
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "ds3p1",
+   "title": {
+    "en": "Pointer basics: &, * and swapping using pointers"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nvoid swap(int *a, int *b)\n{\n    int t = *a;\n    *a = *b;\n    *b = t;\n}\n\nint main(void)\n{\n    int x = 10, y = 20;\n    int *p = &x;\n\n    printf(\"x = %d, *p = %d\\n\", x, *p);\n    *p = 50;              /* changes x */\n    printf(\"after *p = 50, x = %d\\n\", x);\n    printf(\"p == &x ? %s\\n\",\n           p == &x ? \"yes\" : \"no\");\n\n    swap(&x, &y);\n    printf(\"after swap: x = %d, y = %d\\n\",\n           x, y);\n    return 0;\n}"
+   },
+   "out": "x = 10, *p = 10\nafter *p = 50, x = 50\np == &x ? yes\nafter swap: x = 20, y = 50",
+   "expl": {
+    "en": "<ul><li><code>p = &amp;x</code> stores the <b>address</b> of x in p; <code>*p</code> gives the <b>value at</b> that address.</li>\n<li>Writing <code>*p = 50</code> changes x itself, because p points to x.</li>\n<li><code>swap()</code> receives addresses (<b>call by reference</b>), so it can change the caller's variables.</li></ul>"
+   }
+  },
+  {
+   "id": "ds3p2",
+   "title": {
+    "en": "Pointer arithmetic: traverse an array with a pointer"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nint main(void)\n{\n    int a[5] = {12, 7, 25, 3, 18};\n    int *p = a;     /* same as &a[0] */\n    int i, sum = 0, max = *p;\n\n    for (i = 0; i < 5; i++) {\n        printf(\"*(p+%d) = %d\\n\", i,\n               *(p + i));\n        sum += *(p + i);\n        if (*(p + i) > max)\n            max = *(p + i);\n    }\n    printf(\"Sum = %d, Max = %d\\n\",\n           sum, max);\n    printf(\"p+1 moves %d bytes\\n\",\n           (int)sizeof(*p));\n    return 0;\n}"
+   },
+   "out": "*(p+0) = 12\n*(p+1) = 7\n*(p+2) = 25\n*(p+3) = 3\n*(p+4) = 18\nSum = 65, Max = 25\np+1 moves 4 bytes",
+   "expl": {
+    "en": "<ul><li>The array name <code>a</code> is the address of the first element, so <code>p = a</code>.</li>\n<li><code>*(p + i)</code> is the same as <code>a[i]</code>. Adding 1 to an int pointer moves it by <code>sizeof(int)</code> bytes (4), not by 1 byte.</li></ul>"
+   }
+  },
+  {
+   "id": "ds3p3",
+   "title": {
+    "en": "Structure: read and display student records"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nstruct student {\n    int roll;\n    char name[20];\n    float marks;\n};\n\nint main(void)\n{\n    struct student s[3];\n    int i;\n\n    for (i = 0; i < 3; i++)\n        scanf(\"%d %19s %f\", &s[i].roll,\n              s[i].name, &s[i].marks);\n\n    printf(\"Roll  Name      Marks\\n\");\n    for (i = 0; i < 3; i++)\n        printf(\"%-5d %-9s %.1f\\n\",\n               s[i].roll, s[i].name,\n               s[i].marks);\n    return 0;\n}"
+   },
+   "out": "1 Ravi 78.5\n2 Meena 91\n3 Amit 66.5\nRoll  Name      Marks\n1     Ravi      78.5\n2     Meena     91.0\n3     Amit      66.5",
+   "expl": {
+    "en": "<ul><li>A <b>structure</b> groups related data of different types (int, char array, float) under one name.</li>\n<li>An array of structures <code>s[3]</code> stores three complete records.</li>\n<li>Members are accessed with the <b>dot operator</b>: <code>s[i].roll</code>.</li></ul>"
+   }
+  },
+  {
+   "id": "ds3p4",
+   "title": {
+    "en": "Structure using pointer: find the topper with -> [Practical 5]"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nstruct student {\n    int roll;\n    char name[20];\n    float marks;\n};\n\nvoid show(struct student *p)\n{\n    printf(\"%d %s %.1f\\n\", p->roll,\n           p->name, p->marks);\n}\n\nint main(void)\n{\n    struct student s[4] = {\n        {1, \"Ravi\", 78.5},\n        {2, \"Meena\", 91},\n        {3, \"Amit\", 66},\n        {4, \"Neha\", 88}\n    };\n    struct student *ptr, *top = s;\n\n    for (ptr = s; ptr < s + 4; ptr++) {\n        show(ptr);\n        if (ptr->marks > top->marks)\n            top = ptr;\n    }\n    printf(\"Topper: %s (%.1f)\\n\",\n           top->name, top->marks);\n    return 0;\n}"
+   },
+   "out": "1 Ravi 78.5\n2 Meena 91.0\n3 Amit 66.0\n4 Neha 88.0\nTopper: Meena (91.0)",
+   "expl": {
+    "en": "<ul><li><code>ptr</code> is a <b>pointer to a structure</b>; members are reached with the <b>arrow operator</b> <code>ptr-&gt;marks</code>, which is the same as <code>(*ptr).marks</code>.</li>\n<li><code>ptr++</code> moves to the next record (by <code>sizeof(struct student)</code> bytes).</li>\n<li>Passing a pointer to <code>show()</code> avoids copying the whole structure.</li></ul>"
+   }
+  },
+  {
+   "id": "ds3p5",
+   "title": {
+    "en": "Dynamic memory: malloc for n numbers, then free"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <stdlib.h>\n\nint main(void)\n{\n    int n, i, sum = 0;\n    int *a;\n\n    printf(\"How many numbers? \");\n    scanf(\"%d\", &n);\n    a = (int *) malloc(n * sizeof(int));\n    if (a == NULL) {\n        printf(\"Memory not available\\n\");\n        return 1;\n    }\n    for (i = 0; i < n; i++) {\n        scanf(\"%d\", &a[i]);\n        sum += a[i];\n    }\n    printf(\"Sum = %d, Average = %.2f\\n\",\n           sum, (float)sum / n);\n    free(a);\n    return 0;\n}"
+   },
+   "out": "How many numbers? 5\n10 20 30 40 55\nSum = 155, Average = 31.00",
+   "expl": {
+    "en": "<ul><li>The size <b>n</b> is known only at run time, so memory is taken from the <b>heap</b> with <code>malloc()</code>.</li>\n<li><code>malloc</code> returns <code>void *</code> (cast to <code>int *</code>) or <b>NULL</b> if memory is not available, so always check it.</li>\n<li><code>free(a)</code> returns the memory. Forgetting it causes a <b>memory leak</b>.</li></ul>"
+   }
+  },
+  {
+   "id": "ds3p6",
+   "title": {
+    "en": "calloc and realloc: grow an array at run time"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <stdlib.h>\n\nvoid show(int *a, int n)\n{\n    int i;\n    for (i = 0; i < n; i++)\n        printf(\"%d \", a[i]);\n    printf(\"\\n\");\n}\n\nint main(void)\n{\n    int i, *a, *t;\n\n    a = (int *) calloc(3, sizeof(int));\n    if (a == NULL) return 1;\n    printf(\"after calloc : \");\n    show(a, 3);              /* all 0 */\n\n    for (i = 0; i < 3; i++)\n        a[i] = (i + 1) * 10;\n    t = realloc(a, 5 * sizeof(int));\n    if (t == NULL) { free(a); return 1; }\n    a = t;\n    a[3] = 40;\n    a[4] = 50;\n    printf(\"after realloc: \");\n    show(a, 5);\n    free(a);\n    return 0;\n}"
+   },
+   "out": "after calloc : 0 0 0 \nafter realloc: 10 20 30 40 50 ",
+   "expl": {
+    "en": "<ul><li><code>calloc(3, sizeof(int))</code> allocates 3 blocks and sets them all to <b>0</b> (malloc leaves garbage).</li>\n<li><code>realloc</code> resizes the block to 5 ints and <b>keeps the old values</b> 10, 20, 30.</li>\n<li>The result is stored in a temporary pointer <code>t</code> first, so the old block is not lost if realloc fails.</li></ul>"
+   }
+  },
+  {
+   "id": "ds3p7",
+   "title": {
+    "en": "Create a singly linked list of n nodes and display it"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <stdlib.h>\n\nstruct node {\n    int data;\n    struct node *next;\n};\n\nint main(void)\n{\n    struct node *start = NULL;\n    struct node *last = NULL;\n    struct node *nw, *ptr;\n    int n, i, x;\n\n    scanf(\"%d\", &n);\n    for (i = 0; i < n; i++) {\n        scanf(\"%d\", &x);\n        nw = malloc(sizeof(struct node));\n        nw->data = x;\n        nw->next = NULL;\n        if (start == NULL)\n            start = nw;\n        else\n            last->next = nw;\n        last = nw;\n    }\n    printf(\"List: \");\n    for (ptr = start; ptr != NULL;\n         ptr = ptr->next)\n        printf(\"%d -> \", ptr->data);\n    printf(\"NULL\\n\");\n    return 0;\n}"
+   },
+   "out": "4\n10 20 30 40\nList: 10 -> 20 -> 30 -> 40 -> NULL",
+   "expl": {
+    "en": "<ul><li>Each node is a <b>self-referential structure</b>: data plus a pointer to the next node.</li>\n<li>Every node is created with <code>malloc</code>. The first node becomes <code>start</code>; later nodes are joined with <code>last-&gt;next = nw</code>.</li>\n<li>Keeping a <code>last</code> pointer makes each append O(1). Display walks from start until <b>NULL</b>.</li></ul>"
+   }
+  },
+  {
+   "id": "ds3p8",
+   "title": {
+    "en": "Insert a node at the beginning and at the end"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <stdlib.h>\n\nstruct node {\n    int data;\n    struct node *next;\n};\nstruct node *start = NULL;\n\nstruct node *getnode(int x)\n{\n    struct node *nw;\n    nw = malloc(sizeof(struct node));\n    nw->data = x;\n    nw->next = NULL;\n    return nw;\n}\n\nvoid ins_beg(int x)\n{\n    struct node *nw = getnode(x);\n    nw->next = start;\n    start = nw;\n}\n\nvoid ins_end(int x)\n{\n    struct node *nw = getnode(x), *p;\n    if (start == NULL) {\n        start = nw;\n        return;\n    }\n    for (p = start; p->next != NULL;\n         p = p->next)\n        ;\n    p->next = nw;\n}\n\nvoid display(void)\n{\n    struct node *p;\n    for (p = start; p != NULL; p = p->next)\n        printf(\"%d -> \", p->data);\n    printf(\"NULL\\n\");\n}\n\nint main(void)\n{\n    ins_end(20); ins_end(30);\n    display();\n    ins_beg(10);\n    display();\n    ins_end(40);\n    display();\n    return 0;\n}"
+   },
+   "out": "20 -> 30 -> NULL\n10 -> 20 -> 30 -> NULL\n10 -> 20 -> 30 -> 40 -> NULL",
+   "expl": {
+    "en": "<ul><li><b>Beginning:</b> <code>nw-&gt;next = start; start = nw;</code>. No traversal, so O(1). The order matters: link first, then move start.</li>\n<li><b>End:</b> walk to the last node (the one whose next is NULL), then <code>p-&gt;next = nw</code>. This is O(n).</li>\n<li>The empty-list case (<code>start == NULL</code>) must be handled separately.</li></ul>"
+   }
+  },
+  {
+   "id": "ds3p9",
+   "title": {
+    "en": "Insert a node after / before a given node"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <stdlib.h>\n\nstruct node {\n    int data;\n    struct node *next;\n};\nstruct node *start = NULL;\n\nstruct node *getnode(int x)\n{\n    struct node *nw;\n    nw = malloc(sizeof(struct node));\n    nw->data = x;\n    nw->next = NULL;\n    return nw;\n}\n\nvoid ins_after(int key, int x)\n{\n    struct node *p = start, *nw;\n    while (p != NULL && p->data != key)\n        p = p->next;\n    if (p == NULL) {\n        printf(\"%d not found\\n\", key);\n        return;\n    }\n    nw = getnode(x);\n    nw->next = p->next;\n    p->next = nw;\n}\n\nvoid ins_before(int key, int x)\n{\n    struct node *p = start, *prev = NULL;\n    struct node *nw;\n    while (p != NULL && p->data != key) {\n        prev = p;\n        p = p->next;\n    }\n    if (p == NULL) {\n        printf(\"%d not found\\n\", key);\n        return;\n    }\n    nw = getnode(x);\n    nw->next = p;\n    if (prev == NULL)\n        start = nw;        /* before 1st */\n    else\n        prev->next = nw;\n}\n\nvoid display(void)\n{\n    struct node *p;\n    for (p = start; p != NULL; p = p->next)\n        printf(\"%d -> \", p->data);\n    printf(\"NULL\\n\");\n}\n\nint main(void)\n{\n    start = getnode(10);\n    start->next = getnode(30);\n    display();\n    ins_after(10, 20);\n    display();\n    ins_before(10, 5);\n    ins_before(30, 25);\n    display();\n    ins_after(99, 1);\n    return 0;\n}"
+   },
+   "out": "10 -> 30 -> NULL\n10 -> 20 -> 30 -> NULL\n5 -> 10 -> 20 -> 25 -> 30 -> NULL\n99 not found",
+   "expl": {
+    "en": "<ul><li><b>After key:</b> find the key node p, then <code>nw-&gt;next = p-&gt;next; p-&gt;next = nw;</code>.</li>\n<li><b>Before key:</b> a second pointer <code>prev</code> trails one node behind p, because a singly list cannot move backwards. The new node goes between prev and p.</li>\n<li>If the key is the first node (prev is NULL), the new node becomes the new <code>start</code>.</li></ul>"
+   }
+  },
+  {
+   "id": "ds3p10",
+   "title": {
+    "en": "Insert into a sorted linked list (builds an ordered list)"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <stdlib.h>\n\nstruct node {\n    int data;\n    struct node *next;\n};\nstruct node *start = NULL;\n\nvoid ins_sorted(int x)\n{\n    struct node *nw, *p;\n    nw = malloc(sizeof(struct node));\n    nw->data = x;\n    if (start == NULL || x < start->data) {\n        nw->next = start;\n        start = nw;\n        return;\n    }\n    p = start;\n    while (p->next != NULL &&\n           p->next->data < x)\n        p = p->next;\n    nw->next = p->next;\n    p->next = nw;\n}\n\nvoid display(void)\n{\n    struct node *p;\n    for (p = start; p != NULL; p = p->next)\n        printf(\"%d \", p->data);\n    printf(\"\\n\");\n}\n\nint main(void)\n{\n    int a[6] = {30, 10, 50, 20, 5, 40};\n    int i;\n    for (i = 0; i < 6; i++) {\n        ins_sorted(a[i]);\n        printf(\"insert %2d: \", a[i]);\n        display();\n    }\n    return 0;\n}"
+   },
+   "out": "insert 30: 30 \ninsert 10: 10 30 \ninsert 50: 10 30 50 \ninsert 20: 10 20 30 50 \ninsert  5: 5 10 20 30 50 \ninsert 40: 5 10 20 30 40 50 ",
+   "expl": {
+    "en": "<ul><li>The list always stays in <b>ascending order</b>, whatever the input order.</li>\n<li>If x is smaller than the first node (or the list is empty), it goes at the beginning.</li>\n<li>Otherwise p stops at the last node whose <b>next</b> is not smaller than x, and the new node is inserted after p.</li>\n<li>The output shows the list after every insertion: 5 goes at the front, 50 at the end, 20 in the middle.</li></ul>"
+   }
+  },
+  {
+   "id": "ds3p11",
+   "title": {
+    "en": "Delete the first node and the last node"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <stdlib.h>\n\nstruct node {\n    int data;\n    struct node *next;\n};\nstruct node *start = NULL;\n\nvoid push_front(int x)\n{\n    struct node *nw;\n    nw = malloc(sizeof(struct node));\n    nw->data = x;\n    nw->next = start;\n    start = nw;\n}\n\nvoid del_first(void)\n{\n    struct node *p = start;\n    if (p == NULL) {\n        printf(\"List empty\\n\");\n        return;\n    }\n    start = start->next;\n    printf(\"deleted %d\\n\", p->data);\n    free(p);\n}\n\nvoid del_last(void)\n{\n    struct node *p = start, *prev = NULL;\n    if (p == NULL) {\n        printf(\"List empty\\n\");\n        return;\n    }\n    while (p->next != NULL) {\n        prev = p;\n        p = p->next;\n    }\n    if (prev == NULL)\n        start = NULL;      /* only node */\n    else\n        prev->next = NULL;\n    printf(\"deleted %d\\n\", p->data);\n    free(p);\n}\n\nvoid display(void)\n{\n    struct node *p;\n    for (p = start; p != NULL; p = p->next)\n        printf(\"%d \", p->data);\n    printf(\"\\n\");\n}\n\nint main(void)\n{\n    int i;\n    for (i = 4; i >= 1; i--)\n        push_front(i * 10);\n    display();\n    del_first();  display();\n    del_last();   display();\n    del_last(); del_last(); del_last();\n    return 0;\n}"
+   },
+   "out": "10 20 30 40 \ndeleted 10\n20 30 40 \ndeleted 40\n20 30 \ndeleted 30\ndeleted 20\nList empty",
+   "expl": {
+    "en": "<ul><li><b>Delete first:</b> save start in p, move <code>start = start-&gt;next</code>, then <code>free(p)</code>. O(1).</li>\n<li><b>Delete last:</b> walk with p and prev until p is the last node, set <code>prev-&gt;next = NULL</code>, then free p. O(n).</li>\n<li>Special cases: an empty list (underflow message) and a single node (start becomes NULL). The last call shows \"List empty\".</li></ul>"
+   }
+  },
+  {
+   "id": "ds3p12",
+   "title": {
+    "en": "Search a node and count the nodes"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <stdlib.h>\n\nstruct node {\n    int data;\n    struct node *next;\n};\nstruct node *start = NULL;\n\nvoid append(int x)\n{\n    struct node *nw, *p;\n    nw = malloc(sizeof(struct node));\n    nw->data = x;\n    nw->next = NULL;\n    if (start == NULL) {\n        start = nw;\n        return;\n    }\n    for (p = start; p->next; p = p->next)\n        ;\n    p->next = nw;\n}\n\nint count(void)\n{\n    int c = 0;\n    struct node *p;\n    for (p = start; p != NULL; p = p->next)\n        c++;\n    return c;\n}\n\nint search(int x)\n{\n    int pos = 1;\n    struct node *p;\n    for (p = start; p; p = p->next) {\n        if (p->data == x)\n            return pos;\n        pos++;\n    }\n    return -1;\n}\n\nint main(void)\n{\n    int a[5] = {15, 42, 8, 23, 4}, i, k;\n    for (i = 0; i < 5; i++)\n        append(a[i]);\n    printf(\"Total nodes = %d\\n\", count());\n    k = search(23);\n    printf(\"23 found at position %d\\n\", k);\n    k = search(99);\n    if (k == -1)\n        printf(\"99 not found\\n\");\n    return 0;\n}"
+   },
+   "out": "Total nodes = 5\n23 found at position 4\n99 not found",
+   "expl": {
+    "en": "<ul><li>Both operations <b>traverse</b> the list from start to NULL.</li>\n<li><b>count()</b> adds 1 for every node visited.</li>\n<li><b>search()</b> compares each node's data with x and returns its <b>position</b> (1-based), or −1 if it reaches NULL.</li>\n<li>A linked list has no index, so only <b>linear search</b> is possible (O(n)); binary search is not practical.</li></ul>"
+   }
+  },
+  {
+   "id": "ds3p13",
+   "title": {
+    "en": "Singly linked list menu: insert, delete, search, count [Practical 6]"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <stdlib.h>\n\nstruct node {\n    int data;\n    struct node *next;\n};\nstruct node *start = NULL;\n\nvoid ins_beg(int x)\n{\n    struct node *nw;\n    nw = malloc(sizeof(struct node));\n    nw->data = x;\n    nw->next = start;\n    start = nw;\n}\n\nvoid ins_end(int x)\n{\n    struct node *nw, *p;\n    nw = malloc(sizeof(struct node));\n    nw->data = x;\n    nw->next = NULL;\n    if (start == NULL) {\n        start = nw;\n        return;\n    }\n    for (p = start; p->next; p = p->next)\n        ;\n    p->next = nw;\n}\n\nvoid del_beg(void)\n{\n    struct node *p = start;\n    if (p == NULL) {\n        printf(\"Empty\\n\");\n        return;\n    }\n    start = p->next;\n    printf(\"Deleted %d\\n\", p->data);\n    free(p);\n}\n\nvoid del_end(void)\n{\n    struct node *p = start, *q = NULL;\n    if (p == NULL) {\n        printf(\"Empty\\n\");\n        return;\n    }\n    while (p->next) { q = p; p = p->next; }\n    if (q) q->next = NULL;\n    else start = NULL;\n    printf(\"Deleted %d\\n\", p->data);\n    free(p);\n}\n\nvoid display(void)\n{\n    struct node *p;\n    int c = 0;\n    for (p = start; p; p = p->next, c++)\n        printf(\"%d \", p->data);\n    printf(\"(count = %d)\\n\", c);\n}\n\nint search(int x)\n{\n    struct node *p;\n    int pos = 1;\n    for (p = start; p; p = p->next, pos++)\n        if (p->data == x) return pos;\n    return -1;\n}\n\nvoid menu(void)\n{\n    puts(\"1.AddBeg 2.AddEnd 3.DelBeg\");\n    puts(\"4.DelEnd 5.Find 6.Show 0.Exit\");\n}\n\nint main(void)\n{\n    int ch, x;\n    do {\n        menu();\n        scanf(\"%d\", &ch);\n        switch (ch) {\n        case 1: scanf(\"%d\", &x);\n                ins_beg(x); break;\n        case 2: scanf(\"%d\", &x);\n                ins_end(x); break;\n        case 3: del_beg(); break;\n        case 4: del_end(); break;\n        case 5: scanf(\"%d\", &x);\n                printf(\"Position: %d\\n\",\n                       search(x));\n                break;\n        case 6: display(); break;\n        }\n    } while (ch != 0);\n    return 0;\n}"
+   },
+   "out": "1.AddBeg 2.AddEnd 3.DelBeg\n4.DelEnd 5.Find 6.Show 0.Exit\n2 20\n1.AddBeg 2.AddEnd 3.DelBeg\n4.DelEnd 5.Find 6.Show 0.Exit\n2 30\n1.AddBeg 2.AddEnd 3.DelBeg\n4.DelEnd 5.Find 6.Show 0.Exit\n1 10\n1.AddBeg 2.AddEnd 3.DelBeg\n4.DelEnd 5.Find 6.Show 0.Exit\n6\n10 20 30 (count = 3)\n1.AddBeg 2.AddEnd 3.DelBeg\n4.DelEnd 5.Find 6.Show 0.Exit\n5 30\nPosition: 3\n1.AddBeg 2.AddEnd 3.DelBeg\n4.DelEnd 5.Find 6.Show 0.Exit\n3\nDeleted 10\n1.AddBeg 2.AddEnd 3.DelBeg\n4.DelEnd 5.Find 6.Show 0.Exit\n4\nDeleted 30\n1.AddBeg 2.AddEnd 3.DelBeg\n4.DelEnd 5.Find 6.Show 0.Exit\n6\n20 (count = 1)\n1.AddBeg 2.AddEnd 3.DelBeg\n4.DelEnd 5.Find 6.Show 0.Exit\n0",
+   "expl": {
+    "en": "<ul><li>The complete practical program: a menu-driven singly linked list.</li>\n<li>Sample run: insert 20 and 30 at the end, 10 at the beginning → list 10 20 30; search 30 → position 3; delete first (10) and last (30) → only 20 remains.</li>\n<li><code>display()</code> also counts the nodes while printing them.</li>\n<li>Each delete function handles the <b>empty</b> list; del_end also handles the <b>single node</b> case.</li></ul>"
+   }
+  },
+  {
+   "id": "ds3p14",
+   "title": {
+    "en": "Circular linked list: create and display"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <stdlib.h>\n\nstruct node {\n    int data;\n    struct node *next;\n};\n\nint main(void)\n{\n    struct node *start = NULL;\n    struct node *last = NULL;\n    struct node *nw, *p;\n    int i, c = 0;\n\n    for (i = 1; i <= 4; i++) {\n        nw = malloc(sizeof(struct node));\n        nw->data = i * 10;\n        if (start == NULL)\n            start = nw;\n        else\n            last->next = nw;\n        last = nw;\n        last->next = start;  /* circle */\n    }\n    p = start;\n    do {\n        printf(\"%d -> \", p->data);\n        p = p->next;\n        c++;\n    } while (p != start);\n    printf(\"(back to %d)\\n\", p->data);\n    printf(\"nodes = %d\\n\", c);\n    printf(\"last->next->data = %d\\n\",\n           last->next->data);\n    return 0;\n}"
+   },
+   "out": "10 -> 20 -> 30 -> 40 -> (back to 10)\nnodes = 4\nlast->next->data = 10",
+   "expl": {
+    "en": "<ul><li>In a <b>circular</b> list the last node's next points back to the <b>first</b> node; no node contains NULL.</li>\n<li>The traversal uses <code>do … while (p != start)</code>: it stops when it comes round to start again. A <code>p != NULL</code> loop would never end.</li>\n<li><code>last-&gt;next-&gt;data</code> is 10, which proves the circle is closed.</li></ul>"
+   }
+  },
+  {
+   "id": "ds3p15",
+   "title": {
+    "en": "Doubly linked list: display forward and backward"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <stdlib.h>\n\nstruct dnode {\n    struct dnode *prev;\n    int data;\n    struct dnode *next;\n};\n\nint main(void)\n{\n    struct dnode *start = NULL;\n    struct dnode *last = NULL;\n    struct dnode *nw, *p;\n    int i;\n\n    for (i = 1; i <= 4; i++) {\n        nw = malloc(sizeof(struct dnode));\n        nw->data = i * 10;\n        nw->next = NULL;\n        nw->prev = last;\n        if (start == NULL)\n            start = nw;\n        else\n            last->next = nw;\n        last = nw;\n    }\n    printf(\"Forward : \");\n    for (p = start; p; p = p->next)\n        printf(\"%d \", p->data);\n    printf(\"\\nBackward: \");\n    for (p = last; p; p = p->prev)\n        printf(\"%d \", p->data);\n    printf(\"\\n\");\n    return 0;\n}"
+   },
+   "out": "Forward : 10 20 30 40 \nBackward: 40 30 20 10 ",
+   "expl": {
+    "en": "<ul><li>Each node of a <b>doubly</b> linked list has two pointers: <code>prev</code> and <code>next</code>.</li>\n<li>A new node's prev points to the old last node, and the old last node's next points to the new node.</li>\n<li>So the list can be traversed in <b>both directions</b>: forward from start using next, backward from last using prev. The extra pointer costs more memory per node.</li></ul>"
+   }
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "ds3_pointer",
+   "title": {
+    "en": "Pointer: & and * Operators"
+   },
+   "file": "diagrams/ds3_pointer.svg"
+  },
+  {
+   "id": "ds3_structure",
+   "title": {
+    "en": "Structure and Structure Pointer"
+   },
+   "file": "diagrams/ds3_structure.svg"
+  },
+  {
+   "id": "ds3_dma",
+   "title": {
+    "en": "Dynamic Memory Allocation"
+   },
+   "file": "diagrams/ds3_dma.svg"
+  },
+  {
+   "id": "ds3_representation",
+   "title": {
+    "en": "Linked List Representation"
+   },
+   "file": "diagrams/ds3_representation.svg"
+  },
+  {
+   "id": "ds3_types",
+   "title": {
+    "en": "Types of Linked List"
+   },
+   "file": "diagrams/ds3_types.svg"
+  },
+  {
+   "id": "ds3_insert_begin",
+   "title": {
+    "en": "Insert at Beginning"
+   },
+   "file": "diagrams/ds3_insert_begin.svg"
+  },
+  {
+   "id": "ds3_insert_end",
+   "title": {
+    "en": "Insert at End"
+   },
+   "file": "diagrams/ds3_insert_end.svg"
+  },
+  {
+   "id": "ds3_insert_after",
+   "title": {
+    "en": "Insert After / Before a Node"
+   },
+   "file": "diagrams/ds3_insert_after.svg"
+  },
+  {
+   "id": "ds3_insert_sorted",
+   "title": {
+    "en": "Insert into a Sorted List"
+   },
+   "file": "diagrams/ds3_insert_sorted.svg"
+  },
+  {
+   "id": "ds3_delete",
+   "title": {
+    "en": "Delete First and Last Node"
+   },
+   "file": "diagrams/ds3_delete.svg"
+  },
+  {
+   "id": "ds3_traverse",
+   "title": {
+    "en": "Search and Count (Traversal)"
+   },
+   "file": "diagrams/ds3_traverse.svg"
+  }
+ ],
+ "algorithms": [
+  {
+   "title": {
+    "en": "Traversal"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Traverse"
+     },
+     "f": "Algorithm TRAVERSE(START)\nStep 1: Set PTR = START\nStep 2: Repeat Steps 3 and 4\n        while PTR != NULL\nStep 3:   Process INFO(PTR)\nStep 4:   Set PTR = LINK(PTR)\nStep 5: Exit",
+     "terms": {
+      "en": "INFO(PTR) = ptr->data, LINK(PTR) = ptr->next. O(n)."
+     }
+    },
+    {
+     "name": {
+      "en": "Count nodes"
+     },
+     "f": "Algorithm COUNT(START)\nStep 1: Set COUNT = 0, PTR = START\nStep 2: Repeat while PTR != NULL\n          Set COUNT = COUNT + 1\n          Set PTR = LINK(PTR)\nStep 3: Return COUNT",
+     "terms": {
+      "en": "O(n)."
+     }
+    },
+    {
+     "name": {
+      "en": "Search"
+     },
+     "f": "Algorithm SEARCH(START, ITEM)\nStep 1: Set PTR = START, POS = 1\nStep 2: Repeat while PTR != NULL\n          If INFO(PTR) = ITEM then\n              Write \"Found at\", POS\n              and Exit\n          Set PTR = LINK(PTR)\n          Set POS = POS + 1\nStep 3: Write \"Not found\"\nStep 4: Exit",
+     "terms": {
+      "en": "Linear search. O(n)."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Insertion"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Insert at beginning"
+     },
+     "f": "Algorithm INSBEG(START, ITEM)\nStep 1: [Create a new node]\n        NEW = getnode()\n        If NEW = NULL then\n            Write \"Overflow\" and Exit\nStep 2: Set INFO(NEW) = ITEM\nStep 3: Set LINK(NEW) = START\nStep 4: Set START = NEW\nStep 5: Exit",
+     "terms": {
+      "en": "O(1). Link first, then move START."
+     }
+    },
+    {
+     "name": {
+      "en": "Insert at end"
+     },
+     "f": "Algorithm INSEND(START, ITEM)\nStep 1: NEW = getnode()\n        If NEW = NULL then\n            Write \"Overflow\" and Exit\nStep 2: Set INFO(NEW) = ITEM\n        Set LINK(NEW) = NULL\nStep 3: If START = NULL then\n            Set START = NEW and Exit\nStep 4: Set PTR = START\nStep 5: Repeat while LINK(PTR) != NULL\n            Set PTR = LINK(PTR)\nStep 6: Set LINK(PTR) = NEW\nStep 7: Exit",
+     "terms": {
+      "en": "O(n). Stop when LINK(PTR) = NULL."
+     }
+    },
+    {
+     "name": {
+      "en": "Insert after a node"
+     },
+     "f": "Algorithm INSAFTER(START, KEY, ITEM)\nStep 1: Set PTR = START\nStep 2: Repeat while PTR != NULL and\n        INFO(PTR) != KEY\n            Set PTR = LINK(PTR)\nStep 3: If PTR = NULL then\n            Write \"Key not found\" and Exit\nStep 4: NEW = getnode()\n        Set INFO(NEW) = ITEM\nStep 5: Set LINK(NEW) = LINK(PTR)\nStep 6: Set LINK(PTR) = NEW\nStep 7: Exit",
+     "terms": {
+      "en": "Step 5 before Step 6."
+     }
+    },
+    {
+     "name": {
+      "en": "Insert before a node"
+     },
+     "f": "Algorithm INSBEFORE(START, KEY, ITEM)\nStep 1: Set PTR = START, PREV = NULL\nStep 2: Repeat while PTR != NULL and\n        INFO(PTR) != KEY\n            Set PREV = PTR\n            Set PTR = LINK(PTR)\nStep 3: If PTR = NULL then\n            Write \"Key not found\" and Exit\nStep 4: NEW = getnode()\n        Set INFO(NEW) = ITEM\n        Set LINK(NEW) = PTR\nStep 5: If PREV = NULL then\n            Set START = NEW\n        Else\n            Set LINK(PREV) = NEW\nStep 6: Exit",
+     "terms": {
+      "en": "PREV trails PTR."
+     }
+    },
+    {
+     "name": {
+      "en": "Insert in sorted list"
+     },
+     "f": "Algorithm INSORD(START, ITEM)\nStep 1: NEW = getnode()\n        Set INFO(NEW) = ITEM\nStep 2: If START = NULL or\n        ITEM < INFO(START) then\n            Set LINK(NEW) = START\n            Set START = NEW and Exit\nStep 3: Set PTR = START\nStep 4: Repeat while LINK(PTR) != NULL\n        and INFO(LINK(PTR)) < ITEM\n            Set PTR = LINK(PTR)\nStep 5: Set LINK(NEW) = LINK(PTR)\nStep 6: Set LINK(PTR) = NEW\nStep 7: Exit",
+     "terms": {
+      "en": "List stays in ascending order."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Deletion"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Delete first node"
+     },
+     "f": "Algorithm DELFIRST(START)\nStep 1: If START = NULL then\n            Write \"Underflow\" and Exit\nStep 2: Set PTR = START\nStep 3: Set START = LINK(START)\nStep 4: Free(PTR)\nStep 5: Exit",
+     "terms": {
+      "en": "O(1). Check underflow."
+     }
+    },
+    {
+     "name": {
+      "en": "Delete last node"
+     },
+     "f": "Algorithm DELLAST(START)\nStep 1: If START = NULL then\n            Write \"Underflow\" and Exit\nStep 2: If LINK(START) = NULL then\n            Free(START), Set START = NULL\n            and Exit\nStep 3: Set PREV = START\n        Set PTR = LINK(START)\nStep 4: Repeat while LINK(PTR) != NULL\n            Set PREV = PTR\n            Set PTR = LINK(PTR)\nStep 5: Set LINK(PREV) = NULL\nStep 6: Free(PTR)\nStep 7: Exit",
+     "terms": {
+      "en": "O(n). One-node case: START = NULL."
+     }
+    }
+   ]
+  }
+ ],
+ "numericals": [
+  {
+   "id": "ds3n1",
+   "q": {
+    "en": "Given int a = 5; int *p = &a; int **q = &p; *p = *p + 3; **q = **q * 2; with addresses &a = 1000, &p = 2000, &q = 3000, find the values of a, p, *p, q, *q, **q and &q."
+   },
+   "a": {
+    "en": "<p>*p = *p + 3 → a = 5 + 3 = 8.<br>**q = **q * 2 → a = 8 × 2 = 16 (q → p → a).</p><table><tr><th>Expression</th><th>Value</th><th>Reason</th></tr><tr><td>a</td><td>16</td><td>changed through *p and **q</td></tr><tr><td>p</td><td>1000</td><td>address of a</td></tr><tr><td>*p</td><td>16</td><td>value at 1000</td></tr><tr><td>q</td><td>2000</td><td>address of p</td></tr><tr><td>*q</td><td>1000</td><td>value of p</td></tr><tr><td>**q</td><td>16</td><td>value of a</td></tr><tr><td>&amp;q</td><td>3000</td><td>address of q</td></tr></table>"
+   }
+  },
+  {
+   "id": "ds3n2",
+   "q": {
+    "en": "int a[5] = {10, 20, 30, 40, 50}; int *p = a; The base address is 1000 and int takes 4 bytes. Find p + 2, *(p + 2), *p + 2, and p and *p after p++. Also find c + 3 for a char pointer at 2000 and d + 1 for a double pointer at 3000."
+   },
+   "a": {
+    "en": "<table><tr><th>Expression</th><th>Value</th><th>Working</th></tr><tr><td>p + 2</td><td>1008</td><td>1000 + 2 × 4</td></tr><tr><td>*(p + 2)</td><td>30</td><td>a[2]</td></tr><tr><td>*p + 2</td><td>12</td><td>a[0] + 2 (* first, then +)</td></tr><tr><td>p after p++</td><td>1004</td><td>1000 + 4</td></tr><tr><td>*p after p++</td><td>20</td><td>a[1]</td></tr><tr><td>c + 3 (char *)</td><td>2003</td><td>2000 + 3 × 1</td></tr><tr><td>d + 1 (double *)</td><td>3008</td><td>3000 + 1 × 8</td></tr></table><p>Rule: <b>p + n = address + n × sizeof(type)</b>.</p>"
+   }
+  },
+  {
+   "id": "ds3n3",
+   "q": {
+    "en": "Find the memory needed by struct emp { int id; char name[15]; float salary; double bonus; }; Take int = 4, char = 1, float = 4, double = 8 bytes."
+   },
+   "a": {
+    "en": "<table><tr><th>Member</th><th>Size</th><th>Offset (gcc)</th></tr><tr><td>int id</td><td>4</td><td>0 to 3</td></tr><tr><td>char name[15]</td><td>15</td><td>4 to 18</td></tr><tr><td>(padding)</td><td>1</td><td>19</td></tr><tr><td>float salary</td><td>4</td><td>20 to 23</td></tr><tr><td>double bonus</td><td>8</td><td>24 to 31</td></tr></table><p>Sum of members = 4 + 15 + 4 + 8 = <b>31 bytes</b> (answer expected in theory).<br>Actual <code>sizeof(struct emp)</code> with gcc = <b>32 bytes</b>, because the compiler adds 1 padding byte so that salary starts at a multiple of 4. (Checked with gcc.)</p>"
+   }
+  },
+  {
+   "id": "ds3n4",
+   "q": {
+    "en": "Find the bytes allocated: (a) malloc(10 * sizeof(int)) (b) calloc(5, sizeof(float)) (c) malloc(3 * sizeof(struct student)) where student = {int roll; char name[20]; float marks;} (d) realloc of (a) to 15 ints."
+   },
+   "a": {
+    "en": "<table><tr><th>Call</th><th>Bytes</th><th>Initial values</th></tr><tr><td>malloc(10 * 4)</td><td>40</td><td>garbage</td></tr><tr><td>calloc(5, 4)</td><td>20</td><td>all 0</td></tr><tr><td>malloc(3 × 28)</td><td>84</td><td>garbage</td></tr><tr><td>realloc(a, 15 * 4)</td><td>60</td><td>first 10 kept</td></tr></table><p>sizeof(struct student) = 4 + 20 + 4 = 28 bytes (gcc also gives 28: no padding needed).</p>"
+   }
+  },
+  {
+   "id": "ds3n5",
+   "q": {
+    "en": "Starting with an empty singly linked list, show the list after each operation: insert 20 at end, insert 10 at beginning, insert 40 at end, insert 30 after 20, insert 5 before 10, delete first, delete last, insert 50 at end."
+   },
+   "a": {
+    "en": "<table><tr><th>Operation</th><th>List</th><th>START→</th><th>Count</th></tr><tr><td>Insert 20 at end</td><td>20 → NULL</td><td>20</td><td>1</td></tr><tr><td>Insert 10 at beginning</td><td>10 → 20 → NULL</td><td>10</td><td>2</td></tr><tr><td>Insert 40 at end</td><td>10 → 20 → 40 → NULL</td><td>10</td><td>3</td></tr><tr><td>Insert 30 after 20</td><td>10 → 20 → 30 → 40 → NULL</td><td>10</td><td>4</td></tr><tr><td>Insert 5 before 10</td><td>5 → 10 → 20 → 30 → 40 → NULL</td><td>5</td><td>5</td></tr><tr><td>Delete first (5)</td><td>10 → 20 → 30 → 40 → NULL</td><td>10</td><td>4</td></tr><tr><td>Delete last (40)</td><td>10 → 20 → 30 → NULL</td><td>10</td><td>3</td></tr><tr><td>Insert 50 at end</td><td>10 → 20 → 30 → 50 → NULL</td><td>10</td><td>4</td></tr></table><p><b>Final list: 10 → 20 → 30 → 50 → NULL</b></p>"
+   }
+  },
+  {
+   "id": "ds3n6",
+   "q": {
+    "en": "Insert 30, 10, 50, 20, 5, 40 one by one into an initially empty sorted (ascending) linked list. Show the list after each insertion."
+   },
+   "a": {
+    "en": "<table><tr><th>Insert</th><th>Position</th><th>List</th></tr><tr><td>30</td><td>beginning (list empty)</td><td>30</td></tr><tr><td>10</td><td>beginning (10 &lt; 30)</td><td>10 30</td></tr><tr><td>50</td><td>after 30 (end)</td><td>10 30 50</td></tr><tr><td>20</td><td>after 10 (next 30 &gt; 20)</td><td>10 20 30 50</td></tr><tr><td>5</td><td>beginning (5 &lt; 10)</td><td>5 10 20 30 50</td></tr><tr><td>40</td><td>after 30 (next 50 &gt; 40)</td><td>5 10 20 30 40 50</td></tr></table><p>Rule: move PTR while the <b>next</b> node's data is smaller than the new item, then insert after PTR.</p>"
+   }
+  },
+  {
+   "id": "ds3n7",
+   "q": {
+    "en": "The memory table below holds a linked list with START = 300. Write the list and count its nodes. Addresses (INFO, LINK): 100 (D, NULL), 200 (B, 400), 300 (A, 200), 400 (C, 100), 500 (X, NULL)."
+   },
+   "a": {
+    "en": "<table><tr><th>PTR</th><th>INFO(PTR)</th><th>LINK(PTR)</th></tr><tr><td>300</td><td>A</td><td>200</td></tr><tr><td>200</td><td>B</td><td>400</td></tr><tr><td>400</td><td>C</td><td>100</td></tr><tr><td>100</td><td>D</td><td>NULL</td></tr></table><p><b>List: A → B → C → D → NULL, count = 4</b>.<br>Node 500 (X) is not linked from START, so it is not part of the list. The nodes are not stored in order in memory; the links decide the order.</p>"
+   }
+  },
+  {
+   "id": "ds3n8",
+   "q": {
+    "en": "List: 15 → 42 → 8 → 23 → 4. Trace the search for 23 and for 99 and count the comparisons. Also count the nodes."
+   },
+   "a": {
+    "en": "<p><b>Search 23:</b></p><table><tr><th>POS</th><th>INFO(PTR)</th><th>= 23 ?</th></tr><tr><td>1</td><td>15</td><td>no</td></tr><tr><td>2</td><td>42</td><td>no</td></tr><tr><td>3</td><td>8</td><td>no</td></tr><tr><td>4</td><td>23</td><td>yes, found</td></tr></table><p>Found at position 4 after 4 comparisons.</p><p><b>Search 99:</b></p><table><tr><th>POS</th><th>INFO(PTR)</th><th>= 99 ?</th></tr><tr><td>1</td><td>15</td><td>no</td></tr><tr><td>2</td><td>42</td><td>no</td></tr><tr><td>3</td><td>8</td><td>no</td></tr><tr><td>4</td><td>23</td><td>no</td></tr><tr><td>5</td><td>4</td><td>no</td></tr><tr><td>-</td><td>NULL</td><td>end of list</td></tr></table><p>Not found after 5 comparisons (worst case). <b>Count = 5 nodes</b>.</p>"
+   }
+  },
+  {
+   "id": "ds3n9",
+   "q": {
+    "en": "List 10 (@100) → 20 (@200) → 30 (@300) → NULL. Show the link changes to (a) insert 15 (@400) before 20 and (b) insert 35 (@500) after 30."
+   },
+   "a": {
+    "en": "<p><b>(a) Before 20:</b> PTR moves to 200 (data 20); PREV = 100.</p><table><tr><th>Step</th><th>Change</th></tr><tr><td>LINK(NEW) = PTR</td><td>LINK(400) = 200</td></tr><tr><td>LINK(PREV) = NEW</td><td>LINK(100) = 400</td></tr></table><p><b>(b) After 30:</b> PTR = 300.</p><table><tr><th>Step</th><th>Change</th></tr><tr><td>LINK(NEW) = LINK(PTR)</td><td>LINK(500) = NULL</td></tr><tr><td>LINK(PTR) = NEW</td><td>LINK(300) = 500</td></tr></table><p><b>Final: 10 → 15 → 20 → 30 → 35 → NULL</b> (START = 100 is unchanged).</p>"
+   }
+  }
+ ],
+ "syntax": [],
+ "viva": [
+  {
+   "title": {
+    "en": "Pointer, Structure, DMA"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a pointer?"
+     },
+     "a": {
+      "en": "A variable that stores the memory address of another variable."
+     }
+    },
+    {
+     "q": {
+      "en": "What do & and * do?"
+     },
+     "a": {
+      "en": "& gives the address of a variable; * gives the value stored at the address held by a pointer."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a NULL pointer?"
+     },
+     "a": {
+      "en": "A pointer that does not point to any valid memory (value NULL). The last node of a list has next = NULL."
+     }
+    },
+    {
+     "q": {
+      "en": "If int *p holds 1000, what is p + 1?"
+     },
+     "a": {
+      "en": "1004, because p + 1 moves by sizeof(int) = 4 bytes."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a structure?"
+     },
+     "a": {
+      "en": "A user-defined data type that groups members of different data types under one name."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between . and -> ?"
+     },
+     "a": {
+      "en": "The dot operator accesses members through a structure variable; the arrow operator through a structure pointer."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a self-referential structure?"
+     },
+     "a": {
+      "en": "A structure that contains a pointer to a structure of the same type, e.g. a linked list node."
+     }
+    },
+    {
+     "q": {
+      "en": "What is dynamic memory allocation?"
+     },
+     "a": {
+      "en": "Allocating memory at run time from the heap using malloc, calloc and realloc, and releasing it with free."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between malloc and calloc?"
+     },
+     "a": {
+      "en": "malloc takes one argument and leaves garbage values; calloc takes two arguments and initialises memory to 0."
+     }
+    },
+    {
+     "q": {
+      "en": "What does malloc return if memory is not available?"
+     },
+     "a": {
+      "en": "NULL."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a memory leak?"
+     },
+     "a": {
+      "en": "Memory allocated dynamically that is never freed."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a dangling pointer?"
+     },
+     "a": {
+      "en": "A pointer that still holds the address of memory that has been freed."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Linked List"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a linked list?"
+     },
+     "a": {
+      "en": "A linear collection of nodes in which each node contains data and the address of the next node."
+     }
+    },
+    {
+     "q": {
+      "en": "What are the parts of a node?"
+     },
+     "a": {
+      "en": "INFO (data) field and LINK (next pointer) field."
+     }
+    },
+    {
+     "q": {
+      "en": "What does START hold?"
+     },
+     "a": {
+      "en": "The address of the first node. START = NULL means the list is empty."
+     }
+    },
+    {
+     "q": {
+      "en": "How is the end of a singly list identified?"
+     },
+     "a": {
+      "en": "The last node's next field is NULL."
+     }
+    },
+    {
+     "q": {
+      "en": "Give two advantages of a linked list over an array."
+     },
+     "a": {
+      "en": "Dynamic size; insertion and deletion without shifting elements."
+     }
+    },
+    {
+     "q": {
+      "en": "Give two disadvantages of a linked list."
+     },
+     "a": {
+      "en": "Extra memory for pointers; no random access, so access is O(n)."
+     }
+    },
+    {
+     "q": {
+      "en": "What are the types of linked list?"
+     },
+     "a": {
+      "en": "Singly, circular and doubly linked lists (and circular doubly)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a circular linked list?"
+     },
+     "a": {
+      "en": "A list in which the last node points back to the first node instead of NULL."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a doubly linked list?"
+     },
+     "a": {
+      "en": "A list whose nodes have prev and next pointers, so it can be traversed in both directions."
+     }
+    },
+    {
+     "q": {
+      "en": "Give applications of linked list."
+     },
+     "a": {
+      "en": "Dynamic stack and queue, polynomial representation, graphs (adjacency list), undo/redo, playlists."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Operations"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is the time complexity of inserting at the beginning?"
+     },
+     "a": {
+      "en": "O(1)."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is insertion at the end O(n)?"
+     },
+     "a": {
+      "en": "We must traverse the whole list to reach the last node (unless a LAST pointer is kept)."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is a PREV pointer needed to insert before a node?"
+     },
+     "a": {
+      "en": "A singly list cannot move backwards, so PREV keeps the address of the node before PTR."
+     }
+    },
+    {
+     "q": {
+      "en": "What is underflow in a linked list?"
+     },
+     "a": {
+      "en": "Trying to delete from an empty list (START = NULL)."
+     }
+    },
+    {
+     "q": {
+      "en": "Which search can be applied on a linked list?"
+     },
+     "a": {
+      "en": "Only linear search, because there is no direct access to the middle node."
+     }
+    },
+    {
+     "q": {
+      "en": "What happens if START is moved before linking the new node?"
+     },
+     "a": {
+      "en": "The address of the rest of the list is lost."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "What is a pointer? Explain & and * operators with an example."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain pointer arithmetic with an example."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "What is a structure? Explain how to access structure members using a pointer."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "What is dynamic memory allocation? Explain malloc(), calloc(), realloc() and free()."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Differentiate malloc() and calloc()."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Differentiate static and dynamic memory allocation."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "What is a linked list? Explain its representation with a diagram."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Differentiate array and linked list."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain types of linked list with diagrams."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "List applications of linked list."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Write an algorithm to insert a node at the beginning and at the end of a singly linked list."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write an algorithm to insert a node after a given node in a singly linked list."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write an algorithm to insert a node into a sorted singly linked list."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write algorithms to delete the first and the last node of a singly linked list."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write algorithms to search a node and count the nodes in a singly linked list."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Write a C program to implement a singly linked list with insert, delete, search and count operations."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Write a C program to create a singly linked list and display it."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain circular linked list and doubly linked list with node structure and diagrams."
+   },
+   "marks": 4
+  }
+ ],
+ "tabs": [
+  "notes",
+  "programs",
+  "diagrams",
+  "algorithms",
+  "numericals",
+  "viva",
+  "exam"
+ ],
+ "intro": "intro_ds"
+}
