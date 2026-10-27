@@ -1,0 +1,827 @@
+{
+ "subject": "DI03000031",
+ "unit": 3,
+ "format": "notes",
+ "title": {
+  "en": "Normalization"
+ },
+ "weightage": 13,
+ "hours": 6,
+ "tabs": [
+  "notes",
+  "numericals",
+  "diagrams",
+  "programs",
+  "viva",
+  "exam"
+ ],
+ "notes": [
+  {
+   "title": {
+    "en": "3.1 Basics of Normalization"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Normalization: Definition and Importance"
+     },
+     "body": {
+      "en": "\n<p><b>Normalization</b> is the process of organizing the columns (attributes) and tables (relations) of a relational database to <b>reduce data redundancy</b> and <b>remove insertion, update and deletion anomalies</b>. A large table is broken into smaller, well-structured tables that are linked by primary key / foreign key relationships.</p>\n<p>It was introduced by <b>E. F. Codd</b> (the father of the relational model), who defined 1NF, 2NF and 3NF. Normalization is done step by step using <b>functional dependencies</b> and <b>normal forms</b>.</p>\n<h4>Objectives (goals)</h4>\n<ul><li>Store each fact only <b>once</b> (minimum redundancy).</li>\n<li>Remove insertion, update and deletion anomalies.</li>\n<li>Keep the data <b>consistent</b> and maintain data integrity.</li>\n<li>Make the design simple, flexible and easy to extend.</li>\n<li>Make sure the decomposition is <b>lossless</b>: the original data can be rebuilt by joining the tables.</li></ul>\n<h4>Importance of normalization</h4>\n<ul><li><b>Saves storage space</b> because repeated data is removed.</li>\n<li><b>Data consistency:</b> a value is changed in one place only, so different copies cannot disagree.</li>\n<li><b>Easy maintenance:</b> insert, update and delete are simple and safe.</li>\n<li><b>Better data integrity</b> through primary and foreign keys.</li>\n<li><b>Clear structure:</b> each table describes one entity (student, course, department), which makes the design easier to understand.</li>\n<li>It is a key step in the <b>logical design</b> of a database (after the E-R diagram is converted into tables).</li></ul>\n"
+     }
+    },
+    {
+     "h": {
+      "en": "Data Redundancy and Anomalies"
+     },
+     "body": {
+      "en": "\n<p><b>Data redundancy</b> means the same data is stored repeatedly in a database. In the table STUD_COURSE(ROLL, NAME, CID, CNAME, FEES), the course name and fees are repeated for every student in that course. Redundancy wastes space and causes three kinds of problems called <b>anomalies</b>.</p>\n<h4>1. Insertion anomaly</h4>\n<p>We cannot insert some data without inserting other, unrelated data. For example, a new course C3 cannot be stored until at least one student joins it, because ROLL is part of the primary key and cannot be NULL.</p>\n<h4>2. Update (modification) anomaly</h4>\n<p>The same fact is stored in many rows, so a change must be made in every row. If even one row is missed, the data becomes <b>inconsistent</b>. For example, the DBMS fee is stored in 3 rows; updating only one row gives two different fees for the same course.</p>\n<h4>3. Deletion anomaly</h4>\n<p>Deleting some data unintentionally deletes other useful data. For example, if Isha is the only student of the Python course and her row is deleted, all information about the Python course is also lost.</p>\n<p><b>Cause:</b> one table stores facts about more than one entity (students and courses). <b>Solution:</b> normalization: store students, courses and enrolments in separate tables.</p>\n"
+     },
+     "diagram": "db3_anomalies",
+     "programs": [
+      "q3_1",
+      "q3_2"
+     ]
+    },
+    {
+     "h": {
+      "en": "Keys in a Relation"
+     },
+     "body": {
+      "en": "\n<p>Keys are used to identify rows uniquely and to define normal forms.</p>\n<ul><li><b>Super key:</b> a set of one or more attributes that uniquely identifies each row. Example: {ROLL}, {ROLL, NAME}, {EMAIL, CITY}.</li>\n<li><b>Candidate key:</b> a <b>minimal</b> super key: no attribute can be removed from it. Example: {ROLL}, {EMAIL}, {AADHAAR}.</li>\n<li><b>Primary key:</b> the candidate key chosen by the designer to identify rows. It must be unique and NOT NULL. Example: ROLL.</li>\n<li><b>Alternate key:</b> a candidate key that is not chosen as the primary key. Example: EMAIL, AADHAAR.</li>\n<li><b>Composite key:</b> a key made of two or more attributes. Example: (ROLL, CID) in RESULT.</li>\n<li><b>Foreign key:</b> an attribute that refers to the primary key of another (or the same) table. Example: DEPTNO in EMP refers to DEPT(DEPTNO).</li></ul>\n<p><b>Prime attribute:</b> an attribute that is part of <b>any</b> candidate key. <b>Non-prime (non-key) attribute:</b> an attribute that is not part of any candidate key. These terms are used in the definitions of 2NF and 3NF.</p>\n"
+     },
+     "diagram": "db3_keys"
+    },
+    {
+     "h": {
+      "en": "Functional Dependency (FD)"
+     },
+     "body": {
+      "en": "\n<p>A <b>functional dependency</b> X → Y (read \"X determines Y\") holds on a relation R if, whenever two rows have the same value of X, they must also have the same value of Y. X is called the <b>determinant</b> and Y the <b>dependent</b>.</p>\n<p>In other words, the value of X <b>uniquely decides</b> the value of Y.</p>\n<p><b>Examples</b> (from EMP, DEPT and RESULT):</p>\n<ul><li>EMPNO → ENAME, SAL, DEPTNO (one employee number gives exactly one name, salary and department).</li>\n<li>DEPTNO → DNAME, LOC.</li>\n<li>ROLL, CID → MARKS (a student gets one mark in one course).</li>\n<li>ENAME → EMPNO does <b>not</b> hold if two employees can have the same name.</li></ul>\n<p>FDs come from the <b>meaning</b> of the data (business rules), not from a few sample rows. A sample can only show that an FD does <b>not</b> hold.</p>\n<p><b>Trivial FD:</b> X → Y where Y is a subset of X, e.g. {ROLL, NAME} → NAME. It always holds. <b>Non-trivial FD:</b> Y is not a subset of X, e.g. ROLL → NAME.</p>\n"
+     },
+     "diagram": "db3_fd"
+    },
+    {
+     "h": {
+      "en": "Armstrong's Axioms and Attribute Closure"
+     },
+     "body": {
+      "en": "\n<p><b>Armstrong's axioms</b> are rules for deriving new FDs from given FDs (F). They are sound and complete.</p>\n<table><tr><th>Rule</th><th>Statement</th></tr>\n<tr><td>Reflexivity</td><td>If Y ⊆ X, then X → Y</td></tr>\n<tr><td>Augmentation</td><td>If X → Y, then XZ → YZ</td></tr>\n<tr><td>Transitivity</td><td>If X → Y and Y → Z, then X → Z</td></tr>\n<tr><td>Union (derived)</td><td>If X → Y and X → Z, then X → YZ</td></tr>\n<tr><td>Decomposition (derived)</td><td>If X → YZ, then X → Y and X → Z</td></tr>\n<tr><td>Pseudo-transitivity (derived)</td><td>If X → Y and WY → Z, then WX → Z</td></tr></table>\n<h4>Attribute closure (X<sup>+</sup>)</h4>\n<p>The closure X<sup>+</sup> is the set of all attributes that are functionally determined by X using F.</p>\n<ol><li>Set result = X.</li>\n<li>For each FD A → B in F: if A ⊆ result, add B to result.</li>\n<li>Repeat step 2 until result does not change.</li></ol>\n<p><b>Uses:</b> if X<sup>+</sup> contains all attributes of R, then X is a <b>super key</b>; if no proper subset of X is a super key, X is a <b>candidate key</b>. It also tests whether an FD X → Y holds (check whether Y ⊆ X<sup>+</sup>).</p>\n<p><b>Tip:</b> an attribute that never appears on the right side of any FD must be part of every candidate key.</p>\n"
+     },
+     "examples": [
+      "n3_7"
+     ]
+    },
+    {
+     "h": {
+      "en": "Types of Functional Dependency"
+     },
+     "body": {
+      "en": "\n<ul><li><b>Full functional dependency:</b> Y depends on the whole of X and not on any proper subset of X. Example: (ROLL, CID) → MARKS, since neither ROLL alone nor CID alone gives the marks.</li>\n<li><b>Partial dependency:</b> a non-prime attribute depends on <b>part</b> of a composite candidate key. Example: in RESULT(ROLL, CID, NAME, MARKS), ROLL → NAME. Partial dependencies violate <b>2NF</b>.</li>\n<li><b>Transitive dependency:</b> X → Y and Y → Z, where Y is not a key and Z is non-prime, so X → Z holds indirectly. Example: EMPNO → DEPTNO and DEPTNO → DNAME give EMPNO → DNAME. Transitive dependencies violate <b>3NF</b>.</li>\n<li><b>Trivial / non-trivial dependency:</b> explained in the previous topic.</li>\n<li><b>Multivalued dependency</b> (X →→ Y): one X value is associated with a set of Y values independent of other attributes; used in 4NF (beyond syllabus).</li></ul>\n"
+     },
+     "diagram": "db3_fd_types"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3.2 Normal Forms"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Normal Forms: Overview"
+     },
+     "body": {
+      "en": "\n<p>A <b>normal form</b> is a condition (set of rules) that a relation must satisfy. Each higher normal form removes one more kind of bad dependency, and each includes all the lower ones:</p>\n<p>UNF → 1NF → 2NF → 3NF → BCNF → 4NF → 5NF</p>\n<table><tr><th>Normal form</th><th>Rule</th><th>Removes</th></tr>\n<tr><td>1NF</td><td>All values atomic; no repeating groups</td><td>Multi-valued cells</td></tr>\n<tr><td>2NF</td><td>1NF + no partial dependency</td><td>Partial dependency</td></tr>\n<tr><td>3NF</td><td>2NF + no transitive dependency</td><td>Transitive dependency</td></tr>\n<tr><td>BCNF</td><td>Every determinant is a candidate key</td><td>Remaining anomalies</td></tr></table>\n<p>The method is <b>decomposition</b>: a relation that breaks a rule is split into two or more relations, each with its own key. In practice, most databases are designed up to <b>3NF</b>.</p>\n<p>An <b>unnormalized form (UNF)</b> table contains repeating groups or multi-valued attributes, e.g. a COURSES column holding \"DBMS, OS\".</p>\n"
+     },
+     "diagram": "db3_steps"
+    },
+    {
+     "h": {
+      "en": "First Normal Form (1NF)"
+     },
+     "body": {
+      "en": "\n<p><b>Definition:</b> a relation is in 1NF if every attribute contains only <b>atomic (indivisible) values</b> and there are no repeating groups. Each cell holds a single value of the attribute's domain.</p>\n<h4>Rules of 1NF</h4>\n<ul><li>Each column holds a single value (no lists such as \"DBMS, OS\").</li>\n<li>No repeating groups of columns (COURSE1, COURSE2, COURSE3).</li>\n<li>All values in a column are of the same type (domain).</li>\n<li>Each row is unique: a primary key is identified.</li>\n<li>The order of rows and columns does not matter.</li></ul>\n<h4>How to convert UNF to 1NF</h4>\n<ol><li><b>Flattening:</b> create a separate row for each value of the multi-valued attribute and repeat the other values. The key becomes composite, e.g. (ROLL, COURSE).</li>\n<li><b>Decomposition:</b> move the repeating group to a new table together with a copy of the primary key: STUDENT(ROLL, NAME) and STUDENT_COURSE(ROLL, COURSE).</li></ol>\n<p>A table in 1NF can still have redundancy (NAME repeated for each course), which is removed by 2NF.</p>\n<p>In Oracle every column of a normal table already holds one value of its data type, so tables created with CREATE TABLE are in 1NF as long as lists are not stored inside VARCHAR2 columns.</p>\n"
+     },
+     "diagram": "db3_1nf",
+     "examples": [
+      "n3_1"
+     ]
+    },
+    {
+     "h": {
+      "en": "Second Normal Form (2NF)"
+     },
+     "body": {
+      "en": "\n<p><b>Definition:</b> a relation is in 2NF if it is in <b>1NF</b> and every non-prime attribute is <b>fully functionally dependent</b> on every candidate key, i.e. there is <b>no partial dependency</b>.</p>\n<p>A partial dependency is possible only when the key is <b>composite</b>. So a 1NF relation whose candidate keys all have a single attribute is automatically in 2NF.</p>\n<h4>Steps to convert 1NF to 2NF</h4>\n<ol><li>Find the candidate key(s) and the FDs.</li>\n<li>Find each partial dependency (part of key → non-prime attributes).</li>\n<li>Move each partial dependency into a new table; the part of the key becomes the primary key of the new table.</li>\n<li>Keep the attributes that depend on the whole key in the original table with the full key.</li></ol>\n<p><b>Example:</b> RESULT(ROLL, CID, NAME, CNAME, MARKS) with key (ROLL, CID). ROLL → NAME and CID → CNAME are partial. 2NF tables: STUDENT(ROLL, NAME), COURSE(CID, CNAME), RESULT(ROLL, CID, MARKS).</p>\n<p>A 2NF table can still have transitive dependencies, which are removed by 3NF.</p>\n"
+     },
+     "diagram": "db3_2nf",
+     "examples": [
+      "n3_2",
+      "n3_5"
+     ]
+    },
+    {
+     "h": {
+      "en": "Third Normal Form (3NF)"
+     },
+     "body": {
+      "en": "\n<p><b>Definition:</b> a relation is in 3NF if it is in <b>2NF</b> and <b>no non-prime attribute is transitively dependent</b> on a candidate key.</p>\n<p><b>Formal definition:</b> for every non-trivial FD X → A, either X is a <b>super key</b> or A is a <b>prime attribute</b>.</p>\n<p>In simple words: \"every non-key attribute must depend on the key, the whole key, and nothing but the key.\"</p>\n<h4>Steps to convert 2NF to 3NF</h4>\n<ol><li>Find each transitive dependency: key → Y → Z, where Y is a non-key attribute.</li>\n<li>Move Y and the attributes it determines (Z) into a new table with Y as the primary key.</li>\n<li>Keep Y in the original table as a foreign key.</li></ol>\n<p><b>Example:</b> EMPLOYEE(EMPNO, ENAME, SAL, DEPTNO, DNAME, LOC) has EMPNO → DEPTNO → DNAME, LOC. 3NF tables: EMP(EMPNO, ENAME, SAL, DEPTNO) and DEPT(DEPTNO, DNAME, LOC). This is exactly how the EMP and DEPT tables of the SCOTT schema are designed.</p>\n<p>In SQL, an existing table can be split with CREATE TABLE ... AS SELECT DISTINCT:</p>\n<pre class=\"c\">CREATE TABLE dept3 AS\nSELECT DISTINCT deptno, dname, loc\nFROM emp_flat;</pre>\n"
+     },
+     "diagram": "db3_3nf",
+     "programs": [
+      "q3_5"
+     ],
+     "examples": [
+      "n3_3",
+      "n3_6"
+     ]
+    },
+    {
+     "h": {
+      "en": "Boyce-Codd Normal Form (BCNF)"
+     },
+     "body": {
+      "en": "\n<p><b>BCNF</b> is a stronger version of 3NF. A relation is in BCNF if for every non-trivial FD X → Y, <b>X is a super key</b>. That is, every determinant must be a candidate key.</p>\n<p>3NF allows X → A when A is a prime attribute; BCNF does not. So every BCNF relation is in 3NF, but a 3NF relation may not be in BCNF.</p>\n<p><b>Example:</b> TEACH(STUDENT, SUBJECT, TEACHER), where each teacher teaches only one subject (TEACHER → SUBJECT) and (STUDENT, SUBJECT) → TEACHER. The candidate keys are (STUDENT, SUBJECT) and (STUDENT, TEACHER), so all attributes are prime and the relation is in 3NF. But TEACHER is not a super key, so it is <b>not in BCNF</b>. Decompose into (TEACHER, SUBJECT) and (STUDENT, TEACHER).</p>\n<p>BCNF decomposition is always lossless but may not preserve all dependencies, which is why 3NF is often accepted in practice.</p>\n"
+     }
+    },
+    {
+     "h": {
+      "en": "Normalization: Complete Example (UNF to 3NF)"
+     },
+     "body": {
+      "en": "\n<p>Normalization of a real table is done in a fixed order. Write down the FDs first, then apply each normal form in turn.</p>\n<ol><li><b>UNF → 1NF:</b> remove repeating groups; make every value atomic; find the primary key.</li>\n<li><b>1NF → 2NF:</b> remove partial dependencies (part of key → non-key).</li>\n<li><b>2NF → 3NF:</b> remove transitive dependencies (non-key → non-key).</li>\n<li><b>Check:</b> each final table has a primary key; foreign keys link the tables; a natural join of the tables gives back the original data (lossless).</li></ol>\n<p>A student-course database, for example, ends with three tables: STUDENT(ROLL, NAME), COURSE(CID, CNAME, FEES) and ENROLL(ROLL, CID). A new course can be added without students, a fee is changed in one row, and deleting an enrolment never deletes course data.</p>\n<p>The worked examples below show a complete order bill normalized to four tables, and an abstract relation normalized step by step.</p>\n"
+     },
+     "programs": [
+      "q3_3",
+      "q3_4"
+     ],
+     "examples": [
+      "n3_4"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3.3 Advantages and Disadvantages of Normalization"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Advantages and Disadvantages of Normalization"
+     },
+     "body": {
+      "en": "\n<h4>Advantages</h4>\n<ul><li><b>Less redundancy:</b> each fact is stored only once, which saves storage.</li>\n<li><b>No anomalies:</b> insertion, update and deletion anomalies are removed.</li>\n<li><b>Data consistency and integrity:</b> one copy of the data cannot disagree with itself; keys enforce relationships.</li>\n<li><b>Easier maintenance:</b> changes are made in one place.</li>\n<li><b>Better design:</b> each table represents one entity, so the database is easy to understand and extend.</li>\n<li><b>Smaller tables:</b> indexes and searches on small tables are faster, and fewer NULL values are stored.</li>\n<li><b>Flexible queries:</b> data can be combined in many ways using joins.</li></ul>\n<h4>Disadvantages</h4>\n<ul><li><b>More tables:</b> the number of tables increases, so the design looks complex.</li>\n<li><b>More joins:</b> queries need joins to combine data, which can reduce performance for reports.</li>\n<li><b>Harder to write queries</b> for beginners.</li>\n<li><b>Requires skill:</b> correct FDs and keys must be identified; this takes time and a good understanding of the data.</li>\n<li>Over-normalization (beyond 3NF / BCNF) may give little benefit for extra complexity.</li></ul>\n"
+     }
+    },
+    {
+     "h": {
+      "en": "Decomposition: Lossless Join and Dependency Preservation"
+     },
+     "body": {
+      "en": "\n<p><b>Decomposition</b> means replacing a relation R by two or more relations R1, R2, ... such that every attribute of R appears in at least one of them. A good decomposition has two properties.</p>\n<h4>1. Lossless-join decomposition</h4>\n<p>Joining R1 and R2 gives back <b>exactly</b> the original R: no rows are lost and no extra (spurious) rows appear. <b>Test:</b> the decomposition of R into R1 and R2 is lossless if the common attributes R1 ∩ R2 form a key (super key) of R1 or of R2.</p>\n<p>Example: EMP(EMPNO, ENAME, DEPTNO) and DEPT(DEPTNO, DNAME, LOC). The common attribute DEPTNO is the key of DEPT, so the decomposition is lossless. Splitting into (EMPNO, ENAME) and (DNAME, LOC) would be lossy, because there is no common attribute to join on.</p>\n<h4>2. Dependency-preserving decomposition</h4>\n<p>Every FD of the original relation can be checked within a single decomposed relation (or derived from the FDs of the decomposed relations), so constraints can be enforced without joins.</p>\n<p>Decomposition into 3NF can always be done so that it is both lossless and dependency-preserving. BCNF is always lossless but may not preserve all dependencies.</p>\n"
+     }
+    },
+    {
+     "h": {
+      "en": "Denormalization"
+     },
+     "body": {
+      "en": "\n<p><b>Denormalization</b> is the deliberate process of adding some redundancy back into a normalized database (for example, combining tables or storing calculated values) to <b>improve read (query) performance</b>.</p>\n<p><b>When it is used:</b> reporting systems and data warehouses, where data is read far more often than it is updated, and joining many tables is slow.</p>\n<p><b>Examples:</b></p>\n<ul><li>Storing DNAME in an EMP report table to avoid joining DEPT.</li>\n<li>Storing a TOTAL_AMOUNT column in ORDERS instead of summing ORDER_ITEM rows every time.</li></ul>\n<table><tr><th>Normalization</th><th>Denormalization</th></tr>\n<tr><td>Removes redundancy</td><td>Adds controlled redundancy</td></tr>\n<tr><td>More tables, more joins</td><td>Fewer tables, fewer joins</td></tr>\n<tr><td>Faster insert, update and delete</td><td>Faster SELECT (reports)</td></tr>\n<tr><td>Better consistency</td><td>Risk of inconsistency</td></tr>\n<tr><td>Used in OLTP (transaction) systems</td><td>Used in OLAP / data warehouses</td></tr></table>\n<p>Denormalization is done <b>after</b> normalization, never instead of it.</p>\n"
+     }
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "q3_1",
+   "title": {
+    "en": "Unnormalized table: redundancy and update anomaly"
+   },
+   "code": {
+    "en": "SELECT * FROM stud_course;\n\n-- Fees of DBMS changed, but only one\n-- row is updated by mistake\nUPDATE stud_course SET fees = 5500\nWHERE roll = 1 AND cid = 'C1';\n\nSELECT DISTINCT cid, cname, fees\nFROM stud_course\nORDER BY cid, fees;"
+   },
+   "out": "ROLL NAME  CID CNAME  FEES\n---- ----- --- ------ ----\n   1 Aarav C1  DBMS   5000\n   2 Diya  C1  DBMS   5000\n   3 Karan C1  DBMS   5000\n   4 Isha  C2  Python 4000\n   1 Aarav C2  Python 4000\n\n1 row updated.\n\nCID CNAME  FEES\n--- ------ ----\nC1  DBMS   5000\nC1  DBMS   5500\nC2  Python 4000",
+   "expl": {
+    "en": "\n<ul><li>The course details (CNAME, FEES) are repeated for every student who joins the course, and Aarav's name is repeated for each of his courses: this is <b>redundancy</b>.</li>\n<li>The new DBMS fee was saved in only one of the three DBMS rows. Now the same course C1 shows <b>two different fees</b> (5000 and 5500): an <b>update anomaly</b>, which makes the data inconsistent.</li>\n<li>Only the dependency CID → CNAME, FEES caused this. Normalization moves it into its own table.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q3_2",
+   "title": {
+    "en": "Unnormalized table: insertion and deletion anomalies"
+   },
+   "code": {
+    "en": "-- New course C3 with no student yet\nINSERT INTO stud_course\nVALUES (NULL, NULL, 'C3', 'Java', 4500);\n\n-- Both C2 (Python) students\n-- leave the course\nDELETE FROM stud_course\nWHERE roll IN (4, 1) AND cid = 'C2';\n\nSELECT DISTINCT cid, cname, fees\nFROM stud_course\nORDER BY cid;"
+   },
+   "out": "1 row created.\n\n2 rows deleted.\n\nCID CNAME FEES\n--- ----- ----\nC1  DBMS  5000\nC3  Java  4500",
+   "expl": {
+    "en": "\n<ul><li><b>Insertion anomaly:</b> to store a new course we must insert a row with NULL roll and name. If (ROLL, CID) were the primary key, this insert would be rejected, because a key cannot be NULL.</li>\n<li><b>Deletion anomaly:</b> deleting the only students of course C2 also deleted all information about C2 (its name and fees). The course has disappeared from the database.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q3_3",
+   "title": {
+    "en": "Normalized (3NF) tables: STUDENT, COURSE and ENROLL"
+   },
+   "code": {
+    "en": "CREATE TABLE student (\n  roll NUMBER(3) PRIMARY KEY,\n  name VARCHAR2(10)\n);\n\nCREATE TABLE course (\n  cid   VARCHAR2(3) PRIMARY KEY,\n  cname VARCHAR2(10),\n  fees  NUMBER(5)\n);\n\nCREATE TABLE enroll (\n  roll NUMBER(3)\n       REFERENCES student(roll),\n  cid  VARCHAR2(3)\n       REFERENCES course(cid),\n  PRIMARY KEY (roll, cid)\n);\n\nINSERT INTO course\nVALUES ('C1', 'DBMS', 5000);\nINSERT INTO course\nVALUES ('C2', 'Python', 4000);\n\n-- course with no student: allowed\nINSERT INTO course\nVALUES ('C3', 'Java', 4500);\n\n-- fee changed in ONE row only\nUPDATE course SET fees = 5500\nWHERE cid = 'C1';\n\nSELECT * FROM course ORDER BY cid;"
+   },
+   "out": "Table created.\n\nTable created.\n\nTable created.\n\n1 row created.\n\n1 row created.\n\n1 row created.\n\n1 row updated.\n\nCID CNAME  FEES\n--- ------ ----\nC1  DBMS   5500\nC2  Python 4000\nC3  Java   4500",
+   "expl": {
+    "en": "\n<ul><li>Each fact is now stored in exactly <b>one</b> place: student details in STUDENT, course details in COURSE, and who joined which course in ENROLL.</li>\n<li>ENROLL has a composite primary key (roll, cid); both columns are foreign keys.</li>\n<li>A new course can be added without any student, so there is <b>no insertion anomaly</b>.</li>\n<li>The DBMS fee is changed with a single-row update, so there is <b>no update anomaly</b>.</li>\n<li>Deleting an enrolment from ENROLL never deletes course data, so there is <b>no deletion anomaly</b>.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q3_4",
+   "title": {
+    "en": "Join the 3NF tables to get the original data back"
+   },
+   "code": {
+    "en": "SELECT e.roll, s.name, e.cid,\n       c.cname, c.fees\nFROM enroll e\nJOIN student s ON e.roll = s.roll\nJOIN course c ON e.cid = c.cid\nORDER BY e.roll, e.cid;\n\nSELECT c.cname, COUNT(e.roll) students\nFROM course c LEFT JOIN enroll e\nON c.cid = e.cid\nGROUP BY c.cname\nORDER BY c.cname;"
+   },
+   "out": "ROLL NAME  CID CNAME  FEES\n---- ----- --- ------ ----\n   1 Aarav C1  DBMS   5000\n   1 Aarav C2  Python 4000\n   2 Diya  C1  DBMS   5000\n   3 Karan C1  DBMS   5000\n   4 Isha  C2  Python 4000\n\nCNAME  STUDENTS\n------ --------\nDBMS          3\nPython        2",
+   "expl": {
+    "en": "\n<ul><li>Joining the three tables on their keys gives back exactly the rows of the original table: the decomposition is <b>lossless</b> (no information is lost and no extra rows appear).</li>\n<li>The original view can be saved as a <b>view</b> (Unit 4) so users can still query it as one table.</li>\n<li>The second query counts the students in each course. The LEFT JOIN keeps courses that have no students.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q3_5",
+   "title": {
+    "en": "Normalize an existing table using CREATE TABLE ... AS SELECT"
+   },
+   "code": {
+    "en": "-- emp_flat repeats dname and loc\nCREATE TABLE emp_flat AS\nSELECT e.empno, e.ename, e.deptno,\n       d.dname, d.loc\nFROM emp e JOIN dept d\nON e.deptno = d.deptno;\n\n-- 3NF: move DEPTNO -> DNAME, LOC out\nCREATE TABLE dept3 AS\nSELECT DISTINCT deptno, dname, loc\nFROM emp_flat;\n\nCREATE TABLE emp3 AS\nSELECT empno, ename, deptno\nFROM emp_flat;\n\nSELECT * FROM dept3 ORDER BY deptno;\n\nSELECT COUNT(*) flat_rows,\n       COUNT(DISTINCT deptno) depts\nFROM emp_flat;"
+   },
+   "out": "Table created.\n\nTable created.\n\nTable created.\n\nDEPTNO DNAME    LOC\n------ -------- ---------\n    10 ACCOUNTS SURAT\n    20 RESEARCH AHMEDABAD\n    30 SALES    VADODARA\n\nFLAT_ROWS DEPTS\n--------- -----\n        9     3",
+   "expl": {
+    "en": "\n<ul><li><code>emp_flat</code> is a 2NF table with the transitive dependency EMPNO → DEPTNO → DNAME, LOC: the department name and location are repeated 9 times for 3 departments.</li>\n<li><code>SELECT DISTINCT</code> takes each department once, so DEPT3 stores the department facts only once.</li>\n<li>EMP3 keeps DEPTNO as the link (a foreign key) to DEPT3. A PRIMARY KEY and FOREIGN KEY can then be added using ALTER TABLE (Unit 4).</li></ul>\n"
+   }
+  }
+ ],
+ "numericals": [
+  {
+   "id": "n3_1",
+   "q": {
+    "en": "Convert the following unnormalized STUDENT table into 1NF.<br><table><tr><th>ROLL</th><th>NAME</th><th>CITY</th><th>COURSES</th></tr><tr><td>1</td><td>Aarav</td><td>Surat</td><td>DBMS, OS</td></tr><tr><td>2</td><td>Diya</td><td>Vadodara</td><td>DBMS</td></tr><tr><td>3</td><td>Karan</td><td>Rajkot</td><td>OS, CN, Java</td></tr></table>"
+   },
+   "a": {
+    "en": "\n<p><b>Why it is not in 1NF:</b> the COURSES column holds several values in one cell (a multi-valued / repeating group). 1NF requires every cell to hold a single <b>atomic</b> value.</p>\n<p><b>Method 1 (flattening):</b> write one row for each course.</p>\n<table><tr><th>ROLL</th><th>NAME</th><th>CITY</th><th>COURSE</th></tr><tr><td>1</td><td>Aarav</td><td>Surat</td><td>DBMS</td></tr><tr><td>1</td><td>Aarav</td><td>Surat</td><td>OS</td></tr><tr><td>2</td><td>Diya</td><td>Vadodara</td><td>DBMS</td></tr><tr><td>3</td><td>Karan</td><td>Rajkot</td><td>OS</td></tr><tr><td>3</td><td>Karan</td><td>Rajkot</td><td>CN</td></tr><tr><td>3</td><td>Karan</td><td>Rajkot</td><td>Java</td></tr></table>\n<p>Primary key = <b>(ROLL, COURSE)</b>, because ROLL alone repeats. The table is now in 1NF, but NAME and CITY repeat (redundancy), so it needs 2NF.</p>\n<p><b>Method 2 (decomposition):</b> move the repeating group to a separate table:</p>\n<p>STUDENT(<b>ROLL</b>, NAME, CITY)<br>STUDENT_COURSE(<b>ROLL</b>, <b>COURSE</b>)</p>\n<p>Method 2 already removes the redundancy and gives tables in 3NF.</p>\n"
+   }
+  },
+  {
+   "id": "n3_2",
+   "q": {
+    "en": "RESULT(ROLL, CID, NAME, CNAME, CREDITS, MARKS) has the functional dependencies:<br>\nROLL → NAME<br>CID → CNAME, CREDITS<br>ROLL, CID → MARKS<br>Find the key and convert the relation into 2NF."
+   },
+   "a": {
+    "en": "\n<p><b>Step 1: Candidate key.</b> (ROLL, CID)<sup>+</sup> = {ROLL, CID, NAME, CNAME, CREDITS, MARKS} = all attributes, and neither ROLL nor CID alone determines everything. So the key is <b>(ROLL, CID)</b> (composite).</p>\n<p><b>Step 2: Check 2NF.</b> Non-key attributes: NAME, CNAME, CREDITS, MARKS.</p>\n<ul><li>ROLL → NAME: NAME depends on <b>part</b> of the key → partial dependency.</li>\n<li>CID → CNAME, CREDITS: partial dependency.</li>\n<li>ROLL, CID → MARKS: full dependency (OK).</li></ul>\n<p>Because of the partial dependencies, RESULT is in <b>1NF only</b>.</p>\n<p><b>Step 3: Decompose.</b> Put each partial dependency in a separate table with its determinant as the key, and keep the full dependency with the whole key:</p>\n<p>STUDENT(<b>ROLL</b>, NAME)<br>COURSE(<b>CID</b>, CNAME, CREDITS)<br>RESULT(<b>ROLL</b>, <b>CID</b>, MARKS)</p>\n<p>ROLL and CID in RESULT are foreign keys. All three tables are in 2NF (in fact in 3NF, since no transitive dependency remains).</p>\n"
+   }
+  },
+  {
+   "id": "n3_3",
+   "q": {
+    "en": "EMPLOYEE(EMPNO, ENAME, SAL, DEPTNO, DNAME, LOC) with FDs:<br>EMPNO → ENAME, SAL, DEPTNO<br>DEPTNO → DNAME, LOC<br>\nIs it in 3NF? If not, normalize it to 3NF."
+   },
+   "a": {
+    "en": "\n<p><b>Key:</b> EMPNO<sup>+</sup> = {EMPNO, ENAME, SAL, DEPTNO} → using DEPTNO → DNAME, LOC → {all six attributes}. So EMPNO is the key.</p>\n<p><b>2NF?</b> The key has only one attribute, so a partial dependency is impossible. EMPLOYEE is in <b>2NF</b>.</p>\n<p><b>3NF?</b> DEPTNO → DNAME, LOC: a non-key attribute (DEPTNO) determines other non-key attributes. Since EMPNO → DEPTNO and DEPTNO → DNAME, we get EMPNO → DNAME <b>transitively</b>. So it is <b>not in 3NF</b>.</p>\n<p>Problem: DNAME and LOC are repeated for every employee of the department (update anomaly), and a department without employees cannot be stored (insertion anomaly).</p>\n<p><b>Decompose:</b></p>\n<p>EMP(<b>EMPNO</b>, ENAME, SAL, DEPTNO) (DEPTNO is a foreign key)<br>DEPT(<b>DEPTNO</b>, DNAME, LOC)</p>\n<p>Both tables are in 3NF. Joining EMP and DEPT on DEPTNO gives back the original table (lossless decomposition).</p>\n"
+   }
+  },
+  {
+   "id": "n3_4",
+   "q": {
+    "en": "Normalize the following customer order (bill) data up to 3NF.<br><table><tr><th>ONO</th><th>ODATE</th><th>CID</th><th>CNAME</th><th>CITY</th><th>ITEMS (ICODE, INAME, RATE, QTY)</th></tr><tr><td>501</td><td>05-OCT-26</td><td>C1</td><td>Mehta Stores</td><td>Surat</td><td>I1 Pen 10 x5; I2 Book 60 x2</td></tr><tr><td>502</td><td>06-OCT-26</td><td>C2</td><td>Shah Traders</td><td>Anand</td><td>I1 Pen 10 x3</td></tr></table>"
+   },
+   "a": {
+    "en": "\n<p><b>UNF → 1NF.</b> The ITEMS column is a repeating group. Make one row per item (atomic values):</p>\n<table><tr><th>ONO</th><th>ODATE</th><th>CID</th><th>CNAME</th><th>CITY</th><th>ICODE</th><th>INAME</th><th>RATE</th><th>QTY</th></tr><tr><td>501</td><td>05-OCT-26</td><td>C1</td><td>Mehta Stores</td><td>Surat</td><td>I1</td><td>Pen</td><td>10</td><td>5</td></tr><tr><td>501</td><td>05-OCT-26</td><td>C1</td><td>Mehta Stores</td><td>Surat</td><td>I2</td><td>Book</td><td>60</td><td>2</td></tr><tr><td>502</td><td>06-OCT-26</td><td>C2</td><td>Shah Traders</td><td>Anand</td><td>I1</td><td>Pen</td><td>10</td><td>3</td></tr></table>\n<p>Functional dependencies:</p>\n<ul><li>ONO → ODATE, CID</li><li>CID → CNAME, CITY</li><li>ICODE → INAME, RATE</li><li>ONO, ICODE → QTY</li></ul>\n<p>Key = <b>(ONO, ICODE)</b>, since (ONO, ICODE)<sup>+</sup> gives all nine attributes.</p>\n<p><b>1NF → 2NF.</b> Partial dependencies: ONO → ODATE, CID (and so CNAME, CITY) and ICODE → INAME, RATE. Remove them:</p>\n<p>ORDER_ITEM(<b>ONO</b>, <b>ICODE</b>, QTY)<br>ITEM(<b>ICODE</b>, INAME, RATE)<br>\nORDERS(<b>ONO</b>, ODATE, CID, CNAME, CITY)</p>\n<p><b>2NF → 3NF.</b> In ORDERS, ONO → CID → CNAME, CITY is a transitive dependency. Split ORDERS:</p>\n<p>ORDERS(<b>ONO</b>, ODATE, CID)<br>CUSTOMER(<b>CID</b>, CNAME, CITY)</p>\n<p><b>Final 3NF design (4 tables):</b> CUSTOMER, ORDERS, ITEM and ORDER_ITEM. Customer and item details are now stored only once; the amount of a line is calculated as RATE × QTY when needed.</p>\n"
+   }
+  },
+  {
+   "id": "n3_5",
+   "q": {
+    "en": "R(A, B, C, D) with F = { AB → C, C → D }. Find the candidate key and the highest normal form. Decompose into 3NF if needed."
+   },
+   "a": {
+    "en": "\n<p><b>Closure of AB:</b><br>Start: {A, B}<br>A, B → C gives {A, B, C}<br>C → D gives {A, B, C, D}<br>AB<sup>+</sup> contains all attributes, so AB is a super key. A<sup>+</sup> = {A} and B<sup>+</sup> = {B}, so AB is minimal: <b>candidate key = AB</b>.</p>\n<p>Prime attributes: A, B. Non-prime: C, D.</p>\n<p><b>2NF:</b> does any non-prime attribute depend on only A or only B? No (A<sup>+</sup> and B<sup>+</sup> contain nothing else). So R is in <b>2NF</b>.</p>\n<p><b>3NF:</b> C → D: C is not a super key and D is non-prime. AB → C → D is a <b>transitive</b> dependency. So R is <b>not in 3NF</b>; the highest normal form is <b>2NF</b>.</p>\n<p><b>Decomposition:</b> R1(<b>A</b>, <b>B</b>, C) and R2(<b>C</b>, D). In R1 the only FD is AB → C, and in R2 it is C → D; both left sides are keys, so both are in 3NF (and BCNF). The common attribute C is the key of R2, so the decomposition is lossless.</p>\n"
+   }
+  },
+  {
+   "id": "n3_6",
+   "q": {
+    "en": "R(A, B, C, D, E) with F = { A → B, AC → D, D → E }. Find the key, the normal form, and normalize R up to 3NF."
+   },
+   "a": {
+    "en": "\n<p><b>Key:</b> A and C never appear on the right side of any FD, so both must be in every key.<br>Start: {A, C}<br>A → B gives {A, B, C}<br>A, C → D gives {A, B, C, D}<br>D → E gives {A, B, C, D, E}<br>\nAC<sup>+</sup> = all attributes, so <b>AC</b> is the candidate key.</p>\n<p><b>Check:</b></p>\n<ul><li>A → B: B depends on part (A) of the key → <b>partial dependency</b>. So R is <b>only in 1NF</b>.</li>\n<li>D → E: E depends on the non-key attribute D → transitive dependency.</li></ul>\n<p><b>To 2NF:</b> remove the partial dependency: R1(<b>A</b>, B) and R2(<b>A</b>, <b>C</b>, D, E).</p>\n<p><b>To 3NF:</b> in R2, AC → D → E is transitive. Split R2 into R21(<b>A</b>, <b>C</b>, D) and R22(<b>D</b>, E).</p>\n<p><b>Final 3NF relations:</b> R1(<b>A</b>, B), R21(<b>A</b>, <b>C</b>, D), R22(<b>D</b>, E).</p>\n"
+   }
+  },
+  {
+   "id": "n3_7",
+   "q": {
+    "en": "R(A, B, C, D, E) with F = { A → BC, CD → E, B → D, E → A }. Compute A<sup>+</sup>, E<sup>+</sup>, (BC)<sup>+</sup>, (CD)<sup>+</sup> and find all candidate keys."
+   },
+   "a": {
+    "en": "\n<p><b>Attribute closure algorithm:</b> start with the given attributes; repeatedly, for every FD X → Y whose left side X is already in the result, add Y; stop when nothing changes.</p>\n<p><b>A<sup>+</sup>:</b><br>Start: {A}<br>A → B, C gives {A, B, C}<br>B → D gives {A, B, C, D}<br>C, D → E gives {A, B, C, D, E}<br>A<sup>+</sup> = ABCDE → A is a key.</p>\n<p><b>E<sup>+</sup>:</b><br>Start: {E}<br>E → A gives {A, E}<br>A → B, C gives {A, B, C, E}<br>B → D gives {A, B, C, D, E}<br>E<sup>+</sup> = ABCDE → E is a key.</p>\n<p><b>(BC)<sup>+</sup>:</b><br>Start: {B, C}<br>B → D gives {B, C, D}<br>C, D → E gives {B, C, D, E}<br>E → A gives {A, B, C, D, E}<br>→ BC is a super key. B<sup>+</sup> = {B, D} and C<sup>+</sup> = {C}, so BC is minimal: candidate key.</p>\n<p><b>(CD)<sup>+</sup>:</b><br>Start: {C, D}<br>C, D → E gives {C, D, E}<br>E → A gives {A, C, D, E}<br>A → B, C gives {A, B, C, D, E}<br>→ CD is a super key; C<sup>+</sup> = {C}, D<sup>+</sup> = {D}, so CD is a candidate key.</p>\n<p><b>Candidate keys: A, E, BC and CD.</b> Prime attributes = A, B, C, D, E (all), so there are no non-prime attributes and R is in 3NF.</p>\n"
+   }
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "db3_anomalies",
+   "title": {
+    "en": "Redundancy and Anomalies"
+   },
+   "file": "diagrams/db3_anomalies.svg"
+  },
+  {
+   "id": "db3_keys",
+   "title": {
+    "en": "Types of Keys"
+   },
+   "file": "diagrams/db3_keys.svg"
+  },
+  {
+   "id": "db3_fd",
+   "title": {
+    "en": "Functional Dependency"
+   },
+   "file": "diagrams/db3_fd.svg"
+  },
+  {
+   "id": "db3_fd_types",
+   "title": {
+    "en": "Full, Partial and Transitive Dependency"
+   },
+   "file": "diagrams/db3_fd_types.svg"
+  },
+  {
+   "id": "db3_steps",
+   "title": {
+    "en": "Steps of Normalization"
+   },
+   "file": "diagrams/db3_steps.svg"
+  },
+  {
+   "id": "db3_1nf",
+   "title": {
+    "en": "UNF to 1NF"
+   },
+   "file": "diagrams/db3_1nf.svg"
+  },
+  {
+   "id": "db3_2nf",
+   "title": {
+    "en": "1NF to 2NF"
+   },
+   "file": "diagrams/db3_2nf.svg"
+  },
+  {
+   "id": "db3_3nf",
+   "title": {
+    "en": "2NF to 3NF"
+   },
+   "file": "diagrams/db3_3nf.svg"
+  }
+ ],
+ "syntax": [],
+ "viva": [
+  {
+   "title": {
+    "en": "Basics, Anomalies and Keys"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is normalization?"
+     },
+     "a": {
+      "en": "The process of organizing tables and columns to reduce redundancy and remove insertion, update and deletion anomalies, by decomposing large tables into smaller related tables."
+     }
+    },
+    {
+     "q": {
+      "en": "Who introduced normalization?"
+     },
+     "a": {
+      "en": "Dr. E. F. Codd, the father of the relational model."
+     }
+    },
+    {
+     "q": {
+      "en": "What is data redundancy?"
+     },
+     "a": {
+      "en": "Storing the same data more than once in a database."
+     }
+    },
+    {
+     "q": {
+      "en": "Name the three anomalies."
+     },
+     "a": {
+      "en": "Insertion anomaly, update (modification) anomaly and deletion anomaly."
+     }
+    },
+    {
+     "q": {
+      "en": "What is an insertion anomaly?"
+     },
+     "a": {
+      "en": "Some data cannot be inserted without other unrelated data, e.g. a new course cannot be added until a student joins it."
+     }
+    },
+    {
+     "q": {
+      "en": "What is an update anomaly?"
+     },
+     "a": {
+      "en": "The same fact is stored in many rows; if one copy is not updated, the data becomes inconsistent."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a deletion anomaly?"
+     },
+     "a": {
+      "en": "Deleting one fact unintentionally removes another, e.g. deleting the last student of a course also loses the course details."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a candidate key?"
+     },
+     "a": {
+      "en": "A minimal super key: a set of attributes that uniquely identifies rows, with no unnecessary attribute."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the difference between a super key and a candidate key?"
+     },
+     "a": {
+      "en": "Every candidate key is a super key, but a super key may contain extra attributes. A candidate key is minimal."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a composite key?"
+     },
+     "a": {
+      "en": "A key made of two or more attributes, e.g. (ROLL, CID)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a prime attribute?"
+     },
+     "a": {
+      "en": "An attribute that is part of at least one candidate key. Others are non-prime attributes."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Functional Dependency"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a functional dependency?"
+     },
+     "a": {
+      "en": "X → Y means that the value of X uniquely determines the value of Y: rows with the same X always have the same Y."
+     }
+    },
+    {
+     "q": {
+      "en": "In X → Y, what are X and Y called?"
+     },
+     "a": {
+      "en": "X is the determinant and Y is the dependent."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a trivial functional dependency?"
+     },
+     "a": {
+      "en": "X → Y where Y is a subset of X, e.g. {ROLL, NAME} → ROLL."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a full functional dependency?"
+     },
+     "a": {
+      "en": "Y depends on the whole composite key X and not on any part of it, e.g. (ROLL, CID) → MARKS."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a partial dependency?"
+     },
+     "a": {
+      "en": "A non-prime attribute depends on only part of a composite candidate key, e.g. ROLL → NAME when the key is (ROLL, CID)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a transitive dependency?"
+     },
+     "a": {
+      "en": "If X → Y and Y → Z, where Y is non-key, then Z depends on X transitively, e.g. EMPNO → DEPTNO → DNAME."
+     }
+    },
+    {
+     "q": {
+      "en": "State Armstrong's three basic axioms."
+     },
+     "a": {
+      "en": "Reflexivity (if Y ⊆ X then X → Y), augmentation (if X → Y then XZ → YZ) and transitivity (if X → Y and Y → Z then X → Z)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is attribute closure?"
+     },
+     "a": {
+      "en": "X<sup>+</sup> is the set of all attributes that can be determined from X using the given FDs."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you find whether X is a super key?"
+     },
+     "a": {
+      "en": "Compute X<sup>+</sup>; if it contains all attributes of the relation, X is a super key."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Normal Forms"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a normal form?"
+     },
+     "a": {
+      "en": "A set of rules (conditions) a relation must satisfy to reduce redundancy and anomalies."
+     }
+    },
+    {
+     "q": {
+      "en": "Define 1NF."
+     },
+     "a": {
+      "en": "A relation is in 1NF if every attribute holds only atomic (single) values and there are no repeating groups."
+     }
+    },
+    {
+     "q": {
+      "en": "Define 2NF."
+     },
+     "a": {
+      "en": "A relation is in 2NF if it is in 1NF and has no partial dependency: every non-prime attribute fully depends on the whole key."
+     }
+    },
+    {
+     "q": {
+      "en": "Define 3NF."
+     },
+     "a": {
+      "en": "A relation is in 3NF if it is in 2NF and has no transitive dependency of a non-prime attribute on the key."
+     }
+    },
+    {
+     "q": {
+      "en": "Define BCNF."
+     },
+     "a": {
+      "en": "A relation is in BCNF if, for every non-trivial FD X → Y, X is a super key (every determinant is a candidate key)."
+     }
+    },
+    {
+     "q": {
+      "en": "When is a 1NF table automatically in 2NF?"
+     },
+     "a": {
+      "en": "When every candidate key has only one attribute, because a partial dependency needs a composite key."
+     }
+    },
+    {
+     "q": {
+      "en": "Is every 3NF relation in BCNF?"
+     },
+     "a": {
+      "en": "No. Every BCNF relation is in 3NF, but a 3NF relation may have a determinant that is not a key (for a prime attribute)."
+     }
+    },
+    {
+     "q": {
+      "en": "Which normal form is usually enough in practice?"
+     },
+     "a": {
+      "en": "3NF (sometimes BCNF)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is UNF?"
+     },
+     "a": {
+      "en": "Unnormalized form: a table with repeating groups or multi-valued cells."
+     }
+    },
+    {
+     "q": {
+      "en": "How is a table normalized?"
+     },
+     "a": {
+      "en": "By decomposition: splitting a table that breaks a rule into smaller tables, each with its own primary key, linked by foreign keys."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Advantages, Decomposition and Denormalization"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Give two advantages of normalization."
+     },
+     "a": {
+      "en": "Less redundancy (saves space) and no anomalies (consistent data)."
+     }
+    },
+    {
+     "q": {
+      "en": "Give two disadvantages of normalization."
+     },
+     "a": {
+      "en": "More tables, and more joins are needed in queries, which can slow down reports."
+     }
+    },
+    {
+     "q": {
+      "en": "What is lossless-join decomposition?"
+     },
+     "a": {
+      "en": "A decomposition in which joining the smaller tables gives back exactly the original table, with no lost or extra rows."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you test that a decomposition into R1 and R2 is lossless?"
+     },
+     "a": {
+      "en": "The common attributes of R1 and R2 must be a key of R1 or of R2."
+     }
+    },
+    {
+     "q": {
+      "en": "What is dependency preservation?"
+     },
+     "a": {
+      "en": "Every original FD can be checked within the decomposed tables without joining them."
+     }
+    },
+    {
+     "q": {
+      "en": "What is denormalization?"
+     },
+     "a": {
+      "en": "Deliberately adding controlled redundancy to a normalized database to make queries faster."
+     }
+    },
+    {
+     "q": {
+      "en": "Where is denormalization used?"
+     },
+     "a": {
+      "en": "In reporting systems and data warehouses (OLAP), where reads are much more frequent than updates."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Define normalization. Explain its importance."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "What is data redundancy? Explain insertion, update and deletion anomalies with an example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Define: super key, candidate key, primary key, alternate key and foreign key."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "What is functional dependency? Explain full, partial and transitive dependency with examples."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "State Armstrong's axioms."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain the attribute closure algorithm. Find all candidate keys of R(A,B,C,D,E) with A → BC, CD → E, B → D, E → A."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Define 1NF. Convert a table with a multi-valued attribute into 1NF with an example."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain 2NF with an example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain 3NF with an example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain 1NF, 2NF and 3NF with suitable examples."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Differentiate between 2NF and 3NF."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain BCNF with an example. How is it different from 3NF?"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "R(A,B,C,D) with AB → C and C → D. Find the key and the highest normal form, and decompose into 3NF."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Normalize RESULT(ROLL, CID, NAME, CNAME, CREDITS, MARKS) up to 3NF."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Normalize the given customer order data (order, customer and item details) up to 3NF."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain the advantages and disadvantages of normalization."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain lossless-join and dependency-preserving decomposition."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "What is denormalization? Differentiate between normalization and denormalization."
+   },
+   "marks": 4
+  }
+ ],
+ "intro_text": {
+  "en": "Detailed notes as per GTU syllabus with diagrams, solved Oracle SQL queries with real output, syntax and viva."
+ }
+}

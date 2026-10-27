@@ -40,13 +40,15 @@ def sql_pre(code):
 
 def make_TS(snips):
     """T(heading, body_html, diagram=None, programs=None) – English only; @@name@@ → SQL block."""
-    def T(h, b, diagram=None, programs=None):
+    def T(h, b, diagram=None, programs=None, examples=None):
         body = re.sub(r"@@(\w+)@@", lambda m: sql_pre(snips[m.group(1)]), b)
         d = {"h": {"en": h}, "body": {"en": body}}
         if diagram:
             d["diagram"] = diagram
         if programs:
             d["programs"] = programs
+        if examples:
+            d["examples"] = examples
         return d
     return T
 
