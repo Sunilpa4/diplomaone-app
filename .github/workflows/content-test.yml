@@ -1,0 +1,29 @@
+# Quick check (~2 min): every note, program, table and diagram must render in the app. Runs when content changes.
+name: Test content
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "content/**"
+      - "tools/**"
+      - ".github/workflows/content-test.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.47.8"
+          channel: stable
+          cache: true
+      - name: Export content and render every part
+        run: |
+          python3 tools/export_app_content.py
+          cd app
+          flutter pub get
+          flutter test test/all_content_test.dart

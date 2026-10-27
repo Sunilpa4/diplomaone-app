@@ -53,7 +53,8 @@ def sh(cmd, cwd=None, check=True, quiet=False):
 
 def clone(repo):
     """Clone (or update) a repo into /opt/repos/<repo>; returns the path."""
-    os.makedirs(CLONES, exist_ok=True)
+    if not os.path.isdir(CLONES):   # /opt is not persisted between sessions
+        subprocess.run(f"sudo mkdir -p {CLONES} && sudo chown $(id -u):$(id -g) {CLONES}", shell=True, check=True)
     path = os.path.join(CLONES, repo)
     url = f"https://x-access-token:{token()}@github.com/{OWNER}/{repo}.git"
     if not os.path.isdir(os.path.join(path, ".git")):

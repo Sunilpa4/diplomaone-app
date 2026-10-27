@@ -1,0 +1,1156 @@
+{
+ "subject": "DI03000021",
+ "unit": 2,
+ "format": "notes",
+ "title": {
+  "en": "Stack and Queues"
+ },
+ "weightage": 18,
+ "hours": 8,
+ "notes": [
+  {
+   "title": {
+    "en": "2.1 Stack"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "2.1.1 Introduction to Stack"
+     },
+     "body": {
+      "en": "<p>A <b>stack</b> is a <b>linear data structure</b> in which insertion and deletion are done at <b>only one end</b>, called the <b>TOP</b>.</p>\n<p>The element inserted <b>last</b> is removed <b>first</b>, so a stack follows the <b>LIFO (Last In, First Out)</b> principle. It is also called FILO (First In, Last Out).</p>\n<h4>Real-life examples</h4>\n<ul><li>A pile of plates: a plate is placed on top and also taken from the top.</li>\n<li>A stack of books, or bangles on a stand.</li>\n<li>Undo (Ctrl + Z) in an editor; the back button of a browser.</li></ul>\n<h4>Terms</h4>\n<ul><li><b>TOP:</b> a variable that holds the position (index) of the topmost element.</li>\n<li><b>MAX:</b> the maximum number of elements the stack can hold (the array size).</li>\n<li><b>PUSH:</b> inserting an element on the top.</li>\n<li><b>POP:</b> removing the top element.</li>\n<li><b>PEEK / TOP:</b> reading the top element without removing it.</li>\n<li><b>Overflow:</b> trying to PUSH into a <b>full</b> stack (TOP = MAX − 1).</li>\n<li><b>Underflow:</b> trying to POP from an <b>empty</b> stack (TOP = −1).</li></ul>\n<p>A stack can be implemented using an <b>array</b> (static, fixed size) or a <b>linked list</b> (dynamic).</p>"
+     },
+     "diagram": "ds2_stack_array",
+     "key": true
+    },
+    {
+     "h": {
+      "en": "2.1.2 Array Representation of Stack: PUSH and POP"
+     },
+     "body": {
+      "en": "<p>In the array representation, a one-dimensional array <code>STACK[MAX]</code> holds the elements and an integer <code>TOP</code> holds the index of the top element.</p>\n<ul><li>Initially <b>TOP = −1</b> (empty stack).</li>\n<li>PUSH increases TOP and then stores the item; POP reads the item and then decreases TOP.</li></ul>\n<h4>PUSH algorithm</h4>\n<pre class=\"c\">Algorithm PUSH(STACK, TOP, MAX, ITEM)\nStep 1: [Check overflow]\n        If TOP = MAX - 1 then\n            Write \"Stack Overflow\" and Exit\nStep 2: Set TOP = TOP + 1\nStep 3: Set STACK[TOP] = ITEM\nStep 4: Exit</pre>\n<h4>POP algorithm</h4>\n<pre class=\"c\">Algorithm POP(STACK, TOP)\nStep 1: [Check underflow]\n        If TOP = -1 then\n            Write \"Stack Underflow\" and Exit\nStep 2: Set ITEM = STACK[TOP]\nStep 3: Set TOP = TOP - 1\nStep 4: Return ITEM</pre>\n<h4>PEEK algorithm</h4>\n<pre class=\"c\">Algorithm PEEK(STACK, TOP)\nStep 1: If TOP = -1 then\n            Write \"Stack Empty\" and Exit\nStep 2: Return STACK[TOP]</pre>\n<h4>Implementation in C</h4>\n<pre class=\"c\">#define MAX 5\nint stack[MAX], top = -1;\n\nvoid push(int x)\n{\n    if (top == MAX - 1)\n        printf(\"Overflow\");\n    else\n        stack[++top] = x;\n}\n\nint pop(void)\n{\n    if (top == -1) {\n        printf(\"Underflow\");\n        return -1;\n    }\n    return stack[top--];\n}</pre>\n<ul><li><code>stack[++top] = x</code>: pre-increment, so TOP moves up first and then the value is stored.</li>\n<li><code>return stack[top--]</code>: post-decrement, so the value is returned first and then TOP moves down.</li>\n<li>PUSH, POP and PEEK all take <b>O(1)</b> time, because they do not depend on the number of elements.</li></ul>"
+     },
+     "diagram": "ds2_push_pop",
+     "programs": [
+      "ds2p1",
+      "ds2p2"
+     ],
+     "key": true,
+     "examples": [
+      "ds2n10"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.1.3 Applications of Stack"
+     },
+     "body": {
+      "en": "<ol><li><b>Expression conversion:</b> infix to postfix and infix to prefix.</li>\n<li><b>Expression evaluation:</b> evaluating postfix and prefix expressions.</li>\n<li><b>Recursion:</b> every function call is pushed on the system (call) stack and popped when it returns.</li>\n<li><b>Parenthesis matching:</b> checking that brackets ( ), [ ], { } are balanced in an expression or program.</li>\n<li><b>Reversing:</b> a string, a number or a list (push all, then pop all).</li>\n<li><b>Decimal to binary conversion:</b> remainders are pushed and popped in reverse order.</li>\n<li><b>Undo / redo</b> in editors, and the <b>back button</b> in browsers.</li>\n<li><b>Backtracking:</b> maze solving, depth-first search (DFS) of a graph.</li>\n<li><b>Memory management:</b> local variables of functions are stored on the stack.</li></ol>"
+     },
+     "diagram": "ds2_stack_apps",
+     "programs": [
+      "ds2p3",
+      "ds2p4",
+      "ds2p13"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2.2 Infix, Prefix and Postfix Expressions"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "2.2.1 Infix, Prefix and Postfix Forms"
+     },
+     "body": {
+      "en": "<p>An arithmetic expression consists of <b>operands</b> (A, B, 5…) and <b>operators</b> (+, −, *, /, ^). Depending on where the operator is written, there are three notations:</p>\n<table>\n<tr><th>Notation</th><th>Form</th><th>Example</th></tr>\n<tr><td><b>Infix</b></td><td>operand <b>operator</b> operand</td><td>A + B</td></tr>\n<tr><td><b>Prefix</b> (Polish)</td><td><b>operator</b> operand operand</td><td>+ A B</td></tr>\n<tr><td><b>Postfix</b> (Reverse Polish, suffix)</td><td>operand operand <b>operator</b></td><td>A B +</td></tr>\n</table>\n<p>Prefix notation was introduced by the Polish mathematician <b>Jan Łukasiewicz</b>, hence the name \"Polish notation\".</p>\n<h4>Why postfix and prefix?</h4>\n<ul><li>Infix needs <b>precedence rules</b> and <b>brackets</b> to show the order of evaluation: A + B * C is A + (B * C).</li>\n<li>Postfix and prefix need <b>no brackets and no precedence rules</b>. The order of the operators itself gives the order of evaluation.</li>\n<li>A postfix expression can be evaluated in a <b>single left-to-right scan</b> with a stack. Compilers therefore convert infix to postfix.</li></ul>\n<h4>Precedence and associativity</h4>\n<table>\n<tr><th>Operator</th><th>Precedence</th><th>Associativity</th></tr>\n<tr><td>^ (exponent)</td><td>Highest</td><td>Right to left</td></tr>\n<tr><td>* / %</td><td>Middle</td><td>Left to right</td></tr>\n<tr><td>+ −</td><td>Lowest</td><td>Left to right</td></tr>\n</table>\n<h4>Quick examples</h4>\n<table>\n<tr><th>Infix</th><th>Prefix</th><th>Postfix</th></tr>\n<tr><td>A + B * C</td><td>+ A * B C</td><td>A B C * +</td></tr>\n<tr><td>(A + B) * C</td><td>* + A B C</td><td>A B + C *</td></tr>\n<tr><td>(A + B) * (C − D)</td><td>* + A B − C D</td><td>A B + C D − *</td></tr>\n<tr><td>A ^ B ^ C</td><td>^ A ^ B C</td><td>A B C ^ ^</td></tr>\n</table>"
+     },
+     "diagram": "ds2_notations",
+     "key": true
+    },
+    {
+     "h": {
+      "en": "2.2.2 Conversion of Infix to Postfix using Stack"
+     },
+     "body": {
+      "en": "<p>The stack holds <b>operators and '('</b>; operands go straight to the output.</p>\n<pre class=\"c\">Algorithm INFIX_TO_POSTFIX(E)\nStep 1: Scan E from left to right,\n        one symbol at a time\nStep 2: If symbol is an operand,\n            add it to POSTFIX\nStep 3: If symbol is '(' , PUSH it\nStep 4: If symbol is ')' :\n            POP and add to POSTFIX\n            until '(' is found;\n            discard the '('\nStep 5: If symbol is an operator X:\n            While top of stack has an\n            operator of higher (or equal,\n            except ^) precedence than X:\n                POP it to POSTFIX\n            PUSH X\nStep 6: At the end, POP all remaining\n        operators to POSTFIX\nStep 7: Exit</pre>\n<h4>Example: A + B * C − D / E</h4>\n<table><tr><th>Step</th><th>Symbol</th><th>Stack</th><th>Postfix</th></tr><tr><td>1</td><td>A</td><td>–</td><td>A</td></tr><tr><td>2</td><td>+</td><td>+</td><td>A</td></tr><tr><td>3</td><td>B</td><td>+</td><td>AB</td></tr><tr><td>4</td><td>*</td><td>+*</td><td>AB</td></tr><tr><td>5</td><td>C</td><td>+*</td><td>ABC</td></tr><tr><td>6</td><td>-</td><td>-</td><td>ABC*+</td></tr><tr><td>7</td><td>D</td><td>-</td><td>ABC*+D</td></tr><tr><td>8</td><td>/</td><td>-/</td><td>ABC*+D</td></tr><tr><td>9</td><td>E</td><td>-/</td><td>ABC*+DE</td></tr><tr><td>10</td><td>end</td><td>–</td><td>ABC*+DE/-</td></tr></table>\n<p><b>Postfix: ABC*+DE/-</b></p>\n<ul><li>At '−', the stack has '+' and '*', both of precedence ≥ '−', so both are popped before '−' is pushed.</li>\n<li>For bigger expressions with brackets, see the solved examples below.</li></ul>"
+     },
+     "programs": [
+      "ds2p5"
+     ],
+     "key": true,
+     "examples": [
+      "ds2n1",
+      "ds2n2",
+      "ds2n3",
+      "ds2n4"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.2.3 Conversion of Infix to Prefix"
+     },
+     "body": {
+      "en": "<p>The easiest method is the <b>reverse method</b>:</p>\n<ol><li><b>Reverse</b> the infix expression. While reversing, change every '(' into ')' and every ')' into '('.</li>\n<li>Convert the reversed expression to postfix with the same stack method, with one change: for operators of <b>equal</b> precedence, do <b>not</b> pop (push the new operator on top). Exponent '^' is the exception: equal '^' <b>is</b> popped.</li>\n<li><b>Reverse</b> the result to get the prefix expression.</li></ol>\n<h4>Example: A + B * C − D / E</h4>\n<p>Step 1, reversed infix: <b>E / D - C * B + A</b></p>\n<p>Step 2, convert:</p>\n<table><tr><th>Step</th><th>Symbol</th><th>Stack</th><th>Output</th></tr><tr><td>1</td><td>E</td><td>–</td><td>E</td></tr><tr><td>2</td><td>/</td><td>/</td><td>E</td></tr><tr><td>3</td><td>D</td><td>/</td><td>ED</td></tr><tr><td>4</td><td>-</td><td>-</td><td>ED/</td></tr><tr><td>5</td><td>C</td><td>-</td><td>ED/C</td></tr><tr><td>6</td><td>*</td><td>-*</td><td>ED/C</td></tr><tr><td>7</td><td>B</td><td>-*</td><td>ED/CB</td></tr><tr><td>8</td><td>+</td><td>-+</td><td>ED/CB*</td></tr><tr><td>9</td><td>A</td><td>-+</td><td>ED/CB*A</td></tr><tr><td>10</td><td>end</td><td>–</td><td>ED/CB*A+-</td></tr></table>\n<p>Step 3, reverse the output: <b>Prefix = - + A * B C / D E</b></p>\n<p><b>Manual check (bracket method):</b> fully bracket by precedence: ((A + (B * C)) − (D / E)). Move each operator to the front of its own bracket: − + A * B C / D E. ✔</p>"
+     },
+     "examples": [
+      "ds2n5",
+      "ds2n6"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.2.4 Evaluation of Postfix Expression"
+     },
+     "body": {
+      "en": "<p>A postfix expression is evaluated using a stack of <b>operands</b>, in a single left-to-right scan.</p>\n<pre class=\"c\">Algorithm EVAL_POSTFIX(P)\nStep 1: Scan P from left to right\nStep 2: If symbol is an operand,\n            PUSH it\nStep 3: If symbol is an operator op:\n            B = POP   (2nd operand)\n            A = POP   (1st operand)\n            PUSH (A op B)\nStep 4: Repeat Steps 2-3 till the end\nStep 5: Result = POP\nStep 6: Exit</pre>\n<h4>Example: 5 3 + 8 2 − *</h4>\n<table><tr><th>Symbol</th><th>Action</th><th>Stack</th></tr><tr><td>5</td><td>push</td><td>5</td></tr><tr><td>3</td><td>push</td><td>5 3</td></tr><tr><td>+</td><td>pop 3, pop 5; 5 + 3 = 8; push</td><td>8</td></tr><tr><td>8</td><td>push</td><td>8 8</td></tr><tr><td>2</td><td>push</td><td>8 8 2</td></tr><tr><td>-</td><td>pop 2, pop 8; 8 - 2 = 6; push</td><td>8 6</td></tr><tr><td>*</td><td>pop 6, pop 8; 8 * 6 = 48; push</td><td>48</td></tr></table>\n<p><b>Result = 48</b>, which is (5 + 3) × (8 − 2).</p>\n<p><b>Order matters:</b> the first value popped is the <b>right</b> operand. For \"8 2 −\", B = 2 and A = 8, so A − B = 6 (not −6).</p>\n<h4>Evaluation of a prefix expression</h4>\n<p>Same idea, but scan from <b>right to left</b>. For an operator, the first value popped is the <b>left</b> operand (A), the second is the right operand (B). Example: − * + 4 3 2 5 = (4 + 3) × 2 − 5 = <b>9</b>.</p>"
+     },
+     "diagram": "ds2_postfix_eval",
+     "programs": [
+      "ds2p6"
+     ],
+     "key": true,
+     "examples": [
+      "ds2n7",
+      "ds2n8",
+      "ds2n9"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2.3 Recursion"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "2.3.1 Recursive Functions and the Stack"
+     },
+     "body": {
+      "en": "<p><b>Recursion</b> is a technique in which a <b>function calls itself</b>, directly or indirectly, to solve a smaller version of the same problem. Such a function is called a <b>recursive function</b>.</p>\n<h4>Two essential parts</h4>\n<ol><li><b>Base case</b> (terminating condition): a condition for which the answer is known directly, and the function does <b>not</b> call itself. Without it, recursion never ends and the program crashes with <b>stack overflow</b>.</li>\n<li><b>Recursive case:</b> the function calls itself with a <b>smaller</b> input that moves towards the base case.</li></ol>\n<pre class=\"c\">type function(parameters)\n{\n    if (base condition)\n        return value;         /* stop  */\n    else\n        return ... function(smaller);\n}</pre>\n<h4>How recursion uses the stack</h4>\n<ul><li>Every call creates a new <b>activation record</b> (stack frame) holding its parameters, local variables and return address. The frame is <b>pushed</b> on the system stack.</li>\n<li><b>Winding phase:</b> calls are made one after another until the base case is reached.</li>\n<li><b>Unwinding phase:</b> each call returns its result to the caller, and its frame is <b>popped</b>.</li>\n<li>Because the last call returns first, recursion is a natural application of <b>LIFO</b>.</li></ul>\n<h4>Types</h4>\n<ul><li><b>Direct recursion:</b> function A calls A.</li>\n<li><b>Indirect recursion:</b> A calls B and B calls A.</li>\n<li><b>Tail recursion:</b> the recursive call is the last statement (e.g. gcd).</li></ul>\n<h4>Recursion vs iteration</h4>\n<table>\n<tr><th>Recursion</th><th>Iteration (loop)</th></tr>\n<tr><td>Function calls itself</td><td>Loop repeats statements</td></tr>\n<tr><td>Stops at the base case</td><td>Stops when the loop condition fails</td></tr>\n<tr><td>Uses the system stack (more memory)</td><td>No extra stack memory</td></tr>\n<tr><td>Slower (function-call overhead)</td><td>Faster</td></tr>\n<tr><td>Short, elegant code for trees, Tower of Hanoi</td><td>Code may be longer</td></tr>\n<tr><td>Missing base case → stack overflow</td><td>Wrong condition → infinite loop</td></tr>\n</table>"
+     },
+     "diagram": "ds2_recursion_fact",
+     "key": true
+    },
+    {
+     "h": {
+      "en": "2.3.2 Factorial using Recursion"
+     },
+     "body": {
+      "en": "<p>Mathematical definition:</p>\n<p style=\"text-align:center\"><b>n! = 1</b> if n = 0 or 1 &nbsp;&nbsp;(base case)<br><b>n! = n × (n − 1)!</b> if n &gt; 1 &nbsp;&nbsp;(recursive case)</p>\n<pre class=\"c\">long fact(int n)\n{\n    /* base case */\n    if (n &lt;= 1)\n        return 1;\n    /* recursive */\n    return n * fact(n - 1);\n}</pre>\n<p><b>Trace for fact(4):</b></p>\n<p>fact(4) = 4 × fact(3)<br>&nbsp;&nbsp;fact(3) = 3 × fact(2)<br>&nbsp;&nbsp;&nbsp;&nbsp;fact(2) = 2 × fact(1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fact(1) = 1 (base case)<br>&nbsp;&nbsp;&nbsp;&nbsp;fact(2) = 2 × 1 = 2<br>&nbsp;&nbsp;fact(3) = 3 × 2 = 6<br>fact(4) = 4 × 6 = <b>24</b></p>\n<p>Number of calls = n; time <b>O(n)</b>; stack space <b>O(n)</b>.</p>"
+     },
+     "programs": [
+      "ds2p7"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.3.3 Greatest Common Divisor (GCD) using Recursion"
+     },
+     "body": {
+      "en": "<p>Using <b>Euclid's algorithm</b>:</p>\n<p style=\"text-align:center\"><b>gcd(a, b) = a</b> if b = 0 &nbsp;&nbsp;(base case)<br><b>gcd(a, b) = gcd(b, a mod b)</b> otherwise</p>\n<pre class=\"c\">int gcd(int a, int b)\n{\n    if (b == 0)\n        return a;\n    return gcd(b, a % b);\n}</pre>\n<p><b>Trace for gcd(48, 18):</b></p>\n<table><tr><th>Call</th><th>a mod b</th></tr>\n<tr><td>gcd(48, 18)</td><td>48 mod 18 = 12</td></tr>\n<tr><td>gcd(18, 12)</td><td>18 mod 12 = 6</td></tr>\n<tr><td>gcd(12, 6)</td><td>12 mod 6 = 0</td></tr>\n<tr><td>gcd(6, 0)</td><td>b = 0 → return <b>6</b></td></tr></table>\n<p>LCM can then be found as (a × b) / GCD = (48 × 18) / 6 = 144.</p>"
+     },
+     "programs": [
+      "ds2p8"
+     ],
+     "examples": [
+      "ds2n13"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.3.4 Fibonacci Series using Recursion"
+     },
+     "body": {
+      "en": "<p>The Fibonacci series is 0, 1, 1, 2, 3, 5, 8, 13, 21, 34 … Each term is the sum of the previous two.</p>\n<p style=\"text-align:center\"><b>fib(0) = 0, fib(1) = 1</b> &nbsp;&nbsp;(two base cases)<br><b>fib(n) = fib(n − 1) + fib(n − 2)</b> for n ≥ 2</p>\n<pre class=\"c\">int fib(int n)\n{\n    if (n == 0) return 0;\n    if (n == 1) return 1;\n    return fib(n - 1) + fib(n - 2);\n}</pre>\n<p><b>Trace for fib(4):</b> fib(4) = fib(3) + fib(2) = (fib(2) + fib(1)) + (fib(1) + fib(0)) = ((1 + 0) + 1) + (1 + 0) = <b>3</b>.</p>\n<ul><li>The recursion tree (diagram) shows that fib(2) is computed <b>twice</b>. For larger n the repetition explodes: fib(10) needs 177 calls.</li>\n<li>Time complexity ≈ <b>O(2ⁿ)</b>; stack depth O(n).</li>\n<li>An iterative loop (keeping the last two terms) needs only O(n) time.</li></ul>"
+     },
+     "diagram": "ds2_fib_tree",
+     "programs": [
+      "ds2p9"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2.4 Queue"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "2.4.1 Introduction to Queue"
+     },
+     "body": {
+      "en": "<p>A <b>queue</b> is a <b>linear data structure</b> in which insertion is done at one end, called the <b>REAR</b>, and deletion is done at the other end, called the <b>FRONT</b>.</p>\n<p>The element inserted <b>first</b> is removed <b>first</b>, so a queue follows the <b>FIFO (First In, First Out)</b> principle.</p>\n<h4>Real-life examples</h4>\n<ul><li>People standing in a line at a ticket counter or ATM.</li>\n<li>Vehicles at a toll plaza.</li>\n<li>Print jobs waiting for a printer.</li></ul>\n<h4>Terms</h4>\n<ul><li><b>FRONT:</b> index of the first element (the next to be deleted).</li>\n<li><b>REAR:</b> index of the last element (where the next insert goes).</li>\n<li><b>Enqueue / Insert:</b> adding an element at the rear.</li>\n<li><b>Dequeue / Delete:</b> removing an element from the front.</li>\n<li><b>Overflow:</b> inserting into a full queue (REAR = MAX − 1).</li>\n<li><b>Underflow:</b> deleting from an empty queue (FRONT = −1 or FRONT &gt; REAR).</li></ul>\n<h4>Stack vs queue</h4>\n<table>\n<tr><th>Stack</th><th>Queue</th></tr>\n<tr><td>LIFO</td><td>FIFO</td></tr>\n<tr><td>Insert and delete at one end (TOP)</td><td>Insert at REAR, delete at FRONT</td></tr>\n<tr><td>One pointer: TOP</td><td>Two pointers: FRONT and REAR</td></tr>\n<tr><td>Operations: PUSH, POP</td><td>Operations: INSERT (enqueue), DELETE (dequeue)</td></tr>\n<tr><td>Empty: TOP = −1</td><td>Empty: FRONT = −1</td></tr>\n<tr><td>Pile of plates</td><td>Line at a ticket counter</td></tr>\n<tr><td>Recursion, expression evaluation</td><td>CPU scheduling, printer spooling</td></tr>\n</table>"
+     },
+     "diagram": "ds2_queue_array",
+     "key": true
+    },
+    {
+     "h": {
+      "en": "2.4.2 Array Representation of Queue: Insert and Delete"
+     },
+     "body": {
+      "en": "<p>A queue is represented with an array <code>Q[MAX]</code> and two integer variables <code>FRONT</code> and <code>REAR</code>. Initially <b>FRONT = REAR = −1</b>.</p>\n<h4>Insert algorithm</h4>\n<pre class=\"c\">Algorithm QINSERT(Q, FRONT, REAR, MAX, ITEM)\nStep 1: [Check overflow]\n        If REAR = MAX - 1 then\n            Write \"Queue Overflow\" and Exit\nStep 2: If FRONT = -1 then\n            Set FRONT = 0\nStep 3: Set REAR = REAR + 1\nStep 4: Set Q[REAR] = ITEM\nStep 5: Exit</pre>\n<h4>Delete algorithm</h4>\n<pre class=\"c\">Algorithm QDELETE(Q, FRONT, REAR)\nStep 1: [Check underflow]\n        If FRONT = -1 or FRONT &gt; REAR then\n            Write \"Queue Underflow\" and Exit\nStep 2: Set ITEM = Q[FRONT]\nStep 3: Set FRONT = FRONT + 1\nStep 4: Return ITEM</pre>\n<ul><li>On the first insertion, FRONT is set to 0.</li>\n<li>Insert moves only <b>REAR</b> forward; delete moves only <b>FRONT</b> forward.</li>\n<li>Number of elements in the queue = REAR − FRONT + 1.</li>\n<li>Both operations take <b>O(1)</b> time.</li></ul>"
+     },
+     "programs": [
+      "ds2p10"
+     ],
+     "key": true,
+     "examples": [
+      "ds2n11"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.4.3 Limitation of a Simple Queue"
+     },
+     "body": {
+      "en": "<p>In a simple (linear) queue, <b>REAR and FRONT only move forward</b>. When REAR reaches MAX − 1, the queue reports <b>\"full\"</b>, even if elements have been deleted from the front and those places are now free.</p>\n<p><b>Example</b> (MAX = 5): insert 10, 20, 30, 40, 50 → REAR = 4. Delete three times → FRONT = 3. Only 2 elements remain, but inserting 60 gives \"Queue Overflow\", because REAR = MAX − 1.</p>\n<ul><li>The free locations at the beginning of the array <b>cannot be reused</b>, so memory is wasted.</li>\n<li>One fix is to shift all elements to the front after every deletion, but that costs O(n) time.</li>\n<li>The better solution is the <b>circular queue</b>, in which REAR wraps round to index 0.</li></ul>"
+     },
+     "diagram": "ds2_queue_limit",
+     "programs": [
+      "ds2p11"
+     ],
+     "key": true
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2.5 Circular Queue and Applications of Queue"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "2.5.1 Concept of Circular Queue"
+     },
+     "body": {
+      "en": "<p>A <b>circular queue</b> is a queue in which the <b>last position is connected back to the first</b>, forming a circle. After the last index (MAX − 1), the next index is 0. It is also called a <b>ring buffer</b>.</p>\n<p>The wrap-around is done with the <b>modulus</b> operator:</p>\n<p style=\"text-align:center\"><b>REAR = (REAR + 1) % MAX</b> &nbsp;&nbsp; <b>FRONT = (FRONT + 1) % MAX</b></p>\n<h4>Conditions</h4>\n<ul><li><b>Empty:</b> FRONT = −1</li>\n<li><b>Full:</b> (REAR + 1) % MAX = FRONT</li>\n<li><b>Only one element:</b> FRONT = REAR</li></ul>\n<h4>Insert algorithm</h4>\n<pre class=\"c\">Algorithm CQINSERT(Q, FRONT, REAR, MAX, ITEM)\nStep 1: [Check overflow]\n        If (REAR + 1) mod MAX = FRONT then\n            Write \"Queue Full\" and Exit\nStep 2: If FRONT = -1 then\n            Set FRONT = 0\nStep 3: Set REAR = (REAR + 1) mod MAX\nStep 4: Set Q[REAR] = ITEM\nStep 5: Exit</pre>\n<h4>Delete algorithm</h4>\n<pre class=\"c\">Algorithm CQDELETE(Q, FRONT, REAR, MAX)\nStep 1: [Check underflow]\n        If FRONT = -1 then\n            Write \"Queue Empty\" and Exit\nStep 2: Set ITEM = Q[FRONT]\nStep 3: If FRONT = REAR then\n            Set FRONT = REAR = -1\n        Else\n            Set FRONT = (FRONT + 1) mod MAX\nStep 4: Return ITEM</pre>\n<p>When the only remaining element is deleted (FRONT = REAR), both are reset to −1 so that the queue becomes empty.</p>"
+     },
+     "diagram": "ds2_circular",
+     "programs": [
+      "ds2p12"
+     ],
+     "key": true,
+     "examples": [
+      "ds2n12"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.5.2 Difference between Simple Queue and Circular Queue"
+     },
+     "body": {
+      "en": "<table>\n<tr><th>Simple (linear) queue</th><th>Circular queue</th></tr>\n<tr><td>Elements arranged in a straight line</td><td>Last position connected back to the first (circle)</td></tr>\n<tr><td>REAR = REAR + 1</td><td>REAR = (REAR + 1) % MAX</td></tr>\n<tr><td>Full when REAR = MAX − 1</td><td>Full when (REAR + 1) % MAX = FRONT</td></tr>\n<tr><td>Space freed by deletion cannot be reused</td><td>Freed space is reused</td></tr>\n<tr><td>Memory wastage</td><td>Efficient use of memory</td></tr>\n<tr><td>Simple to implement</td><td>Slightly more complex (modulus)</td></tr>\n<tr><td>May show \"full\" when it is not</td><td>Shows \"full\" only when all places are used</td></tr>\n<tr><td>Example: simple waiting line</td><td>Example: CPU round-robin scheduling, traffic lights, keyboard buffer</td></tr>\n</table>"
+     },
+     "key": true
+    },
+    {
+     "h": {
+      "en": "2.5.3 Applications of Queue"
+     },
+     "body": {
+      "en": "<ol><li><b>CPU scheduling:</b> processes waiting for the CPU are kept in a ready queue (FCFS, round robin).</li>\n<li><b>Printer spooling:</b> print jobs are printed in the order they were sent.</li>\n<li><b>Keyboard buffer:</b> key presses are stored and processed in order.</li>\n<li><b>Disk and I/O scheduling:</b> requests for a device wait in a queue.</li>\n<li><b>Call centre systems:</b> calls are answered in the order they arrive.</li>\n<li><b>Data transfer between processes</b> (pipes, buffers in networking, routers).</li>\n<li><b>Breadth-first search (BFS)</b> of a graph and level-order traversal of a tree.</li>\n<li><b>Simulation</b> of real lines: bank counters, ticket windows, traffic signals.</li></ol>\n<h4>Types of queue (for reference)</h4>\n<ul><li><b>Simple queue</b>, <b>circular queue</b> (this unit).</li>\n<li><b>Priority queue:</b> elements are served by priority, not by arrival.</li>\n<li><b>Double-ended queue (deque):</b> insertion and deletion at both ends.</li></ul>"
+     },
+     "programs": [
+      "ds2p14"
+     ]
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "ds2p1",
+   "title": {
+    "en": "Stack using an array: PUSH, POP, PEEK, DISPLAY [Practical 2]"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#define MAX 5\n\nint stack[MAX], top = -1;\n\nvoid push(int x)\n{\n    if (top == MAX - 1) {\n        printf(\"Stack Overflow\\n\");\n        return;\n    }\n    stack[++top] = x;\n    printf(\"%d pushed\\n\", x);\n}\n\nint pop(void)\n{\n    if (top == -1) {\n        printf(\"Stack Underflow\\n\");\n        return -1;\n    }\n    return stack[top--];\n}\n\nvoid peek(void)\n{\n    if (top == -1)\n        printf(\"Stack is empty\\n\");\n    else\n        printf(\"Top = %d\\n\", stack[top]);\n}\n\nvoid display(void)\n{\n    int i;\n    if (top == -1) {\n        printf(\"Stack is empty\\n\");\n        return;\n    }\n    printf(\"Stack (top to bottom): \");\n    for (i = top; i >= 0; i--)\n        printf(\"%d \", stack[i]);\n    printf(\"\\n\");\n}\n\nint main(void)\n{\n    int ch, x;\n    do {\n        printf(\"1.Push 2.Pop 3.Peek\");\n        printf(\" 4.Show 5.Exit: \");\n        scanf(\"%d\", &ch);\n        switch (ch) {\n        case 1:\n            printf(\"Value: \");\n            scanf(\"%d\", &x);\n            push(x);\n            break;\n        case 2:\n            x = pop();\n            if (x != -1)\n                printf(\"Popped %d\\n\", x);\n            break;\n        case 3: peek(); break;\n        case 4: display(); break;\n        }\n    } while (ch != 5);\n    return 0;\n}"
+   },
+   "out": "1.Push 2.Pop 3.Peek 4.Show 5.Exit: 1\nValue: 10\n10 pushed\n1.Push 2.Pop 3.Peek 4.Show 5.Exit: 1\nValue: 20\n20 pushed\n1.Push 2.Pop 3.Peek 4.Show 5.Exit: 1\nValue: 30\n30 pushed\n1.Push 2.Pop 3.Peek 4.Show 5.Exit: 4\nStack (top to bottom): 30 20 10 \n1.Push 2.Pop 3.Peek 4.Show 5.Exit: 2\nPopped 30\n1.Push 2.Pop 3.Peek 4.Show 5.Exit: 3\nTop = 20\n1.Push 2.Pop 3.Peek 4.Show 5.Exit: 4\nStack (top to bottom): 20 10 \n1.Push 2.Pop 3.Peek 4.Show 5.Exit: 5",
+   "expl": {
+    "en": "<ul><li><code>top</code> holds the index of the top element. <b>−1</b> means the stack is empty.</li>\n<li><b>PUSH:</b> first check for overflow (<code>top == MAX − 1</code>), then <code>stack[++top] = x</code> (increment first, then store).</li>\n<li><b>POP:</b> first check for underflow (<code>top == −1</code>), then <code>return stack[top--]</code> (read first, then decrement).</li>\n<li><b>PEEK</b> only reads the top element without removing it.</li>\n<li>Display runs from <code>top</code> down to 0, so the last pushed value (30) appears first: <b>LIFO</b>.</li>\n<li>Every operation is <b>O(1)</b>, except display, which is O(n).</li></ul>"
+   }
+  },
+  {
+   "id": "ds2p2",
+   "title": {
+    "en": "Stack overflow and underflow"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#define MAX 3\n\nint s[MAX], top = -1;\n\nint push(int x)\n{\n    if (top == MAX - 1)\n        return 0;             // overflow\n    s[++top] = x;\n    return 1;\n}\n\nint pop(int *x)\n{\n    if (top == -1)\n        return 0;             // underflow\n    *x = s[top--];\n    return 1;\n}\n\nint main(void)\n{\n    int i, v;\n    for (i = 1; i <= 4; i++) {\n        if (push(i * 10))\n            printf(\"push %d top=%d\\n\",\n                   i * 10, top);\n        else\n            printf(\"push %d OVERFLOW\\n\",\n                   i * 10);\n    }\n    for (i = 1; i <= 4; i++) {\n        if (pop(&v))\n            printf(\"pop  %d top=%d\\n\",\n                   v, top);\n        else\n            printf(\"pop     UNDERFLOW\\n\");\n    }\n    return 0;\n}"
+   },
+   "out": "push 10 top=0\npush 20 top=1\npush 30 top=2\npush 40 OVERFLOW\npop  30 top=1\npop  20 top=0\npop  10 top=-1\npop     UNDERFLOW",
+   "expl": {
+    "en": "<ul><li>The stack holds only <b>MAX = 3</b> elements, so the 4th push fails: <b>overflow</b>.</li>\n<li>After three pops the stack is empty, so the 4th pop fails: <b>underflow</b>.</li>\n<li>The functions return 1 (success) or 0 (failure) instead of printing. This lets the caller decide what to do, which is better design.</li>\n<li><code>pop(&amp;v)</code> returns the popped value through a pointer, so a value like −1 can still be stored in the stack.</li></ul>"
+   }
+  },
+  {
+   "id": "ds2p3",
+   "title": {
+    "en": "Reverse a string using a stack"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <string.h>\n\nchar st[50];\nint top = -1;\n\nvoid push(char c) { st[++top] = c; }\nchar pop(void)    { return st[top--]; }\n\nint main(void)\n{\n    char s[50];\n    int i, n;\n\n    printf(\"Enter a word: \");\n    scanf(\"%49s\", s);\n    n = strlen(s);\n\n    for (i = 0; i < n; i++)\n        push(s[i]);           // push all\n    for (i = 0; i < n; i++)\n        s[i] = pop();         // pop all\n\n    printf(\"Reversed: %s\\n\", s);\n    return 0;\n}"
+   },
+   "out": "Enter a word: DIPLOMA\nReversed: AMOLPID",
+   "expl": {
+    "en": "<ul><li>All characters are pushed: D, I, P, L, O, M, A (A is on top).</li>\n<li>Popping returns them in the <b>opposite order</b>: A, M, O, L, P, I, D. This is the LIFO property.</li>\n<li>Reversing is one of the simplest applications of a stack. The same idea is used for undo operations and the browser back button.</li></ul>"
+   }
+  },
+  {
+   "id": "ds2p4",
+   "title": {
+    "en": "Check balanced parentheses ( ) [ ] { }"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nchar st[50];\nint top = -1;\n\nint match(char open, char close)\n{\n    return (open == '(' && close == ')') ||\n           (open == '[' && close == ']') ||\n           (open == '{' && close == '}');\n}\n\nint balanced(char *e)\n{\n    int i;\n    top = -1;\n    for (i = 0; e[i] != '\\0'; i++) {\n        char c = e[i];\n        if (c=='('||c=='['||c=='{')\n            st[++top] = c;        // push\n        else if (c==')'||c==']'||c=='}') {\n            if (top == -1)\n                return 0;\n            if (!match(st[top--], c))\n                return 0;\n        }\n    }\n    // empty?\n    return top == -1;\n}\n\nint main(void)\n{\n    char *t[] = {\"{a+[b*(c-d)]}\",\n                 \"(a+b]*c\",\n                 \"((a+b)*c\",\n                 \"[(x)]{y}\"};\n    int i;\n    for (i = 0; i < 4; i++)\n        printf(\"%-15s %s\\n\", t[i],\n               balanced(t[i]) ? \"Balanced\"\n                              : \"Not OK\");\n    return 0;\n}"
+   },
+   "out": "{a+[b*(c-d)]}   Balanced\n(a+b]*c         Not OK\n((a+b)*c        Not OK\n[(x)]{y}        Balanced",
+   "expl": {
+    "en": "<ul><li>Every <b>opening</b> bracket is pushed.</li>\n<li>For every <b>closing</b> bracket the top is popped. It must be the matching opening bracket, otherwise the expression is not balanced (<code>(a+b]</code>).</li>\n<li>At the end the stack must be <b>empty</b>. In <code>((a+b)*c</code> one '(' is left over, so it is not balanced (\"Not OK\").</li>\n<li>Compilers use this check to report \"missing bracket\" errors.</li></ul>"
+   }
+  },
+  {
+   "id": "ds2p5",
+   "title": {
+    "en": "Convert infix expression to postfix"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <ctype.h>\n\nchar st[50];\nint top = -1;\n\nint prec(char c)\n{\n    if (c == '^') return 3;\n    if (c=='*'||c=='/'||c=='%') return 2;\n    if (c=='+'||c=='-') return 1;\n    return 0;                   // '('\n}\n\nint main(void)\n{\n    char in[50], out[50], c;\n    int i, k = 0;\n\n    printf(\"Infix: \");\n    scanf(\"%49s\", in);\n    for (i = 0; (c = in[i]) != '\\0'; i++) {\n        if (isalnum((unsigned char)c))\n            // operand\n            out[k++] = c;\n        else if (c == '(')\n            st[++top] = c;\n        else if (c == ')') {\n            while (st[top] != '(')\n                out[k++] = st[top--];\n            // drop '('\n            top--;\n        // operator\n        } else {\n            while (top != -1 &&\n                (prec(st[top]) > prec(c) ||\n                 (prec(st[top]) == prec(c)\n                  && c != '^')))\n                out[k++] = st[top--];\n            st[++top] = c;\n        }\n    }\n    while (top != -1)\n        out[k++] = st[top--];\n    out[k] = '\\0';\n    printf(\"Postfix: %s\\n\", out);\n    return 0;\n}"
+   },
+   "out": "Infix: A+(B*C-(D/E^F)*G)*H\nPostfix: ABC*DEF^/G*-H*+",
+   "expl": {
+    "en": "<ul><li><b>Operand</b> (letter or digit): goes straight to the output.</li>\n<li><b>(</b>: always pushed. <b>)</b>: pop to the output until '(' is found; the '(' is discarded.</li>\n<li><b>Operator</b>: pop operators of <b>higher</b> precedence (or <b>equal</b> precedence, for left-associative operators) to the output, then push the new operator. <code>^</code> is right-associative, so an equal <code>^</code> is not popped.</li>\n<li>At the end, all remaining operators are popped.</li>\n<li><code>prec('(')</code> returns 0, so '(' is never popped by an operator.</li>\n<li>The full step table for this expression is in the Numericals tab.</li></ul>"
+   }
+  },
+  {
+   "id": "ds2p6",
+   "title": {
+    "en": "Evaluate a postfix expression"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <ctype.h>\n\nint st[50], top = -1;\n\nint main(void)\n{\n    char e[50], c;\n    int i, a, b, r;\n\n    printf(\"Postfix (single digits): \");\n    scanf(\"%49s\", e);\n    for (i = 0; (c = e[i]) != '\\0'; i++) {\n        if (isdigit((unsigned char)c))\n            // push\n            st[++top] = c - '0';\n        else {\n            b = st[top--];       // 2nd\n            a = st[top--];       // 1st\n            switch (c) {\n            case '+': r = a + b; break;\n            case '-': r = a - b; break;\n            case '*': r = a * b; break;\n            case '/': r = a / b; break;\n            default:  r = 0;\n            }\n            printf(\"%d %c %d = %d\\n\",\n                   a, c, b, r);\n            st[++top] = r;\n        }\n    }\n    printf(\"Result = %d\\n\", st[top]);\n    return 0;\n}"
+   },
+   "out": "Postfix (single digits): 53+82-*\n5 + 3 = 8\n8 - 2 = 6\n8 * 6 = 48\nResult = 48",
+   "expl": {
+    "en": "<ul><li>Scan from <b>left to right</b>. A digit is pushed (<code>c − '0'</code> converts the character '5' to the number 5).</li>\n<li>For an operator, pop <b>two</b> values. The first popped is the <b>second</b> operand (b), the next is the first operand (a). This order matters for − and /.</li>\n<li>The result <code>a op b</code> is pushed back.</li>\n<li>When the expression ends, the only value left on the stack is the answer: (5 + 3) × (8 − 2) = <b>48</b>.</li>\n<li>No precedence rules and no brackets are needed. This is why compilers convert infix to postfix.</li></ul>"
+   }
+  },
+  {
+   "id": "ds2p7",
+   "title": {
+    "en": "Factorial using recursion (with trace) [Practical 3]"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nlong fact(int n)\n{\n    long r;\n    printf(\"call fact(%d)\\n\", n);\n    if (n <= 1)\n        r = 1;                // base case\n    else\n        r = n * fact(n - 1);  // recursive\n    printf(\"fact(%d) returns %ld\\n\", n, r);\n    return r;\n}\n\nint main(void)\n{\n    int n;\n    printf(\"Enter n: \");\n    scanf(\"%d\", &n);\n    printf(\"%d! = %ld\\n\", n, fact(n));\n    return 0;\n}"
+   },
+   "out": "Enter n: 4\ncall fact(4)\ncall fact(3)\ncall fact(2)\ncall fact(1)\nfact(1) returns 1\nfact(2) returns 2\nfact(3) returns 6\nfact(4) returns 24\n4! = 24",
+   "expl": {
+    "en": "<ul><li><b>Base case:</b> fact(1) = 1 stops the recursion. Without it the function would call itself forever (stack overflow).</li>\n<li><b>Recursive case:</b> fact(n) = n × fact(n − 1). Each call works on a smaller problem.</li>\n<li>The trace shows the <b>winding</b> phase (calls 4 → 3 → 2 → 1, each pushed on the system stack) and the <b>unwinding</b> phase (returns 1 → 2 → 6 → 24, each popped).</li>\n<li>Time O(n); space O(n) for n stack frames.</li></ul>"
+   }
+  },
+  {
+   "id": "ds2p8",
+   "title": {
+    "en": "GCD using recursion (Euclid's method)"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nint gcd(int a, int b)\n{\n    printf(\"gcd(%d, %d)\\n\", a, b);\n    if (b == 0)\n        return a;             // base case\n    return gcd(b, a % b);\n}\n\nint main(void)\n{\n    int a, b, g;\n    printf(\"Enter two numbers: \");\n    scanf(\"%d %d\", &a, &b);\n    g = gcd(a, b);\n    printf(\"GCD = %d\\n\", g);\n    printf(\"LCM = %d\\n\", a / g * b);\n    return 0;\n}"
+   },
+   "out": "Enter two numbers: 48 18\ngcd(48, 18)\ngcd(18, 12)\ngcd(12, 6)\ngcd(6, 0)\nGCD = 6\nLCM = 144",
+   "expl": {
+    "en": "<ul><li>Euclid's rule: <b>gcd(a, b) = gcd(b, a % b)</b>, and <b>gcd(a, 0) = a</b> (base case).</li>\n<li>48 % 18 = 12 → gcd(18, 12); 18 % 12 = 6 → gcd(12, 6); 12 % 6 = 0 → gcd(6, 0) = <b>6</b>.</li>\n<li>The LCM follows from a × b = GCD × LCM. Writing <code>a / g * b</code> (dividing first) avoids overflow.</li>\n<li>Very fast: about O(log(min(a, b))) calls.</li></ul>"
+   }
+  },
+  {
+   "id": "ds2p9",
+   "title": {
+    "en": "Fibonacci series using recursion (with call count)"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nint calls = 0;\n\nint fib(int n)\n{\n    calls++;\n    if (n == 0) return 0;     // base cases\n    if (n == 1) return 1;\n    return fib(n - 1) + fib(n - 2);\n}\n\nint main(void)\n{\n    int n, i;\n    printf(\"How many terms? \");\n    scanf(\"%d\", &n);\n    printf(\"Series: \");\n    for (i = 0; i < n; i++)\n        printf(\"%d \", fib(i));\n    printf(\"\\n\");\n\n    calls = 0;\n    printf(\"fib(10) = %d\", fib(10));\n    printf(\" using %d calls\\n\", calls);\n    return 0;\n}"
+   },
+   "out": "How many terms? 10\nSeries: 0 1 1 2 3 5 8 13 21 34 \nfib(10) = 55 using 177 calls",
+   "expl": {
+    "en": "<ul><li>Two base cases: fib(0) = 0 and fib(1) = 1. Every other term is the sum of the previous two.</li>\n<li>Each call makes <b>two</b> more calls, so the same values are computed again and again (see the recursion tree diagram).</li>\n<li>The counter shows that fib(10) needs <b>177 calls</b>. The number of calls grows roughly like 2ⁿ, so the time complexity is <b>O(2ⁿ)</b>.</li>\n<li>A simple loop computes the same series in O(n). Recursion is elegant, but not always efficient.</li></ul>"
+   }
+  },
+  {
+   "id": "ds2p10",
+   "title": {
+    "en": "Queue using an array: INSERT, DELETE, DISPLAY [Practical 4]"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#define MAX 5\n\nint q[MAX], front = -1, rear = -1;\n\nvoid insert(int x)\n{\n    if (rear == MAX - 1) {\n        printf(\"Queue Overflow\\n\");\n        return;\n    }\n    if (front == -1)\n        front = 0;            // first item\n    q[++rear] = x;\n    printf(\"%d inserted\\n\", x);\n}\n\nvoid delete(void)\n{\n    if (front == -1 || front > rear) {\n        printf(\"Queue Underflow\\n\");\n        return;\n    }\n    printf(\"%d deleted\\n\", q[front++]);\n}\n\nvoid display(void)\n{\n    int i;\n    if (front == -1 || front > rear) {\n        printf(\"Queue is empty\\n\");\n        return;\n    }\n    printf(\"Queue: \");\n    for (i = front; i <= rear; i++)\n        printf(\"%d \", q[i]);\n    printf(\" (F=%d R=%d)\\n\", front, rear);\n}\n\nint main(void)\n{\n    int ch, x;\n    do {\n        printf(\"1.Insert 2.Delete 3.Show\");\n        printf(\" 4.Exit: \");\n        scanf(\"%d\", &ch);\n        switch (ch) {\n        case 1:\n            printf(\"Value: \");\n            scanf(\"%d\", &x);\n            insert(x);\n            break;\n        case 2: delete(); break;\n        case 3: display(); break;\n        }\n    } while (ch != 4);\n    return 0;\n}"
+   },
+   "out": "1.Insert 2.Delete 3.Show 4.Exit: 1\nValue: 10\n10 inserted\n1.Insert 2.Delete 3.Show 4.Exit: 1\nValue: 20\n20 inserted\n1.Insert 2.Delete 3.Show 4.Exit: 1\nValue: 30\n30 inserted\n1.Insert 2.Delete 3.Show 4.Exit: 3\nQueue: 10 20 30  (F=0 R=2)\n1.Insert 2.Delete 3.Show 4.Exit: 2\n10 deleted\n1.Insert 2.Delete 3.Show 4.Exit: 3\nQueue: 20 30  (F=1 R=2)\n1.Insert 2.Delete 3.Show 4.Exit: 4",
+   "expl": {
+    "en": "<ul><li>Two indexes: <code>front</code> (where deletion happens) and <code>rear</code> (where insertion happens). Both start at −1.</li>\n<li><b>Insert:</b> check overflow (<code>rear == MAX − 1</code>); on the very first insert set <code>front = 0</code>; then <code>q[++rear] = x</code>.</li>\n<li><b>Delete:</b> check underflow (<code>front == −1</code> or <code>front &gt; rear</code>); then take <code>q[front++]</code>.</li>\n<li>10 was inserted first and is deleted first: <b>FIFO</b>.</li>\n<li>Insert and delete are both <b>O(1)</b>.</li></ul>"
+   }
+  },
+  {
+   "id": "ds2p11",
+   "title": {
+    "en": "Limitation of a simple queue (wasted space)"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#define MAX 5\n\nint q[MAX], front = 0, rear = -1;\n\nint main(void)\n{\n    int i, n;\n    for (i = 1; i <= 5; i++)\n        // fill\n        q[++rear] = i * 10;\n    printf(\"Inserted 5, rear=%d\\n\", rear);\n\n    for (i = 0; i < 3; i++)\n        printf(\"Deleted %d\\n\", q[front++]);\n    n = rear - front + 1;\n    printf(\"front=%d rear=%d\\n\",\n           front, rear);\n    printf(\"Items = %d, free = %d\\n\",\n           n, MAX - n);\n\n    if (rear == MAX - 1)\n        printf(\"Insert 60: Queue Full!\\n\");\n    return 0;\n}"
+   },
+   "out": "Inserted 5, rear=4\nDeleted 10\nDeleted 20\nDeleted 30\nfront=3 rear=4\nItems = 2, free = 3\nInsert 60: Queue Full!",
+   "expl": {
+    "en": "<ul><li>After 5 inserts and 3 deletes, only <b>2</b> items are in the queue and <b>3</b> places are free.</li>\n<li>Yet a new insert is refused, because the test <code>rear == MAX − 1</code> is true. In a simple queue, <code>rear</code> can only move forward.</li>\n<li>The free places at the front can never be used again, so memory is wasted.</li>\n<li>The <b>circular queue</b> (next program) solves this by wrapping <code>rear</code> back to index 0.</li></ul>"
+   }
+  },
+  {
+   "id": "ds2p12",
+   "title": {
+    "en": "Circular queue using an array"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#define MAX 4\n\nint q[MAX], front = -1, rear = -1;\n\nvoid insert(int x)\n{\n    if ((rear + 1) % MAX == front) {\n        printf(\"Insert %d: Full\\n\", x);\n        return;\n    }\n    if (front == -1)\n        front = 0;\n    // wrap\n    rear = (rear + 1) % MAX;\n    q[rear] = x;\n    printf(\"Insert %d at [%d]\\n\", x, rear);\n}\n\nvoid delete(void)\n{\n    if (front == -1) {\n        printf(\"Queue Empty\\n\");\n        return;\n    }\n    printf(\"Delete %d from [%d]\\n\",\n           q[front], front);\n    if (front == rear)\n        // now empty\n        front = rear = -1;\n    else\n        front = (front + 1) % MAX;\n}\n\nvoid display(void)\n{\n    int i = front;\n    if (front == -1) {\n        printf(\"Queue Empty\\n\");\n        return;\n    }\n    printf(\"Queue: \");\n    while (1) {\n        printf(\"%d \", q[i]);\n        if (i == rear)\n            break;\n        i = (i + 1) % MAX;\n    }\n    printf(\"(F=%d R=%d)\\n\", front, rear);\n}\n\nint main(void)\n{\n    insert(10); insert(20);\n    insert(30); insert(40);\n    // full\n    insert(50);\n    delete(); delete();\n    // wrap\n    insert(50); insert(60);\n    display();\n    return 0;\n}"
+   },
+   "out": "Insert 10 at [0]\nInsert 20 at [1]\nInsert 30 at [2]\nInsert 40 at [3]\nInsert 50: Full\nDelete 10 from [0]\nDelete 20 from [1]\nInsert 50 at [0]\nInsert 60 at [1]\nQueue: 30 40 50 60 (F=2 R=1)",
+   "expl": {
+    "en": "<ul><li>The modulus operator makes the indexes go round: with MAX = 4, after index 3 the next index is (3 + 1) % 4 = <b>0</b>.</li>\n<li><b>Full</b> when <code>(rear + 1) % MAX == front</code>. <b>Empty</b> when <code>front == −1</code>.</li>\n<li>After deleting 10 and 20, the new items 50 and 60 go into indexes <b>0 and 1</b>, the places freed at the front. No space is wasted.</li>\n<li>When the last item is deleted (<code>front == rear</code>), both indexes are reset to −1.</li>\n<li>Display walks from front to rear, wrapping round with % MAX.</li></ul>"
+   }
+  },
+  {
+   "id": "ds2p13",
+   "title": {
+    "en": "Decimal to binary using a stack"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nint st[32], top = -1;\n\nint main(void)\n{\n    int n, m;\n    printf(\"Enter a decimal number: \");\n    scanf(\"%d\", &n);\n    m = n;\n    if (m == 0)\n        st[++top] = 0;\n    while (m > 0) {\n        // remainder\n        st[++top] = m % 2;\n        m = m / 2;\n    }\n    printf(\"Binary of %d = \", n);\n    while (top != -1)\n        // reverse\n        printf(\"%d\", st[top--]);\n    printf(\"\\n\");\n    return 0;\n}"
+   },
+   "out": "Enter a decimal number: 45\nBinary of 45 = 101101",
+   "expl": {
+    "en": "<ul><li>Repeated division by 2 gives the binary digits in <b>reverse order</b> (least significant bit first): 45 → 1, 0, 1, 1, 0, 1.</li>\n<li>Pushing the remainders and then popping them prints the digits in the correct order: <b>101101</b>.</li>\n<li>This is another \"reversing\" application of the stack.</li></ul>"
+   }
+  },
+  {
+   "id": "ds2p14",
+   "title": {
+    "en": "Queue of persons: add, serve and search [Project idea]"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <string.h>\n#define MAX 5\n\nchar q[MAX][20];\nint front = 0, rear = -1;\n\nvoid add(char *name)\n{\n    if (rear == MAX - 1) {\n        printf(\"Line is full\\n\");\n        return;\n    }\n    strcpy(q[++rear], name);\n    printf(\"%s joined the line\\n\", name);\n}\n\nvoid serve(void)\n{\n    if (front > rear) {\n        printf(\"No one in line\\n\");\n        return;\n    }\n    printf(\"Serving %s\\n\", q[front++]);\n}\n\nvoid search(char *name)\n{\n    int i;\n    for (i = front; i <= rear; i++)\n        if (strcmp(q[i], name) == 0) {\n            printf(\"%s is at place %d\\n\",\n                   name, i - front + 1);\n            return;\n        }\n    printf(\"%s is not in line\\n\", name);\n}\n\nint main(void)\n{\n    add(\"Ravi\"); add(\"Meena\"); add(\"Amit\");\n    search(\"Amit\");\n    serve();\n    search(\"Amit\");\n    search(\"Ravi\");\n    return 0;\n}"
+   },
+   "out": "Ravi joined the line\nMeena joined the line\nAmit joined the line\nAmit is at place 3\nServing Ravi\nAmit is at place 2\nRavi is not in line",
+   "expl": {
+    "en": "<ul><li>The queue stores <b>names</b>: a 2-D char array in which each row is one string.</li>\n<li>People are served in the order they joined (FIFO), like a ticket window.</li>\n<li>The search reports the place in the line as <code>i − front + 1</code>. After Ravi is served, Amit moves from place 3 to place 2.</li>\n<li>Ravi is no longer found once he has been served (deleted from the front).</li></ul>"
+   }
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "ds2_stack_array",
+   "title": {
+    "en": "Stack: Array Representation (LIFO)"
+   },
+   "file": "diagrams/ds2_stack_array.svg"
+  },
+  {
+   "id": "ds2_push_pop",
+   "title": {
+    "en": "PUSH and POP Operations"
+   },
+   "file": "diagrams/ds2_push_pop.svg"
+  },
+  {
+   "id": "ds2_stack_apps",
+   "title": {
+    "en": "Applications of Stack"
+   },
+   "file": "diagrams/ds2_stack_apps.svg"
+  },
+  {
+   "id": "ds2_notations",
+   "title": {
+    "en": "Infix, Prefix and Postfix Notation"
+   },
+   "file": "diagrams/ds2_notations.svg"
+  },
+  {
+   "id": "ds2_postfix_eval",
+   "title": {
+    "en": "Evaluating a Postfix Expression"
+   },
+   "file": "diagrams/ds2_postfix_eval.svg"
+  },
+  {
+   "id": "ds2_recursion_fact",
+   "title": {
+    "en": "Recursion: Call Stack for fact(4)"
+   },
+   "file": "diagrams/ds2_recursion_fact.svg"
+  },
+  {
+   "id": "ds2_fib_tree",
+   "title": {
+    "en": "Recursion Tree for fib(4)"
+   },
+   "file": "diagrams/ds2_fib_tree.svg"
+  },
+  {
+   "id": "ds2_queue_array",
+   "title": {
+    "en": "Queue: Array Representation (FIFO)"
+   },
+   "file": "diagrams/ds2_queue_array.svg"
+  },
+  {
+   "id": "ds2_queue_limit",
+   "title": {
+    "en": "Limitation of a Simple Queue"
+   },
+   "file": "diagrams/ds2_queue_limit.svg"
+  },
+  {
+   "id": "ds2_circular",
+   "title": {
+    "en": "Circular Queue"
+   },
+   "file": "diagrams/ds2_circular.svg"
+  }
+ ],
+ "algorithms": [
+  {
+   "title": {
+    "en": "Stack"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "PUSH"
+     },
+     "f": "Algorithm PUSH(STACK, TOP, MAX, ITEM)\nStep 1: [Check overflow]\n        If TOP = MAX - 1 then\n            Write \"Stack Overflow\" and Exit\nStep 2: Set TOP = TOP + 1\nStep 3: Set STACK[TOP] = ITEM\nStep 4: Exit",
+     "terms": {
+      "en": "O(1). Check overflow first."
+     }
+    },
+    {
+     "name": {
+      "en": "POP"
+     },
+     "f": "Algorithm POP(STACK, TOP)\nStep 1: [Check underflow]\n        If TOP = -1 then\n            Write \"Stack Underflow\" and Exit\nStep 2: Set ITEM = STACK[TOP]\nStep 3: Set TOP = TOP - 1\nStep 4: Return ITEM",
+     "terms": {
+      "en": "O(1). Check underflow first."
+     }
+    },
+    {
+     "name": {
+      "en": "PEEK"
+     },
+     "f": "Algorithm PEEK(STACK, TOP)\nStep 1: If TOP = -1 then\n            Write \"Stack Empty\" and Exit\nStep 2: Return STACK[TOP]",
+     "terms": {
+      "en": "Reads top without removing it."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Expressions"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Infix to postfix"
+     },
+     "f": "Algorithm INFIX_TO_POSTFIX(E)\nStep 1: Scan E from left to right,\n        one symbol at a time\nStep 2: If symbol is an operand,\n            add it to POSTFIX\nStep 3: If symbol is '(' , PUSH it\nStep 4: If symbol is ')' :\n            POP and add to POSTFIX\n            until '(' is found;\n            discard the '('\nStep 5: If symbol is an operator X:\n            While top of stack has an\n            operator of higher (or equal,\n            except ^) precedence than X:\n                POP it to POSTFIX\n            PUSH X\nStep 6: At the end, POP all remaining\n        operators to POSTFIX\nStep 7: Exit",
+     "terms": {
+      "en": "Stack holds operators and '('."
+     }
+    },
+    {
+     "name": {
+      "en": "Evaluate postfix"
+     },
+     "f": "Algorithm EVAL_POSTFIX(P)\nStep 1: Scan P from left to right\nStep 2: If symbol is an operand,\n            PUSH it\nStep 3: If symbol is an operator op:\n            B = POP   (2nd operand)\n            A = POP   (1st operand)\n            PUSH (A op B)\nStep 4: Repeat Steps 2-3 till the end\nStep 5: Result = POP\nStep 6: Exit",
+     "terms": {
+      "en": "Stack holds operands. First pop = right operand."
+     }
+    },
+    {
+     "name": {
+      "en": "Infix to prefix (reverse method)"
+     },
+     "f": "1. Reverse infix, swap ( and )\n2. Convert to postfix\n   (equal precedence: push)\n3. Reverse the result",
+     "terms": {
+      "en": ""
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Recursion"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Factorial"
+     },
+     "f": "fact(n) = 1             if n <= 1\nfact(n) = n * fact(n-1) otherwise",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "GCD (Euclid)"
+     },
+     "f": "gcd(a, b) = a              if b = 0\ngcd(a, b) = gcd(b, a % b)  otherwise",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Fibonacci"
+     },
+     "f": "fib(0) = 0, fib(1) = 1\nfib(n) = fib(n-1) + fib(n-2)",
+     "terms": {
+      "en": "O(2ⁿ) calls."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Queue"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Insert (simple queue)"
+     },
+     "f": "Algorithm QINSERT(Q, FRONT, REAR, MAX, ITEM)\nStep 1: [Check overflow]\n        If REAR = MAX - 1 then\n            Write \"Queue Overflow\" and Exit\nStep 2: If FRONT = -1 then\n            Set FRONT = 0\nStep 3: Set REAR = REAR + 1\nStep 4: Set Q[REAR] = ITEM\nStep 5: Exit",
+     "terms": {
+      "en": "Full: REAR = MAX − 1."
+     }
+    },
+    {
+     "name": {
+      "en": "Delete (simple queue)"
+     },
+     "f": "Algorithm QDELETE(Q, FRONT, REAR)\nStep 1: [Check underflow]\n        If FRONT = -1 or FRONT > REAR then\n            Write \"Queue Underflow\" and Exit\nStep 2: Set ITEM = Q[FRONT]\nStep 3: Set FRONT = FRONT + 1\nStep 4: Return ITEM",
+     "terms": {
+      "en": "Empty: FRONT = −1 or FRONT > REAR."
+     }
+    },
+    {
+     "name": {
+      "en": "Insert (circular queue)"
+     },
+     "f": "Algorithm CQINSERT(Q, FRONT, REAR, MAX, ITEM)\nStep 1: [Check overflow]\n        If (REAR + 1) mod MAX = FRONT then\n            Write \"Queue Full\" and Exit\nStep 2: If FRONT = -1 then\n            Set FRONT = 0\nStep 3: Set REAR = (REAR + 1) mod MAX\nStep 4: Set Q[REAR] = ITEM\nStep 5: Exit",
+     "terms": {
+      "en": "Full: (REAR + 1) % MAX = FRONT."
+     }
+    },
+    {
+     "name": {
+      "en": "Delete (circular queue)"
+     },
+     "f": "Algorithm CQDELETE(Q, FRONT, REAR, MAX)\nStep 1: [Check underflow]\n        If FRONT = -1 then\n            Write \"Queue Empty\" and Exit\nStep 2: Set ITEM = Q[FRONT]\nStep 3: If FRONT = REAR then\n            Set FRONT = REAR = -1\n        Else\n            Set FRONT = (FRONT + 1) mod MAX\nStep 4: Return ITEM",
+     "terms": {
+      "en": "Reset to −1 when the last item leaves."
+     }
+    }
+   ]
+  }
+ ],
+ "numericals": [
+  {
+   "id": "ds2n1",
+   "q": {
+    "en": "Convert the infix expression A+B*C-D/E into postfix form using a stack. Show the stack at each step."
+   },
+   "a": {
+    "en": "<table><tr><th>Step</th><th>Symbol</th><th>Stack</th><th>Postfix</th></tr><tr><td>1</td><td>A</td><td>–</td><td>A</td></tr><tr><td>2</td><td>+</td><td>+</td><td>A</td></tr><tr><td>3</td><td>B</td><td>+</td><td>AB</td></tr><tr><td>4</td><td>*</td><td>+*</td><td>AB</td></tr><tr><td>5</td><td>C</td><td>+*</td><td>ABC</td></tr><tr><td>6</td><td>-</td><td>-</td><td>ABC*+</td></tr><tr><td>7</td><td>D</td><td>-</td><td>ABC*+D</td></tr><tr><td>8</td><td>/</td><td>-/</td><td>ABC*+D</td></tr><tr><td>9</td><td>E</td><td>-/</td><td>ABC*+DE</td></tr><tr><td>10</td><td>end</td><td>–</td><td>ABC*+DE/-</td></tr></table><p><b>Postfix: A B C * + D E / -</b></p>"
+   }
+  },
+  {
+   "id": "ds2n2",
+   "q": {
+    "en": "Convert the infix expression A*(B+C)/D-E into postfix form using a stack. Show the stack at each step."
+   },
+   "a": {
+    "en": "<table><tr><th>Step</th><th>Symbol</th><th>Stack</th><th>Postfix</th></tr><tr><td>1</td><td>A</td><td>–</td><td>A</td></tr><tr><td>2</td><td>*</td><td>*</td><td>A</td></tr><tr><td>3</td><td>(</td><td>*(</td><td>A</td></tr><tr><td>4</td><td>B</td><td>*(</td><td>AB</td></tr><tr><td>5</td><td>+</td><td>*(+</td><td>AB</td></tr><tr><td>6</td><td>C</td><td>*(+</td><td>ABC</td></tr><tr><td>7</td><td>)</td><td>*</td><td>ABC+</td></tr><tr><td>8</td><td>/</td><td>/</td><td>ABC+*</td></tr><tr><td>9</td><td>D</td><td>/</td><td>ABC+*D</td></tr><tr><td>10</td><td>-</td><td>-</td><td>ABC+*D/</td></tr><tr><td>11</td><td>E</td><td>-</td><td>ABC+*D/E</td></tr><tr><td>12</td><td>end</td><td>–</td><td>ABC+*D/E-</td></tr></table><p><b>Postfix: A B C + * D / E -</b></p>"
+   }
+  },
+  {
+   "id": "ds2n3",
+   "q": {
+    "en": "Convert the infix expression A+(B*C-(D/E^F)*G)*H into postfix form using a stack. Show the stack at each step."
+   },
+   "a": {
+    "en": "<table><tr><th>Step</th><th>Symbol</th><th>Stack</th><th>Postfix</th></tr><tr><td>1</td><td>A</td><td>–</td><td>A</td></tr><tr><td>2</td><td>+</td><td>+</td><td>A</td></tr><tr><td>3</td><td>(</td><td>+(</td><td>A</td></tr><tr><td>4</td><td>B</td><td>+(</td><td>AB</td></tr><tr><td>5</td><td>*</td><td>+(*</td><td>AB</td></tr><tr><td>6</td><td>C</td><td>+(*</td><td>ABC</td></tr><tr><td>7</td><td>-</td><td>+(-</td><td>ABC*</td></tr><tr><td>8</td><td>(</td><td>+(-(</td><td>ABC*</td></tr><tr><td>9</td><td>D</td><td>+(-(</td><td>ABC*D</td></tr><tr><td>10</td><td>/</td><td>+(-(/</td><td>ABC*D</td></tr><tr><td>11</td><td>E</td><td>+(-(/</td><td>ABC*DE</td></tr><tr><td>12</td><td>^</td><td>+(-(/^</td><td>ABC*DE</td></tr><tr><td>13</td><td>F</td><td>+(-(/^</td><td>ABC*DEF</td></tr><tr><td>14</td><td>)</td><td>+(-</td><td>ABC*DEF^/</td></tr><tr><td>15</td><td>*</td><td>+(-*</td><td>ABC*DEF^/</td></tr><tr><td>16</td><td>G</td><td>+(-*</td><td>ABC*DEF^/G</td></tr><tr><td>17</td><td>)</td><td>+</td><td>ABC*DEF^/G*-</td></tr><tr><td>18</td><td>*</td><td>+*</td><td>ABC*DEF^/G*-</td></tr><tr><td>19</td><td>H</td><td>+*</td><td>ABC*DEF^/G*-H</td></tr><tr><td>20</td><td>end</td><td>–</td><td>ABC*DEF^/G*-H*+</td></tr></table><p><b>Postfix: A B C * D E F ^ / G * - H * +</b></p><p>This is a frequently asked GTU example. Note how the inner brackets are emptied when ')' arrives.</p>"
+   }
+  },
+  {
+   "id": "ds2n4",
+   "q": {
+    "en": "Convert the infix expression (A+B)*(C-D) into postfix form using a stack. Show the stack at each step."
+   },
+   "a": {
+    "en": "<table><tr><th>Step</th><th>Symbol</th><th>Stack</th><th>Postfix</th></tr><tr><td>1</td><td>(</td><td>(</td><td>–</td></tr><tr><td>2</td><td>A</td><td>(</td><td>A</td></tr><tr><td>3</td><td>+</td><td>(+</td><td>A</td></tr><tr><td>4</td><td>B</td><td>(+</td><td>AB</td></tr><tr><td>5</td><td>)</td><td>–</td><td>AB+</td></tr><tr><td>6</td><td>*</td><td>*</td><td>AB+</td></tr><tr><td>7</td><td>(</td><td>*(</td><td>AB+</td></tr><tr><td>8</td><td>C</td><td>*(</td><td>AB+C</td></tr><tr><td>9</td><td>-</td><td>*(-</td><td>AB+C</td></tr><tr><td>10</td><td>D</td><td>*(-</td><td>AB+CD</td></tr><tr><td>11</td><td>)</td><td>*</td><td>AB+CD-</td></tr><tr><td>12</td><td>end</td><td>–</td><td>AB+CD-*</td></tr></table><p><b>Postfix: A B + C D - *</b></p>"
+   }
+  },
+  {
+   "id": "ds2n5",
+   "q": {
+    "en": "Convert the infix expression A+B*C-D/E into prefix form."
+   },
+   "a": {
+    "en": "<p>Step 1, reverse the infix (swap brackets): <b>E / D - C * B + A</b></p><p>Step 2, convert (equal precedence is pushed):</p><table><tr><th>Step</th><th>Symbol</th><th>Stack</th><th>Output</th></tr><tr><td>1</td><td>E</td><td>–</td><td>E</td></tr><tr><td>2</td><td>/</td><td>/</td><td>E</td></tr><tr><td>3</td><td>D</td><td>/</td><td>ED</td></tr><tr><td>4</td><td>-</td><td>-</td><td>ED/</td></tr><tr><td>5</td><td>C</td><td>-</td><td>ED/C</td></tr><tr><td>6</td><td>*</td><td>-*</td><td>ED/C</td></tr><tr><td>7</td><td>B</td><td>-*</td><td>ED/CB</td></tr><tr><td>8</td><td>+</td><td>-+</td><td>ED/CB*</td></tr><tr><td>9</td><td>A</td><td>-+</td><td>ED/CB*A</td></tr><tr><td>10</td><td>end</td><td>–</td><td>ED/CB*A+-</td></tr></table><p>Step 3, reverse the output: <b>Prefix = - + A * B C / D E</b></p>"
+   }
+  },
+  {
+   "id": "ds2n6",
+   "q": {
+    "en": "Convert the infix expression (A+B)*(C-D) into prefix form."
+   },
+   "a": {
+    "en": "<p>Step 1, reverse the infix (swap brackets): <b>( D - C ) * ( B + A )</b></p><p>Step 2, convert (equal precedence is pushed):</p><table><tr><th>Step</th><th>Symbol</th><th>Stack</th><th>Output</th></tr><tr><td>1</td><td>(</td><td>(</td><td>–</td></tr><tr><td>2</td><td>D</td><td>(</td><td>D</td></tr><tr><td>3</td><td>-</td><td>(-</td><td>D</td></tr><tr><td>4</td><td>C</td><td>(-</td><td>DC</td></tr><tr><td>5</td><td>)</td><td>–</td><td>DC-</td></tr><tr><td>6</td><td>*</td><td>*</td><td>DC-</td></tr><tr><td>7</td><td>(</td><td>*(</td><td>DC-</td></tr><tr><td>8</td><td>B</td><td>*(</td><td>DC-B</td></tr><tr><td>9</td><td>+</td><td>*(+</td><td>DC-B</td></tr><tr><td>10</td><td>A</td><td>*(+</td><td>DC-BA</td></tr><tr><td>11</td><td>)</td><td>*</td><td>DC-BA+</td></tr><tr><td>12</td><td>end</td><td>–</td><td>DC-BA+*</td></tr></table><p>Step 3, reverse the output: <b>Prefix = * + A B - C D</b></p>"
+   }
+  },
+  {
+   "id": "ds2n7",
+   "q": {
+    "en": "Evaluate the postfix expression 5 3 + 8 2 − * using a stack."
+   },
+   "a": {
+    "en": "<table><tr><th>Symbol</th><th>Action</th><th>Stack</th></tr><tr><td>5</td><td>push</td><td>5</td></tr><tr><td>3</td><td>push</td><td>5 3</td></tr><tr><td>+</td><td>pop 3, pop 5; 5 + 3 = 8; push</td><td>8</td></tr><tr><td>8</td><td>push</td><td>8 8</td></tr><tr><td>2</td><td>push</td><td>8 8 2</td></tr><tr><td>-</td><td>pop 2, pop 8; 8 - 2 = 6; push</td><td>8 6</td></tr><tr><td>*</td><td>pop 6, pop 8; 8 * 6 = 48; push</td><td>48</td></tr></table><p><b>Result = 48</b></p>"
+   }
+  },
+  {
+   "id": "ds2n8",
+   "q": {
+    "en": "Evaluate the postfix expression 6 2 3 + − 3 8 2 / + * 2 ^ 3 + using a stack."
+   },
+   "a": {
+    "en": "<table><tr><th>Symbol</th><th>Action</th><th>Stack</th></tr><tr><td>6</td><td>push</td><td>6</td></tr><tr><td>2</td><td>push</td><td>6 2</td></tr><tr><td>3</td><td>push</td><td>6 2 3</td></tr><tr><td>+</td><td>pop 3, pop 2; 2 + 3 = 5; push</td><td>6 5</td></tr><tr><td>-</td><td>pop 5, pop 6; 6 - 5 = 1; push</td><td>1</td></tr><tr><td>3</td><td>push</td><td>1 3</td></tr><tr><td>8</td><td>push</td><td>1 3 8</td></tr><tr><td>2</td><td>push</td><td>1 3 8 2</td></tr><tr><td>/</td><td>pop 2, pop 8; 8 / 2 = 4; push</td><td>1 3 4</td></tr><tr><td>+</td><td>pop 4, pop 3; 3 + 4 = 7; push</td><td>1 7</td></tr><tr><td>*</td><td>pop 7, pop 1; 1 * 7 = 7; push</td><td>7</td></tr><tr><td>2</td><td>push</td><td>7 2</td></tr><tr><td>^</td><td>pop 2, pop 7; 7 ^ 2 = 49; push</td><td>49</td></tr><tr><td>3</td><td>push</td><td>49 3</td></tr><tr><td>+</td><td>pop 3, pop 49; 49 + 3 = 52; push</td><td>52</td></tr></table><p><b>Result = 52</b></p><p>Check: 6 − (2 + 3) = 1; 3 + 8/2 = 7; 1 × 7 = 7; 7² = 49; 49 + 3 = 52.</p>"
+   }
+  },
+  {
+   "id": "ds2n9",
+   "q": {
+    "en": "Evaluate the prefix expression − * + 4 3 2 5."
+   },
+   "a": {
+    "en": "<p>Scan from <b>right to left</b>. For an operator, first pop = left operand A, second pop = right operand B.</p><table><tr><th>Symbol</th><th>Action</th><th>Stack</th></tr><tr><td>5</td><td>push</td><td>5</td></tr><tr><td>2</td><td>push</td><td>5 2</td></tr><tr><td>3</td><td>push</td><td>5 2 3</td></tr><tr><td>4</td><td>push</td><td>5 2 3 4</td></tr><tr><td>+</td><td>pop 4, pop 3; 4 + 3 = 7; push</td><td>5 2 7</td></tr><tr><td>*</td><td>pop 7, pop 2; 7 * 2 = 14; push</td><td>5 14</td></tr><tr><td>-</td><td>pop 14, pop 5; 14 - 5 = 9; push</td><td>9</td></tr></table><p><b>Result = 9</b>, i.e. (4 + 3) × 2 − 5.</p>"
+   }
+  },
+  {
+   "id": "ds2n10",
+   "q": {
+    "en": "A stack has MAX = 4. Show the stack and TOP after each operation: PUSH A, PUSH B, POP, PUSH C, PUSH D, PUSH E, PUSH F, POP."
+   },
+   "a": {
+    "en": "<table><tr><th>Operation</th><th>Stack (bottom→top)</th><th>TOP</th><th>Result</th></tr><tr><td>PUSH A</td><td>A</td><td>0</td><td>pushed</td></tr><tr><td>PUSH B</td><td>A B</td><td>1</td><td>pushed</td></tr><tr><td>POP</td><td>A</td><td>0</td><td>popped B</td></tr><tr><td>PUSH C</td><td>A C</td><td>1</td><td>pushed</td></tr><tr><td>PUSH D</td><td>A C D</td><td>2</td><td>pushed</td></tr><tr><td>PUSH E</td><td>A C D E</td><td>3</td><td>pushed</td></tr><tr><td>PUSH F</td><td>A C D E</td><td>3</td><td>OVERFLOW</td></tr><tr><td>POP</td><td>A C D</td><td>2</td><td>popped E</td></tr></table><p>PUSH F fails because TOP = MAX − 1 = 3 (overflow).</p>"
+   }
+  },
+  {
+   "id": "ds2n11",
+   "q": {
+    "en": "A simple queue has MAX = 5. Show FRONT, REAR and the array after: insert 10, 20, 30, delete, insert 40, 50, insert 60."
+   },
+   "a": {
+    "en": "<table><tr><th>Operation</th><th>Q[0..4]</th><th>F</th><th>R</th><th>Result</th></tr><tr><td>INS 10</td><td>10 | _ | _ | _ | _</td><td>0</td><td>0</td><td>at [0]</td></tr><tr><td>INS 20</td><td>10 | 20 | _ | _ | _</td><td>0</td><td>1</td><td>at [1]</td></tr><tr><td>INS 30</td><td>10 | 20 | 30 | _ | _</td><td>0</td><td>2</td><td>at [2]</td></tr><tr><td>DEL</td><td>_ | 20 | 30 | _ | _</td><td>1</td><td>2</td><td>deleted 10</td></tr><tr><td>INS 40</td><td>_ | 20 | 30 | 40 | _</td><td>1</td><td>3</td><td>at [3]</td></tr><tr><td>INS 50</td><td>_ | 20 | 30 | 40 | 50</td><td>1</td><td>4</td><td>at [4]</td></tr><tr><td>INS 60</td><td>_ | 20 | 30 | 40 | 50</td><td>1</td><td>4</td><td>OVERFLOW (full)</td></tr></table><p>Inserting 60 fails although Q[0] is free: the <b>limitation of the simple queue</b>.</p>"
+   }
+  },
+  {
+   "id": "ds2n12",
+   "q": {
+    "en": "Repeat the same operations on a circular queue with MAX = 5, and then insert 70."
+   },
+   "a": {
+    "en": "<table><tr><th>Operation</th><th>Q[0..4]</th><th>F</th><th>R</th><th>Result</th></tr><tr><td>INS 10</td><td>10 | _ | _ | _ | _</td><td>0</td><td>0</td><td>at [0]</td></tr><tr><td>INS 20</td><td>10 | 20 | _ | _ | _</td><td>0</td><td>1</td><td>at [1]</td></tr><tr><td>INS 30</td><td>10 | 20 | 30 | _ | _</td><td>0</td><td>2</td><td>at [2]</td></tr><tr><td>DEL</td><td>_ | 20 | 30 | _ | _</td><td>1</td><td>2</td><td>deleted 10</td></tr><tr><td>INS 40</td><td>_ | 20 | 30 | 40 | _</td><td>1</td><td>3</td><td>at [3]</td></tr><tr><td>INS 50</td><td>_ | 20 | 30 | 40 | 50</td><td>1</td><td>4</td><td>at [4]</td></tr><tr><td>INS 60</td><td>60 | 20 | 30 | 40 | 50</td><td>1</td><td>0</td><td>at [0]</td></tr><tr><td>INS 70</td><td>60 | 20 | 30 | 40 | 50</td><td>1</td><td>0</td><td>OVERFLOW (full)</td></tr></table><p>60 wraps round into Q[0]. Inserting 70 fails because (REAR + 1) % 5 = 1 = FRONT: now the queue is really full.</p>"
+   }
+  },
+  {
+   "id": "ds2n13",
+   "q": {
+    "en": "Trace gcd(60, 36) and find how many calls fib(5) makes."
+   },
+   "a": {
+    "en": "<table><tr><th>Call</th><th>a mod b</th></tr><tr><td>gcd(60, 36)</td><td>24</td></tr><tr><td>gcd(36, 24)</td><td>12</td></tr><tr><td>gcd(24, 12)</td><td>0</td></tr><tr><td>gcd(12, 0)</td><td>return 12</td></tr></table><p><b>GCD = 12</b></p><p>Calls C(n) = 1 + C(n−1) + C(n−2), with C(0) = C(1) = 1:<br>C(2) = 3, C(3) = 5, C(4) = 9, <b>C(5) = 15 calls</b> (fib(5) = 5).</p>"
+   }
+  }
+ ],
+ "syntax": [],
+ "viva": [
+  {
+   "title": {
+    "en": "Stack"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a stack?"
+     },
+     "a": {
+      "en": "A linear data structure in which insertion and deletion take place at one end, the TOP. It follows LIFO."
+     }
+    },
+    {
+     "q": {
+      "en": "What is LIFO?"
+     },
+     "a": {
+      "en": "Last In, First Out: the element inserted last is removed first."
+     }
+    },
+    {
+     "q": {
+      "en": "What are PUSH and POP?"
+     },
+     "a": {
+      "en": "PUSH inserts an element on the top; POP removes the top element."
+     }
+    },
+    {
+     "q": {
+      "en": "What is stack overflow and underflow?"
+     },
+     "a": {
+      "en": "Overflow: PUSH on a full stack (TOP = MAX − 1). Underflow: POP on an empty stack (TOP = −1)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the initial value of TOP and why?"
+     },
+     "a": {
+      "en": "−1, because index 0 will hold the first element and −1 indicates an empty stack."
+     }
+    },
+    {
+     "q": {
+      "en": "What is PEEK?"
+     },
+     "a": {
+      "en": "Reading the top element without removing it."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the time complexity of PUSH and POP?"
+     },
+     "a": {
+      "en": "O(1)."
+     }
+    },
+    {
+     "q": {
+      "en": "Give four applications of stack."
+     },
+     "a": {
+      "en": "Expression conversion and evaluation, recursion, parenthesis matching, reversing a string, undo."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Expressions"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is postfix notation?"
+     },
+     "a": {
+      "en": "The operator is written after its operands, e.g. A B +. Also called Reverse Polish notation."
+     }
+    },
+    {
+     "q": {
+      "en": "What is prefix notation?"
+     },
+     "a": {
+      "en": "The operator is written before its operands, e.g. + A B. Also called Polish notation."
+     }
+    },
+    {
+     "q": {
+      "en": "Why do compilers prefer postfix?"
+     },
+     "a": {
+      "en": "It needs no brackets or precedence rules and can be evaluated in one left-to-right scan using a stack."
+     }
+    },
+    {
+     "q": {
+      "en": "Convert (A + B) * C to postfix."
+     },
+     "a": {
+      "en": "A B + C *"
+     }
+    },
+    {
+     "q": {
+      "en": "Which operator is right-associative?"
+     },
+     "a": {
+      "en": "Exponent (^): A ^ B ^ C means A ^ (B ^ C)."
+     }
+    },
+    {
+     "q": {
+      "en": "In postfix evaluation, which popped value is the right operand?"
+     },
+     "a": {
+      "en": "The first value popped is the right (second) operand."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Recursion"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is recursion?"
+     },
+     "a": {
+      "en": "A technique in which a function calls itself to solve a smaller instance of the same problem."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a base case?"
+     },
+     "a": {
+      "en": "The condition for which the function returns directly without calling itself. It stops the recursion."
+     }
+    },
+    {
+     "q": {
+      "en": "What happens without a base case?"
+     },
+     "a": {
+      "en": "Infinite recursion, which ends in a stack overflow error."
+     }
+    },
+    {
+     "q": {
+      "en": "Which data structure is used to implement recursion?"
+     },
+     "a": {
+      "en": "The stack (system call stack)."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is recursive Fibonacci slow?"
+     },
+     "a": {
+      "en": "It recomputes the same values many times; calls grow as O(2ⁿ)."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Queue"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a queue?"
+     },
+     "a": {
+      "en": "A linear data structure with insertion at the REAR and deletion at the FRONT. It follows FIFO."
+     }
+    },
+    {
+     "q": {
+      "en": "What is FIFO?"
+     },
+     "a": {
+      "en": "First In, First Out: the element inserted first is removed first."
+     }
+    },
+    {
+     "q": {
+      "en": "When is a simple queue full and empty?"
+     },
+     "a": {
+      "en": "Full: REAR = MAX − 1. Empty: FRONT = −1 or FRONT > REAR."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the limitation of a simple queue?"
+     },
+     "a": {
+      "en": "Space freed at the front by deletions cannot be reused, so the queue can show full while places are empty."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a circular queue?"
+     },
+     "a": {
+      "en": "A queue in which the last position is connected to the first, so indexes wrap round using % MAX."
+     }
+    },
+    {
+     "q": {
+      "en": "When is a circular queue full?"
+     },
+     "a": {
+      "en": "When (REAR + 1) % MAX = FRONT."
+     }
+    },
+    {
+     "q": {
+      "en": "Give applications of queue."
+     },
+     "a": {
+      "en": "CPU scheduling, printer spooling, keyboard buffer, BFS, call centres."
+     }
+    },
+    {
+     "q": {
+      "en": "Differentiate stack and queue in one line."
+     },
+     "a": {
+      "en": "A stack is LIFO with one end (TOP); a queue is FIFO with two ends (FRONT, REAR)."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Define stack. Explain PUSH and POP operations with algorithms."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain stack overflow and underflow conditions."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Write a C program to implement a stack using an array."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "List and explain applications of stack."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain infix, prefix and postfix notations with examples."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Convert the infix expression A + (B * C − (D / E ^ F) * G) * H into postfix using a stack."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Convert A * (B + C) / D − E into postfix and prefix."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write an algorithm to evaluate a postfix expression. Evaluate 6 2 3 + − 3 8 2 / + * 2 ^ 3 +."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "What is recursion? Explain with the example of factorial."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write recursive functions for GCD and Fibonacci series."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Differentiate recursion and iteration."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Define queue. Explain insert and delete operations on a queue with algorithms."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a C program to implement a queue using an array."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain the limitation of a simple queue. How does a circular queue overcome it?"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write algorithms to insert and delete an element in a circular queue."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Differentiate simple queue and circular queue."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Differentiate stack and queue."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "List applications of queue."
+   },
+   "marks": 3
+  }
+ ],
+ "tabs": [
+  "notes",
+  "programs",
+  "diagrams",
+  "algorithms",
+  "numericals",
+  "viva",
+  "exam"
+ ],
+ "intro": "intro_ds"
+}
