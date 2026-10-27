@@ -1,0 +1,1149 @@
+{
+ "subject": "DI03000021",
+ "unit": 4,
+ "format": "notes",
+ "title": {
+  "en": "Trees and Graph"
+ },
+ "weightage": 20,
+ "hours": 9,
+ "notes": [
+  {
+   "title": {
+    "en": "4.1 Tree: Fundamental Concepts"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "4.1.1 Introduction to Tree; General Tree"
+     },
+     "body": {
+      "en": "<p>A <b>tree</b> is a <b>non-linear</b> data structure that stores data in a <b>hierarchical</b> (parent–child) form.</p>\n<p><b>Definition:</b> a tree is a finite set of one or more nodes such that:</p>\n<ol><li>there is one specially designated node called the <b>root</b>, and</li>\n<li>the remaining nodes are divided into n ≥ 0 disjoint sets T1, T2, …, Tn, each of which is itself a tree, called a <b>subtree</b> of the root.</li></ol>\n<p>This definition is <b>recursive</b>: a tree is made of smaller trees.</p>\n<h4>General tree</h4>\n<p>A <b>general tree</b> is a tree in which a node can have <b>any number of children</b> (0, 1, 2, 3, …). Example: the folder structure of a computer, an organisation chart, a family tree.</p>\n<h4>Properties</h4>\n<ul><li>There is exactly <b>one path</b> between the root and any node.</li>\n<li>A tree with n nodes has exactly <b>n − 1 edges</b>.</li>\n<li>A tree has no cycle.</li></ul>\n<h4>Linear vs non-linear</h4>\n<p>In arrays, stacks, queues and linked lists, each element has one next element (linear). In a tree, one node can have <b>many</b> next nodes (children), so it is non-linear.</p>"
+     },
+     "diagram": "ds4_terms",
+     "key": true
+    },
+    {
+     "h": {
+      "en": "4.1.2 Tree Terminology"
+     },
+     "body": {
+      "en": "<p>The examples refer to the tree in the \"Tree: Basic Terminology\" diagram: A has children B, C, D; B has E, F; F has J; D has G, H, I.</p>\n<table>\n<tr><th>Term</th><th>Meaning</th><th>Example</th></tr>\n<tr><td><b>Node</b></td><td>an element of the tree holding data</td><td>A, B, …, J (10 nodes)</td></tr>\n<tr><td><b>Root node</b></td><td>the topmost node; it has no parent</td><td>A</td></tr>\n<tr><td><b>Edge</b></td><td>the link between a parent and a child</td><td>A–B (9 edges)</td></tr>\n<tr><td><b>Parent node</b></td><td>a node that has a child (immediate predecessor)</td><td>B is the parent of E and F</td></tr>\n<tr><td><b>Child node</b></td><td>an immediate successor of a node</td><td>E and F are children of B</td></tr>\n<tr><td><b>Sibling</b></td><td>nodes with the same parent</td><td>G, H, I; also B, C, D</td></tr>\n<tr><td><b>Leaf node</b> (terminal)</td><td>a node with no child (degree 0)</td><td>E, J, C, G, H, I</td></tr>\n<tr><td><b>Internal node</b></td><td>a node with at least one child</td><td>A, B, F, D</td></tr>\n<tr><td><b>Degree of a node</b></td><td>number of children (subtrees) of the node</td><td>deg(A) = 3, deg(F) = 1, deg(E) = 0</td></tr>\n<tr><td><b>Degree of a tree</b></td><td>maximum degree of any node</td><td>3</td></tr>\n<tr><td><b>In-degree</b></td><td>number of edges coming <b>into</b> a node</td><td>root: 0; every other node: 1</td></tr>\n<tr><td><b>Out-degree</b></td><td>number of edges going <b>out</b> of a node (= number of children)</td><td>out(D) = 3</td></tr>\n<tr><td><b>Subtree</b></td><td>a node together with all its descendants</td><td>D, G, H, I</td></tr>\n<tr><td><b>Level</b></td><td>root is at level 0; a child is one level below its parent</td><td>level(J) = 3</td></tr>\n<tr><td><b>Path</b></td><td>sequence of nodes connected by edges</td><td>A → B → F → J (length 3)</td></tr>\n<tr><td><b>Depth of a node</b></td><td>length of the path from the root to the node</td><td>depth(F) = 2</td></tr>\n<tr><td><b>Height of a node</b></td><td>length of the longest path from the node down to a leaf</td><td>height(B) = 2</td></tr>\n<tr><td><b>Height of a tree</b></td><td>height of the root = maximum level</td><td>3</td></tr>\n<tr><td><b>Ancestor / Descendant</b></td><td>nodes on the path above / below a node</td><td>ancestors of J: F, B, A</td></tr>\n</table>\n<p><b>Note:</b> some books start levels at 1 and count height in levels (then the height here is 4). In the exam, state the convention you use.</p>"
+     },
+     "key": true,
+     "examples": [
+      "ds4n1"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.1.3 Forest"
+     },
+     "body": {
+      "en": "<p>A <b>forest</b> is a set of <b>n ≥ 0 disjoint trees</b>.</p>\n<ul><li>If the <b>root</b> of a tree is deleted, its subtrees form a forest.</li>\n<li>Conversely, if a new node is added as the parent of the roots of all trees in a forest, we get a single tree.</li>\n<li>Example: deleting root R from a tree whose children are B, C, D gives a forest of 3 trees rooted at B, C and D.</li>\n<li>A forest can also be converted into one binary tree: convert each tree into a binary tree, then join the roots as right siblings.</li></ul>"
+     },
+     "diagram": "ds4_forest"
+    },
+    {
+     "h": {
+      "en": "4.1.4 Binary Tree, Strict Binary Tree and Complete Binary Tree"
+     },
+     "body": {
+      "en": "<h4>Binary tree</h4>\n<p>A <b>binary tree</b> is a tree in which every node has <b>at most two children</b>, called the <b>left child</b> and the <b>right child</b>. (A binary tree may also be empty.) The order matters: a node with only a left child is different from a node with only a right child.</p>\n<h4>Strict binary tree</h4>\n<p>A binary tree in which every non-leaf node has <b>exactly two children</b> (each node has 0 or 2 children). A strict binary tree with n leaves always has <b>2n − 1</b> nodes.</p>\n<h4>Complete binary tree</h4>\n<p>A binary tree in which <b>all levels are completely filled except possibly the last level</b>, and the nodes of the last level are placed <b>as far left as possible</b>. Complete binary trees are used for heaps and can be stored easily in an array.</p>\n<p>(A <b>full / perfect</b> binary tree has all levels completely filled: 2<sup>h+1</sup> − 1 nodes.)</p>\n<h4>Properties of a binary tree</h4>\n<ul><li>Maximum number of nodes at level l = <b>2<sup>l</sup></b> (root at level 0).</li>\n<li>Maximum number of nodes in a binary tree of height h = <b>2<sup>h+1</sup> − 1</b>.</li>\n<li>Minimum height of a binary tree with n nodes = <b>⌊log<sub>2</sub> n⌋</b>.</li>\n<li>Number of leaves = number of nodes with two children + 1.</li></ul>"
+     },
+     "diagram": "ds4_binary_types",
+     "key": true,
+     "examples": [
+      "ds4n12"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.1.5 Representation of a Binary Tree"
+     },
+     "body": {
+      "en": "<h4>Linked representation</h4>\n<p>Each node of a binary tree is a structure with three fields: a pointer to the <b>left</b> child, the <b>data</b>, and a pointer to the <b>right</b> child.</p>\n<pre class=\"c\">struct tnode {\n    struct tnode *left;\n    int data;\n    struct tnode *right;\n};</pre>\n<ul><li>A pointer <b>root</b> holds the address of the root node; <code>root = NULL</code> means the tree is empty.</li>\n<li>A missing child is shown by a NULL pointer; leaf nodes have both pointers NULL.</li>\n<li>Nodes are created dynamically with malloc, so the tree can grow as needed.</li></ul>\n<h4>Array (sequential) representation</h4>\n<ul><li>The root is stored at index 0. For a node at index i, the <b>left child</b> is at <b>2i + 1</b> and the <b>right child</b> at <b>2i + 2</b>; the parent is at ⌊(i − 1)/2⌋.</li>\n<li>It suits complete binary trees; for other trees many array places stay empty (memory waste).</li></ul>"
+     },
+     "diagram": "ds4_node_repr",
+     "programs": [
+      "ds4p1"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.1.6 Conversion of a General Tree to a Binary Tree"
+     },
+     "body": {
+      "en": "<p>A general tree can have any number of children, which is hard to store. It is converted to a binary tree using the <b>left child – right sibling</b> method.</p>\n<pre class=\"c\">Conversion: General -&gt; Binary\nStep 1: Keep the root as it is.\nStep 2: For every node, its leftmost\n        (first) child becomes its\n        LEFT child.\nStep 3: Its next sibling (immediate\n        right brother) becomes its\n        RIGHT child.\nStep 4: Delete all other links from\n        parent to children.</pre>\n<h4>Example</h4>\n<p>General tree: A has children B, C, D; B has E, F; D has G, H.</p>\n<ul><li>A: left = B (first child), right = none (the root has no sibling).</li>\n<li>B: left = E, right = C. C: right = D.</li>\n<li>E: right = F. D: left = G. G: right = H.</li></ul>\n<p>In the binary tree, a <b>left</b> link means \"first child\" and a <b>right</b> link means \"next sibling\". The <b>preorder</b> of the binary tree is the same as the preorder of the general tree (A B E F C D G H). The root of the converted tree never has a right child.</p>"
+     },
+     "diagram": "ds4_gen2bin",
+     "programs": [
+      "ds4p9"
+     ],
+     "key": true,
+     "examples": [
+      "ds4n2"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "4.2 Tree Traversal"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "4.2.1 Inorder, Preorder and Postorder Traversal"
+     },
+     "body": {
+      "en": "<p><b>Traversal</b> means visiting every node of a tree <b>exactly once</b> in a fixed order. A binary tree has three standard (depth-first) traversals, named by <b>when the root (N) is visited</b>.</p>\n<h4>1. Inorder (Left – Node – Right)</h4>\n<pre class=\"c\">Algorithm INORDER(T)\nStep 1: If T != NULL then\n          INORDER(LEFT(T))\n          Visit INFO(T)\n          INORDER(RIGHT(T))\nStep 2: Exit</pre>\n<h4>2. Preorder (Node – Left – Right)</h4>\n<pre class=\"c\">Algorithm PREORDER(T)\nStep 1: If T != NULL then\n          Visit INFO(T)\n          PREORDER(LEFT(T))\n          PREORDER(RIGHT(T))\nStep 2: Exit</pre>\n<h4>3. Postorder (Left – Right – Node)</h4>\n<pre class=\"c\">Algorithm POSTORDER(T)\nStep 1: If T != NULL then\n          POSTORDER(LEFT(T))\n          POSTORDER(RIGHT(T))\n          Visit INFO(T)\nStep 2: Exit</pre>\n<h4>Example (tree in the diagram)</h4>\n<table>\n<tr><th>Traversal</th><th>Order</th><th>Result</th></tr>\n<tr><td>Inorder</td><td>L N R</td><td><b>D B G E A C F</b></td></tr>\n<tr><td>Preorder</td><td>N L R</td><td><b>A B D E G C F</b></td></tr>\n<tr><td>Postorder</td><td>L R N</td><td><b>D G E B F C A</b></td></tr>\n</table>\n<h4>Points to remember</h4>\n<ul><li>In <b>preorder</b> the root is <b>first</b>; in <b>postorder</b> the root is <b>last</b>.</li>\n<li>The <b>inorder</b> traversal of a BST gives the data in <b>ascending order</b>.</li>\n<li>For an expression tree, inorder gives the infix, preorder the prefix and postorder the postfix expression.</li>\n<li>Each traversal takes <b>O(n)</b> time. Recursion uses the system stack.</li></ul>\n<h4>Easy trick</h4>\n<p>Go round the tree anticlockwise starting from the left of the root. Write a node when you pass its <b>left</b> side (preorder), its <b>bottom</b> (inorder) or its <b>right</b> side (postorder).</p>"
+     },
+     "diagram": "ds4_traversal",
+     "programs": [
+      "ds4p2"
+     ],
+     "key": true,
+     "examples": [
+      "ds4n3",
+      "ds4n4"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.2.2 Constructing a Binary Tree from Traversals"
+     },
+     "body": {
+      "en": "<p>A unique binary tree can be built from <b>inorder + preorder</b> or from <b>inorder + postorder</b>. (Preorder + postorder alone is not enough.)</p>\n<h4>Method (inorder + preorder)</h4>\n<ol><li>The <b>first</b> value of the preorder is the <b>root</b>.</li>\n<li>Find the root in the inorder: values on its <b>left</b> form the left subtree; values on its <b>right</b> form the right subtree.</li>\n<li>Repeat for each subtree with the next values of the preorder.</li></ol>\n<p>With <b>postorder</b>, the <b>last</b> value is the root, and the subtrees are built right first, then left.</p>"
+     },
+     "examples": [
+      "ds4n8"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "4.3 Binary Search Tree (BST)"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "4.3.1 Binary Search Tree: Definition and Construction"
+     },
+     "body": {
+      "en": "<p>A <b>binary search tree</b> is a binary tree in which, for <b>every node</b>:</p>\n<ul><li>all values in its <b>left subtree</b> are <b>less than</b> the node's value,</li>\n<li>all values in its <b>right subtree</b> are <b>greater than</b> the node's value, and</li>\n<li>the left and right subtrees are also binary search trees.</li></ul>\n<p>Duplicate values are normally not allowed.</p>\n<h4>Construction</h4>\n<p>Insert the values one by one. The first value becomes the root. For each next value, start at the root and move <b>left if smaller</b>, <b>right if larger</b>, until an empty (NULL) place is found; the new node is placed there as a leaf.</p>\n<p><b>Example:</b> insert 45, 25, 65, 15, 35, 55, 75, 30.</p>\n<ul><li>45 is the root. 25 &lt; 45 → left. 65 &gt; 45 → right.</li>\n<li>15 → left of 25. 35 → right of 25. 55 → left of 65. 75 → right of 65.</li>\n<li>30: 30 &lt; 45 left, 30 &gt; 25 right, 30 &lt; 35 left → left child of 35.</li>\n<li>Inorder: 15 25 30 35 45 55 65 75 (sorted).</li></ul>\n<h4>Advantages</h4>\n<ul><li>Searching, insertion and deletion take <b>O(h)</b> time: O(log n) for a balanced tree.</li>\n<li>Inorder traversal gives sorted data.</li>\n<li>Disadvantage: if the data is inserted in sorted order, the BST becomes <b>skewed</b> (like a linked list) and operations become O(n).</li></ul>"
+     },
+     "diagram": "ds4_bst_build",
+     "programs": [
+      "ds4p3"
+     ],
+     "key": true,
+     "examples": [
+      "ds4n5",
+      "ds4n6"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.3.2 Insertion of a Node in a BST"
+     },
+     "body": {
+      "en": "<pre class=\"c\">Algorithm BSTINSERT(ROOT, ITEM)\nStep 1: [Create node]\n        NEW = getnode()\n        INFO(NEW) = ITEM\n        LEFT(NEW) = RIGHT(NEW) = NULL\nStep 2: If ROOT = NULL then\n          Set ROOT = NEW and Exit\nStep 3: Set PTR = ROOT\nStep 4: Repeat\n          If ITEM &lt; INFO(PTR) then\n            If LEFT(PTR) = NULL then\n              LEFT(PTR) = NEW, Exit\n            Else PTR = LEFT(PTR)\n          Else If ITEM &gt; INFO(PTR) then\n            If RIGHT(PTR) = NULL then\n              RIGHT(PTR) = NEW, Exit\n            Else PTR = RIGHT(PTR)\n          Else\n            Write \"Duplicate\", Exit</pre>\n<h4>Recursive C function</h4>\n<pre class=\"c\">struct tnode *insert(struct tnode *t,\n                     int x)\n{\n    if (t == NULL) {\n        t = malloc(sizeof(struct tnode));\n        t-&gt;data = x;\n        t-&gt;left = t-&gt;right = NULL;\n    } else if (x &lt; t-&gt;data)\n        t-&gt;left = insert(t-&gt;left, x);\n    else if (x &gt; t-&gt;data)\n        t-&gt;right = insert(t-&gt;right, x);\n    return t;\n}</pre>\n<ul><li>A new node is always inserted as a <b>leaf</b>.</li>\n<li>The path followed is the same path a search for that value would follow.</li>\n<li>Time: O(h).</li></ul>"
+     },
+     "programs": [
+      "ds4p3"
+     ],
+     "key": true
+    },
+    {
+     "h": {
+      "en": "4.3.3 Searching a Node in a BST"
+     },
+     "body": {
+      "en": "<p>Compare the item with the root. If equal, the search is successful. If smaller, search only the <b>left</b> subtree; if larger, search only the <b>right</b> subtree. Half of the remaining tree is skipped at each step (like binary search).</p>\n<pre class=\"c\">Algorithm BSTSEARCH(ROOT, ITEM)\nStep 1: Set PTR = ROOT\nStep 2: Repeat while PTR != NULL\n          If ITEM = INFO(PTR) then\n            Write \"Found\" and Exit\n          Else If ITEM &lt; INFO(PTR) then\n            Set PTR = LEFT(PTR)\n          Else\n            Set PTR = RIGHT(PTR)\nStep 3: Write \"Not found\"\nStep 4: Exit</pre>\n<ul><li>Example: search 30 → 45, 25, 35, 30: found in 4 comparisons.</li>\n<li>Search 60 → 45, 65, 55, then the right of 55 is NULL: not found.</li>\n<li>The <b>minimum</b> value is the leftmost node and the <b>maximum</b> is the rightmost node.</li>\n<li>Time: best O(1), average O(log n), worst O(n) (skewed tree).</li></ul>"
+     },
+     "diagram": "ds4_bst_search",
+     "programs": [
+      "ds4p4",
+      "ds4p6"
+     ],
+     "key": true
+    },
+    {
+     "h": {
+      "en": "4.3.4 Deletion of a Node from a BST"
+     },
+     "body": {
+      "en": "<p>After deletion the tree must still be a BST. There are <b>three cases</b>:</p>\n<h4>Case 1: the node is a leaf</h4>\n<p>Simply remove it: the parent's link becomes NULL. Example: delete 15.</p>\n<h4>Case 2: the node has one child</h4>\n<p>Connect the parent directly to the node's only child, then remove the node. Example: delete 35 (child 30) → 30 takes the place of 35.</p>\n<h4>Case 3: the node has two children</h4>\n<p>Replace the node's value with its <b>inorder successor</b> (the smallest value in its right subtree: go right once, then left as far as possible), and then delete the successor (which is case 1 or 2). Example: delete 25 → successor 30 replaces 25.</p>\n<p>(The <b>inorder predecessor</b>, the largest value in the left subtree, can be used instead.)</p>\n<pre class=\"c\">Algorithm BSTDELETE(ROOT, ITEM)\nStep 1: Search ITEM; let PTR be the\n        node and PAR its parent.\n        If not found: Write \"Not\n        found\" and Exit\nStep 2: [Case 1: leaf]\n        If PTR has no child then\n          set PAR's link to NULL\nStep 3: [Case 2: one child]\n        If PTR has one child then\n          set PAR's link to that child\nStep 4: [Case 3: two children]\n        Find SUC = inorder successor\n        (leftmost node of RIGHT(PTR))\n        INFO(PTR) = INFO(SUC)\n        Delete SUC (case 1 or 2)\nStep 5: Free the removed node, Exit</pre>"
+     },
+     "diagram": "ds4_bst_delete",
+     "programs": [
+      "ds4p5"
+     ],
+     "key": true,
+     "examples": [
+      "ds4n7"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.3.5 Complete BST Program and Applications of Trees"
+     },
+     "body": {
+      "en": "<p>The menu-driven program below combines insert, search, delete and the three traversals.</p>\n<h4>Applications of trees</h4>\n<ul><li><b>BST:</b> fast searching, sorting (inorder) and dictionaries.</li>\n<li>File systems and folder hierarchy (general tree).</li>\n<li><b>Expression trees</b> in compilers (infix, prefix, postfix).</li>\n<li>Database indexing (B-trees), heaps for priority queues.</li>\n<li>Decision trees, game trees, organisation charts.</li>\n<li>Huffman coding trees for data compression.</li></ul>"
+     },
+     "programs": [
+      "ds4p8",
+      "ds4p7"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "4.4 Graph"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "4.4.1 Graph: Fundamental Concepts"
+     },
+     "body": {
+      "en": "<p>A <b>graph</b> G = (V, E) is a non-linear data structure that consists of a set of <b>vertices</b> V and a set of <b>edges</b> E, where each edge connects a pair of vertices.</p>\n<table>\n<tr><th>Term</th><th>Meaning</th></tr>\n<tr><td><b>Vertex (node)</b></td><td>a point of the graph that stores data, e.g. A, B, C</td></tr>\n<tr><td><b>Edge (arc)</b></td><td>a line joining two vertices, written (A, B)</td></tr>\n<tr><td><b>Adjacent vertices</b></td><td>two vertices joined by an edge</td></tr>\n<tr><td><b>Degree</b></td><td>number of edges connected to a vertex (undirected graph)</td></tr>\n<tr><td><b>In-degree / Out-degree</b></td><td>number of edges coming into / going out of a vertex (directed graph)</td></tr>\n<tr><td><b>Path</b></td><td>a sequence of vertices in which each consecutive pair is joined by an edge, e.g. A–B–E–C</td></tr>\n<tr><td><b>Cycle</b></td><td>a path that starts and ends at the same vertex with no edge repeated, e.g. B–D–E–B</td></tr>\n<tr><td><b>Isolated vertex</b></td><td>a vertex with degree 0</td></tr>\n<tr><td><b>Self-loop</b></td><td>an edge from a vertex to itself</td></tr>\n</table>\n<p>In an undirected graph, the <b>sum of the degrees of all vertices = 2 × number of edges</b>.</p>"
+     },
+     "diagram": "ds4_graph_terms",
+     "programs": [
+      "ds4p10"
+     ],
+     "key": true,
+     "examples": [
+      "ds4n9"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.4.2 Types of Graphs"
+     },
+     "body": {
+      "en": "<ol><li><b>Undirected graph:</b> edges have no direction; (A, B) is the same as (B, A). Example: a road with two-way traffic.</li>\n<li><b>Directed graph (digraph):</b> every edge has a direction, shown by an arrow; &lt;A, B&gt; goes from A to B only. Example: one-way roads, links between web pages.</li>\n<li><b>Connected graph:</b> there is a path between <b>every pair</b> of vertices. If not, it is a <b>disconnected</b> graph.</li>\n<li><b>Complete graph:</b> every vertex is joined to <b>every other</b> vertex. An undirected complete graph with n vertices has <b>n(n − 1)/2</b> edges (written K<sub>n</sub>). A complete digraph has n(n − 1) edges.</li>\n<li><b>Weighted graph:</b> every edge has a value (weight) such as distance, cost or time. Example: a road map with distances.</li></ol>\n<p>Other types: a <b>cyclic</b> graph contains a cycle; an <b>acyclic</b> graph does not. A tree is a connected acyclic graph.</p>"
+     },
+     "diagram": "ds4_graph_types",
+     "programs": [
+      "ds4p11",
+      "ds4p12",
+      "ds4p13"
+     ],
+     "key": true,
+     "examples": [
+      "ds4n10",
+      "ds4n11"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.4.3 Graph Representation; Tree vs Graph"
+     },
+     "body": {
+      "en": "<h4>1. Adjacency matrix</h4>\n<p>A 2-D array <code>adj[n][n]</code> where <code>adj[i][j] = 1</code> if there is an edge from i to j, else 0. For a weighted graph the weight is stored. It is symmetric for an undirected graph. Memory: O(n²).</p>\n<h4>2. Adjacency list</h4>\n<p>An array of linked lists: list i contains all vertices adjacent to vertex i. It uses memory only for existing edges, O(n + e), so it suits <b>sparse</b> graphs.</p>\n<h4>Tree vs graph</h4>\n<table>\n<tr><th>Tree</th><th>Graph</th></tr>\n<tr><td>Hierarchical structure</td><td>Network structure</td></tr>\n<tr><td>Has one root node</td><td>No root node</td></tr>\n<tr><td>No cycles</td><td>May contain cycles</td></tr>\n<tr><td>n nodes → exactly n − 1 edges</td><td>Any number of edges</td></tr>\n<tr><td>Exactly one path between two nodes</td><td>One or more paths</td></tr>\n<tr><td>Traversal: inorder, preorder, postorder</td><td>Traversal: BFS, DFS</td></tr>\n<tr><td>e.g. folder structure</td><td>e.g. road map, social network</td></tr>\n</table>\n<h4>Applications of graphs</h4>\n<ul><li>Maps and GPS shortest routes, computer networks, social networks (friends), web page links, airline routes, project scheduling.</li></ul>"
+     },
+     "programs": [
+      "ds4p14"
+     ]
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "ds4p1",
+   "title": {
+    "en": "Create a binary tree (linked) and find nodes, leaves, height"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <stdlib.h>\n\nstruct tnode {\n    struct tnode *left;\n    char data;\n    struct tnode *right;\n};\n\nstruct tnode *nn(char x)\n{\n    struct tnode *t;\n    t = malloc(sizeof(struct tnode));\n    t->data = x;\n    t->left = t->right = NULL;\n    return t;\n}\n\nint nodes(struct tnode *t)\n{\n    if (t == NULL) return 0;\n    return 1 + nodes(t->left)\n             + nodes(t->right);\n}\n\nint leaves(struct tnode *t)\n{\n    if (t == NULL) return 0;\n    if (!t->left && !t->right) return 1;\n    return leaves(t->left)\n         + leaves(t->right);\n}\n\nint height(struct tnode *t)  /* edges */\n{\n    int l, r;\n    if (t == NULL) return -1;\n    l = height(t->left);\n    r = height(t->right);\n    return 1 + (l > r ? l : r);\n}\n\nint main(void)\n{\n    struct tnode *root = nn('A');\n    root->left = nn('B');\n    root->right = nn('C');\n    root->left->left = nn('D');\n    root->left->right = nn('E');\n    root->left->right->left = nn('G');\n    root->right->right = nn('F');\n\n    printf(\"Nodes  = %d\\n\", nodes(root));\n    printf(\"Leaves = %d\\n\", leaves(root));\n    printf(\"Height = %d\\n\", height(root));\n    return 0;\n}"
+   },
+   "out": "Nodes  = 7\nLeaves = 3\nHeight = 3",
+   "expl": {
+    "en": "<ul><li>Each tree node has a <b>left</b> pointer, <b>data</b> and a <b>right</b> pointer (linked representation).</li>\n<li>The tree built is the one in the traversal diagram: A(B(D, E(G)), C(–, F)).</li>\n<li>All three functions are <b>recursive</b>: the answer for a tree = the answer for its left subtree + right subtree (+ the node itself).</li>\n<li>Leaves are D, G and F. Height = 3 edges (A → B → E → G).</li></ul>"
+   }
+  },
+  {
+   "id": "ds4p2",
+   "title": {
+    "en": "Inorder, preorder and postorder traversal (recursive)"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <stdlib.h>\n\nstruct tnode {\n    struct tnode *left;\n    char data;\n    struct tnode *right;\n};\n\nstruct tnode *nn(char x, struct tnode *l,\n                 struct tnode *r)\n{\n    struct tnode *t;\n    t = malloc(sizeof(struct tnode));\n    t->data = x;\n    t->left = l;\n    t->right = r;\n    return t;\n}\n\nvoid inorder(struct tnode *t)\n{\n    if (t != NULL) {\n        inorder(t->left);\n        printf(\"%c \", t->data);\n        inorder(t->right);\n    }\n}\n\nvoid preorder(struct tnode *t)\n{\n    if (t != NULL) {\n        printf(\"%c \", t->data);\n        preorder(t->left);\n        preorder(t->right);\n    }\n}\n\nvoid postorder(struct tnode *t)\n{\n    if (t != NULL) {\n        postorder(t->left);\n        postorder(t->right);\n        printf(\"%c \", t->data);\n    }\n}\n\nint main(void)\n{\n    struct tnode *root;\n    root = nn('A',\n              nn('B', nn('D', NULL, NULL),\n                 nn('E',\n                    nn('G', NULL, NULL),\n                    NULL)),\n              nn('C', NULL,\n                 nn('F', NULL, NULL)));\n\n    printf(\"Inorder  : \");\n    inorder(root);\n    printf(\"\\nPreorder : \");\n    preorder(root);\n    printf(\"\\nPostorder: \");\n    postorder(root);\n    printf(\"\\n\");\n    return 0;\n}"
+   },
+   "out": "Inorder  : D B G E A C F \nPreorder : A B D E G C F \nPostorder: D G E B F C A ",
+   "expl": {
+    "en": "<ul><li><b>Inorder (L N R):</b> left subtree, node, right subtree.</li>\n<li><b>Preorder (N L R):</b> node first; the root is always the <b>first</b> value.</li>\n<li><b>Postorder (L R N):</b> node last; the root is always the <b>last</b> value.</li>\n<li>The three functions differ only in <b>where the printf is placed</b>. The recursion stops at NULL.</li></ul>"
+   }
+  },
+  {
+   "id": "ds4p3",
+   "title": {
+    "en": "Construct a Binary Search Tree and display it [Practical 7]"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <stdlib.h>\n\nstruct tnode {\n    struct tnode *left;\n    int data;\n    struct tnode *right;\n};\n\nstruct tnode *insert(struct tnode *t,\n                     int x)\n{\n    if (t == NULL) {\n        t = malloc(sizeof(struct tnode));\n        t->data = x;\n        t->left = t->right = NULL;\n    } else if (x < t->data)\n        t->left = insert(t->left, x);\n    else if (x > t->data)\n        t->right = insert(t->right, x);\n    else\n        printf(\"%d is duplicate\\n\", x);\n    return t;\n}\n\nvoid inorder(struct tnode *t)\n{\n    if (t) {\n        inorder(t->left);\n        printf(\"%d \", t->data);\n        inorder(t->right);\n    }\n}\n\nvoid preorder(struct tnode *t)\n{\n    if (t) {\n        printf(\"%d \", t->data);\n        preorder(t->left);\n        preorder(t->right);\n    }\n}\n\nint main(void)\n{\n    struct tnode *root = NULL;\n    int n, i, x;\n\n    scanf(\"%d\", &n);\n    for (i = 0; i < n; i++) {\n        scanf(\"%d\", &x);\n        root = insert(root, x);\n    }\n    printf(\"Inorder : \");\n    inorder(root);\n    printf(\"\\nPreorder: \");\n    preorder(root);\n    printf(\"\\n\");\n    return 0;\n}"
+   },
+   "out": "9\n45 25 65 15 35 55 75 30 35\n35 is duplicate\nInorder : 15 25 30 35 45 55 65 75 \nPreorder: 45 25 15 35 30 65 55 75 ",
+   "expl": {
+    "en": "<ul><li><b>BST rule:</b> smaller values go to the <b>left</b> subtree and larger values to the <b>right</b>.</li>\n<li><code>insert()</code> is recursive: it moves left or right until it finds a NULL place and creates the new node there.</li>\n<li>Duplicates are not inserted (the second 35 is rejected).</li>\n<li>The <b>inorder</b> traversal of a BST always gives the values in <b>ascending order</b>.</li></ul>"
+   }
+  },
+  {
+   "id": "ds4p4",
+   "title": {
+    "en": "Search a value in a BST (shows the path)"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <stdlib.h>\n\nstruct tnode {\n    struct tnode *left;\n    int data;\n    struct tnode *right;\n};\n\nstruct tnode *insert(struct tnode *t,\n                     int x)\n{\n    if (t == NULL) {\n        t = malloc(sizeof(struct tnode));\n        t->data = x;\n        t->left = t->right = NULL;\n    } else if (x < t->data)\n        t->left = insert(t->left, x);\n    else if (x > t->data)\n        t->right = insert(t->right, x);\n    return t;\n}\n\nvoid search(struct tnode *t, int x)\n{\n    int c = 0;\n    printf(\"Search %d: \", x);\n    while (t != NULL) {\n        c++;\n        printf(\"%d \", t->data);\n        if (x == t->data) {\n            printf(\"FOUND, %d steps\\n\", c);\n            return;\n        }\n        t = (x < t->data) ? t->left\n                          : t->right;\n    }\n    printf(\"NOT FOUND, %d steps\\n\", c);\n}\n\nint main(void)\n{\n    int a[8] = {45, 25, 65, 15,\n                35, 55, 75, 30};\n    struct tnode *root = NULL;\n    int i;\n    for (i = 0; i < 8; i++)\n        root = insert(root, a[i]);\n    search(root, 30);\n    search(root, 75);\n    search(root, 60);\n    return 0;\n}"
+   },
+   "out": "Search 30: 45 25 35 30 FOUND, 4 steps\nSearch 75: 45 65 75 FOUND, 3 steps\nSearch 60: 45 65 55 NOT FOUND, 3 steps",
+   "expl": {
+    "en": "<ul><li>At each node: if x is equal → found; if smaller → go left; if larger → go right.</li>\n<li>Only <b>one path</b> from the root is checked, so a search takes O(h) comparisons (h = height), not O(n).</li>\n<li>60 is not found: 60 &gt; 45 → right, 60 &lt; 65 → left, 60 &gt; 55 → right is NULL.</li></ul>"
+   }
+  },
+  {
+   "id": "ds4p5",
+   "title": {
+    "en": "Delete a node from a BST (all three cases)"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <stdlib.h>\n\nstruct tnode {\n    struct tnode *left;\n    int data;\n    struct tnode *right;\n};\n\nstruct tnode *insert(struct tnode *t,\n                     int x)\n{\n    if (t == NULL) {\n        t = malloc(sizeof(struct tnode));\n        t->data = x;\n        t->left = t->right = NULL;\n    } else if (x < t->data)\n        t->left = insert(t->left, x);\n    else if (x > t->data)\n        t->right = insert(t->right, x);\n    return t;\n}\n\nstruct tnode *del(struct tnode *t, int x)\n{\n    struct tnode *tmp;\n    if (t == NULL) {\n        printf(\"%d not found\\n\", x);\n        return NULL;\n    }\n    if (x < t->data)\n        t->left = del(t->left, x);\n    else if (x > t->data)\n        t->right = del(t->right, x);\n    else if (t->left && t->right) {\n        /* 2 children */\n        tmp = t->right;\n        while (tmp->left)\n            /* successor */\n            tmp = tmp->left;\n        t->data = tmp->data;\n        t->right = del(t->right,\n                       tmp->data);\n    /* 0 or 1 child */\n    } else {\n        tmp = t;\n        t = t->left ? t->left : t->right;\n        free(tmp);\n    }\n    return t;\n}\n\nvoid inorder(struct tnode *t)\n{\n    if (t) {\n        inorder(t->left);\n        printf(\"%d \", t->data);\n        inorder(t->right);\n    }\n}\n\nvoid preorder(struct tnode *t)\n{\n    if (t) {\n        printf(\"%d \", t->data);\n        preorder(t->left);\n        preorder(t->right);\n    }\n}\n\nvoid show(struct tnode *t)\n{\n    printf(\"  pre: \"); preorder(t);\n    printf(\"| in: \"); inorder(t);\n    printf(\"\\n\");\n}\n\nint main(void)\n{\n    int a[8] = {45, 25, 65, 15,\n                35, 55, 75, 30};\n    struct tnode *root = NULL;\n    int i;\n    for (i = 0; i < 8; i++)\n        root = insert(root, a[i]);\n    show(root);\n    printf(\"delete 15 (leaf)\\n\");\n    root = del(root, 15); show(root);\n    printf(\"delete 35 (one child)\\n\");\n    root = del(root, 35); show(root);\n    printf(\"delete 45 (two children)\\n\");\n    root = del(root, 45); show(root);\n    root = del(root, 99);\n    return 0;\n}"
+   },
+   "out": "  pre: 45 25 15 35 30 65 55 75 | in: 15 25 30 35 45 55 65 75 \ndelete 15 (leaf)\n  pre: 45 25 35 30 65 55 75 | in: 25 30 35 45 55 65 75 \ndelete 35 (one child)\n  pre: 45 25 30 65 55 75 | in: 25 30 45 55 65 75 \ndelete 45 (two children)\n  pre: 55 25 30 65 75 | in: 25 30 55 65 75 \n99 not found",
+   "expl": {
+    "en": "<ul><li><b>Case 1, leaf:</b> the node is simply removed (its parent's pointer becomes NULL).</li>\n<li><b>Case 2, one child:</b> the child takes the place of the deleted node (35 is replaced by 30).</li>\n<li><b>Case 3, two children:</b> copy the <b>inorder successor</b> (the smallest value in the right subtree) into the node, then delete the successor. Deleting the root 45 makes 55 the new root.</li>\n<li>Inorder is still sorted after every deletion, which proves the BST property is kept. The preorder shows the new shape.</li></ul>"
+   }
+  },
+  {
+   "id": "ds4p6",
+   "title": {
+    "en": "Find the minimum and maximum in a BST"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <stdlib.h>\n\nstruct tnode {\n    struct tnode *left;\n    int data;\n    struct tnode *right;\n};\n\nstruct tnode *insert(struct tnode *t,\n                     int x)\n{\n    if (t == NULL) {\n        t = malloc(sizeof(struct tnode));\n        t->data = x;\n        t->left = t->right = NULL;\n    } else if (x < t->data)\n        t->left = insert(t->left, x);\n    else if (x > t->data)\n        t->right = insert(t->right, x);\n    return t;\n}\n\nint findmin(struct tnode *t)\n{\n    while (t->left != NULL)\n        t = t->left;\n    return t->data;\n}\n\nint findmax(struct tnode *t)\n{\n    while (t->right != NULL)\n        t = t->right;\n    return t->data;\n}\n\nint main(void)\n{\n    int a[7] = {50, 30, 70, 20,\n                40, 60, 80};\n    struct tnode *root = NULL;\n    int i;\n    for (i = 0; i < 7; i++)\n        root = insert(root, a[i]);\n    printf(\"Min = %d\\n\", findmin(root));\n    printf(\"Max = %d\\n\", findmax(root));\n    return 0;\n}"
+   },
+   "out": "Min = 20\nMax = 80",
+   "expl": {
+    "en": "<ul><li>The <b>smallest</b> value is the <b>leftmost</b> node: keep going left until left is NULL.</li>\n<li>The <b>largest</b> value is the <b>rightmost</b> node.</li>\n<li>No comparisons with data are needed; the BST shape itself gives the answer in O(h).</li></ul>"
+   }
+  },
+  {
+   "id": "ds4p7",
+   "title": {
+    "en": "BST statistics: count, leaves, internal nodes, height"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <stdlib.h>\n\nstruct tnode {\n    struct tnode *left;\n    int data;\n    struct tnode *right;\n};\n\nstruct tnode *insert(struct tnode *t,\n                     int x)\n{\n    if (t == NULL) {\n        t = malloc(sizeof(struct tnode));\n        t->data = x;\n        t->left = t->right = NULL;\n    } else if (x < t->data)\n        t->left = insert(t->left, x);\n    else if (x > t->data)\n        t->right = insert(t->right, x);\n    return t;\n}\n\nint count(struct tnode *t)\n{\n    return t ? 1 + count(t->left)\n               + count(t->right) : 0;\n}\n\nint leaves(struct tnode *t)\n{\n    if (!t) return 0;\n    if (!t->left && !t->right) return 1;\n    return leaves(t->left)\n         + leaves(t->right);\n}\n\nint height(struct tnode *t)\n{\n    int l, r;\n    if (!t) return -1;\n    l = height(t->left);\n    r = height(t->right);\n    return 1 + (l > r ? l : r);\n}\n\nint main(void)\n{\n    int a[8] = {45, 25, 65, 15,\n                35, 55, 75, 30};\n    struct tnode *root = NULL;\n    int i, n, lf;\n    for (i = 0; i < 8; i++)\n        root = insert(root, a[i]);\n    n = count(root);\n    lf = leaves(root);\n    printf(\"Total nodes = %d\\n\", n);\n    printf(\"Leaf nodes  = %d\\n\", lf);\n    printf(\"Internal    = %d\\n\", n - lf);\n    printf(\"Height      = %d\\n\",\n           height(root));\n    return 0;\n}"
+   },
+   "out": "Total nodes = 8\nLeaf nodes  = 4\nInternal    = 4\nHeight      = 3",
+   "expl": {
+    "en": "<ul><li>Leaves are 15, 30, 55 and 75. Internal (non-leaf) nodes = total − leaves = 4.</li>\n<li>Height is counted in <b>edges</b> on the longest path from the root: 45 → 25 → 35 → 30 = 3. (Some books count levels and say 4; write which one you use.)</li></ul>"
+   }
+  },
+  {
+   "id": "ds4p8",
+   "title": {
+    "en": "BST menu: insert, search, delete, traversals"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <stdlib.h>\n\nstruct tnode {\n    struct tnode *left;\n    int data;\n    struct tnode *right;\n};\n\nstruct tnode *insert(struct tnode *t,\n                     int x)\n{\n    if (t == NULL) {\n        t = malloc(sizeof(struct tnode));\n        t->data = x;\n        t->left = t->right = NULL;\n    } else if (x < t->data)\n        t->left = insert(t->left, x);\n    else if (x > t->data)\n        t->right = insert(t->right, x);\n    return t;\n}\n\nint search(struct tnode *t, int x)\n{\n    while (t && t->data != x)\n        t = x < t->data ? t->left\n                        : t->right;\n    return t != NULL;\n}\n\nstruct tnode *del(struct tnode *t, int x)\n{\n    struct tnode *s;\n    if (!t) return NULL;\n    if (x < t->data)\n        t->left = del(t->left, x);\n    else if (x > t->data)\n        t->right = del(t->right, x);\n    else if (t->left && t->right) {\n        for (s = t->right; s->left; )\n            s = s->left;\n        t->data = s->data;\n        t->right = del(t->right, s->data);\n    } else {\n        s = t;\n        t = t->left ? t->left : t->right;\n        free(s);\n    }\n    return t;\n}\n\nvoid in(struct tnode *t)\n{\n    if (t) {\n        in(t->left);\n        printf(\"%d \", t->data);\n        in(t->right);\n    }\n}\n\nvoid pre(struct tnode *t)\n{\n    if (t) {\n        printf(\"%d \", t->data);\n        pre(t->left);\n        pre(t->right);\n    }\n}\n\nvoid post(struct tnode *t)\n{\n    if (t) {\n        post(t->left);\n        post(t->right);\n        printf(\"%d \", t->data);\n    }\n}\n\nint main(void)\n{\n    struct tnode *root = NULL;\n    int ch, x;\n    do {\n        puts(\"1.Insert 2.Search 3.Delete\");\n        puts(\"4.Traverse 0.Exit\");\n        scanf(\"%d\", &ch);\n        switch (ch) {\n        case 1: scanf(\"%d\", &x);\n                root = insert(root, x);\n                break;\n        case 2: scanf(\"%d\", &x);\n                if (search(root, x))\n                    puts(\"Found\");\n                else\n                    puts(\"Not found\");\n                break;\n        case 3: scanf(\"%d\", &x);\n                root = del(root, x); break;\n        case 4: printf(\"In: \");\n                in(root);\n                printf(\"\\nPre: \");\n                pre(root);\n                printf(\"\\nPost: \");\n                post(root);\n                printf(\"\\n\");\n                break;\n        }\n    } while (ch != 0);\n    return 0;\n}"
+   },
+   "out": "1.Insert 2.Search 3.Delete\n4.Traverse 0.Exit\n1 50\n1.Insert 2.Search 3.Delete\n4.Traverse 0.Exit\n1 30\n1.Insert 2.Search 3.Delete\n4.Traverse 0.Exit\n1 70\n1.Insert 2.Search 3.Delete\n4.Traverse 0.Exit\n1 20\n1.Insert 2.Search 3.Delete\n4.Traverse 0.Exit\n1 40\n1.Insert 2.Search 3.Delete\n4.Traverse 0.Exit\n4\nIn: 20 30 40 50 70 \nPre: 50 30 20 40 70 \nPost: 20 40 30 70 50 \n1.Insert 2.Search 3.Delete\n4.Traverse 0.Exit\n2 40\nFound\n1.Insert 2.Search 3.Delete\n4.Traverse 0.Exit\n3 30\n1.Insert 2.Search 3.Delete\n4.Traverse 0.Exit\n4\nIn: 20 40 50 70 \nPre: 50 40 20 70 \nPost: 20 40 70 50 \n1.Insert 2.Search 3.Delete\n4.Traverse 0.Exit\n2 30\nNot found\n1.Insert 2.Search 3.Delete\n4.Traverse 0.Exit\n0",
+   "expl": {
+    "en": "<ul><li>A complete menu-driven BST program for the practical.</li>\n<li>Sample run: insert 50, 30, 70, 20, 40 → traverse; search 40 → Found; delete 30 (two children, successor 40 replaces it) → traverse again; search 30 → Not found.</li>\n<li>After deleting 30, the preorder changes from 50 30 20 40 70 to 50 40 20 70.</li></ul>"
+   }
+  },
+  {
+   "id": "ds4p9",
+   "title": {
+    "en": "General tree to binary tree (left child, right sibling)"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <stdlib.h>\n\n/* binary form: left = first child,\n   right = next sibling              */\nstruct gnode {\n    char data;\n    struct gnode *child;\n    struct gnode *sib;\n};\n\nstruct gnode *nn(char x)\n{\n    struct gnode *t;\n    t = malloc(sizeof(struct gnode));\n    t->data = x;\n    t->child = t->sib = NULL;\n    return t;\n}\n\nvoid add(struct gnode *p, struct gnode *c)\n{\n    struct gnode *t = p->child;\n    if (t == NULL) {\n        p->child = c;\n        return;\n    }\n    while (t->sib) t = t->sib;\n    /* new right sibling */\n    t->sib = c;\n}\n\nvoid show(struct gnode *t)\n{\n    if (t == NULL) return;\n    printf(\"%c: left=%c right=%c\\n\",\n           t->data,\n           t->child ? t->child->data : '-',\n           t->sib ? t->sib->data : '-');\n    show(t->child);\n    show(t->sib);\n}\n\nint main(void)\n{\n    struct gnode *A = nn('A');\n    struct gnode *B = nn('B');\n    struct gnode *D = nn('D');\n    add(A, B); add(A, nn('C')); add(A, D);\n    add(B, nn('E')); add(B, nn('F'));\n    add(D, nn('G')); add(D, nn('H'));\n    show(A);\n    return 0;\n}"
+   },
+   "out": "A: left=B right=-\nB: left=E right=C\nE: left=- right=F\nF: left=- right=-\nC: left=- right=D\nD: left=G right=-\nG: left=- right=H\nH: left=- right=-",
+   "expl": {
+    "en": "<ul><li>A general tree node can have any number of children, but every node has only <b>one first child</b> and <b>one next sibling</b>.</li>\n<li>Storing <b>first child → left</b> and <b>next sibling → right</b> turns any general tree into a binary tree.</li>\n<li>The output lists each node's left and right in the converted tree (same as the diagram): A's left is B; B's right is C; C's right is D; D's left is G, and so on.</li></ul>"
+   }
+  },
+  {
+   "id": "ds4p10",
+   "title": {
+    "en": "Undirected graph: adjacency matrix and degree"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nint main(void)\n{\n    int adj[10][10] = {{0}};\n    int n, e, i, j, u, v, deg;\n\n    scanf(\"%d %d\", &n, &e);\n    for (i = 0; i < e; i++) {\n        scanf(\"%d %d\", &u, &v);\n        adj[u][v] = adj[v][u] = 1;\n    }\n    printf(\"Adjacency matrix:\\n   \");\n    for (j = 0; j < n; j++)\n        printf(\"%c \", 'A' + j);\n    printf(\"\\n\");\n    for (i = 0; i < n; i++) {\n        printf(\"%c: \", 'A' + i);\n        for (j = 0; j < n; j++)\n            printf(\"%d \", adj[i][j]);\n        printf(\"\\n\");\n    }\n    for (i = 0; i < n; i++) {\n        deg = 0;\n        for (j = 0; j < n; j++)\n            deg += adj[i][j];\n        printf(\"Degree(%c) = %d\\n\",\n               'A' + i, deg);\n    }\n    return 0;\n}"
+   },
+   "out": "5 7\n0 1\n1 2\n0 3\n1 3\n1 4\n2 4\n3 4\nAdjacency matrix:\n   A B C D E \nA: 0 1 0 1 0 \nB: 1 0 1 1 1 \nC: 0 1 0 0 1 \nD: 1 1 0 0 1 \nE: 0 1 1 1 0 \nDegree(A) = 2\nDegree(B) = 4\nDegree(C) = 2\nDegree(D) = 3\nDegree(E) = 3",
+   "expl": {
+    "en": "<ul><li>The graph is the one in the \"Graph: Basic Terms\" diagram: vertices A to E (0 to 4) and 7 edges.</li>\n<li>In the <b>adjacency matrix</b>, <code>adj[i][j] = 1</code> if there is an edge between i and j. For an undirected graph it is <b>symmetric</b>.</li>\n<li><b>Degree</b> of a vertex = number of edges touching it = sum of its row. The sum of all degrees = 2 × edges = 14.</li></ul>"
+   }
+  },
+  {
+   "id": "ds4p11",
+   "title": {
+    "en": "Directed graph: in-degree and out-degree"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nint main(void)\n{\n    int adj[10][10] = {{0}};\n    int n = 4, i, j, in, out;\n    int e[5][2] = {{0, 1}, {1, 2}, {2, 0},\n                   {2, 3}, {3, 1}};\n\n    for (i = 0; i < 5; i++)\n        adj[e[i][0]][e[i][1]] = 1;\n\n    printf(\"Vertex  In  Out\\n\");\n    for (i = 0; i < n; i++) {\n        in = out = 0;\n        for (j = 0; j < n; j++) {\n            out += adj[i][j];   /* row */\n            in += adj[j][i];  /* column */\n        }\n        printf(\"  %c     %d   %d\\n\",\n               'A' + i, in, out);\n    }\n    return 0;\n}"
+   },
+   "out": "Vertex  In  Out\n  A     1   1\n  B     2   1\n  C     1   2\n  D     1   1",
+   "expl": {
+    "en": "<ul><li>Edges: A→B, B→C, C→A, C→D, D→B. For a directed graph the matrix is <b>not symmetric</b>.</li>\n<li><b>Out-degree</b> = edges leaving a vertex = sum of its <b>row</b>.</li>\n<li><b>In-degree</b> = edges entering a vertex = sum of its <b>column</b>.</li>\n<li>Total in-degree = total out-degree = number of edges (5).</li></ul>"
+   }
+  },
+  {
+   "id": "ds4p12",
+   "title": {
+    "en": "Weighted graph: cost matrix and total weight"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nint main(void)\n{\n    int w[10][10] = {{0}};\n    int n = 4, i, j, total = 0;\n    int e[5][3] = {{0, 1, 4}, {0, 2, 2},\n                   {1, 2, 7}, {1, 3, 5},\n                   {2, 3, 3}};\n\n    for (i = 0; i < 5; i++) {\n        w[e[i][0]][e[i][1]] = e[i][2];\n        w[e[i][1]][e[i][0]] = e[i][2];\n    }\n    printf(\"Cost matrix (0 = no edge):\\n\");\n    for (i = 0; i < n; i++) {\n        for (j = 0; j < n; j++)\n            printf(\"%3d\", w[i][j]);\n        printf(\"\\n\");\n    }\n    printf(\"Edges:\\n\");\n    for (i = 0; i < n; i++)\n        for (j = i + 1; j < n; j++)\n            if (w[i][j]) {\n                printf(\"%c-%c = %d\\n\",\n                       'A' + i, 'A' + j,\n                       w[i][j]);\n                total += w[i][j];\n            }\n    printf(\"Total weight = %d\\n\", total);\n    return 0;\n}"
+   },
+   "out": "Cost matrix (0 = no edge):\n  0  4  2  0\n  4  0  7  5\n  2  7  0  3\n  0  5  3  0\nEdges:\nA-B = 4\nA-C = 2\nB-C = 7\nB-D = 5\nC-D = 3\nTotal weight = 21",
+   "expl": {
+    "en": "<ul><li>In a <b>weighted graph</b> every edge has a value (cost, distance, time).</li>\n<li>The matrix stores the <b>weight</b> instead of 1. Here 0 means no edge.</li>\n<li>For an undirected graph each edge is printed once by scanning only the upper triangle (<code>j &gt; i</code>).</li></ul>"
+   }
+  },
+  {
+   "id": "ds4p13",
+   "title": {
+    "en": "Check whether a graph is connected and complete"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nint adj[10][10], seen[10], n;\n\nvoid visit(int v)          /* DFS */\n{\n    int j;\n    seen[v] = 1;\n    for (j = 0; j < n; j++)\n        if (adj[v][j] && !seen[j])\n            visit(j);\n}\n\nvoid check(int e, int ed[][2])\n{\n    int i, c = 1;\n    for (i = 0; i < 100; i++)\n        adj[i / 10][i % 10] = 0;\n    for (i = 0; i < 10; i++)\n        seen[i] = 0;\n    for (i = 0; i < e; i++)\n        adj[ed[i][0]][ed[i][1]] =\n        adj[ed[i][1]][ed[i][0]] = 1;\n    visit(0);\n    for (i = 0; i < n; i++)\n        if (!seen[i]) c = 0;\n    printf(\"n=%d e=%d: \", n, e);\n    printf(c ? \"connected, \"\n             : \"disconnected, \");\n    if (e == n * (n - 1) / 2)\n        printf(\"complete\\n\");\n    else\n        printf(\"not complete\\n\");\n}\n\nint main(void)\n{\n    int g1[3][2] = {{0, 1}, {0, 2},\n                    {2, 3}};\n    int g2[2][2] = {{0, 1}, {2, 3}};\n    int g3[6][2] = {{0, 1}, {0, 2},\n                    {0, 3}, {1, 2},\n                    {1, 3}, {2, 3}};\n    n = 4;\n    check(3, g1);\n    check(2, g2);\n    check(6, g3);\n    return 0;\n}"
+   },
+   "out": "n=4 e=3: connected, not complete\nn=4 e=2: disconnected, not complete\nn=4 e=6: connected, complete",
+   "expl": {
+    "en": "<ul><li>The three graphs are the Connected, Disconnected and Complete (K4) panels of the \"Types of Graph\" diagram.</li>\n<li><b>Connected:</b> starting from vertex A, a depth-first visit reaches every vertex.</li>\n<li><b>Complete:</b> every pair of vertices is joined, so the edges = n(n − 1)/2 = 6 for n = 4.</li></ul>"
+   }
+  },
+  {
+   "id": "ds4p14",
+   "title": {
+    "en": "Graph using adjacency list (linked lists)"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <stdlib.h>\n\nstruct enode {\n    int v;\n    struct enode *next;\n};\nstruct enode *head[5];\n\nvoid add(int u, int v)\n{\n    struct enode *t;\n    t = malloc(sizeof(struct enode));\n    t->v = v;\n    t->next = head[u];  /* at start */\n    head[u] = t;\n}\n\nint main(void)\n{\n    int e[7][2] = {{0, 1}, {1, 2}, {0, 3},\n                   {1, 3}, {1, 4}, {2, 4},\n                   {3, 4}};\n    int i;\n    struct enode *p;\n\n    for (i = 0; i < 7; i++) {\n        add(e[i][0], e[i][1]);\n        add(e[i][1], e[i][0]);\n    }\n    for (i = 0; i < 5; i++) {\n        printf(\"%c:\", 'A' + i);\n        for (p = head[i]; p; p = p->next)\n            printf(\" -> %c\", 'A' + p->v);\n        printf(\"\\n\");\n    }\n    return 0;\n}"
+   },
+   "out": "A: -> D -> B\nB: -> E -> D -> C -> A\nC: -> E -> B\nD: -> E -> B -> A\nE: -> D -> C -> B",
+   "expl": {
+    "en": "<ul><li>Each vertex has a <b>linked list</b> of its adjacent vertices (an application of Unit 3).</li>\n<li>New neighbours are inserted at the <b>beginning</b> of the list (O(1)), so they appear in reverse order of input.</li>\n<li>An adjacency list uses memory only for the existing edges, so it is better than a matrix for <b>sparse</b> graphs.</li></ul>"
+   }
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "ds4_terms",
+   "title": {
+    "en": "Tree: Basic Terminology"
+   },
+   "file": "diagrams/ds4_terms.svg"
+  },
+  {
+   "id": "ds4_forest",
+   "title": {
+    "en": "Forest"
+   },
+   "file": "diagrams/ds4_forest.svg"
+  },
+  {
+   "id": "ds4_binary_types",
+   "title": {
+    "en": "Binary, Strict and Complete Binary Tree"
+   },
+   "file": "diagrams/ds4_binary_types.svg"
+  },
+  {
+   "id": "ds4_node_repr",
+   "title": {
+    "en": "Binary Tree: Linked Representation"
+   },
+   "file": "diagrams/ds4_node_repr.svg"
+  },
+  {
+   "id": "ds4_gen2bin",
+   "title": {
+    "en": "General Tree to Binary Tree"
+   },
+   "file": "diagrams/ds4_gen2bin.svg"
+  },
+  {
+   "id": "ds4_traversal",
+   "title": {
+    "en": "Inorder, Preorder, Postorder"
+   },
+   "file": "diagrams/ds4_traversal.svg"
+  },
+  {
+   "id": "ds4_bst_build",
+   "title": {
+    "en": "Binary Search Tree Construction"
+   },
+   "file": "diagrams/ds4_bst_build.svg"
+  },
+  {
+   "id": "ds4_bst_search",
+   "title": {
+    "en": "Searching in a BST"
+   },
+   "file": "diagrams/ds4_bst_search.svg"
+  },
+  {
+   "id": "ds4_bst_delete",
+   "title": {
+    "en": "BST Deletion: Three Cases"
+   },
+   "file": "diagrams/ds4_bst_delete.svg"
+  },
+  {
+   "id": "ds4_graph_terms",
+   "title": {
+    "en": "Graph: Basic Terms"
+   },
+   "file": "diagrams/ds4_graph_terms.svg"
+  },
+  {
+   "id": "ds4_graph_types",
+   "title": {
+    "en": "Types of Graph"
+   },
+   "file": "diagrams/ds4_graph_types.svg"
+  }
+ ],
+ "algorithms": [
+  {
+   "title": {
+    "en": "Traversal"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Inorder (L N R)"
+     },
+     "f": "Algorithm INORDER(T)\nStep 1: If T != NULL then\n          INORDER(LEFT(T))\n          Visit INFO(T)\n          INORDER(RIGHT(T))\nStep 2: Exit",
+     "terms": {
+      "en": "BST inorder = ascending order."
+     }
+    },
+    {
+     "name": {
+      "en": "Preorder (N L R)"
+     },
+     "f": "Algorithm PREORDER(T)\nStep 1: If T != NULL then\n          Visit INFO(T)\n          PREORDER(LEFT(T))\n          PREORDER(RIGHT(T))\nStep 2: Exit",
+     "terms": {
+      "en": "Root comes first."
+     }
+    },
+    {
+     "name": {
+      "en": "Postorder (L R N)"
+     },
+     "f": "Algorithm POSTORDER(T)\nStep 1: If T != NULL then\n          POSTORDER(LEFT(T))\n          POSTORDER(RIGHT(T))\n          Visit INFO(T)\nStep 2: Exit",
+     "terms": {
+      "en": "Root comes last."
+     }
+    },
+    {
+     "name": {
+      "en": "General to binary tree"
+     },
+     "f": "Conversion: General -> Binary\nStep 1: Keep the root as it is.\nStep 2: For every node, its leftmost\n        (first) child becomes its\n        LEFT child.\nStep 3: Its next sibling (immediate\n        right brother) becomes its\n        RIGHT child.\nStep 4: Delete all other links from\n        parent to children.",
+     "terms": {
+      "en": "Left child, right sibling."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Binary Search Tree"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "BST insert"
+     },
+     "f": "Algorithm BSTINSERT(ROOT, ITEM)\nStep 1: [Create node]\n        NEW = getnode()\n        INFO(NEW) = ITEM\n        LEFT(NEW) = RIGHT(NEW) = NULL\nStep 2: If ROOT = NULL then\n          Set ROOT = NEW and Exit\nStep 3: Set PTR = ROOT\nStep 4: Repeat\n          If ITEM < INFO(PTR) then\n            If LEFT(PTR) = NULL then\n              LEFT(PTR) = NEW, Exit\n            Else PTR = LEFT(PTR)\n          Else If ITEM > INFO(PTR) then\n            If RIGHT(PTR) = NULL then\n              RIGHT(PTR) = NEW, Exit\n            Else PTR = RIGHT(PTR)\n          Else\n            Write \"Duplicate\", Exit",
+     "terms": {
+      "en": "New node is always a leaf. O(h)."
+     }
+    },
+    {
+     "name": {
+      "en": "BST search"
+     },
+     "f": "Algorithm BSTSEARCH(ROOT, ITEM)\nStep 1: Set PTR = ROOT\nStep 2: Repeat while PTR != NULL\n          If ITEM = INFO(PTR) then\n            Write \"Found\" and Exit\n          Else If ITEM < INFO(PTR) then\n            Set PTR = LEFT(PTR)\n          Else\n            Set PTR = RIGHT(PTR)\nStep 3: Write \"Not found\"\nStep 4: Exit",
+     "terms": {
+      "en": "O(h): O(log n) balanced, O(n) skewed."
+     }
+    },
+    {
+     "name": {
+      "en": "BST delete"
+     },
+     "f": "Algorithm BSTDELETE(ROOT, ITEM)\nStep 1: Search ITEM; let PTR be the\n        node and PAR its parent.\n        If not found: Write \"Not\n        found\" and Exit\nStep 2: [Case 1: leaf]\n        If PTR has no child then\n          set PAR's link to NULL\nStep 3: [Case 2: one child]\n        If PTR has one child then\n          set PAR's link to that child\nStep 4: [Case 3: two children]\n        Find SUC = inorder successor\n        (leftmost node of RIGHT(PTR))\n        INFO(PTR) = INFO(SUC)\n        Delete SUC (case 1 or 2)\nStep 5: Free the removed node, Exit",
+     "terms": {
+      "en": "Successor = leftmost node of right subtree."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Formulas"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Binary tree"
+     },
+     "f": "Max nodes at level l  = 2^l\nMax nodes, height h  = 2^(h+1) - 1\nMin height, n nodes  = floor(log2 n)\nLeaves = (nodes with 2 children) + 1",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Graph"
+     },
+     "f": "Sum of degrees = 2 x edges\nComplete graph K_n: n(n-1)/2 edges\nComplete digraph: n(n-1) edges\nTree with n nodes: n - 1 edges",
+     "terms": {
+      "en": ""
+     }
+    }
+   ]
+  }
+ ],
+ "numericals": [
+  {
+   "id": "ds4n1",
+   "q": {
+    "en": "For the tree A(B(E, F(J)), C, D(G, H, I)) (the terminology diagram), find for every node: parent, children, degree, level, height and type. Also find the root, leaves, degree of the tree and height of the tree."
+   },
+   "a": {
+    "en": "<table><tr><th>Node</th><th>Parent</th><th>Children</th><th>Degree</th><th>Level</th><th>Height</th><th>Type</th></tr><tr><td>A</td><td>-</td><td>B, C, D</td><td>3</td><td>0</td><td>3</td><td>internal</td></tr><tr><td>B</td><td>A</td><td>E, F</td><td>2</td><td>1</td><td>2</td><td>internal</td></tr><tr><td>E</td><td>B</td><td>-</td><td>0</td><td>2</td><td>0</td><td>leaf</td></tr><tr><td>F</td><td>B</td><td>J</td><td>1</td><td>2</td><td>1</td><td>internal</td></tr><tr><td>J</td><td>F</td><td>-</td><td>0</td><td>3</td><td>0</td><td>leaf</td></tr><tr><td>C</td><td>A</td><td>-</td><td>0</td><td>1</td><td>0</td><td>leaf</td></tr><tr><td>D</td><td>A</td><td>G, H, I</td><td>3</td><td>1</td><td>1</td><td>internal</td></tr><tr><td>G</td><td>D</td><td>-</td><td>0</td><td>2</td><td>0</td><td>leaf</td></tr><tr><td>H</td><td>D</td><td>-</td><td>0</td><td>2</td><td>0</td><td>leaf</td></tr><tr><td>I</td><td>D</td><td>-</td><td>0</td><td>2</td><td>0</td><td>leaf</td></tr></table><p>Root = A. Leaves = E, J, C, G, H, I. Internal = A, B, F, D.<br>Degree of tree = 3. Height of tree = 3 (levels 0 to 3). Nodes = 10, edges = 9 (n − 1).</p>"
+   }
+  },
+  {
+   "id": "ds4n2",
+   "q": {
+    "en": "Convert the general tree A(B(E, F), C, D(G, H)) into a binary tree."
+   },
+   "a": {
+    "en": "<p>Rule: first child → LEFT, next sibling → RIGHT.</p><table><tr><th>Node</th><th>Left child</th><th>Right child</th></tr><tr><td>A</td><td>B</td><td>-</td></tr><tr><td>B</td><td>E</td><td>C</td></tr><tr><td>E</td><td>-</td><td>F</td></tr><tr><td>F</td><td>-</td><td>-</td></tr><tr><td>C</td><td>-</td><td>D</td></tr><tr><td>D</td><td>G</td><td>-</td></tr><tr><td>G</td><td>-</td><td>H</td></tr><tr><td>H</td><td>-</td><td>-</td></tr></table><p>Check: preorder of the general tree = A B E F C D G H = preorder of the binary tree = A B E F C D G H.</p>"
+   }
+  },
+  {
+   "id": "ds4n3",
+   "q": {
+    "en": "Find the inorder, preorder and postorder traversal of the binary tree A(B(D, E(G, –)), C(–, F))."
+   },
+   "a": {
+    "en": "<table><tr><th>Traversal</th><th>Subtree-wise</th><th>Result</th></tr><tr><td>Inorder (LNR)</td><td>(D B (G E)) A (C F)</td><td>D B G E A C F</td></tr><tr><td>Preorder (NLR)</td><td>A (B D (E G)) (C F)</td><td>A B D E G C F</td></tr><tr><td>Postorder (LRN)</td><td>(D (G E) B) (F C) A</td><td>D G E B F C A</td></tr></table><p>Brackets show the subtrees: for inorder, write the whole left subtree, then the root, then the right subtree.</p>"
+   }
+  },
+  {
+   "id": "ds4n4",
+   "q": {
+    "en": "Draw the expression tree for (A + B) * (C − D / E) and write its inorder, preorder and postorder."
+   },
+   "a": {
+    "en": "<p>The operator applied last (*) is the root. Its left subtree is A + B; its right subtree is C − D / E, whose root is − with right child D / E.</p><table><tr><th>Node</th><th>Left child</th><th>Right child</th></tr><tr><td>*</td><td>+</td><td>-</td></tr><tr><td>+</td><td>A</td><td>B</td></tr><tr><td>A</td><td>-</td><td>-</td></tr><tr><td>B</td><td>-</td><td>-</td></tr><tr><td>-</td><td>C</td><td>/</td></tr><tr><td>C</td><td>-</td><td>-</td></tr><tr><td>/</td><td>D</td><td>E</td></tr><tr><td>D</td><td>-</td><td>-</td></tr><tr><td>E</td><td>-</td><td>-</td></tr></table><table><tr><th>Traversal</th><th>Result</th><th>Gives</th></tr><tr><td>Inorder</td><td>A + B * C - D / E</td><td>infix (without brackets)</td></tr><tr><td>Preorder</td><td>* + A B - C / D E</td><td>prefix</td></tr><tr><td>Postorder</td><td>A B + C D E / - *</td><td>postfix</td></tr></table>"
+   }
+  },
+  {
+   "id": "ds4n5",
+   "q": {
+    "en": "Construct a binary search tree by inserting 50, 30, 70, 20, 40, 60, 80, 35, 65. Write its traversals and height."
+   },
+   "a": {
+    "en": "<table><tr><th>Insert</th><th>Path (L = left, R = right)</th></tr><tr><td>50</td><td>root</td></tr><tr><td>30</td><td>30&amp;lt;50 L</td></tr><tr><td>70</td><td>70&amp;gt;50 R</td></tr><tr><td>20</td><td>20&amp;lt;50 L, 20&amp;lt;30 L</td></tr><tr><td>40</td><td>40&amp;lt;50 L, 40&amp;gt;30 R</td></tr><tr><td>60</td><td>60&amp;gt;50 R, 60&amp;lt;70 L</td></tr><tr><td>80</td><td>80&amp;gt;50 R, 80&amp;gt;70 R</td></tr><tr><td>35</td><td>35&amp;lt;50 L, 35&amp;gt;30 R, 35&amp;lt;40 L</td></tr><tr><td>65</td><td>65&amp;gt;50 R, 65&amp;lt;70 L, 65&amp;gt;60 R</td></tr></table><p><b>Resulting BST:</b></p><table><tr><th>Node</th><th>Left child</th><th>Right child</th></tr><tr><td>50</td><td>30</td><td>70</td></tr><tr><td>30</td><td>20</td><td>40</td></tr><tr><td>20</td><td>-</td><td>-</td></tr><tr><td>40</td><td>35</td><td>-</td></tr><tr><td>35</td><td>-</td><td>-</td></tr><tr><td>70</td><td>60</td><td>80</td></tr><tr><td>60</td><td>-</td><td>65</td></tr><tr><td>65</td><td>-</td><td>-</td></tr><tr><td>80</td><td>-</td><td>-</td></tr></table><table><tr><th>Traversal</th><th>Result</th></tr><tr><td>Inorder</td><td>20 30 35 40 50 60 65 70 80</td></tr><tr><td>Preorder</td><td>50 30 20 40 35 70 60 65 80</td></tr><tr><td>Postorder</td><td>20 35 40 30 65 60 80 70 50</td></tr></table><p>Height = 3 (50 → 30 → 40 → 35). Leaves = 20 35 65 80. Inorder is sorted, so the BST is correct.</p>"
+   }
+  },
+  {
+   "id": "ds4n6",
+   "q": {
+    "en": "Construct a BST for the months: Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec (alphabetical order)."
+   },
+   "a": {
+    "en": "<p>Compare strings alphabetically (like strcmp): Apr &lt; Aug &lt; Dec &lt; Feb &lt; Jan &lt; Jul &lt; Jun &lt; Mar &lt; May &lt; Nov &lt; Oct &lt; Sep.</p><table><tr><th>Node</th><th>Left child</th><th>Right child</th></tr><tr><td>Jan</td><td>Feb</td><td>Mar</td></tr><tr><td>Feb</td><td>Apr</td><td>-</td></tr><tr><td>Apr</td><td>-</td><td>Aug</td></tr><tr><td>Aug</td><td>-</td><td>Dec</td></tr><tr><td>Dec</td><td>-</td><td>-</td></tr><tr><td>Mar</td><td>Jun</td><td>May</td></tr><tr><td>Jun</td><td>Jul</td><td>-</td></tr><tr><td>Jul</td><td>-</td><td>-</td></tr><tr><td>May</td><td>-</td><td>Sep</td></tr><tr><td>Sep</td><td>Oct</td><td>-</td></tr><tr><td>Oct</td><td>Nov</td><td>-</td></tr><tr><td>Nov</td><td>-</td><td>-</td></tr></table><p>Inorder: Apr Aug Dec Feb Jan Jul Jun Mar May Nov Oct Sep (alphabetical).<br>Preorder: Jan Feb Apr Aug Dec Mar Jun Jul May Sep Oct Nov.<br>Height = 5, leaves = Dec Jul Nov.</p>"
+   }
+  },
+  {
+   "id": "ds4n7",
+   "q": {
+    "en": "From the BST of the previous example (50, 30, 70, 20, 40, 60, 80, 35, 65), delete 20, then 30, then 50. Write the case and the traversals after each deletion."
+   },
+   "a": {
+    "en": "<table><tr><th>Delete</th><th>Case</th><th>Action</th><th>Preorder after</th><th>Inorder after</th></tr><tr><td>20</td><td>Case 1: leaf</td><td>removed</td><td>50 30 40 35 70 60 65 80</td><td>30 35 40 50 60 65 70 80</td></tr><tr><td>30</td><td>Case 2: one child</td><td>replaced by child 40</td><td>50 40 35 70 60 65 80</td><td>35 40 50 60 65 70 80</td></tr><tr><td>50</td><td>Case 3: two children</td><td>replaced by inorder successor 60</td><td>60 40 35 70 65 80</td><td>35 40 60 65 70 80</td></tr></table><p>When 50 is deleted, the successor 60 is copied into the root, and 60's right child 65 takes 60's old place.</p>"
+   }
+  },
+  {
+   "id": "ds4n8",
+   "q": {
+    "en": "Construct the binary tree whose inorder is D B G E A C F and preorder is A B D E G C F."
+   },
+   "a": {
+    "en": "<p>Take the next preorder value as the root; split the inorder around it.</p><table><tr><th>Root (from preorder)</th><th>Left part (inorder)</th><th>Right part (inorder)</th></tr><tr><td>A</td><td>D B G E</td><td>C F</td></tr><tr><td>B</td><td>D</td><td>G E</td></tr><tr><td>D</td><td>-</td><td>-</td></tr><tr><td>E</td><td>G</td><td>-</td></tr><tr><td>G</td><td>-</td><td>-</td></tr><tr><td>C</td><td>-</td><td>F</td></tr><tr><td>F</td><td>-</td><td>-</td></tr></table><p><b>Tree:</b></p><table><tr><th>Node</th><th>Left child</th><th>Right child</th></tr><tr><td>A</td><td>B</td><td>C</td></tr><tr><td>B</td><td>D</td><td>E</td></tr><tr><td>D</td><td>-</td><td>-</td></tr><tr><td>E</td><td>G</td><td>-</td></tr><tr><td>G</td><td>-</td><td>-</td></tr><tr><td>C</td><td>-</td><td>F</td></tr><tr><td>F</td><td>-</td><td>-</td></tr></table><p>Check, postorder: D G E B F C A.</p>"
+   }
+  },
+  {
+   "id": "ds4n9",
+   "q": {
+    "en": "For the undirected graph with edges (A,B), (B,C), (A,D), (B,D), (B,E), (C,E), (D,E), find the degree of each vertex and verify the handshake rule."
+   },
+   "a": {
+    "en": "<table><tr><th>Vertex</th><th>Degree</th></tr><tr><td>A</td><td>2</td></tr><tr><td>B</td><td>4</td></tr><tr><td>C</td><td>2</td></tr><tr><td>D</td><td>3</td></tr><tr><td>E</td><td>3</td></tr></table><p>Sum of degrees = 2 + 4 + 2 + 3 + 3 = 14 = 2 × 7 edges. ✓</p>"
+   }
+  },
+  {
+   "id": "ds4n10",
+   "q": {
+    "en": "For the directed graph with edges A→B, B→C, C→A, C→D, D→B, find the in-degree and out-degree of each vertex."
+   },
+   "a": {
+    "en": "<table><tr><th>Vertex</th><th>In-degree</th><th>Out-degree</th></tr><tr><td>A</td><td>1</td><td>1</td></tr><tr><td>B</td><td>2</td><td>1</td></tr><tr><td>C</td><td>1</td><td>2</td></tr><tr><td>D</td><td>1</td><td>1</td></tr></table><p>Total in-degree = total out-degree = 5 = number of edges.</p>"
+   }
+  },
+  {
+   "id": "ds4n11",
+   "q": {
+    "en": "Find the number of edges in a complete undirected graph and in a complete directed graph with 4, 5, 6 and 10 vertices."
+   },
+   "a": {
+    "en": "<table><tr><th>n</th><th>Undirected n(n−1)/2</th><th>Directed n(n−1)</th></tr><tr><td>4</td><td>6</td><td>12</td></tr><tr><td>5</td><td>10</td><td>20</td></tr><tr><td>6</td><td>15</td><td>30</td></tr><tr><td>10</td><td>45</td><td>90</td></tr></table>"
+   }
+  },
+  {
+   "id": "ds4n12",
+   "q": {
+    "en": "Find: (a) maximum nodes at level 3 of a binary tree, (b) maximum nodes in a binary tree of height 3 and of height 4, (c) minimum height of a binary tree with 20 nodes, (d) leaves of a strict binary tree with 15 nodes."
+   },
+   "a": {
+    "en": "<table><tr><th>Part</th><th>Formula</th><th>Answer</th></tr><tr><td>(a)</td><td>2^l = 2^3</td><td>8</td></tr><tr><td>(b) h = 3</td><td>2^(h+1) − 1 = 2^4 − 1</td><td>15</td></tr><tr><td>(b) h = 4</td><td>2^5 − 1</td><td>31</td></tr><tr><td>(c)</td><td>⌊log2 20⌋</td><td>4</td></tr><tr><td>(d)</td><td>n = 2L − 1 → L = (15 + 1)/2</td><td>8</td></tr></table><p>(c) A tree of height 3 holds at most 15 nodes, so 20 nodes need height 4. (Root at level 0, height in edges.)</p>"
+   }
+  }
+ ],
+ "syntax": [],
+ "viva": [
+  {
+   "title": {
+    "en": "Tree Terms"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a tree?"
+     },
+     "a": {
+      "en": "A non-linear hierarchical data structure of nodes with one root, in which every other node has exactly one parent."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a root node?"
+     },
+     "a": {
+      "en": "The topmost node of a tree; it has no parent."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a leaf node?"
+     },
+     "a": {
+      "en": "A node with no children (degree 0)."
+     }
+    },
+    {
+     "q": {
+      "en": "What are siblings?"
+     },
+     "a": {
+      "en": "Nodes having the same parent."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the degree of a node?"
+     },
+     "a": {
+      "en": "The number of children (subtrees) of that node."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the in-degree of the root?"
+     },
+     "a": {
+      "en": "Zero; every other node in a tree has in-degree 1."
+     }
+    },
+    {
+     "q": {
+      "en": "Define height and depth."
+     },
+     "a": {
+      "en": "Depth of a node = length of the path from the root to it; height = length of the longest path from it down to a leaf."
+     }
+    },
+    {
+     "q": {
+      "en": "How many edges does a tree with n nodes have?"
+     },
+     "a": {
+      "en": "n − 1."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a forest?"
+     },
+     "a": {
+      "en": "A set of disjoint trees; removing the root of a tree gives a forest."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Binary Tree and Traversal"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a binary tree?"
+     },
+     "a": {
+      "en": "A tree in which every node has at most two children: left and right."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a strict binary tree?"
+     },
+     "a": {
+      "en": "A binary tree in which every node has 0 or 2 children."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a complete binary tree?"
+     },
+     "a": {
+      "en": "All levels are full except possibly the last, which is filled from the left."
+     }
+    },
+    {
+     "q": {
+      "en": "Maximum nodes in a binary tree of height h?"
+     },
+     "a": {
+      "en": "2^(h+1) − 1."
+     }
+    },
+    {
+     "q": {
+      "en": "How is a general tree converted to a binary tree?"
+     },
+     "a": {
+      "en": "First child becomes the left child and the next sibling becomes the right child."
+     }
+    },
+    {
+     "q": {
+      "en": "What is tree traversal?"
+     },
+     "a": {
+      "en": "Visiting every node exactly once in a fixed order."
+     }
+    },
+    {
+     "q": {
+      "en": "Give the order of the three traversals."
+     },
+     "a": {
+      "en": "Inorder L N R, preorder N L R, postorder L R N."
+     }
+    },
+    {
+     "q": {
+      "en": "Which traversal gives the root first and which last?"
+     },
+     "a": {
+      "en": "Preorder gives it first; postorder gives it last."
+     }
+    },
+    {
+     "q": {
+      "en": "Which traversals are needed to build a unique tree?"
+     },
+     "a": {
+      "en": "Inorder with preorder, or inorder with postorder."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "BST"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a BST?"
+     },
+     "a": {
+      "en": "A binary tree where left subtree values are smaller and right subtree values are larger than the node, for every node."
+     }
+    },
+    {
+     "q": {
+      "en": "Which traversal of a BST gives sorted output?"
+     },
+     "a": {
+      "en": "Inorder."
+     }
+    },
+    {
+     "q": {
+      "en": "Where is a new node inserted in a BST?"
+     },
+     "a": {
+      "en": "Always as a leaf, at the NULL position reached by the search path."
+     }
+    },
+    {
+     "q": {
+      "en": "Where are the minimum and maximum in a BST?"
+     },
+     "a": {
+      "en": "Minimum is the leftmost node; maximum is the rightmost node."
+     }
+    },
+    {
+     "q": {
+      "en": "What are the cases of BST deletion?"
+     },
+     "a": {
+      "en": "Leaf node, node with one child, node with two children."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the inorder successor?"
+     },
+     "a": {
+      "en": "The smallest node in the right subtree: go right once, then left as far as possible."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the time complexity of BST search?"
+     },
+     "a": {
+      "en": "O(h): O(log n) when balanced, O(n) when skewed."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Graph"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a graph?"
+     },
+     "a": {
+      "en": "A non-linear structure G = (V, E) of vertices and edges connecting them."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between directed and undirected graph?"
+     },
+     "a": {
+      "en": "Directed edges have a direction (arrow); undirected edges work both ways."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a path and a cycle?"
+     },
+     "a": {
+      "en": "A path is a sequence of connected vertices; a cycle is a path that starts and ends at the same vertex."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a complete graph?"
+     },
+     "a": {
+      "en": "A graph in which every vertex is connected to every other vertex; it has n(n−1)/2 edges."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a weighted graph?"
+     },
+     "a": {
+      "en": "A graph in which each edge carries a value such as distance or cost."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a connected graph?"
+     },
+     "a": {
+      "en": "A graph in which there is a path between every pair of vertices."
+     }
+    },
+    {
+     "q": {
+      "en": "Name two ways to represent a graph."
+     },
+     "a": {
+      "en": "Adjacency matrix and adjacency list."
+     }
+    },
+    {
+     "q": {
+      "en": "Give one difference between tree and graph."
+     },
+     "a": {
+      "en": "A tree has a root and no cycles; a graph has no root and may have cycles."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Define the following terms: root, leaf, sibling, degree, level, depth, height."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain in-degree, out-degree, path and subtree with an example."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Define binary tree, strict binary tree and complete binary tree with diagrams."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "What is a forest? Explain with an example."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain the conversion of a general tree into a binary tree with an example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain inorder, preorder and postorder traversals with algorithms and an example."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Write the inorder, preorder and postorder traversals of a given binary tree."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Construct a binary tree from given inorder and preorder traversals."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "What is a binary search tree? Construct a BST for 50, 30, 70, 20, 40, 60, 80, 35, 65."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write an algorithm to insert a node in a binary search tree."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write an algorithm to search a node in a binary search tree."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain the deletion of a node from a BST with all cases."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Write a C program to construct a BST and display its inorder traversal."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Define graph. Explain vertex, edge, path and cycle."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain types of graphs: directed, undirected, connected, complete and weighted."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the adjacency matrix and adjacency list representation of a graph."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Differentiate tree and graph."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Give applications of trees and graphs."
+   },
+   "marks": 3
+  }
+ ],
+ "tabs": [
+  "notes",
+  "programs",
+  "diagrams",
+  "algorithms",
+  "numericals",
+  "viva",
+  "exam"
+ ],
+ "intro": "intro_ds"
+}
