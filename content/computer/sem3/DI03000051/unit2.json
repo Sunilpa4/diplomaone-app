@@ -1,0 +1,787 @@
+{
+ "subject": "DI03000051",
+ "unit": 2,
+ "format": "notes",
+ "title": {
+  "en": "The Reference Model for Network Communication",
+  "gu": "Network Communication માટેના Reference Models"
+ },
+ "weightage": 18,
+ "hours": 8,
+ "notes": [
+  {
+   "title": {
+    "en": "2.1 OSI Reference Model",
+    "gu": "2.1 OSI Reference Model"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "2.1.1 Layered Architecture and the OSI Model",
+      "gu": "2.1.1 Layered Architecture અને OSI Model"
+     },
+     "body": {
+      "en": "<p>Network communication is a complex task. To reduce the complexity, network software is organised as a <b>stack of layers</b>, each built on the one below it. Each layer performs a well-defined set of functions, <b>offers services to the layer above</b> and uses the services of the layer below, hiding the details of how they are implemented. This is called a <b>layered architecture</b>; the set of layers and protocols is the <b>network architecture</b>.</p>\n<h4>OSI model</h4>\n<p>The <b>Open Systems Interconnection (OSI) model</b> was developed by the <b>ISO (International Organization for Standardization)</b> and published in 1984 (ISO 7498). An <b>open system</b> is a set of protocols that allows any two different systems to communicate regardless of their underlying architecture. OSI is a <b>reference model</b> (a framework for understanding and designing networks), not a protocol itself.</p>\n<p>It has <b>seven layers</b>: (7) Application, (6) Presentation, (5) Session, (4) Transport, (3) Network, (2) Data Link and (1) Physical.</p>\n<ul><li><b>Layers 1-3 (network support layers):</b> physical aspects of moving data from one device to another (electrical specifications, physical connections, physical addressing, timing and reliability).</li><li><b>Layer 4 (transport):</b> links the two groups; ensures reliable end-to-end transmission.</li><li><b>Layers 5-7 (user support layers):</b> allow interoperability among unrelated software systems.</li></ul>\n<h4>Principles used to design the layers</h4>\n<ul><li>A layer is created where a different abstraction is needed; each layer performs a well-defined function.</li><li>Layer boundaries are chosen to minimise information flow across the interfaces.</li><li>The number of layers is large enough to separate functions but small enough to keep the architecture manageable.</li></ul>\n<h4>Advantages of layering</h4>\n<ul><li>Divides a complex task into smaller, manageable parts; easy to understand and teach.</li><li>A change in one layer does not affect the other layers (modularity).</li><li>Standard interfaces allow products of different vendors to work together (interoperability).</li><li>Easy troubleshooting layer by layer.</li></ul>",
+      "gu": "<p>Network communication એ જટિલ કાર્ય છે. જટિલતા ઘટાડવા network software ને <b>layers ના stack</b> તરીકે ગોઠવવામાં આવે છે, દરેક તેની નીચેના layer પર બનેલું હોય છે. દરેક layer નિશ્ચિત કાર્યો કરે, <b>ઉપરના layer ને services આપે</b> અને નીચેના layer ની services વાપરે, અને તે કેવી રીતે અમલમાં છે તેની વિગતો છુપાવે. તેને <b>layered architecture</b> કહે છે; layers અને protocols નો સમૂહ એ <b>network architecture</b> છે.</p>\n<h4>OSI model</h4>\n<p><b>Open Systems Interconnection (OSI) model</b> <b>ISO (International Organization for Standardization)</b> એ બનાવ્યું અને 1984 માં પ્રકાશિત કર્યું (ISO 7498). <b>Open system</b> એ protocols નો સમૂહ છે જે કોઈ પણ બે જુદી systems ને તેમના અંદરના architecture ની પરવા વગર communicate કરવા દે છે. OSI એ <b>reference model</b> (networks સમજવા અને design કરવા માટેનું માળખું) છે, પોતે protocol નથી.</p>\n<p>તેમાં <b>સાત layers</b> છે: (7) Application, (6) Presentation, (5) Session, (4) Transport, (3) Network, (2) Data Link અને (1) Physical.</p>\n<ul><li><b>Layers 1-3 (network support layers):</b> એક device થી બીજા device સુધી data લઈ જવાના physical પાસાં (electrical specifications, physical connections, physical addressing, timing અને reliability).</li><li><b>Layer 4 (transport):</b> બંને જૂથોને જોડે; વિશ્વસનીય end-to-end transmission સુનિશ્ચિત કરે.</li><li><b>Layers 5-7 (user support layers):</b> અસંબંધિત software systems વચ્ચે interoperability આપે.</li></ul>\n<h4>Layers design કરવાના સિદ્ધાંતો</h4>\n<ul><li>જ્યાં જુદા abstraction ની જરૂર હોય ત્યાં layer બને; દરેક layer નિશ્ચિત કાર્ય કરે.</li><li>Interfaces પર માહિતીનો પ્રવાહ ઓછો રહે તે રીતે layer boundaries પસંદ થાય.</li><li>Layers ની સંખ્યા કાર્યો અલગ કરવા પૂરતી મોટી પણ architecture સંભાળી શકાય તેટલી નાની.</li></ul>\n<h4>Layering ના ફાયદા</h4>\n<ul><li>જટિલ કાર્યને નાના, સંભાળી શકાય તેવા ભાગોમાં વહેંચે; સમજવું અને શીખવવું સહેલું.</li><li>એક layer માં ફેરફાર બીજા layers ને અસર ન કરે (modularity).</li><li>Standard interfaces જુદા vendors ના products ને સાથે કામ કરાવે (interoperability).</li><li>Layer પ્રમાણે troubleshooting સહેલું.</li></ul>"
+     },
+     "diagram": "cn2_osi"
+    },
+    {
+     "h": {
+      "en": "2.1.2 Peer-to-Peer Processes and Interfaces",
+      "gu": "2.1.2 Peer-to-Peer Processes અને Interfaces"
+     },
+     "body": {
+      "en": "<p>When device A sends a message to device B, the message moves <b>down</b> through the layers of A, travels over the physical medium, passes through intermediate nodes (routers use only layers 1-3), and moves <b>up</b> through the layers of B.</p>\n<ul>\n<li><b>Peer-to-peer process:</b> layer <i>x</i> on one machine communicates logically with layer <i>x</i> on the other machine using a <b>protocol</b>. The processes in corresponding layers are called <b>peers</b>. This communication is <b>virtual (logical)</b>; only the physical layer communicates directly.</li>\n<li><b>Interface:</b> between each pair of adjacent layers there is an interface that defines the information and <b>services</b> a layer provides to the layer above it. Well-defined interfaces allow a layer's implementation to be changed without affecting the others.</li>\n<li><b>Service Access Point (SAP):</b> the point at which an upper layer accesses the services of a lower layer (e.g. a port number is a transport-layer SAP).</li>\n<li><b>Protocol vs service:</b> a <b>service</b> is what a layer provides to the layer above (vertical); a <b>protocol</b> is the set of rules between peer layers (horizontal).</li>\n</ul>",
+      "gu": "<p>Device A device B ને message મોકલે ત્યારે message A ના layers માંથી <b>નીચે</b> જાય, physical medium પર જાય, વચ્ચેના nodes માંથી પસાર થાય (routers માત્ર layers 1-3 વાપરે), અને B ના layers માંથી <b>ઉપર</b> જાય.</p>\n<ul>\n<li><b>Peer-to-peer process:</b> એક machine પરનું layer <i>x</i> બીજા machine પરના layer <i>x</i> સાથે <b>protocol</b> વાપરીને logical રીતે communicate કરે. અનુરૂપ layers ની processes ને <b>peers</b> કહે છે. આ communication <b>virtual (logical)</b> છે; માત્ર physical layer સીધું communicate કરે.</li>\n<li><b>Interface:</b> દરેક બાજુ-બાજુના layers ની જોડી વચ્ચે interface હોય છે જે layer ઉપરના layer ને કઈ માહિતી અને <b>services</b> આપે તે નક્કી કરે. સ્પષ્ટ interfaces layer નો અમલ બીજાને અસર કર્યા વગર બદલવા દે.</li>\n<li><b>Service Access Point (SAP):</b> જ્યાંથી ઉપરનું layer નીચેના layer ની services વાપરે તે બિંદુ (દા.ત. port number એ transport-layer SAP છે).</li>\n<li><b>Protocol vs service:</b> <b>service</b> એ layer ઉપરના layer ને જે આપે તે (vertical); <b>protocol</b> એ peer layers વચ્ચેના નિયમો (horizontal).</li>\n</ul>"
+     },
+     "diagram": "cn2_peer"
+    },
+    {
+     "h": {
+      "en": "2.1.3 Encapsulation and Decapsulation",
+      "gu": "2.1.3 Encapsulation અને Decapsulation"
+     },
+     "body": {
+      "en": "<p><b>Encapsulation</b> is the process in which each layer at the sender <b>adds its own control information (header)</b> to the data received from the layer above, and passes the whole unit down. The data link layer also adds a <b>trailer</b> (error-detection bits). At the physical layer the frame is converted into a stream of <b>bits / signals</b>.</p>\n<p><b>Decapsulation</b> is the reverse process at the receiver: each layer reads and <b>removes its peer's header</b>, performs its function, and passes the remaining data up.</p>\n<h4>Protocol Data Units (PDUs)</h4>\n<ul><li>Application, presentation, session: <b>data / message</b></li><li>Transport: <b>segment</b> (TCP) or <b>datagram</b> (UDP)</li><li>Network: <b>packet</b> (IP datagram)</li><li>Data link: <b>frame</b></li><li>Physical: <b>bits</b></li></ul>\n<p>Headers carry information such as addresses, sequence numbers and error-checking codes. They add <b>overhead</b>: the larger the headers compared to the data, the lower the efficiency (see the solved numericals).</p>",
+      "gu": "<p><b>Encapsulation</b> એ પ્રક્રિયા છે જેમાં sender પરનું દરેક layer ઉપરના layer પાસેથી મળેલા data માં <b>પોતાની control માહિતી (header) ઉમેરે</b> છે, અને આખું એકમ નીચે મોકલે. Data link layer <b>trailer</b> (error-detection bits) પણ ઉમેરે. Physical layer પર frame <b>bits / signals</b> ના પ્રવાહમાં ફેરવાય.</p>\n<p><b>Decapsulation</b> એ receiver પરની વિરુદ્ધ પ્રક્રિયા છે: દરેક layer પોતાના peer નું header વાંચી <b>દૂર કરે</b>, પોતાનું કાર્ય કરે, અને બાકીનો data ઉપર મોકલે.</p>\n<h4>Protocol Data Units (PDUs)</h4>\n<ul><li>Application, presentation, session: <b>data / message</b></li><li>Transport: <b>segment</b> (TCP) અથવા <b>datagram</b> (UDP)</li><li>Network: <b>packet</b> (IP datagram)</li><li>Data link: <b>frame</b></li><li>Physical: <b>bits</b></li></ul>\n<p>Headers માં addresses, sequence numbers અને error-checking codes જેવી માહિતી હોય છે. તે <b>overhead</b> ઉમેરે છે: data ની સરખામણીમાં headers જેટલા મોટા, તેટલી efficiency ઓછી (ઉકેલેલા દાખલા જુઓ).</p>"
+     },
+     "diagram": "cn2_encap",
+     "examples": [
+      "cn2n1",
+      "cn2n2"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.1.4 Physical Layer (Layer 1)",
+      "gu": "2.1.4 Physical Layer (Layer 1)"
+     },
+     "body": {
+      "en": "<p>The physical layer coordinates the functions required to <b>carry a bit stream over a physical medium</b>. It deals with the mechanical and electrical specifications of the interface and the transmission medium.</p>\n<h4>Functions</h4>\n<ul>\n<li><b>Physical characteristics of interfaces and media:</b> type of medium, connectors (RJ-45), pins, cables.</li>\n<li><b>Representation of bits:</b> bits (0 and 1) are encoded into electrical or optical signals; the layer defines the encoding.</li>\n<li><b>Data rate:</b> the number of bits sent per second (transmission rate), i.e. the duration of a bit.</li>\n<li><b>Synchronisation of bits:</b> sender and receiver clocks must be synchronised at the bit level.</li>\n<li><b>Line configuration:</b> point-to-point or multipoint connection.</li>\n<li><b>Physical topology:</b> bus, star, ring, mesh, hybrid.</li>\n<li><b>Transmission mode:</b> <b>simplex</b> (one direction only: keyboard, TV broadcast), <b>half duplex</b> (both directions but one at a time: walkie-talkie) or <b>full duplex</b> (both directions simultaneously: telephone).</li>\n</ul>\n<p><b>Devices:</b> hub, repeater, cables, connectors, modem. <b>Standards:</b> RS-232, 10BaseT, 100BaseTX, DSL, IEEE 802.11 physical layer.</p>",
+      "gu": "<p>Physical layer <b>physical medium પર bit stream લઈ જવા</b> માટેનાં કાર્યોનું સંકલન કરે છે. તે interface અને transmission medium ના mechanical અને electrical specifications સાથે સંબંધિત છે.</p>\n<h4>કાર્યો</h4>\n<ul>\n<li><b>Interfaces અને media ની physical લાક્ષણિકતાઓ:</b> medium નો પ્રકાર, connectors (RJ-45), pins, cables.</li>\n<li><b>Bits નું representation:</b> bits (0 અને 1) electrical કે optical signals માં encode થાય; layer encoding નક્કી કરે.</li>\n<li><b>Data rate:</b> પ્રતિ second મોકલાતા bits ની સંખ્યા (transmission rate), એટલે કે bit નો સમયગાળો.</li>\n<li><b>Bits નું synchronisation:</b> sender અને receiver ની clocks bit સ્તરે synchronise હોવી જોઈએ.</li>\n<li><b>Line configuration:</b> point-to-point કે multipoint connection.</li>\n<li><b>Physical topology:</b> bus, star, ring, mesh, hybrid.</li>\n<li><b>Transmission mode:</b> <b>simplex</b> (માત્ર એક દિશા: keyboard, TV broadcast), <b>half duplex</b> (બંને દિશા પણ એક સમયે એક: walkie-talkie) અથવા <b>full duplex</b> (બંને દિશા એક સાથે: telephone).</li>\n</ul>\n<p><b>Devices:</b> hub, repeater, cables, connectors, modem. <b>Standards:</b> RS-232, 10BaseT, 100BaseTX, DSL, IEEE 802.11 physical layer.</p>"
+     },
+     "diagram": "cn2_modes"
+    },
+    {
+     "h": {
+      "en": "2.1.5 Data Link Layer (Layer 2)",
+      "gu": "2.1.5 Data Link Layer (Layer 2)"
+     },
+     "body": {
+      "en": "<p>The data link layer transforms the raw physical layer into a <b>reliable link</b>. It makes the physical layer appear error-free to the network layer and is responsible for <b>hop-to-hop (node-to-node) delivery</b>.</p>\n<h4>Functions</h4>\n<ul>\n<li><b>Framing:</b> divides the stream of bits from the network layer into manageable units called <b>frames</b>, marking their start and end (flags).</li>\n<li><b>Physical addressing:</b> adds a header with the <b>physical (MAC) address</b> of the sender and of the receiver (next hop) on the same network.</li>\n<li><b>Flow control:</b> prevents a fast sender from overwhelming a slow receiver.</li>\n<li><b>Error control:</b> detects and retransmits damaged or lost frames, and recognises duplicate frames; a <b>trailer (FCS / CRC)</b> is added at the end of the frame.</li>\n<li><b>Access control:</b> when two or more devices share one link, decides which device has control of the link at a given time (CSMA/CD, token passing).</li>\n</ul>\n<p><b>Sublayers (IEEE 802):</b> <b>LLC</b> (Logical Link Control: flow and error control) and <b>MAC</b> (Media Access Control: addressing and access to the medium).</p>\n<p><b>Devices:</b> switch, bridge, NIC. <b>Protocols:</b> Ethernet (802.3), Wi-Fi (802.11), PPP, HDLC.</p>",
+      "gu": "<p>Data link layer કાચા physical layer ને <b>વિશ્વસનીય link</b> માં ફેરવે છે. તે network layer ને physical layer error-free દેખાડે અને <b>hop-to-hop (node-to-node) delivery</b> માટે જવાબદાર છે.</p>\n<h4>કાર્યો</h4>\n<ul>\n<li><b>Framing:</b> network layer પાસેથી આવતા bits ના પ્રવાહને <b>frames</b> નામના સંભાળી શકાય તેવા એકમોમાં વહેંચે, તેમની શરૂઆત અને અંત (flags) દર્શાવે.</li>\n<li><b>Physical addressing:</b> એક જ network પરના sender અને receiver (next hop) ના <b>physical (MAC) address</b> વાળું header ઉમેરે.</li>\n<li><b>Flow control:</b> ઝડપી sender ધીમા receiver ને ડુબાડી ન દે તે અટકાવે.</li>\n<li><b>Error control:</b> બગડેલા કે ખોવાયેલા frames શોધી ફરી મોકલે, અને duplicate frames ઓળખે; frame ના અંતે <b>trailer (FCS / CRC)</b> ઉમેરાય.</li>\n<li><b>Access control:</b> બે કે વધુ devices એક link વહેંચે ત્યારે કોઈ સમયે link પર કયા device નું નિયંત્રણ તે નક્કી કરે (CSMA/CD, token passing).</li>\n</ul>\n<p><b>Sublayers (IEEE 802):</b> <b>LLC</b> (Logical Link Control: flow અને error control) અને <b>MAC</b> (Media Access Control: addressing અને medium access).</p>\n<p><b>Devices:</b> switch, bridge, NIC. <b>Protocols:</b> Ethernet (802.3), Wi-Fi (802.11), PPP, HDLC.</p>"
+     },
+     "diagram": "cn2_frame"
+    },
+    {
+     "h": {
+      "en": "2.1.6 Network Layer (Layer 3)",
+      "gu": "2.1.6 Network Layer (Layer 3)"
+     },
+     "body": {
+      "en": "<p>The network layer is responsible for the <b>source-to-destination delivery of a packet</b>, possibly across multiple networks (links). The data link layer delivers between two systems on the same network; the network layer ensures that each packet gets from its point of origin to its final destination.</p>\n<h4>Functions</h4>\n<ul>\n<li><b>Logical addressing:</b> adds a header with the <b>logical (IP) addresses</b> of the sender and the receiver, which are unique across the whole Internet. (Physical addresses work only within one network.)</li>\n<li><b>Routing:</b> routers find the <b>best path</b> through the interconnected networks using routing tables and routing protocols (RIP, OSPF, BGP).</li>\n<li><b>Packet forwarding / switching:</b> moving packets from the input to the correct output of a router.</li>\n<li><b>Fragmentation and reassembly:</b> dividing a packet when it is larger than the maximum size allowed on a network.</li>\n<li><b>Congestion control</b> and quality of service.</li>\n</ul>\n<p><b>Device:</b> router (layer-3 switch). <b>Protocols:</b> IPv4, IPv6, ICMP, IGMP, ARP, routing protocols. PDU: <b>packet</b>.</p>",
+      "gu": "<p>Network layer ઘણા networks (links) પાર <b>packet ની source-to-destination delivery</b> માટે જવાબદાર છે. Data link layer એક જ network પરની બે systems વચ્ચે delivery કરે; network layer ખાતરી કરે કે દરેક packet તેના મૂળ સ્થાનથી અંતિમ destination સુધી પહોંચે.</p>\n<h4>કાર્યો</h4>\n<ul>\n<li><b>Logical addressing:</b> sender અને receiver ના <b>logical (IP) addresses</b> વાળું header ઉમેરે, જે આખા Internet પર અનન્ય છે. (Physical addresses માત્ર એક network માં કામ કરે.)</li>\n<li><b>Routing:</b> routers routing tables અને routing protocols (RIP, OSPF, BGP) વાપરી જોડાયેલા networks માંથી <b>શ્રેષ્ઠ માર્ગ</b> શોધે.</li>\n<li><b>Packet forwarding / switching:</b> router ના input થી સાચા output સુધી packets ખસેડવા.</li>\n<li><b>Fragmentation અને reassembly:</b> network પર માન્ય મહત્તમ size કરતાં packet મોટું હોય ત્યારે તેને વહેંચવું.</li>\n<li><b>Congestion control</b> અને quality of service.</li>\n</ul>\n<p><b>Device:</b> router (layer-3 switch). <b>Protocols:</b> IPv4, IPv6, ICMP, IGMP, ARP, routing protocols. PDU: <b>packet</b>.</p>"
+     },
+     "diagram": "cn2_hop"
+    },
+    {
+     "h": {
+      "en": "2.1.7 Transport Layer (Layer 4)",
+      "gu": "2.1.7 Transport Layer (Layer 4)"
+     },
+     "body": {
+      "en": "<p>The transport layer is responsible for <b>process-to-process delivery</b> of the entire message. The network layer delivers packets to the right <b>host</b>; the transport layer delivers the message to the right <b>process (application)</b> on that host, making sure it arrives intact and in order.</p>\n<h4>Functions</h4>\n<ul>\n<li><b>Service-point (port) addressing:</b> the header includes a <b>port number</b> that identifies the application process (e.g. 80 for a web server).</li>\n<li><b>Segmentation and reassembly:</b> the message is divided into <b>segments</b>, each with a <b>sequence number</b>, so that the receiver can reassemble them correctly and replace lost ones.</li>\n<li><b>Connection control:</b> <b>connection-oriented</b> (TCP: connection set up, data transfer, release) or <b>connectionless</b> (UDP: each segment independent).</li>\n<li><b>Flow control:</b> end to end, rather than across a single link.</li>\n<li><b>Error control:</b> end to end; ensures the whole message arrives without error, loss or duplication (retransmission).</li>\n</ul>\n<p><b>Protocols:</b> TCP (reliable), UDP (fast, unreliable), SCTP. PDU: <b>segment</b>. Also called the heart of the OSI model, as it links the network-support and user-support layers.</p>",
+      "gu": "<p>Transport layer આખા message ની <b>process-to-process delivery</b> માટે જવાબદાર છે. Network layer packets ને સાચા <b>host</b> સુધી પહોંચાડે; transport layer message ને તે host પરની સાચી <b>process (application)</b> સુધી પહોંચાડે, અને ખાતરી કરે કે તે અખંડ અને ક્રમમાં પહોંચે.</p>\n<h4>કાર્યો</h4>\n<ul>\n<li><b>Service-point (port) addressing:</b> header માં application process ઓળખતો <b>port number</b> હોય (દા.ત. web server માટે 80).</li>\n<li><b>Segmentation અને reassembly:</b> message <b>segments</b> માં વહેંચાય, દરેકને <b>sequence number</b> હોય, જેથી receiver તેમને સાચી રીતે જોડી શકે અને ખોવાયેલા બદલી શકે.</li>\n<li><b>Connection control:</b> <b>connection-oriented</b> (TCP: connection setup, data transfer, release) કે <b>connectionless</b> (UDP: દરેક segment સ્વતંત્ર).</li>\n<li><b>Flow control:</b> એક link પર નહીં પણ end to end.</li>\n<li><b>Error control:</b> end to end; આખો message error, loss કે duplication વગર પહોંચે તેની ખાતરી (retransmission).</li>\n</ul>\n<p><b>Protocols:</b> TCP (વિશ્વસનીય), UDP (ઝડપી, અવિશ્વસનીય), SCTP. PDU: <b>segment</b>. તે network-support અને user-support layers ને જોડતું હોવાથી OSI model નું હૃદય પણ કહેવાય છે.</p>"
+     },
+     "diagram": "cn2_ports"
+    },
+    {
+     "h": {
+      "en": "2.1.8 Session Layer (Layer 5)",
+      "gu": "2.1.8 Session Layer (Layer 5)"
+     },
+     "body": {
+      "en": "<p>The session layer is the network <b>dialog controller</b>. It establishes, maintains and synchronises the interaction (session) between communicating systems.</p>\n<h4>Functions</h4>\n<ul>\n<li><b>Dialog control:</b> allows two systems to enter into a dialog and decides whose turn it is to send, in half-duplex or full-duplex mode.</li>\n<li><b>Synchronisation:</b> adds <b>checkpoints (synchronisation points)</b> into the stream of data. Example: when sending a 2000-page file, a checkpoint is inserted after every 100 pages; if a crash happens at page 523, only pages 501-523 are retransmitted.</li>\n<li><b>Session management:</b> session establishment, maintenance and termination; authentication and authorisation of the session.</li>\n<li><b>Token management:</b> prevents two sides from attempting the same critical operation at the same time.</li>\n</ul>\n<p><b>Protocols / examples:</b> NetBIOS, RPC (Remote Procedure Call), PPTP, SQL sessions, login sessions.</p>",
+      "gu": "<p>Session layer એ network નો <b>dialog controller</b> છે. તે communicate કરતી systems વચ્ચેની ક્રિયાપ્રતિક્રિયા (session) સ્થાપે, જાળવે અને synchronise કરે છે.</p>\n<h4>કાર્યો</h4>\n<ul>\n<li><b>Dialog control:</b> બે systems ને dialog માં પ્રવેશવા દે અને half-duplex કે full-duplex mode માં મોકલવાનો વારો કોનો તે નક્કી કરે.</li>\n<li><b>Synchronisation:</b> data ના પ્રવાહમાં <b>checkpoints (synchronisation points)</b> ઉમેરે. ઉદાહરણ: 2000-page file મોકલતી વખતે દર 100 pages પછી checkpoint મુકાય; page 523 પર crash થાય તો માત્ર pages 501-523 ફરી મોકલાય.</li>\n<li><b>Session management:</b> session સ્થાપના, જાળવણી અને સમાપ્તિ; session નું authentication અને authorisation.</li>\n<li><b>Token management:</b> બંને બાજુ એક જ critical operation એક સાથે કરવાનો પ્રયાસ ન કરે તે અટકાવે.</li>\n</ul>\n<p><b>Protocols / ઉદાહરણો:</b> NetBIOS, RPC (Remote Procedure Call), PPTP, SQL sessions, login sessions.</p>"
+     },
+     "diagram": "cn2_session"
+    },
+    {
+     "h": {
+      "en": "2.1.9 Presentation Layer (Layer 6)",
+      "gu": "2.1.9 Presentation Layer (Layer 6)"
+     },
+     "body": {
+      "en": "<p>The presentation layer is concerned with the <b>syntax and semantics</b> of the information exchanged between two systems. It makes sure that data sent by the application layer of one system can be read by the application layer of the other.</p>\n<h4>Functions</h4>\n<ul>\n<li><b>Translation:</b> different computers use different encoding systems (ASCII, EBCDIC, Unicode). The sender's format is changed into a common format and, at the receiver, into the receiver's format.</li>\n<li><b>Encryption and decryption:</b> to carry sensitive information (passwords, bank details) securely, the sender transforms the original information (plain text) into another form (cipher text); the receiver decrypts it. Example: SSL/TLS used by HTTPS.</li>\n<li><b>Compression:</b> reduces the number of bits to be transmitted; important for multimedia: text (ZIP), images (JPEG), audio (MP3) and video (MPEG).</li>\n</ul>\n<p>It is sometimes called the <b>translator</b> of the network.</p>",
+      "gu": "<p>Presentation layer બે systems વચ્ચે આપ-લે થતી માહિતીના <b>syntax અને semantics</b> સાથે સંબંધિત છે. તે ખાતરી કરે કે એક system ના application layer એ મોકલેલો data બીજી system નું application layer વાંચી શકે.</p>\n<h4>કાર્યો</h4>\n<ul>\n<li><b>Translation:</b> જુદાં computers જુદી encoding systems (ASCII, EBCDIC, Unicode) વાપરે. Sender નું format સામાન્ય format માં અને receiver પર receiver ના format માં બદલાય.</li>\n<li><b>Encryption અને decryption:</b> સંવેદનશીલ માહિતી (passwords, bank details) સુરક્ષિત રીતે લઈ જવા sender મૂળ માહિતી (plain text) ને બીજા સ્વરૂપ (cipher text) માં ફેરવે; receiver તેને decrypt કરે. ઉદાહરણ: HTTPS વાપરતું SSL/TLS.</li>\n<li><b>Compression:</b> મોકલવાના bits ની સંખ્યા ઘટાડે; multimedia માટે મહત્વનું: text (ZIP), images (JPEG), audio (MP3) અને video (MPEG).</li>\n</ul>\n<p>તેને ક્યારેક network નો <b>translator</b> કહે છે.</p>"
+     },
+     "diagram": "cn2_present"
+    },
+    {
+     "h": {
+      "en": "2.1.10 Application Layer (Layer 7) and Summary of OSI Layers (Practical 2)",
+      "gu": "2.1.10 Application Layer (Layer 7) અને OSI Layers નો સારાંશ (Practical 2)"
+     },
+     "body": {
+      "en": "<p>The application layer enables the <b>user (human or software) to access the network</b>. It provides user interfaces and support for services such as e-mail, remote file access and transfer, and the World Wide Web. It is the layer closest to the user.</p>\n<h4>Services / functions</h4>\n<ul>\n<li><b>Network virtual terminal:</b> a software version of a physical terminal that allows a user to log on to a remote host (Telnet, SSH).</li>\n<li><b>File transfer, access and management (FTAM):</b> access, retrieve and manage files on a remote computer (FTP).</li>\n<li><b>Mail services:</b> e-mail forwarding and storage (SMTP, POP3, IMAP).</li>\n<li><b>Directory services:</b> distributed databases of information about objects and services (DNS, LDAP).</li>\n<li><b>Web access:</b> HTTP / HTTPS for browsing.</li>\n</ul>\n<h4>Summary of the seven layers</h4>\n<table><tr><th>Layer</th><th>Main functions</th><th>PDU / device</th><th>Protocols</th></tr><tr><td>7 Application</td><td>Network services to the user: web, mail, file transfer</td><td>Data / gateway</td><td>HTTP, FTP, SMTP, DNS, Telnet</td></tr><tr><td>6 Presentation</td><td>Translation, encryption, compression</td><td>Data</td><td>JPEG, MPEG, SSL/TLS, ASCII</td></tr><tr><td>5 Session</td><td>Dialog control, synchronisation, session management</td><td>Data</td><td>NetBIOS, RPC, PPTP</td></tr><tr><td>4 Transport</td><td>Process-to-process delivery, ports, segmentation, flow and error control</td><td>Segment</td><td>TCP, UDP, SCTP</td></tr><tr><td>3 Network</td><td>Logical (IP) addressing, routing, source-to-destination delivery</td><td>Packet / router</td><td>IP, ICMP, ARP, OSPF</td></tr><tr><td>2 Data Link</td><td>Framing, MAC addressing, hop-to-hop delivery, flow, error, access control</td><td>Frame / switch, bridge</td><td>Ethernet, PPP, HDLC</td></tr><tr><td>1 Physical</td><td>Transmission of bits, signals, data rate, transmission mode, topology</td><td>Bits / hub, repeater</td><td>RS-232, DSL, 10BaseT</td></tr></table>\n<p>Memory aid (7 to 1): <b>All People Seem To Need Data Processing</b>; (1 to 7): <b>Please Do Not Throw Sausage Pizza Away</b>.</p>",
+      "gu": "<p>Application layer <b>user (માણસ કે software) ને network વાપરવા</b> દે છે. તે user interfaces અને e-mail, remote file access અને transfer, અને World Wide Web જેવી services માટે support આપે. તે user ની સૌથી નજીકનું layer છે.</p>\n<h4>Services / કાર્યો</h4>\n<ul>\n<li><b>Network virtual terminal:</b> physical terminal નું software સ્વરૂપ જે user ને remote host પર log on કરવા દે (Telnet, SSH).</li>\n<li><b>File transfer, access અને management (FTAM):</b> remote computer પરની files access, retrieve અને manage કરવી (FTP).</li>\n<li><b>Mail services:</b> e-mail forwarding અને storage (SMTP, POP3, IMAP).</li>\n<li><b>Directory services:</b> objects અને services વિશેની માહિતીના distributed databases (DNS, LDAP).</li>\n<li><b>Web access:</b> browsing માટે HTTP / HTTPS.</li>\n</ul>\n<h4>સાત layers નો સારાંશ</h4>\n<table><tr><th>Layer</th><th>મુખ્ય કાર્યો</th><th>PDU / device</th><th>Protocols</th></tr><tr><td>7 Application</td><td>User ને network services: web, mail, file transfer</td><td>Data / gateway</td><td>HTTP, FTP, SMTP, DNS, Telnet</td></tr><tr><td>6 Presentation</td><td>Translation, encryption, compression</td><td>Data</td><td>JPEG, MPEG, SSL/TLS, ASCII</td></tr><tr><td>5 Session</td><td>Dialog control, synchronisation, session management</td><td>Data</td><td>NetBIOS, RPC, PPTP</td></tr><tr><td>4 Transport</td><td>Process-to-process delivery, ports, segmentation, flow અને error control</td><td>Segment</td><td>TCP, UDP, SCTP</td></tr><tr><td>3 Network</td><td>Logical (IP) addressing, routing, source-to-destination delivery</td><td>Packet / router</td><td>IP, ICMP, ARP, OSPF</td></tr><tr><td>2 Data Link</td><td>Framing, MAC addressing, hop-to-hop delivery, flow, error, access control</td><td>Frame / switch, bridge</td><td>Ethernet, PPP, HDLC</td></tr><tr><td>1 Physical</td><td>Bits નું transmission, signals, data rate, transmission mode, topology</td><td>Bits / hub, repeater</td><td>RS-232, DSL, 10BaseT</td></tr></table>\n<p>યાદ રાખવા (7 થી 1): <b>All People Seem To Need Data Processing</b>; (1 થી 7): <b>Please Do Not Throw Sausage Pizza Away</b>.</p>"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2.2 TCP/IP Model",
+    "gu": "2.2 TCP/IP Model"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "2.2.1 Introduction to the TCP/IP Model",
+      "gu": "2.2.1 TCP/IP Model નો પરિચય"
+     },
+     "body": {
+      "en": "<p>The <b>TCP/IP model</b> (Internet model) is named after its two main protocols: <b>Transmission Control Protocol</b> and <b>Internet Protocol</b>. It was developed in the 1970s by the <b>US Department of Defense (DoD)</b> for <b>ARPANET</b>, before the OSI model, and became the standard of the Internet in 1983.</p>\n<p>TCP/IP is a <b>hierarchical protocol suite</b> made of interactive modules, each providing a specific function; the modules are not necessarily interdependent (unlike strict OSI layering).</p>\n<h4>Layers</h4>\n<ol><li><b>Network access (host-to-network / link) layer</b>: corresponds to OSI physical + data link.</li><li><b>Internet layer</b>: corresponds to OSI network layer.</li><li><b>Transport layer</b>: corresponds to OSI transport layer.</li><li><b>Application layer</b>: corresponds to OSI session + presentation + application.</li></ol>\n<p>Many textbooks (Forouzan) describe a <b>five-layer</b> TCP/IP model: physical, data link, network, transport and application.</p>\n<h4>Design goals</h4>\n<ul><li>Connect different kinds of networks seamlessly (internetworking).</li><li>Survive the loss of network hardware: connections stay up as long as source and destination work (robustness).</li><li>Flexible architecture supporting applications with different needs (file transfer to real-time speech).</li></ul>",
+      "gu": "<p><b>TCP/IP model</b> (Internet model) નું નામ તેના બે મુખ્ય protocols: <b>Transmission Control Protocol</b> અને <b>Internet Protocol</b> પરથી પડ્યું છે. તે 1970s માં <b>US Department of Defense (DoD)</b> એ <b>ARPANET</b> માટે, OSI model પહેલાં બનાવ્યું, અને 1983 માં Internet નું standard બન્યું.</p>\n<p>TCP/IP એ interactive modules નું બનેલું <b>hierarchical protocol suite</b> છે, દરેક ચોક્કસ કાર્ય આપે; modules જરૂરી નથી કે એકબીજા પર આધારિત હોય (કડક OSI layering થી વિપરીત).</p>\n<h4>Layers</h4>\n<ol><li><b>Network access (host-to-network / link) layer</b>: OSI physical + data link ને અનુરૂપ.</li><li><b>Internet layer</b>: OSI network layer ને અનુરૂપ.</li><li><b>Transport layer</b>: OSI transport layer ને અનુરૂપ.</li><li><b>Application layer</b>: OSI session + presentation + application ને અનુરૂપ.</li></ol>\n<p>ઘણાં પાઠ્યપુસ્તકો (Forouzan) <b>પાંચ-layer</b> TCP/IP model વર્ણવે છે: physical, data link, network, transport અને application.</p>\n<h4>Design ના ધ્યેયો</h4>\n<ul><li>જુદા પ્રકારના networks ને સરળતાથી જોડવા (internetworking).</li><li>Network hardware ગુમાવવા છતાં ટકી રહેવું: source અને destination ચાલુ હોય ત્યાં સુધી connections ચાલુ રહે (robustness).</li><li>જુદી જરૂરિયાતો (file transfer થી real-time speech) વાળી applications ને support કરતું flexible architecture.</li></ul>"
+     },
+     "diagram": "cn2_tcpip"
+    },
+    {
+     "h": {
+      "en": "2.2.2 Network Access Layer and Internet Layer",
+      "gu": "2.2.2 Network Access Layer અને Internet Layer"
+     },
+     "body": {
+      "en": "<h4>1. Network access (host-to-network) layer</h4>\n<p>The lowest layer. TCP/IP does not define a specific protocol here; it supports all standard and proprietary protocols. It handles the <b>physical transmission</b> of bits and <b>framing</b>, MAC addressing and media access on the local network.</p>\n<ul><li>Functions: send IP packets over the physical network, framing, MAC addressing, error detection, mapping IP to physical addresses.</li><li>Technologies: Ethernet, Wi-Fi, PPP, DSL, token ring, device drivers and NICs.</li></ul>\n<h4>2. Internet layer</h4>\n<p>The key layer that holds the architecture together. It permits hosts to <b>inject packets into any network</b> and have them travel independently to the destination, possibly by different routes and arriving out of order.</p>\n<ul>\n<li><b>IP (Internet Protocol):</b> an <b>unreliable, connectionless</b>, best-effort protocol; provides logical addressing and routing. Data units are called <b>datagrams</b>. Versions: IPv4 (32-bit address) and IPv6 (128-bit).</li>\n<li><b>ARP (Address Resolution Protocol):</b> finds the <b>physical (MAC) address</b> of a host when its IP address is known.</li>\n<li><b>RARP (Reverse ARP):</b> finds the IP address when the physical address is known (replaced by DHCP).</li>\n<li><b>ICMP (Internet Control Message Protocol):</b> sends error and query messages (destination unreachable, time exceeded); used by <code>ping</code> and <code>tracert</code>.</li>\n<li><b>IGMP (Internet Group Management Protocol):</b> manages <b>multicast</b> group membership (one message to a group of receivers).</li>\n</ul>",
+      "gu": "<h4>1. Network access (host-to-network) layer</h4>\n<p>સૌથી નીચેનું layer. TCP/IP અહીં ચોક્કસ protocol નક્કી કરતું નથી; તે બધા standard અને proprietary protocols ને support કરે. તે local network પર bits નું <b>physical transmission</b> અને <b>framing</b>, MAC addressing અને media access સંભાળે.</p>\n<ul><li>કાર્યો: physical network પર IP packets મોકલવા, framing, MAC addressing, error detection, IP ને physical addresses સાથે જોડવા.</li><li>Technologies: Ethernet, Wi-Fi, PPP, DSL, token ring, device drivers અને NICs.</li></ul>\n<h4>2. Internet layer</h4>\n<p>Architecture ને જોડી રાખતું મુખ્ય layer. તે hosts ને <b>કોઈ પણ network માં packets મોકલવા</b> દે અને તે destination સુધી સ્વતંત્ર રીતે, કદાચ જુદા માર્ગે અને ક્રમ બહાર પહોંચે.</p>\n<ul>\n<li><b>IP (Internet Protocol):</b> <b>અવિશ્વસનીય, connectionless</b>, best-effort protocol; logical addressing અને routing આપે. Data units ને <b>datagrams</b> કહે છે. Versions: IPv4 (32-bit address) અને IPv6 (128-bit).</li>\n<li><b>ARP (Address Resolution Protocol):</b> IP address ખબર હોય ત્યારે host નું <b>physical (MAC) address</b> શોધે.</li>\n<li><b>RARP (Reverse ARP):</b> physical address ખબર હોય ત્યારે IP address શોધે (DHCP એ સ્થાન લીધું).</li>\n<li><b>ICMP (Internet Control Message Protocol):</b> error અને query messages મોકલે (destination unreachable, time exceeded); <code>ping</code> અને <code>tracert</code> વાપરે.</li>\n<li><b>IGMP (Internet Group Management Protocol):</b> <b>multicast</b> group membership સંભાળે (receivers ના જૂથને એક message).</li>\n</ul>"
+     }
+    },
+    {
+     "h": {
+      "en": "2.2.3 Transport Layer: TCP, UDP, SCTP",
+      "gu": "2.2.3 Transport Layer: TCP, UDP, SCTP"
+     },
+     "body": {
+      "en": "<p>The transport layer of TCP/IP provides <b>process-to-process</b> communication using <b>port numbers</b>. It allows peer entities on the source and destination hosts to carry on a conversation.</p>\n<ul>\n<li><b>TCP (Transmission Control Protocol):</b> a <b>reliable, connection-oriented</b> stream protocol. A connection is set up with a <b>three-way handshake</b> (SYN, SYN-ACK, ACK) before data is sent. The byte stream is divided into <b>segments</b> with sequence numbers; the receiver acknowledges them; lost segments are retransmitted; flow control and congestion control are provided.</li>\n<li><b>UDP (User Datagram Protocol):</b> a simple, <b>unreliable, connectionless</b> protocol. It adds only port addresses, a checksum and length to the data. Used where speed matters more than reliability, or for one-request one-reply applications.</li>\n<li><b>SCTP (Stream Control Transmission Protocol):</b> newer protocol combining the best features of TCP and UDP; supports multiple streams; used for telephony signalling over IP.</li>\n</ul>\n<h4>TCP vs UDP</h4>\n<table><tr><th>TCP</th><th>UDP</th></tr><tr><td>Transmission Control Protocol</td><td>User Datagram Protocol</td></tr><tr><td>Connection-oriented (3-way handshake)</td><td>Connectionless</td></tr><tr><td>Reliable: acknowledgement, retransmission</td><td>Unreliable: no acknowledgement</td></tr><tr><td>Data arrives in order (sequence numbers)</td><td>No ordering guarantee</td></tr><tr><td>Flow and congestion control</td><td>No flow control</td></tr><tr><td>Header 20-60 bytes; slower</td><td>Header 8 bytes; faster</td></tr><tr><td>HTTP, FTP, SMTP, SSH</td><td>DNS, DHCP, VoIP, video streaming, online games</td></tr></table>",
+      "gu": "<p>TCP/IP નું transport layer <b>port numbers</b> વાપરીને <b>process-to-process</b> communication આપે છે. તે source અને destination hosts પરની peer entities ને વાતચીત કરવા દે.</p>\n<ul>\n<li><b>TCP (Transmission Control Protocol):</b> <b>વિશ્વસનીય, connection-oriented</b> stream protocol. Data મોકલતાં પહેલાં <b>three-way handshake</b> (SYN, SYN-ACK, ACK) થી connection બને. Byte stream sequence numbers સાથે <b>segments</b> માં વહેંચાય; receiver acknowledge કરે; ખોવાયેલા segments ફરી મોકલાય; flow control અને congestion control મળે.</li>\n<li><b>UDP (User Datagram Protocol):</b> સરળ, <b>અવિશ્વસનીય, connectionless</b> protocol. તે data માં માત્ર port addresses, checksum અને length ઉમેરે. જ્યાં reliability કરતાં speed વધુ મહત્વની હોય, કે એક-request એક-reply applications માટે વપરાય.</li>\n<li><b>SCTP (Stream Control Transmission Protocol):</b> TCP અને UDP ની શ્રેષ્ઠ લાક્ષણિકતાઓ જોડતો નવો protocol; ઘણા streams support કરે; IP પર telephony signalling માટે વપરાય.</li>\n</ul>\n<h4>TCP vs UDP</h4>\n<table><tr><th>TCP</th><th>UDP</th></tr><tr><td>Transmission Control Protocol</td><td>User Datagram Protocol</td></tr><tr><td>Connection-oriented (3-way handshake)</td><td>Connectionless</td></tr><tr><td>વિશ્વસનીય: acknowledgement, retransmission</td><td>અવિશ્વસનીય: acknowledgement નહીં</td></tr><tr><td>Data ક્રમમાં પહોંચે (sequence numbers)</td><td>ક્રમની ખાતરી નહીં</td></tr><tr><td>Flow અને congestion control</td><td>Flow control નહીં</td></tr><tr><td>Header 20-60 bytes; ધીમું</td><td>Header 8 bytes; ઝડપી</td></tr><tr><td>HTTP, FTP, SMTP, SSH</td><td>DNS, DHCP, VoIP, video streaming, online games</td></tr></table>"
+     },
+     "examples": [
+      "cn2n3",
+      "cn2n4"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.2.4 Application Layer of TCP/IP",
+      "gu": "2.2.4 TCP/IP નું Application Layer"
+     },
+     "body": {
+      "en": "<p>The application layer of TCP/IP combines the functions of the OSI <b>session, presentation and application</b> layers. It contains all the higher-level protocols that users and programs use directly. Each application protocol uses TCP or UDP with a <b>well-known port number</b>.</p>\n<table><tr><th>Protocol</th><th>Port</th><th>Use</th></tr><tr><td>HTTP / HTTPS</td><td>80 / 443</td><td>Web pages (HTTPS secure)</td></tr><tr><td>FTP</td><td>20, 21</td><td>File transfer</td></tr><tr><td>SMTP</td><td>25</td><td>Send e-mail</td></tr><tr><td>POP3 / IMAP</td><td>110 / 143</td><td>Receive e-mail</td></tr><tr><td>DNS</td><td>53</td><td>Domain name to IP address</td></tr><tr><td>Telnet / SSH</td><td>23 / 22</td><td>Remote login</td></tr><tr><td>DHCP</td><td>67, 68</td><td>Automatic IP configuration</td></tr><tr><td>SNMP</td><td>161</td><td>Network management</td></tr></table>\n<ul><li><b>HTTP:</b> client (browser) requests a web page; server responds. HTTPS adds TLS encryption.</li><li><b>FTP:</b> uses two connections: port 21 for control and port 20 for data.</li><li><b>SMTP:</b> push protocol for sending mail between mail servers; POP3 / IMAP are used by the client to pull mail.</li><li><b>DNS:</b> converts names like www.gtu.ac.in to IP addresses (uses UDP).</li><li><b>Telnet / SSH:</b> remote login; SSH encrypts the session.</li><li><b>SNMP:</b> monitors and manages network devices.</li></ul>",
+      "gu": "<p>TCP/IP નું application layer OSI ના <b>session, presentation અને application</b> layers નાં કાર્યો જોડે છે. તેમાં users અને programs સીધા વાપરે તે બધા ઉચ્ચ-સ્તરના protocols છે. દરેક application protocol <b>well-known port number</b> સાથે TCP કે UDP વાપરે.</p>\n<table><tr><th>Protocol</th><th>Port</th><th>ઉપયોગ</th></tr><tr><td>HTTP / HTTPS</td><td>80 / 443</td><td>Web pages (HTTPS secure)</td></tr><tr><td>FTP</td><td>20, 21</td><td>File transfer</td></tr><tr><td>SMTP</td><td>25</td><td>E-mail મોકલવા</td></tr><tr><td>POP3 / IMAP</td><td>110 / 143</td><td>E-mail મેળવવા</td></tr><tr><td>DNS</td><td>53</td><td>Domain name થી IP address</td></tr><tr><td>Telnet / SSH</td><td>23 / 22</td><td>Remote login</td></tr><tr><td>DHCP</td><td>67, 68</td><td>આપમેળે IP configuration</td></tr><tr><td>SNMP</td><td>161</td><td>Network management</td></tr></table>\n<ul><li><b>HTTP:</b> client (browser) web page માંગે; server જવાબ આપે. HTTPS TLS encryption ઉમેરે.</li><li><b>FTP:</b> બે connections વાપરે: control માટે port 21 અને data માટે port 20.</li><li><b>SMTP:</b> mail servers વચ્ચે mail મોકલવાનો push protocol; client mail ખેંચવા POP3 / IMAP વાપરે.</li><li><b>DNS:</b> www.gtu.ac.in જેવાં નામોને IP addresses માં ફેરવે (UDP વાપરે).</li><li><b>Telnet / SSH:</b> remote login; SSH session encrypt કરે.</li><li><b>SNMP:</b> network devices નું monitoring અને management.</li></ul>"
+     }
+    },
+    {
+     "h": {
+      "en": "2.2.5 Addressing in TCP/IP",
+      "gu": "2.2.5 TCP/IP માં Addressing"
+     },
+     "body": {
+      "en": "<p>Four levels of addresses are used in an internet that uses TCP/IP:</p>\n<ol>\n<li><b>Physical (link / MAC) address:</b> the address of a node as defined by its LAN or WAN; included in the frame by the data link layer. Ethernet uses a <b>48-bit</b> (6-byte) address written in hexadecimal, e.g. <code>07:01:02:01:2C:4B</code>. It has authority only on the local network and <b>changes at every hop</b>.</li>\n<li><b>Logical (IP) address:</b> a universal address independent of the physical network, needed for communication across networks. IPv4 address = <b>32 bits</b>, e.g. <code>192.168.1.5</code>; IPv6 = 128 bits. It stays the <b>same from source to destination</b>.</li>\n<li><b>Port address:</b> a <b>16-bit</b> number identifying a process on a host, e.g. 80 for HTTP, 25 for SMTP. Port numbers 0-1023 are well-known ports.</li>\n<li><b>Specific address:</b> user-friendly addresses used by applications: e-mail address (student@gtu.ac.in) and URL (www.gtu.ac.in). They are converted to port and logical addresses (by DNS).</li>\n</ol>",
+      "gu": "<p>TCP/IP વાપરતા internet માં ચાર સ્તરના addresses વપરાય છે:</p>\n<ol>\n<li><b>Physical (link / MAC) address:</b> LAN કે WAN દ્વારા નક્કી થયેલું node નું address; data link layer frame માં મૂકે. Ethernet hexadecimal માં લખાતું <b>48-bit</b> (6-byte) address વાપરે, દા.ત. <code>07:01:02:01:2C:4B</code>. તે માત્ર local network પર માન્ય છે અને <b>દરેક hop પર બદલાય</b>.</li>\n<li><b>Logical (IP) address:</b> physical network થી સ્વતંત્ર વૈશ્વિક address, networks પાર communication માટે જરૂરી. IPv4 address = <b>32 bits</b>, દા.ત. <code>192.168.1.5</code>; IPv6 = 128 bits. તે <b>source થી destination સુધી સરખું</b> રહે.</li>\n<li><b>Port address:</b> host પરની process ઓળખતો <b>16-bit</b> number, દા.ત. HTTP માટે 80, SMTP માટે 25. Port numbers 0-1023 well-known ports છે.</li>\n<li><b>Specific address:</b> applications વાપરે તેવાં user-friendly addresses: e-mail address (student@gtu.ac.in) અને URL (www.gtu.ac.in). તે (DNS વડે) port અને logical addresses માં ફેરવાય.</li>\n</ol>"
+     },
+     "diagram": "cn2_addr"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2.3 Comparison of OSI and TCP/IP Models",
+    "gu": "2.3 OSI અને TCP/IP Models ની સરખામણી"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "2.3.1 OSI vs TCP/IP",
+      "gu": "2.3.1 OSI vs TCP/IP"
+     },
+     "body": {
+      "en": "<h4>Similarities</h4>\n<ul><li>Both are based on the concept of a <b>stack of independent protocols / layers</b>.</li><li>The functionality of the layers is roughly similar: in both, the layers up to transport provide end-to-end, network-independent transport service; layers above transport are application-oriented users of that service.</li><li>Both have network, transport and application layers; both use packet switching.</li></ul>\n<h4>Differences</h4>\n<table><tr><th>OSI model</th><th>TCP/IP model</th></tr><tr><td>Open Systems Interconnection</td><td>Transmission Control Protocol / Internet Protocol</td></tr><tr><td>Developed by ISO (1984)</td><td>Developed by US DoD for ARPANET (1970s)</td></tr><tr><td>7 layers</td><td>4 layers (5 in some books)</td></tr><tr><td>Reference / conceptual model; generic</td><td>Practical model; the Internet is based on it</td></tr><tr><td>Model defined first, protocols later</td><td>Protocols came first, model described them</td></tr><tr><td>Clear distinction between services, interfaces and protocols</td><td>No clear distinction</td></tr><tr><td>Separate session and presentation layers</td><td>Included in the application layer</td></tr><tr><td>Network layer: connectionless and connection-oriented</td><td>Internet layer: connectionless only (IP)</td></tr><tr><td>Transport layer: connection-oriented only</td><td>Transport: both (TCP and UDP)</td></tr><tr><td>Protocols are hidden, easily replaced</td><td>Protocols are not easily replaced</td></tr><tr><td>Vertical approach</td><td>Horizontal approach</td></tr><tr><td>Used mainly for teaching and troubleshooting</td><td>Used in real networks and the Internet</td></tr></table>\n<h4>Criticism</h4>\n<p><b>OSI:</b> bad timing (TCP/IP was already in use), complex, some layers (session, presentation) nearly empty while others (data link, network) are overloaded. <b>TCP/IP:</b> does not clearly separate service, interface and protocol, so it is not a good model for new technologies; the host-to-network layer is not really a layer.</p>",
+      "gu": "<h4>સામ્યતાઓ</h4>\n<ul><li>બંને <b>સ્વતંત્ર protocols / layers ના stack</b> ના ખ્યાલ પર આધારિત છે.</li><li>Layers ની કાર્યક્ષમતા લગભગ સરખી છે: બંનેમાં transport સુધીના layers end-to-end, network-independent transport service આપે; transport ઉપરના layers એ service ના application-oriented users છે.</li><li>બંનેમાં network, transport અને application layers છે; બંને packet switching વાપરે.</li></ul>\n<h4>તફાવતો</h4>\n<table><tr><th>OSI model</th><th>TCP/IP model</th></tr><tr><td>Open Systems Interconnection</td><td>Transmission Control Protocol / Internet Protocol</td></tr><tr><td>ISO એ બનાવ્યું (1984)</td><td>US DoD એ ARPANET માટે બનાવ્યું (1970s)</td></tr><tr><td>7 layers</td><td>4 layers (કેટલાંક પુસ્તકોમાં 5)</td></tr><tr><td>Reference / conceptual model; generic</td><td>Practical model; Internet તેના પર આધારિત</td></tr><tr><td>પહેલાં model, પછી protocols</td><td>પહેલાં protocols, model એ તેમનું વર્ણન કર્યું</td></tr><tr><td>Services, interfaces અને protocols વચ્ચે સ્પષ્ટ ભેદ</td><td>સ્પષ્ટ ભેદ નથી</td></tr><tr><td>અલગ session અને presentation layers</td><td>Application layer માં સમાવેશ</td></tr><tr><td>Network layer: connectionless અને connection-oriented</td><td>Internet layer: માત્ર connectionless (IP)</td></tr><tr><td>Transport layer: માત્ર connection-oriented</td><td>Transport: બંને (TCP અને UDP)</td></tr><tr><td>Protocols છુપાયેલા, સહેલાઈથી બદલાય</td><td>Protocols સહેલાઈથી બદલાતા નથી</td></tr><tr><td>Vertical approach</td><td>Horizontal approach</td></tr><tr><td>મુખ્યત્વે શીખવવા અને troubleshooting માટે</td><td>ખરા networks અને Internet માં વપરાય</td></tr></table>\n<h4>ટીકા</h4>\n<p><b>OSI:</b> ખરાબ સમય (TCP/IP પહેલેથી વપરાતું હતું), જટિલ, કેટલાક layers (session, presentation) લગભગ ખાલી જ્યારે બીજા (data link, network) પર વધુ ભાર. <b>TCP/IP:</b> service, interface અને protocol સ્પષ્ટ અલગ નથી કરતું, તેથી નવી technologies માટે સારું model નથી; host-to-network layer ખરેખર layer નથી.</p>"
+     },
+     "diagram": "cn2_map"
+    }
+   ]
+  }
+ ],
+ "numericals": [
+  {
+   "id": "cn2n1",
+   "q": {
+    "en": "A system has a 7-layer protocol hierarchy. Each layer adds a 20-byte header. An application generates a message of 500 bytes. What fraction of the network bandwidth is filled with headers?",
+    "gu": "એક system માં 7-layer protocol hierarchy છે. દરેક layer 20-byte header ઉમેરે છે. Application 500 bytes નો message બનાવે છે. Network bandwidth નો કેટલો ભાગ headers થી ભરાય?"
+   },
+   "a": {
+    "en": "<p>Total header = n × h = 7 × 20 = 140 bytes</p><p>Total transmitted = M + nh = 500 + 140 = 640 bytes</p><p>Fraction of headers = nh / (M + nh) = 140 / 640 = <b>0.2188 = 21.88%</b></p><p>Efficiency = M / (M + nh) = 500 / 640 = 78.12%</p>",
+    "gu": "<p>કુલ header = n × h = 7 × 20 = 140 bytes</p><p>કુલ મોકલાતા = M + nh = 500 + 140 = 640 bytes</p><p>Headers નો ભાગ = nh / (M + nh) = 140 / 640 = <b>0.2188 = 21.88%</b></p><p>Efficiency = M / (M + nh) = 500 / 640 = 78.12%</p>"
+   }
+  },
+  {
+   "id": "cn2n2",
+   "q": {
+    "en": "In the OSI model, a 1000-byte message is sent. Layers 7 to 2 each add a 20-byte header and the data link layer also adds a 4-byte trailer. Find the frame size and the efficiency.",
+    "gu": "OSI model માં 1000-byte message મોકલાય છે. Layers 7 થી 2 દરેક 20-byte header ઉમેરે અને data link layer 4-byte trailer પણ ઉમેરે. Frame size અને efficiency શોધો."
+   },
+   "a": {
+    "en": "<p>Headers: 6 layers (7, 6, 5, 4, 3, 2) × 20 = 120 bytes; trailer = 4 bytes</p><p>Frame size = 1000 + 120 + 4 = <b>1124 bytes</b></p><p>Efficiency = data / frame = 1000 / 1124 = <b>88.97%</b>; overhead = 11.03%</p>",
+    "gu": "<p>Headers: 6 layers (7, 6, 5, 4, 3, 2) × 20 = 120 bytes; trailer = 4 bytes</p><p>Frame size = 1000 + 120 + 4 = <b>1124 bytes</b></p><p>Efficiency = data / frame = 1000 / 1124 = <b>88.97%</b>; overhead = 11.03%</p>"
+   }
+  },
+  {
+   "id": "cn2n3",
+   "q": {
+    "en": "An application sends 1460 bytes of data using TCP over IPv4 and Ethernet. TCP header = 20 bytes, IP header = 20 bytes, Ethernet header = 14 bytes and Ethernet trailer (FCS) = 4 bytes. Find the frame size and the efficiency.",
+    "gu": "Application TCP, IPv4 અને Ethernet વાપરીને 1460 bytes data મોકલે છે. TCP header = 20 bytes, IP header = 20 bytes, Ethernet header = 14 bytes અને Ethernet trailer (FCS) = 4 bytes. Frame size અને efficiency શોધો."
+   },
+   "a": {
+    "en": "<p>Segment = 1460 + 20 = 1480 bytes; packet = 1480 + 20 = 1500 bytes; frame = 1500 + 14 + 4 = <b>1518 bytes</b></p><p>Efficiency = 1460 / 1518 = <b>96.18%</b></p><p>(1500 bytes is the maximum IP packet size on Ethernet, called the MTU.)</p>",
+    "gu": "<p>Segment = 1460 + 20 = 1480 bytes; packet = 1480 + 20 = 1500 bytes; frame = 1500 + 14 + 4 = <b>1518 bytes</b></p><p>Efficiency = 1460 / 1518 = <b>96.18%</b></p><p>(Ethernet પર મહત્તમ IP packet size 1500 bytes છે, જેને MTU કહે છે.)</p>"
+   }
+  },
+  {
+   "id": "cn2n4",
+   "q": {
+    "en": "A voice call sends 160 bytes of audio per packet using RTP (12-byte header) over UDP (8 bytes), IPv4 (20 bytes) and Ethernet (18 bytes header + trailer). Find the efficiency. What happens if TCP (20 bytes) is used instead of UDP?",
+    "gu": "Voice call દરેક packet માં 160 bytes audio RTP (12-byte header), UDP (8 bytes), IPv4 (20 bytes) અને Ethernet (18 bytes header + trailer) પર મોકલે છે. Efficiency શોધો. UDP ના બદલે TCP (20 bytes) વાપરીએ તો શું થાય?"
+   },
+   "a": {
+    "en": "<p>Frame = 160 + 12 + 8 + 20 + 18 = <b>218 bytes</b>; efficiency = 160 / 218 = <b>73.39%</b></p><p>With TCP: frame = 230 bytes; efficiency = 160 / 230 = 69.57%. TCP also retransmits late packets, which adds delay. So <b>UDP is preferred</b> for real-time voice and video: small header and no retransmission delay.</p>",
+    "gu": "<p>Frame = 160 + 12 + 8 + 20 + 18 = <b>218 bytes</b>; efficiency = 160 / 218 = <b>73.39%</b></p><p>TCP સાથે: frame = 230 bytes; efficiency = 160 / 230 = 69.57%. TCP મોડા packets ફરી મોકલે, જે delay વધારે. તેથી real-time voice અને video માટે <b>UDP પસંદ થાય</b>: નાનું header અને retransmission delay નહીં.</p>"
+   }
+  }
+ ],
+ "equations": [
+  {
+   "title": {
+    "en": "Header overhead",
+    "gu": "Header overhead"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Total size sent",
+      "gu": "કુલ મોકલાતી size"
+     },
+     "f": "Total = M + n × h",
+     "terms": {
+      "en": "M = message, n = layers, h = header per layer",
+      "gu": "M = message, n = layers, h = layer દીઠ header"
+     }
+    },
+    {
+     "name": {
+      "en": "Fraction of headers",
+      "gu": "Headers નો ભાગ"
+     },
+     "f": "Overhead = nh / (M + nh)",
+     "terms": {
+      "en": "Larger headers or smaller messages → more overhead",
+      "gu": "મોટાં headers કે નાના messages → વધુ overhead"
+     }
+    },
+    {
+     "name": {
+      "en": "Efficiency",
+      "gu": "Efficiency"
+     },
+     "f": "Efficiency = M / (M + nh) × 100%",
+     "terms": {
+      "en": "Also = data / frame size",
+      "gu": "= data / frame size પણ"
+     }
+    },
+    {
+     "name": {
+      "en": "TCP/IP over Ethernet",
+      "gu": "Ethernet પર TCP/IP"
+     },
+     "f": "Frame = data + 20 (TCP) + 20 (IP) + 18 (Ethernet)",
+     "terms": {
+      "en": "Max: 1460 + 20 + 20 + 18 = 1518 bytes",
+      "gu": "મહત્તમ: 1460 + 20 + 20 + 18 = 1518 bytes"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Address sizes",
+    "gu": "Address sizes"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Address sizes",
+      "gu": "Address sizes"
+     },
+     "f": "MAC = 48 bits,  IPv4 = 32 bits,  IPv6 = 128 bits,  port = 16 bits",
+     "terms": {
+      "en": "Port range 0-65535; well-known 0-1023",
+      "gu": "Port range 0-65535; well-known 0-1023"
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "OSI model",
+    "gu": "OSI model"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is the full form of OSI? Who developed it?",
+      "gu": "OSI નું full form શું છે? કોણે બનાવ્યું?"
+     },
+     "a": {
+      "en": "Open Systems Interconnection; developed by ISO.",
+      "gu": "Open Systems Interconnection; ISO એ બનાવ્યું."
+     }
+    },
+    {
+     "q": {
+      "en": "How many layers are in the OSI model? Name them.",
+      "gu": "OSI model માં કેટલા layers છે? નામ આપો."
+     },
+     "a": {
+      "en": "Seven: physical, data link, network, transport, session, presentation, application.",
+      "gu": "સાત: physical, data link, network, transport, session, presentation, application."
+     }
+    },
+    {
+     "q": {
+      "en": "What is encapsulation?",
+      "gu": "Encapsulation શું છે?"
+     },
+     "a": {
+      "en": "Adding a header (and trailer at layer 2) to data as it moves down the layers at the sender.",
+      "gu": "Sender પર data layers માં નીચે જાય ત્યારે header (અને layer 2 પર trailer) ઉમેરવું."
+     }
+    },
+    {
+     "q": {
+      "en": "Name the PDU of each layer.",
+      "gu": "દરેક layer નો PDU જણાવો."
+     },
+     "a": {
+      "en": "Data (upper layers), segment (transport), packet (network), frame (data link), bits (physical).",
+      "gu": "Data (ઉપરના layers), segment (transport), packet (network), frame (data link), bits (physical)."
+     }
+    },
+    {
+     "q": {
+      "en": "Which layer is responsible for hop-to-hop delivery?",
+      "gu": "Hop-to-hop delivery માટે કયું layer જવાબદાર છે?"
+     },
+     "a": {
+      "en": "Data link layer.",
+      "gu": "Data link layer."
+     }
+    },
+    {
+     "q": {
+      "en": "Which layer does routing?",
+      "gu": "Routing કયું layer કરે?"
+     },
+     "a": {
+      "en": "Network layer (device: router).",
+      "gu": "Network layer (device: router)."
+     }
+    },
+    {
+     "q": {
+      "en": "Which layer provides process-to-process delivery?",
+      "gu": "Process-to-process delivery કયું layer આપે?"
+     },
+     "a": {
+      "en": "Transport layer, using port numbers.",
+      "gu": "Transport layer, port numbers વાપરીને."
+     }
+    },
+    {
+     "q": {
+      "en": "What are synchronisation points?",
+      "gu": "Synchronisation points શું છે?"
+     },
+     "a": {
+      "en": "Checkpoints added by the session layer so that after a crash only data after the last checkpoint is resent.",
+      "gu": "Session layer ઉમેરે તે checkpoints જેથી crash પછી માત્ર છેલ્લા checkpoint પછીનો data ફરી મોકલાય."
+     }
+    },
+    {
+     "q": {
+      "en": "Which layer does encryption and compression?",
+      "gu": "Encryption અને compression કયું layer કરે?"
+     },
+     "a": {
+      "en": "Presentation layer.",
+      "gu": "Presentation layer."
+     }
+    },
+    {
+     "q": {
+      "en": "What are the sublayers of the data link layer?",
+      "gu": "Data link layer ના sublayers કયા છે?"
+     },
+     "a": {
+      "en": "LLC (Logical Link Control) and MAC (Media Access Control).",
+      "gu": "LLC (Logical Link Control) અને MAC (Media Access Control)."
+     }
+    },
+    {
+     "q": {
+      "en": "Name the devices working at layers 1, 2 and 3.",
+      "gu": "Layers 1, 2 અને 3 પર કામ કરતા devices જણાવો."
+     },
+     "a": {
+      "en": "Layer 1: hub, repeater; layer 2: switch, bridge; layer 3: router.",
+      "gu": "Layer 1: hub, repeater; layer 2: switch, bridge; layer 3: router."
+     }
+    },
+    {
+     "q": {
+      "en": "What are the three transmission modes?",
+      "gu": "ત્રણ transmission modes કયા છે?"
+     },
+     "a": {
+      "en": "Simplex, half duplex and full duplex.",
+      "gu": "Simplex, half duplex અને full duplex."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "TCP/IP model and comparison",
+    "gu": "TCP/IP model અને સરખામણી"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Name the layers of the TCP/IP model.",
+      "gu": "TCP/IP model ના layers જણાવો."
+     },
+     "a": {
+      "en": "Network access, internet, transport and application.",
+      "gu": "Network access, internet, transport અને application."
+     }
+    },
+    {
+     "q": {
+      "en": "Who developed TCP/IP?",
+      "gu": "TCP/IP કોણે બનાવ્યું?"
+     },
+     "a": {
+      "en": "The US Department of Defense (DoD) for ARPANET.",
+      "gu": "US Department of Defense (DoD) એ ARPANET માટે."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the use of ARP?",
+      "gu": "ARP નો ઉપયોગ શું છે?"
+     },
+     "a": {
+      "en": "It finds the MAC address of a host from its IP address.",
+      "gu": "IP address પરથી host નું MAC address શોધે."
+     }
+    },
+    {
+     "q": {
+      "en": "Which protocol is used by ping?",
+      "gu": "Ping કયો protocol વાપરે?"
+     },
+     "a": {
+      "en": "ICMP.",
+      "gu": "ICMP."
+     }
+    },
+    {
+     "q": {
+      "en": "Give two differences between TCP and UDP.",
+      "gu": "TCP અને UDP વચ્ચે બે તફાવત આપો."
+     },
+     "a": {
+      "en": "TCP is connection-oriented and reliable; UDP is connectionless and unreliable but faster with an 8-byte header.",
+      "gu": "TCP connection-oriented અને વિશ્વસનીય; UDP connectionless અને અવિશ્વસનીય પણ 8-byte header સાથે ઝડપી."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the three-way handshake?",
+      "gu": "Three-way handshake શું છે?"
+     },
+     "a": {
+      "en": "TCP connection setup using SYN, SYN-ACK and ACK.",
+      "gu": "SYN, SYN-ACK અને ACK વાપરી TCP connection setup."
+     }
+    },
+    {
+     "q": {
+      "en": "Give the port numbers of HTTP, HTTPS, FTP, SMTP and DNS.",
+      "gu": "HTTP, HTTPS, FTP, SMTP અને DNS ના port numbers આપો."
+     },
+     "a": {
+      "en": "HTTP 80, HTTPS 443, FTP 20/21, SMTP 25, DNS 53.",
+      "gu": "HTTP 80, HTTPS 443, FTP 20/21, SMTP 25, DNS 53."
+     }
+    },
+    {
+     "q": {
+      "en": "Name the four levels of addresses in TCP/IP.",
+      "gu": "TCP/IP માં addresses ના ચાર સ્તર જણાવો."
+     },
+     "a": {
+      "en": "Physical (MAC), logical (IP), port and specific (URL / e-mail) addresses.",
+      "gu": "Physical (MAC), logical (IP), port અને specific (URL / e-mail) addresses."
+     }
+    },
+    {
+     "q": {
+      "en": "Which OSI layers are combined in the TCP/IP application layer?",
+      "gu": "TCP/IP application layer માં કયા OSI layers જોડાયેલા છે?"
+     },
+     "a": {
+      "en": "Session, presentation and application.",
+      "gu": "Session, presentation અને application."
+     }
+    },
+    {
+     "q": {
+      "en": "Which model is used on the Internet?",
+      "gu": "Internet પર કયું model વપરાય?"
+     },
+     "a": {
+      "en": "TCP/IP model.",
+      "gu": "TCP/IP model."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "What is a layered architecture? Give its advantages.",
+    "gu": "Layered architecture શું છે? તેના ફાયદા આપો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Draw the OSI reference model and explain the function of each layer.",
+    "gu": "OSI reference model દોરો અને દરેક layer નું કાર્ય સમજાવો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain encapsulation and decapsulation with a diagram.",
+    "gu": "આકૃતિ સાથે encapsulation અને decapsulation સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain peer-to-peer processes and interfaces in the OSI model.",
+    "gu": "OSI model માં peer-to-peer processes અને interfaces સમજાવો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain the functions of the physical and data link layers.",
+    "gu": "Physical અને data link layers નાં કાર્યો સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the functions of the network and transport layers.",
+    "gu": "Network અને transport layers નાં કાર્યો સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the session and presentation layers.",
+    "gu": "Session અને presentation layers સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Differentiate hop-to-hop and source-to-destination delivery.",
+    "gu": "Hop-to-hop અને source-to-destination delivery નો તફાવત આપો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain the simplex, half duplex and full duplex transmission modes.",
+    "gu": "Simplex, half duplex અને full duplex transmission modes સમજાવો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Draw the TCP/IP model and explain the function of each layer with protocols.",
+    "gu": "TCP/IP model દોરો અને protocols સાથે દરેક layer નું કાર્ય સમજાવો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain the protocols of the internet layer: IP, ARP, RARP, ICMP, IGMP.",
+    "gu": "Internet layer ના protocols: IP, ARP, RARP, ICMP, IGMP સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Differentiate TCP and UDP.",
+    "gu": "TCP અને UDP નો તફાવત આપો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the four levels of addresses used in TCP/IP.",
+    "gu": "TCP/IP માં વપરાતા addresses ના ચાર સ્તર સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Compare the OSI and TCP/IP models.",
+    "gu": "OSI અને TCP/IP models ની સરખામણી કરો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Map the layers of the OSI model to the TCP/IP model with a diagram.",
+    "gu": "આકૃતિ સાથે OSI model ના layers ને TCP/IP model સાથે સરખાવો."
+   },
+   "marks": 3
+  }
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "equations",
+  "numericals",
+  "viva",
+  "exam"
+ ],
+ "diagrams": [
+  {
+   "id": "cn2_osi",
+   "title": {
+    "en": "OSI Reference Model: 7 Layers",
+    "gu": "OSI Reference Model: 7 Layers"
+   },
+   "file": "diagrams/cn2_osi.svg"
+  },
+  {
+   "id": "cn2_peer",
+   "title": {
+    "en": "Peer-to-Peer Communication in OSI",
+    "gu": "OSI માં Peer-to-Peer Communication"
+   },
+   "file": "diagrams/cn2_peer.svg"
+  },
+  {
+   "id": "cn2_encap",
+   "title": {
+    "en": "Encapsulation and Decapsulation",
+    "gu": "Encapsulation અને Decapsulation"
+   },
+   "file": "diagrams/cn2_encap.svg"
+  },
+  {
+   "id": "cn2_modes",
+   "title": {
+    "en": "Transmission Modes",
+    "gu": "Transmission Modes"
+   },
+   "file": "diagrams/cn2_modes.svg"
+  },
+  {
+   "id": "cn2_frame",
+   "title": {
+    "en": "Data Link Layer: Frame Format",
+    "gu": "Data Link Layer: Frame Format"
+   },
+   "file": "diagrams/cn2_frame.svg"
+  },
+  {
+   "id": "cn2_hop",
+   "title": {
+    "en": "Network Layer vs Data Link Layer",
+    "gu": "Network Layer vs Data Link Layer"
+   },
+   "file": "diagrams/cn2_hop.svg"
+  },
+  {
+   "id": "cn2_ports",
+   "title": {
+    "en": "Transport Layer: Process to Process",
+    "gu": "Transport Layer: Process to Process"
+   },
+   "file": "diagrams/cn2_ports.svg"
+  },
+  {
+   "id": "cn2_session",
+   "title": {
+    "en": "Session Layer: Synchronisation Points",
+    "gu": "Session Layer: Synchronisation Points"
+   },
+   "file": "diagrams/cn2_session.svg"
+  },
+  {
+   "id": "cn2_present",
+   "title": {
+    "en": "Presentation Layer Functions",
+    "gu": "Presentation Layer નાં કાર્યો"
+   },
+   "file": "diagrams/cn2_present.svg"
+  },
+  {
+   "id": "cn2_tcpip",
+   "title": {
+    "en": "TCP/IP Model and Protocol Suite",
+    "gu": "TCP/IP Model અને Protocol Suite"
+   },
+   "file": "diagrams/cn2_tcpip.svg"
+  },
+  {
+   "id": "cn2_map",
+   "title": {
+    "en": "OSI vs TCP/IP: Layer Mapping",
+    "gu": "OSI vs TCP/IP: Layer Mapping"
+   },
+   "file": "diagrams/cn2_map.svg"
+  },
+  {
+   "id": "cn2_addr",
+   "title": {
+    "en": "Addresses Used in TCP/IP",
+    "gu": "TCP/IP માં વપરાતા Addresses"
+   },
+   "file": "diagrams/cn2_addr.svg"
+  }
+ ]
+}
