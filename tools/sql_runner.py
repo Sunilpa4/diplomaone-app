@@ -346,6 +346,16 @@ def f_mod(a, b):
     return num(math.fmod(a, b))
 
 
+def ora_str(v):
+    """Oracle implicit conversion to text (NULL -> '', 10.0 -> '10', date -> DD-MON-YY)."""
+    if v is None:
+        return ""
+    if is_date(v):
+        d = to_dt(v)
+        return f"{d.day:02d}-{MON[d.month - 1]}-{d.year % 100:02d}"
+    return str(num(v))
+
+
 def nn(f):
     def g(*a):
         return None if any(x is None for x in a) else num(f(*a))
@@ -360,7 +370,7 @@ FUNCS = {
     "DECODE": (-1, f_decode), "MOD": (2, f_mod), "NVL": (2, lambda a, b: b if a is None else a),
     "NVL2": (3, lambda a, b, c: c if a is None else b), "ABS": (1, nn(abs)), "POWER": (2, nn(lambda a, b: a ** b)),
     "SQRT": (1, nn(math.sqrt)), "CEIL": (1, nn(math.ceil)), "FLOOR": (1, nn(math.floor)),
-    "SIGN": (1, nn(lambda a: (a > 0) - (a < 0))), "CONCAT": (2, lambda a, b: (a or "") + (b or "")),
+    "SIGN": (1, nn(lambda a: (a > 0) - (a < 0))), "CONCAT": (2, lambda a, b: ora_str(a) + ora_str(b)),
     "GREATEST": (-1, lambda *a: None if None in a else max(a)), "LEAST": (-1, lambda *a: None if None in a else min(a)),
     "SYSDATE": (0, lambda: from_dt(SYSDATE)), "LENGTH": (1, lambda s: None if s is None else len(str(num(s)))),
     "ASCII": (1, lambda s: None if s is None else ord(s[0])), "CHR": (1, lambda n: chr(int(n))),
@@ -384,6 +394,11 @@ class OraSim:
             return g
         for name, (n, f) in FUNCS.items():
             self.c.create_function(name, n, wrap(f))
+        self.c.create_function("__DSUB", 2, lambda a, b: None if a is None or b is None else
+                               num(round((to_dt(a) - to_dt(b)).total_seconds() / 86400, 9)))
+        self.c.create_function("__DADD", 2, lambda d, n: None if d is None or n is None else
+                               from_dt(to_dt(d) + dt.timedelta(days=n)))
+        self.rewrite = []
         self.c.create_function("__NEXTVAL", 1, self._nextval)
         self.c.create_function("__CURRVAL", 1, self._currval)
         self.c.execute("CREATE TABLE dual (dummy VARCHAR2(1))")
@@ -454,14 +469,45 @@ class OraSim:
                     raise ValueError("unsupported ANY/ALL form")
             sql = sql[:m.start()] + rep + sql[i:]
 
+    @staticmethod
+    def _order_nulls(sql):
+        """Oracle: NULLs sort LAST in ASC and FIRST in DESC (SQLite does the opposite)."""
+        # positions of ORDER BY outside quotes
+        masked = re.sub(r"'(?:''|[^'])*'", lambda m: "_" * len(m.group(0)), sql)
+        for m in reversed(list(re.finditer(r"\bORDER\s+BY\b", masked, re.I))):
+            i, depth, start = m.end(), 0, m.end()
+            items, cur_start = [], start
+            while i < len(masked):
+                ch = masked[i]
+                if ch == "(":
+                    depth += 1
+                elif ch == ")":
+                    if depth == 0:
+                        break
+                    depth -= 1
+                elif ch == "," and depth == 0:
+                    items.append((cur_start, i)); cur_start = i + 1
+                i += 1
+            items.append((cur_start, i))
+            for a, b in reversed(items):
+                it = sql[a:b]
+                core = it.rstrip()
+                if re.search(r"NULLS\s+(FIRST|LAST)$", core, re.I) or not core.strip():
+                    continue
+                add = " NULLS FIRST" if re.search(r"\bDESC$", core, re.I) else " NULLS LAST"
+                sql = sql[:a] + core + add + it[len(core):] + sql[b:]
+        return sql
+
     def translate(self, sql):
-        sql = self._any_all(sql)
+        for old, new in self.rewrite:
+            sql = sql.replace(old, new)
+        sql = self._order_nulls(self._any_all(sql))
         def fix(p):
             p = re.sub(r"\bMINUS\b", "EXCEPT", p, flags=re.I)
             p = re.sub(r"\bSYSDATE\b(?!\s*\()", "SYSDATE()", p, flags=re.I)
             p = re.sub(r"\b(\w+)\.NEXTVAL\b", lambda m: f"__NEXTVAL('{m.group(1)}')", p, flags=re.I)
             p = re.sub(r"\b(\w+)\.CURRVAL\b", lambda m: f"__CURRVAL('{m.group(1)}')", p, flags=re.I)
-            p = re.sub(r"(?<![\w.])(\d+)\s*/\s*(\d+(?:\.\d+)?)(?![\w.])", r"\1.0/\2", p)
+            p = p.replace("/", "*1.0/")
             p = re.sub(r"\bDATE\s*$", "DATE", p)
             return p
         sql = re.sub(r"\bDATE\s+'(\d{4}-\d\d-\d\d)'", r"'\1'", sql, flags=re.I)
@@ -491,11 +537,7 @@ class OraSim:
                 self.types[(name, cname)] = ctype
                 for cn, kind in re.findall(r"CONSTRAINT\s+(\w+)\s+(PRIMARY\s+KEY|UNIQUE|CHECK|REFERENCES|NOT\s+NULL)", rest, re.I):
                     self.cons[(name, cname, kind.split()[0].upper())] = cn.upper()
-                stype = "REAL" if ctype.startswith(("NUMBER", "DECIMAL", "FLOAT")) and "," in ctype or ctype in ("FLOAT",) else ctype
-                if ctype.startswith("NUMBER") and "," not in ctype:
-                    stype = "NUMBER"
-                if ctype == "NUMBER":
-                    stype = "REAL"
+                stype = "NUMERIC" if ctype.startswith(("NUMBER", "DECIMAL", "FLOAT")) else ctype
                 rest = re.sub(r"CONSTRAINT\s+\w+\s+NOT\s+NULL", "NOT NULL", rest, flags=re.I)
                 new.append(f"{cname} {stype}{rest}")
             else:
@@ -534,7 +576,7 @@ class OraSim:
                 cname, ctype = cm.group(1).upper(), cm.group(2).upper().replace(" ", "")
                 self.types[(t, cname)] = ctype
                 if op == "ADD":
-                    st = "REAL" if ctype.startswith("NUMBER") and ("," in ctype or ctype == "NUMBER") else ctype
+                    st = "NUMERIC" if ctype.startswith("NUMBER") else ctype
                     self.c.execute(f"ALTER TABLE {t} ADD COLUMN {cname} {st}{cm.group(3)}")
         elif op == "DROP COLUMN":
             self.c.execute(f"ALTER TABLE {t} DROP COLUMN {rest}")
@@ -851,13 +893,16 @@ class OraSim:
         return "\n\n".join(outs) if show else ""
 
 
-def run_sql(code, setup=""):
-    """Run setup silently, then code; return the output text."""
+def run_sql(code, setup="", rewrite=()):
+    """Run setup silently, then code; return the output text.
+    rewrite: (oracle_text, simulator_text) pairs applied only to the executed SQL, e.g.
+    ("SYSDATE - hiredate", "__DSUB(SYSDATE, hiredate)"); headings still come from the Oracle text."""
     sim = OraSim()
     if setup:
         for st in OraSim.split(setup):
             r = sim.exec1(st)
             assert not r.startswith("ERROR"), f"setup failed: {st[:60]}\n{r}"
+    sim.rewrite = list(rewrite)
     return sim.run(code), sim
 
 

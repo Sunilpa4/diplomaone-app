@@ -21,11 +21,13 @@ def _check(id_, code):
         assert len(ln) <= MAXW, f"{id_}: line too long ({len(ln)}): {ln}"
 
 
-def QE(id_, title, code, expl="", setup=ALL, sim=None, out=None):
+def QE(id_, title, code, expl="", setup=ALL, sim=None, out=None, rewrite=()):
     code = code.strip("\n")
     _check(id_, code)
     if out is None:
-        out, _ = run_sql(sim if sim else code, setup)
+        out, _ = run_sql(sim if sim else code, setup, rewrite)
+        for old, _new in rewrite:
+            assert old in code, f"{id_}: rewrite text not found: {old}"
     assert "ORA-00900" not in out and "unsupported" not in out, f"{id_}: simulator problem\n{out}"
     return {"id": id_, "title": {"en": title}, "code": {"en": code}, "out": out.rstrip("\n"), "expl": {"en": expl}}
 

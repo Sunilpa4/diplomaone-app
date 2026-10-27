@@ -1,0 +1,1383 @@
+{
+ "subject": "DI03000031",
+ "unit": 2,
+ "format": "notes",
+ "title": {
+  "en": "SQL Functions and Joins"
+ },
+ "weightage": 24,
+ "hours": 11,
+ "notes": [
+  {
+   "title": {
+    "en": "2.1 Operators"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Arithmetic, Comparison and Logical Operators"
+     },
+     "body": {
+      "en": "\n<p>An <b>operator</b> is a symbol or keyword that performs an operation on values (operands) in an SQL expression or condition.</p>\n<h4>1. Arithmetic operators</h4>\n<p><code>+</code> addition, <code>-</code> subtraction, <code>*</code> multiplication, <code>/</code> division. They are used in SELECT expressions and in conditions. Oracle has no <code>%</code> operator; use <code>MOD()</code>. Any arithmetic with NULL gives NULL.</p>\n<h4>2. Comparison (relational) operators</h4>\n<table><tr><th>Operator</th><th>Meaning</th></tr>\n<tr><td><code>=</code></td><td>equal to</td></tr>\n<tr><td><code>&lt;&gt;</code>, <code>!=</code>, <code>^=</code></td><td>not equal to</td></tr>\n<tr><td><code>&gt;</code>, <code>&lt;</code></td><td>greater than, less than</td></tr>\n<tr><td><code>&gt;=</code>, <code>&lt;=</code></td><td>greater/less than or equal to</td></tr></table>\n<h4>3. Logical operators</h4>\n<ul><li><b>AND</b>: true if <b>both</b> conditions are true.</li>\n<li><b>OR</b>: true if <b>at least one</b> condition is true.</li>\n<li><b>NOT</b>: reverses the result of a condition.</li></ul>\n<h4>Operator precedence (highest first)</h4>\n<ol><li>Brackets ( )</li><li>* /</li><li>+ - and || (concatenation)</li><li>Comparison operators, IN, LIKE, BETWEEN, IS NULL</li><li>NOT</li><li>AND</li><li>OR</li></ol>\n<p>Because AND is evaluated before OR, use brackets when mixing them:</p>\n<pre class=\"c\">SELECT ename, sal * 12 AS annual\nFROM emp\nWHERE sal * 12 &gt; 500000\nAND (job = 'MANAGER' OR job = 'ANALYST');</pre>\n"
+     },
+     "diagram": "db2_operators",
+     "programs": [
+      "q2_1",
+      "q2_2"
+     ]
+    },
+    {
+     "h": {
+      "en": "Special Operators: IN, BETWEEN and IS NULL"
+     },
+     "body": {
+      "en": "\n<pre class=\"c\">WHERE col IN (v1, v2, ...)\nWHERE col BETWEEN low AND high\nWHERE col LIKE 'pattern'\nWHERE col IS NULL\nWHERE col &gt; ANY (sub-query)\nWHERE col &gt; ALL (sub-query)\nWHERE EXISTS (sub-query)</pre>\n<ul><li><b>IN (list)</b>: true if the value matches any value in the list. It replaces many OR conditions. <b>NOT IN</b> is the opposite (be careful: if the list contains NULL, NOT IN returns no rows).</li>\n<li><b>BETWEEN low AND high</b>: true if the value is in the range, <b>including</b> both limits. NOT BETWEEN gives values outside the range. It works for numbers, dates and text.</li>\n<li><b>IS NULL / IS NOT NULL</b>: test for missing values. <code>= NULL</code> never works because NULL is not equal to anything, not even another NULL.</li></ul>\n"
+     },
+     "programs": [
+      "q2_3",
+      "q2_5"
+     ]
+    },
+    {
+     "h": {
+      "en": "Special Operator: LIKE"
+     },
+     "body": {
+      "en": "\n<p><b>LIKE</b> compares a text value with a <b>pattern</b> containing wildcard characters:</p>\n<ul><li><code>%</code> (percent) matches <b>zero or more</b> characters.</li>\n<li><code>_</code> (underscore) matches <b>exactly one</b> character.</li></ul>\n<p>Examples: <code>'S%'</code> starts with S; <code>'%AN'</code> ends with AN; <code>'%RA%'</code> contains RA; <code>'__J%'</code> 3rd letter J; <code>'_____'</code> exactly 5 characters.</p>\n<ul><li>LIKE is case-sensitive in Oracle; use <code>UPPER(col) LIKE 'S%'</code> for a case-insensitive search.</li>\n<li>To search for a real % or _, define an escape character: <code>WHERE code LIKE 'A\\_%' ESCAPE '\\'</code>.</li>\n<li><b>NOT LIKE</b> returns rows that do not match the pattern.</li></ul>\n"
+     },
+     "diagram": "db2_like",
+     "programs": [
+      "q2_4"
+     ]
+    },
+    {
+     "h": {
+      "en": "Special Operators: ANY, ALL and EXISTS"
+     },
+     "body": {
+      "en": "\n<p>These operators are used with a <b>sub-query</b> (or a list) that returns several values.</p>\n<ul><li><b>ANY (SOME)</b>: the condition is true if it holds for <b>at least one</b> value returned.</li>\n<li><b>ALL</b>: the condition is true only if it holds for <b>every</b> value returned.</li>\n<li><b>EXISTS</b>: true if the sub-query returns <b>at least one row</b>; NOT EXISTS is true if it returns no rows.</li></ul>\n<table><tr><th>Condition</th><th>Equivalent</th></tr>\n<tr><td><code>&gt; ANY (list)</code></td><td>greater than the minimum</td></tr>\n<tr><td><code>&lt; ANY (list)</code></td><td>less than the maximum</td></tr>\n<tr><td><code>= ANY (list)</code></td><td>same as IN</td></tr>\n<tr><td><code>&gt; ALL (list)</code></td><td>greater than the maximum</td></tr>\n<tr><td><code>&lt; ALL (list)</code></td><td>less than the minimum</td></tr>\n<tr><td><code>&lt;&gt; ALL (list)</code></td><td>same as NOT IN</td></tr></table>\n<p>EXISTS is usually used with a correlated sub-query and stops at the first matching row, so it is efficient.</p>\n"
+     },
+     "programs": [
+      "q2_6",
+      "q2_7"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2.2 DUAL Table, Numeric and Character Functions"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "SQL Functions and the DUAL Table"
+     },
+     "body": {
+      "en": "\n<p>A <b>function</b> is a built-in program that takes arguments, performs an operation and returns a value. Functions are used in SELECT lists, WHERE, ORDER BY and other clauses.</p>\n<h4>Types of functions</h4>\n<ol><li><b>Single-row (scalar) functions</b>: work on each row separately and return <b>one result per row</b>.\n<ul><li>Character, numeric, date, conversion and general (NVL, DECODE) functions.</li></ul></li>\n<li><b>Multiple-row (group / aggregate) functions</b>: work on a group of rows and return <b>one result per group</b>: COUNT, SUM, AVG, MAX, MIN.</li></ol>\n<h4>The DUAL table</h4>\n<p><b>DUAL</b> is a dummy table automatically created by Oracle in the SYS schema and accessible to all users. It has <b>one column</b> (DUMMY, VARCHAR2(1)) and <b>one row</b> (value 'X').</p>\n<p>Since SELECT always needs a FROM clause in Oracle, DUAL is used to evaluate expressions, test functions or get values like SYSDATE that do not come from a table. Because it has one row, the result is shown once.</p>\n<pre class=\"c\">SQL&gt; SELECT 25 * 4 + 10 FROM dual;\n\n25*4+10\n-------\n    110</pre>\n"
+     },
+     "diagram": "db2_functions"
+    },
+    {
+     "h": {
+      "en": "Numeric Functions"
+     },
+     "body": {
+      "en": "<table><tr><th>Function</th><th>Purpose</th><th>Example → Result</th></tr><tr><td><code>ABS(n)</code></td><td>absolute (positive) value</td><td><code>ABS(-25) → 25</code></td></tr><tr><td><code>POWER(m, n)</code></td><td>m raised to the power n</td><td><code>POWER(2, 5) → 32</code></td></tr><tr><td><code>MOD(m, n)</code></td><td>remainder of m / n</td><td><code>MOD(17, 5) → 2</code></td></tr><tr><td><code>SQRT(n)</code></td><td>square root (n ≥ 0)</td><td><code>SQRT(144) → 12</code></td></tr><tr><td><code>ROUND(n, d)</code></td><td>rounds to d decimal places</td><td><code>ROUND(156.786, 2) → 156.79</code></td></tr><tr><td><code>ROUND(n, -d)</code></td><td>rounds left of the decimal point</td><td><code>ROUND(156.786, -1) → 160</code></td></tr><tr><td><code>TRUNC(n, d)</code></td><td>cuts to d decimals (no rounding)</td><td><code>TRUNC(156.786, 2) → 156.78</code></td></tr><tr><td><code>CEIL(n)</code></td><td>smallest integer ≥ n</td><td><code>CEIL(12.1) → 13</code></td></tr><tr><td><code>FLOOR(n)</code></td><td>largest integer ≤ n</td><td><code>FLOOR(12.9) → 12</code></td></tr><tr><td><code>SIGN(n)</code></td><td>-1, 0 or 1</td><td><code>SIGN(-8) → -1</code></td></tr></table>\n<ul><li>If d is omitted in ROUND/TRUNC, it is 0 (whole number).</li>\n<li><b>ROUND vs TRUNC</b>: ROUND(15.67) = 16 but TRUNC(15.67) = 15.</li>\n<li><b>CEIL vs FLOOR</b>: CEIL(-4.2) = -4 and FLOOR(-4.2) = -5.</li>\n<li>MOD(m, 0) returns m.</li></ul>\n"
+     },
+     "programs": [
+      "q2_8",
+      "q2_9"
+     ]
+    },
+    {
+     "h": {
+      "en": "Character Functions"
+     },
+     "body": {
+      "en": "<table><tr><th>Function</th><th>Purpose</th><th>Example → Result</th></tr><tr><td><code>LOWER(s)</code></td><td>all small letters</td><td><code>LOWER('GTU') → gtu</code></td></tr><tr><td><code>UPPER(s)</code></td><td>all capital letters</td><td><code>UPPER('gtu') → GTU</code></td></tr><tr><td><code>INITCAP(s)</code></td><td>first letter of each word capital</td><td><code>INITCAP('surat city') → Surat City</code></td></tr><tr><td><code>LENGTH(s)</code></td><td>number of characters</td><td><code>LENGTH('Gujarat') → 7</code></td></tr><tr><td><code>CONCAT(a, b)</code></td><td>joins two strings</td><td><code>CONCAT('Diploma', 'One') → DiplomaOne</code></td></tr><tr><td><code>LTRIM(s, set)</code></td><td>removes chars from the left</td><td><code>LTRIM('xxGTU', 'x') → GTU</code></td></tr><tr><td><code>RTRIM(s, set)</code></td><td>removes chars from the right</td><td><code>RTRIM('GTUxx', 'x') → GTU</code></td></tr><tr><td><code>TRIM(s)</code></td><td>removes spaces from both ends</td><td><code>TRIM('  GTU  ') → GTU</code></td></tr><tr><td><code>REPLACE(s, a, b)</code></td><td>replaces every a by b</td><td><code>REPLACE('JACK', 'J', 'BL') → BLACK</code></td></tr><tr><td><code>SUBSTR(s, m, n)</code></td><td>n chars from position m</td><td><code>SUBSTR('GUJARAT', 3, 3) → JAR</code></td></tr><tr><td><code>INSTR(s, t, m, n)</code></td><td>position of n-th t from m</td><td><code>INSTR('GUJARAT', 'A', 1, 2) → 6</code></td></tr><tr><td><code>LPAD(s, n, c)</code></td><td>pads on the left to length n</td><td><code>LPAD('77', 5, '*') → ***77</code></td></tr><tr><td><code>RPAD(s, n, c)</code></td><td>pads on the right to length n</td><td><code>RPAD('77', 5, '*') → 77***</code></td></tr></table>\n<ul><li>LTRIM and RTRIM remove spaces when the second argument is omitted. They remove <b>any</b> character from the set, not the exact string: <code>LTRIM('abcabcX', 'abc')</code> → X.</li>\n<li>SUBSTR positions start at 1; a negative start counts from the end. Without n it returns up to the end.</li>\n<li>INSTR returns 0 when the text is not found. m and n are optional (default 1).</li>\n<li>The <code>||</code> operator also concatenates and can join more than two strings: <code>ename || ' (' || job || ')'</code>.</li></ul>\n"
+     },
+     "diagram": "db2_substr_instr",
+     "programs": [
+      "q2_10",
+      "q2_11",
+      "q2_12"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2.3 Date, Conversion and General Functions"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Date Functions"
+     },
+     "body": {
+      "en": "\n<p>Oracle stores a DATE as century, year, month, day, hour, minute and second. The default display format is <b>DD-MON-YY</b>. <b>SYSDATE</b> returns the current date and time of the database server.</p>\n<table><tr><th>Function</th><th>Purpose</th><th>Example → Result</th></tr><tr><td><code>SYSDATE</code></td><td>current date and time</td><td><code>SYSDATE → 28-OCT-26</code></td></tr><tr><td><code>ADD_MONTHS(d, n)</code></td><td>adds n months (n can be −)</td><td><code>ADD_MONTHS('28-OCT-26', 3) → 28-JAN-27</code></td></tr><tr><td><code>MONTHS_BETWEEN(d1, d2)</code></td><td>months from d2 to d1</td><td><code>MONTHS_BETWEEN('28-DEC-26', '28-OCT-26') → 2</code></td></tr><tr><td><code>LAST_DAY(d)</code></td><td>last date of the month</td><td><code>LAST_DAY('28-OCT-26') → 31-OCT-26</code></td></tr><tr><td><code>NEXT_DAY(d, 'day')</code></td><td>next given weekday after d</td><td><code>NEXT_DAY('28-OCT-26', 'MONDAY') → 02-NOV-26</code></td></tr><tr><td><code>ROUND(d, 'MONTH')</code></td><td>nearest 1st of month</td><td><code>ROUND('28-OCT-26', 'MONTH') → 01-NOV-26</code></td></tr><tr><td><code>TRUNC(d, 'MONTH')</code></td><td>1st of the same month</td><td><code>TRUNC('28-OCT-26', 'MONTH') → 01-OCT-26</code></td></tr><tr><td><code>ROUND(d, 'YEAR')</code></td><td>nearest 1st January</td><td><code>ROUND('28-OCT-26', 'YEAR') → 01-JAN-27</code></td></tr><tr><td><code>TRUNC(d, 'YEAR')</code></td><td>1st January of the year</td><td><code>TRUNC('28-OCT-26', 'YEAR') → 01-JAN-26</code></td></tr></table>\n<h4>Rules</h4>\n<ul><li>ROUND with 'MONTH' rounds up from the 16th day; with 'YEAR' from 1st July. ROUND/TRUNC without a format work on the day (remove the time).</li>\n<li>ADD_MONTHS on the last day of a month gives the last day of the result month.</li>\n<li>MONTHS_BETWEEN can return a fraction; it is negative if d1 is earlier than d2.</li></ul>\n<h4>Date arithmetic</h4>\n<table><tr><th>Expression</th><th>Result</th></tr>\n<tr><td>date + n</td><td>date n days later</td></tr>\n<tr><td>date − n</td><td>date n days earlier</td></tr>\n<tr><td>date − date</td><td>number of days between</td></tr>\n<tr><td>date + n/24</td><td>adds n hours</td></tr></table>\n<p>Two dates cannot be added.</p>\n"
+     },
+     "diagram": "db2_date_funcs",
+     "programs": [
+      "q2_13",
+      "q2_14"
+     ]
+    },
+    {
+     "h": {
+      "en": "Conversion Functions: TO_CHAR, TO_DATE, TO_NUMBER"
+     },
+     "body": {
+      "en": "\n<p>Conversion functions change a value from one data type to another. Oracle also converts types automatically (<b>implicit conversion</b>), but <b>explicit conversion</b> with these functions is clearer and safer.</p>\n<ul><li><b>TO_CHAR(date, 'fmt')</b>: date → text in the given format.</li>\n<li><b>TO_CHAR(number, 'fmt')</b>: number → formatted text.</li>\n<li><b>TO_DATE(text, 'fmt')</b>: text → DATE. The format describes how the text is written.</li>\n<li><b>TO_NUMBER(text, 'fmt')</b>: text → NUMBER.</li></ul>\n<h4>Date format elements</h4>\n<table><tr><th>Element</th><th>Meaning</th><th>For 28-OCT-2026</th></tr>\n<tr><td>DD</td><td>day of month</td><td>28</td></tr>\n<tr><td>DY / DAY</td><td>short / full weekday</td><td>WED / WEDNESDAY</td></tr>\n<tr><td>MM</td><td>month number</td><td>10</td></tr>\n<tr><td>MON / MONTH</td><td>short / full month name</td><td>OCT / OCTOBER</td></tr>\n<tr><td>YY / YYYY</td><td>2- / 4-digit year</td><td>26 / 2026</td></tr>\n<tr><td>HH24:MI:SS</td><td>hours (0–23), minutes, seconds</td><td>10:30:15</td></tr>\n<tr><td>Q</td><td>quarter</td><td>4</td></tr>\n<tr><td>fm</td><td>removes padding spaces</td><td>October (not 'October  ')</td></tr></table>\n<h4>Number format elements</h4>\n<table><tr><th>Element</th><th>Meaning</th><th>Example</th></tr>\n<tr><td>9</td><td>a digit</td><td>TO_CHAR(123, '9999') → ' 123'</td></tr>\n<tr><td>0</td><td>leading zero</td><td>TO_CHAR(45, '0000') → ' 0045'</td></tr>\n<tr><td>, .</td><td>thousands separator, decimal point</td><td>TO_CHAR(1234.5, '9,999.99') → ' 1,234.50'</td></tr>\n<tr><td>$</td><td>dollar sign</td><td>TO_CHAR(500, '$999') → ' $500'</td></tr></table>\n<p>If the number does not fit the format, Oracle shows ####.</p>\n"
+     },
+     "diagram": "db2_conversion",
+     "programs": [
+      "q2_15",
+      "q2_16"
+     ]
+    },
+    {
+     "h": {
+      "en": "General Functions: NVL, NVL2, DECODE and CASE"
+     },
+     "body": {
+      "en": "\n<ul><li><b>NVL(expr1, expr2)</b>: returns expr2 if expr1 is NULL, otherwise expr1. Both must have the same type. <code>NVL(comm, 0)</code>.</li>\n<li><b>NVL2(expr1, expr2, expr3)</b>: returns expr2 if expr1 is NOT NULL, otherwise expr3.</li>\n<li><b>NULLIF(a, b)</b>: returns NULL if a = b, otherwise a.</li>\n<li><b>DECODE(expr, search1, result1, search2, result2, ..., default)</b>: Oracle's IF-THEN-ELSE. It compares expr with each search value in order and returns the matching result; if nothing matches it returns the default (or NULL).</li>\n<li><b>CASE</b>: the ANSI standard conditional expression; it can test ranges and any conditions, whereas DECODE only tests equality.</li></ul>\n<pre class=\"c\">SELECT ename, sal,\n  CASE\n    WHEN sal &gt;= 50000 THEN 'HIGH'\n    WHEN sal &gt;= 25000 THEN 'MEDIUM'\n    ELSE 'LOW'\n  END AS category\nFROM emp\nWHERE deptno = 30;</pre>\n<pre class=\"c\">ENAME   SAL CATEGORY\n----- ----- --------\nPRIYA 58000 HIGH\nSUNIL 30000 MEDIUM\nPOOJA 28000 MEDIUM\nVIJAY 20000 LOW</pre>\n<p>GREATEST(list) and LEAST(list) return the largest and smallest values of a list.</p>\n"
+     },
+     "programs": [
+      "q2_17"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2.4 Aggregate Functions, GROUP BY, HAVING and ORDER BY"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Aggregate (Group) Functions"
+     },
+     "body": {
+      "en": "\n<p>Aggregate functions work on a <b>set of rows</b> and return a <b>single value</b>. They can be used on the whole table or on groups made by GROUP BY.</p>\n<table><tr><th>Function</th><th>Returns</th></tr>\n<tr><td><code>COUNT(*)</code></td><td>number of rows (including NULLs and duplicates)</td></tr>\n<tr><td><code>COUNT(col)</code></td><td>number of non-NULL values in col</td></tr>\n<tr><td><code>COUNT(DISTINCT col)</code></td><td>number of different non-NULL values</td></tr>\n<tr><td><code>SUM(col)</code></td><td>total of the values (numbers only)</td></tr>\n<tr><td><code>AVG(col)</code></td><td>average of the values (numbers only)</td></tr>\n<tr><td><code>MAX(col)</code></td><td>largest value (number, text or date)</td></tr>\n<tr><td><code>MIN(col)</code></td><td>smallest value (number, text or date)</td></tr></table>\n<ul><li>All aggregate functions <b>ignore NULL values</b>, except COUNT(*). So <code>AVG(comm)</code> = SUM of the commissions ÷ number of non-NULL commissions. Use <code>AVG(NVL(comm, 0))</code> to count NULLs as 0.</li>\n<li>DISTINCT or ALL (the default) can be used inside: <code>SUM(DISTINCT sal)</code>.</li>\n<li>An aggregate cannot be used in WHERE; use HAVING.</li>\n<li>Without GROUP BY, a SELECT with an aggregate cannot also list a normal column (ORA-00937: not a single-group group function).</li></ul>\n"
+     },
+     "programs": [
+      "q2_18"
+     ]
+    },
+    {
+     "h": {
+      "en": "GROUP BY and HAVING Clauses"
+     },
+     "body": {
+      "en": "\n<pre class=\"c\">SELECT col, aggregate(col2)\nFROM table\n[WHERE row_condition]\nGROUP BY col\n[HAVING group_condition]\n[ORDER BY col [ASC | DESC]];</pre>\n<p><b>GROUP BY</b> divides the rows of a table into groups that have the same value in the given column(s). The aggregate functions are then calculated <b>for each group</b>, and the query returns one row per group.</p>\n<ul><li>Every column in SELECT that is not inside an aggregate function must be written in GROUP BY. (A GROUP BY column need not appear in SELECT.)</li>\n<li>Grouping can be on several columns: <code>GROUP BY deptno, job</code> makes one group for every combination.</li>\n<li>NULL values form a group of their own.</li>\n<li>Column aliases cannot be used in GROUP BY.</li></ul>\n<p><b>HAVING</b> applies a condition to the <b>groups</b>, after grouping. It is normally used with aggregate functions: <code>HAVING COUNT(*) &gt; 2</code>.</p>\n<h4>WHERE vs HAVING</h4>\n<table><tr><th>WHERE</th><th>HAVING</th></tr>\n<tr><td>Filters individual rows</td><td>Filters groups</td></tr>\n<tr><td>Applied before GROUP BY</td><td>Applied after GROUP BY</td></tr>\n<tr><td>Cannot use aggregate functions</td><td>Usually uses aggregate functions</td></tr>\n<tr><td>Can be used without GROUP BY</td><td>Normally used with GROUP BY</td></tr>\n<tr><td>Used in SELECT, UPDATE, DELETE</td><td>Used only in SELECT</td></tr></table>\n"
+     },
+     "diagram": "db2_groupby",
+     "programs": [
+      "q2_19",
+      "q2_20"
+     ]
+    },
+    {
+     "h": {
+      "en": "ORDER BY Clause and Order of Execution"
+     },
+     "body": {
+      "en": "\n<p><b>ORDER BY</b> sorts the rows of the result. It is always the <b>last</b> clause of a SELECT.</p>\n<pre class=\"c\">ORDER BY col1 [ASC | DESC]\n        [NULLS FIRST | NULLS LAST],\n         col2 [ASC | DESC], ...</pre>\n<ul><li><b>ASC</b> (ascending) is the default; <b>DESC</b> gives descending order.</li>\n<li>Several columns: rows are sorted by the first column, and rows with equal values are sorted by the next one.</li>\n<li>You can sort by a column name, an expression, a <b>column alias</b> or a <b>column position</b> (<code>ORDER BY 2</code>). The column need not be in the SELECT list (except with DISTINCT).</li>\n<li>NULLs are treated as the largest values: last in ASC, first in DESC (unless NULLS FIRST/LAST is given).</li>\n<li>Numbers sort by value, dates from earliest to latest, and text alphabetically (capital letters before small letters).</li>\n<li>Without ORDER BY, the order of rows is not guaranteed.</li></ul>\n<h4>Logical order of execution</h4>\n<p>FROM → WHERE → GROUP BY → HAVING → SELECT → DISTINCT → ORDER BY. That is why an alias defined in SELECT can be used in ORDER BY but not in WHERE or HAVING.</p>\n"
+     },
+     "diagram": "db2_query_order",
+     "programs": [
+      "q2_21"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2.5 Joins"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Joins: Inner (Equi), Natural and Non-Equi Join"
+     },
+     "body": {
+      "en": "\n<p>A <b>join</b> combines rows from two or more tables based on a related column, so that data stored in separate tables (normalised data) can be shown together.</p>\n<p><b>Types of joins:</b> inner join (equi, natural, non-equi), outer join (left, right, full), cross join and self join.</p>\n<h4>Inner join</h4>\n<p>Returns only those rows that have <b>matching values in both tables</b>. Unmatched rows of either table are left out.</p>\n<pre class=\"c\">SELECT t1.col, t2.col\nFROM t1 [INNER] JOIN t2\nON t1.key = t2.key;\n\n-- Oracle traditional syntax\nSELECT t1.col, t2.col\nFROM t1, t2\nWHERE t1.key = t2.key;</pre>\n<ul><li><b>Equi join</b>: the join condition uses the equality operator <code>=</code>, usually primary key = foreign key.</li>\n<li>When the same column name exists in both tables, it must be qualified with the table name or alias (<code>e.deptno</code>), otherwise ORA-00918: column ambiguously defined.</li>\n<li>To join n tables you need at least n − 1 join conditions.</li></ul>\n<h4>Natural join and USING</h4>\n<pre class=\"c\">SELECT ename, dname\nFROM emp NATURAL JOIN dept;\n\nSELECT ename, dname\nFROM emp JOIN dept USING (deptno);</pre>\n<p>A <b>natural join</b> automatically joins on all columns with the same name in both tables (and shows the common column once). <code>USING (col)</code> names the common column explicitly.</p>\n<h4>Non-equi join</h4>\n<p>A join whose condition uses an operator other than <code>=</code>, such as BETWEEN, &lt;, &gt;. Example: finding each employee's salary grade from the SALGRADE table using <code>e.sal BETWEEN s.losal AND s.hisal</code>.</p>\n"
+     },
+     "diagram": "db2_joins",
+     "programs": [
+      "q2_22"
+     ]
+    },
+    {
+     "h": {
+      "en": "Outer Joins: Left, Right and Full"
+     },
+     "body": {
+      "en": "\n<p>An <b>outer join</b> returns the matching rows <b>plus</b> the rows that have no match in the other table. The missing columns are filled with NULL.</p>\n<pre class=\"c\">FROM t1 LEFT  [OUTER] JOIN t2 ON ...\nFROM t1 RIGHT [OUTER] JOIN t2 ON ...\nFROM t1 FULL  [OUTER] JOIN t2 ON ...\n\n-- Oracle (+) syntax: + on the side\n-- that may have no matching row\nWHERE e.deptno = d.deptno(+)  -- LEFT\nWHERE e.deptno(+) = d.deptno  -- RIGHT</pre>\n<ul><li><b>LEFT OUTER JOIN</b>: all rows from the <b>left</b> table + matching rows of the right table. Example: every employee, even one without a department.</li>\n<li><b>RIGHT OUTER JOIN</b>: all rows from the <b>right</b> table + matching rows of the left table. Example: every department, even one without employees.</li>\n<li><b>FULL OUTER JOIN</b>: all rows from <b>both</b> tables, matched where possible.</li>\n<li>The Oracle <b>(+)</b> operator is placed on the side of the <b>deficient</b> table (the one whose columns may be NULL). It cannot be used for a full outer join.</li></ul>\n<h4>Inner join vs outer join</h4>\n<table><tr><th>Inner join</th><th>Outer join</th></tr>\n<tr><td>Only matching rows</td><td>Matching + non-matching rows</td></tr>\n<tr><td>No NULLs added</td><td>NULLs for missing columns</td></tr>\n<tr><td>One type</td><td>Left, right, full</td></tr>\n<tr><td>Fewer (or equal) rows</td><td>More (or equal) rows</td></tr></table>\n"
+     },
+     "programs": [
+      "q2_23"
+     ]
+    },
+    {
+     "h": {
+      "en": "Cross Join (Cartesian Product)"
+     },
+     "body": {
+      "en": "\n<p>A <b>cross join</b> returns the <b>Cartesian product</b> of two tables: every row of the first table combined with every row of the second. If the tables have m and n rows, the result has <b>m × n</b> rows.</p>\n<pre class=\"c\">SELECT c.color, s.sz\nFROM colors c CROSS JOIN sizes s;\n\nSELECT c.color, s.sz\nFROM colors c, sizes s;</pre>\n<ul><li>It has no join condition.</li>\n<li>A cross join happens accidentally when the join condition is forgotten in the traditional syntax; with large tables this produces a huge result.</li>\n<li>Uses: generating all combinations (colours × sizes, students × subjects), test data.</li></ul>\n"
+     },
+     "diagram": "db2_cross_join"
+    },
+    {
+     "h": {
+      "en": "Self Join"
+     },
+     "body": {
+      "en": "\n<p>A <b>self join</b> joins a table <b>with itself</b>. The same table is used twice with two different aliases, as if they were two separate tables.</p>\n<pre class=\"c\">SELECT w.ename worker, m.ename manager\nFROM emp w JOIN emp m\nON w.mgr = m.empno;</pre>\n<ul><li>Used when a table has a column that refers to another row of the same table (a <b>recursive relationship</b>), e.g. <code>emp.mgr</code> refers to <code>emp.empno</code> of the manager.</li>\n<li>Other uses: finding employees in the same city, students with the same marks, or comparing rows within a table.</li>\n<li>A self join can be an inner join or an outer join (LEFT JOIN keeps the employee who has no manager).</li></ul>\n"
+     },
+     "diagram": "db2_self_join",
+     "programs": [
+      "q2_24"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2.6 Sub-queries and Set Operators"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Sub-queries: Single-row, Multiple-row and Nested"
+     },
+     "body": {
+      "en": "\n<p>A <b>sub-query</b> (inner query / nested query) is a SELECT statement written inside another SQL statement (the outer query). The result of the inner query is used by the outer query.</p>\n<pre class=\"c\">SELECT columns FROM table\nWHERE col operator\n      (SELECT col FROM table\n       WHERE condition);</pre>\n<h4>Rules</h4>\n<ul><li>A sub-query is enclosed in brackets and is usually placed on the right side of the comparison.</li>\n<li>A simple (non-correlated) sub-query runs <b>once, before</b> the outer query.</li>\n<li>ORDER BY is not allowed inside a sub-query in WHERE.</li>\n<li>Use single-row operators with single-row sub-queries and multiple-row operators with multiple-row sub-queries.</li></ul>\n<h4>Types</h4>\n<ol><li><b>Single-row sub-query</b>: returns exactly one value; used with <code>= &lt;&gt; &gt; &lt; &gt;= &lt;=</code>. Often uses an aggregate (MAX, AVG).</li>\n<li><b>Multiple-row sub-query</b>: returns several rows; used with <code>IN, NOT IN, ANY, ALL, EXISTS</code>. If = is used with many rows, ORA-01427 occurs.</li>\n<li><b>Multiple-column sub-query</b>: returns more than one column: <code>WHERE (deptno, sal) IN (SELECT deptno, MAX(sal) ... GROUP BY deptno)</code>.</li>\n<li><b>Nested sub-query</b>: a sub-query inside another sub-query. The innermost one runs first.</li>\n<li><b>Correlated sub-query</b>: uses columns of the outer query (next topic).</li></ol>\n<p>Sub-queries can also be used in INSERT, UPDATE, DELETE, CREATE TABLE and in the FROM clause (an inline view):</p>\n<pre class=\"c\">-- in UPDATE\nUPDATE emp SET sal = sal * 1.1\nWHERE deptno = (SELECT deptno FROM dept\n                WHERE dname = 'SALES');\n\n-- in FROM (inline view)\nSELECT d, avg_sal\nFROM (SELECT deptno d, AVG(sal) avg_sal\n      FROM emp GROUP BY deptno)\nWHERE avg_sal &gt; 40000;</pre>\n"
+     },
+     "diagram": "db2_subquery",
+     "programs": [
+      "q2_25",
+      "q2_26"
+     ]
+    },
+    {
+     "h": {
+      "en": "Correlated Sub-query"
+     },
+     "body": {
+      "en": "\n<p>A <b>correlated sub-query</b> is a sub-query that refers to a column of the <b>outer query</b>. Because it depends on the current outer row, it is executed <b>once for each row</b> processed by the outer query.</p>\n<h4>Working</h4>\n<ol><li>The outer query takes a candidate row.</li>\n<li>The inner query is executed using the values of that row.</li>\n<li>The outer row is kept or rejected depending on the inner result.</li>\n<li>The steps repeat for the next outer row.</li></ol>\n<h4>Nested vs correlated sub-query</h4>\n<table><tr><th>Nested (simple)</th><th>Correlated</th></tr>\n<tr><td>Inner query is independent</td><td>Inner query uses outer columns</td></tr>\n<tr><td>Executed once</td><td>Executed once per outer row</td></tr>\n<tr><td>Inner runs first, then outer</td><td>Outer row first, then inner</td></tr>\n<tr><td>Faster</td><td>Slower for big tables</td></tr>\n<tr><td>Can run alone</td><td>Cannot run alone</td></tr></table>\n<p>Typical uses: comparing each row with its own group (salary above the department average), EXISTS / NOT EXISTS tests, finding the top earner in each department.</p>\n"
+     },
+     "programs": [
+      "q2_27"
+     ]
+    },
+    {
+     "h": {
+      "en": "Set Operators: UNION, UNION ALL, INTERSECT and MINUS"
+     },
+     "body": {
+      "en": "\n<p><b>Set operators</b> combine the <b>results of two or more SELECT statements</b> into one result.</p>\n<pre class=\"c\">SELECT col_list FROM t1\nUNION | UNION ALL | INTERSECT | MINUS\nSELECT col_list FROM t2\n[ORDER BY ...];</pre>\n<table><tr><th>Operator</th><th>Returns</th></tr>\n<tr><td><b>UNION</b></td><td>all distinct rows from both queries (duplicates removed, sorted)</td></tr>\n<tr><td><b>UNION ALL</b></td><td>all rows from both queries, including duplicates (not sorted, fastest)</td></tr>\n<tr><td><b>INTERSECT</b></td><td>only the rows common to both queries</td></tr>\n<tr><td><b>MINUS</b></td><td>rows of the first query that are not in the second</td></tr></table>\n<h4>Rules</h4>\n<ul><li>Each SELECT must have the <b>same number of columns</b>, and the corresponding columns must have <b>compatible data types</b>.</li>\n<li>The column headings are taken from the <b>first</b> SELECT.</li>\n<li>ORDER BY may appear only once, at the end, and applies to the whole result.</li>\n<li>All set operators have equal precedence and are evaluated from top to bottom; use brackets to change the order.</li>\n<li>UNION and INTERSECT are commutative (order of queries does not matter); MINUS is not.</li></ul>\n<h4>Join vs set operator</h4>\n<p>A join combines <b>columns</b> of tables side by side (horizontally); a set operator combines <b>rows</b> of query results (vertically).</p>\n"
+     },
+     "diagram": "db2_set_ops",
+     "programs": [
+      "q2_28"
+     ]
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "q2_1",
+   "title": {
+    "en": "Sample tables used in this unit: DEPT, EMP and SALGRADE"
+   },
+   "code": {
+    "en": "SELECT * FROM dept;\n\nSELECT * FROM emp;\n\nSELECT * FROM salgrade;"
+   },
+   "out": "DEPTNO DNAME      LOC\n------ ---------- ---------\n    10 ACCOUNTS   SURAT\n    20 RESEARCH   AHMEDABAD\n    30 SALES      VADODARA\n    40 OPERATIONS RAJKOT\n\nEMPNO ENAME  JOB        MGR HIREDATE    SAL COMM DEPTNO\n----- ------ ---------- --- --------- ----- ---- ------\n  101 RAJESH PRESIDENT      10-JAN-15 90000          10\n  102 AMIT   MANAGER    101 15-MAR-16 60000          20\n  103 PRIYA  MANAGER    101 01-JUL-16 58000          30\n  104 NEHA   ANALYST    102 20-MAY-18 45000          20\n  105 KIRAN  CLERK      102 11-NOV-20 22000          20\n  106 SUNIL  SALESMAN   103 25-FEB-19 30000 3000     30\n  107 POOJA  SALESMAN   103 30-AUG-21 28000 5000     30\n  108 VIJAY  CLERK      103 05-JAN-22 20000          30\n  109 HETAL  ACCOUNTANT 101 12-SEP-17 40000          10\n  110 MEHUL  TRAINEE    104 03-JUN-24 15000\n\n10 rows selected.\n\nGRADE LOSAL HISAL\n----- ----- -----\n    1 10000 19999\n    2 20000 29999\n    3 30000 44999\n    4 45000 59999\n    5 60000 99999",
+   "expl": {
+    "en": "\n<p>All Unit 2 queries use these three tables (the classic Oracle SCOTT schema with Indian names).</p>\n<ul><li><b>DEPT</b>: 4 departments. Department 40 (OPERATIONS) has <b>no employees</b>, which is useful for outer joins.</li>\n<li><b>EMP</b>: 10 employees. <code>mgr</code> holds the empno of the employee's manager (used in the self join). Only salesmen have a <code>comm</code> (commission); others have NULL. MEHUL (110) is a trainee with <b>no department</b> (deptno NULL).</li>\n<li><b>SALGRADE</b>: salary ranges for grades 1–5 (used in the non-equi join).</li></ul>\n<p>SYSDATE is taken as <b>28-OCT-26</b> in all outputs.</p>\n"
+   }
+  },
+  {
+   "id": "q2_2",
+   "title": {
+    "en": "Arithmetic operators and operator precedence"
+   },
+   "code": {
+    "en": "SELECT ename, sal,\n       sal * 12 annual,\n       sal + 1000 * 2 a,\n       (sal + 1000) * 2 b,\n       sal + comm total\nFROM emp\nWHERE deptno = 30;"
+   },
+   "out": "ENAME   SAL ANNUAL     A      B TOTAL\n----- ----- ------ ----- ------ -----\nPRIYA 58000 696000 60000 118000\nSUNIL 30000 360000 32000  62000 33000\nPOOJA 28000 336000 30000  58000 33000\nVIJAY 20000 240000 22000  42000",
+   "expl": {
+    "en": "\n<ul><li>Arithmetic operators: <code>+  -  *  /</code>. They work on NUMBER (and DATE) values.</li>\n<li><b>Precedence:</b> * and / are done before + and -. So <code>sal + 1000 * 2</code> = sal + 2000, while <code>(sal + 1000) * 2</code> adds first. Brackets change the order.</li>\n<li><b>Any arithmetic with NULL gives NULL.</b> PRIYA and VIJAY have no commission, so their <code>total</code> is blank. Use <code>NVL(comm, 0)</code> to fix this (see the NVL program).</li></ul>\n"
+   }
+  },
+  {
+   "id": "q2_3",
+   "title": {
+    "en": "Special operators IN and BETWEEN"
+   },
+   "code": {
+    "en": "SELECT ename, job FROM emp\nWHERE job IN ('CLERK', 'ANALYST');\n\nSELECT ename, deptno FROM emp\nWHERE deptno NOT IN (10, 20);\n\nSELECT ename, sal FROM emp\nWHERE sal BETWEEN 30000 AND 50000;"
+   },
+   "out": "ENAME JOB\n----- -------\nNEHA  ANALYST\nKIRAN CLERK\nVIJAY CLERK\n\nENAME DEPTNO\n----- ------\nPRIYA     30\nSUNIL     30\nPOOJA     30\nVIJAY     30\n\nENAME   SAL\n----- -----\nNEHA  45000\nSUNIL 30000\nHETAL 40000",
+   "expl": {
+    "en": "\n<ul><li><b>IN (list)</b> is true if the value equals <b>any</b> value in the list. It is a short form of <code>job = 'CLERK' OR job = 'ANALYST'</code>.</li>\n<li><b>NOT IN</b> is the opposite. MEHUL (deptno NULL) is <b>not</b> returned: a comparison with NULL is never true.</li>\n<li><b>BETWEEN a AND b</b> includes both limits: <code>sal &gt;= 30000 AND sal &lt;= 50000</code>. The smaller value must come first. It also works with dates and text.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q2_4",
+   "title": {
+    "en": "Pattern matching with LIKE"
+   },
+   "code": {
+    "en": "SELECT ename FROM emp\nWHERE ename LIKE 'P%';\n\nSELECT ename FROM emp\nWHERE ename LIKE '%A';\n\nSELECT ename FROM emp\nWHERE ename LIKE '_I%';\n\nSELECT ename FROM emp\nWHERE ename LIKE '____';\n\nSELECT ename FROM emp\nWHERE ename NOT LIKE '%A%';"
+   },
+   "out": "ENAME\n-----\nPRIYA\nPOOJA\n\nENAME\n-----\nPRIYA\nNEHA\nPOOJA\n\nENAME\n-----\nKIRAN\nVIJAY\n\nENAME\n-----\nAMIT\nNEHA\n\nENAME\n-----\nSUNIL\nMEHUL",
+   "expl": {
+    "en": "\n<ul><li><code>%</code> = any number of characters (even zero); <code>_</code> = exactly one character.</li>\n<li><code>'P%'</code>: starts with P. <code>'%A'</code>: ends with A. <code>'_I%'</code>: second letter is I.</li>\n<li><code>'____'</code> (4 underscores): names with exactly 4 letters.</li>\n<li><code>NOT LIKE '%A%'</code>: names that contain no A at all.</li>\n<li>LIKE is <b>case-sensitive</b>. To search for a real % or _, use ESCAPE: <code>LIKE '%\\_%' ESCAPE '\\'</code>.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q2_5",
+   "title": {
+    "en": "IS NULL and IS NOT NULL"
+   },
+   "code": {
+    "en": "SELECT ename, comm FROM emp\nWHERE comm IS NOT NULL;\n\nSELECT ename, job FROM emp\nWHERE mgr IS NULL;\n\nSELECT ename FROM emp\nWHERE comm = NULL;"
+   },
+   "out": "ENAME COMM\n----- ----\nSUNIL 3000\nPOOJA 5000\n\nENAME  JOB\n------ ---------\nRAJESH PRESIDENT\n\nno rows selected",
+   "expl": {
+    "en": "\n<ul><li>NULL means unknown, so it cannot be compared with <code>=</code>. Use <b>IS NULL</b> / <b>IS NOT NULL</b>.</li>\n<li>RAJESH is the president and has no manager, so <code>mgr IS NULL</code> finds him.</li>\n<li><code>comm = NULL</code> is never true (the result is \"unknown\"), so it returns <b>no rows</b> even though 8 employees have no commission. This is a common mistake.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q2_6",
+   "title": {
+    "en": "ANY and ALL with a sub-query"
+   },
+   "code": {
+    "en": "SELECT ename, sal FROM emp\nWHERE sal > ALL (SELECT sal FROM emp\n                 WHERE deptno = 30);\n\nSELECT ename, sal FROM emp\nWHERE sal < ANY (SELECT sal FROM emp\n                 WHERE job = 'CLERK');"
+   },
+   "out": "ENAME    SAL\n------ -----\nRAJESH 90000\nAMIT   60000\n\nENAME   SAL\n----- -----\nVIJAY 20000\nMEHUL 15000",
+   "expl": {
+    "en": "\n<ul><li><b>&gt; ALL</b>: greater than <b>every</b> value in the list, i.e. greater than the maximum. The highest salary in dept 30 is 58000, so only 90000 and 60000 qualify.</li>\n<li><b>&lt; ANY</b>: less than <b>at least one</b> value, i.e. less than the maximum. The clerks earn 22000 and 20000, so salaries below 22000 qualify.</li>\n<li>Summary: <code>&gt; ANY</code> = more than the minimum; <code>&lt; ALL</code> = less than the minimum; <code>= ANY</code> is the same as IN.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q2_7",
+   "title": {
+    "en": "EXISTS and NOT EXISTS"
+   },
+   "code": {
+    "en": "SELECT d.deptno, d.dname\nFROM dept d\nWHERE EXISTS (SELECT 1 FROM emp e\n              WHERE e.deptno = d.deptno);\n\nSELECT d.deptno, d.dname\nFROM dept d\nWHERE NOT EXISTS\n      (SELECT 1 FROM emp e\n       WHERE e.deptno = d.deptno);"
+   },
+   "out": "DEPTNO DNAME\n------ --------\n    10 ACCOUNTS\n    20 RESEARCH\n    30 SALES\n\nDEPTNO DNAME\n------ ----------\n    40 OPERATIONS",
+   "expl": {
+    "en": "\n<ul><li><b>EXISTS</b> is true if the sub-query returns <b>at least one row</b>. The values returned do not matter, so <code>SELECT 1</code> is common.</li>\n<li>For each department, the inner query checks whether some employee works there (a correlated sub-query).</li>\n<li><b>NOT EXISTS</b> finds departments with no employees: OPERATIONS (40).</li>\n<li>EXISTS stops searching at the first match, so it is often faster than IN for large tables.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q2_8",
+   "title": {
+    "en": "DUAL table and numeric functions"
+   },
+   "code": {
+    "en": "SELECT ABS(-25) a, POWER(2, 5) p,\n       MOD(17, 5) m, SQRT(144) s\nFROM dual;\n\nSELECT ROUND(156.786, 2) r1,\n       ROUND(156.786) r2,\n       ROUND(156.786, -1) r3,\n       TRUNC(156.786, 2) t1,\n       TRUNC(156.786) t2\nFROM dual;\n\nSELECT CEIL(12.1) c, FLOOR(12.9) f,\n       ROUND(-2.5) r, TRUNC(-2.7) t\nFROM dual;"
+   },
+   "out": " A  P M  S\n-- -- - --\n25 32 2 12\n\n    R1  R2  R3     T1  T2\n------ --- --- ------ ---\n156.79 157 160 156.78 156\n\n C  F  R  T\n-- -- -- --\n13 12 -3 -2",
+   "expl": {
+    "en": "\n<p><b>DUAL</b> is a special one-row, one-column table owned by SYS. It is used to calculate expressions or call functions that do not need any table.</p>\n<ul><li><code>ABS(n)</code>: absolute value. <code>POWER(m, n)</code>: m<sup>n</sup>. <code>MOD(m, n)</code>: remainder of m ÷ n. <code>SQRT(n)</code>: square root.</li>\n<li><code>ROUND(n, d)</code>: rounds to d decimal places (5 and above goes up). A negative d rounds to the left of the decimal point: <code>ROUND(156.786, -1)</code> = 160.</li>\n<li><code>TRUNC(n, d)</code>: cuts off the digits without rounding: 156.78.</li>\n<li><code>CEIL(n)</code>: smallest integer ≥ n. <code>FLOOR(n)</code>: largest integer ≤ n.</li>\n<li>For negatives: ROUND(-2.5) = -3, while TRUNC(-2.7) = -2 (it just drops the decimals).</li></ul>\n"
+   }
+  },
+  {
+   "id": "q2_9",
+   "title": {
+    "en": "Numeric functions on table data"
+   },
+   "code": {
+    "en": "SELECT ename, sal,\n       ROUND(sal / 12, 2) monthly,\n       MOD(sal, 7) m7,\n       TRUNC(sal * 0.0833) bonus\nFROM emp\nWHERE deptno = 20;"
+   },
+   "out": "ENAME   SAL MONTHLY M7 BONUS\n----- ----- ------- -- -----\nAMIT  60000    5000  3  4998\nNEHA  45000    3750  4  3748\nKIRAN 22000 1833.33  6  1832",
+   "expl": {
+    "en": "\n<ul><li>Functions are applied to every row of the result.</li>\n<li><code>ROUND(sal / 12, 2)</code> shows the monthly pay to 2 decimals. Oracle drops trailing zeros (5000, not 5000.00); use TO_CHAR to format.</li>\n<li><code>MOD(sal, 7)</code> gives the remainder when the salary is divided by 7.</li>\n<li><code>TRUNC(sal * 0.0833)</code>: bonus with the paise removed.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q2_10",
+   "title": {
+    "en": "Character functions: case and length"
+   },
+   "code": {
+    "en": "SELECT UPPER('gtu exam') u,\n       LOWER('DIPLOMA') l,\n       INITCAP('surat city') i,\n       LENGTH('Gujarat') len\nFROM dual;\n\nSELECT ename, INITCAP(ename) name,\n       LOWER(job) job,\n       LENGTH(ename) len,\n       CONCAT(ename, deptno) c,\n       ename || '-' || job j\nFROM emp\nWHERE deptno = 10;"
+   },
+   "out": "U        L       I          LEN\n-------- ------- ---------- ---\nGTU EXAM diploma Surat City   7\n\nENAME  NAME   JOB        LEN C        J\n------ ------ ---------- --- -------- ----------------\nRAJESH Rajesh president    6 RAJESH10 RAJESH-PRESIDENT\nHETAL  Hetal  accountant   5 HETAL10  HETAL-ACCOUNTANT",
+   "expl": {
+    "en": "\n<ul><li><code>UPPER</code> / <code>LOWER</code>: convert to capitals / small letters.</li>\n<li><code>INITCAP</code>: first letter of each word in capitals, the rest small.</li>\n<li><code>LENGTH</code>: number of characters.</li>\n<li><code>CONCAT(a, b)</code>: joins exactly <b>two</b> strings (numbers are converted automatically). The <code>||</code> operator can join any number of strings.</li>\n<li>Searching without worrying about case: <code>WHERE UPPER(ename) = 'AMIT'</code>.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q2_11",
+   "title": {
+    "en": "Character functions: LTRIM, RTRIM, REPLACE, LPAD, RPAD"
+   },
+   "code": {
+    "en": "SELECT LTRIM('   GTU') a,\n       RTRIM('xxGTUxx', 'x') b,\n       LTRIM('000123', '0') c,\n       REPLACE('JACK AND JUE', 'J', 'BL') d\nFROM dual;\n\nSELECT LPAD(ename, 8, '*') lp,\n       RPAD(ename, 8, '.') rp,\n       LPAD(sal, 7, '0') sal\nFROM emp\nWHERE deptno = 10;"
+   },
+   "out": "A   B     C   D\n--- ----- --- --------------\nGTU xxGTU 123 BLACK AND BLUE\n\nLP       RP       SAL\n-------- -------- -------\n**RAJESH RAJESH.. 0090000\n***HETAL HETAL... 0040000",
+   "expl": {
+    "en": "\n<ul><li><code>LTRIM(s, set)</code> / <code>RTRIM(s, set)</code>: remove the given characters (default: spaces) from the left / right end. <code>TRIM(s)</code> removes spaces from both ends.</li>\n<li><code>LTRIM('000123', '0')</code> removes leading zeros.</li>\n<li><code>REPLACE(s, find, new)</code>: replaces every occurrence. Without the third argument the text is removed.</li>\n<li><code>LPAD(s, n, c)</code> / <code>RPAD(s, n, c)</code>: pad on the left / right with character c up to total length n. LPAD is used to right-align numbers or add leading zeros.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q2_12",
+   "title": {
+    "en": "Character functions: SUBSTR and INSTR"
+   },
+   "code": {
+    "en": "SELECT SUBSTR('GUJARAT', 3, 3) a,\n       SUBSTR('GUJARAT', 4) b,\n       SUBSTR('GUJARAT', -3) c,\n       INSTR('GUJARAT', 'A') d,\n       INSTR('GUJARAT', 'A', 1, 2) e,\n       INSTR('GUJARAT', 'Z') f\nFROM dual;\n\nSELECT ename, SUBSTR(ename, 1, 3) code,\n       INSTR(ename, 'A') pos_a\nFROM emp\nWHERE deptno = 30;"
+   },
+   "out": "A   B    C   D E F\n--- ---- --- - - -\nJAR ARAT RAT 4 6 0\n\nENAME CODE POS_A\n----- ---- -----\nPRIYA PRI      5\nSUNIL SUN      0\nPOOJA POO      5\nVIJAY VIJ      4",
+   "expl": {
+    "en": "\n<ul><li><code>SUBSTR(s, start, len)</code>: extracts <code>len</code> characters from position <code>start</code> (the first character is 1). Without <code>len</code> it goes to the end. A negative start counts from the right.</li>\n<li><code>INSTR(s, find, start, n)</code>: the position of the <b>n-th</b> occurrence of <code>find</code>, searching from <code>start</code>. It returns <b>0</b> if not found.</li>\n<li>SUBSTR(ename, 1, 3) makes a 3-letter code; INSTR gives 0 for SUNIL because it has no A.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q2_13",
+   "title": {
+    "en": "Date functions: SYSDATE, ADD_MONTHS, MONTHS_BETWEEN, NEXT_DAY, LAST_DAY"
+   },
+   "code": {
+    "en": "SELECT SYSDATE today,\n       ADD_MONTHS(SYSDATE, 3) plus3,\n       ADD_MONTHS(SYSDATE, -1) minus1,\n       LAST_DAY(SYSDATE) last,\n       NEXT_DAY(SYSDATE, 'MONDAY') nxt\nFROM dual;\n\nSELECT ename, hiredate,\n       ROUND(MONTHS_BETWEEN(SYSDATE,\n             hiredate)) months,\n       ADD_MONTHS(hiredate, 6) probation\nFROM emp\nWHERE deptno = 10;"
+   },
+   "out": "TODAY     PLUS3     MINUS1    LAST      NXT\n--------- --------- --------- --------- ---------\n28-OCT-26 28-JAN-27 28-SEP-26 31-OCT-26 02-NOV-26\n\nENAME  HIREDATE  MONTHS PROBATION\n------ --------- ------ ---------\nRAJESH 10-JAN-15    142 10-JUL-15\nHETAL  12-SEP-17    110 12-MAR-18",
+   "expl": {
+    "en": "\n<ul><li><code>SYSDATE</code>: the current date and time of the server.</li>\n<li><code>ADD_MONTHS(d, n)</code>: adds n months (n may be negative). If d is the last day of a month, the result is the last day of the new month (31-JAN + 1 → 28/29-FEB).</li>\n<li><code>MONTHS_BETWEEN(d1, d2)</code>: the number of months from d2 to d1 (it can be fractional); positive if d1 is later.</li>\n<li><code>LAST_DAY(d)</code>: the last date of d's month.</li>\n<li><code>NEXT_DAY(d, 'DAY')</code>: the date of the next given weekday after d. 28-OCT-26 is a Wednesday, so the next Monday is 02-NOV-26.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q2_14",
+   "title": {
+    "en": "ROUND and TRUNC on dates, and date arithmetic"
+   },
+   "code": {
+    "en": "SELECT ROUND(SYSDATE, 'MONTH') rm,\n       TRUNC(SYSDATE, 'MONTH') tm,\n       ROUND(SYSDATE, 'YEAR') ry,\n       TRUNC(SYSDATE, 'YEAR') ty\nFROM dual;\n\nSELECT ename,\n       TRUNC(SYSDATE - hiredate) days,\n       TRUNC((SYSDATE - hiredate) / 7)\n         weeks,\n       hiredate + 90 review\nFROM emp\nWHERE deptno = 10;"
+   },
+   "out": "RM        TM        RY        TY\n--------- --------- --------- ---------\n01-NOV-26 01-OCT-26 01-JAN-27 01-JAN-26\n\nENAME  DAYS WEEKS REVIEW\n------ ---- ----- ---------\nRAJESH 4309   615 10-APR-15\nHETAL  3333   476 11-DEC-17",
+   "expl": {
+    "en": "\n<ul><li><code>ROUND(d, 'MONTH')</code>: to the 1st of the nearest month (day 16 or later rounds up). 28-OCT → 01-NOV.</li>\n<li><code>TRUNC(d, 'MONTH')</code>: to the 1st of the same month. <code>'YEAR'</code> works the same way (July or later rounds up to the next year).</li>\n<li><b>Date arithmetic:</b> date − date = number of <b>days</b> (with a fraction for the time); date + n = the date n days later.</li>\n<li>TRUNC removes the fractional day, so we get complete days and weeks.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q2_15",
+   "title": {
+    "en": "TO_CHAR: format dates and numbers"
+   },
+   "code": {
+    "en": "SELECT TO_CHAR(SYSDATE, 'DD/MM/YYYY') a,\n       TO_CHAR(SYSDATE, 'DD-MON-YYYY') b,\n       TO_CHAR(SYSDATE, 'fmDay, DD Month')\n         c,\n       TO_CHAR(SYSDATE, 'HH24:MI:SS') t\nFROM dual;\n\nSELECT ename,\n       TO_CHAR(hiredate, 'YYYY') yr,\n       TO_CHAR(hiredate, 'Mon') mon,\n       TO_CHAR(sal, '99,999.99') salary\nFROM emp\nWHERE deptno = 20;"
+   },
+   "out": "A          B           C                     T\n---------- ----------- --------------------- --------\n28/10/2026 28-OCT-2026 Wednesday, 28 October 10:30:15\n\nENAME YR   MON SALARY\n----- ---- --- ----------\nAMIT  2016 Mar  60,000.00\nNEHA  2018 May  45,000.00\nKIRAN 2020 Nov  22,000.00",
+   "expl": {
+    "en": "\n<p><code>TO_CHAR(date, 'format')</code> converts a date to text in any format.</p>\n<ul><li>Elements: <code>DD</code> day, <code>MM</code> month number, <code>MON</code> JAN, <code>MONTH</code> JANUARY, <code>YY/YYYY</code> year, <code>DAY</code> weekday, <code>DY</code> WED, <code>HH24:MI:SS</code> time, <code>Q</code> quarter.</li>\n<li>The case of the format controls the output: <code>Mon</code> → Mar, <code>MON</code> → MAR.</li>\n<li><code>fm</code> (fill mode) removes extra spaces from Day and Month names.</li>\n<li><code>TO_CHAR(number, '99,999.99')</code>: 9 = a digit, comma = thousands separator, period = decimal point. One extra leading space is kept for the sign.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q2_16",
+   "title": {
+    "en": "TO_DATE and TO_NUMBER"
+   },
+   "code": {
+    "en": "SELECT TO_DATE('15-08-2026',\n               'DD-MM-YYYY') d1,\n       TO_DATE('January 26, 2027',\n               'Month DD, YYYY') d2\nFROM dual;\n\nSELECT TO_NUMBER('5,000', '9,999') + 1 n,\n       TO_NUMBER('12.75') * 2 m\nFROM dual;\n\nSELECT ename, hiredate FROM emp\nWHERE hiredate > TO_DATE('01-01-2021',\n                         'DD-MM-YYYY');"
+   },
+   "out": "D1        D2\n--------- ---------\n15-AUG-26 26-JAN-27\n\n   N    M\n---- ----\n5001 25.5\n\nENAME HIREDATE\n----- ---------\nPOOJA 30-AUG-21\nVIJAY 05-JAN-22\nMEHUL 03-JUN-24",
+   "expl": {
+    "en": "\n<ul><li><code>TO_DATE(text, 'format')</code> converts text to a DATE. The format must describe the text exactly; the result is shown in the default DD-MON-YY format.</li>\n<li><code>TO_NUMBER(text, 'format')</code> converts text (which may contain commas) to a number so arithmetic can be done.</li>\n<li>Always compare dates using TO_DATE, never with a plain string, because the default date format can differ between systems.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q2_17",
+   "title": {
+    "en": "NVL, NVL2 and DECODE"
+   },
+   "code": {
+    "en": "SELECT ename, comm,\n       NVL(comm, 0) c,\n       sal + NVL(comm, 0) total,\n       NVL2(comm, 'YES', 'NO') has_comm\nFROM emp\nWHERE deptno = 30;\n\nSELECT ename, deptno,\n       DECODE(deptno, 10, 'ACCOUNTS',\n                      20, 'RESEARCH',\n                      30, 'SALES',\n                      'NO DEPT') dept\nFROM emp\nWHERE empno IN (101, 102, 103, 110);"
+   },
+   "out": "ENAME COMM    C TOTAL HAS_COMM\n----- ---- ---- ----- --------\nPRIYA         0 58000 NO\nSUNIL 3000 3000 33000 YES\nPOOJA 5000 5000 33000 YES\nVIJAY         0 20000 NO\n\nENAME  DEPTNO DEPT\n------ ------ --------\nRAJESH     10 ACCOUNTS\nAMIT       20 RESEARCH\nPRIYA      30 SALES\nMEHUL         NO DEPT",
+   "expl": {
+    "en": "\n<ul><li><code>NVL(expr, value)</code>: if expr is NULL, return value; otherwise return expr. Used to treat a missing commission as 0.</li>\n<li><code>NVL2(expr, a, b)</code>: returns a if expr is <b>not</b> NULL, otherwise b.</li>\n<li><code>DECODE(expr, s1, r1, s2, r2, ..., default)</code>: works like an IF-THEN-ELSE / switch-case. It compares expr with each search value and returns the matching result, or the default. MEHUL has no department, so he gets 'NO DEPT'.</li>\n<li>The standard SQL equivalent of DECODE is the <code>CASE</code> expression.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q2_18",
+   "title": {
+    "en": "Aggregate functions"
+   },
+   "code": {
+    "en": "SELECT COUNT(*) emps, COUNT(comm) c,\n       SUM(sal) total, MAX(sal) max,\n       MIN(sal) min, AVG(sal) avg\nFROM emp;\n\nSELECT COUNT(DISTINCT job) jobs,\n       MIN(hiredate) first,\n       MAX(ename) last_name\nFROM emp;"
+   },
+   "out": "EMPS C  TOTAL   MAX   MIN   AVG\n---- - ------ ----- ----- -----\n  10 2 408000 90000 15000 40800\n\nJOBS FIRST     LAST_NAME\n---- --------- ---------\n   7 10-JAN-15 VIJAY",
+   "expl": {
+    "en": "\n<ul><li>Aggregate (group) functions return <b>one result for a set of rows</b>.</li>\n<li><code>COUNT(*)</code> counts all rows; <code>COUNT(comm)</code> counts only non-NULL values (2). All aggregates except COUNT(*) <b>ignore NULLs</b>.</li>\n<li><code>SUM</code> and <code>AVG</code> work on numbers; <code>MAX</code>, <code>MIN</code> and <code>COUNT</code> also work on dates and text (MAX(ename) = alphabetically last).</li>\n<li><code>COUNT(DISTINCT job)</code> counts the different jobs.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q2_19",
+   "title": {
+    "en": "GROUP BY with ORDER BY"
+   },
+   "code": {
+    "en": "SELECT deptno, COUNT(*) emps,\n       SUM(sal) total,\n       ROUND(AVG(sal)) avg\nFROM emp\nWHERE deptno IS NOT NULL\nGROUP BY deptno\nORDER BY deptno;\n\nSELECT deptno, job, COUNT(*) n\nFROM emp\nWHERE deptno IN (20, 30)\nGROUP BY deptno, job\nORDER BY deptno, n DESC, job;"
+   },
+   "out": "DEPTNO EMPS  TOTAL   AVG\n------ ---- ------ -----\n    10    2 130000 65000\n    20    3 127000 42333\n    30    4 136000 34000\n\nDEPTNO JOB      N\n------ -------- -\n    20 ANALYST  1\n    20 CLERK    1\n    20 MANAGER  1\n    30 SALESMAN 2\n    30 CLERK    1\n    30 MANAGER  1\n\n6 rows selected.",
+   "expl": {
+    "en": "\n<ul><li><b>GROUP BY</b> divides the rows into groups with the same value(s); each aggregate is calculated per group, giving one row per group.</li>\n<li>Every column in the SELECT list that is not inside an aggregate function <b>must</b> be in GROUP BY (otherwise: ORA-00979 not a GROUP BY expression).</li>\n<li>Grouping by two columns makes one group for every (deptno, job) combination.</li>\n<li><code>ORDER BY</code> sorts the final result; <code>DESC</code> gives descending order, and the alias <code>n</code> can be used. Without ORDER BY, Oracle does not guarantee any row order.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q2_20",
+   "title": {
+    "en": "HAVING: filter groups"
+   },
+   "code": {
+    "en": "SELECT deptno, COUNT(*) emps,\n       AVG(sal) avg_sal\nFROM emp\nWHERE deptno IS NOT NULL\nGROUP BY deptno\nHAVING COUNT(*) > 2;\n\nSELECT job, SUM(sal) total\nFROM emp\nWHERE job <> 'PRESIDENT'\nGROUP BY job\nHAVING SUM(sal) >= 50000\nORDER BY total DESC;"
+   },
+   "out": "DEPTNO EMPS    AVG_SAL\n------ ---- ----------\n    20    3 42333.3333\n    30    4      34000\n\nJOB       TOTAL\n-------- ------\nMANAGER  118000\nSALESMAN  58000",
+   "expl": {
+    "en": "\n<ul><li><b>WHERE</b> filters <b>rows</b> before grouping; it cannot use aggregate functions.</li>\n<li><b>HAVING</b> filters <b>groups</b> after grouping; it is used with aggregate functions.</li>\n<li>Second query: the president row is removed first (WHERE), then the rows are grouped by job, and only jobs with a total salary of at least 50000 are kept (HAVING). The result is sorted by total.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q2_21",
+   "title": {
+    "en": "ORDER BY: ascending, descending, multiple columns, NULLs"
+   },
+   "code": {
+    "en": "SELECT ename, deptno, sal\nFROM emp\nWHERE sal >= 40000\nORDER BY deptno, sal DESC;\n\nSELECT ename, comm FROM emp\nWHERE deptno = 30\nORDER BY comm DESC;\n\nSELECT ename, sal * 12 annual\nFROM emp\nWHERE deptno = 20\nORDER BY 2;"
+   },
+   "out": "ENAME  DEPTNO   SAL\n------ ------ -----\nRAJESH     10 90000\nHETAL      10 40000\nAMIT       20 60000\nNEHA       20 45000\nPRIYA      30 58000\n\nENAME COMM\n----- ----\nPRIYA\nVIJAY\nPOOJA 5000\nSUNIL 3000\n\nENAME ANNUAL\n----- ------\nKIRAN 264000\nNEHA  540000\nAMIT  720000",
+   "expl": {
+    "en": "\n<ul><li><code>ORDER BY deptno, sal DESC</code>: sort by deptno (ascending, the default); within the same deptno, by salary in descending order.</li>\n<li>In Oracle, <b>NULLs are treated as the largest value</b>: they come last in ASC and <b>first in DESC</b> (change with <code>NULLS FIRST / NULLS LAST</code>).</li>\n<li>You can sort by a column position (<code>ORDER BY 2</code>) or by an alias.</li>\n<li>ORDER BY is always the last clause of a query.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q2_22",
+   "title": {
+    "en": "Inner (equi) join and non-equi join"
+   },
+   "code": {
+    "en": "SELECT e.ename, e.job, d.dname, d.loc\nFROM emp e INNER JOIN dept d\nON e.deptno = d.deptno\nWHERE e.sal >= 45000;\n\n-- Oracle traditional syntax\nSELECT e.ename, d.dname\nFROM emp e, dept d\nWHERE e.deptno = d.deptno\nAND d.loc = 'VADODARA';\n\n-- Non-equi join\nSELECT e.ename, e.sal, s.grade\nFROM emp e JOIN salgrade s\nON e.sal BETWEEN s.losal AND s.hisal\nWHERE e.deptno = 30\nORDER BY s.grade, e.ename;"
+   },
+   "out": "ENAME  JOB       DNAME    LOC\n------ --------- -------- ---------\nRAJESH PRESIDENT ACCOUNTS SURAT\nAMIT   MANAGER   RESEARCH AHMEDABAD\nPRIYA  MANAGER   SALES    VADODARA\nNEHA   ANALYST   RESEARCH AHMEDABAD\n\nENAME DNAME\n----- -----\nPRIYA SALES\nSUNIL SALES\nPOOJA SALES\nVIJAY SALES\n\nENAME   SAL GRADE\n----- ----- -----\nPOOJA 28000     2\nVIJAY 20000     2\nSUNIL 30000     3\nPRIYA 58000     4",
+   "expl": {
+    "en": "\n<ul><li>An <b>inner join</b> returns only the rows that have a match in both tables. MEHUL (no department) and OPERATIONS (no employees) never appear.</li>\n<li>An <b>equi join</b> uses <code>=</code> in the join condition. The ANSI syntax uses <code>JOIN ... ON</code>; the traditional Oracle syntax lists the tables with commas and puts the condition in WHERE.</li>\n<li><b>Table aliases</b> (e, d) make the query short, and they are needed when both tables have a column with the same name (deptno).</li>\n<li>A <b>non-equi join</b> uses an operator other than = (here BETWEEN) to match each salary with its grade.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q2_23",
+   "title": {
+    "en": "Outer joins: LEFT, RIGHT and FULL"
+   },
+   "code": {
+    "en": "SELECT e.ename, d.dname\nFROM emp e LEFT OUTER JOIN dept d\nON e.deptno = d.deptno\nWHERE e.empno >= 108;\n\nSELECT d.dname, COUNT(e.empno) emps\nFROM emp e RIGHT OUTER JOIN dept d\nON e.deptno = d.deptno\nGROUP BY d.dname\nORDER BY emps;\n\nSELECT e.ename, d.dname\nFROM emp e FULL OUTER JOIN dept d\nON e.deptno = d.deptno\nWHERE e.ename IS NULL\n   OR d.dname IS NULL;"
+   },
+   "out": "ENAME DNAME\n----- --------\nVIJAY SALES\nHETAL ACCOUNTS\nMEHUL\n\nDNAME      EMPS\n---------- ----\nOPERATIONS    0\nACCOUNTS      2\nRESEARCH      3\nSALES         4\n\nENAME DNAME\n----- ----------\nMEHUL\n      OPERATIONS",
+   "expl": {
+    "en": "\n<ul><li><b>LEFT OUTER JOIN</b>: all rows of the left table (emp) plus the matching rows of the right table. MEHUL appears with a NULL dname.</li>\n<li><b>RIGHT OUTER JOIN</b>: all rows of the right table (dept). OPERATIONS appears with no employee, so <code>COUNT(e.empno)</code> = 0.</li>\n<li><b>FULL OUTER JOIN</b>: all rows of both tables. The WHERE keeps only the unmatched rows from either side.</li>\n<li>Old Oracle syntax for an outer join uses <code>(+)</code> on the side that may be missing: <code>WHERE e.deptno = d.deptno(+)</code> is a left join.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q2_24",
+   "title": {
+    "en": "Cross join and self join"
+   },
+   "code": {
+    "en": "SELECT e.ename, d.dname\nFROM emp e CROSS JOIN dept d\nWHERE e.empno = 101;\n\nSELECT w.ename worker, m.ename manager\nFROM emp w JOIN emp m\nON w.mgr = m.empno\nWHERE m.job = 'MANAGER'\nORDER BY manager, worker;"
+   },
+   "out": "ENAME  DNAME\n------ ----------\nRAJESH ACCOUNTS\nRAJESH RESEARCH\nRAJESH SALES\nRAJESH OPERATIONS\n\nWORKER MANAGER\n------ -------\nKIRAN  AMIT\nNEHA   AMIT\nPOOJA  PRIYA\nSUNIL  PRIYA\nVIJAY  PRIYA",
+   "expl": {
+    "en": "\n<ul><li>A <b>cross join</b> (Cartesian product) pairs every row of one table with every row of the other: 10 × 4 = 40 rows. Here only RAJESH's 4 combinations are shown.</li>\n<li>A <b>self join</b> joins a table with <b>itself</b> using two different aliases. Here <code>w</code> plays the worker and <code>m</code> plays the manager; the condition <code>w.mgr = m.empno</code> finds each worker's manager.</li>\n<li>Use <code>LEFT JOIN</code> in the self join to also list RAJESH, who has no manager.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q2_25",
+   "title": {
+    "en": "Single-row and multiple-row sub-queries"
+   },
+   "code": {
+    "en": "SELECT ename, sal FROM emp\nWHERE sal > (SELECT AVG(sal) FROM emp);\n\nSELECT ename, job FROM emp\nWHERE job = (SELECT job FROM emp\n             WHERE ename = 'NEHA');\n\nSELECT ename, deptno FROM emp\nWHERE deptno IN (SELECT deptno FROM dept\n                 WHERE loc IN ('SURAT',\n                               'RAJKOT'));"
+   },
+   "out": "ENAME    SAL\n------ -----\nRAJESH 90000\nAMIT   60000\nPRIYA  58000\nNEHA   45000\n\nENAME JOB\n----- -------\nNEHA  ANALYST\n\nENAME  DEPTNO\n------ ------\nRAJESH     10\nHETAL      10",
+   "expl": {
+    "en": "\n<ul><li>A <b>sub-query</b> (inner query) is a SELECT inside another SQL statement. The inner query runs first and its result is used by the outer query.</li>\n<li><b>Single-row sub-query</b>: returns one value. Use single-row operators <code>= &gt; &lt; &gt;= &lt;= &lt;&gt;</code>. The average salary is 40800.</li>\n<li><b>Multiple-row sub-query</b>: returns many values. Use <code>IN</code>, <code>ANY</code>, <code>ALL</code> or <code>EXISTS</code>. Using = with many rows gives ORA-01427.</li>\n<li>A sub-query is always written in brackets and cannot have its own ORDER BY.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q2_26",
+   "title": {
+    "en": "Nested sub-query up to 3 levels"
+   },
+   "code": {
+    "en": "-- Employees working in the department\n-- of the highest-paid manager\nSELECT ename, job, deptno FROM emp\nWHERE deptno =\n  (SELECT deptno FROM emp\n   WHERE sal =\n     (SELECT MAX(sal) FROM emp\n      WHERE job = 'MANAGER'));\n\n-- 2nd highest salary\nSELECT MAX(sal) second_max FROM emp\nWHERE sal < (SELECT MAX(sal) FROM emp);"
+   },
+   "out": "ENAME JOB     DEPTNO\n----- ------- ------\nAMIT  MANAGER     20\nNEHA  ANALYST     20\nKIRAN CLERK       20\n\nSECOND_MAX\n----------\n     60000",
+   "expl": {
+    "en": "\n<p>Sub-queries can be nested inside each other (up to 255 levels in Oracle). The <b>innermost</b> query runs first:</p>\n<ol><li>Level 3: <code>MAX(sal)</code> of managers = 60000.</li>\n<li>Level 2: the deptno of the employee earning 60000 = 20.</li>\n<li>Level 1: all employees of department 20.</li></ol>\n<p>The second query is a classic exam question: the highest salary among those that are less than the overall maximum gives the 2nd highest salary.</p>\n"
+   }
+  },
+  {
+   "id": "q2_27",
+   "title": {
+    "en": "Correlated sub-query"
+   },
+   "code": {
+    "en": "-- Earns more than own dept average\nSELECT e.ename, e.deptno, e.sal\nFROM emp e\nWHERE e.sal > (SELECT AVG(sal)\n               FROM emp\n               WHERE deptno = e.deptno);\n\n-- Highest paid in each department\nSELECT ename, deptno, sal FROM emp e\nWHERE sal = (SELECT MAX(sal) FROM emp\n             WHERE deptno = e.deptno)\nORDER BY deptno;"
+   },
+   "out": "ENAME  DEPTNO   SAL\n------ ------ -----\nRAJESH     10 90000\nAMIT       20 60000\nPRIYA      30 58000\nNEHA       20 45000\n\nENAME  DEPTNO   SAL\n------ ------ -----\nRAJESH     10 90000\nAMIT       20 60000\nPRIYA      30 58000",
+   "expl": {
+    "en": "\n<ul><li>In a <b>correlated sub-query</b>, the inner query uses a column of the outer query (<code>e.deptno</code>), so it cannot run alone.</li>\n<li>It is executed <b>once for every row</b> of the outer query: for NEHA (dept 20), it calculates the average of dept 20 (42333.33) and compares her salary 45000.</li>\n<li>A normal (nested) sub-query runs only <b>once</b>; a correlated sub-query runs many times, so it can be slower.</li>\n<li>MEHUL has a NULL deptno, so <code>deptno = NULL</code> never matches and he is not listed.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q2_28",
+   "title": {
+    "en": "Set operators: UNION, UNION ALL, INTERSECT, MINUS"
+   },
+   "code": {
+    "en": "SELECT job FROM emp WHERE deptno = 10\nUNION\nSELECT job FROM emp WHERE deptno = 30;\n\nSELECT job FROM emp WHERE deptno = 10\nUNION ALL\nSELECT job FROM emp WHERE deptno = 30;\n\nSELECT job FROM emp WHERE deptno = 20\nINTERSECT\nSELECT job FROM emp WHERE deptno = 30;\n\nSELECT deptno FROM dept\nMINUS\nSELECT deptno FROM emp;"
+   },
+   "out": "JOB\n----------\nACCOUNTANT\nCLERK\nMANAGER\nPRESIDENT\nSALESMAN\n\nJOB\n----------\nPRESIDENT\nACCOUNTANT\nMANAGER\nSALESMAN\nSALESMAN\nCLERK\n\n6 rows selected.\n\nJOB\n-------\nCLERK\nMANAGER\n\nDEPTNO\n------\n    40",
+   "expl": {
+    "en": "\n<ul><li><b>UNION</b>: rows from both queries, with duplicates removed and the result sorted.</li>\n<li><b>UNION ALL</b>: all rows from both queries, <b>including duplicates</b> (SALESMAN twice), not sorted. It is faster.</li>\n<li><b>INTERSECT</b>: only rows present in <b>both</b> results: jobs found in both dept 20 and 30.</li>\n<li><b>MINUS</b>: rows of the first query that are <b>not</b> in the second: departments without employees (40).</li>\n<li>Both queries must select the same number of columns with compatible types.</li></ul>\n"
+   }
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "db2_operators",
+   "title": {
+    "en": "SQL Operators"
+   },
+   "file": "diagrams/db2_operators.svg"
+  },
+  {
+   "id": "db2_like",
+   "title": {
+    "en": "LIKE Wildcards: % and _"
+   },
+   "file": "diagrams/db2_like.svg"
+  },
+  {
+   "id": "db2_functions",
+   "title": {
+    "en": "Types of SQL Functions"
+   },
+   "file": "diagrams/db2_functions.svg"
+  },
+  {
+   "id": "db2_substr_instr",
+   "title": {
+    "en": "String Positions: SUBSTR and INSTR"
+   },
+   "file": "diagrams/db2_substr_instr.svg"
+  },
+  {
+   "id": "db2_date_funcs",
+   "title": {
+    "en": "Date Functions"
+   },
+   "file": "diagrams/db2_date_funcs.svg"
+  },
+  {
+   "id": "db2_conversion",
+   "title": {
+    "en": "Conversion Functions"
+   },
+   "file": "diagrams/db2_conversion.svg"
+  },
+  {
+   "id": "db2_groupby",
+   "title": {
+    "en": "GROUP BY and HAVING"
+   },
+   "file": "diagrams/db2_groupby.svg"
+  },
+  {
+   "id": "db2_query_order",
+   "title": {
+    "en": "Order of Execution of a SELECT"
+   },
+   "file": "diagrams/db2_query_order.svg"
+  },
+  {
+   "id": "db2_joins",
+   "title": {
+    "en": "Types of Joins"
+   },
+   "file": "diagrams/db2_joins.svg"
+  },
+  {
+   "id": "db2_cross_join",
+   "title": {
+    "en": "Cross Join (Cartesian Product)"
+   },
+   "file": "diagrams/db2_cross_join.svg"
+  },
+  {
+   "id": "db2_self_join",
+   "title": {
+    "en": "Self Join: Employee and Manager"
+   },
+   "file": "diagrams/db2_self_join.svg"
+  },
+  {
+   "id": "db2_subquery",
+   "title": {
+    "en": "Sub-query and Correlated Sub-query"
+   },
+   "file": "diagrams/db2_subquery.svg"
+  },
+  {
+   "id": "db2_set_ops",
+   "title": {
+    "en": "Set Operators"
+   },
+   "file": "diagrams/db2_set_ops.svg"
+  }
+ ],
+ "syntax": [
+  {
+   "title": {
+    "en": "Operators"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Special operators"
+     },
+     "f": "WHERE col IN (v1, v2, ...)\nWHERE col BETWEEN low AND high\nWHERE col LIKE 'pattern'\nWHERE col IS NULL\nWHERE col > ANY (sub-query)\nWHERE col > ALL (sub-query)\nWHERE EXISTS (sub-query)",
+     "terms": {
+      "en": "BETWEEN includes both limits. Use IS NULL, never = NULL."
+     }
+    },
+    {
+     "name": {
+      "en": "LIKE wildcards"
+     },
+     "f": "'A%'   starts with A\n'%A'   ends with A\n'_A%'  2nd letter A\n'___'  exactly 3 chars",
+     "terms": {
+      "en": "% = zero or more characters, _ = exactly one character."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Single-row Functions"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Numeric"
+     },
+     "f": "ABS(n)  POWER(m,n)  MOD(m,n)\nSQRT(n)  CEIL(n)  FLOOR(n)\nROUND(n[,d])  TRUNC(n[,d])",
+     "terms": {
+      "en": "ROUND(15.67,1) = 15.7, TRUNC(15.67,1) = 15.6"
+     }
+    },
+    {
+     "name": {
+      "en": "Character"
+     },
+     "f": "LOWER(s) UPPER(s) INITCAP(s)\nLENGTH(s) CONCAT(a,b) a || b\nLTRIM(s[,set]) RTRIM(s[,set])\nREPLACE(s,find[,new])\nSUBSTR(s,start[,len])\nINSTR(s,find[,start[,n]])\nLPAD(s,n[,c]) RPAD(s,n[,c])",
+     "terms": {
+      "en": "Positions start at 1. INSTR returns 0 if not found."
+     }
+    },
+    {
+     "name": {
+      "en": "Date"
+     },
+     "f": "SYSDATE\nADD_MONTHS(d, n)\nMONTHS_BETWEEN(d1, d2)\nLAST_DAY(d)\nNEXT_DAY(d, 'DAY')\nROUND(d[, 'MONTH'|'YEAR'])\nTRUNC(d[, 'MONTH'|'YEAR'])",
+     "terms": {
+      "en": "date ± n = date; date − date = days."
+     }
+    },
+    {
+     "name": {
+      "en": "Conversion"
+     },
+     "f": "TO_CHAR(date, 'DD-MM-YYYY')\nTO_CHAR(num, '99,999.99')\nTO_DATE('text', 'format')\nTO_NUMBER('text'[, 'fmt'])",
+     "terms": {
+      "en": "Format elements: DD MM MON MONTH YY YYYY DAY DY HH24 MI SS; 9 0 , . $"
+     }
+    },
+    {
+     "name": {
+      "en": "General"
+     },
+     "f": "NVL(e, v)\nNVL2(e, if_not_null, if_null)\nDECODE(e, s1, r1, s2, r2, def)",
+     "terms": {
+      "en": "DECODE works like IF-THEN-ELSE for equality tests."
+     }
+    },
+    {
+     "name": {
+      "en": "CASE expression"
+     },
+     "f": "SELECT ename, sal,\n  CASE\n    WHEN sal >= 50000 THEN 'HIGH'\n    WHEN sal >= 25000 THEN 'MEDIUM'\n    ELSE 'LOW'\n  END AS category\nFROM emp\nWHERE deptno = 30;",
+     "terms": {
+      "en": "ANSI standard; can test any condition."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Grouping and Sorting"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "GROUP BY / HAVING"
+     },
+     "f": "SELECT col, aggregate(col2)\nFROM table\n[WHERE row_condition]\nGROUP BY col\n[HAVING group_condition]\n[ORDER BY col [ASC | DESC]];",
+     "terms": {
+      "en": "WHERE filters rows; HAVING filters groups."
+     }
+    },
+    {
+     "name": {
+      "en": "ORDER BY"
+     },
+     "f": "ORDER BY col1 [ASC | DESC]\n        [NULLS FIRST | NULLS LAST],\n         col2 [ASC | DESC], ...",
+     "terms": {
+      "en": "Default ASC. Can use alias or column position."
+     }
+    },
+    {
+     "name": {
+      "en": "Aggregate functions"
+     },
+     "f": "COUNT(*)  COUNT(col)\nCOUNT(DISTINCT col)\nSUM(col)  AVG(col)\nMAX(col)  MIN(col)",
+     "terms": {
+      "en": "All ignore NULLs except COUNT(*)."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Joins"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Inner / equi join"
+     },
+     "f": "SELECT t1.col, t2.col\nFROM t1 [INNER] JOIN t2\nON t1.key = t2.key;\n\n-- Oracle traditional syntax\nSELECT t1.col, t2.col\nFROM t1, t2\nWHERE t1.key = t2.key;",
+     "terms": {
+      "en": "Only matching rows."
+     }
+    },
+    {
+     "name": {
+      "en": "Natural join / USING"
+     },
+     "f": "SELECT ename, dname\nFROM emp NATURAL JOIN dept;\n\nSELECT ename, dname\nFROM emp JOIN dept USING (deptno);",
+     "terms": {
+      "en": "Joins on columns with the same name."
+     }
+    },
+    {
+     "name": {
+      "en": "Outer joins"
+     },
+     "f": "FROM t1 LEFT  [OUTER] JOIN t2 ON ...\nFROM t1 RIGHT [OUTER] JOIN t2 ON ...\nFROM t1 FULL  [OUTER] JOIN t2 ON ...\n\n-- Oracle (+) syntax: + on the side\n-- that may have no matching row\nWHERE e.deptno = d.deptno(+)  -- LEFT\nWHERE e.deptno(+) = d.deptno  -- RIGHT",
+     "terms": {
+      "en": "(+) goes on the side that may be missing."
+     }
+    },
+    {
+     "name": {
+      "en": "Cross join"
+     },
+     "f": "SELECT c.color, s.sz\nFROM colors c CROSS JOIN sizes s;\n\nSELECT c.color, s.sz\nFROM colors c, sizes s;",
+     "terms": {
+      "en": "Rows = m × n."
+     }
+    },
+    {
+     "name": {
+      "en": "Self join"
+     },
+     "f": "SELECT w.ename worker, m.ename manager\nFROM emp w JOIN emp m\nON w.mgr = m.empno;",
+     "terms": {
+      "en": "Same table with two aliases."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Sub-queries and Set Operators"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Sub-query"
+     },
+     "f": "SELECT columns FROM table\nWHERE col operator\n      (SELECT col FROM table\n       WHERE condition);",
+     "terms": {
+      "en": "Single-row: = &gt; &lt;. Multiple-row: IN ANY ALL EXISTS."
+     }
+    },
+    {
+     "name": {
+      "en": "Sub-query in UPDATE / FROM"
+     },
+     "f": "-- in UPDATE\nUPDATE emp SET sal = sal * 1.1\nWHERE deptno = (SELECT deptno FROM dept\n                WHERE dname = 'SALES');\n\n-- in FROM (inline view)\nSELECT d, avg_sal\nFROM (SELECT deptno d, AVG(sal) avg_sal\n      FROM emp GROUP BY deptno)\nWHERE avg_sal > 40000;",
+     "terms": {
+      "en": "A sub-query in FROM is called an inline view."
+     }
+    },
+    {
+     "name": {
+      "en": "Set operators"
+     },
+     "f": "SELECT col_list FROM t1\nUNION | UNION ALL | INTERSECT | MINUS\nSELECT col_list FROM t2\n[ORDER BY ...];",
+     "terms": {
+      "en": "Same number and type of columns; ORDER BY only at the end."
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Operators and Functions"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What are the special operators in SQL?"
+     },
+     "a": {
+      "en": "IN, BETWEEN, LIKE, IS NULL, ANY, ALL and EXISTS (and their NOT forms)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the difference between % and _ in LIKE?"
+     },
+     "a": {
+      "en": "% matches zero or more characters; _ matches exactly one character."
+     }
+    },
+    {
+     "q": {
+      "en": "Does BETWEEN include the boundary values?"
+     },
+     "a": {
+      "en": "Yes. BETWEEN 10 AND 20 includes 10 and 20."
+     }
+    },
+    {
+     "q": {
+      "en": "Why can't we write comm = NULL?"
+     },
+     "a": {
+      "en": "NULL means unknown, so a comparison with it is never true. Use IS NULL."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the result of 5000 + NULL?"
+     },
+     "a": {
+      "en": "NULL. Any arithmetic with NULL gives NULL; use NVL to avoid it."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the DUAL table?"
+     },
+     "a": {
+      "en": "A one-row, one-column dummy table owned by SYS, used to evaluate expressions and functions."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between ROUND and TRUNC?"
+     },
+     "a": {
+      "en": "ROUND rounds to the nearest value; TRUNC simply cuts off the digits. ROUND(4.56,1) = 4.6, TRUNC(4.56,1) = 4.5."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between CEIL and FLOOR?"
+     },
+     "a": {
+      "en": "CEIL returns the smallest integer ≥ n; FLOOR returns the largest integer ≤ n."
+     }
+    },
+    {
+     "q": {
+      "en": "What does MOD(17, 5) return?"
+     },
+     "a": {
+      "en": "2, the remainder of 17 divided by 5."
+     }
+    },
+    {
+     "q": {
+      "en": "What does INITCAP do?"
+     },
+     "a": {
+      "en": "It converts the first letter of every word to capital and the rest to small letters."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the difference between SUBSTR and INSTR?"
+     },
+     "a": {
+      "en": "SUBSTR extracts part of a string; INSTR returns the position of a substring."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the difference between CONCAT and ||?"
+     },
+     "a": {
+      "en": "CONCAT joins exactly two strings; || can join any number of strings."
+     }
+    },
+    {
+     "q": {
+      "en": "What does LPAD('5', 3, '0') return?"
+     },
+     "a": {
+      "en": "'005'."
+     }
+    },
+    {
+     "q": {
+      "en": "What does LAST_DAY return?"
+     },
+     "a": {
+      "en": "The date of the last day of the month of the given date."
+     }
+    },
+    {
+     "q": {
+      "en": "What does NEXT_DAY(SYSDATE, 'FRIDAY') return?"
+     },
+     "a": {
+      "en": "The date of the first Friday after today."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the result of subtracting two dates?"
+     },
+     "a": {
+      "en": "The number of days between them."
+     }
+    },
+    {
+     "q": {
+      "en": "Name the conversion functions."
+     },
+     "a": {
+      "en": "TO_CHAR, TO_DATE and TO_NUMBER."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the use of NVL?"
+     },
+     "a": {
+      "en": "It replaces NULL with a given value, e.g. NVL(comm, 0)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is DECODE?"
+     },
+     "a": {
+      "en": "Oracle's IF-THEN-ELSE function that compares an expression with search values and returns the matching result."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Grouping, Joins and Sub-queries"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Name the aggregate functions."
+     },
+     "a": {
+      "en": "COUNT, SUM, AVG, MAX and MIN."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between COUNT(*) and COUNT(column)?"
+     },
+     "a": {
+      "en": "COUNT(*) counts all rows; COUNT(column) counts only non-NULL values of that column."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between WHERE and HAVING?"
+     },
+     "a": {
+      "en": "WHERE filters rows before grouping; HAVING filters groups after grouping and can use aggregate functions."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the default order of ORDER BY?"
+     },
+     "a": {
+      "en": "Ascending (ASC)."
+     }
+    },
+    {
+     "q": {
+      "en": "Where do NULLs appear in ORDER BY ASC in Oracle?"
+     },
+     "a": {
+      "en": "Last (NULLs are treated as the largest values)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a join?"
+     },
+     "a": {
+      "en": "An operation that combines rows of two or more tables based on a related column."
+     }
+    },
+    {
+     "q": {
+      "en": "What is an equi join?"
+     },
+     "a": {
+      "en": "A join that uses the = operator in the join condition."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a non-equi join?"
+     },
+     "a": {
+      "en": "A join that uses an operator other than =, such as BETWEEN or &gt;."
+     }
+    },
+    {
+     "q": {
+      "en": "What is an outer join?"
+     },
+     "a": {
+      "en": "A join that returns matching rows plus the non-matching rows of one or both tables, with NULLs for the missing columns."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a self join?"
+     },
+     "a": {
+      "en": "A join of a table with itself using two aliases, e.g. to find each employee's manager."
+     }
+    },
+    {
+     "q": {
+      "en": "How many rows does a cross join of 5 and 4 rows give?"
+     },
+     "a": {
+      "en": "20 (5 × 4)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a sub-query?"
+     },
+     "a": {
+      "en": "A query written inside another SQL statement; its result is used by the outer query."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a correlated sub-query?"
+     },
+     "a": {
+      "en": "A sub-query that uses a column of the outer query and is executed once for each outer row."
+     }
+    },
+    {
+     "q": {
+      "en": "What error occurs when a single-row sub-query returns many rows?"
+     },
+     "a": {
+      "en": "ORA-01427: single-row subquery returns more than one row."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between UNION and UNION ALL?"
+     },
+     "a": {
+      "en": "UNION removes duplicates and sorts; UNION ALL keeps all rows, including duplicates."
+     }
+    },
+    {
+     "q": {
+      "en": "What does MINUS return?"
+     },
+     "a": {
+      "en": "The rows of the first query that are not returned by the second query."
+     }
+    },
+    {
+     "q": {
+      "en": "What are the rules for set operators?"
+     },
+     "a": {
+      "en": "Same number of columns, compatible data types; ORDER BY only at the end."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Explain arithmetic, comparison and logical operators with examples."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the special operators IN, BETWEEN and LIKE with examples."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain ANY, ALL and EXISTS operators with examples."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "What is the DUAL table? Explain any four numeric functions with examples."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain any seven character functions with examples."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain the date functions ADD_MONTHS, MONTHS_BETWEEN, LAST_DAY, NEXT_DAY, ROUND and TRUNC."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain the conversion functions TO_CHAR, TO_DATE and TO_NUMBER with examples."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain NVL and DECODE functions with examples."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain aggregate functions with examples."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain GROUP BY and HAVING clauses with examples. Differentiate WHERE and HAVING."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain the ORDER BY clause with an example."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "What is a join? Explain the types of joins with examples."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Differentiate inner join and outer join."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain self join and cross join with examples."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "What is a sub-query? Explain its types with examples."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain correlated sub-query with an example. Differentiate nested and correlated sub-queries."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain set operators UNION, UNION ALL, INTERSECT and MINUS with examples."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Write SQL queries: (i) display employees whose name starts with 'A' (ii) find the second highest salary (iii) count employees in each department."
+   },
+   "marks": 3
+  }
+ ],
+ "tabs": [
+  "notes",
+  "programs",
+  "diagrams",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "Detailed notes as per GTU syllabus with diagrams, solved Oracle SQL queries with real output, syntax and viva."
+ }
+}
