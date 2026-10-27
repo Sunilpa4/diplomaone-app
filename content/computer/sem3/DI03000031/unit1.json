@@ -1,0 +1,1217 @@
+{
+ "subject": "DI03000031",
+ "unit": 1,
+ "format": "notes",
+ "title": {
+  "en": "Introduction to Database System and SQL Commands"
+ },
+ "weightage": 27,
+ "hours": 12,
+ "notes": [
+  {
+   "title": {
+    "en": "1.1 Data, Information and Metadata"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Data and Information"
+     },
+     "body": {
+      "en": "\n<p><b>Data</b> are raw, unorganised facts and figures (numbers, text, images, sound) that have no meaning by themselves. Example: <code>82, Aarav, Surat, CE</code>.</p>\n<p><b>Information</b> is data that has been <b>processed</b> (organised, classified, calculated) so that it is meaningful and useful for decision making. Example: \"Aarav of CE scored 82 marks and stood 2nd in the class.\"</p>\n<p><b>Processing</b> steps: collecting → recording → classifying → sorting → calculating → summarising → reporting.</p>\n<h4>Difference between data and information</h4>\n<table><tr><th>Data</th><th>Information</th></tr>\n<tr><td>Raw facts</td><td>Processed data</td></tr>\n<tr><td>Unorganised</td><td>Organised and structured</td></tr>\n<tr><td>No meaning alone</td><td>Meaningful in a context</td></tr>\n<tr><td>Input to processing</td><td>Output of processing</td></tr>\n<tr><td>Not useful for decisions</td><td>Helps in decision making</td></tr>\n<tr><td>Example: 35, 42, 28</td><td>Average temperature = 35 °C</td></tr></table>\n<p>The information produced by one process can become the data for another process (e.g. the marks of each subject → total → class rank).</p>\n<p><b>Qualities of good information:</b> accurate, complete, timely, relevant, easy to understand and cost-effective.</p>\n"
+     },
+     "diagram": "db1_data_info"
+    },
+    {
+     "h": {
+      "en": "Data Item, Record, File and Database"
+     },
+     "body": {
+      "en": "\n<p>Data in a database are organised in a hierarchy, from the smallest unit to the largest:</p>\n<ol><li><b>Data item (field / attribute / column):</b> the smallest named unit of data that has meaning. Example: <code>NAME = 'Diya Shah'</code>. A data item has a name, a type and a size.</li>\n<li><b>Record (tuple / row):</b> a collection of related data items about one entity (one student, one employee). Example: <code>(2, 'Diya Shah', 'IT', 91)</code>.</li>\n<li><b>File (table / relation):</b> a collection of records of the same type. Example: the STUDENT file holds the records of all students.</li>\n<li><b>Database:</b> a collection of logically related files. Example: a college database has STUDENT, FACULTY, COURSE and RESULT files.</li></ol>\n<p>Other terms:</p>\n<ul><li><b>Entity:</b> a real-world object about which data is stored (student, book, account).</li>\n<li><b>Key field:</b> a field whose value uniquely identifies each record (roll number, account number).</li>\n<li>In relational terms: table = relation, row = tuple, column = attribute, number of columns = degree, number of rows = cardinality.</li></ul>\n"
+     },
+     "diagram": "db1_hierarchy"
+    },
+    {
+     "h": {
+      "en": "Metadata and Data Dictionary"
+     },
+     "body": {
+      "en": "\n<p><b>Metadata</b> means <b>\"data about data\"</b>. It describes the data instead of being the data itself: table names, column names, data types, sizes, constraints, indexes, owners, privileges, creation date, etc.</p>\n<p>Example: \"NAME is VARCHAR2(15) and NOT NULL\" is metadata; \"Diya Shah\" is data.</p>\n<p>The <b>data dictionary</b> (system catalog) is a set of special tables in which the DBMS stores all the metadata of the database. It is created and updated <b>automatically</b> by the DBMS whenever a DDL command (CREATE, ALTER, DROP) runs. Users can only read it.</p>\n<h4>Contents of the data dictionary</h4>\n<ul><li>Names and structure of all tables, views, indexes, sequences and synonyms</li>\n<li>Column names, data types, sizes and default values</li>\n<li>Integrity constraints (primary key, foreign key, check ...)</li>\n<li>Users, roles and their privileges</li>\n<li>Storage and audit information</li></ul>\n<h4>Types</h4>\n<ul><li><b>Active (integrated):</b> managed by the DBMS itself and updated automatically. Oracle's dictionary is active.</li>\n<li><b>Passive (non-integrated):</b> kept separately (e.g. as documents) and updated manually.</li></ul>\n<p>In Oracle the dictionary is read through views such as <code>USER_TABLES</code>, <code>USER_TAB_COLUMNS</code>, <code>USER_CONSTRAINTS</code>, <code>ALL_TABLES</code> and <code>DBA_USERS</code>. The <code>DESC</code> command also reads it.</p>\n<pre class=\"c\">SELECT table_name\nFROM user_tables;\n\nSELECT column_name, data_type\nFROM user_tab_columns\nWHERE table_name = 'STUDENT';</pre>\n<p><b>Uses:</b> the DBMS checks every query against it (does the table exist? does the user have the privilege?), and it documents the database for DBAs and developers.</p>\n"
+     },
+     "diagram": "db1_dictionary"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "1.2 Database Concepts, Environment and Architecture"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Database, DBMS and RDBMS"
+     },
+     "body": {
+      "en": "\n<p><b>Database:</b> a shared, integrated collection of logically related data, stored with minimum redundancy, that serves the needs of many users. Example: a bank database (customers, accounts, transactions).</p>\n<p><b>DBMS (Database Management System):</b> software that is used to <b>create, store, retrieve, update and manage</b> a database. It acts as an interface between the users/application programs and the database. Examples: Oracle, MySQL, Microsoft SQL Server, PostgreSQL, IBM DB2, MS Access.</p>\n<p><b>Database system</b> = database + DBMS software + application programs + users.</p>\n<p><b>RDBMS (Relational DBMS):</b> a DBMS based on the <b>relational model</b> of E. F. Codd (1970). The data is stored in <b>tables</b> (relations) of rows and columns, and the tables are related through common columns (keys). SQL is used to work with the data. Oracle, MySQL, SQL Server and PostgreSQL are RDBMSs.</p>\n<h4>Functions / characteristics of a DBMS</h4>\n<ul><li>Data definition: creates the structure (tables) using DDL</li>\n<li>Data manipulation: insert, update, delete and query data</li>\n<li>Data storage management and the data dictionary</li>\n<li>Security: users, passwords and privileges</li>\n<li>Integrity: constraints keep the data correct</li>\n<li>Concurrency control: many users at the same time</li>\n<li>Backup and recovery after failures</li>\n<li>Transaction management (ACID)</li></ul>\n<h4>DBMS vs RDBMS</h4>\n<table><tr><th>DBMS</th><th>RDBMS</th></tr>\n<tr><td>Data may be stored as files, hierarchy or network</td><td>Data stored in related tables</td></tr>\n<tr><td>Relationships are not enforced</td><td>Keys enforce relationships</td></tr>\n<tr><td>Normalization not required</td><td>Normalization supported</td></tr>\n<tr><td>Usually single user, small data</td><td>Multi-user, large data</td></tr>\n<tr><td>Example: file systems, XML stores</td><td>Oracle, MySQL, SQL Server</td></tr></table>\n"
+     }
+    },
+    {
+     "h": {
+      "en": "File Processing System vs Database System"
+     },
+     "body": {
+      "en": "\n<p>Before DBMSs, each department kept its own data files and wrote its own programs to process them (the <b>file processing system</b>). This approach has many problems.</p>\n<h4>Disadvantages of the file processing system</h4>\n<ol><li><b>Data redundancy:</b> the same data (student name, address) is stored in many files, wasting space.</li>\n<li><b>Data inconsistency:</b> when one copy is updated and another is not, the copies disagree.</li>\n<li><b>Difficult data access:</b> a new program must be written for every new query.</li>\n<li><b>Data isolation:</b> data are scattered in files of different formats.</li>\n<li><b>Integrity problems:</b> rules (e.g. marks ≤ 100) are hidden inside program code and are hard to change.</li>\n<li><b>Atomicity problems:</b> after a crash in the middle of an update, the data is left half-changed.</li>\n<li><b>Concurrent access anomalies:</b> two users updating together can corrupt the data.</li>\n<li><b>Security problems:</b> it is hard to give each user access to only part of the data.</li></ol>\n<h4>Advantages of a DBMS</h4>\n<ul><li>Controlled redundancy and better consistency</li>\n<li>Data sharing among many users and applications</li>\n<li>Integrity constraints enforced centrally</li>\n<li>Security through users, roles and privileges</li>\n<li>Backup and recovery, and transaction support</li>\n<li>Easy querying with SQL; data independence</li>\n<li>Standards can be enforced</li></ul>\n<h4>Disadvantages of a DBMS</h4>\n<ul><li>High cost of software, hardware and trained staff</li>\n<li>Complex to design and manage; needs a DBA</li>\n<li>A failure of the central database affects all users</li>\n<li>Extra overhead, so it is slower than files for very small, simple jobs</li></ul>\n"
+     },
+     "diagram": "db1_file_vs_db"
+    },
+    {
+     "h": {
+      "en": "Applications of Database Systems"
+     },
+     "body": {
+      "en": "\n<ul><li><b>Banking:</b> customer accounts, loans, ATM and UPI transactions</li>\n<li><b>Railway and airline reservation:</b> IRCTC bookings, seat availability, schedules</li>\n<li><b>Universities:</b> student registration, GTU exam results, fees</li>\n<li><b>Telecom:</b> call records, prepaid balance, monthly bills</li>\n<li><b>E-commerce:</b> products, orders and payments (Amazon, Flipkart)</li>\n<li><b>Hospitals:</b> patient records, doctors, billing</li>\n<li><b>Government:</b> Aadhaar, income tax, voter lists</li>\n<li><b>HR and payroll:</b> employee details, attendance, salaries</li>\n<li><b>Social media:</b> profiles, posts, messages</li></ul>\n"
+     }
+    },
+    {
+     "h": {
+      "en": "Database System Environment"
+     },
+     "body": {
+      "en": "\n<p>A database system has five main <b>components</b>:</p>\n<ol><li><b>Hardware:</b> computers, storage disks, servers and network devices on which the database runs.</li>\n<li><b>Software:</b> the DBMS itself, the operating system, network software and application programs.</li>\n<li><b>Data:</b> the stored database (user data) and the metadata in the data dictionary.</li>\n<li><b>Procedures:</b> rules and instructions for using and managing the system (login, backup, recovery steps).</li>\n<li><b>Users (people):</b> everyone who interacts with the database.</li></ol>\n<h4>Main parts of the DBMS software</h4>\n<ul><li><b>Query processor:</b> DDL interpreter, DML compiler and query optimiser. It checks a query, chooses the best plan and runs it.</li>\n<li><b>Storage manager:</b> file manager, buffer manager, authorisation and integrity manager. It moves data between disk and memory.</li>\n<li><b>Transaction manager:</b> ensures ACID properties, concurrency control (locking) and recovery.</li>\n<li><b>Data dictionary:</b> stores the metadata used by all the other parts.</li></ul>\n"
+     },
+     "diagram": "db1_environment"
+    },
+    {
+     "h": {
+      "en": "Database Users and the DBA"
+     },
+     "body": {
+      "en": "\n<h4>Types of database users</h4>\n<ol><li><b>Naive (end) users:</b> use ready-made application screens without knowing SQL. Example: a bank clerk or an ATM user.</li>\n<li><b>Application programmers:</b> write programs (Java, Python, PHP) that use the database through SQL.</li>\n<li><b>Sophisticated / casual users:</b> analysts who write their own SQL queries or use reporting tools.</li>\n<li><b>Specialised users:</b> write special database applications (CAD, expert systems).</li>\n<li><b>Database Administrator (DBA):</b> the person with central control over the database.</li></ol>\n<h4>Responsibilities of the DBA</h4>\n<ul><li>Schema definition: designs and creates the database structure</li>\n<li>Storage structure and access method definition (tablespaces, indexes)</li>\n<li>Creating users and granting/revoking privileges (security)</li>\n<li>Defining integrity constraints</li>\n<li>Regular backup and recovery after failures</li>\n<li>Monitoring and tuning performance</li>\n<li>Installing and upgrading the DBMS software</li></ul>\n"
+     }
+    },
+    {
+     "h": {
+      "en": "Three-Level Architecture (ANSI/SPARC) and Data Independence"
+     },
+     "body": {
+      "en": "\n<p>The ANSI/SPARC architecture separates the user's view of the database from the way the data is physically stored. It has <b>three levels</b>:</p>\n<ol><li><b>External level (view level):</b> the highest level. Each user or group sees only the part of the database they need (a <b>view</b>). Example: the exam cell sees roll no., name and marks but not fees. There can be many external views.</li>\n<li><b>Conceptual level (logical level):</b> describes the <b>whole database</b> for the community of users: all tables, columns, data types, relationships and constraints, without storage details. There is only one conceptual schema. It is designed by the DBA.</li>\n<li><b>Internal level (physical level):</b> the lowest level. It describes <b>how</b> the data is actually stored on disk: file organisation, record layout, indexes, compression and access paths.</li></ol>\n<p><b>Mappings</b> connect the levels: external/conceptual mapping and conceptual/internal mapping. The DBMS uses them to convert a user's request into operations on the stored data.</p>\n<h4>Data independence</h4>\n<p>The ability to change the schema at one level <b>without changing</b> the schema at the next higher level.</p>\n<ul><li><b>Logical data independence:</b> the conceptual schema can be changed (e.g. a new column or table is added) without changing the external views or application programs.</li>\n<li><b>Physical data independence:</b> the internal schema can be changed (e.g. a new index, a different disk, a new file organisation) without changing the conceptual schema.</li></ul>\n<p>Physical data independence is easier to achieve than logical data independence.</p>\n<h4>Objectives of the three-level architecture</h4>\n<ul><li>Each user can see the data in their own way.</li>\n<li>Users need not know storage details.</li>\n<li>The DBA can change storage without affecting users.</li>\n<li>It provides data independence and security.</li></ul>\n"
+     },
+     "diagram": "db1_three_level"
+    },
+    {
+     "h": {
+      "en": "Client-Server Architecture: 1-tier, 2-tier and 3-tier"
+     },
+     "body": {
+      "en": "\n<ul><li><b>1-tier:</b> the user, the application and the database are all on the same machine. Example: a student using Oracle SQL*Plus on a laptop to practise.</li>\n<li><b>2-tier (client-server):</b> the client machine runs the application (user interface and logic); it talks directly to the database server using ODBC/JDBC. Example: a desktop billing application in a shop connected to a database server. It is simple, but it is difficult to scale and less secure.</li>\n<li><b>3-tier:</b> the client (browser) → the <b>application server</b> (business logic, e.g. Java, PHP, Node.js) → the <b>database server</b>. The client never accesses the database directly. Used by web applications such as IRCTC and online banking. It is scalable, secure and easier to maintain.</li></ul>\n<table><tr><th>2-tier</th><th>3-tier</th></tr>\n<tr><td>Client talks to the DB directly</td><td>Client → app server → DB</td></tr>\n<tr><td>Business logic on the client</td><td>Business logic on the app server</td></tr>\n<tr><td>Fewer users, less secure</td><td>Many users, more secure</td></tr>\n<tr><td>Desktop LAN applications</td><td>Web applications</td></tr></table>\n"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "1.3 Schema, Sub-schema and Instance"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Schema, Sub-schema and Instance"
+     },
+     "body": {
+      "en": "\n<p><b>Schema:</b> the overall <b>logical structure (design)</b> of the database: table names, column names, data types, keys, relationships and constraints. It is defined with DDL during design and changes rarely. It is like the plan of a building or a class in programming.</p>\n<p>Example schema: <code>STUDENT(rollno, name, branch, city, marks)</code></p>\n<p>By level there are three schemas: the <b>external schema</b> (views), the <b>conceptual (logical) schema</b> and the <b>internal (physical) schema</b>.</p>\n<p><b>Sub-schema:</b> a <b>subset of the schema</b> that is visible to a particular user or application. It hides the rest of the data and gives security and simplicity. In SQL a sub-schema is created using a <b>view</b>. Example: the exam cell's sub-schema <code>(rollno, name, marks)</code>; the accounts section's sub-schema <code>(rollno, name, fees)</code>.</p>\n<p><b>Instance (database state / snapshot):</b> the actual data stored in the database at a <b>particular moment</b>. Every INSERT, UPDATE or DELETE creates a new instance. The schema stays the same.</p>\n<h4>Schema vs Instance</h4>\n<table><tr><th>Schema</th><th>Instance</th></tr>\n<tr><td>Structure / design of the DB</td><td>Data in the DB at one moment</td></tr>\n<tr><td>Defined using DDL</td><td>Changed using DML</td></tr>\n<tr><td>Changes rarely</td><td>Changes frequently</td></tr>\n<tr><td>Like a class / blueprint</td><td>Like objects / a snapshot</td></tr>\n<tr><td>Called the intension</td><td>Called the extension</td></tr></table>\n"
+     },
+     "diagram": "db1_schema_instance"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "1.4 SQL and SQL Data Types"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Introduction to SQL"
+     },
+     "body": {
+      "en": "\n<p><b>SQL (Structured Query Language)</b>, pronounced \"sequel\", is the standard language used to create, manage and query relational databases. It was developed by IBM in the 1970s (as SEQUEL for System R) and is standardised by ANSI and ISO.</p>\n<h4>Features of SQL</h4>\n<ul><li><b>Non-procedural:</b> you say <i>what</i> data you want, not <i>how</i> to get it.</li>\n<li>English-like, easy to learn commands (SELECT, INSERT, UPDATE ...)</li>\n<li>One language for defining, manipulating, querying and controlling data</li>\n<li>Portable: works on Oracle, MySQL, SQL Server, PostgreSQL (with small differences)</li>\n<li>Can be embedded in programs (Java, Python, C) and extended with PL/SQL</li></ul>\n<h4>Rules for writing SQL statements</h4>\n<ul><li>Keywords are not case-sensitive: <code>SELECT</code> = <code>select</code>. But data inside quotes is case-sensitive.</li>\n<li>A statement can span many lines and ends with a semicolon <code>;</code> in SQL*Plus.</li>\n<li>Text and date values are written in single quotes: <code>'Surat'</code>.</li>\n<li>Names (tables, columns) start with a letter, can have up to 30 characters (128 in Oracle 12.2+), and may contain letters, digits, _, $ and #.</li>\n<li>Comments: <code>-- single line</code> and <code>/* multi line */</code>.</li></ul>\n<p><b>Oracle tools:</b> SQL*Plus (command line), SQL Developer (GUI) and Oracle Live SQL (online).</p>\n"
+     }
+    },
+    {
+     "h": {
+      "en": "SQL Data Types in Oracle"
+     },
+     "body": {
+      "en": "\n<p>Every column must have a <b>data type</b>, which decides what kind of values it can hold and how much space they take.</p>\n<h4>Character types</h4>\n<ul><li><b>CHAR(n):</b> fixed-length text of n characters (max 2000 bytes). Shorter values are padded with spaces. Use for fixed codes: gender 'M'/'F', state code 'GJ'.</li>\n<li><b>VARCHAR2(n):</b> variable-length text of up to n characters (max 4000 bytes; 32767 with extended size). It stores only the actual characters, so there is no wasted space. This is the most used text type.</li>\n<li><b>VARCHAR(n):</b> currently the same as VARCHAR2, but reserved by Oracle for future use, so use VARCHAR2.</li>\n<li><b>NCHAR / NVARCHAR2:</b> Unicode text (for Gujarati, Hindi and other languages).</li>\n<li><b>LONG:</b> variable text up to 2 GB (old type; only one per table; use CLOB instead).</li></ul>\n<h4>Number type</h4>\n<ul><li><b>NUMBER(p, s):</b> p = precision (total digits, 1 to 38), s = scale (digits after the decimal point). <code>NUMBER(7,2)</code> stores up to 99999.99.</li>\n<li><code>NUMBER(5)</code> = whole numbers up to 5 digits. <code>NUMBER</code> alone = any number (floating).</li>\n<li>INTEGER, INT, SMALLINT, DECIMAL and FLOAT are accepted and mapped to NUMBER.</li></ul>\n<h4>Date and time types</h4>\n<ul><li><b>DATE:</b> stores the date and time (century, year, month, day, hour, minute, second). The default display is <code>DD-MON-YY</code>, e.g. 28-OCT-26.</li>\n<li><b>TIMESTAMP:</b> date and time with fractions of a second.</li>\n<li><b>INTERVAL YEAR TO MONTH / DAY TO SECOND:</b> a period of time.</li></ul>\n<h4>Large object (LOB) and binary types</h4>\n<ul><li><b>CLOB:</b> large text (up to 128 TB), e.g. articles and descriptions.</li>\n<li><b>BLOB:</b> large binary data such as images, audio and video.</li>\n<li><b>BFILE:</b> a pointer to a binary file stored outside the database.</li>\n<li><b>RAW(n) / LONG RAW:</b> small/large binary data.</li></ul>\n<p><b>Others:</b> ROWID (the physical address of a row) and BOOLEAN (only in PL/SQL before 23ai).</p>\n<pre class=\"c\">CREATE TABLE product (\n  pid    NUMBER(5),\n  pname  VARCHAR2(30),\n  grade  CHAR(1),\n  price  NUMBER(8,2),\n  mfg_dt DATE,\n  photo  BLOB\n);</pre>\n<h4>CHAR vs VARCHAR2</h4>\n<table><tr><th>CHAR(n)</th><th>VARCHAR2(n)</th></tr>\n<tr><td>Fixed length</td><td>Variable length</td></tr>\n<tr><td>Pads with spaces</td><td>No padding</td></tr>\n<tr><td>Max 2000 bytes</td><td>Max 4000 bytes</td></tr>\n<tr><td>Wastes space for short values</td><td>Saves space</td></tr>\n<tr><td>Slightly faster for fixed data</td><td>Best for names, addresses</td></tr>\n<tr><td>'GJ' in CHAR(5) = 'GJ   '</td><td>'GJ' in VARCHAR2(5) = 'GJ'</td></tr></table>\n"
+     },
+     "programs": [
+      "q1_2"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "1.5 SQL Commands: DDL, DML and DQL"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Classification of SQL Commands"
+     },
+     "body": {
+      "en": "\n<p>SQL commands are divided into five groups according to their purpose:</p>\n<table><tr><th>Group</th><th>Purpose</th><th>Commands</th></tr>\n<tr><td><b>DDL</b> Data Definition Language</td><td>Create/change/remove the structure of objects</td><td>CREATE, ALTER, DROP, TRUNCATE, RENAME</td></tr>\n<tr><td><b>DML</b> Data Manipulation Language</td><td>Add, change, remove rows</td><td>INSERT, UPDATE, DELETE</td></tr>\n<tr><td><b>DQL</b> Data Query Language</td><td>Retrieve data</td><td>SELECT</td></tr>\n<tr><td><b>DCL</b> Data Control Language</td><td>Give/take privileges</td><td>GRANT, REVOKE</td></tr>\n<tr><td><b>TCL</b> Transaction Control Language</td><td>Manage transactions</td><td>COMMIT, ROLLBACK, SAVEPOINT</td></tr></table>\n<p>Note: DDL and DCL commands are <b>auto-committed</b> in Oracle; DML changes stay temporary until COMMIT.</p>\n"
+     },
+     "diagram": "db1_sql_cmds"
+    },
+    {
+     "h": {
+      "en": "DDL: CREATE DATABASE and CREATE TABLE"
+     },
+     "body": {
+      "en": "\n<p><b>CREATE DATABASE</b> creates a new, empty database. In MySQL/SQL Server it is used often. In Oracle, the database is created once by the DBA (using the DBCA tool or the CREATE DATABASE statement), and each user works in their own <b>schema</b> inside it.</p>\n<pre class=\"c\">CREATE DATABASE college;   -- MySQL style\n\n-- Oracle: a database is created once by\n-- the DBA (DBCA tool); users then create\n-- schemas (users) and tables in it.\nCREATE USER college IDENTIFIED BY pwd;</pre>\n<p><b>CREATE TABLE</b> creates a new table: its name, its columns with data types and sizes, and optional constraints.</p>\n<pre class=\"c\">CREATE TABLE table_name (\n  column1 datatype [constraint],\n  column2 datatype [constraint],\n  ...\n  [table_constraints]\n);</pre>\n<ul><li>A table name must be unique in the schema and must not be a reserved word.</li>\n<li>Each column needs a name and a data type; the size is given in brackets.</li>\n<li>Constraints (PRIMARY KEY, NOT NULL ...) can be written with a column or at the end (studied in Unit 4).</li>\n<li><code>DESC table_name</code> shows the structure of the table.</li>\n<li>A table can also be created from another table: <code>CREATE TABLE new AS SELECT ...</code></li></ul>\n"
+     },
+     "programs": [
+      "q1_1",
+      "q1_10"
+     ]
+    },
+    {
+     "h": {
+      "en": "DDL: ALTER TABLE and RENAME"
+     },
+     "body": {
+      "en": "\n<p><b>ALTER TABLE</b> changes the structure of an existing table without losing its data.</p>\n<pre class=\"c\">ALTER TABLE t ADD (col datatype, ...);\nALTER TABLE t MODIFY (col new_datatype);\nALTER TABLE t DROP COLUMN col;\nALTER TABLE t RENAME COLUMN old TO new;\nALTER TABLE t RENAME TO new_name;\nRENAME old_name TO new_name;</pre>\n<ul><li><b>ADD:</b> adds one or more new columns (at the end). Old rows get NULL in them.</li>\n<li><b>MODIFY:</b> changes the data type or size of a column. Size can be decreased, or the type changed, only if the existing data fits.</li>\n<li><b>DROP COLUMN:</b> removes a column and its data.</li>\n<li><b>RENAME COLUMN:</b> changes a column name.</li>\n<li><b>RENAME TO / RENAME:</b> changes the table name.</li>\n<li>ALTER is also used to add or drop constraints: <code>ALTER TABLE t ADD CONSTRAINT ...</code></li></ul>\n"
+     },
+     "programs": [
+      "q1_3",
+      "q1_4"
+     ]
+    },
+    {
+     "h": {
+      "en": "DDL: DROP and TRUNCATE (and DELETE)"
+     },
+     "body": {
+      "en": "\n<pre class=\"c\">DROP TABLE table_name;\nDROP TABLE table_name PURGE;\nTRUNCATE TABLE table_name;</pre>\n<ul><li><b>DROP TABLE</b> removes the whole table: its structure, data, indexes and constraints. In Oracle 10g+ it goes to the recycle bin (<code>PURGE</code> removes it permanently).</li>\n<li><b>TRUNCATE TABLE</b> removes <b>all rows</b> quickly but keeps the structure. Storage is released and it cannot be rolled back.</li></ul>\n<h4>DELETE vs TRUNCATE vs DROP</h4>\n<table><tr><th>DELETE</th><th>TRUNCATE</th><th>DROP</th></tr>\n<tr><td>DML</td><td>DDL</td><td>DDL</td></tr>\n<tr><td>Removes selected rows (WHERE allowed)</td><td>Removes all rows</td><td>Removes rows + structure</td></tr>\n<tr><td>Can be rolled back</td><td>Cannot be rolled back</td><td>Cannot be rolled back (Flashback possible)</td></tr>\n<tr><td>Slow: logs every row</td><td>Fast</td><td>Fast</td></tr>\n<tr><td>Fires DELETE triggers</td><td>No triggers</td><td>No triggers</td></tr>\n<tr><td>Structure stays</td><td>Structure stays</td><td>Table no longer exists</td></tr></table>\n"
+     },
+     "programs": [
+      "q1_5"
+     ]
+    },
+    {
+     "h": {
+      "en": "DML: INSERT"
+     },
+     "body": {
+      "en": "\n<p><b>INSERT</b> adds new rows to a table.</p>\n<pre class=\"c\">INSERT INTO t VALUES (v1, v2, ...);\n\nINSERT INTO t (col1, col2)\nVALUES (v1, v2);\n\nINSERT INTO t (col1, col2)\nSELECT c1, c2 FROM other WHERE ...;</pre>\n<ul><li>Without a column list, values must be given for <b>all</b> columns in table order.</li>\n<li>With a column list, unlisted columns get NULL (or their DEFAULT value).</li>\n<li>Strings and dates are enclosed in single quotes. A date can be written as <code>'15-AUG-2024'</code> or with <code>TO_DATE('15-08-2024','DD-MM-YYYY')</code>.</li>\n<li><b>Substitution variables</b> (<code>&amp;var</code>) make SQL*Plus ask for values, so many rows can be inserted with one statement (run again with <code>/</code>).</li>\n<li><code>INSERT INTO ... SELECT</code> copies rows from another table.</li></ul>\n"
+     },
+     "programs": [
+      "q1_6",
+      "q1_7"
+     ]
+    },
+    {
+     "h": {
+      "en": "DML: UPDATE"
+     },
+     "body": {
+      "en": "\n<p><b>UPDATE</b> modifies the values of existing rows.</p>\n<pre class=\"c\">UPDATE table_name\nSET col1 = value1, col2 = value2\n[WHERE condition];</pre>\n<ul><li>SET gives the new values; more than one column can be changed at a time.</li>\n<li>The new value can be an expression using the old value: <code>SET sal = sal * 1.10</code>.</li>\n<li>WHERE selects the rows to change. <b>If WHERE is omitted, all rows are updated.</b></li>\n<li>Oracle reports how many rows were updated.</li></ul>\n"
+     },
+     "programs": [
+      "q1_8"
+     ]
+    },
+    {
+     "h": {
+      "en": "DML: DELETE"
+     },
+     "body": {
+      "en": "\n<p><b>DELETE</b> removes rows from a table.</p>\n<pre class=\"c\">DELETE FROM table_name\n[WHERE condition];</pre>\n<ul><li>Only the rows satisfying WHERE are removed; without WHERE <b>all rows</b> are deleted, but the table remains.</li>\n<li>A whole row is deleted; to clear only one column, use <code>UPDATE ... SET col = NULL</code>.</li>\n<li>DELETE can be undone by ROLLBACK until COMMIT.</li></ul>\n"
+     },
+     "programs": [
+      "q1_9"
+     ]
+    },
+    {
+     "h": {
+      "en": "DQL: SELECT, WHERE and DISTINCT"
+     },
+     "body": {
+      "en": "\n<p><b>SELECT</b> retrieves data from one or more tables. It never changes data. Full form:</p>\n<pre class=\"c\">SELECT [DISTINCT] col1 [AS alias], ...\nFROM table_name\n[WHERE condition]\n[GROUP BY columns]\n[HAVING group_condition]\n[ORDER BY columns [ASC|DESC]];</pre>\n<ul><li><code>SELECT *</code> shows all columns; otherwise list the required columns.</li>\n<li><b>Expressions</b> (<code>sal * 12</code>) are calculated for each row in the output only.</li>\n<li><b>Column alias</b>: <code>expr AS name</code> or <code>expr \"Any Name\"</code> sets the heading.</li>\n<li><b>WHERE</b> filters rows using comparison operators (=, &lt;&gt; or !=, &gt;, &lt;, &gt;=, &lt;=) and logical operators (AND, OR, NOT).</li>\n<li><b>DISTINCT</b> removes duplicate rows from the result.</li>\n<li>The order of execution is: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY.</li></ul>\n<p>Operators, functions, ORDER BY, GROUP BY and joins are covered in Unit 2.</p>\n"
+     },
+     "programs": [
+      "q1_11",
+      "q1_12",
+      "q1_13"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "1.6 DCL: Users, Roles, GRANT and REVOKE"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Creating and Managing Users"
+     },
+     "body": {
+      "en": "\n<p>Every person who connects to Oracle needs a <b>user account</b> (username + password). In Oracle, each user also owns a <b>schema</b>: the set of objects (tables, views ...) created by that user. Users are created by the DBA (SYS/SYSTEM).</p>\n<pre class=\"c\">CREATE USER username\n  IDENTIFIED BY password;\nALTER USER username\n  IDENTIFIED BY new_password;\nDROP USER username CASCADE;</pre>\n<ul><li>A new user cannot even log in until given the <code>CREATE SESSION</code> privilege.</li>\n<li><code>DROP USER ... CASCADE</code> also drops all objects owned by the user.</li>\n<li>A user accesses another user's table as <code>owner.table</code>, e.g. <code>scott.emp</code>.</li></ul>\n"
+     }
+    },
+    {
+     "h": {
+      "en": "Privileges and Roles"
+     },
+     "body": {
+      "en": "\n<p>A <b>privilege</b> is the right to run a particular SQL statement or to access an object.</p>\n<ul><li><b>System privileges:</b> the right to perform an action in the database: CREATE SESSION, CREATE TABLE, CREATE VIEW, CREATE USER, DROP ANY TABLE ...</li>\n<li><b>Object privileges:</b> the right to perform an action on a specific object: SELECT, INSERT, UPDATE, DELETE, ALTER, INDEX, REFERENCES on a table; EXECUTE on a procedure.</li></ul>\n<p>A <b>role</b> is a named group of related privileges that can be granted to users. When privileges change, only the role is changed and all its users get the change. Predefined roles: CONNECT, RESOURCE, DBA.</p>\n<pre class=\"c\">CREATE ROLE role_name;\nGRANT privileges ON table TO role_name;\nGRANT role_name TO user1, user2;\nREVOKE role_name FROM user1;\nDROP ROLE role_name;</pre>\n<h4>Advantages of roles</h4>\n<ul><li>Easy privilege management for many users</li>\n<li>Dynamic: changing the role affects all its users</li>\n<li>Can be enabled/disabled and protected with a password</li></ul>\n"
+     },
+     "diagram": "db1_dcl"
+    },
+    {
+     "h": {
+      "en": "GRANT and REVOKE"
+     },
+     "body": {
+      "en": "\n<p><b>GRANT</b> gives privileges to users or roles.</p>\n<pre class=\"c\">GRANT privilege_list\nON object_name\nTO user | role | PUBLIC\n[WITH GRANT OPTION];\n\nGRANT system_privilege TO user;</pre>\n<ul><li><code>ALL</code> grants all object privileges; <code>PUBLIC</code> means every user.</li>\n<li><b>WITH GRANT OPTION</b>: the receiver can grant the same privilege to others (for object privileges). For system privileges use <code>WITH ADMIN OPTION</code>.</li>\n<li>UPDATE can be limited to columns: <code>GRANT UPDATE (marks) ON student TO ravi;</code></li></ul>\n<p><b>REVOKE</b> takes back privileges that were granted.</p>\n<pre class=\"c\">REVOKE privilege_list\nON object_name\nFROM user | role | PUBLIC;</pre>\n<ul><li>Only the grantor (or the DBA) can revoke.</li>\n<li>Revoking an object privilege that was given WITH GRANT OPTION also removes it from the users to whom it was passed on (cascading).</li></ul>\n"
+     },
+     "programs": [
+      "q1_14"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "1.7 TCL: Transactions, ACID, COMMIT, ROLLBACK, SAVEPOINT"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Transaction and ACID Properties"
+     },
+     "body": {
+      "en": "\n<p>A <b>transaction</b> is a logical unit of work that contains one or more SQL statements and must be completed <b>fully or not at all</b>. Example: transferring money is one transaction of two updates.</p>\n<pre class=\"c\">UPDATE account SET bal = bal - 500\nWHERE acno = 'A';\nUPDATE account SET bal = bal + 500\nWHERE acno = 'B';\nCOMMIT;</pre>\n<p>If the system fails after the first UPDATE, Rs 500 would vanish. The DBMS prevents this by guaranteeing the <b>ACID</b> properties:</p>\n<ol><li><b>Atomicity:</b> all operations of the transaction are done, or none are. If any part fails, everything is rolled back. (Handled by the transaction/recovery manager using undo logs.)</li>\n<li><b>Consistency:</b> a transaction takes the database from one valid state to another valid state. All constraints remain true (the total of A + B stays the same).</li>\n<li><b>Isolation:</b> concurrently running transactions do not see each other's uncommitted changes; the result is as if they ran one after another. (Handled by concurrency control/locking.)</li>\n<li><b>Durability:</b> once a transaction is committed, its changes are permanent and survive power failures or crashes. (Handled by redo logs and backups.)</li></ol>\n<p>In Oracle, a transaction starts with the first DML statement and ends with COMMIT, ROLLBACK, a DDL/DCL statement (auto-commit) or the end of the session.</p>\n"
+     },
+     "diagram": "db1_acid"
+    },
+    {
+     "h": {
+      "en": "States of a Transaction"
+     },
+     "body": {
+      "en": "\n<ol><li><b>Active:</b> the initial state; the statements are being executed.</li>\n<li><b>Partially committed:</b> the last statement has been executed, but the changes are still in memory buffers.</li>\n<li><b>Committed:</b> the changes are written permanently to the database after successful completion.</li>\n<li><b>Failed:</b> normal execution cannot continue (error, constraint violation, system crash).</li>\n<li><b>Aborted:</b> the transaction is rolled back and the database is restored to its state before the transaction. It may then be <b>restarted</b> or <b>killed</b>.</li></ol>\n<p>Committed and aborted are the <b>terminated</b> states.</p>\n"
+     },
+     "diagram": "db1_tx_states"
+    },
+    {
+     "h": {
+      "en": "COMMIT and ROLLBACK"
+     },
+     "body": {
+      "en": "\n<pre class=\"c\">COMMIT [WORK];\nROLLBACK [WORK];\nSAVEPOINT savepoint_name;\nROLLBACK TO [SAVEPOINT] savepoint_name;</pre>\n<ul><li><b>COMMIT:</b> ends the current transaction and makes all its changes <b>permanent</b> and visible to other users. Locks are released and savepoints are erased.</li>\n<li><b>ROLLBACK:</b> ends the current transaction and <b>undoes</b> all changes made since the last COMMIT.</li>\n<li><b>Implicit (automatic) COMMIT</b> happens when a DDL or DCL statement runs or on a normal exit from SQL*Plus. <code>SET AUTOCOMMIT ON</code> commits after every DML statement.</li>\n<li><b>Implicit ROLLBACK</b> happens on an abnormal end of the session or a system failure.</li>\n<li>Before COMMIT, other users still see the old data, and the changed rows are locked.</li></ul>\n"
+     },
+     "programs": [
+      "q1_15",
+      "q1_17"
+     ]
+    },
+    {
+     "h": {
+      "en": "SAVEPOINT and ROLLBACK TO SAVEPOINT"
+     },
+     "body": {
+      "en": "\n<p>A <b>SAVEPOINT</b> is a named marker inside a transaction. It divides a long transaction into smaller parts so that you can undo only a part of it.</p>\n<ul><li><code>SAVEPOINT name;</code> creates the marker.</li>\n<li><code>ROLLBACK TO name;</code> undoes only the changes made <b>after</b> that savepoint. The transaction is still active; earlier changes are kept (not yet committed).</li>\n<li>Savepoints after the one rolled back to are erased; the named savepoint itself remains.</li>\n<li>Creating a savepoint with an existing name moves it to the new position.</li>\n<li><code>COMMIT</code> or a plain <code>ROLLBACK</code> erases all savepoints.</li></ul>\n"
+     },
+     "diagram": "db1_savepoint",
+     "programs": [
+      "q1_16"
+     ]
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "q1_1",
+   "title": {
+    "en": "Create a table and view its structure (CREATE, DESC)"
+   },
+   "code": {
+    "en": "CREATE TABLE student (\n  rollno NUMBER(3) PRIMARY KEY,\n  name   VARCHAR2(15) NOT NULL,\n  branch VARCHAR2(5),\n  city   VARCHAR2(10),\n  marks  NUMBER(3)\n);\n\nDESC student"
+   },
+   "out": "Table created.\n\n Name    Null?    Type\n ------- -------- ------------\n ROLLNO  NOT NULL NUMBER(3)\n NAME    NOT NULL VARCHAR2(15)\n BRANCH           VARCHAR2(5)\n CITY             VARCHAR2(10)\n MARKS            NUMBER(3)",
+   "expl": {
+    "en": "\n<p><b>CREATE TABLE</b> defines a new table: its name, each column's name and data type, and optional constraints.</p>\n<ul><li><code>NUMBER(3)</code> holds whole numbers of up to 3 digits; <code>VARCHAR2(15)</code> holds text of up to 15 characters.</li>\n<li><code>PRIMARY KEY</code> makes <code>rollno</code> unique and not null, so it shows <b>NOT NULL</b> in DESC.</li>\n<li><b>DESC</b> (DESCRIBE) is a SQL*Plus command that shows column names, the Null? flag and the data types. It reads the data dictionary.</li></ul>\n<p>DESC is not an SQL statement, so it does not need a semicolon.</p>\n"
+   }
+  },
+  {
+   "id": "q1_2",
+   "title": {
+    "en": "Table using different Oracle data types"
+   },
+   "code": {
+    "en": "CREATE TABLE employee (\n  emp_id   NUMBER(4),\n  emp_name VARCHAR2(20),\n  gender   CHAR(1),\n  salary   NUMBER(8,2),\n  join_dt  DATE,\n  resume   CLOB\n);\n\nDESC employee"
+   },
+   "out": "Table created.\n\n Name      Null?    Type\n --------- -------- ------------\n EMP_ID             NUMBER(4)\n EMP_NAME           VARCHAR2(20)\n GENDER             CHAR(1)\n SALARY             NUMBER(8,2)\n JOIN_DT            DATE\n RESUME             CLOB",
+   "expl": {
+    "en": "\n<ul><li><code>CHAR(1)</code>: fixed length. 'M' is stored as exactly 1 character (blank-padded if shorter).</li>\n<li><code>NUMBER(8,2)</code>: precision 8 and scale 2, so 6 digits before the decimal point and 2 after (max 999999.99).</li>\n<li><code>DATE</code>: stores the date and time (century, year, month, day, hour, minute, second).</li>\n<li><code>CLOB</code>: a large text object (up to GBs), e.g. a resume or description.</li></ul>\n<p>No constraints are given, so every column is nullable (the Null? column is empty).</p>\n"
+   }
+  },
+  {
+   "id": "q1_3",
+   "title": {
+    "en": "ALTER TABLE: add new columns and modify a column"
+   },
+   "code": {
+    "en": "ALTER TABLE student ADD (\n  email VARCHAR2(30),\n  phone NUMBER(10)\n);\n\nALTER TABLE student\n  MODIFY (city VARCHAR2(20));\n\nDESC student"
+   },
+   "out": "Table altered.\n\nTable altered.\n\n Name    Null?    Type\n ------- -------- ------------\n ROLLNO  NOT NULL NUMBER(3)\n NAME    NOT NULL VARCHAR2(15)\n BRANCH           VARCHAR2(5)\n CITY             VARCHAR2(20)\n MARKS            NUMBER(3)\n EMAIL            VARCHAR2(30)\n PHONE            NUMBER(10)",
+   "expl": {
+    "en": "\n<ul><li><b>ADD</b> appends new columns at the end of the table. Existing rows get NULL in the new columns.</li>\n<li><b>MODIFY</b> changes a column's data type or size. Here <code>city</code> grows from VARCHAR2(10) to VARCHAR2(20).</li>\n<li>Decreasing a size or changing a type is allowed only if the existing data fits (or the column is empty).</li></ul>\n"
+   }
+  },
+  {
+   "id": "q1_4",
+   "title": {
+    "en": "ALTER TABLE: drop and rename a column, rename the table"
+   },
+   "code": {
+    "en": "ALTER TABLE student DROP COLUMN city;\n\nALTER TABLE student\n  RENAME COLUMN marks TO total;\n\nRENAME student TO stud;\n\nDESC stud"
+   },
+   "out": "Table altered.\n\nTable altered.\n\nTable renamed.\n\n Name    Null?    Type\n ------- -------- ------------\n ROLLNO  NOT NULL NUMBER(3)\n NAME    NOT NULL VARCHAR2(15)\n BRANCH           VARCHAR2(5)\n TOTAL            NUMBER(3)",
+   "expl": {
+    "en": "\n<ul><li><code>DROP COLUMN</code> removes the column and all its data permanently.</li>\n<li><code>RENAME COLUMN old TO new</code> changes only the column name; the data stays.</li>\n<li><code>RENAME old TO new</code> renames the table itself. <code>ALTER TABLE student RENAME TO stud;</code> does the same.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q1_5",
+   "title": {
+    "en": "TRUNCATE vs DROP"
+   },
+   "code": {
+    "en": "SELECT COUNT(*) FROM student;\n\nTRUNCATE TABLE student;\n\nSELECT * FROM student;\n\nDESC student\n\nDROP TABLE student;\n\nSELECT * FROM student;"
+   },
+   "out": "COUNT(*)\n--------\n       5\n\nTable truncated.\n\nno rows selected\n\n Name    Null?    Type\n ------- -------- ------------\n ROLLNO  NOT NULL NUMBER(3)\n NAME    NOT NULL VARCHAR2(15)\n BRANCH           VARCHAR2(5)\n CITY             VARCHAR2(10)\n MARKS            NUMBER(3)\n\nTable dropped.\n\nERROR at line 1:\nORA-00942: table or view does not exist",
+   "expl": {
+    "en": "\n<ul><li><b>TRUNCATE</b> deletes <b>all rows</b> but keeps the table structure, so DESC still works and SELECT says \"no rows selected\".</li>\n<li><b>DROP</b> removes the rows <b>and</b> the structure. After that, the table does not exist: ORA-00942.</li>\n<li>Both are DDL: they auto-commit and cannot be undone with ROLLBACK. (Oracle 10g+ keeps dropped tables in the Recycle Bin: <code>FLASHBACK TABLE student TO BEFORE DROP;</code>)</li></ul>\n"
+   }
+  },
+  {
+   "id": "q1_6",
+   "title": {
+    "en": "INSERT rows: all columns, selected columns, NULL"
+   },
+   "code": {
+    "en": "INSERT INTO student VALUES\n(1, 'Aarav Patel', 'CE', 'Surat', 82);\n\nINSERT INTO student (rollno, name, branch)\nVALUES (2, 'Diya Shah', 'IT');\n\nINSERT INTO student\nVALUES (3, 'Karan Mehta', 'CE', NULL, 67);\n\nSELECT * FROM student;"
+   },
+   "out": "1 row created.\n\n1 row created.\n\n1 row created.\n\nROLLNO NAME        BRANCH CITY  MARKS\n------ ----------- ------ ----- -----\n     1 Aarav Patel CE     Surat    82\n     2 Diya Shah   IT\n     3 Karan Mehta CE              67",
+   "expl": {
+    "en": "\n<ul><li>Form 1: values for <b>all</b> columns, in the same order as the table.</li>\n<li>Form 2: a column list. The missing columns (<code>city</code>, <code>marks</code>) get NULL.</li>\n<li>Form 3: <code>NULL</code> written explicitly.</li>\n<li>Text and date values go in single quotes; numbers do not.</li></ul>\n<p>NULL means \"unknown / not given\". It shows as a blank in the output.</p>\n"
+   }
+  },
+  {
+   "id": "q1_7",
+   "title": {
+    "en": "Insert many rows with substitution variables (&)"
+   },
+   "code": {
+    "en": "INSERT INTO student VALUES\n(&rollno, '&name', '&branch',\n '&city', &marks);"
+   },
+   "out": "Enter value for rollno: 6\nEnter value for name: Meera Iyer\nEnter value for branch: IT\nEnter value for city: Navsari\nEnter value for marks: 88\nold   2: (&rollno, '&name', '&branch',\nnew   2: (6, 'Meera Iyer', 'IT',\nold   3:  '&city', &marks)\nnew   3:  'Navsari', 88)\n\n1 row created.\n\nSQL> /\nEnter value for rollno: 7\nEnter value for name: Jay Trivedi\nEnter value for branch: CE\nEnter value for city: Anand\nEnter value for marks: 79\nold   2: (&rollno, '&name', '&branch',\nnew   2: (7, 'Jay Trivedi', 'CE',\nold   3:  '&city', &marks)\nnew   3:  'Anand', 79)\n\n1 row created.",
+   "expl": {
+    "en": "\n<p>In SQL*Plus, <code>&amp;name</code> is a <b>substitution variable</b>. SQL*Plus asks for each value at run time, so one INSERT can be reused for many rows.</p>\n<ul><li>After the first row, type <code>/</code> and press Enter to run the same INSERT again for the next row.</li>\n<li>Text variables are written inside quotes (<code>'&amp;name'</code>), so the user does not have to type the quotes.</li>\n<li>The <code>old</code>/<code>new</code> lines show the statement before and after substitution (turn them off with <code>SET VERIFY OFF</code>).</li></ul>\n"
+   }
+  },
+  {
+   "id": "q1_8",
+   "title": {
+    "en": "UPDATE rows (with and without WHERE)"
+   },
+   "code": {
+    "en": "UPDATE student\nSET marks = marks + 5\nWHERE branch = 'CE';\n\nUPDATE student\nSET city = 'Ahmedabad', marks = 95\nWHERE rollno = 2;\n\nSELECT rollno, name, city, marks\nFROM student;"
+   },
+   "out": "3 rows updated.\n\n1 row updated.\n\nROLLNO NAME        CITY      MARKS\n------ ----------- --------- -----\n     1 Aarav Patel Surat        87\n     2 Diya Shah   Ahmedabad    95\n     3 Karan Mehta Rajkot       72\n     4 Isha Desai  Surat        74\n     5 Rohan Joshi Bharuch      63",
+   "expl": {
+    "en": "\n<ul><li>UPDATE changes values in existing rows. <code>WHERE</code> chooses which rows are changed.</li>\n<li>The first UPDATE adds 5 marks to every CE student (3 rows). An expression can use the old value (<code>marks + 5</code>).</li>\n<li>Several columns can be set at once, separated by commas.</li>\n<li><b>Without WHERE, all rows are updated.</b> Always check the WHERE clause first.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q1_9",
+   "title": {
+    "en": "DELETE rows"
+   },
+   "code": {
+    "en": "DELETE FROM student\nWHERE marks < 60;\n\nDELETE FROM student\nWHERE city = 'Mumbai';\n\nSELECT rollno, name, marks\nFROM student;"
+   },
+   "out": "1 row deleted.\n\n0 rows deleted.\n\nROLLNO NAME        MARKS\n------ ----------- -----\n     1 Aarav Patel    82\n     2 Diya Shah      91\n     3 Karan Mehta    67\n     4 Isha Desai     74",
+   "expl": {
+    "en": "\n<ul><li>DELETE removes whole rows that satisfy the WHERE condition (Rohan, 58 marks).</li>\n<li>If no row matches, Oracle reports <b>0 rows deleted</b>. This is not an error.</li>\n<li><code>DELETE FROM student;</code> without WHERE deletes every row, but unlike TRUNCATE it can be rolled back because DELETE is DML.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q1_10",
+   "title": {
+    "en": "Copy a table (CREATE TABLE ... AS SELECT, INSERT ... SELECT)"
+   },
+   "code": {
+    "en": "CREATE TABLE ce_student AS\nSELECT rollno, name, marks\nFROM student\nWHERE branch = 'CE';\n\nSELECT * FROM ce_student;\n\nINSERT INTO ce_student\nSELECT rollno, name, marks\nFROM student\nWHERE branch = 'IT';\n\nSELECT * FROM ce_student;"
+   },
+   "out": "Table created.\n\nROLLNO NAME        MARKS\n------ ----------- -----\n     1 Aarav Patel    82\n     3 Karan Mehta    67\n     5 Rohan Joshi    58\n\n1 row created.\n\nROLLNO NAME        MARKS\n------ ----------- -----\n     1 Aarav Patel    82\n     3 Karan Mehta    67\n     5 Rohan Joshi    58\n     2 Diya Shah      91",
+   "expl": {
+    "en": "\n<ul><li><b>CREATE TABLE ... AS SELECT</b> (CTAS) creates a new table with the columns of the query and copies the selected rows.</li>\n<li><b>INSERT INTO ... SELECT</b> copies rows from a query into an existing table (no VALUES keyword).</li>\n<li>To copy only the structure, use a condition that is always false: <code>CREATE TABLE t2 AS SELECT * FROM student WHERE 1 = 2;</code></li></ul>\n"
+   }
+  },
+  {
+   "id": "q1_11",
+   "title": {
+    "en": "SELECT columns, column alias and expression"
+   },
+   "code": {
+    "en": "SELECT name, marks,\n       marks * 100 / 150 AS percent,\n       marks + 10 \"New Marks\"\nFROM student;"
+   },
+   "out": "NAME        MARKS    PERCENT New Marks\n----------- ----- ---------- ---------\nAarav Patel    82 54.6666667        92\nDiya Shah      91 60.6666667       101\nKaran Mehta    67 44.6666667        77\nIsha Desai     74 49.3333333        84\nRohan Joshi    58 38.6666667        68",
+   "expl": {
+    "en": "\n<ul><li>SELECT picks columns; FROM names the table.</li>\n<li>An <b>expression</b> such as <code>marks * 100 / 150</code> is calculated for every row. It does not change the table.</li>\n<li><b>Column alias</b>: <code>AS percent</code> gives a heading (shown in capitals). With double quotes, <code>\"New Marks\"</code> keeps its case and spaces.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q1_12",
+   "title": {
+    "en": "WHERE clause with relational and logical operators"
+   },
+   "code": {
+    "en": "SELECT rollno, name, marks\nFROM student\nWHERE branch = 'CE' AND marks >= 60;\n\nSELECT name, city\nFROM student\nWHERE city = 'Surat' OR marks > 90;\n\nSELECT name FROM student\nWHERE NOT branch = 'CE';"
+   },
+   "out": "ROLLNO NAME        MARKS\n------ ----------- -----\n     1 Aarav Patel    82\n     3 Karan Mehta    67\n\nNAME        CITY\n----------- --------\nAarav Patel Surat\nDiya Shah   Vadodara\nIsha Desai  Surat\n\nNAME\n----------\nDiya Shah\nIsha Desai",
+   "expl": {
+    "en": "\n<ul><li>WHERE filters rows. Only rows where the condition is TRUE are shown.</li>\n<li><code>AND</code>: both conditions must be true. <code>OR</code>: at least one must be true. <code>NOT</code>: reverses the condition.</li>\n<li>Text comparison is <b>case-sensitive</b>: <code>'Surat'</code> and <code>'SURAT'</code> are different.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q1_13",
+   "title": {
+    "en": "DISTINCT – remove duplicate values"
+   },
+   "code": {
+    "en": "SELECT branch FROM student;\n\nSELECT DISTINCT branch FROM student;\n\nSELECT DISTINCT branch, city\nFROM student;"
+   },
+   "out": "BRANCH\n------\nCE\nIT\nCE\nME\nCE\n\nBRANCH\n------\nCE\nIT\nME\n\nBRANCH CITY\n------ --------\nCE     Surat\nIT     Vadodara\nCE     Rajkot\nME     Surat\nCE     Bharuch",
+   "expl": {
+    "en": "\n<ul><li>Without DISTINCT, the value 'CE' appears once for every CE student.</li>\n<li><b>DISTINCT</b> shows each value only once.</li>\n<li>With more than one column, DISTINCT removes rows whose <b>combination</b> is repeated. Here every (branch, city) pair is different, so all 5 rows stay.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q1_14",
+   "title": {
+    "en": "DCL: create user and role, GRANT and REVOKE"
+   },
+   "code": {
+    "en": "CREATE USER ravi IDENTIFIED BY ravi123;\n\nGRANT CREATE SESSION TO ravi;\n\nGRANT SELECT, INSERT ON student\nTO ravi;\n\nCREATE ROLE clerk_role;\n\nGRANT SELECT, UPDATE ON student\nTO clerk_role;\n\nGRANT clerk_role TO ravi;\n\nREVOKE INSERT ON student FROM ravi;\n\nGRANT SELECT ON student TO meena\nWITH GRANT OPTION;"
+   },
+   "out": "User created.\n\nGrant succeeded.\n\nGrant succeeded.\n\nRole created.\n\nGrant succeeded.\n\nGrant succeeded.\n\nRevoke succeeded.\n\nGrant succeeded.",
+   "expl": {
+    "en": "\n<ul><li><code>CREATE USER</code> makes a new account (run as DBA/SYSTEM). <code>CREATE SESSION</code> is the system privilege needed to log in.</li>\n<li><b>Object privileges</b> (SELECT, INSERT, UPDATE, DELETE) are given on a particular table with <code>GRANT ... ON table TO user</code>.</li>\n<li>A <b>role</b> is a named group of privileges. Granting the role gives all of them at once, which makes management easy.</li>\n<li><code>REVOKE</code> takes a privilege back. Ravi can still SELECT and UPDATE (through the role) but can no longer INSERT.</li>\n<li><code>WITH GRANT OPTION</code> lets Meena grant SELECT to other users.</li></ul>\n<p>Ravi now uses the table as <code>SELECT * FROM scott.student;</code> (owner.table).</p>\n"
+   }
+  },
+  {
+   "id": "q1_15",
+   "title": {
+    "en": "COMMIT and ROLLBACK"
+   },
+   "code": {
+    "en": "INSERT INTO student VALUES\n(6, 'Meera Iyer', 'IT', 'Navsari', 88);\n\nCOMMIT;\n\nDELETE FROM student\nWHERE branch = 'CE';\n\nSELECT COUNT(*) FROM student;\n\nROLLBACK;\n\nSELECT COUNT(*) FROM student;"
+   },
+   "out": "1 row created.\n\nCommit complete.\n\n3 rows deleted.\n\nCOUNT(*)\n--------\n       3\n\nRollback complete.\n\nCOUNT(*)\n--------\n       6",
+   "expl": {
+    "en": "\n<ul><li>INSERT, UPDATE and DELETE are first kept in a <b>transaction</b> and are not yet permanent.</li>\n<li><b>COMMIT</b> makes them permanent and ends the transaction. Meera's row is now saved.</li>\n<li>The DELETE removes 3 CE rows (count becomes 3), but <b>ROLLBACK</b> undoes everything after the last COMMIT, so the count is 6 again.</li>\n<li>A normal exit from SQL*Plus commits; a crash or abnormal exit rolls back.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q1_16",
+   "title": {
+    "en": "SAVEPOINT and ROLLBACK TO SAVEPOINT"
+   },
+   "code": {
+    "en": "INSERT INTO student VALUES\n(6, 'Meera Iyer', 'IT', 'Navsari', 88);\nSAVEPOINT a;\n\nUPDATE student SET marks = marks + 5\nWHERE branch = 'CE';\nSAVEPOINT b;\n\nDELETE FROM student WHERE rollno = 5;\n\nROLLBACK TO b;\n\nSELECT rollno, marks FROM student;\n\nROLLBACK TO a;\n\nSELECT rollno, marks FROM student;\n\nCOMMIT;"
+   },
+   "out": "1 row created.\n\nSavepoint created.\n\n3 rows updated.\n\nSavepoint created.\n\n1 row deleted.\n\nRollback complete.\n\nROLLNO MARKS\n------ -----\n     1    87\n     2    91\n     3    72\n     4    74\n     5    63\n     6    88\n\n6 rows selected.\n\nRollback complete.\n\nROLLNO MARKS\n------ -----\n     1    82\n     2    91\n     3    67\n     4    74\n     5    58\n     6    88\n\n6 rows selected.\n\nCommit complete.",
+   "expl": {
+    "en": "\n<ul><li>A <b>SAVEPOINT</b> marks a point inside a transaction.</li>\n<li><code>ROLLBACK TO b</code> undoes only the work done after <code>b</code>: the DELETE. Roll no. 5 is back, and the +5 update stays.</li>\n<li><code>ROLLBACK TO a</code> undoes the UPDATE too, so the marks return to their original values. The INSERT of roll no. 6 (before <code>a</code>) stays.</li>\n<li><code>COMMIT</code> saves what remains (the new row 6) and erases all savepoints.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q1_17",
+   "title": {
+    "en": "DDL causes an automatic COMMIT"
+   },
+   "code": {
+    "en": "INSERT INTO student VALUES\n(6, 'Meera Iyer', 'IT', 'Navsari', 88);\n\nCREATE TABLE log_t (id NUMBER);\n\nROLLBACK;\n\nSELECT COUNT(*) FROM student;"
+   },
+   "out": "1 row created.\n\nTable created.\n\nRollback complete.\n\nCOUNT(*)\n--------\n       6",
+   "expl": {
+    "en": "\n<p>In Oracle, every DDL statement (CREATE, ALTER, DROP, TRUNCATE, RENAME) and DCL statement (GRANT, REVOKE) <b>commits the current transaction automatically</b>, before and after it runs.</p>\n<p>So the INSERT was committed by <code>CREATE TABLE</code>, and the later ROLLBACK has nothing to undo: the count is still 6.</p>\n"
+   }
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "db1_data_info",
+   "title": {
+    "en": "Data, Processing and Information"
+   },
+   "file": "diagrams/db1_data_info.svg"
+  },
+  {
+   "id": "db1_hierarchy",
+   "title": {
+    "en": "Data Item, Record, File and Database"
+   },
+   "file": "diagrams/db1_hierarchy.svg"
+  },
+  {
+   "id": "db1_dictionary",
+   "title": {
+    "en": "Metadata in the Data Dictionary"
+   },
+   "file": "diagrams/db1_dictionary.svg"
+  },
+  {
+   "id": "db1_file_vs_db",
+   "title": {
+    "en": "File System vs Database System"
+   },
+   "file": "diagrams/db1_file_vs_db.svg"
+  },
+  {
+   "id": "db1_environment",
+   "title": {
+    "en": "Database System Environment"
+   },
+   "file": "diagrams/db1_environment.svg"
+  },
+  {
+   "id": "db1_three_level",
+   "title": {
+    "en": "Three-Level (ANSI/SPARC) Architecture"
+   },
+   "file": "diagrams/db1_three_level.svg"
+  },
+  {
+   "id": "db1_schema_instance",
+   "title": {
+    "en": "Schema, Sub-schema and Instance"
+   },
+   "file": "diagrams/db1_schema_instance.svg"
+  },
+  {
+   "id": "db1_sql_cmds",
+   "title": {
+    "en": "Classification of SQL Commands"
+   },
+   "file": "diagrams/db1_sql_cmds.svg"
+  },
+  {
+   "id": "db1_dcl",
+   "title": {
+    "en": "Users, Roles and Privileges (DCL)"
+   },
+   "file": "diagrams/db1_dcl.svg"
+  },
+  {
+   "id": "db1_acid",
+   "title": {
+    "en": "ACID Properties of a Transaction"
+   },
+   "file": "diagrams/db1_acid.svg"
+  },
+  {
+   "id": "db1_tx_states",
+   "title": {
+    "en": "States of a Transaction"
+   },
+   "file": "diagrams/db1_tx_states.svg"
+  },
+  {
+   "id": "db1_savepoint",
+   "title": {
+    "en": "SAVEPOINT and ROLLBACK TO"
+   },
+   "file": "diagrams/db1_savepoint.svg"
+  }
+ ],
+ "syntax": [
+  {
+   "title": {
+    "en": "DDL – Data Definition"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "CREATE TABLE"
+     },
+     "f": "CREATE TABLE table_name (\n  column1 datatype [constraint],\n  column2 datatype [constraint],\n  ...\n  [table_constraints]\n);",
+     "terms": {
+      "en": "Defines a new table. DESC table_name shows its structure."
+     }
+    },
+    {
+     "name": {
+      "en": "CREATE TABLE ... AS SELECT"
+     },
+     "f": "CREATE TABLE new_t AS\nSELECT cols FROM old_t\n[WHERE condition];",
+     "terms": {
+      "en": "Copies structure and rows. WHERE 1 = 2 copies only the structure."
+     }
+    },
+    {
+     "name": {
+      "en": "ALTER TABLE"
+     },
+     "f": "ALTER TABLE t ADD (col datatype, ...);\nALTER TABLE t MODIFY (col new_datatype);\nALTER TABLE t DROP COLUMN col;\nALTER TABLE t RENAME COLUMN old TO new;\nALTER TABLE t RENAME TO new_name;\nRENAME old_name TO new_name;",
+     "terms": {
+      "en": "Changes structure: add, modify, drop or rename columns; rename the table."
+     }
+    },
+    {
+     "name": {
+      "en": "DROP and TRUNCATE"
+     },
+     "f": "DROP TABLE table_name;\nDROP TABLE table_name PURGE;\nTRUNCATE TABLE table_name;",
+     "terms": {
+      "en": "DROP removes table + data. TRUNCATE removes all rows, keeps structure."
+     }
+    },
+    {
+     "name": {
+      "en": "DESCRIBE"
+     },
+     "f": "DESC table_name",
+     "terms": {
+      "en": "SQL*Plus command; shows Name, Null? and Type."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "DML and DQL"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "INSERT"
+     },
+     "f": "INSERT INTO t VALUES (v1, v2, ...);\n\nINSERT INTO t (col1, col2)\nVALUES (v1, v2);\n\nINSERT INTO t (col1, col2)\nSELECT c1, c2 FROM other WHERE ...;",
+     "terms": {
+      "en": "Adds rows. Use &var for substitution variables and / to run again."
+     }
+    },
+    {
+     "name": {
+      "en": "UPDATE"
+     },
+     "f": "UPDATE table_name\nSET col1 = value1, col2 = value2\n[WHERE condition];",
+     "terms": {
+      "en": "Changes values. Without WHERE all rows are updated."
+     }
+    },
+    {
+     "name": {
+      "en": "DELETE"
+     },
+     "f": "DELETE FROM table_name\n[WHERE condition];",
+     "terms": {
+      "en": "Removes rows. Can be rolled back before COMMIT."
+     }
+    },
+    {
+     "name": {
+      "en": "SELECT"
+     },
+     "f": "SELECT [DISTINCT] col1 [AS alias], ...\nFROM table_name\n[WHERE condition]\n[GROUP BY columns]\n[HAVING group_condition]\n[ORDER BY columns [ASC|DESC]];",
+     "terms": {
+      "en": "Retrieves data. Execution order: FROM, WHERE, GROUP BY, HAVING, SELECT, ORDER BY."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "DCL – Data Control"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Users"
+     },
+     "f": "CREATE USER username\n  IDENTIFIED BY password;\nALTER USER username\n  IDENTIFIED BY new_password;\nDROP USER username CASCADE;",
+     "terms": {
+      "en": "Run as DBA. A new user needs CREATE SESSION to log in."
+     }
+    },
+    {
+     "name": {
+      "en": "GRANT"
+     },
+     "f": "GRANT privilege_list\nON object_name\nTO user | role | PUBLIC\n[WITH GRANT OPTION];\n\nGRANT system_privilege TO user;",
+     "terms": {
+      "en": "WITH GRANT OPTION allows the user to pass the privilege on."
+     }
+    },
+    {
+     "name": {
+      "en": "REVOKE"
+     },
+     "f": "REVOKE privilege_list\nON object_name\nFROM user | role | PUBLIC;",
+     "terms": {
+      "en": "Takes back a privilege; cascades for object privileges."
+     }
+    },
+    {
+     "name": {
+      "en": "Roles"
+     },
+     "f": "CREATE ROLE role_name;\nGRANT privileges ON table TO role_name;\nGRANT role_name TO user1, user2;\nREVOKE role_name FROM user1;\nDROP ROLE role_name;",
+     "terms": {
+      "en": "A role is a named group of privileges."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "TCL – Transaction Control"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "COMMIT / ROLLBACK / SAVEPOINT"
+     },
+     "f": "COMMIT [WORK];\nROLLBACK [WORK];\nSAVEPOINT savepoint_name;\nROLLBACK TO [SAVEPOINT] savepoint_name;",
+     "terms": {
+      "en": "DDL and DCL commit automatically in Oracle."
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Data, Database and DBMS"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is the difference between data and information?"
+     },
+     "a": {
+      "en": "Data is raw, unprocessed facts. Information is processed, meaningful data used for decision making."
+     }
+    },
+    {
+     "q": {
+      "en": "What is metadata?"
+     },
+     "a": {
+      "en": "Data about data, e.g. table names, column names, data types and constraints."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a data dictionary?"
+     },
+     "a": {
+      "en": "A set of system tables (system catalog) where the DBMS stores all metadata. In Oracle it is read through views like USER_TABLES."
+     }
+    },
+    {
+     "q": {
+      "en": "Define field, record and file."
+     },
+     "a": {
+      "en": "Field: smallest named unit of data. Record: collection of related fields about one entity. File: collection of similar records."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a DBMS? Give examples."
+     },
+     "a": {
+      "en": "Software to create, store, retrieve and manage a database. Examples: Oracle, MySQL, SQL Server, PostgreSQL."
+     }
+    },
+    {
+     "q": {
+      "en": "What is an RDBMS?"
+     },
+     "a": {
+      "en": "A DBMS based on the relational model in which data is stored in related tables of rows and columns, e.g. Oracle."
+     }
+    },
+    {
+     "q": {
+      "en": "Who proposed the relational model?"
+     },
+     "a": {
+      "en": "Dr. E. F. Codd of IBM, in 1970."
+     }
+    },
+    {
+     "q": {
+      "en": "Name two disadvantages of the file system."
+     },
+     "a": {
+      "en": "Data redundancy and data inconsistency (also difficult access, poor security, no concurrency)."
+     }
+    },
+    {
+     "q": {
+      "en": "Who is a DBA?"
+     },
+     "a": {
+      "en": "The Database Administrator: the person with central control who designs the schema, manages users and privileges, and takes backups."
+     }
+    },
+    {
+     "q": {
+      "en": "What are the three levels of the ANSI/SPARC architecture?"
+     },
+     "a": {
+      "en": "External (view) level, conceptual (logical) level and internal (physical) level."
+     }
+    },
+    {
+     "q": {
+      "en": "What is data independence?"
+     },
+     "a": {
+      "en": "The ability to change the schema at one level without changing the next higher level. It has two types: logical and physical."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the difference between a schema and an instance?"
+     },
+     "a": {
+      "en": "A schema is the structure/design of the database (changes rarely); an instance is the data stored at a particular moment (changes often)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a sub-schema?"
+     },
+     "a": {
+      "en": "A part of the schema visible to a particular user or application; created as a view in SQL."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "SQL Commands"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is SQL?"
+     },
+     "a": {
+      "en": "Structured Query Language: the standard non-procedural language for relational databases."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the difference between CHAR and VARCHAR2?"
+     },
+     "a": {
+      "en": "CHAR is fixed length and padded with spaces (max 2000 bytes); VARCHAR2 is variable length (max 4000 bytes)."
+     }
+    },
+    {
+     "q": {
+      "en": "What does NUMBER(7,2) mean?"
+     },
+     "a": {
+      "en": "7 total digits with 2 after the decimal point; maximum value 99999.99."
+     }
+    },
+    {
+     "q": {
+      "en": "Name the DDL commands."
+     },
+     "a": {
+      "en": "CREATE, ALTER, DROP, TRUNCATE and RENAME."
+     }
+    },
+    {
+     "q": {
+      "en": "Name the DML commands."
+     },
+     "a": {
+      "en": "INSERT, UPDATE and DELETE."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the difference between DELETE and TRUNCATE?"
+     },
+     "a": {
+      "en": "DELETE is DML, can use WHERE and can be rolled back. TRUNCATE is DDL, removes all rows and cannot be rolled back."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the difference between DROP and TRUNCATE?"
+     },
+     "a": {
+      "en": "DROP removes the table structure and data; TRUNCATE removes only the data and keeps the structure."
+     }
+    },
+    {
+     "q": {
+      "en": "What happens if WHERE is omitted in UPDATE?"
+     },
+     "a": {
+      "en": "All rows of the table are updated."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the use of DISTINCT?"
+     },
+     "a": {
+      "en": "It removes duplicate rows from the result of a SELECT."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you see the structure of a table?"
+     },
+     "a": {
+      "en": "With the DESC (DESCRIBE) table_name command."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a substitution variable?"
+     },
+     "a": {
+      "en": "A variable written as &name in SQL*Plus; the user is asked to enter its value when the statement runs."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "DCL and TCL"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is the use of GRANT and REVOKE?"
+     },
+     "a": {
+      "en": "GRANT gives privileges to users or roles; REVOKE takes them back."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a role?"
+     },
+     "a": {
+      "en": "A named group of privileges that can be granted to many users at once."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between system and object privileges?"
+     },
+     "a": {
+      "en": "System privileges allow actions in the database (CREATE TABLE); object privileges allow actions on a specific object (SELECT on emp)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is WITH GRANT OPTION?"
+     },
+     "a": {
+      "en": "It allows the user who receives an object privilege to grant it to other users."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a transaction?"
+     },
+     "a": {
+      "en": "A logical unit of work made of one or more SQL statements that is completed entirely or not at all."
+     }
+    },
+    {
+     "q": {
+      "en": "Expand ACID."
+     },
+     "a": {
+      "en": "Atomicity, Consistency, Isolation and Durability."
+     }
+    },
+    {
+     "q": {
+      "en": "What does COMMIT do?"
+     },
+     "a": {
+      "en": "It makes all changes of the current transaction permanent and ends the transaction."
+     }
+    },
+    {
+     "q": {
+      "en": "What does ROLLBACK do?"
+     },
+     "a": {
+      "en": "It undoes all changes since the last COMMIT."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a SAVEPOINT?"
+     },
+     "a": {
+      "en": "A named marker inside a transaction; ROLLBACK TO savepoint undoes only the work after it."
+     }
+    },
+    {
+     "q": {
+      "en": "Can a DROP TABLE be rolled back?"
+     },
+     "a": {
+      "en": "No. DDL commands commit automatically. (In Oracle 10g+ it can be restored with FLASHBACK TABLE ... TO BEFORE DROP.)"
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Define: (i) Data (ii) Information (iii) Metadata."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Differentiate between data and information."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain data item, record and file with an example."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "What is a data dictionary? List its contents."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain the disadvantages of the file processing system."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "List the advantages and disadvantages of a DBMS."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the database system environment with a diagram."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the three-level architecture of a DBMS with a neat diagram."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "What is data independence? Explain its types."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Define schema, sub-schema and instance. Differentiate schema and instance."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain any five data types of Oracle SQL. Differentiate CHAR and VARCHAR2."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Classify SQL commands and explain DDL commands with syntax and examples."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain INSERT, UPDATE and DELETE commands with examples."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Differentiate DELETE, TRUNCATE and DROP."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain GRANT and REVOKE commands with syntax and examples."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "What is a transaction? Explain the ACID properties."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the states of a transaction with a diagram."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain COMMIT, ROLLBACK and SAVEPOINT with examples."
+   },
+   "marks": 7
+  }
+ ],
+ "tabs": [
+  "notes",
+  "programs",
+  "diagrams",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "Detailed notes as per GTU syllabus with diagrams, solved Oracle SQL queries with real output, syntax and viva."
+ }
+}
