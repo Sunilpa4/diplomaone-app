@@ -1,0 +1,966 @@
+{
+ "subject": "DI03000051",
+ "unit": 4,
+ "format": "notes",
+ "title": {
+  "en": "IP Protocol",
+  "gu": "IP Protocol"
+ },
+ "weightage": 22,
+ "hours": 10,
+ "notes": [
+  {
+   "title": {
+    "en": "4.1 IPv4",
+    "gu": "4.1 IPv4"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "4.1.1 IP Protocol and IPv4 Address",
+      "gu": "4.1.1 IP Protocol અને IPv4 Address"
+     },
+     "body": {
+      "en": "<p>The <b>Internet Protocol (IP)</b> is the network-layer protocol of the TCP/IP suite. It moves packets (<b>datagrams</b>) from the source host to the destination host across many networks, using <b>logical addresses</b> called <b>IP addresses</b>. IP version 4 (<b>IPv4</b>) is the most widely used version; <b>IPv6</b> is its successor.</p>\n<p>An <b>IPv4 address</b> is a <b>32-bit</b> address that <b>uniquely and universally</b> defines the connection of a device (host or router interface) to the Internet. Two devices on the Internet can never have the same public address at the same time. A device with two connections (e.g. a router) has two IP addresses.</p>\n<h4>Notations</h4>\n<ul>\n<li><b>Binary notation:</b> 32 bits, usually with a space between each octet (8 bits): <b>11000000 10101000 00001010 00000101</b></li>\n<li><b>Dotted-decimal notation:</b> each octet written as a decimal number 0-255, separated by dots: <b>192.168.10.5</b></li>\n<li>Hexadecimal notation is sometimes used in programming: C0A80A05.</li>\n</ul>\n<h4>Conversion</h4>\n<p>Each octet uses place values <b>128 64 32 16 8 4 2 1</b>. Binary to decimal: add the place values of the 1 bits. Decimal to binary: subtract the largest place values that fit (192 = 128 + 64 = 11000000).</p>\n<p><b>Address space:</b> 2^32 = 4,294,967,296 addresses (about 4.3 billion), less those reserved for special use.</p>",
+      "gu": "<p><b>Internet Protocol (IP)</b> એ TCP/IP suite નો network-layer protocol છે. તે <b>IP addresses</b> તરીકે ઓળખાતા <b>logical addresses</b> વાપરીને ઘણા networks પાર source host થી destination host સુધી packets (<b>datagrams</b>) લઈ જાય છે. IP version 4 (<b>IPv4</b>) સૌથી વધુ વપરાતું version છે; <b>IPv6</b> તેનું અનુગામી છે.</p>\n<p><b>IPv4 address</b> એ <b>32-bit</b> address છે જે device (host કે router interface) ના Internet સાથેના જોડાણને <b>અનન્ય અને સાર્વત્રિક</b> રીતે ઓળખે છે. Internet પર બે devices એક જ સમયે ક્યારેય સરખું public address ધરાવી ન શકે. બે જોડાણ ધરાવતા device (દા.ત. router) ને બે IP addresses હોય.</p>\n<h4>Notations</h4>\n<ul>\n<li><b>Binary notation:</b> 32 bits, સામાન્ય રીતે દરેક octet (8 bits) વચ્ચે space: <b>11000000 10101000 00001010 00000101</b></li>\n<li><b>Dotted-decimal notation:</b> દરેક octet 0-255 ની decimal સંખ્યા તરીકે, dots થી અલગ: <b>192.168.10.5</b></li>\n<li>Programming માં ક્યારેક hexadecimal notation વપરાય: C0A80A05.</li>\n</ul>\n<h4>રૂપાંતર</h4>\n<p>દરેક octet place values <b>128 64 32 16 8 4 2 1</b> વાપરે. Binary થી decimal: 1 bits ની place values ઉમેરો. Decimal થી binary: બંધબેસતી સૌથી મોટી place values બાદ કરો (192 = 128 + 64 = 11000000).</p>\n<p><b>Address space:</b> 2^32 = 4,294,967,296 addresses (લગભગ 4.3 billion), ખાસ ઉપયોગ માટે reserved હોય તે બાદ.</p>"
+     },
+     "diagram": "cn4_v4fmt",
+     "examples": [
+      "cn4n1"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.1.2 Characteristics of IPv4",
+      "gu": "4.1.2 IPv4 ની લાક્ષણિકતાઓ"
+     },
+     "body": {
+      "en": "<ul>\n<li><b>32-bit addressing:</b> about 4.3 billion addresses, written in dotted decimal.</li>\n<li><b>Connectionless:</b> each datagram is handled independently; no connection is set up, and datagrams of one message may take different routes and arrive out of order.</li>\n<li><b>Best-effort, unreliable delivery:</b> IP does not guarantee delivery, order or freedom from duplicates. Error and flow control are left to upper layers (TCP).</li>\n<li><b>Header of 20-60 bytes</b> with a <b>header checksum</b> (checks the header only, not the data).</li>\n<li><b>Fragmentation:</b> a datagram larger than the network's MTU can be divided into fragments by the sender or routers; the identification, flags and fragment offset fields reassemble them.</li>\n<li><b>TTL (time to live):</b> decremented by each router; the datagram is discarded at 0, preventing endless loops.</li>\n<li><b>Protocol field:</b> tells which upper-layer protocol the data belongs to (1 = ICMP, 6 = TCP, 17 = UDP).</li>\n<li>Supports <b>unicast, broadcast and multicast</b>; uses classful or classless (CIDR) addressing with subnet masks.</li>\n<li>Works with helper protocols: <b>ARP</b> (IP to MAC), <b>ICMP</b> (errors, ping), <b>DHCP</b> (automatic configuration), <b>IGMP</b> (multicast).</li>\n</ul>",
+      "gu": "<ul>\n<li><b>32-bit addressing:</b> લગભગ 4.3 billion addresses, dotted decimal માં લખાય.</li>\n<li><b>Connectionless:</b> દરેક datagram સ્વતંત્ર રીતે સંભાળાય; connection set up થતું નથી, અને એક message ના datagrams જુદા routes લઈ ક્રમ બહાર પહોંચી શકે.</li>\n<li><b>Best-effort, unreliable delivery:</b> IP delivery, ક્રમ કે duplicates ન હોવાની ખાતરી આપતું નથી. Error અને flow control ઉપરના layers (TCP) પર છોડાય.</li>\n<li><b>20-60 bytes નું header</b>, <b>header checksum</b> સાથે (ફક્ત header તપાસે, data નહીં).</li>\n<li><b>Fragmentation:</b> network ના MTU કરતાં મોટું datagram sender કે routers દ્વારા fragments માં વહેંચાઈ શકે; identification, flags અને fragment offset fields તેમને ફરી જોડે.</li>\n<li><b>TTL (time to live):</b> દરેક router તેને ઘટાડે; 0 થાય ત્યારે datagram કાઢી નખાય, જે અનંત loops અટકાવે.</li>\n<li><b>Protocol field:</b> data કયા upper-layer protocol નો છે તે કહે (1 = ICMP, 6 = TCP, 17 = UDP).</li>\n<li><b>Unicast, broadcast અને multicast</b> support કરે; subnet masks સાથે classful કે classless (CIDR) addressing વાપરે.</li>\n<li>સહાયક protocols સાથે કામ કરે: <b>ARP</b> (IP થી MAC), <b>ICMP</b> (errors, ping), <b>DHCP</b> (automatic configuration), <b>IGMP</b> (multicast).</li>\n</ul>"
+     },
+     "diagram": "cn4_v4hdr"
+    },
+    {
+     "h": {
+      "en": "4.1.3 Advantages and Disadvantages of IPv4",
+      "gu": "4.1.3 IPv4 ના ફાયદા અને ગેરફાયદા"
+     },
+     "body": {
+      "en": "<h4>Advantages</h4><ul><li>Simple, well understood, supported by every device and operating system.</li><li>Small 32-bit address and 20-byte header: low overhead.</li><li>Subnetting, CIDR and NAT allow efficient use and sharing of addresses.</li><li>Huge base of tools, routers and trained administrators.</li></ul><h4>Disadvantages</h4><ul><li>Address space exhausted: only about 4.3 billion addresses for many more devices.</li><li>Needs NAT, which breaks end-to-end connectivity and adds complexity.</li><li>Security (IPsec) is optional, not built in.</li><li>Manual or DHCP configuration needed; variable header and checksum slow routers; large routing tables.</li></ul><p>The shortage of IPv4 addresses was delayed by <b>CIDR</b>, <b>private addresses with NAT</b> and <b>DHCP</b>, but the permanent solution is <b>IPv6</b>. IANA allocated its last free IPv4 blocks in 2011.</p>",
+      "gu": "<h4>ફાયદા</h4><ul><li>સરળ, સારી રીતે સમજાયેલું, દરેક device અને operating system દ્વારા supported.</li><li>નાનું 32-bit address અને 20-byte header: ઓછો overhead.</li><li>Subnetting, CIDR અને NAT addresses નો કાર્યક્ષમ ઉપયોગ અને વહેંચણી શક્ય બનાવે.</li><li>Tools, routers અને તાલીમ પામેલા administrators નો મોટો આધાર.</li></ul><h4>ગેરફાયદા</h4><ul><li>Address space ખલાસ: ઘણાં વધુ devices માટે ફક્ત લગભગ 4.3 billion addresses.</li><li>NAT જોઈએ, જે end-to-end connectivity તોડે અને જટિલતા વધારે.</li><li>Security (IPsec) વૈકલ્પિક છે, built in નથી.</li><li>Manual કે DHCP configuration જોઈએ; variable header અને checksum routers ને ધીમા કરે; મોટાં routing tables.</li></ul><p>IPv4 addresses ની અછત <b>CIDR</b>, <b>NAT સાથે private addresses</b> અને <b>DHCP</b> દ્વારા મોડી થઈ, પણ કાયમી ઉકેલ <b>IPv6</b> છે. IANA એ તેના છેલ્લા મુક્ત IPv4 blocks 2011 માં ફાળવ્યા.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "4.1.4 Classful Addressing Scheme",
+      "gu": "4.1.4 Classful Addressing Scheme"
+     },
+     "body": {
+      "en": "<p>In <b>classful addressing</b> (the original IPv4 scheme), the address space is divided into five classes: <b>A, B, C, D and E</b>. The class decides how many bits are used for the network and how many for the host.</p>\n<table><tr><th>Class</th><th>Leading bits</th><th>1st octet</th><th>Default mask</th></tr><tr><td>A</td><td>0</td><td>0 - 127</td><td>255.0.0.0 (/8)</td></tr><tr><td>B</td><td>10</td><td>128 - 191</td><td>255.255.0.0 (/16)</td></tr><tr><td>C</td><td>110</td><td>192 - 223</td><td>255.255.255.0 (/24)</td></tr><tr><td>D</td><td>1110</td><td>224 - 239</td><td>-</td></tr><tr><td>E</td><td>1111</td><td>240 - 255</td><td>-</td></tr></table>\n<h4>Finding the class</h4>\n<ul><li><b>Binary notation:</b> look at the leading bits: 0 = A, 10 = B, 110 = C, 1110 = D, 1111 = E.</li>\n<li><b>Dotted-decimal notation:</b> look at the first octet: 0-127 A, 128-191 B, 192-223 C, 224-239 D, 240-255 E.</li></ul>\n<p>Class A, B and C addresses are for unicast (one host); the address is split into a network ID and a host ID (see 4.1.6).</p>",
+      "gu": "<p><b>Classful addressing</b> (મૂળ IPv4 પદ્ધતિ) માં address space પાંચ classes માં વહેંચાય છે: <b>A, B, C, D અને E</b>. Class નક્કી કરે કે network માટે કેટલા bits અને host માટે કેટલા bits વપરાય.</p>\n<table><tr><th>Class</th><th>આગળના bits</th><th>1st octet</th><th>Default mask</th></tr><tr><td>A</td><td>0</td><td>0 - 127</td><td>255.0.0.0 (/8)</td></tr><tr><td>B</td><td>10</td><td>128 - 191</td><td>255.255.0.0 (/16)</td></tr><tr><td>C</td><td>110</td><td>192 - 223</td><td>255.255.255.0 (/24)</td></tr><tr><td>D</td><td>1110</td><td>224 - 239</td><td>-</td></tr><tr><td>E</td><td>1111</td><td>240 - 255</td><td>-</td></tr></table>\n<h4>Class શોધવો</h4>\n<ul><li><b>Binary notation:</b> આગળના bits જુઓ: 0 = A, 10 = B, 110 = C, 1110 = D, 1111 = E.</li>\n<li><b>Dotted-decimal notation:</b> પ્રથમ octet જુઓ: 0-127 A, 128-191 B, 192-223 C, 224-239 D, 240-255 E.</li></ul>\n<p>Class A, B અને C addresses unicast (એક host) માટે છે; address network ID અને host ID માં વહેંચાય (જુઓ 4.1.6).</p>"
+     },
+     "diagram": "cn4_classes",
+     "examples": [
+      "cn4n2"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.1.5 Networks and Hosts in Each Class",
+      "gu": "4.1.5 દરેક Class માં Networks અને Hosts"
+     },
+     "body": {
+      "en": "<p>The number of network bits and host bits fixes how many networks a class has and how many hosts each network can hold. The leading class bits are not counted as free network bits.</p>\n<table><tr><th>Class</th><th>Number of networks</th><th>Hosts per network</th><th>Typical user</th></tr><tr><td>A</td><td>2^7 = 128 (126 usable)</td><td>2^24 - 2 = 16,777,214</td><td>Very large organisations</td></tr><tr><td>B</td><td>2^14 = 16,384</td><td>2^16 - 2 = 65,534</td><td>Medium / large organisations</td></tr><tr><td>C</td><td>2^21 = 2,097,152</td><td>2^8 - 2 = 254</td><td>Small organisations</td></tr></table>\n<ul><li>Class A: 8 network bits - 1 fixed bit = 7 bits → 2^7 networks; 24 host bits.</li>\n<li>Class B: 16 - 2 = 14 bits → 2^14 networks; 16 host bits.</li>\n<li>Class C: 24 - 3 = 21 bits → 2^21 networks; 8 host bits.</li></ul>\n<p>Class D addresses are used for <b>multicasting</b> (one source to a group) and class E is <b>reserved</b>.</p>\n<h4>Problem of classful addressing</h4>\n<p>Blocks are too large or too small: a class A block (16 million addresses) is far too big for any one organisation, while a class C block (254 hosts) is too small for most. Many addresses were wasted, and the scheme led to early address depletion. It was replaced by <b>classless addressing</b> in 1993.</p>",
+      "gu": "<p>Network bits અને host bits ની સંખ્યા નક્કી કરે કે class માં કેટલા networks છે અને દરેક network માં કેટલા hosts રહી શકે. આગળના class bits મુક્ત network bits તરીકે ગણાતા નથી.</p>\n<table><tr><th>Class</th><th>Networks ની સંખ્યા</th><th>Network દીઠ hosts</th><th>સામાન્ય user</th></tr><tr><td>A</td><td>2^7 = 128 (126 usable)</td><td>2^24 - 2 = 16,777,214</td><td>ખૂબ મોટી સંસ્થાઓ</td></tr><tr><td>B</td><td>2^14 = 16,384</td><td>2^16 - 2 = 65,534</td><td>મધ્યમ / મોટી સંસ્થાઓ</td></tr><tr><td>C</td><td>2^21 = 2,097,152</td><td>2^8 - 2 = 254</td><td>નાની સંસ્થાઓ</td></tr></table>\n<ul><li>Class A: 8 network bits - 1 fixed bit = 7 bits → 2^7 networks; 24 host bits.</li>\n<li>Class B: 16 - 2 = 14 bits → 2^14 networks; 16 host bits.</li>\n<li>Class C: 24 - 3 = 21 bits → 2^21 networks; 8 host bits.</li></ul>\n<p>Class D addresses <b>multicasting</b> (એક source થી group) માટે વપરાય અને class E <b>reserved</b> છે.</p>\n<h4>Classful addressing ની સમસ્યા</h4>\n<p>Blocks ખૂબ મોટા કે ખૂબ નાના છે: class A block (16 million addresses) કોઈ એક સંસ્થા માટે ઘણો મોટો, જ્યારે class C block (254 hosts) મોટા ભાગની માટે નાનો. ઘણા addresses વેડફાયા, અને આ પદ્ધતિથી addresses વહેલા ખલાસ થયા. 1993 માં તેની જગ્યા <b>classless addressing</b> એ લીધી.</p>"
+     },
+     "diagram": "cn4_space"
+    },
+    {
+     "h": {
+      "en": "4.1.6 Network ID, Host ID and Special Addresses of a Block",
+      "gu": "4.1.6 Network ID, Host ID અને Block ના ખાસ Addresses"
+     },
+     "body": {
+      "en": "<p>In classes A, B and C, an IP address is divided into two parts:</p>\n<ul><li><b>Network ID (netid):</b> identifies the network; all hosts on one network share it.</li>\n<li><b>Host ID (hostid):</b> identifies a particular host (interface) on that network.</li></ul>\n<p>Class A: netid = 1st octet, hostid = last 3 octets. Class B: netid = first 2 octets, hostid = last 2. Class C: netid = first 3 octets, hostid = last octet.</p>\n<h4>Two special addresses in every network</h4>\n<ul><li><b>Network address:</b> all host bits = 0 (e.g. 172.16.0.0). It names the network itself and is used in routing tables; it is not assigned to any host.</li>\n<li><b>Directed broadcast address:</b> all host bits = 1 (e.g. 172.16.255.255). A packet sent to it reaches every host on that network.</li></ul>\n<p>So the number of <b>usable hosts = 2^(host bits) - 2</b>.</p>\n<h4>Checking validity (Practical 5)</h4>\n<ul><li>Exactly <b>4 octets</b> separated by dots.</li><li>Each octet a decimal number from <b>0 to 255</b>.</li><li>No leading zeros (045) and no mixing of binary and decimal notation.</li></ul>",
+      "gu": "<p>Classes A, B અને C માં IP address બે ભાગમાં વહેંચાય:</p>\n<ul><li><b>Network ID (netid):</b> network ઓળખે; એક network ના બધા hosts તે વહેંચે.</li>\n<li><b>Host ID (hostid):</b> તે network પરના ચોક્કસ host (interface) ને ઓળખે.</li></ul>\n<p>Class A: netid = 1st octet, hostid = છેલ્લા 3 octets. Class B: netid = પ્રથમ 2 octets, hostid = છેલ્લા 2. Class C: netid = પ્રથમ 3 octets, hostid = છેલ્લો octet.</p>\n<h4>દરેક network ના બે ખાસ addresses</h4>\n<ul><li><b>Network address:</b> બધા host bits = 0 (દા.ત. 172.16.0.0). તે network ને જ નામ આપે અને routing tables માં વપરાય; કોઈ host ને અપાતું નથી.</li>\n<li><b>Directed broadcast address:</b> બધા host bits = 1 (દા.ત. 172.16.255.255). તેને મોકલેલું packet તે network ના દરેક host સુધી પહોંચે.</li></ul>\n<p>તેથી <b>usable hosts = 2^(host bits) - 2</b>.</p>\n<h4>Validity તપાસવી (Practical 5)</h4>\n<ul><li>Dots થી અલગ બરાબર <b>4 octets</b>.</li><li>દરેક octet <b>0 થી 255</b> ની decimal સંખ્યા.</li><li>આગળ શૂન્ય (045) નહીં અને binary તથા decimal notation નું મિશ્રણ નહીં.</li></ul>"
+     },
+     "diagram": "cn4_netid",
+     "examples": [
+      "cn4n3"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.1.7 Subnet Mask and Masking",
+      "gu": "4.1.7 Subnet Mask અને Masking"
+     },
+     "body": {
+      "en": "<p>A <b>mask</b> (subnet mask) is a 32-bit number in which the <b>1 bits mark the network (and subnet) part</b> and the <b>0 bits mark the host part</b> of an address. The ones are always contiguous from the left.</p>\n<ul><li><b>Default masks:</b> class A 255.0.0.0 (/8), class B 255.255.0.0 (/16), class C 255.255.255.0 (/24).</li>\n<li><b>Slash (CIDR) notation:</b> /n gives the number of 1 bits; 255.255.240.0 = 11111111.11111111.11110000.00000000 = <b>/20</b>.</li></ul>\n<h4>Masking: finding the network address</h4>\n<p>The router performs a bit-wise <b>AND</b> of the IP address and the mask: <b>Network address = IP address AND mask</b>. Shortcut: where the mask octet is 255, copy the address octet; where it is 0, write 0; for any other value, AND that octet in binary.</p>\n<p>Broadcast address = network address with all host bits set to 1 (IP OR inverted mask).</p>\n<p>A host uses its mask to decide whether a destination is on its <b>own network</b> (deliver directly) or on another network (send to the <b>default gateway</b>).</p>\n<table><tr><th>Prefix</th><th>Mask</th><th>Block size</th><th>Usable hosts</th></tr><tr><td>/24</td><td>255.255.255.0</td><td>256</td><td>254</td></tr><tr><td>/25</td><td>255.255.255.128</td><td>128</td><td>126</td></tr><tr><td>/26</td><td>255.255.255.192</td><td>64</td><td>62</td></tr><tr><td>/27</td><td>255.255.255.224</td><td>32</td><td>30</td></tr><tr><td>/28</td><td>255.255.255.240</td><td>16</td><td>14</td></tr><tr><td>/29</td><td>255.255.255.248</td><td>8</td><td>6</td></tr><tr><td>/30</td><td>255.255.255.252</td><td>4</td><td>2</td></tr></table>",
+      "gu": "<p><b>Mask</b> (subnet mask) એ 32-bit સંખ્યા છે જેમાં <b>1 bits address નો network (અને subnet) ભાગ</b> અને <b>0 bits host ભાગ</b> દર્શાવે. Ones હંમેશા ડાબેથી સળંગ હોય.</p>\n<ul><li><b>Default masks:</b> class A 255.0.0.0 (/8), class B 255.255.0.0 (/16), class C 255.255.255.0 (/24).</li>\n<li><b>Slash (CIDR) notation:</b> /n એ 1 bits ની સંખ્યા આપે; 255.255.240.0 = 11111111.11111111.11110000.00000000 = <b>/20</b>.</li></ul>\n<h4>Masking: network address શોધવું</h4>\n<p>Router IP address અને mask નું bit-wise <b>AND</b> કરે: <b>Network address = IP address AND mask</b>. ટૂંકી રીત: જ્યાં mask octet 255 હોય, ત્યાં address octet copy કરો; જ્યાં 0 હોય, 0 લખો; બીજી કોઈ value માટે, તે octet નું binary માં AND કરો.</p>\n<p>Broadcast address = બધા host bits 1 કરેલું network address (IP OR inverted mask).</p>\n<p>Host તેના mask વાપરીને નક્કી કરે કે destination તેના <b>પોતાના network</b> પર છે (સીધું પહોંચાડો) કે બીજા network પર (<b>default gateway</b> ને મોકલો).</p>\n<table><tr><th>Prefix</th><th>Mask</th><th>Block size</th><th>Usable hosts</th></tr><tr><td>/24</td><td>255.255.255.0</td><td>256</td><td>254</td></tr><tr><td>/25</td><td>255.255.255.128</td><td>128</td><td>126</td></tr><tr><td>/26</td><td>255.255.255.192</td><td>64</td><td>62</td></tr><tr><td>/27</td><td>255.255.255.224</td><td>32</td><td>30</td></tr><tr><td>/28</td><td>255.255.255.240</td><td>16</td><td>14</td></tr><tr><td>/29</td><td>255.255.255.248</td><td>8</td><td>6</td></tr><tr><td>/30</td><td>255.255.255.252</td><td>4</td><td>2</td></tr></table>"
+     },
+     "diagram": "cn4_mask",
+     "examples": [
+      "cn4n4"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.1.8 Subnetting",
+      "gu": "4.1.8 Subnetting"
+     },
+     "body": {
+      "en": "<p><b>Subnetting</b> divides one large network into several smaller networks called <b>subnets</b>, by <b>borrowing bits from the host part</b> to form a subnet ID. Address = network ID + subnet ID + host ID.</p>\n<h4>Why subnet?</h4>\n<ul><li>Reduces broadcast traffic and congestion (smaller broadcast domains).</li><li>Uses addresses efficiently; less waste.</li><li>Better security and management: departments (labs, office, accounts) on separate subnets.</li><li>Outside routers still see one network, so routing tables stay small.</li></ul>\n<h4>Steps</h4>\n<ol><li>Find the bits needed: for <b>H hosts</b>, choose host bits h with <b>2^h - 2 ≥ H</b>; for <b>S subnets</b>, borrow s bits with <b>2^s ≥ S</b>.</li>\n<li>New prefix = old prefix + borrowed bits; write the new mask.</li>\n<li>Block size (addresses per subnet) = 2^h = 256 - (interesting mask octet).</li>\n<li>List subnets: network addresses go up in steps of the block size; first host = network + 1, broadcast = next network - 1, last host = broadcast - 1.</li></ol>\n<p><b>Example (Practical 7):</b> 216.21.5.0/24 with 30 hosts each: 2^5 - 2 = 30, so h = 5, 3 bits borrowed, new mask 255.255.255.224 (/27), 8 subnets of 32 addresses.</p>",
+      "gu": "<p><b>Subnetting</b> એક મોટા network ને <b>subnets</b> નામના ઘણા નાના networks માં વહેંચે, subnet ID બનાવવા <b>host ભાગમાંથી bits ઉછીના લઈને</b>. Address = network ID + subnet ID + host ID.</p>\n<h4>Subnet શા માટે?</h4>\n<ul><li>Broadcast traffic અને congestion ઘટાડે (નાના broadcast domains).</li><li>Addresses નો કાર્યક્ષમ ઉપયોગ; ઓછો બગાડ.</li><li>વધુ સારી security અને management: વિભાગો (labs, office, accounts) અલગ subnets પર.</li><li>બહારના routers હજી એક network જુએ, તેથી routing tables નાના રહે.</li></ul>\n<h4>પગલાં</h4>\n<ol><li>જરૂરી bits શોધો: <b>H hosts</b> માટે, <b>2^h - 2 ≥ H</b> થાય તેવા host bits h પસંદ કરો; <b>S subnets</b> માટે, <b>2^s ≥ S</b> થાય તેટલા s bits ઉછીના લો.</li>\n<li>નવો prefix = જૂનો prefix + ઉછીના bits; નવો mask લખો.</li>\n<li>Block size (subnet દીઠ addresses) = 2^h = 256 - (રસપ્રદ mask octet).</li>\n<li>Subnets ની યાદી: network addresses block size ના પગલે વધે; first host = network + 1, broadcast = આગલું network - 1, last host = broadcast - 1.</li></ol>\n<p><b>ઉદાહરણ (Practical 7):</b> 216.21.5.0/24 દરેકમાં 30 hosts: 2^5 - 2 = 30, તેથી h = 5, 3 bits ઉછીના, નવો mask 255.255.255.224 (/27), 32 addresses ના 8 subnets.</p>"
+     },
+     "diagram": "cn4_subnet",
+     "examples": [
+      "cn4n5",
+      "cn4n6"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.1.9 Classless Addressing (CIDR)",
+      "gu": "4.1.9 Classless Addressing (CIDR)"
+     },
+     "body": {
+      "en": "<p><b>Classless addressing</b>, or <b>CIDR</b> (Classless Inter-Domain Routing), removes classes. An organisation gets a <b>block</b> of addresses of any size that is a power of 2, written in <b>slash notation a.b.c.d/n</b>, where n (the prefix length) is the number of network bits.</p>\n<h4>Rules for a block</h4>\n<ul><li>The addresses are contiguous.</li><li>The number of addresses is a power of 2: N = 2^(32-n).</li><li>The first address is evenly divisible by N (it is the address with all host bits 0).</li></ul>\n<h4>Finding block information from any address a.b.c.d/n</h4>\n<ul><li><b>First address</b> = set the rightmost 32-n bits to 0 (AND with the mask).</li><li><b>Last address</b> = set the rightmost 32-n bits to 1.</li><li><b>Number of addresses</b> = 2^(32-n).</li></ul>\n<p><b>Supernetting / route aggregation:</b> several contiguous small blocks can be combined and advertised as one larger block (e.g. four /24 blocks as one /22), keeping Internet routing tables small. ISPs and regional registries (APNIC for India) allocate CIDR blocks.</p>\n<table><tr><th>Classful</th><th>Classless (CIDR)</th></tr><tr><td>Network size fixed by class (/8, /16, /24)</td><td>Any prefix length /n</td></tr><tr><td>Class found from the first octet</td><td>Prefix length must be given (a.b.c.d/n)</td></tr><tr><td>Wastes many addresses</td><td>Efficient allocation, saves addresses</td></tr><tr><td>Large routing tables</td><td>Route aggregation (supernetting) reduces tables</td></tr><tr><td>Obsolete (old method)</td><td>Used on the Internet today</td></tr></table>",
+      "gu": "<p><b>Classless addressing</b>, અથવા <b>CIDR</b> (Classless Inter-Domain Routing), classes દૂર કરે. સંસ્થાને 2 ની ઘાત હોય તેવા કોઈ પણ કદનો addresses નો <b>block</b> મળે, <b>slash notation a.b.c.d/n</b> માં લખાય, જ્યાં n (prefix length) એ network bits ની સંખ્યા છે.</p>\n<h4>Block ના નિયમો</h4>\n<ul><li>Addresses સળંગ હોય.</li><li>Addresses ની સંખ્યા 2 ની ઘાત: N = 2^(32-n).</li><li>પ્રથમ address N થી નિઃશેષ ભાગી શકાય (બધા host bits 0 વાળું address).</li></ul>\n<h4>કોઈ પણ address a.b.c.d/n પરથી block માહિતી</h4>\n<ul><li><b>First address</b> = જમણી બાજુના 32-n bits 0 કરો (mask સાથે AND).</li><li><b>Last address</b> = જમણી બાજુના 32-n bits 1 કરો.</li><li><b>Addresses ની સંખ્યા</b> = 2^(32-n).</li></ul>\n<p><b>Supernetting / route aggregation:</b> ઘણા સળંગ નાના blocks ભેગા કરી એક મોટા block તરીકે જાહેર કરી શકાય (દા.ત. ચાર /24 blocks એક /22 તરીકે), જેથી Internet routing tables નાના રહે. ISPs અને regional registries (ભારત માટે APNIC) CIDR blocks ફાળવે.</p>\n<table><tr><th>Classful</th><th>Classless (CIDR)</th></tr><tr><td>Network size class થી નક્કી (/8, /16, /24)</td><td>કોઈ પણ prefix length /n</td></tr><tr><td>Class પ્રથમ octet થી મળે</td><td>Prefix length આપવી પડે (a.b.c.d/n)</td></tr><tr><td>ઘણા addresses વેડફાય</td><td>કાર્યક્ષમ ફાળવણી, addresses બચાવે</td></tr><tr><td>મોટાં routing tables</td><td>Route aggregation (supernetting) tables ઘટાડે</td></tr><tr><td>જૂની પદ્ધતિ</td><td>આજે Internet પર વપરાય</td></tr></table>"
+     },
+     "diagram": "cn4_cidr",
+     "examples": [
+      "cn4n7"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.1.10 Reserved (Special) IPv4 Addresses",
+      "gu": "4.1.10 Reserved (Special) IPv4 Addresses"
+     },
+     "body": {
+      "en": "<p>Some IPv4 addresses are <b>reserved</b> for special purposes and cannot be assigned as normal public host addresses.</p>\n<table><tr><th>Address / block</th><th>Purpose</th></tr><tr><td>10.0.0.0 - 10.255.255.255 (10/8)</td><td>Private, class A</td></tr><tr><td>172.16.0.0 - 172.31.255.255 (172.16/12)</td><td>Private, class B</td></tr><tr><td>192.168.0.0 - 192.168.255.255 (192.168/16)</td><td>Private, class C</td></tr><tr><td>127.0.0.0/8 (127.0.0.1)</td><td>Loopback: testing own TCP/IP stack</td></tr><tr><td>169.254.0.0/16</td><td>APIPA / link-local: self-assigned when DHCP fails</td></tr><tr><td>0.0.0.0</td><td>This host (at start-up) / default route</td></tr><tr><td>255.255.255.255</td><td>Limited broadcast (local network only)</td></tr><tr><td>Host bits all 0</td><td>Network address</td></tr><tr><td>Host bits all 1</td><td>Directed broadcast of that network</td></tr><tr><td>224.0.0.0 - 239.255.255.255</td><td>Multicast (class D)</td></tr><tr><td>240.0.0.0 - 255.255.255.254</td><td>Reserved for future / research (class E)</td></tr></table>\n<h4>Private addresses and NAT</h4>\n<p>Private addresses (RFC 1918) can be used freely inside any home, college or company network, but they are <b>not routed on the Internet</b>. Many organisations reuse the same private ranges. A router with <b>NAT</b> (Network Address Translation) replaces the private source address with its single public address when packets go to the Internet, so hundreds of devices can share one public IP.</p>\n<p><b>Loopback:</b> <b>ping 127.0.0.1</b> tests the computer's own TCP/IP software; the packet never leaves the machine. <b>APIPA</b> (169.254.x.x) appears in ipconfig when a PC cannot reach a DHCP server, a useful troubleshooting sign.</p>",
+      "gu": "<p>કેટલાક IPv4 addresses ખાસ હેતુઓ માટે <b>reserved</b> છે અને સામાન્ય public host addresses તરીકે આપી શકાતા નથી.</p>\n<table><tr><th>Address / block</th><th>હેતુ</th></tr><tr><td>10.0.0.0 - 10.255.255.255 (10/8)</td><td>Private, class A</td></tr><tr><td>172.16.0.0 - 172.31.255.255 (172.16/12)</td><td>Private, class B</td></tr><tr><td>192.168.0.0 - 192.168.255.255 (192.168/16)</td><td>Private, class C</td></tr><tr><td>127.0.0.0/8 (127.0.0.1)</td><td>Loopback: પોતાના TCP/IP stack નું testing</td></tr><tr><td>169.254.0.0/16</td><td>APIPA / link-local: DHCP નિષ્ફળ જાય ત્યારે જાતે આપેલું</td></tr><tr><td>0.0.0.0</td><td>This host (start-up વખતે) / default route</td></tr><tr><td>255.255.255.255</td><td>Limited broadcast (ફક્ત local network)</td></tr><tr><td>Host bits બધા 0</td><td>Network address</td></tr><tr><td>Host bits બધા 1</td><td>તે network નો directed broadcast</td></tr><tr><td>224.0.0.0 - 239.255.255.255</td><td>Multicast (class D)</td></tr><tr><td>240.0.0.0 - 255.255.255.254</td><td>ભવિષ્ય / સંશોધન માટે reserved (class E)</td></tr></table>\n<h4>Private addresses અને NAT</h4>\n<p>Private addresses (RFC 1918) કોઈ પણ ઘર, college કે company network ની અંદર મુક્ત રીતે વાપરી શકાય, પણ તે <b>Internet પર route થતા નથી</b>. ઘણી સંસ્થાઓ સરખી private ranges ફરી વાપરે. <b>NAT</b> (Network Address Translation) વાળું router packets Internet પર જાય ત્યારે private source address ને તેના એક public address થી બદલે, જેથી સેંકડો devices એક public IP વહેંચી શકે.</p>\n<p><b>Loopback:</b> <b>ping 127.0.0.1</b> computer નું પોતાનું TCP/IP software તપાસે; packet machine છોડતું નથી. PC DHCP server સુધી ન પહોંચે ત્યારે ipconfig માં <b>APIPA</b> (169.254.x.x) દેખાય, જે troubleshooting માટે ઉપયોગી સંકેત છે.</p>"
+     },
+     "diagram": "cn4_reserved"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "4.2 IPv6",
+    "gu": "4.2 IPv6"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "4.2.1 IPv6: Need and Characteristics",
+      "gu": "4.2.1 IPv6: જરૂરિયાત અને લાક્ષણિકતાઓ"
+     },
+     "body": {
+      "en": "<p><b>IPv6</b> (Internet Protocol version 6, also called IPng, next generation) was developed by the IETF (RFC 2460, now RFC 8200) to replace IPv4.</p>\n<h4>Need for IPv6</h4>\n<ul><li><b>Address depletion:</b> IPv4's 4.3 billion addresses are exhausted, while phones, IoT devices and cloud servers keep growing.</li>\n<li>NAT and other workarounds add complexity and break end-to-end communication.</li>\n<li>Need for built-in security, better real-time (audio / video) support and simpler router processing.</li></ul>\n<h4>Characteristics</h4>\n<ul>\n<li><b>128-bit address</b> written in colon-hexadecimal notation: 2^128 ≈ 3.4 × 10³⁸ addresses.</li>\n<li><b>Simplified, fixed 40-byte base header</b> with only 8 fields; no header checksum; fragmentation only by the source.</li>\n<li><b>Extension headers</b> for optional features (routing, fragmentation, authentication, encryption), chained with the <b>next header</b> field.</li>\n<li><b>Auto-configuration:</b> stateless address auto-configuration (<b>SLAAC</b>) lets a host build its own address from the router's prefix; DHCPv6 is also available.</li>\n<li><b>No broadcast:</b> uses unicast, multicast and the new <b>anycast</b>.</li>\n<li><b>Built-in security:</b> IPsec authentication and encryption support.</li>\n<li><b>Quality of service:</b> traffic class and <b>flow label</b> fields identify real-time flows.</li>\n<li><b>Hierarchical addressing</b> and route aggregation keep routing tables small; better support for mobility.</li>\n<li><b>Neighbor Discovery</b> (ICMPv6) replaces ARP.</li>\n</ul>\n<h4>Advantages</h4><ul><li>Practically unlimited addresses: every device can have a public address; no NAT needed.</li><li>Simpler, fixed header: faster processing by routers.</li><li>Auto-configuration (SLAAC): plug and play.</li><li>Built-in security (IPsec) and better QoS with flow labels.</li><li>Efficient routing: hierarchical addressing, smaller routing tables; better multicast, mobility.</li></ul><h4>Disadvantages</h4><ul><li>Not directly compatible with IPv4: needs dual stack, tunnelling or translation during transition.</li><li>Long hexadecimal addresses are hard to remember and type.</li><li>Older devices and software may not support it; staff need retraining.</li><li>Larger header (40 bytes) adds overhead for small packets.</li></ul>",
+      "gu": "<p><b>IPv6</b> (Internet Protocol version 6, જેને IPng, next generation પણ કહે) IETF દ્વારા IPv4 ની જગ્યા લેવા વિકસાવાયો (RFC 2460, હવે RFC 8200).</p>\n<h4>IPv6 ની જરૂરિયાત</h4>\n<ul><li><b>Address depletion:</b> IPv4 ના 4.3 billion addresses ખલાસ થયા છે, જ્યારે phones, IoT devices અને cloud servers વધતા જાય છે.</li>\n<li>NAT અને બીજા ઉપાયો જટિલતા વધારે અને end-to-end communication તોડે.</li>\n<li>Built-in security, વધુ સારો real-time (audio / video) support અને સરળ router processing ની જરૂર.</li></ul>\n<h4>લાક્ષણિકતાઓ</h4>\n<ul>\n<li>Colon-hexadecimal notation માં લખાતું <b>128-bit address</b>: 2^128 ≈ 3.4 × 10³⁸ addresses.</li>\n<li>ફક્ત 8 fields વાળું <b>સરળ, fixed 40-byte base header</b>; header checksum નહીં; fragmentation ફક્ત source દ્વારા.</li>\n<li>વૈકલ્પિક features (routing, fragmentation, authentication, encryption) માટે <b>extension headers</b>, <b>next header</b> field થી સાંકળમાં જોડાયેલા.</li>\n<li><b>Auto-configuration:</b> stateless address auto-configuration (<b>SLAAC</b>) થી host router ના prefix પરથી પોતાનું address બનાવે; DHCPv6 પણ ઉપલબ્ધ.</li>\n<li><b>Broadcast નહીં:</b> unicast, multicast અને નવું <b>anycast</b> વાપરે.</li>\n<li><b>Built-in security:</b> IPsec authentication અને encryption support.</li>\n<li><b>Quality of service:</b> traffic class અને <b>flow label</b> fields real-time flows ઓળખે.</li>\n<li><b>Hierarchical addressing</b> અને route aggregation routing tables નાના રાખે; mobility માટે વધુ સારો support.</li>\n<li><b>Neighbor Discovery</b> (ICMPv6) ARP ની જગ્યા લે.</li>\n</ul>\n<h4>ફાયદા</h4><ul><li>વ્યવહારમાં અમર્યાદિત addresses: દરેક device ને public address મળે; NAT ની જરૂર નહીં.</li><li>સરળ, fixed header: routers દ્વારા ઝડપી processing.</li><li>Auto-configuration (SLAAC): plug and play.</li><li>Built-in security (IPsec) અને flow labels સાથે વધુ સારી QoS.</li><li>કાર્યક્ષમ routing: hierarchical addressing, નાનાં routing tables; વધુ સારું multicast, mobility.</li></ul><h4>ગેરફાયદા</h4><ul><li>IPv4 સાથે સીધું compatible નથી: transition દરમિયાન dual stack, tunnelling કે translation જોઈએ.</li><li>લાંબા hexadecimal addresses યાદ રાખવા અને લખવા મુશ્કેલ.</li><li>જૂનાં devices અને software support ન કરે; staff ને ફરી તાલીમ જોઈએ.</li><li>મોટું header (40 bytes) નાના packets માટે overhead વધારે.</li></ul>"
+     },
+     "diagram": "cn4_v6hdr"
+    },
+    {
+     "h": {
+      "en": "4.2.2 IPv6 Address Notation and Abbreviation",
+      "gu": "4.2.2 IPv6 Address Notation અને Abbreviation"
+     },
+     "body": {
+      "en": "<p>An IPv6 address is <b>128 bits</b> long. It is written in <b>colon-hexadecimal notation</b>: 8 groups, each of <b>4 hexadecimal digits (16 bits)</b>, separated by colons.</p>\n<p>Example: <b>2001:0db8:0000:0000:0000:ff00:0042:8329</b></p>\n<h4>Abbreviation rules</h4>\n<ol>\n<li><b>Leading zeros</b> in any group can be omitted: 0db8 → db8, 0042 → 42, 0000 → 0. (Trailing zeros cannot be removed: ff00 stays ff00.)</li>\n<li><b>Zero compression:</b> one run of consecutive all-zero groups can be replaced by a double colon <b>::</b>. It can be used <b>only once</b>, otherwise the number of omitted groups would be ambiguous.</li>\n</ol>\n<p>2001:0db8:0000:0000:0000:ff00:0042:8329 → 2001:db8:0:0:0:ff00:42:8329 → <b>2001:db8::ff00:42:8329</b></p>\n<p><b>Expanding:</b> count the groups present, and replace :: with enough zero groups to make 8; then pad each group to 4 digits.</p>\n<p><b>CIDR notation</b> is used for prefixes: 2001:db8:abcd::/48. A URL with an IPv6 address uses brackets: http://[2001:db8::1]:8080/.</p>\n<h4>Checking validity (Practical 8)</h4>\n<ul><li>Hex digits 0-9, a-f only; at most 4 digits per group.</li><li>Exactly 8 groups, or fewer with exactly one ::.</li><li>:: at most once; dotted decimal alone is IPv4, not IPv6.</li></ul>",
+      "gu": "<p>IPv6 address <b>128 bits</b> લાંબું છે. તે <b>colon-hexadecimal notation</b> માં લખાય: 8 groups, દરેક <b>4 hexadecimal અંકો (16 bits)</b> નો, colons થી અલગ.</p>\n<p>ઉદાહરણ: <b>2001:0db8:0000:0000:0000:ff00:0042:8329</b></p>\n<h4>Abbreviation ના નિયમો</h4>\n<ol>\n<li>કોઈ પણ group ના <b>આગળના zeros</b> છોડી શકાય: 0db8 → db8, 0042 → 42, 0000 → 0. (પાછળના zeros કાઢી ન શકાય: ff00 એ ff00 જ રહે.)</li>\n<li><b>Zero compression:</b> સળંગ all-zero groups ની એક શ્રેણી double colon <b>::</b> થી બદલી શકાય. તે <b>ફક્ત એક જ વાર</b> વાપરી શકાય, નહીં તો છોડેલા groups ની સંખ્યા અસ્પષ્ટ બને.</li>\n</ol>\n<p>2001:0db8:0000:0000:0000:ff00:0042:8329 → 2001:db8:0:0:0:ff00:42:8329 → <b>2001:db8::ff00:42:8329</b></p>\n<p><b>Expand કરવું:</b> હાજર groups ગણો, અને 8 થાય તેટલા zero groups થી :: બદલો; પછી દરેક group ને 4 અંકો સુધી pad કરો.</p>\n<p>Prefixes માટે <b>CIDR notation</b> વપરાય: 2001:db8:abcd::/48. IPv6 address વાળા URL માં brackets વપરાય: http://[2001:db8::1]:8080/.</p>\n<h4>Validity તપાસવી (Practical 8)</h4>\n<ul><li>ફક્ત hex અંકો 0-9, a-f; group દીઠ વધુમાં વધુ 4 અંકો.</li><li>બરાબર 8 groups, અથવા બરાબર એક :: સાથે ઓછા.</li><li>:: વધુમાં વધુ એક વાર; ફક્ત dotted decimal એ IPv4 છે, IPv6 નહીં.</li></ul>"
+     },
+     "diagram": "cn4_v6fmt",
+     "examples": [
+      "cn4n8",
+      "cn4n9"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.2.3 IPv6 Addressing Modes",
+      "gu": "4.2.3 IPv6 Addressing Modes"
+     },
+     "body": {
+      "en": "<p>IPv6 defines three addressing modes (ways a packet is delivered). There is <b>no broadcast</b> in IPv6.</p>\n<ol>\n<li><b>Unicast (one-to-one):</b> the address identifies a <b>single interface</b>. A packet sent to a unicast address is delivered to that one interface. Example: global unicast 2001:db8::10, link-local fe80::1.</li>\n<li><b>Multicast (one-to-many):</b> the address identifies a <b>group of interfaces</b>, possibly on different nodes. A packet is delivered to <b>every member</b> of the group. Multicast addresses start with <b>ff</b> (ff00::/8). Examples: ff02::1 all nodes on the link (replaces broadcast), ff02::2 all routers, ff02::1:2 all DHCP servers.</li>\n<li><b>Anycast (one-to-nearest):</b> the same address is assigned to a group of interfaces (usually on different nodes). A packet is delivered to <b>only one</b> of them, the <b>nearest</b> according to the routing protocol. Anycast addresses come from the unicast space and look the same. Used for DNS root servers, CDNs and load balancing.</li>\n</ol>\n<p>Broadcast is removed because it disturbs every host on the network; its jobs are done by multicast groups (e.g. Neighbor Discovery uses solicited-node multicast instead of ARP broadcasts).</p>",
+      "gu": "<p>IPv6 ત્રણ addressing modes (packet પહોંચાડવાની રીતો) વ્યાખ્યાયિત કરે. IPv6 માં <b>broadcast નથી</b>.</p>\n<ol>\n<li><b>Unicast (એક-થી-એક):</b> address <b>એક interface</b> ઓળખે. Unicast address ને મોકલેલું packet તે એક interface ને પહોંચાડાય. ઉદાહરણ: global unicast 2001:db8::10, link-local fe80::1.</li>\n<li><b>Multicast (એક-થી-ઘણા):</b> address <b>interfaces નો group</b> ઓળખે, કદાચ જુદા nodes પર. Packet group ના <b>દરેક સભ્ય</b> ને પહોંચાડાય. Multicast addresses <b>ff</b> થી શરૂ થાય (ff00::/8). ઉદાહરણો: ff02::1 link પરના બધા nodes (broadcast ની જગ્યા), ff02::2 બધા routers, ff02::1:2 બધા DHCP servers.</li>\n<li><b>Anycast (એક-થી-નજીકના):</b> સરખું address interfaces ના group (સામાન્ય રીતે જુદા nodes) ને અપાય. Packet તેમાંથી <b>ફક્ત એક</b>, routing protocol મુજબ <b>સૌથી નજીકના</b> ને પહોંચાડાય. Anycast addresses unicast space માંથી આવે અને સરખા દેખાય. DNS root servers, CDNs અને load balancing માં વપરાય.</li>\n</ol>\n<p>Broadcast દૂર કરાયું કારણ કે તે network ના દરેક host ને ખલેલ પહોંચાડે; તેનાં કામ multicast groups કરે (દા.ત. Neighbor Discovery, ARP broadcasts ને બદલે solicited-node multicast વાપરે).</p>"
+     },
+     "diagram": "cn4_v6modes"
+    },
+    {
+     "h": {
+      "en": "4.2.4 IPv6 Address Types",
+      "gu": "4.2.4 IPv6 Address Types"
+     },
+     "body": {
+      "en": "<p>IPv6 addresses are identified by their leading bits (the <b>type prefix</b>).</p>\n<ul>\n<li><b>Global unicast (2000::/3):</b> public, globally routable addresses (like public IPv4). Structure: <b>48-bit global routing prefix</b> (assigned by ISP / registry) + <b>16-bit subnet ID</b> (up to 65,536 subnets for a site) + <b>64-bit interface ID</b> (the host part).</li>\n<li><b>Link-local (fe80::/10):</b> automatically created on every IPv6 interface; used for communication on the same link (Neighbor Discovery, routing protocols). Routers never forward them.</li>\n<li><b>Unique local (fc00::/7, in practice fd00::/8):</b> private addresses for use inside a site, not routed on the Internet (like 10.0.0.0/8).</li>\n<li><b>Multicast (ff00::/8):</b> group addresses; the next bits give flags and the <b>scope</b> (ff02 = link, ff05 = site, ff0e = global).</li>\n<li><b>Anycast:</b> taken from the unicast space and assigned to several interfaces.</li>\n<li><b>Special:</b> loopback ::1, unspecified ::, IPv4-mapped ::ffff:a.b.c.d (see 4.2.5).</li>\n</ul>\n<h4>Interface ID</h4>\n<p>The 64-bit interface ID can be formed from the 48-bit MAC address using <b>modified EUI-64</b> (insert ff:fe in the middle and flip the 7th bit), generated randomly for privacy, or assigned by DHCPv6.</p>",
+      "gu": "<p>IPv6 addresses તેમના આગળના bits (<b>type prefix</b>) થી ઓળખાય.</p>\n<ul>\n<li><b>Global unicast (2000::/3):</b> public, વૈશ્વિક રીતે routable addresses (public IPv4 જેવા). રચના: <b>48-bit global routing prefix</b> (ISP / registry દ્વારા અપાય) + <b>16-bit subnet ID</b> (site માટે 65,536 સુધી subnets) + <b>64-bit interface ID</b> (host ભાગ).</li>\n<li><b>Link-local (fe80::/10):</b> દરેક IPv6 interface પર આપમેળે બને; સરખી link પર communication (Neighbor Discovery, routing protocols) માટે. Routers તેમને ક્યારેય forward કરતા નથી.</li>\n<li><b>Unique local (fc00::/7, વ્યવહારમાં fd00::/8):</b> site ની અંદર વાપરવા private addresses, Internet પર route ન થાય (10.0.0.0/8 જેવા).</li>\n<li><b>Multicast (ff00::/8):</b> group addresses; પછીના bits flags અને <b>scope</b> આપે (ff02 = link, ff05 = site, ff0e = global).</li>\n<li><b>Anycast:</b> unicast space માંથી લેવાય અને ઘણા interfaces ને અપાય.</li>\n<li><b>Special:</b> loopback ::1, unspecified ::, IPv4-mapped ::ffff:a.b.c.d (જુઓ 4.2.5).</li>\n</ul>\n<h4>Interface ID</h4>\n<p>64-bit interface ID 48-bit MAC address પરથી <b>modified EUI-64</b> (વચ્ચે ff:fe ઉમેરો અને 7મો bit ઉલટાવો) વાપરીને બનાવી શકાય, privacy માટે random બનાવી શકાય, કે DHCPv6 દ્વારા અપાય.</p>"
+     },
+     "diagram": "cn4_v6types"
+    },
+    {
+     "h": {
+      "en": "4.2.5 IPv6 Special Addresses",
+      "gu": "4.2.5 IPv6 Special Addresses"
+     },
+     "body": {
+      "en": "<p>Some IPv6 addresses and prefixes are reserved for special purposes:</p>\n<table><tr><th>Address</th><th>Name</th><th>Use</th></tr><tr><td>::/128</td><td>Unspecified</td><td>All zeros; used as source when a host does not yet know its address (like 0.0.0.0)</td></tr><tr><td>::1/128</td><td>Loopback</td><td>Testing own stack (like 127.0.0.1)</td></tr><tr><td>::ffff:0:0/96</td><td>IPv4-mapped</td><td>Represents an IPv4 address inside IPv6, e.g. ::ffff:192.168.1.5</td></tr><tr><td>fe80::/10</td><td>Link-local</td><td>Automatically configured on every interface; valid on one link only; never routed</td></tr><tr><td>fc00::/7 (fd00::/8)</td><td>Unique local</td><td>Private addresses inside an organisation (like 10.x / 192.168.x)</td></tr><tr><td>ff02::1 / ff02::2</td><td>All-nodes / all-routers multicast</td><td>Replace broadcast on the local link</td></tr><tr><td>2001:db8::/32</td><td>Documentation</td><td>Used only in books and examples</td></tr><tr><td>2002::/16, 2001::/32</td><td>6to4, Teredo</td><td>Transition (tunnelling) mechanisms</td></tr></table>\n<p>Most IPv6 address space is still unassigned and kept for future use.</p>",
+      "gu": "<p>કેટલાક IPv6 addresses અને prefixes ખાસ હેતુઓ માટે reserved છે:</p>\n<table><tr><th>Address</th><th>નામ</th><th>ઉપયોગ</th></tr><tr><td>::/128</td><td>Unspecified</td><td>બધા zeros; host ને હજી પોતાનું address ખબર ન હોય ત્યારે source તરીકે વપરાય (0.0.0.0 જેવું)</td></tr><tr><td>::1/128</td><td>Loopback</td><td>પોતાના stack નું testing (127.0.0.1 જેવું)</td></tr><tr><td>::ffff:0:0/96</td><td>IPv4-mapped</td><td>IPv6 ની અંદર IPv4 address દર્શાવે, દા.ત. ::ffff:192.168.1.5</td></tr><tr><td>fe80::/10</td><td>Link-local</td><td>દરેક interface પર આપમેળે configure; ફક્ત એક link પર માન્ય; ક્યારેય route ન થાય</td></tr><tr><td>fc00::/7 (fd00::/8)</td><td>Unique local</td><td>સંસ્થાની અંદર private addresses (10.x / 192.168.x જેવા)</td></tr><tr><td>ff02::1 / ff02::2</td><td>All-nodes / all-routers multicast</td><td>Local link પર broadcast ની જગ્યા લે</td></tr><tr><td>2001:db8::/32</td><td>Documentation</td><td>ફક્ત પુસ્તકો અને ઉદાહરણોમાં વપરાય</td></tr><tr><td>2002::/16, 2001::/32</td><td>6to4, Teredo</td><td>Transition (tunnelling) mechanisms</td></tr></table>\n<p>મોટા ભાગનું IPv6 address space હજી ફાળવાયું નથી અને ભવિષ્ય માટે રાખેલું છે.</p>"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "4.3 IPv4 vs IPv6",
+    "gu": "4.3 IPv4 vs IPv6"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "4.3.1 Difference between IPv4 and IPv6",
+      "gu": "4.3.1 IPv4 અને IPv6 વચ્ચે તફાવત"
+     },
+     "body": {
+      "en": "<table><tr><th>Point</th><th>IPv4</th><th>IPv6</th></tr><tr><td>Address size</td><td>32 bits</td><td>128 bits</td></tr><tr><td>Address space</td><td>2^32 ≈ 4.3 × 10⁹</td><td>2^128 ≈ 3.4 × 10³⁸</td></tr><tr><td>Notation</td><td>Dotted decimal: 192.168.1.1</td><td>Colon hexadecimal: 2001:db8::1</td></tr><tr><td>Groups</td><td>4 octets of 8 bits</td><td>8 groups of 16 bits</td></tr><tr><td>Header</td><td>Variable, 20-60 bytes, 12+ fields</td><td>Fixed 40 bytes, 8 fields</td></tr><tr><td>Checksum</td><td>Header checksum present</td><td>No header checksum</td></tr><tr><td>Options</td><td>In header (options field)</td><td>Extension headers</td></tr><tr><td>Fragmentation</td><td>By sender and routers</td><td>By sender only</td></tr><tr><td>Broadcast</td><td>Yes</td><td>No; multicast and anycast</td></tr><tr><td>Configuration</td><td>Manual or DHCP</td><td>SLAAC (auto) or DHCPv6</td></tr><tr><td>Security</td><td>IPsec optional</td><td>IPsec designed in</td></tr><tr><td>NAT</td><td>Widely needed</td><td>Not needed (enough addresses)</td></tr><tr><td>Address resolution</td><td>ARP (broadcast)</td><td>Neighbor Discovery (ICMPv6 multicast)</td></tr><tr><td>QoS</td><td>Type of service field</td><td>Traffic class + flow label</td></tr><tr><td>Loopback</td><td>127.0.0.1</td><td>::1</td></tr><tr><td>DNS record</td><td>A record</td><td>AAAA record</td></tr></table>\n<h4>Transition from IPv4 to IPv6</h4>\n<p>Because the two versions are not directly compatible, three strategies are used while both co-exist:</p>\n<ul><li><b>Dual stack:</b> devices run both IPv4 and IPv6 and use whichever the destination supports (most common today).</li>\n<li><b>Tunnelling:</b> IPv6 packets are carried inside IPv4 packets across IPv4-only networks (6to4, Teredo).</li>\n<li><b>Header translation:</b> a translator (NAT64) converts between IPv6 and IPv4 headers when one side supports only one version.</li></ul>",
+      "gu": "<table><tr><th>મુદ્દો</th><th>IPv4</th><th>IPv6</th></tr><tr><td>Address size</td><td>32 bits</td><td>128 bits</td></tr><tr><td>Address space</td><td>2^32 ≈ 4.3 × 10⁹</td><td>2^128 ≈ 3.4 × 10³⁸</td></tr><tr><td>Notation</td><td>Dotted decimal: 192.168.1.1</td><td>Colon hexadecimal: 2001:db8::1</td></tr><tr><td>Groups</td><td>8 bits ના 4 octets</td><td>16 bits ના 8 groups</td></tr><tr><td>Header</td><td>Variable, 20-60 bytes, 12+ fields</td><td>Fixed 40 bytes, 8 fields</td></tr><tr><td>Checksum</td><td>Header checksum છે</td><td>Header checksum નથી</td></tr><tr><td>Options</td><td>Header માં (options field)</td><td>Extension headers</td></tr><tr><td>Fragmentation</td><td>Sender અને routers દ્વારા</td><td>ફક્ત sender દ્વારા</td></tr><tr><td>Broadcast</td><td>હા</td><td>ના; multicast અને anycast</td></tr><tr><td>Configuration</td><td>Manual કે DHCP</td><td>SLAAC (auto) કે DHCPv6</td></tr><tr><td>Security</td><td>IPsec વૈકલ્પિક</td><td>IPsec design માં જ</td></tr><tr><td>NAT</td><td>વ્યાપક રીતે જોઈએ</td><td>જરૂર નથી (પૂરતા addresses)</td></tr><tr><td>Address resolution</td><td>ARP (broadcast)</td><td>Neighbor Discovery (ICMPv6 multicast)</td></tr><tr><td>QoS</td><td>Type of service field</td><td>Traffic class + flow label</td></tr><tr><td>Loopback</td><td>127.0.0.1</td><td>::1</td></tr><tr><td>DNS record</td><td>A record</td><td>AAAA record</td></tr></table>\n<h4>IPv4 થી IPv6 તરફ transition</h4>\n<p>બંને versions સીધા compatible ન હોવાથી, બંને સાથે ચાલે ત્યારે ત્રણ વ્યૂહરચના વપરાય:</p>\n<ul><li><b>Dual stack:</b> devices IPv4 અને IPv6 બંને ચલાવે અને destination જે support કરે તે વાપરે (આજે સૌથી સામાન્ય).</li>\n<li><b>Tunnelling:</b> IPv4-only networks પાર IPv6 packets IPv4 packets ની અંદર લઈ જવાય (6to4, Teredo).</li>\n<li><b>Header translation:</b> એક બાજુ ફક્ત એક version support કરે ત્યારે translator (NAT64) IPv6 અને IPv4 headers વચ્ચે રૂપાંતર કરે.</li></ul>"
+     }
+    }
+   ]
+  }
+ ],
+ "numericals": [
+  {
+   "id": "cn4n1",
+   "q": {
+    "en": "(a) Convert 192.168.10.5 to binary notation. Convert to dotted-decimal: (b) 10000001 00001011 00001011 11101111  (c) 11000001 10000011 00011011 11111111",
+    "gu": "(a) 192.168.10.5 ને binary notation માં ફેરવો. Dotted-decimal માં ફેરવો: (b) 10000001 00001011 00001011 11101111  (c) 11000001 10000011 00011011 11111111"
+   },
+   "a": {
+    "en": "<p><b>(a) Decimal to binary:</b></p><ul><li>192 = 128 + 64 = 11000000</li><li>168 = 128 + 32 + 8 = 10101000</li><li>10 = 8 + 2 = 00001010</li><li>5 = 4 + 1 = 00000101</li></ul><p>192.168.10.5 = <b>11000000 10101000 00001010 00000101</b></p><p><b>(b) Binary to decimal (add place values 128 64 32 16 8 4 2 1):</b></p><ul><li>10000001 = 128 + 1 = 129</li><li>00001011 = 8 + 2 + 1 = 11</li><li>00001011 = 8 + 2 + 1 = 11</li><li>11101111 = 128 + 64 + 32 + 8 + 4 + 2 + 1 = 239</li></ul><p>10000001 00001011 00001011 11101111 = <b>129.11.11.239</b></p><p><b>(c) Binary to decimal (add place values 128 64 32 16 8 4 2 1):</b></p><ul><li>11000001 = 128 + 64 + 1 = 193</li><li>10000011 = 128 + 2 + 1 = 131</li><li>00011011 = 16 + 8 + 2 + 1 = 27</li><li>11111111 = 128 + 64 + 32 + 16 + 8 + 4 + 2 + 1 = 255</li></ul><p>11000001 10000011 00011011 11111111 = <b>193.131.27.255</b></p>",
+    "gu": "<p><b>(a) Decimal થી binary:</b></p><ul><li>192 = 128 + 64 = 11000000</li><li>168 = 128 + 32 + 8 = 10101000</li><li>10 = 8 + 2 = 00001010</li><li>5 = 4 + 1 = 00000101</li></ul><p>192.168.10.5 = <b>11000000 10101000 00001010 00000101</b></p><p><b>(b) Binary થી decimal (place values 128 64 32 16 8 4 2 1 ઉમેરો):</b></p><ul><li>10000001 = 128 + 1 = 129</li><li>00001011 = 8 + 2 + 1 = 11</li><li>00001011 = 8 + 2 + 1 = 11</li><li>11101111 = 128 + 64 + 32 + 8 + 4 + 2 + 1 = 239</li></ul><p>10000001 00001011 00001011 11101111 = <b>129.11.11.239</b></p><p><b>(c) Binary થી decimal (place values 128 64 32 16 8 4 2 1 ઉમેરો):</b></p><ul><li>11000001 = 128 + 64 + 1 = 193</li><li>10000011 = 128 + 2 + 1 = 131</li><li>00011011 = 16 + 8 + 2 + 1 = 27</li><li>11111111 = 128 + 64 + 32 + 16 + 8 + 4 + 2 + 1 = 255</li></ul><p>11000001 10000011 00011011 11111111 = <b>193.131.27.255</b></p>"
+   }
+  },
+  {
+   "id": "cn4n2",
+   "q": {
+    "en": "Find the class of each address: 00000001 00001011 00001011 11101111;  11000001 10000011 00011011 11111111;  14.23.120.8;  252.5.15.111;  134.11.78.56;  227.12.14.87",
+    "gu": "દરેક address નો class શોધો: 00000001 00001011 00001011 11101111;  11000001 10000011 00011011 11111111;  14.23.120.8;  252.5.15.111;  134.11.78.56;  227.12.14.87"
+   },
+   "a": {
+    "en": "<table><tr><th>Address</th><th>Reason</th><th>Class</th></tr><tr><td>00000001 00001011 00001011 11101111</td><td>first bits 0</td><td>A</td></tr><tr><td>11000001 10000011 00011011 11111111</td><td>first bits 110</td><td>C</td></tr><tr><td>14.23.120.8</td><td>first octet 14</td><td>A</td></tr><tr><td>252.5.15.111</td><td>first octet 252</td><td>E</td></tr><tr><td>134.11.78.56</td><td>first octet 134</td><td>B</td></tr><tr><td>227.12.14.87</td><td>first octet 227</td><td>D</td></tr></table>",
+    "gu": "<table><tr><th>Address</th><th>કારણ</th><th>Class</th></tr><tr><td>00000001 00001011 00001011 11101111</td><td>પ્રથમ bits 0</td><td>A</td></tr><tr><td>11000001 10000011 00011011 11111111</td><td>પ્રથમ bits 110</td><td>C</td></tr><tr><td>14.23.120.8</td><td>પ્રથમ octet 14</td><td>A</td></tr><tr><td>252.5.15.111</td><td>પ્રથમ octet 252</td><td>E</td></tr><tr><td>134.11.78.56</td><td>પ્રથમ octet 134</td><td>B</td></tr><tr><td>227.12.14.87</td><td>પ્રથમ octet 227</td><td>D</td></tr></table>"
+   }
+  },
+  {
+   "id": "cn4n3",
+   "q": {
+    "en": "Practical 5: Determine whether the following IPv4 addresses are valid or invalid. If valid, find the class, Network ID and Host ID; if invalid, write the reason. (a) 298.27.5.6 (b) 1.4.5.5 (c) 11100010.23.14.67 (d) 192.226.12.11.9",
+    "gu": "Practical 5: નીચેના IPv4 addresses valid છે કે invalid તે નક્કી કરો. Valid હોય તો class, Network ID અને Host ID શોધો; invalid હોય તો કારણ લખો. (a) 298.27.5.6 (b) 1.4.5.5 (c) 11100010.23.14.67 (d) 192.226.12.11.9"
+   },
+   "a": {
+    "en": "<p><b>(a) 298.27.5.6</b> → <b>Invalid.</b> Octet 298 is greater than 255; each octet must be 0-255.</p><p><b>(b) 1.4.5.5</b> → <b>Valid.</b> First octet 1 is in 0-127, so <b>class A</b>. Network ID = <b>1</b> (network address 1.0.0.0), Host ID = <b>4.5.5</b>.</p><p><b>(c) 11100010.23.14.67</b> → <b>Invalid.</b> Binary and dotted-decimal notation are mixed: 11100010 is binary but the other octets are decimal (read as a decimal number, 11100010 is far greater than 255).</p><p><b>(d) 192.226.12.11.9</b> → <b>Invalid.</b> It has 5 octets; an IPv4 address must have exactly 4 octets.</p>",
+    "gu": "<p><b>(a) 298.27.5.6</b> → <b>Invalid.</b> Octet 298 એ 255 થી મોટો છે; દરેક octet 0-255 હોવો જોઈએ.</p><p><b>(b) 1.4.5.5</b> → <b>Valid.</b> પ્રથમ octet 1 એ 0-127 માં છે, તેથી <b>class A</b>. Network ID = <b>1</b> (network address 1.0.0.0), Host ID = <b>4.5.5</b>.</p><p><b>(c) 11100010.23.14.67</b> → <b>Invalid.</b> Binary અને dotted-decimal notation ભેગા છે: 11100010 binary છે પણ બાકીના octets decimal છે (decimal સંખ્યા તરીકે વાંચતાં 11100010 એ 255 કરતાં ઘણો મોટો છે).</p><p><b>(d) 192.226.12.11.9</b> → <b>Invalid.</b> તેમાં 5 octets છે; IPv4 address માં બરાબર 4 octets હોવા જોઈએ.</p>"
+   }
+  },
+  {
+   "id": "cn4n4",
+   "q": {
+    "en": "Practical 6: Determine the class and network address for: 172.16.2.10 / 255.255.255.0;  10.6.24.20 / 255.255.240.0;  10.30.36.12 / 255.255.255.0",
+    "gu": "Practical 6: Class અને network address શોધો: 172.16.2.10 / 255.255.255.0;  10.6.24.20 / 255.255.240.0;  10.30.36.12 / 255.255.255.0"
+   },
+   "a": {
+    "en": "<p>Network address = IP AND mask. Octets with mask 255 are copied, mask 0 gives 0.</p><p>10.6.24.20: octet 3: 24 AND 240 = 00011000 AND 11110000 = 00010000 = <b>16</b></p><table><tr><th>IPv4 address</th><th>Subnet mask</th><th>Class</th><th>Network (subnet) address</th></tr><tr><td>172.16.2.10</td><td>255.255.255.0</td><td>B</td><td>172.16.2.0 (/24)</td></tr><tr><td>10.6.24.20</td><td>255.255.240.0</td><td>A</td><td>10.6.16.0 (/20)</td></tr><tr><td>10.30.36.12</td><td>255.255.255.0</td><td>A</td><td>10.30.36.0 (/24)</td></tr></table>",
+    "gu": "<p>Network address = IP AND mask. Mask 255 વાળા octets copy થાય, mask 0 થી 0 મળે.</p><p>10.6.24.20: octet 3: 24 AND 240 = 00011000 AND 11110000 = 00010000 = <b>16</b></p><table><tr><th>IPv4 address</th><th>Subnet mask</th><th>Class</th><th>Network (subnet) address</th></tr><tr><td>172.16.2.10</td><td>255.255.255.0</td><td>B</td><td>172.16.2.0 (/24)</td></tr><tr><td>10.6.24.20</td><td>255.255.240.0</td><td>A</td><td>10.6.16.0 (/20)</td></tr><tr><td>10.30.36.12</td><td>255.255.255.0</td><td>A</td><td>10.30.36.0 (/24)</td></tr></table>"
+   }
+  },
+  {
+   "id": "cn4n5",
+   "q": {
+    "en": "Practical 7: Subnet the IP address 216.21.5.0/24 into subnets of 30 hosts each. Find the subnet mask, number of subnets and the range of each subnet.",
+    "gu": "Practical 7: IP address 216.21.5.0/24 ને દરેક 30 hosts ના subnets માં વહેંચો. Subnet mask, subnets ની સંખ્યા અને દરેક subnet ની range શોધો."
+   },
+   "a": {
+    "en": "<p>Given /24 (class C), 8 host bits. Hosts needed = 30: 2^h - 2 ≥ 30 → h = 5 (2^5 - 2 = 30).</p><p>Bits borrowed = 8 - 5 = 3; subnets = 2^3 = <b>8</b></p><p>New mask = /27 = <b>255.255.255.224</b>; block size = 256 - 224 = 32; usable hosts = 30</p><table><tr><th>Subnet</th><th>Network</th><th>Host range</th><th>Broadcast</th></tr><tr><td>1</td><td>216.21.5.0</td><td>216.21.5.1 - 216.21.5.30</td><td>216.21.5.31</td></tr><tr><td>2</td><td>216.21.5.32</td><td>216.21.5.33 - 216.21.5.62</td><td>216.21.5.63</td></tr><tr><td>3</td><td>216.21.5.64</td><td>216.21.5.65 - 216.21.5.94</td><td>216.21.5.95</td></tr><tr><td>4</td><td>216.21.5.96</td><td>216.21.5.97 - 216.21.5.126</td><td>216.21.5.127</td></tr><tr><td>5</td><td>216.21.5.128</td><td>216.21.5.129 - 216.21.5.158</td><td>216.21.5.159</td></tr><tr><td>6</td><td>216.21.5.160</td><td>216.21.5.161 - 216.21.5.190</td><td>216.21.5.191</td></tr><tr><td>7</td><td>216.21.5.192</td><td>216.21.5.193 - 216.21.5.222</td><td>216.21.5.223</td></tr><tr><td>8</td><td>216.21.5.224</td><td>216.21.5.225 - 216.21.5.254</td><td>216.21.5.255</td></tr></table>",
+    "gu": "<p>આપેલ /24 (class C), 8 host bits. જરૂરી hosts = 30: 2^h - 2 ≥ 30 → h = 5 (2^5 - 2 = 30).</p><p>ઉછીના bits = 8 - 5 = 3; subnets = 2^3 = <b>8</b></p><p>નવો mask = /27 = <b>255.255.255.224</b>; block size = 256 - 224 = 32; usable hosts = 30</p><table><tr><th>Subnet</th><th>Network</th><th>Host range</th><th>Broadcast</th></tr><tr><td>1</td><td>216.21.5.0</td><td>216.21.5.1 - 216.21.5.30</td><td>216.21.5.31</td></tr><tr><td>2</td><td>216.21.5.32</td><td>216.21.5.33 - 216.21.5.62</td><td>216.21.5.63</td></tr><tr><td>3</td><td>216.21.5.64</td><td>216.21.5.65 - 216.21.5.94</td><td>216.21.5.95</td></tr><tr><td>4</td><td>216.21.5.96</td><td>216.21.5.97 - 216.21.5.126</td><td>216.21.5.127</td></tr><tr><td>5</td><td>216.21.5.128</td><td>216.21.5.129 - 216.21.5.158</td><td>216.21.5.159</td></tr><tr><td>6</td><td>216.21.5.160</td><td>216.21.5.161 - 216.21.5.190</td><td>216.21.5.191</td></tr><tr><td>7</td><td>216.21.5.192</td><td>216.21.5.193 - 216.21.5.222</td><td>216.21.5.223</td></tr><tr><td>8</td><td>216.21.5.224</td><td>216.21.5.225 - 216.21.5.254</td><td>216.21.5.255</td></tr></table>"
+   }
+  },
+  {
+   "id": "cn4n6",
+   "q": {
+    "en": "Divide the network 192.168.1.0/24 into 4 equal subnets. Find the new subnet mask, hosts per subnet and the address range of each subnet.",
+    "gu": "Network 192.168.1.0/24 ને 4 સરખા subnets માં વહેંચો. નવો subnet mask, subnet દીઠ hosts અને દરેક subnet ની address range શોધો."
+   },
+   "a": {
+    "en": "<p>Subnets needed = 4: 2^s ≥ 4 → s = 2 bits borrowed.</p><p>New prefix = 24 + 2 = /26; mask = <b>255.255.255.192</b></p><p>Host bits = 6; block size = 64; usable hosts per subnet = 2^6 - 2 = <b>62</b></p><table><tr><th>Subnet</th><th>Network</th><th>Host range</th><th>Broadcast</th></tr><tr><td>1</td><td>192.168.1.0</td><td>192.168.1.1 - 192.168.1.62</td><td>192.168.1.63</td></tr><tr><td>2</td><td>192.168.1.64</td><td>192.168.1.65 - 192.168.1.126</td><td>192.168.1.127</td></tr><tr><td>3</td><td>192.168.1.128</td><td>192.168.1.129 - 192.168.1.190</td><td>192.168.1.191</td></tr><tr><td>4</td><td>192.168.1.192</td><td>192.168.1.193 - 192.168.1.254</td><td>192.168.1.255</td></tr></table>",
+    "gu": "<p>જરૂરી subnets = 4: 2^s ≥ 4 → s = 2 bits ઉછીના.</p><p>નવો prefix = 24 + 2 = /26; mask = <b>255.255.255.192</b></p><p>Host bits = 6; block size = 64; subnet દીઠ usable hosts = 2^6 - 2 = <b>62</b></p><table><tr><th>Subnet</th><th>Network</th><th>Host range</th><th>Broadcast</th></tr><tr><td>1</td><td>192.168.1.0</td><td>192.168.1.1 - 192.168.1.62</td><td>192.168.1.63</td></tr><tr><td>2</td><td>192.168.1.64</td><td>192.168.1.65 - 192.168.1.126</td><td>192.168.1.127</td></tr><tr><td>3</td><td>192.168.1.128</td><td>192.168.1.129 - 192.168.1.190</td><td>192.168.1.191</td></tr><tr><td>4</td><td>192.168.1.192</td><td>192.168.1.193 - 192.168.1.254</td><td>192.168.1.255</td></tr></table>"
+   }
+  },
+  {
+   "id": "cn4n7",
+   "q": {
+    "en": "In classless addressing, find the first address, last address and number of addresses in the block for: (a) 205.16.37.39/28 (b) 167.199.170.82/27",
+    "gu": "Classless addressing માં block નું first address, last address અને addresses ની સંખ્યા શોધો: (a) 205.16.37.39/28 (b) 167.199.170.82/27"
+   },
+   "a": {
+    "en": "<p><b>(a) 205.16.37.39/28</b>: host bits = 32 - 28 = 4; last octet 39 = 0010 0111</p><ul><li>First address: 0010 0000 = 32 → <b>205.16.37.32</b></li><li>Last address: 0010 1111 = 47 → <b>205.16.37.47</b></li><li>Number of addresses = 2^4 = <b>16</b> (usable 14); mask 255.255.255.240</li></ul><p><b>(b) 167.199.170.82/27</b>: host bits = 32 - 27 = 5; last octet 82 = 010 10010</p><ul><li>First address: 010 00000 = 64 → <b>167.199.170.64</b></li><li>Last address: 010 11111 = 95 → <b>167.199.170.95</b></li><li>Number of addresses = 2^5 = <b>32</b> (usable 30); mask 255.255.255.224</li></ul>",
+    "gu": "<p><b>(a) 205.16.37.39/28</b>: host bits = 32 - 28 = 4; last octet 39 = 0010 0111</p><ul><li>First address: 0010 0000 = 32 → <b>205.16.37.32</b></li><li>Last address: 0010 1111 = 47 → <b>205.16.37.47</b></li><li>Addresses ની સંખ્યા = 2^4 = <b>16</b> (usable 14); mask 255.255.255.240</li></ul><p><b>(b) 167.199.170.82/27</b>: host bits = 32 - 27 = 5; last octet 82 = 010 10010</p><ul><li>First address: 010 00000 = 64 → <b>167.199.170.64</b></li><li>Last address: 010 11111 = 95 → <b>167.199.170.95</b></li><li>Addresses ની સંખ્યા = 2^5 = <b>32</b> (usable 30); mask 255.255.255.224</li></ul>"
+   }
+  },
+  {
+   "id": "cn4n8",
+   "q": {
+    "en": "Write in shortest form: 2001:0db8:0000:0000:0000:ff00:0042:8329;  fe80:0000:0000:0000:0202:b3ff:fe1e:8329;  2001:0db8:0001:0000:0000:0ab9:c0a8:0102.  Write in full form: 2001:db8::1;  fe80::1:2;  ::1",
+    "gu": "ટૂંકા સ્વરૂપમાં લખો: 2001:0db8:0000:0000:0000:ff00:0042:8329;  fe80:0000:0000:0000:0202:b3ff:fe1e:8329;  2001:0db8:0001:0000:0000:0ab9:c0a8:0102.  પૂર્ણ સ્વરૂપમાં લખો: 2001:db8::1;  fe80::1:2;  ::1"
+   },
+   "a": {
+    "en": "<p><b>Abbreviate</b> (remove leading zeros, then :: once for the longest zero run):</p><ul><li>2001:0db8:0000:0000:0000:ff00:0042:8329 → 2001:db8:0:0:0:ff00:42:8329 → <b>2001:db8::ff00:42:8329</b></li><li>fe80:0000:0000:0000:0202:b3ff:fe1e:8329 → fe80:0:0:0:202:b3ff:fe1e:8329 → <b>fe80::202:b3ff:fe1e:8329</b></li><li>2001:0db8:0001:0000:0000:0ab9:c0a8:0102 → 2001:db8:1:0:0:ab9:c0a8:102 → <b>2001:db8:1::ab9:c0a8:102</b></li></ul><p><b>Expand</b> (fill :: with zero groups to make 8, pad each group to 4 digits):</p><ul><li>2001:db8::1: 3 group(s) present, :: = 5 zero groups → <b>2001:0db8:0000:0000:0000:0000:0000:0001</b></li><li>fe80::1:2: 3 group(s) present, :: = 5 zero groups → <b>fe80:0000:0000:0000:0000:0000:0001:0002</b></li><li>::1: 1 group(s) present, :: = 7 zero groups → <b>0000:0000:0000:0000:0000:0000:0000:0001</b></li></ul>",
+    "gu": "<p><b>ટૂંકું કરો</b> (remove leading zeros, then :: once for the longest zero run):</p><ul><li>2001:0db8:0000:0000:0000:ff00:0042:8329 → 2001:db8:0:0:0:ff00:42:8329 → <b>2001:db8::ff00:42:8329</b></li><li>fe80:0000:0000:0000:0202:b3ff:fe1e:8329 → fe80:0:0:0:202:b3ff:fe1e:8329 → <b>fe80::202:b3ff:fe1e:8329</b></li><li>2001:0db8:0001:0000:0000:0ab9:c0a8:0102 → 2001:db8:1:0:0:ab9:c0a8:102 → <b>2001:db8:1::ab9:c0a8:102</b></li></ul><p><b>Expand કરો</b> (fill :: with zero groups to make 8, pad each group to 4 digits):</p><ul><li>2001:db8::1: 3 group(s) present, :: = 5 zero groups → <b>2001:0db8:0000:0000:0000:0000:0000:0001</b></li><li>fe80::1:2: 3 group(s) present, :: = 5 zero groups → <b>fe80:0000:0000:0000:0000:0000:0001:0002</b></li><li>::1: 1 group(s) present, :: = 7 zero groups → <b>0000:0000:0000:0000:0000:0000:0000:0001</b></li></ul>"
+   }
+  },
+  {
+   "id": "cn4n9",
+   "q": {
+    "en": "Practical 8: Identify valid IPv6 addresses; for invalid ones write the reason: (a) 2001:db8:3333:4444:5555:6666:7777:8888 (b) 2001:0db8:0001:0000:0000:0ab9:C0A8:0102 (c) 225.1.4.2 (d) :: (e) fe80:2030:31:24",
+    "gu": "Practical 8: Valid IPv6 addresses ઓળખો; invalid માટે કારણ લખો: (a) 2001:db8:3333:4444:5555:6666:7777:8888 (b) 2001:0db8:0001:0000:0000:0ab9:C0A8:0102 (c) 225.1.4.2 (d) :: (e) fe80:2030:31:24"
+   },
+   "a": {
+    "en": "<p>(The syllabus prints some addresses with spaces after the colons; spaces are not part of an address and are ignored here.)</p><p><b>(a) 2001:db8:3333:4444:5555:6666:7777:8888</b> → <b>Valid.</b> 8 groups of hex digits; leading zero of 0db8 omitted.</p><p><b>(b) 2001:0db8:0001:0000:0000:0ab9:C0A8:0102</b> → <b>Valid.</b> 8 full groups; uppercase hex is allowed. Short form: 2001:db8:1::ab9:c0a8:102</p><p><b>(c) 225.1.4.2</b> → <b>Invalid.</b> It is written in dotted-decimal form; this is an IPv4 address, not IPv6.</p><p><b>(d) ::</b> → <b>Valid.</b> The unspecified address (all 128 bits zero).</p><p><b>(e) fe80:2030:31:24</b> → <b>Invalid.</b> It has only 4 groups and no '::' to show omitted zero groups; a full IPv6 address needs 8 groups.</p>",
+    "gu": "<p>(Syllabus માં કેટલાક addresses colons પછી spaces સાથે છપાયા છે; spaces address નો ભાગ નથી અને અહીં અવગણ્યા છે.)</p><p><b>(a) 2001:db8:3333:4444:5555:6666:7777:8888</b> → <b>Valid.</b> Hex અંકોના 8 groups; 0db8 નો આગળનો zero છોડેલો.</p><p><b>(b) 2001:0db8:0001:0000:0000:0ab9:C0A8:0102</b> → <b>Valid.</b> 8 પૂર્ણ groups; uppercase hex માન્ય છે. ટૂંકું સ્વરૂપ: 2001:db8:1::ab9:c0a8:102</p><p><b>(c) 225.1.4.2</b> → <b>Invalid.</b> તે dotted-decimal સ્વરૂપમાં લખેલું છે; આ IPv4 address છે, IPv6 નહીં.</p><p><b>(d) ::</b> → <b>Valid.</b> Unspecified address (બધા 128 bits zero).</p><p><b>(e) fe80:2030:31:24</b> → <b>Invalid.</b> તેમાં ફક્ત 4 groups છે અને છોડેલા zero groups બતાવવા '::' નથી; પૂર્ણ IPv6 address માં 8 groups જોઈએ.</p>"
+   }
+  }
+ ],
+ "equations": [
+  {
+   "title": {
+    "en": "IPv4 counting",
+    "gu": "IPv4 ગણતરી"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Total IPv4 addresses",
+      "gu": "કુલ IPv4 addresses"
+     },
+     "f": "2^32 = 4,294,967,296",
+     "terms": {
+      "en": "32-bit address",
+      "gu": "32-bit address"
+     }
+    },
+    {
+     "name": {
+      "en": "Usable hosts",
+      "gu": "Usable hosts"
+     },
+     "f": "Hosts = 2^h - 2",
+     "terms": {
+      "en": "h = host bits; minus network and broadcast address",
+      "gu": "h = host bits; network અને broadcast address બાદ"
+     }
+    },
+    {
+     "name": {
+      "en": "Number of subnets",
+      "gu": "Subnets ની સંખ્યા"
+     },
+     "f": "Subnets = 2^s",
+     "terms": {
+      "en": "s = bits borrowed from the host part",
+      "gu": "s = host ભાગમાંથી ઉછીના bits"
+     }
+    },
+    {
+     "name": {
+      "en": "Addresses in a block",
+      "gu": "Block માં addresses"
+     },
+     "f": "N = 2^(32 - n)",
+     "terms": {
+      "en": "n = prefix length in a.b.c.d/n",
+      "gu": "a.b.c.d/n માં n = prefix length"
+     }
+    },
+    {
+     "name": {
+      "en": "Block size",
+      "gu": "Block size"
+     },
+     "f": "Block = 256 - mask octet",
+     "terms": {
+      "en": "e.g. /27: 256 - 224 = 32",
+      "gu": "દા.ત. /27: 256 - 224 = 32"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Masking",
+    "gu": "Masking"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Network address",
+      "gu": "Network address"
+     },
+     "f": "Network = IP AND mask",
+     "terms": {
+      "en": "Host bits set to 0",
+      "gu": "Host bits 0 કરાય"
+     }
+    },
+    {
+     "name": {
+      "en": "Broadcast address",
+      "gu": "Broadcast address"
+     },
+     "f": "Broadcast = network OR (NOT mask)",
+     "terms": {
+      "en": "Host bits set to 1",
+      "gu": "Host bits 1 કરાય"
+     }
+    },
+    {
+     "name": {
+      "en": "Host range",
+      "gu": "Host range"
+     },
+     "f": "First = network + 1,  Last = broadcast - 1",
+     "terms": {
+      "en": "Usable addresses lie between network and broadcast",
+      "gu": "Usable addresses network અને broadcast ની વચ્ચે"
+     }
+    },
+    {
+     "name": {
+      "en": "Default masks",
+      "gu": "Default masks"
+     },
+     "f": "A /8 = 255.0.0.0,  B /16 = 255.255.0.0,  C /24 = 255.255.255.0",
+     "terms": {
+      "en": "Number after / = count of 1 bits in the mask",
+      "gu": "/ પછીની સંખ્યા = mask માં 1 bits ની સંખ્યા"
+     }
+    },
+    {
+     "name": {
+      "en": "Class from first octet",
+      "gu": "First octet પરથી class"
+     },
+     "f": "A 0-127,  B 128-191,  C 192-223,  D 224-239,  E 240-255",
+     "terms": {
+      "en": "Leading bits 0, 10, 110, 1110, 1111",
+      "gu": "આગળના bits 0, 10, 110, 1110, 1111"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "IPv6",
+    "gu": "IPv6"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "IPv6 address space",
+      "gu": "IPv6 address space"
+     },
+     "f": "2^128 ≈ 3.4 × 10³⁸",
+     "terms": {
+      "en": "8 groups × 16 bits",
+      "gu": "8 groups × 16 bits"
+     }
+    },
+    {
+     "name": {
+      "en": "Global unicast structure",
+      "gu": "Global unicast રચના"
+     },
+     "f": "48-bit prefix + 16-bit subnet + 64-bit interface ID",
+     "terms": {
+      "en": "Prefix from ISP; 2^16 subnets per site",
+      "gu": "Prefix ISP પાસેથી; site દીઠ 2^16 subnets"
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "IPv4 basics",
+    "gu": "IPv4 basics"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is an IP address?",
+      "gu": "IP address એટલે શું?"
+     },
+     "a": {
+      "en": "A 32-bit (IPv4) logical address that uniquely identifies a device's connection on a network or the Internet.",
+      "gu": "Network કે Internet પર device ના જોડાણને અનન્ય રીતે ઓળખતું 32-bit (IPv4) logical address."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is IP called connectionless and unreliable?",
+      "gu": "IP ને connectionless અને unreliable કેમ કહે?"
+     },
+     "a": {
+      "en": "Each datagram is sent independently without setting up a connection, and IP does not guarantee delivery or order (best effort).",
+      "gu": "દરેક datagram connection set up કર્યા વગર સ્વતંત્ર રીતે મોકલાય, અને IP delivery કે ક્રમની ખાતરી આપતું નથી (best effort)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the use of TTL?",
+      "gu": "TTL નો ઉપયોગ શું?"
+     },
+     "a": {
+      "en": "Time to live limits the number of hops; each router reduces it by 1 and the packet is discarded at 0, preventing loops.",
+      "gu": "Time to live hops ની સંખ્યા મર્યાદિત કરે; દરેક router તેને 1 ઘટાડે અને 0 થતાં packet કાઢી નખાય, જે loops અટકાવે."
+     }
+    },
+    {
+     "q": {
+      "en": "Which class does 172.16.2.10 belong to?",
+      "gu": "172.16.2.10 કયા class નું છે?"
+     },
+     "a": {
+      "en": "Class B, because the first octet 172 lies in 128-191.",
+      "gu": "Class B, કારણ કે પ્રથમ octet 172 એ 128-191 માં છે."
+     }
+    },
+    {
+     "q": {
+      "en": "Why do we subtract 2 when counting hosts?",
+      "gu": "Hosts ગણતાં 2 શા માટે બાદ કરીએ?"
+     },
+     "a": {
+      "en": "The all-0s host address is the network address and the all-1s is the broadcast address; neither can be assigned.",
+      "gu": "All-0s host address એ network address અને all-1s એ broadcast address છે; બેમાંથી એક પણ આપી શકાતું નથી."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the loopback address?",
+      "gu": "Loopback address કયું છે?"
+     },
+     "a": {
+      "en": "127.0.0.1 (127.0.0.0/8) in IPv4 and ::1 in IPv6; used to test the local TCP/IP stack.",
+      "gu": "IPv4 માં 127.0.0.1 (127.0.0.0/8) અને IPv6 માં ::1; local TCP/IP stack તપાસવા વપરાય."
+     }
+    },
+    {
+     "q": {
+      "en": "List the private IPv4 ranges.",
+      "gu": "Private IPv4 ranges ની યાદી આપો."
+     },
+     "a": {
+      "en": "10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16.",
+      "gu": "10.0.0.0/8, 172.16.0.0/12 અને 192.168.0.0/16."
+     }
+    },
+    {
+     "q": {
+      "en": "What is APIPA?",
+      "gu": "APIPA એટલે શું?"
+     },
+     "a": {
+      "en": "Automatic Private IP Addressing: a 169.254.x.x address a PC gives itself when no DHCP server answers.",
+      "gu": "Automatic Private IP Addressing: કોઈ DHCP server જવાબ ન આપે ત્યારે PC પોતાને આપતું 169.254.x.x address."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Masks, subnets and CIDR",
+    "gu": "Masks, subnets અને CIDR"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a subnet mask?",
+      "gu": "Subnet mask એટલે શું?"
+     },
+     "a": {
+      "en": "A 32-bit value whose 1 bits mark the network part and 0 bits the host part; IP AND mask gives the network address.",
+      "gu": "32-bit value જેના 1 bits network ભાગ અને 0 bits host ભાગ દર્શાવે; IP AND mask થી network address મળે."
+     }
+    },
+    {
+     "q": {
+      "en": "What does /26 mean?",
+      "gu": "/26 નો અર્થ શું?"
+     },
+     "a": {
+      "en": "The first 26 bits are the network part: mask 255.255.255.192, 64 addresses, 62 usable hosts.",
+      "gu": "પ્રથમ 26 bits network ભાગ છે: mask 255.255.255.192, 64 addresses, 62 usable hosts."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is subnetting done?",
+      "gu": "Subnetting શા માટે કરાય?"
+     },
+     "a": {
+      "en": "To divide a large network into smaller ones: less broadcast traffic, better security and management, efficient use of addresses.",
+      "gu": "મોટા network ને નાનામાં વહેંચવા: ઓછો broadcast traffic, વધુ સારી security અને management, addresses નો કાર્યક્ષમ ઉપયોગ."
+     }
+    },
+    {
+     "q": {
+      "en": "What is CIDR?",
+      "gu": "CIDR એટલે શું?"
+     },
+     "a": {
+      "en": "Classless Inter-Domain Routing: addresses allocated in blocks of any power-of-2 size, written a.b.c.d/n.",
+      "gu": "Classless Inter-Domain Routing: 2 ની કોઈ પણ ઘાત જેટલા blocks માં addresses ફાળવાય, a.b.c.d/n તરીકે લખાય."
+     }
+    },
+    {
+     "q": {
+      "en": "What is supernetting?",
+      "gu": "Supernetting એટલે શું?"
+     },
+     "a": {
+      "en": "Combining several contiguous networks into one larger block (route aggregation) to reduce routing table size.",
+      "gu": "Routing table નું કદ ઘટાડવા ઘણા સળંગ networks ને એક મોટા block માં ભેગા કરવા (route aggregation)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is NAT?",
+      "gu": "NAT એટલે શું?"
+     },
+     "a": {
+      "en": "Network Address Translation: a router replaces private addresses with its public address, so many devices share one public IP.",
+      "gu": "Network Address Translation: router private addresses ને તેના public address થી બદલે, જેથી ઘણા devices એક public IP વહેંચે."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "IPv6",
+    "gu": "IPv6"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is the size of an IPv6 address?",
+      "gu": "IPv6 address નું કદ કેટલું?"
+     },
+     "a": {
+      "en": "128 bits, written as 8 groups of 4 hex digits separated by colons.",
+      "gu": "128 bits, colons થી અલગ 4 hex અંકોના 8 groups તરીકે લખાય."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is :: allowed only once?",
+      "gu": ":: ફક્ત એક જ વાર કેમ માન્ય?"
+     },
+     "a": {
+      "en": "If used twice, it would be impossible to know how many zero groups each :: stands for.",
+      "gu": "બે વાર વપરાય તો દરેક :: કેટલા zero groups દર્શાવે છે તે જાણવું અશક્ય બને."
+     }
+    },
+    {
+     "q": {
+      "en": "Name the IPv6 addressing modes.",
+      "gu": "IPv6 addressing modes ના નામ આપો."
+     },
+     "a": {
+      "en": "Unicast (one-to-one), multicast (one-to-many) and anycast (one-to-nearest). There is no broadcast.",
+      "gu": "Unicast (એક-થી-એક), multicast (એક-થી-ઘણા) અને anycast (એક-થી-નજીકના). Broadcast નથી."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a link-local address?",
+      "gu": "Link-local address એટલે શું?"
+     },
+     "a": {
+      "en": "An automatically configured fe80::/10 address valid only on the local link; routers do not forward it.",
+      "gu": "આપમેળે configure થતું fe80::/10 address ફક્ત local link પર માન્ય; routers તેને forward કરતા નથી."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the size of the IPv6 base header?",
+      "gu": "IPv6 base header નું કદ?"
+     },
+     "a": {
+      "en": "Fixed 40 bytes, with extension headers for options.",
+      "gu": "Fixed 40 bytes, options માટે extension headers સાથે."
+     }
+    },
+    {
+     "q": {
+      "en": "What is SLAAC?",
+      "gu": "SLAAC એટલે શું?"
+     },
+     "a": {
+      "en": "Stateless Address Auto-Configuration: a host forms its IPv6 address from the router's prefix and its interface ID, without DHCP.",
+      "gu": "Stateless Address Auto-Configuration: host DHCP વગર router ના prefix અને પોતાના interface ID પરથી IPv6 address બનાવે."
+     }
+    },
+    {
+     "q": {
+      "en": "Which DNS record stores an IPv6 address?",
+      "gu": "IPv6 address કયા DNS record માં રહે?"
+     },
+     "a": {
+      "en": "The AAAA (quad-A) record; IPv4 uses the A record.",
+      "gu": "AAAA (quad-A) record; IPv4 A record વાપરે."
+     }
+    },
+    {
+     "q": {
+      "en": "Name the IPv4-to-IPv6 transition methods.",
+      "gu": "IPv4-થી-IPv6 transition પદ્ધતિઓના નામ આપો."
+     },
+     "a": {
+      "en": "Dual stack, tunnelling and header translation (NAT64).",
+      "gu": "Dual stack, tunnelling અને header translation (NAT64)."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Explain the IPv4 address with its notations. Convert 192.168.10.5 to binary.",
+    "gu": "IPv4 address તેની notations સાથે સમજાવો. 192.168.10.5 ને binary માં ફેરવો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "List the characteristics of IPv4.",
+    "gu": "IPv4 ની લાક્ષણિકતાઓની યાદી આપો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Write the advantages and disadvantages of IPv4.",
+    "gu": "IPv4 ના ફાયદા અને ગેરફાયદા લખો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain the classful addressing scheme with a diagram.",
+    "gu": "આકૃતિ સાથે classful addressing scheme સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Determine whether the given IPv4 addresses are valid. If valid, find class, network ID and host ID.",
+    "gu": "આપેલા IPv4 addresses valid છે કે નહીં તે નક્કી કરો. Valid હોય તો class, network ID અને host ID શોધો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "What is a subnet mask? Find the network address of 10.6.24.20 with mask 255.255.240.0.",
+    "gu": "Subnet mask એટલે શું? Mask 255.255.240.0 સાથે 10.6.24.20 નું network address શોધો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Subnet 216.21.5.0/24 into subnets of 30 hosts each.",
+    "gu": "216.21.5.0/24 ને દરેક 30 hosts ના subnets માં વહેંચો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain classless addressing. Find the first and last address of the block 205.16.37.39/28.",
+    "gu": "Classless addressing સમજાવો. Block 205.16.37.39/28 નું first અને last address શોધો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Differentiate classful and classless addressing.",
+    "gu": "Classful અને classless addressing નો તફાવત આપો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain reserved (special) IPv4 addresses.",
+    "gu": "Reserved (special) IPv4 addresses સમજાવો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain the characteristics of IPv6.",
+    "gu": "IPv6 ની લાક્ષણિકતાઓ સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain IPv6 address notation and abbreviation rules with an example.",
+    "gu": "ઉદાહરણ સાથે IPv6 address notation અને abbreviation ના નિયમો સમજાવો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain IPv6 addressing modes.",
+    "gu": "IPv6 addressing modes સમજાવો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain IPv6 address types and special addresses.",
+    "gu": "IPv6 address types અને special addresses સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Identify valid IPv6 addresses and give reasons for invalid ones.",
+    "gu": "Valid IPv6 addresses ઓળખો અને invalid માટે કારણો આપો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Differentiate IPv4 and IPv6.",
+    "gu": "IPv4 અને IPv6 નો તફાવત આપો."
+   },
+   "marks": 7
+  }
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "equations",
+  "numericals",
+  "viva",
+  "exam"
+ ],
+ "diagrams": [
+  {
+   "id": "cn4_v4fmt",
+   "title": {
+    "en": "IPv4 Address: 32 Bits, 4 Octets",
+    "gu": "IPv4 Address: 32 Bits, 4 Octets"
+   },
+   "file": "diagrams/cn4_v4fmt.svg"
+  },
+  {
+   "id": "cn4_v4hdr",
+   "title": {
+    "en": "IPv4 Datagram Header",
+    "gu": "IPv4 Datagram Header"
+   },
+   "file": "diagrams/cn4_v4hdr.svg"
+  },
+  {
+   "id": "cn4_classes",
+   "title": {
+    "en": "Classful Addressing: Classes A to E",
+    "gu": "Classful Addressing: Classes A થી E"
+   },
+   "file": "diagrams/cn4_classes.svg"
+  },
+  {
+   "id": "cn4_space",
+   "title": {
+    "en": "Address Space of Each Class",
+    "gu": "દરેક Class નું Address Space"
+   },
+   "file": "diagrams/cn4_space.svg"
+  },
+  {
+   "id": "cn4_netid",
+   "title": {
+    "en": "Network ID and Host ID (Class B)",
+    "gu": "Network ID અને Host ID (Class B)"
+   },
+   "file": "diagrams/cn4_netid.svg"
+  },
+  {
+   "id": "cn4_mask",
+   "title": {
+    "en": "Subnet Mask: Network Address (AND)",
+    "gu": "Subnet Mask: Network Address (AND)"
+   },
+   "file": "diagrams/cn4_mask.svg"
+  },
+  {
+   "id": "cn4_subnet",
+   "title": {
+    "en": "Subnetting 216.21.5.0/24 (30 Hosts Each)",
+    "gu": "Subnetting 216.21.5.0/24 (દરેકમાં 30 Hosts)"
+   },
+   "file": "diagrams/cn4_subnet.svg"
+  },
+  {
+   "id": "cn4_cidr",
+   "title": {
+    "en": "Classless Block: 205.16.37.39/28",
+    "gu": "Classless Block: 205.16.37.39/28"
+   },
+   "file": "diagrams/cn4_cidr.svg"
+  },
+  {
+   "id": "cn4_reserved",
+   "title": {
+    "en": "Reserved and Special IPv4 Addresses",
+    "gu": "Reserved અને Special IPv4 Addresses"
+   },
+   "file": "diagrams/cn4_reserved.svg"
+  },
+  {
+   "id": "cn4_v6fmt",
+   "title": {
+    "en": "IPv6 Address: 128 Bits, 8 Groups",
+    "gu": "IPv6 Address: 128 Bits, 8 Groups"
+   },
+   "file": "diagrams/cn4_v6fmt.svg"
+  },
+  {
+   "id": "cn4_v6hdr",
+   "title": {
+    "en": "IPv6 Base Header (40 Bytes)",
+    "gu": "IPv6 Base Header (40 Bytes)"
+   },
+   "file": "diagrams/cn4_v6hdr.svg"
+  },
+  {
+   "id": "cn4_v6modes",
+   "title": {
+    "en": "IPv6 Addressing Modes",
+    "gu": "IPv6 Addressing Modes"
+   },
+   "file": "diagrams/cn4_v6modes.svg"
+  },
+  {
+   "id": "cn4_v6types",
+   "title": {
+    "en": "IPv6 Global Unicast and Address Types",
+    "gu": "IPv6 Global Unicast અને Address Types"
+   },
+   "file": "diagrams/cn4_v6types.svg"
+  }
+ ]
+}
