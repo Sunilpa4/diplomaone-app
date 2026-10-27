@@ -1,0 +1,1055 @@
+{
+ "subject": "DI03000041",
+ "unit": 4,
+ "format": "notes",
+ "title": {
+  "en": "File System",
+  "gu": "File System"
+ },
+ "weightage": 13,
+ "hours": 6,
+ "notes": [
+  {
+   "title": {
+    "en": "4.1 File System",
+    "gu": "4.1 File System"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "4.1.1 File Concept and File Attributes",
+      "gu": "4.1.1 File Concept અને File Attributes"
+     },
+     "body": {
+      "en": "<p>A <b>file</b> is a named collection of related information that is recorded on secondary storage (disk, SSD, pen drive). From the user's point of view, a file is the smallest unit of logical storage: data cannot be written to secondary storage unless it is inside a file. The <b>file system</b> is the part of the OS that manages files: naming, storing, accessing, protecting and organising them in directories.</p>\n<h4>File attributes</h4>\n<p>Besides its data, every file has information about itself called <b>attributes</b> (metadata). They are kept in the directory entry or in a file control block (inode in UNIX).</p>\n<ul>\n<li><b>Name:</b> the symbolic, human-readable name (e.g. <code>report.txt</code>).</li>\n<li><b>Identifier:</b> a unique number (tag) by which the file system identifies the file (e.g. inode number).</li>\n<li><b>Type:</b> needed by systems that support different file types (text, executable…).</li>\n<li><b>Location:</b> pointer to the device and the position of the file on it.</li>\n<li><b>Size:</b> current size in bytes / blocks, and possibly the maximum allowed size.</li>\n<li><b>Protection:</b> access-control information: who can read, write, execute.</li>\n<li><b>Time, date and user identification:</b> creation, last modification and last access; useful for protection, security and usage monitoring.</li>\n</ul>\n<p>In Linux, <code>ls -l</code> shows many of these attributes (permissions, owner, size, date, name) and <code>stat file</code> shows all of them.</p>",
+      "gu": "<p><b>File</b> એ secondary storage (disk, SSD, pen drive) પર સંગ્રહિત સંબંધિત માહિતીનો નામવાળો સમૂહ છે. User ના દૃષ્ટિકોણથી file એ logical storage નો સૌથી નાનો એકમ છે: data file ની અંદર ન હોય તો secondary storage પર લખી શકાતો નથી. <b>File system</b> એ OS નો ભાગ છે જે files નું સંચાલન કરે છે: naming, storing, accessing, protecting અને directories માં ગોઠવણી.</p>\n<h4>File attributes</h4>\n<p>Data ઉપરાંત દરેક file પાસે પોતાના વિશેની માહિતી હોય છે જેને <b>attributes</b> (metadata) કહે છે. તે directory entry અથવા file control block (UNIX માં inode) માં રખાય છે.</p>\n<ul>\n<li><b>Name:</b> symbolic, માણસ વાંચી શકે તેવું નામ (દા.ત. <code>report.txt</code>).</li>\n<li><b>Identifier:</b> unique number (tag) જેનાથી file system file ને ઓળખે (દા.ત. inode number).</li>\n<li><b>Type:</b> જુદા જુદા file types (text, executable…) support કરતી systems માટે જરૂરી.</li>\n<li><b>Location:</b> device અને તેના પર file ના સ્થાનનો pointer.</li>\n<li><b>Size:</b> bytes / blocks માં હાલનું કદ, અને કદાચ મહત્તમ મંજૂર કદ.</li>\n<li><b>Protection:</b> access-control માહિતી: કોણ read, write, execute કરી શકે.</li>\n<li><b>Time, date અને user identification:</b> creation, છેલ્લો ફેરફાર અને છેલ્લો access; protection, security અને usage monitoring માટે ઉપયોગી.</li>\n</ul>\n<p>Linux માં <code>ls -l</code> આમાંના ઘણા attributes (permissions, owner, size, date, name) બતાવે છે અને <code>stat file</code> બધા બતાવે છે.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "4.1.2 File Operations",
+      "gu": "4.1.2 File Operations"
+     },
+     "body": {
+      "en": "<p>A file is an <b>abstract data type</b>; the OS provides system calls to perform operations on it.</p>\n<ol>\n<li><b>Create:</b> find space in the file system and make a new entry in the directory.</li>\n<li><b>Open:</b> search the directory, check permissions, and copy the file's information into the <b>open-file table</b>; returns a file handle / descriptor used by later operations.</li>\n<li><b>Write:</b> a system call with the file name and data; the OS keeps a <b>write pointer</b> to the location of the next write.</li>\n<li><b>Read:</b> a system call with the file name and memory buffer; the OS uses a <b>read pointer</b> (current-file-position pointer).</li>\n<li><b>Reposition (seek):</b> change the current-file-position pointer to a given value; no actual I/O.</li>\n<li><b>Delete:</b> search the directory, release all file space and erase the directory entry.</li>\n<li><b>Truncate:</b> erase the contents but keep the attributes; the file length becomes zero.</li>\n<li><b>Close:</b> remove the entry from the open-file table and free resources.</li>\n</ol>\n<p>Other operations (append, rename, copy) can be built from these basic ones.</p>\n<h4>Open-file table information</h4>\n<ul><li><b>File pointer</b> (current position), per process.</li><li><b>File-open count</b>: number of processes that have the file open; the entry is removed when it becomes 0.</li><li><b>Disk location</b> of the file and <b>access rights</b> (mode).</li></ul>\n<h4>Access methods</h4>\n<ul><li><b>Sequential access:</b> records processed in order, one after another (editors, compilers).</li><li><b>Direct (random) access:</b> fixed-length records read in any order by block number (databases).</li></ul>",
+      "gu": "<p>File એ <b>abstract data type</b> છે; OS તેના પર operations કરવા system calls આપે છે.</p>\n<ol>\n<li><b>Create:</b> file system માં જગ્યા શોધી directory માં નવી entry બનાવવી.</li>\n<li><b>Open:</b> directory શોધી, permissions તપાસી, file ની માહિતી <b>open-file table</b> માં copy કરવી; પછીના operations માટે file handle / descriptor પાછું આપે.</li>\n<li><b>Write:</b> file name અને data સાથે system call; OS આગળના write ના સ્થાન માટે <b>write pointer</b> રાખે.</li>\n<li><b>Read:</b> file name અને memory buffer સાથે system call; OS <b>read pointer</b> (current-file-position pointer) વાપરે.</li>\n<li><b>Reposition (seek):</b> current-file-position pointer ને આપેલી કિંમતે બદલવો; ખરેખર I/O થતો નથી.</li>\n<li><b>Delete:</b> directory શોધી, file ની બધી જગ્યા મુક્ત કરી directory entry ભૂંસવી.</li>\n<li><b>Truncate:</b> contents ભૂંસી નાખવા પણ attributes રાખવા; file length શૂન્ય થાય.</li>\n<li><b>Close:</b> open-file table માંથી entry દૂર કરી resources મુક્ત કરવા.</li>\n</ol>\n<p>બીજા operations (append, rename, copy) આ મૂળભૂત operations પરથી બનાવી શકાય.</p>\n<h4>Open-file table માહિતી</h4>\n<ul><li><b>File pointer</b> (હાલનું સ્થાન), process મુજબ.</li><li><b>File-open count</b>: file open રાખેલી processes ની સંખ્યા; 0 થાય ત્યારે entry દૂર થાય.</li><li>File નું <b>disk location</b> અને <b>access rights</b> (mode).</li></ul>\n<h4>Access methods</h4>\n<ul><li><b>Sequential access:</b> records ક્રમમાં, એક પછી એક process થાય (editors, compilers).</li><li><b>Direct (random) access:</b> fixed-length records block number વડે ગમે તે ક્રમમાં વંચાય (databases).</li></ul>"
+     }
+    },
+    {
+     "h": {
+      "en": "4.1.3 File Types",
+      "gu": "4.1.3 File Types"
+     },
+     "body": {
+      "en": "<p>The OS must know the <b>type</b> of a file to operate on it sensibly (e.g. not try to print a binary object file). A common technique is to include the type as part of the name: <b>name.extension</b>, e.g. <code>resume.docx</code>, <code>server.c</code>, <code>ReaderThread.class</code>.</p>\n<ul>\n<li><b>Windows / MS-DOS:</b> the extension decides the type; only .exe, .com and .bat files can be executed.</li>\n<li><b>UNIX / Linux:</b> extensions are only hints (conventions); executables are recognised by permission bits and a <b>magic number</b> at the start of the file.</li>\n<li><b>macOS:</b> each file also stores the creator program as an attribute.</li>\n</ul>\n<h4>Common file types</h4>\n<table><tr><th>File type</th><th>Usual extensions</th><th>Function</th></tr><tr><td>Executable</td><td>exe, com, bin, none (Linux)</td><td>Ready-to-run machine-language program</td></tr><tr><td>Object</td><td>obj, o</td><td>Compiled machine code, not linked</td></tr><tr><td>Source code</td><td>c, cpp, java, py, asm</td><td>Source code in various languages</td></tr><tr><td>Batch / script</td><td>bat, sh</td><td>Commands to the command interpreter</td></tr><tr><td>Text</td><td>txt, doc, docx</td><td>Textual data, documents</td></tr><tr><td>Word processor</td><td>docx, odt, rtf</td><td>Various word-processor formats</td></tr><tr><td>Library</td><td>lib, a, so, dll</td><td>Libraries of routines for programmers</td></tr><tr><td>Print or view</td><td>pdf, jpg, png, ps</td><td>Files for printing or viewing</td></tr><tr><td>Archive</td><td>zip, tar, rar</td><td>Related files grouped (often compressed)</td></tr><tr><td>Multimedia</td><td>mp3, mp4, avi</td><td>Audio / video information</td></tr></table>\n<h4>File types in UNIX (first character of ls -l)</h4>\n<ul><li><code>-</code> regular file, <code>d</code> directory, <code>l</code> symbolic link, <code>c</code> character device, <code>b</code> block device, <code>p</code> named pipe, <code>s</code> socket.</li></ul>",
+      "gu": "<p>File પર યોગ્ય રીતે કામ કરવા OS ને તેનો <b>type</b> ખબર હોવો જોઈએ (દા.ત. binary object file ને print કરવાનો પ્રયત્ન ન કરે). સામાન્ય રીત એ છે કે type ને નામના ભાગ તરીકે રાખવો: <b>name.extension</b>, દા.ત. <code>resume.docx</code>, <code>server.c</code>, <code>ReaderThread.class</code>.</p>\n<ul>\n<li><b>Windows / MS-DOS:</b> extension type નક્કી કરે; માત્ર .exe, .com અને .bat files ચલાવી શકાય.</li>\n<li><b>UNIX / Linux:</b> extensions માત્ર સૂચન (conventions) છે; executables permission bits અને file ની શરૂઆતના <b>magic number</b> થી ઓળખાય.</li>\n<li><b>macOS:</b> દરેક file creator program ને પણ attribute તરીકે રાખે છે.</li>\n</ul>\n<h4>સામાન્ય file types</h4>\n<table><tr><th>File type</th><th>સામાન્ય extensions</th><th>કાર્ય</th></tr><tr><td>Executable</td><td>exe, com, bin, none (Linux)</td><td>ચલાવવા તૈયાર machine-language program</td></tr><tr><td>Object</td><td>obj, o</td><td>Compile થયેલો machine code, link નથી થયો</td></tr><tr><td>Source code</td><td>c, cpp, java, py, asm</td><td>જુદી જુદી ભાષાઓમાં source code</td></tr><tr><td>Batch / script</td><td>bat, sh</td><td>Command interpreter માટે commands</td></tr><tr><td>Text</td><td>txt, doc, docx</td><td>Text data, documents</td></tr><tr><td>Word processor</td><td>docx, odt, rtf</td><td>જુદા જુદા word-processor formats</td></tr><tr><td>Library</td><td>lib, a, so, dll</td><td>Programmers માટે routines ની libraries</td></tr><tr><td>Print or view</td><td>pdf, jpg, png, ps</td><td>Print કે જોવા માટેની files</td></tr><tr><td>Archive</td><td>zip, tar, rar</td><td>સંબંધિત files નો સમૂહ (ઘણી વાર compressed)</td></tr><tr><td>Multimedia</td><td>mp3, mp4, avi</td><td>Audio / video માહિતી</td></tr></table>\n<h4>UNIX માં file types (ls -l નો પહેલો અક્ષર)</h4>\n<ul><li><code>-</code> regular file, <code>d</code> directory, <code>l</code> symbolic link, <code>c</code> character device, <code>b</code> block device, <code>p</code> named pipe, <code>s</code> socket.</li></ul>"
+     }
+    },
+    {
+     "h": {
+      "en": "4.1.4 File Paths: Absolute and Relative",
+      "gu": "4.1.4 File Paths: Absolute અને Relative"
+     },
+     "body": {
+      "en": "<p>In a hierarchical (tree) file system, a file is identified by its <b>path name</b>: the list of directories from a starting point to the file, separated by <code>/</code> (UNIX) or <code>\\</code> (Windows).</p>\n<h4>Absolute path</h4>\n<ul>\n<li>Begins at the <b>root</b> directory and follows the path down to the file.</li>\n<li>Always starts with <code>/</code> in UNIX (or a drive letter like <code>C:\\</code> in Windows).</li>\n<li>Same meaning from any current directory. Example: <code>/home/ravi/os/notes.txt</code>.</li>\n</ul>\n<h4>Relative path</h4>\n<ul>\n<li>Begins at the <b>current (working) directory</b> of the process.</li>\n<li>Does not start with <code>/</code>. Special names: <code>.</code> = current directory, <code>..</code> = parent directory, <code>~</code> = home directory.</li>\n<li>Shorter, but its meaning depends on the current directory. Example (cwd = /home/ravi): <code>os/notes.txt</code>, <code>../priya/a.c</code>.</li>\n</ul>\n<p>Commands: <code>pwd</code> prints the current directory; <code>cd path</code> changes it.</p>",
+      "gu": "<p>Hierarchical (tree) file system માં file તેના <b>path name</b> થી ઓળખાય છે: શરૂઆતના બિંદુથી file સુધીની directories ની યાદી, <code>/</code> (UNIX) અથવા <code>\\</code> (Windows) થી અલગ કરેલી.</p>\n<h4>Absolute path</h4>\n<ul>\n<li><b>Root</b> directory થી શરૂ થઈ file સુધીનો રસ્તો અનુસરે.</li>\n<li>UNIX માં હંમેશા <code>/</code> થી શરૂ થાય (અથવા Windows માં <code>C:\\</code> જેવા drive letter થી).</li>\n<li>કોઈ પણ current directory થી સરખો અર્થ. ઉદાહરણ: <code>/home/ravi/os/notes.txt</code>.</li>\n</ul>\n<h4>Relative path</h4>\n<ul>\n<li>Process ની <b>current (working) directory</b> થી શરૂ થાય.</li>\n<li><code>/</code> થી શરૂ ન થાય. ખાસ નામો: <code>.</code> = current directory, <code>..</code> = parent directory, <code>~</code> = home directory.</li>\n<li>ટૂંકો, પણ અર્થ current directory પર આધાર રાખે. ઉદાહરણ (cwd = /home/ravi): <code>os/notes.txt</code>, <code>../priya/a.c</code>.</li>\n</ul>\n<p>Commands: <code>pwd</code> current directory બતાવે; <code>cd path</code> તેને બદલે.</p>"
+     },
+     "diagram": "os4_paths",
+     "examples": [
+      "os4n11"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.1.5 File Security and Protection Mechanism",
+      "gu": "4.1.5 File Security અને Protection Mechanism"
+     },
+     "body": {
+      "en": "<p><b>Protection</b> controls <b>who</b> may access a file and <b>how</b>; <b>security</b> also defends the system against outside attacks. Files need protection from improper access (privacy) and from physical damage (reliability: backups, RAID).</p>\n<h4>Types of access controlled</h4>\n<ul><li>Read, write, execute, append, delete, list (attributes).</li></ul>\n<h4>1. Access-control list (ACL)</h4>\n<p>Each file has a list of user names and the types of access allowed to each user. When a user requests access, the OS checks the list. Very flexible, but the list can be long and must be maintained.</p>\n<h4>2. Owner–group–others (UNIX permissions)</h4>\n<p>To shorten ACLs, users are classified into three classes for each file:</p>\n<ul>\n<li><b>Owner (u):</b> the user who created the file.</li>\n<li><b>Group (g):</b> a set of users who share the file and need similar access.</li>\n<li><b>Others / universe (o):</b> all other users.</li>\n</ul>\n<p>Each class has three bits <b>r w x</b> (read = 4, write = 2, execute = 1). Example: <code>-rwxr-xr--</code> = 754: owner all rights, group read + execute, others read only. Changed by <code>chmod</code> (mode), <code>chown</code> (owner) and <code>chgrp</code> (group).</p>\n<h4>3. Passwords</h4>\n<p>A password is associated with each file; access is given only if the correct password is supplied. Drawbacks: many passwords to remember, and one password gives all-or-nothing access.</p>\n<h4>Other security measures</h4>\n<ul><li>User authentication (login), encryption of files, backups, antivirus, and audit logs.</li></ul>",
+      "gu": "<p><b>Protection</b> નક્કી કરે છે કે file ને <b>કોણ</b> અને <b>કેવી રીતે</b> access કરી શકે; <b>security</b> system ને બહારના હુમલાઓથી પણ બચાવે છે. Files ને ખોટા access (privacy) અને physical નુકસાન (reliability: backups, RAID) થી રક્ષણ જોઈએ.</p>\n<h4>નિયંત્રિત access ના પ્રકારો</h4>\n<ul><li>Read, write, execute, append, delete, list (attributes).</li></ul>\n<h4>1. Access-control list (ACL)</h4>\n<p>દરેક file પાસે user names અને દરેક user ને મંજૂર access ના પ્રકારોની યાદી હોય. User access માંગે ત્યારે OS યાદી તપાસે. ખૂબ લવચીક, પણ યાદી લાંબી થાય અને જાળવવી પડે.</p>\n<h4>2. Owner–group–others (UNIX permissions)</h4>\n<p>ACL ટૂંકું કરવા દરેક file માટે users ને ત્રણ વર્ગમાં વહેંચાય:</p>\n<ul>\n<li><b>Owner (u):</b> file બનાવનાર user.</li>\n<li><b>Group (g):</b> file share કરતા અને સરખો access જોઈતા users નો સમૂહ.</li>\n<li><b>Others / universe (o):</b> બાકીના બધા users.</li>\n</ul>\n<p>દરેક વર્ગ પાસે ત્રણ bits <b>r w x</b> (read = 4, write = 2, execute = 1). ઉદાહરણ: <code>-rwxr-xr--</code> = 754: owner ને બધા અધિકાર, group ને read + execute, others ને માત્ર read. <code>chmod</code> (mode), <code>chown</code> (owner) અને <code>chgrp</code> (group) વડે બદલાય.</p>\n<h4>3. Passwords</h4>\n<p>દરેક file સાથે password જોડાય; સાચો password આપે તો જ access મળે. ગેરફાયદા: ઘણા passwords યાદ રાખવા પડે, અને એક password all-or-nothing access આપે.</p>\n<h4>બીજા security ઉપાયો</h4>\n<ul><li>User authentication (login), files નું encryption, backups, antivirus અને audit logs.</li></ul>"
+     },
+     "diagram": "os4_perm",
+     "examples": [
+      "os4n12"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "4.2 Directory System",
+    "gu": "4.2 Directory System"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "4.2.1 Directory and Directory Operations",
+      "gu": "4.2.1 Directory અને Directory Operations"
+     },
+     "body": {
+      "en": "<p>A <b>directory</b> is a special file (symbol table) that translates <b>file names into directory entries</b>: name, location, size, type and other attributes. A disk can be divided into <b>partitions (volumes)</b>, and each volume has a device directory.</p>\n<h4>Operations on a directory</h4>\n<ul>\n<li><b>Search</b> for a file (by name or pattern).</li>\n<li><b>Create</b> a file (add an entry) and <b>delete</b> a file (remove an entry).</li>\n<li><b>List</b> a directory (names and attributes).</li>\n<li><b>Rename</b> a file (may change its position in the directory).</li>\n<li><b>Traverse</b> the file system (visit every directory and file, e.g. for backup).</li>\n</ul>\n<h4>Goals of directory organisation</h4>\n<ul><li><b>Efficiency:</b> locate a file quickly.</li><li><b>Naming:</b> convenient for users; two users may use the same name; one file may have several names.</li><li><b>Grouping:</b> logical grouping of files by properties (all Java programs, all games).</li></ul>\n<p>The common logical structures are single-level, two-level, tree, acyclic graph and general graph.</p>",
+      "gu": "<p><b>Directory</b> એ ખાસ file (symbol table) છે જે <b>file names ને directory entries માં</b> ફેરવે છે: name, location, size, type અને બીજા attributes. Disk ને <b>partitions (volumes)</b> માં વહેંચી શકાય, અને દરેક volume પાસે device directory હોય.</p>\n<h4>Directory પરના operations</h4>\n<ul>\n<li>File <b>search</b> કરવી (નામ કે pattern વડે).</li>\n<li>File <b>create</b> કરવી (entry ઉમેરવી) અને <b>delete</b> કરવી (entry દૂર કરવી).</li>\n<li>Directory <b>list</b> કરવી (names અને attributes).</li>\n<li>File <b>rename</b> કરવી (directory માં તેનું સ્થાન બદલાઈ શકે).</li>\n<li>File system <b>traverse</b> કરવી (દરેક directory અને file ની મુલાકાત, દા.ત. backup માટે).</li>\n</ul>\n<h4>Directory ગોઠવણીના ધ્યેય</h4>\n<ul><li><b>Efficiency:</b> file ઝડપથી શોધવી.</li><li><b>Naming:</b> users માટે અનુકૂળ; બે users એક જ નામ વાપરી શકે; એક file ના ઘણા નામ હોઈ શકે.</li><li><b>Grouping:</b> ગુણધર્મ મુજબ files નું logical grouping (બધા Java programs, બધી games).</li></ul>\n<p>સામાન્ય logical structures: single-level, two-level, tree, acyclic graph અને general graph.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "4.2.2 Single-Level Directory",
+      "gu": "4.2.2 Single-Level Directory"
+     },
+     "body": {
+      "en": "<p>The simplest structure: <b>all files are contained in the same directory</b>, for all users.</p>\n<h4>Advantages</h4>\n<ul><li>Simple to understand and implement.</li><li>Searching, creating and deleting are easy when there are few files.</li></ul>\n<h4>Disadvantages</h4>\n<ul>\n<li><b>Naming problem:</b> all files must have <b>unique names</b>; two users cannot both call a file <code>test</code>.</li>\n<li><b>Grouping problem:</b> no way to group related files; with many files (hundreds of users) it becomes hard to remember names.</li>\n<li>Searching becomes slow as the number of files grows.</li>\n</ul>\n<p>Used in early, single-user systems (e.g. CP/M).</p>",
+      "gu": "<p>સૌથી સરળ structure: બધા users માટે <b>બધી files એક જ directory માં</b> હોય.</p>\n<h4>ફાયદા</h4>\n<ul><li>સમજવા અને અમલ કરવા સરળ.</li><li>Files ઓછી હોય ત્યારે search, create અને delete સરળ.</li></ul>\n<h4>ગેરફાયદા</h4>\n<ul>\n<li><b>Naming problem:</b> બધી files ના <b>unique names</b> હોવા જોઈએ; બે users બંને file ને <code>test</code> નામ ન આપી શકે.</li>\n<li><b>Grouping problem:</b> સંબંધિત files group કરવાનો કોઈ રસ્તો નહીં; ઘણી files (સેંકડો users) હોય ત્યારે નામ યાદ રાખવા મુશ્કેલ.</li>\n<li>Files વધે તેમ search ધીમી થાય.</li>\n</ul>\n<p>શરૂઆતની single-user systems (દા.ત. CP/M) માં વપરાતી.</p>"
+     },
+     "diagram": "os4_single"
+    },
+    {
+     "h": {
+      "en": "4.2.3 Two-Level Directory",
+      "gu": "4.2.3 Two-Level Directory"
+     },
+     "body": {
+      "en": "<p>Each user has a separate <b>user file directory (UFD)</b> listing only that user's files. The system has a <b>master file directory (MFD)</b>, indexed by user name or account number, whose entries point to the UFDs.</p>\n<h4>Working</h4>\n<ul>\n<li>When a user logs in, the MFD is searched to find the user's UFD.</li>\n<li>File references (create, delete, search) are searched only in that user's UFD.</li>\n<li>A file is named by a <b>path name</b>: user name + file name, e.g. <code>/user1/a</code>.</li>\n<li>System files (compilers, libraries) are kept in a special user directory that is searched when a file is not found in the user's UFD (<b>search path</b>).</li>\n</ul>\n<h4>Advantages</h4>\n<ul><li>Different users can have files with the <b>same name</b>.</li><li>Efficient searching (only one UFD); isolation between users.</li></ul>\n<h4>Disadvantages</h4>\n<ul><li>Users are isolated: <b>no sharing</b> or cooperation is easy.</li><li>No grouping within a user's files (no subdirectories).</li></ul>",
+      "gu": "<p>દરેક user પાસે અલગ <b>user file directory (UFD)</b> હોય જેમાં માત્ર તે user ની files હોય. System પાસે <b>master file directory (MFD)</b> હોય, જે user name કે account number થી indexed હોય અને તેની entries UFDs તરફ point કરે.</p>\n<h4>કાર્યપદ્ધતિ</h4>\n<ul>\n<li>User login કરે ત્યારે તેની UFD શોધવા MFD search થાય.</li>\n<li>File references (create, delete, search) માત્ર તે user ની UFD માં શોધાય.</li>\n<li>File ને <b>path name</b> થી ઓળખાય: user name + file name, દા.ત. <code>/user1/a</code>.</li>\n<li>System files (compilers, libraries) ખાસ user directory માં રખાય, જે user ની UFD માં file ન મળે ત્યારે શોધાય (<b>search path</b>).</li>\n</ul>\n<h4>ફાયદા</h4>\n<ul><li>જુદા users ની files નું <b>સરખું નામ</b> હોઈ શકે.</li><li>કાર્યક્ષમ search (માત્ર એક UFD); users વચ્ચે isolation.</li></ul>\n<h4>ગેરફાયદા</h4>\n<ul><li>Users અલગ પડી જાય: <b>sharing</b> કે સહકાર સરળ નથી.</li><li>User ની files માં grouping નહીં (subdirectories નહીં).</li></ul>"
+     },
+     "diagram": "os4_two"
+    },
+    {
+     "h": {
+      "en": "4.2.4 Tree-Structured Directory",
+      "gu": "4.2.4 Tree-Structured Directory"
+     },
+     "body": {
+      "en": "<p>The natural generalisation of the two-level directory is a <b>tree of arbitrary height</b>. The tree has a <b>root directory</b>, and every file has a unique path name. A directory contains files and/or <b>subdirectories</b>. This is the structure used by most systems (UNIX, Windows).</p>\n<h4>Features</h4>\n<ul>\n<li>Each directory entry has a bit telling whether it is a file (0) or a subdirectory (1).</li>\n<li>Each process has a <b>current directory</b>; files are searched there unless a path is given.</li>\n<li><b>Absolute</b> and <b>relative</b> path names are supported.</li>\n<li>Users can create and delete their own subdirectories (<code>mkdir</code>, <code>rmdir</code>). Deleting a non-empty directory either is refused or deletes everything under it (<code>rm -r</code>).</li>\n</ul>\n<h4>Advantages</h4>\n<ul><li>Very general and scalable; efficient searching.</li><li>Logical <b>grouping</b> of files into subdirectories; same name allowed in different directories.</li></ul>\n<h4>Disadvantages</h4>\n<ul><li><b>No sharing</b>: a file or directory has exactly one parent, so it cannot belong to two directories.</li><li>Long path names may be needed to reach deep files.</li></ul>",
+      "gu": "<p>Two-level directory નું સ્વાભાવિક વિસ્તરણ એ <b>કોઈ પણ ઊંચાઈનું tree</b> છે. Tree પાસે <b>root directory</b> હોય, અને દરેક file નું unique path name હોય. Directory માં files અને/અથવા <b>subdirectories</b> હોય. મોટા ભાગની systems (UNIX, Windows) આ structure વાપરે છે.</p>\n<h4>લક્ષણો</h4>\n<ul>\n<li>દરેક directory entry માં bit હોય જે કહે કે તે file (0) છે કે subdirectory (1).</li>\n<li>દરેક process પાસે <b>current directory</b> હોય; path ન આપ્યો હોય તો files ત્યાં શોધાય.</li>\n<li><b>Absolute</b> અને <b>relative</b> path names support થાય.</li>\n<li>Users પોતાની subdirectories બનાવી અને delete કરી શકે (<code>mkdir</code>, <code>rmdir</code>). ખાલી ન હોય તેવી directory delete કરવાનો ઇનકાર થાય અથવા તેની નીચેનું બધું delete થાય (<code>rm -r</code>).</li>\n</ul>\n<h4>ફાયદા</h4>\n<ul><li>ખૂબ સામાન્ય અને scalable; કાર્યક્ષમ search.</li><li>Files નું subdirectories માં logical <b>grouping</b>; જુદી directories માં સરખું નામ મંજૂર.</li></ul>\n<h4>ગેરફાયદા</h4>\n<ul><li><b>Sharing નહીં</b>: file કે directory ને બરાબર એક parent હોય, તેથી તે બે directories માં ન હોઈ શકે.</li><li>ઊંડી files સુધી પહોંચવા લાંબા path names જોઈએ.</li></ul>"
+     },
+     "diagram": "os4_tree"
+    },
+    {
+     "h": {
+      "en": "4.2.5 Acyclic-Graph Directory",
+      "gu": "4.2.5 Acyclic-Graph Directory"
+     },
+     "body": {
+      "en": "<p>An <b>acyclic graph</b> (a graph with no cycles) allows directories to <b>share subdirectories and files</b>. The same file or subdirectory may appear in two different directories. It is a natural generalisation of the tree, useful when two programmers work on a joint project.</p>\n<h4>Implementation of sharing</h4>\n<ul>\n<li><b>Links:</b> a new directory entry that is a pointer to another file or subdirectory.<ul><li><b>Symbolic (soft) link:</b> contains the path name of the real file (<code>ln -s</code>).</li><li><b>Hard link:</b> another directory entry pointing to the same file (same inode) (<code>ln</code>).</li></ul></li>\n<li><b>Duplicate entries:</b> copy all information about the file into both directories (problem: keeping copies consistent).</li>\n</ul>\n<h4>Advantages</h4>\n<ul><li>Sharing of files and directories; a change made by one user is seen by others immediately.</li></ul>\n<h4>Problems</h4>\n<ul>\n<li><b>Aliasing:</b> a file may have several absolute path names; traversals (backup, search) may visit it twice.</li>\n<li><b>Deletion:</b> if the file is deleted, other links become <b>dangling pointers</b>. Solutions: delete the symbolic links too (or leave them invalid), or keep a <b>reference count</b> and delete the file only when the count becomes 0 (hard links in UNIX).</li>\n<li>Must ensure no cycles are created when adding links.</li>\n</ul>",
+      "gu": "<p><b>Acyclic graph</b> (cycles વગરનો graph) directories ને <b>subdirectories અને files share</b> કરવા દે છે. એક જ file કે subdirectory બે જુદી directories માં દેખાઈ શકે. તે tree નું સ્વાભાવિક વિસ્તરણ છે, જે બે programmers સંયુક્ત project પર કામ કરે ત્યારે ઉપયોગી છે.</p>\n<h4>Sharing નો અમલ</h4>\n<ul>\n<li><b>Links:</b> નવી directory entry જે બીજી file કે subdirectory તરફનો pointer છે.<ul><li><b>Symbolic (soft) link:</b> ખરી file નું path name રાખે (<code>ln -s</code>).</li><li><b>Hard link:</b> એ જ file (એ જ inode) તરફ point કરતી બીજી directory entry (<code>ln</code>).</li></ul></li>\n<li><b>Duplicate entries:</b> file વિશેની બધી માહિતી બંને directories માં copy કરવી (સમસ્યા: નકલો consistent રાખવી).</li>\n</ul>\n<h4>ફાયદા</h4>\n<ul><li>Files અને directories નું sharing; એક user એ કરેલો ફેરફાર બીજાને તરત દેખાય.</li></ul>\n<h4>સમસ્યાઓ</h4>\n<ul>\n<li><b>Aliasing:</b> file ના ઘણા absolute path names હોઈ શકે; traversals (backup, search) તેની બે વાર મુલાકાત લઈ શકે.</li>\n<li><b>Deletion:</b> file delete થાય તો બીજી links <b>dangling pointers</b> બને. ઉકેલ: symbolic links પણ delete કરો (અથવા invalid રહેવા દો), અથવા <b>reference count</b> રાખો અને count 0 થાય ત્યારે જ file delete કરો (UNIX માં hard links).</li>\n<li>Links ઉમેરતી વખતે cycle ન બને તેની ખાતરી કરવી પડે.</li>\n</ul>"
+     },
+     "diagram": "os4_acyclic"
+    },
+    {
+     "h": {
+      "en": "4.2.6 General Graph Directory",
+      "gu": "4.2.6 General Graph Directory"
+     },
+     "body": {
+      "en": "<p>If links are allowed to point to <b>any directory</b>, including an ancestor, the structure becomes a <b>general graph</b> that may contain <b>cycles</b>.</p>\n<h4>Problems caused by cycles</h4>\n<ul>\n<li><b>Infinite loops:</b> a search or traversal algorithm may go round the cycle forever; it may also search the same part many times (poor performance).</li>\n<li><b>Deletion:</b> because of self-references, the reference count of a directory may never become 0 even when it is no longer reachable, so its space is never freed.</li>\n</ul>\n<h4>Solutions</h4>\n<ul>\n<li><b>Garbage collection:</b> traverse the whole file system and mark everything reachable; then free everything not marked (very time-consuming on disk).</li>\n<li><b>Bypass links during traversal</b>, or limit the number of directories visited in a search.</li>\n<li><b>Cycle detection:</b> check every new link for a cycle (expensive); or allow links only to <b>files</b>, not directories (UNIX hard links to directories are not allowed), which keeps the graph acyclic.</li>\n</ul>\n<h4>Comparison of directory structures</h4>\n<table><tr><th>Structure</th><th>Sharing</th><th>Grouping</th><th>Name conflicts</th><th>Main problem</th></tr><tr><td>Single-level</td><td>–</td><td>No</td><td>Yes</td><td>Unique names for all users</td></tr><tr><td>Two-level</td><td>No</td><td>Per user only</td><td>No (per user)</td><td>No sharing, no subdirectories</td></tr><tr><td>Tree</td><td>No</td><td>Yes</td><td>No</td><td>Cannot share files</td></tr><tr><td>Acyclic graph</td><td>Yes</td><td>Yes</td><td>No</td><td>Aliasing, dangling links</td></tr><tr><td>General graph</td><td>Yes</td><td>Yes</td><td>No</td><td>Cycles; needs garbage collection</td></tr></table>",
+      "gu": "<p>Links ને <b>કોઈ પણ directory</b> તરફ, ancestor સહિત, point કરવા દઈએ તો structure <b>general graph</b> બને છે જેમાં <b>cycles</b> હોઈ શકે.</p>\n<h4>Cycles થી થતી સમસ્યાઓ</h4>\n<ul>\n<li><b>Infinite loops:</b> search કે traversal algorithm cycle માં હંમેશ માટે ફરતો રહે; એક જ ભાગ ઘણી વાર શોધે (ખરાબ performance).</li>\n<li><b>Deletion:</b> self-references ને કારણે directory reachable ન હોય તો પણ તેનો reference count ક્યારેય 0 ન થાય, તેથી તેની જગ્યા ક્યારેય મુક્ત ન થાય.</li>\n</ul>\n<h4>ઉકેલો</h4>\n<ul>\n<li><b>Garbage collection:</b> આખી file system traverse કરી reachable બધું mark કરો; પછી mark ન થયેલું બધું મુક્ત કરો (disk પર ખૂબ સમય લે).</li>\n<li>Traversal દરમિયાન <b>links ને bypass</b> કરો, અથવા search માં મુલાકાત લેવાતી directories ની સંખ્યા મર્યાદિત કરો.</li>\n<li><b>Cycle detection:</b> દરેક નવી link માટે cycle તપાસો (મોંઘું); અથવા links માત્ર <b>files</b> તરફ જ મંજૂર કરો, directories તરફ નહીં (UNIX માં directories ની hard links મંજૂર નથી), જેથી graph acyclic રહે.</li>\n</ul>\n<h4>Directory structures ની સરખામણી</h4>\n<table><tr><th>Structure</th><th>Sharing</th><th>Grouping</th><th>Name conflicts</th><th>મુખ્ય સમસ્યા</th></tr><tr><td>Single-level</td><td>–</td><td>ના</td><td>હા</td><td>બધા users માટે unique names</td></tr><tr><td>Two-level</td><td>ના</td><td>માત્ર user મુજબ</td><td>ના (user મુજબ)</td><td>Sharing નહીં, subdirectories નહીં</td></tr><tr><td>Tree</td><td>ના</td><td>હા</td><td>ના</td><td>Files share ન થઈ શકે</td></tr><tr><td>Acyclic graph</td><td>હા</td><td>હા</td><td>ના</td><td>Aliasing, dangling links</td></tr><tr><td>General graph</td><td>હા</td><td>હા</td><td>ના</td><td>Cycles; garbage collection જોઈએ</td></tr></table>"
+     },
+     "diagram": "os4_general"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "4.3 Disk Space Allocation Methods",
+    "gu": "4.3 Disk Space Allocation Methods"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "4.3.1 Contiguous Allocation",
+      "gu": "4.3.1 Contiguous Allocation"
+     },
+     "body": {
+      "en": "<p>Allocation methods decide <b>how disk blocks are allocated to files</b> so that disk space is used effectively and files can be accessed quickly. The three main methods are contiguous, linked and indexed.</p>\n<p>In <b>contiguous allocation</b>, each file occupies a set of <b>consecutive blocks</b> on the disk. If a file is n blocks long and starts at block b, it occupies blocks b, b + 1, …, b + n − 1. The directory entry stores the <b>starting block</b> and the <b>length</b>.</p>\n<p>Example: file <code>tr</code> starts at 14 with length 3 → blocks 14, 15, 16; file <code>mail</code> starts at 19 with length 6 → blocks 19 to 24.</p>\n<h4>Advantages</h4>\n<ul>\n<li><b>Sequential and direct access</b> are both easy and fast: logical block i is at physical block b + i.</li>\n<li>Minimum head movement (blocks are adjacent), so very good performance.</li>\n<li>Simple: only start and length are stored.</li>\n</ul>\n<h4>Disadvantages</h4>\n<ul>\n<li><b>External fragmentation:</b> free space is broken into small holes (same as dynamic memory partitions); first fit / best fit are used, and <b>compaction</b> (defragmentation) may be needed.</li>\n<li>The <b>file size must be known</b> when it is created; a file is <b>hard to grow</b> if the next blocks are used (it may need to be copied to a bigger hole).</li>\n<li>Over-estimating size causes internal waste.</li>\n</ul>\n<p>A modified scheme allocates an <b>extent</b> (another contiguous chunk) when the file grows.</p>",
+      "gu": "<p>Allocation methods નક્કી કરે છે કે <b>files ને disk blocks કેવી રીતે ફાળવવા</b>, જેથી disk space નો અસરકારક ઉપયોગ થાય અને files ઝડપથી access થાય. ત્રણ મુખ્ય પદ્ધતિઓ છે contiguous, linked અને indexed.</p>\n<p><b>Contiguous allocation</b> માં દરેક file disk પર <b>સળંગ blocks</b> નો સમૂહ રોકે છે. File n blocks લાંબી હોય અને block b થી શરૂ થાય તો તે blocks b, b + 1, …, b + n − 1 રોકે. Directory entry <b>starting block</b> અને <b>length</b> રાખે છે.</p>\n<p>ઉદાહરણ: file <code>tr</code> 14 થી શરૂ, length 3 → blocks 14, 15, 16; file <code>mail</code> 19 થી શરૂ, length 6 → blocks 19 થી 24.</p>\n<h4>ફાયદા</h4>\n<ul>\n<li><b>Sequential અને direct access</b> બંને સરળ અને ઝડપી: logical block i physical block b + i પર છે.</li>\n<li>ઓછામાં ઓછું head movement (blocks બાજુ બાજુમાં), તેથી ખૂબ સારું performance.</li>\n<li>સરળ: માત્ર start અને length રખાય.</li>\n</ul>\n<h4>ગેરફાયદા</h4>\n<ul>\n<li><b>External fragmentation:</b> free space નાના holes માં તૂટી જાય (dynamic memory partitions જેવું); first fit / best fit વપરાય, અને <b>compaction</b> (defragmentation) ની જરૂર પડી શકે.</li>\n<li>File બનાવતી વખતે <b>file size ખબર હોવી જોઈએ</b>; આગળના blocks વપરાયેલા હોય તો file <b>વધારવી મુશ્કેલ</b> (મોટા hole માં copy કરવી પડે).</li>\n<li>કદ વધુ ધારવાથી અંદરનો બગાડ થાય.</li>\n</ul>\n<p>સુધારેલી પદ્ધતિમાં file વધે ત્યારે <b>extent</b> (બીજો સળંગ ટુકડો) ફાળવાય છે.</p>"
+     },
+     "diagram": "os4_contig"
+    },
+    {
+     "h": {
+      "en": "4.3.2 Linked Allocation",
+      "gu": "4.3.2 Linked Allocation"
+     },
+     "body": {
+      "en": "<p>In <b>linked allocation</b>, each file is a <b>linked list of disk blocks</b>; the blocks may be <b>scattered anywhere</b> on the disk. The directory contains pointers to the <b>first and last blocks</b> of the file. Each block contains a <b>pointer to the next block</b> (the last block has −1 / null).</p>\n<p>Example: file <code>jeep</code> starts at block 9 → 16 → 1 → 10 → 25 (end). If a block is 512 bytes and a pointer is 4 bytes, the user sees 508 data bytes per block.</p>\n<h4>Working</h4>\n<ul><li><b>Create:</b> new directory entry with first-block pointer = null, size 0.</li><li><b>Write:</b> take a free block from the free-space list, write data, and link it to the end of the file.</li><li><b>Read:</b> follow the pointers block by block.</li></ul>\n<h4>Advantages</h4>\n<ul><li><b>No external fragmentation</b>: any free block can be used.</li><li>File size need not be declared; a file can <b>grow easily</b>.</li><li>No compaction needed.</li></ul>\n<h4>Disadvantages</h4>\n<ul>\n<li>Efficient only for <b>sequential access</b>; finding block i needs i disk reads (no direct access).</li>\n<li><b>Space for pointers</b> in every block (solution: allocate <b>clusters</b> of blocks).</li>\n<li><b>Reliability:</b> if a pointer is lost or damaged, the rest of the file is lost.</li>\n</ul>\n<h4>File Allocation Table (FAT)</h4>\n<p>An important variation used by MS-DOS and USB drives: a table at the beginning of the volume has one entry per disk block; the entry contains the number of the <b>next block</b> of the file. The directory entry holds the first block number. Since the FAT can be cached in memory, random access becomes faster.</p>",
+      "gu": "<p><b>Linked allocation</b> માં દરેક file <b>disk blocks નું linked list</b> છે; blocks disk પર <b>ગમે ત્યાં વેરવિખેર</b> હોઈ શકે. Directory માં file ના <b>પહેલા અને છેલ્લા blocks</b> ના pointers હોય. દરેક block માં <b>આગળના block નો pointer</b> હોય (છેલ્લા block માં −1 / null).</p>\n<p>ઉદાહરણ: file <code>jeep</code> block 9 થી શરૂ → 16 → 1 → 10 → 25 (અંત). Block 512 bytes અને pointer 4 bytes હોય તો user ને block દીઠ 508 data bytes દેખાય.</p>\n<h4>કાર્યપદ્ધતિ</h4>\n<ul><li><b>Create:</b> first-block pointer = null, size 0 સાથે નવી directory entry.</li><li><b>Write:</b> free-space list માંથી free block લઈ, data લખી, file ના અંતે link કરવો.</li><li><b>Read:</b> pointers ને block દર block અનુસરવા.</li></ul>\n<h4>ફાયદા</h4>\n<ul><li><b>External fragmentation નહીં</b>: કોઈ પણ free block વાપરી શકાય.</li><li>File size જાહેર કરવી ન પડે; file <b>સરળતાથી વધી</b> શકે.</li><li>Compaction ની જરૂર નહીં.</li></ul>\n<h4>ગેરફાયદા</h4>\n<ul>\n<li>માત્ર <b>sequential access</b> માટે કાર્યક્ષમ; block i શોધવા i disk reads જોઈએ (direct access નહીં).</li>\n<li>દરેક block માં <b>pointers માટે જગ્યા</b> (ઉકેલ: blocks ના <b>clusters</b> ફાળવવા).</li>\n<li><b>Reliability:</b> pointer ખોવાય કે બગડે તો file નો બાકીનો ભાગ ખોવાય.</li>\n</ul>\n<h4>File Allocation Table (FAT)</h4>\n<p>MS-DOS અને USB drives માં વપરાતો મહત્વનો પ્રકાર: volume ની શરૂઆતમાં table હોય જેમાં દરેક disk block ની એક entry હોય; entry માં file ના <b>આગળના block</b> નો નંબર હોય. Directory entry પહેલો block number રાખે. FAT memory માં cache કરી શકાય, તેથી random access ઝડપી બને.</p>"
+     },
+     "diagram": "os4_linked"
+    },
+    {
+     "h": {
+      "en": "4.3.3 Indexed Allocation",
+      "gu": "4.3.3 Indexed Allocation"
+     },
+     "body": {
+      "en": "<p>Linked allocation solves external fragmentation but cannot support direct access, because the pointers are scattered with the blocks. <b>Indexed allocation</b> brings all the pointers together into one location: the <b>index block</b>.</p>\n<h4>Working</h4>\n<ul>\n<li>Each file has its own <b>index block</b>, an array of disk-block addresses.</li>\n<li>The i<sup>th</sup> entry of the index block points to the i<sup>th</sup> block of the file.</li>\n<li>The directory contains the address of the index block.</li>\n<li>To read block i, read the index block, take entry i, and read that block.</li>\n<li>When the file is created, all entries are −1 (null); when block i is first written, a free block is taken and its address put in entry i.</li>\n</ul>\n<p>Example: file <code>jeep</code> has index block 19 containing 9, 16, 1, 10, 25, −1, −1, −1.</p>\n<h4>Advantages</h4>\n<ul><li><b>Direct access</b> without external fragmentation.</li><li>Any free block can be used; files grow easily.</li></ul>\n<h4>Disadvantages</h4>\n<ul><li><b>Wasted space</b>: a whole index block is needed even for a 1–2 block file (pointer overhead greater than linked).</li><li>Index block size limits the file size; an extra read for the index block (unless cached).</li></ul>\n<h4>Schemes for large files</h4>\n<ul>\n<li><b>Linked scheme:</b> index blocks are linked together; the last entry points to the next index block.</li>\n<li><b>Multilevel index:</b> a first-level index block points to second-level index blocks, which point to data blocks (1 KB blocks, 4-byte pointers → 256 × 256 blocks = 64 MB).</li>\n<li><b>Combined scheme (UNIX inode):</b> 12 direct pointers plus single, double and triple indirect pointers.</li>\n</ul>",
+      "gu": "<p>Linked allocation external fragmentation ઉકેલે છે પણ direct access support કરી શકતું નથી, કારણ કે pointers blocks સાથે વેરવિખેર છે. <b>Indexed allocation</b> બધા pointers ને એક જગ્યાએ ભેગા કરે છે: <b>index block</b>.</p>\n<h4>કાર્યપદ્ધતિ</h4>\n<ul>\n<li>દરેક file પાસે પોતાનો <b>index block</b> હોય, જે disk-block addresses નો array છે.</li>\n<li>Index block ની i<sup>મી</sup> entry file ના i<sup>મા</sup> block તરફ point કરે.</li>\n<li>Directory માં index block નું address હોય.</li>\n<li>Block i વાંચવા index block વાંચો, entry i લો, અને તે block વાંચો.</li>\n<li>File બને ત્યારે બધી entries −1 (null) હોય; block i પહેલી વાર લખાય ત્યારે free block લઈ તેનું address entry i માં મુકાય.</li>\n</ul>\n<p>ઉદાહરણ: file <code>jeep</code> નો index block 19 છે જેમાં 9, 16, 1, 10, 25, −1, −1, −1 છે.</p>\n<h4>ફાયદા</h4>\n<ul><li>External fragmentation વગર <b>direct access</b>.</li><li>કોઈ પણ free block વાપરી શકાય; files સરળતાથી વધે.</li></ul>\n<h4>ગેરફાયદા</h4>\n<ul><li><b>જગ્યાનો બગાડ</b>: 1–2 block ની file માટે પણ આખો index block જોઈએ (pointer overhead linked કરતાં વધુ).</li><li>Index block નું કદ file size મર્યાદિત કરે; index block માટે વધારાનો read (cache ન હોય તો).</li></ul>\n<h4>મોટી files માટેની પદ્ધતિઓ</h4>\n<ul>\n<li><b>Linked scheme:</b> index blocks એકબીજા સાથે link થાય; છેલ્લી entry આગળના index block તરફ point કરે.</li>\n<li><b>Multilevel index:</b> first-level index block second-level index blocks તરફ point કરે, જે data blocks તરફ point કરે (1 KB blocks, 4-byte pointers → 256 × 256 blocks = 64 MB).</li>\n<li><b>Combined scheme (UNIX inode):</b> 12 direct pointers ઉપરાંત single, double અને triple indirect pointers.</li>\n</ul>"
+     },
+     "diagram": "os4_indexed",
+     "examples": [
+      "os4n13",
+      "os4n14"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.3.4 Comparison of Allocation Methods",
+      "gu": "4.3.4 Allocation Methods ની સરખામણી"
+     },
+     "body": {
+      "en": "<p>The choice depends on how files are accessed: contiguous is best for small or read-only files with direct access, linked for sequential files that grow, and indexed for large files needing direct access.</p>\n<table><tr><th>Point</th><th>Contiguous</th><th>Linked</th><th>Indexed</th></tr><tr><td>Directory stores</td><td>Start, length</td><td>First (and last) block</td><td>Index block address</td></tr><tr><td>Sequential access</td><td>Fast</td><td>Fast</td><td>Fast</td></tr><tr><td>Direct access</td><td>Yes (start + i)</td><td>No (follow pointers)</td><td>Yes (via index block)</td></tr><tr><td>External fragmentation</td><td>Yes</td><td>No</td><td>No</td></tr><tr><td>File growth</td><td>Difficult</td><td>Easy</td><td>Easy (until index full)</td></tr><tr><td>Space overhead</td><td>None</td><td>Pointer in every block</td><td>Index block per file</td></tr><tr><td>Reliability</td><td>Good</td><td>Poor (broken pointer)</td><td>Good (index block is critical)</td></tr><tr><td>Example</td><td>CD-ROM, IBM VM/CMS</td><td>FAT (MS-DOS)</td><td>UNIX inode, NTFS</td></tr></table>\n<p>Many systems combine methods: contiguous for small files and indexed for large ones.</p>",
+      "gu": "<p>પસંદગી files કેવી રીતે access થાય છે તેના પર આધાર રાખે: direct access વાળી નાની કે read-only files માટે contiguous, વધતી sequential files માટે linked, અને direct access જોઈતી મોટી files માટે indexed શ્રેષ્ઠ છે.</p>\n<table><tr><th>મુદ્દો</th><th>Contiguous</th><th>Linked</th><th>Indexed</th></tr><tr><td>Directory રાખે</td><td>Start, length</td><td>પહેલો (અને છેલ્લો) block</td><td>Index block address</td></tr><tr><td>Sequential access</td><td>ઝડપી</td><td>ઝડપી</td><td>ઝડપી</td></tr><tr><td>Direct access</td><td>હા (start + i)</td><td>ના (pointers અનુસરવા)</td><td>હા (index block વડે)</td></tr><tr><td>External fragmentation</td><td>હા</td><td>ના</td><td>ના</td></tr><tr><td>File growth</td><td>મુશ્કેલ</td><td>સરળ</td><td>સરળ (index ભરાય ત્યાં સુધી)</td></tr><tr><td>Space overhead</td><td>નહીં</td><td>દરેક block માં pointer</td><td>File દીઠ index block</td></tr><tr><td>Reliability</td><td>સારી</td><td>નબળી (તૂટેલો pointer)</td><td>સારી (index block મહત્વનો)</td></tr><tr><td>ઉદાહરણ</td><td>CD-ROM, IBM VM/CMS</td><td>FAT (MS-DOS)</td><td>UNIX inode, NTFS</td></tr></table>\n<p>ઘણી systems પદ્ધતિઓ ભેગી કરે છે: નાની files માટે contiguous અને મોટી files માટે indexed.</p>"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "4.4 Secondary Storage Structure",
+    "gu": "4.4 Secondary Storage Structure"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "4.4.1 Physical Structure of Disk",
+      "gu": "4.4.1 Disk નું Physical Structure"
+     },
+     "body": {
+      "en": "<p>Magnetic disks (hard disk drives, HDD) provide the bulk of secondary storage in computers.</p>\n<h4>Parts of a disk</h4>\n<ul>\n<li><b>Platters:</b> flat circular plates coated with magnetic material on both surfaces; information is recorded magnetically.</li>\n<li><b>Spindle:</b> all platters are fixed on it; a motor rotates it at 5400, 7200, 10000 or 15000 rpm.</li>\n<li><b>Read-write heads:</b> one per surface, flying just above the surface.</li>\n<li><b>Disk arm (arm assembly):</b> moves all heads together across the surfaces.</li>\n<li><b>Track:</b> a circular path on a platter surface (thousands per surface).</li>\n<li><b>Sector:</b> a track is divided into sectors, the smallest unit of transfer (512 bytes or 4 KB).</li>\n<li><b>Cylinder:</b> the set of tracks at one arm position, i.e. the same track on all surfaces.</li>\n</ul>\n<p>The disk address is mapped as a one-dimensional array of <b>logical blocks</b>: sector 0 is the first sector of the first track on the outermost cylinder, continuing through that track, then the other tracks of the cylinder, then inward cylinders.</p>\n<h4>Disk access time</h4>\n<ul>\n<li><b>Seek time:</b> time for the arm to move the heads to the desired cylinder (largest part).</li>\n<li><b>Rotational latency:</b> time for the desired sector to rotate under the head (average = half a rotation).</li>\n<li><b>Transfer time:</b> time to actually transfer the data.</li>\n</ul>\n<p><b>Access time = seek time + rotational latency + transfer time.</b> <b>Disk bandwidth</b> = total bytes transferred ÷ total time from the first request to the end of the last transfer.</p>\n<p>A <b>head crash</b> (head touching the surface) damages the disk permanently. SSDs (flash) have no moving parts, so they have no seek time or latency.</p>",
+      "gu": "<p>Magnetic disks (hard disk drives, HDD) computers માં secondary storage નો મોટો ભાગ પૂરો પાડે છે.</p>\n<h4>Disk ના ભાગો</h4>\n<ul>\n<li><b>Platters:</b> બંને surfaces પર magnetic material ના પડવાળી સપાટ ગોળ plates; માહિતી magnetically નોંધાય.</li>\n<li><b>Spindle:</b> બધી platters તેના પર લગાવેલી; motor તેને 5400, 7200, 10000 કે 15000 rpm પર ફેરવે.</li>\n<li><b>Read-write heads:</b> દરેક surface માટે એક, surface ની બરાબર ઉપર ઊડતું.</li>\n<li><b>Disk arm (arm assembly):</b> બધા heads ને સાથે surfaces પર ખસેડે.</li>\n<li><b>Track:</b> platter surface પરનો ગોળ માર્ગ (surface દીઠ હજારો).</li>\n<li><b>Sector:</b> track ને sectors માં વહેંચાય, transfer નો સૌથી નાનો એકમ (512 bytes કે 4 KB).</li>\n<li><b>Cylinder:</b> એક arm position પરના tracks નો સમૂહ, એટલે કે બધી surfaces પરનો એક જ track.</li>\n</ul>\n<p>Disk address ને <b>logical blocks</b> ના એક-પરિમાણી array તરીકે map કરાય છે: sector 0 એ સૌથી બહારના cylinder ના પહેલા track નો પહેલો sector છે, પછી તે track, પછી cylinder ના બીજા tracks, પછી અંદરના cylinders.</p>\n<h4>Disk access time</h4>\n<ul>\n<li><b>Seek time:</b> arm ને heads જરૂરી cylinder પર લઈ જવામાં લાગતો સમય (સૌથી મોટો ભાગ).</li>\n<li><b>Rotational latency:</b> જરૂરી sector head ની નીચે ફરીને આવે તેનો સમય (સરેરાશ = અડધું rotation).</li>\n<li><b>Transfer time:</b> ખરેખર data transfer કરવાનો સમય.</li>\n</ul>\n<p><b>Access time = seek time + rotational latency + transfer time.</b> <b>Disk bandwidth</b> = transfer થયેલા કુલ bytes ÷ પહેલી request થી છેલ્લા transfer ના અંત સુધીનો કુલ સમય.</p>\n<p><b>Head crash</b> (head surface ને અડે) disk ને કાયમી નુકસાન કરે. SSDs (flash) માં ફરતા ભાગો નથી, તેથી seek time કે latency નથી.</p>"
+     },
+     "diagram": "os4_disk",
+     "examples": [
+      "os4n9",
+      "os4n10"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.4.2 Disk Scheduling",
+      "gu": "4.4.2 Disk Scheduling"
+     },
+     "body": {
+      "en": "<p>In a multiprogramming system, many processes generate disk I/O requests; they wait in the <b>disk queue</b>. <b>Disk scheduling</b> decides the order in which pending requests are served, with the aims of:</p>\n<ul><li><b>Minimising seek time</b> (total head movement), since seek time is the dominant cost.</li><li><b>Maximising disk bandwidth</b> and throughput.</li><li>Giving fair, bounded waiting time to every request (no starvation).</li></ul>\n<p>Each request specifies: input or output, disk address (cylinder/track), memory address and number of sectors. The performance of an algorithm is measured by the <b>total head movement</b> (number of tracks or cylinders crossed) for a given queue and initial head position.</p>\n<h4>FCFS (baseline)</h4>\n<p>First-Come First-Served serves requests in arrival order. It is fair but not efficient: the head swings widely. For Practical 5 (head 46), FCFS needs 554 tracks, while SCAN needs only 216.</p>\n<h4>Algorithms</h4>\n<ul><li><b>FCFS</b>, <b>SSTF</b> (shortest seek time first; may starve far requests), <b>SCAN</b>, <b>C-SCAN</b>, <b>LOOK</b>, <b>C-LOOK</b>. The syllabus focuses on <b>SCAN</b> and <b>C-SCAN</b>.</li></ul>\n<h4>Steps to solve a disk-scheduling numerical</h4>\n<ol><li>Write the queue in sorted order and mark the head position.</li><li>Decide the service order according to the algorithm and direction.</li><li>Add the absolute difference of every move: Σ |next − current|.</li><li>Draw the head-movement chart (tracks on the x-axis, time downwards).</li></ol>",
+      "gu": "<p>Multiprogramming system માં ઘણી processes disk I/O requests બનાવે છે; તે <b>disk queue</b> માં રાહ જુએ છે. <b>Disk scheduling</b> બાકી requests કયા ક્રમમાં સંતોષવી તે નક્કી કરે છે, આ હેતુઓ સાથે:</p>\n<ul><li><b>Seek time ઓછો કરવો</b> (કુલ head movement), કારણ કે seek time સૌથી મોટો ખર્ચ છે.</li><li><b>Disk bandwidth</b> અને throughput વધારવા.</li><li>દરેક request ને ન્યાયી, મર્યાદિત waiting time આપવો (starvation નહીં).</li></ul>\n<p>દરેક request જણાવે: input કે output, disk address (cylinder/track), memory address અને sectors ની સંખ્યા. Algorithm નું performance આપેલી queue અને શરૂઆતના head position માટે <b>કુલ head movement</b> (પાર કરેલા tracks કે cylinders ની સંખ્યા) થી મપાય છે.</p>\n<h4>FCFS (આધાર)</h4>\n<p>First-Come First-Served requests આવે તે ક્રમમાં સંતોષે. તે ન્યાયી છે પણ કાર્યક્ષમ નથી: head ખૂબ ઝૂલે છે. Practical 5 (head 46) માટે FCFS ને 554 tracks જોઈએ, જ્યારે SCAN ને માત્ર 216.</p>\n<h4>Algorithms</h4>\n<ul><li><b>FCFS</b>, <b>SSTF</b> (shortest seek time first; દૂરની requests starve થઈ શકે), <b>SCAN</b>, <b>C-SCAN</b>, <b>LOOK</b>, <b>C-LOOK</b>. Syllabus <b>SCAN</b> અને <b>C-SCAN</b> પર ભાર મૂકે છે.</li></ul>\n<h4>Disk-scheduling numerical ઉકેલવાના પગલાં</h4>\n<ol><li>Queue ને sorted ક્રમમાં લખો અને head position દર્શાવો.</li><li>Algorithm અને દિશા મુજબ service ક્રમ નક્કી કરો.</li><li>દરેક move નો absolute તફાવત ઉમેરો: Σ |next − current|.</li><li>Head-movement chart દોરો (x-axis પર tracks, સમય નીચે તરફ).</li></ol>"
+     },
+     "examples": [
+      "os4n5"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.4.3 SCAN Disk Scheduling",
+      "gu": "4.4.3 SCAN Disk Scheduling"
+     },
+     "body": {
+      "en": "<p>In <b>SCAN</b>, the disk arm starts at one end of the disk and moves towards the other end, <b>serving requests as it reaches each track</b>. At the <b>end of the disk</b>, the direction of head movement is <b>reversed</b> and servicing continues. The head continuously scans back and forth across the disk. It is also called the <b>elevator algorithm</b>, because it behaves like a lift that serves all floors going up, then all floors going down.</p>\n<h4>Algorithm</h4>\n<ol>\n<li>Note the head position and the direction of movement.</li>\n<li>Serve all requests in the current direction in order of position.</li>\n<li>Continue to the last track (0 or N − 1) even if no request is there.</li>\n<li>Reverse the direction and serve the remaining requests.</li>\n</ol>\n<h4>Practical 5</h4>\n<p>Tracks 0–199; queue 75, 90, 40, 135, 50, 170, 65, 10; head 46 moving left.</p>\n<p>Order: 46 → 40 → 10 → 0 → 50 → 65 → 75 → 90 → 135 → 170.</p>\n<p>Total = (46 − 0) + (170 − 0) = 46 + 170 = <b>216 tracks</b>.</p>\n<h4>Advantages</h4>\n<ul><li>Much less head movement than FCFS; high throughput.</li><li>No starvation: every request is served within two sweeps; low variance compared with SSTF.</li></ul>\n<h4>Disadvantages</h4>\n<ul><li>Goes to the end of the disk even if there are no requests there (wasted movement; LOOK fixes this).</li><li>Waiting time is not uniform: requests just behind the head wait for almost two sweeps, while middle tracks are visited more often.</li></ul>",
+      "gu": "<p><b>SCAN</b> માં disk arm disk ના એક છેડેથી શરૂ થઈ બીજા છેડા તરફ જાય છે, અને <b>દરેક track પર પહોંચતાં ત્યાંની requests સંતોષે</b> છે. <b>Disk ના છેડે</b> head movement ની દિશા <b>બદલાય</b> છે અને service ચાલુ રહે છે. Head સતત disk પર આગળ-પાછળ scan કરે છે. તેને <b>elevator algorithm</b> પણ કહે છે, કારણ કે તે lift જેવું વર્તે છે જે ઉપર જતાં બધા માળ અને પછી નીચે જતાં બધા માળ સંતોષે.</p>\n<h4>Algorithm</h4>\n<ol>\n<li>Head position અને movement ની દિશા નોંધો.</li>\n<li>હાલની દિશામાંની બધી requests સ્થાનના ક્રમમાં સંતોષો.</li>\n<li>ત્યાં request ન હોય તો પણ છેલ્લા track (0 કે N − 1) સુધી જાઓ.</li>\n<li>દિશા બદલી બાકીની requests સંતોષો.</li>\n</ol>\n<h4>Practical 5</h4>\n<p>Tracks 0–199; queue 75, 90, 40, 135, 50, 170, 65, 10; head 46 ડાબી બાજુ.</p>\n<p>ક્રમ: 46 → 40 → 10 → 0 → 50 → 65 → 75 → 90 → 135 → 170.</p>\n<p>કુલ = (46 − 0) + (170 − 0) = 46 + 170 = <b>216 tracks</b>.</p>\n<h4>ફાયદા</h4>\n<ul><li>FCFS કરતાં ઘણું ઓછું head movement; ઊંચો throughput.</li><li>Starvation નહીં: દરેક request બે sweeps માં સંતોષાય; SSTF ની સરખામણીમાં ઓછો variance.</li></ul>\n<h4>ગેરફાયદા</h4>\n<ul><li>ત્યાં requests ન હોય તો પણ disk ના છેડા સુધી જાય (વેડફાતું movement; LOOK આ સુધારે).</li><li>Waiting time એકસરખો નથી: head ની બરાબર પાછળની requests લગભગ બે sweeps રાહ જુએ, જ્યારે વચ્ચેના tracks વધુ વાર મુલાકાત પામે.</li></ul>"
+     },
+     "diagram": "os4_scan",
+     "examples": [
+      "os4n1",
+      "os4n3",
+      "os4n6"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.4.4 C-SCAN Disk Scheduling",
+      "gu": "4.4.4 C-SCAN Disk Scheduling"
+     },
+     "body": {
+      "en": "<p><b>C-SCAN (Circular SCAN)</b> is a variant of SCAN designed to give a <b>more uniform waiting time</b>. Like SCAN, it moves the head from one end of the disk to the other, serving requests on the way. However, when the head reaches the end, it <b>immediately returns to the beginning of the disk without serving any requests</b> on the return trip. The cylinders are treated as a <b>circular list</b> that wraps around from the last cylinder to the first.</p>\n<h4>Algorithm</h4>\n<ol>\n<li>Serve all requests in the chosen direction up to the end of the disk.</li>\n<li>Jump to the other end (return seek, no service).</li>\n<li>Continue in the <b>same direction</b> and serve the remaining requests.</li>\n</ol>\n<h4>Practical 5</h4>\n<p>Head 46 moving left: 46 → 40 → 10 → 0, jump 0 → 199, then 170 → 135 → 90 → 75 → 65 → 50.</p>\n<p>Total = (46 − 0) + (199 − 0) + (199 − 50) = 46 + 199 + 149 = <b>394 tracks</b>.</p>\n<p>If the return jump is not counted (some textbooks): 46 + 149 = <b>195 tracks</b>. Always state your convention in the exam.</p>\n<h4>Advantages</h4>\n<ul><li><b>Uniform waiting time</b>: every track is visited once per cycle in the same direction; better than SCAN for heavy loads.</li><li>No starvation.</li></ul>\n<h4>Disadvantages</h4>\n<ul><li>More total head movement than SCAN because of the return seek.</li><li>Goes to the disk ends even without requests (C-LOOK fixes this).</li></ul>",
+      "gu": "<p><b>C-SCAN (Circular SCAN)</b> એ <b>વધુ એકસરખો waiting time</b> આપવા માટે બનાવાયેલો SCAN નો પ્રકાર છે. SCAN ની જેમ તે head ને disk ના એક છેડેથી બીજા છેડે ખસેડી રસ્તામાંની requests સંતોષે છે. પણ head છેડે પહોંચે ત્યારે તે પાછા ફરતાં <b>કોઈ request સંતોષ્યા વગર તરત disk ની શરૂઆતમાં પાછો જાય</b> છે. Cylinders ને <b>circular list</b> ગણાય છે જે છેલ્લા cylinder થી પહેલા સુધી વીંટળાય છે.</p>\n<h4>Algorithm</h4>\n<ol>\n<li>પસંદ કરેલી દિશામાં disk ના છેડા સુધીની બધી requests સંતોષો.</li>\n<li>બીજા છેડે jump કરો (return seek, service નહીં).</li>\n<li><b>એ જ દિશામાં</b> આગળ વધી બાકીની requests સંતોષો.</li>\n</ol>\n<h4>Practical 5</h4>\n<p>Head 46 ડાબી બાજુ: 46 → 40 → 10 → 0, jump 0 → 199, પછી 170 → 135 → 90 → 75 → 65 → 50.</p>\n<p>કુલ = (46 − 0) + (199 − 0) + (199 − 50) = 46 + 199 + 149 = <b>394 tracks</b>.</p>\n<p>Return jump ન ગણીએ તો (કેટલાંક પુસ્તકો): 46 + 149 = <b>195 tracks</b>. Exam માં હંમેશા તમારી પદ્ધતિ લખો.</p>\n<h4>ફાયદા</h4>\n<ul><li><b>એકસરખો waiting time</b>: દરેક track ની દરેક cycle માં એક જ દિશામાં એક વાર મુલાકાત; ભારે load માટે SCAN કરતાં સારું.</li><li>Starvation નહીં.</li></ul>\n<h4>ગેરફાયદા</h4>\n<ul><li>Return seek ને કારણે SCAN કરતાં વધુ કુલ head movement.</li><li>Requests વગર પણ disk ના છેડા સુધી જાય (C-LOOK આ સુધારે).</li></ul>"
+     },
+     "diagram": "os4_cscan",
+     "examples": [
+      "os4n2",
+      "os4n4",
+      "os4n7"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.4.5 SCAN vs C-SCAN (and LOOK, C-LOOK)",
+      "gu": "4.4.5 SCAN vs C-SCAN (અને LOOK, C-LOOK)"
+     },
+     "body": {
+      "en": "<p>Both are sweep algorithms that avoid starvation; the difference is what happens at the end of the disk.</p>\n<table><tr><th>Point</th><th>SCAN</th><th>C-SCAN</th></tr><tr><td>Direction of service</td><td>Both directions</td><td>One direction only</td></tr><tr><td>At the disk end</td><td>Reverses and serves on the way back</td><td>Jumps to the other end without serving</td></tr><tr><td>Waiting time</td><td>Less uniform (middle tracks favoured)</td><td>More uniform</td></tr><tr><td>Head movement</td><td>Usually less</td><td>More (return jump)</td></tr><tr><td>Practical 5 (head 46, left)</td><td>216</td><td>394 (195 without jump)</td></tr><tr><td>Variant</td><td>LOOK (196)</td><td>C-LOOK (316)</td></tr></table>\n<h4>LOOK and C-LOOK</h4>\n<p>In practice, the arm goes only as far as the <b>final request</b> in each direction, then reverses (LOOK) or jumps to the first request at the other side (C-LOOK), without going all the way to the disk end. This saves unnecessary movement: for Practical 5, LOOK = 196 vs SCAN = 216.</p>\n<h4>Choosing an algorithm</h4>\n<ul><li>SCAN and C-SCAN perform better for systems that place a <b>heavy load</b> on the disk.</li><li>SSTF or LOOK is a reasonable default for light loads.</li><li>File-allocation method affects requests: contiguous files generate requests close together.</li></ul>",
+      "gu": "<p>બંને sweep algorithms છે જે starvation ટાળે છે; તફાવત disk ના છેડે શું થાય છે તેમાં છે.</p>\n<table><tr><th>મુદ્દો</th><th>SCAN</th><th>C-SCAN</th></tr><tr><td>Service ની દિશા</td><td>બંને દિશાઓ</td><td>માત્ર એક દિશા</td></tr><tr><td>Disk ના છેડે</td><td>દિશા બદલી પાછા વળતાં service</td><td>Service વગર બીજા છેડે jump</td></tr><tr><td>Waiting time</td><td>ઓછો એકસરખો (વચ્ચેના tracks ને ફાયદો)</td><td>વધુ એકસરખો</td></tr><tr><td>Head movement</td><td>સામાન્ય રીતે ઓછું</td><td>વધુ (return jump)</td></tr><tr><td>Practical 5 (head 46, ડાબી)</td><td>216</td><td>394 (jump વગર 195)</td></tr><tr><td>પ્રકાર</td><td>LOOK (196)</td><td>C-LOOK (316)</td></tr></table>\n<h4>LOOK અને C-LOOK</h4>\n<p>વ્યવહારમાં arm દરેક દિશામાં માત્ર <b>છેલ્લી request</b> સુધી જાય, પછી દિશા બદલે (LOOK) અથવા બીજી બાજુની પહેલી request પર jump કરે (C-LOOK), disk ના છેડા સુધી ગયા વગર. આ બિનજરૂરી movement બચાવે છે: Practical 5 માટે LOOK = 196 vs SCAN = 216.</p>\n<h4>Algorithm ની પસંદગી</h4>\n<ul><li>Disk પર <b>ભારે load</b> હોય તેવી systems માં SCAN અને C-SCAN સારું કામ આપે.</li><li>હળવા load માટે SSTF કે LOOK યોગ્ય default છે.</li><li>File-allocation method requests પર અસર કરે: contiguous files નજીક નજીકની requests બનાવે.</li></ul>"
+     },
+     "examples": [
+      "os4n8"
+     ]
+    }
+   ]
+  }
+ ],
+ "numericals": [
+  {
+   "id": "os4n1",
+   "q": {
+    "en": "(Practical 5) Disk with 200 tracks (0–199); queue 75, 90, 40, 135, 50, 170, 65, 10; head at 46. The head moves towards the left (0). Find the total head movement using SCAN.",
+    "gu": "(Practical 5) 200 tracks (0–199) વાળી disk; queue 75, 90, 40, 135, 50, 170, 65, 10; head 46 પર. Head ડાબી બાજુ (0 તરફ) જાય છે. SCAN વડે કુલ head movement શોધો."
+   },
+   "a": {
+    "en": "<p><b>SCAN (elevator):</b> the head moves left, serving all requests on the way, goes to the <b>end of the disk (track 0)</b>, then reverses and serves the remaining requests while moving right.</p>\n<p>Requests left of 46 (descending): 40, 10. Then track 0. Requests right of 46 (ascending): 50, 65, 75, 90, 135, 170.</p>\n<p><b>Order:</b> 46 → 40 → 10 → 0 → 50 → 65 → 75 → 90 → 135 → 170</p><table><tr><th>Step</th><th>Head move</th><th>Tracks</th></tr><tr><td>1</td><td>46 → 40</td><td>6</td></tr><tr><td>2</td><td>40 → 10</td><td>30</td></tr><tr><td>3</td><td>10 → 0</td><td>10</td></tr><tr><td>4</td><td>0 → 50</td><td>50</td></tr><tr><td>5</td><td>50 → 65</td><td>15</td></tr><tr><td>6</td><td>65 → 75</td><td>10</td></tr><tr><td>7</td><td>75 → 90</td><td>15</td></tr><tr><td>8</td><td>90 → 135</td><td>45</td></tr><tr><td>9</td><td>135 → 170</td><td>35</td></tr><tr><td></td><td><b>Total</b></td><td><b>216</b></td></tr></table>\n<p>Short method: (46 − 0) + (170 − 0) = 46 + 170 = <b>216 tracks</b>.</p>",
+    "gu": "<p><b>SCAN (elevator):</b> head ડાબી બાજુ જતાં રસ્તામાંની બધી requests સંતોષે, <b>disk ના છેડા (track 0)</b> સુધી જાય, પછી દિશા બદલી જમણી બાજુ જતાં બાકીની requests સંતોષે.</p>\n<p>46 ની ડાબી બાજુની requests (ઊતરતા ક્રમે): 40, 10. પછી track 0. 46 ની જમણી બાજુની requests (ચડતા ક્રમે): 50, 65, 75, 90, 135, 170.</p>\n<p><b>ક્રમ:</b> 46 → 40 → 10 → 0 → 50 → 65 → 75 → 90 → 135 → 170</p><table><tr><th>પગલું</th><th>Head move</th><th>Tracks</th></tr><tr><td>1</td><td>46 → 40</td><td>6</td></tr><tr><td>2</td><td>40 → 10</td><td>30</td></tr><tr><td>3</td><td>10 → 0</td><td>10</td></tr><tr><td>4</td><td>0 → 50</td><td>50</td></tr><tr><td>5</td><td>50 → 65</td><td>15</td></tr><tr><td>6</td><td>65 → 75</td><td>10</td></tr><tr><td>7</td><td>75 → 90</td><td>15</td></tr><tr><td>8</td><td>90 → 135</td><td>45</td></tr><tr><td>9</td><td>135 → 170</td><td>35</td></tr><tr><td></td><td><b>કુલ</b></td><td><b>216</b></td></tr></table>\n<p>ટૂંકી રીત: (46 − 0) + (170 − 0) = 46 + 170 = <b>216 tracks</b>.</p>"
+   }
+  },
+  {
+   "id": "os4n2",
+   "q": {
+    "en": "(Practical 5) Disk with 200 tracks (0–199); queue 75, 90, 40, 135, 50, 170, 65, 10; head at 46. The head moves towards the left (0). Find the total head movement using C-SCAN.",
+    "gu": "(Practical 5) 200 tracks (0–199) વાળી disk; queue 75, 90, 40, 135, 50, 170, 65, 10; head 46 પર. Head ડાબી બાજુ (0 તરફ) જાય છે. C-SCAN વડે કુલ head movement શોધો."
+   },
+   "a": {
+    "en": "<p><b>C-SCAN (circular SCAN):</b> the head serves requests in <b>one direction only</b> (here, left). On reaching track 0 it <b>jumps to the other end (199)</b> without serving anything, and continues moving left.</p>\n<p>Left of 46: 40, 10 → 0. Jump 0 → 199. Then (moving left from 199): 170, 135, 90, 75, 65, 50.</p>\n<p><b>Order:</b> 46 → 40 → 10 → 0 → 199 → 170 → 135 → 90 → 75 → 65 → 50</p><table><tr><th>Step</th><th>Head move</th><th>Tracks</th></tr><tr><td>1</td><td>46 → 40</td><td>6</td></tr><tr><td>2</td><td>40 → 10</td><td>30</td></tr><tr><td>3</td><td>10 → 0</td><td>10</td></tr><tr><td>4</td><td>0 → 199 (return jump)</td><td>199</td></tr><tr><td>5</td><td>199 → 170</td><td>29</td></tr><tr><td>6</td><td>170 → 135</td><td>35</td></tr><tr><td>7</td><td>135 → 90</td><td>45</td></tr><tr><td>8</td><td>90 → 75</td><td>15</td></tr><tr><td>9</td><td>75 → 65</td><td>10</td></tr><tr><td>10</td><td>65 → 50</td><td>15</td></tr><tr><td></td><td><b>Total</b></td><td><b>394</b></td></tr></table>\n<p>(46 − 0) + (199 − 0) + (199 − 50) = 46 + 199 + 149 = <b>394 tracks</b>.</p>\n<p><b>Note:</b> some books do not count the return jump: 46 + 149 = <b>195 tracks</b>. In the exam, state which convention you use.</p>",
+    "gu": "<p><b>C-SCAN (circular SCAN):</b> head requests ને <b>માત્ર એક જ દિશામાં</b> (અહીં ડાબી) સંતોષે. Track 0 પર પહોંચીને તે કંઈ પણ સંતોષ્યા વગર <b>બીજા છેડે (199) jump</b> કરે, અને ડાબી બાજુ આગળ વધે.</p>\n<p>46 ની ડાબી: 40, 10 → 0. Jump 0 → 199. પછી (199 થી ડાબી બાજુ): 170, 135, 90, 75, 65, 50.</p>\n<p><b>ક્રમ:</b> 46 → 40 → 10 → 0 → 199 → 170 → 135 → 90 → 75 → 65 → 50</p><table><tr><th>પગલું</th><th>Head move</th><th>Tracks</th></tr><tr><td>1</td><td>46 → 40</td><td>6</td></tr><tr><td>2</td><td>40 → 10</td><td>30</td></tr><tr><td>3</td><td>10 → 0</td><td>10</td></tr><tr><td>4</td><td>0 → 199 (પાછો jump)</td><td>199</td></tr><tr><td>5</td><td>199 → 170</td><td>29</td></tr><tr><td>6</td><td>170 → 135</td><td>35</td></tr><tr><td>7</td><td>135 → 90</td><td>45</td></tr><tr><td>8</td><td>90 → 75</td><td>15</td></tr><tr><td>9</td><td>75 → 65</td><td>10</td></tr><tr><td>10</td><td>65 → 50</td><td>15</td></tr><tr><td></td><td><b>કુલ</b></td><td><b>394</b></td></tr></table>\n<p>(46 − 0) + (199 − 0) + (199 − 50) = 46 + 199 + 149 = <b>394 tracks</b>.</p>\n<p><b>નોંધ:</b> કેટલાંક પુસ્તકો return jump ગણતા નથી: 46 + 149 = <b>195 tracks</b>. Exam માં કઈ પદ્ધતિ વાપરી તે લખો.</p>"
+   }
+  },
+  {
+   "id": "os4n3",
+   "q": {
+    "en": "Disk with 200 tracks (0–199); queue 75, 90, 40, 135, 50, 170, 65, 10; head at 46. If the head moves towards the right (199), find the total head movement using SCAN.",
+    "gu": "200 tracks (0–199) વાળી disk; queue 75, 90, 40, 135, 50, 170, 65, 10; head 46 પર. Head જમણી બાજુ (199 તરફ) જાય તો SCAN વડે કુલ head movement શોધો."
+   },
+   "a": {
+    "en": "<p>Moving right: 50, 65, 75, 90, 135, 170 → end 199; reverse: 40, 10.</p>\n<p><b>Order:</b> 46 → 50 → 65 → 75 → 90 → 135 → 170 → 199 → 40 → 10</p><table><tr><th>Step</th><th>Head move</th><th>Tracks</th></tr><tr><td>1</td><td>46 → 50</td><td>4</td></tr><tr><td>2</td><td>50 → 65</td><td>15</td></tr><tr><td>3</td><td>65 → 75</td><td>10</td></tr><tr><td>4</td><td>75 → 90</td><td>15</td></tr><tr><td>5</td><td>90 → 135</td><td>45</td></tr><tr><td>6</td><td>135 → 170</td><td>35</td></tr><tr><td>7</td><td>170 → 199</td><td>29</td></tr><tr><td>8</td><td>199 → 40</td><td>159</td></tr><tr><td>9</td><td>40 → 10</td><td>30</td></tr><tr><td></td><td><b>Total</b></td><td><b>342</b></td></tr></table>\n<p>(199 − 46) + (199 − 10) = 153 + 189 = <b>342 tracks</b>.</p>",
+    "gu": "<p>જમણી બાજુ: 50, 65, 75, 90, 135, 170 → છેડો 199; દિશા બદલી: 40, 10.</p>\n<p><b>ક્રમ:</b> 46 → 50 → 65 → 75 → 90 → 135 → 170 → 199 → 40 → 10</p><table><tr><th>પગલું</th><th>Head move</th><th>Tracks</th></tr><tr><td>1</td><td>46 → 50</td><td>4</td></tr><tr><td>2</td><td>50 → 65</td><td>15</td></tr><tr><td>3</td><td>65 → 75</td><td>10</td></tr><tr><td>4</td><td>75 → 90</td><td>15</td></tr><tr><td>5</td><td>90 → 135</td><td>45</td></tr><tr><td>6</td><td>135 → 170</td><td>35</td></tr><tr><td>7</td><td>170 → 199</td><td>29</td></tr><tr><td>8</td><td>199 → 40</td><td>159</td></tr><tr><td>9</td><td>40 → 10</td><td>30</td></tr><tr><td></td><td><b>કુલ</b></td><td><b>342</b></td></tr></table>\n<p>(199 − 46) + (199 − 10) = 153 + 189 = <b>342 tracks</b>.</p>"
+   }
+  },
+  {
+   "id": "os4n4",
+   "q": {
+    "en": "Disk with 200 tracks (0–199); queue 75, 90, 40, 135, 50, 170, 65, 10; head at 46. If the head moves towards the right (199), find the total head movement using C-SCAN.",
+    "gu": "200 tracks (0–199) વાળી disk; queue 75, 90, 40, 135, 50, 170, 65, 10; head 46 પર. Head જમણી બાજુ (199 તરફ) જાય તો C-SCAN વડે કુલ head movement શોધો."
+   },
+   "a": {
+    "en": "<p>Moving right: 50, 65, 75, 90, 135, 170 → 199; jump 199 → 0; continue right: 10, 40.</p>\n<p><b>Order:</b> 46 → 50 → 65 → 75 → 90 → 135 → 170 → 199 → 0 → 10 → 40</p><table><tr><th>Step</th><th>Head move</th><th>Tracks</th></tr><tr><td>1</td><td>46 → 50</td><td>4</td></tr><tr><td>2</td><td>50 → 65</td><td>15</td></tr><tr><td>3</td><td>65 → 75</td><td>10</td></tr><tr><td>4</td><td>75 → 90</td><td>15</td></tr><tr><td>5</td><td>90 → 135</td><td>45</td></tr><tr><td>6</td><td>135 → 170</td><td>35</td></tr><tr><td>7</td><td>170 → 199</td><td>29</td></tr><tr><td>8</td><td>199 → 0 (return jump)</td><td>199</td></tr><tr><td>9</td><td>0 → 10</td><td>10</td></tr><tr><td>10</td><td>10 → 40</td><td>30</td></tr><tr><td></td><td><b>Total</b></td><td><b>392</b></td></tr></table>\n<p>(199 − 46) + (199 − 0) + (40 − 0) = 153 + 199 + 40 = <b>392 tracks</b> (without the return jump: <b>193</b>).</p>",
+    "gu": "<p>જમણી બાજુ: 50, 65, 75, 90, 135, 170 → 199; jump 199 → 0; જમણી બાજુ આગળ: 10, 40.</p>\n<p><b>ક્રમ:</b> 46 → 50 → 65 → 75 → 90 → 135 → 170 → 199 → 0 → 10 → 40</p><table><tr><th>પગલું</th><th>Head move</th><th>Tracks</th></tr><tr><td>1</td><td>46 → 50</td><td>4</td></tr><tr><td>2</td><td>50 → 65</td><td>15</td></tr><tr><td>3</td><td>65 → 75</td><td>10</td></tr><tr><td>4</td><td>75 → 90</td><td>15</td></tr><tr><td>5</td><td>90 → 135</td><td>45</td></tr><tr><td>6</td><td>135 → 170</td><td>35</td></tr><tr><td>7</td><td>170 → 199</td><td>29</td></tr><tr><td>8</td><td>199 → 0 (પાછો jump)</td><td>199</td></tr><tr><td>9</td><td>0 → 10</td><td>10</td></tr><tr><td>10</td><td>10 → 40</td><td>30</td></tr><tr><td></td><td><b>કુલ</b></td><td><b>392</b></td></tr></table>\n<p>(199 − 46) + (199 − 0) + (40 − 0) = 153 + 199 + 40 = <b>392 tracks</b> (return jump વગર: <b>193</b>).</p>"
+   }
+  },
+  {
+   "id": "os4n5",
+   "q": {
+    "en": "Disk with 200 tracks (0–199); queue 75, 90, 40, 135, 50, 170, 65, 10; head at 46. Find the total head movement using FCFS and compare it with SCAN and C-SCAN.",
+    "gu": "200 tracks (0–199) વાળી disk; queue 75, 90, 40, 135, 50, 170, 65, 10; head 46 પર. FCFS વડે કુલ head movement શોધો અને SCAN તથા C-SCAN સાથે સરખાવો."
+   },
+   "a": {
+    "en": "<p><b>FCFS:</b> requests are served in the order they arrive.</p>\n<p><b>Order:</b> 46 → 75 → 90 → 40 → 135 → 50 → 170 → 65 → 10</p><table><tr><th>Step</th><th>Head move</th><th>Tracks</th></tr><tr><td>1</td><td>46 → 75</td><td>29</td></tr><tr><td>2</td><td>75 → 90</td><td>15</td></tr><tr><td>3</td><td>90 → 40</td><td>50</td></tr><tr><td>4</td><td>40 → 135</td><td>95</td></tr><tr><td>5</td><td>135 → 50</td><td>85</td></tr><tr><td>6</td><td>50 → 170</td><td>120</td></tr><tr><td>7</td><td>170 → 65</td><td>105</td></tr><tr><td>8</td><td>65 → 10</td><td>55</td></tr><tr><td></td><td><b>Total</b></td><td><b>554</b></td></tr></table>\n<table><tr><th>Algorithm (head 46, left)</th><th>Total head movement</th></tr><tr><td>FCFS</td><td>554</td></tr><tr><td>SCAN</td><td>216</td></tr><tr><td>C-SCAN</td><td>394 (or 195 without jump)</td></tr></table>\n<p>SCAN gives the least movement here; FCFS is the worst because the head swings back and forth (e.g. 40 → 135 → 50 → 170).</p>",
+    "gu": "<p><b>FCFS:</b> requests આવે તે ક્રમમાં સંતોષાય.</p>\n<p><b>ક્રમ:</b> 46 → 75 → 90 → 40 → 135 → 50 → 170 → 65 → 10</p><table><tr><th>પગલું</th><th>Head move</th><th>Tracks</th></tr><tr><td>1</td><td>46 → 75</td><td>29</td></tr><tr><td>2</td><td>75 → 90</td><td>15</td></tr><tr><td>3</td><td>90 → 40</td><td>50</td></tr><tr><td>4</td><td>40 → 135</td><td>95</td></tr><tr><td>5</td><td>135 → 50</td><td>85</td></tr><tr><td>6</td><td>50 → 170</td><td>120</td></tr><tr><td>7</td><td>170 → 65</td><td>105</td></tr><tr><td>8</td><td>65 → 10</td><td>55</td></tr><tr><td></td><td><b>કુલ</b></td><td><b>554</b></td></tr></table>\n<table><tr><th>Algorithm (head 46, ડાબી)</th><th>કુલ head movement</th></tr><tr><td>FCFS</td><td>554</td></tr><tr><td>SCAN</td><td>216</td></tr><tr><td>C-SCAN</td><td>394 (jump વગર 195)</td></tr></table>\n<p>અહીં SCAN સૌથી ઓછું movement આપે છે; FCFS સૌથી ખરાબ છે કારણ કે head આગળ-પાછળ ઝૂલે છે (દા.ત. 40 → 135 → 50 → 170).</p>"
+   }
+  },
+  {
+   "id": "os4n6",
+   "q": {
+    "en": "Disk with 200 cylinders (0–199); queue 98, 183, 37, 122, 14, 124, 65, 67; head at 53. The head is moving towards 0. Find the total head movement using SCAN.",
+    "gu": "200 cylinders (0–199) વાળી disk; queue 98, 183, 37, 122, 14, 124, 65, 67; head 53 પર. Head 0 તરફ જાય છે. SCAN વડે કુલ head movement શોધો."
+   },
+   "a": {
+    "en": "<p><b>Order:</b> 53 → 37 → 14 → 0 → 65 → 67 → 98 → 122 → 124 → 183</p><table><tr><th>Step</th><th>Head move</th><th>Tracks</th></tr><tr><td>1</td><td>53 → 37</td><td>16</td></tr><tr><td>2</td><td>37 → 14</td><td>23</td></tr><tr><td>3</td><td>14 → 0</td><td>14</td></tr><tr><td>4</td><td>0 → 65</td><td>65</td></tr><tr><td>5</td><td>65 → 67</td><td>2</td></tr><tr><td>6</td><td>67 → 98</td><td>31</td></tr><tr><td>7</td><td>98 → 122</td><td>24</td></tr><tr><td>8</td><td>122 → 124</td><td>2</td></tr><tr><td>9</td><td>124 → 183</td><td>59</td></tr><tr><td></td><td><b>Total</b></td><td><b>236</b></td></tr></table>\n<p>(53 − 0) + (183 − 0) = 53 + 183 = <b>236 cylinders</b>. (FCFS for the same queue = 640.)</p>",
+    "gu": "<p><b>ક્રમ:</b> 53 → 37 → 14 → 0 → 65 → 67 → 98 → 122 → 124 → 183</p><table><tr><th>પગલું</th><th>Head move</th><th>Tracks</th></tr><tr><td>1</td><td>53 → 37</td><td>16</td></tr><tr><td>2</td><td>37 → 14</td><td>23</td></tr><tr><td>3</td><td>14 → 0</td><td>14</td></tr><tr><td>4</td><td>0 → 65</td><td>65</td></tr><tr><td>5</td><td>65 → 67</td><td>2</td></tr><tr><td>6</td><td>67 → 98</td><td>31</td></tr><tr><td>7</td><td>98 → 122</td><td>24</td></tr><tr><td>8</td><td>122 → 124</td><td>2</td></tr><tr><td>9</td><td>124 → 183</td><td>59</td></tr><tr><td></td><td><b>કુલ</b></td><td><b>236</b></td></tr></table>\n<p>(53 − 0) + (183 − 0) = 53 + 183 = <b>236 cylinders</b>. (આ જ queue માટે FCFS = 640.)</p>"
+   }
+  },
+  {
+   "id": "os4n7",
+   "q": {
+    "en": "Disk with 200 cylinders (0–199); queue 98, 183, 37, 122, 14, 124, 65, 67; head at 53. The head is moving towards 199. Find the total head movement using C-SCAN.",
+    "gu": "200 cylinders (0–199) વાળી disk; queue 98, 183, 37, 122, 14, 124, 65, 67; head 53 પર. Head 199 તરફ જાય છે. C-SCAN વડે કુલ head movement શોધો."
+   },
+   "a": {
+    "en": "<p><b>Order:</b> 53 → 65 → 67 → 98 → 122 → 124 → 183 → 199 → 0 → 14 → 37</p><table><tr><th>Step</th><th>Head move</th><th>Tracks</th></tr><tr><td>1</td><td>53 → 65</td><td>12</td></tr><tr><td>2</td><td>65 → 67</td><td>2</td></tr><tr><td>3</td><td>67 → 98</td><td>31</td></tr><tr><td>4</td><td>98 → 122</td><td>24</td></tr><tr><td>5</td><td>122 → 124</td><td>2</td></tr><tr><td>6</td><td>124 → 183</td><td>59</td></tr><tr><td>7</td><td>183 → 199 (return jump)</td><td>16</td></tr><tr><td>8</td><td>199 → 0</td><td>199</td></tr><tr><td>9</td><td>0 → 14</td><td>14</td></tr><tr><td>10</td><td>14 → 37</td><td>23</td></tr><tr><td></td><td><b>Total</b></td><td><b>382</b></td></tr></table>\n<p>(199 − 53) + (199 − 0) + (37 − 0) = 146 + 199 + 37 = <b>382 cylinders</b> (without the return jump: <b>183</b>).</p>",
+    "gu": "<p><b>ક્રમ:</b> 53 → 65 → 67 → 98 → 122 → 124 → 183 → 199 → 0 → 14 → 37</p><table><tr><th>પગલું</th><th>Head move</th><th>Tracks</th></tr><tr><td>1</td><td>53 → 65</td><td>12</td></tr><tr><td>2</td><td>65 → 67</td><td>2</td></tr><tr><td>3</td><td>67 → 98</td><td>31</td></tr><tr><td>4</td><td>98 → 122</td><td>24</td></tr><tr><td>5</td><td>122 → 124</td><td>2</td></tr><tr><td>6</td><td>124 → 183</td><td>59</td></tr><tr><td>7</td><td>183 → 199 (પાછો jump)</td><td>16</td></tr><tr><td>8</td><td>199 → 0</td><td>199</td></tr><tr><td>9</td><td>0 → 14</td><td>14</td></tr><tr><td>10</td><td>14 → 37</td><td>23</td></tr><tr><td></td><td><b>કુલ</b></td><td><b>382</b></td></tr></table>\n<p>(199 − 53) + (199 − 0) + (37 − 0) = 146 + 199 + 37 = <b>382 cylinders</b> (return jump વગર: <b>183</b>).</p>"
+   }
+  },
+  {
+   "id": "os4n8",
+   "q": {
+    "en": "Disk with 200 tracks (0–199); queue 75, 90, 40, 135, 50, 170, 65, 10; head at 46. Head moving left. Find the total head movement using LOOK and C-LOOK (variants of SCAN and C-SCAN).",
+    "gu": "200 tracks (0–199) વાળી disk; queue 75, 90, 40, 135, 50, 170, 65, 10; head 46 પર. Head ડાબી બાજુ. LOOK અને C-LOOK (SCAN અને C-SCAN ના પ્રકારો) વડે કુલ head movement શોધો."
+   },
+   "a": {
+    "en": "<p><b>LOOK / C-LOOK</b> work like SCAN / C-SCAN, but the head goes only as far as the <b>last request</b> in each direction, not to the end of the disk.</p>\n<p><b>LOOK order:</b> 46 → 40 → 10 → 50 → 65 → 75 → 90 → 135 → 170 → (46 − 10) + (170 − 10) = 36 + 160 = <b>196</b></p>\n<p><b>C-LOOK order:</b> 46 → 40 → 10 → 170 → 135 → 90 → 75 → 65 → 50 → (46 − 10) + (170 − 10) + (170 − 50) = 36 + 160 + 120 = <b>316</b></p>\n<p>LOOK saves the 2 × 10 = 20 tracks that SCAN wastes going from 10 to 0 and back.</p>",
+    "gu": "<p><b>LOOK / C-LOOK</b> SCAN / C-SCAN જેવા જ છે, પણ head disk ના છેડા સુધી નહીં, દરેક દિશામાં માત્ર <b>છેલ્લી request</b> સુધી જ જાય છે.</p>\n<p><b>LOOK ક્રમ:</b> 46 → 40 → 10 → 50 → 65 → 75 → 90 → 135 → 170 → (46 − 10) + (170 − 10) = 36 + 160 = <b>196</b></p>\n<p><b>C-LOOK ક્રમ:</b> 46 → 40 → 10 → 170 → 135 → 90 → 75 → 65 → 50 → (46 − 10) + (170 − 10) + (170 − 50) = 36 + 160 + 120 = <b>316</b></p>\n<p>SCAN 10 થી 0 અને પાછા જવામાં 2 × 10 = 20 tracks વેડફે છે, જે LOOK બચાવે છે.</p>"
+   }
+  },
+  {
+   "id": "os4n9",
+   "q": {
+    "en": "A disk has 8 surfaces, 1024 tracks per surface, 64 sectors per track and 512 bytes per sector. Find the disk capacity and the number of cylinders.",
+    "gu": "Disk માં 8 surfaces, દરેક surface પર 1024 tracks, દરેક track માં 64 sectors અને દરેક sector માં 512 bytes છે. Disk capacity અને cylinders ની સંખ્યા શોધો."
+   },
+   "a": {
+    "en": "<p><b>Capacity</b> = surfaces × tracks/surface × sectors/track × bytes/sector</p>\n<p>= 8 × 1024 × 64 × 512 = 268,435,456 bytes = 2<sup>28</sup> bytes = <b>256 MB</b>.</p>\n<p><b>Cylinders</b> = tracks per surface = <b>1024</b> (a cylinder is the same track on all 8 surfaces).</p>\n<p>Capacity of one cylinder = 8 × 64 × 512 = 262,144 bytes = <b>256 KB</b>.</p>",
+    "gu": "<p><b>Capacity</b> = surfaces × tracks/surface × sectors/track × bytes/sector</p>\n<p>= 8 × 1024 × 64 × 512 = 268,435,456 bytes = 2<sup>28</sup> bytes = <b>256 MB</b>.</p>\n<p><b>Cylinders</b> = surface દીઠ tracks = <b>1024</b> (cylinder એટલે બધી 8 surfaces પરનો એક જ track).</p>\n<p>એક cylinder ની capacity = 8 × 64 × 512 = 262,144 bytes = <b>256 KB</b>.</p>"
+   }
+  },
+  {
+   "id": "os4n10",
+   "q": {
+    "en": "A disk rotates at 7200 rpm, has an average seek time of 5 ms and 64 sectors per track. Find the average time to read one sector.",
+    "gu": "Disk 7200 rpm પર ફરે છે, average seek time 5 ms છે અને દરેક track માં 64 sectors છે. એક sector વાંચવાનો સરેરાશ સમય શોધો."
+   },
+   "a": {
+    "en": "<p>Time for one rotation = 60 / 7200 s = 8.33 ms.</p>\n<p><b>Average rotational latency</b> = half a rotation = 8.33 / 2 = 4.17 ms.</p>\n<p><b>Transfer time</b> for one sector = rotation time / sectors per track = 8.33 / 64 = 0.13 ms.</p>\n<p><b>Access time</b> = seek + latency + transfer = 5 + 4.17 + 0.13 = <b>9.30 ms</b>.</p>\n<p>Seek time dominates; that is why disk-scheduling algorithms try to reduce head movement.</p>",
+    "gu": "<p>એક rotation નો સમય = 60 / 7200 s = 8.33 ms.</p>\n<p><b>Average rotational latency</b> = અડધું rotation = 8.33 / 2 = 4.17 ms.</p>\n<p>એક sector નો <b>transfer time</b> = rotation time / track દીઠ sectors = 8.33 / 64 = 0.13 ms.</p>\n<p><b>Access time</b> = seek + latency + transfer = 5 + 4.17 + 0.13 = <b>9.30 ms</b>.</p>\n<p>Seek time સૌથી મોટો છે; તેથી disk-scheduling algorithms head movement ઘટાડવાનો પ્રયત્ન કરે છે.</p>"
+   }
+  },
+  {
+   "id": "os4n11",
+   "q": {
+    "en": "Directory tree: / contains bin (ls), home and etc (passwd); home contains ravi and priya (a.c); ravi contains os (notes.txt) and c (prog.c). The current directory is /home/ravi. Write the absolute and relative paths of notes.txt, prog.c, a.c and passwd.",
+    "gu": "Directory tree: / માં bin (ls), home અને etc (passwd); home માં ravi અને priya (a.c); ravi માં os (notes.txt) અને c (prog.c). Current directory /home/ravi છે. notes.txt, prog.c, a.c અને passwd ના absolute અને relative paths લખો."
+   },
+   "a": {
+    "en": "<p><b>Absolute path</b> starts from the root (/). <b>Relative path</b> starts from the current directory; <code>..</code> means the parent directory and <code>.</code> means the current directory.</p><table><tr><th>File</th><th>Absolute path</th><th>Relative path (cwd = /home/ravi)</th></tr><tr><td>notes.txt</td><td>/home/ravi/os/notes.txt</td><td>os/notes.txt</td></tr><tr><td>prog.c</td><td>/home/ravi/c/prog.c</td><td>c/prog.c</td></tr><tr><td>a.c</td><td>/home/priya/a.c</td><td>../priya/a.c</td></tr><tr><td>passwd</td><td>/etc/passwd</td><td>../../etc/passwd</td></tr></table><p>For passwd: go up twice (ravi → home → /), then down into etc.</p>",
+    "gu": "<p><b>Absolute path</b> root (/) થી શરૂ થાય. <b>Relative path</b> current directory થી શરૂ થાય; <code>..</code> એટલે parent directory અને <code>.</code> એટલે current directory.</p><table><tr><th>File</th><th>Absolute path</th><th>Relative path (cwd = /home/ravi)</th></tr><tr><td>notes.txt</td><td>/home/ravi/os/notes.txt</td><td>os/notes.txt</td></tr><tr><td>prog.c</td><td>/home/ravi/c/prog.c</td><td>c/prog.c</td></tr><tr><td>a.c</td><td>/home/priya/a.c</td><td>../priya/a.c</td></tr><tr><td>passwd</td><td>/etc/passwd</td><td>../../etc/passwd</td></tr></table><p>passwd માટે: બે વાર ઉપર જાઓ (ravi → home → /), પછી etc માં નીચે.</p>"
+   }
+  },
+  {
+   "id": "os4n12",
+   "q": {
+    "en": "Convert the Unix permissions: (a) rwxr-xr-- and (b) rw-r--r-- to octal; (c) 750 and (d) 600 to symbolic form. Write the chmod command for (a).",
+    "gu": "Unix permissions ફેરવો: (a) rwxr-xr-- અને (b) rw-r--r-- ને octal માં; (c) 750 અને (d) 600 ને symbolic સ્વરૂપમાં. (a) માટે chmod command લખો."
+   },
+   "a": {
+    "en": "<p>Each group of three (owner, group, others): r = 4, w = 2, x = 1; add the values.</p><table><tr><th>Symbolic</th><th>Octal</th><th>Owner / Group / Others</th></tr><tr><td>rwxr-xr--</td><td>754</td><td>rwx = 7 / r-x = 5 / r-- = 4</td></tr><tr><td>rw-r--r--</td><td>644</td><td>rw- = 6 / r-- = 4 / r-- = 4</td></tr><tr><td>rwxr-x---</td><td>750</td><td>rwx = 7 / r-x = 5 / --- = 0</td></tr><tr><td>rw-------</td><td>600</td><td>rw- = 6 / --- = 0 / --- = 0</td></tr></table><p>(a) <code>chmod 754 file</code> (or <code>chmod u=rwx,g=rx,o=r file</code>). 600 is typical for private files: only the owner can read and write.</p>",
+    "gu": "<p>ત્રણના દરેક group (owner, group, others) માં: r = 4, w = 2, x = 1; કિંમતો ઉમેરો.</p><table><tr><th>Symbolic</th><th>Octal</th><th>Owner / Group / Others</th></tr><tr><td>rwxr-xr--</td><td>754</td><td>rwx = 7 / r-x = 5 / r-- = 4</td></tr><tr><td>rw-r--r--</td><td>644</td><td>rw- = 6 / r-- = 4 / r-- = 4</td></tr><tr><td>rwxr-x---</td><td>750</td><td>rwx = 7 / r-x = 5 / --- = 0</td></tr><tr><td>rw-------</td><td>600</td><td>rw- = 6 / --- = 0 / --- = 0</td></tr></table><p>(a) <code>chmod 754 file</code> (અથવા <code>chmod u=rwx,g=rx,o=r file</code>). 600 private files માટે સામાન્ય છે: માત્ર owner વાંચી અને લખી શકે.</p>"
+   }
+  },
+  {
+   "id": "os4n13",
+   "q": {
+    "en": "File tr uses contiguous allocation (start 14, length 3). File jeep uses linked allocation 9 → 16 → 1 → 10 → 25 and, in another case, indexed allocation with index block 19. Find the physical block of logical block 2 of tr and logical block 3 of jeep, and the number of disk reads needed in each case.",
+    "gu": "File tr contiguous allocation (start 14, length 3) વાપરે છે. File jeep linked allocation 9 → 16 → 1 → 10 → 25 અને બીજા કિસ્સામાં index block 19 સાથે indexed allocation વાપરે છે. tr નો logical block 2 અને jeep નો logical block 3 કયા physical block માં છે, અને દરેક કિસ્સામાં કેટલા disk reads જોઈએ તે શોધો."
+   },
+   "a": {
+    "en": "<table><tr><th>Method</th><th>Calculation</th><th>Physical block</th><th>Disk reads</th></tr><tr><td>Contiguous (tr)</td><td>start + i = 14 + 2</td><td><b>16</b></td><td>1 (direct)</td></tr><tr><td>Linked (jeep)</td><td>follow 9 → 16 → 1 → 10</td><td><b>10</b></td><td>4 (blocks 0–3 in turn)</td></tr><tr><td>Indexed (jeep)</td><td>read index block 19, entry 3</td><td><b>10</b></td><td>2 (index + data)</td></tr></table><p>Contiguous and indexed allow <b>direct access</b>; linked allocation needs sequential traversal. If the index block is already in memory, indexed needs only 1 read.</p>",
+    "gu": "<table><tr><th>પદ્ધતિ</th><th>ગણતરી</th><th>Physical block</th><th>Disk reads</th></tr><tr><td>Contiguous (tr)</td><td>start + i = 14 + 2</td><td><b>16</b></td><td>1 (direct)</td></tr><tr><td>Linked (jeep)</td><td>9 → 16 → 1 → 10 અનુસરો</td><td><b>10</b></td><td>4 (blocks 0–3 વારાફરતી)</td></tr><tr><td>Indexed (jeep)</td><td>index block 19 વાંચો, entry 3</td><td><b>10</b></td><td>2 (index + data)</td></tr></table><p>Contiguous અને indexed <b>direct access</b> આપે છે; linked allocation માં ક્રમશઃ traversal કરવું પડે. Index block પહેલેથી memory માં હોય તો indexed માં માત્ર 1 read જોઈએ.</p>"
+   }
+  },
+  {
+   "id": "os4n14",
+   "q": {
+    "en": "Block size is 1 KB and a disk-block pointer is 4 bytes. Find the maximum file size with (a) one index block and (b) a two-level index. Also find the pointer overhead in linked allocation.",
+    "gu": "Block size 1 KB છે અને disk-block pointer 4 bytes છે. (a) એક index block અને (b) two-level index સાથે મહત્તમ file size શોધો. Linked allocation માં pointer overhead પણ શોધો."
+   },
+   "a": {
+    "en": "<p>Pointers per index block = 1024 / 4 = <b>256</b>.</p>\n<p>(a) One index block: 256 data blocks × 1 KB = <b>256 KB</b>.</p>\n<p>(b) Two-level index: 256 × 256 = 65,536 data blocks × 1 KB = <b>64 MB</b>.</p>\n<p>Linked allocation: each 1 KB block stores a 4-byte next pointer → data per block = 1020 bytes; overhead = 4 / 1024 ≈ <b>0.39%</b>.</p>",
+    "gu": "<p>Index block દીઠ pointers = 1024 / 4 = <b>256</b>.</p>\n<p>(a) એક index block: 256 data blocks × 1 KB = <b>256 KB</b>.</p>\n<p>(b) Two-level index: 256 × 256 = 65,536 data blocks × 1 KB = <b>64 MB</b>.</p>\n<p>Linked allocation: દરેક 1 KB block માં 4-byte next pointer → block દીઠ data = 1020 bytes; overhead = 4 / 1024 ≈ <b>0.39%</b>.</p>"
+   }
+  }
+ ],
+ "equations": [
+  {
+   "title": {
+    "en": "Disk Performance",
+    "gu": "Disk Performance"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Disk access time",
+      "gu": "Disk access time"
+     },
+     "f": "Access time = seek time + rotational latency + transfer time",
+     "terms": {
+      "en": "Seek = move head to the track; latency = wait for the sector",
+      "gu": "Seek = head ને track પર લઈ જવો; latency = sector ની રાહ"
+     }
+    },
+    {
+     "name": {
+      "en": "Average rotational latency",
+      "gu": "Average rotational latency"
+     },
+     "f": "Latency = ½ × (60 / rpm) s",
+     "terms": {
+      "en": "e.g. 7200 rpm → 4.17 ms",
+      "gu": "દા.ત. 7200 rpm → 4.17 ms"
+     }
+    },
+    {
+     "name": {
+      "en": "Transfer time (one sector)",
+      "gu": "Transfer time (એક sector)"
+     },
+     "f": "Transfer = rotation time / sectors per track",
+     "terms": {
+      "en": "Or bytes ÷ transfer rate",
+      "gu": "અથવા bytes ÷ transfer rate"
+     }
+    },
+    {
+     "name": {
+      "en": "Disk capacity",
+      "gu": "Disk capacity"
+     },
+     "f": "Capacity = surfaces × tracks × sectors × bytes per sector",
+     "terms": {
+      "en": "Cylinders = tracks per surface",
+      "gu": "Cylinders = surface દીઠ tracks"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Disk Scheduling",
+    "gu": "Disk Scheduling"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Total head movement",
+      "gu": "કુલ head movement"
+     },
+     "f": "Total = Σ |next track − current track|",
+     "terms": {
+      "en": "Sum over every move of the head",
+      "gu": "Head ની દરેક move નો સરવાળો"
+     }
+    },
+    {
+     "name": {
+      "en": "SCAN (moving to 0)",
+      "gu": "SCAN (0 તરફ)"
+     },
+     "f": "Total = (head − 0) + (largest request − 0)",
+     "terms": {
+      "en": "When requests exist on both sides",
+      "gu": "બંને બાજુ requests હોય ત્યારે"
+     }
+    },
+    {
+     "name": {
+      "en": "C-SCAN (moving to 0)",
+      "gu": "C-SCAN (0 તરફ)"
+     },
+     "f": "Total = head + (N − 1) + (N − 1 − smallest request right of head)",
+     "terms": {
+      "en": "N = number of tracks; drop (N − 1) if the jump is not counted",
+      "gu": "N = tracks ની સંખ્યા; jump ન ગણો તો (N − 1) કાઢો"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Files and Allocation",
+    "gu": "Files અને Allocation"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Octal permission",
+      "gu": "Octal permission"
+     },
+     "f": "digit = 4·r + 2·w + 1·x (for owner, group, others)",
+     "terms": {
+      "en": "rwxr-xr-- = 754",
+      "gu": "rwxr-xr-- = 754"
+     }
+    },
+    {
+     "name": {
+      "en": "Contiguous: physical block",
+      "gu": "Contiguous: physical block"
+     },
+     "f": "block = start + logical block number",
+     "terms": {
+      "en": "Direct access in one read",
+      "gu": "એક read માં direct access"
+     }
+    },
+    {
+     "name": {
+      "en": "Pointers per index block",
+      "gu": "Index block દીઠ pointers"
+     },
+     "f": "P = block size / pointer size",
+     "terms": {
+      "en": "Max file (1 index block) = P × block size",
+      "gu": "મહત્તમ file (1 index block) = P × block size"
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Files",
+    "gu": "Files"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a file?",
+      "gu": "File શું છે?"
+     },
+     "a": {
+      "en": "A named collection of related information stored on secondary storage; the smallest unit of logical storage for the user.",
+      "gu": "Secondary storage પર સંગ્રહિત સંબંધિત માહિતીનો નામવાળો સમૂહ; user માટે logical storage નો સૌથી નાનો એકમ."
+     }
+    },
+    {
+     "q": {
+      "en": "Name any four file attributes.",
+      "gu": "કોઈ પણ ચાર file attributes જણાવો."
+     },
+     "a": {
+      "en": "Name, type, location, size, protection, time/date and user identification.",
+      "gu": "Name, type, location, size, protection, time/date અને user identification."
+     }
+    },
+    {
+     "q": {
+      "en": "List the basic file operations.",
+      "gu": "મૂળભૂત file operations જણાવો."
+     },
+     "a": {
+      "en": "Create, write, read, reposition (seek), delete, truncate; also open and close.",
+      "gu": "Create, write, read, reposition (seek), delete, truncate; ઉપરાંત open અને close."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between absolute and relative path?",
+      "gu": "Absolute અને relative path વચ્ચે તફાવત?"
+     },
+     "a": {
+      "en": "An absolute path starts from the root (/home/ravi/a.c); a relative path starts from the current directory (a.c).",
+      "gu": "Absolute path root થી શરૂ થાય (/home/ravi/a.c); relative path current directory થી શરૂ થાય (a.c)."
+     }
+    },
+    {
+     "q": {
+      "en": "What does chmod 644 mean?",
+      "gu": "chmod 644 નો અર્થ શું?"
+     },
+     "a": {
+      "en": "Owner read + write (6), group read (4), others read (4): rw-r--r--.",
+      "gu": "Owner read + write (6), group read (4), others read (4): rw-r--r--."
+     }
+    },
+    {
+     "q": {
+      "en": "What is an access-control list (ACL)?",
+      "gu": "Access-control list (ACL) શું છે?"
+     },
+     "a": {
+      "en": "A list attached to a file giving the user names and the access types allowed for each.",
+      "gu": "File સાથે જોડાયેલી યાદી જે દરેક user નું નામ અને તેને મંજૂર access types આપે."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Directories",
+    "gu": "Directories"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a directory?",
+      "gu": "Directory શું છે?"
+     },
+     "a": {
+      "en": "A symbol table that maps file names to their directory entries (location and attributes).",
+      "gu": "File names ને તેમની directory entries (location અને attributes) સાથે map કરતી symbol table."
+     }
+    },
+    {
+     "q": {
+      "en": "Main problem of a single-level directory?",
+      "gu": "Single-level directory ની મુખ્ય સમસ્યા?"
+     },
+     "a": {
+      "en": "All files are in one directory, so names must be unique and files cannot be grouped.",
+      "gu": "બધી files એક directory માં હોવાથી names unique જોઈએ અને files group ન થઈ શકે."
+     }
+    },
+    {
+     "q": {
+      "en": "What are MFD and UFD?",
+      "gu": "MFD અને UFD શું છે?"
+     },
+     "a": {
+      "en": "In a two-level directory, the master file directory has one entry per user pointing to that user's user file directory.",
+      "gu": "Two-level directory માં master file directory માં દરેક user ની એક entry હોય જે તે user ની user file directory તરફ point કરે."
+     }
+    },
+    {
+     "q": {
+      "en": "What advantage does an acyclic-graph directory add?",
+      "gu": "Acyclic-graph directory કયો ફાયદો ઉમેરે?"
+     },
+     "a": {
+      "en": "Sharing: a file or subdirectory can appear in more than one directory (links), without cycles.",
+      "gu": "Sharing: file કે subdirectory એક કરતાં વધુ directories માં (links વડે) દેખાઈ શકે, cycles વગર."
+     }
+    },
+    {
+     "q": {
+      "en": "Why are cycles a problem in a general graph directory?",
+      "gu": "General graph directory માં cycles શા માટે સમસ્યા છે?"
+     },
+     "a": {
+      "en": "Searches can loop forever and deleted files may never reach a reference count of zero; garbage collection is needed.",
+      "gu": "Search હંમેશ માટે loop માં ફસાઈ શકે અને deleted files નો reference count ક્યારેય શૂન્ય ન થાય; garbage collection જોઈએ."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Allocation Methods",
+    "gu": "Allocation Methods"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is contiguous allocation?",
+      "gu": "Contiguous allocation શું છે?"
+     },
+     "a": {
+      "en": "Each file occupies a set of consecutive blocks; the directory stores start and length.",
+      "gu": "દરેક file સળંગ blocks રોકે છે; directory start અને length રાખે છે."
+     }
+    },
+    {
+     "q": {
+      "en": "Main drawback of contiguous allocation?",
+      "gu": "Contiguous allocation નો મુખ્ય ગેરફાયદો?"
+     },
+     "a": {
+      "en": "External fragmentation and difficulty in growing a file.",
+      "gu": "External fragmentation અને file વધારવામાં મુશ્કેલી."
+     }
+    },
+    {
+     "q": {
+      "en": "How does linked allocation work?",
+      "gu": "Linked allocation કેવી રીતે કામ કરે?"
+     },
+     "a": {
+      "en": "Each block holds a pointer to the next block; the directory stores the first and last block.",
+      "gu": "દરેક block આગળના block નો pointer રાખે છે; directory પહેલો અને છેલ્લો block રાખે છે."
+     }
+    },
+    {
+     "q": {
+      "en": "What is FAT?",
+      "gu": "FAT શું છે?"
+     },
+     "a": {
+      "en": "File Allocation Table: a variation of linked allocation where all next pointers are kept in a table at the start of the disk (MS-DOS, USB drives).",
+      "gu": "File Allocation Table: linked allocation નો પ્રકાર જેમાં બધા next pointers disk ની શરૂઆતમાં એક table માં રાખાય (MS-DOS, USB drives)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is an index block?",
+      "gu": "Index block શું છે?"
+     },
+     "a": {
+      "en": "In indexed allocation, a block that holds the addresses of all the data blocks of a file; entry i points to block i.",
+      "gu": "Indexed allocation માં file ના બધા data blocks ના addresses રાખતો block; entry i block i તરફ point કરે."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Disk Structure and Scheduling",
+    "gu": "Disk Structure અને Scheduling"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Define track, sector and cylinder.",
+      "gu": "Track, sector અને cylinder ની વ્યાખ્યા આપો."
+     },
+     "a": {
+      "en": "Track: a circle on a platter surface; sector: a fixed-size part of a track; cylinder: the set of tracks at one arm position on all surfaces.",
+      "gu": "Track: platter surface પરનું વર્તુળ; sector: track નો fixed-size ભાગ; cylinder: એક arm position પર બધી surfaces ના tracks નો સમૂહ."
+     }
+    },
+    {
+     "q": {
+      "en": "What is seek time?",
+      "gu": "Seek time શું છે?"
+     },
+     "a": {
+      "en": "The time for the disk arm to move the head to the required cylinder.",
+      "gu": "Disk arm ને head જરૂરી cylinder પર લઈ જવામાં લાગતો સમય."
+     }
+    },
+    {
+     "q": {
+      "en": "What is rotational latency?",
+      "gu": "Rotational latency શું છે?"
+     },
+     "a": {
+      "en": "The time waiting for the required sector to rotate under the head.",
+      "gu": "જરૂરી sector head ની નીચે ફરીને આવે ત્યાં સુધીની રાહનો સમય."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is SCAN called the elevator algorithm?",
+      "gu": "SCAN ને elevator algorithm શા માટે કહે છે?"
+     },
+     "a": {
+      "en": "Like a lift, the head moves in one direction serving requests to the end, then reverses.",
+      "gu": "Lift ની જેમ head એક દિશામાં છેડા સુધી requests સંતોષતો જાય, પછી દિશા બદલે."
+     }
+    },
+    {
+     "q": {
+      "en": "How is C-SCAN different from SCAN?",
+      "gu": "C-SCAN, SCAN થી કેવી રીતે જુદું?"
+     },
+     "a": {
+      "en": "C-SCAN serves requests in one direction only; at the end it jumps back to the other end without serving, giving more uniform waiting time.",
+      "gu": "C-SCAN requests માત્ર એક દિશામાં સંતોષે; છેડે પહોંચી સંતોષ્યા વગર બીજા છેડે jump કરે, તેથી waiting time વધુ એકસરખો રહે."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the difference between SCAN and LOOK?",
+      "gu": "SCAN અને LOOK વચ્ચે તફાવત?"
+     },
+     "a": {
+      "en": "SCAN goes to the end of the disk; LOOK reverses at the last request in that direction.",
+      "gu": "SCAN disk ના છેડા સુધી જાય; LOOK તે દિશાની છેલ્લી request પર દિશા બદલે."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Explain file attributes and file operations.",
+    "gu": "File attributes અને file operations સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain different file types with their extensions.",
+    "gu": "જુદા જુદા file types તેમના extensions સાથે સમજાવો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain absolute and relative file paths with an example.",
+    "gu": "Absolute અને relative file paths ઉદાહરણ સાથે સમજાવો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain file security and protection mechanisms.",
+    "gu": "File security અને protection mechanisms સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain single-level and two-level directory structures.",
+    "gu": "Single-level અને two-level directory structures સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain tree-structured directory with a diagram.",
+    "gu": "Tree-structured directory આકૃતિ સાથે સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain acyclic-graph and general graph directory structures.",
+    "gu": "Acyclic-graph અને general graph directory structures સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain contiguous, linked and indexed allocation methods.",
+    "gu": "Contiguous, linked અને indexed allocation methods સમજાવો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Compare contiguous, linked and indexed allocation.",
+    "gu": "Contiguous, linked અને indexed allocation ની સરખામણી કરો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain the physical structure of a disk.",
+    "gu": "Disk નું physical structure સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Define seek time, rotational latency and transfer time.",
+    "gu": "Seek time, rotational latency અને transfer time ની વ્યાખ્યા આપો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain the SCAN disk scheduling algorithm with an example.",
+    "gu": "SCAN disk scheduling algorithm ઉદાહરણ સાથે સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the C-SCAN disk scheduling algorithm with an example.",
+    "gu": "C-SCAN disk scheduling algorithm ઉદાહરણ સાથે સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Disk 0–199; queue 75, 90, 40, 135, 50, 170, 65, 10; head 46 moving left. Find total head movement using SCAN and C-SCAN.",
+    "gu": "Disk 0–199; queue 75, 90, 40, 135, 50, 170, 65, 10; head 46 ડાબી બાજુ. SCAN અને C-SCAN વડે કુલ head movement શોધો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Differentiate between SCAN and C-SCAN.",
+    "gu": "SCAN અને C-SCAN વચ્ચે તફાવત આપો."
+   },
+   "marks": 3
+  }
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "equations",
+  "numericals",
+  "viva",
+  "exam"
+ ],
+ "diagrams": [
+  {
+   "id": "os4_paths",
+   "title": {
+    "en": "Absolute and Relative File Paths",
+    "gu": "Absolute અને Relative File Paths"
+   },
+   "file": "diagrams/os4_paths.svg"
+  },
+  {
+   "id": "os4_perm",
+   "title": {
+    "en": "Unix File Permissions (rwx)",
+    "gu": "Unix File Permissions (rwx)"
+   },
+   "file": "diagrams/os4_perm.svg"
+  },
+  {
+   "id": "os4_single",
+   "title": {
+    "en": "Single-Level Directory",
+    "gu": "Single-Level Directory"
+   },
+   "file": "diagrams/os4_single.svg"
+  },
+  {
+   "id": "os4_two",
+   "title": {
+    "en": "Two-Level Directory",
+    "gu": "Two-Level Directory"
+   },
+   "file": "diagrams/os4_two.svg"
+  },
+  {
+   "id": "os4_tree",
+   "title": {
+    "en": "Tree-Structured Directory",
+    "gu": "Tree-Structured Directory"
+   },
+   "file": "diagrams/os4_tree.svg"
+  },
+  {
+   "id": "os4_acyclic",
+   "title": {
+    "en": "Acyclic-Graph Directory",
+    "gu": "Acyclic-Graph Directory"
+   },
+   "file": "diagrams/os4_acyclic.svg"
+  },
+  {
+   "id": "os4_general",
+   "title": {
+    "en": "General Graph Directory",
+    "gu": "General Graph Directory"
+   },
+   "file": "diagrams/os4_general.svg"
+  },
+  {
+   "id": "os4_contig",
+   "title": {
+    "en": "Contiguous Allocation",
+    "gu": "Contiguous Allocation"
+   },
+   "file": "diagrams/os4_contig.svg"
+  },
+  {
+   "id": "os4_linked",
+   "title": {
+    "en": "Linked Allocation",
+    "gu": "Linked Allocation"
+   },
+   "file": "diagrams/os4_linked.svg"
+  },
+  {
+   "id": "os4_indexed",
+   "title": {
+    "en": "Indexed Allocation",
+    "gu": "Indexed Allocation"
+   },
+   "file": "diagrams/os4_indexed.svg"
+  },
+  {
+   "id": "os4_disk",
+   "title": {
+    "en": "Physical Structure of a Disk",
+    "gu": "Disk નું Physical Structure"
+   },
+   "file": "diagrams/os4_disk.svg"
+  },
+  {
+   "id": "os4_scan",
+   "title": {
+    "en": "SCAN (Practical 5)",
+    "gu": "SCAN (Practical 5)"
+   },
+   "file": "diagrams/os4_scan.svg"
+  },
+  {
+   "id": "os4_cscan",
+   "title": {
+    "en": "C-SCAN (Practical 5)",
+    "gu": "C-SCAN (Practical 5)"
+   },
+   "file": "diagrams/os4_cscan.svg"
+  }
+ ]
+}
