@@ -1,0 +1,884 @@
+{
+ "subject": "DI03000011",
+ "unit": 5,
+ "format": "notes",
+ "title": {
+  "en": "Basic Sequential Circuits",
+  "gu": "Basic Sequential Circuits"
+ },
+ "weightage": 11,
+ "hours": 3,
+ "notes": [
+  {
+   "title": {
+    "en": "5.1 Basic Sequential Circuits",
+    "gu": "5.1 Basic Sequential Circuits"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "5.1.1 Introduction to Sequential Circuits",
+      "gu": "5.1.1 Sequential Circuits નો પરિચય"
+     },
+     "body": {
+      "en": "<p>A <b>sequential circuit</b> is a logic circuit whose output depends on the <b>present inputs</b> and also on the <b>past state</b> (previous outputs). It therefore needs <b>memory</b>.</p>\n<p>It consists of a <b>combinational circuit</b> plus <b>memory elements</b> (flip-flops) connected in a <b>feedback</b> path:</p>\n<ul>\n<li>The combinational circuit uses the external inputs and the <b>present state</b> (from memory) to produce the outputs and the <b>next state</b>.</li>\n<li>The memory elements store the state; usually they change only at the <b>clock</b> signal.</li>\n</ul>\n<p>The sequence of states, not only the present input, decides the output. Example: a counter gives 0, 1, 2, 3… for the same clock input.</p>\n<h4>Types</h4>\n<ul>\n<li><b>Synchronous sequential circuits:</b> all memory elements change state together, controlled by a common clock (e.g. synchronous counter).</li>\n<li><b>Asynchronous sequential circuits:</b> outputs change whenever inputs change; there is no common clock (e.g. ripple counter, basic latch).</li>\n</ul>\n<p><b>Examples:</b> flip-flops, registers, counters, RAM, the control unit of a CPU.</p>",
+      "gu": "<p><b>Sequential circuit</b> એવો logic circuit છે જેનો output <b>હાલના inputs</b> પર અને સાથે <b>અગાઉની state</b> (પહેલાંના outputs) પર પણ આધાર રાખે છે. તેથી તેમાં <b>memory</b> જરૂરી છે.</p>\n<p>તે <b>combinational circuit</b> અને <b>feedback</b> path માં જોડાયેલા <b>memory elements</b> (flip-flops) થી બને છે:</p>\n<ul>\n<li>Combinational circuit બહારના inputs અને <b>present state</b> (memory માંથી) વાપરી outputs અને <b>next state</b> બનાવે છે.</li>\n<li>Memory elements state ને store કરે છે; સામાન્ય રીતે તેઓ માત્ર <b>clock</b> signal વખતે બદલાય છે.</li>\n</ul>\n<p>માત્ર હાલનો input નહીં, પણ states નો ક્રમ output નક્કી કરે છે. ઉદાહરણ: counter એક જ clock input માટે 0, 1, 2, 3… આપે છે.</p>\n<h4>પ્રકારો</h4>\n<ul>\n<li><b>Synchronous sequential circuits:</b> બધા memory elements common clock ના નિયંત્રણમાં એકસાથે state બદલે છે (દા.ત. synchronous counter).</li>\n<li><b>Asynchronous sequential circuits:</b> inputs બદલાય ત્યારે outputs બદલાય; common clock નથી (દા.ત. ripple counter, basic latch).</li>\n</ul>\n<p><b>ઉદાહરણો:</b> flip-flops, registers, counters, RAM, CPU નું control unit.</p>"
+     },
+     "diagram": "de5_seq",
+     "key": true
+    },
+    {
+     "h": {
+      "en": "5.1.2 Clock Signal and Triggering",
+      "gu": "5.1.2 Clock Signal અને Triggering"
+     },
+     "body": {
+      "en": "<p>A <b>clock</b> is a periodic square-wave signal that controls <b>when</b> a synchronous sequential circuit changes state.</p>\n<ul>\n<li><b>Period (T):</b> time of one cycle; <b>frequency</b> f = 1/T (e.g. T = 1 ms → f = 1 kHz).</li>\n<li><b>Positive (rising) edge:</b> the change from 0 to 1.</li>\n<li><b>Negative (falling) edge:</b> the change from 1 to 0.</li>\n</ul>\n<h4>Triggering</h4>\n<p>Making a flip-flop respond to its inputs is called <b>triggering</b>:</p>\n<ul>\n<li><b>Level triggering:</b> the circuit responds during the whole time the clock is HIGH (positive level) or LOW (negative level). Latches are level triggered.</li>\n<li><b>Edge triggering:</b> the circuit responds only at the instant of a clock edge: <b>positive-edge</b> (0 → 1) or <b>negative-edge</b> (1 → 0) triggered. Most flip-flops are edge triggered, so the output changes only once per clock cycle.</li>\n</ul>",
+      "gu": "<p><b>Clock</b> એક periodic square-wave signal છે જે synchronous sequential circuit <b>ક્યારે</b> state બદલે તે નક્કી કરે છે.</p>\n<ul>\n<li><b>Period (T):</b> એક cycle નો સમય; <b>frequency</b> f = 1/T (દા.ત. T = 1 ms → f = 1 kHz).</li>\n<li><b>Positive (rising) edge:</b> 0 થી 1 તરફનો ફેરફાર.</li>\n<li><b>Negative (falling) edge:</b> 1 થી 0 તરફનો ફેરફાર.</li>\n</ul>\n<h4>Triggering</h4>\n<p>Flip-flop ને તેના inputs પ્રત્યે પ્રતિભાવ આપતો કરવો તેને <b>triggering</b> કહે છે:</p>\n<ul>\n<li><b>Level triggering:</b> clock HIGH (positive level) કે LOW (negative level) હોય તે આખા સમય દરમિયાન circuit પ્રતિભાવ આપે. Latches level triggered હોય છે.</li>\n<li><b>Edge triggering:</b> circuit માત્ર clock edge ની ક્ષણે પ્રતિભાવ આપે: <b>positive-edge</b> (0 → 1) અથવા <b>negative-edge</b> (1 → 0) triggered. મોટા ભાગના flip-flops edge triggered હોય છે, તેથી output દરેક clock cycle માં એક જ વાર બદલાય છે.</li>\n</ul>"
+     },
+     "diagram": "de5_clock"
+    },
+    {
+     "h": {
+      "en": "5.1.3 Difference between Combinational and Sequential Circuits",
+      "gu": "5.1.3 Combinational અને Sequential Circuits વચ્ચે તફાવત"
+     },
+     "body": {
+      "en": "<table><tr><th>No.</th><th>Combinational circuit</th><th>Sequential circuit</th></tr>\n<tr><td>1</td><td>Output depends only on present inputs.</td><td>Output depends on present inputs and past state.</td></tr>\n<tr><td>2</td><td>No memory element.</td><td>Has memory elements (flip-flops).</td></tr>\n<tr><td>3</td><td>No feedback path.</td><td>Feedback from output (state) to input.</td></tr>\n<tr><td>4</td><td>No clock needed.</td><td>Clock is usually needed (synchronous).</td></tr>\n<tr><td>5</td><td>Faster and easier to design.</td><td>Slower and more complex to design.</td></tr>\n<tr><td>6</td><td>Described by a truth table.</td><td>Described by a state table / characteristic table and timing diagram.</td></tr>\n<tr><td>7</td><td>Building blocks: logic gates.</td><td>Building blocks: flip-flops + gates.</td></tr>\n<tr><td>8</td><td>Examples: adder, subtractor, MUX, decoder.</td><td>Examples: flip-flop, register, counter, RAM.</td></tr></table>",
+      "gu": "<table><tr><th>ક્રમ</th><th>Combinational circuit</th><th>Sequential circuit</th></tr>\n<tr><td>1</td><td>Output માત્ર હાલના inputs પર આધાર રાખે.</td><td>Output હાલના inputs અને અગાઉની state પર આધાર રાખે.</td></tr>\n<tr><td>2</td><td>Memory element નથી.</td><td>Memory elements (flip-flops) હોય છે.</td></tr>\n<tr><td>3</td><td>Feedback path નથી.</td><td>Output (state) થી input તરફ feedback.</td></tr>\n<tr><td>4</td><td>Clock ની જરૂર નથી.</td><td>સામાન્ય રીતે clock જોઈએ (synchronous).</td></tr>\n<tr><td>5</td><td>ઝડપી અને design કરવામાં સરળ.</td><td>ધીમો અને design કરવામાં જટિલ.</td></tr>\n<tr><td>6</td><td>Truth table વડે વર્ણન.</td><td>State table / characteristic table અને timing diagram વડે વર્ણન.</td></tr>\n<tr><td>7</td><td>Building blocks: logic gates.</td><td>Building blocks: flip-flops + gates.</td></tr>\n<tr><td>8</td><td>ઉદાહરણો: adder, subtractor, MUX, decoder.</td><td>ઉદાહરણો: flip-flop, register, counter, RAM.</td></tr></table>"
+     },
+     "diagram": "de5_compare",
+     "key": true
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "5.2 Flip-Flops",
+    "gu": "5.2 Flip-Flops"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "5.2.1 Introduction to Flip-Flops; SR Latch using NOR Gates",
+      "gu": "5.2.1 Flip-Flops નો પરિચય; NOR Gates વડે SR Latch"
+     },
+     "body": {
+      "en": "<p>A <b>flip-flop (FF)</b> is a <b>1-bit memory element</b>: a bistable circuit with two stable states, 1 (set) and 0 (reset). It stays in a state until an input changes it. It has two complementary outputs, <b>Q</b> and <b><span style=\"text-decoration:overline\">Q</span></b>.</p>\n<p><b>Types:</b> SR, JK, D and T flip-flops. A <b>latch</b> is the basic unclocked (or level-triggered) form; a <b>flip-flop</b> usually means a clocked, edge-triggered device.</p>\n<h4>SR latch using NOR gates</h4>\n<p>Two NOR gates are <b>cross-coupled</b>: the output of each gate is fed back to an input of the other. Inputs: S (set) and R (reset).</p><table><tr><th>S</th><th>R</th><th>Q</th><th>State</th></tr><tr><td>0</td><td>0</td><td>Qn</td><td>No change</td></tr><tr><td>0</td><td>1</td><td>0</td><td>Reset</td></tr><tr><td>1</td><td>0</td><td>1</td><td>Set</td></tr><tr><td>1</td><td>1</td><td>0 (Q = <span style=\"text-decoration:overline\">Q</span> = 0)</td><td>Invalid</td></tr></table>\n<ul><li>S = 0, R = 0: outputs stay as they were (<b>memory / hold</b>).</li>\n<li>S = 0, R = 1: Q = 0 (<b>reset</b>).</li>\n<li>S = 1, R = 0: Q = 1 (<b>set</b>).</li>\n<li>S = 1, R = 1: Q = <span style=\"text-decoration:overline\">Q</span> = 0, which breaks the rule that the outputs are complements. When both inputs return to 0 the final state is unpredictable, so this is the <b>invalid (forbidden)</b> condition.</li></ul>",
+      "gu": "<p><b>Flip-flop (FF)</b> એક <b>1-bit memory element</b> છે: બે stable states, 1 (set) અને 0 (reset), ધરાવતો bistable circuit. Input તેને બદલે નહીં ત્યાં સુધી તે એક state માં રહે છે. તેને બે complementary outputs, <b>Q</b> અને <b><span style=\"text-decoration:overline\">Q</span></b>, હોય છે.</p>\n<p><b>પ્રકારો:</b> SR, JK, D અને T flip-flops. <b>Latch</b> મૂળભૂત clock વગરનું (અથવા level-triggered) સ્વરૂપ છે; <b>flip-flop</b> સામાન્ય રીતે clocked, edge-triggered device ને કહે છે.</p>\n<h4>NOR gates વડે SR latch</h4>\n<p>બે NOR gates <b>cross-coupled</b> હોય છે: દરેક gate નો output બીજા gate ના input માં feedback તરીકે જાય છે. Inputs: S (set) અને R (reset).</p><table><tr><th>S</th><th>R</th><th>Q</th><th>State</th></tr><tr><td>0</td><td>0</td><td>Qn</td><td>No change (ફેરફાર નહીં)</td></tr><tr><td>0</td><td>1</td><td>0</td><td>Reset</td></tr><tr><td>1</td><td>0</td><td>1</td><td>Set</td></tr><tr><td>1</td><td>1</td><td>0 (Q = <span style=\"text-decoration:overline\">Q</span> = 0)</td><td>Invalid (અમાન્ય)</td></tr></table>\n<ul><li>S = 0, R = 0: outputs પહેલાં જેવા જ રહે (<b>memory / hold</b>).</li>\n<li>S = 0, R = 1: Q = 0 (<b>reset</b>).</li>\n<li>S = 1, R = 0: Q = 1 (<b>set</b>).</li>\n<li>S = 1, R = 1: Q = <span style=\"text-decoration:overline\">Q</span> = 0, જે outputs complement હોવાનો નિયમ તોડે છે. બંને inputs પાછા 0 થાય ત્યારે અંતિમ state અનિશ્ચિત હોય છે, તેથી આ <b>invalid (forbidden)</b> condition છે.</li></ul>"
+     },
+     "diagram": "de5_latch",
+     "examples": [
+      "de5n1"
+     ],
+     "key": true
+    },
+    {
+     "h": {
+      "en": "5.2.2 SR Latch using NAND Gates",
+      "gu": "5.2.2 NAND Gates વડે SR Latch"
+     },
+     "body": {
+      "en": "<p>An SR latch can also be made with two cross-coupled <b>NAND</b> gates. Its inputs are <b>active LOW</b>, so they are written <span style=\"text-decoration:overline\">S</span> and <span style=\"text-decoration:overline\">R</span>: a 0 on an input performs the action.</p><table><tr><th><span style=\"text-decoration:overline\">S</span></th><th><span style=\"text-decoration:overline\">R</span></th><th>Q</th><th>State</th></tr><tr><td>1</td><td>1</td><td>Qn</td><td>No change</td></tr><tr><td>1</td><td>0</td><td>0</td><td>Reset</td></tr><tr><td>0</td><td>1</td><td>1</td><td>Set</td></tr><tr><td>0</td><td>0</td><td>1 (Q = <span style=\"text-decoration:overline\">Q</span> = 1)</td><td>Invalid</td></tr></table>\n<ul><li><span style=\"text-decoration:overline\">S</span> = 1, <span style=\"text-decoration:overline\">R</span> = 1: hold (no change).</li>\n<li><span style=\"text-decoration:overline\">S</span> = 1, <span style=\"text-decoration:overline\">R</span> = 0: reset, Q = 0.</li>\n<li><span style=\"text-decoration:overline\">S</span> = 0, <span style=\"text-decoration:overline\">R</span> = 1: set, Q = 1.</li>\n<li><span style=\"text-decoration:overline\">S</span> = <span style=\"text-decoration:overline\">R</span> = 0: Q = <span style=\"text-decoration:overline\">Q</span> = 1: invalid.</li></ul>\n<p>Compared with the NOR latch, the table is the same but with inverted inputs. Adding NOT gates (or NAND gates with a clock) at the inputs gives an active-HIGH SR latch / flip-flop.</p>",
+      "gu": "<p>SR latch બે cross-coupled <b>NAND</b> gates વડે પણ બને છે. તેના inputs <b>active LOW</b> છે, તેથી તેમને <span style=\"text-decoration:overline\">S</span> અને <span style=\"text-decoration:overline\">R</span> લખાય છે: input પર 0 આપવાથી action થાય છે.</p><table><tr><th><span style=\"text-decoration:overline\">S</span></th><th><span style=\"text-decoration:overline\">R</span></th><th>Q</th><th>State</th></tr><tr><td>1</td><td>1</td><td>Qn</td><td>No change (ફેરફાર નહીં)</td></tr><tr><td>1</td><td>0</td><td>0</td><td>Reset</td></tr><tr><td>0</td><td>1</td><td>1</td><td>Set</td></tr><tr><td>0</td><td>0</td><td>1 (Q = <span style=\"text-decoration:overline\">Q</span> = 1)</td><td>Invalid (અમાન્ય)</td></tr></table>\n<ul><li><span style=\"text-decoration:overline\">S</span> = 1, <span style=\"text-decoration:overline\">R</span> = 1: hold (ફેરફાર નહીં).</li>\n<li><span style=\"text-decoration:overline\">S</span> = 1, <span style=\"text-decoration:overline\">R</span> = 0: reset, Q = 0.</li>\n<li><span style=\"text-decoration:overline\">S</span> = 0, <span style=\"text-decoration:overline\">R</span> = 1: set, Q = 1.</li>\n<li><span style=\"text-decoration:overline\">S</span> = <span style=\"text-decoration:overline\">R</span> = 0: Q = <span style=\"text-decoration:overline\">Q</span> = 1: invalid.</li></ul>\n<p>NOR latch ની સરખામણીમાં table સરખું છે પણ inputs ઊલટા છે. Inputs પર NOT gates (અથવા clock સાથે NAND gates) ઉમેરવાથી active-HIGH SR latch / flip-flop બને છે.</p>"
+     },
+     "diagram": "de5_sr_nand",
+     "examples": [
+      "de5n2"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.2.3 SR Flip-Flop (Clocked SR)",
+      "gu": "5.2.3 SR Flip-Flop (Clocked SR)"
+     },
+     "body": {
+      "en": "<p>A <b>clocked SR flip-flop</b> is a NAND latch with two extra NAND gates (steering gates) at the input, controlled by the <b>clock (CLK)</b>.</p>\n<ul><li><b>CLK = 0:</b> both steering gates give 1, so the latch holds its state whatever S and R are.</li>\n<li><b>CLK = 1:</b> the steering gates pass <span style=\"text-decoration:overline\">S</span> and <span style=\"text-decoration:overline\">R</span> to the latch, so it works as an active-HIGH SR latch.</li></ul>\n<h4>Truth table</h4><table><tr><th>CLK</th><th>S</th><th>R</th><th>Q<sub>n+1</sub></th><th>State</th></tr><tr><td>0</td><td>X</td><td>X</td><td>Q<sub>n</sub></td><td>No change</td></tr><tr><td>1</td><td>0</td><td>0</td><td>Q<sub>n</sub></td><td>No change</td></tr><tr><td>1</td><td>0</td><td>1</td><td>0</td><td>Reset</td></tr><tr><td>1</td><td>1</td><td>0</td><td>1</td><td>Set</td></tr><tr><td>1</td><td>1</td><td>1</td><td>?</td><td>Invalid (not allowed)</td></tr></table>\n<h4>Characteristic equation</h4>\n<p><b>Q<sub>n+1</sub> = S + <span style=\"text-decoration:overline\">R</span>Q<sub>n</sub></b> &nbsp; with the condition SR = 0 (derived by K-map in the solved example).</p>\n<p><b>Drawback:</b> S = R = 1 is not allowed (invalid state). The JK flip-flop removes this problem.</p>",
+      "gu": "<p><b>Clocked SR flip-flop</b> એ NAND latch છે જેના input પર <b>clock (CLK)</b> વડે નિયંત્રિત બે વધારાના NAND gates (steering gates) હોય છે.</p>\n<ul><li><b>CLK = 0:</b> બંને steering gates 1 આપે, તેથી S અને R ગમે તે હોય latch તેની state જાળવી રાખે.</li>\n<li><b>CLK = 1:</b> steering gates <span style=\"text-decoration:overline\">S</span> અને <span style=\"text-decoration:overline\">R</span> latch ને આપે, તેથી તે active-HIGH SR latch તરીકે કામ કરે.</li></ul>\n<h4>Truth table</h4><table><tr><th>CLK</th><th>S</th><th>R</th><th>Q<sub>n+1</sub></th><th>State</th></tr><tr><td>0</td><td>X</td><td>X</td><td>Q<sub>n</sub></td><td>No change (ફેરફાર નહીં)</td></tr><tr><td>1</td><td>0</td><td>0</td><td>Q<sub>n</sub></td><td>No change (ફેરફાર નહીં)</td></tr><tr><td>1</td><td>0</td><td>1</td><td>0</td><td>Reset</td></tr><tr><td>1</td><td>1</td><td>0</td><td>1</td><td>Set</td></tr><tr><td>1</td><td>1</td><td>1</td><td>?</td><td>Invalid (મંજૂર નથી)</td></tr></table>\n<h4>Characteristic equation</h4>\n<p><b>Q<sub>n+1</sub> = S + <span style=\"text-decoration:overline\">R</span>Q<sub>n</sub></b> &nbsp; શરત SR = 0 સાથે (solved example માં K-map વડે મેળવેલ).</p>\n<p><b>ખામી:</b> S = R = 1 મંજૂર નથી (invalid state). JK flip-flop આ સમસ્યા દૂર કરે છે.</p>"
+     },
+     "diagram": "de5_sr",
+     "examples": [
+      "de5n3",
+      "de5n4"
+     ],
+     "key": true
+    },
+    {
+     "h": {
+      "en": "5.2.4 JK Flip-Flop",
+      "gu": "5.2.4 JK Flip-Flop"
+     },
+     "body": {
+      "en": "<p>The <b>JK flip-flop</b> is a modified SR flip-flop in which the invalid state is removed. The outputs are fed back: <b><span style=\"text-decoration:overline\">Q</span></b> goes to the J steering gate and <b>Q</b> goes to the K steering gate. J acts like S (set) and K like R (reset).</p>\n<h4>Truth table</h4><table><tr><th>CLK</th><th>J</th><th>K</th><th>Q<sub>n+1</sub></th><th>State</th></tr><tr><td>0</td><td>X</td><td>X</td><td>Q<sub>n</sub></td><td>No change</td></tr><tr><td>↑</td><td>0</td><td>0</td><td>Q<sub>n</sub></td><td>No change</td></tr><tr><td>↑</td><td>0</td><td>1</td><td>0</td><td>Reset</td></tr><tr><td>↑</td><td>1</td><td>0</td><td>1</td><td>Set</td></tr><tr><td>↑</td><td>1</td><td>1</td><td><span style=\"text-decoration:overline\">Qn</span></td><td>Toggle</td></tr></table>\n<ul><li>J = K = 0: no change.</li><li>J = 0, K = 1: reset (Q = 0).</li><li>J = 1, K = 0: set (Q = 1).</li>\n<li>J = K = 1: the output <b>toggles</b> (changes to its complement). Because of the feedback, only one steering gate is enabled at a time, so the invalid state cannot occur.</li></ul>\n<h4>Characteristic equation</h4>\n<p><b>Q<sub>n+1</sub> = J<span style=\"text-decoration:overline\">Qn</span> + <span style=\"text-decoration:overline\">K</span>Q<sub>n</sub></b></p>\n<h4>Race-around condition</h4>\n<p>In a level-triggered JK flip-flop with J = K = 1, the output toggles; if the clock stays HIGH longer than the propagation delay, the new output is fed back and the output toggles again and again. This uncertain oscillation is the <b>race-around condition</b>.</p>\n<p><b>Remedies:</b> keep the clock pulse width less than the propagation delay, use <b>edge triggering</b>, or use a <b>master–slave JK flip-flop</b> (two latches: the master responds when CLK = 1 and the slave copies it when CLK = 0, so the output changes only once per clock).</p>",
+      "gu": "<p><b>JK flip-flop</b> એ modified SR flip-flop છે જેમાં invalid state દૂર કરેલી છે. Outputs ને feedback અપાય છે: <b><span style=\"text-decoration:overline\">Q</span></b> J steering gate માં અને <b>Q</b> K steering gate માં જાય છે. J એ S (set) જેવું અને K એ R (reset) જેવું કામ કરે છે.</p>\n<h4>Truth table</h4><table><tr><th>CLK</th><th>J</th><th>K</th><th>Q<sub>n+1</sub></th><th>State</th></tr><tr><td>0</td><td>X</td><td>X</td><td>Q<sub>n</sub></td><td>No change (ફેરફાર નહીં)</td></tr><tr><td>↑</td><td>0</td><td>0</td><td>Q<sub>n</sub></td><td>No change (ફેરફાર નહીં)</td></tr><tr><td>↑</td><td>0</td><td>1</td><td>0</td><td>Reset</td></tr><tr><td>↑</td><td>1</td><td>0</td><td>1</td><td>Set</td></tr><tr><td>↑</td><td>1</td><td>1</td><td><span style=\"text-decoration:overline\">Qn</span></td><td>Toggle (ઉલટાય)</td></tr></table>\n<ul><li>J = K = 0: ફેરફાર નહીં.</li><li>J = 0, K = 1: reset (Q = 0).</li><li>J = 1, K = 0: set (Q = 1).</li>\n<li>J = K = 1: output <b>toggle</b> થાય (તેના complement માં બદલાય). Feedback ના કારણે એક સમયે એક જ steering gate enable થાય છે, તેથી invalid state આવી શકતી નથી.</li></ul>\n<h4>Characteristic equation</h4>\n<p><b>Q<sub>n+1</sub> = J<span style=\"text-decoration:overline\">Qn</span> + <span style=\"text-decoration:overline\">K</span>Q<sub>n</sub></b></p>\n<h4>Race-around condition</h4>\n<p>J = K = 1 વાળા level-triggered JK flip-flop માં output toggle થાય છે; જો clock propagation delay કરતાં વધુ સમય HIGH રહે, તો નવો output feedback થઈ output વારંવાર toggle થાય છે. આ અનિશ્ચિત oscillation ને <b>race-around condition</b> કહે છે.</p>\n<p><b>ઉપાયો:</b> clock pulse width propagation delay કરતાં ઓછી રાખવી, <b>edge triggering</b> વાપરવું, અથવા <b>master–slave JK flip-flop</b> વાપરવો (બે latches: CLK = 1 હોય ત્યારે master પ્રતિભાવ આપે અને CLK = 0 હોય ત્યારે slave તેની નકલ કરે, તેથી output દરેક clock માં એક જ વાર બદલાય).</p>"
+     },
+     "diagram": "de5_jk",
+     "examples": [
+      "de5n5",
+      "de5n6"
+     ],
+     "key": true
+    },
+    {
+     "h": {
+      "en": "5.2.5 D Flip-Flop",
+      "gu": "5.2.5 D Flip-Flop"
+     },
+     "body": {
+      "en": "<p>The <b>D (Data / Delay) flip-flop</b> has a single data input D. It is made from an SR flip-flop by connecting <b>S = D</b> and <b>R = <span style=\"text-decoration:overline\">D</span></b> through a NOT gate. So S and R are always complements and the invalid state S = R = 1 can never occur.</p>\n<h4>Truth table</h4><table><tr><th>CLK</th><th>D</th><th>Q<sub>n+1</sub></th><th>State</th></tr><tr><td>0</td><td>X</td><td>Q<sub>n</sub></td><td>No change</td></tr><tr><td>↑</td><td>0</td><td>0</td><td>Reset</td></tr><tr><td>↑</td><td>1</td><td>1</td><td>Set</td></tr></table>\n<h4>Characteristic equation</h4>\n<p><b>Q<sub>n+1</sub> = D</b></p>\n<p>At each clock edge the output simply takes the value of D and holds it until the next edge. The data appears at the output one clock period later, hence the name <b>delay</b> flip-flop.</p>\n<p><b>Applications:</b> storing data bits, <b>registers</b> (shift registers, buffer registers), delay elements, synchronising inputs. ICs: 7474 (dual positive-edge D FF), 74175.</p>",
+      "gu": "<p><b>D (Data / Delay) flip-flop</b> માં એક જ data input D હોય છે. તે SR flip-flop માં NOT gate વડે <b>S = D</b> અને <b>R = <span style=\"text-decoration:overline\">D</span></b> જોડીને બને છે. તેથી S અને R હંમેશા complement હોય છે અને invalid state S = R = 1 ક્યારેય આવતી નથી.</p>\n<h4>Truth table</h4><table><tr><th>CLK</th><th>D</th><th>Q<sub>n+1</sub></th><th>State</th></tr><tr><td>0</td><td>X</td><td>Q<sub>n</sub></td><td>No change (ફેરફાર નહીં)</td></tr><tr><td>↑</td><td>0</td><td>0</td><td>Reset</td></tr><tr><td>↑</td><td>1</td><td>1</td><td>Set</td></tr></table>\n<h4>Characteristic equation</h4>\n<p><b>Q<sub>n+1</sub> = D</b></p>\n<p>દરેક clock edge વખતે output માત્ર D ની કિંમત લે છે અને પછીની edge સુધી તેને જાળવી રાખે છે. Data output પર એક clock period પછી દેખાય છે, તેથી તેને <b>delay</b> flip-flop કહે છે.</p>\n<p><b>ઉપયોગો:</b> data bits store કરવા, <b>registers</b> (shift registers, buffer registers), delay elements, inputs synchronise કરવા. ICs: 7474 (dual positive-edge D FF), 74175.</p>"
+     },
+     "diagram": "de5_d",
+     "examples": [
+      "de5n7"
+     ],
+     "key": true
+    },
+    {
+     "h": {
+      "en": "5.2.6 T (Toggle) Flip-Flop",
+      "gu": "5.2.6 T (Toggle) Flip-Flop"
+     },
+     "body": {
+      "en": "<p>The <b>T (Toggle) flip-flop</b> has a single input T. It is obtained from a JK flip-flop by connecting <b>J = K = T</b>.</p>\n<h4>Truth table</h4><table><tr><th>CLK</th><th>T</th><th>Q<sub>n+1</sub></th><th>State</th></tr><tr><td>0</td><td>X</td><td>Q<sub>n</sub></td><td>No change</td></tr><tr><td>↑</td><td>0</td><td>Q<sub>n</sub></td><td>No change</td></tr><tr><td>↑</td><td>1</td><td><span style=\"text-decoration:overline\">Qn</span></td><td>Toggle</td></tr></table>\n<ul><li>T = 0: no change (J = K = 0).</li><li>T = 1: the output toggles at every clock edge (J = K = 1).</li></ul>\n<h4>Characteristic equation</h4>\n<p><b>Q<sub>n+1</sub> = T<span style=\"text-decoration:overline\">Qn</span> + <span style=\"text-decoration:overline\">T</span>Q<sub>n</sub> = T ⊕ Q<sub>n</sub></b></p>\n<h4>Frequency division</h4>\n<p>With T = 1 the output changes once per clock cycle, so Q completes one cycle every two clock cycles: <b>f<sub>Q</sub> = f<sub>CLK</sub> / 2</b>. Cascading n T flip-flops divides the frequency by 2<sup>n</sup>.</p>\n<p><b>Applications:</b> counters (ripple / binary counters), frequency dividers.</p>",
+      "gu": "<p><b>T (Toggle) flip-flop</b> માં એક જ input T હોય છે. તે JK flip-flop માં <b>J = K = T</b> જોડીને મળે છે.</p>\n<h4>Truth table</h4><table><tr><th>CLK</th><th>T</th><th>Q<sub>n+1</sub></th><th>State</th></tr><tr><td>0</td><td>X</td><td>Q<sub>n</sub></td><td>No change (ફેરફાર નહીં)</td></tr><tr><td>↑</td><td>0</td><td>Q<sub>n</sub></td><td>No change (ફેરફાર નહીં)</td></tr><tr><td>↑</td><td>1</td><td><span style=\"text-decoration:overline\">Qn</span></td><td>Toggle (ઉલટાય)</td></tr></table>\n<ul><li>T = 0: ફેરફાર નહીં (J = K = 0).</li><li>T = 1: દરેક clock edge વખતે output toggle થાય (J = K = 1).</li></ul>\n<h4>Characteristic equation</h4>\n<p><b>Q<sub>n+1</sub> = T<span style=\"text-decoration:overline\">Qn</span> + <span style=\"text-decoration:overline\">T</span>Q<sub>n</sub> = T ⊕ Q<sub>n</sub></b></p>\n<h4>Frequency division</h4>\n<p>T = 1 હોય ત્યારે output દરેક clock cycle માં એક વાર બદલાય છે, તેથી Q દર બે clock cycles માં એક cycle પૂરી કરે છે: <b>f<sub>Q</sub> = f<sub>CLK</sub> / 2</b>. n T flip-flops cascade કરવાથી frequency 2<sup>n</sup> વડે ભાગાય છે.</p>\n<p><b>ઉપયોગો:</b> counters (ripple / binary counters), frequency dividers.</p>"
+     },
+     "diagram": "de5_t",
+     "examples": [
+      "de5n8",
+      "de5n9"
+     ],
+     "key": true
+    },
+    {
+     "h": {
+      "en": "5.2.7 Flip-Flop Symbols and Edge Triggering",
+      "gu": "5.2.7 Flip-Flop Symbols અને Edge Triggering"
+     },
+     "body": {
+      "en": "<p>In a flip-flop symbol the inputs are on the left and the outputs Q and <span style=\"text-decoration:overline\">Q</span> on the right.</p>\n<ul>\n<li>A small <b>triangle (&gt;)</b> at the clock input means <b>edge triggered</b>.</li>\n<li>Triangle only: <b>positive-edge</b> triggered (acts at 0 → 1).</li>\n<li>Bubble + triangle: <b>negative-edge</b> triggered (acts at 1 → 0).</li>\n<li>No triangle: <b>level triggered</b> (latch); a bubble means active-LOW level.</li>\n</ul>\n<p>Practical flip-flop ICs also have asynchronous <b>Preset (PR)</b> and <b>Clear (CLR)</b> inputs that set Q = 1 or Q = 0 immediately, independent of the clock. They are used to give the flip-flop a known starting state.</p>",
+      "gu": "<p>Flip-flop symbol માં inputs ડાબી બાજુ અને outputs Q અને <span style=\"text-decoration:overline\">Q</span> જમણી બાજુ હોય છે.</p>\n<ul>\n<li>Clock input પર નાનો <b>triangle (&gt;)</b> એટલે <b>edge triggered</b>.</li>\n<li>માત્ર triangle: <b>positive-edge</b> triggered (0 → 1 વખતે કામ કરે).</li>\n<li>Bubble + triangle: <b>negative-edge</b> triggered (1 → 0 વખતે કામ કરે).</li>\n<li>Triangle નહીં: <b>level triggered</b> (latch); bubble એટલે active-LOW level.</li>\n</ul>\n<p>વ્યવહારુ flip-flop ICs માં asynchronous <b>Preset (PR)</b> અને <b>Clear (CLR)</b> inputs પણ હોય છે, જે clock થી સ્વતંત્ર રીતે તરત જ Q = 1 કે Q = 0 કરે છે. તેનો ઉપયોગ flip-flop ને જાણીતી શરૂઆતની state આપવા થાય છે.</p>"
+     },
+     "diagram": "de5_symbols"
+    },
+    {
+     "h": {
+      "en": "5.2.8 Timing Diagram of a Flip-Flop",
+      "gu": "5.2.8 Flip-Flop નો Timing Diagram"
+     },
+     "body": {
+      "en": "<p>A <b>timing diagram</b> shows the clock, the inputs and the output of a flip-flop against time. It is drawn as follows:</p>\n<ol>\n<li>Draw the clock waveform and mark each <b>active edge</b> (rising edge for a positive-edge FF) with a dashed line.</li>\n<li>Draw the input waveform(s).</li>\n<li>At each active edge, read the inputs and find Q<sub>n+1</sub> from the truth table (for D: Q = D; for T: toggle if T = 1; for JK: use the JK table).</li>\n<li>Keep Q constant between edges.</li>\n</ol>\n<p>For a D flip-flop, changes in D between edges have <b>no effect</b>; only the value at the edge matters. The input must be stable for a short <b>set-up time</b> before the edge and a <b>hold time</b> after it.</p>",
+      "gu": "<p><b>Timing diagram</b> flip-flop ના clock, inputs અને output ને સમય સામે દર્શાવે છે. તે નીચે મુજબ દોરાય છે:</p>\n<ol>\n<li>Clock waveform દોરો અને દરેક <b>active edge</b> (positive-edge FF માટે rising edge) ને dashed line વડે દર્શાવો.</li>\n<li>Input waveform(s) દોરો.</li>\n<li>દરેક active edge વખતે inputs વાંચી truth table પરથી Q<sub>n+1</sub> શોધો (D માટે: Q = D; T માટે: T = 1 હોય તો toggle; JK માટે: JK table વાપરો).</li>\n<li>બે edges વચ્ચે Q અચળ રાખો.</li>\n</ol>\n<p>D flip-flop માટે edges વચ્ચે D માં થતા ફેરફારોની <b>કોઈ અસર નથી</b>; માત્ર edge વખતની કિંમત મહત્વની છે. Input edge પહેલાં થોડા <b>set-up time</b> અને edge પછી <b>hold time</b> સુધી stable હોવો જોઈએ.</p>"
+     },
+     "diagram": "de5_timing",
+     "examples": [
+      "de5n10"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.2.9 Comparison, Characteristic Equations and Conversions",
+      "gu": "5.2.9 સરખામણી, Characteristic Equations અને Conversions"
+     },
+     "body": {
+      "en": "<table><tr><th>FF</th><th>Inputs</th><th>Characteristic equation</th><th>Special feature</th></tr>\n<tr><td>SR</td><td>S, R</td><td>Q<sub>n+1</sub> = S + <span style=\"text-decoration:overline\">R</span>Q<sub>n</sub> (SR = 0)</td><td>S = R = 1 invalid</td></tr>\n<tr><td>JK</td><td>J, K</td><td>Q<sub>n+1</sub> = J<span style=\"text-decoration:overline\">Qn</span> + <span style=\"text-decoration:overline\">K</span>Q<sub>n</sub></td><td>J = K = 1 toggles; no invalid state</td></tr>\n<tr><td>D</td><td>D</td><td>Q<sub>n+1</sub> = D</td><td>Output follows input; data storage</td></tr>\n<tr><td>T</td><td>T</td><td>Q<sub>n+1</sub> = T ⊕ Q<sub>n</sub></td><td>T = 1 toggles; counters</td></tr></table>\n<h4>Conversions</h4>\n<ul>\n<li><b>SR to D:</b> S = D, R = <span style=\"text-decoration:overline\">D</span>.</li>\n<li><b>JK to D:</b> J = D, K = <span style=\"text-decoration:overline\">D</span>.</li>\n<li><b>JK to T:</b> J = K = T.</li>\n<li><b>JK to SR:</b> J = S, K = R (with S = R = 1 not used).</li>\n</ul>\n<p>Because SR, D and T can all be made from it, the <b>JK flip-flop is called the universal flip-flop</b>.</p>",
+      "gu": "<table><tr><th>FF</th><th>Inputs</th><th>Characteristic equation</th><th>વિશેષતા</th></tr>\n<tr><td>SR</td><td>S, R</td><td>Q<sub>n+1</sub> = S + <span style=\"text-decoration:overline\">R</span>Q<sub>n</sub> (SR = 0)</td><td>S = R = 1 invalid</td></tr>\n<tr><td>JK</td><td>J, K</td><td>Q<sub>n+1</sub> = J<span style=\"text-decoration:overline\">Qn</span> + <span style=\"text-decoration:overline\">K</span>Q<sub>n</sub></td><td>J = K = 1 toggle; invalid state નથી</td></tr>\n<tr><td>D</td><td>D</td><td>Q<sub>n+1</sub> = D</td><td>Output input ને અનુસરે; data storage</td></tr>\n<tr><td>T</td><td>T</td><td>Q<sub>n+1</sub> = T ⊕ Q<sub>n</sub></td><td>T = 1 toggle; counters</td></tr></table>\n<h4>Conversions</h4>\n<ul>\n<li><b>SR થી D:</b> S = D, R = <span style=\"text-decoration:overline\">D</span>.</li>\n<li><b>JK થી D:</b> J = D, K = <span style=\"text-decoration:overline\">D</span>.</li>\n<li><b>JK થી T:</b> J = K = T.</li>\n<li><b>JK થી SR:</b> J = S, K = R (S = R = 1 વાપરવું નહીં).</li>\n</ul>\n<p>SR, D અને T બધા તેમાંથી બની શકે છે, તેથી <b>JK flip-flop ને universal flip-flop</b> કહે છે.</p>"
+     },
+     "diagram": "de5_convert",
+     "examples": [
+      "de5n11"
+     ],
+     "key": true
+    },
+    {
+     "h": {
+      "en": "5.2.10 Applications of Flip-Flops",
+      "gu": "5.2.10 Flip-Flops ના ઉપયોગો"
+     },
+     "body": {
+      "en": "<ul>\n<li><b>Memory:</b> one flip-flop stores one bit; n flip-flops store an n-bit word (static RAM cells, CPU registers).</li>\n<li><b>Registers:</b> groups of D flip-flops to hold or shift data (buffer, shift registers, serial ↔ parallel conversion).</li>\n<li><b>Counters:</b> T or JK flip-flops count clock pulses (ripple and synchronous counters, digital clocks).</li>\n<li><b>Frequency division:</b> each toggling flip-flop divides the frequency by 2.</li>\n<li><b>Switch debouncing:</b> an SR latch removes contact bounce of mechanical switches.</li>\n<li><b>Data synchronisation</b> and <b>event detection</b> (storing that an event happened).</li>\n</ul>\n<p>n flip-flops have <b>2<sup>n</sup> possible states</b>, e.g. 4 flip-flops → 16 states (a mod-16 counter).</p>",
+      "gu": "<ul>\n<li><b>Memory:</b> એક flip-flop એક bit store કરે; n flip-flops n-bit word store કરે (static RAM cells, CPU registers).</li>\n<li><b>Registers:</b> data રાખવા કે shift કરવા D flip-flops ના સમૂહ (buffer, shift registers, serial ↔ parallel conversion).</li>\n<li><b>Counters:</b> T અથવા JK flip-flops clock pulses ગણે (ripple અને synchronous counters, digital clocks).</li>\n<li><b>Frequency division:</b> દરેક toggling flip-flop frequency ને 2 વડે ભાગે.</li>\n<li><b>Switch debouncing:</b> SR latch mechanical switches નો contact bounce દૂર કરે.</li>\n<li><b>Data synchronisation</b> અને <b>event detection</b> (કોઈ ઘટના બની તે store કરવું).</li>\n</ul>\n<p>n flip-flops ની <b>2<sup>n</sup> શક્ય states</b> હોય છે, દા.ત. 4 flip-flops → 16 states (mod-16 counter).</p>"
+     },
+     "examples": [
+      "de5n12"
+     ]
+    }
+   ]
+  }
+ ],
+ "numericals": [
+  {
+   "id": "de5n1",
+   "q": {
+    "en": "A NOR SR latch starts with Q = 0. Find Q for the input sequence (S, R) = (1, 0), (0, 0), (0, 1), (0, 0), (1, 0), (0, 0).",
+    "gu": "NOR SR latch Q = 0 થી શરૂ થાય છે. Input ક્રમ (S, R) = (1, 0), (0, 0), (0, 1), (0, 0), (1, 0), (0, 0) માટે Q શોધો."
+   },
+   "a": {
+    "en": "<p>Use the NOR latch table: S = 1 sets, R = 1 resets, S = R = 0 holds. Initially Q = 0.</p><table><tr><th>Step</th><th>S</th><th>R</th><th>Q before</th><th>Q after</th><th>Action</th></tr><tr><td>1</td><td>1</td><td>0</td><td>0</td><td><b>1</b></td><td>Set</td></tr><tr><td>2</td><td>0</td><td>0</td><td>1</td><td><b>1</b></td><td>No change</td></tr><tr><td>3</td><td>0</td><td>1</td><td>1</td><td><b>0</b></td><td>Reset</td></tr><tr><td>4</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td><td>No change</td></tr><tr><td>5</td><td>1</td><td>0</td><td>0</td><td><b>1</b></td><td>Set</td></tr><tr><td>6</td><td>0</td><td>0</td><td>1</td><td><b>1</b></td><td>No change</td></tr></table><p>Output sequence of Q: <b>1, 1, 0, 0, 1, 1</b>.</p>",
+    "gu": "<p>NOR latch table વાપરો: S = 1 set કરે, R = 1 reset કરે, S = R = 0 hold કરે. શરૂઆતમાં Q = 0.</p><table><tr><th>Step</th><th>S</th><th>R</th><th>પહેલાં Q</th><th>પછી Q</th><th>Action</th></tr><tr><td>1</td><td>1</td><td>0</td><td>0</td><td><b>1</b></td><td>Set</td></tr><tr><td>2</td><td>0</td><td>0</td><td>1</td><td><b>1</b></td><td>ફેરફાર નહીં</td></tr><tr><td>3</td><td>0</td><td>1</td><td>1</td><td><b>0</b></td><td>Reset</td></tr><tr><td>4</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td><td>ફેરફાર નહીં</td></tr><tr><td>5</td><td>1</td><td>0</td><td>0</td><td><b>1</b></td><td>Set</td></tr><tr><td>6</td><td>0</td><td>0</td><td>1</td><td><b>1</b></td><td>ફેરફાર નહીં</td></tr></table><p>Q નો output ક્રમ: <b>1, 1, 0, 0, 1, 1</b>.</p>"
+   }
+  },
+  {
+   "id": "de5n2",
+   "q": {
+    "en": "A NAND SR latch starts with Q = 0. Find Q for (<span style=\"text-decoration:overline\">S</span>, <span style=\"text-decoration:overline\">R</span>) = (0, 1), (1, 1), (1, 0), (1, 1), (0, 0).",
+    "gu": "NAND SR latch Q = 0 થી શરૂ થાય છે. (<span style=\"text-decoration:overline\">S</span>, <span style=\"text-decoration:overline\">R</span>) = (0, 1), (1, 1), (1, 0), (1, 1), (0, 0) માટે Q શોધો."
+   },
+   "a": {
+    "en": "<p>Inputs are active LOW: <span style=\"text-decoration:overline\">S</span> = 0 sets, <span style=\"text-decoration:overline\">R</span> = 0 resets, both 1 hold, both 0 invalid. Initially Q = 0.</p><table><tr><th>Step</th><th><span style=\"text-decoration:overline\">S</span></th><th><span style=\"text-decoration:overline\">R</span></th><th>Q before</th><th>Q after</th><th>Action</th></tr><tr><td>1</td><td>0</td><td>1</td><td>0</td><td><b>1</b></td><td>Set</td></tr><tr><td>2</td><td>1</td><td>1</td><td>1</td><td><b>1</b></td><td>No change</td></tr><tr><td>3</td><td>1</td><td>0</td><td>1</td><td><b>0</b></td><td>Reset</td></tr><tr><td>4</td><td>1</td><td>1</td><td>0</td><td><b>0</b></td><td>No change</td></tr><tr><td>5</td><td>0</td><td>0</td><td>0</td><td><b>1 (Q = <span style=\"text-decoration:overline\">Q</span> = 1)</b></td><td>Invalid</td></tr></table><p>Step 5 is the forbidden input: both outputs become 1, and the state after the inputs return to 1 cannot be predicted.</p>",
+    "gu": "<p>Inputs active LOW છે: <span style=\"text-decoration:overline\">S</span> = 0 set કરે, <span style=\"text-decoration:overline\">R</span> = 0 reset કરે, બંને 1 hold, બંને 0 invalid. શરૂઆતમાં Q = 0.</p><table><tr><th>Step</th><th><span style=\"text-decoration:overline\">S</span></th><th><span style=\"text-decoration:overline\">R</span></th><th>પહેલાં Q</th><th>પછી Q</th><th>Action</th></tr><tr><td>1</td><td>0</td><td>1</td><td>0</td><td><b>1</b></td><td>Set</td></tr><tr><td>2</td><td>1</td><td>1</td><td>1</td><td><b>1</b></td><td>ફેરફાર નહીં</td></tr><tr><td>3</td><td>1</td><td>0</td><td>1</td><td><b>0</b></td><td>Reset</td></tr><tr><td>4</td><td>1</td><td>1</td><td>0</td><td><b>0</b></td><td>ફેરફાર નહીં</td></tr><tr><td>5</td><td>0</td><td>0</td><td>0</td><td><b>1 (Q = <span style=\"text-decoration:overline\">Q</span> = 1)</b></td><td>Invalid</td></tr></table><p>Step 5 forbidden input છે: બંને outputs 1 થાય છે, અને inputs પાછા 1 થયા પછીની state નક્કી કરી શકાતી નથી.</p>"
+   }
+  },
+  {
+   "id": "de5n3",
+   "q": {
+    "en": "A clocked SR flip-flop starts with Q = 0. Find Q for (CLK, S, R) = (1, 1, 0), (0, 0, 1), (1, 0, 0), (1, 0, 1), (0, 1, 0), (1, 1, 0).",
+    "gu": "Clocked SR flip-flop Q = 0 થી શરૂ થાય છે. (CLK, S, R) = (1, 1, 0), (0, 0, 1), (1, 0, 0), (1, 0, 1), (0, 1, 0), (1, 1, 0) માટે Q શોધો."
+   },
+   "a": {
+    "en": "<p>When CLK = 0 the flip-flop ignores S and R. When CLK = 1 it follows the SR table. Initially Q = 0.</p><table><tr><th>Step</th><th>CLK</th><th>S</th><th>R</th><th>Q<sub>n</sub></th><th>Q<sub>n+1</sub></th><th>Action</th></tr><tr><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td><b>1</b></td><td>Set</td></tr><tr><td>2</td><td>0</td><td>0</td><td>1</td><td>1</td><td><b>1</b></td><td>No change (CLK = 0)</td></tr><tr><td>3</td><td>1</td><td>0</td><td>0</td><td>1</td><td><b>1</b></td><td>No change</td></tr><tr><td>4</td><td>1</td><td>0</td><td>1</td><td>1</td><td><b>0</b></td><td>Reset</td></tr><tr><td>5</td><td>0</td><td>1</td><td>0</td><td>0</td><td><b>0</b></td><td>No change (CLK = 0)</td></tr><tr><td>6</td><td>1</td><td>1</td><td>0</td><td>0</td><td><b>1</b></td><td>Set</td></tr></table><p>Note step 2 and step 5: the inputs ask for reset / set, but CLK = 0, so Q does not change.</p>",
+    "gu": "<p>CLK = 0 હોય ત્યારે flip-flop S અને R ને અવગણે છે. CLK = 1 હોય ત્યારે SR table મુજબ ચાલે છે. શરૂઆતમાં Q = 0.</p><table><tr><th>Step</th><th>CLK</th><th>S</th><th>R</th><th>Q<sub>n</sub></th><th>Q<sub>n+1</sub></th><th>Action</th></tr><tr><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td><b>1</b></td><td>Set</td></tr><tr><td>2</td><td>0</td><td>0</td><td>1</td><td>1</td><td><b>1</b></td><td>ફેરફાર નહીં (CLK = 0)</td></tr><tr><td>3</td><td>1</td><td>0</td><td>0</td><td>1</td><td><b>1</b></td><td>ફેરફાર નહીં</td></tr><tr><td>4</td><td>1</td><td>0</td><td>1</td><td>1</td><td><b>0</b></td><td>Reset</td></tr><tr><td>5</td><td>0</td><td>1</td><td>0</td><td>0</td><td><b>0</b></td><td>ફેરફાર નહીં (CLK = 0)</td></tr><tr><td>6</td><td>1</td><td>1</td><td>0</td><td>0</td><td><b>1</b></td><td>Set</td></tr></table><p>Step 2 અને step 5 જુઓ: inputs reset / set માગે છે, પણ CLK = 0 હોવાથી Q બદલાતો નથી.</p>"
+   }
+  },
+  {
+   "id": "de5n4",
+   "q": {
+    "en": "Derive the characteristic equation of the SR flip-flop using a K-map.",
+    "gu": "K-map વડે SR flip-flop નું characteristic equation મેળવો."
+   },
+   "a": {
+    "en": "<p><b>Characteristic table</b> (Q = Q<sub>n</sub>, Q+ = Q<sub>n+1</sub>):</p><table><tr><th>S</th><th>R</th><th>Q<sub>n</sub></th><th>Q<sub>n+1</sub></th></tr><tr><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr><tr><td>0</td><td>0</td><td>1</td><td><b>1</b></td></tr><tr><td>0</td><td>1</td><td>0</td><td><b>0</b></td></tr><tr><td>0</td><td>1</td><td>1</td><td><b>0</b></td></tr><tr><td>1</td><td>0</td><td>0</td><td><b>1</b></td></tr><tr><td>1</td><td>0</td><td>1</td><td><b>1</b></td></tr><tr><td>1</td><td>1</td><td>0</td><td><b>X</b></td></tr><tr><td>1</td><td>1</td><td>1</td><td><b>X</b></td></tr></table><p>Q+ = Σm(1, 4, 5) + d(6, 7)</p><p><b>Step 1:</b> Plot the map (8 cells; 1 for minterms, X for don't-cares):</p><table><tr><th>S\\RQ</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>0</th><td>0 <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td>0 <sub>m3</sub></td><td>0 <sub>m2</sub></td></tr><tr><th>1</th><td><b>1</b> <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td>X <sub>m7</sub></td><td>X <sub>m6</sub></td></tr></table><p><b>Step 2:</b> Group the 1s (largest groups first, using X only where it helps):</p><table><tr><th>Group</th><th>Cells</th><th>Reason</th><th>Term</th></tr><tr><td>1. quad</td><td>m4, m5, m6, m7</td><td>S stays 1 → S; R changes → eliminated; Q changes → eliminated</td><td><b>S</b></td></tr><tr><td>2. pair</td><td>m1, m5</td><td>S changes → eliminated; R stays 0 → <span style=\"text-decoration:overline\">R</span>; Q stays 1 → Q</td><td><b><span style=\"text-decoration:overline\">R</span>Q</b></td></tr></table><p><b>Step 3:</b> OR the terms:</p><p><b>Q+ = S + <span style=\"text-decoration:overline\">R</span>Q</b></p><p>So <b>Q<sub>n+1</sub> = S + <span style=\"text-decoration:overline\">R</span>Q<sub>n</sub></b>, with the condition SR = 0 (S = R = 1 is used only as a don't-care).</p>",
+    "gu": "<p><b>Characteristic table</b> (Q = Q<sub>n</sub>, Q+ = Q<sub>n+1</sub>):</p><table><tr><th>S</th><th>R</th><th>Q<sub>n</sub></th><th>Q<sub>n+1</sub></th></tr><tr><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr><tr><td>0</td><td>0</td><td>1</td><td><b>1</b></td></tr><tr><td>0</td><td>1</td><td>0</td><td><b>0</b></td></tr><tr><td>0</td><td>1</td><td>1</td><td><b>0</b></td></tr><tr><td>1</td><td>0</td><td>0</td><td><b>1</b></td></tr><tr><td>1</td><td>0</td><td>1</td><td><b>1</b></td></tr><tr><td>1</td><td>1</td><td>0</td><td><b>X</b></td></tr><tr><td>1</td><td>1</td><td>1</td><td><b>X</b></td></tr></table><p>Q+ = Σm(1, 4, 5) + d(6, 7)</p><p><b>Step 1:</b> Map દોરો (8 cells; minterms માટે 1, don't-cares માટે X):</p><table><tr><th>S\\RQ</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>0</th><td>0 <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td>0 <sub>m3</sub></td><td>0 <sub>m2</sub></td></tr><tr><th>1</th><td><b>1</b> <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td>X <sub>m7</sub></td><td>X <sub>m6</sub></td></tr></table><p><b>Step 2:</b> 1s ના groups બનાવો (પહેલાં મોટા groups, X નો ઉપયોગ જ્યાં ફાયદો હોય ત્યાં જ):</p><table><tr><th>Group</th><th>Cells</th><th>કારણ</th><th>Term</th></tr><tr><td>1. quad</td><td>m4, m5, m6, m7</td><td>S = 1 સ્થિર → S; R બદલાય છે → દૂર; Q બદલાય છે → દૂર</td><td><b>S</b></td></tr><tr><td>2. pair</td><td>m1, m5</td><td>S બદલાય છે → દૂર; R = 0 સ્થિર → <span style=\"text-decoration:overline\">R</span>; Q = 1 સ્થિર → Q</td><td><b><span style=\"text-decoration:overline\">R</span>Q</b></td></tr></table><p><b>Step 3:</b> Terms નો OR કરો:</p><p><b>Q+ = S + <span style=\"text-decoration:overline\">R</span>Q</b></p><p>તેથી <b>Q<sub>n+1</sub> = S + <span style=\"text-decoration:overline\">R</span>Q<sub>n</sub></b>, શરત SR = 0 (S = R = 1 માત્ર don't-care તરીકે).</p>"
+   }
+  },
+  {
+   "id": "de5n5",
+   "q": {
+    "en": "Derive the characteristic equation of the JK flip-flop using a K-map.",
+    "gu": "K-map વડે JK flip-flop નું characteristic equation મેળવો."
+   },
+   "a": {
+    "en": "<p><b>Characteristic table</b> (Q = Q<sub>n</sub>, Q+ = Q<sub>n+1</sub>):</p><table><tr><th>J</th><th>K</th><th>Q<sub>n</sub></th><th>Q<sub>n+1</sub></th></tr><tr><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr><tr><td>0</td><td>0</td><td>1</td><td><b>1</b></td></tr><tr><td>0</td><td>1</td><td>0</td><td><b>0</b></td></tr><tr><td>0</td><td>1</td><td>1</td><td><b>0</b></td></tr><tr><td>1</td><td>0</td><td>0</td><td><b>1</b></td></tr><tr><td>1</td><td>0</td><td>1</td><td><b>1</b></td></tr><tr><td>1</td><td>1</td><td>0</td><td><b>1</b></td></tr><tr><td>1</td><td>1</td><td>1</td><td><b>0</b></td></tr></table><p>Q+ = Σm(1, 4, 5, 6)</p><p><b>Step 1:</b> Plot the map (8 cells; 1 for minterms):</p><table><tr><th>J\\KQ</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>0</th><td>0 <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td>0 <sub>m3</sub></td><td>0 <sub>m2</sub></td></tr><tr><th>1</th><td><b>1</b> <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td>0 <sub>m7</sub></td><td><b>1</b> <sub>m6</sub></td></tr></table><p><b>Step 2:</b> Group the 1s (largest groups first):</p><table><tr><th>Group</th><th>Cells</th><th>Reason</th><th>Term</th></tr><tr><td>1. pair</td><td>m1, m5</td><td>J changes → eliminated; K stays 0 → <span style=\"text-decoration:overline\">K</span>; Q stays 1 → Q</td><td><b><span style=\"text-decoration:overline\">K</span>Q</b></td></tr><tr><td>2. pair</td><td>m4, m6</td><td>J stays 1 → J; K changes → eliminated; Q stays 0 → <span style=\"text-decoration:overline\">Q</span></td><td><b>J<span style=\"text-decoration:overline\">Q</span></b></td></tr></table><p><b>Step 3:</b> OR the terms:</p><p><b>Q+ = <span style=\"text-decoration:overline\">K</span>Q + J<span style=\"text-decoration:overline\">Q</span></b></p><p>So <b>Q<sub>n+1</sub> = J<span style=\"text-decoration:overline\">Qn</span> + <span style=\"text-decoration:overline\">K</span>Q<sub>n</sub></b>.</p>",
+    "gu": "<p><b>Characteristic table</b> (Q = Q<sub>n</sub>, Q+ = Q<sub>n+1</sub>):</p><table><tr><th>J</th><th>K</th><th>Q<sub>n</sub></th><th>Q<sub>n+1</sub></th></tr><tr><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr><tr><td>0</td><td>0</td><td>1</td><td><b>1</b></td></tr><tr><td>0</td><td>1</td><td>0</td><td><b>0</b></td></tr><tr><td>0</td><td>1</td><td>1</td><td><b>0</b></td></tr><tr><td>1</td><td>0</td><td>0</td><td><b>1</b></td></tr><tr><td>1</td><td>0</td><td>1</td><td><b>1</b></td></tr><tr><td>1</td><td>1</td><td>0</td><td><b>1</b></td></tr><tr><td>1</td><td>1</td><td>1</td><td><b>0</b></td></tr></table><p>Q+ = Σm(1, 4, 5, 6)</p><p><b>Step 1:</b> Map દોરો (8 cells; minterms માટે 1):</p><table><tr><th>J\\KQ</th><th>00</th><th>01</th><th>11</th><th>10</th></tr><tr><th>0</th><td>0 <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td><td>0 <sub>m3</sub></td><td>0 <sub>m2</sub></td></tr><tr><th>1</th><td><b>1</b> <sub>m4</sub></td><td><b>1</b> <sub>m5</sub></td><td>0 <sub>m7</sub></td><td><b>1</b> <sub>m6</sub></td></tr></table><p><b>Step 2:</b> 1s ના groups બનાવો (પહેલાં મોટા groups):</p><table><tr><th>Group</th><th>Cells</th><th>કારણ</th><th>Term</th></tr><tr><td>1. pair</td><td>m1, m5</td><td>J બદલાય છે → દૂર; K = 0 સ્થિર → <span style=\"text-decoration:overline\">K</span>; Q = 1 સ્થિર → Q</td><td><b><span style=\"text-decoration:overline\">K</span>Q</b></td></tr><tr><td>2. pair</td><td>m4, m6</td><td>J = 1 સ્થિર → J; K બદલાય છે → દૂર; Q = 0 સ્થિર → <span style=\"text-decoration:overline\">Q</span></td><td><b>J<span style=\"text-decoration:overline\">Q</span></b></td></tr></table><p><b>Step 3:</b> Terms નો OR કરો:</p><p><b>Q+ = <span style=\"text-decoration:overline\">K</span>Q + J<span style=\"text-decoration:overline\">Q</span></b></p><p>તેથી <b>Q<sub>n+1</sub> = J<span style=\"text-decoration:overline\">Qn</span> + <span style=\"text-decoration:overline\">K</span>Q<sub>n</sub></b>.</p>"
+   }
+  },
+  {
+   "id": "de5n6",
+   "q": {
+    "en": "A JK flip-flop starts with Q = 0. Find Q after each clock edge for (J, K) = (0, 0), (1, 0), (1, 1), (1, 1), (0, 1), (1, 1).",
+    "gu": "JK flip-flop Q = 0 થી શરૂ થાય છે. (J, K) = (0, 0), (1, 0), (1, 1), (1, 1), (0, 1), (1, 1) માટે દરેક clock edge પછી Q શોધો."
+   },
+   "a": {
+    "en": "<p>Use the JK table at each clock edge; J = K = 1 toggles. Initially Q = 0.</p><table><tr><th>Clock edge</th><th>J</th><th>K</th><th>Q<sub>n</sub></th><th>Q<sub>n+1</sub></th><th>Action</th></tr><tr><td>1</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td><td>No change</td></tr><tr><td>2</td><td>1</td><td>0</td><td>0</td><td><b>1</b></td><td>Set</td></tr><tr><td>3</td><td>1</td><td>1</td><td>1</td><td><b>0</b></td><td>Toggle</td></tr><tr><td>4</td><td>1</td><td>1</td><td>0</td><td><b>1</b></td><td>Toggle</td></tr><tr><td>5</td><td>0</td><td>1</td><td>1</td><td><b>0</b></td><td>Reset</td></tr><tr><td>6</td><td>1</td><td>1</td><td>0</td><td><b>1</b></td><td>Toggle</td></tr></table><p>Q after each edge: <b>0, 1, 0, 1, 0, 1</b>.</p>",
+    "gu": "<p>દરેક clock edge વખતે JK table વાપરો; J = K = 1 toggle કરે. શરૂઆતમાં Q = 0.</p><table><tr><th>Clock edge</th><th>J</th><th>K</th><th>Q<sub>n</sub></th><th>Q<sub>n+1</sub></th><th>Action</th></tr><tr><td>1</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td><td>ફેરફાર નહીં</td></tr><tr><td>2</td><td>1</td><td>0</td><td>0</td><td><b>1</b></td><td>Set</td></tr><tr><td>3</td><td>1</td><td>1</td><td>1</td><td><b>0</b></td><td>Toggle</td></tr><tr><td>4</td><td>1</td><td>1</td><td>0</td><td><b>1</b></td><td>Toggle</td></tr><tr><td>5</td><td>0</td><td>1</td><td>1</td><td><b>0</b></td><td>Reset</td></tr><tr><td>6</td><td>1</td><td>1</td><td>0</td><td><b>1</b></td><td>Toggle</td></tr></table><p>દરેક edge પછી Q: <b>0, 1, 0, 1, 0, 1</b>.</p>"
+   }
+  },
+  {
+   "id": "de5n7",
+   "q": {
+    "en": "A D flip-flop starts with Q = 0. Find Q after each clock edge for D = 1, 0, 0, 1, 1, 0.",
+    "gu": "D flip-flop Q = 0 થી શરૂ થાય છે. D = 1, 0, 0, 1, 1, 0 માટે દરેક clock edge પછી Q શોધો."
+   },
+   "a": {
+    "en": "<p>For a D flip-flop Q<sub>n+1</sub> = D at each edge. Initially Q = 0.</p><table><tr><th>Clock edge</th><th>D</th><th>Q<sub>n</sub></th><th>Q<sub>n+1</sub></th><th>Action</th></tr><tr><td>1</td><td>1</td><td>0</td><td><b>1</b></td><td>Set</td></tr><tr><td>2</td><td>0</td><td>1</td><td><b>0</b></td><td>Reset</td></tr><tr><td>3</td><td>0</td><td>0</td><td><b>0</b></td><td>No change</td></tr><tr><td>4</td><td>1</td><td>0</td><td><b>1</b></td><td>Set</td></tr><tr><td>5</td><td>1</td><td>1</td><td><b>1</b></td><td>No change</td></tr><tr><td>6</td><td>0</td><td>1</td><td><b>0</b></td><td>Reset</td></tr></table><p>Q simply copies D at each clock edge: <b>1, 0, 0, 1, 1, 0</b>.</p>",
+    "gu": "<p>D flip-flop માટે દરેક edge વખતે Q<sub>n+1</sub> = D. શરૂઆતમાં Q = 0.</p><table><tr><th>Clock edge</th><th>D</th><th>Q<sub>n</sub></th><th>Q<sub>n+1</sub></th><th>Action</th></tr><tr><td>1</td><td>1</td><td>0</td><td><b>1</b></td><td>Set</td></tr><tr><td>2</td><td>0</td><td>1</td><td><b>0</b></td><td>Reset</td></tr><tr><td>3</td><td>0</td><td>0</td><td><b>0</b></td><td>ફેરફાર નહીં</td></tr><tr><td>4</td><td>1</td><td>0</td><td><b>1</b></td><td>Set</td></tr><tr><td>5</td><td>1</td><td>1</td><td><b>1</b></td><td>ફેરફાર નહીં</td></tr><tr><td>6</td><td>0</td><td>1</td><td><b>0</b></td><td>Reset</td></tr></table><p>Q દરેક clock edge વખતે D ની નકલ કરે છે: <b>1, 0, 0, 1, 1, 0</b>.</p>"
+   }
+  },
+  {
+   "id": "de5n8",
+   "q": {
+    "en": "A T flip-flop starts with Q = 0. Find Q after each clock edge for T = 1, 1, 0, 1, 0, 1.",
+    "gu": "T flip-flop Q = 0 થી શરૂ થાય છે. T = 1, 1, 0, 1, 0, 1 માટે દરેક clock edge પછી Q શોધો."
+   },
+   "a": {
+    "en": "<p>T = 1 toggles Q, T = 0 holds it. Initially Q = 0.</p><table><tr><th>Clock edge</th><th>T</th><th>Q<sub>n</sub></th><th>Q<sub>n+1</sub></th><th>Action</th></tr><tr><td>1</td><td>1</td><td>0</td><td><b>1</b></td><td>Toggle</td></tr><tr><td>2</td><td>1</td><td>1</td><td><b>0</b></td><td>Toggle</td></tr><tr><td>3</td><td>0</td><td>0</td><td><b>0</b></td><td>No change</td></tr><tr><td>4</td><td>1</td><td>0</td><td><b>1</b></td><td>Toggle</td></tr><tr><td>5</td><td>0</td><td>1</td><td><b>1</b></td><td>No change</td></tr><tr><td>6</td><td>1</td><td>1</td><td><b>0</b></td><td>Toggle</td></tr></table><p>Q after each edge: <b>1, 0, 0, 1, 1, 0</b>.</p>",
+    "gu": "<p>T = 1 Q ને toggle કરે, T = 0 hold કરે. શરૂઆતમાં Q = 0.</p><table><tr><th>Clock edge</th><th>T</th><th>Q<sub>n</sub></th><th>Q<sub>n+1</sub></th><th>Action</th></tr><tr><td>1</td><td>1</td><td>0</td><td><b>1</b></td><td>Toggle</td></tr><tr><td>2</td><td>1</td><td>1</td><td><b>0</b></td><td>Toggle</td></tr><tr><td>3</td><td>0</td><td>0</td><td><b>0</b></td><td>ફેરફાર નહીં</td></tr><tr><td>4</td><td>1</td><td>0</td><td><b>1</b></td><td>Toggle</td></tr><tr><td>5</td><td>0</td><td>1</td><td><b>1</b></td><td>ફેરફાર નહીં</td></tr><tr><td>6</td><td>1</td><td>1</td><td><b>0</b></td><td>Toggle</td></tr></table><p>દરેક edge પછી Q: <b>1, 0, 0, 1, 1, 0</b>.</p>"
+   }
+  },
+  {
+   "id": "de5n9",
+   "q": {
+    "en": "(a) A 8 kHz clock is applied to a T flip-flop with T = 1. Find the output frequency. (b) Find it for three such flip-flops in cascade. (c) Derive Qn+1 of the T flip-flop.",
+    "gu": "(a) T = 1 વાળા T flip-flop ને 8 kHz clock અપાય છે. Output frequency શોધો. (b) આવા ત્રણ flip-flops cascade માં હોય તો શોધો. (c) T flip-flop નું Qn+1 મેળવો."
+   },
+   "a": {
+    "en": "<p><b>(a)</b> With T = 1, Q toggles at every clock edge, so one Q cycle takes two clock cycles: f<sub>Q</sub> = 8 / 2 = <b>4 kHz</b>.</p><p><b>(b)</b> Three T flip-flops in cascade (each Q drives the next clock):</p><table><tr><th>Stage</th><th>Output frequency</th></tr><tr><td>FF1</td><td>4 kHz</td></tr><tr><td>FF2</td><td>2 kHz</td></tr><tr><td>FF3</td><td>1 kHz</td></tr></table><p>f = 8 kHz / 2<sup>3</sup> = <b>1 kHz</b>.</p><p><b>(c)</b> Characteristic equation by K-map:</p><p><b>Characteristic table</b> (Q = Q<sub>n</sub>, Q+ = Q<sub>n+1</sub>):</p><table><tr><th>T</th><th>Q<sub>n</sub></th><th>Q<sub>n+1</sub></th></tr><tr><td>0</td><td>0</td><td><b>0</b></td></tr><tr><td>0</td><td>1</td><td><b>1</b></td></tr><tr><td>1</td><td>0</td><td><b>1</b></td></tr><tr><td>1</td><td>1</td><td><b>0</b></td></tr></table><p>Q+ = Σm(1, 2)</p><p><b>Step 1:</b> Plot the map (4 cells; 1 for minterms):</p><table><tr><th>T\\Q</th><th>0</th><th>1</th></tr><tr><th>0</th><td>0 <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td></tr><tr><th>1</th><td><b>1</b> <sub>m2</sub></td><td>0 <sub>m3</sub></td></tr></table><p><b>Step 2:</b> Group the 1s (largest groups first):</p><table><tr><th>Group</th><th>Cells</th><th>Reason</th><th>Term</th></tr><tr><td>1. single</td><td>m1</td><td>T stays 0 → <span style=\"text-decoration:overline\">T</span>; Q stays 1 → Q</td><td><b><span style=\"text-decoration:overline\">T</span>Q</b></td></tr><tr><td>2. single</td><td>m2</td><td>T stays 1 → T; Q stays 0 → <span style=\"text-decoration:overline\">Q</span></td><td><b>T<span style=\"text-decoration:overline\">Q</span></b></td></tr></table><p><b>Step 3:</b> OR the terms:</p><p><b>Q+ = <span style=\"text-decoration:overline\">T</span>Q + T<span style=\"text-decoration:overline\">Q</span></b></p><p>T<span style=\"text-decoration:overline\">Qn</span> + <span style=\"text-decoration:overline\">T</span>Q<sub>n</sub> = <b>T ⊕ Q<sub>n</sub></b>.</p>",
+    "gu": "<p><b>(a)</b> T = 1 હોય ત્યારે Q દરેક clock edge વખતે toggle થાય, તેથી Q ની એક cycle બે clock cycles લે: f<sub>Q</sub> = 8 / 2 = <b>4 kHz</b>.</p><p><b>(b)</b> Cascade માં ત્રણ T flip-flops (દરેક Q પછીના FF ને clock આપે):</p><table><tr><th>Stage</th><th>Output frequency</th></tr><tr><td>FF1</td><td>4 kHz</td></tr><tr><td>FF2</td><td>2 kHz</td></tr><tr><td>FF3</td><td>1 kHz</td></tr></table><p>f = 8 kHz / 2<sup>3</sup> = <b>1 kHz</b>.</p><p><b>(c)</b> K-map વડે characteristic equation:</p><p><b>Characteristic table</b> (Q = Q<sub>n</sub>, Q+ = Q<sub>n+1</sub>):</p><table><tr><th>T</th><th>Q<sub>n</sub></th><th>Q<sub>n+1</sub></th></tr><tr><td>0</td><td>0</td><td><b>0</b></td></tr><tr><td>0</td><td>1</td><td><b>1</b></td></tr><tr><td>1</td><td>0</td><td><b>1</b></td></tr><tr><td>1</td><td>1</td><td><b>0</b></td></tr></table><p>Q+ = Σm(1, 2)</p><p><b>Step 1:</b> Map દોરો (4 cells; minterms માટે 1):</p><table><tr><th>T\\Q</th><th>0</th><th>1</th></tr><tr><th>0</th><td>0 <sub>m0</sub></td><td><b>1</b> <sub>m1</sub></td></tr><tr><th>1</th><td><b>1</b> <sub>m2</sub></td><td>0 <sub>m3</sub></td></tr></table><p><b>Step 2:</b> 1s ના groups બનાવો (પહેલાં મોટા groups):</p><table><tr><th>Group</th><th>Cells</th><th>કારણ</th><th>Term</th></tr><tr><td>1. single</td><td>m1</td><td>T = 0 સ્થિર → <span style=\"text-decoration:overline\">T</span>; Q = 1 સ્થિર → Q</td><td><b><span style=\"text-decoration:overline\">T</span>Q</b></td></tr><tr><td>2. single</td><td>m2</td><td>T = 1 સ્થિર → T; Q = 0 સ્થિર → <span style=\"text-decoration:overline\">Q</span></td><td><b>T<span style=\"text-decoration:overline\">Q</span></b></td></tr></table><p><b>Step 3:</b> Terms નો OR કરો:</p><p><b>Q+ = <span style=\"text-decoration:overline\">T</span>Q + T<span style=\"text-decoration:overline\">Q</span></b></p><p>T<span style=\"text-decoration:overline\">Qn</span> + <span style=\"text-decoration:overline\">T</span>Q<sub>n</sub> = <b>T ⊕ Q<sub>n</sub></b>.</p>"
+   }
+  },
+  {
+   "id": "de5n10",
+   "q": {
+    "en": "For the D flip-flop timing diagram (topic 5.2.8), find Q after each rising edge.",
+    "gu": "D flip-flop ના timing diagram (topic 5.2.8) માટે દરેક rising edge પછી Q શોધો."
+   },
+   "a": {
+    "en": "<p>Mark each rising edge of the clock (dashed lines in the diagram) and read D at that instant; Q takes that value and holds it until the next rising edge.</p><table><tr><th>Rising edge</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr><tr><td>D at edge</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td></tr><tr><td>Q after edge</td><td><b>0</b></td><td><b>1</b></td><td><b>0</b></td><td><b>1</b></td><td><b>0</b></td><td><b>1</b></td></tr></table><p>Changes in D between edges (e.g. the short changes just after an edge) do not affect Q.</p>",
+    "gu": "<p>Clock ની દરેક rising edge દર્શાવો (diagram માં dashed lines) અને તે ક્ષણે D વાંચો; Q તે કિંમત લે છે અને પછીની rising edge સુધી જાળવી રાખે છે.</p><table><tr><th>Rising edge</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr><tr><td>D at edge</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td></tr><tr><td>Q after edge</td><td><b>0</b></td><td><b>1</b></td><td><b>0</b></td><td><b>1</b></td><td><b>0</b></td><td><b>1</b></td></tr></table><p>Edges વચ્ચે D માં થતા ફેરફારો (દા.ત. edge પછી તરત થતા નાના ફેરફારો) Q ને અસર કરતા નથી.</p>"
+   }
+  },
+  {
+   "id": "de5n11",
+   "q": {
+    "en": "Convert a JK flip-flop into (a) a D flip-flop and (b) a T flip-flop. Verify with tables.",
+    "gu": "JK flip-flop ને (a) D flip-flop અને (b) T flip-flop માં ફેરવો. Tables વડે ચકાસો."
+   },
+   "a": {
+    "en": "<p><b>JK to D:</b> connect J = D and K = <span style=\"text-decoration:overline\">D</span> (one NOT gate).</p><table><tr><th>D</th><th>Q<sub>n</sub></th><th>J = D</th><th>K = <span style=\"text-decoration:overline\">D</span></th><th>Q<sub>n+1</sub></th></tr><tr><td>0</td><td>0</td><td>0</td><td>1</td><td><b>0</b></td></tr><tr><td>0</td><td>1</td><td>0</td><td>1</td><td><b>0</b></td></tr><tr><td>1</td><td>0</td><td>1</td><td>0</td><td><b>1</b></td></tr><tr><td>1</td><td>1</td><td>1</td><td>0</td><td><b>1</b></td></tr></table><p>Q<sub>n+1</sub> = D in every row ✔</p><p><b>JK to T:</b> connect J and K together to T.</p><table><tr><th>T</th><th>Q<sub>n</sub></th><th>J = T</th><th>K = T</th><th>Q<sub>n+1</sub></th></tr><tr><td>0</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr><tr><td>0</td><td>1</td><td>0</td><td>0</td><td><b>1</b></td></tr><tr><td>1</td><td>0</td><td>1</td><td>1</td><td><b>1</b></td></tr><tr><td>1</td><td>1</td><td>1</td><td>1</td><td><b>0</b></td></tr></table><p>Q<sub>n+1</sub> = T ⊕ Q<sub>n</sub> in every row ✔</p>",
+    "gu": "<p><b>JK થી D:</b> J = D અને K = <span style=\"text-decoration:overline\">D</span> જોડો (એક NOT gate).</p><table><tr><th>D</th><th>Q<sub>n</sub></th><th>J = D</th><th>K = <span style=\"text-decoration:overline\">D</span></th><th>Q<sub>n+1</sub></th></tr><tr><td>0</td><td>0</td><td>0</td><td>1</td><td><b>0</b></td></tr><tr><td>0</td><td>1</td><td>0</td><td>1</td><td><b>0</b></td></tr><tr><td>1</td><td>0</td><td>1</td><td>0</td><td><b>1</b></td></tr><tr><td>1</td><td>1</td><td>1</td><td>0</td><td><b>1</b></td></tr></table><p>દરેક row માં Q<sub>n+1</sub> = D ✔</p><p><b>JK થી T:</b> J અને K ને સાથે T સાથે જોડો.</p><table><tr><th>T</th><th>Q<sub>n</sub></th><th>J = T</th><th>K = T</th><th>Q<sub>n+1</sub></th></tr><tr><td>0</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr><tr><td>0</td><td>1</td><td>0</td><td>0</td><td><b>1</b></td></tr><tr><td>1</td><td>0</td><td>1</td><td>1</td><td><b>1</b></td></tr><tr><td>1</td><td>1</td><td>1</td><td>1</td><td><b>0</b></td></tr></table><p>દરેક row માં Q<sub>n+1</sub> = T ⊕ Q<sub>n</sub> ✔</p>"
+   }
+  },
+  {
+   "id": "de5n12",
+   "q": {
+    "en": "How many flip-flops are needed to (a) store one byte, (c) count 0 to 9, (d) count 100 states? (b) How many states do 4 flip-flops have?",
+    "gu": "(a) એક byte store કરવા, (c) 0 થી 9 ગણવા, (d) 100 states ગણવા કેટલા flip-flops જોઈએ? (b) 4 flip-flops ની કેટલી states હોય?"
+   },
+   "a": {
+    "en": "<p>One flip-flop stores 1 bit; n flip-flops have 2<sup>n</sup> states. To get N states choose the smallest n with 2<sup>n</sup> ≥ N.</p><table><tr><th>Requirement</th><th>Rule</th><th>Answer</th></tr><tr><td>Store one byte (8 bits)</td><td>8 bits</td><td><b>8</b></td></tr><tr><td>Number of states with 4 FFs</td><td>2<sup>4</sup></td><td><b>16</b></td></tr><tr><td>Count 0 to 9 (10 states)</td><td>2<sup>n</sup> ≥ 10</td><td><b>4</b></td></tr><tr><td>Count 100 states</td><td>2<sup>n</sup> ≥ 100</td><td><b>7</b></td></tr></table><p>So: (a) 8 FFs, (b) 16 states, (c) 4 FFs (2<sup>3</sup> = 8 is too few), (d) 7 FFs (2<sup>7</sup> = 128 ≥ 100).</p>",
+    "gu": "<p>એક flip-flop 1 bit store કરે; n flip-flops ની 2<sup>n</sup> states હોય. N states માટે 2<sup>n</sup> ≥ N થાય તેવો સૌથી નાનો n લો.</p><table><tr><th>જરૂરિયાત</th><th>નિયમ</th><th>જવાબ</th></tr><tr><td>Store one byte (8 bits)</td><td>8 bits</td><td><b>8</b></td></tr><tr><td>Number of states with 4 FFs</td><td>2<sup>4</sup></td><td><b>16</b></td></tr><tr><td>Count 0 to 9 (10 states)</td><td>2<sup>n</sup> ≥ 10</td><td><b>4</b></td></tr><tr><td>Count 100 states</td><td>2<sup>n</sup> ≥ 100</td><td><b>7</b></td></tr></table><p>તેથી: (a) 8 FFs, (b) 16 states, (c) 4 FFs (2<sup>3</sup> = 8 ઓછા પડે), (d) 7 FFs (2<sup>7</sup> = 128 ≥ 100).</p>"
+   }
+  }
+ ],
+ "equations": [
+  {
+   "title": {
+    "en": "Characteristic Equations",
+    "gu": "Characteristic Equations"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "SR flip-flop",
+      "gu": "SR flip-flop"
+     },
+     "f": "Q<sub>n+1</sub> = S + <span style=\"text-decoration:overline\">R</span>Q<sub>n</sub>",
+     "terms": {
+      "en": "Condition SR = 0",
+      "gu": "શરત SR = 0"
+     }
+    },
+    {
+     "name": {
+      "en": "JK flip-flop",
+      "gu": "JK flip-flop"
+     },
+     "f": "Q<sub>n+1</sub> = J<span style=\"text-decoration:overline\">Qn</span> + <span style=\"text-decoration:overline\">K</span>Q<sub>n</sub>",
+     "terms": {
+      "en": "J = K = 1 toggles",
+      "gu": "J = K = 1 toggle"
+     }
+    },
+    {
+     "name": {
+      "en": "D flip-flop",
+      "gu": "D flip-flop"
+     },
+     "f": "Q<sub>n+1</sub> = D",
+     "terms": {
+      "en": "Output follows D at the clock edge",
+      "gu": "Clock edge વખતે output D ને અનુસરે"
+     }
+    },
+    {
+     "name": {
+      "en": "T flip-flop",
+      "gu": "T flip-flop"
+     },
+     "f": "Q<sub>n+1</sub> = T ⊕ Q<sub>n</sub>",
+     "terms": {
+      "en": "T = 1 toggles",
+      "gu": "T = 1 toggle"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Conversions and Counting",
+    "gu": "Conversions અને ગણતરી"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "SR / JK to D",
+      "gu": "SR / JK થી D"
+     },
+     "f": "S = J = D, &nbsp; R = K = <span style=\"text-decoration:overline\">D</span>",
+     "terms": {
+      "en": "",
+      "gu": ""
+     }
+    },
+    {
+     "name": {
+      "en": "JK to T",
+      "gu": "JK થી T"
+     },
+     "f": "J = K = T",
+     "terms": {
+      "en": "",
+      "gu": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Clock frequency",
+      "gu": "Clock frequency"
+     },
+     "f": "f = 1 / T",
+     "terms": {
+      "en": "T = clock period",
+      "gu": "T = clock period"
+     }
+    },
+    {
+     "name": {
+      "en": "Toggle frequency division",
+      "gu": "Toggle frequency division"
+     },
+     "f": "f<sub>out</sub> = f<sub>CLK</sub> / 2<sup>n</sup>",
+     "terms": {
+      "en": "n = toggling FFs in cascade",
+      "gu": "n = cascade માં toggling FFs"
+     }
+    },
+    {
+     "name": {
+      "en": "Number of states",
+      "gu": "States ની સંખ્યા"
+     },
+     "f": "States = 2<sup>n</sup>",
+     "terms": {
+      "en": "n = number of flip-flops",
+      "gu": "n = flip-flops ની સંખ્યા"
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Sequential Circuits",
+    "gu": "Sequential Circuits"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a sequential circuit?",
+      "gu": "Sequential circuit શું છે?"
+     },
+     "a": {
+      "en": "A circuit whose output depends on present inputs and the past state; it has memory.",
+      "gu": "જેનો output હાલના inputs અને અગાઉની state પર આધાર રાખે તેવો circuit; તેમાં memory હોય છે."
+     }
+    },
+    {
+     "q": {
+      "en": "Give one main difference between combinational and sequential circuits.",
+      "gu": "Combinational અને sequential circuits વચ્ચે એક મુખ્ય તફાવત આપો."
+     },
+     "a": {
+      "en": "Sequential circuits have memory and feedback; combinational circuits do not.",
+      "gu": "Sequential circuits માં memory અને feedback હોય છે; combinational માં નહીં."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a clock?",
+      "gu": "Clock શું છે?"
+     },
+     "a": {
+      "en": "A periodic square wave that controls when a synchronous circuit changes state.",
+      "gu": "Synchronous circuit ક્યારે state બદલે તે નક્કી કરતો periodic square wave."
+     }
+    },
+    {
+     "q": {
+      "en": "What is edge triggering?",
+      "gu": "Edge triggering શું છે?"
+     },
+     "a": {
+      "en": "Responding only at the rising or falling edge of the clock.",
+      "gu": "Clock ની rising કે falling edge વખતે જ પ્રતિભાવ આપવો."
+     }
+    },
+    {
+     "q": {
+      "en": "Differentiate synchronous and asynchronous circuits.",
+      "gu": "Synchronous અને asynchronous circuits નો તફાવત આપો."
+     },
+     "a": {
+      "en": "Synchronous: all FFs share a common clock; asynchronous: no common clock.",
+      "gu": "Synchronous: બધા FFs નો common clock; asynchronous: common clock નથી."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Flip-Flops",
+    "gu": "Flip-Flops"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a flip-flop?",
+      "gu": "Flip-flop શું છે?"
+     },
+     "a": {
+      "en": "A bistable 1-bit memory element with outputs Q and Q̄.",
+      "gu": "Q અને Q̄ outputs ધરાવતો bistable 1-bit memory element."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between a latch and a flip-flop?",
+      "gu": "Latch અને flip-flop વચ્ચે તફાવત?"
+     },
+     "a": {
+      "en": "A latch is level triggered (or unclocked); a flip-flop is edge triggered.",
+      "gu": "Latch level triggered (અથવા clock વગરનો) છે; flip-flop edge triggered છે."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the invalid state of an SR flip-flop?",
+      "gu": "SR flip-flop ની invalid state કઈ છે?"
+     },
+     "a": {
+      "en": "S = R = 1 (both outputs become equal).",
+      "gu": "S = R = 1 (બંને outputs સરખા થઈ જાય)."
+     }
+    },
+    {
+     "q": {
+      "en": "How does a JK flip-flop remove the invalid state?",
+      "gu": "JK flip-flop invalid state કેવી રીતે દૂર કરે?"
+     },
+     "a": {
+      "en": "By feeding Q and Q̄ back to the input gates; J = K = 1 then toggles.",
+      "gu": "Q અને Q̄ ને input gates માં feedback આપીને; ત્યારે J = K = 1 toggle કરે."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the race-around condition?",
+      "gu": "Race-around condition શું છે?"
+     },
+     "a": {
+      "en": "Repeated toggling of a JK FF when J = K = 1 and the clock pulse is longer than the propagation delay.",
+      "gu": "J = K = 1 અને clock pulse propagation delay કરતાં લાંબો હોય ત્યારે JK FF નું વારંવાર toggle થવું."
+     }
+    },
+    {
+     "q": {
+      "en": "How is race-around avoided?",
+      "gu": "Race-around કેવી રીતે ટાળાય?"
+     },
+     "a": {
+      "en": "Edge triggering or a master–slave JK flip-flop.",
+      "gu": "Edge triggering અથવા master–slave JK flip-flop."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is the D flip-flop called a delay flip-flop?",
+      "gu": "D flip-flop ને delay flip-flop કેમ કહે છે?"
+     },
+     "a": {
+      "en": "The input appears at the output after one clock period.",
+      "gu": "Input એક clock period પછી output પર દેખાય છે."
+     }
+    },
+    {
+     "q": {
+      "en": "How is a D flip-flop made from an SR flip-flop?",
+      "gu": "SR flip-flop માંથી D flip-flop કેવી રીતે બને?"
+     },
+     "a": {
+      "en": "S = D and R = D̄ using a NOT gate.",
+      "gu": "NOT gate વડે S = D અને R = D̄."
+     }
+    },
+    {
+     "q": {
+      "en": "How is a T flip-flop made from a JK flip-flop?",
+      "gu": "JK flip-flop માંથી T flip-flop કેવી રીતે બને?"
+     },
+     "a": {
+      "en": "By connecting J and K together (J = K = T).",
+      "gu": "J અને K ને સાથે જોડીને (J = K = T)."
+     }
+    },
+    {
+     "q": {
+      "en": "What does a T flip-flop do when T = 1?",
+      "gu": "T = 1 હોય ત્યારે T flip-flop શું કરે?"
+     },
+     "a": {
+      "en": "Toggles at every clock edge; divides frequency by 2.",
+      "gu": "દરેક clock edge વખતે toggle થાય; frequency ને 2 વડે ભાગે."
+     }
+    },
+    {
+     "q": {
+      "en": "Which flip-flop is called universal?",
+      "gu": "કયો flip-flop universal કહેવાય?"
+     },
+     "a": {
+      "en": "The JK flip-flop.",
+      "gu": "JK flip-flop."
+     }
+    },
+    {
+     "q": {
+      "en": "Write the characteristic equation of a JK flip-flop.",
+      "gu": "JK flip-flop નું characteristic equation લખો."
+     },
+     "a": {
+      "en": "Qn+1 = JQ̄n + K̄Qn.",
+      "gu": "Qn+1 = JQ̄n + K̄Qn."
+     }
+    },
+    {
+     "q": {
+      "en": "What do Preset and Clear inputs do?",
+      "gu": "Preset અને Clear inputs શું કરે?"
+     },
+     "a": {
+      "en": "Force Q = 1 or Q = 0 immediately, independent of the clock.",
+      "gu": "Clock થી સ્વતંત્ર રીતે તરત જ Q = 1 કે Q = 0 કરે."
+     }
+    },
+    {
+     "q": {
+      "en": "Give two applications of flip-flops.",
+      "gu": "Flip-flops ના બે ઉપયોગ આપો."
+     },
+     "a": {
+      "en": "Registers and counters (also memory, frequency division).",
+      "gu": "Registers અને counters (memory, frequency division પણ)."
+     }
+    },
+    {
+     "q": {
+      "en": "Name an IC containing D flip-flops.",
+      "gu": "D flip-flops ધરાવતો IC જણાવો."
+     },
+     "a": {
+      "en": "7474 (dual positive-edge D flip-flop).",
+      "gu": "7474 (dual positive-edge D flip-flop)."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Define sequential circuit. Draw its block diagram.",
+    "gu": "Sequential circuit ની વ્યાખ્યા આપો. તેનો block diagram દોરો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Differentiate between combinational and sequential circuits.",
+    "gu": "Combinational અને sequential circuits વચ્ચે તફાવત આપો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "What is a flip-flop? List its types.",
+    "gu": "Flip-flop શું છે? તેના પ્રકારો જણાવો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain the SR latch using NOR gates with truth table.",
+    "gu": "Truth table સાથે NOR gates વડે SR latch સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the clocked SR flip-flop with logic diagram and truth table.",
+    "gu": "Logic diagram અને truth table સાથે clocked SR flip-flop સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the JK flip-flop with logic diagram and truth table.",
+    "gu": "Logic diagram અને truth table સાથે JK flip-flop સમજાવો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "What is the race-around condition? How is it eliminated?",
+    "gu": "Race-around condition શું છે? તેને કેવી રીતે દૂર કરાય?"
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain the D flip-flop with diagram and truth table.",
+    "gu": "Diagram અને truth table સાથે D flip-flop સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the T flip-flop with diagram and truth table.",
+    "gu": "Diagram અને truth table સાથે T flip-flop સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Compare SR, JK, D and T flip-flops.",
+    "gu": "SR, JK, D અને T flip-flops ની સરખામણી કરો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain level triggering and edge triggering.",
+    "gu": "Level triggering અને edge triggering સમજાવો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Convert a JK flip-flop into D and T flip-flops.",
+    "gu": "JK flip-flop ને D અને T flip-flops માં ફેરવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Draw the timing diagram of a positive-edge triggered D flip-flop.",
+    "gu": "Positive-edge triggered D flip-flop નો timing diagram દોરો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Give applications of flip-flops.",
+    "gu": "Flip-flops ના ઉપયોગો આપો."
+   },
+   "marks": 3
+  }
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "equations",
+  "numericals",
+  "viva",
+  "exam"
+ ],
+ "diagrams": [
+  {
+   "id": "de5_seq",
+   "title": {
+    "en": "Sequential Circuit: Block Diagram",
+    "gu": "Sequential Circuit: Block Diagram"
+   },
+   "file": "diagrams/de5_seq.svg"
+  },
+  {
+   "id": "de5_clock",
+   "title": {
+    "en": "Clock Signal and Triggering",
+    "gu": "Clock Signal અને Triggering"
+   },
+   "file": "diagrams/de5_clock.svg"
+  },
+  {
+   "id": "de5_compare",
+   "title": {
+    "en": "Combinational vs Sequential",
+    "gu": "Combinational vs Sequential"
+   },
+   "file": "diagrams/de5_compare.svg"
+  },
+  {
+   "id": "de5_latch",
+   "title": {
+    "en": "SR Latch using NOR Gates",
+    "gu": "NOR Gates વડે SR Latch"
+   },
+   "file": "diagrams/de5_latch.svg"
+  },
+  {
+   "id": "de5_sr_nand",
+   "title": {
+    "en": "SR Latch using NAND Gates",
+    "gu": "NAND Gates વડે SR Latch"
+   },
+   "file": "diagrams/de5_sr_nand.svg"
+  },
+  {
+   "id": "de5_sr",
+   "title": {
+    "en": "Clocked SR Flip-Flop",
+    "gu": "Clocked SR Flip-Flop"
+   },
+   "file": "diagrams/de5_sr.svg"
+  },
+  {
+   "id": "de5_jk",
+   "title": {
+    "en": "JK Flip-Flop",
+    "gu": "JK Flip-Flop"
+   },
+   "file": "diagrams/de5_jk.svg"
+  },
+  {
+   "id": "de5_d",
+   "title": {
+    "en": "D Flip-Flop",
+    "gu": "D Flip-Flop"
+   },
+   "file": "diagrams/de5_d.svg"
+  },
+  {
+   "id": "de5_t",
+   "title": {
+    "en": "T Flip-Flop",
+    "gu": "T Flip-Flop"
+   },
+   "file": "diagrams/de5_t.svg"
+  },
+  {
+   "id": "de5_symbols",
+   "title": {
+    "en": "Flip-Flop Symbols",
+    "gu": "Flip-Flop Symbols"
+   },
+   "file": "diagrams/de5_symbols.svg"
+  },
+  {
+   "id": "de5_timing",
+   "title": {
+    "en": "Timing Diagram: D Flip-Flop",
+    "gu": "Timing Diagram: D Flip-Flop"
+   },
+   "file": "diagrams/de5_timing.svg"
+  },
+  {
+   "id": "de5_convert",
+   "title": {
+    "en": "Flip-Flop Conversions",
+    "gu": "Flip-Flop Conversions"
+   },
+   "file": "diagrams/de5_convert.svg"
+  }
+ ]
+}
