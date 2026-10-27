@@ -1,0 +1,878 @@
+{
+ "subject": "DI03000051",
+ "unit": 5,
+ "format": "notes",
+ "title": {
+  "en": "Network Security Aspects",
+  "gu": "Network Security Aspects"
+ },
+ "weightage": 20,
+ "hours": 9,
+ "notes": [
+  {
+   "title": {
+    "en": "5.1 Security Basics",
+    "gu": "5.1 Security Basics"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "5.1.1 Introduction to Network Security",
+      "gu": "5.1.1 Network Security નો પરિચય"
+     },
+     "body": {
+      "en": "<p><b>Network security</b> is the set of policies, practices and technologies used to protect a network and the data travelling over it from <b>unauthorised access, misuse, modification, theft or destruction</b>. It covers hardware, software, users and procedures.</p>\n<h4>Need for network security</h4>\n<ul><li>Organisations store valuable data: bank accounts, student results, medical records, trade secrets.</li>\n<li>Networks are open: the Internet connects billions of devices, so attackers anywhere can try to break in.</li>\n<li>Attacks cause financial loss, loss of reputation and legal problems (e.g. the IT Act 2000 in India).</li>\n<li>Online banking, UPI payments and e-governance depend on trust.</li></ul>\n<h4>Basic terms</h4>\n<ul><li><b>Asset:</b> anything of value (data, hardware, service).</li>\n<li><b>Vulnerability:</b> a weakness that can be exploited (unpatched software, weak password).</li>\n<li><b>Threat:</b> a possible danger that may exploit a vulnerability (a hacker, a virus).</li>\n<li><b>Attack:</b> an actual attempt to exploit a vulnerability.</li>\n<li><b>Risk:</b> the chance of a threat exploiting a vulnerability and the damage that would result.</li></ul>\n<h4>Security attacks</h4>\n<ul><li><b>Interruption:</b> the message or service is destroyed or made unavailable (attack on availability, e.g. DoS, cutting a cable).</li>\n<li><b>Interception:</b> an unauthorised party reads the message (attack on confidentiality, e.g. wire-tapping, packet sniffing).</li>\n<li><b>Modification:</b> the message is altered in transit (attack on integrity, e.g. man-in-the-middle).</li>\n<li><b>Fabrication:</b> a fake message is inserted as if from a genuine sender (attack on authenticity, e.g. spoofing, phishing email).</li></ul>\n<table><tr><th>Passive attack</th><th>Active attack</th></tr><tr><td>Attacker only observes / copies data</td><td>Attacker modifies, blocks or creates data</td></tr><tr><td>Threat to confidentiality</td><td>Threat to integrity, availability, authenticity</td></tr><tr><td>Hard to detect (no change in data)</td><td>Easier to detect, harder to prevent</td></tr><tr><td>Prevented mainly by encryption</td><td>Handled by detection and recovery</td></tr><tr><td>e.g. eavesdropping, traffic analysis</td><td>e.g. DoS, man-in-the-middle, replay, spoofing</td></tr></table>",
+      "gu": "<p><b>Network security</b> એ network અને તેના પર જતા data ને <b>અનધિકૃત access, દુરુપયોગ, ફેરફાર, ચોરી કે નાશ</b> થી બચાવવા વપરાતી નીતિઓ, પદ્ધતિઓ અને technologies નો સમૂહ છે. તેમાં hardware, software, users અને કાર્યપદ્ધતિઓ આવે.</p>\n<h4>Network security ની જરૂરિયાત</h4>\n<ul><li>સંસ્થાઓ કિંમતી data રાખે: bank accounts, student results, medical records, trade secrets.</li>\n<li>Networks ખુલ્લા છે: Internet અબજો devices જોડે, તેથી ગમે ત્યાંથી attackers ઘૂસવાનો પ્રયાસ કરી શકે.</li>\n<li>Attacks થી આર્થિક નુકસાન, પ્રતિષ્ઠા ગુમાવવી અને કાનૂની સમસ્યાઓ થાય (દા.ત. ભારતમાં IT Act 2000).</li>\n<li>Online banking, UPI payments અને e-governance વિશ્વાસ પર આધારિત છે.</li></ul>\n<h4>મૂળભૂત શબ્દો</h4>\n<ul><li><b>Asset:</b> કિંમત ધરાવતી કોઈ પણ વસ્તુ (data, hardware, service).</li>\n<li><b>Vulnerability:</b> exploit કરી શકાય તેવી નબળાઈ (unpatched software, નબળો password).</li>\n<li><b>Threat:</b> vulnerability નો લાભ લઈ શકે તેવો સંભવિત ખતરો (hacker, virus).</li>\n<li><b>Attack:</b> vulnerability નો લાભ લેવાનો વાસ્તવિક પ્રયાસ.</li>\n<li><b>Risk:</b> threat દ્વારા vulnerability નો લાભ લેવાની શક્યતા અને તેનાથી થતું નુકસાન.</li></ul>\n<h4>Security attacks</h4>\n<ul><li><b>Interruption:</b> message કે service નાશ પામે કે અનુપલબ્ધ બને (availability પર attack, દા.ત. DoS, cable કાપવો).</li>\n<li><b>Interception:</b> અનધિકૃત વ્યક્તિ message વાંચે (confidentiality પર attack, દા.ત. wire-tapping, packet sniffing).</li>\n<li><b>Modification:</b> રસ્તામાં message બદલાય (integrity પર attack, દા.ત. man-in-the-middle).</li>\n<li><b>Fabrication:</b> સાચા sender તરફથી હોય તેમ નકલી message ઉમેરાય (authenticity પર attack, દા.ત. spoofing, phishing email).</li></ul>\n<table><tr><th>Passive attack</th><th>Active attack</th></tr><tr><td>Attacker ફક્ત data જુએ / copy કરે</td><td>Attacker data બદલે, અટકાવે કે બનાવે</td></tr><tr><td>Confidentiality ને ખતરો</td><td>Integrity, availability, authenticity ને ખતરો</td></tr><tr><td>શોધવો મુશ્કેલ (data માં ફેરફાર નહીં)</td><td>શોધવો સહેલો, અટકાવવો મુશ્કેલ</td></tr><tr><td>મુખ્યત્વે encryption થી અટકાવાય</td><td>Detection અને recovery થી સંભાળાય</td></tr><tr><td>દા.ત. eavesdropping, traffic analysis</td><td>દા.ત. DoS, man-in-the-middle, replay, spoofing</td></tr></table>"
+     },
+     "diagram": "cn5_attacks"
+    },
+    {
+     "h": {
+      "en": "5.1.2 CIA Triad",
+      "gu": "5.1.2 CIA Triad"
+     },
+     "body": {
+      "en": "<p>The three basic goals of information security are known as the <b>CIA triad</b>: <b>Confidentiality, Integrity and Availability</b>. Every security mechanism (password, encryption, firewall, backup) supports one or more of these goals.</p>\n<ul>\n<li><b>Confidentiality:</b> information is disclosed only to authorised people. Threat: <b>disclosure</b> (snooping, sniffing).</li>\n<li><b>Integrity:</b> information is accurate and is changed only by authorised people in authorised ways. Threat: <b>alteration</b> (modification, tampering).</li>\n<li><b>Availability:</b> information and services are accessible to authorised users <b>whenever needed</b>. Threat: <b>denial</b> (DoS, hardware failure, disaster).</li>\n</ul>\n<p>The goals must be balanced: making data extremely confidential (many locks) can reduce availability, and vice versa.</p>\n<h4>Related security services</h4>\n<ul><li><b>Authentication:</b> verifying the identity of a user or device (password, OTP, fingerprint).</li>\n<li><b>Authorisation / access control:</b> deciding what an authenticated user may do.</li>\n<li><b>Non-repudiation:</b> a sender cannot later deny sending a message (digital signature).</li></ul>",
+      "gu": "<p>Information security ના ત્રણ મૂળભૂત ધ્યેયો <b>CIA triad</b> તરીકે ઓળખાય: <b>Confidentiality, Integrity અને Availability</b>. દરેક security mechanism (password, encryption, firewall, backup) આમાંના એક કે વધુ ધ્યેયોને ટેકો આપે.</p>\n<ul>\n<li><b>Confidentiality:</b> માહિતી ફક્ત અધિકૃત લોકોને જ જાહેર થાય. ખતરો: <b>disclosure</b> (snooping, sniffing).</li>\n<li><b>Integrity:</b> માહિતી સચોટ હોય અને ફક્ત અધિકૃત લોકો દ્વારા અધિકૃત રીતે જ બદલાય. ખતરો: <b>alteration</b> (modification, tampering).</li>\n<li><b>Availability:</b> માહિતી અને services અધિકૃત users ને <b>જરૂર પડે ત્યારે</b> ઉપલબ્ધ હોય. ખતરો: <b>denial</b> (DoS, hardware failure, આપત્તિ).</li>\n</ul>\n<p>ધ્યેયો વચ્ચે સંતુલન જરૂરી: data ને અતિશય confidential બનાવવાથી (ઘણાં તાળાં) availability ઘટી શકે, અને ઊલટું.</p>\n<h4>સંબંધિત security services</h4>\n<ul><li><b>Authentication:</b> user કે device ની ઓળખ ચકાસવી (password, OTP, fingerprint).</li>\n<li><b>Authorisation / access control:</b> authenticated user શું કરી શકે તે નક્કી કરવું.</li>\n<li><b>Non-repudiation:</b> sender પછીથી message મોકલ્યાનો ઇનકાર ન કરી શકે (digital signature).</li></ul>"
+     },
+     "diagram": "cn5_cia"
+    },
+    {
+     "h": {
+      "en": "5.1.3 Confidentiality",
+      "gu": "5.1.3 Confidentiality"
+     },
+     "body": {
+      "en": "<p><b>Confidentiality</b> means protecting information from <b>unauthorised disclosure</b>. Only the intended, authorised people should be able to read it, both while it is <b>stored</b> (data at rest) and while it is <b>transmitted</b> (data in transit).</p>\n<h4>Threats</h4>\n<ul><li>Eavesdropping / packet sniffing on a network (e.g. on open public Wi-Fi).</li><li>Stolen passwords, shoulder surfing, social engineering.</li><li>Lost or stolen laptops and pen drives; insiders leaking data.</li></ul>\n<h4>Mechanisms</h4>\n<ul>\n<li><b>Encryption:</b> converts readable <b>plaintext</b> into unreadable <b>ciphertext</b> using a <b>key</b>; only someone with the right key can decrypt it.\n<ul><li><b>Symmetric (secret key):</b> the same key encrypts and decrypts (AES, DES). Fast.</li><li><b>Asymmetric (public key):</b> a public key encrypts and the matching private key decrypts (RSA). Solves key distribution.</li></ul></li>\n<li><b>Access control:</b> user IDs, passwords, permissions, multi-factor authentication.</li>\n<li>Secure protocols: <b>HTTPS (TLS)</b>, SSH, VPN, WPA2 / WPA3 on Wi-Fi.</li>\n<li>Data classification and physical security (locked server rooms).</li>\n</ul>",
+      "gu": "<p><b>Confidentiality</b> એટલે માહિતીને <b>અનધિકૃત disclosure</b> થી બચાવવી. માહિતી <b>સંગ્રહિત</b> હોય (data at rest) અને <b>મોકલાતી</b> હોય (data in transit) ત્યારે ફક્ત ઇચ્છિત, અધિકૃત લોકો જ તે વાંચી શકે.</p>\n<h4>ખતરા</h4>\n<ul><li>Network પર eavesdropping / packet sniffing (દા.ત. ખુલ્લા public Wi-Fi પર).</li><li>ચોરાયેલા passwords, shoulder surfing, social engineering.</li><li>ખોવાયેલા કે ચોરાયેલા laptops અને pen drives; insiders દ્વારા data leak.</li></ul>\n<h4>Mechanisms</h4>\n<ul>\n<li><b>Encryption:</b> વાંચી શકાય તેવા <b>plaintext</b> ને <b>key</b> વાપરીને ન વાંચી શકાય તેવા <b>ciphertext</b> માં ફેરવે; સાચી key ધરાવનાર જ decrypt કરી શકે.\n<ul><li><b>Symmetric (secret key):</b> સરખી key encrypt અને decrypt કરે (AES, DES). ઝડપી.</li><li><b>Asymmetric (public key):</b> public key encrypt કરે અને મેળ ખાતી private key decrypt કરે (RSA). Key distribution ની સમસ્યા ઉકેલે.</li></ul></li>\n<li><b>Access control:</b> user IDs, passwords, permissions, multi-factor authentication.</li>\n<li>Secure protocols: <b>HTTPS (TLS)</b>, SSH, VPN, Wi-Fi પર WPA2 / WPA3.</li>\n<li>Data classification અને physical security (તાળાબંધ server rooms).</li>\n</ul>"
+     },
+     "diagram": "cn5_encrypt",
+     "examples": [
+      "cn5n1"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.1.4 Integrity",
+      "gu": "5.1.4 Integrity"
+     },
+     "body": {
+      "en": "<p><b>Integrity</b> means that data is <b>accurate, complete and unchanged</b> except by authorised people through authorised processes. The receiver must be able to detect if a message was altered, accidentally (noise, errors) or deliberately (attack).</p>\n<h4>Threats</h4>\n<ul><li>Man-in-the-middle attack changing data in transit (e.g. changing the amount or account number in a payment).</li><li>Viruses corrupting files; unauthorised database updates (changing marks).</li><li>Transmission errors and hardware faults.</li></ul>\n<h4>Mechanisms</h4>\n<ul>\n<li><b>Hash functions</b> (MD5, SHA-256): produce a fixed-size <b>message digest</b> (fingerprint). The receiver recomputes the hash; if it differs, the data was changed. Even a 1-character change gives a completely different hash.</li>\n<li><b>Message Authentication Code (MAC / HMAC):</b> hash combined with a secret key, so an attacker cannot recompute it.</li>\n<li><b>Digital signatures:</b> hash encrypted with the sender's private key; give integrity, authentication and non-repudiation.</li>\n<li>Checksums and CRC for accidental errors; access permissions, version control, audit logs and backups.</li>\n</ul>",
+      "gu": "<p><b>Integrity</b> એટલે data <b>સચોટ, સંપૂર્ણ અને બદલાયા વગરનો</b> રહે, સિવાય કે અધિકૃત લોકો અધિકૃત પ્રક્રિયાઓ દ્વારા બદલે. Message આકસ્મિક (noise, errors) કે ઇરાદાપૂર્વક (attack) બદલાયો હોય તો receiver તે શોધી શકવો જોઈએ.</p>\n<h4>ખતરા</h4>\n<ul><li>રસ્તામાં data બદલતો man-in-the-middle attack (દા.ત. payment માં રકમ કે account number બદલવો).</li><li>Files બગાડતા viruses; અનધિકૃત database updates (marks બદલવા).</li><li>Transmission errors અને hardware faults.</li></ul>\n<h4>Mechanisms</h4>\n<ul>\n<li><b>Hash functions</b> (MD5, SHA-256): fixed-size <b>message digest</b> (fingerprint) બનાવે. Receiver ફરી hash ગણે; જો અલગ હોય, તો data બદલાયો છે. 1 અક્ષરનો ફેરફાર પણ સંપૂર્ણ અલગ hash આપે.</li>\n<li><b>Message Authentication Code (MAC / HMAC):</b> secret key સાથે જોડેલો hash, જેથી attacker તે ફરી ગણી ન શકે.</li>\n<li><b>Digital signatures:</b> sender ની private key થી encrypt કરેલો hash; integrity, authentication અને non-repudiation આપે.</li>\n<li>આકસ્મિક errors માટે checksums અને CRC; access permissions, version control, audit logs અને backups.</li>\n</ul>"
+     },
+     "diagram": "cn5_hash",
+     "examples": [
+      "cn5n2"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.1.5 Availability",
+      "gu": "5.1.5 Availability"
+     },
+     "body": {
+      "en": "<p><b>Availability</b> means that systems, networks and data are <b>accessible and usable by authorised users whenever they need them</b>. A perfectly confidential and accurate system is useless if it cannot be reached (e.g. a results website that crashes on result day).</p>\n<h4>Threats</h4>\n<ul><li><b>Denial of Service (DoS):</b> an attacker floods a server with requests so genuine users cannot be served. <b>Distributed DoS (DDoS)</b> uses thousands of infected computers (a <b>botnet</b>).</li>\n<li><b>Ransomware</b> encrypting files and demanding payment.</li><li>Hardware / power failure, software bugs, natural disasters (flood, fire), accidental deletion.</li></ul>\n<h4>Mechanisms</h4>\n<ul><li><b>Redundancy:</b> backup servers, RAID disks, multiple network links, clustering, load balancers.</li>\n<li><b>Regular backups</b> and a disaster recovery plan (off-site / cloud copies).</li>\n<li>UPS and generators; regular maintenance and patching.</li>\n<li>Firewalls, intrusion prevention, rate limiting and anti-DDoS / CDN services.</li></ul>\n<p>Availability is measured as <b>uptime %</b>: 99.9% (\"three nines\") still allows about 8.8 hours of downtime per year.</p>",
+      "gu": "<p><b>Availability</b> એટલે systems, networks અને data <b>અધિકૃત users ને જરૂર પડે ત્યારે ઉપલબ્ધ અને વાપરી શકાય તેવા</b> હોય. સંપૂર્ણ confidential અને સચોટ system પણ જો પહોંચી ન શકાય તો નકામું છે (દા.ત. result ના દિવસે crash થતી results website).</p>\n<h4>ખતરા</h4>\n<ul><li><b>Denial of Service (DoS):</b> attacker server ને requests થી ભરી દે જેથી સાચા users ને service ન મળે. <b>Distributed DoS (DDoS)</b> હજારો infected computers (<b>botnet</b>) વાપરે.</li>\n<li>Files encrypt કરી પૈસા માગતું <b>ransomware</b>.</li><li>Hardware / power failure, software bugs, કુદરતી આપત્તિઓ (પૂર, આગ), આકસ્મિક deletion.</li></ul>\n<h4>Mechanisms</h4>\n<ul><li><b>Redundancy:</b> backup servers, RAID disks, અનેક network links, clustering, load balancers.</li>\n<li><b>નિયમિત backups</b> અને disaster recovery plan (off-site / cloud copies).</li>\n<li>UPS અને generators; નિયમિત maintenance અને patching.</li>\n<li>Firewalls, intrusion prevention, rate limiting અને anti-DDoS / CDN services.</li></ul>\n<p>Availability <b>uptime %</b> તરીકે મપાય: 99.9% (\"three nines\") પણ વર્ષે લગભગ 8.8 કલાક downtime આપે.</p>"
+     },
+     "diagram": "cn5_dos",
+     "examples": [
+      "cn5n3"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "5.2 Threats to Security",
+    "gu": "5.2 Threats to Security"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "5.2.1 Threats to Security: Overview",
+      "gu": "5.2.1 Threats to Security: ઝાંખી"
+     },
+     "body": {
+      "en": "<p>A <b>threat</b> is any person, program or event that can cause harm to a computer system or network. Threats come from <b>outside</b> (hackers, criminals) and <b>inside</b> (employees), and can be <b>intentional</b> or <b>accidental</b>.</p>\n<p>Threats are often arranged by <b>sophistication</b> (skill, money and time available):</p>\n<ul>\n<li><b>Unstructured threats:</b> individuals or small groups with little money and skill, often using ready-made tools found on the Internet (<b>script kiddies</b>), and self-spreading malware like viruses and worms. Many in number, but usually detected by basic security.</li>\n<li><b>Structured threats:</b> skilled, organised attackers with time and money, who plan carefully, e.g. <b>criminal organisations</b>, skilled intruders and malicious <b>insiders</b>.</li>\n<li><b>Highly structured threats:</b> very large, well-funded groups that can work for years, e.g. <b>terrorist groups</b> and nations conducting <b>information warfare</b>.</li>\n</ul>\n<p>The syllabus threats are: <b>viruses and worms, intruders, insiders, criminal organisations, terrorists and information warfare</b>.</p>\n<h4>Common types of malicious software (malware)</h4>\n<ul><li><b>Virus, worm</b> (5.2.2); <b>Trojan horse:</b> looks useful but hides malicious code; <b>ransomware</b>; <b>spyware / keylogger</b>; <b>adware</b>; <b>rootkit</b>; <b>logic bomb</b>: triggers on a date or event; <b>backdoor</b>.</li></ul>",
+      "gu": "<p><b>Threat</b> એ કોઈ પણ વ્યક્તિ, program કે ઘટના છે જે computer system કે network ને નુકસાન કરી શકે. Threats <b>બહારથી</b> (hackers, criminals) અને <b>અંદરથી</b> (employees) આવે, અને <b>ઇરાદાપૂર્વક</b> કે <b>આકસ્મિક</b> હોઈ શકે.</p>\n<p>Threats ઘણી વાર <b>sophistication</b> (ઉપલબ્ધ કુશળતા, પૈસા અને સમય) પ્રમાણે ગોઠવાય:</p>\n<ul>\n<li><b>Unstructured threats:</b> ઓછા પૈસા અને કુશળતા વાળા વ્યક્તિઓ કે નાના જૂથો, ઘણી વાર Internet પર મળતાં તૈયાર tools વાપરતા (<b>script kiddies</b>), અને viruses તથા worms જેવા જાતે ફેલાતા malware. સંખ્યામાં ઘણા, પણ સામાન્ય રીતે basic security થી પકડાય.</li>\n<li><b>Structured threats:</b> સમય અને પૈસા ધરાવતા કુશળ, સંગઠિત attackers, જે કાળજીપૂર્વક યોજના બનાવે, દા.ત. <b>criminal organisations</b>, કુશળ intruders અને દુષ્ટ <b>insiders</b>.</li>\n<li><b>Highly structured threats:</b> વર્ષો સુધી કામ કરી શકે તેવાં ખૂબ મોટાં, સારા ભંડોળ વાળાં જૂથો, દા.ત. <b>terrorist groups</b> અને <b>information warfare</b> કરતા દેશો.</li>\n</ul>\n<p>Syllabus ના threats: <b>viruses અને worms, intruders, insiders, criminal organisations, terrorists અને information warfare</b>.</p>\n<h4>Malicious software (malware) ના સામાન્ય પ્રકારો</h4>\n<ul><li><b>Virus, worm</b> (5.2.2); <b>Trojan horse:</b> ઉપયોગી દેખાય પણ દુષ્ટ code છુપાવે; <b>ransomware</b>; <b>spyware / keylogger</b>; <b>adware</b>; <b>rootkit</b>; <b>logic bomb</b>: તારીખ કે ઘટના પર સક્રિય થાય; <b>backdoor</b>.</li></ul>"
+     },
+     "diagram": "cn5_pyramid"
+    },
+    {
+     "h": {
+      "en": "5.2.2 Viruses and Worms",
+      "gu": "5.2.2 Viruses અને Worms"
+     },
+     "body": {
+      "en": "<h4>Virus</h4>\n<p>A <b>computer virus</b> is a piece of malicious code that <b>attaches itself to a host program or file</b> and <b>replicates</b> when the infected program is run. Like a biological virus, it cannot live on its own; it needs a host and usually <b>human action</b> (opening a file, running a program, inserting a pen drive) to spread.</p>\n<ul><li><b>Phases:</b> dormant → propagation (copies itself into other files) → triggering (on a date or event) → execution (payload: delete files, show messages, slow the system).</li>\n<li><b>Types:</b> file infector (.exe), boot sector virus, <b>macro virus</b> (Word / Excel documents), polymorphic virus (changes its code to avoid detection), stealth virus.</li></ul>\n<h4>Worm</h4>\n<p>A <b>worm</b> is a <b>standalone</b> malicious program that <b>copies itself from computer to computer over a network without any user action</b>, by exploiting security holes (unpatched services) or using email contacts. Worms consume huge network bandwidth and may carry payloads such as ransomware.</p>\n<ul><li>Examples: <b>Morris worm</b> (1988, first major Internet worm), <b>ILOVEYOU</b> (2000, email), <b>WannaCry</b> (2017, ransomware worm via a Windows SMB flaw).</li></ul>\n<h4>Protection</h4>\n<p>Antivirus software with updated signatures, regular OS patches, firewalls, not opening unknown attachments or pirated software, scanning pen drives, and regular backups.</p>\n<table><tr><th>Virus</th><th>Worm</th></tr><tr><td>Attaches itself to a host file or program</td><td>Standalone program; needs no host</td></tr><tr><td>Spreads when the user runs the infected file / shares it</td><td>Spreads automatically over the network</td></tr><tr><td>Needs human action</td><td>No human action needed</td></tr><tr><td>Mainly damages files and programs on a computer</td><td>Mainly consumes bandwidth and spreads to many computers</td></tr><tr><td>Spreads slower</td><td>Spreads very fast</td></tr><tr><td>e.g. CIH, Melissa (macro virus)</td><td>e.g. Morris worm, WannaCry, ILOVEYOU</td></tr></table>",
+      "gu": "<h4>Virus</h4>\n<p><b>Computer virus</b> એ દુષ્ટ code નો ટુકડો છે જે <b>પોતાને host program કે file સાથે જોડે</b> અને infected program ચલાવાય ત્યારે <b>પોતાની નકલો</b> બનાવે. જૈવિક virus ની જેમ, તે જાતે જીવી ન શકે; ફેલાવા માટે host અને સામાન્ય રીતે <b>માનવ ક્રિયા</b> (file ખોલવી, program ચલાવવો, pen drive લગાવવી) જોઈએ.</p>\n<ul><li><b>Phases:</b> dormant → propagation (બીજી files માં નકલ) → triggering (તારીખ કે ઘટના પર) → execution (payload: files delete કરવી, messages બતાવવા, system ધીમું કરવું).</li>\n<li><b>પ્રકારો:</b> file infector (.exe), boot sector virus, <b>macro virus</b> (Word / Excel documents), polymorphic virus (પકડાવાથી બચવા code બદલે), stealth virus.</li></ul>\n<h4>Worm</h4>\n<p><b>Worm</b> એ <b>સ્વતંત્ર</b> દુષ્ટ program છે જે security છિદ્રો (unpatched services) નો લાભ લઈને કે email contacts વાપરીને <b>કોઈ user ક્રિયા વગર network પર computer થી computer પોતાની નકલ કરે</b>. Worms ખૂબ network bandwidth વાપરે અને ransomware જેવા payloads લઈ જઈ શકે.</p>\n<ul><li>ઉદાહરણો: <b>Morris worm</b> (1988, પ્રથમ મોટો Internet worm), <b>ILOVEYOU</b> (2000, email), <b>WannaCry</b> (2017, Windows SMB ખામી દ્વારા ransomware worm).</li></ul>\n<h4>રક્ષણ</h4>\n<p>Updated signatures વાળું antivirus software, નિયમિત OS patches, firewalls, અજાણ્યાં attachments કે pirated software ન ખોલવા, pen drives scan કરવી, અને નિયમિત backups.</p>\n<table><tr><th>Virus</th><th>Worm</th></tr><tr><td>પોતાને host file કે program સાથે જોડે</td><td>સ્વતંત્ર program; host ની જરૂર નહીં</td></tr><tr><td>User infected file ચલાવે / share કરે ત્યારે ફેલાય</td><td>Network પર આપમેળે ફેલાય</td></tr><tr><td>માનવ ક્રિયા જોઈએ</td><td>માનવ ક્રિયાની જરૂર નહીં</td></tr><tr><td>મુખ્યત્વે computer પરની files અને programs ને નુકસાન</td><td>મુખ્યત્વે bandwidth વાપરે અને ઘણાં computers માં ફેલાય</td></tr><tr><td>ધીમો ફેલાય</td><td>ખૂબ ઝડપથી ફેલાય</td></tr><tr><td>દા.ત. CIH, Melissa (macro virus)</td><td>દા.ત. Morris worm, WannaCry, ILOVEYOU</td></tr></table>"
+     },
+     "diagram": "cn5_virus_worm"
+    },
+    {
+     "h": {
+      "en": "5.2.3 Intruders",
+      "gu": "5.2.3 Intruders"
+     },
+     "body": {
+      "en": "<p>An <b>intruder</b> is a person who gains or tries to gain <b>unauthorised access</b> to a system or network, generally called a <b>hacker</b> (or cracker when malicious). Intruders are mostly <b>outsiders</b>.</p>\n<h4>Classes of intruders</h4>\n<ul><li><b>Masquerader:</b> an outsider who uses a legitimate user's account (stolen password) to get in.</li>\n<li><b>Misfeasor:</b> a legitimate user who accesses data or resources he is not authorised for, or misuses his privileges (often an insider).</li>\n<li><b>Clandestine user:</b> someone who seizes supervisory (administrator) control to avoid auditing and access controls.</li></ul>\n<h4>By skill and intent</h4>\n<ul><li><b>Script kiddies:</b> low skill; use readily available tools without understanding them. Largest group (unstructured threat).</li>\n<li><b>Skilled hackers / elite:</b> can find new vulnerabilities and write their own exploits.</li>\n<li><b>White hat</b> (ethical hackers, authorised penetration testers), <b>black hat</b> (malicious), <b>grey hat</b> (in between), <b>hacktivists</b> (political or social motives).</li></ul>\n<h4>Typical steps of an intrusion</h4>\n<p>Reconnaissance (gathering information) → scanning (ping sweeps, port scans) → gaining access (exploiting a vulnerability, password cracking) → maintaining access (backdoor) → covering tracks (deleting logs).</p>\n<p><b>Defence:</b> strong passwords and MFA, firewalls, <b>Intrusion Detection / Prevention Systems (IDS / IPS)</b>, patching, monitoring logs, and honeypots.</p>",
+      "gu": "<p><b>Intruder</b> એ system કે network માં <b>અનધિકૃત access</b> મેળવનાર કે મેળવવાનો પ્રયાસ કરનાર વ્યક્તિ છે, જેને સામાન્ય રીતે <b>hacker</b> (દુષ્ટ હોય ત્યારે cracker) કહે છે. Intruders મોટે ભાગે <b>outsiders</b> હોય છે.</p>\n<h4>Intruders ના વર્ગો</h4>\n<ul><li><b>Masquerader:</b> અંદર આવવા કાયદેસર user ના account (ચોરાયેલો password) નો ઉપયોગ કરતો outsider.</li>\n<li><b>Misfeasor:</b> કાયદેસર user જે અધિકાર ન હોય તેવા data કે resources વાપરે, કે પોતાના privileges નો દુરુપયોગ કરે (ઘણી વાર insider).</li>\n<li><b>Clandestine user:</b> auditing અને access controls થી બચવા supervisory (administrator) control કબજે કરનાર.</li></ul>\n<h4>કુશળતા અને ઇરાદા પ્રમાણે</h4>\n<ul><li><b>Script kiddies:</b> ઓછી કુશળતા; સમજ્યા વગર સહેલાઈથી મળતાં tools વાપરે. સૌથી મોટું જૂથ (unstructured threat).</li>\n<li><b>Skilled hackers / elite:</b> નવી vulnerabilities શોધી અને પોતાના exploits લખી શકે.</li>\n<li><b>White hat</b> (ethical hackers, અધિકૃત penetration testers), <b>black hat</b> (દુષ્ટ), <b>grey hat</b> (વચ્ચે), <b>hacktivists</b> (રાજકીય કે સામાજિક હેતુ).</li></ul>\n<h4>Intrusion નાં સામાન્ય પગલાં</h4>\n<p>Reconnaissance (માહિતી ભેગી કરવી) → scanning (ping sweeps, port scans) → access મેળવવો (vulnerability નો લાભ, password cracking) → access જાળવવો (backdoor) → નિશાન ભૂંસવાં (logs delete કરવા).</p>\n<p><b>બચાવ:</b> મજબૂત passwords અને MFA, firewalls, <b>Intrusion Detection / Prevention Systems (IDS / IPS)</b>, patching, logs પર નજર, અને honeypots.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "5.2.4 Insiders",
+      "gu": "5.2.4 Insiders"
+     },
+     "body": {
+      "en": "<p>An <b>insider</b> is a person who has <b>authorised access</b> to an organisation's systems, such as an employee, contractor, former employee or business partner, and misuses it. Insiders are often considered <b>more dangerous than outside intruders</b> because:</p>\n<ul><li>They already have access and are trusted; firewalls facing the Internet do not stop them.</li>\n<li>They know where valuable data is kept and what security controls exist.</li>\n<li>Their actions look like normal work, so they are hard to detect.</li></ul>\n<h4>Types and motives</h4>\n<ul><li><b>Malicious insider:</b> deliberately steals data, sabotages systems or plants logic bombs, out of revenge (a fired employee), greed (selling data to competitors) or ideology.</li>\n<li><b>Negligent / accidental insider:</b> causes harm by mistake: falling for phishing, weak passwords, losing a laptop, misconfiguring a server.</li>\n<li><b>Compromised insider:</b> a genuine user whose account has been taken over by an outsider.</li></ul>\n<h4>Controls</h4>\n<ul><li><b>Least privilege</b> and need-to-know access; separation of duties (no single person controls a whole process).</li>\n<li>Prompt removal of access when employees leave; background checks.</li>\n<li>Monitoring and audit logs, data loss prevention (DLP), security awareness training.</li></ul>",
+      "gu": "<p><b>Insider</b> એ સંસ્થાની systems માં <b>અધિકૃત access</b> ધરાવતી વ્યક્તિ છે, જેમ કે employee, contractor, ભૂતપૂર્વ employee કે business partner, જે તેનો દુરુપયોગ કરે. Insiders ને ઘણી વાર <b>બહારના intruders કરતાં વધુ ખતરનાક</b> ગણાય છે કારણ કે:</p>\n<ul><li>તેમની પાસે પહેલેથી access છે અને તેઓ વિશ્વાસપાત્ર છે; Internet તરફના firewalls તેમને અટકાવતા નથી.</li>\n<li>કિંમતી data ક્યાં રાખેલો છે અને કયાં security controls છે તે તેઓ જાણે છે.</li>\n<li>તેમની ક્રિયાઓ સામાન્ય કામ જેવી દેખાય, તેથી પકડવી મુશ્કેલ.</li></ul>\n<h4>પ્રકારો અને હેતુઓ</h4>\n<ul><li><b>Malicious insider:</b> બદલો (છૂટો કરાયેલો employee), લોભ (competitors ને data વેચવો) કે વિચારધારાને કારણે ઇરાદાપૂર્વક data ચોરે, systems ને નુકસાન કરે કે logic bombs મૂકે.</li>\n<li><b>Negligent / accidental insider:</b> ભૂલથી નુકસાન કરે: phishing માં ફસાવું, નબળા passwords, laptop ખોવો, server ખોટી રીતે configure કરવું.</li>\n<li><b>Compromised insider:</b> સાચો user જેનું account outsider એ કબજે કર્યું હોય.</li></ul>\n<h4>Controls</h4>\n<ul><li><b>Least privilege</b> અને need-to-know access; separation of duties (એક જ વ્યક્તિ આખી પ્રક્રિયા નિયંત્રિત ન કરે).</li>\n<li>Employees છોડે ત્યારે તરત access દૂર કરવો; background checks.</li>\n<li>Monitoring અને audit logs, data loss prevention (DLP), security awareness training.</li></ul>"
+     }
+    },
+    {
+     "h": {
+      "en": "5.2.5 Criminal Organizations",
+      "gu": "5.2.5 Criminal Organizations"
+     },
+     "body": {
+      "en": "<p>As business and banking moved online, <b>organised crime groups</b> moved into cybercrime because it is profitable, low-risk and can be done from anywhere in the world. They are a <b>structured threat</b>: they have money to hire skilled hackers, buy tools and spend months on an attack.</p>\n<h4>Activities</h4>\n<ul><li><b>Financial fraud:</b> stealing card details and banking passwords, fake UPI / KYC calls, online shopping scams.</li>\n<li><b>Ransomware</b> attacks on companies and hospitals, demanding payment in cryptocurrency.</li>\n<li><b>Phishing</b> campaigns and fake websites; identity theft.</li>\n<li>Running <b>botnets</b> and renting them out for DDoS or spam; selling stolen data on the dark web.</li>\n<li>Extortion: threatening DDoS or publishing stolen data unless paid.</li></ul>\n<h4>Characteristics</h4>\n<p>Profit is the main motive. Groups are well organised like businesses (developers, distributors, money-launderers), often cross international borders, and use encryption and cryptocurrency to hide.</p>\n<p><b>Defence:</b> strong authentication (OTP, MFA), user awareness, fraud monitoring by banks, backups against ransomware, and reporting to the cyber-crime cell (cybercrime.gov.in, helpline 1930 in India).</p>",
+      "gu": "<p>વ્યવસાય અને banking online થતાં, <b>organised crime groups</b> cybercrime તરફ વળ્યાં કારણ કે તે નફાકારક, ઓછું જોખમી અને દુનિયામાં ગમે ત્યાંથી થઈ શકે છે. તેઓ <b>structured threat</b> છે: કુશળ hackers રાખવા, tools ખરીદવા અને attack પર મહિનાઓ ખર્ચવા તેમની પાસે પૈસા છે.</p>\n<h4>પ્રવૃત્તિઓ</h4>\n<ul><li><b>Financial fraud:</b> card details અને banking passwords ચોરવા, નકલી UPI / KYC calls, online shopping scams.</li>\n<li>Companies અને hospitals પર <b>ransomware</b> attacks, cryptocurrency માં ચુકવણી માગવી.</li>\n<li><b>Phishing</b> campaigns અને નકલી websites; identity theft.</li>\n<li><b>Botnets</b> ચલાવવાં અને DDoS કે spam માટે ભાડે આપવાં; ચોરાયેલો data dark web પર વેચવો.</li>\n<li>Extortion: પૈસા ન મળે તો DDoS કે ચોરાયેલો data જાહેર કરવાની ધમકી.</li></ul>\n<h4>લાક્ષણિકતાઓ</h4>\n<p>નફો મુખ્ય હેતુ છે. જૂથો વ્યવસાયની જેમ સુવ્યવસ્થિત હોય (developers, distributors, money-launderers), ઘણી વાર આંતરરાષ્ટ્રીય સરહદો પાર કરે, અને છુપાવા encryption અને cryptocurrency વાપરે.</p>\n<p><b>બચાવ:</b> મજબૂત authentication (OTP, MFA), user જાગૃતિ, banks દ્વારા fraud monitoring, ransomware સામે backups, અને cyber-crime cell ને report કરવું (ભારતમાં cybercrime.gov.in, helpline 1930).</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "5.2.6 Terrorists",
+      "gu": "5.2.6 Terrorists"
+     },
+     "body": {
+      "en": "<p><b>Terrorist groups</b> may use computers and networks to cause fear, disruption and damage for political or ideological goals. Attacks on computer systems by terrorists are called <b>cyber terrorism</b>. They are a <b>highly structured threat</b> when well funded.</p>\n<h4>How terrorists use networks</h4>\n<ul><li><b>Attacking critical infrastructure:</b> power grids, water supply, transport, telecommunication, banking and hospital systems controlled by computers (SCADA / industrial control systems). Disabling them can harm many people.</li>\n<li><b>Propaganda and recruitment</b> through websites and social media; spreading fake news and panic.</li>\n<li><b>Communication and planning</b> using encrypted messaging; raising funds through cybercrime.</li>\n<li>Defacing government websites and stealing sensitive data.</li></ul>\n<p>Unlike criminals, the main motive is not money but <b>publicity, fear and disruption</b>.</p>\n<p><b>Defence:</b> strong protection and isolation of critical infrastructure networks, national agencies (CERT-In, NCIIPC in India), monitoring, cooperation between countries, and laws such as Section 66F of the IT Act (cyber terrorism).</p>",
+      "gu": "<p><b>Terrorist groups</b> રાજકીય કે વૈચારિક ધ્યેયો માટે ભય, વિક્ષેપ અને નુકસાન ફેલાવવા computers અને networks વાપરી શકે. Terrorists દ્વારા computer systems પરના attacks ને <b>cyber terrorism</b> કહે છે. સારું ભંડોળ હોય ત્યારે તેઓ <b>highly structured threat</b> છે.</p>\n<h4>Terrorists networks કેવી રીતે વાપરે</h4>\n<ul><li><b>Critical infrastructure પર attack:</b> computers થી નિયંત્રિત power grids, પાણી પુરવઠો, transport, telecommunication, banking અને hospital systems (SCADA / industrial control systems). તેમને બંધ કરવાથી ઘણા લોકોને નુકસાન થઈ શકે.</li>\n<li>Websites અને social media દ્વારા <b>propaganda અને recruitment</b>; fake news અને ગભરાટ ફેલાવવો.</li>\n<li>Encrypted messaging વાપરી <b>communication અને planning</b>; cybercrime દ્વારા ભંડોળ ભેગું કરવું.</li>\n<li>સરકારી websites deface કરવી અને સંવેદનશીલ data ચોરવો.</li></ul>\n<p>Criminals થી વિપરીત, મુખ્ય હેતુ પૈસા નહીં પણ <b>પ્રસિદ્ધિ, ભય અને વિક્ષેપ</b> છે.</p>\n<p><b>બચાવ:</b> critical infrastructure networks નું મજબૂત રક્ષણ અને અલગીકરણ, રાષ્ટ્રીય agencies (ભારતમાં CERT-In, NCIIPC), monitoring, દેશો વચ્ચે સહકાર, અને IT Act ની Section 66F (cyber terrorism) જેવા કાયદા.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "5.2.7 Information Warfare",
+      "gu": "5.2.7 Information Warfare"
+     },
+     "body": {
+      "en": "<p><b>Information warfare</b> is the use of information and computer networks by a <b>nation (state)</b> to gain an advantage over an adversary, by attacking the enemy's information systems while defending its own. It is the <b>most highly structured threat</b>: nations have huge budgets, the best experts, and years of time.</p>\n<h4>Offensive and defensive sides</h4>\n<ul><li><b>Offensive:</b> cyber espionage (stealing military, political and industrial secrets), disabling the enemy's communication, power and financial systems before or during a conflict, planting malware in advance.</li>\n<li><b>Defensive:</b> protecting one's own military and civilian critical infrastructure from such attacks.</li></ul>\n<h4>Forms</h4>\n<ul><li>Attacks on command-and-control and communication networks.</li><li>Sabotage of infrastructure: e.g. the <b>Stuxnet</b> worm (around 2010) damaged uranium centrifuges by attacking industrial controllers; attacks on Ukraine's power grid (2015).</li>\n<li><b>Psychological operations:</b> misinformation and propaganda through media and social networks to influence public opinion or elections.</li>\n<li><b>Advanced Persistent Threats (APT):</b> long-term, stealthy intrusions sponsored by states.</li></ul>\n<p>Modern militaries treat cyberspace as a fifth domain of warfare after land, sea, air and space, and maintain dedicated cyber commands.</p>",
+      "gu": "<p><b>Information warfare</b> એટલે <b>દેશ (state)</b> દ્વારા શત્રુ પર લાભ મેળવવા માહિતી અને computer networks નો ઉપયોગ, શત્રુની information systems પર attack કરીને અને પોતાની systems નો બચાવ કરીને. તે <b>સૌથી highly structured threat</b> છે: દેશો પાસે વિશાળ budgets, શ્રેષ્ઠ નિષ્ણાતો અને વર્ષોનો સમય હોય.</p>\n<h4>Offensive અને defensive બાજુ</h4>\n<ul><li><b>Offensive:</b> cyber espionage (લશ્કરી, રાજકીય અને ઔદ્યોગિક રહસ્યો ચોરવાં), સંઘર્ષ પહેલાં કે દરમિયાન શત્રુની communication, power અને financial systems બંધ કરવી, અગાઉથી malware મૂકવો.</li>\n<li><b>Defensive:</b> પોતાના લશ્કરી અને નાગરિક critical infrastructure ને આવા attacks થી બચાવવું.</li></ul>\n<h4>સ્વરૂપો</h4>\n<ul><li>Command-and-control અને communication networks પર attacks.</li><li>Infrastructure ની તોડફોડ: દા.ત. <b>Stuxnet</b> worm (લગભગ 2010) એ industrial controllers પર attack કરી uranium centrifuges ને નુકસાન કર્યું; Ukraine ના power grid પર attacks (2015).</li>\n<li><b>Psychological operations:</b> જાહેર અભિપ્રાય કે ચૂંટણીઓને પ્રભાવિત કરવા media અને social networks દ્વારા ખોટી માહિતી અને propaganda.</li>\n<li><b>Advanced Persistent Threats (APT):</b> દેશો દ્વારા પ્રાયોજિત લાંબા ગાળાના, છુપા intrusions.</li></ul>\n<p>આધુનિક લશ્કરો cyberspace ને જમીન, સમુદ્ર, હવા અને અવકાશ પછી યુદ્ધનું પાંચમું ક્ષેત્ર ગણે છે અને અલગ cyber commands રાખે છે.</p>"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "5.3 Firewalls",
+    "gu": "5.3 Firewalls"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "5.3.1 Firewall: Introduction and Working",
+      "gu": "5.3.1 Firewall: પરિચય અને કાર્યપદ્ધતિ"
+     },
+     "body": {
+      "en": "<p>A <b>firewall</b> is a hardware device or software program placed between a trusted internal network (LAN) and an untrusted external network (the Internet) that <b>monitors and controls incoming and outgoing traffic according to a set of security rules</b>. Like a fire wall in a building that stops fire from spreading, it stops unwanted traffic.</p>\n<h4>Working</h4>\n<ol><li>All traffic between the two networks is forced to pass through the firewall (a <b>choke point</b>).</li>\n<li>For each packet or connection, the firewall reads the relevant information (addresses, ports, protocol, connection state, or content).</li>\n<li>It compares this with the <b>rule base</b> (security policy), usually from top to bottom.</li>\n<li>It takes the action of the first matching rule: <b>allow (accept)</b>, <b>deny (drop silently)</b> or <b>reject (drop and inform the sender)</b>, and may <b>log</b> the event.</li></ol>\n<h4>Functions</h4>\n<ul><li>Blocks unauthorised access from outside while allowing legitimate traffic.</li><li>Controls which internal users may use which Internet services.</li><li>Hides the internal network structure (often with NAT).</li><li>Logs and alerts on suspicious activity; can provide VPN.</li></ul>\n<h4>Hardware and software firewalls</h4>\n<ul><li><b>Hardware (network) firewall:</b> a separate device or built into a router; protects the whole network.</li>\n<li><b>Software (host-based) firewall:</b> runs on a single computer, e.g. <b>Windows Defender Firewall</b>, Linux iptables / ufw; protects that host.</li></ul>",
+      "gu": "<p><b>Firewall</b> એ વિશ્વાસપાત્ર આંતરિક network (LAN) અને અવિશ્વસનીય બાહ્ય network (Internet) વચ્ચે મુકાયેલું hardware device કે software program છે જે <b>security rules ના સમૂહ મુજબ આવતા અને જતા traffic પર નજર રાખે અને નિયંત્રિત કરે</b>. Building માં આગને ફેલાતી અટકાવતી fire wall ની જેમ, તે અનિચ્છનીય traffic અટકાવે.</p>\n<h4>કાર્યપદ્ધતિ</h4>\n<ol><li>બે networks વચ્ચેનો બધો traffic firewall માંથી પસાર થવા ફરજિયાત બને (<b>choke point</b>).</li>\n<li>દરેક packet કે connection માટે firewall સંબંધિત માહિતી (addresses, ports, protocol, connection state, કે content) વાંચે.</li>\n<li>તેને <b>rule base</b> (security policy) સાથે સરખાવે, સામાન્ય રીતે ઉપરથી નીચે.</li>\n<li>પ્રથમ મેળ ખાતા rule નું action લે: <b>allow (accept)</b>, <b>deny (ચુપચાપ drop)</b> કે <b>reject (drop કરી sender ને જાણ)</b>, અને ઘટના <b>log</b> કરી શકે.</li></ol>\n<h4>કાર્યો</h4>\n<ul><li>કાયદેસર traffic મંજૂર કરતાં બહારથી અનધિકૃત access અટકાવે.</li><li>કયા આંતરિક users કઈ Internet services વાપરી શકે તે નિયંત્રિત કરે.</li><li>આંતરિક network રચના છુપાવે (ઘણી વાર NAT સાથે).</li><li>શંકાસ્પદ પ્રવૃત્તિ log કરે અને alert આપે; VPN આપી શકે.</li></ul>\n<h4>Hardware અને software firewalls</h4>\n<ul><li><b>Hardware (network) firewall:</b> અલગ device કે router માં built in; આખું network બચાવે.</li>\n<li><b>Software (host-based) firewall:</b> એક computer પર ચાલે, દા.ત. <b>Windows Defender Firewall</b>, Linux iptables / ufw; તે host ને બચાવે.</li></ul>"
+     },
+     "diagram": "cn5_firewall"
+    },
+    {
+     "h": {
+      "en": "5.3.2 Firewall Design Principles",
+      "gu": "5.3.2 Firewall Design Principles"
+     },
+     "body": {
+      "en": "<h4>Design goals</h4>\n<ol><li><b>All traffic</b> from inside to outside, and vice versa, must pass through the firewall (physically block all other access).</li>\n<li><b>Only authorised traffic</b>, as defined by the local security policy, is allowed to pass.</li>\n<li>The firewall itself must be <b>immune to penetration</b>: a hardened, trusted system with a secure operating system and minimal services.</li></ol>\n<h4>Access control techniques</h4>\n<ul><li><b>Service control:</b> which Internet services (web, email, FTP) may be accessed, by IP address and port.</li>\n<li><b>Direction control:</b> in which direction a service request may flow (inbound or outbound).</li>\n<li><b>User control:</b> which users may access a service (needs authentication).</li>\n<li><b>Behaviour control:</b> how a service is used, e.g. filtering spam email or blocking certain websites.</li></ul>\n<h4>Default policy</h4>\n<ul><li><b>Default deny</b> (\"that which is not expressly permitted is prohibited\"): block everything and allow only needed services. More secure; recommended.</li>\n<li><b>Default allow</b> (\"that which is not expressly prohibited is permitted\"): allow everything and block known bad traffic. Easier for users but less secure.</li></ul>\n<h4>Other principles</h4>\n<ul><li><b>Defence in depth:</b> several layers (outer firewall, <b>DMZ</b>, inner firewall, host firewalls, antivirus).</li>\n<li><b>DMZ (demilitarised zone):</b> a separate network segment for public servers (web, mail, DNS), so outsiders never reach the internal LAN directly.</li>\n<li><b>Least privilege</b>, simplicity of rules, logging and regular review of rules.</li></ul>\n<h4>Limitations of a firewall</h4>\n<p>It cannot protect against attacks that bypass it (a user's mobile hotspot), against insiders, against viruses in allowed traffic (unless it inspects content), or against social engineering. It is one part of security, not the whole.</p>",
+      "gu": "<h4>Design goals</h4>\n<ol><li>અંદરથી બહાર અને બહારથી અંદરનો <b>બધો traffic</b> firewall માંથી પસાર થવો જોઈએ (બાકીના બધા access physically અટકાવો).</li>\n<li>Local security policy માં વ્યાખ્યાયિત <b>ફક્ત અધિકૃત traffic</b> ને જ પસાર થવા દેવાય.</li>\n<li>Firewall પોતે <b>ભેદી ન શકાય તેવું</b> હોવું જોઈએ: secure operating system અને ઓછામાં ઓછી services વાળું hardened, trusted system.</li></ol>\n<h4>Access control techniques</h4>\n<ul><li><b>Service control:</b> IP address અને port દ્વારા કઈ Internet services (web, email, FTP) વાપરી શકાય.</li>\n<li><b>Direction control:</b> service request કઈ દિશામાં (inbound કે outbound) જઈ શકે.</li>\n<li><b>User control:</b> કયા users service વાપરી શકે (authentication જોઈએ).</li>\n<li><b>Behaviour control:</b> service કેવી રીતે વપરાય, દા.ત. spam email filter કરવા કે અમુક websites block કરવી.</li></ul>\n<h4>Default policy</h4>\n<ul><li><b>Default deny</b> (\"જે સ્પષ્ટ રીતે મંજૂર નથી તે પ્રતિબંધિત છે\"): બધું block કરો અને ફક્ત જરૂરી services મંજૂર કરો. વધુ secure; ભલામણ કરેલું.</li>\n<li><b>Default allow</b> (\"જે સ્પષ્ટ રીતે પ્રતિબંધિત નથી તે મંજૂર છે\"): બધું મંજૂર કરો અને જાણીતો ખરાબ traffic block કરો. Users માટે સહેલું પણ ઓછું secure.</li></ul>\n<h4>અન્ય સિદ્ધાંતો</h4>\n<ul><li><b>Defence in depth:</b> અનેક સ્તરો (outer firewall, <b>DMZ</b>, inner firewall, host firewalls, antivirus).</li>\n<li><b>DMZ (demilitarised zone):</b> public servers (web, mail, DNS) માટે અલગ network segment, જેથી બહારના લોકો આંતરિક LAN સુધી સીધા ક્યારેય ન પહોંચે.</li>\n<li><b>Least privilege</b>, rules ની સરળતા, logging અને rules ની નિયમિત સમીક્ષા.</li></ul>\n<h4>Firewall ની મર્યાદાઓ</h4>\n<p>તેને bypass કરતા attacks (user નો mobile hotspot), insiders, મંજૂર traffic માંના viruses (content તપાસે નહીં ત્યાં સુધી), કે social engineering સામે તે રક્ષણ આપી શકતું નથી. તે security નો એક ભાગ છે, સંપૂર્ણ security નહીં.</p>"
+     },
+     "diagram": "cn5_dmz"
+    },
+    {
+     "h": {
+      "en": "5.3.3 Types of Firewalls",
+      "gu": "5.3.3 Firewalls ના પ્રકારો"
+     },
+     "body": {
+      "en": "<p>Firewalls are classified by the OSI layer at which they examine traffic. Higher layers give more detailed checking but need more processing.</p>\n<ul>\n<li><b>Packet filtering firewall:</b> checks each packet's header against rules (see 5.3.4).</li>\n<li><b>Stateful inspection firewall:</b> a packet filter that also keeps a <b>state table</b> of active connections; replies to connections started from inside are allowed automatically, and packets that do not belong to a valid connection are dropped. Most common today.</li>\n<li><b>Circuit-level gateway:</b> works at the session layer; checks that the TCP handshake is legitimate and then relays the connection without examining content.</li>\n<li><b>Application-level gateway (proxy firewall):</b> works at the application layer and examines the content (see 5.3.5).</li>\n<li><b>Next-generation firewall (NGFW):</b> combines stateful filtering with deep packet inspection, application identification, intrusion prevention and threat intelligence.</li>\n</ul>\n<table><tr><th>Type</th><th>OSI layer</th><th>What it checks</th><th>Example</th></tr><tr><td>Packet filter (stateless)</td><td>3-4</td><td>IP addresses, protocol, ports of each packet</td><td>Router ACL</td></tr><tr><td>Stateful inspection</td><td>3-4</td><td>Packet + connection state table</td><td>Windows Defender Firewall</td></tr><tr><td>Circuit-level gateway</td><td>5</td><td>TCP handshake / session validity</td><td>SOCKS proxy</td></tr><tr><td>Application proxy</td><td>7</td><td>Full content, commands, users</td><td>Squid web proxy</td></tr><tr><td>Next-generation (NGFW)</td><td>3-7</td><td>All above + IPS, app awareness</td><td>FortiGate, Palo Alto</td></tr></table>",
+      "gu": "<p>Firewalls traffic તપાસે તે OSI layer પ્રમાણે વર્ગીકૃત થાય. ઉપરના layers વધુ વિગતવાર તપાસ આપે પણ વધુ processing માગે.</p>\n<ul>\n<li><b>Packet filtering firewall:</b> દરેક packet નું header rules સાથે તપાસે (જુઓ 5.3.4).</li>\n<li><b>Stateful inspection firewall:</b> packet filter જે સક્રિય connections નું <b>state table</b> પણ રાખે; અંદરથી શરૂ થયેલાં connections ના replies આપમેળે મંજૂર થાય, અને માન્ય connection ના ન હોય તેવાં packets drop થાય. આજે સૌથી સામાન્ય.</li>\n<li><b>Circuit-level gateway:</b> session layer પર કામ કરે; TCP handshake કાયદેસર છે તે ચકાસી પછી content તપાસ્યા વગર connection relay કરે.</li>\n<li><b>Application-level gateway (proxy firewall):</b> application layer પર કામ કરે અને content તપાસે (જુઓ 5.3.5).</li>\n<li><b>Next-generation firewall (NGFW):</b> stateful filtering ને deep packet inspection, application identification, intrusion prevention અને threat intelligence સાથે જોડે.</li>\n</ul>\n<table><tr><th>પ્રકાર</th><th>OSI layer</th><th>શું તપાસે</th><th>ઉદાહરણ</th></tr><tr><td>Packet filter (stateless)</td><td>3-4</td><td>દરેક packet ના IP addresses, protocol, ports</td><td>Router ACL</td></tr><tr><td>Stateful inspection</td><td>3-4</td><td>Packet + connection state table</td><td>Windows Defender Firewall</td></tr><tr><td>Circuit-level gateway</td><td>5</td><td>TCP handshake / session ની માન્યતા</td><td>SOCKS proxy</td></tr><tr><td>Application proxy</td><td>7</td><td>સંપૂર્ણ content, commands, users</td><td>Squid web proxy</td></tr><tr><td>Next-generation (NGFW)</td><td>3-7</td><td>ઉપરનાં બધાં + IPS, app awareness</td><td>FortiGate, Palo Alto</td></tr></table>"
+     },
+     "diagram": "cn5_fw_osi"
+    },
+    {
+     "h": {
+      "en": "5.3.4 Packet Filter Firewall",
+      "gu": "5.3.4 Packet Filter Firewall"
+     },
+     "body": {
+      "en": "<p>A <b>packet filter firewall</b> (screening router) examines <b>each packet independently</b> at the <b>network and transport layers</b> and decides to forward or discard it based on <b>header information only</b>:</p>\n<ul><li>Source IP address and destination IP address</li><li>Protocol (TCP, UDP, ICMP)</li><li>Source and destination port numbers (identify the service: 80 HTTP, 443 HTTPS, 25 SMTP, 23 Telnet, 22 SSH)</li><li>Interface and direction (inbound / outbound), TCP flags</li></ul>\n<h4>Working</h4>\n<p>The administrator writes an ordered <b>rule table</b> (access control list). For every packet, rules are checked from top to bottom; the <b>first matching rule</b> decides allow or deny. If no rule matches, the <b>default rule</b> (normally deny) applies. A <b>stateless</b> packet filter has no memory of earlier packets; a <b>stateful</b> one also tracks connections.</p>\n<p><b>Example rules:</b> allow anyone to reach the web server 192.168.1.10 on ports 80 / 443; allow mail to 192.168.1.11 on port 25; allow inside hosts to go out; deny Telnet (23); deny everything else.</p>\n<h4>Advantages</h4><ul><li>Simple and fast; little effect on network performance.</li><li>Low cost: built into most routers and operating systems.</li><li>Transparent to users; no client configuration.</li><li>One filter can protect a whole network.</li></ul><h4>Disadvantages</h4><ul><li>Cannot inspect data (payload): viruses and malicious commands pass through allowed ports.</li><li>No user authentication; decisions only on addresses and ports.</li><li>Vulnerable to IP address spoofing and fragmentation attacks.</li><li>Large rule sets are hard to write and test; a wrong rule order opens holes. Limited logging.</li></ul>",
+      "gu": "<p><b>Packet filter firewall</b> (screening router) <b>network અને transport layers</b> પર <b>દરેક packet ને સ્વતંત્ર રીતે</b> તપાસે અને <b>ફક્ત header માહિતી</b> ના આધારે તેને forward કે discard કરવાનું નક્કી કરે:</p>\n<ul><li>Source IP address અને destination IP address</li><li>Protocol (TCP, UDP, ICMP)</li><li>Source અને destination port numbers (service ઓળખે: 80 HTTP, 443 HTTPS, 25 SMTP, 23 Telnet, 22 SSH)</li><li>Interface અને દિશા (inbound / outbound), TCP flags</li></ul>\n<h4>કાર્યપદ્ધતિ</h4>\n<p>Administrator ક્રમબદ્ધ <b>rule table</b> (access control list) લખે. દરેક packet માટે rules ઉપરથી નીચે તપાસાય; <b>પ્રથમ મેળ ખાતો rule</b> allow કે deny નક્કી કરે. કોઈ rule મેળ ન ખાય, તો <b>default rule</b> (સામાન્ય રીતે deny) લાગુ પડે. <b>Stateless</b> packet filter ને અગાઉનાં packets યાદ નથી; <b>stateful</b> connections પણ track કરે.</p>\n<p><b>ઉદાહરણ rules:</b> કોઈ પણ ને web server 192.168.1.10 સુધી ports 80 / 443 પર પહોંચવા દો; 192.168.1.11 ને port 25 પર mail મંજૂર; અંદરના hosts ને બહાર જવા દો; Telnet (23) deny; બાકી બધું deny.</p>\n<h4>ફાયદા</h4><ul><li>સરળ અને ઝડપી; network performance પર ઓછી અસર.</li><li>ઓછો ખર્ચ: મોટા ભાગનાં routers અને operating systems માં built in.</li><li>Users માટે transparent; client configuration નહીં.</li><li>એક filter આખું network બચાવી શકે.</li></ul><h4>ગેરફાયદા</h4><ul><li>Data (payload) તપાસી ન શકે: viruses અને દુષ્ટ commands મંજૂર ports માંથી પસાર થાય.</li><li>User authentication નહીં; નિર્ણયો ફક્ત addresses અને ports પર.</li><li>IP address spoofing અને fragmentation attacks સામે નબળું.</li><li>મોટા rule sets લખવા અને ચકાસવા મુશ્કેલ; ખોટો rule ક્રમ છિદ્રો ખોલે. મર્યાદિત logging.</li></ul>"
+     },
+     "diagram": "cn5_pfilter",
+     "examples": [
+      "cn5n4"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.3.5 Proxy Firewall",
+      "gu": "5.3.5 Proxy Firewall"
+     },
+     "body": {
+      "en": "<p>A <b>proxy firewall</b>, also called an <b>application-level gateway</b>, works at the <b>application layer</b>. It acts as an <b>intermediary</b>: the client connects to the proxy, the proxy checks the request and, if allowed, opens a <b>separate connection</b> to the real server on the client's behalf. There is <b>never a direct connection</b> between the inside host and the outside server.</p>\n<h4>Working</h4>\n<ol><li>The user's browser sends a request (e.g. GET a web page) to the proxy.</li>\n<li>The proxy may authenticate the user and examines the request at the application level: URL, commands (FTP put / get), content type, file attachments.</li>\n<li>If the request obeys the policy, the proxy sends its own request to the server using its own address.</li>\n<li>The server's reply comes back to the proxy, which inspects it (e.g. virus scan) and passes it to the client; it can also <b>cache</b> it for later requests.</li></ol>\n<p>Because it understands each protocol, a separate proxy service is needed for HTTP, FTP, SMTP, etc. Example: the <b>Squid</b> web proxy used in many college networks to block sites and save bandwidth.</p>\n<h4>Advantages</h4><ul><li>Highest security: understands the application protocol and inspects content.</li><li>Can authenticate users and apply per-user rules.</li><li>Hides internal network addresses; no direct outside connection to internal hosts.</li><li>Detailed logging and auditing; caching speeds up repeated web requests.</li></ul><h4>Disadvantages</h4><ul><li>Slower: every connection is handled twice and content is processed.</li><li>A separate proxy program is needed for each service (HTTP, FTP, SMTP).</li><li>Higher cost and processing power; may need client configuration.</li><li>Single point of failure / bottleneck if overloaded.</li></ul>\n<h4>Packet filter vs proxy firewall</h4>\n<table><tr><th>Packet filter firewall</th><th>Proxy firewall</th></tr><tr><td>Works at network / transport layer (3-4)</td><td>Works at application layer (7)</td></tr><tr><td>Checks only header: IP, port, protocol</td><td>Checks full content and application commands</td></tr><tr><td>Direct connection between client and server</td><td>Two separate connections via the proxy</td></tr><tr><td>Fast, low cost, transparent to users</td><td>Slower, costlier, may need client settings</td></tr><tr><td>Cannot authenticate users or filter content</td><td>Can authenticate users, filter URLs and viruses</td></tr><tr><td>Vulnerable to IP spoofing; less logging</td><td>Hides internal addresses; detailed logs, caching</td></tr><tr><td>One device protects all services</td><td>Separate proxy needed for each service</td></tr></table>",
+      "gu": "<p><b>Proxy firewall</b>, જેને <b>application-level gateway</b> પણ કહે, <b>application layer</b> પર કામ કરે. તે <b>મધ્યસ્થી</b> તરીકે કામ કરે: client proxy સાથે જોડાય, proxy request તપાસે અને મંજૂર હોય તો client વતી સાચા server સાથે <b>અલગ connection</b> ખોલે. અંદરના host અને બહારના server વચ્ચે <b>ક્યારેય સીધું connection</b> હોતું નથી.</p>\n<h4>કાર્યપદ્ધતિ</h4>\n<ol><li>User નું browser request (દા.ત. web page GET) proxy ને મોકલે.</li>\n<li>Proxy user ને authenticate કરી શકે અને application સ્તરે request તપાસે: URL, commands (FTP put / get), content type, file attachments.</li>\n<li>Request policy મુજબ હોય, તો proxy પોતાના address થી server ને પોતાની request મોકલે.</li>\n<li>Server નો reply proxy પાસે આવે, જે તેને તપાસી (દા.ત. virus scan) client ને આપે; પછીની requests માટે તેને <b>cache</b> પણ કરી શકે.</li></ol>\n<p>દરેક protocol સમજતું હોવાથી HTTP, FTP, SMTP વગેરે માટે અલગ proxy service જોઈએ. ઉદાહરણ: sites block કરવા અને bandwidth બચાવવા ઘણાં college networks માં વપરાતું <b>Squid</b> web proxy.</p>\n<h4>ફાયદા</h4><ul><li>સૌથી વધુ security: application protocol સમજે અને content તપાસે.</li><li>Users authenticate કરી શકે અને user દીઠ rules લાગુ કરી શકે.</li><li>અંદરના network addresses છુપાવે; અંદરના hosts સાથે બહારનું સીધું connection નહીં.</li><li>વિગતવાર logging અને auditing; caching વારંવારની web requests ઝડપી બનાવે.</li></ul><h4>ગેરફાયદા</h4><ul><li>ધીમું: દરેક connection બે વાર સંભાળાય અને content process થાય.</li><li>દરેક service (HTTP, FTP, SMTP) માટે અલગ proxy program જોઈએ.</li><li>વધુ ખર્ચ અને processing power; client configuration જોઈ શકે.</li><li>Overload થાય તો single point of failure / bottleneck.</li></ul>\n<h4>Packet filter vs proxy firewall</h4>\n<table><tr><th>Packet filter firewall</th><th>Proxy firewall</th></tr><tr><td>Network / transport layer (3-4) પર કામ કરે</td><td>Application layer (7) પર કામ કરે</td></tr><tr><td>ફક્ત header તપાસે: IP, port, protocol</td><td>સંપૂર્ણ content અને application commands તપાસે</td></tr><tr><td>Client અને server વચ્ચે સીધું connection</td><td>Proxy મારફતે બે અલગ connections</td></tr><tr><td>ઝડપી, ઓછો ખર્ચ, users માટે transparent</td><td>ધીમું, મોંઘું, client settings જોઈ શકે</td></tr><tr><td>Users authenticate કે content filter ન કરી શકે</td><td>Users authenticate, URLs અને viruses filter કરી શકે</td></tr><tr><td>IP spoofing સામે નબળું; ઓછું logging</td><td>અંદરના addresses છુપાવે; વિગતવાર logs, caching</td></tr><tr><td>એક device બધી services બચાવે</td><td>દરેક service માટે અલગ proxy જોઈએ</td></tr></table>"
+     },
+     "diagram": "cn5_proxy"
+    },
+    {
+     "h": {
+      "en": "5.3.6 Practical 9: Windows Defender Firewall",
+      "gu": "5.3.6 Practical 9: Windows Defender Firewall"
+     },
+     "body": {
+      "en": "<p><b>Aim:</b> study how a firewall provides network security, using the built-in host firewall of Windows.</p>\n<h4>Steps</h4>\n<ol><li>Open <b>Control Panel → System and Security → Windows Defender Firewall</b> (or run <b>wf.msc</b> for Advanced Security).</li>\n<li>Observe the network profiles: <b>Domain, Private, Public</b>, and check that the firewall is <b>On</b> for each.</li>\n<li><b>Allow an app through the firewall:</b> choose an app and tick Private / Public.</li>\n<li>In <b>Advanced settings</b>, view <b>Inbound Rules</b> and <b>Outbound Rules</b>.</li>\n<li><b>Create a rule:</b> New Rule → Port → TCP, specific port 23 → Block the connection → apply to all profiles → name it \"Block Telnet\".</li>\n<li><b>Test:</b> create an inbound rule to block <b>ICMPv4 (ping)</b>; ping this PC from another PC and observe \"Request timed out\"; disable the rule and ping again to see replies.</li>\n<li>Enable <b>logging</b> (Properties → Logging → log dropped packets) and view the log file pfirewall.log.</li></ol>\n<h4>Observation / conclusion</h4>\n<p>The firewall is a stateful host firewall: by default it blocks unsolicited inbound connections and allows outbound traffic. Rules based on program, port, protocol and IP address control which traffic is allowed, protecting the computer from unauthorised access.</p>\n<p>On Linux, the same can be done with <b>ufw</b> (e.g. <b>sudo ufw deny 23/tcp</b>) or iptables.</p>",
+      "gu": "<p><b>હેતુ:</b> Windows ના built-in host firewall વાપરીને firewall network security કેવી રીતે આપે છે તેનો અભ્યાસ.</p>\n<h4>પગલાં</h4>\n<ol><li><b>Control Panel → System and Security → Windows Defender Firewall</b> ખોલો (અથવા Advanced Security માટે <b>wf.msc</b> ચલાવો).</li>\n<li>Network profiles જુઓ: <b>Domain, Private, Public</b>, અને દરેક માટે firewall <b>On</b> છે તે તપાસો.</li>\n<li><b>Firewall માંથી app ને મંજૂરી:</b> app પસંદ કરી Private / Public પર tick કરો.</li>\n<li><b>Advanced settings</b> માં <b>Inbound Rules</b> અને <b>Outbound Rules</b> જુઓ.</li>\n<li><b>Rule બનાવો:</b> New Rule → Port → TCP, specific port 23 → Block the connection → બધા profiles પર લાગુ → નામ \"Block Telnet\".</li>\n<li><b>Test:</b> <b>ICMPv4 (ping)</b> block કરવા inbound rule બનાવો; બીજા PC પરથી આ PC ને ping કરી \"Request timed out\" જુઓ; rule disable કરી ફરી ping કરી replies જુઓ.</li>\n<li><b>Logging</b> ચાલુ કરો (Properties → Logging → log dropped packets) અને log file pfirewall.log જુઓ.</li></ol>\n<h4>અવલોકન / નિષ્કર્ષ</h4>\n<p>આ firewall stateful host firewall છે: default રીતે માગ્યા વગરનાં inbound connections block કરે અને outbound traffic મંજૂર કરે. Program, port, protocol અને IP address આધારિત rules કયો traffic મંજૂર છે તે નિયંત્રિત કરી computer ને અનધિકૃત access થી બચાવે.</p>\n<p>Linux પર આ જ <b>ufw</b> (દા.ત. <b>sudo ufw deny 23/tcp</b>) કે iptables થી કરી શકાય.</p>"
+     }
+    }
+   ]
+  }
+ ],
+ "numericals": [
+  {
+   "id": "cn5n1",
+   "q": {
+    "en": "Using the Caesar cipher with key = 3, (a) encrypt the plaintext NETWORK, (b) decrypt the ciphertext KHOOR.",
+    "gu": "Key = 3 સાથે Caesar cipher વાપરી, (a) plaintext NETWORK ને encrypt કરો, (b) ciphertext KHOOR ને decrypt કરો."
+   },
+   "a": {
+    "en": "<p>Number letters A = 0 ... Z = 25. Encryption: C = (P + k) mod 26. Decryption: P = (C - k) mod 26.</p><table><tr><th>Plain</th><th>Position</th><th>Shift by key 3</th><th>Cipher</th></tr><tr><td>N</td><td>13</td><td>(13 + 3) mod 26 = 16</td><td>Q</td></tr><tr><td>E</td><td>4</td><td>(4 + 3) mod 26 = 7</td><td>H</td></tr><tr><td>T</td><td>19</td><td>(19 + 3) mod 26 = 22</td><td>W</td></tr><tr><td>W</td><td>22</td><td>(22 + 3) mod 26 = 25</td><td>Z</td></tr><tr><td>O</td><td>14</td><td>(14 + 3) mod 26 = 17</td><td>R</td></tr><tr><td>R</td><td>17</td><td>(17 + 3) mod 26 = 20</td><td>U</td></tr><tr><td>K</td><td>10</td><td>(10 + 3) mod 26 = 13</td><td>N</td></tr></table><p>(a) NETWORK → <b>QHWZRUN</b></p><p>(b) KHOOR: K→H, H→E, O→L, O→L, R→O → <b>HELLO</b></p><p>Only someone who knows the key (3) can read it: this is <b>confidentiality</b>. The Caesar cipher is weak because only 25 keys exist (brute force); modern systems use AES with 128-256 bit keys.</p>",
+    "gu": "<p>અક્ષરોને ક્રમાંક આપો A = 0 ... Z = 25. Encryption: C = (P + k) mod 26. Decryption: P = (C - k) mod 26.</p><table><tr><th>Plain</th><th>સ્થાન</th><th>Key 3 થી shift</th><th>Cipher</th></tr><tr><td>N</td><td>13</td><td>(13 + 3) mod 26 = 16</td><td>Q</td></tr><tr><td>E</td><td>4</td><td>(4 + 3) mod 26 = 7</td><td>H</td></tr><tr><td>T</td><td>19</td><td>(19 + 3) mod 26 = 22</td><td>W</td></tr><tr><td>W</td><td>22</td><td>(22 + 3) mod 26 = 25</td><td>Z</td></tr><tr><td>O</td><td>14</td><td>(14 + 3) mod 26 = 17</td><td>R</td></tr><tr><td>R</td><td>17</td><td>(17 + 3) mod 26 = 20</td><td>U</td></tr><tr><td>K</td><td>10</td><td>(10 + 3) mod 26 = 13</td><td>N</td></tr></table><p>(a) NETWORK → <b>QHWZRUN</b></p><p>(b) KHOOR: K→H, H→E, O→L, O→L, R→O → <b>HELLO</b></p><p>ફક્ત key (3) જાણનાર જ વાંચી શકે: આ <b>confidentiality</b> છે. Caesar cipher નબળો છે કારણ કે ફક્ત 25 keys છે (brute force); આધુનિક systems 128-256 bit keys વાળું AES વાપરે.</p>"
+   }
+  },
+  {
+   "id": "cn5n2",
+   "q": {
+    "en": "Show how a hash function detects a change in a message: compare the SHA-256 hashes of \"Pay Rs 100\" and \"Pay Rs 900\".",
+    "gu": "Hash function message માં ફેરફાર કેવી રીતે પકડે તે બતાવો: \"Pay Rs 100\" અને \"Pay Rs 900\" ના SHA-256 hashes સરખાવો."
+   },
+   "a": {
+    "en": "<p>SHA-256 gives a 256-bit (64 hex digit) digest. First 16 hex digits:</p><ul><li>SHA-256(\"Pay Rs 100\") = <b>0cfd7383e4b7f099...</b></li><li>SHA-256(\"Pay Rs 900\") = <b>d6286cf62120414c...</b></li></ul><p>Only one character of the message changed, but <b>59 of the 64</b> hex digits of the hash are different (avalanche effect).</p><p>The receiver recomputes the hash of the message received. If an attacker changed 100 to 900, the new hash will not match the hash sent, so the change is <b>detected</b>: integrity is checked. To stop the attacker from also replacing the hash, a keyed hash (HMAC) or digital signature is used.</p>",
+    "gu": "<p>SHA-256 gives a 256-bit (64 hex digit) digest. First 16 hex digits:</p><ul><li>SHA-256(\"Pay Rs 100\") = <b>0cfd7383e4b7f099...</b></li><li>SHA-256(\"Pay Rs 900\") = <b>d6286cf62120414c...</b></li></ul><p>Message નો ફક્ત એક અક્ષર બદલાયો, પણ hash ના 64 માંથી <b>59</b> hex અંકો અલગ છે (avalanche effect).</p><p>Receiver મળેલા message નો hash ફરી ગણે. જો attacker એ 100 ને 900 કર્યું હોય, તો નવો hash મોકલેલા hash સાથે મેળ નહીં ખાય, તેથી ફેરફાર <b>પકડાય</b>: integrity તપાસાય. Attacker hash પણ ન બદલી શકે તે માટે keyed hash (HMAC) કે digital signature વપરાય.</p>"
+   }
+  },
+  {
+   "id": "cn5n3",
+   "q": {
+    "en": "A server must be available 99%, 99.9%, 99.99% and 99.999% of the time. Find the maximum allowed downtime per year in each case.",
+    "gu": "Server 99%, 99.9%, 99.99% અને 99.999% સમય ઉપલબ્ધ હોવું જોઈએ. દરેક કિસ્સામાં વર્ષ દીઠ મહત્તમ માન્ય downtime શોધો."
+   },
+   "a": {
+    "en": "<p>Hours in a year = 365 × 24 = 8,760 h. Downtime = (1 - availability) × 8,760 h.</p><p>e.g. 99.9%: (1 - 0.999) × 8,760 = 0.001 × 8,760 = <b>8.76 h</b></p><table><tr><th>Availability</th><th>Downtime fraction</th><th>Downtime per year</th></tr><tr><td>99%</td><td>0.01</td><td>87.60 h (3.65 days)</td></tr><tr><td>99.9%</td><td>0.001</td><td>8.76 h</td></tr><tr><td>99.99%</td><td>0.0001</td><td>52.56 min</td></tr><tr><td>99.999%</td><td>0.00001</td><td>5.26 min</td></tr></table><p>Each extra \"nine\" cuts downtime by 10 times; achieving it needs redundancy, backups and DoS protection.</p>",
+    "gu": "<p>વર્ષમાં કલાકો = 365 × 24 = 8,760 h. Downtime = (1 - availability) × 8,760 h.</p><p>e.g. 99.9%: (1 - 0.999) × 8,760 = 0.001 × 8,760 = <b>8.76 h</b></p><table><tr><th>Availability</th><th>Downtime ભાગ</th><th>વર્ષ દીઠ downtime</th></tr><tr><td>99%</td><td>0.01</td><td>87.60 h (3.65 days)</td></tr><tr><td>99.9%</td><td>0.001</td><td>8.76 h</td></tr><tr><td>99.99%</td><td>0.0001</td><td>52.56 min</td></tr><tr><td>99.999%</td><td>0.00001</td><td>5.26 min</td></tr></table><p>દરેક વધારાનો \"nine\" downtime 10 ગણો ઘટાડે; તે મેળવવા redundancy, backups અને DoS protection જોઈએ.</p>"
+   }
+  },
+  {
+   "id": "cn5n4",
+   "q": {
+    "en": "A packet filter firewall has the rule table shown (rules 1-5). Decide whether each packet is allowed or denied: P1 45.10.2.7 → 192.168.1.10 TCP 443; P2 45.10.2.7 → 192.168.1.10 TCP 23; P3 192.168.1.25 → 142.250.1.1 TCP 23; P4 103.5.6.7 → 192.168.1.11 TCP 25; P5 103.5.6.7 → 192.168.1.20 UDP 53.",
+    "gu": "Packet filter firewall નું rule table (rules 1-5) આપેલું છે. દરેક packet allowed છે કે denied તે નક્કી કરો: P1 45.10.2.7 → 192.168.1.10 TCP 443; P2 45.10.2.7 → 192.168.1.10 TCP 23; P3 192.168.1.25 → 142.250.1.1 TCP 23; P4 103.5.6.7 → 192.168.1.11 TCP 25; P5 103.5.6.7 → 192.168.1.20 UDP 53."
+   },
+   "a": {
+    "en": "<p>Rule table (checked top to bottom, first match wins):</p><table><tr><th>#</th><th>Source</th><th>Destination</th><th>Protocol / port</th><th>Action</th></tr><tr><td>1</td><td>any</td><td>192.168.1.10</td><td>TCP 80, 443</td><td>Allow</td></tr><tr><td>2</td><td>any</td><td>192.168.1.11</td><td>TCP 25</td><td>Allow</td></tr><tr><td>3</td><td>192.168.1.0/24</td><td>any</td><td>any</td><td>Allow</td></tr><tr><td>4</td><td>any</td><td>any</td><td>TCP 23</td><td>Deny</td></tr><tr><td>5</td><td>any</td><td>any</td><td>any</td><td>Deny</td></tr></table><table><tr><th>Packet</th><th>Src → Dst, port</th><th>First match</th><th>Result</th></tr><tr><td>P1</td><td>45.10.2.7 → 192.168.1.10, TCP 443</td><td>Rule 1</td><td>Allow</td></tr><tr><td>P2</td><td>45.10.2.7 → 192.168.1.10, TCP 23</td><td>Rule 4</td><td>Deny</td></tr><tr><td>P3</td><td>192.168.1.25 → 142.250.1.1, TCP 23</td><td>Rule 3</td><td>Allow</td></tr><tr><td>P4</td><td>103.5.6.7 → 192.168.1.11, TCP 25</td><td>Rule 2</td><td>Allow</td></tr><tr><td>P5</td><td>103.5.6.7 → 192.168.1.20, UDP 53</td><td>Rule 5</td><td>Deny</td></tr></table><p><b>Note on P3:</b> an inside host using Telnet (port 23) is <b>allowed</b> because rule 3 (allow inside hosts) matches before rule 4. If rules 3 and 4 are swapped, P3 matches rule 4 first and is <b>denied</b>. Rule order matters.</p>",
+    "gu": "<p>Rule table (ઉપરથી નીચે તપાસાય, પ્રથમ match જીતે):</p><table><tr><th>#</th><th>Source</th><th>Destination</th><th>Protocol / port</th><th>Action</th></tr><tr><td>1</td><td>any</td><td>192.168.1.10</td><td>TCP 80, 443</td><td>Allow</td></tr><tr><td>2</td><td>any</td><td>192.168.1.11</td><td>TCP 25</td><td>Allow</td></tr><tr><td>3</td><td>192.168.1.0/24</td><td>any</td><td>any</td><td>Allow</td></tr><tr><td>4</td><td>any</td><td>any</td><td>TCP 23</td><td>Deny</td></tr><tr><td>5</td><td>any</td><td>any</td><td>any</td><td>Deny</td></tr></table><table><tr><th>Packet</th><th>Src → Dst, port</th><th>પ્રથમ match</th><th>પરિણામ</th></tr><tr><td>P1</td><td>45.10.2.7 → 192.168.1.10, TCP 443</td><td>Rule 1</td><td>Allow</td></tr><tr><td>P2</td><td>45.10.2.7 → 192.168.1.10, TCP 23</td><td>Rule 4</td><td>Deny</td></tr><tr><td>P3</td><td>192.168.1.25 → 142.250.1.1, TCP 23</td><td>Rule 3</td><td>Allow</td></tr><tr><td>P4</td><td>103.5.6.7 → 192.168.1.11, TCP 25</td><td>Rule 2</td><td>Allow</td></tr><tr><td>P5</td><td>103.5.6.7 → 192.168.1.20, UDP 53</td><td>Rule 5</td><td>Deny</td></tr></table><p><b>P3 પર નોંધ:</b> Telnet (port 23) વાપરતો અંદરનો host <b>allowed</b> છે કારણ કે rule 3 (અંદરના hosts ને મંજૂરી) rule 4 પહેલાં match થાય. Rules 3 અને 4 અદલબદલ કરો, તો P3 પહેલાં rule 4 સાથે match થઈ <b>deny</b> થાય. Rules નો ક્રમ મહત્વનો છે.</p>"
+   }
+  }
+ ],
+ "equations": [
+  {
+   "title": {
+    "en": "Security formulas",
+    "gu": "Security formulas"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Caesar cipher",
+      "gu": "Caesar cipher"
+     },
+     "f": "C = (P + k) mod 26,   P = (C - k) mod 26",
+     "terms": {
+      "en": "A = 0 ... Z = 25; k = key (shift)",
+      "gu": "A = 0 ... Z = 25; k = key (shift)"
+     }
+    },
+    {
+     "name": {
+      "en": "Availability",
+      "gu": "Availability"
+     },
+     "f": "A = uptime / (uptime + downtime) × 100%",
+     "terms": {
+      "en": "Also MTBF / (MTBF + MTTR)",
+      "gu": "MTBF / (MTBF + MTTR) પણ"
+     }
+    },
+    {
+     "name": {
+      "en": "Downtime per year",
+      "gu": "વર્ષ દીઠ downtime"
+     },
+     "f": "Downtime = (1 - A) × 8,760 h",
+     "terms": {
+      "en": "99.9% → 8.76 h per year",
+      "gu": "99.9% → વર્ષે 8.76 h"
+     }
+    },
+    {
+     "name": {
+      "en": "Brute-force key space",
+      "gu": "Brute-force key space"
+     },
+     "f": "Keys = 2^n  (n-bit key)",
+     "terms": {
+      "en": "AES-128: 2^128 keys; Caesar: only 25",
+      "gu": "AES-128: 2^128 keys; Caesar: ફક્ત 25"
+     }
+    },
+    {
+     "name": {
+      "en": "Hash output sizes",
+      "gu": "Hash output sizes"
+     },
+     "f": "MD5 = 128 bits,  SHA-1 = 160 bits,  SHA-256 = 256 bits",
+     "terms": {
+      "en": "Fixed size for any input length",
+      "gu": "કોઈ પણ input length માટે fixed size"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Common ports for firewall rules",
+    "gu": "Firewall rules માટે સામાન્ય ports"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Well-known ports",
+      "gu": "Well-known ports"
+     },
+     "f": "FTP 20/21,  SSH 22,  Telnet 23,  SMTP 25,  DNS 53,  HTTP 80,  HTTPS 443",
+     "terms": {
+      "en": "Rules block or allow services by port number",
+      "gu": "Rules port number થી services block કે allow કરે"
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Security basics",
+    "gu": "Security basics"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is the CIA triad?",
+      "gu": "CIA triad એટલે શું?"
+     },
+     "a": {
+      "en": "Confidentiality, Integrity and Availability: the three basic goals of information security.",
+      "gu": "Confidentiality, Integrity અને Availability: information security ના ત્રણ મૂળભૂત ધ્યેયો."
+     }
+    },
+    {
+     "q": {
+      "en": "Which mechanism provides confidentiality?",
+      "gu": "કયું mechanism confidentiality આપે?"
+     },
+     "a": {
+      "en": "Encryption, along with access control (passwords, permissions).",
+      "gu": "Encryption, access control (passwords, permissions) સાથે."
+     }
+    },
+    {
+     "q": {
+      "en": "How is integrity checked?",
+      "gu": "Integrity કેવી રીતે તપાસાય?"
+     },
+     "a": {
+      "en": "With hash functions (SHA-256), MAC or digital signatures; a changed message gives a different hash.",
+      "gu": "Hash functions (SHA-256), MAC કે digital signatures થી; બદલાયેલો message અલગ hash આપે."
+     }
+    },
+    {
+     "q": {
+      "en": "Give an example of an attack on availability.",
+      "gu": "Availability પરના attack નું ઉદાહરણ આપો."
+     },
+     "a": {
+      "en": "Denial of Service (DoS / DDoS) flooding a server so genuine users cannot use it.",
+      "gu": "Denial of Service (DoS / DDoS) server ને ભરી દે જેથી સાચા users તેને વાપરી ન શકે."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between passive and active attack?",
+      "gu": "Passive અને active attack વચ્ચે તફાવત?"
+     },
+     "a": {
+      "en": "Passive only reads data (eavesdropping); active modifies, blocks or fakes data (DoS, spoofing).",
+      "gu": "Passive ફક્ત data વાંચે (eavesdropping); active data બદલે, અટકાવે કે નકલી બનાવે (DoS, spoofing)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the difference between a threat and a vulnerability?",
+      "gu": "Threat અને vulnerability વચ્ચે તફાવત?"
+     },
+     "a": {
+      "en": "A vulnerability is a weakness; a threat is something that may exploit that weakness.",
+      "gu": "Vulnerability એ નબળાઈ છે; threat એ તે નબળાઈનો લાભ લઈ શકે તેવી વસ્તુ છે."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Threats",
+    "gu": "Threats"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Difference between a virus and a worm?",
+      "gu": "Virus અને worm વચ્ચે તફાવત?"
+     },
+     "a": {
+      "en": "A virus attaches to a host file and needs user action; a worm is standalone and spreads over the network by itself.",
+      "gu": "Virus host file સાથે જોડાય અને user ક્રિયા માગે; worm સ્વતંત્ર છે અને network પર જાતે ફેલાય."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a Trojan horse?",
+      "gu": "Trojan horse એટલે શું?"
+     },
+     "a": {
+      "en": "A program that looks useful but secretly performs malicious actions; it does not replicate.",
+      "gu": "ઉપયોગી દેખાતો પણ ગુપ્ત રીતે દુષ્ટ ક્રિયા કરતો program; તે નકલો બનાવતો નથી."
+     }
+    },
+    {
+     "q": {
+      "en": "Who is an intruder?",
+      "gu": "Intruder કોણ છે?"
+     },
+     "a": {
+      "en": "A person, usually an outsider, who gains unauthorised access to a system, e.g. a hacker or masquerader.",
+      "gu": "System માં અનધિકૃત access મેળવનાર વ્યક્તિ, સામાન્ય રીતે outsider, દા.ત. hacker કે masquerader."
+     }
+    },
+    {
+     "q": {
+      "en": "Why are insiders dangerous?",
+      "gu": "Insiders શા માટે ખતરનાક છે?"
+     },
+     "a": {
+      "en": "They already have trusted access and know the systems, and their actions look like normal work.",
+      "gu": "તેમની પાસે પહેલેથી વિશ્વાસપાત્ર access છે અને systems જાણે છે, અને તેમની ક્રિયાઓ સામાન્ય કામ જેવી દેખાય."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the main motive of criminal organisations?",
+      "gu": "Criminal organisations નો મુખ્ય હેતુ શું?"
+     },
+     "a": {
+      "en": "Financial profit: fraud, ransomware, selling stolen data.",
+      "gu": "આર્થિક નફો: fraud, ransomware, ચોરાયેલો data વેચવો."
+     }
+    },
+    {
+     "q": {
+      "en": "What is information warfare?",
+      "gu": "Information warfare એટલે શું?"
+     },
+     "a": {
+      "en": "Use of cyber attacks and information by nations against other nations, e.g. espionage and attacks on infrastructure (Stuxnet).",
+      "gu": "દેશો દ્વારા બીજા દેશો સામે cyber attacks અને માહિતીનો ઉપયોગ, દા.ત. espionage અને infrastructure પર attacks (Stuxnet)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a script kiddie?",
+      "gu": "Script kiddie એટલે શું?"
+     },
+     "a": {
+      "en": "An unskilled attacker who uses ready-made hacking tools without understanding them.",
+      "gu": "તૈયાર hacking tools સમજ્યા વગર વાપરતો અકુશળ attacker."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Firewalls",
+    "gu": "Firewalls"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a firewall?",
+      "gu": "Firewall એટલે શું?"
+     },
+     "a": {
+      "en": "A hardware or software system that filters traffic between a trusted and an untrusted network according to rules.",
+      "gu": "Rules મુજબ trusted અને untrusted network વચ્ચે traffic filter કરતી hardware કે software system."
+     }
+    },
+    {
+     "q": {
+      "en": "What does a packet filter check?",
+      "gu": "Packet filter શું તપાસે?"
+     },
+     "a": {
+      "en": "Header fields: source / destination IP, protocol and source / destination port.",
+      "gu": "Header fields: source / destination IP, protocol અને source / destination port."
+     }
+    },
+    {
+     "q": {
+      "en": "At which layer does a proxy firewall work?",
+      "gu": "Proxy firewall કયા layer પર કામ કરે?"
+     },
+     "a": {
+      "en": "The application layer (layer 7).",
+      "gu": "Application layer (layer 7)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a DMZ?",
+      "gu": "DMZ એટલે શું?"
+     },
+     "a": {
+      "en": "A separate network zone between two firewalls for public servers such as web and mail servers.",
+      "gu": "Web અને mail servers જેવા public servers માટે બે firewalls વચ્ચેનો અલગ network zone."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the default deny policy?",
+      "gu": "Default deny policy એટલે શું?"
+     },
+     "a": {
+      "en": "Everything is blocked unless a rule explicitly allows it.",
+      "gu": "Rule સ્પષ્ટ રીતે મંજૂર ન કરે ત્યાં સુધી બધું block."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a stateful firewall?",
+      "gu": "Stateful firewall એટલે શું?"
+     },
+     "a": {
+      "en": "A firewall that tracks active connections in a state table and allows only packets belonging to valid connections.",
+      "gu": "સક્રિય connections ને state table માં track કરી ફક્ત માન્ય connections નાં packets મંજૂર કરતું firewall."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Network commands (Practicals 10, 11)",
+    "gu": "Network commands (Practicals 10, 11)"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What does ipconfig show?",
+      "gu": "ipconfig શું બતાવે?"
+     },
+     "a": {
+      "en": "IP address, subnet mask and default gateway of each adapter; ipconfig /all also shows MAC address, DHCP and DNS servers.",
+      "gu": "દરેક adapter નું IP address, subnet mask અને default gateway; ipconfig /all MAC address, DHCP અને DNS servers પણ બતાવે."
+     }
+    },
+    {
+     "q": {
+      "en": "What is ping used for?",
+      "gu": "ping શા માટે વપરાય?"
+     },
+     "a": {
+      "en": "To test reachability of a host using ICMP echo request / reply, and measure round-trip time.",
+      "gu": "ICMP echo request / reply વાપરી host સુધી પહોંચી શકાય છે કે નહીં તે ચકાસવા અને round-trip time માપવા."
+     }
+    },
+    {
+     "q": {
+      "en": "What does tracert do?",
+      "gu": "tracert શું કરે?"
+     },
+     "a": {
+      "en": "Shows the list of routers (hops) a packet passes through to reach the destination, using increasing TTL values.",
+      "gu": "વધતા TTL values વાપરી destination સુધી પહોંચતાં packet જે routers (hops) માંથી પસાર થાય તેની યાદી બતાવે."
+     }
+    },
+    {
+     "q": {
+      "en": "What does netstat show?",
+      "gu": "netstat શું બતાવે?"
+     },
+     "a": {
+      "en": "Active TCP connections, listening ports and network statistics (netstat -an).",
+      "gu": "સક્રિય TCP connections, listening ports અને network statistics (netstat -an)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is pathping?",
+      "gu": "pathping એટલે શું?"
+     },
+     "a": {
+      "en": "A Windows command that combines ping and tracert, showing packet loss at each hop.",
+      "gu": "ping અને tracert ને જોડતો Windows command, દરેક hop પર packet loss બતાવે."
+     }
+    },
+    {
+     "q": {
+      "en": "What does route print show?",
+      "gu": "route print શું બતાવે?"
+     },
+     "a": {
+      "en": "The computer's IP routing table, including the default route 0.0.0.0.",
+      "gu": "Computer નું IP routing table, default route 0.0.0.0 સહિત."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you set a static IP in Windows?",
+      "gu": "Windows માં static IP કેવી રીતે set કરાય?"
+     },
+     "a": {
+      "en": "Network Connections (ncpa.cpl) → adapter Properties → IPv4 → Use the following IP address: enter IP, mask, gateway and DNS.",
+      "gu": "Network Connections (ncpa.cpl) → adapter Properties → IPv4 → Use the following IP address: IP, mask, gateway અને DNS લખો."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Explain the CIA triad with a diagram.",
+    "gu": "આકૃતિ સાથે CIA triad સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain confidentiality, integrity and availability with mechanisms for each.",
+    "gu": "Confidentiality, integrity અને availability દરેકના mechanisms સાથે સમજાવો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain types of security attacks: interruption, interception, modification and fabrication.",
+    "gu": "Security attacks ના પ્રકારો સમજાવો: interruption, interception, modification અને fabrication."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Differentiate passive and active attacks.",
+    "gu": "Passive અને active attacks નો તફાવત આપો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Differentiate virus and worm.",
+    "gu": "Virus અને worm નો તફાવત આપો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain viruses and worms with examples.",
+    "gu": "ઉદાહરણો સાથે viruses અને worms સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a short note on intruders.",
+    "gu": "Intruders પર ટૂંકનોંધ લખો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain insiders as a threat to security.",
+    "gu": "Security માટે ખતરા તરીકે insiders સમજાવો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain criminal organisations, terrorists and information warfare as security threats.",
+    "gu": "Security threats તરીકે criminal organisations, terrorists અને information warfare સમજાવો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "What is a firewall? Explain its working.",
+    "gu": "Firewall એટલે શું? તેની કાર્યપદ્ધતિ સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the design principles of a firewall.",
+    "gu": "Firewall ના design principles સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the packet filter firewall with its advantages and disadvantages.",
+    "gu": "Packet filter firewall તેના ફાયદા અને ગેરફાયદા સાથે સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the proxy firewall with a diagram.",
+    "gu": "આકૃતિ સાથે proxy firewall સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Differentiate packet filter firewall and proxy firewall.",
+    "gu": "Packet filter firewall અને proxy firewall નો તફાવત આપો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "List types of firewalls and the OSI layer at which each works.",
+    "gu": "Firewalls ના પ્રકારો અને દરેક કયા OSI layer પર કામ કરે તેની યાદી આપો."
+   },
+   "marks": 3
+  }
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "equations",
+  "numericals",
+  "viva",
+  "exam"
+ ],
+ "diagrams": [
+  {
+   "id": "cn5_attacks",
+   "title": {
+    "en": "Security Attacks on a Message",
+    "gu": "Message પર Security Attacks"
+   },
+   "file": "diagrams/cn5_attacks.svg"
+  },
+  {
+   "id": "cn5_cia",
+   "title": {
+    "en": "CIA Triad of Security",
+    "gu": "Security નો CIA Triad"
+   },
+   "file": "diagrams/cn5_cia.svg"
+  },
+  {
+   "id": "cn5_encrypt",
+   "title": {
+    "en": "Confidentiality: Encryption",
+    "gu": "Confidentiality: Encryption"
+   },
+   "file": "diagrams/cn5_encrypt.svg"
+  },
+  {
+   "id": "cn5_hash",
+   "title": {
+    "en": "Integrity: Hash Check",
+    "gu": "Integrity: Hash Check"
+   },
+   "file": "diagrams/cn5_hash.svg"
+  },
+  {
+   "id": "cn5_dos",
+   "title": {
+    "en": "Availability Attack: DDoS",
+    "gu": "Availability Attack: DDoS"
+   },
+   "file": "diagrams/cn5_dos.svg"
+  },
+  {
+   "id": "cn5_pyramid",
+   "title": {
+    "en": "Threat Sophistication Levels",
+    "gu": "Threat Sophistication Levels"
+   },
+   "file": "diagrams/cn5_pyramid.svg"
+  },
+  {
+   "id": "cn5_virus_worm",
+   "title": {
+    "en": "Virus vs Worm",
+    "gu": "Virus vs Worm"
+   },
+   "file": "diagrams/cn5_virus_worm.svg"
+  },
+  {
+   "id": "cn5_firewall",
+   "title": {
+    "en": "Firewall: Working",
+    "gu": "Firewall: કાર્યપદ્ધતિ"
+   },
+   "file": "diagrams/cn5_firewall.svg"
+  },
+  {
+   "id": "cn5_dmz",
+   "title": {
+    "en": "Firewall Design: DMZ",
+    "gu": "Firewall Design: DMZ"
+   },
+   "file": "diagrams/cn5_dmz.svg"
+  },
+  {
+   "id": "cn5_fw_osi",
+   "title": {
+    "en": "Firewall Types and OSI Layers",
+    "gu": "Firewall Types અને OSI Layers"
+   },
+   "file": "diagrams/cn5_fw_osi.svg"
+  },
+  {
+   "id": "cn5_pfilter",
+   "title": {
+    "en": "Packet Filter Firewall",
+    "gu": "Packet Filter Firewall"
+   },
+   "file": "diagrams/cn5_pfilter.svg"
+  },
+  {
+   "id": "cn5_proxy",
+   "title": {
+    "en": "Proxy Firewall (Application Gateway)",
+    "gu": "Proxy Firewall (Application Gateway)"
+   },
+   "file": "diagrams/cn5_proxy.svg"
+  }
+ ]
+}
