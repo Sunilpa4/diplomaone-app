@@ -333,7 +333,7 @@ class _TabListState extends State<_TabList> with AutomaticKeepAliveClientMixin {
           Text('${L('unit')} ${u['unit']} · ${u['weightage']}% ${L('weightage')} · ${u['hours']} ${L('hours')}',
               style: const TextStyle(color: Color(0xE6FFFFFF), fontSize: 13)),
           const SizedBox(height: 4),
-          Text(L(introKey), style: const TextStyle(color: Color(0xE6FFFFFF), fontSize: 13)),
+          Text(u['intro_text'] is Map ? tr(u['intro_text']) : L(introKey), style: const TextStyle(color: Color(0xE6FFFFFF), fontSize: 13)),
         ]),
       )),
     ];

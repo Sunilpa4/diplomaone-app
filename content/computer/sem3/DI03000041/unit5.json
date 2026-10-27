@@ -1,0 +1,1518 @@
+{
+ "subject": "DI03000041",
+ "unit": 5,
+ "format": "notes",
+ "title": {
+  "en": "Unix/Linux Operating System",
+  "gu": "Unix/Linux Operating System"
+ },
+ "weightage": 20,
+ "hours": 9,
+ "intro": "intro_d",
+ "intro_text": {
+  "en": "Detailed notes as per GTU syllabus with diagrams, real command outputs, solved shell scripts, syntax and viva.",
+  "gu": "GTU syllabus મુજબ આકૃતિઓ, commands ના ખરા output, ઉકેલેલી shell scripts, syntax અને viva સાથે વિગતવાર નોટ્સ."
+ },
+ "notes": [
+  {
+   "title": {
+    "en": "5.1 Linux Introduction and Architecture",
+    "gu": "5.1 Linux પરિચય અને Architecture"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "5.1.1 Introduction to Unix and Linux",
+      "gu": "5.1.1 Unix અને Linux નો પરિચય"
+     },
+     "body": {
+      "en": "<p><b>Unix</b> is a multi-user, multitasking operating system developed in 1969 at AT&amp;T Bell Labs by Ken Thompson and Dennis Ritchie. It was rewritten in the C language in 1973, which made it portable to many machines.</p>\n<p><b>Linux</b> is a free and open-source, Unix-like operating system. Its <b>kernel</b> was created in 1991 by <b>Linus Torvalds</b>, a student in Finland. The Linux kernel combined with GNU tools (bash, gcc, coreutils) forms a complete OS, often called <b>GNU/Linux</b>. A <b>distribution (distro)</b> packages the kernel, tools, desktop and installer: Ubuntu, Fedora, Debian, Linux Mint, Red Hat, Kali.</p>\n<h4>Features of Linux</h4>\n<ul>\n<li><b>Free and open source:</b> source code is available under the GPL; anyone can study, modify and distribute it.</li>\n<li><b>Multi-user:</b> many users can use the system at the same time, each with their own account.</li>\n<li><b>Multitasking:</b> many programs run concurrently.</li>\n<li><b>Portable:</b> runs on PCs, servers, phones (Android), routers and supercomputers.</li>\n<li><b>Security:</b> user accounts, file permissions (rwx), root/superuser separation.</li>\n<li><b>Hierarchical file system:</b> everything starts from the root <code>/</code>; devices are also files.</li>\n<li><b>Shell and utilities:</b> powerful command line with hundreds of small commands that can be combined using pipes.</li>\n<li><b>Networking</b> support built in; stable and reliable; little need for antivirus.</li>\n</ul>\n<h4>Unix vs Linux</h4>\n<table><tr><th>Point</th><th>Unix</th><th>Linux</th></tr><tr><td>Origin</td><td>AT&amp;T Bell Labs, 1969 (Ken Thompson, Dennis Ritchie)</td><td>Linus Torvalds, 1991</td></tr><tr><td>Licence</td><td>Mostly proprietary (AIX, HP-UX, Solaris, macOS)</td><td>Free and open source (GPL)</td></tr><tr><td>Hardware</td><td>Specific vendor hardware</td><td>Runs on almost all hardware</td></tr><tr><td>Examples</td><td>AIX, HP-UX, Solaris, BSD</td><td>Ubuntu, Fedora, Debian, Mint</td></tr><tr><td>Cost</td><td>Usually paid</td><td>Mostly free</td></tr></table>",
+      "gu": "<p><b>Unix</b> એ multi-user, multitasking operating system છે જે 1969 માં AT&amp;T Bell Labs માં Ken Thompson અને Dennis Ritchie એ વિકસાવી હતી. 1973 માં તેને C language માં ફરી લખાઈ, જેથી તે ઘણા machines પર portable બની.</p>\n<p><b>Linux</b> એ free અને open-source, Unix જેવી operating system છે. તેનું <b>kernel</b> 1991 માં Finland ના વિદ્યાર્થી <b>Linus Torvalds</b> એ બનાવ્યું. Linux kernel GNU tools (bash, gcc, coreutils) સાથે મળી સંપૂર્ણ OS બનાવે છે, જેને ઘણી વાર <b>GNU/Linux</b> કહે છે. <b>Distribution (distro)</b> kernel, tools, desktop અને installer ને પૅક કરે છે: Ubuntu, Fedora, Debian, Linux Mint, Red Hat, Kali.</p>\n<h4>Linux ના features</h4>\n<ul>\n<li><b>Free અને open source:</b> source code GPL હેઠળ ઉપલબ્ધ; કોઈ પણ તેનો અભ્યાસ, ફેરફાર અને વિતરણ કરી શકે.</li>\n<li><b>Multi-user:</b> ઘણા users એક સાથે system વાપરી શકે, દરેક પોતાના account સાથે.</li>\n<li><b>Multitasking:</b> ઘણા programs એક સાથે ચાલે.</li>\n<li><b>Portable:</b> PCs, servers, phones (Android), routers અને supercomputers પર ચાલે.</li>\n<li><b>Security:</b> user accounts, file permissions (rwx), root/superuser અલગ.</li>\n<li><b>Hierarchical file system:</b> બધું root <code>/</code> થી શરૂ; devices પણ files છે.</li>\n<li><b>Shell અને utilities:</b> સેંકડો નાના commands સાથેની શક્તિશાળી command line, જે pipes વડે જોડી શકાય.</li>\n<li><b>Networking</b> support built-in; સ્થિર અને વિશ્વસનીય; antivirus ની ભાગ્યે જ જરૂર.</li>\n</ul>\n<h4>Unix vs Linux</h4>\n<table><tr><th>મુદ્દો</th><th>Unix</th><th>Linux</th></tr><tr><td>ઉદ્ભવ</td><td>AT&amp;T Bell Labs, 1969 (Ken Thompson, Dennis Ritchie)</td><td>Linus Torvalds, 1991</td></tr><tr><td>Licence</td><td>મોટે ભાગે proprietary (AIX, HP-UX, Solaris, macOS)</td><td>Free અને open source (GPL)</td></tr><tr><td>Hardware</td><td>ચોક્કસ vendor નું hardware</td><td>લગભગ બધા hardware પર ચાલે</td></tr><tr><td>ઉદાહરણો</td><td>AIX, HP-UX, Solaris, BSD</td><td>Ubuntu, Fedora, Debian, Mint</td></tr><tr><td>કિંમત</td><td>સામાન્ય રીતે paid</td><td>મોટે ભાગે free</td></tr></table>"
+     }
+    },
+    {
+     "h": {
+      "en": "5.1.2 Basic Architecture of Unix / Linux",
+      "gu": "5.1.2 Unix / Linux નું Basic Architecture"
+     },
+     "body": {
+      "en": "<p>The Unix/Linux system is organised in <b>layers</b> around the hardware. Each layer uses the services of the layer inside it.</p>\n<h4>1. Hardware</h4>\n<p>The innermost layer: CPU, memory, disks, terminals and other devices.</p>\n<h4>2. Kernel</h4>\n<p>The <b>heart of the OS</b>; it is loaded into memory at boot and runs in kernel (privileged) mode. It interacts directly with the hardware and provides services to programs through <b>system calls</b> (fork, exec, open, read, write).</p>\n<ul><li>Process management (creation, scheduling, termination, IPC)</li><li>Memory management (allocation, paging, swapping)</li><li>File management (file system, permissions)</li><li>Device management (device drivers, I/O)</li><li>Networking and security</li></ul>\n<h4>3. Shell</h4>\n<p>The <b>command interpreter</b> and the interface between the user and the kernel. It reads commands typed by the user, interprets them and asks the kernel to execute the programs. It also provides a programming language (shell scripts).</p>\n<h4>4. Utilities and application programs</h4>\n<p>Commands and programs used by users: <code>ls, cp, grep, sort, vi, gcc</code>, editors, compilers, browsers, databases.</p>\n<h4>5. Users</h4>\n<p>Users interact with the system through the shell or a graphical desktop.</p>",
+      "gu": "<p>Unix/Linux system hardware ની આસપાસ <b>layers</b> માં ગોઠવાયેલી છે. દરેક layer પોતાની અંદરની layer ની સેવાઓ વાપરે છે.</p>\n<h4>1. Hardware</h4>\n<p>સૌથી અંદરની layer: CPU, memory, disks, terminals અને બીજા devices.</p>\n<h4>2. Kernel</h4>\n<p><b>OS નું હૃદય</b>; boot વખતે memory માં load થાય અને kernel (privileged) mode માં ચાલે. તે hardware સાથે સીધું કામ કરે છે અને <b>system calls</b> (fork, exec, open, read, write) દ્વારા programs ને સેવાઓ આપે છે.</p>\n<ul><li>Process management (creation, scheduling, termination, IPC)</li><li>Memory management (allocation, paging, swapping)</li><li>File management (file system, permissions)</li><li>Device management (device drivers, I/O)</li><li>Networking અને security</li></ul>\n<h4>3. Shell</h4>\n<p><b>Command interpreter</b> અને user તથા kernel વચ્ચેનું interface. તે user એ type કરેલા commands વાંચે, તેનું અર્થઘટન કરે અને kernel ને programs ચલાવવા કહે. તે programming language (shell scripts) પણ આપે છે.</p>\n<h4>4. Utilities અને application programs</h4>\n<p>Users દ્વારા વપરાતા commands અને programs: <code>ls, cp, grep, sort, vi, gcc</code>, editors, compilers, browsers, databases.</p>\n<h4>5. Users</h4>\n<p>Users shell કે graphical desktop દ્વારા system સાથે કામ કરે છે.</p>"
+     },
+     "diagram": "os5_arch"
+    },
+    {
+     "h": {
+      "en": "5.1.3 Linux System Structure and Programming Basics",
+      "gu": "5.1.3 Linux System Structure અને Programming Basics"
+     },
+     "body": {
+      "en": "<h4>Linux system structure (user space and kernel space)</h4>\n<ul>\n<li><b>User space:</b> applications, shell and system utilities, and <b>system libraries</b> (glibc) that wrap system calls into functions such as <code>printf()</code>, <code>fopen()</code>.</li>\n<li><b>System call interface:</b> the only entry from user space into the kernel.</li>\n<li><b>Kernel space:</b> the Linux kernel is <b>monolithic</b> but supports <b>loadable kernel modules</b> (drivers can be added at run time).</li>\n</ul>\n<h4>Programming basics</h4>\n<p>Programming on Unix/Linux is based on a few simple ideas:</p>\n<ul>\n<li><b>Everything is a file:</b> ordinary files, directories, devices (<code>/dev/sda</code>, <code>/dev/tty</code>) and even processes (<code>/proc</code>) are accessed like files.</li>\n<li><b>Small tools, combined:</b> each command does one job well; commands are joined with <b>pipes</b> (<code>|</code>) and <b>redirection</b> (<code>&gt;</code>, <code>&lt;</code>).</li>\n<li><b>Text streams:</b> every program has three standard files: <b>stdin</b> (0, keyboard), <b>stdout</b> (1, screen) and <b>stderr</b> (2, screen).</li>\n<li><b>Processes:</b> a new process is created with <code>fork()</code> and a new program is loaded with <code>exec()</code>; each process has a PID (<code>ps</code>, <code>kill</code>).</li>\n<li><b>Users and permissions:</b> every file has an owner, a group and rwx permissions; <b>root</b> is the superuser.</li>\n<li><b>Programming tools:</b> shell scripts (bash), editors (vi, vim, gedit, nano), the C compiler <b>gcc</b>, <code>make</code>, debugger <code>gdb</code>; also Python, Java and more.</li>\n</ul>\n<h4>Logging in</h4>\n<p>The user logs in with a user name and password; the shell then shows a <b>prompt</b> such as <code>student@pc:~$</code> (<code>#</code> for root). Commands are typed after the prompt and executed when Enter is pressed. <code>exit</code> or Ctrl+D logs out.</p>",
+      "gu": "<h4>Linux system structure (user space અને kernel space)</h4>\n<ul>\n<li><b>User space:</b> applications, shell અને system utilities, અને <b>system libraries</b> (glibc) જે system calls ને <code>printf()</code>, <code>fopen()</code> જેવા functions માં લપેટે છે.</li>\n<li><b>System call interface:</b> user space માંથી kernel માં જવાનો એકમાત્ર રસ્તો.</li>\n<li><b>Kernel space:</b> Linux kernel <b>monolithic</b> છે પણ <b>loadable kernel modules</b> ને support કરે છે (drivers run time પર ઉમેરી શકાય).</li>\n</ul>\n<h4>Programming basics</h4>\n<p>Unix/Linux પર programming થોડા સરળ વિચારો પર આધારિત છે:</p>\n<ul>\n<li><b>બધું જ file છે:</b> સામાન્ય files, directories, devices (<code>/dev/sda</code>, <code>/dev/tty</code>) અને processes (<code>/proc</code>) પણ files ની જેમ access થાય છે.</li>\n<li><b>નાના tools, જોડીને:</b> દરેક command એક કામ સારી રીતે કરે છે; commands <b>pipes</b> (<code>|</code>) અને <b>redirection</b> (<code>&gt;</code>, <code>&lt;</code>) વડે જોડાય છે.</li>\n<li><b>Text streams:</b> દરેક program પાસે ત્રણ standard files હોય: <b>stdin</b> (0, keyboard), <b>stdout</b> (1, screen) અને <b>stderr</b> (2, screen).</li>\n<li><b>Processes:</b> નવી process <code>fork()</code> થી બને અને નવો program <code>exec()</code> થી load થાય; દરેક process ને PID હોય (<code>ps</code>, <code>kill</code>).</li>\n<li><b>Users અને permissions:</b> દરેક file ને owner, group અને rwx permissions હોય; <b>root</b> superuser છે.</li>\n<li><b>Programming tools:</b> shell scripts (bash), editors (vi, vim, gedit, nano), C compiler <b>gcc</b>, <code>make</code>, debugger <code>gdb</code>; ઉપરાંત Python, Java વગેરે.</li>\n</ul>\n<h4>Login</h4>\n<p>User user name અને password થી login કરે; પછી shell <code>student@pc:~$</code> જેવો <b>prompt</b> બતાવે (root માટે <code>#</code>). Commands prompt પછી type કરાય અને Enter દબાવતાં ચાલે. <code>exit</code> અથવા Ctrl+D logout કરે.</p>"
+     },
+     "diagram": "os5_kernel"
+    },
+    {
+     "h": {
+      "en": "5.1.4 Linux Directory Hierarchy",
+      "gu": "5.1.4 Linux Directory Hierarchy"
+     },
+     "body": {
+      "en": "<p>All files in Linux are arranged in a <b>single inverted tree</b> that starts at the <b>root directory /</b>. There are no drive letters as in Windows; other disks and pen drives are <b>mounted</b> on a directory of this tree (e.g. <code>/media/usb</code>). The layout follows the <b>Filesystem Hierarchy Standard (FHS)</b>.</p>\n<table><tr><th>Directory</th><th>Contents</th></tr><tr><td>/</td><td>Root of the whole file system</td></tr><tr><td>/bin, /sbin</td><td>Essential user and system commands (ls, cp, mount)</td></tr><tr><td>/boot</td><td>Kernel image and boot loader (GRUB) files</td></tr><tr><td>/dev</td><td>Device files: /dev/sda (disk), /dev/tty (terminal), /dev/null</td></tr><tr><td>/etc</td><td>System configuration files: passwd, group, hosts, fstab</td></tr><tr><td>/home</td><td>Home directories of users (/home/student)</td></tr><tr><td>/lib</td><td>Shared libraries and kernel modules</td></tr><tr><td>/root</td><td>Home directory of the superuser root</td></tr><tr><td>/tmp</td><td>Temporary files, cleared at reboot</td></tr><tr><td>/usr</td><td>User programs and data: /usr/bin, /usr/lib, /usr/share</td></tr><tr><td>/var</td><td>Variable data: logs (/var/log), mail, spool</td></tr><tr><td>/mnt, /media</td><td>Mount points for other file systems, pen drives</td></tr><tr><td>/proc</td><td>Virtual files with process and kernel information</td></tr></table>\n<p>Each user has a <b>home directory</b> (<code>/home/student</code>, written as <code>~</code>) where the shell starts after login; users can create files only there (and in <code>/tmp</code>). Path names can be absolute (<code>/etc/passwd</code>) or relative (<code>../notes.txt</code>).</p>",
+      "gu": "<p>Linux માં બધી files <b>root directory /</b> થી શરૂ થતા <b>એક જ ઊંધા tree</b> માં ગોઠવાયેલી છે. Windows જેવા drive letters નથી; બીજી disks અને pen drives આ tree ની કોઈ directory પર <b>mount</b> થાય છે (દા.ત. <code>/media/usb</code>). ગોઠવણી <b>Filesystem Hierarchy Standard (FHS)</b> મુજબ છે.</p>\n<table><tr><th>Directory</th><th>સામગ્રી</th></tr><tr><td>/</td><td>આખી file system નું root</td></tr><tr><td>/bin, /sbin</td><td>જરૂરી user અને system commands (ls, cp, mount)</td></tr><tr><td>/boot</td><td>Kernel image અને boot loader (GRUB) files</td></tr><tr><td>/dev</td><td>Device files: /dev/sda (disk), /dev/tty (terminal), /dev/null</td></tr><tr><td>/etc</td><td>System configuration files: passwd, group, hosts, fstab</td></tr><tr><td>/home</td><td>Users ની home directories (/home/student)</td></tr><tr><td>/lib</td><td>Shared libraries અને kernel modules</td></tr><tr><td>/root</td><td>Superuser root ની home directory</td></tr><tr><td>/tmp</td><td>કામચલાઉ files, reboot પર સાફ</td></tr><tr><td>/usr</td><td>User programs અને data: /usr/bin, /usr/lib, /usr/share</td></tr><tr><td>/var</td><td>બદલાતો data: logs (/var/log), mail, spool</td></tr><tr><td>/mnt, /media</td><td>બીજી file systems, pen drives ના mount points</td></tr><tr><td>/proc</td><td>Process અને kernel માહિતી ધરાવતી virtual files</td></tr></table>\n<p>દરેક user પાસે <b>home directory</b> (<code>/home/student</code>, <code>~</code> તરીકે લખાય) હોય છે જ્યાં login પછી shell શરૂ થાય; users માત્ર ત્યાં (અને <code>/tmp</code> માં) files બનાવી શકે. Path names absolute (<code>/etc/passwd</code>) કે relative (<code>../notes.txt</code>) હોઈ શકે.</p>"
+     },
+     "diagram": "os5_fs_tree"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "5.2 Shell and Commands",
+    "gu": "5.2 Shell અને Commands"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "5.2.1 Introduction to Shell and Commands",
+      "gu": "5.2.1 Shell અને Commands નો પરિચય"
+     },
+     "body": {
+      "en": "<p>The <b>shell</b> is a program that provides the <b>command-line interface</b> to Linux. It is both a <b>command interpreter</b> (runs commands typed by the user) and a <b>programming language</b> (shell scripts with variables, conditions and loops).</p>\n<h4>Types of shells</h4>\n<table><tr><th>Shell</th><th>Program</th><th>Notes</th></tr><tr><td>Bourne shell</td><td>sh</td><td>Original Unix shell (Stephen Bourne); prompt $</td></tr><tr><td>Bourne Again shell</td><td>bash</td><td>Default on most Linux systems; history, completion</td></tr><tr><td>C shell</td><td>csh / tcsh</td><td>C-like syntax; prompt %</td></tr><tr><td>Korn shell</td><td>ksh</td><td>Combines sh and csh features</td></tr><tr><td>Z shell</td><td>zsh</td><td>Default on macOS; powerful completion</td></tr></table>\n<p><code>echo $SHELL</code> shows the current shell; <code>cat /etc/shells</code> lists the available shells.</p>\n<h4>How the shell executes a command</h4>\n<ol><li>Displays the prompt and reads the command line.</li><li>Parses it into command, options and arguments; expands wildcards (<code>*</code>, <code>?</code>, <code>[ ]</code>), variables (<code>$x</code>) and command substitution.</li><li>Finds the command: a <b>built-in</b> (cd, echo, pwd) or an external program searched in the directories of <code>$PATH</code>.</li><li>Creates a child process (<code>fork</code>), runs the program in it (<code>exec</code>) and <b>waits</b>; then shows the prompt again.</li></ol>\n<h4>Command format</h4>\n<p><code>command [options] [arguments]</code> e.g. <code>ls -l /home</code>. Options usually start with <code>-</code> and can be combined (<code>ls -la</code>). Commands are case-sensitive. Help: <code>man ls</code>, <code>ls --help</code>.</p>\n<h4>Redirection, pipes and wildcards</h4>\n<ul><li><code>&gt;</code> output to a file (overwrite), <code>&gt;&gt;</code> append, <code>&lt;</code> input from a file, <code>2&gt;</code> errors to a file.</li><li><code>|</code> pipe: output of one command becomes input of the next.</li><li><code>*</code> any characters, <code>?</code> one character, <code>[abc]</code> one of the listed characters.</li><li>Quotes: <code>\"…\"</code> expands variables, <code>'…'</code> does not.</li></ul>\n<h4>Example (real output)</h4>\n<pre class=\"c\">$ echo $SHELL\n/bin/bash\n$ echo Hello &gt; h.txt\n$ echo World &gt;&gt; h.txt\n$ cat h.txt\nHello\nWorld\n$ wc -l &lt; h.txt\n2\n$ ls | wc -l\n3\n$ ls *.txt\na.txt  h.txt\n$ name=Ravi; echo &quot;Hi $name&quot;\nHi Ravi\n$ echo &#x27;Hi $name&#x27;\nHi $name</pre>",
+      "gu": "<p><b>Shell</b> એ program છે જે Linux નું <b>command-line interface</b> આપે છે. તે <b>command interpreter</b> (user એ type કરેલા commands ચલાવે) અને <b>programming language</b> (variables, conditions અને loops સાથેના shell scripts) બંને છે.</p>\n<h4>Shells ના પ્રકારો</h4>\n<table><tr><th>Shell</th><th>Program</th><th>નોંધ</th></tr><tr><td>Bourne shell</td><td>sh</td><td>મૂળ Unix shell (Stephen Bourne); prompt $</td></tr><tr><td>Bourne Again shell</td><td>bash</td><td>મોટા ભાગની Linux systems માં default; history, completion</td></tr><tr><td>C shell</td><td>csh / tcsh</td><td>C જેવી syntax; prompt %</td></tr><tr><td>Korn shell</td><td>ksh</td><td>sh અને csh ના features ભેગા</td></tr><tr><td>Z shell</td><td>zsh</td><td>macOS માં default; શક્તિશાળી completion</td></tr></table>\n<p><code>echo $SHELL</code> હાલનો shell બતાવે; <code>cat /etc/shells</code> ઉપલબ્ધ shells ની યાદી આપે.</p>\n<h4>Shell command કેવી રીતે ચલાવે છે</h4>\n<ol><li>Prompt બતાવી command line વાંચે.</li><li>તેને command, options અને arguments માં વહેંચે; wildcards (<code>*</code>, <code>?</code>, <code>[ ]</code>), variables (<code>$x</code>) અને command substitution expand કરે.</li><li>Command શોધે: <b>built-in</b> (cd, echo, pwd) અથવા <code>$PATH</code> ની directories માં શોધાતો external program.</li><li>Child process બનાવે (<code>fork</code>), તેમાં program ચલાવે (<code>exec</code>) અને <b>રાહ જુએ</b>; પછી ફરી prompt બતાવે.</li></ol>\n<h4>Command format</h4>\n<p><code>command [options] [arguments]</code> દા.ત. <code>ls -l /home</code>. Options સામાન્ય રીતે <code>-</code> થી શરૂ થાય અને ભેગા કરી શકાય (<code>ls -la</code>). Commands case-sensitive છે. મદદ: <code>man ls</code>, <code>ls --help</code>.</p>\n<h4>Redirection, pipes અને wildcards</h4>\n<ul><li><code>&gt;</code> output file માં (overwrite), <code>&gt;&gt;</code> append, <code>&lt;</code> file માંથી input, <code>2&gt;</code> errors file માં.</li><li><code>|</code> pipe: એક command નું output આગળના command નું input બને.</li><li><code>*</code> કોઈ પણ અક્ષરો, <code>?</code> એક અક્ષર, <code>[abc]</code> યાદીમાંનો એક અક્ષર.</li><li>Quotes: <code>\"…\"</code> variables expand કરે, <code>'…'</code> નહીં.</li></ul>\n<h4>ઉદાહરણ (ખરું output)</h4>\n<pre class=\"c\">$ echo $SHELL\n/bin/bash\n$ echo Hello &gt; h.txt\n$ echo World &gt;&gt; h.txt\n$ cat h.txt\nHello\nWorld\n$ wc -l &lt; h.txt\n2\n$ ls | wc -l\n3\n$ ls *.txt\na.txt  h.txt\n$ name=Ravi; echo &quot;Hi $name&quot;\nHi Ravi\n$ echo &#x27;Hi $name&#x27;\nHi $name</pre>"
+     },
+     "diagram": "os5_shell"
+    },
+    {
+     "h": {
+      "en": "5.2.2 Directory Commands: pwd, cd, mkdir, rmdir, ls",
+      "gu": "5.2.2 Directory Commands: pwd, cd, mkdir, rmdir, ls"
+     },
+     "body": {
+      "en": "<h4>pwd (print working directory)</h4>\n<p>Displays the absolute path of the current directory. Syntax: <code>pwd</code></p>\n<h4>cd (change directory)</h4>\n<p>Changes the current directory. <code>cd dir</code>, <code>cd ..</code> (parent), <code>cd /</code> (root), <code>cd</code> or <code>cd ~</code> (home), <code>cd -</code> (previous directory). Both absolute and relative paths can be used.</p>\n<h4>mkdir (make directory)</h4>\n<p>Creates one or more directories: <code>mkdir os</code>, <code>mkdir d1 d2</code>. Option <code>-p</code> creates the whole path including missing parents: <code>mkdir -p sem3/os/unit5</code>.</p>\n<h4>rmdir (remove directory)</h4>\n<p>Removes <b>empty</b> directories only: <code>rmdir os</code>. A non-empty directory gives an error; use <code>rm -r</code> to delete it with its contents.</p>\n<h4>ls (list)</h4>\n<p>Lists the files and directories. Common options:</p>\n<ul><li><code>-l</code> long listing (permissions, links, owner, group, size, date, name)</li><li><code>-a</code> all files including hidden ones (names starting with <code>.</code>)</li><li><code>-R</code> recursive (subdirectories too), <code>-t</code> sort by time, <code>-r</code> reverse, <code>-i</code> inode number, <code>-h</code> human-readable sizes, <code>-d</code> directory itself</li></ul>\n<h4>Example (real output)</h4>\n<pre class=\"c\">$ pwd\n/home/student\n$ mkdir os\n$ mkdir -p sem3/os/unit5\n$ ls\nnotes.txt  os  prog.c  sem3\n$ ls -a\n.   .profile   os      sem3\n..  notes.txt  prog.c\n$ ls -l\ntotal 8\n-rw-r--r-- 1 student student 19 Oct 27 10:30 notes.txt\ndrwxr-xr-x 2 student student 40 Oct 27 10:30 os\n-rw-r--r-- 1 student student 79 Oct 27 10:30 prog.c\ndrwxr-xr-x 3 student student 60 Oct 27 10:30 sem3\n$ cd sem3/os\n$ pwd\n/home/student/sem3/os\n$ cd ..\n$ pwd\n/home/student/sem3\n$ cd ~\n$ rmdir os\n$ ls -R sem3\nsem3:\nos\n\nsem3/os:\nunit5\n\nsem3/os/unit5:\n$ rmdir sem3\nrmdir: failed to remove &#x27;sem3&#x27;: Directory not empty</pre>",
+      "gu": "<h4>pwd (print working directory)</h4>\n<p>Current directory નો absolute path બતાવે છે. Syntax: <code>pwd</code></p>\n<h4>cd (change directory)</h4>\n<p>Current directory બદલે છે. <code>cd dir</code>, <code>cd ..</code> (parent), <code>cd /</code> (root), <code>cd</code> અથવા <code>cd ~</code> (home), <code>cd -</code> (પાછલી directory). Absolute અને relative બંને paths વાપરી શકાય.</p>\n<h4>mkdir (make directory)</h4>\n<p>એક કે વધુ directories બનાવે: <code>mkdir os</code>, <code>mkdir d1 d2</code>. Option <code>-p</code> ખૂટતા parents સહિત આખો path બનાવે: <code>mkdir -p sem3/os/unit5</code>.</p>\n<h4>rmdir (remove directory)</h4>\n<p>માત્ર <b>ખાલી</b> directories દૂર કરે: <code>rmdir os</code>. ખાલી ન હોય તો error આવે; તેને સામગ્રી સહિત delete કરવા <code>rm -r</code> વાપરો.</p>\n<h4>ls (list)</h4>\n<p>Files અને directories ની યાદી આપે. સામાન્ય options:</p>\n<ul><li><code>-l</code> long listing (permissions, links, owner, group, size, date, name)</li><li><code>-a</code> hidden (<code>.</code> થી શરૂ થતી) સહિત બધી files</li><li><code>-R</code> recursive (subdirectories પણ), <code>-t</code> time મુજબ, <code>-r</code> reverse, <code>-i</code> inode number, <code>-h</code> human-readable sizes, <code>-d</code> directory પોતે</li></ul>\n<h4>ઉદાહરણ (ખરું output)</h4>\n<pre class=\"c\">$ pwd\n/home/student\n$ mkdir os\n$ mkdir -p sem3/os/unit5\n$ ls\nnotes.txt  os  prog.c  sem3\n$ ls -a\n.   .profile   os      sem3\n..  notes.txt  prog.c\n$ ls -l\ntotal 8\n-rw-r--r-- 1 student student 19 Oct 27 10:30 notes.txt\ndrwxr-xr-x 2 student student 40 Oct 27 10:30 os\n-rw-r--r-- 1 student student 79 Oct 27 10:30 prog.c\ndrwxr-xr-x 3 student student 60 Oct 27 10:30 sem3\n$ cd sem3/os\n$ pwd\n/home/student/sem3/os\n$ cd ..\n$ pwd\n/home/student/sem3\n$ cd ~\n$ rmdir os\n$ ls -R sem3\nsem3:\nos\n\nsem3/os:\nunit5\n\nsem3/os/unit5:\n$ rmdir sem3\nrmdir: failed to remove &#x27;sem3&#x27;: Directory not empty</pre>"
+     },
+     "diagram": "os5_ls_l"
+    },
+    {
+     "h": {
+      "en": "5.2.3 File Commands: cat, cp, rm, mv",
+      "gu": "5.2.3 File Commands: cat, cp, rm, mv"
+     },
+     "body": {
+      "en": "<h4>cat (concatenate)</h4>\n<ul><li><code>cat file</code> displays a file; <code>cat f1 f2</code> displays several files one after another.</li><li><code>cat &gt; file</code> creates a file from keyboard input (end with <b>Ctrl+D</b>); <code>cat &gt;&gt; file</code> appends.</li><li><code>cat f1 f2 &gt; f3</code> joins files into f3; <code>-n</code> numbers the lines.</li></ul>\n<h4>cp (copy)</h4>\n<ul><li><code>cp src dest</code> copies a file; <code>cp f1 f2 dir/</code> copies files into a directory.</li><li><code>-r</code> copies directories recursively, <code>-i</code> asks before overwriting, <code>-p</code> preserves time and permissions.</li></ul>\n<h4>rm (remove)</h4>\n<ul><li><code>rm file</code> deletes files permanently (no recycle bin).</li><li><code>-i</code> asks for confirmation, <code>-r</code> deletes a directory and everything in it, <code>-f</code> forces without asking. <code>rm -rf</code> must be used very carefully.</li></ul>\n<h4>mv (move / rename)</h4>\n<ul><li><code>mv old new</code> renames a file or directory.</li><li><code>mv file dir/</code> moves it into another directory (the inode is unchanged, so moving within the same file system is instant).</li><li><code>-i</code> asks before overwriting.</li></ul>\n<h4>Example (real output)</h4>\n<pre class=\"c\">$ cat a.txt\nOperating System\nLinux commands\n$ cat -n a.txt b.txt\n     1\tOperating System\n     2\tLinux commands\n     3\tGTU Diploma\n$ cat a.txt b.txt &gt; c.txt\n$ cp a.txt a_copy.txt\n$ ls\na.txt  a_copy.txt  b.txt  c.txt\n$ mv a_copy.txt backup.txt\n$ mkdir old\n$ mv c.txt old/\n$ ls\na.txt  b.txt  backup.txt  old\n$ ls old\nc.txt\n$ rm backup.txt\n$ rm -r old\n$ ls\na.txt  b.txt</pre>",
+      "gu": "<h4>cat (concatenate)</h4>\n<ul><li><code>cat file</code> file બતાવે; <code>cat f1 f2</code> ઘણી files એક પછી એક બતાવે.</li><li><code>cat &gt; file</code> keyboard input થી file બનાવે (<b>Ctrl+D</b> થી પૂરું); <code>cat &gt;&gt; file</code> append કરે.</li><li><code>cat f1 f2 &gt; f3</code> files ને f3 માં જોડે; <code>-n</code> lines ને નંબર આપે.</li></ul>\n<h4>cp (copy)</h4>\n<ul><li><code>cp src dest</code> file copy કરે; <code>cp f1 f2 dir/</code> files ને directory માં copy કરે.</li><li><code>-r</code> directories ને recursively copy કરે, <code>-i</code> overwrite પહેલાં પૂછે, <code>-p</code> time અને permissions જાળવે.</li></ul>\n<h4>rm (remove)</h4>\n<ul><li><code>rm file</code> files ને કાયમ માટે delete કરે (recycle bin નથી).</li><li><code>-i</code> ખાતરી માંગે, <code>-r</code> directory અને તેમાંનું બધું delete કરે, <code>-f</code> પૂછ્યા વગર force કરે. <code>rm -rf</code> ખૂબ સાવધાનીથી વાપરવું.</li></ul>\n<h4>mv (move / rename)</h4>\n<ul><li><code>mv old new</code> file કે directory નું નામ બદલે.</li><li><code>mv file dir/</code> તેને બીજી directory માં ખસેડે (inode બદલાતો નથી, તેથી એ જ file system માં move તરત થાય).</li><li><code>-i</code> overwrite પહેલાં પૂછે.</li></ul>\n<h4>ઉદાહરણ (ખરું output)</h4>\n<pre class=\"c\">$ cat a.txt\nOperating System\nLinux commands\n$ cat -n a.txt b.txt\n     1\tOperating System\n     2\tLinux commands\n     3\tGTU Diploma\n$ cat a.txt b.txt &gt; c.txt\n$ cp a.txt a_copy.txt\n$ ls\na.txt  a_copy.txt  b.txt  c.txt\n$ mv a_copy.txt backup.txt\n$ mkdir old\n$ mv c.txt old/\n$ ls\na.txt  b.txt  backup.txt  old\n$ ls old\nc.txt\n$ rm backup.txt\n$ rm -r old\n$ ls\na.txt  b.txt</pre>"
+     }
+    },
+    {
+     "h": {
+      "en": "5.2.4 wc, split, head and tail",
+      "gu": "5.2.4 wc, split, head અને tail"
+     },
+     "body": {
+      "en": "<h4>wc (word count)</h4>\n<p>Counts <b>lines, words and characters (bytes)</b> of a file. Output order: lines, words, bytes, file name. Options: <code>-l</code> lines only, <code>-w</code> words, <code>-c</code> bytes, <code>-m</code> characters. With a pipe: <code>ls | wc -l</code> counts files.</p>\n<h4>split</h4>\n<p>Splits a large file into smaller pieces named <code>xaa, xab, …</code> (or with a given prefix). Default: 1000 lines per piece. <code>-l n</code> n lines per piece, <code>-b size</code> by bytes (<code>1k</code>, <code>1m</code>). The pieces can be joined back with <code>cat part_* &gt; file</code>.</p>\n<h4>head</h4>\n<p>Displays the <b>first</b> lines of a file (default 10). <code>head -n 3 file</code> or <code>head -3 file</code>; <code>-c</code> for bytes.</p>\n<h4>tail</h4>\n<p>Displays the <b>last</b> lines of a file (default 10). <code>tail -n 2 file</code>; <code>tail -n +5 file</code> from line 5 to the end; <code>tail -f log</code> keeps showing new lines as the file grows (used for log files).</p>\n<p>Combined: <code>head -7 file | tail -3</code> shows lines 5 to 7.</p>\n<h4>Example (real output)</h4>\n<pre class=\"c\">$ wc students.txt\n 10  30 118 students.txt\n$ wc -l students.txt\n10 students.txt\n$ wc -w -c students.txt\n 30 118 students.txt\n$ head -3 students.txt\nRavi CE 78\nPriya IT 92\nAmit CE 65\n$ tail -2 students.txt\nVivek ME 67\nAnjali IT 73\n$ split -l 4 students.txt part_\n$ ls\npart_aa  part_ab  part_ac  students.txt\n$ cat part_ac\nVivek ME 67\nAnjali IT 73</pre>",
+      "gu": "<h4>wc (word count)</h4>\n<p>File ની <b>lines, words અને characters (bytes)</b> ગણે છે. Output ક્રમ: lines, words, bytes, file name. Options: <code>-l</code> માત્ર lines, <code>-w</code> words, <code>-c</code> bytes, <code>-m</code> characters. Pipe સાથે: <code>ls | wc -l</code> files ગણે.</p>\n<h4>split</h4>\n<p>મોટી file ને <code>xaa, xab, …</code> (અથવા આપેલા prefix) નામના નાના ભાગોમાં વહેંચે. Default: ભાગ દીઠ 1000 lines. <code>-l n</code> ભાગ દીઠ n lines, <code>-b size</code> bytes મુજબ (<code>1k</code>, <code>1m</code>). ભાગો <code>cat part_* &gt; file</code> થી ફરી જોડી શકાય.</p>\n<h4>head</h4>\n<p>File ની <b>શરૂઆતની</b> lines બતાવે (default 10). <code>head -n 3 file</code> અથવા <code>head -3 file</code>; bytes માટે <code>-c</code>.</p>\n<h4>tail</h4>\n<p>File ની <b>છેલ્લી</b> lines બતાવે (default 10). <code>tail -n 2 file</code>; <code>tail -n +5 file</code> line 5 થી અંત સુધી; <code>tail -f log</code> file વધે તેમ નવી lines બતાવતું રહે (log files માટે).</p>\n<p>ભેગા: <code>head -7 file | tail -3</code> lines 5 થી 7 બતાવે.</p>\n<h4>ઉદાહરણ (ખરું output)</h4>\n<pre class=\"c\">$ wc students.txt\n 10  30 118 students.txt\n$ wc -l students.txt\n10 students.txt\n$ wc -w -c students.txt\n 30 118 students.txt\n$ head -3 students.txt\nRavi CE 78\nPriya IT 92\nAmit CE 65\n$ tail -2 students.txt\nVivek ME 67\nAnjali IT 73\n$ split -l 4 students.txt part_\n$ ls\npart_aa  part_ab  part_ac  students.txt\n$ cat part_ac\nVivek ME 67\nAnjali IT 73</pre>"
+     }
+    },
+    {
+     "h": {
+      "en": "5.2.5 Comparing Files: cmp, comm, diff",
+      "gu": "5.2.5 Files ની સરખામણી: cmp, comm, diff"
+     },
+     "body": {
+      "en": "<h4>cmp (compare)</h4>\n<p>Compares two files <b>byte by byte</b> and reports the <b>first</b> difference (byte number and line number). If the files are identical it prints nothing and returns exit status 0. Works for binary files too. <code>-l</code> lists all differing bytes.</p>\n<h4>comm (common)</h4>\n<p>Compares two <b>sorted</b> files line by line and prints three columns:</p>\n<ol><li>lines only in file 1,</li><li>lines only in file 2 (one tab),</li><li>lines common to both (two tabs).</li></ol>\n<p><code>-1</code>, <code>-2</code>, <code>-3</code> suppress the corresponding column; <code>comm -12 f1 f2</code> shows only common lines.</p>\n<h4>diff (difference)</h4>\n<p>Shows <b>all</b> line differences and tells what changes are needed to make file 1 identical to file 2. Codes: <code>a</code> add, <code>c</code> change, <code>d</code> delete; lines from file 1 are marked <code>&lt;</code> and lines from file 2 <code>&gt;</code>. Example: <code>3c3</code> means line 3 of f1 must be changed to line 3 of f2. Options: <code>-i</code> ignore case, <code>-w</code> ignore white space, <code>-u</code> unified format.</p>\n<h4>Example (real output)</h4>\n<pre class=\"c\">$ cat f1.txt\napple\nbanana\ncherry\nmango\n$ cat f2.txt\napple\nbanana\ngrape\nmango\norange\n$ cmp f1.txt f2.txt\nf1.txt f2.txt differ: byte 14, line 3\n$ cmp f1.txt f1.txt &amp;&amp; echo same\nsame\n$ comm f1.txt f2.txt\n\t\tapple\n\t\tbanana\ncherry\n\tgrape\n\t\tmango\n\torange\n$ comm -12 f1.txt f2.txt\napple\nbanana\nmango\n$ diff f1.txt f2.txt\n3c3\n&lt; cherry\n---\n&gt; grape\n4a5\n&gt; orange</pre>",
+      "gu": "<h4>cmp (compare)</h4>\n<p>બે files ને <b>byte દર byte</b> સરખાવે અને <b>પહેલો</b> તફાવત (byte number અને line number) જણાવે. Files સરખી હોય તો કંઈ છાપતું નથી અને exit status 0 આપે. Binary files માટે પણ કામ કરે. <code>-l</code> બધા જુદા bytes ની યાદી આપે.</p>\n<h4>comm (common)</h4>\n<p>બે <b>sorted</b> files ને line દર line સરખાવે અને ત્રણ columns છાપે:</p>\n<ol><li>માત્ર file 1 માંની lines,</li><li>માત્ર file 2 માંની lines (એક tab),</li><li>બંનેમાં સામાન્ય lines (બે tabs).</li></ol>\n<p><code>-1</code>, <code>-2</code>, <code>-3</code> અનુરૂપ column છુપાવે; <code>comm -12 f1 f2</code> માત્ર સામાન્ય lines બતાવે.</p>\n<h4>diff (difference)</h4>\n<p><b>બધા</b> line તફાવતો બતાવે અને file 1 ને file 2 જેવી બનાવવા કયા ફેરફારો જોઈએ તે કહે. Codes: <code>a</code> add, <code>c</code> change, <code>d</code> delete; file 1 ની lines <code>&lt;</code> અને file 2 ની lines <code>&gt;</code> થી દર્શાવાય. ઉદાહરણ: <code>3c3</code> એટલે f1 ની line 3 ને f2 ની line 3 માં બદલવી. Options: <code>-i</code> case અવગણો, <code>-w</code> white space અવગણો, <code>-u</code> unified format.</p>\n<h4>ઉદાહરણ (ખરું output)</h4>\n<pre class=\"c\">$ cat f1.txt\napple\nbanana\ncherry\nmango\n$ cat f2.txt\napple\nbanana\ngrape\nmango\norange\n$ cmp f1.txt f2.txt\nf1.txt f2.txt differ: byte 14, line 3\n$ cmp f1.txt f1.txt &amp;&amp; echo same\nsame\n$ comm f1.txt f2.txt\n\t\tapple\n\t\tbanana\ncherry\n\tgrape\n\t\tmango\n\torange\n$ comm -12 f1.txt f2.txt\napple\nbanana\nmango\n$ diff f1.txt f2.txt\n3c3\n&lt; cherry\n---\n&gt; grape\n4a5\n&gt; orange</pre>"
+     }
+    },
+    {
+     "h": {
+      "en": "5.2.6 Searching and Sorting: grep, sort",
+      "gu": "5.2.6 Searching અને Sorting: grep, sort"
+     },
+     "body": {
+      "en": "<h4>grep (Global Regular Expression Print)</h4>\n<p>Searches files for lines that <b>match a pattern</b> and prints them. Syntax: <code>grep [options] pattern [files]</code></p>\n<ul>\n<li><code>-i</code> ignore case, <code>-v</code> print lines that do <b>not</b> match, <code>-c</code> count matching lines, <code>-n</code> show line numbers, <code>-l</code> list only file names, <code>-w</code> whole word, <code>-e</code> several patterns.</li>\n<li>Regular expressions: <code>^</code> start of line, <code>$</code> end of line, <code>.</code> any character, <code>*</code> zero or more, <code>[abc]</code> one of. Example: <code>grep '^A' file</code> lines starting with A.</li>\n</ul>\n<h4>sort</h4>\n<p>Sorts the lines of a file (default: alphabetical, ascending) and prints them; the file itself is not changed unless <code>-o</code> is used.</p>\n<ul>\n<li><code>-r</code> reverse, <code>-n</code> numeric, <code>-u</code> remove duplicates, <code>-f</code> ignore case.</li>\n<li><code>-k n</code> sort by field n, <code>-t ':'</code> field separator (e.g. <code>sort -t: -k3 -n /etc/passwd</code>).</li>\n<li><code>-o file</code> write the result to a file.</li>\n</ul>\n<h4>Example (real output)</h4>\n<p>File <code>students.txt</code> has 10 lines of the form <i>name branch marks</i>.</p>\n<pre class=\"c\">$ grep CE students.txt\nRavi CE 78\nAmit CE 65\nKaran CE 71\nPooja CE 95\n$ grep -i ravi students.txt\nRavi CE 78\n$ grep -c CE students.txt\n4\n$ grep -v -e CE -e IT students.txt\nNeha ME 88\nArjun EE 59\nVivek ME 67\n$ grep -n &#x27;^A&#x27; students.txt\n3:Amit CE 65\n7:Arjun EE 59\n10:Anjali IT 73\n$ grep -l Ravi *.txt\nnotes.txt\nstudents.txt</pre><pre class=\"c\">$ sort students.txt | head -4\nAmit CE 65\nAnjali IT 73\nArjun EE 59\nKaran CE 71\n$ sort -r students.txt | head -3\nVivek ME 67\nSneha IT 84\nRavi CE 78\n$ sort -k3 -n students.txt | head -3\nArjun EE 59\nAmit CE 65\nVivek ME 67\n$ sort -k3 -nr students.txt | head -3\nPooja CE 95\nPriya IT 92\nNeha ME 88\n$ cut -d&#x27; &#x27; -f2 students.txt | sort | uniq -c\n      4 CE\n      1 EE\n      3 IT\n      2 ME</pre>",
+      "gu": "<h4>grep (Global Regular Expression Print)</h4>\n<p>Files માં <b>pattern સાથે મેળ ખાતી</b> lines શોધી છાપે છે. Syntax: <code>grep [options] pattern [files]</code></p>\n<ul>\n<li><code>-i</code> case અવગણો, <code>-v</code> મેળ <b>ન</b> ખાતી lines, <code>-c</code> મેળ ખાતી lines ગણો, <code>-n</code> line numbers બતાવો, <code>-l</code> માત્ર file names, <code>-w</code> આખો શબ્દ, <code>-e</code> ઘણા patterns.</li>\n<li>Regular expressions: <code>^</code> line ની શરૂઆત, <code>$</code> line નો અંત, <code>.</code> કોઈ પણ અક્ષર, <code>*</code> શૂન્ય કે વધુ, <code>[abc]</code> તેમાંનો એક. ઉદાહરણ: <code>grep '^A' file</code> A થી શરૂ થતી lines.</li>\n</ul>\n<h4>sort</h4>\n<p>File ની lines sort કરી છાપે (default: alphabetical, ચડતો ક્રમ); <code>-o</code> ન વાપરો ત્યાં સુધી file પોતે બદલાતી નથી.</p>\n<ul>\n<li><code>-r</code> reverse, <code>-n</code> numeric, <code>-u</code> duplicates દૂર, <code>-f</code> case અવગણો.</li>\n<li><code>-k n</code> field n મુજબ sort, <code>-t ':'</code> field separator (દા.ત. <code>sort -t: -k3 -n /etc/passwd</code>).</li>\n<li><code>-o file</code> પરિણામ file માં લખો.</li>\n</ul>\n<h4>ઉદાહરણ (ખરું output)</h4>\n<p>File <code>students.txt</code> માં <i>name branch marks</i> સ્વરૂપની 10 lines છે.</p>\n<pre class=\"c\">$ grep CE students.txt\nRavi CE 78\nAmit CE 65\nKaran CE 71\nPooja CE 95\n$ grep -i ravi students.txt\nRavi CE 78\n$ grep -c CE students.txt\n4\n$ grep -v -e CE -e IT students.txt\nNeha ME 88\nArjun EE 59\nVivek ME 67\n$ grep -n &#x27;^A&#x27; students.txt\n3:Amit CE 65\n7:Arjun EE 59\n10:Anjali IT 73\n$ grep -l Ravi *.txt\nnotes.txt\nstudents.txt</pre><pre class=\"c\">$ sort students.txt | head -4\nAmit CE 65\nAnjali IT 73\nArjun EE 59\nKaran CE 71\n$ sort -r students.txt | head -3\nVivek ME 67\nSneha IT 84\nRavi CE 78\n$ sort -k3 -n students.txt | head -3\nArjun EE 59\nAmit CE 65\nVivek ME 67\n$ sort -k3 -nr students.txt | head -3\nPooja CE 95\nPriya IT 92\nNeha ME 88\n$ cut -d&#x27; &#x27; -f2 students.txt | sort | uniq -c\n      4 CE\n      1 EE\n      3 IT\n      2 ME</pre>"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "5.3 Editing Files: vi, vim, gedit and gcc",
+    "gu": "5.3 Files Editing: vi, vim, gedit અને gcc"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "5.3.1 vi and vim Editors",
+      "gu": "5.3.1 vi અને vim Editors"
+     },
+     "body": {
+      "en": "<p><b>vi</b> (visual editor) is the standard screen-oriented text editor available on every Unix/Linux system; it works in a terminal without a mouse. <b>vim</b> (vi improved) is an enhanced version with syntax highlighting, multi-level undo, split windows, tabs and plugins. On most Linux systems the <code>vi</code> command actually starts vim.</p>\n<p>Start: <code>vi notes.txt</code> or <code>vim notes.txt</code> (creates the file if it does not exist).</p>\n<h4>Modes of vi</h4>\n<ol>\n<li><b>Command mode (normal mode):</b> the default mode when vi starts. Keys act as commands: move the cursor, delete, copy, paste, undo.</li>\n<li><b>Insert mode:</b> entered by <code>i, a, o, I, A, O</code>; whatever you type is inserted into the file. Press <b>Esc</b> to return to command mode.</li>\n<li><b>Last-line (ex / command-line) mode:</b> entered by typing <code>:</code> in command mode; the cursor moves to the bottom line for commands like save, quit, search-replace and settings. Enter executes the command.</li>\n</ol>\n<h4>Important vi commands</h4>\n<table><tr><th>Task</th><th>Command (in command mode)</th></tr><tr><td>Insert</td><td>i (before cursor), a (after), o (new line below), I, A, O</td></tr><tr><td>Move</td><td>h j k l (left, down, up, right), w / b word, 0 / $ line start / end, gg / G first / last line, :n go to line n</td></tr><tr><td>Delete</td><td>x character, dw word, dd line, 3dd three lines, D to end of line</td></tr><tr><td>Copy / paste</td><td>yy copy line, 3yy three lines, p paste below, P above</td></tr><tr><td>Undo / redo</td><td>u undo, Ctrl+R redo, . repeat last change</td></tr><tr><td>Search / replace</td><td>/word forward, ?word backward, n next, :%s/old/new/g replace all</td></tr><tr><td>Save / quit</td><td>:w save, :w name save as, :q quit, :wq or ZZ save and quit, :q! quit without saving</td></tr><tr><td>Settings</td><td>:set nu line numbers, :set nonu, :syntax on (vim)</td></tr></table>\n<p><b>Typical session:</b> <code>vi hello.sh</code> → press <code>i</code> → type the script → <b>Esc</b> → <code>:wq</code> → Enter.</p>",
+      "gu": "<p><b>vi</b> (visual editor) એ દરેક Unix/Linux system પર ઉપલબ્ધ standard screen-oriented text editor છે; તે mouse વગર terminal માં કામ કરે છે. <b>vim</b> (vi improved) syntax highlighting, multi-level undo, split windows, tabs અને plugins વાળું સુધારેલું version છે. મોટા ભાગની Linux systems માં <code>vi</code> command ખરેખર vim શરૂ કરે છે.</p>\n<p>શરૂ કરવા: <code>vi notes.txt</code> અથવા <code>vim notes.txt</code> (file ન હોય તો બનાવે).</p>\n<h4>vi ના modes</h4>\n<ol>\n<li><b>Command mode (normal mode):</b> vi શરૂ થાય ત્યારનો default mode. Keys commands તરીકે કામ કરે: cursor ખસેડવો, delete, copy, paste, undo.</li>\n<li><b>Insert mode:</b> <code>i, a, o, I, A, O</code> થી પ્રવેશ; જે type કરો તે file માં ઉમેરાય. Command mode માં પાછા જવા <b>Esc</b> દબાવો.</li>\n<li><b>Last-line (ex / command-line) mode:</b> command mode માં <code>:</code> type કરવાથી પ્રવેશ; save, quit, search-replace અને settings જેવા commands માટે cursor નીચેની line પર જાય. Enter command ચલાવે.</li>\n</ol>\n<h4>vi ના મહત્વના commands</h4>\n<table><tr><th>કાર્ય</th><th>Command (command mode માં)</th></tr><tr><td>Insert</td><td>i (cursor પહેલાં), a (પછી), o (નીચે નવી line), I, A, O</td></tr><tr><td>Move</td><td>h j k l (ડાબે, નીચે, ઉપર, જમણે), w / b શબ્દ, 0 / $ line ની શરૂઆત / અંત, gg / G પહેલી / છેલ્લી line, :n line n પર</td></tr><tr><td>Delete</td><td>x અક્ષર, dw શબ્દ, dd line, 3dd ત્રણ lines, D line ના અંત સુધી</td></tr><tr><td>Copy / paste</td><td>yy line copy, 3yy ત્રણ lines, p નીચે paste, P ઉપર</td></tr><tr><td>Undo / redo</td><td>u undo, Ctrl+R redo, . છેલ્લો ફેરફાર ફરી</td></tr><tr><td>Search / replace</td><td>/word આગળ, ?word પાછળ, n આગળનું, :%s/old/new/g બધે replace</td></tr><tr><td>Save / quit</td><td>:w save, :w name save as, :q quit, :wq અથવા ZZ save અને quit, :q! save વગર quit</td></tr><tr><td>Settings</td><td>:set nu line numbers, :set nonu, :syntax on (vim)</td></tr></table>\n<p><b>સામાન્ય session:</b> <code>vi hello.sh</code> → <code>i</code> દબાવો → script type કરો → <b>Esc</b> → <code>:wq</code> → Enter.</p>"
+     },
+     "diagram": "os5_vi_modes"
+    },
+    {
+     "h": {
+      "en": "5.3.2 gedit Editor",
+      "gu": "5.3.2 gedit Editor"
+     },
+     "body": {
+      "en": "<p><b>gedit</b> is the default <b>graphical (GUI) text editor</b> of the GNOME desktop (Ubuntu, Fedora). It is easy to use, like Notepad on Windows, with menus and mouse support.</p>\n<ul>\n<li>Start: <code>gedit file.txt &amp;</code> from the terminal (<code>&amp;</code> runs it in the background so the terminal remains free), or from the applications menu.</li>\n<li>Features: syntax highlighting for C, Python, shell, HTML; line numbers; multiple tabs; search and replace (Ctrl+H); spell check; undo/redo; plugins.</li>\n<li>Shortcuts: Ctrl+N new, Ctrl+O open, Ctrl+S save, Ctrl+Shift+S save as, Ctrl+F find, Ctrl+Q quit.</li>\n</ul>\n<h4>vi vs gedit</h4>\n<ul><li>vi works in any terminal (also over SSH, without a GUI); gedit needs a graphical desktop.</li><li>vi is mode-based and keyboard-driven; gedit is modeless and mouse-friendly, easier for beginners.</li><li>Other editors: <b>nano</b> (simple terminal editor), emacs, VS Code.</li></ul>",
+      "gu": "<p><b>gedit</b> એ GNOME desktop (Ubuntu, Fedora) નો default <b>graphical (GUI) text editor</b> છે. તે Windows ના Notepad જેવો, menus અને mouse support સાથે, વાપરવામાં સરળ છે.</p>\n<ul>\n<li>શરૂ કરવા: terminal માંથી <code>gedit file.txt &amp;</code> (<code>&amp;</code> તેને background માં ચલાવે જેથી terminal મુક્ત રહે), અથવા applications menu માંથી.</li>\n<li>Features: C, Python, shell, HTML માટે syntax highlighting; line numbers; ઘણી tabs; search અને replace (Ctrl+H); spell check; undo/redo; plugins.</li>\n<li>Shortcuts: Ctrl+N new, Ctrl+O open, Ctrl+S save, Ctrl+Shift+S save as, Ctrl+F find, Ctrl+Q quit.</li>\n</ul>\n<h4>vi vs gedit</h4>\n<ul><li>vi કોઈ પણ terminal માં (SSH પર, GUI વગર પણ) કામ કરે; gedit ને graphical desktop જોઈએ.</li><li>vi mode-based અને keyboard-driven છે; gedit modeless અને mouse-friendly છે, શરૂઆત કરનારા માટે સરળ.</li><li>બીજા editors: <b>nano</b> (સરળ terminal editor), emacs, VS Code.</li></ul>"
+     }
+    },
+    {
+     "h": {
+      "en": "5.3.3 Compiling C Programs with gcc",
+      "gu": "5.3.3 gcc વડે C Programs Compile કરવા"
+     },
+     "body": {
+      "en": "<p><b>gcc</b> (GNU Compiler Collection) is the standard compiler for C (and C++) on Linux. A C program is written with an editor (vi / gedit), compiled with gcc and run from the shell.</p>\n<h4>Steps</h4>\n<ol><li>Write the program: <code>vi hello.c</code> (or <code>gedit hello.c</code>).</li><li>Compile: <code>gcc hello.c</code> creates the executable <code>a.out</code>; <code>gcc hello.c -o hello</code> names it <code>hello</code>.</li><li>Run: <code>./a.out</code> or <code>./hello</code> (<code>./</code> because the current directory is not in PATH).</li><li>If there are errors, gcc shows the file name, line number and message; edit and compile again.</li></ol>\n<h4>Stages of compilation</h4>\n<ul><li><b>Preprocessing</b> (<code>gcc -E</code>): handles <code>#include</code> and <code>#define</code> → .i</li><li><b>Compilation</b> (<code>gcc -S</code>): C to assembly → .s</li><li><b>Assembly</b> (<code>gcc -c</code>): assembly to object code → .o</li><li><b>Linking</b>: joins object files and libraries (printf from libc) → executable</li></ul>\n<h4>Useful options</h4>\n<p><code>-o name</code> output file, <code>-Wall</code> show all warnings, <code>-g</code> debugging information (for gdb), <code>-lm</code> link the math library (for <code>sqrt</code>, <code>pow</code>), <code>-c</code> compile only.</p>\n<h4>Example (real output)</h4>\n<pre class=\"c\">$ cat hello.c\n#include &lt;stdio.h&gt;\nint main()\n{\n    printf(&quot;Hello, Linux!\\n&quot;);\n    return 0;\n}\n$ gcc hello.c\n$ ls\na.out  hello.c\n$ ./a.out\nHello, Linux!\n$ gcc hello.c -o hello\n$ ./hello\nHello, Linux!</pre>",
+      "gu": "<p><b>gcc</b> (GNU Compiler Collection) એ Linux પર C (અને C++) માટેનો standard compiler છે. C program editor (vi / gedit) થી લખાય, gcc થી compile થાય અને shell માંથી ચલાવાય.</p>\n<h4>પગલાં</h4>\n<ol><li>Program લખો: <code>vi hello.c</code> (અથવા <code>gedit hello.c</code>).</li><li>Compile: <code>gcc hello.c</code> executable <code>a.out</code> બનાવે; <code>gcc hello.c -o hello</code> તેને <code>hello</code> નામ આપે.</li><li>ચલાવો: <code>./a.out</code> અથવા <code>./hello</code> (<code>./</code> કારણ કે current directory PATH માં નથી).</li><li>Errors હોય તો gcc file name, line number અને message બતાવે; સુધારી ફરી compile કરો.</li></ol>\n<h4>Compilation ના તબક્કા</h4>\n<ul><li><b>Preprocessing</b> (<code>gcc -E</code>): <code>#include</code> અને <code>#define</code> સંભાળે → .i</li><li><b>Compilation</b> (<code>gcc -S</code>): C થી assembly → .s</li><li><b>Assembly</b> (<code>gcc -c</code>): assembly થી object code → .o</li><li><b>Linking</b>: object files અને libraries (libc નું printf) જોડે → executable</li></ul>\n<h4>ઉપયોગી options</h4>\n<p><code>-o name</code> output file, <code>-Wall</code> બધી warnings, <code>-g</code> debugging માહિતી (gdb માટે), <code>-lm</code> math library link (<code>sqrt</code>, <code>pow</code> માટે), <code>-c</code> માત્ર compile.</p>\n<h4>ઉદાહરણ (ખરું output)</h4>\n<pre class=\"c\">$ cat hello.c\n#include &lt;stdio.h&gt;\nint main()\n{\n    printf(&quot;Hello, Linux!\\n&quot;);\n    return 0;\n}\n$ gcc hello.c\n$ ls\na.out  hello.c\n$ ./a.out\nHello, Linux!\n$ gcc hello.c -o hello\n$ ./hello\nHello, Linux!</pre>"
+     },
+     "diagram": "os5_gcc"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "5.4 Basic Shell Scripts",
+    "gu": "5.4 Basic Shell Scripts"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "5.4.1 Shell Script Basics: Variables, echo, read",
+      "gu": "5.4.1 Shell Script Basics: Variables, echo, read"
+     },
+     "body": {
+      "en": "<p>A <b>shell script</b> is a text file containing a sequence of shell commands, along with variables, conditions and loops. It is used to automate repetitive tasks (backups, installations, reports).</p>\n<h4>Writing and running a script</h4>\n<ol><li>Create the file: <code>vi first.sh</code></li><li>First line <code>#!/bin/bash</code> (the <b>shebang</b>) tells which interpreter runs it; <code>#</code> starts a comment.</li><li>Run with <code>bash first.sh</code> or <code>sh first.sh</code>; or give execute permission <code>chmod +x first.sh</code> and run <code>./first.sh</code>.</li></ol>\n<pre class=\"c\">#!/bin/bash\n# my first shell script\necho &quot;Today is a good day&quot;\necho -n &quot;Enter your name: &quot;\nread name\necho &quot;Hello, $name&quot;</pre>\n<h4>Variables</h4>\n<ul>\n<li><b>User-defined:</b> <code>name=Ravi</code>, <code>n=10</code> (no spaces around <code>=</code>; no data types, all values are strings). Use with <code>$</code>: <code>echo $name</code> or <code>${name}</code>.</li>\n<li><b>System (environment) variables:</b> <code>$HOME</code>, <code>$PATH</code>, <code>$USER</code>, <code>$SHELL</code>, <code>$PWD</code>.</li>\n<li><code>readonly x</code> makes a constant; <code>unset x</code> removes a variable.</li>\n</ul>\n<h4>echo and read</h4>\n<ul><li><code>echo \"text $var\"</code> prints; <code>-n</code> no newline; <code>-e</code> enables <code>\\n</code>, <code>\\t</code>.</li><li><code>read var</code> reads a line from the keyboard; <code>read a b c</code> reads several words; <code>read -p \"Prompt: \" x</code> shows a prompt.</li></ul>\n<h4>Quotes and command substitution</h4>\n<ul><li><code>\"…\"</code> double quotes: variables are expanded. <code>'…'</code> single quotes: everything literal. <code>\\</code> escapes one character.</li><li><code>today=$(date)</code> or <code>`date`</code> stores the output of a command.</li></ul>",
+      "gu": "<p><b>Shell script</b> એ variables, conditions અને loops સાથેના shell commands નો ક્રમ ધરાવતી text file છે. તેનો ઉપયોગ પુનરાવર્તિત કાર્યો (backups, installations, reports) automate કરવા થાય છે.</p>\n<h4>Script લખવી અને ચલાવવી</h4>\n<ol><li>File બનાવો: <code>vi first.sh</code></li><li>પહેલી line <code>#!/bin/bash</code> (<b>shebang</b>) કહે કે કયો interpreter ચલાવશે; <code>#</code> comment શરૂ કરે.</li><li><code>bash first.sh</code> અથવા <code>sh first.sh</code> થી ચલાવો; અથવા execute permission આપો <code>chmod +x first.sh</code> અને <code>./first.sh</code> ચલાવો.</li></ol>\n<pre class=\"c\">#!/bin/bash\n# my first shell script\necho &quot;Today is a good day&quot;\necho -n &quot;Enter your name: &quot;\nread name\necho &quot;Hello, $name&quot;</pre>\n<h4>Variables</h4>\n<ul>\n<li><b>User-defined:</b> <code>name=Ravi</code>, <code>n=10</code> (<code>=</code> ની આસપાસ spaces નહીં; data types નથી, બધી કિંમતો strings છે). <code>$</code> સાથે વાપરો: <code>echo $name</code> અથવા <code>${name}</code>.</li>\n<li><b>System (environment) variables:</b> <code>$HOME</code>, <code>$PATH</code>, <code>$USER</code>, <code>$SHELL</code>, <code>$PWD</code>.</li>\n<li><code>readonly x</code> constant બનાવે; <code>unset x</code> variable દૂર કરે.</li>\n</ul>\n<h4>echo અને read</h4>\n<ul><li><code>echo \"text $var\"</code> છાપે; <code>-n</code> newline નહીં; <code>-e</code> <code>\\n</code>, <code>\\t</code> ચાલુ કરે.</li><li><code>read var</code> keyboard માંથી line વાંચે; <code>read a b c</code> ઘણા શબ્દો વાંચે; <code>read -p \"Prompt: \" x</code> prompt બતાવે.</li></ul>\n<h4>Quotes અને command substitution</h4>\n<ul><li><code>\"…\"</code> double quotes: variables expand થાય. <code>'…'</code> single quotes: બધું શાબ્દિક. <code>\\</code> એક અક્ષરને escape કરે.</li><li><code>today=$(date)</code> અથવા <code>`date`</code> command નું output રાખે.</li></ul>"
+     },
+     "programs": [
+      "os5p2",
+      "os5p4"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.4.2 Reading Command-Line Arguments",
+      "gu": "5.4.2 Command-Line Arguments વાંચવા"
+     },
+     "body": {
+      "en": "<p>Values can be passed to a script on the command line after its name: <code>bash add.sh 40 60</code>. Inside the script they are available as <b>positional parameters</b>.</p>\n<table><tr><th>Variable</th><th>Meaning</th></tr><tr><td>$0</td><td>Name of the script</td></tr><tr><td>$1 … $9, ${10}</td><td>First to ninth (tenth…) argument</td></tr><tr><td>$#</td><td>Number of arguments</td></tr><tr><td>$@</td><td>All arguments as separate words (\"$@\")</td></tr><tr><td>$*</td><td>All arguments as a single string (\"$*\")</td></tr><tr><td>$?</td><td>Exit status of the last command (0 = success)</td></tr><tr><td>$$</td><td>Process ID (PID) of the current shell</td></tr></table>\n<h4>Points to remember</h4>\n<ul>\n<li>Always check <code>$#</code> and print a usage message if the arguments are missing.</li>\n<li><code>shift</code> shifts the arguments left: <code>$2</code> becomes <code>$1</code>, and <code>$#</code> decreases by 1 (useful in loops).</li>\n<li><code>set a b c</code> sets the positional parameters inside a script.</li>\n<li><code>exit 0</code> ends the script successfully; a non-zero value indicates an error (seen by the caller in <code>$?</code>).</li>\n</ul>",
+      "gu": "<p>Script ના નામ પછી command line પર કિંમતો આપી શકાય: <code>bash add.sh 40 60</code>. Script ની અંદર તે <b>positional parameters</b> તરીકે મળે છે.</p>\n<table><tr><th>Variable</th><th>અર્થ</th></tr><tr><td>$0</td><td>Script નું નામ</td></tr><tr><td>$1 … $9, ${10}</td><td>પહેલાથી નવમો (દસમો…) argument</td></tr><tr><td>$#</td><td>Arguments ની સંખ્યા</td></tr><tr><td>$@</td><td>બધા arguments અલગ શબ્દો તરીકે (\"$@\")</td></tr><tr><td>$*</td><td>બધા arguments એક string તરીકે (\"$*\")</td></tr><tr><td>$?</td><td>છેલ્લા command નો exit status (0 = success)</td></tr><tr><td>$$</td><td>હાલના shell નો Process ID (PID)</td></tr></table>\n<h4>યાદ રાખવાના મુદ્દા</h4>\n<ul>\n<li>હંમેશા <code>$#</code> તપાસો અને arguments ખૂટતા હોય તો usage message છાપો.</li>\n<li><code>shift</code> arguments ને ડાબે ખસેડે: <code>$2</code> એ <code>$1</code> બને, અને <code>$#</code> 1 ઘટે (loops માં ઉપયોગી).</li>\n<li><code>set a b c</code> script ની અંદર positional parameters set કરે.</li>\n<li><code>exit 0</code> script ને સફળતાપૂર્વક પૂરી કરે; non-zero કિંમત error દર્શાવે (caller ને <code>$?</code> માં દેખાય).</li>\n</ul>"
+     },
+     "programs": [
+      "os5p1",
+      "os5p6",
+      "os5p18"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.4.3 Arithmetic, Relational and Logical Operators",
+      "gu": "5.4.3 Arithmetic, Relational અને Logical Operators"
+     },
+     "body": {
+      "en": "<p>Shell variables hold strings, so arithmetic must be done with <code>expr</code>, <code>$(( ))</code> or <code>let</code>. Only <b>integer</b> arithmetic is supported (use <code>bc</code> for decimals: <code>echo \"5/2\" | bc -l</code>).</p>\n<h4>Arithmetic operators</h4>\n<table><tr><th>Operator</th><th>Meaning</th><th>expr form</th><th>$(( )) form</th></tr><tr><td>+</td><td>Addition</td><td>expr $a + $b</td><td>$((a + b))</td></tr><tr><td>-</td><td>Subtraction</td><td>expr $a - $b</td><td>$((a - b))</td></tr><tr><td>*</td><td>Multiplication</td><td>expr $a \\* $b</td><td>$((a * b))</td></tr><tr><td>/</td><td>Integer division</td><td>expr $a / $b</td><td>$((a / b))</td></tr><tr><td>%</td><td>Remainder (modulus)</td><td>expr $a % $b</td><td>$((a % b))</td></tr><tr><td>=</td><td>Assignment</td><td>a=10 (no spaces)</td><td>let a=b+1</td></tr></table>\n<p>With <code>expr</code>, spaces around operators are required and <code>*</code> must be escaped (<code>\\*</code>).</p>\n<h4>Relational operators (for numbers)</h4>\n<table><tr><th>Operator</th><th>Meaning</th><th>Example (a=10, b=20)</th></tr><tr><td>-eq</td><td>equal to</td><td>[ $a -eq $b ] → false</td></tr><tr><td>-ne</td><td>not equal to</td><td>[ $a -ne $b ] → true</td></tr><tr><td>-gt</td><td>greater than</td><td>[ $a -gt $b ] → false</td></tr><tr><td>-ge</td><td>greater than or equal</td><td>[ $a -ge 10 ] → true</td></tr><tr><td>-lt</td><td>less than</td><td>[ $a -lt $b ] → true</td></tr><tr><td>-le</td><td>less than or equal</td><td>[ $b -le 15 ] → false</td></tr></table>\n<p>Inside <code>(( ))</code> the C-style operators <code>== != &gt; &gt;= &lt; &lt;=</code> can be used: <code>if (( a &gt; b ))</code>.</p>\n<h4>Logical operators</h4>\n<table><tr><th>Operator</th><th>Meaning</th><th>Example</th></tr><tr><td>-a</td><td>AND (inside [ ])</td><td>[ $a -gt 0 -a $a -lt 100 ]</td></tr><tr><td>-o</td><td>OR (inside [ ])</td><td>[ $x -eq 1 -o $x -eq 2 ]</td></tr><tr><td>!</td><td>NOT</td><td>[ ! -f file ]</td></tr><tr><td>&amp;&amp;</td><td>AND between commands</td><td>[ $a -gt 0 ] &amp;&amp; [ $a -lt 100 ]</td></tr><tr><td>||</td><td>OR between commands</td><td>[ -f f ] || echo \"missing\"</td></tr></table>",
+      "gu": "<p>Shell variables strings રાખે છે, તેથી arithmetic <code>expr</code>, <code>$(( ))</code> કે <code>let</code> થી કરવું પડે. માત્ર <b>integer</b> arithmetic support છે (decimals માટે <code>bc</code>: <code>echo \"5/2\" | bc -l</code>).</p>\n<h4>Arithmetic operators</h4>\n<table><tr><th>Operator</th><th>અર્થ</th><th>expr સ્વરૂપ</th><th>$(( )) સ્વરૂપ</th></tr><tr><td>+</td><td>સરવાળો</td><td>expr $a + $b</td><td>$((a + b))</td></tr><tr><td>-</td><td>બાદબાકી</td><td>expr $a - $b</td><td>$((a - b))</td></tr><tr><td>*</td><td>ગુણાકાર</td><td>expr $a \\* $b</td><td>$((a * b))</td></tr><tr><td>/</td><td>Integer ભાગાકાર</td><td>expr $a / $b</td><td>$((a / b))</td></tr><tr><td>%</td><td>શેષ (modulus)</td><td>expr $a % $b</td><td>$((a % b))</td></tr><tr><td>=</td><td>Assignment</td><td>a=10 (spaces નહીં)</td><td>let a=b+1</td></tr></table>\n<p><code>expr</code> સાથે operators ની આસપાસ spaces જરૂરી અને <code>*</code> ને escape (<code>\\*</code>) કરવો પડે.</p>\n<h4>Relational operators (સંખ્યાઓ માટે)</h4>\n<table><tr><th>Operator</th><th>અર્થ</th><th>ઉદાહરણ (a=10, b=20)</th></tr><tr><td>-eq</td><td>બરાબર</td><td>[ $a -eq $b ] → false</td></tr><tr><td>-ne</td><td>બરાબર નથી</td><td>[ $a -ne $b ] → true</td></tr><tr><td>-gt</td><td>થી મોટું</td><td>[ $a -gt $b ] → false</td></tr><tr><td>-ge</td><td>થી મોટું કે બરાબર</td><td>[ $a -ge 10 ] → true</td></tr><tr><td>-lt</td><td>થી નાનું</td><td>[ $a -lt $b ] → true</td></tr><tr><td>-le</td><td>થી નાનું કે બરાબર</td><td>[ $b -le 15 ] → false</td></tr></table>\n<p><code>(( ))</code> ની અંદર C-style operators <code>== != &gt; &gt;= &lt; &lt;=</code> વાપરી શકાય: <code>if (( a &gt; b ))</code>.</p>\n<h4>Logical operators</h4>\n<table><tr><th>Operator</th><th>અર્થ</th><th>ઉદાહરણ</th></tr><tr><td>-a</td><td>AND ([ ] ની અંદર)</td><td>[ $a -gt 0 -a $a -lt 100 ]</td></tr><tr><td>-o</td><td>OR ([ ] ની અંદર)</td><td>[ $x -eq 1 -o $x -eq 2 ]</td></tr><tr><td>!</td><td>NOT</td><td>[ ! -f file ]</td></tr><tr><td>&amp;&amp;</td><td>Commands વચ્ચે AND</td><td>[ $a -gt 0 ] &amp;&amp; [ $a -lt 100 ]</td></tr><tr><td>||</td><td>Commands વચ્ચે OR</td><td>[ -f f ] || echo \"missing\"</td></tr></table>"
+     },
+     "programs": [
+      "os5p5",
+      "os5p7",
+      "os5p8"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.4.4 Evaluating Expressions with the test Command",
+      "gu": "5.4.4 test Command વડે Expressions મૂલવવા"
+     },
+     "body": {
+      "en": "<p>The <b>test</b> command evaluates a condition and returns an <b>exit status</b>: <b>0 (true)</b> if the condition holds and <b>1 (false)</b> otherwise. It prints nothing; it is used with <code>if</code>, <code>while</code>, <code>&amp;&amp;</code> and <code>||</code>.</p>\n<p>Two equivalent forms: <code>test $a -gt $b</code> and <code>[ $a -gt $b ]</code>. In the bracket form, <b>spaces after <code>[</code> and before <code>]</code> are compulsory</b>. bash also has <code>[[ … ]]</code>, which allows <code>&amp;&amp;</code>, <code>||</code> and pattern matching inside.</p>\n<h4>Types of tests</h4>\n<table><tr><th>Type</th><th>Test</th><th>True if</th></tr><tr><td>String</td><td>s1 = s2  /  s1 != s2</td><td>strings are equal / not equal</td></tr><tr><td>String</td><td>-z s  /  -n s</td><td>string is empty / not empty</td></tr><tr><td>File</td><td>-e f</td><td>file exists</td></tr><tr><td>File</td><td>-f f  /  -d f</td><td>regular file / directory</td></tr><tr><td>File</td><td>-r f  -w f  -x f</td><td>readable / writable / executable</td></tr><tr><td>File</td><td>-s f</td><td>file exists and size &gt; 0</td></tr><tr><td>Number</td><td>-eq -ne -gt -ge -lt -le</td><td>numeric comparison (see relational operators)</td></tr></table>\n<h4>Examples</h4>\n<ul>\n<li><code>test -f notes.txt &amp;&amp; echo \"exists\"</code></li>\n<li><code>[ \"$ans\" = \"yes\" ]</code> (quote variables so an empty value does not cause an error)</li>\n<li><code>[ -d backup ] || mkdir backup</code></li>\n<li><code>test 5 -eq 5; echo $?</code> prints 0 (true).</li>\n</ul>",
+      "gu": "<p><b>test</b> command શરત મૂલવે છે અને <b>exit status</b> આપે છે: શરત સાચી હોય તો <b>0 (true)</b> અને નહીં તો <b>1 (false)</b>. તે કંઈ છાપતું નથી; તે <code>if</code>, <code>while</code>, <code>&amp;&amp;</code> અને <code>||</code> સાથે વપરાય છે.</p>\n<p>બે સરખા સ્વરૂપ: <code>test $a -gt $b</code> અને <code>[ $a -gt $b ]</code>. Bracket સ્વરૂપમાં <b><code>[</code> પછી અને <code>]</code> પહેલાં spaces ફરજિયાત</b> છે. bash માં <code>[[ … ]]</code> પણ છે, જે અંદર <code>&amp;&amp;</code>, <code>||</code> અને pattern matching મંજૂર કરે છે.</p>\n<h4>Tests ના પ્રકારો</h4>\n<table><tr><th>પ્રકાર</th><th>Test</th><th>ક્યારે true</th></tr><tr><td>String</td><td>s1 = s2  /  s1 != s2</td><td>strings સરખી / જુદી</td></tr><tr><td>String</td><td>-z s  /  -n s</td><td>string ખાલી / ખાલી નથી</td></tr><tr><td>File</td><td>-e f</td><td>file છે</td></tr><tr><td>File</td><td>-f f  /  -d f</td><td>regular file / directory</td></tr><tr><td>File</td><td>-r f  -w f  -x f</td><td>readable / writable / executable</td></tr><tr><td>File</td><td>-s f</td><td>file છે અને size &gt; 0</td></tr><tr><td>Number</td><td>-eq -ne -gt -ge -lt -le</td><td>numeric સરખામણી (relational operators જુઓ)</td></tr></table>\n<h4>ઉદાહરણો</h4>\n<ul>\n<li><code>test -f notes.txt &amp;&amp; echo \"exists\"</code></li>\n<li><code>[ \"$ans\" = \"yes\" ]</code> (variables ને quote કરો જેથી ખાલી કિંમતથી error ન આવે)</li>\n<li><code>[ -d backup ] || mkdir backup</code></li>\n<li><code>test 5 -eq 5; echo $?</code> 0 (true) છાપે.</li>\n</ul>"
+     },
+     "programs": [
+      "os5p11",
+      "os5p12"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.4.5 Branching: if, if...else, if...elif",
+      "gu": "5.4.5 Branching: if, if...else, if...elif"
+     },
+     "body": {
+      "en": "<p>The <b>if</b> statement executes commands depending on the exit status of a condition (usually a <code>test</code>). If the status is 0 (true), the <code>then</code> part runs.</p>\n<h4>Forms</h4>\n<ul><li><b>Simple if:</b> run commands only when the condition is true.</li><li><b>if-else:</b> choose between two blocks.</li><li><b>if-elif-else (ladder):</b> test several conditions in turn; the first true block runs.</li><li><b>Nested if:</b> an if inside another if.</li></ul>\n<pre class=\"c\"># simple if\nif [ $n -gt 0 ]\nthen\n  echo &quot;Positive&quot;\nfi\n\n# if-else\nif [ $n -gt 0 ]; then\n  echo &quot;Positive&quot;\nelse\n  echo &quot;Not positive&quot;\nfi\n\n# if-elif-else ladder\nif [ $n -gt 0 ]; then\n  echo &quot;Positive&quot;\nelif [ $n -lt 0 ]; then\n  echo &quot;Negative&quot;\nelse\n  echo &quot;Zero&quot;\nfi</pre>\n<h4>Rules</h4>\n<ul><li><code>then</code> must be on a new line or after <code>;</code>.</li><li>Every <code>if</code> ends with <code>fi</code> (if written backwards).</li><li>Spaces inside <code>[ ]</code> are required: <code>[ $a -gt $b ]</code>, not <code>[$a -gt $b]</code>.</li></ul>",
+      "gu": "<p><b>if</b> statement શરત (સામાન્ય રીતે <code>test</code>) ના exit status મુજબ commands ચલાવે છે. Status 0 (true) હોય તો <code>then</code> ભાગ ચાલે.</p>\n<h4>સ્વરૂપો</h4>\n<ul><li><b>Simple if:</b> શરત સાચી હોય ત્યારે જ commands ચલાવો.</li><li><b>if-else:</b> બે blocks માંથી એક પસંદ કરો.</li><li><b>if-elif-else (ladder):</b> ઘણી શરતો વારાફરતી તપાસો; પહેલો સાચો block ચાલે.</li><li><b>Nested if:</b> એક if ની અંદર બીજું if.</li></ul>\n<pre class=\"c\"># simple if\nif [ $n -gt 0 ]\nthen\n  echo &quot;Positive&quot;\nfi\n\n# if-else\nif [ $n -gt 0 ]; then\n  echo &quot;Positive&quot;\nelse\n  echo &quot;Not positive&quot;\nfi\n\n# if-elif-else ladder\nif [ $n -gt 0 ]; then\n  echo &quot;Positive&quot;\nelif [ $n -lt 0 ]; then\n  echo &quot;Negative&quot;\nelse\n  echo &quot;Zero&quot;\nfi</pre>\n<h4>નિયમો</h4>\n<ul><li><code>then</code> નવી line પર કે <code>;</code> પછી હોવું જોઈએ.</li><li>દરેક <code>if</code> <code>fi</code> (if ઊંધું) થી પૂરું થાય.</li><li><code>[ ]</code> ની અંદર spaces જરૂરી: <code>[ $a -gt $b ]</code>, <code>[$a -gt $b]</code> નહીં.</li></ul>"
+     },
+     "diagram": "os5_if",
+     "programs": [
+      "os5p9",
+      "os5p10",
+      "os5p3"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.4.6 Branching: case Statement",
+      "gu": "5.4.6 Branching: case Statement"
+     },
+     "body": {
+      "en": "<p>The <b>case</b> statement is a multi-way branch, a cleaner alternative to a long if-elif ladder when one value is compared with many patterns (menus, choices).</p>\n<pre class=\"c\">case $var in\n  pattern1) commands ;;\n  pattern2|pattern3) commands ;;\n  *) default commands ;;\nesac</pre>\n<h4>Working</h4>\n<ul>\n<li>The value of <code>$var</code> is compared with each pattern from top to bottom.</li>\n<li>The commands of the <b>first matching</b> pattern run up to <code>;;</code>, then control goes to <code>esac</code>.</li>\n<li><code>*)</code> matches anything and acts as the <b>default</b>; it is written last.</li>\n<li>Patterns may use wildcards: <code>[aeiou]</code>, <code>[0-9]</code>, <code>[a-z]*</code>, and <code>|</code> for alternatives (<code>y|Y|yes)</code>).</li>\n<li>The statement ends with <code>esac</code> (case written backwards).</li>\n</ul>",
+      "gu": "<p><b>case</b> statement multi-way branch છે; એક કિંમતને ઘણા patterns સાથે સરખાવવાની હોય (menus, choices) ત્યારે લાંબા if-elif ladder નો સ્વચ્છ વિકલ્પ છે.</p>\n<pre class=\"c\">case $var in\n  pattern1) commands ;;\n  pattern2|pattern3) commands ;;\n  *) default commands ;;\nesac</pre>\n<h4>કાર્યપદ્ધતિ</h4>\n<ul>\n<li><code>$var</code> ની કિંમત ઉપરથી નીચે દરેક pattern સાથે સરખાવાય.</li>\n<li><b>પહેલા મેળ ખાતા</b> pattern ના commands <code>;;</code> સુધી ચાલે, પછી control <code>esac</code> પર જાય.</li>\n<li><code>*)</code> કંઈ પણ સાથે મેળ ખાય અને <b>default</b> તરીકે કામ કરે; તે છેલ્લે લખાય.</li>\n<li>Patterns માં wildcards વાપરી શકાય: <code>[aeiou]</code>, <code>[0-9]</code>, <code>[a-z]*</code>, અને વિકલ્પો માટે <code>|</code> (<code>y|Y|yes)</code>).</li>\n<li>Statement <code>esac</code> (case ઊંધું) થી પૂરું થાય.</li>\n</ul>"
+     },
+     "diagram": "os5_case",
+     "programs": [
+      "os5p13",
+      "os5p14"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.4.7 Looping: while Loop",
+      "gu": "5.4.7 Looping: while Loop"
+     },
+     "body": {
+      "en": "<p>A <b>loop</b> repeats a set of commands. The <b>while</b> loop repeats the body <b>as long as the condition is true</b> (exit status 0). It is used when the number of repetitions is not known in advance.</p>\n<pre class=\"c\">i=1\nwhile [ $i -le 5 ]\ndo\n  echo $i\n  i=`expr $i + 1`\ndone\n\n# until: repeats while condition is FALSE\nuntil [ $i -gt 5 ]; do ...; done</pre>\n<h4>Working</h4>\n<ol><li>Initialise the loop variable (<code>i=1</code>).</li><li>Test the condition; if false, jump after <code>done</code>.</li><li>Execute the body between <code>do</code> and <code>done</code>.</li><li><b>Update</b> the variable (otherwise the loop never ends), then go back to step 2.</li></ol>\n<h4>Loop control</h4>\n<ul><li><code>break</code> exits the loop immediately; <code>continue</code> skips to the next iteration.</li><li><code>while true</code> or <code>while :</code> creates an infinite loop (stop with <code>break</code> or Ctrl+C).</li><li><code>while read line; do … done &lt; file</code> reads a file line by line.</li></ul>",
+      "gu": "<p><b>Loop</b> commands ના સમૂહને ફરી ફરી ચલાવે છે. <b>while</b> loop <b>શરત સાચી રહે ત્યાં સુધી</b> (exit status 0) body ફરી ચલાવે છે. પુનરાવર્તનોની સંખ્યા અગાઉથી ખબર ન હોય ત્યારે વપરાય.</p>\n<pre class=\"c\">i=1\nwhile [ $i -le 5 ]\ndo\n  echo $i\n  i=`expr $i + 1`\ndone\n\n# until: repeats while condition is FALSE\nuntil [ $i -gt 5 ]; do ...; done</pre>\n<h4>કાર્યપદ્ધતિ</h4>\n<ol><li>Loop variable initialise કરો (<code>i=1</code>).</li><li>શરત તપાસો; ખોટી હોય તો <code>done</code> પછી જાઓ.</li><li><code>do</code> અને <code>done</code> વચ્ચેની body ચલાવો.</li><li>Variable <b>update</b> કરો (નહીં તો loop ક્યારેય પૂરો ન થાય), પછી step 2 પર પાછા.</li></ol>\n<h4>Loop control</h4>\n<ul><li><code>break</code> loop માંથી તરત બહાર નીકળે; <code>continue</code> આગળના iteration પર જાય.</li><li><code>while true</code> અથવા <code>while :</code> infinite loop બનાવે (<code>break</code> કે Ctrl+C થી બંધ).</li><li><code>while read line; do … done &lt; file</code> file ને line દર line વાંચે.</li></ul>"
+     },
+     "diagram": "os5_while",
+     "programs": [
+      "os5p15",
+      "os5p16"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.4.8 Looping: for Loop",
+      "gu": "5.4.8 Looping: for Loop"
+     },
+     "body": {
+      "en": "<p>The <b>for</b> loop executes the body <b>once for each item in a list</b>; the loop variable takes the items one by one. It is used when the items (or the count) are known.</p>\n<pre class=\"c\">for name in list\ndo\n  commands\ndone\n\nfor i in 1 2 3 4 5     # list of words\nfor i in {1..10}       # range\nfor f in *.txt         # file names\nfor x in &quot;$@&quot;          # all arguments\nfor (( i=1; i&lt;=5; i++ ))   # C-style</pre>\n<h4>Working</h4>\n<ol><li>The first item of the list is assigned to the variable.</li><li>The body between <code>do</code> and <code>done</code> runs.</li><li>The next item is assigned and the body runs again, until the list is finished.</li></ol>\n<h4>while vs for</h4>\n<ul><li><b>while</b>: condition-controlled; the variable must be updated by the programmer.</li><li><b>for</b>: list-controlled; the shell assigns each item automatically.</li><li>Both support <code>break</code> and <code>continue</code> and end with <code>done</code>.</li></ul>",
+      "gu": "<p><b>for</b> loop <b>યાદીની દરેક item માટે એક વાર</b> body ચલાવે છે; loop variable items ને એક પછી એક લે છે. Items (કે સંખ્યા) ખબર હોય ત્યારે વપરાય.</p>\n<pre class=\"c\">for name in list\ndo\n  commands\ndone\n\nfor i in 1 2 3 4 5     # list of words\nfor i in {1..10}       # range\nfor f in *.txt         # file names\nfor x in &quot;$@&quot;          # all arguments\nfor (( i=1; i&lt;=5; i++ ))   # C-style</pre>\n<h4>કાર્યપદ્ધતિ</h4>\n<ol><li>યાદીની પહેલી item variable ને અપાય.</li><li><code>do</code> અને <code>done</code> વચ્ચેની body ચાલે.</li><li>આગળની item અપાય અને body ફરી ચાલે, યાદી પૂરી થાય ત્યાં સુધી.</li></ol>\n<h4>while vs for</h4>\n<ul><li><b>while</b>: condition-controlled; variable programmer એ update કરવો પડે.</li><li><b>for</b>: list-controlled; shell દરેક item આપમેળે આપે.</li><li>બંને <code>break</code> અને <code>continue</code> support કરે અને <code>done</code> થી પૂરા થાય.</li></ul>"
+     },
+     "diagram": "os5_for",
+     "programs": [
+      "os5p17"
+     ]
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "os5p1",
+   "title": {
+    "en": "Practical 9: Print Hello using a command-line argument",
+    "gu": "Practical 9: Command-line argument વડે Hello છાપો"
+   },
+   "code": {
+    "en": "#!/bin/bash\n# Practical 9: read a name from the\n# command line and print Hello\nif [ $# -eq 0 ]\nthen\n  echo \"Usage: bash hello.sh <name>\"\n  exit 1\nfi\necho \"Hello\"\necho \"Hello, $1! Welcome to Linux.\"\necho \"Script name : $0\"\necho \"No. of args : $#\"",
+    "gu": "#!/bin/bash\n# Practical 9: read a name from the\n# command line and print Hello\nif [ $# -eq 0 ]\nthen\n  echo \"Usage: bash hello.sh <name>\"\n  exit 1\nfi\necho \"Hello\"\necho \"Hello, $1! Welcome to Linux.\"\necho \"Script name : $0\"\necho \"No. of args : $#\""
+   },
+   "out": "$ bash hello.sh Ravi\nHello\nHello, Ravi! Welcome to Linux.\nScript name : hello.sh\nNo. of args : 1\n\n$ bash hello.sh\nUsage: bash hello.sh <name>",
+   "expl": {
+    "en": "<p><code>$1</code> is the first command-line argument, <code>$#</code> the number of arguments and <code>$0</code> the script name. If no name is given, a usage message is printed and the script exits with status 1.</p>",
+    "gu": "<p><code>$1</code> પહેલો command-line argument, <code>$#</code> arguments ની સંખ્યા અને <code>$0</code> script નું નામ છે. નામ ન આપ્યું હોય તો usage message છાપી script status 1 સાથે exit થાય છે.</p>"
+   }
+  },
+  {
+   "id": "os5p2",
+   "title": {
+    "en": "Print Hello using read (keyboard input)",
+    "gu": "read (keyboard input) વડે Hello છાપો"
+   },
+   "code": {
+    "en": "#!/bin/bash\necho -n \"Enter your name: \"\nread name\necho \"Hello, $name\"",
+    "gu": "#!/bin/bash\necho -n \"Enter your name: \"\nread name\necho \"Hello, $name\""
+   },
+   "out": "$ bash script.sh\nEnter your name: Priya\nHello, Priya",
+   "expl": {
+    "en": "<p><code>read name</code> waits for the user to type a line and stores it in the variable <code>name</code>. <code>echo -n</code> prints the prompt without a newline. A variable is used with <code>$</code>: <code>$name</code>.</p>",
+    "gu": "<p><code>read name</code> user એક line type કરે તેની રાહ જુએ છે અને તેને variable <code>name</code> માં રાખે છે. <code>echo -n</code> newline વગર prompt છાપે છે. Variable ને <code>$</code> સાથે વાપરાય: <code>$name</code>.</p>"
+   }
+  },
+  {
+   "id": "os5p3",
+   "title": {
+    "en": "Practical 10: Display a file and append it to another file",
+    "gu": "Practical 10: File બતાવો અને બીજી file માં append કરો"
+   },
+   "code": {
+    "en": "#!/bin/bash\necho -n \"Enter first file name: \"\nread f1\necho -n \"Enter second file name: \"\nread f2\nif [ ! -f \"$f1\" ]\nthen\n  echo \"$f1 does not exist\"\n  exit 1\nfi\necho \"--- Contents of $f1 ---\"\ncat \"$f1\"\ncat \"$f1\" >> \"$f2\"\necho \"--- $f2 after appending ---\"\ncat \"$f2\"",
+    "gu": "#!/bin/bash\necho -n \"Enter first file name: \"\nread f1\necho -n \"Enter second file name: \"\nread f2\nif [ ! -f \"$f1\" ]\nthen\n  echo \"$f1 does not exist\"\n  exit 1\nfi\necho \"--- Contents of $f1 ---\"\ncat \"$f1\"\ncat \"$f1\" >> \"$f2\"\necho \"--- $f2 after appending ---\"\ncat \"$f2\""
+   },
+   "out": "$ bash script.sh\nEnter first file name: a.txt\nEnter second file name: b.txt\n--- Contents of a.txt ---\nOperating System\nUnit 5: Linux\n--- b.txt after appending ---\nGTU Diploma\nOperating System\nUnit 5: Linux",
+   "expl": {
+    "en": "<p><code>[ ! -f \"$f1\" ]</code> checks that the first file exists. <code>cat f1</code> displays it, and <code>cat f1 &gt;&gt; f2</code> <b>appends</b> it to the end of f2 (<code>&gt;</code> would overwrite f2).</p>",
+    "gu": "<p><code>[ ! -f \"$f1\" ]</code> પહેલી file છે કે નહીં તે તપાસે છે. <code>cat f1</code> તેને બતાવે છે, અને <code>cat f1 &gt;&gt; f2</code> તેને f2 ના અંતે <b>append</b> કરે છે (<code>&gt;</code> f2 ને overwrite કરે).</p>"
+   }
+  },
+  {
+   "id": "os5p4",
+   "title": {
+    "en": "Practical 11: Convert a lower-case string to upper case",
+    "gu": "Practical 11: Lower-case string ને upper case માં ફેરવો"
+   },
+   "code": {
+    "en": "#!/bin/bash\necho -n \"Enter a string in lower case: \"\nread str\nup=$(echo \"$str\" | tr 'a-z' 'A-Z')\necho \"Upper case : $up\"\n# bash 4+ shortcut\necho \"Using \\${str^^}: ${str^^}\"",
+    "gu": "#!/bin/bash\necho -n \"Enter a string in lower case: \"\nread str\nup=$(echo \"$str\" | tr 'a-z' 'A-Z')\necho \"Upper case : $up\"\n# bash 4+ shortcut\necho \"Using \\${str^^}: ${str^^}\""
+   },
+   "out": "$ bash script.sh\nEnter a string in lower case: hello gtu students\nUpper case : HELLO GTU STUDENTS\nUsing ${str^^}: HELLO GTU STUDENTS",
+   "expl": {
+    "en": "<p><code>tr 'a-z' 'A-Z'</code> translates every lower-case letter to upper case. The output of the pipe is stored using <b>command substitution</b> <code>$( … )</code>. In bash 4+, <code>${str^^}</code> also converts to upper case (<code>${str,,}</code> to lower).</p>",
+    "gu": "<p><code>tr 'a-z' 'A-Z'</code> દરેક lower-case અક્ષરને upper case માં ફેરવે છે. Pipe નું output <b>command substitution</b> <code>$( … )</code> વડે રખાય છે. bash 4+ માં <code>${str^^}</code> પણ upper case માં ફેરવે છે (<code>${str,,}</code> lower માં).</p>"
+   }
+  },
+  {
+   "id": "os5p5",
+   "title": {
+    "en": "Practical 12: Add two numbers",
+    "gu": "Practical 12: બે સંખ્યાઓનો સરવાળો"
+   },
+   "code": {
+    "en": "#!/bin/bash\necho -n \"Enter first number: \"\nread a\necho -n \"Enter second number: \"\nread b\nsum=`expr $a + $b`\necho \"Sum using expr : $sum\"\necho \"Sum using \\$(( )): $((a + b))\"",
+    "gu": "#!/bin/bash\necho -n \"Enter first number: \"\nread a\necho -n \"Enter second number: \"\nread b\nsum=`expr $a + $b`\necho \"Sum using expr : $sum\"\necho \"Sum using \\$(( )): $((a + b))\""
+   },
+   "out": "$ bash script.sh\nEnter first number: 25\nEnter second number: 17\nSum using expr : 42\nSum using $(( )): 42",
+   "expl": {
+    "en": "<p>Shell variables are strings, so arithmetic needs <code>expr</code> (spaces around <code>+</code> are required) or the arithmetic expansion <code>$(( ))</code>. Back-quotes <code>`…`</code> are the old form of command substitution.</p>",
+    "gu": "<p>Shell variables strings છે, તેથી arithmetic માટે <code>expr</code> (<code>+</code> ની આસપાસ spaces જરૂરી) અથવા arithmetic expansion <code>$(( ))</code> જોઈએ. Back-quotes <code>`…`</code> command substitution નું જૂનું સ્વરૂપ છે.</p>"
+   }
+  },
+  {
+   "id": "os5p6",
+   "title": {
+    "en": "Add two numbers given as command-line arguments",
+    "gu": "Command-line arguments તરીકે આપેલી બે સંખ્યાઓનો સરવાળો"
+   },
+   "code": {
+    "en": "#!/bin/bash\nif [ $# -ne 2 ]\nthen\n  echo \"Usage: bash add.sh num1 num2\"\n  exit 1\nfi\necho \"$1 + $2 = $(($1 + $2))\"",
+    "gu": "#!/bin/bash\nif [ $# -ne 2 ]\nthen\n  echo \"Usage: bash add.sh num1 num2\"\n  exit 1\nfi\necho \"$1 + $2 = $(($1 + $2))\""
+   },
+   "out": "$ bash add.sh 40 60\n40 + 60 = 100\n\n$ bash add.sh 5\nUsage: bash add.sh num1 num2",
+   "expl": {
+    "en": "<p><code>[ $# -ne 2 ]</code> checks that exactly two arguments are given. <code>$1</code> and <code>$2</code> are the positional parameters.</p>",
+    "gu": "<p><code>[ $# -ne 2 ]</code> બરાબર બે arguments આપ્યા છે કે નહીં તે તપાસે છે. <code>$1</code> અને <code>$2</code> positional parameters છે.</p>"
+   }
+  },
+  {
+   "id": "os5p7",
+   "title": {
+    "en": "Arithmetic operators",
+    "gu": "Arithmetic operators"
+   },
+   "code": {
+    "en": "#!/bin/bash\na=17\nb=5\necho \"a + b = `expr $a + $b`\"\necho \"a - b = `expr $a - $b`\"\necho \"a * b = `expr $a \\* $b`\"\necho \"a / b = `expr $a / $b`\"\necho \"a % b = `expr $a % $b`\"\necho \"a ** 2 = $((a ** 2))\"\nlet c=a+b\necho \"let c=a+b -> $c\"",
+    "gu": "#!/bin/bash\na=17\nb=5\necho \"a + b = `expr $a + $b`\"\necho \"a - b = `expr $a - $b`\"\necho \"a * b = `expr $a \\* $b`\"\necho \"a / b = `expr $a / $b`\"\necho \"a % b = `expr $a % $b`\"\necho \"a ** 2 = $((a ** 2))\"\nlet c=a+b\necho \"let c=a+b -> $c\""
+   },
+   "out": "$ bash script.sh\na + b = 22\na - b = 12\na * b = 85\na / b = 3\na % b = 2\na ** 2 = 289\nlet c=a+b -> 22",
+   "expl": {
+    "en": "<p>With <code>expr</code>, <code>*</code> must be escaped as <code>\\*</code> (otherwise the shell expands it to file names). Division is integer division: 17 / 5 = 3, remainder 2. <code>let</code> and <code>$(( ))</code> do not need spaces or escapes.</p>",
+    "gu": "<p><code>expr</code> સાથે <code>*</code> ને <code>\\*</code> તરીકે escape કરવો પડે (નહીં તો shell તેને file names માં ફેરવે). Division integer division છે: 17 / 5 = 3, શેષ 2. <code>let</code> અને <code>$(( ))</code> ને spaces કે escapes ની જરૂર નથી.</p>"
+   }
+  },
+  {
+   "id": "os5p8",
+   "title": {
+    "en": "Relational and logical operators (marks in range)",
+    "gu": "Relational અને logical operators (marks range માં)"
+   },
+   "code": {
+    "en": "#!/bin/bash\necho -n \"Enter marks (0-100): \"\nread m\nif [ $m -ge 0 -a $m -le 100 ]\nthen\n  echo \"Valid marks\"\nelse\n  echo \"Invalid marks\"\nfi\nif [ $m -ge 35 ] && [ $m -le 100 ]\nthen\n  echo \"Result: PASS\"\nelif [ $m -ge 0 -a $m -lt 35 ]\nthen\n  echo \"Result: FAIL\"\nfi",
+    "gu": "#!/bin/bash\necho -n \"Enter marks (0-100): \"\nread m\nif [ $m -ge 0 -a $m -le 100 ]\nthen\n  echo \"Valid marks\"\nelse\n  echo \"Invalid marks\"\nfi\nif [ $m -ge 35 ] && [ $m -le 100 ]\nthen\n  echo \"Result: PASS\"\nelif [ $m -ge 0 -a $m -lt 35 ]\nthen\n  echo \"Result: FAIL\"\nfi"
+   },
+   "out": "$ bash script.sh\nEnter marks (0-100): 72\nValid marks\nResult: PASS\n\n$ bash script.sh\nEnter marks (0-100): 20\nValid marks\nResult: FAIL\n\n$ bash script.sh\nEnter marks (0-100): 150\nInvalid marks",
+   "expl": {
+    "en": "<p>Relational operators for numbers: <code>-eq -ne -gt -ge -lt -le</code>. Logical operators inside <code>[ ]</code>: <code>-a</code> (AND), <code>-o</code> (OR), <code>!</code> (NOT); between commands: <code>&amp;&amp;</code> and <code>||</code>.</p>",
+    "gu": "<p>સંખ્યાઓ માટે relational operators: <code>-eq -ne -gt -ge -lt -le</code>. <code>[ ]</code> ની અંદર logical operators: <code>-a</code> (AND), <code>-o</code> (OR), <code>!</code> (NOT); commands વચ્ચે: <code>&amp;&amp;</code> અને <code>||</code>.</p>"
+   }
+  },
+  {
+   "id": "os5p9",
+   "title": {
+    "en": "Even or odd (if-else)",
+    "gu": "Even કે odd (if-else)"
+   },
+   "code": {
+    "en": "#!/bin/bash\necho -n \"Enter a number: \"\nread n\nif [ `expr $n % 2` -eq 0 ]\nthen\n  echo \"$n is even\"\nelse\n  echo \"$n is odd\"\nfi",
+    "gu": "#!/bin/bash\necho -n \"Enter a number: \"\nread n\nif [ `expr $n % 2` -eq 0 ]\nthen\n  echo \"$n is even\"\nelse\n  echo \"$n is odd\"\nfi"
+   },
+   "out": "$ bash script.sh\nEnter a number: 14\n14 is even\n\n$ bash script.sh\nEnter a number: 7\n7 is odd",
+   "expl": {
+    "en": "<p>The remainder <code>n % 2</code> is 0 for even numbers. Note the required spaces inside <code>[ … ]</code> and the closing <code>fi</code>.</p>",
+    "gu": "<p>Even સંખ્યા માટે શેષ <code>n % 2</code> 0 હોય છે. <code>[ … ]</code> ની અંદર જરૂરી spaces અને અંતે <code>fi</code> નોંધો.</p>"
+   }
+  },
+  {
+   "id": "os5p10",
+   "title": {
+    "en": "Largest of three numbers (if-elif-else)",
+    "gu": "ત્રણ સંખ્યાઓમાં સૌથી મોટી (if-elif-else)"
+   },
+   "code": {
+    "en": "#!/bin/bash\necho -n \"Enter three numbers: \"\nread a b c\nif [ $a -ge $b -a $a -ge $c ]\nthen\n  echo \"Largest = $a\"\nelif [ $b -ge $c ]\nthen\n  echo \"Largest = $b\"\nelse\n  echo \"Largest = $c\"\nfi",
+    "gu": "#!/bin/bash\necho -n \"Enter three numbers: \"\nread a b c\nif [ $a -ge $b -a $a -ge $c ]\nthen\n  echo \"Largest = $a\"\nelif [ $b -ge $c ]\nthen\n  echo \"Largest = $b\"\nelse\n  echo \"Largest = $c\"\nfi"
+   },
+   "out": "$ bash script.sh\nEnter three numbers: 45 82 19\nLargest = 82",
+   "expl": {
+    "en": "<p><code>read a b c</code> splits one input line into three variables. The <code>if … elif … else … fi</code> ladder tests the conditions one after another.</p>",
+    "gu": "<p><code>read a b c</code> એક input line ને ત્રણ variables માં વહેંચે છે. <code>if … elif … else … fi</code> ladder conditions એક પછી એક તપાસે છે.</p>"
+   }
+  },
+  {
+   "id": "os5p11",
+   "title": {
+    "en": "File test operators using test",
+    "gu": "test વડે file test operators"
+   },
+   "code": {
+    "en": "#!/bin/bash\nfor f in notes.txt os missing.txt\ndo\n  if test -f $f\n  then\n    echo \"$f : regular file\"\n  elif test -d $f\n  then\n    echo \"$f : directory\"\n  else\n    echo \"$f : does not exist\"\n  fi\ndone\nf=notes.txt\n[ -r $f ] && echo \"$f is readable\"\n[ -s $f ] && echo \"$f is not empty\"",
+    "gu": "#!/bin/bash\nfor f in notes.txt os missing.txt\ndo\n  if test -f $f\n  then\n    echo \"$f : regular file\"\n  elif test -d $f\n  then\n    echo \"$f : directory\"\n  else\n    echo \"$f : does not exist\"\n  fi\ndone\nf=notes.txt\n[ -r $f ] && echo \"$f is readable\"\n[ -s $f ] && echo \"$f is not empty\""
+   },
+   "out": "$ bash script.sh\nnotes.txt : regular file\nos : directory\nmissing.txt : does not exist\nnotes.txt is readable\nnotes.txt is not empty",
+   "expl": {
+    "en": "<p><code>test expr</code> and <code>[ expr ]</code> are the same. File tests: <code>-e</code> exists, <code>-f</code> regular file, <code>-d</code> directory, <code>-r -w -x</code> permissions, <code>-s</code> size &gt; 0.</p>",
+    "gu": "<p><code>test expr</code> અને <code>[ expr ]</code> સરખા છે. File tests: <code>-e</code> exists, <code>-f</code> regular file, <code>-d</code> directory, <code>-r -w -x</code> permissions, <code>-s</code> size &gt; 0.</p>"
+   }
+  },
+  {
+   "id": "os5p12",
+   "title": {
+    "en": "String comparison and length",
+    "gu": "String comparison અને length"
+   },
+   "code": {
+    "en": "#!/bin/bash\necho -n \"Enter password: \"\nread p\nif [ -z \"$p\" ]\nthen\n  echo \"Empty password\"\nelif [ \"$p\" = \"gtu123\" ]\nthen\n  echo \"Login successful\"\nelse\n  echo \"Wrong password\"\nfi\necho \"Length of input = ${#p}\"",
+    "gu": "#!/bin/bash\necho -n \"Enter password: \"\nread p\nif [ -z \"$p\" ]\nthen\n  echo \"Empty password\"\nelif [ \"$p\" = \"gtu123\" ]\nthen\n  echo \"Login successful\"\nelse\n  echo \"Wrong password\"\nfi\necho \"Length of input = ${#p}\""
+   },
+   "out": "$ bash script.sh\nEnter password: gtu123\nLogin successful\nLength of input = 6\n\n$ bash script.sh\nEnter password: abc\nWrong password\nLength of input = 3",
+   "expl": {
+    "en": "<p>String tests: <code>=</code> equal, <code>!=</code> not equal, <code>-z</code> empty, <code>-n</code> not empty. Always quote string variables (<code>\"$p\"</code>) so an empty value does not cause an error. <code>${#p}</code> gives the length.</p>",
+    "gu": "<p>String tests: <code>=</code> equal, <code>!=</code> not equal, <code>-z</code> empty, <code>-n</code> not empty. String variables ને હંમેશા quote કરો (<code>\"$p\"</code>) જેથી ખાલી કિંમતથી error ન આવે. <code>${#p}</code> length આપે છે.</p>"
+   }
+  },
+  {
+   "id": "os5p13",
+   "title": {
+    "en": "Menu-driven calculator (case)",
+    "gu": "Menu-driven calculator (case)"
+   },
+   "code": {
+    "en": "#!/bin/bash\necho -n \"Enter two numbers: \"\nread a b\necho \"1.Add 2.Subtract 3.Multiply 4.Divide\"\necho -n \"Enter choice: \"\nread ch\ncase $ch in\n  1) echo \"Sum = $((a + b))\" ;;\n  2) echo \"Difference = $((a - b))\" ;;\n  3) echo \"Product = $((a * b))\" ;;\n  4) if [ $b -eq 0 ]; then\n       echo \"Cannot divide by zero\"\n     else\n       echo \"Quotient = $((a / b))\"\n     fi ;;\n  *) echo \"Invalid choice\" ;;\nesac",
+    "gu": "#!/bin/bash\necho -n \"Enter two numbers: \"\nread a b\necho \"1.Add 2.Subtract 3.Multiply 4.Divide\"\necho -n \"Enter choice: \"\nread ch\ncase $ch in\n  1) echo \"Sum = $((a + b))\" ;;\n  2) echo \"Difference = $((a - b))\" ;;\n  3) echo \"Product = $((a * b))\" ;;\n  4) if [ $b -eq 0 ]; then\n       echo \"Cannot divide by zero\"\n     else\n       echo \"Quotient = $((a / b))\"\n     fi ;;\n  *) echo \"Invalid choice\" ;;\nesac"
+   },
+   "out": "$ bash script.sh\nEnter two numbers: 20 4\n1.Add 2.Subtract 3.Multiply 4.Divide\nEnter choice: 3\nProduct = 80\n\n$ bash script.sh\nEnter two numbers: 20 0\n1.Add 2.Subtract 3.Multiply 4.Divide\nEnter choice: 4\nCannot divide by zero",
+   "expl": {
+    "en": "<p><code>case</code> compares <code>$ch</code> with each pattern; the matching block runs until <code>;;</code>. <code>*)</code> is the default case. The statement ends with <code>esac</code>.</p>",
+    "gu": "<p><code>case</code> <code>$ch</code> ને દરેક pattern સાથે સરખાવે છે; મેળ ખાતો block <code>;;</code> સુધી ચાલે છે. <code>*)</code> default case છે. Statement <code>esac</code> થી પૂરું થાય છે.</p>"
+   }
+  },
+  {
+   "id": "os5p14",
+   "title": {
+    "en": "Vowel or consonant (case with patterns)",
+    "gu": "Vowel કે consonant (patterns સાથે case)"
+   },
+   "code": {
+    "en": "#!/bin/bash\necho -n \"Enter a character: \"\nread c\ncase $c in\n  [aeiouAEIOU]) echo \"$c is a vowel\" ;;\n  [a-zA-Z]) echo \"$c is a consonant\" ;;\n  [0-9]) echo \"$c is a digit\" ;;\n  *) echo \"$c is a special symbol\" ;;\nesac",
+    "gu": "#!/bin/bash\necho -n \"Enter a character: \"\nread c\ncase $c in\n  [aeiouAEIOU]) echo \"$c is a vowel\" ;;\n  [a-zA-Z]) echo \"$c is a consonant\" ;;\n  [0-9]) echo \"$c is a digit\" ;;\n  *) echo \"$c is a special symbol\" ;;\nesac"
+   },
+   "out": "$ bash script.sh\nEnter a character: e\ne is a vowel\n\n$ bash script.sh\nEnter a character: k\nk is a consonant\n\n$ bash script.sh\nEnter a character: 7\n7 is a digit",
+   "expl": {
+    "en": "<p>case patterns can use wildcards: <code>[aeiou]</code> any one of the listed characters, <code>[a-z]</code> a range, <code>*</code> anything, and <code>|</code> for alternatives (<code>yes|y)</code>).</p>",
+    "gu": "<p>case patterns માં wildcards વાપરી શકાય: <code>[aeiou]</code> યાદીમાંનો કોઈ એક અક્ષર, <code>[a-z]</code> range, <code>*</code> કંઈ પણ, અને વિકલ્પો માટે <code>|</code> (<code>yes|y)</code>).</p>"
+   }
+  },
+  {
+   "id": "os5p15",
+   "title": {
+    "en": "Factorial of a number (while loop)",
+    "gu": "સંખ્યાનો factorial (while loop)"
+   },
+   "code": {
+    "en": "#!/bin/bash\necho -n \"Enter a number: \"\nread n\nfact=1\ni=1\nwhile [ $i -le $n ]\ndo\n  fact=`expr $fact \\* $i`\n  i=`expr $i + 1`\ndone\necho \"Factorial of $n = $fact\"",
+    "gu": "#!/bin/bash\necho -n \"Enter a number: \"\nread n\nfact=1\ni=1\nwhile [ $i -le $n ]\ndo\n  fact=`expr $fact \\* $i`\n  i=`expr $i + 1`\ndone\necho \"Factorial of $n = $fact\""
+   },
+   "out": "$ bash script.sh\nEnter a number: 6\nFactorial of 6 = 720",
+   "expl": {
+    "en": "<p>The <code>while</code> loop repeats the body between <code>do</code> and <code>done</code> as long as the condition is true. Here i goes from 1 to n and fact = 1 × 2 × … × n.</p>",
+    "gu": "<p><code>while</code> loop શરત સાચી રહે ત્યાં સુધી <code>do</code> અને <code>done</code> વચ્ચેનો ભાગ ફરી ફરી ચલાવે છે. અહીં i 1 થી n સુધી જાય છે અને fact = 1 × 2 × … × n.</p>"
+   }
+  },
+  {
+   "id": "os5p16",
+   "title": {
+    "en": "Sum of digits and reverse of a number (while)",
+    "gu": "સંખ્યાના અંકોનો સરવાળો અને reverse (while)"
+   },
+   "code": {
+    "en": "#!/bin/bash\necho -n \"Enter a number: \"\nread n\nnum=$n\nsum=0\nrev=0\nwhile [ $n -gt 0 ]\ndo\n  d=$((n % 10))\n  sum=$((sum + d))\n  rev=$((rev * 10 + d))\n  n=$((n / 10))\ndone\necho \"Sum of digits of $num = $sum\"\necho \"Reverse of $num = $rev\"",
+    "gu": "#!/bin/bash\necho -n \"Enter a number: \"\nread n\nnum=$n\nsum=0\nrev=0\nwhile [ $n -gt 0 ]\ndo\n  d=$((n % 10))\n  sum=$((sum + d))\n  rev=$((rev * 10 + d))\n  n=$((n / 10))\ndone\necho \"Sum of digits of $num = $sum\"\necho \"Reverse of $num = $rev\""
+   },
+   "out": "$ bash script.sh\nEnter a number: 4825\nSum of digits of 4825 = 19\nReverse of 4825 = 5284",
+   "expl": {
+    "en": "<p><code>n % 10</code> gives the last digit and <code>n / 10</code> removes it. The loop runs once per digit.</p>",
+    "gu": "<p><code>n % 10</code> છેલ્લો અંક આપે છે અને <code>n / 10</code> તેને દૂર કરે છે. Loop દરેક અંક માટે એક વાર ચાલે છે.</p>"
+   }
+  },
+  {
+   "id": "os5p17",
+   "title": {
+    "en": "Multiplication table (for loop)",
+    "gu": "ઘડિયો (for loop)"
+   },
+   "code": {
+    "en": "#!/bin/bash\necho -n \"Enter a number: \"\nread n\nfor i in 1 2 3 4 5 6 7 8 9 10\ndo\n  echo \"$n x $i = $((n * i))\"\ndone",
+    "gu": "#!/bin/bash\necho -n \"Enter a number: \"\nread n\nfor i in 1 2 3 4 5 6 7 8 9 10\ndo\n  echo \"$n x $i = $((n * i))\"\ndone"
+   },
+   "out": "$ bash script.sh\nEnter a number: 7\n7 x 1 = 7\n7 x 2 = 14\n7 x 3 = 21\n7 x 4 = 28\n7 x 5 = 35\n7 x 6 = 42\n7 x 7 = 49\n7 x 8 = 56\n7 x 9 = 63\n7 x 10 = 70",
+   "expl": {
+    "en": "<p>The <code>for</code> loop takes each word of the list in turn into <code>i</code>. The list can also be <code>$(seq 1 10)</code>, <code>{1..10}</code>, file names (<code>*.c</code>) or <code>\"$@\"</code>.</p>",
+    "gu": "<p><code>for</code> loop યાદીનો દરેક શબ્દ વારાફરતી <code>i</code> માં લે છે. યાદી <code>$(seq 1 10)</code>, <code>{1..10}</code>, file names (<code>*.c</code>) અથવા <code>\"$@\"</code> પણ હોઈ શકે.</p>"
+   }
+  },
+  {
+   "id": "os5p18",
+   "title": {
+    "en": "Sum of all command-line arguments (for with $@)",
+    "gu": "બધા command-line arguments નો સરવાળો ($@ સાથે for)"
+   },
+   "code": {
+    "en": "#!/bin/bash\nsum=0\nfor x in \"$@\"\ndo\n  sum=$((sum + x))\ndone\necho \"Arguments : $@\"\necho \"Count     : $#\"\necho \"Sum       : $sum\"",
+    "gu": "#!/bin/bash\nsum=0\nfor x in \"$@\"\ndo\n  sum=$((sum + x))\ndone\necho \"Arguments : $@\"\necho \"Count     : $#\"\necho \"Sum       : $sum\""
+   },
+   "out": "$ bash sum.sh 10 20 30 40\nArguments : 10 20 30 40\nCount     : 4\nSum       : 100",
+   "expl": {
+    "en": "<p><code>\"$@\"</code> expands to all arguments as separate words, so the loop visits each one. <code>$#</code> is their count.</p>",
+    "gu": "<p><code>\"$@\"</code> બધા arguments ને અલગ શબ્દો તરીકે આપે છે, તેથી loop દરેકની મુલાકાત લે છે. <code>$#</code> તેમની સંખ્યા છે.</p>"
+   }
+  }
+ ],
+ "syntax": [
+  {
+   "title": {
+    "en": "Directory Commands",
+    "gu": "Directory Commands"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "pwd – print working directory",
+      "gu": "pwd – current directory બતાવો"
+     },
+     "f": "pwd",
+     "terms": {
+      "en": "Shows the absolute path of the current directory, e.g. /home/student.",
+      "gu": "Current directory નો absolute path બતાવે, દા.ત. /home/student."
+     }
+    },
+    {
+     "name": {
+      "en": "cd – change directory",
+      "gu": "cd – directory બદલો"
+     },
+     "f": "cd dir     cd ..     cd /\ncd ~      cd -      cd",
+     "terms": {
+      "en": "<code>..</code> parent, <code>~</code> or plain <code>cd</code> home, <code>-</code> previous directory.",
+      "gu": "<code>..</code> parent, <code>~</code> અથવા માત્ર <code>cd</code> home, <code>-</code> પાછલી directory."
+     }
+    },
+    {
+     "name": {
+      "en": "mkdir – make directory",
+      "gu": "mkdir – directory બનાવો"
+     },
+     "f": "mkdir dir1 dir2\nmkdir -p a/b/c",
+     "terms": {
+      "en": "<code>-p</code> creates parent directories as needed (no error if they exist).",
+      "gu": "<code>-p</code> જરૂર મુજબ parent directories બનાવે (હોય તો error નહીં)."
+     }
+    },
+    {
+     "name": {
+      "en": "rmdir – remove empty directory",
+      "gu": "rmdir – ખાલી directory દૂર કરો"
+     },
+     "f": "rmdir dir\nrmdir -p a/b/c",
+     "terms": {
+      "en": "Works only on <b>empty</b> directories; use <code>rm -r</code> for non-empty ones.",
+      "gu": "માત્ર <b>ખાલી</b> directories પર કામ કરે; ખાલી ન હોય તો <code>rm -r</code> વાપરો."
+     }
+    },
+    {
+     "name": {
+      "en": "ls – list directory contents",
+      "gu": "ls – directory contents ની યાદી"
+     },
+     "f": "ls [-l -a -R -t -r -i -h] [path]",
+     "terms": {
+      "en": "<code>-l</code> long, <code>-a</code> all incl. hidden, <code>-R</code> recursive, <code>-t</code> by time, <code>-r</code> reverse, <code>-i</code> inode, <code>-h</code> human sizes.",
+      "gu": "<code>-l</code> long, <code>-a</code> hidden સહિત બધું, <code>-R</code> recursive, <code>-t</code> time મુજબ, <code>-r</code> reverse, <code>-i</code> inode, <code>-h</code> human sizes."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "File Commands",
+    "gu": "File Commands"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "cat – display / create / join files",
+      "gu": "cat – files બતાવો / બનાવો / જોડો"
+     },
+     "f": "cat file\ncat > newfile    (Ctrl+D ends)\ncat f1 f2 > f3\ncat f1 >> f2\ncat -n file",
+     "terms": {
+      "en": "<code>&gt;</code> creates/overwrites, <code>&gt;&gt;</code> appends, <code>-n</code> numbers lines.",
+      "gu": "<code>&gt;</code> બનાવે/overwrite કરે, <code>&gt;&gt;</code> append કરે, <code>-n</code> lines ને નંબર આપે."
+     }
+    },
+    {
+     "name": {
+      "en": "cp – copy",
+      "gu": "cp – copy"
+     },
+     "f": "cp src dest\ncp f1 f2 dir/\ncp -r dir1 dir2\ncp -i src dest",
+     "terms": {
+      "en": "<code>-r</code> recursive (directories), <code>-i</code> ask before overwrite, <code>-v</code> verbose.",
+      "gu": "<code>-r</code> recursive (directories), <code>-i</code> overwrite પહેલાં પૂછે, <code>-v</code> verbose."
+     }
+    },
+    {
+     "name": {
+      "en": "rm – remove files",
+      "gu": "rm – files દૂર કરો"
+     },
+     "f": "rm file\nrm -i file\nrm -r dir\nrm -f file",
+     "terms": {
+      "en": "<code>-r</code> directory and its contents, <code>-i</code> confirm, <code>-f</code> force. Deleted files cannot be recovered.",
+      "gu": "<code>-r</code> directory અને તેની સામગ્રી, <code>-i</code> ખાતરી, <code>-f</code> force. Delete થયેલી files પાછી મળતી નથી."
+     }
+    },
+    {
+     "name": {
+      "en": "mv – move / rename",
+      "gu": "mv – move / rename"
+     },
+     "f": "mv old new\nmv file dir/\nmv -i src dest",
+     "terms": {
+      "en": "Renames if the destination is a new name in the same directory; moves if it is a directory.",
+      "gu": "Destination એ જ directory માં નવું નામ હોય તો rename; directory હોય તો move."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Text Processing Commands",
+    "gu": "Text Processing Commands"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "wc – word count",
+      "gu": "wc – word count"
+     },
+     "f": "wc file\nwc -l file   wc -w   wc -c",
+     "terms": {
+      "en": "Prints lines, words and bytes (characters). <code>-l</code> lines, <code>-w</code> words, <code>-c</code> bytes.",
+      "gu": "Lines, words અને bytes (characters) છાપે. <code>-l</code> lines, <code>-w</code> words, <code>-c</code> bytes."
+     }
+    },
+    {
+     "name": {
+      "en": "split – split a file",
+      "gu": "split – file ને ભાગમાં વહેંચો"
+     },
+     "f": "split -l 4 file part_\nsplit -b 1k file part_",
+     "terms": {
+      "en": "Creates part_aa, part_ab, … Default: 1000 lines per piece. <code>-b</code> by size.",
+      "gu": "part_aa, part_ab, … બનાવે. Default: ભાગ દીઠ 1000 lines. <code>-b</code> size મુજબ."
+     }
+    },
+    {
+     "name": {
+      "en": "head – first lines",
+      "gu": "head – શરૂઆતની lines"
+     },
+     "f": "head file\nhead -n 5 file   (or head -5)",
+     "terms": {
+      "en": "Default first 10 lines.",
+      "gu": "Default પહેલી 10 lines."
+     }
+    },
+    {
+     "name": {
+      "en": "tail – last lines",
+      "gu": "tail – છેલ્લી lines"
+     },
+     "f": "tail file\ntail -n 3 file\ntail -n +5 file\ntail -f log.txt",
+     "terms": {
+      "en": "Default last 10 lines; <code>+5</code> from line 5; <code>-f</code> follow a growing file.",
+      "gu": "Default છેલ્લી 10 lines; <code>+5</code> line 5 થી; <code>-f</code> વધતી file ને follow કરે."
+     }
+    },
+    {
+     "name": {
+      "en": "grep – search a pattern",
+      "gu": "grep – pattern શોધો"
+     },
+     "f": "grep pattern file\ngrep -i -v -c -n -l pat files\ngrep '^A' file   grep 'x$' file",
+     "terms": {
+      "en": "<code>-i</code> ignore case, <code>-v</code> non-matching lines, <code>-c</code> count, <code>-n</code> line numbers, <code>-l</code> file names. <code>^</code> start, <code>$</code> end of line.",
+      "gu": "<code>-i</code> case અવગણો, <code>-v</code> મેળ ન ખાતી lines, <code>-c</code> count, <code>-n</code> line numbers, <code>-l</code> file names. <code>^</code> શરૂઆત, <code>$</code> line નો અંત."
+     }
+    },
+    {
+     "name": {
+      "en": "sort – sort lines",
+      "gu": "sort – lines ને sort કરો"
+     },
+     "f": "sort file\nsort -r -n -u file\nsort -k3 -n file\nsort file -o out",
+     "terms": {
+      "en": "<code>-r</code> reverse, <code>-n</code> numeric, <code>-u</code> unique, <code>-k</code> by field, <code>-t</code> field separator, <code>-o</code> output file.",
+      "gu": "<code>-r</code> reverse, <code>-n</code> numeric, <code>-u</code> unique, <code>-k</code> field મુજબ, <code>-t</code> field separator, <code>-o</code> output file."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Comparison Commands",
+    "gu": "Comparison Commands"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "cmp – compare byte by byte",
+      "gu": "cmp – byte દર byte સરખામણી"
+     },
+     "f": "cmp file1 file2\ncmp -l file1 file2",
+     "terms": {
+      "en": "Reports the first differing byte and line; no output if identical (exit status 0).",
+      "gu": "પહેલો જુદો byte અને line જણાવે; સરખી હોય તો output નહીં (exit status 0)."
+     }
+    },
+    {
+     "name": {
+      "en": "comm – common lines (sorted files)",
+      "gu": "comm – common lines (sorted files)"
+     },
+     "f": "comm f1 f2\ncomm -12 f1 f2",
+     "terms": {
+      "en": "Three columns: only in f1, only in f2, in both. <code>-1 -2 -3</code> hide a column.",
+      "gu": "ત્રણ columns: માત્ર f1 માં, માત્ર f2 માં, બંનેમાં. <code>-1 -2 -3</code> column છુપાવે."
+     }
+    },
+    {
+     "name": {
+      "en": "diff – differences",
+      "gu": "diff – તફાવતો"
+     },
+     "f": "diff f1 f2\ndiff -i -w f1 f2",
+     "terms": {
+      "en": "Shows changes to make f1 same as f2: <code>a</code> add, <code>c</code> change, <code>d</code> delete; <code>&lt;</code> f1 lines, <code>&gt;</code> f2 lines.",
+      "gu": "f1 ને f2 જેવી બનાવવા ફેરફારો બતાવે: <code>a</code> add, <code>c</code> change, <code>d</code> delete; <code>&lt;</code> f1 ની lines, <code>&gt;</code> f2 ની lines."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Editors and gcc",
+    "gu": "Editors અને gcc"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "vi / vim – open a file",
+      "gu": "vi / vim – file ખોલો"
+     },
+     "f": "vi file      vim file\nvi +10 file",
+     "terms": {
+      "en": "Opens in command mode; <code>+10</code> starts at line 10.",
+      "gu": "Command mode માં ખૂલે; <code>+10</code> line 10 થી શરૂ."
+     }
+    },
+    {
+     "name": {
+      "en": "vi – insert and save",
+      "gu": "vi – insert અને save"
+     },
+     "f": "i a o I A O   insert\nEsc           command mode\n:w  :q  :wq  :q!  ZZ",
+     "terms": {
+      "en": "<code>i</code> before cursor, <code>a</code> after, <code>o</code> new line below; <code>:q!</code> quit without saving.",
+      "gu": "<code>i</code> cursor પહેલાં, <code>a</code> પછી, <code>o</code> નીચે નવી line; <code>:q!</code> save કર્યા વગર quit."
+     }
+    },
+    {
+     "name": {
+      "en": "vi – edit commands",
+      "gu": "vi – edit commands"
+     },
+     "f": "x  dd  3dd  yy  p  u  .\n/word  n   :%s/old/new/g\nh j k l  gg  G  :set nu",
+     "terms": {
+      "en": "x delete char, dd delete line, yy copy, p paste, u undo, / search, :%s replace all, :set nu line numbers.",
+      "gu": "x અક્ષર delete, dd line delete, yy copy, p paste, u undo, / search, :%s બધે replace, :set nu line numbers."
+     }
+    },
+    {
+     "name": {
+      "en": "gedit – GUI editor",
+      "gu": "gedit – GUI editor"
+     },
+     "f": "gedit file &",
+     "terms": {
+      "en": "Graphical text editor of GNOME; <code>&amp;</code> runs it in the background.",
+      "gu": "GNOME નો graphical text editor; <code>&amp;</code> તેને background માં ચલાવે."
+     }
+    },
+    {
+     "name": {
+      "en": "gcc – compile C",
+      "gu": "gcc – C compile કરો"
+     },
+     "f": "gcc prog.c          (a.out)\ngcc prog.c -o prog\n./prog\ngcc -Wall prog.c -lm",
+     "terms": {
+      "en": "<code>-o</code> output name, <code>-Wall</code> all warnings, <code>-lm</code> link math library, <code>-c</code> object only.",
+      "gu": "<code>-o</code> output નામ, <code>-Wall</code> બધી warnings, <code>-lm</code> math library link, <code>-c</code> માત્ર object."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Shell Script Constructs",
+    "gu": "Shell Script Constructs"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Run a script",
+      "gu": "Script ચલાવો"
+     },
+     "f": "bash file.sh   sh file.sh\nchmod +x file.sh; ./file.sh",
+     "terms": {
+      "en": "First line <code>#!/bin/bash</code> (shebang) selects the interpreter.",
+      "gu": "પહેલી line <code>#!/bin/bash</code> (shebang) interpreter પસંદ કરે."
+     }
+    },
+    {
+     "name": {
+      "en": "Variables, echo, read",
+      "gu": "Variables, echo, read"
+     },
+     "f": "name=Ravi      (no spaces)\necho \"Hi $name\"\nread a b\nx=$(command)   x=`command`",
+     "terms": {
+      "en": "No spaces around <code>=</code>. Double quotes expand variables, single quotes do not.",
+      "gu": "<code>=</code> ની આસપાસ spaces નહીં. Double quotes variables expand કરે, single quotes નહીં."
+     }
+    },
+    {
+     "name": {
+      "en": "Command-line arguments",
+      "gu": "Command-line arguments"
+     },
+     "f": "$0 $1 … $9 ${10}\n$#  $@  $*  $?  $$",
+     "terms": {
+      "en": "$0 script name, $# count, $@ all args, $? exit status of last command, $$ PID.",
+      "gu": "$0 script નામ, $# સંખ્યા, $@ બધા args, $? છેલ્લા command નો exit status, $$ PID."
+     }
+    },
+    {
+     "name": {
+      "en": "Arithmetic",
+      "gu": "Arithmetic"
+     },
+     "f": "expr $a + $b   expr $a \\* $b\n$((a + b))   let c=a*b",
+     "terms": {
+      "en": "Operators + - * / % (and ** in $(( ))). expr needs spaces and \\*.",
+      "gu": "Operators + - * / % (અને $(( )) માં **). expr ને spaces અને \\* જોઈએ."
+     }
+    },
+    {
+     "name": {
+      "en": "Relational (numbers)",
+      "gu": "Relational (numbers)"
+     },
+     "f": "-eq -ne -gt -ge -lt -le\n[ $a -gt $b ]",
+     "terms": {
+      "en": "Equal, not equal, greater, greater-or-equal, less, less-or-equal.",
+      "gu": "Equal, not equal, greater, greater-or-equal, less, less-or-equal."
+     }
+    },
+    {
+     "name": {
+      "en": "Logical and string tests",
+      "gu": "Logical અને string tests"
+     },
+     "f": "[ c1 -a c2 ]  [ c1 -o c2 ]  [ ! c ]\n[ c1 ] && [ c2 ]   [ c1 ] || [ c2 ]\n[ \"$s\" = \"x\" ]  != -z -n",
+     "terms": {
+      "en": "-a AND, -o OR, ! NOT; = equal, != not equal, -z empty, -n not empty.",
+      "gu": "-a AND, -o OR, ! NOT; = equal, != not equal, -z empty, -n not empty."
+     }
+    },
+    {
+     "name": {
+      "en": "test – file tests",
+      "gu": "test – file tests"
+     },
+     "f": "test -f file   [ -f file ]\n-e -f -d -r -w -x -s",
+     "terms": {
+      "en": "exists, regular file, directory, readable, writable, executable, size &gt; 0. Spaces inside [ ] are required.",
+      "gu": "exists, regular file, directory, readable, writable, executable, size &gt; 0. [ ] ની અંદર spaces જરૂરી."
+     }
+    },
+    {
+     "name": {
+      "en": "if / if-else / if-elif",
+      "gu": "if / if-else / if-elif"
+     },
+     "f": "if [ cond ]\nthen\n  cmds\nelif [ cond2 ]\nthen\n  cmds\nelse\n  cmds\nfi",
+     "terms": {
+      "en": "<code>elif</code> and <code>else</code> are optional; ends with <code>fi</code>.",
+      "gu": "<code>elif</code> અને <code>else</code> વૈકલ્પિક; <code>fi</code> થી પૂરું."
+     }
+    },
+    {
+     "name": {
+      "en": "case",
+      "gu": "case"
+     },
+     "f": "case $var in\n  pat1) cmds ;;\n  a|b)  cmds ;;\n  *)    cmds ;;\nesac",
+     "terms": {
+      "en": "Each block ends with <code>;;</code>; <code>*)</code> default; ends with <code>esac</code>.",
+      "gu": "દરેક block <code>;;</code> થી પૂરો; <code>*)</code> default; <code>esac</code> થી પૂરું."
+     }
+    },
+    {
+     "name": {
+      "en": "while loop",
+      "gu": "while loop"
+     },
+     "f": "while [ cond ]\ndo\n  cmds\ndone",
+     "terms": {
+      "en": "Repeats while the condition is true. <code>until</code> repeats while it is false.",
+      "gu": "શરત સાચી હોય ત્યાં સુધી ફરે. <code>until</code> ખોટી હોય ત્યાં સુધી ફરે."
+     }
+    },
+    {
+     "name": {
+      "en": "for loop",
+      "gu": "for loop"
+     },
+     "f": "for i in 1 2 3\ndo\n  cmds\ndone\nfor ((i=1; i<=5; i++))",
+     "terms": {
+      "en": "List may be words, {1..10}, $(seq 1 10), *.c or \"$@\". break / continue control the loop.",
+      "gu": "યાદી શબ્દો, {1..10}, $(seq 1 10), *.c કે \"$@\" હોઈ શકે. break / continue loop ને નિયંત્રિત કરે."
+     }
+    }
+   ]
+  }
+ ],
+ "numericals": [],
+ "equations": [],
+ "viva": [
+  {
+   "title": {
+    "en": "Linux Basics",
+    "gu": "Linux Basics"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is Linux?",
+      "gu": "Linux શું છે?"
+     },
+     "a": {
+      "en": "A free, open-source, Unix-like operating system kernel created by Linus Torvalds in 1991; with GNU tools it forms a complete OS.",
+      "gu": "1991 માં Linus Torvalds એ બનાવેલું free, open-source, Unix-like operating system kernel; GNU tools સાથે સંપૂર્ણ OS બને છે."
+     }
+    },
+    {
+     "q": {
+      "en": "Name some Linux distributions.",
+      "gu": "કેટલાંક Linux distributions જણાવો."
+     },
+     "a": {
+      "en": "Ubuntu, Fedora, Debian, Linux Mint, Red Hat Enterprise Linux, Kali, Arch.",
+      "gu": "Ubuntu, Fedora, Debian, Linux Mint, Red Hat Enterprise Linux, Kali, Arch."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the kernel?",
+      "gu": "Kernel શું છે?"
+     },
+     "a": {
+      "en": "The core of the OS that manages processes, memory, files and devices and talks directly to the hardware.",
+      "gu": "OS નો મુખ્ય ભાગ જે processes, memory, files અને devices નું સંચાલન કરે છે અને hardware સાથે સીધો વાત કરે છે."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a shell?",
+      "gu": "Shell શું છે?"
+     },
+     "a": {
+      "en": "A command interpreter that reads user commands and asks the kernel to execute them (sh, bash, csh, ksh).",
+      "gu": "Command interpreter જે user ના commands વાંચે છે અને kernel ને તેમને ચલાવવા કહે છે (sh, bash, csh, ksh)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the root directory?",
+      "gu": "Root directory શું છે?"
+     },
+     "a": {
+      "en": "The top of the Linux file hierarchy, written as /. (root is also the name of the superuser.)",
+      "gu": "Linux file hierarchy નું ટોચનું સ્થાન, / તરીકે લખાય. (root superuser નું નામ પણ છે.)"
+     }
+    },
+    {
+     "q": {
+      "en": "What is a hidden file?",
+      "gu": "Hidden file શું છે?"
+     },
+     "a": {
+      "en": "A file whose name starts with a dot (e.g. .profile); shown only by ls -a.",
+      "gu": "જેનું નામ dot થી શરૂ થાય તેવી file (દા.ત. .profile); માત્ર ls -a થી દેખાય."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Commands",
+    "gu": "Commands"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Difference between rmdir and rm -r?",
+      "gu": "rmdir અને rm -r વચ્ચે તફાવત?"
+     },
+     "a": {
+      "en": "rmdir removes only an empty directory; rm -r removes a directory with all its contents.",
+      "gu": "rmdir માત્ર ખાલી directory દૂર કરે; rm -r directory ને તેની બધી સામગ્રી સાથે દૂર કરે."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between > and >>?",
+      "gu": "> અને >> વચ્ચે તફાવત?"
+     },
+     "a": {
+      "en": "> redirects output to a file, overwriting it; >> appends to the end of the file.",
+      "gu": "> output ને file માં redirect કરી overwrite કરે; >> file ના અંતે append કરે."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a pipe?",
+      "gu": "Pipe શું છે?"
+     },
+     "a": {
+      "en": "The | symbol sends the output of one command as input to the next, e.g. ls | wc -l.",
+      "gu": "| ચિહ્ન એક command નું output આગળના command ને input તરીકે મોકલે, દા.ત. ls | wc -l."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between cmp and diff?",
+      "gu": "cmp અને diff વચ્ચે તફાવત?"
+     },
+     "a": {
+      "en": "cmp reports the first differing byte; diff lists all line differences and how to change one file into the other.",
+      "gu": "cmp પહેલો જુદો byte જણાવે; diff બધા line તફાવતો અને એક file ને બીજી જેવી કેવી રીતે બનાવવી તે બતાવે."
+     }
+    },
+    {
+     "q": {
+      "en": "What does comm need and show?",
+      "gu": "comm ને શું જોઈએ અને શું બતાવે?"
+     },
+     "a": {
+      "en": "Two sorted files; it shows lines only in file 1, only in file 2, and common to both in three columns.",
+      "gu": "બે sorted files; તે ત્રણ columns માં માત્ર file 1 માં, માત્ર file 2 માં અને બંનેમાં સામાન્ય lines બતાવે."
+     }
+    },
+    {
+     "q": {
+      "en": "What does grep stand for?",
+      "gu": "grep નું પૂરું નામ?"
+     },
+     "a": {
+      "en": "Global Regular Expression Print: it prints lines that match a pattern.",
+      "gu": "Global Regular Expression Print: pattern સાથે મેળ ખાતી lines છાપે."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you sort numerically in reverse?",
+      "gu": "Numeric reverse sort કેવી રીતે કરશો?"
+     },
+     "a": {
+      "en": "sort -nr file (use -k to choose a field).",
+      "gu": "sort -nr file (field પસંદ કરવા -k વાપરો)."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Editors and gcc",
+    "gu": "Editors અને gcc"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What are the modes of vi?",
+      "gu": "vi ના modes કયા છે?"
+     },
+     "a": {
+      "en": "Command mode (default), insert mode (i, a, o) and last-line/ex mode (:).",
+      "gu": "Command mode (default), insert mode (i, a, o) અને last-line/ex mode (:)."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you save and quit vi?",
+      "gu": "vi માં save અને quit કેવી રીતે?"
+     },
+     "a": {
+      "en": ":wq or ZZ; :q! quits without saving.",
+      "gu": ":wq અથવા ZZ; :q! save કર્યા વગર quit કરે."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between vi and vim?",
+      "gu": "vi અને vim વચ્ચે તફાવત?"
+     },
+     "a": {
+      "en": "vim (vi improved) adds syntax highlighting, multi-level undo, split windows and plugins.",
+      "gu": "vim (vi improved) syntax highlighting, multi-level undo, split windows અને plugins ઉમેરે છે."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the default output file of gcc?",
+      "gu": "gcc ની default output file કઈ?"
+     },
+     "a": {
+      "en": "a.out; use -o name to choose another name.",
+      "gu": "a.out; બીજું નામ આપવા -o name વાપરો."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Shell Scripts",
+    "gu": "Shell Scripts"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a shell script?",
+      "gu": "Shell script શું છે?"
+     },
+     "a": {
+      "en": "A text file containing a sequence of shell commands with variables, conditions and loops, executed by the shell.",
+      "gu": "Variables, conditions અને loops સાથેના shell commands નો ક્રમ ધરાવતી text file, જે shell ચલાવે છે."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the shebang line?",
+      "gu": "Shebang line શું છે?"
+     },
+     "a": {
+      "en": "The first line #!/bin/bash, telling the system which interpreter runs the script.",
+      "gu": "પહેલી line #!/bin/bash, જે system ને કહે કે કયો interpreter script ચલાવશે."
+     }
+    },
+    {
+     "q": {
+      "en": "What are $#, $@ and $?",
+      "gu": "$#, $@ અને $? શું છે?"
+     },
+     "a": {
+      "en": "$# number of arguments, $@ all arguments, $? exit status of the last command (0 = success).",
+      "gu": "$# arguments ની સંખ્યા, $@ બધા arguments, $? છેલ્લા command નો exit status (0 = success)."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is * escaped in expr?",
+      "gu": "expr માં * ને escape શા માટે કરાય?"
+     },
+     "a": {
+      "en": "Otherwise the shell expands * to the list of file names before expr sees it.",
+      "gu": "નહીં તો expr સુધી પહોંચે તે પહેલાં shell * ને file names ની યાદીમાં ફેરવી દે."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the test command?",
+      "gu": "test command શું છે?"
+     },
+     "a": {
+      "en": "It evaluates an expression (numeric, string or file test) and returns exit status 0 for true; [ ] is its short form.",
+      "gu": "તે expression (numeric, string કે file test) મૂલવે છે અને સાચું હોય તો exit status 0 આપે; [ ] તેનું ટૂંકું સ્વરૂપ છે."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you end if, case, while and for?",
+      "gu": "if, case, while અને for કેવી રીતે પૂરા કરશો?"
+     },
+     "a": {
+      "en": "if … fi, case … esac, while … do … done, for … do … done.",
+      "gu": "if … fi, case … esac, while … do … done, for … do … done."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Explain the architecture of the Unix/Linux operating system.",
+    "gu": "Unix/Linux operating system નું architecture સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the features of Linux.",
+    "gu": "Linux ના features સમજાવો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain the Linux directory structure (file hierarchy).",
+    "gu": "Linux directory structure (file hierarchy) સમજાવો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "What is a shell? Explain types of shells and how a command is executed.",
+    "gu": "Shell શું છે? Shells ના પ્રકારો અને command કેવી રીતે ચાલે છે તે સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain pwd, cd, mkdir, rmdir and ls commands with examples.",
+    "gu": "pwd, cd, mkdir, rmdir અને ls commands ઉદાહરણ સાથે સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain cat, cp, rm and mv commands with options.",
+    "gu": "cat, cp, rm અને mv commands options સાથે સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain wc, split, head and tail commands.",
+    "gu": "wc, split, head અને tail commands સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain cmp, comm and diff commands with examples.",
+    "gu": "cmp, comm અને diff commands ઉદાહરણ સાથે સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain grep and sort commands with options.",
+    "gu": "grep અને sort commands options સાથે સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the modes of the vi editor and its important commands.",
+    "gu": "vi editor ના modes અને તેના મહત્વના commands સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "How is a C program compiled and executed in Linux using gcc?",
+    "gu": "Linux માં gcc વડે C program કેવી રીતે compile અને execute થાય છે?"
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain command-line arguments in shell scripts with an example.",
+    "gu": "Shell scripts માં command-line arguments ઉદાહરણ સાથે સમજાવો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain arithmetic, relational and logical operators in shell script.",
+    "gu": "Shell script માં arithmetic, relational અને logical operators સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the test command with numeric, string and file tests.",
+    "gu": "Numeric, string અને file tests સાથે test command સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain if, if-else and case statements with examples.",
+    "gu": "if, if-else અને case statements ઉદાહરણ સાથે સમજાવો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain while and for loops with examples.",
+    "gu": "while અને for loops ઉદાહરણ સાથે સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a shell script to add two numbers.",
+    "gu": "બે સંખ્યાઓ ઉમેરવા shell script લખો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Write a shell script to convert a lower-case string to upper case.",
+    "gu": "Lower-case string ને upper case માં ફેરવવા shell script લખો."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Write a shell script to display a file and append it to another file.",
+    "gu": "File બતાવવા અને બીજી file માં append કરવા shell script લખો."
+   },
+   "marks": 4
+  }
+ ],
+ "tabs": [
+  "notes",
+  "programs",
+  "diagrams",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "diagrams": [
+  {
+   "id": "os5_arch",
+   "title": {
+    "en": "Architecture of Unix / Linux",
+    "gu": "Unix / Linux નું Architecture"
+   },
+   "file": "diagrams/os5_arch.svg"
+  },
+  {
+   "id": "os5_kernel",
+   "title": {
+    "en": "Linux System Structure",
+    "gu": "Linux System Structure"
+   },
+   "file": "diagrams/os5_kernel.svg"
+  },
+  {
+   "id": "os5_fs_tree",
+   "title": {
+    "en": "Linux Directory Hierarchy",
+    "gu": "Linux Directory Hierarchy"
+   },
+   "file": "diagrams/os5_fs_tree.svg"
+  },
+  {
+   "id": "os5_shell",
+   "title": {
+    "en": "How the Shell Executes a Command",
+    "gu": "Shell command કેવી રીતે ચલાવે છે"
+   },
+   "file": "diagrams/os5_shell.svg"
+  },
+  {
+   "id": "os5_ls_l",
+   "title": {
+    "en": "Fields of ls -l Output",
+    "gu": "ls -l Output ના Fields"
+   },
+   "file": "diagrams/os5_ls_l.svg"
+  },
+  {
+   "id": "os5_vi_modes",
+   "title": {
+    "en": "Modes of the vi / vim Editor",
+    "gu": "vi / vim Editor ના Modes"
+   },
+   "file": "diagrams/os5_vi_modes.svg"
+  },
+  {
+   "id": "os5_gcc",
+   "title": {
+    "en": "Compiling a C Program with gcc",
+    "gu": "gcc વડે C Program Compile કરવો"
+   },
+   "file": "diagrams/os5_gcc.svg"
+  },
+  {
+   "id": "os5_if",
+   "title": {
+    "en": "if ... else ... fi",
+    "gu": "if ... else ... fi"
+   },
+   "file": "diagrams/os5_if.svg"
+  },
+  {
+   "id": "os5_case",
+   "title": {
+    "en": "case ... esac (menu)",
+    "gu": "case ... esac (menu)"
+   },
+   "file": "diagrams/os5_case.svg"
+  },
+  {
+   "id": "os5_while",
+   "title": {
+    "en": "while Loop",
+    "gu": "while Loop"
+   },
+   "file": "diagrams/os5_while.svg"
+  },
+  {
+   "id": "os5_for",
+   "title": {
+    "en": "for Loop",
+    "gu": "for Loop"
+   },
+   "file": "diagrams/os5_for.svg"
+  }
+ ]
+}

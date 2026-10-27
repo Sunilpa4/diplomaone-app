@@ -8,7 +8,8 @@ SUBJ_DIR = os.path.join(ROOT, "content", "computer", "sem3", "DI03000041")
 DIAG_DIR = os.path.join(SUBJ_DIR, "diagrams")
 os.makedirs(DIAG_DIR, exist_ok=True)
 
-TABS = ["notes", "diagrams", "equations", "numericals", "viva", "exam"]
+TABS = ["notes", "programs", "diagrams", "syntax", "equations", "numericals", "viva", "exam"]
+TAB_KEY = {"exam": "exam_questions"}
 
 
 def _u(no, en, gu, h, w, topics):
@@ -65,7 +66,7 @@ def _bi(d, where):
 
 def check_and_write(unit, diagram_titles, preview_name):
     from preview_builder import build_preview
-    unit["tabs"] = [t for t in TABS if not (t == "equations" and not unit["equations"]) and not (t == "numericals" and not unit["numericals"])]
+    unit["tabs"] = [t for t in TABS if t in ("notes", "diagrams") or unit.get(TAB_KEY.get(t, t))]
     unit["diagrams"] = [{"id": k, "title": v, "file": f"diagrams/{k}.svg"} for k, v in diagram_titles.items()]
     items = [it for s in unit["notes"] for it in s["items"]]
     used_d = [it.get("diagram") for it in items if it.get("diagram")]
@@ -74,6 +75,19 @@ def check_and_write(unit, diagram_titles, preview_name):
     assert len(nids) == len(set(nids)), "duplicate numerical id"
     assert set(used_d) == set(diagram_titles), set(diagram_titles) ^ set(used_d)
     assert used_n <= set(nids), used_n - set(nids)
+    pids = [p["id"] for p in unit.get("programs", [])]
+    assert len(pids) == len(set(pids)), "duplicate program id"
+    used_p = [p for it in items for p in it.get("programs", [])]
+    assert set(used_p) <= set(pids), set(used_p) - set(pids)
+    assert set(pids) <= set(used_p), ("programs not linked in notes", set(pids) - set(used_p))
+    for p in unit.get("programs", []):
+        _bi(p["title"], p["id"]); _bi(p["code"], p["id"]); _bi(p["expl"], p["id"]); assert p["out"], p["id"]
+    for g in unit.get("syntax", []):
+        _bi(g["title"], "syntax group")
+        for it in g["items"]:
+            _bi(it["name"], it["f"]); _bi(it["terms"], it["f"])
+    if "intro_text" in unit:
+        _bi(unit["intro_text"], "intro_text")
     for k, v in diagram_titles.items():
         _bi(v, k)
         assert os.path.exists(os.path.join(DIAG_DIR, k + ".svg")), k
@@ -94,6 +108,7 @@ def check_and_write(unit, diagram_titles, preview_name):
         json.dump(unit, f, ensure_ascii=False, indent=1)
     write_subject()
     out = build_preview(unit, SUBJECT, DIAG_DIR, os.path.join(ROOT, "preview", preview_name))
+    print("tabs:", unit["tabs"], "programs:", len(pids), "syntax:", sum(len(g["items"]) for g in unit.get("syntax", [])))
     print("topics:", len(items), "diagrams:", len(diagram_titles), "equations:", sum(len(g["items"]) for g in unit["equations"]),
           "numericals:", len(nids), "viva:", sum(len(g["items"]) for g in unit["viva"]), "exam:", len(unit["exam_questions"]))
     print("preview:", os.path.normpath(out))
