@@ -898,10 +898,10 @@ def run_sql(code, setup="", rewrite=()):
     """Run setup silently, then code; return the output text.
     rewrite: (oracle_text, simulator_text) pairs applied only to the executed SQL, e.g.
     ("SYSDATE - hiredate", "__DSUB(SYSDATE, hiredate)"); headings still come from the Oracle text."""
-    from sql_objects import OraSim2
-    sim = OraSim2()
+    from plsql import OraSim3
+    sim = OraSim3()
     if setup:
-        for st in OraSim.split(setup):
+        for st in sim.split(setup):
             r = sim.exec1(st)
             assert not r.startswith("ERROR"), f"setup failed: {st[:60]}\n{r}"
     sim.rewrite = list(rewrite)

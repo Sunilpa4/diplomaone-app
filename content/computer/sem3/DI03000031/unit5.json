@@ -1,0 +1,1886 @@
+{
+ "subject": "DI03000031",
+ "unit": 5,
+ "format": "notes",
+ "title": {
+  "en": "PL/SQL and Triggers"
+ },
+ "weightage": 20,
+ "hours": 9,
+ "notes": [
+  {
+   "title": {
+    "en": "5.1 Fundamentals of PL/SQL"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Basics of PL/SQL and Block Structure"
+     },
+     "body": {
+      "en": "\n<p><b>PL/SQL</b> (Procedural Language extension to SQL) is Oracle's programming language. It combines the <b>data manipulation power of SQL</b> with the <b>processing power of a procedural language</b>: variables, conditions, loops, error handling and subprograms.</p>\n<p>SQL is a <b>non-procedural</b> language: it says <i>what</i> data is needed, but cannot use IF, loops or variables. PL/SQL adds these features, and SQL statements can be written directly inside PL/SQL.</p>\n<h4>Structure of a PL/SQL block</h4>\n<p>The basic unit of a PL/SQL program is a <b>block</b>. A block has three sections:</p>\n<table><tr><th>Section</th><th>Keyword</th><th>Contents</th><th>Required?</th></tr>\n<tr><td>Declaration</td><td>DECLARE</td><td>Variables, constants, cursors, user-defined exceptions</td><td>Optional</td></tr>\n<tr><td>Executable</td><td>BEGIN</td><td>SQL and PL/SQL statements</td><td>Mandatory</td></tr>\n<tr><td>Exception handling</td><td>EXCEPTION</td><td>Actions to take when an error occurs</td><td>Optional</td></tr></table>\n<p>The block ends with <b>END;</b> and in SQL*Plus a <b>/</b> on a new line runs it.</p>\n<pre class=\"c\">DECLARE\n  -- declarations (optional)\nBEGIN\n  -- executable statements (mandatory)\nEXCEPTION\n  -- error handlers (optional)\nEND;\n/</pre>\n<h4>Types of blocks</h4>\n<ul><li><b>Anonymous block:</b> has no name, is not stored in the database, and is compiled every time it runs.</li>\n<li><b>Named blocks (subprograms):</b> procedures, functions, triggers (and packages). They are compiled once and <b>stored</b> in the database.</li>\n<li>Blocks can be <b>nested</b>: a BEGIN ... END block can be written inside the executable or exception section of another block.</li></ul>\n<h4>Displaying output</h4>\n<p><b>DBMS_OUTPUT.PUT_LINE(text)</b> is a built-in procedure that prints a line. In SQL*Plus the command <b>SET SERVEROUTPUT ON</b> must be given first, otherwise nothing is displayed.</p>\n<pre class=\"c\">SET SERVEROUTPUT ON\nBEGIN\n  DBMS_OUTPUT.PUT_LINE('Hello');\nEND;\n/</pre>\n<p>Comments: <code>-- single line</code> and <code>/* multi-line */</code>. Every statement ends with a semicolon.</p>\n"
+     },
+     "diagram": "db5_block",
+     "programs": [
+      "q5_1"
+     ]
+    },
+    {
+     "h": {
+      "en": "Advantages of PL/SQL over SQL"
+     },
+     "body": {
+      "en": "\n<p>PL/SQL code is executed by the <b>PL/SQL engine</b> inside the Oracle server. Procedural statements (IF, loops, assignments) are executed by the procedural statement executor, and SQL statements are passed to the <b>SQL statement executor</b>.</p>\n<h4>Advantages</h4>\n<ol><li><b>Procedural capabilities:</b> variables, constants, conditions (IF, CASE) and loops (LOOP, WHILE, FOR), which plain SQL does not have.</li>\n<li><b>Better performance / reduced network traffic:</b> SQL sends one statement at a time to the server. A PL/SQL block sends many statements together in one call.</li>\n<li><b>Error handling:</b> errors are handled in the EXCEPTION section, so the program can show a proper message instead of stopping abruptly.</li>\n<li><b>Modularity and reusability:</b> code can be stored as procedures, functions and packages and called by many applications.</li>\n<li><b>Stored and pre-compiled:</b> stored subprograms are compiled once and kept in the database, so they run faster.</li>\n<li><b>Security:</b> users can be given permission to execute a procedure without having direct access to the tables.</li>\n<li><b>Triggers:</b> code that runs automatically on INSERT, UPDATE or DELETE, for business rules and auditing.</li>\n<li><b>Tight integration with SQL:</b> all SQL data types, functions and DML statements can be used, and %TYPE / %ROWTYPE link variables to table columns.</li>\n<li><b>Portability:</b> PL/SQL programs run on any operating system where Oracle runs.</li></ol>\n<table><tr><th>SQL</th><th>PL/SQL</th></tr>\n<tr><td>Non-procedural (declarative)</td><td>Procedural</td></tr>\n<tr><td>Executes one statement at a time</td><td>Executes a whole block at a time</td></tr>\n<tr><td>No variables, conditions or loops</td><td>Supports variables, IF, CASE, loops</td></tr>\n<tr><td>No error handling</td><td>EXCEPTION section for error handling</td></tr>\n<tr><td>Used to query and change data</td><td>Used to write programs, procedures, functions, triggers</td></tr>\n<tr><td>Can be embedded in PL/SQL</td><td>Cannot be embedded in SQL (but functions can be called from SQL)</td></tr></table>\n"
+     },
+     "diagram": "db5_engine"
+    },
+    {
+     "h": {
+      "en": "Data Types, Variables and Constants"
+     },
+     "body": {
+      "en": "\n<p>A <b>variable</b> is a named memory location that holds a value during program execution. Every variable must be declared in the DECLARE section before it is used.</p>\n<h4>Declaration syntax</h4>\n<p><code>name [CONSTANT] datatype [NOT NULL] [:= | DEFAULT value];</code></p>\n<pre class=\"c\">v_name  VARCHAR2(20);\nv_count NUMBER(4) := 0;\nv_rate  NUMBER(5,2) DEFAULT 8.5;\nv_city  VARCHAR2(15) NOT NULL\n        := 'Surat';\nc_pi    CONSTANT NUMBER := 3.14;\nv_flag  BOOLEAN := FALSE;\nv_dob   DATE := SYSDATE;</pre>\n<ul><li>A variable without an initial value is <b>NULL</b>.</li>\n<li><b>CONSTANT</b> must be initialised and cannot be changed afterwards.</li>\n<li><b>NOT NULL</b> variables must be initialised.</li>\n<li>Naming convention: <code>v_</code> for variables, <code>c_</code> for constants, <code>p_</code> for parameters. This avoids confusion with column names.</li></ul>\n<h4>PL/SQL data types</h4>\n<table><tr><th>Category</th><th>Data types</th></tr>\n<tr><td>Numeric</td><td>NUMBER(p,s), INTEGER, BINARY_INTEGER, PLS_INTEGER</td></tr>\n<tr><td>Character</td><td>CHAR(n), VARCHAR2(n), LONG</td></tr>\n<tr><td>Date / time</td><td>DATE, TIMESTAMP</td></tr>\n<tr><td>Boolean</td><td>BOOLEAN (TRUE, FALSE, NULL) – only in PL/SQL, not a column type</td></tr>\n<tr><td>LOB</td><td>CLOB, BLOB, BFILE</td></tr>\n<tr><td>Anchored (attribute)</td><td>%TYPE, %ROWTYPE</td></tr>\n<tr><td>Composite</td><td>RECORD, collections (TABLE, VARRAY)</td></tr></table>\n<h4>Operators</h4>\n<ul><li>Assignment: <code>:=</code> (comparison uses <code>=</code>).</li>\n<li>Arithmetic: <code>+ - * / **</code>; concatenation: <code>||</code>.</li>\n<li>Comparison: <code>= != &lt;&gt; &lt; &gt; &lt;= &gt;= BETWEEN IN LIKE IS NULL</code>; logical: AND, OR, NOT.</li></ul>\n<h4>Reading table data: SELECT INTO</h4>\n<pre class=\"c\">SELECT col1, col2\nINTO   var1, var2\nFROM   table_name\nWHERE  condition;  -- exactly one row</pre>\n<p>SELECT INTO must return <b>exactly one row</b>: no row raises NO_DATA_FOUND, more than one raises TOO_MANY_ROWS. For many rows a cursor is used.</p>\n"
+     },
+     "programs": [
+      "q5_2",
+      "q5_3"
+     ]
+    },
+    {
+     "h": {
+      "en": "%TYPE Attribute"
+     },
+     "body": {
+      "en": "\n<p>The <b>%TYPE</b> attribute declares a variable with the <b>same data type as a table column</b> or another variable. The type is \"anchored\" to the column.</p>\n<pre class=\"c\">variable table.column%TYPE;\n\nv_name emp.ename%TYPE;\nv_sal  emp.sal%TYPE;\nv_new  v_sal%TYPE;</pre>\n<h4>Advantages</h4>\n<ul><li>You need not know the exact data type and size of the column.</li>\n<li>If the column definition changes (e.g. ENAME from VARCHAR2(10) to VARCHAR2(30)), the variable automatically uses the new type and the program does not need to be changed.</li>\n<li>It avoids errors like VALUE_ERROR caused by a variable that is smaller than the column.</li></ul>\n<p>%TYPE copies the data type and size, but not the NOT NULL constraint or the default value of the column.</p>\n"
+     },
+     "programs": [
+      "q5_4"
+     ]
+    },
+    {
+     "h": {
+      "en": "%ROWTYPE Attribute"
+     },
+     "body": {
+      "en": "\n<p>The <b>%ROWTYPE</b> attribute declares a <b>record</b> that represents a <b>complete row</b> of a table, view or cursor. The record has one field for each column, with the same name and data type.</p>\n<pre class=\"c\">record table%ROWTYPE;\n\nv_emp emp%ROWTYPE;\n...\nSELECT * INTO v_emp\nFROM emp WHERE empno = 106;\nDBMS_OUTPUT.PUT_LINE(v_emp.ename);</pre>\n<ul><li>Fields are accessed with dot notation: <code>record.column</code>, e.g. <code>v_emp.sal</code>.</li>\n<li><code>SELECT * INTO v_emp</code> fills all fields at once.</li>\n<li>A cursor record can be declared with <code>cursor_name%ROWTYPE</code>.</li>\n<li>If columns are added to or removed from the table, the record changes automatically.</li></ul>\n<table><tr><th>%TYPE</th><th>%ROWTYPE</th></tr>\n<tr><td>Data type of one column</td><td>Structure of a whole row</td></tr>\n<tr><td>Declares a scalar variable</td><td>Declares a record (many fields)</td></tr>\n<tr><td><code>v_sal emp.sal%TYPE;</code></td><td><code>v_emp emp%ROWTYPE;</code></td></tr>\n<tr><td>Used directly: v_sal</td><td>Used with a field: v_emp.sal</td></tr></table>\n"
+     },
+     "diagram": "db5_type_rowtype",
+     "programs": [
+      "q5_5"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "5.2 Control Structures"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Control Structures and IF Statements"
+     },
+     "body": {
+      "en": "\n<p><b>Control structures</b> decide the order in which statements are executed. PL/SQL has three types:</p>\n<table><tr><th>Type</th><th>Purpose</th><th>Statements</th></tr>\n<tr><td>Conditional (selection)</td><td>Run statements depending on a condition</td><td>IF-THEN, IF-THEN-ELSE, IF-THEN-ELSIF, CASE</td></tr>\n<tr><td>Iterative (loops)</td><td>Repeat statements</td><td>LOOP, WHILE LOOP, FOR LOOP, EXIT, CONTINUE</td></tr>\n<tr><td>Sequential</td><td>Jump or do nothing</td><td>GOTO, NULL</td></tr></table>\n<h4>IF statements</h4>\n<pre class=\"c\">IF condition THEN\n  statements;\nEND IF;\n\nIF condition THEN\n  statements;\nELSE\n  statements;\nEND IF;\n\nIF condition1 THEN\n  statements;\nELSIF condition2 THEN\n  statements;\nELSE\n  statements;\nEND IF;</pre>\n<ul><li><b>IF-THEN:</b> statements run only if the condition is TRUE.</li>\n<li><b>IF-THEN-ELSE:</b> one of two groups runs.</li>\n<li><b>IF-THEN-ELSIF:</b> conditions are tested in order; the first TRUE branch runs and the rest are skipped. ELSE (optional) runs if none is TRUE.</li>\n<li>A condition that is <b>NULL</b> is treated like FALSE.</li>\n<li>The keyword is <b>ELSIF</b>, and every IF must end with <b>END IF;</b>. IF statements can be nested.</li></ul>\n"
+     },
+     "diagram": "db5_if",
+     "programs": [
+      "q5_6",
+      "q5_7"
+     ]
+    },
+    {
+     "h": {
+      "en": "CASE Statement"
+     },
+     "body": {
+      "en": "\n<p>The <b>CASE</b> statement selects one sequence of statements from many alternatives. It is often clearer than a long IF-ELSIF ladder.</p>\n<pre class=\"c\">-- simple CASE\nCASE expression\n  WHEN value1 THEN statements;\n  WHEN value2 THEN statements;\n  ELSE statements;\nEND CASE;\n\n-- searched CASE\nCASE\n  WHEN condition1 THEN statements;\n  WHEN condition2 THEN statements;\n  ELSE statements;\nEND CASE;</pre>\n<ul><li><b>Simple CASE:</b> compares one expression (selector) with values in the WHEN clauses.</li>\n<li><b>Searched CASE:</b> has no selector; each WHEN has its own Boolean condition.</li>\n<li>The first matching WHEN is executed. If nothing matches and there is no ELSE, the error <b>CASE_NOT_FOUND</b> (ORA-06592) is raised.</li>\n<li>A CASE statement ends with <b>END CASE;</b>. A CASE <b>expression</b> returns a value and ends with END, e.g. <code>v_txt := CASE WHEN v_sal &gt; 50000 THEN 'High' ELSE 'Low' END;</code></li></ul>\n"
+     },
+     "programs": [
+      "q5_8"
+     ]
+    },
+    {
+     "h": {
+      "en": "Iterative Control: LOOP, WHILE and FOR"
+     },
+     "body": {
+      "en": "\n<p>Loops execute a group of statements repeatedly. PL/SQL has three kinds of loops.</p>\n<h4>1. Basic (simple) LOOP</h4>\n<pre class=\"c\">LOOP\n  statements;\n  EXIT WHEN condition;\nEND LOOP;</pre>\n<p>Repeats until an <b>EXIT</b> or <b>EXIT WHEN</b> statement is reached. The condition is checked inside the loop, so the body runs <b>at least once</b>. Without EXIT it is an infinite loop.</p>\n<h4>2. WHILE LOOP</h4>\n<pre class=\"c\">WHILE condition LOOP\n  statements;\nEND LOOP;</pre>\n<p>The condition is checked <b>before</b> each iteration. If it is FALSE (or NULL) at the start, the body never runs. The counter is managed by the programmer.</p>\n<h4>3. Numeric FOR LOOP</h4>\n<pre class=\"c\">FOR counter IN [REVERSE] low..high\nLOOP\n  statements;\nEND LOOP;</pre>\n<ul><li>Runs a <b>fixed number of times</b>, from low to high in steps of 1.</li>\n<li>The counter is declared <b>implicitly</b>, is local to the loop, and cannot be assigned a value.</li>\n<li><b>REVERSE</b> counts from high down to low (bounds are still written low..high).</li>\n<li>If low &gt; high, the loop body does not run.</li></ul>\n<p>A fourth kind, the <b>cursor FOR loop</b>, processes rows of a query (see Cursors).</p>\n"
+     },
+     "diagram": "db5_loops",
+     "programs": [
+      "q5_9",
+      "q5_10",
+      "q5_11"
+     ]
+    },
+    {
+     "h": {
+      "en": "Nested Loops, EXIT and CONTINUE"
+     },
+     "body": {
+      "en": "\n<p>A loop can be written inside another loop (<b>nested loop</b>). The inner loop completes all its iterations for each iteration of the outer loop.</p>\n<ul><li><b>EXIT</b> leaves the innermost loop immediately; <b>EXIT WHEN condition</b> leaves it when the condition is TRUE.</li>\n<li><b>CONTINUE</b> / <b>CONTINUE WHEN</b> skips the rest of the current iteration and starts the next one.</li>\n<li>A loop can have a <b>label</b> <code>&lt;&lt;name&gt;&gt;</code>. <code>EXIT name</code> leaves the labelled (outer) loop directly.</li></ul>\n<pre class=\"c\">&lt;&lt;outer&gt;&gt;\nFOR i IN 1..3 LOOP\n  FOR j IN 1..3 LOOP\n    EXIT outer WHEN i * j = 4;\n    CONTINUE WHEN j = 2;\n    DBMS_OUTPUT.PUT(i * j || ' ');\n  END LOOP;\nEND LOOP outer;\n-- prints: 1 3 2</pre>\n<p>Loops can also contain SQL statements: for example a FOR loop can insert many rows into a table in one block.</p>\n"
+     },
+     "programs": [
+      "q5_12",
+      "q5_13"
+     ]
+    },
+    {
+     "h": {
+      "en": "Sequential Control: GOTO and NULL"
+     },
+     "body": {
+      "en": "\n<p><b>Sequential control statements</b> change the normal top-to-bottom flow without a condition or loop.</p>\n<h4>GOTO statement</h4>\n<p><b>GOTO label;</b> transfers control unconditionally to the statement after the label <code>&lt;&lt;label&gt;&gt;</code>.</p>\n<pre class=\"c\">BEGIN\n  IF v_marks &lt; 35 THEN\n    GOTO fail_label;\n  END IF;\n  DBMS_OUTPUT.PUT_LINE('Pass');\n  GOTO end_label;\n  &lt;&lt;fail_label&gt;&gt;\n  DBMS_OUTPUT.PUT_LINE('Fail');\n  &lt;&lt;end_label&gt;&gt;\n  NULL;\nEND;</pre>\n<ul><li>A label must be followed by at least one executable statement (NULL can be used).</li>\n<li>GOTO cannot jump into an IF, a loop or a nested block, and cannot jump out of an exception handler back into the block.</li>\n<li>GOTO makes programs hard to read, so it should be avoided; IF and loops are preferred.</li></ul>\n<h4>NULL statement</h4>\n<p>The <b>NULL;</b> statement does nothing; control passes to the next statement. It is used where a statement is required by the syntax but no action is needed, e.g. in an ELSE branch, after a label, or in an exception handler that ignores an error.</p>\n<pre class=\"c\">IF v_sal &gt; 50000 THEN\n  v_tax := v_sal * 0.2;\nELSE\n  NULL;  -- do nothing\nEND IF;</pre>\n"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "5.3 Cursors"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Cursor: Concept and Types"
+     },
+     "body": {
+      "en": "\n<p>When Oracle executes an SQL statement it creates a private memory area called the <b>context area</b>. A <b>cursor</b> is a <b>pointer to this context area</b>. It holds the rows returned by a SELECT, called the <b>active set</b>, and points to one row at a time.</p>\n<p>Cursors are needed because SELECT INTO can handle only one row. With a cursor, a program can process a multi-row result <b>row by row</b>.</p>\n<h4>Types of static cursors</h4>\n<table><tr><th>Implicit cursor</th><th>Explicit cursor</th></tr>\n<tr><td>Created automatically by Oracle</td><td>Declared by the programmer in DECLARE</td></tr>\n<tr><td>For INSERT, UPDATE, DELETE and SELECT INTO</td><td>For a SELECT returning many rows</td></tr>\n<tr><td>Name is <b>SQL</b></td><td>Name given by the user</td></tr>\n<tr><td>Opened, fetched and closed automatically</td><td>Programmer uses OPEN, FETCH, CLOSE</td></tr>\n<tr><td>Attributes: SQL%FOUND, SQL%NOTFOUND, SQL%ROWCOUNT, SQL%ISOPEN</td><td>Attributes: c%FOUND, c%NOTFOUND, c%ROWCOUNT, c%ISOPEN</td></tr>\n<tr><td>Less control</td><td>Full control over each row</td></tr></table>\n<p>They are called <b>static</b> cursors because the SQL statement is fixed when the program is compiled.</p>\n"
+     },
+     "diagram": "db5_cursor"
+    },
+    {
+     "h": {
+      "en": "Implicit Cursor and its Attributes"
+     },
+     "body": {
+      "en": "\n<p>Oracle automatically opens an <b>implicit cursor</b> named <b>SQL</b> for every DML statement (INSERT, UPDATE, DELETE) and for SELECT INTO. Its attributes give information about the <b>most recent</b> statement.</p>\n<table><tr><th>Attribute</th><th>Returns</th></tr>\n<tr><td>SQL%FOUND</td><td>TRUE if the statement affected (or SELECT INTO returned) at least one row</td></tr>\n<tr><td>SQL%NOTFOUND</td><td>TRUE if no row was affected (opposite of %FOUND)</td></tr>\n<tr><td>SQL%ROWCOUNT</td><td>Number of rows affected</td></tr>\n<tr><td>SQL%ISOPEN</td><td>Always FALSE, because the cursor is closed right after the statement</td></tr></table>\n<pre class=\"c\">UPDATE emp SET sal = sal + 2000\nWHERE job = 'CLERK';\nIF SQL%FOUND THEN\n  DBMS_OUTPUT.PUT_LINE(SQL%ROWCOUNT\n    || ' rows updated');\nEND IF;</pre>\n<p>The attributes must be checked immediately after the statement, because the next SQL statement overwrites them.</p>\n"
+     },
+     "programs": [
+      "q5_14"
+     ]
+    },
+    {
+     "h": {
+      "en": "Explicit Cursor: Steps and Attributes"
+     },
+     "body": {
+      "en": "\n<p>An <b>explicit cursor</b> is declared by the programmer for a SELECT statement that returns more than one row. It is used in four steps:</p>\n<ol><li><b>DECLARE</b> the cursor: <code>CURSOR name IS select_statement;</code></li>\n<li><b>OPEN</b> the cursor: <code>OPEN name;</code> executes the query, builds the active set and places the pointer before the first row.</li>\n<li><b>FETCH</b> rows: <code>FETCH name INTO variables | record;</code> copies the current row and moves the pointer forward. Usually done in a loop.</li>\n<li><b>CLOSE</b> the cursor: <code>CLOSE name;</code> releases the memory.</li></ol>\n<pre class=\"c\">DECLARE\n  CURSOR c_emp IS\n    SELECT ename, sal FROM emp;   -- 1\n  v_name emp.ename%TYPE;\n  v_sal  emp.sal%TYPE;\nBEGIN\n  OPEN c_emp;                     -- 2\n  LOOP\n    FETCH c_emp INTO v_name, v_sal; -- 3\n    EXIT WHEN c_emp%NOTFOUND;\n    -- process the row\n  END LOOP;\n  CLOSE c_emp;                    -- 4\nEND;</pre>\n<h4>Explicit cursor attributes</h4>\n<table><tr><th>Attribute</th><th>Returns</th></tr>\n<tr><td>%ISOPEN</td><td>TRUE if the cursor is open</td></tr>\n<tr><td>%FOUND</td><td>TRUE if the last FETCH returned a row</td></tr>\n<tr><td>%NOTFOUND</td><td>TRUE if the last FETCH returned no row (end of active set)</td></tr>\n<tr><td>%ROWCOUNT</td><td>Number of rows fetched so far</td></tr></table>\n<ul><li><code>EXIT WHEN c%NOTFOUND</code> should come immediately after FETCH.</li>\n<li>Opening an open cursor raises CURSOR_ALREADY_OPEN; fetching from a closed cursor raises INVALID_CURSOR.</li></ul>\n"
+     },
+     "diagram": "db5_cursor_steps",
+     "programs": [
+      "q5_15",
+      "q5_16"
+     ]
+    },
+    {
+     "h": {
+      "en": "Cursor FOR Loop and Parameterized Cursor"
+     },
+     "body": {
+      "en": "\n<h4>Cursor FOR loop</h4>\n<p>A <b>cursor FOR loop</b> is the simplest way to process every row of a cursor. It automatically</p>\n<ul><li>declares a record for the row,</li><li>opens the cursor,</li><li>fetches each row into the record,</li><li>exits when all rows are processed, and</li><li>closes the cursor.</li></ul>\n<pre class=\"c\">FOR record IN cursor_name LOOP\n  statements;  -- use record.column\nEND LOOP;\n\nFOR r IN (SELECT ename FROM emp) LOOP\n  DBMS_OUTPUT.PUT_LINE(r.ename);\nEND LOOP;</pre>\n<p>The SELECT can also be written directly in the loop (an <b>inline cursor</b>), without declaring a cursor.</p>\n<h4>Parameterized cursor</h4>\n<p>A cursor can accept <b>parameters</b>, so the same cursor can be opened many times with different values. Parameter data types are given without size.</p>\n<pre class=\"c\">CURSOR c_emp (p_dno NUMBER) IS\n  SELECT ename FROM emp\n  WHERE deptno = p_dno;\n...\nOPEN c_emp(20);\nFOR r IN c_emp(30) LOOP ... END LOOP;</pre>\n"
+     },
+     "programs": [
+      "q5_17",
+      "q5_18"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "5.4 Exception Handling"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Exceptions: Concept and Syntax"
+     },
+     "body": {
+      "en": "\n<p>An <b>exception</b> is an error that occurs while a PL/SQL block is running, e.g. a SELECT INTO that finds no row or a division by zero. When an exception is <b>raised</b>, normal execution stops and control jumps to the <b>EXCEPTION</b> section.</p>\n<pre class=\"c\">BEGIN\n  statements;\nEXCEPTION\n  WHEN exception1 THEN\n    statements;\n  WHEN exception2 OR exception3 THEN\n    statements;\n  WHEN OTHERS THEN\n    statements;\nEND;</pre>\n<ul><li>The handler whose name matches the exception runs; then the block ends normally and control returns to the caller (or the enclosing block).</li>\n<li><b>WHEN OTHERS</b> handles any exception not named before it, and must be the last handler.</li>\n<li>If there is no matching handler, the exception <b>propagates</b> to the enclosing block. If no block handles it, the program stops with an error message.</li>\n<li><b>SQLCODE</b> returns the error number and <b>SQLERRM</b> the error message (useful in WHEN OTHERS).</li></ul>\n<h4>Types of exceptions</h4>\n<table><tr><th>Type</th><th>Raised by</th><th>Name</th></tr>\n<tr><td>Predefined</td><td>Oracle, automatically</td><td>Given by Oracle (e.g. NO_DATA_FOUND)</td></tr>\n<tr><td>Non-predefined</td><td>Oracle, automatically</td><td>No name; programmer names it with PRAGMA EXCEPTION_INIT</td></tr>\n<tr><td>User-defined</td><td>Programmer, with RAISE</td><td>Declared by the programmer</td></tr></table>\n<p><b>Advantages:</b> errors are handled in one place, the program gives clear messages, and normal code is not mixed with error checks.</p>\n"
+     },
+     "diagram": "db5_exceptions"
+    },
+    {
+     "h": {
+      "en": "Predefined Exceptions"
+     },
+     "body": {
+      "en": "\n<p><b>Predefined exceptions</b> are common Oracle errors that already have a name. They are raised automatically.</p>\n<table><tr><th>Exception</th><th>Oracle error</th><th>Raised when</th></tr>\n<tr><td>NO_DATA_FOUND</td><td>ORA-01403</td><td>SELECT INTO returns no row</td></tr>\n<tr><td>TOO_MANY_ROWS</td><td>ORA-01422</td><td>SELECT INTO returns more than one row</td></tr>\n<tr><td>ZERO_DIVIDE</td><td>ORA-01476</td><td>A number is divided by zero</td></tr>\n<tr><td>DUP_VAL_ON_INDEX</td><td>ORA-00001</td><td>Duplicate value in a primary key / unique column</td></tr>\n<tr><td>VALUE_ERROR</td><td>ORA-06502</td><td>Value too large for a variable, or conversion error</td></tr>\n<tr><td>INVALID_NUMBER</td><td>ORA-01722</td><td>Conversion of a string to a number fails in SQL</td></tr>\n<tr><td>INVALID_CURSOR</td><td>ORA-01001</td><td>Illegal cursor operation, e.g. FETCH from a closed cursor</td></tr>\n<tr><td>CURSOR_ALREADY_OPEN</td><td>ORA-06511</td><td>Opening a cursor that is already open</td></tr>\n<tr><td>CASE_NOT_FOUND</td><td>ORA-06592</td><td>No WHEN matches in a CASE statement without ELSE</td></tr>\n<tr><td>LOGIN_DENIED</td><td>ORA-01017</td><td>Invalid user name or password</td></tr></table>\n<p>To continue after an error inside a loop, put the risky statement in a <b>nested block</b> with its own EXCEPTION section.</p>\n"
+     },
+     "programs": [
+      "q5_19",
+      "q5_20"
+     ]
+    },
+    {
+     "h": {
+      "en": "User-defined Exceptions, PRAGMA EXCEPTION_INIT and RAISE_APPLICATION_ERROR"
+     },
+     "body": {
+      "en": "\n<h4>User-defined exceptions</h4>\n<p>The programmer can define exceptions for <b>business rules</b>, e.g. insufficient balance or invalid marks. Three steps:</p>\n<ol><li><b>Declare</b> in DECLARE: <code>e_name EXCEPTION;</code></li>\n<li><b>Raise</b> explicitly: <code>RAISE e_name;</code></li>\n<li><b>Handle</b>: <code>WHEN e_name THEN ...</code></li></ol>\n<pre class=\"c\">DECLARE\n  e_low_bal EXCEPTION;          -- declare\nBEGIN\n  IF v_amt &gt; v_bal THEN\n    RAISE e_low_bal;            -- raise\n  END IF;\nEXCEPTION\n  WHEN e_low_bal THEN           -- handle\n    DBMS_OUTPUT.PUT_LINE('Low balance');\nEND;</pre>\n<p>An unhandled user-defined exception gives ORA-06510. SQLCODE returns +1 for it.</p>\n<h4>PRAGMA EXCEPTION_INIT (non-predefined exceptions)</h4>\n<p>Many Oracle errors have no predefined name. <b>PRAGMA EXCEPTION_INIT</b> associates a user-declared exception name with an Oracle error number, so it can be handled by name.</p>\n<pre class=\"c\">DECLARE\n  e_child EXCEPTION;\n  PRAGMA EXCEPTION_INIT(e_child, -2292);\nBEGIN\n  DELETE FROM dept WHERE deptno = 10;\nEXCEPTION\n  WHEN e_child THEN\n    DBMS_OUTPUT.PUT_LINE('Has employees');\nEND;</pre>\n<h4>RAISE_APPLICATION_ERROR</h4>\n<p>This built-in procedure stops the program and returns a <b>user-defined error number and message</b> to the caller, just like an Oracle error.</p>\n<pre class=\"c\">RAISE_APPLICATION_ERROR(\n  error_number,  -- -20000 to -20999\n  'message');\n\nRAISE_APPLICATION_ERROR(-20010,\n  'Salary below minimum');</pre>\n<ul><li>The error number must be between <b>-20000 and -20999</b>; the message can be up to 2048 bytes.</li>\n<li>Any changes made by the failed statement are rolled back.</li>\n<li>It is mainly used in stored procedures and triggers.</li></ul>\n<table><tr><th>RAISE</th><th>RAISE_APPLICATION_ERROR</th></tr>\n<tr><td>Raises a named exception</td><td>Raises an error with a number and message</td></tr>\n<tr><td>Usually handled in the same block</td><td>Usually sent back to the application</td></tr>\n<tr><td>No custom message</td><td>Custom message, number -20000 to -20999</td></tr></table>\n"
+     },
+     "programs": [
+      "q5_21",
+      "q5_22"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "5.5 Procedures and Functions"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Stored Procedures: Creating and Executing"
+     },
+     "body": {
+      "en": "\n<p>A <b>stored procedure</b> is a named PL/SQL block that performs a specific task. It is compiled once and <b>stored in the database</b>, and can be called many times by name, with parameters.</p>\n<pre class=\"c\">CREATE [OR REPLACE] PROCEDURE name\n  (param1 [IN|OUT|IN OUT] datatype,\n   param2 ...)\nIS | AS\n  -- local declarations\nBEGIN\n  statements;\n[EXCEPTION\n  handlers;]\nEND [name];\n/</pre>\n<ul><li><b>OR REPLACE</b> re-creates the procedure if it already exists (no need to drop it).</li>\n<li>The header lists the parameters with their mode and data type (without size).</li>\n<li>Local variables are declared after IS / AS; no DECLARE keyword is used.</li>\n<li>SQL*Plus shows \"Procedure created.\" If there are compilation errors it shows a warning; <code>SHOW ERRORS</code> lists them.</li></ul>\n<h4>Executing a procedure</h4>\n<pre class=\"c\">-- from SQL*Plus\nEXEC raise_sal(105)\nEXECUTE raise_sal(108, 20)\n\n-- from a PL/SQL block\nBEGIN\n  raise_sal(p_empno =&gt; 104, p_pct =&gt; 5);\nEND;\n/</pre>\n<ul><li>Positional notation: arguments in the order of the parameters.</li>\n<li>Named notation: <code>parameter =&gt; value</code>, in any order.</li>\n<li>Parameters with DEFAULT values can be omitted.</li></ul>\n<h4>Advantages of stored procedures</h4>\n<ul><li>Better performance: compiled once, and one call executes many statements.</li>\n<li>Reusability and modularity: one procedure is shared by all applications.</li>\n<li>Security: users can be given EXECUTE permission without access to the tables.</li>\n<li>Easy maintenance: a change is made in one place.</li></ul>\n"
+     },
+     "programs": [
+      "q5_23",
+      "q5_25"
+     ]
+    },
+    {
+     "h": {
+      "en": "Parameter Modes: IN, OUT and IN OUT"
+     },
+     "body": {
+      "en": "\n<p>Parameters pass values between the caller and a subprogram. The parameters in the header are <b>formal parameters</b>; the values passed in a call are <b>actual parameters</b>.</p>\n<table><tr><th>Mode</th><th>Direction</th><th>Inside the subprogram</th><th>Actual parameter</th></tr>\n<tr><td><b>IN</b> (default)</td><td>Caller → subprogram</td><td>Read-only (like a constant)</td><td>Constant, expression or variable</td></tr>\n<tr><td><b>OUT</b></td><td>Subprogram → caller</td><td>Starts as NULL; a value is assigned</td><td>Must be a variable</td></tr>\n<tr><td><b>IN OUT</b></td><td>Both directions</td><td>Can be read and changed</td><td>Must be a variable</td></tr></table>\n<pre class=\"c\">CREATE OR REPLACE PROCEDURE get_emp (\n  p_no   IN  NUMBER,\n  p_name OUT VARCHAR2,\n  p_sal  OUT NUMBER) AS\nBEGIN\n  SELECT ename, sal INTO p_name, p_sal\n  FROM emp WHERE empno = p_no;\nEND;\n/</pre>\n<p>A procedure can return <b>several values</b> using OUT parameters, e.g. name and salary of an employee.</p>\n"
+     },
+     "programs": [
+      "q5_24"
+     ]
+    },
+    {
+     "h": {
+      "en": "Stored Functions"
+     },
+     "body": {
+      "en": "\n<p>A <b>stored function</b> is a named PL/SQL block that <b>returns exactly one value</b> using the RETURN statement. It is stored in the database like a procedure.</p>\n<pre class=\"c\">CREATE [OR REPLACE] FUNCTION name\n  (param1 [IN] datatype, ...)\nRETURN datatype\nIS | AS\n  -- local declarations\nBEGIN\n  statements;\n  RETURN value;\nEND [name];\n/</pre>\n<ul><li>The header must contain <b>RETURN datatype</b>.</li>\n<li>The body must execute a <b>RETURN value;</b> statement; otherwise ORA-06503 (function returned without value) is raised.</li>\n<li>A function is called as part of an <b>expression</b>, not as a statement.</li>\n<li>Functions normally use only IN parameters.</li></ul>\n<pre class=\"c\">v_pay := annual_pay(107);\n\nSELECT ename, annual_pay(empno)\nFROM emp;</pre>\n<h4>Calling functions from SQL</h4>\n<p>A stored function can be used in SELECT, WHERE, ORDER BY, etc. like built-in functions, provided it does not perform DML on tables, has only IN parameters and returns an SQL data type.</p>\n<p>A function can call itself (<b>recursion</b>), e.g. factorial.</p>\n<h4>Dropping subprograms</h4>\n<pre class=\"c\">DROP PROCEDURE raise_sal;\nDROP FUNCTION annual_pay;\n\nSELECT object_name, object_type\nFROM user_objects\nWHERE object_type IN\n      ('PROCEDURE', 'FUNCTION');</pre>\n"
+     },
+     "programs": [
+      "q5_26",
+      "q5_27"
+     ]
+    },
+    {
+     "h": {
+      "en": "Procedure vs Function"
+     },
+     "body": {
+      "en": "\n<table><tr><th>Procedure</th><th>Function</th></tr>\n<tr><td>Performs an action (task)</td><td>Computes and returns a value</td></tr>\n<tr><td>No RETURN clause in the header</td><td>Must have RETURN datatype in the header</td></tr>\n<tr><td>Can return zero, one or many values through OUT parameters</td><td>Returns exactly one value through RETURN</td></tr>\n<tr><td>Called as a statement: <code>EXEC p(1);</code> or <code>p(1);</code></td><td>Called in an expression: <code>v := f(1);</code></td></tr>\n<tr><td>Cannot be used in a SELECT statement</td><td>Can be used in SQL statements (if it has no DML)</td></tr>\n<tr><td>RETURN statement (without value) only exits</td><td>RETURN value is mandatory</td></tr>\n<tr><td>Used for business logic and DML</td><td>Used for calculations</td></tr></table>\n<h4>Common features</h4>\n<ul><li>Both are named, compiled and stored in the database (stored subprograms).</li>\n<li>Both can have parameters, local declarations and an exception section.</li>\n<li>Both are listed in USER_OBJECTS / USER_PROCEDURES and their code is in USER_SOURCE.</li>\n<li>Both are removed with DROP PROCEDURE / DROP FUNCTION.</li></ul>\n"
+     },
+     "diagram": "db5_proc_func"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "5.6 Triggers"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Fundamentals of Triggers"
+     },
+     "body": {
+      "en": "\n<p>A <b>trigger</b> is a named PL/SQL block stored in the database that is executed (<b>fired</b>) <b>automatically</b> when a specified event occurs on a table, e.g. INSERT, UPDATE or DELETE.</p>\n<pre class=\"c\">CREATE [OR REPLACE] TRIGGER name\n{BEFORE | AFTER}\n{INSERT | UPDATE [OF col] | DELETE}\n  [OR ...]\nON table_name\n[FOR EACH ROW]\n[WHEN (condition)]\n[DECLARE\n  declarations]\nBEGIN\n  statements;\nEND;\n/</pre>\n<h4>Parts of a trigger</h4>\n<ul><li><b>Trigger timing:</b> BEFORE or AFTER the event.</li>\n<li><b>Triggering event:</b> INSERT, UPDATE (optionally OF specific columns), DELETE, or a combination with OR.</li>\n<li><b>Table:</b> ON table_name.</li>\n<li><b>Trigger level:</b> FOR EACH ROW (row level) or statement level (default).</li>\n<li><b>Restriction:</b> WHEN (condition) – row triggers only; NEW and OLD are written without a colon here.</li>\n<li><b>Trigger body:</b> the PL/SQL block.</li></ul>\n<h4>:NEW and :OLD</h4>\n<p>In a row trigger, <b>:OLD</b> holds the column values before the change and <b>:NEW</b> the values after the change. Conditional predicates <b>INSERTING</b>, <b>UPDATING</b> and <b>DELETING</b> tell which event fired the trigger.</p>\n<h4>Uses of triggers</h4>\n<ul><li>Enforcing complex business rules and validation.</li><li>Auditing: recording who changed what and when.</li>\n<li>Automatically generating or deriving column values.</li><li>Maintaining copies or summary data in other tables.</li>\n<li>Preventing invalid transactions (e.g. deleting the president's record, changes on holidays).</li></ul>\n<h4>Trigger vs procedure</h4>\n<table><tr><th>Trigger</th><th>Procedure</th></tr>\n<tr><td>Fires automatically on an event</td><td>Executed explicitly by a call (EXEC)</td></tr>\n<tr><td>No parameters</td><td>Can have parameters</td></tr>\n<tr><td>Cannot use COMMIT / ROLLBACK</td><td>Can use COMMIT / ROLLBACK</td></tr>\n<tr><td>Attached to a table</td><td>Independent object</td></tr></table>\n"
+     },
+     "diagram": "db5_trigger_flow"
+    },
+    {
+     "h": {
+      "en": "Types of Triggers: BEFORE, AFTER, FOR EACH ROW, FOR EACH STATEMENT"
+     },
+     "body": {
+      "en": "\n<h4>Based on timing</h4>\n<ul><li><b>BEFORE trigger:</b> fires before the INSERT / UPDATE / DELETE is performed. Used to <b>validate</b> data or <b>change :NEW values</b> before they are saved.</li>\n<li><b>AFTER trigger:</b> fires after the statement is performed. Used for <b>auditing</b>, logging and updating other tables. :NEW cannot be changed.</li></ul>\n<h4>Based on level</h4>\n<ul><li><b>Row-level trigger</b> (FOR EACH ROW): fires <b>once for each row</b> affected. If no row is affected, it does not fire. :NEW and :OLD are available.</li>\n<li><b>Statement-level trigger</b> (default, no FOR EACH ROW): fires <b>once per statement</b>, even if 0 rows are affected. :NEW and :OLD are not available.</li></ul>\n<h4>Based on event</h4>\n<p>INSERT, UPDATE and DELETE triggers. Combining 2 timings × 2 levels × 3 events gives <b>12 types</b> of DML triggers, e.g. BEFORE INSERT row trigger, AFTER DELETE statement trigger.</p>\n<table><tr><th>Event</th><th>:OLD</th><th>:NEW</th></tr>\n<tr><td>INSERT</td><td>NULL</td><td>New values</td></tr>\n<tr><td>UPDATE</td><td>Values before update</td><td>Values after update</td></tr>\n<tr><td>DELETE</td><td>Deleted values</td><td>NULL</td></tr></table>\n<h4>Firing order for one statement</h4>\n<ol><li>BEFORE statement trigger</li><li>For each row: BEFORE row trigger → row change → AFTER row trigger</li><li>AFTER statement trigger</li></ol>\n<pre class=\"c\">CREATE OR REPLACE TRIGGER trg_emp_stmt\nAFTER DELETE ON emp\nBEGIN\n  DBMS_OUTPUT.PUT_LINE('Rows deleted');\nEND;\n/</pre>\n<p>Other kinds of triggers (not DML) are INSTEAD OF triggers on views, and system / DDL triggers (e.g. on LOGON or CREATE).</p>\n"
+     },
+     "diagram": "db5_trigger_types",
+     "programs": [
+      "q5_30"
+     ]
+    },
+    {
+     "h": {
+      "en": "BEFORE Triggers"
+     },
+     "body": {
+      "en": "\n<p>A <b>BEFORE row trigger</b> runs before each row is inserted, updated or deleted. It is the right place to:</p>\n<ul><li><b>Validate</b> data and reject it with RAISE_APPLICATION_ERROR.</li>\n<li><b>Modify</b> the new values by assigning to :NEW (e.g. convert to upper case, set a default date).</li>\n<li><b>Prevent</b> certain operations (e.g. deleting a manager, reducing a salary).</li></ul>\n<pre class=\"c\">CREATE OR REPLACE TRIGGER trg_upper\nBEFORE INSERT OR UPDATE ON emp\nFOR EACH ROW\nBEGIN\n  :NEW.ename := UPPER(:NEW.ename);\n  IF :NEW.sal &lt; 0 THEN\n    RAISE_APPLICATION_ERROR(-20002,\n      'Salary cannot be negative');\n  END IF;\nEND;\n/</pre>\n<ul><li>If the trigger raises an error, the triggering statement fails and its changes are rolled back. SQL*Plus shows the error, ORA-06512 with the trigger line, and ORA-04088 with the trigger name.</li>\n<li><b>UPDATE OF col</b> makes the trigger fire only when that column is updated.</li>\n<li><b>WHEN (condition)</b> restricts the rows for which the trigger body runs.</li></ul>\n"
+     },
+     "programs": [
+      "q5_28",
+      "q5_31"
+     ]
+    },
+    {
+     "h": {
+      "en": "AFTER Triggers and Auditing"
+     },
+     "body": {
+      "en": "\n<p>An <b>AFTER trigger</b> runs after the data has been changed. Because the change has already passed all constraints, AFTER triggers are used for:</p>\n<ul><li><b>Auditing:</b> storing old and new values, the action and the date in a log table.</li>\n<li><b>Maintaining other tables:</b> e.g. updating stock after a sale, or a total in a summary table.</li>\n<li><b>Notifications / messages</b> after a change.</li></ul>\n<pre class=\"c\">CREATE OR REPLACE TRIGGER trg_sal_log\nAFTER UPDATE OF sal ON emp\nFOR EACH ROW\nBEGIN\n  INSERT INTO sal_log\n  VALUES (:OLD.empno, :OLD.sal,\n          :NEW.sal, SYSDATE);\nEND;\n/</pre>\n<p>One trigger can handle several events (INSERT OR UPDATE OR DELETE) and use the predicates INSERTING, UPDATING and DELETING to know which one occurred. In an AFTER row trigger :NEW and :OLD can be read but not changed.</p>\n"
+     },
+     "programs": [
+      "q5_29"
+     ]
+    },
+    {
+     "h": {
+      "en": "Managing Triggers"
+     },
+     "body": {
+      "en": "\n<p>Triggers are database objects and can be enabled, disabled, viewed and dropped.</p>\n<pre class=\"c\">ALTER TRIGGER trg_upper DISABLE;\nALTER TRIGGER trg_upper ENABLE;\nALTER TABLE emp DISABLE ALL TRIGGERS;\nALTER TABLE emp ENABLE ALL TRIGGERS;\nDROP TRIGGER trg_upper;\n\nSELECT trigger_name, status\nFROM user_triggers;</pre>\n<ul><li>A trigger is <b>enabled</b> when it is created. A disabled trigger still exists but does not fire.</li>\n<li>Disabling is useful while loading a large amount of data.</li>\n<li><b>USER_TRIGGERS</b> shows the trigger name, type, event, table, status and body.</li>\n<li>Dropping a table drops all its triggers automatically.</li></ul>\n<h4>Restrictions on triggers</h4>\n<ul><li>A trigger cannot contain COMMIT, ROLLBACK or SAVEPOINT.</li>\n<li>A row trigger cannot query or modify the table on which it is defined (mutating table error ORA-04091).</li>\n<li>:NEW can be changed only in a BEFORE row trigger.</li>\n<li>Too many triggers make DML slower and the logic harder to follow.</li></ul>\n"
+     },
+     "programs": [
+      "q5_32"
+     ]
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "q5_1",
+   "title": {
+    "en": "First PL/SQL block: variables, constants and output"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nDECLARE\n  v_name  VARCHAR2(20) := 'Aarav';\n  v_marks NUMBER(3)    := 82;\n  c_univ  CONSTANT VARCHAR2(5) := 'GTU';\n  v_today DATE := SYSDATE;\n  v_pass  BOOLEAN := TRUE;\nBEGIN\n  DBMS_OUTPUT.PUT_LINE('Hello PL/SQL');\n  DBMS_OUTPUT.PUT_LINE('Name : '\n    || v_name);\n  DBMS_OUTPUT.PUT_LINE('Marks: '\n    || v_marks);\n  DBMS_OUTPUT.PUT_LINE('Univ : '\n    || c_univ);\n  DBMS_OUTPUT.PUT_LINE('Date : '\n    || TO_CHAR(v_today, 'DD-MON-YYYY'));\n  IF v_pass THEN\n    DBMS_OUTPUT.PUT_LINE('Result: PASS');\n  END IF;\nEND;\n/"
+   },
+   "out": "Hello PL/SQL\nName : Aarav\nMarks: 82\nUniv : GTU\nDate : 28-OCT-2026\nResult: PASS\n\nPL/SQL procedure successfully completed.",
+   "expl": {
+    "en": "\n<ul><li><b>SET SERVEROUTPUT ON</b> is a SQL*Plus command. Without it the lines written by DBMS_OUTPUT are not displayed.</li>\n<li>The <b>DECLARE</b> section creates variables. <code>:=</code> is the assignment operator. A <b>CONSTANT</b> must get a value when declared and cannot be changed later.</li>\n<li><b>DBMS_OUTPUT.PUT_LINE</b> prints one line; <code>||</code> joins strings. Numbers and dates are converted to text automatically, but TO_CHAR gives control over the format.</li>\n<li>A BOOLEAN variable (TRUE / FALSE / NULL) can be tested with IF, but it cannot be printed directly.</li>\n<li>The <b>/</b> on its own line sends the block to Oracle. After a successful run SQL*Plus shows <i>PL/SQL procedure successfully completed.</i></li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_2",
+   "title": {
+    "en": "Simple calculations: sum, average and area"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nDECLARE\n  a      NUMBER := 25;\n  b      NUMBER := 40;\n  c      NUMBER := 31;\n  v_sum  NUMBER;\n  v_avg  NUMBER(6,2);\n  pi     CONSTANT NUMBER := 3.14;\n  r      NUMBER := 7;\n  v_area NUMBER;\nBEGIN\n  v_sum := a + b + c;\n  v_avg := v_sum / 3;\n  v_area := pi * r * r;\n  DBMS_OUTPUT.PUT_LINE('Sum     = '\n    || v_sum);\n  DBMS_OUTPUT.PUT_LINE('Average = '\n    || v_avg);\n  DBMS_OUTPUT.PUT_LINE('Area    = '\n    || v_area);\n  DBMS_OUTPUT.PUT_LINE('Square  = '\n    || POWER(a, 2));\n  DBMS_OUTPUT.PUT_LINE('Mod     = '\n    || MOD(b, 7));\nEND;\n/"
+   },
+   "out": "Sum     = 96\nAverage = 32\nArea    = 153.86\nSquare  = 625\nMod     = 5\n\nPL/SQL procedure successfully completed.",
+   "expl": {
+    "en": "\n<ul><li>Arithmetic operators in PL/SQL are the same as in SQL: <code>+ - * /</code> and <code>**</code> for power.</li>\n<li><b>v_avg</b> is declared as NUMBER(6,2), so 96 / 3 = 32 is stored as 32 (trailing zeros are not printed).</li>\n<li>SQL single-row functions such as POWER, MOD, ROUND, UPPER and SUBSTR can be used directly in PL/SQL expressions.</li>\n<li>Area = 3.14 × 7 × 7 = 153.86.</li>\n<li>In the lab you can read values with substitution variables, e.g. <code>a NUMBER := &amp;a;</code>; SQL*Plus asks for the value before running the block.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_3",
+   "title": {
+    "en": "SELECT INTO: read a row into variables"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nDECLARE\n  v_empno  NUMBER := 104;\n  v_name   VARCHAR2(10);\n  v_job    VARCHAR2(9);\n  v_sal    NUMBER(7,2);\n  v_annual NUMBER(9,2);\nBEGIN\n  SELECT ename, job, sal\n  INTO   v_name, v_job, v_sal\n  FROM   emp\n  WHERE  empno = v_empno;\n\n  v_annual := v_sal * 12;\n  DBMS_OUTPUT.PUT_LINE('Employee : '\n    || v_name);\n  DBMS_OUTPUT.PUT_LINE('Job      : '\n    || v_job);\n  DBMS_OUTPUT.PUT_LINE('Monthly  : '\n    || v_sal);\n  DBMS_OUTPUT.PUT_LINE('Annual   : '\n    || v_annual);\nEND;\n/"
+   },
+   "out": "Employee : NEHA\nJob      : ANALYST\nMonthly  : 45000\nAnnual   : 540000\n\nPL/SQL procedure successfully completed.",
+   "expl": {
+    "en": "\n<ul><li><b>SELECT ... INTO</b> copies the column values of <b>exactly one row</b> into PL/SQL variables. The INTO list must match the SELECT list in number, order and type.</li>\n<li>A PL/SQL variable (v_empno) can be used in the WHERE clause.</li>\n<li>If no row matches, Oracle raises NO_DATA_FOUND; if more than one row matches, TOO_MANY_ROWS (see the exception programs).</li>\n<li>Here the variables are declared with fixed types. The next program uses %TYPE, which is safer.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_4",
+   "title": {
+    "en": "%TYPE attribute: anchored data types"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nDECLARE\n  v_name  emp.ename%TYPE;\n  v_sal   emp.sal%TYPE;\n  v_dname dept.dname%TYPE;\n  v_new   v_sal%TYPE;\nBEGIN\n  SELECT e.ename, e.sal, d.dname\n  INTO   v_name, v_sal, v_dname\n  FROM   emp e, dept d\n  WHERE  e.deptno = d.deptno\n  AND    e.empno = 102;\n\n  v_new := v_sal * 1.10;\n  DBMS_OUTPUT.PUT_LINE(v_name\n    || ' works in ' || v_dname);\n  DBMS_OUTPUT.PUT_LINE('Salary : '\n    || v_sal);\n  DBMS_OUTPUT.PUT_LINE('After 10% raise : '\n    || v_new);\nEND;\n/"
+   },
+   "out": "AMIT works in RESEARCH\nSalary : 60000\nAfter 10% raise : 66000\n\nPL/SQL procedure successfully completed.",
+   "expl": {
+    "en": "\n<ul><li><code>v_name emp.ename%TYPE</code> gives v_name <b>the same data type and size</b> as the ENAME column (VARCHAR2(10)).</li>\n<li>%TYPE can also refer to another variable: <code>v_new v_sal%TYPE</code>.</li>\n<li><b>Advantage:</b> if the column is later changed (e.g. ENAME becomes VARCHAR2(30)), the program still works without any change.</li>\n<li>The SELECT can contain a join; it must still return only one row.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_5",
+   "title": {
+    "en": "%ROWTYPE attribute: a record for a whole row"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nDECLARE\n  v_emp  emp%ROWTYPE;\n  v_dept dept%ROWTYPE;\nBEGIN\n  SELECT * INTO v_emp\n  FROM emp WHERE empno = 106;\n\n  SELECT * INTO v_dept\n  FROM dept WHERE deptno = v_emp.deptno;\n\n  DBMS_OUTPUT.PUT_LINE('Empno : '\n    || v_emp.empno);\n  DBMS_OUTPUT.PUT_LINE('Name  : '\n    || v_emp.ename);\n  DBMS_OUTPUT.PUT_LINE('Job   : '\n    || v_emp.job);\n  DBMS_OUTPUT.PUT_LINE('Total : '\n    || (v_emp.sal + v_emp.comm));\n  DBMS_OUTPUT.PUT_LINE('Dept  : '\n    || v_dept.dname || ', ' || v_dept.loc);\nEND;\n/"
+   },
+   "out": "Empno : 106\nName  : SUNIL\nJob   : SALESMAN\nTotal : 33000\nDept  : SALES, VADODARA\n\nPL/SQL procedure successfully completed.",
+   "expl": {
+    "en": "\n<ul><li><code>v_emp emp%ROWTYPE</code> declares a <b>record</b> with one field for every column of EMP, with the same names and types.</li>\n<li>A field is used with dot notation: <code>v_emp.ename</code>, <code>v_emp.sal</code>.</li>\n<li><code>SELECT * INTO v_emp</code> fills all fields at once.</li>\n<li>Total = 30000 + 3000 = 33000 for SUNIL. The record field v_emp.deptno is then used to read his department.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_6",
+   "title": {
+    "en": "IF-THEN-ELSE: even/odd and largest of three"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nDECLARE\n  n NUMBER := 17;\n  a NUMBER := 45;\n  b NUMBER := 72;\n  c NUMBER := 38;\nBEGIN\n  IF MOD(n, 2) = 0 THEN\n    DBMS_OUTPUT.PUT_LINE(n || ' is even');\n  ELSE\n    DBMS_OUTPUT.PUT_LINE(n || ' is odd');\n  END IF;\n\n  IF a > b AND a > c THEN\n    DBMS_OUTPUT.PUT_LINE('Largest: ' || a);\n  ELSIF b > c THEN\n    DBMS_OUTPUT.PUT_LINE('Largest: ' || b);\n  ELSE\n    DBMS_OUTPUT.PUT_LINE('Largest: ' || c);\n  END IF;\nEND;\n/"
+   },
+   "out": "17 is odd\nLargest: 72\n\nPL/SQL procedure successfully completed.",
+   "expl": {
+    "en": "\n<ul><li><b>IF condition THEN ... ELSE ... END IF;</b> runs one of two groups of statements.</li>\n<li>MOD(17, 2) = 1, so the ELSE part runs.</li>\n<li>For the largest number, the first condition is FALSE (45 is not greater than 72), the ELSIF condition 72 &gt; 38 is TRUE.</li>\n<li>Note the spelling <b>ELSIF</b> (not ELSEIF) and that every IF ends with <b>END IF;</b>.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_7",
+   "title": {
+    "en": "IF-ELSIF ladder: grade of a student"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nDECLARE\n  v_name  student.name%TYPE;\n  v_marks student.marks%TYPE;\n  v_grade CHAR(2);\nBEGIN\n  SELECT name, marks INTO v_name, v_marks\n  FROM student WHERE rollno = 3;\n\n  IF v_marks >= 85 THEN\n    v_grade := 'AA';\n  ELSIF v_marks >= 75 THEN\n    v_grade := 'AB';\n  ELSIF v_marks >= 65 THEN\n    v_grade := 'BB';\n  ELSIF v_marks >= 55 THEN\n    v_grade := 'BC';\n  ELSE\n    v_grade := 'FF';\n  END IF;\n  DBMS_OUTPUT.PUT_LINE(v_name || ' : '\n    || v_marks || ' marks, grade '\n    || v_grade);\nEND;\n/"
+   },
+   "out": "Karan Mehta : 67 marks, grade BB\n\nPL/SQL procedure successfully completed.",
+   "expl": {
+    "en": "\n<ul><li>An <b>IF-ELSIF</b> ladder tests conditions from top to bottom. Only the <b>first</b> TRUE branch runs; the rest are skipped.</li>\n<li>Karan has 67 marks: 67 &gt;= 85 and 67 &gt;= 75 are FALSE, 67 &gt;= 65 is TRUE, so the grade is BB.</li>\n<li>Because the conditions are checked in order, there is no need to write <code>v_marks &gt;= 65 AND v_marks &lt; 75</code>.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_8",
+   "title": {
+    "en": "CASE statement: simple and searched"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nDECLARE\n  v_day  NUMBER := 4;\n  v_txt  VARCHAR2(10);\n  v_sal  emp.sal%TYPE;\n  v_name emp.ename%TYPE;\nBEGIN\n  CASE v_day\n    WHEN 1 THEN v_txt := 'Monday';\n    WHEN 2 THEN v_txt := 'Tuesday';\n    WHEN 3 THEN v_txt := 'Wednesday';\n    WHEN 4 THEN v_txt := 'Thursday';\n    ELSE v_txt := 'Other';\n  END CASE;\n  DBMS_OUTPUT.PUT_LINE('Day ' || v_day\n    || ' is ' || v_txt);\n\n  SELECT ename, sal INTO v_name, v_sal\n  FROM emp WHERE empno = 109;\n  CASE\n    WHEN v_sal >= 50000 THEN\n      v_txt := 'High';\n    WHEN v_sal >= 30000 THEN\n      v_txt := 'Medium';\n    ELSE\n      v_txt := 'Low';\n  END CASE;\n  DBMS_OUTPUT.PUT_LINE(v_name || ' ('\n    || v_sal || '): ' || v_txt);\nEND;\n/"
+   },
+   "out": "Day 4 is Thursday\nHETAL (40000): Medium\n\nPL/SQL procedure successfully completed.",
+   "expl": {
+    "en": "\n<ul><li><b>Simple CASE</b> compares one expression (v_day) with a list of values.</li>\n<li><b>Searched CASE</b> has no expression after CASE; each WHEN contains its own condition. HETAL earns 40000, so the second WHEN is TRUE.</li>\n<li>The CASE <i>statement</i> ends with <b>END CASE;</b>. If no WHEN matches and there is no ELSE, Oracle raises CASE_NOT_FOUND.</li>\n<li>A CASE <i>expression</i> (ending with just END) can be used inside an assignment, e.g. <code>v_txt := CASE v_day WHEN 1 THEN 'Mon' END;</code></li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_9",
+   "title": {
+    "en": "Basic LOOP with EXIT WHEN: multiplication table"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nDECLARE\n  n NUMBER := 7;\n  i NUMBER := 1;\nBEGIN\n  LOOP\n    DBMS_OUTPUT.PUT_LINE(n || ' x ' || i\n      || ' = ' || n * i);\n    i := i + 1;\n    EXIT WHEN i > 10;\n  END LOOP;\nEND;\n/"
+   },
+   "out": "7 x 1 = 7\n7 x 2 = 14\n7 x 3 = 21\n7 x 4 = 28\n7 x 5 = 35\n7 x 6 = 42\n7 x 7 = 49\n7 x 8 = 56\n7 x 9 = 63\n7 x 10 = 70\n\nPL/SQL procedure successfully completed.",
+   "expl": {
+    "en": "\n<ul><li>A <b>basic LOOP</b> repeats its statements until an <b>EXIT</b> or <b>EXIT WHEN</b> statement stops it. Without an exit it would run forever.</li>\n<li>The condition is checked <b>inside</b> the loop, so the body always runs at least once.</li>\n<li>The counter i must be declared, initialised and increased by the programmer.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_10",
+   "title": {
+    "en": "WHILE loop: reverse a number and sum of digits"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nDECLARE\n  n     NUMBER := 5274;\n  t     NUMBER;\n  d     NUMBER;\n  v_rev NUMBER := 0;\n  v_sum NUMBER := 0;\nBEGIN\n  t := n;\n  WHILE t > 0 LOOP\n    d := MOD(t, 10);\n    v_rev := v_rev * 10 + d;\n    v_sum := v_sum + d;\n    t := TRUNC(t / 10);\n  END LOOP;\n  DBMS_OUTPUT.PUT_LINE('Number  : ' || n);\n  DBMS_OUTPUT.PUT_LINE('Reverse : '\n    || v_rev);\n  DBMS_OUTPUT.PUT_LINE('Sum     : '\n    || v_sum);\n  IF v_rev = n THEN\n    DBMS_OUTPUT.PUT_LINE('Palindrome');\n  ELSE\n    DBMS_OUTPUT.PUT_LINE('Not palindrome');\n  END IF;\nEND;\n/"
+   },
+   "out": "Number  : 5274\nReverse : 4725\nSum     : 18\nNot palindrome\n\nPL/SQL procedure successfully completed.",
+   "expl": {
+    "en": "\n<ul><li>A <b>WHILE loop</b> checks its condition <b>before</b> every iteration; if the condition is FALSE at the start, the body never runs.</li>\n<li>MOD(t, 10) gives the last digit; TRUNC(t / 10) removes it. (PL/SQL division gives a decimal, so TRUNC is needed.)</li>\n<li>5 + 2 + 7 + 4 = 18. The reverse 4725 is not equal to 5274, so the number is not a palindrome.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_11",
+   "title": {
+    "en": "FOR loop: factorial and REVERSE counting"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nDECLARE\n  n      NUMBER := 6;\n  v_fact NUMBER := 1;\nBEGIN\n  FOR i IN 1..n LOOP\n    v_fact := v_fact * i;\n  END LOOP;\n  DBMS_OUTPUT.PUT_LINE('Factorial of '\n    || n || ' = ' || v_fact);\n\n  FOR i IN REVERSE 1..5 LOOP\n    DBMS_OUTPUT.PUT(i || ' ');\n  END LOOP;\n  DBMS_OUTPUT.NEW_LINE;\n\n  FOR i IN 1..20 LOOP\n    IF MOD(i, 3) = 0 THEN\n      DBMS_OUTPUT.PUT(i || ' ');\n    END IF;\n  END LOOP;\n  DBMS_OUTPUT.NEW_LINE;\nEND;\n/"
+   },
+   "out": "Factorial of 6 = 720\n5 4 3 2 1 \n3 6 9 12 15 18 \n\nPL/SQL procedure successfully completed.",
+   "expl": {
+    "en": "\n<ul><li>A <b>numeric FOR loop</b> runs a fixed number of times. The counter i is declared <b>automatically</b>, increases by 1 and cannot be assigned inside the loop.</li>\n<li>6! = 1 × 2 × 3 × 4 × 5 × 6 = 720.</li>\n<li><b>REVERSE</b> counts from the upper bound down to the lower bound; the range is still written low..high.</li>\n<li><b>DBMS_OUTPUT.PUT</b> writes without ending the line; <b>NEW_LINE</b> ends it. The last loop prints the multiples of 3 up to 20.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_12",
+   "title": {
+    "en": "Nested loops: prime numbers from 2 to 30"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nDECLARE\n  v_prime BOOLEAN;\n  v_count NUMBER := 0;\nBEGIN\n  FOR n IN 2..30 LOOP\n    v_prime := TRUE;\n    FOR d IN 2..TRUNC(SQRT(n)) LOOP\n      IF MOD(n, d) = 0 THEN\n        v_prime := FALSE;\n        EXIT;\n      END IF;\n    END LOOP;\n    IF v_prime THEN\n      DBMS_OUTPUT.PUT(n || ' ');\n      v_count := v_count + 1;\n    END IF;\n  END LOOP;\n  DBMS_OUTPUT.NEW_LINE;\n  DBMS_OUTPUT.PUT_LINE('Total primes: '\n    || v_count);\nEND;\n/"
+   },
+   "out": "2 3 5 7 11 13 17 19 23 29 \nTotal primes: 10\n\nPL/SQL procedure successfully completed.",
+   "expl": {
+    "en": "\n<ul><li>The outer loop takes each number n; the inner loop tries divisors from 2 to √n.</li>\n<li><b>EXIT</b> leaves only the inner loop as soon as a divisor is found.</li>\n<li>For n = 2 and 3 the inner range is 2..1, which is empty, so the inner loop does not run and the number stays prime.</li>\n<li>A BOOLEAN flag (v_prime) remembers the result of the inner loop.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_13",
+   "title": {
+    "en": "FOR loop with DML: insert rows into a table"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nCREATE TABLE squares (\n  num NUMBER(3),\n  sq  NUMBER(5),\n  cube NUMBER(6)\n);\n\nBEGIN\n  FOR i IN 1..6 LOOP\n    INSERT INTO squares\n    VALUES (i, i * i, i * i * i);\n  END LOOP;\n  COMMIT;\n  DBMS_OUTPUT.PUT_LINE('Rows inserted');\nEND;\n/\n\nSELECT * FROM squares ORDER BY num;"
+   },
+   "out": "Table created.\n\nRows inserted\n\nPL/SQL procedure successfully completed.\n\nNUM SQ CUBE\n--- -- ----\n  1  1    1\n  2  4    8\n  3  9   27\n  4 16   64\n  5 25  125\n  6 36  216\n\n6 rows selected.",
+   "expl": {
+    "en": "\n<ul><li>SQL statements (INSERT, UPDATE, DELETE, COMMIT) can be written directly inside a PL/SQL block; the loop counter i is used as a value.</li>\n<li>All six INSERTs are sent to the server in <b>one</b> block, which is faster than six separate SQL statements.</li>\n<li>COMMIT makes the rows permanent. The SELECT afterwards is an ordinary SQL statement.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_14",
+   "title": {
+    "en": "Implicit cursor attributes: SQL%FOUND, %NOTFOUND, %ROWCOUNT"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nBEGIN\n  UPDATE emp SET sal = sal + 2000\n  WHERE job = 'CLERK';\n  IF SQL%FOUND THEN\n    DBMS_OUTPUT.PUT_LINE(SQL%ROWCOUNT\n      || ' clerks got a raise');\n  END IF;\n\n  DELETE FROM emp WHERE deptno = 40;\n  IF SQL%NOTFOUND THEN\n    DBMS_OUTPUT.PUT_LINE('No employee'\n      || ' in dept 40');\n  END IF;\n\n  UPDATE emp SET comm = 1000\n  WHERE comm IS NULL AND job = 'MANAGER';\n  DBMS_OUTPUT.PUT_LINE('Rows changed: '\n    || SQL%ROWCOUNT);\n  ROLLBACK;\nEND;\n/"
+   },
+   "out": "2 clerks got a raise\nNo employee in dept 40\nRows changed: 2\n\nPL/SQL procedure successfully completed.",
+   "expl": {
+    "en": "\n<ul><li>Oracle opens an <b>implicit cursor</b> named <b>SQL</b> for every INSERT, UPDATE, DELETE and SELECT INTO.</li>\n<li><b>SQL%FOUND</b> is TRUE if the last statement affected at least one row; <b>SQL%NOTFOUND</b> is the opposite.</li>\n<li><b>SQL%ROWCOUNT</b> gives the number of rows affected: 2 clerks (KIRAN, VIJAY) and 2 managers.</li>\n<li><b>SQL%ISOPEN</b> is always FALSE, because Oracle closes the implicit cursor immediately after the statement.</li>\n<li>ROLLBACK cancels the changes so the table stays unchanged.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_15",
+   "title": {
+    "en": "Explicit cursor: DECLARE, OPEN, FETCH, CLOSE"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nDECLARE\n  CURSOR c_emp IS\n    SELECT ename, sal FROM emp\n    WHERE deptno = 30\n    ORDER BY sal DESC;\n  v_name  emp.ename%TYPE;\n  v_sal   emp.sal%TYPE;\n  v_total NUMBER := 0;\nBEGIN\n  OPEN c_emp;\n  LOOP\n    FETCH c_emp INTO v_name, v_sal;\n    EXIT WHEN c_emp%NOTFOUND;\n    v_total := v_total + v_sal;\n    DBMS_OUTPUT.PUT_LINE(c_emp%ROWCOUNT\n      || '. ' || RPAD(v_name, 8) || v_sal);\n  END LOOP;\n  DBMS_OUTPUT.PUT_LINE('Employees: '\n    || c_emp%ROWCOUNT);\n  CLOSE c_emp;\n  DBMS_OUTPUT.PUT_LINE('Total sal: '\n    || v_total);\nEND;\n/"
+   },
+   "out": "1. PRIYA   58000\n2. SUNIL   30000\n3. POOJA   28000\n4. VIJAY   20000\nEmployees: 4\nTotal sal: 136000\n\nPL/SQL procedure successfully completed.",
+   "expl": {
+    "en": "\n<ul><li><b>DECLARE</b>: <code>CURSOR c_emp IS SELECT ...</code> names the query.</li>\n<li><b>OPEN</b> runs the query and builds the <b>active set</b>; the pointer is placed before the first row.</li>\n<li><b>FETCH</b> copies the current row into variables and moves the pointer to the next row.</li>\n<li><b>EXIT WHEN c_emp%NOTFOUND</b> must come right after FETCH, so the last row is not processed twice.</li>\n<li><b>%ROWCOUNT</b> is the number of rows fetched so far (used here as a serial number). It must be read before CLOSE.</li>\n<li><b>CLOSE</b> releases the memory. Using a closed cursor raises INVALID_CURSOR.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_16",
+   "title": {
+    "en": "Explicit cursor with %ROWTYPE and %ISOPEN"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nDECLARE\n  CURSOR c_dept IS\n    SELECT * FROM dept ORDER BY deptno;\n  r c_dept%ROWTYPE;\nBEGIN\n  IF NOT c_dept%ISOPEN THEN\n    OPEN c_dept;\n    DBMS_OUTPUT.PUT_LINE('Cursor opened');\n  END IF;\n  FETCH c_dept INTO r;\n  WHILE c_dept%FOUND LOOP\n    DBMS_OUTPUT.PUT_LINE(r.deptno || ' '\n      || RPAD(r.dname, 11) || r.loc);\n    FETCH c_dept INTO r;\n  END LOOP;\n  CLOSE c_dept;\nEND;\n/"
+   },
+   "out": "Cursor opened\n10 ACCOUNTS   SURAT\n20 RESEARCH   AHMEDABAD\n30 SALES      VADODARA\n40 OPERATIONS RAJKOT\n\nPL/SQL procedure successfully completed.",
+   "expl": {
+    "en": "\n<ul><li><code>r c_dept%ROWTYPE</code> declares a record with the same fields as the cursor's SELECT list.</li>\n<li><b>%ISOPEN</b> is TRUE when the cursor is open; it is used to avoid opening an already open cursor (CURSOR_ALREADY_OPEN error).</li>\n<li>This version uses a <b>WHILE loop with %FOUND</b>: one FETCH before the loop, and the next FETCH at the end of each iteration.</li>\n<li>RPAD pads the name to 11 characters so the columns line up.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_17",
+   "title": {
+    "en": "Cursor FOR loop"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nDECLARE\n  CURSOR c_clerk IS\n    SELECT empno, ename, sal FROM emp\n    WHERE job = 'CLERK' ORDER BY empno;\nBEGIN\n  FOR r IN c_clerk LOOP\n    UPDATE emp SET sal = sal * 1.05\n    WHERE empno = r.empno;\n    DBMS_OUTPUT.PUT_LINE(r.ename || ': '\n      || r.sal || ' -> ' || r.sal * 1.05);\n  END LOOP;\n\n  FOR r IN (SELECT dname, loc FROM dept\n            WHERE loc LIKE 'S%') LOOP\n    DBMS_OUTPUT.PUT_LINE(r.dname || ' at '\n      || r.loc);\n  END LOOP;\nEND;\n/"
+   },
+   "out": "KIRAN: 22000 -> 23100\nVIJAY: 20000 -> 21000\nACCOUNTS at SURAT\n\nPL/SQL procedure successfully completed.",
+   "expl": {
+    "en": "\n<ul><li>A <b>cursor FOR loop</b> opens the cursor, fetches every row into the record r, and closes the cursor <b>automatically</b>. No OPEN, FETCH, CLOSE or EXIT is needed.</li>\n<li>The record r is declared implicitly with the cursor's columns (r.empno, r.ename, r.sal).</li>\n<li>The second loop uses an <b>inline SELECT</b> in place of a named cursor.</li>\n<li>Clerks get a 5% raise: 22000 → 23100 and 20000 → 21000. The record still holds the value fetched before the UPDATE.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_18",
+   "title": {
+    "en": "Parameterized cursor: employees of each department"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nDECLARE\n  CURSOR c_dept IS\n    SELECT deptno, dname FROM dept\n    WHERE deptno IN (10, 20)\n    ORDER BY deptno;\n  CURSOR c_emp (p_dno NUMBER) IS\n    SELECT ename, job FROM emp\n    WHERE deptno = p_dno ORDER BY ename;\nBEGIN\n  FOR d IN c_dept LOOP\n    DBMS_OUTPUT.PUT_LINE('== ' || d.dname);\n    FOR e IN c_emp(d.deptno) LOOP\n      DBMS_OUTPUT.PUT_LINE('   '\n        || RPAD(e.ename, 8) || e.job);\n    END LOOP;\n  END LOOP;\nEND;\n/"
+   },
+   "out": "== ACCOUNTS\n   HETAL   ACCOUNTANT\n   RAJESH  PRESIDENT\n== RESEARCH\n   AMIT    MANAGER\n   KIRAN   CLERK\n   NEHA    ANALYST\n\nPL/SQL procedure successfully completed.",
+   "expl": {
+    "en": "\n<ul><li>A <b>parameterized cursor</b> receives values when it is opened: <code>CURSOR c_emp (p_dno NUMBER) IS ...</code>. Parameter sizes are not given (NUMBER, not NUMBER(2)).</li>\n<li>The same cursor is reused for each department: <code>c_emp(d.deptno)</code> or <code>OPEN c_emp(20);</code></li>\n<li>The outer loop prints a department; the inner loop prints its employees (a master-detail report).</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_19",
+   "title": {
+    "en": "Predefined exceptions: NO_DATA_FOUND, TOO_MANY_ROWS, ZERO_DIVIDE"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nDECLARE\n  v_sal emp.sal%TYPE;\n  v_x   NUMBER;\nBEGIN\n  BEGIN\n    SELECT sal INTO v_sal FROM emp\n    WHERE empno = 500;\n  EXCEPTION\n    WHEN NO_DATA_FOUND THEN\n      DBMS_OUTPUT.PUT_LINE('1. Employee '\n        || '500 not found');\n  END;\n\n  BEGIN\n    SELECT sal INTO v_sal FROM emp\n    WHERE deptno = 30;\n  EXCEPTION\n    WHEN TOO_MANY_ROWS THEN\n      DBMS_OUTPUT.PUT_LINE('2. More than '\n        || 'one row returned');\n  END;\n\n  BEGIN\n    v_x := 100 / 0;\n  EXCEPTION\n    WHEN ZERO_DIVIDE THEN\n      DBMS_OUTPUT.PUT_LINE('3. Cannot '\n        || 'divide by zero');\n  END;\n  DBMS_OUTPUT.PUT_LINE('Block finished');\nEND;\n/"
+   },
+   "out": "1. Employee 500 not found\n2. More than one row returned\n3. Cannot divide by zero\nBlock finished\n\nPL/SQL procedure successfully completed.",
+   "expl": {
+    "en": "\n<ul><li>A <b>predefined exception</b> has a name given by Oracle and is raised automatically when the error occurs.</li>\n<li>Each error is placed in its own <b>nested block</b> (BEGIN ... EXCEPTION ... END). After the handler runs, control continues with the next statement of the outer block, so all three tests run.</li>\n<li>NO_DATA_FOUND (ORA-01403): SELECT INTO found no row. TOO_MANY_ROWS (ORA-01422): SELECT INTO found 4 rows. ZERO_DIVIDE (ORA-01476): division by zero.</li>\n<li>Without the handlers, the first error would stop the whole block.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_20",
+   "title": {
+    "en": "DUP_VAL_ON_INDEX, VALUE_ERROR and OTHERS with SQLCODE, SQLERRM"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nDECLARE\n  v_code VARCHAR2(3);\nBEGIN\n  BEGIN\n    INSERT INTO dept\n    VALUES (20, 'HR', 'SURAT');\n  EXCEPTION\n    WHEN DUP_VAL_ON_INDEX THEN\n      DBMS_OUTPUT.PUT_LINE('Dept 20 '\n        || 'already exists');\n  END;\n\n  BEGIN\n    v_code := 'COMP';\n  EXCEPTION\n    WHEN VALUE_ERROR THEN\n      DBMS_OUTPUT.PUT_LINE('Value too '\n        || 'large for v_code');\n  END;\n\n  BEGIN\n    INSERT INTO emp (empno, ename, deptno)\n    VALUES (120, 'RAVI', 60);\n  EXCEPTION\n    WHEN OTHERS THEN\n      DBMS_OUTPUT.PUT_LINE('SQLCODE: '\n        || SQLCODE);\n      DBMS_OUTPUT.PUT_LINE('SQLERRM: '\n        || SQLERRM);\n  END;\nEND;\n/"
+   },
+   "out": "Dept 20 already exists\nValue too large for v_code\nSQLCODE: -2291\nSQLERRM: ORA-02291: integrity constraint (SCOTT.FK_DEPT) violated - parent key not found\n\nPL/SQL procedure successfully completed.",
+   "expl": {
+    "en": "\n<ul><li><b>DUP_VAL_ON_INDEX</b> (ORA-00001): a duplicate value for a primary key or unique column.</li>\n<li><b>VALUE_ERROR</b> (ORA-06502): a value is too large for the variable, or a conversion fails.</li>\n<li><b>WHEN OTHERS</b> catches every exception not handled by an earlier WHEN. It must be the <b>last</b> handler.</li>\n<li><b>SQLCODE</b> returns the error number (negative for Oracle errors) and <b>SQLERRM</b> returns the error message. Here department 60 does not exist, so the foreign key is violated (ORA-02291).</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_21",
+   "title": {
+    "en": "User-defined exception with RAISE: bank withdrawal"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nCREATE TABLE account (\n  acc_no  NUMBER(4) PRIMARY KEY,\n  holder  VARCHAR2(15),\n  balance NUMBER(9,2)\n);\nINSERT INTO account\nVALUES (1, 'Mehul', 5000);\n\nDECLARE\n  e_low_bal EXCEPTION;\n  e_bad_amt EXCEPTION;\n  v_bal account.balance%TYPE;\n  v_amt NUMBER;\nBEGIN\n  FOR i IN 1..3 LOOP\n    v_amt := CASE i WHEN 1 THEN 2000\n             WHEN 2 THEN 7000 ELSE -50 END;\n    BEGIN\n      IF v_amt <= 0 THEN\n        RAISE e_bad_amt;\n      END IF;\n      SELECT balance INTO v_bal\n      FROM account WHERE acc_no = 1;\n      IF v_amt > v_bal THEN\n        RAISE e_low_bal;\n      END IF;\n      UPDATE account\n      SET balance = balance - v_amt\n      WHERE acc_no = 1;\n      DBMS_OUTPUT.PUT_LINE('Withdrawn '\n        || v_amt || ', balance '\n        || (v_bal - v_amt));\n    EXCEPTION\n      WHEN e_low_bal THEN\n        DBMS_OUTPUT.PUT_LINE(v_amt\n          || ': insufficient balance');\n      WHEN e_bad_amt THEN\n        DBMS_OUTPUT.PUT_LINE(v_amt\n          || ': invalid amount');\n    END;\n  END LOOP;\nEND;\n/"
+   },
+   "out": "Table created.\n\n1 row created.\n\nWithdrawn 2000, balance 3000\n7000: insufficient balance\n-50: invalid amount\n\nPL/SQL procedure successfully completed.",
+   "expl": {
+    "en": "\n<ul><li>A <b>user-defined exception</b> is declared like a variable: <code>e_low_bal EXCEPTION;</code></li>\n<li>It is raised explicitly with <b>RAISE e_low_bal;</b> when a business rule is broken, and handled with <code>WHEN e_low_bal THEN</code>.</li>\n<li>First withdrawal 2000 succeeds (balance 3000). 7000 is more than 3000, so e_low_bal is raised. -50 raises e_bad_amt.</li>\n<li>An unhandled user-defined exception gives <b>ORA-06510: PL/SQL: unhandled user-defined exception</b>.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_22",
+   "title": {
+    "en": "PRAGMA EXCEPTION_INIT and RAISE_APPLICATION_ERROR"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nDECLARE\n  e_child EXCEPTION;\n  PRAGMA EXCEPTION_INIT(e_child, -2292);\nBEGIN\n  DELETE FROM dept WHERE deptno = 10;\nEXCEPTION\n  WHEN e_child THEN\n    DBMS_OUTPUT.PUT_LINE('Cannot delete:'\n      || ' dept has employees');\nEND;\n/\n\nDECLARE\n  v_sal emp.sal%TYPE;\nBEGIN\n  SELECT sal INTO v_sal\n  FROM emp WHERE empno = 110;\n  IF v_sal < 20000 THEN\n    RAISE_APPLICATION_ERROR(-20010,\n      'Salary below minimum: ' || v_sal);\n  END IF;\nEND;\n/"
+   },
+   "out": "Cannot delete: dept has employees\n\nPL/SQL procedure successfully completed.\n\nDECLARE\n*\nERROR at line 1:\nORA-20010: Salary below minimum: 15000\nORA-06512: at line 7",
+   "expl": {
+    "en": "\n<ul><li><b>PRAGMA EXCEPTION_INIT</b> gives a name to an Oracle error that has no predefined name (a <b>non-predefined</b> exception). Here ORA-02292 (child record found) is named e_child and handled.</li>\n<li><b>RAISE_APPLICATION_ERROR(number, message)</b> stops the block with a <b>user-defined error number</b> between -20000 and -20999 and a custom message.</li>\n<li>The second block does not handle the error, so SQL*Plus shows it like an Oracle error: ORA-20010 with the message, and ORA-06512 gives the line number where it was raised.</li>\n<li>RAISE_APPLICATION_ERROR is mostly used in procedures and triggers to send a meaningful error to the application.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_23",
+   "title": {
+    "en": "Stored procedure with IN parameters: create and execute"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nCREATE OR REPLACE PROCEDURE raise_sal (\n  p_empno IN emp.empno%TYPE,\n  p_pct   IN NUMBER DEFAULT 10\n) IS\n  v_old emp.sal%TYPE;\nBEGIN\n  SELECT sal INTO v_old\n  FROM emp WHERE empno = p_empno;\n  UPDATE emp\n  SET sal = sal + sal * p_pct / 100\n  WHERE empno = p_empno;\n  DBMS_OUTPUT.PUT_LINE(p_empno || ': '\n    || v_old || ' -> '\n    || (v_old + v_old * p_pct / 100));\nEXCEPTION\n  WHEN NO_DATA_FOUND THEN\n    DBMS_OUTPUT.PUT_LINE('No employee '\n      || p_empno);\nEND raise_sal;\n/\n\nEXEC raise_sal(105)\nEXEC raise_sal(108, 20)\nEXEC raise_sal(p_pct => 5, p_empno => 104)\n\nBEGIN\n  raise_sal(999);\nEND;\n/"
+   },
+   "out": "Procedure created.\n\n105: 22000 -> 24200\n\nPL/SQL procedure successfully completed.\n\n108: 20000 -> 24000\n\nPL/SQL procedure successfully completed.\n\n104: 45000 -> 47250\n\nPL/SQL procedure successfully completed.\n\nNo employee 999\n\nPL/SQL procedure successfully completed.",
+   "expl": {
+    "en": "\n<ul><li><b>CREATE OR REPLACE PROCEDURE</b> compiles the procedure and stores it in the database (\"Procedure created.\"). OR REPLACE allows changing it later without dropping it.</li>\n<li>Parameters have a <b>mode</b>: IN (default) passes a value into the procedure. <b>DEFAULT 10</b> is used when the second argument is omitted.</li>\n<li>Execute it with <b>EXEC</b> (EXECUTE) in SQL*Plus or call it by name from another PL/SQL block.</li>\n<li>Arguments can be positional <code>raise_sal(108, 20)</code> or named <code>p_pct =&gt; 5</code>.</li>\n<li>For 999 the exception is handled inside the procedure.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_24",
+   "title": {
+    "en": "Procedure with OUT and IN OUT parameters"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nCREATE OR REPLACE PROCEDURE get_emp (\n  p_no   IN  NUMBER,\n  p_name OUT VARCHAR2,\n  p_sal  OUT NUMBER\n) AS\nBEGIN\n  SELECT ename, sal INTO p_name, p_sal\n  FROM emp WHERE empno = p_no;\nEND;\n/\n\nCREATE OR REPLACE PROCEDURE swap (\n  a IN OUT NUMBER,\n  b IN OUT NUMBER\n) IS\n  t NUMBER;\nBEGIN\n  t := a;\n  a := b;\n  b := t;\nEND;\n/\n\nDECLARE\n  v_name VARCHAR2(10);\n  v_sal  NUMBER;\n  x      NUMBER := 15;\n  y      NUMBER := 40;\nBEGIN\n  get_emp(103, v_name, v_sal);\n  DBMS_OUTPUT.PUT_LINE(v_name\n    || ' earns ' || v_sal);\n  swap(x, y);\n  DBMS_OUTPUT.PUT_LINE('x = ' || x\n    || ', y = ' || y);\nEND;\n/"
+   },
+   "out": "Procedure created.\n\nProcedure created.\n\nPRIYA earns 58000\nx = 40, y = 15\n\nPL/SQL procedure successfully completed.",
+   "expl": {
+    "en": "\n<ul><li>An <b>OUT</b> parameter returns a value from the procedure to the caller. The caller must pass a <b>variable</b>, not a constant.</li>\n<li>An <b>IN OUT</b> parameter passes a value in and returns a (changed) value back. swap exchanges x and y.</li>\n<li>A procedure can return several values through OUT parameters (here name and salary), which a function cannot do with RETURN.</li>\n<li>IS and AS mean the same in the procedure header.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_25",
+   "title": {
+    "en": "Procedure with a cursor: department report"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nCREATE OR REPLACE PROCEDURE dept_report (\n  p_dno IN dept.deptno%TYPE\n) IS\n  v_dname dept.dname%TYPE;\n  v_total NUMBER := 0;\nBEGIN\n  SELECT dname INTO v_dname\n  FROM dept WHERE deptno = p_dno;\n  DBMS_OUTPUT.PUT_LINE('Department: '\n    || v_dname);\n  FOR r IN (SELECT ename, sal FROM emp\n            WHERE deptno = p_dno\n            ORDER BY sal DESC) LOOP\n    DBMS_OUTPUT.PUT_LINE('  '\n      || RPAD(r.ename, 8) || r.sal);\n    v_total := v_total + r.sal;\n  END LOOP;\n  DBMS_OUTPUT.PUT_LINE('  Total   '\n    || v_total);\nEXCEPTION\n  WHEN NO_DATA_FOUND THEN\n    DBMS_OUTPUT.PUT_LINE('Invalid dept '\n      || p_dno);\nEND;\n/\n\nEXEC dept_report(10)\nEXEC dept_report(50)"
+   },
+   "out": "Procedure created.\n\nDepartment: ACCOUNTS\n  RAJESH  90000\n  HETAL   40000\n  Total   130000\n\nPL/SQL procedure successfully completed.\n\nInvalid dept 50\n\nPL/SQL procedure successfully completed.",
+   "expl": {
+    "en": "\n<ul><li>A procedure can contain any PL/SQL: cursors, loops and exception handlers.</li>\n<li>Once stored, the same code is reused for any department just by changing the argument; it is compiled only once.</li>\n<li>Department 50 does not exist, so SELECT INTO raises NO_DATA_FOUND, which is handled inside the procedure.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_26",
+   "title": {
+    "en": "Stored function: call from a block and from SELECT"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nCREATE OR REPLACE FUNCTION annual_pay (\n  p_empno IN NUMBER\n) RETURN NUMBER IS\n  v_sal  emp.sal%TYPE;\n  v_comm emp.comm%TYPE;\nBEGIN\n  SELECT sal, NVL(comm, 0)\n  INTO v_sal, v_comm\n  FROM emp WHERE empno = p_empno;\n  RETURN (v_sal + v_comm) * 12;\nEND annual_pay;\n/\n\nDECLARE\n  v_pay NUMBER;\nBEGIN\n  v_pay := annual_pay(107);\n  DBMS_OUTPUT.PUT_LINE('Annual pay: '\n    || v_pay);\nEND;\n/\n\nSELECT ename, sal, comm,\n       annual_pay(empno) annual\nFROM   emp\nWHERE  deptno = 30\nORDER  BY empno;"
+   },
+   "out": "Function created.\n\nAnnual pay: 396000\n\nPL/SQL procedure successfully completed.\n\nENAME   SAL COMM ANNUAL\n----- ----- ---- ------\nPRIYA 58000      696000\nSUNIL 30000 3000 396000\nPOOJA 28000 5000 396000\nVIJAY 20000      240000",
+   "expl": {
+    "en": "\n<ul><li>A <b>function</b> must have a <b>RETURN datatype</b> in its header and must execute a <b>RETURN value</b> statement.</li>\n<li>It is called as part of an expression: <code>v_pay := annual_pay(107);</code> gives (28000 + 5000) × 12 = 396000.</li>\n<li>A function (without DML statements) can be used directly in SQL, like a built-in function: in the SELECT list, WHERE or ORDER BY.</li>\n<li>NVL(comm, 0) avoids a NULL result for employees without commission.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_27",
+   "title": {
+    "en": "Functions: count, recursion, USER_OBJECTS and DROP"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nCREATE OR REPLACE FUNCTION count_emp (\n  p_dno NUMBER\n) RETURN NUMBER IS\n  v_cnt NUMBER;\nBEGIN\n  SELECT COUNT(*) INTO v_cnt\n  FROM emp WHERE deptno = p_dno;\n  RETURN v_cnt;\nEND;\n/\n\nCREATE OR REPLACE FUNCTION fact (\n  n NUMBER\n) RETURN NUMBER IS\nBEGIN\n  IF n <= 1 THEN\n    RETURN 1;\n  END IF;\n  RETURN n * fact(n - 1);\nEND;\n/\n\nSELECT deptno, dname,\n       count_emp(deptno) total\nFROM dept ORDER BY deptno;\n\nEXEC DBMS_OUTPUT.PUT_LINE(fact(5))\n\nSELECT object_name, object_type, status\nFROM user_objects\nWHERE object_type = 'FUNCTION'\nORDER BY object_name;\n\nDROP FUNCTION fact;"
+   },
+   "out": "Function created.\n\nFunction created.\n\nDEPTNO DNAME      TOTAL\n------ ---------- -----\n    10 ACCOUNTS       2\n    20 RESEARCH       3\n    30 SALES          4\n    40 OPERATIONS     0\n\n120\n\nPL/SQL procedure successfully completed.\n\nOBJECT_NAME OBJECT_TYPE STATUS\n----------- ----------- ------\nCOUNT_EMP   FUNCTION    VALID\nFACT        FUNCTION    VALID\n\nFunction dropped.",
+   "expl": {
+    "en": "\n<ul><li>count_emp is used in a SELECT to show the number of employees in each department.</li>\n<li>fact is <b>recursive</b>: it calls itself with n - 1 until n &lt;= 1. 5! = 120.</li>\n<li>EXEC can run any single PL/SQL statement, e.g. a DBMS_OUTPUT call.</li>\n<li>Stored procedures and functions are listed in <b>USER_OBJECTS</b> (and their code in USER_SOURCE). <b>DROP FUNCTION</b> / <b>DROP PROCEDURE</b> removes them.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_28",
+   "title": {
+    "en": "BEFORE row trigger: validate and modify data"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nCREATE OR REPLACE TRIGGER trg_stu_check\nBEFORE INSERT OR UPDATE ON student\nFOR EACH ROW\nBEGIN\n  :NEW.name := INITCAP(:NEW.name);\n  :NEW.branch := UPPER(:NEW.branch);\n  IF :NEW.marks NOT BETWEEN 0 AND 100\n  THEN\n    RAISE_APPLICATION_ERROR(-20001,\n      'Marks must be 0 to 100');\n  END IF;\nEND;\n/\n\nINSERT INTO student\nVALUES (6, 'meera trivedi', 'it',\n        'Anand', 88);\n\nINSERT INTO student\nVALUES (7, 'raj soni', 'ce',\n        'Surat', 105);\n\nUPDATE student SET marks = -5\nWHERE rollno = 1;\n\nSELECT * FROM student\nWHERE rollno >= 6;"
+   },
+   "out": "Trigger created.\n\n1 row created.\n\nERROR at line 1:\nORA-20001: Marks must be 0 to 100\nORA-06512: at \"SCOTT.TRG_STU_CHECK\", line 6\nORA-04088: error during execution of trigger 'SCOTT.TRG_STU_CHECK'\n\nERROR at line 1:\nORA-20001: Marks must be 0 to 100\nORA-06512: at \"SCOTT.TRG_STU_CHECK\", line 6\nORA-04088: error during execution of trigger 'SCOTT.TRG_STU_CHECK'\n\nROLLNO NAME          BRANCH CITY  MARKS\n------ ------------- ------ ----- -----\n     6 Meera Trivedi IT     Anand    88",
+   "expl": {
+    "en": "\n<ul><li>A <b>BEFORE row-level trigger</b> runs before each row is saved. It can check the data and even <b>change :NEW values</b>.</li>\n<li>The name is converted to Initcap and the branch to upper case automatically, whatever the user typed.</li>\n<li>Marks 105 and -5 make the trigger call RAISE_APPLICATION_ERROR, so the INSERT / UPDATE is rejected. ORA-06512 shows the trigger line and <b>ORA-04088</b> names the trigger.</li>\n<li>:NEW can be changed only in a BEFORE row trigger, not in an AFTER trigger.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_29",
+   "title": {
+    "en": "AFTER row trigger for auditing INSERT, UPDATE, DELETE"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nCREATE TABLE emp_audit (\n  empno   NUMBER(4),\n  action  VARCHAR2(6),\n  old_sal NUMBER(7),\n  new_sal NUMBER(7),\n  adate   DATE\n);\n\nCREATE OR REPLACE TRIGGER trg_emp_audit\nAFTER INSERT OR UPDATE OR DELETE ON emp\nFOR EACH ROW\nDECLARE\n  v_act VARCHAR2(6);\nBEGIN\n  IF INSERTING THEN\n    v_act := 'INSERT';\n  ELSIF UPDATING THEN\n    v_act := 'UPDATE';\n  ELSE\n    v_act := 'DELETE';\n  END IF;\n  INSERT INTO emp_audit\n  VALUES (NVL(:NEW.empno, :OLD.empno),\n          v_act, :OLD.sal, :NEW.sal,\n          SYSDATE);\nEND;\n/\n\nINSERT INTO emp (empno, ename, sal)\nVALUES (121, 'RAVI', 18000);\nUPDATE emp SET sal = sal + 500\nWHERE deptno = 10;\nDELETE FROM emp WHERE empno = 121;\n\nSELECT * FROM emp_audit;"
+   },
+   "out": "Table created.\n\nTrigger created.\n\n1 row created.\n\n2 rows updated.\n\n1 row deleted.\n\nEMPNO ACTION OLD_SAL NEW_SAL ADATE\n----- ------ ------- ------- ---------\n  121 INSERT           18000 28-OCT-26\n  101 UPDATE   90000   90500 28-OCT-26\n  109 UPDATE   40000   40500 28-OCT-26\n  121 DELETE   18000         28-OCT-26",
+   "expl": {
+    "en": "\n<ul><li>An <b>AFTER row trigger</b> fires after each row is changed. It is commonly used for <b>auditing</b>: keeping a history of changes in another table.</li>\n<li>One trigger can handle several events (INSERT OR UPDATE OR DELETE). The predicates <b>INSERTING</b>, <b>UPDATING</b> and <b>DELETING</b> tell which event fired it.</li>\n<li>:OLD is NULL for INSERT and :NEW is NULL for DELETE, so NVL picks whichever empno exists.</li>\n<li>The UPDATE changed 2 rows of department 10, so 2 audit rows were written.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_30",
+   "title": {
+    "en": "Row-level vs statement-level trigger"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nCREATE OR REPLACE TRIGGER trg_row\nAFTER UPDATE ON emp\nFOR EACH ROW\nBEGIN\n  DBMS_OUTPUT.PUT_LINE('Row trigger: '\n    || :OLD.ename);\nEND;\n/\n\nCREATE OR REPLACE TRIGGER trg_stmt\nAFTER UPDATE ON emp\nBEGIN\n  DBMS_OUTPUT.PUT_LINE('Statement'\n    || ' trigger fired');\nEND;\n/\n\nUPDATE emp SET sal = sal + 100\nWHERE deptno = 20;\n\nUPDATE emp SET sal = sal + 100\nWHERE deptno = 40;"
+   },
+   "out": "Trigger created.\n\nTrigger created.\n\nRow trigger: AMIT\nRow trigger: NEHA\nRow trigger: KIRAN\nStatement trigger fired\n\n3 rows updated.\n\nStatement trigger fired\n\n0 rows updated.",
+   "expl": {
+    "en": "\n<ul><li><b>trg_row</b> has FOR EACH ROW, so it fires <b>once for every row</b> changed (3 rows in department 20). It can use :OLD and :NEW.</li>\n<li><b>trg_stmt</b> has no FOR EACH ROW, so it fires <b>once per statement</b>, after all rows are changed.</li>\n<li>The second UPDATE changes 0 rows: the row trigger does not fire, but the statement trigger still fires once.</li>\n<li>Order for one statement: BEFORE statement → (BEFORE row → change → AFTER row) for each row → AFTER statement.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_31",
+   "title": {
+    "en": "BEFORE DELETE / UPDATE OF trigger: block invalid changes"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nCREATE OR REPLACE TRIGGER trg_no_del\nBEFORE DELETE ON emp\nFOR EACH ROW\nWHEN (OLD.job = 'PRESIDENT')\nBEGIN\n  RAISE_APPLICATION_ERROR(-20005,\n    'President cannot be deleted');\nEND;\n/\n\nCREATE OR REPLACE TRIGGER trg_sal_cut\nBEFORE UPDATE OF sal ON emp\nFOR EACH ROW\nBEGIN\n  IF :NEW.sal < :OLD.sal THEN\n    RAISE_APPLICATION_ERROR(-20006,\n      'Salary of ' || :OLD.ename\n      || ' cannot be reduced');\n  END IF;\nEND;\n/\n\nDELETE FROM emp WHERE empno = 101;\nDELETE FROM emp WHERE empno = 110;\nUPDATE emp SET sal = sal - 1000\nWHERE empno = 104;\nUPDATE emp SET job = 'SR ANALYST'\nWHERE empno = 104;"
+   },
+   "out": "Trigger created.\n\nTrigger created.\n\nERROR at line 1:\nORA-20005: President cannot be deleted\nORA-06512: at \"SCOTT.TRG_NO_DEL\", line 2\nORA-04088: error during execution of trigger 'SCOTT.TRG_NO_DEL'\n\n1 row deleted.\n\nERROR at line 1:\nORA-20006: Salary of NEHA cannot be reduced\nORA-06512: at \"SCOTT.TRG_SAL_CUT\", line 3\nORA-04088: error during execution of trigger 'SCOTT.TRG_SAL_CUT'\n\n1 row updated.",
+   "expl": {
+    "en": "\n<ul><li>The <b>WHEN</b> clause adds a condition: trg_no_del fires only for the president's row. In WHEN, NEW and OLD are written <b>without the colon</b>.</li>\n<li>Deleting employee 110 is allowed, but deleting 101 (PRESIDENT) is rejected.</li>\n<li><b>UPDATE OF sal</b> makes trg_sal_cut fire only when the SAL column is updated. A salary cut is rejected, but changing JOB does not fire the trigger.</li>\n<li>Triggers like these enforce business rules that cannot be written as constraints.</li></ul>\n"
+   }
+  },
+  {
+   "id": "q5_32",
+   "title": {
+    "en": "Managing triggers: USER_TRIGGERS, DISABLE, ENABLE, DROP"
+   },
+   "code": {
+    "en": "SET SERVEROUTPUT ON\nCREATE OR REPLACE TRIGGER trg_dept_loc\nBEFORE INSERT OR UPDATE ON dept\nFOR EACH ROW\nBEGIN\n  :NEW.loc := UPPER(:NEW.loc);\nEND;\n/\n\nSELECT trigger_name, trigger_type,\n       triggering_event, status\nFROM user_triggers;\n\nALTER TRIGGER trg_dept_loc DISABLE;\nINSERT INTO dept\nVALUES (50, 'HR', 'Bharuch');\n\nALTER TRIGGER trg_dept_loc ENABLE;\nINSERT INTO dept\nVALUES (60, 'IT', 'Navsari');\n\nSELECT * FROM dept\nWHERE deptno >= 50 ORDER BY deptno;\n\nDROP TRIGGER trg_dept_loc;"
+   },
+   "out": "Trigger created.\n\nTRIGGER_NAME TRIGGER_TYPE    TRIGGERING_EVENT STATUS\n------------ --------------- ---------------- -------\nTRG_DEPT_LOC BEFORE EACH ROW INSERT OR UPDATE ENABLED\n\nTrigger altered.\n\n1 row created.\n\nTrigger altered.\n\n1 row created.\n\nDEPTNO DNAME LOC\n------ ----- -------\n    50 HR    Bharuch\n    60 IT    NAVSARI\n\nTrigger dropped.",
+   "expl": {
+    "en": "\n<ul><li><b>USER_TRIGGERS</b> lists the triggers of the current user with their type, event and status.</li>\n<li><b>ALTER TRIGGER name DISABLE</b> switches a trigger off without deleting it (useful while bulk-loading data). Row 50 is saved as 'Bharuch' because the trigger was disabled.</li>\n<li><b>ENABLE</b> switches it on again, so 'Navsari' becomes 'NAVSARI'.</li>\n<li><code>ALTER TABLE dept DISABLE ALL TRIGGERS;</code> disables all triggers of a table. <b>DROP TRIGGER</b> deletes the trigger; dropping a table also drops its triggers.</li></ul>\n"
+   }
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "db5_block",
+   "title": {
+    "en": "PL/SQL Block Structure"
+   },
+   "file": "diagrams/db5_block.svg"
+  },
+  {
+   "id": "db5_engine",
+   "title": {
+    "en": "PL/SQL Engine"
+   },
+   "file": "diagrams/db5_engine.svg"
+  },
+  {
+   "id": "db5_type_rowtype",
+   "title": {
+    "en": "%TYPE and %ROWTYPE"
+   },
+   "file": "diagrams/db5_type_rowtype.svg"
+  },
+  {
+   "id": "db5_if",
+   "title": {
+    "en": "IF-THEN-ELSIF-ELSE Flow"
+   },
+   "file": "diagrams/db5_if.svg"
+  },
+  {
+   "id": "db5_loops",
+   "title": {
+    "en": "Loops in PL/SQL"
+   },
+   "file": "diagrams/db5_loops.svg"
+  },
+  {
+   "id": "db5_cursor",
+   "title": {
+    "en": "Cursor: Context Area and Active Set"
+   },
+   "file": "diagrams/db5_cursor.svg"
+  },
+  {
+   "id": "db5_cursor_steps",
+   "title": {
+    "en": "Explicit Cursor: Four Steps"
+   },
+   "file": "diagrams/db5_cursor_steps.svg"
+  },
+  {
+   "id": "db5_exceptions",
+   "title": {
+    "en": "Types of Exceptions"
+   },
+   "file": "diagrams/db5_exceptions.svg"
+  },
+  {
+   "id": "db5_proc_func",
+   "title": {
+    "en": "Procedure vs Function"
+   },
+   "file": "diagrams/db5_proc_func.svg"
+  },
+  {
+   "id": "db5_trigger_flow",
+   "title": {
+    "en": "How a Trigger Fires"
+   },
+   "file": "diagrams/db5_trigger_flow.svg"
+  },
+  {
+   "id": "db5_trigger_types",
+   "title": {
+    "en": "Types of Triggers"
+   },
+   "file": "diagrams/db5_trigger_types.svg"
+  }
+ ],
+ "syntax": [
+  {
+   "title": {
+    "en": "PL/SQL Basics"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Block structure"
+     },
+     "f": "DECLARE\n  -- declarations (optional)\nBEGIN\n  -- executable statements (mandatory)\nEXCEPTION\n  -- error handlers (optional)\nEND;\n/",
+     "terms": {
+      "en": "Only BEGIN ... END is mandatory. / runs the block in SQL*Plus."
+     }
+    },
+    {
+     "name": {
+      "en": "Output"
+     },
+     "f": "SET SERVEROUTPUT ON\nBEGIN\n  DBMS_OUTPUT.PUT_LINE('Hello');\nEND;\n/",
+     "terms": {
+      "en": "SET SERVEROUTPUT ON is needed to see DBMS_OUTPUT."
+     }
+    },
+    {
+     "name": {
+      "en": "Variables and constants"
+     },
+     "f": "v_name  VARCHAR2(20);\nv_count NUMBER(4) := 0;\nv_rate  NUMBER(5,2) DEFAULT 8.5;\nv_city  VARCHAR2(15) NOT NULL\n        := 'Surat';\nc_pi    CONSTANT NUMBER := 3.14;\nv_flag  BOOLEAN := FALSE;\nv_dob   DATE := SYSDATE;",
+     "terms": {
+      "en": ":= assigns. CONSTANT and NOT NULL must be initialised."
+     }
+    },
+    {
+     "name": {
+      "en": "SELECT INTO"
+     },
+     "f": "SELECT col1, col2\nINTO   var1, var2\nFROM   table_name\nWHERE  condition;  -- exactly one row",
+     "terms": {
+      "en": "No row: NO_DATA_FOUND. Many rows: TOO_MANY_ROWS."
+     }
+    },
+    {
+     "name": {
+      "en": "%TYPE"
+     },
+     "f": "variable table.column%TYPE;\n\nv_name emp.ename%TYPE;\nv_sal  emp.sal%TYPE;\nv_new  v_sal%TYPE;",
+     "terms": {
+      "en": "Same data type as a column or variable."
+     }
+    },
+    {
+     "name": {
+      "en": "%ROWTYPE"
+     },
+     "f": "record table%ROWTYPE;\n\nv_emp emp%ROWTYPE;\n...\nSELECT * INTO v_emp\nFROM emp WHERE empno = 106;\nDBMS_OUTPUT.PUT_LINE(v_emp.ename);",
+     "terms": {
+      "en": "Record with one field per column."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Control Structures"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "IF / ELSIF / ELSE"
+     },
+     "f": "IF condition THEN\n  statements;\nEND IF;\n\nIF condition THEN\n  statements;\nELSE\n  statements;\nEND IF;\n\nIF condition1 THEN\n  statements;\nELSIF condition2 THEN\n  statements;\nELSE\n  statements;\nEND IF;",
+     "terms": {
+      "en": "ELSIF (not ELSEIF); ends with END IF;"
+     }
+    },
+    {
+     "name": {
+      "en": "CASE"
+     },
+     "f": "-- simple CASE\nCASE expression\n  WHEN value1 THEN statements;\n  WHEN value2 THEN statements;\n  ELSE statements;\nEND CASE;\n\n-- searched CASE\nCASE\n  WHEN condition1 THEN statements;\n  WHEN condition2 THEN statements;\n  ELSE statements;\nEND CASE;",
+     "terms": {
+      "en": "No match and no ELSE: CASE_NOT_FOUND."
+     }
+    },
+    {
+     "name": {
+      "en": "Basic LOOP"
+     },
+     "f": "LOOP\n  statements;\n  EXIT WHEN condition;\nEND LOOP;",
+     "terms": {
+      "en": "Runs at least once; needs EXIT."
+     }
+    },
+    {
+     "name": {
+      "en": "WHILE LOOP"
+     },
+     "f": "WHILE condition LOOP\n  statements;\nEND LOOP;",
+     "terms": {
+      "en": "Condition checked before each iteration."
+     }
+    },
+    {
+     "name": {
+      "en": "FOR LOOP"
+     },
+     "f": "FOR counter IN [REVERSE] low..high\nLOOP\n  statements;\nEND LOOP;",
+     "terms": {
+      "en": "Counter declared automatically; REVERSE counts down."
+     }
+    },
+    {
+     "name": {
+      "en": "EXIT, CONTINUE, labels"
+     },
+     "f": "<<outer>>\nFOR i IN 1..3 LOOP\n  FOR j IN 1..3 LOOP\n    EXIT outer WHEN i * j = 4;\n    CONTINUE WHEN j = 2;\n    DBMS_OUTPUT.PUT(i * j || ' ');\n  END LOOP;\nEND LOOP outer;\n-- prints: 1 3 2",
+     "terms": {
+      "en": "EXIT label leaves an outer loop."
+     }
+    },
+    {
+     "name": {
+      "en": "GOTO"
+     },
+     "f": "BEGIN\n  IF v_marks < 35 THEN\n    GOTO fail_label;\n  END IF;\n  DBMS_OUTPUT.PUT_LINE('Pass');\n  GOTO end_label;\n  <<fail_label>>\n  DBMS_OUTPUT.PUT_LINE('Fail');\n  <<end_label>>\n  NULL;\nEND;",
+     "terms": {
+      "en": "Unconditional jump to a label; avoid it."
+     }
+    },
+    {
+     "name": {
+      "en": "NULL statement"
+     },
+     "f": "IF v_sal > 50000 THEN\n  v_tax := v_sal * 0.2;\nELSE\n  NULL;  -- do nothing\nEND IF;",
+     "terms": {
+      "en": "Does nothing."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Cursors"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Implicit cursor"
+     },
+     "f": "UPDATE emp SET sal = sal + 2000\nWHERE job = 'CLERK';\nIF SQL%FOUND THEN\n  DBMS_OUTPUT.PUT_LINE(SQL%ROWCOUNT\n    || ' rows updated');\nEND IF;",
+     "terms": {
+      "en": "SQL%FOUND, SQL%NOTFOUND, SQL%ROWCOUNT, SQL%ISOPEN (always FALSE)."
+     }
+    },
+    {
+     "name": {
+      "en": "Explicit cursor"
+     },
+     "f": "DECLARE\n  CURSOR c_emp IS\n    SELECT ename, sal FROM emp;   -- 1\n  v_name emp.ename%TYPE;\n  v_sal  emp.sal%TYPE;\nBEGIN\n  OPEN c_emp;                     -- 2\n  LOOP\n    FETCH c_emp INTO v_name, v_sal; -- 3\n    EXIT WHEN c_emp%NOTFOUND;\n    -- process the row\n  END LOOP;\n  CLOSE c_emp;                    -- 4\nEND;",
+     "terms": {
+      "en": "DECLARE, OPEN, FETCH, CLOSE."
+     }
+    },
+    {
+     "name": {
+      "en": "Cursor FOR loop"
+     },
+     "f": "FOR record IN cursor_name LOOP\n  statements;  -- use record.column\nEND LOOP;\n\nFOR r IN (SELECT ename FROM emp) LOOP\n  DBMS_OUTPUT.PUT_LINE(r.ename);\nEND LOOP;",
+     "terms": {
+      "en": "Opens, fetches and closes automatically."
+     }
+    },
+    {
+     "name": {
+      "en": "Parameterized cursor"
+     },
+     "f": "CURSOR c_emp (p_dno NUMBER) IS\n  SELECT ename FROM emp\n  WHERE deptno = p_dno;\n...\nOPEN c_emp(20);\nFOR r IN c_emp(30) LOOP ... END LOOP;",
+     "terms": {
+      "en": "Parameter types without size."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Exceptions"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "EXCEPTION section"
+     },
+     "f": "BEGIN\n  statements;\nEXCEPTION\n  WHEN exception1 THEN\n    statements;\n  WHEN exception2 OR exception3 THEN\n    statements;\n  WHEN OTHERS THEN\n    statements;\nEND;",
+     "terms": {
+      "en": "WHEN OTHERS must be last. SQLCODE, SQLERRM."
+     }
+    },
+    {
+     "name": {
+      "en": "User-defined exception"
+     },
+     "f": "DECLARE\n  e_low_bal EXCEPTION;          -- declare\nBEGIN\n  IF v_amt > v_bal THEN\n    RAISE e_low_bal;            -- raise\n  END IF;\nEXCEPTION\n  WHEN e_low_bal THEN           -- handle\n    DBMS_OUTPUT.PUT_LINE('Low balance');\nEND;",
+     "terms": {
+      "en": "Declare, RAISE, handle."
+     }
+    },
+    {
+     "name": {
+      "en": "PRAGMA EXCEPTION_INIT"
+     },
+     "f": "DECLARE\n  e_child EXCEPTION;\n  PRAGMA EXCEPTION_INIT(e_child, -2292);\nBEGIN\n  DELETE FROM dept WHERE deptno = 10;\nEXCEPTION\n  WHEN e_child THEN\n    DBMS_OUTPUT.PUT_LINE('Has employees');\nEND;",
+     "terms": {
+      "en": "Names an Oracle error number."
+     }
+    },
+    {
+     "name": {
+      "en": "RAISE_APPLICATION_ERROR"
+     },
+     "f": "RAISE_APPLICATION_ERROR(\n  error_number,  -- -20000 to -20999\n  'message');\n\nRAISE_APPLICATION_ERROR(-20010,\n  'Salary below minimum');",
+     "terms": {
+      "en": "Number -20000 to -20999."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Procedures and Functions"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "CREATE PROCEDURE"
+     },
+     "f": "CREATE [OR REPLACE] PROCEDURE name\n  (param1 [IN|OUT|IN OUT] datatype,\n   param2 ...)\nIS | AS\n  -- local declarations\nBEGIN\n  statements;\n[EXCEPTION\n  handlers;]\nEND [name];\n/",
+     "terms": {
+      "en": "IN is the default mode. No DECLARE keyword."
+     }
+    },
+    {
+     "name": {
+      "en": "Execute a procedure"
+     },
+     "f": "-- from SQL*Plus\nEXEC raise_sal(105)\nEXECUTE raise_sal(108, 20)\n\n-- from a PL/SQL block\nBEGIN\n  raise_sal(p_empno => 104, p_pct => 5);\nEND;\n/",
+     "terms": {
+      "en": "Positional or named (=>) notation."
+     }
+    },
+    {
+     "name": {
+      "en": "Parameter modes"
+     },
+     "f": "CREATE OR REPLACE PROCEDURE get_emp (\n  p_no   IN  NUMBER,\n  p_name OUT VARCHAR2,\n  p_sal  OUT NUMBER) AS\nBEGIN\n  SELECT ename, sal INTO p_name, p_sal\n  FROM emp WHERE empno = p_no;\nEND;\n/",
+     "terms": {
+      "en": "OUT and IN OUT need a variable as actual parameter."
+     }
+    },
+    {
+     "name": {
+      "en": "CREATE FUNCTION"
+     },
+     "f": "CREATE [OR REPLACE] FUNCTION name\n  (param1 [IN] datatype, ...)\nRETURN datatype\nIS | AS\n  -- local declarations\nBEGIN\n  statements;\n  RETURN value;\nEND [name];\n/",
+     "terms": {
+      "en": "RETURN datatype in header, RETURN value in body."
+     }
+    },
+    {
+     "name": {
+      "en": "Calling a function"
+     },
+     "f": "v_pay := annual_pay(107);\n\nSELECT ename, annual_pay(empno)\nFROM emp;",
+     "terms": {
+      "en": "Usable in SQL if it does no DML."
+     }
+    },
+    {
+     "name": {
+      "en": "Drop and list"
+     },
+     "f": "DROP PROCEDURE raise_sal;\nDROP FUNCTION annual_pay;\n\nSELECT object_name, object_type\nFROM user_objects\nWHERE object_type IN\n      ('PROCEDURE', 'FUNCTION');",
+     "terms": {
+      "en": "Code is in USER_SOURCE."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Triggers"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "CREATE TRIGGER"
+     },
+     "f": "CREATE [OR REPLACE] TRIGGER name\n{BEFORE | AFTER}\n{INSERT | UPDATE [OF col] | DELETE}\n  [OR ...]\nON table_name\n[FOR EACH ROW]\n[WHEN (condition)]\n[DECLARE\n  declarations]\nBEGIN\n  statements;\nEND;\n/",
+     "terms": {
+      "en": "FOR EACH ROW = row level; default = statement level."
+     }
+    },
+    {
+     "name": {
+      "en": "BEFORE row trigger"
+     },
+     "f": "CREATE OR REPLACE TRIGGER trg_upper\nBEFORE INSERT OR UPDATE ON emp\nFOR EACH ROW\nBEGIN\n  :NEW.ename := UPPER(:NEW.ename);\n  IF :NEW.sal < 0 THEN\n    RAISE_APPLICATION_ERROR(-20002,\n      'Salary cannot be negative');\n  END IF;\nEND;\n/",
+     "terms": {
+      "en": ":NEW can be changed only here."
+     }
+    },
+    {
+     "name": {
+      "en": "AFTER row trigger"
+     },
+     "f": "CREATE OR REPLACE TRIGGER trg_sal_log\nAFTER UPDATE OF sal ON emp\nFOR EACH ROW\nBEGIN\n  INSERT INTO sal_log\n  VALUES (:OLD.empno, :OLD.sal,\n          :NEW.sal, SYSDATE);\nEND;\n/",
+     "terms": {
+      "en": "Auditing; :NEW is read-only."
+     }
+    },
+    {
+     "name": {
+      "en": "Statement trigger"
+     },
+     "f": "CREATE OR REPLACE TRIGGER trg_emp_stmt\nAFTER DELETE ON emp\nBEGIN\n  DBMS_OUTPUT.PUT_LINE('Rows deleted');\nEND;\n/",
+     "terms": {
+      "en": "Fires once, even for 0 rows."
+     }
+    },
+    {
+     "name": {
+      "en": "Manage triggers"
+     },
+     "f": "ALTER TRIGGER trg_upper DISABLE;\nALTER TRIGGER trg_upper ENABLE;\nALTER TABLE emp DISABLE ALL TRIGGERS;\nALTER TABLE emp ENABLE ALL TRIGGERS;\nDROP TRIGGER trg_upper;\n\nSELECT trigger_name, status\nFROM user_triggers;",
+     "terms": {
+      "en": "Disabled triggers do not fire."
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "PL/SQL Fundamentals"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is PL/SQL?"
+     },
+     "a": {
+      "en": "Procedural Language extension to SQL: Oracle's language that adds variables, conditions, loops and error handling to SQL."
+     }
+    },
+    {
+     "q": {
+      "en": "What are the sections of a PL/SQL block?"
+     },
+     "a": {
+      "en": "DECLARE (optional), BEGIN (mandatory), EXCEPTION (optional) and END."
+     }
+    },
+    {
+     "q": {
+      "en": "Which section of a block is mandatory?"
+     },
+     "a": {
+      "en": "The executable section, BEGIN ... END."
+     }
+    },
+    {
+     "q": {
+      "en": "What is an anonymous block?"
+     },
+     "a": {
+      "en": "A PL/SQL block without a name that is not stored in the database."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is SET SERVEROUTPUT ON used?"
+     },
+     "a": {
+      "en": "To display the output of DBMS_OUTPUT.PUT_LINE in SQL*Plus."
+     }
+    },
+    {
+     "q": {
+      "en": "Give three advantages of PL/SQL over SQL."
+     },
+     "a": {
+      "en": "Procedural features (IF, loops), less network traffic because a whole block is sent at once, and error handling."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the assignment operator in PL/SQL?"
+     },
+     "a": {
+      "en": ":= (colon equals)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a constant?"
+     },
+     "a": {
+      "en": "A variable declared with CONSTANT whose value is fixed at declaration and cannot be changed."
+     }
+    },
+    {
+     "q": {
+      "en": "Can BOOLEAN be used as a column data type?"
+     },
+     "a": {
+      "en": "No, BOOLEAN exists only in PL/SQL."
+     }
+    },
+    {
+     "q": {
+      "en": "What is %TYPE?"
+     },
+     "a": {
+      "en": "An attribute that gives a variable the same data type as a table column or another variable."
+     }
+    },
+    {
+     "q": {
+      "en": "What is %ROWTYPE?"
+     },
+     "a": {
+      "en": "An attribute that declares a record with the structure of a whole table row or cursor row."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the advantage of %TYPE?"
+     },
+     "a": {
+      "en": "If the column type changes, the program need not be changed."
+     }
+    },
+    {
+     "q": {
+      "en": "What happens if SELECT INTO returns no rows?"
+     },
+     "a": {
+      "en": "The NO_DATA_FOUND exception is raised."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Control Structures"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Name the three types of control structures."
+     },
+     "a": {
+      "en": "Conditional (IF, CASE), iterative (loops) and sequential (GOTO, NULL)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the difference between IF-ELSIF and CASE?"
+     },
+     "a": {
+      "en": "Both choose among alternatives; CASE is clearer for many values of one expression, IF-ELSIF for unrelated conditions."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the difference between simple and searched CASE?"
+     },
+     "a": {
+      "en": "Simple CASE compares one selector with values; searched CASE has a separate condition in each WHEN."
+     }
+    },
+    {
+     "q": {
+      "en": "Which loop runs at least once?"
+     },
+     "a": {
+      "en": "The basic LOOP with EXIT WHEN at the end."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between WHILE and FOR loop?"
+     },
+     "a": {
+      "en": "WHILE repeats while a condition is TRUE; FOR repeats a fixed number of times with an automatic counter."
+     }
+    },
+    {
+     "q": {
+      "en": "What does REVERSE do in a FOR loop?"
+     },
+     "a": {
+      "en": "The counter goes from the upper bound down to the lower bound."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the use of EXIT WHEN?"
+     },
+     "a": {
+      "en": "It ends the loop when the condition becomes TRUE."
+     }
+    },
+    {
+     "q": {
+      "en": "What does CONTINUE do?"
+     },
+     "a": {
+      "en": "It skips the rest of the current iteration and starts the next one."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the NULL statement?"
+     },
+     "a": {
+      "en": "A statement that does nothing; used where a statement is required."
+     }
+    },
+    {
+     "q": {
+      "en": "Why should GOTO be avoided?"
+     },
+     "a": {
+      "en": "It makes the program flow hard to read and maintain."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Cursors"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a cursor?"
+     },
+     "a": {
+      "en": "A pointer to the context area (memory) that holds the rows returned by a SQL statement."
+     }
+    },
+    {
+     "q": {
+      "en": "What is an active set?"
+     },
+     "a": {
+      "en": "The set of rows returned by the cursor's query."
+     }
+    },
+    {
+     "q": {
+      "en": "What are the types of cursors?"
+     },
+     "a": {
+      "en": "Implicit cursors (created by Oracle) and explicit cursors (declared by the programmer)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the name of the implicit cursor?"
+     },
+     "a": {
+      "en": "SQL."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is SQL%ISOPEN always FALSE?"
+     },
+     "a": {
+      "en": "Oracle closes the implicit cursor immediately after the statement."
+     }
+    },
+    {
+     "q": {
+      "en": "What are the steps to use an explicit cursor?"
+     },
+     "a": {
+      "en": "DECLARE, OPEN, FETCH, CLOSE."
+     }
+    },
+    {
+     "q": {
+      "en": "List the cursor attributes."
+     },
+     "a": {
+      "en": "%FOUND, %NOTFOUND, %ROWCOUNT and %ISOPEN."
+     }
+    },
+    {
+     "q": {
+      "en": "What does %ROWCOUNT return for an explicit cursor?"
+     },
+     "a": {
+      "en": "The number of rows fetched so far."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a cursor FOR loop?"
+     },
+     "a": {
+      "en": "A loop that opens the cursor, fetches every row into a record and closes the cursor automatically."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a parameterized cursor?"
+     },
+     "a": {
+      "en": "A cursor that accepts parameters, so it can be opened with different values."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Exceptions"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is an exception?"
+     },
+     "a": {
+      "en": "A run-time error in a PL/SQL block."
+     }
+    },
+    {
+     "q": {
+      "en": "What are the types of exceptions?"
+     },
+     "a": {
+      "en": "Predefined, non-predefined and user-defined."
+     }
+    },
+    {
+     "q": {
+      "en": "Name four predefined exceptions."
+     },
+     "a": {
+      "en": "NO_DATA_FOUND, TOO_MANY_ROWS, ZERO_DIVIDE, DUP_VAL_ON_INDEX."
+     }
+    },
+    {
+     "q": {
+      "en": "What is WHEN OTHERS?"
+     },
+     "a": {
+      "en": "A handler that catches all exceptions not handled earlier; it must be the last handler."
+     }
+    },
+    {
+     "q": {
+      "en": "What do SQLCODE and SQLERRM return?"
+     },
+     "a": {
+      "en": "The error number and the error message of the current exception."
+     }
+    },
+    {
+     "q": {
+      "en": "How is a user-defined exception raised?"
+     },
+     "a": {
+      "en": "With the RAISE statement."
+     }
+    },
+    {
+     "q": {
+      "en": "What is PRAGMA EXCEPTION_INIT?"
+     },
+     "a": {
+      "en": "A compiler directive that associates an exception name with an Oracle error number."
+     }
+    },
+    {
+     "q": {
+      "en": "What is RAISE_APPLICATION_ERROR?"
+     },
+     "a": {
+      "en": "A procedure that raises a user-defined error with a number from -20000 to -20999 and a message."
+     }
+    },
+    {
+     "q": {
+      "en": "What happens to an unhandled exception?"
+     },
+     "a": {
+      "en": "It propagates to the enclosing block or caller; if never handled, the program ends with an error."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Procedures and Functions"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a stored procedure?"
+     },
+     "a": {
+      "en": "A named PL/SQL block stored in the database that performs a task and can be called with parameters."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you execute a procedure in SQL*Plus?"
+     },
+     "a": {
+      "en": "EXEC procedure_name(arguments);"
+     }
+    },
+    {
+     "q": {
+      "en": "What are the parameter modes?"
+     },
+     "a": {
+      "en": "IN (default), OUT and IN OUT."
+     }
+    },
+    {
+     "q": {
+      "en": "Can an IN parameter be changed inside a procedure?"
+     },
+     "a": {
+      "en": "No, it is read-only."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a function?"
+     },
+     "a": {
+      "en": "A named PL/SQL block that returns exactly one value with RETURN."
+     }
+    },
+    {
+     "q": {
+      "en": "Give two differences between a procedure and a function."
+     },
+     "a": {
+      "en": "A function must return a value with RETURN and can be used in SQL; a procedure need not return a value and is called as a statement."
+     }
+    },
+    {
+     "q": {
+      "en": "Can a function be used in a SELECT statement?"
+     },
+     "a": {
+      "en": "Yes, if it does not perform DML and has only IN parameters."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the use of OR REPLACE?"
+     },
+     "a": {
+      "en": "It re-creates an existing subprogram without dropping it first."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you see compilation errors?"
+     },
+     "a": {
+      "en": "With the SHOW ERRORS command."
+     }
+    },
+    {
+     "q": {
+      "en": "Which view lists procedures and functions?"
+     },
+     "a": {
+      "en": "USER_OBJECTS (and USER_PROCEDURES); the source code is in USER_SOURCE."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Triggers"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a trigger?"
+     },
+     "a": {
+      "en": "A stored PL/SQL block that fires automatically when an INSERT, UPDATE or DELETE occurs on a table."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the difference between a trigger and a procedure?"
+     },
+     "a": {
+      "en": "A trigger fires automatically on an event and has no parameters; a procedure is called explicitly."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the difference between BEFORE and AFTER triggers?"
+     },
+     "a": {
+      "en": "A BEFORE trigger fires before the change and can modify :NEW; an AFTER trigger fires after the change."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a row-level trigger?"
+     },
+     "a": {
+      "en": "A trigger with FOR EACH ROW that fires once for every affected row."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a statement-level trigger?"
+     },
+     "a": {
+      "en": "A trigger without FOR EACH ROW that fires once per statement, even if no rows are affected."
+     }
+    },
+    {
+     "q": {
+      "en": "What are :NEW and :OLD?"
+     },
+     "a": {
+      "en": "Pseudo-records that hold the new and old values of the row in a row-level trigger."
+     }
+    },
+    {
+     "q": {
+      "en": "What is :OLD in an INSERT trigger?"
+     },
+     "a": {
+      "en": "NULL, because there is no old row."
+     }
+    },
+    {
+     "q": {
+      "en": "What are INSERTING, UPDATING and DELETING?"
+     },
+     "a": {
+      "en": "Conditional predicates that tell which event fired the trigger."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the use of the WHEN clause in a trigger?"
+     },
+     "a": {
+      "en": "It adds a condition so the trigger fires only for certain rows."
+     }
+    },
+    {
+     "q": {
+      "en": "How many types of DML triggers are possible?"
+     },
+     "a": {
+      "en": "12: BEFORE/AFTER × row/statement × INSERT/UPDATE/DELETE."
+     }
+    },
+    {
+     "q": {
+      "en": "Can a trigger contain COMMIT?"
+     },
+     "a": {
+      "en": "No, COMMIT and ROLLBACK are not allowed in triggers."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you disable a trigger?"
+     },
+     "a": {
+      "en": "ALTER TRIGGER trigger_name DISABLE;"
+     }
+    },
+    {
+     "q": {
+      "en": "Give two uses of triggers."
+     },
+     "a": {
+      "en": "Auditing changes and enforcing business rules / validation."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "What is PL/SQL? List the advantages of PL/SQL over SQL."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain the structure of a PL/SQL block with an example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain %TYPE and %ROWTYPE with examples."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the IF-THEN-ELSIF statement with an example."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain different types of loops in PL/SQL with examples."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Write a PL/SQL block to find the factorial of a number."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Write a PL/SQL block to check whether a number is a palindrome."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "What is a cursor? Differentiate between implicit and explicit cursors."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the steps of an explicit cursor and its attributes with an example."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain the cursor FOR loop with an example."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "What is an exception? Explain predefined exceptions."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain user-defined exceptions with an example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain exception handling in PL/SQL with all types of exceptions."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "What is a stored procedure? Explain with syntax and example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain IN, OUT and IN OUT parameters."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Differentiate between a procedure and a function."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Write a function that returns the annual salary of an employee."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "What is a trigger? Explain the types of triggers."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Differentiate between row-level and statement-level triggers."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Write a trigger to convert the employee name to upper case before insert."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write an AFTER trigger to audit salary changes."
+   },
+   "marks": 4
+  }
+ ],
+ "tabs": [
+  "notes",
+  "programs",
+  "diagrams",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "Detailed notes as per GTU syllabus with diagrams, solved Oracle SQL queries with real output, syntax and viva."
+ }
+}
