@@ -140,6 +140,9 @@ def kmap_svg(x, y, n, ones, dc=(), groups=(), cell=38, names=VARS, show_zero=Tru
     rv, cv, rb, cb = layout(n)
     R, C = len(rv), len(cv)
     rn, cn = names[:rb], names[rb:n]
+    if not isinstance(names, str):
+        sep = " " if any(len(v) > 1 for v in names[:n]) else ""
+        rn, cn = sep.join(rn), sep.join(cn)
     b = ""
     fmt = lambda v, w: format(v, f"0{w}b")
     # header
