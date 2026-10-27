@@ -1,0 +1,1487 @@
+{
+ "subject": "DI02000101",
+ "unit": 4,
+ "format": "notes",
+ "title": {
+  "en": "Python Functions and File Handling"
+ },
+ "weightage": 27,
+ "hours": 12,
+ "notes": [
+  {
+   "title": {
+    "en": "4.1 Built-in Functions"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "4.1.1 Introduction to Functions and Built-in Functions"
+     },
+     "body": {
+      "en": "<p>A <b>function</b> is a named block of code that performs a specific task. It can take inputs (arguments) and give back a result (return value). Functions make programs shorter, reusable and easier to understand.</p>\n<h4>Types of functions in Python</h4>\n<ol><li><b>Built-in functions</b> are ready-made functions that come with Python and are always available without any import: <code>print()</code>, <code>input()</code>, <code>len()</code>, <code>type()</code>, <code>int()</code>, <code>max()</code>, etc.</li>\n<li><b>User-defined functions</b> are written by the programmer using the <code>def</code> keyword (topic 4.3).</li>\n<li>(Functions from <b>modules</b>, such as <code>math.sqrt()</code>, are covered in Unit 5.)</li></ol>\n<pre class=\"c\">print(\"Hi\")        # output\nlen(\"Python\")      # 6\ntype(10)           # &lt;class 'int'&gt;\nmax(4, 9, 2)       # 9</pre>\n<h4>Built-in functions in this unit</h4>\n<ul><li><b>Type / data conversion:</b> int(), float(), str(), bool(), complex(), list(), tuple(), dict(), set(), frozenset(), bytes(), bytearray()</li>\n<li><b>Math:</b> abs(), round(), pow(), divmod(), sum(), min(), max()</li>\n<li><b>String:</b> len(), max(), min() and string methods such as isalpha(), find(), upper(), strip(), format(), center()</li>\n<li><b>File:</b> open(), read(), readline(), readlines(), write(), writelines()</li></ul>\n<p><b>Function vs method:</b> a function is called on its own, <code>len(s)</code>; a method belongs to an object and is called with a dot, <code>s.upper()</code>.</p>"
+     },
+     "diagram": "py4_func_types",
+     "programs": [
+      "py4p13"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.1.2 Type Conversion Functions: int(), float(), str(), bool(), complex()"
+     },
+     "body": {
+      "en": "<p><b>Type conversion</b> (type casting) means changing a value from one data type to another. Python does it in two ways:</p>\n<ul><li><b>Implicit conversion</b>: done automatically by Python, e.g. <code>3 + 2.5 = 5.5</code> (the int becomes a float).</li>\n<li><b>Explicit conversion</b>: done by the programmer using conversion functions.</li></ul>\n<h4>int(x [, base])</h4>\n<p>Converts a number or a string of digits to an integer. A float is truncated (the decimal part is cut off). The optional base converts from binary, octal or hexadecimal.</p>\n<pre class=\"c\">int(\"25\")          # 25\nint(9.99)          # 9   (truncates)\nint(-7.8)          # -7\nint(\"1010\", 2)     # 10  (base 2)\nint(\"ff\", 16)      # 255 (base 16)\nint(True)          # 1\nint(\"12.5\")        # ValueError\nint(float(\"12.5\")) # 12</pre>\n<h4>float(x)</h4>\n<pre class=\"c\">float(7)           # 7.0\nfloat(\"3.75\")      # 3.75\nfloat(\"1e3\")       # 1000.0\nfloat(\"abc\")       # ValueError</pre>\n<h4>str(x)</h4>\n<p>Converts any value into a string. It is needed for joining numbers with text.</p>\n<pre class=\"c\">str(25)            # '25'\nstr(3.5)           # '3.5'\n\"Age: \" + str(18)  # 'Age: 18'\n\"Age: \" + 18       # TypeError</pre>\n<h4>bool(x)</h4>\n<p>Returns False for \"empty\" or zero values (0, 0.0, \"\", [], (), {}, set(), None) and True for everything else.</p>\n<pre class=\"c\">bool(0)      # False\nbool(0.0)    # False\nbool(\"\")     # False\nbool([])     # False\nbool(None)   # False\nbool(-5)     # True\nbool(\"0\")    # True  (non-empty)\nbool(\" \")    # True</pre>\n<h4>complex(real [, imag])</h4>\n<pre class=\"c\">complex(2, 3)      # (2+3j)\ncomplex(4)         # (4+0j)\ncomplex(\"1-2j\")    # (1-2j)\nz = complex(3, 4)\nz.real, z.imag     # (3.0, 4.0)</pre>"
+     },
+     "diagram": "py4_conversion",
+     "programs": [
+      "py4p1"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.1.3 Collection Conversion: list(), tuple(), set(), frozenset(), dict()"
+     },
+     "body": {
+      "en": "<table>\n<tr><th>Function</th><th>Converts to</th><th>Notes</th></tr>\n<tr><td>list(iterable)</td><td>List</td><td>Mutable, ordered</td></tr>\n<tr><td>tuple(iterable)</td><td>Tuple</td><td>Immutable, ordered</td></tr>\n<tr><td>set(iterable)</td><td>Set</td><td>Removes duplicates, unordered</td></tr>\n<tr><td>frozenset(iterable)</td><td>Frozen set</td><td>Immutable set</td></tr>\n<tr><td>dict(pairs / kwargs)</td><td>Dictionary</td><td>Needs key-value pairs</td></tr>\n</table>\n<pre class=\"c\">list(\"abc\")          # ['a', 'b', 'c']\nlist((1, 2))         # [1, 2]\nlist(range(3))       # [0, 1, 2]\ntuple([1, 2])        # (1, 2)\nset([1, 1, 2])       # {1, 2}\nfrozenset(\"aab\")     # {'a', 'b'} frozen\ndict([(\"a\", 1)])     # {'a': 1}\ndict(x=1, y=2)       # {'x': 1, 'y': 2}\ndict(zip(\"ab\", [1, 2]))  # {'a': 1, 'b': 2}\nlist({\"a\": 1})       # ['a'] (keys)</pre>\n<ul><li>An <b>iterable</b> is any object that can be looped over: string, list, tuple, set, dict, range, file.</li>\n<li>Called with no argument, each function returns an empty object: <code>list()</code> → [], <code>dict()</code> → {}.</li></ul>"
+     },
+     "programs": [
+      "py4p2"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.1.4 bytes() and bytearray()"
+     },
+     "body": {
+      "en": "<p>Computers store all data as <b>bytes</b> (numbers from 0 to 255). Python has two byte types:</p>\n<table>\n<tr><th>bytes()</th><th>bytearray()</th></tr>\n<tr><td>Immutable sequence of bytes</td><td>Mutable sequence of bytes</td></tr>\n<tr><td>Literal: b'Hi'</td><td>bytearray(b'Hi')</td></tr>\n<tr><td>Items cannot be changed</td><td>Items can be changed, appended, removed</td></tr>\n</table>\n<h4>Ways to create</h4>\n<ul><li><code>bytes(\"text\", \"utf-8\")</code>: from a string, with an encoding.</li>\n<li><code>bytes([65, 66])</code>: from a list of integers 0–255.</li>\n<li><code>bytes(n)</code>: n zero bytes.</li></ul>\n<pre class=\"c\">b = bytes(\"Hi\", \"utf-8\")  # b'Hi'\nb[0]                      # 72\nbytes([65, 66])           # b'AB'\nbytes(3)                  # b'\\x00\\x00\\x00'\nb[0] = 74                 # TypeError\nba = bytearray(b\"Hi\")\nba[0] = 74         # bytearray(b'Ji')\nba.decode()               # 'Ji'</pre>\n<p>Indexing a bytes object gives an <b>integer</b> (the byte value). <code>decode()</code> converts bytes back to a string, and <code>str.encode()</code> converts a string to bytes. They are used for binary files (images, audio) and network communication.</p>"
+     },
+     "programs": [
+      "py4p3"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.1.5 Math Functions: abs(), round(), pow(), divmod(), sum(), min(), max()"
+     },
+     "body": {
+      "en": "<table>\n<tr><th>Function</th><th>Description</th><th>Example</th><th>Result</th></tr>\n<tr><td>abs(x)</td><td>Absolute value</td><td>abs(-7)</td><td>7</td></tr>\n<tr><td>round(x[, n])</td><td>Round to n decimal places</td><td>round(3.146, 2)</td><td>3.15</td></tr>\n<tr><td>pow(x, y[, z])</td><td>x<sup>y</sup> (mod z)</td><td>pow(2, 3)</td><td>8</td></tr>\n<tr><td>divmod(a, b)</td><td>(quotient, remainder)</td><td>divmod(17, 5)</td><td>(3, 2)</td></tr>\n<tr><td>sum(iter[, start])</td><td>Total of the items</td><td>sum([1, 2, 3])</td><td>6</td></tr>\n<tr><td>min(…)</td><td>Smallest item</td><td>min(4, 9, 2)</td><td>2</td></tr>\n<tr><td>max(…)</td><td>Largest item</td><td>max([4, 9, 2])</td><td>9</td></tr>\n</table>\n<h4>abs() and round()</h4>\n<pre class=\"c\">abs(-7)            # 7\nabs(-2.5)          # 2.5\nabs(3 + 4j)        # 5.0\nround(3.14159, 2)  # 3.14\nround(7.6)         # 8\nround(2.5)         # 2  (to even)\nround(3.5)         # 4\nround(1234, -2)    # 1200</pre>\n<p>round() uses <b>banker's rounding</b>: an exact .5 goes to the nearest <b>even</b> number. A negative n rounds to tens, hundreds, etc.</p>\n<h4>pow() and divmod()</h4>\n<pre class=\"c\">pow(2, 5)          # 32   (2 ** 5)\npow(2, -1)         # 0.5\npow(2, 5, 3)       # 2    (32 % 3)\ndivmod(17, 5)      # (3, 2)\ndivmod(-17, 5)     # (-4, 3)\nq, r = divmod(125, 60)  # 2, 5</pre>\n<h4>sum(), min(), max()</h4>\n<pre class=\"c\">sum([1, 2, 3])          # 6\nsum([1, 2, 3], 10)      # 16\nmin(4, 9, 2)            # 2\nmax([4, 9, 2])          # 9\nmax(\"python\")           # 'y'\nmax([\"ox\", \"tiger\"], key=len)  # 'tiger'\nmin([])                 # ValueError</pre>\n<p>min() and max() accept either one iterable or several separate values. The optional <code>key</code> argument decides what to compare.</p>"
+     },
+     "programs": [
+      "py4p4"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.1.6 String Functions: len(), max(), min() and Testing Methods"
+     },
+     "body": {
+      "en": "<h4>len(), max(), min() on strings</h4>\n<pre class=\"c\">s = \"Hello World\"\nlen(s)        # 11 (space counted)\nmax(s)        # 'r'\nmin(s)        # ' ' (space)\nmin(\"Python\") # 'P' (uppercase first)</pre>\n<p>max() and min() compare characters by their <b>Unicode (ASCII) values</b>: space &lt; digits &lt; uppercase letters &lt; lowercase letters.</p>\n<h4>String testing methods (return True / False)</h4>\n<table>\n<tr><th>Method</th><th>Returns True if the string…</th></tr>\n<tr><td>isalnum()</td><td>contains only letters and digits</td></tr>\n<tr><td>isalpha()</td><td>contains only letters</td></tr>\n<tr><td>isdigit()</td><td>contains only digits</td></tr>\n<tr><td>islower()</td><td>has letters and all of them are lowercase</td></tr>\n<tr><td>isupper()</td><td>has letters and all of them are uppercase</td></tr>\n<tr><td>isspace()</td><td>contains only whitespace (space, \\t, \\n)</td></tr>\n<tr><td>isidentifier()</td><td>is a valid Python identifier (variable name)</td></tr>\n</table>\n<pre class=\"c\">\"Py3\".isalnum()      # True\n\"Py 3\".isalnum()     # False (space)\n\"Python\".isalpha()   # True\n\"2024\".isdigit()     # True\n\"12.5\".isdigit()     # False\n\"abc\".islower()      # True\n\"ABC1\".isupper()     # True\n\"  \\t\\n\".isspace()   # True\n\"my_var\".isidentifier()  # True\n\"2var\".isidentifier()    # False\n\"\".isalpha()         # False (empty)</pre>\n<p>All of these return <b>False for an empty string</b>. They are commonly used to validate input: checking a mobile number, a password or a name.</p>"
+     },
+     "diagram": "py4_str_is",
+     "programs": [
+      "py4p5"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.1.7 Searching Methods: find(), rfind(), count(), startswith(), endswith()"
+     },
+     "body": {
+      "en": "<table>\n<tr><th>Method</th><th>Description</th></tr>\n<tr><td>find(sub[, start[, end]])</td><td>Index of the first occurrence of sub; −1 if not found</td></tr>\n<tr><td>rfind(sub)</td><td>Index of the last occurrence; −1 if not found</td></tr>\n<tr><td>count(sub)</td><td>Number of non-overlapping occurrences</td></tr>\n<tr><td>startswith(prefix)</td><td>True if the string begins with prefix</td></tr>\n<tr><td>endswith(suffix)</td><td>True if the string ends with suffix</td></tr>\n</table>\n<pre class=\"c\">s = \"banana\"\ns.find(\"an\")        # 1\ns.rfind(\"an\")       # 3\ns.find(\"x\")         # -1\ns.find(\"a\", 2)      # 3  (search from 2)\ns.index(\"x\")        # ValueError\ns.count(\"a\")        # 3\ns.count(\"ana\")      # 1 (no overlap)\ns.startswith(\"ba\")  # True\ns.endswith(\"na\")    # True\n\"a.py\".endswith((\".py\", \".c\"))  # True</pre>\n<ul><li><b>find() vs index():</b> both return the position, but index() raises <b>ValueError</b> when the substring is missing, while find() returns −1.</li>\n<li>startswith() and endswith() also accept a tuple of options.</li></ul>"
+     },
+     "programs": [
+      "py4p6"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.1.8 Case Conversion and replace(): capitalize(), lower(), upper(), title(), swapcase()"
+     },
+     "body": {
+      "en": "<table>\n<tr><th>Method</th><th>Action</th><th>\"hello WORLD\" →</th></tr>\n<tr><td>capitalize()</td><td>First character upper, rest lower</td><td>'Hello world'</td></tr>\n<tr><td>lower()</td><td>All letters lowercase</td><td>'hello world'</td></tr>\n<tr><td>upper()</td><td>All letters uppercase</td><td>'HELLO WORLD'</td></tr>\n<tr><td>title()</td><td>First letter of each word upper</td><td>'Hello World'</td></tr>\n<tr><td>swapcase()</td><td>Lower ↔ upper</td><td>'HELLO world'</td></tr>\n</table>\n<pre class=\"c\">s = \"pYTHON is FUN\"\ns.capitalize()  # 'Python is fun'\ns.lower()       # 'python is fun'\ns.upper()       # 'PYTHON IS FUN'\ns.title()       # 'Python Is Fun'\ns.swapcase()    # 'Python IS fun'</pre>\n<h4>replace(old, new[, count])</h4>\n<p>Returns a copy of the string in which <i>old</i> is replaced by <i>new</i>, either everywhere or only the first <i>count</i> times.</p>\n<pre class=\"c\">s = \"I like C. C is fast.\"\ns.replace(\"C\", \"Python\")\n# 'I like Python. Python is fast.'\ns.replace(\"C\", \"Java\", 1)\n# 'I like Java. C is fast.'</pre>\n<p><b>Remember:</b> strings are <b>immutable</b>, so these methods never change the original string; they return a new string. Use <code>s = s.upper()</code> to keep the result.</p>"
+     },
+     "programs": [
+      "py4p7"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.1.9 Strip and Formatting Methods: strip(), format(), center(), ljust(), rjust()"
+     },
+     "body": {
+      "en": "<h4>strip(), lstrip(), rstrip()</h4>\n<p>These remove whitespace (or the characters given as an argument) from both ends, the left end or the right end of a string. Characters in the middle are never removed.</p>\n<pre class=\"c\">s = \"   hello   \"\ns.strip()           # 'hello'\ns.lstrip()          # 'hello   '\ns.rstrip()          # '   hello'\n\"##hi##\".strip(\"#\") # 'hi'\n\"www.gtu.ac.in\".lstrip(\"w.\")  # 'gtu.ac.in'</pre>\n<h4>format()</h4>\n<p><code>\"template\".format(values)</code> replaces each <code>{}</code> placeholder with a value. Placeholders can use a position <code>{0}</code>, a name <code>{name}</code> and a format specification after a colon: <code>.2f</code> (2 decimals), <code>5d</code> (width 5), <code>&lt;</code> left, <code>&gt;</code> right, <code>^</code> centre, <code>,</code> thousands separator.</p>\n<pre class=\"c\">\"{} is {} years\".format(\"Om\", 18)\n# 'Om is 18 years'\n\"{1} {0}\".format(\"A\", \"B\") # 'B A'\n\"{n}-{m}\".format(n=\"Py\", m=9)  # 'Py-9'\n\"{:.2f}\".format(3.14159) # '3.14'\n\"{:5d}|\".format(42)     # '   42|'\n\"{:&lt;6}|\".format(\"ab\")   # 'ab    |'\n\"{:^6}|\".format(\"ab\")   # '  ab  |'\n\"{:,}\".format(1234567)  # '1,234,567'</pre>\n<p>The modern <b>f-string</b> uses the same format codes:</p>\n<pre class=\"c\">name, m = \"Riya\", 85.456\nf\"{name} scored {m:.1f}\"\n# 'Riya scored 85.5'</pre>\n<h4>center(), ljust(), rjust()</h4>\n<p><code>center(width[, fill])</code>, <code>ljust(width[, fill])</code> and <code>rjust(width[, fill])</code> pad the string to the given width with spaces (or the fill character).</p>\n<pre class=\"c\">\"Py\".center(8)        # '   Py   '\n\"Py\".center(8, \"*\")   # '***Py***'\n\"Py\".ljust(6, \".\")    # 'Py....'\n\"Py\".rjust(6, \".\")    # '....Py'\n\"7\".rjust(3, \"0\")     # '007'</pre>"
+     },
+     "diagram": "py4_align",
+     "programs": [
+      "py4p8"
+     ]
+    },
+    {
+     "h": {
+      "en": "Key Points – 4.1"
+     },
+     "body": {
+      "en": "<ul>\n<li>Built-in functions are always available; user-defined functions are created with def.</li>\n<li>int() truncates floats and accepts a base: int(\"1010\", 2) = 10; int(\"12.5\") → ValueError.</li>\n<li>bool() is False for 0, 0.0, \"\", [], (), {}, set(), None; otherwise True (even \"0\").</li>\n<li>list(), tuple(), set(), frozenset() and dict() convert between collections; dict() needs pairs.</li>\n<li>bytes is immutable and bytearray is mutable; decode() turns bytes into a string.</li>\n<li>round(2.5) = 2 (rounds to even); divmod(a, b) = (a // b, a % b); pow(x, y, z) = x<sup>y</sup> % z.</li>\n<li>The is…() methods test strings and return False for \"\".</li>\n<li>find()/rfind() return −1 if not found; count() counts occurrences.</li>\n<li>capitalize, lower, upper, title, swapcase and replace return new strings.</li>\n<li>strip/lstrip/rstrip trim the ends; format(), center(), ljust() and rjust() format output.</li>\n</ul>"
+     },
+     "key": true
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "4.2 File Handling Functions"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "4.2.1 Introduction to Files and open() Function"
+     },
+     "body": {
+      "en": "<p>A <b>file</b> is a named location on the disk that stores data <b>permanently</b>. Variables are lost when a program ends, but data written to a file can be used again later.</p>\n<h4>Types of files</h4>\n<ul><li><b>Text files</b> store readable characters, organised in lines that end with \"\\n\" (.txt, .csv, .py).</li>\n<li><b>Binary files</b> store data as bytes that only programs can interpret (.jpg, .mp3, .exe, .dat).</li></ul>\n<h4>open() function</h4>\n<p><code>file_object = open(file_name, mode)</code> opens a file and returns a <b>file object</b> (file handle) that is used for reading or writing. The mode is optional and defaults to \"r\".</p>\n<pre class=\"c\">f = open(\"data.txt\", \"r\")    # read\nf = open(\"data.txt\", \"w\")    # write\nf = open(\"data.txt\", \"a\")    # append\nf = open(\"pic.jpg\", \"rb\")    # binary\nf = open(\"C:/py/data.txt\")   # full path</pre>\n<table>\n<tr><th>Mode</th><th>Meaning</th></tr>\n<tr><td>\"r\"</td><td>Read only (default). Error if the file does not exist.</td></tr>\n<tr><td>\"w\"</td><td>Write. Creates the file, or erases the old content if it exists.</td></tr>\n<tr><td>\"a\"</td><td>Append. Writes at the end, keeps the old content, creates the file if needed.</td></tr>\n<tr><td>\"x\"</td><td>Create a new file. Error if it already exists.</td></tr>\n<tr><td>\"r+\"</td><td>Read and write (the file must exist).</td></tr>\n<tr><td>\"w+\" / \"a+\"</td><td>Write/append and also read.</td></tr>\n<tr><td>\"b\" / \"t\"</td><td>Binary / text (default), added to the above: \"rb\", \"wb\".</td></tr>\n</table>\n<h4>File object attributes</h4>\n<pre class=\"c\">f = open(\"data.txt\", \"w\")\nf.name      # 'data.txt'\nf.mode      # 'w'\nf.closed    # False\nf.close()\nf.closed    # True</pre>"
+     },
+     "diagram": "py4_file_modes",
+     "programs": [
+      "py4p9"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.2.2 Closing a File and the with Statement"
+     },
+     "body": {
+      "en": "<p>File handling always follows three steps: <b>open → read/write → close</b>.</p>\n<p><code>close()</code> saves (flushes) any data still in memory to the disk and frees the file for other programs. If a file is not closed, written data may be lost.</p>\n<pre class=\"c\">f = open(\"data.txt\", \"w\")\nf.write(\"Hello\")\nf.close()          # must close</pre>\n<h4>with statement (recommended)</h4>\n<p><code>with open(...) as f:</code> opens the file and <b>closes it automatically</b> when the indented block ends, even if an error occurs. No close() call is needed.</p>\n<pre class=\"c\">with open(\"data.txt\", \"r\") as f:\n    data = f.read()\n# file closed automatically here\nprint(data)</pre>"
+     },
+     "diagram": "py4_file_flow",
+     "programs": [
+      "py4p9",
+      "py4p10"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.2.3 Reading Functions: read(), readline(), readlines()"
+     },
+     "body": {
+      "en": "<table>\n<tr><th>Function</th><th>Returns</th><th>Use</th></tr>\n<tr><td>read()</td><td>The whole file as one string</td><td>Small files</td></tr>\n<tr><td>read(n)</td><td>The next n characters</td><td>Reading in parts</td></tr>\n<tr><td>readline()</td><td>The next line (with \"\\n\"); \"\" at end of file</td><td>Line by line</td></tr>\n<tr><td>readlines()</td><td>A list of all lines</td><td>Counting / indexing lines</td></tr>\n</table>\n<h4>read()</h4>\n<pre class=\"c\">with open(\"notes.txt\") as f:\n    s = f.read()       # whole file\nwith open(\"notes.txt\") as f:\n    s = f.read(10)     # first 10 chars</pre>\n<h4>readline()</h4>\n<pre class=\"c\">with open(\"notes.txt\") as f:\n    l1 = f.readline()  # 'Python\\n'\n    l2 = f.readline()  # 'is easy\\n'</pre>\n<h4>readlines()</h4>\n<pre class=\"c\">with open(\"notes.txt\") as f:\n    lines = f.readlines()\n# ['Python\\n', 'is easy\\n', 'Bye']\nprint(len(lines))      # 3 lines</pre>\n<h4>Looping over a file object (most efficient)</h4>\n<pre class=\"c\">with open(\"notes.txt\") as f:\n    for line in f:\n        print(line.rstrip())</pre>\n<h4>Reading until the end with readline()</h4>\n<pre class=\"c\">f = open(\"notes.txt\")\nline = f.readline()\nwhile line != \"\":\n    print(line, end=\"\")\n    line = f.readline()\nf.close()</pre>\n<p>Each read moves the <b>file pointer</b> forward. <code>tell()</code> gives the current position and <code>seek(pos)</code> moves the pointer:</p>\n<pre class=\"c\">with open(\"notes.txt\") as f:\n    f.read(3)\n    print(f.tell())   # 3 (position)\n    f.seek(0)         # back to start\n    print(f.read(6))  # 'Python'</pre>"
+     },
+     "diagram": "py4_read_methods",
+     "programs": [
+      "py4p10"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.2.4 Writing Functions: write() and writelines()"
+     },
+     "body": {
+      "en": "<table>\n<tr><th>write(string)</th><th>writelines(list_of_strings)</th></tr>\n<tr><td>Writes one string</td><td>Writes every string of a list/iterable</td></tr>\n<tr><td>Returns the number of characters written</td><td>Returns None</td></tr>\n<tr><td>Does not add \"\\n\"</td><td>Does not add \"\\n\"</td></tr>\n</table>\n<pre class=\"c\">with open(\"out.txt\", \"w\") as f:\n    n = f.write(\"Line 1\\n\")  # n = 7\n    f.write(\"Line 2\\n\")\n    f.write(str(100) + \"\\n\")  # str only</pre>\n<pre class=\"c\">names = [\"Amit\\n\", \"Riya\\n\", \"Om\\n\"]\nwith open(\"names.txt\", \"w\") as f:\n    f.writelines(names)\n# newlines must be in the strings</pre>\n<ul><li>Only <b>strings</b> can be written to a text file; numbers must be converted with str().</li>\n<li>The file must be opened in \"w\", \"a\", \"x\" or a \"+\" mode; writing to a file opened with \"r\" raises an error.</li></ul>"
+     },
+     "programs": [
+      "py4p9"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.2.5 Appending Data to a File"
+     },
+     "body": {
+      "en": "<p>To add new data <b>without deleting</b> the existing content, open the file in <b>append mode \"a\"</b>. All writing then happens at the <b>end</b> of the file. (The syllabus calls this \"append()\"; in Python it is done with mode \"a\" and then write()/writelines().)</p>\n<pre class=\"c\">with open(\"log.txt\", \"a\") as f:\n    f.write(\"New entry\\n\")   # at end</pre>\n<table>\n<tr><th>Mode \"w\"</th><th>Mode \"a\"</th></tr>\n<tr><td>Erases the old content</td><td>Keeps the old content</td></tr>\n<tr><td>Writing starts at the beginning</td><td>Writing starts at the end</td></tr>\n<tr><td>Creates the file if missing</td><td>Creates the file if missing</td></tr>\n</table>"
+     },
+     "programs": [
+      "py4p11"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.2.6 File Programs and Error Handling"
+     },
+     "body": {
+      "en": "<h4>Count lines, words and characters</h4>\n<pre class=\"c\">lines = words = chars = 0\nwith open(\"story.txt\") as f:\n    for line in f:\n        lines += 1\n        words += len(line.split())\n        chars += len(line)</pre>\n<h4>Handling a missing file</h4>\n<p>Opening a missing file in \"r\" mode raises <b>FileNotFoundError</b>. It can be handled with try-except:</p>\n<pre class=\"c\">try:\n    f = open(\"marks.txt\")\nexcept FileNotFoundError:\n    print(\"File does not exist\")</pre>\n<p>Other common file programs: copying a file, converting a file to uppercase, counting vowels, searching for a word, and storing student records as comma-separated lines.</p>"
+     },
+     "programs": [
+      "py4p12",
+      "py4p18"
+     ]
+    },
+    {
+     "h": {
+      "en": "Key Points – 4.2"
+     },
+     "body": {
+      "en": "<ul>\n<li>Files store data permanently; there are text files and binary files.</li>\n<li><code>open(name, mode)</code>: \"r\" read (default), \"w\" write (erases), \"a\" append, \"x\" create, \"+\" read and write, \"b\" binary.</li>\n<li>Steps: open → read/write → close; <code>with open(...) as f:</code> closes the file automatically.</li>\n<li>read() → whole string; read(n) → n characters; readline() → one line; readlines() → list of lines.</li>\n<li>write(str) returns the number of characters; writelines(list) writes many strings; neither adds \"\\n\".</li>\n<li>Append = open in \"a\" mode; the old data is kept.</li>\n<li>tell() gives the position and seek() moves it; a missing file in \"r\" mode → FileNotFoundError.</li>\n</ul>"
+     },
+     "key": true
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "4.3 User-defined Functions"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "4.3.1 Introduction to User-defined Functions"
+     },
+     "body": {
+      "en": "<p>A <b>user-defined function</b> is a function written by the programmer to perform a specific task. It is defined once with the <code>def</code> keyword and can be called many times.</p>\n<pre class=\"c\"># without function: repeated code\nprint(\"=\" * 20)\nprint(\"=\" * 20)\n# with function: write once, call often\ndef line():\n    print(\"=\" * 20)\nline()\nline()</pre>\n<h4>Advantages of functions</h4>\n<ol><li><b>Code reusability:</b> write once, use many times.</li>\n<li><b>Modularity:</b> a big program is divided into small, manageable parts.</li>\n<li><b>Easy debugging and testing:</b> each function can be checked separately.</li>\n<li><b>Readability:</b> meaningful function names make the code self-explanatory.</li>\n<li><b>Less code:</b> no repetition, so programs are shorter and easier to maintain.</li></ol>"
+     },
+     "diagram": "py4_func_types",
+     "programs": [
+      "py4p13"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.3.2 Function Definition and Function Calling"
+     },
+     "body": {
+      "en": "<h4>Function definition</h4>\n<pre class=\"c\">def function_name(parameters):\n    \"\"\"docstring (optional)\"\"\"\n    statements\n    return value     # optional</pre>\n<ol><li>It starts with the keyword <b>def</b>, followed by the function name and brackets ( ).</li>\n<li><b>Parameters</b> (if any) are written inside the brackets, separated by commas.</li>\n<li>The header ends with a colon <b>:</b>.</li>\n<li>The body is <b>indented</b>. The first statement may be a <b>docstring</b> describing the function.</li>\n<li><b>return</b> (optional) sends a value back to the caller.</li></ol>\n<h4>Function calling</h4>\n<p>A function runs only when it is <b>called</b>: its name followed by brackets containing the <b>arguments</b>. Control jumps to the function, the body runs, and control comes back to the statement after the call.</p>\n<pre class=\"c\">def greet(name):\n    \"\"\"Greets a person.\"\"\"\n    print(\"Hello,\", name)\n\ngreet(\"Riya\")        # Hello, Riya\ngreet(\"Om\")          # Hello, Om</pre>\n<ul><li><b>Parameter</b>: the variable in the function definition (name). <b>Argument</b>: the actual value passed in the call (\"Riya\").</li>\n<li>A function must be defined before it is called, or a NameError occurs.</li>\n<li>An empty function body uses <code>pass</code>:</li></ul>\n<pre class=\"c\">def todo():\n    pass             # empty function</pre>"
+     },
+     "diagram": "py4_func_anatomy",
+     "programs": [
+      "py4p13"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.3.3 Passing Parameters to a Function"
+     },
+     "body": {
+      "en": "<p>Python supports four kinds of arguments:</p>\n<h4>1. Positional arguments</h4>\n<p>Values are matched to parameters by their <b>order</b>. The number of arguments must match the number of parameters.</p>\n<h4>2. Keyword arguments</h4>\n<p>Values are passed as <code>name=value</code>, so the order does not matter.</p>\n<pre class=\"c\">def info(name, age):\n    print(name, age)\n\ninfo(\"Om\", 18)          # positional\ninfo(age=18, name=\"Om\") # keyword</pre>\n<h4>3. Default arguments</h4>\n<p>A parameter can have a default value, which is used when no argument is given. Default parameters must come <b>after</b> non-default parameters.</p>\n<pre class=\"c\">def power(b, e=2):\n    return b ** e\n\npower(5)       # 25 (e = 2)\npower(2, 3)    # 8\n# def f(a=1, b):  -&gt; SyntaxError</pre>\n<h4>4. Variable-length arguments</h4>\n<ul><li><code>*args</code> accepts any number of positional arguments and stores them in a <b>tuple</b>.</li>\n<li><code>**kwargs</code> accepts any number of keyword arguments and stores them in a <b>dictionary</b>.</li></ul>\n<pre class=\"c\">def total(*nums):     # nums is a tuple\n    return sum(nums)\n\ntotal(1, 2)           # 3\ntotal(1, 2, 3, 4)     # 10</pre>\n<pre class=\"c\">def show(**d):        # d is a dict\n    for k, v in d.items():\n        print(k, \"=\", v)\n\nshow(name=\"Om\", sem=2)</pre>\n<p>Order when they are combined: normal → default → *args → **kwargs.</p>\n<pre class=\"c\">def f(a, b=2, *args, **kwargs):\n    print(a, b, args, kwargs)\n\nf(1, 3, 4, 5, x=9)\n# 1 3 (4, 5) {'x': 9}</pre>"
+     },
+     "programs": [
+      "py4p14"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.3.4 Returning Values from a Function"
+     },
+     "body": {
+      "en": "<p>The <b>return</b> statement ends the function and sends a value back to the caller. The returned value can be stored in a variable, printed or used in an expression.</p>\n<h4>Returning a single value</h4>\n<pre class=\"c\">def square(n):\n    return n * n\n\ny = square(4) + 1     # 17</pre>\n<h4>Returning multiple values</h4>\n<p>Values separated by commas are returned as a <b>tuple</b>, which can be unpacked into separate variables.</p>\n<pre class=\"c\">def calc(a, b):\n    return a + b, a - b, a * b\n\ns, d, p = calc(7, 3)  # 10 4 21\nr = calc(7, 3)        # (10, 4, 21)</pre>\n<h4>Function without return</h4>\n<p>If there is no return statement (or just <code>return</code>), the function returns <b>None</b>.</p>\n<pre class=\"c\">def hello():\n    print(\"Hi\")\n\nx = hello()   # prints Hi\nprint(x)      # None</pre>\n<h4>Several return statements</h4>\n<p>The first return that executes ends the function immediately.</p>\n<pre class=\"c\">def is_prime(n):\n    if n &lt; 2:\n        return False\n    for i in range(2, n):\n        if n % i == 0:\n            return False\n    return True</pre>\n<h4>Passing mutable objects</h4>\n<p>Python passes a reference to the object. A list or dictionary changed inside the function is changed for the caller too; assigning a new value to a parameter does not affect the caller.</p>\n<pre class=\"c\">def add_item(lst):\n    lst.append(99)   # changes caller's\n\na = [1, 2]\nadd_item(a)\nprint(a)              # [1, 2, 99]</pre>"
+     },
+     "programs": [
+      "py4p15"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.3.5 Recursion"
+     },
+     "body": {
+      "en": "<p><b>Recursion</b> is a technique in which a function <b>calls itself</b>. Such a function is called a <b>recursive function</b>. Every recursive function has two parts:</p>\n<ol><li><b>Base case</b>: the condition at which the function stops calling itself and returns a value directly.</li>\n<li><b>Recursive case</b>: the function calls itself with a smaller or simpler input, moving towards the base case.</li></ol>\n<h4>Factorial using recursion</h4>\n<p>n! = n × (n−1)!, with 0! = 1! = 1</p>\n<pre class=\"c\">def fact(n):\n    if n == 0:             # base case\n        return 1\n    return n * fact(n - 1) # recursive case\n\nfact(5)   # 120</pre>\n<p><b>Working of fact(4):</b> fact(4) = 4 × fact(3) = 4 × 3 × fact(2) = 4 × 3 × 2 × fact(1) = 4 × 3 × 2 × 1 = 24. The calls go down to the base case, and the results then return back up (see diagram).</p>\n<h4>Fibonacci using recursion</h4>\n<pre class=\"c\">def fib(n):\n    if n &lt;= 1:\n        return n\n    return fib(n - 1) + fib(n - 2)\n\n[fib(i) for i in range(8)]\n# [0, 1, 1, 2, 3, 5, 8, 13]</pre>\n<h4>More examples</h4>\n<pre class=\"c\">def sum_n(n):            # 1 + 2 + ... + n\n    if n == 0:\n        return 0\n    return n + sum_n(n - 1)\n\ndef rev(s):              # reverse string\n    if s == \"\":\n        return \"\"\n    return rev(s[1:]) + s[0]</pre>\n<table>\n<tr><th>Advantages</th><th>Disadvantages</th></tr>\n<tr><td>Short, clean code</td><td>Uses more memory (each call is kept on the stack)</td></tr>\n<tr><td>Natural for problems such as factorial, Fibonacci, Tower of Hanoi and tree traversal</td><td>Slower than loops; hard to debug</td></tr>\n<tr><td>Breaks a big problem into smaller ones</td><td>No base case → RecursionError (limit ≈ 1000 calls)</td></tr>\n</table>"
+     },
+     "diagram": "py4_recursion",
+     "programs": [
+      "py4p16"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.3.6 Scope of Variables: Local and Global"
+     },
+     "body": {
+      "en": "<p>The <b>scope</b> of a variable is the part of the program where the variable can be accessed.</p>\n<h4>Local variable</h4>\n<p>A variable created <b>inside a function</b> is local to it. It exists only while the function runs and cannot be used outside it (NameError).</p>\n<pre class=\"c\">def f():\n    x = 10       # local\n    print(x)\n\nf()              # 10\nprint(x)         # NameError</pre>\n<h4>Global variable</h4>\n<p>A variable created <b>outside all functions</b> is global. It can be <b>read</b> inside any function.</p>\n<pre class=\"c\">rate = 5         # global\n\ndef interest(p):\n    return p * rate / 100   # read global\n\ninterest(1000)   # 50.0</pre>\n<h4>global keyword</h4>\n<p>To <b>change</b> a global variable inside a function, declare it with <code>global</code>. Without it, an assignment creates a local variable, and <code>count += 1</code> raises <b>UnboundLocalError</b>.</p>\n<pre class=\"c\">count = 0\n\ndef inc():\n    global count\n    count += 1\n\ninc(); inc()\nprint(count)     # 2</pre>\n<h4>Same name: local hides global</h4>\n<pre class=\"c\">x = \"global\"\n\ndef f():\n    x = \"local\"  # new local variable\n    print(x)     # local\n\nf()\nprint(x)         # global</pre>\n<table>\n<tr><th>Local variable</th><th>Global variable</th></tr>\n<tr><td>Declared inside a function</td><td>Declared outside all functions</td></tr>\n<tr><td>Accessible only in that function</td><td>Accessible throughout the program</td></tr>\n<tr><td>Created when the function is called; destroyed when it returns</td><td>Exists until the program ends</td></tr>\n<tr><td>Different functions can use the same local name</td><td>Must be declared with <code>global</code> to be changed in a function</td></tr>\n</table>\n<p>Python searches for a name in the order <b>L</b>ocal → <b>E</b>nclosing → <b>G</b>lobal → <b>B</b>uilt-in (the LEGB rule).</p>"
+     },
+     "diagram": "py4_scope",
+     "programs": [
+      "py4p17"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.3.7 Lambda Functions and a Complete Example"
+     },
+     "body": {
+      "en": "<p>A <b>lambda function</b> is a small <b>anonymous</b> (unnamed) function written in one line: <code>lambda arguments: expression</code>. It can have any number of arguments but only one expression, whose value is returned automatically. Lambdas are often used as the <code>key</code> in sorted(), max() and min().</p>\n<pre class=\"c\">square = lambda x: x * x\nsquare(5)                  # 25\nadd = lambda a, b: a + b\nadd(2, 3)                  # 5\nw = [\"bb\", \"a\", \"ccc\"]\nsorted(w, key=lambda s: len(s))\n# ['a', 'bb', 'ccc']</pre>\n<p>The solved project <b>\"Employee details management\"</b> brings this unit together: several user-defined functions (add, show, give a raise, search, save), a dictionary of dictionaries for the data, string formatting for the table, and file writing to save the records.</p>"
+     },
+     "programs": [
+      "py4p18"
+     ]
+    },
+    {
+     "h": {
+      "en": "Key Points – 4.3"
+     },
+     "body": {
+      "en": "<ul>\n<li>Define with <code>def name(params):</code> and an indented body; call with <code>name(args)</code>.</li>\n<li>Advantages: reusability, modularity, readability, easier debugging.</li>\n<li>Parameter = name in the definition; argument = value in the call.</li>\n<li>Argument types: positional, keyword, default (b=2), *args (tuple), **kwargs (dict).</li>\n<li>return sends a value back; return a, b returns a tuple; no return → None.</li>\n<li>Recursion = a function calling itself; it needs a base case, otherwise RecursionError.</li>\n<li>Local variables exist inside the function only; globals can be read anywhere; changing one needs <code>global</code>.</li>\n<li>Lambda: <code>lambda x: x * x</code>, a one-expression anonymous function.</li>\n</ul>"
+     },
+     "key": true
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "py4p1",
+   "title": {
+    "en": "Type conversion: int(), float(), str(), bool(), complex()"
+   },
+   "code": {
+    "en": "print(\"int('25')      :\", int(\"25\"))\nprint(\"int(9.99)      :\", int(9.99))\nprint(\"int(-7.8)      :\", int(-7.8))\nprint(\"int('1010', 2) :\", int(\"1010\", 2))\nprint(\"int('ff', 16)  :\", int(\"ff\", 16))\nprint(\"float('3.5')   :\", float(\"3.5\"))\nprint(\"float(7)       :\", float(7))\nprint(\"str(12.5) + 'kg':\", str(12.5) + \"kg\")\nprint(\"bool(0), bool(7)     :\", bool(0), bool(7))\nprint(\"bool(''), bool('0')  :\", bool(\"\"), bool(\"0\"))\nprint(\"bool([]), bool([0])  :\", bool([]), bool([0]))\nprint(\"complex(2, 3)  :\", complex(2, 3))\nprint(\"complex('4-5j'):\", complex(\"4-5j\"))\n\na = input(\"Enter first number : \")\nb = input(\"Enter second number: \")\nprint(\"Without conversion :\", a + b)\nprint(\"With int()         :\", int(a) + int(b))\n\ntry:\n    int(\"12.5\")\nexcept ValueError as e:\n    print(\"Error:\", e)"
+   },
+   "out": "int('25')      : 25\nint(9.99)      : 9\nint(-7.8)      : -7\nint('1010', 2) : 10\nint('ff', 16)  : 255\nfloat('3.5')   : 3.5\nfloat(7)       : 7.0\nstr(12.5) + 'kg': 12.5kg\nbool(0), bool(7)     : False True\nbool(''), bool('0')  : False True\nbool([]), bool([0])  : False True\ncomplex(2, 3)  : (2+3j)\ncomplex('4-5j'): (4-5j)\nEnter first number : 12\nEnter second number: 30\nWithout conversion : 1230\nWith int()         : 42\nError: invalid literal for int() with base 10: '12.5'",
+   "expl": {
+    "en": "<ul><li><code>int()</code> converts a string of digits or a float to an integer. A float is <b>truncated</b> towards zero (9.99 → 9, −7.8 → −7). A second argument gives the base (2, 8, 16).</li>\n<li><code>float()</code> gives a decimal number, <code>str()</code> gives text, and <code>complex(real, imag)</code> gives a complex number.</li>\n<li><code>bool()</code> is False only for 0, 0.0, \"\", [], (), {}, set() and None; everything else (even \"0\") is True.</li>\n<li><code>input()</code> always returns a string, so \"12\" + \"30\" = \"1230\". Convert first to add the numbers.</li>\n<li><code>int(\"12.5\")</code> raises ValueError; use <code>int(float(\"12.5\"))</code>.</li></ul>"
+   }
+  },
+  {
+   "id": "py4p2",
+   "title": {
+    "en": "Collection conversion: list(), tuple(), set(), frozenset(), dict()"
+   },
+   "code": {
+    "en": "s = \"hello\"\nprint(\"list(s)       :\", list(s))\nprint(\"tuple(s)      :\", tuple(s))\nprint(\"sorted(set(s)):\", sorted(set(s)))\n\nnums = [3, 1, 3, 2, 1]\nprint(\"tuple(nums)   :\", tuple(nums))\nprint(\"set(nums)     :\", set(nums))\nprint(\"frozenset     :\", frozenset(nums))\nprint(\"list(range(5)):\", list(range(5)))\n\npairs = [(\"a\", 1), (\"b\", 2)]\nprint(\"dict(pairs)   :\", dict(pairs))\nprint(\"dict(kw)      :\", dict(x=10, y=20))\nprint(\"dict(zip)     :\", dict(zip([\"roll\", \"name\"], [7, \"Om\"])))\nd = {\"p\": 1, \"q\": 2}\nprint(\"list(d)       :\", list(d))\nprint(\"list(items)   :\", list(d.items()))\nprint(\"tuple(d.values()):\", tuple(d.values()))"
+   },
+   "out": "list(s)       : ['h', 'e', 'l', 'l', 'o']\ntuple(s)      : ('h', 'e', 'l', 'l', 'o')\nsorted(set(s)): ['e', 'h', 'l', 'o']\ntuple(nums)   : (3, 1, 3, 2, 1)\nset(nums)     : {1, 2, 3}\nfrozenset     : frozenset({1, 2, 3})\nlist(range(5)): [0, 1, 2, 3, 4]\ndict(pairs)   : {'a': 1, 'b': 2}\ndict(kw)      : {'x': 10, 'y': 20}\ndict(zip)     : {'roll': 7, 'name': 'Om'}\nlist(d)       : ['p', 'q']\nlist(items)   : [('p', 1), ('q', 2)]\ntuple(d.values()): (1, 2)",
+   "expl": {
+    "en": "<ul><li><code>list()</code>, <code>tuple()</code>, <code>set()</code> and <code>frozenset()</code> accept any <b>iterable</b> (string, list, tuple, range, dict…) and build that type from its items.</li>\n<li>set() and frozenset() remove duplicates; frozenset is immutable.</li>\n<li><code>dict()</code> needs key-value pairs: a list of 2-item tuples, keyword arguments, or <code>zip(keys, values)</code>.</li>\n<li>Converting a dictionary with list() gives its <b>keys</b>.</li></ul>"
+   }
+  },
+  {
+   "id": "py4p3",
+   "title": {
+    "en": "bytes() and bytearray()"
+   },
+   "code": {
+    "en": "b = bytes(\"Hi\", \"utf-8\")\nprint(\"bytes('Hi')     :\", b)\nprint(\"type            :\", type(b))\nprint(\"b[0]            :\", b[0], \"(ASCII of 'H')\")\nprint(\"bytes([65, 66]) :\", bytes([65, 66]))\nprint(\"bytes(3)        :\", bytes(3))\nprint(\"decode()        :\", b.decode(\"utf-8\"))\n\nba = bytearray(\"Hi\", \"utf-8\")\nba[0] = 74                # 'J'\nba.append(33)             # '!'\nprint(\"bytearray       :\", ba)\nprint(\"as text         :\", ba.decode())\n\ntry:\n    b[0] = 74\nexcept TypeError as e:\n    print(\"bytes error     :\", e)"
+   },
+   "out": "bytes('Hi')     : b'Hi'\ntype            : <class 'bytes'>\nb[0]            : 72 (ASCII of 'H')\nbytes([65, 66]) : b'AB'\nbytes(3)        : b'\\x00\\x00\\x00'\ndecode()        : Hi\nbytearray       : bytearray(b'Ji!')\nas text         : Ji!\nbytes error     : 'bytes' object does not support item assignment",
+   "expl": {
+    "en": "<ul><li><code>bytes()</code> creates an <b>immutable</b> sequence of bytes (integers 0–255). A string needs an encoding such as \"utf-8\"; a list of integers is used directly; <code>bytes(n)</code> gives n zero bytes.</li>\n<li><code>bytearray()</code> is the <b>mutable</b> version: bytes can be changed and appended.</li>\n<li><code>decode()</code> converts bytes back into a string. Bytes are used in binary files, images and network data.</li></ul>"
+   }
+  },
+  {
+   "id": "py4p4",
+   "title": {
+    "en": "Math built-in functions: abs, round, pow, divmod, sum, min, max"
+   },
+   "code": {
+    "en": "print(\"abs(-7.5)        :\", abs(-7.5))\nprint(\"abs(3 - 4j)      :\", abs(3 - 4j))\nprint(\"round(3.14159, 2):\", round(3.14159, 2))\nprint(\"round(7.6)       :\", round(7.6))\nprint(\"round(2.5), round(3.5):\", round(2.5), round(3.5))\nprint(\"round(1234, -2)  :\", round(1234, -2))\nprint(\"pow(2, 5)        :\", pow(2, 5))\nprint(\"pow(2, 5, 3)     :\", pow(2, 5, 3))\nprint(\"divmod(17, 5)    :\", divmod(17, 5))\nq, r = divmod(125, 60)\nprint(\"125 minutes      :\", q, \"hour\", r, \"minutes\")\n\nmarks = [78, 85, 62, 90]\nprint(\"sum(marks)       :\", sum(marks))\nprint(\"sum(marks, 10)   :\", sum(marks, 10))\nprint(\"min, max         :\", min(marks), max(marks))\nprint(\"max of values    :\", max(4, 9, 2))\nprint(\"longest word     :\", max([\"cat\", \"tiger\", \"ox\"], key=len))"
+   },
+   "out": "abs(-7.5)        : 7.5\nabs(3 - 4j)      : 5.0\nround(3.14159, 2): 3.14\nround(7.6)       : 8\nround(2.5), round(3.5): 2 4\nround(1234, -2)  : 1200\npow(2, 5)        : 32\npow(2, 5, 3)     : 2\ndivmod(17, 5)    : (3, 2)\n125 minutes      : 2 hour 5 minutes\nsum(marks)       : 315\nsum(marks, 10)   : 325\nmin, max         : 62 90\nmax of values    : 9\nlongest word     : tiger",
+   "expl": {
+    "en": "<ul><li><code>abs(x)</code> gives the absolute value (magnitude for complex numbers: |3−4j| = 5).</li>\n<li><code>round(x, n)</code> rounds to n decimal places. With no n it returns an int. Exact halves go to the <b>nearest even</b> number (2.5 → 2, 3.5 → 4).</li>\n<li><code>pow(x, y)</code> = x<sup>y</sup>; <code>pow(x, y, m)</code> = x<sup>y</sup> % m.</li>\n<li><code>divmod(a, b)</code> returns the tuple (a // b, a % b).</li>\n<li><code>sum(iterable, start)</code>, <code>min()</code> and <code>max()</code> work on sequences or on separate arguments; <code>key=</code> changes how items are compared.</li></ul>"
+   }
+  },
+  {
+   "id": "py4p5",
+   "title": {
+    "en": "String testing methods: isalnum, isalpha, isdigit … (password checker)"
+   },
+   "code": {
+    "en": "for s in [\"Python3\", \"Python\", \"2024\", \"hello\", \"HELLO\", \"   \", \"my_var\", \"2var\"]:\n    print(f\"{s!r:10} alnum={s.isalnum()!s:5} alpha={s.isalpha()!s:5} \"\n          f\"digit={s.isdigit()!s:5} id={s.isidentifier()}\")\n\nprint(\"'abc'.islower(), 'ABC'.isupper():\", \"abc\".islower(), \"ABC\".isupper())\nprint(\"'  '.isspace():\", \"  \".isspace())\n\npwd = input(\"Enter password: \")\nupper = lower = digit = special = 0\nfor ch in pwd:\n    if ch.isupper():\n        upper += 1\n    elif ch.islower():\n        lower += 1\n    elif ch.isdigit():\n        digit += 1\n    elif not ch.isspace():\n        special += 1\nprint(\"Upper:\", upper, \"Lower:\", lower, \"Digit:\", digit, \"Special:\", special)\nif len(pwd) >= 8 and upper and lower and digit and special:\n    print(\"Strong password\")\nelse:\n    print(\"Weak password\")"
+   },
+   "out": "'Python3'  alnum=True  alpha=False digit=False id=True\n'Python'   alnum=True  alpha=True  digit=False id=True\n'2024'     alnum=True  alpha=False digit=True  id=False\n'hello'    alnum=True  alpha=True  digit=False id=True\n'HELLO'    alnum=True  alpha=True  digit=False id=True\n'   '      alnum=False alpha=False digit=False id=False\n'my_var'   alnum=False alpha=False digit=False id=True\n'2var'     alnum=True  alpha=False digit=False id=False\n'abc'.islower(), 'ABC'.isupper(): True True\n'  '.isspace(): True\nEnter password: Gtu@2025\nUpper: 1 Lower: 2 Digit: 4 Special: 1\nStrong password",
+   "expl": {
+    "en": "<ul><li>The <b>is…()</b> methods test a string and return True or False:\nisalnum() (letters/digits only), isalpha() (letters only), isdigit() (digits only), islower(), isupper(), isspace() (whitespace only), isidentifier() (valid variable name).</li>\n<li>The password checker loops through each character and counts categories. Note that <code>0</code> counts as False, so <code>if upper</code> means \"at least one uppercase letter\".</li></ul>"
+   }
+  },
+  {
+   "id": "py4p6",
+   "title": {
+    "en": "String functions: len, max, min, find, rfind, count, startswith, endswith"
+   },
+   "code": {
+    "en": "s = \"banana bread\"\nprint(\"String          :\", s)\nprint(\"len(s)          :\", len(s))\nprint(\"max(s), min(s)  :\", repr(max(s)), repr(min(s)))\nprint(\"find('an')      :\", s.find(\"an\"))\nprint(\"rfind('an')     :\", s.rfind(\"an\"))\nprint(\"find('xyz')     :\", s.find(\"xyz\"))\nprint(\"find('a', 4)    :\", s.find(\"a\", 4))\nprint(\"count('a')      :\", s.count(\"a\"))\nprint(\"count('an')     :\", s.count(\"an\"))\nprint(\"startswith('ban'):\", s.startswith(\"ban\"))\nprint(\"endswith('read') :\", s.endswith(\"read\"))\n\nfiles = [\"notes.pdf\", \"photo.jpg\", \"prog.py\", \"data.csv\", \"test.py\"]\npy_files = [f for f in files if f.endswith(\".py\")]\nprint(\"Python files    :\", py_files)\n\nemail = input(\"Enter email: \")\nat = email.find(\"@\")\nif at > 0 and email.rfind(\".\") > at:\n    print(\"Username:\", email[:at], \" Domain:\", email[at + 1:])\nelse:\n    print(\"Invalid email\")"
+   },
+   "out": "String          : banana bread\nlen(s)          : 12\nmax(s), min(s)  : 'r' ' '\nfind('an')      : 1\nrfind('an')     : 3\nfind('xyz')     : -1\nfind('a', 4)    : 5\ncount('a')      : 4\ncount('an')     : 2\nstartswith('ban'): True\nendswith('read') : True\nPython files    : ['prog.py', 'test.py']\nEnter email: riya.shah@gtu.ac.in\nUsername: riya.shah  Domain: gtu.ac.in",
+   "expl": {
+    "en": "<ul><li><code>len()</code> counts characters (including spaces). <code>max()</code>/<code>min()</code> give the character with the largest/smallest Unicode value (a space is smallest).</li>\n<li><code>find(sub)</code> returns the index of the <b>first</b> occurrence and <code>rfind(sub)</code> the <b>last</b>; both return <b>−1</b> if not found. An optional start index can be given.</li>\n<li><code>count(sub)</code> counts non-overlapping occurrences.</li>\n<li><code>startswith()</code>/<code>endswith()</code> check the beginning/end of a string, e.g. a file extension.</li></ul>"
+   }
+  },
+  {
+   "id": "py4p7",
+   "title": {
+    "en": "Case conversion and replace(): capitalize, lower, upper, title, swapcase"
+   },
+   "code": {
+    "en": "s = \"python PROGRAMMING is fun\"\nprint(\"Original     :\", s)\nprint(\"capitalize() :\", s.capitalize())\nprint(\"lower()      :\", s.lower())\nprint(\"upper()      :\", s.upper())\nprint(\"title()      :\", s.title())\nprint(\"swapcase()   :\", s.swapcase())\nprint(\"replace()    :\", s.replace(\"fun\", \"easy\"))\nprint(\"replace once :\", \"a-b-c-d\".replace(\"-\", \"+\", 1))\nprint(\"original unchanged:\", s)\n\nname = input(\"Enter your full name: \")\nprint(\"Proper case  :\", name.title())\ninitials = \"\".join(w[0].upper() + \".\" for w in name.split())\nprint(\"Initials     :\", initials)\nans = input(\"Continue? (yes/no): \")\nprint(\"Accepted\" if ans.strip().lower() == \"yes\" else \"Stopped\")"
+   },
+   "out": "Original     : python PROGRAMMING is fun\ncapitalize() : Python programming is fun\nlower()      : python programming is fun\nupper()      : PYTHON PROGRAMMING IS FUN\ntitle()      : Python Programming Is Fun\nswapcase()   : PYTHON programming IS FUN\nreplace()    : python PROGRAMMING is easy\nreplace once : a+b-c-d\noriginal unchanged: python PROGRAMMING is fun\nEnter your full name: amit kumar shah\nProper case  : Amit Kumar Shah\nInitials     : A.K.S.\nContinue? (yes/no):   YES \nAccepted",
+   "expl": {
+    "en": "<ul><li><code>capitalize()</code>: first character uppercase, all others lowercase. <code>title()</code>: first letter of <b>every word</b> uppercase.</li>\n<li><code>lower()</code>/<code>upper()</code> change all letters; <code>swapcase()</code> swaps lower and upper.</li>\n<li><code>replace(old, new[, count])</code> replaces occurrences, optionally only the first <i>count</i>.</li>\n<li>Strings are immutable: every method returns a <b>new string</b> and the original is unchanged.</li>\n<li><code>.strip().lower()</code> makes input checks work for \"YES\", \" yes \" and so on.</li></ul>"
+   }
+  },
+  {
+   "id": "py4p8",
+   "title": {
+    "en": "strip, lstrip, rstrip, format(), center, ljust, rjust (marksheet)"
+   },
+   "code": {
+    "en": "raw = \"   Surat   \"\nprint(\"[\" + raw + \"]\")\nprint(\"[\" + raw.strip() + \"]  strip\")\nprint(\"[\" + raw.lstrip() + \"]  lstrip\")\nprint(\"[\" + raw.rstrip() + \"]  rstrip\")\nprint(\"[\" + \"**GTU**\".strip(\"*\") + \"]  strip('*')\")\n\nprint(\"{} scored {} marks\".format(\"Riya\", 85))\nprint(\"{1} before {0}\".format(\"A\", \"B\"))\nprint(\"{name} is in sem {sem}\".format(name=\"Om\", sem=2))\nprint(\"Pi = {:.3f}\".format(3.14159))\nprint(\"[\" + \"Hi\".center(10, \"-\") + \"]\")\nprint(\"[\" + \"Hi\".ljust(10) + \"]\")\nprint(\"[\" + \"Hi\".rjust(10) + \"]\")\n\ndata = [(\"Python\", 85), (\"Maths\", 72), (\"Physics\", 91)]\nprint(\"=\" * 26)\nprint(\"MARKSHEET\".center(26))\nprint(\"=\" * 26)\nfor sub, m in data:\n    print(sub.ljust(15) + str(m).rjust(11))\nprint(\"-\" * 26)\ntotal = sum(m for _, m in data)\nprint(\"Total\".ljust(15) + str(total).rjust(11))\nprint(\"Percentage\".ljust(15) + \"{:.2f}%\".format(total / 3).rjust(11))"
+   },
+   "out": "[   Surat   ]\n[Surat]  strip\n[Surat   ]  lstrip\n[   Surat]  rstrip\n[GTU]  strip('*')\nRiya scored 85 marks\nB before A\nOm is in sem 2\nPi = 3.142\n[----Hi----]\n[Hi        ]\n[        Hi]\n==========================\n        MARKSHEET         \n==========================\nPython                  85\nMaths                   72\nPhysics                 91\n--------------------------\nTotal                  248\nPercentage          82.67%",
+   "expl": {
+    "en": "<ul><li><code>strip()</code> removes spaces (or the given characters) from both ends; <code>lstrip()</code> from the left; <code>rstrip()</code> from the right.</li>\n<li><code>format()</code> fills <code>{}</code> placeholders by position, index or name; <code>{:.3f}</code> formats a float to 3 decimal places.</li>\n<li><code>center(w, ch)</code>, <code>ljust(w)</code> and <code>rjust(w)</code> pad a string to width w, which is useful for printing neat tables such as this marksheet.</li></ul>"
+   }
+  },
+  {
+   "id": "py4p9",
+   "title": {
+    "en": "Writing a file: write() and writelines()"
+   },
+   "code": {
+    "en": "f = open(\"students.txt\", \"w\")\nn = f.write(\"Roll,Name,Marks\\n\")\nprint(\"Characters written:\", n)\nf.write(\"1,Amit,78\\n\")\nf.write(\"2,Riya,85\\n\")\nf.close()\n\nlines = [\"3,Om,69\\n\", \"4,Kavya,91\\n\"]\nwith open(\"students.txt\", \"a\") as f:\n    f.writelines(lines)\n\nwith open(\"cities.txt\", \"w\") as f:\n    for city in [\"Surat\", \"Ahmedabad\", \"Rajkot\"]:\n        f.write(city + \"\\n\")\nprint(\"Files written successfully\")"
+   },
+   "out": "Characters written: 16\nFiles written successfully\n\n--- students.txt (created by the program) ---\nRoll,Name,Marks\n1,Amit,78\n2,Riya,85\n3,Om,69\n4,Kavya,91\n\n--- cities.txt (created by the program) ---\nSurat\nAhmedabad\nRajkot",
+   "expl": {
+    "en": "<ul><li>Mode <b>\"w\"</b> creates the file, or <b>erases</b> it if it already exists.</li>\n<li><code>write(str)</code> writes one string and returns the number of characters written. It does <b>not</b> add a newline; you must write <code>\"\\n\"</code> yourself.</li>\n<li><code>writelines(list)</code> writes every string of a list; again, no newlines are added automatically.</li>\n<li>Calling <code>close()</code>, or using <code>with</code>, saves the data to disk.</li></ul>"
+   }
+  },
+  {
+   "id": "py4p10",
+   "title": {
+    "en": "Reading a file: read(), read(n), readline(), readlines(), loop"
+   },
+   "code": {
+    "en": "with open(\"notes.txt\", \"w\") as f:\n    f.write(\"Python\\nis easy\\nBye\")\n\nf = open(\"notes.txt\", \"r\")\nprint(\"read():\", repr(f.read()))\nf.close()\n\nwith open(\"notes.txt\") as f:\n    print(\"read(4):\", repr(f.read(4)))\n    print(\"rest   :\", repr(f.read()))\n\nwith open(\"notes.txt\") as f:\n    print(\"readline():\", repr(f.readline()))\n    print(\"readline():\", repr(f.readline()))\n    print(\"readline():\", repr(f.readline()))\n    print(\"at end    :\", repr(f.readline()))\n\nwith open(\"notes.txt\") as f:\n    print(\"readlines():\", f.readlines())\n\nprint(\"Loop over file:\")\nwith open(\"notes.txt\") as f:\n    for no, line in enumerate(f, start=1):\n        print(f\"  {no}: {line.rstrip()}\")"
+   },
+   "out": "read(): 'Python\\nis easy\\nBye'\nread(4): 'Pyth'\nrest   : 'on\\nis easy\\nBye'\nreadline(): 'Python\\n'\nreadline(): 'is easy\\n'\nreadline(): 'Bye'\nat end    : ''\nreadlines(): ['Python\\n', 'is easy\\n', 'Bye']\nLoop over file:\n  1: Python\n  2: is easy\n  3: Bye",
+   "expl": {
+    "en": "<ul><li><code>read()</code> returns the whole file as one string; <code>read(n)</code> returns the next n characters.</li>\n<li><code>readline()</code> returns one line <b>including</b> its \"\\n\"; at the end of the file it returns an empty string \"\".</li>\n<li><code>readlines()</code> returns a <b>list</b> of all lines.</li>\n<li>Looping <code>for line in f</code> reads one line at a time, which is best for big files. <code>rstrip()</code> removes the trailing newline.</li>\n<li>Each read moves the file pointer forward, so after <code>read(4)</code> the next read continues from the 5th character.</li></ul>"
+   }
+  },
+  {
+   "id": "py4p11",
+   "title": {
+    "en": "Appending to a file (mode 'a')"
+   },
+   "code": {
+    "en": "with open(\"diary.txt\", \"w\") as f:\n    f.write(\"Day 1: Learned lists\\n\")\n\nwith open(\"diary.txt\", \"a\") as f:\n    f.write(\"Day 2: Learned tuples\\n\")\n\nentry = input(\"Enter today's entry: \")\nwith open(\"diary.txt\", \"a\") as f:\n    f.write(\"Day 3: \" + entry + \"\\n\")\n\nwith open(\"diary.txt\") as f:\n    print(\"File now contains:\")\n    print(f.read(), end=\"\")\n\nwith open(\"diary.txt\", \"w\") as f:\n    f.write(\"Overwritten!\\n\")\nwith open(\"diary.txt\") as f:\n    print(\"After 'w' again:\", f.read(), end=\"\")"
+   },
+   "out": "Enter today's entry: Learned file handling\nFile now contains:\nDay 1: Learned lists\nDay 2: Learned tuples\nDay 3: Learned file handling\nAfter 'w' again: Overwritten!",
+   "expl": {
+    "en": "<ul><li>Python has no <code>append()</code> method for files: appending means opening the file in mode <b>\"a\"</b>. New data is added at the <b>end</b> and the old data is kept. The file is created if it does not exist.</li>\n<li>Opening an existing file in mode <b>\"w\"</b> erases all of its old content, as the last part of the output shows.</li></ul>"
+   }
+  },
+  {
+   "id": "py4p12",
+   "title": {
+    "en": "File programs: count lines, words, characters; copy a file"
+   },
+   "code": {
+    "en": "lines = words = chars = 0\nwith open(\"story.txt\") as f:\n    for line in f:\n        lines += 1\n        words += len(line.split())\n        chars += len(line)\nprint(\"Lines     :\", lines)\nprint(\"Words     :\", words)\nprint(\"Characters:\", chars)\n\nwith open(\"story.txt\") as f:\n    text = f.read()\nprint(\"'Python' occurs\", text.count(\"Python\"), \"times\")\n\nwith open(\"story.txt\") as src, open(\"copy.txt\", \"w\") as dst:\n    for line in src:\n        dst.write(line.upper())\nprint(\"Copied in uppercase to copy.txt\")\n\ntry:\n    open(\"missing.txt\")\nexcept FileNotFoundError as e:\n    print(\"Error:\", e)"
+   },
+   "out": "Lines     : 3\nWords     : 18\nCharacters: 93\n'Python' occurs 2 times\nCopied in uppercase to copy.txt\nError: [Errno 2] No such file or directory: 'missing.txt'\n\n--- copy.txt (created by the program) ---\nPYTHON IS A POPULAR LANGUAGE.\nIT IS EASY TO LEARN.\nPYTHON IS USED IN AI AND WEB DEVELOPMENT.",
+   "expl": {
+    "en": "<p>The program reads <i>story.txt</i> line by line: each line adds 1 to the line count, <code>len(line.split())</code> to the word count and <code>len(line)</code> (including \"\\n\") to the character count. It then copies the file into <i>copy.txt</i> in uppercase. Two files can be opened in one <code>with</code> statement. Opening a missing file for reading raises <b>FileNotFoundError</b>.</p>"
+   }
+  },
+  {
+   "id": "py4p13",
+   "title": {
+    "en": "User-defined function: definition and calling"
+   },
+   "code": {
+    "en": "def welcome():\n    \"\"\"Prints a welcome message.\"\"\"\n    print(\"Welcome to Python functions!\")\n\n\ndef area_circle(r):\n    return 3.14159 * r * r\n\n\ndef is_even(n):\n    return n % 2 == 0\n\n\n# call without arguments\nwelcome()\n# call with an argument\na = area_circle(5)\nprint(\"Area of circle (r=5):\", round(a, 2))\nprint(\"Area (r=2.5):\", round(area_circle(2.5), 2))\nfor x in [4, 7]:\n    print(x, \"is even?\", is_even(x))\nprint(\"Docstring:\", welcome.__doc__)\nprint(\"Type:\", type(welcome).__name__)"
+   },
+   "out": "Welcome to Python functions!\nArea of circle (r=5): 78.54\nArea (r=2.5): 19.63\n4 is even? True\n7 is even? False\nDocstring: Prints a welcome message.\nType: function",
+   "expl": {
+    "en": "<ul><li>A function is <b>defined</b> with <code>def name(parameters):</code> followed by an indented body. It runs only when it is <b>called</b> by name with brackets.</li>\n<li><code>return</code> sends a value back to the caller, and that value can be stored, printed or used in expressions.</li>\n<li>The string in triple quotes just after the def line is the <b>docstring</b>, available as <code>name.__doc__</code>.</li>\n<li>A function must be defined <b>before</b> it is called.</li></ul>"
+   }
+  },
+  {
+   "id": "py4p14",
+   "title": {
+    "en": "Passing parameters: positional, keyword, default, *args, **kwargs"
+   },
+   "code": {
+    "en": "def student(name, branch, sem):\n    print(f\"  {name} | {branch} | Sem {sem}\")\n\nprint(\"Positional:\")\nstudent(\"Amit\", \"CE\", 2)\nprint(\"Keyword (any order):\")\nstudent(sem=2, name=\"Riya\", branch=\"IT\")\n\n\n# default parameter\ndef power(base, exp=2):\n    return base ** exp\n\nprint(\"Default: power(5) =\", power(5), \" power(2, 10) =\", power(2, 10))\n\n\n# variable-length\ndef total(*nums):\n    print(\"  nums =\", nums)\n    return sum(nums)\n\nprint(\"*args:\", total(1, 2), total(5, 10, 15, 20))\n\n\n# keyword variable-length\ndef profile(**info):\n    for k, v in info.items():\n        print(f\"  {k}: {v}\")\n\nprint(\"**kwargs:\")\nprofile(name=\"Om\", city=\"Surat\", cpi=8.4)\n\ntry:\n    student(\"Kavya\", \"CE\")\nexcept TypeError as e:\n    print(\"Error:\", e)"
+   },
+   "out": "Positional:\n  Amit | CE | Sem 2\nKeyword (any order):\n  Riya | IT | Sem 2\nDefault: power(5) = 25  power(2, 10) = 1024\n  nums = (1, 2)\n  nums = (5, 10, 15, 20)\n*args: 3 50\n**kwargs:\n  name: Om\n  city: Surat\n  cpi: 8.4\nError: student() missing 1 required positional argument: 'sem'",
+   "expl": {
+    "en": "<ul><li><b>Positional</b> arguments are matched by order; <b>keyword</b> arguments by name (order does not matter).</li>\n<li>A <b>default</b> parameter (<code>exp=2</code>) is used when no argument is given. Default parameters must come after non-default ones.</li>\n<li><code>*args</code> collects any number of positional arguments into a <b>tuple</b>; <code>**kwargs</code> collects keyword arguments into a <b>dictionary</b>.</li>\n<li>Missing a required argument raises TypeError.</li></ul>"
+   }
+  },
+  {
+   "id": "py4p15",
+   "title": {
+    "en": "Returning values: single, multiple, None; passing a list"
+   },
+   "code": {
+    "en": "def stats(nums):\n    return min(nums), max(nums), sum(nums) / len(nums)\n\n\ndef grade(p):\n    if p >= 70:\n        return \"Distinction\"\n    if p >= 60:\n        return \"First class\"\n    return \"Pass\"\n\n\ndef show(msg):\n    # no return statement\n    print(msg)\n\n\ndef add_bonus(marks):\n    for i in range(len(marks)):\n        # changes caller's list\n        marks[i] += 5\n\n\nm = [62, 75, 88]\n# multiple values (a tuple)\nlo, hi, avg = stats(m)\nprint(\"Min:\", lo, \"Max:\", hi, \"Avg:\", round(avg, 2))\nprint(\"stats() returns:\", stats(m))\nprint(\"Grade:\", grade(avg))\nr = show(\"Hello\")\nprint(\"show() returned:\", r)\nadd_bonus(m)\nprint(\"After add_bonus:\", m)\n\n\ndef change(x):\n    # new local value only\n    x = 100\n\nn = 5\nchange(n)\nprint(\"n after change():\", n)"
+   },
+   "out": "Min: 62 Max: 88 Avg: 75.0\nstats() returns: (62, 88, 75.0)\nGrade: Distinction\nHello\nshow() returned: None\nAfter add_bonus: [67, 80, 93]\nn after change(): 5",
+   "expl": {
+    "en": "<ul><li><code>return</code> ends the function and sends a value back. Several values separated by commas are returned as a <b>tuple</b>, which can be unpacked.</li>\n<li>A function can have several return statements; the first one that runs ends the function.</li>\n<li>A function with no return statement returns <b>None</b>.</li>\n<li>Arguments are passed by object reference: a <b>mutable</b> object (a list) can be changed inside the function, but giving a parameter a new value (x = 100) does not affect the caller's variable.</li></ul>"
+   }
+  },
+  {
+   "id": "py4p16",
+   "title": {
+    "en": "Recursion: factorial, Fibonacci, sum of digits, power"
+   },
+   "code": {
+    "en": "def fact(n):\n    if n == 0 or n == 1:      # base case\n        return 1\n    # recursive case\n    return n * fact(n - 1)\n\n\ndef fib(n):\n    if n <= 1:\n        return n\n    return fib(n - 1) + fib(n - 2)\n\n\ndef digit_sum(n):\n    if n == 0:\n        return 0\n    return n % 10 + digit_sum(n // 10)\n\n\ndef power(x, y):\n    if y == 0:\n        return 1\n    return x * power(x, y - 1)\n\n\nnum = int(input(\"Enter a number: \"))\nprint(f\"{num}! =\", fact(num))\nprint(\"Fibonacci:\", [fib(i) for i in range(num + 3)])\nprint(\"Digit sum of 98765 =\", digit_sum(98765))\nprint(\"power(2, 10) =\", power(2, 10))\n\n\ndef no_base(n):\n    return no_base(n - 1)\n\ntry:\n    no_base(5)\nexcept RecursionError as e:\n    print(\"Error:\", e)"
+   },
+   "out": "Enter a number: 5\n5! = 120\nFibonacci: [0, 1, 1, 2, 3, 5, 8, 13]\nDigit sum of 98765 = 35\npower(2, 10) = 1024\nError: maximum recursion depth exceeded",
+   "expl": {
+    "en": "<ul><li>A <b>recursive function</b> calls itself. Each call works on a smaller problem until the <b>base case</b> is reached, which returns a value without another call.</li>\n<li>fact(5) = 5 × fact(4) = 5 × 4 × fact(3) … = 120 (see diagram \"Recursion: fact(4)\").</li>\n<li>Without a base case, the calls never stop and Python raises a <b>RecursionError</b> (the default limit is about 1000 calls).</li>\n<li>Recursion gives short, clear code for problems like factorial, Fibonacci and Tower of Hanoi, but uses more memory than a loop.</li></ul>"
+   }
+  },
+  {
+   "id": "py4p17",
+   "title": {
+    "en": "Scope of variables: local, global and the global keyword"
+   },
+   "code": {
+    "en": "# global variable\ncollege = \"GTU\"\n# global variable\ncount = 0\n\n\ndef show():\n    # local variable\n    city = \"Surat\"\n    print(\"Inside show():\", college, city)\n\n\ndef increment():\n    # use the global count\n    global count\n    count += 1\n\n\ndef shadow():\n    # new local, same name\n    college = \"Local college\"\n    print(\"Inside shadow():\", college)\n\n\nshow()\nincrement()\nincrement()\nprint(\"count after 2 calls:\", count)\nshadow()\nprint(\"Global college:\", college)\n\ntry:\n    print(city)\nexcept NameError as e:\n    print(\"NameError:\", e)\n\n\ndef wrong():\n    # no global statement\n    count += 1\n\ntry:\n    wrong()\nexcept UnboundLocalError as e:\n    print(\"UnboundLocalError:\", e)"
+   },
+   "out": "Inside show(): GTU Surat\ncount after 2 calls: 2\nInside shadow(): Local college\nGlobal college: GTU\nNameError: name 'city' is not defined\nUnboundLocalError: cannot access local variable 'count' where it is not associated with a value",
+   "expl": {
+    "en": "<ul><li>A <b>local variable</b> is created inside a function and exists only while the function runs; using it outside gives a NameError.</li>\n<li>A <b>global variable</b> is created outside all functions and can be <b>read</b> anywhere.</li>\n<li>To <b>change</b> a global variable inside a function, declare it with the <code>global</code> keyword. Without it, assigning (<code>count += 1</code>) makes Python treat count as local, giving <b>UnboundLocalError</b>.</li>\n<li>A local variable with the same name as a global one hides (shadows) the global inside that function.</li></ul>"
+   }
+  },
+  {
+   "id": "py4p18",
+   "title": {
+    "en": "Employee details management using functions and a dictionary (project)"
+   },
+   "code": {
+    "en": "employees = {}\n\n\ndef add_employee(eid, name, dept, salary):\n    employees[eid] = {\"name\": name, \"dept\": dept, \"salary\": salary}\n\n\ndef show_all():\n    print(f\"{'ID':<5}{'Name':<10}{'Dept':<8}{'Salary':>8}\")\n    for eid, e in employees.items():\n        print(f\"{eid:<5}{e['name']:<10}{e['dept']:<8}{e['salary']:>8}\")\n\n\ndef give_raise(dept, percent):\n    for e in employees.values():\n        if e[\"dept\"] == dept:\n            e[\"salary\"] = round(e[\"salary\"] * (1 + percent / 100))\n\n\ndef search(name):\n    for eid, e in employees.items():\n        if e[\"name\"].lower() == name.lower():\n            return eid, e\n    return None\n\n\ndef save(filename):\n    with open(filename, \"w\") as f:\n        for eid, e in employees.items():\n            f.write(f\"{eid},{e['name']},{e['dept']},{e['salary']}\\n\")\n\n\nadd_employee(1, \"Amit\", \"IT\", 30000)\nadd_employee(2, \"Riya\", \"HR\", 28000)\nadd_employee(3, \"Om\", \"IT\", 35000)\nn = int(input(\"How many more employees? \"))\nfor i in range(n):\n    data = input(\"id name dept salary: \").split()\n    add_employee(int(data[0]), data[1], data[2], int(data[3]))\n\nshow_all()\ngive_raise(\"IT\", 10)\nprint(\"After 10% raise for IT:\")\nshow_all()\nprint(\"Search 'riya':\", search(\"riya\"))\nprint(\"Search 'Dev' :\", search(\"Dev\"))\nsave(\"employees.txt\")\nprint(\"Saved to employees.txt\")"
+   },
+   "out": "How many more employees? 1\nid name dept salary: 4 Kavya Sales 32000\nID   Name      Dept      Salary\n1    Amit      IT         30000\n2    Riya      HR         28000\n3    Om        IT         35000\n4    Kavya     Sales      32000\nAfter 10% raise for IT:\nID   Name      Dept      Salary\n1    Amit      IT         33000\n2    Riya      HR         28000\n3    Om        IT         38500\n4    Kavya     Sales      32000\nSearch 'riya': (2, {'name': 'Riya', 'dept': 'HR', 'salary': 28000})\nSearch 'Dev' : None\nSaved to employees.txt\n\n--- employees.txt (created by the program) ---\n1,Amit,IT,33000\n2,Riya,HR,28000\n3,Om,IT,38500\n4,Kavya,Sales,32000",
+   "expl": {
+    "en": "<p>Suggested project 4 from the syllabus. Each task is a separate <b>user-defined function</b>: add, show, raise salary, search and save. The data is a <b>dictionary of dictionaries</b> (employee id → details). <code>search()</code> returns a tuple when it finds the name and None when it does not. <code>save()</code> uses file handling to write the records as comma-separated lines.</p>"
+   }
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "py4_func_types",
+   "title": {
+    "en": "Types of Functions"
+   },
+   "file": "diagrams/py4_func_types.svg"
+  },
+  {
+   "id": "py4_conversion",
+   "title": {
+    "en": "Type / Data Conversion Functions"
+   },
+   "file": "diagrams/py4_conversion.svg"
+  },
+  {
+   "id": "py4_str_is",
+   "title": {
+    "en": "String Testing Methods"
+   },
+   "file": "diagrams/py4_str_is.svg"
+  },
+  {
+   "id": "py4_align",
+   "title": {
+    "en": "Alignment and Strip Methods"
+   },
+   "file": "diagrams/py4_align.svg"
+  },
+  {
+   "id": "py4_file_modes",
+   "title": {
+    "en": "File Opening Modes"
+   },
+   "file": "diagrams/py4_file_modes.svg"
+  },
+  {
+   "id": "py4_file_flow",
+   "title": {
+    "en": "Steps of File Handling"
+   },
+   "file": "diagrams/py4_file_flow.svg"
+  },
+  {
+   "id": "py4_read_methods",
+   "title": {
+    "en": "read() vs readline() vs readlines()"
+   },
+   "file": "diagrams/py4_read_methods.svg"
+  },
+  {
+   "id": "py4_func_anatomy",
+   "title": {
+    "en": "Defining and Calling a Function"
+   },
+   "file": "diagrams/py4_func_anatomy.svg"
+  },
+  {
+   "id": "py4_recursion",
+   "title": {
+    "en": "Recursion: fact(4)"
+   },
+   "file": "diagrams/py4_recursion.svg"
+  },
+  {
+   "id": "py4_scope",
+   "title": {
+    "en": "Scope of Variables"
+   },
+   "file": "diagrams/py4_scope.svg"
+  }
+ ],
+ "syntax": [
+  {
+   "title": {
+    "en": "Conversion Functions"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Numbers"
+     },
+     "f": "int(x)  int(s, base)\nfloat(x)  complex(re, im)",
+     "terms": {
+      "en": "int() truncates"
+     }
+    },
+    {
+     "name": {
+      "en": "Text / Boolean"
+     },
+     "f": "str(x)\nbool(x)",
+     "terms": {
+      "en": "False: 0, '', [], None"
+     }
+    },
+    {
+     "name": {
+      "en": "Collections"
+     },
+     "f": "list(it)  tuple(it)\nset(it)   frozenset(it)\ndict(pairs)  dict(k=v)",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Bytes"
+     },
+     "f": "bytes(s, \"utf-8\")\nbytearray(s, \"utf-8\")\nb.decode()",
+     "terms": {
+      "en": ""
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Math Functions"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "abs / round"
+     },
+     "f": "abs(x)\nround(x)  round(x, n)",
+     "terms": {
+      "en": "round(2.5) = 2"
+     }
+    },
+    {
+     "name": {
+      "en": "pow / divmod"
+     },
+     "f": "pow(x, y)  pow(x, y, z)\ndivmod(a, b)  # (a//b, a%b)",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "sum / min / max"
+     },
+     "f": "sum(it, start=0)\nmin(it)  max(a, b, c)\nmax(it, key=len)",
+     "terms": {
+      "en": ""
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "String Methods"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Testing"
+     },
+     "f": "s.isalnum()  s.isalpha()\ns.isdigit()  s.isspace()\ns.islower()  s.isupper()\ns.isidentifier()",
+     "terms": {
+      "en": "True/False"
+     }
+    },
+    {
+     "name": {
+      "en": "Searching"
+     },
+     "f": "s.find(sub)   s.rfind(sub)\ns.count(sub)\ns.startswith(p)\ns.endswith(p)",
+     "terms": {
+      "en": "find → -1 if absent"
+     }
+    },
+    {
+     "name": {
+      "en": "Case"
+     },
+     "f": "s.lower()  s.upper()\ns.title()  s.capitalize()\ns.swapcase()",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Replace"
+     },
+     "f": "s.replace(old, new)\ns.replace(old, new, count)",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Strip"
+     },
+     "f": "s.strip()  s.lstrip()\ns.rstrip()  s.strip(\"#\")",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Format"
+     },
+     "f": "\"{} {}\".format(a, b)\n\"{0:.2f}\".format(x)\nf\"{x:>8}\"",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Align"
+     },
+     "f": "s.center(w, ch)\ns.ljust(w)  s.rjust(w)",
+     "terms": {
+      "en": ""
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "File Handling"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Open / close"
+     },
+     "f": "f = open(\"a.txt\", \"r\")\n...\nf.close()",
+     "terms": {
+      "en": "modes r w a x + b"
+     }
+    },
+    {
+     "name": {
+      "en": "with"
+     },
+     "f": "with open(\"a.txt\") as f:\n    data = f.read()",
+     "terms": {
+      "en": "auto close"
+     }
+    },
+    {
+     "name": {
+      "en": "Read"
+     },
+     "f": "f.read()   f.read(n)\nf.readline()\nf.readlines()",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Loop lines"
+     },
+     "f": "for line in f:\n    print(line.rstrip())",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Write"
+     },
+     "f": "f.write(\"text\\n\")\nf.writelines(list_of_str)",
+     "terms": {
+      "en": "no auto newline"
+     }
+    },
+    {
+     "name": {
+      "en": "Append"
+     },
+     "f": "with open(\"a.txt\", \"a\") as f:\n    f.write(\"more\\n\")",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Pointer"
+     },
+     "f": "f.tell()\nf.seek(0)",
+     "terms": {
+      "en": ""
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "User-defined Functions"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Define / call"
+     },
+     "f": "def name(p1, p2):\n    \"\"\"docstring\"\"\"\n    return result\n\nx = name(a, b)",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Default"
+     },
+     "f": "def f(a, b=10):",
+     "terms": {
+      "en": "defaults last"
+     }
+    },
+    {
+     "name": {
+      "en": "Keyword call"
+     },
+     "f": "f(b=5, a=1)",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "*args / **kwargs"
+     },
+     "f": "def f(*args, **kwargs):",
+     "terms": {
+      "en": "tuple / dict"
+     }
+    },
+    {
+     "name": {
+      "en": "Multiple return"
+     },
+     "f": "return a, b\nx, y = f()",
+     "terms": {
+      "en": "tuple"
+     }
+    },
+    {
+     "name": {
+      "en": "Recursion"
+     },
+     "f": "def fact(n):\n    if n == 0:\n        return 1\n    return n * fact(n - 1)",
+     "terms": {
+      "en": "base case!"
+     }
+    },
+    {
+     "name": {
+      "en": "global"
+     },
+     "f": "def f():\n    global count\n    count += 1",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "lambda"
+     },
+     "f": "sq = lambda x: x * x",
+     "terms": {
+      "en": ""
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Built-in Functions"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a function?"
+     },
+     "a": {
+      "en": "A named block of reusable code that performs a specific task. It may take arguments and return a value."
+     }
+    },
+    {
+     "q": {
+      "en": "What are built-in functions? Give examples."
+     },
+     "a": {
+      "en": "Functions that are always available in Python without importing anything, e.g. print(), input(), len(), type(), int(), max()."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between a function and a method?"
+     },
+     "a": {
+      "en": "A function is called on its own, len(s); a method belongs to an object and is called with a dot, s.upper()."
+     }
+    },
+    {
+     "q": {
+      "en": "What is type conversion? Name its types."
+     },
+     "a": {
+      "en": "Changing a value from one type to another. Implicit conversion is automatic (int + float → float); explicit conversion uses functions such as int(), float(), str()."
+     }
+    },
+    {
+     "q": {
+      "en": "What is int(9.99)?"
+     },
+     "a": {
+      "en": "9. int() truncates the decimal part; it does not round."
+     }
+    },
+    {
+     "q": {
+      "en": "What does int(\"1010\", 2) return?"
+     },
+     "a": {
+      "en": "10, because the second argument is the base (binary)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is bool(\"0\")?"
+     },
+     "a": {
+      "en": "True, because \"0\" is a non-empty string. Only empty or zero values are False."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between bytes and bytearray?"
+     },
+     "a": {
+      "en": "Both store sequences of bytes (0–255); bytes is immutable and bytearray is mutable."
+     }
+    },
+    {
+     "q": {
+      "en": "What is round(2.5) in Python 3?"
+     },
+     "a": {
+      "en": "2, because Python rounds an exact half to the nearest even number (banker's rounding). round(3.5) is 4."
+     }
+    },
+    {
+     "q": {
+      "en": "What does divmod(17, 5) return?"
+     },
+     "a": {
+      "en": "The tuple (3, 2), i.e. (quotient, remainder)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is pow(2, 5, 3)?"
+     },
+     "a": {
+      "en": "2, because it calculates (2 ** 5) % 3 = 32 % 3."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a frozenset?"
+     },
+     "a": {
+      "en": "An immutable set created with frozenset(); it can be used as a dictionary key."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "String Functions"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Difference between find() and index()?"
+     },
+     "a": {
+      "en": "Both return the position of a substring. find() returns −1 if it is not found; index() raises ValueError."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between find() and rfind()?"
+     },
+     "a": {
+      "en": "find() gives the first occurrence; rfind() gives the last occurrence."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between capitalize() and title()?"
+     },
+     "a": {
+      "en": "capitalize() makes only the first character of the string uppercase; title() makes the first letter of every word uppercase."
+     }
+    },
+    {
+     "q": {
+      "en": "What does swapcase() do?"
+     },
+     "a": {
+      "en": "It converts lowercase letters to uppercase and uppercase to lowercase."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the difference between isalpha() and isalnum()?"
+     },
+     "a": {
+      "en": "isalpha() is True only for letters; isalnum() is True for letters and/or digits."
+     }
+    },
+    {
+     "q": {
+      "en": "What does isidentifier() check?"
+     },
+     "a": {
+      "en": "Whether the string is a valid Python identifier (variable name), e.g. \"my_var\" is True and \"2var\" is False."
+     }
+    },
+    {
+     "q": {
+      "en": "What does strip() do?"
+     },
+     "a": {
+      "en": "It removes leading and trailing whitespace (or the given characters). lstrip() removes from the left only, rstrip() from the right only."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the use of center(), ljust() and rjust()?"
+     },
+     "a": {
+      "en": "They pad a string to a given width: centred, left-aligned or right-aligned, using spaces or a fill character."
+     }
+    },
+    {
+     "q": {
+      "en": "Does upper() change the original string?"
+     },
+     "a": {
+      "en": "No. Strings are immutable; upper() returns a new string."
+     }
+    },
+    {
+     "q": {
+      "en": "What does \"{:.2f}\".format(3.14159) give?"
+     },
+     "a": {
+      "en": "'3.14', the number formatted to two decimal places."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "File Handling"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Why do we need files?"
+     },
+     "a": {
+      "en": "To store data permanently. Variables are lost when the program ends, but files remain on the disk."
+     }
+    },
+    {
+     "q": {
+      "en": "What are the types of files?"
+     },
+     "a": {
+      "en": "Text files (readable characters in lines) and binary files (bytes, such as images and audio)."
+     }
+    },
+    {
+     "q": {
+      "en": "What does open() return?"
+     },
+     "a": {
+      "en": "A file object (file handle) that is used to read or write the file."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between w and a mode?"
+     },
+     "a": {
+      "en": "\"w\" erases the old content and writes from the beginning; \"a\" keeps the old content and writes at the end."
+     }
+    },
+    {
+     "q": {
+      "en": "What happens when a missing file is opened in r mode?"
+     },
+     "a": {
+      "en": "FileNotFoundError is raised."
+     }
+    },
+    {
+     "q": {
+      "en": "Why should a file be closed?"
+     },
+     "a": {
+      "en": "close() saves buffered data to the disk and frees the file and system resources."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the advantage of the with statement?"
+     },
+     "a": {
+      "en": "It closes the file automatically when the block ends, even if an error occurs."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between read(), readline() and readlines()?"
+     },
+     "a": {
+      "en": "read() returns the whole file as a string, readline() returns one line, and readlines() returns a list of all lines."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between write() and writelines()?"
+     },
+     "a": {
+      "en": "write() writes one string and returns the character count; writelines() writes a list of strings. Neither adds newlines."
+     }
+    },
+    {
+     "q": {
+      "en": "What do tell() and seek() do?"
+     },
+     "a": {
+      "en": "tell() returns the current position of the file pointer; seek(n) moves the pointer to position n."
+     }
+    },
+    {
+     "q": {
+      "en": "What does readline() return at the end of the file?"
+     },
+     "a": {
+      "en": "An empty string \"\"."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "User-defined Functions"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "How do you define a function in Python?"
+     },
+     "a": {
+      "en": "With the def keyword: def name(parameters): followed by an indented body, and optionally a return statement."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between a parameter and an argument?"
+     },
+     "a": {
+      "en": "A parameter is the variable in the function definition; an argument is the actual value passed when calling the function."
+     }
+    },
+    {
+     "q": {
+      "en": "What are the types of arguments in Python?"
+     },
+     "a": {
+      "en": "Positional, keyword, default and variable-length (*args and **kwargs) arguments."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a default argument?"
+     },
+     "a": {
+      "en": "A parameter with a default value, used when no argument is passed, e.g. def power(b, e=2)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the difference between *args and **kwargs?"
+     },
+     "a": {
+      "en": "*args collects extra positional arguments into a tuple; **kwargs collects extra keyword arguments into a dictionary."
+     }
+    },
+    {
+     "q": {
+      "en": "What does a function return if there is no return statement?"
+     },
+     "a": {
+      "en": "None."
+     }
+    },
+    {
+     "q": {
+      "en": "Can a Python function return multiple values?"
+     },
+     "a": {
+      "en": "Yes. return a, b returns a tuple, which can be unpacked: x, y = f()."
+     }
+    },
+    {
+     "q": {
+      "en": "What is recursion?"
+     },
+     "a": {
+      "en": "A technique in which a function calls itself to solve a smaller version of the same problem."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a base case?"
+     },
+     "a": {
+      "en": "The condition in a recursive function that stops further recursive calls and returns a value directly."
+     }
+    },
+    {
+     "q": {
+      "en": "What happens if there is no base case?"
+     },
+     "a": {
+      "en": "The function keeps calling itself until Python raises RecursionError (maximum recursion depth exceeded)."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between local and global variables?"
+     },
+     "a": {
+      "en": "A local variable is created inside a function and is accessible only there; a global variable is created outside all functions and is accessible everywhere."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the use of the global keyword?"
+     },
+     "a": {
+      "en": "It allows a function to modify a global variable instead of creating a local one."
+     }
+    },
+    {
+     "q": {
+      "en": "What is UnboundLocalError?"
+     },
+     "a": {
+      "en": "The error raised when a function assigns to a variable (making it local) but uses it before giving it a value, e.g. count += 1 without global."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a lambda function?"
+     },
+     "a": {
+      "en": "A small anonymous one-line function: lambda arguments: expression, e.g. lambda x: x * x."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a docstring?"
+     },
+     "a": {
+      "en": "A string in triple quotes just after the def line that describes the function; it is available as function.__doc__."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "What is type conversion? Explain int(), float(), str() and bool() with example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain list(), tuple(), set(), dict() and frozenset() conversion functions with example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain bytes() and bytearray() with example."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain math built-in functions abs(), round(), pow(), divmod(), sum(), min(), max() with example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain any five string testing methods (isalnum, isalpha, isdigit, islower, isupper, isspace)."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain find(), rfind(), count(), startswith() and endswith() with example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain capitalize(), lower(), upper(), title(), swapcase() and replace() with example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain strip(), lstrip(), rstrip(), center(), ljust(), rjust() and format() methods."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain open() function with different file modes."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Differentiate between read(), readline() and readlines() with example."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain write() and writelines() functions with example."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain file handling in Python: open, read, write, append and close."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "What is the use of the with statement in file handling?"
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "What is a user-defined function? Explain function definition and calling with example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "List the advantages of functions."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain different types of arguments in Python functions."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "How can a function return multiple values? Explain with example."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "What is recursion? Write a recursive function to find factorial of a number."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain local and global variables with example. What is the use of the global keyword?"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a Python program to count uppercase, lowercase, digits and special characters in a string."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a Python program to count lines, words and characters in a file."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a Python program to copy the contents of one file to another."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Write a Python program to print the Fibonacci series using recursion."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a Python program using a function to check whether a number is prime."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Write a menu-driven program to manage employee details using functions and a dictionary."
+   },
+   "marks": 7
+  }
+ ]
+}

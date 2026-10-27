@@ -1,0 +1,1370 @@
+{
+ "subject": "DI01000131",
+ "unit": 5,
+ "format": "notes",
+ "title": {
+  "en": "Character Arrays, Strings and Files"
+ },
+ "weightage": 14,
+ "hours": 9,
+ "notes": [
+  {
+   "title": {
+    "en": "5.1 Character Arrays and Strings"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "5.1.1 Introduction to Strings"
+     },
+     "body": {
+      "en": "<p>A <b>string</b> is a sequence of characters treated as a single data item, e.g. \"GTU\", \"Hello World\". C has <b>no separate string data type</b>. A string is stored in a <b>character array</b> and always ends with the <b>null character</b> <code>'\\0'</code> (ASCII value 0).</p>\n<h4>Null character '\\0'</h4>\n<ul><li>It marks the <b>end of the string</b>. Functions like <code>printf(\"%s\")</code>, <code>strlen()</code> and <code>strcpy()</code> stop when they reach it.</li>\n<li>So a string of <i>n</i> characters needs an array of at least <b>n + 1</b> characters.</li>\n<li>For <code>char s[10] = \"GTU\";</code>: <code>s[0]='G'</code>, <code>s[1]='T'</code>, <code>s[2]='U'</code>, <code>s[3]='\\0'</code>; the remaining elements are unused (see diagram).</li></ul>\n<h4>Character constant vs string constant</h4>\n<table>\n<tr><th>Character constant</th><th>String constant</th></tr>\n<tr><td>Single quotes: <code>'A'</code></td><td>Double quotes: <code>\"A\"</code></td></tr>\n<tr><td>One character</td><td>Zero or more characters + '\\0'</td></tr>\n<tr><td>Occupies 1 byte</td><td><code>\"A\"</code> occupies 2 bytes ('A' and '\\0')</td></tr>\n<tr><td>Has an integer (ASCII) value: 'A' = 65</td><td>Represents the address of its first character</td></tr>\n</table>\n<h4>Common operations on strings</h4>\n<ul><li>Reading and writing strings</li>\n<li>Combining strings (concatenation)</li>\n<li>Copying one string to another</li>\n<li>Comparing strings for equality or order</li>\n<li>Finding the length, searching for a character or substring</li></ul>"
+     },
+     "diagram": "c5_string_memory"
+    },
+    {
+     "h": {
+      "en": "5.1.2 Declaring and Initializing String Variables"
+     },
+     "body": {
+      "en": "<h4>Declaration</h4>\n<pre class=\"c\">char string_name[size];</pre>\n<p>The <b>size</b> is the maximum number of characters <b>plus one</b> for <code>'\\0'</code>.</p>\n<pre class=\"c\">/* up to 19 chars + '\\0' */\nchar name[20];\nchar city[30];\nchar line[81];      /* one 80-column line */</pre>\n<h4>Initialization</h4>\n<p>A character array can be initialized in two ways:</p>\n<ol><li><b>With a string literal:</b> <code>char s[10] = \"GTU\";</code>. The compiler adds <code>'\\0'</code> automatically.</li>\n<li><b>Character by character:</b> <code>char s[] = {'G','T','U','\\0'};</code>. Here <code>'\\0'</code> must be written by hand.</li></ol>\n<pre class=\"c\">/* rest filled with '\\0' */\nchar s1[10] = \"GTU\";\n/* size 4 decided by compiler */\nchar s2[]   = \"GTU\";\nchar s3[4]  = {'G','T','U','\\0'};\nchar s4[]   = {'G','T','U','\\0'};\n/* no room for '\\0' – avoid */\nchar s5[3]  = \"GTU\";</pre>\n<ul><li>If the size is omitted, the compiler takes the size from the initializer (\"GTU\" → 4).</li>\n<li>If the size is larger than needed, the remaining elements are filled with <code>'\\0'</code>.</li>\n<li>If the size is too small, there is no room for '\\0'. The array is then not a proper string, and printing it may show garbage.</li></ul>\n<h4>Assignment is not allowed</h4>\n<p>An array name is a constant address, so a string cannot be assigned with <code>=</code> after declaration. Use <code>strcpy()</code> instead.</p>\n<pre class=\"c\">char s[10];\n/* ERROR: array cannot be assigned */\ns = \"GTU\";\n/* correct way */\nstrcpy(s, \"GTU\");</pre>"
+     },
+     "programs": [
+      "c5p1"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.1.3 Reading Strings from the Terminal"
+     },
+     "body": {
+      "en": "<p>C offers several ways to read a string from the keyboard (see diagram):</p>\n<h4>1. scanf() with %s</h4>\n<pre class=\"c\">char name[20];\n/* no &amp; : name is an address */\nscanf(\"%s\", name);\n/* width limit: safer */\nscanf(\"%19s\", name);</pre>\n<ul><li>Reads characters until the first <b>white space</b> (space, tab, newline), so it reads only <b>one word</b>. For \"Ravi Patel\" it stores only \"Ravi\".</li>\n<li>No <code>&amp;</code> is needed, because the array name is already the address.</li>\n<li><code>'\\0'</code> is added automatically. A width such as <code>%19s</code> prevents overflow.</li></ul>\n<h4>2. scanf() with a scanset %[ ]</h4>\n<pre class=\"c\">/* read till newline */\nscanf(\"%[^\\n]\", line);\n/* only lowercase letters */\nscanf(\"%[a-z]\", word);</pre>\n<p><code>%[^\\n]</code> reads all characters <b>except</b> newline, so a full line with spaces is read.</p>\n<h4>3. getchar() in a loop</h4>\n<pre class=\"c\">char line[81], ch;\nint i = 0;\nwhile ((ch = getchar()) != '\\n' &amp;&amp; i &lt; 80)\n    line[i++] = ch;\n/* must terminate */\nline[i] = '\\0';</pre>\n<p>Reads one character at a time until Enter. The programmer must add <code>'\\0'</code> at the end.</p>\n<h4>4. gets() – unsafe</h4>\n<p><code>gets(s)</code> reads a whole line, but it <b>does not check the array size</b>, so a long input can overwrite other memory (buffer overflow). It was <b>removed in C11</b> and should not be used.</p>\n<h4>5. fgets() – recommended</h4>\n<pre class=\"c\">fgets(line, sizeof(line), stdin);\n/* remove '\\n' */\nline[strcspn(line, \"\\n\")] = '\\0';</pre>\n<ul><li>Reads at most <code>size − 1</code> characters, so it is <b>safe</b>.</li>\n<li>It keeps the <code>'\\n'</code> in the string, so remove it if needed.</li></ul>\n<table>\n<tr><th>Method</th><th>Reads spaces?</th><th>Safe?</th><th>Keeps '\\n'?</th></tr>\n<tr><td>scanf(\"%s\")</td><td>No</td><td>Only with width</td><td>No</td></tr>\n<tr><td>scanf(\"%[^\\n]\")</td><td>Yes</td><td>Only with width</td><td>No</td></tr>\n<tr><td>getchar() loop</td><td>Yes</td><td>Yes (if counted)</td><td>No</td></tr>\n<tr><td>gets()</td><td>Yes</td><td><b>No</b></td><td>No</td></tr>\n<tr><td>fgets()</td><td>Yes</td><td><b>Yes</b></td><td>Yes</td></tr>\n</table>"
+     },
+     "diagram": "c5_read_methods",
+     "programs": [
+      "c5p2",
+      "c5p4"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.1.4 Writing Strings to the Screen"
+     },
+     "body": {
+      "en": "<h4>1. printf() with %s</h4>\n<p>Prints characters until <code>'\\0'</code>. A width and a precision can be given:</p>\n<pre class=\"c\">char s[] = \"Diploma\";\nprintf(\"%s\\n\", s);       /* Diploma      */\nprintf(\"%10s|\\n\", s);    /*    Diploma|  */\nprintf(\"%-10s|\\n\", s);   /* Diploma   |  */\nprintf(\"%.3s\\n\", s);     /* Dip          */\nprintf(\"%10.3s|\\n\", s);  /*        Dip|  */</pre>\n<ul><li><code>%ws</code>: right-justified in a field of w columns.</li>\n<li><code>%-ws</code>: left-justified.</li>\n<li><code>%.ns</code>: prints only the first n characters.</li></ul>\n<h4>2. puts() and putchar()</h4>\n<pre class=\"c\">/* prints s + newline */\nputs(s);\nfor (i = 0; s[i] != '\\0'; i++)\n    putchar(s[i]);       /* char by char */</pre>\n<ul><li><code>puts(s)</code> prints the string and <b>automatically adds a newline</b>.</li>\n<li><code>putchar(ch)</code> prints one character; in a loop it can print a string character by character.</li></ul>"
+     },
+     "programs": [
+      "c5p1"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.1.5 Arithmetic Operations on Characters"
+     },
+     "body": {
+      "en": "<p>In C every character is stored as its <b>integer ASCII code</b>, so characters can be used in arithmetic and comparisons. Useful codes: 'A'–'Z' = 65–90, 'a'–'z' = 97–122, '0'–'9' = 48–57.</p>\n<pre class=\"c\">char ch = 'A';\n/* 65 : ASCII value */\nprintf(\"%d\", ch);\nch = ch + 1;             /* 'B' */\n/* 'A' : lower -&gt; upper */\nch = 'a' - 32;\n/* 7   : digit char -&gt; number */\nint d = '7' - '0';\nif (ch &gt;= 'A' &amp;&amp; ch &lt;= 'Z')\n    printf(\"Uppercase\");</pre>\n<ul><li><b>Case conversion:</b> lowercase = uppercase + 32, so <code>ch - 32</code> converts to uppercase and <code>ch + 32</code> to lowercase.</li>\n<li><b>Digit to number:</b> <code>'7' - '0'</code> = 55 − 48 = 7.</li></ul>\n<h4>Character functions &lt;ctype.h&gt;</h4>\n<table>\n<tr><th>Function</th><th>Returns true (non-zero) if ch is…</th></tr>\n<tr><td>isalpha(ch)</td><td>a letter</td></tr>\n<tr><td>isdigit(ch)</td><td>a digit 0–9</td></tr>\n<tr><td>isalnum(ch)</td><td>a letter or digit</td></tr>\n<tr><td>isupper(ch) / islower(ch)</td><td>uppercase / lowercase</td></tr>\n<tr><td>isspace(ch)</td><td>space, tab or newline</td></tr>\n<tr><td>ispunct(ch)</td><td>a punctuation mark</td></tr>\n<tr><td>toupper(ch) / tolower(ch)</td><td>(converts the case)</td></tr>\n</table>\n<h4>String to number &lt;stdlib.h&gt;</h4>\n<pre class=\"c\">#include &lt;stdlib.h&gt;\nint  n = atoi(\"125\");    /* 125   */\nfloat f = atof(\"3.14\");  /* 3.14  */\nlong l = atol(\"70000\");  /* 70000 */</pre>\n<p><code>atoi()</code> (ASCII to integer) is especially useful with command line arguments, which are always strings.</p>"
+     },
+     "programs": [
+      "c5p3",
+      "c5p9"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.1.6 String-handling Functions (string.h)"
+     },
+     "body": {
+      "en": "<p>The C library provides ready-made functions for strings in <code>&lt;string.h&gt;</code> (see diagram).</p>\n<table>\n<tr><th>Function</th><th>Purpose</th><th>Example / result</th></tr>\n<tr><td><b>strlen(s)</b></td><td>Number of characters (without '\\0')</td><td>strlen(\"Hello\") → 5</td></tr>\n<tr><td><b>strcpy(d, s)</b></td><td>Copies s into d</td><td>d = \"Hello\"</td></tr>\n<tr><td><b>strncpy(d, s, n)</b></td><td>Copies first n characters</td><td>may not add '\\0'</td></tr>\n<tr><td><b>strcat(s1, s2)</b></td><td>Appends s2 to the end of s1</td><td>\"Good\"+\"Day\" → \"GoodDay\"</td></tr>\n<tr><td><b>strncat(s1, s2, n)</b></td><td>Appends first n characters of s2</td><td></td></tr>\n<tr><td><b>strcmp(s1, s2)</b></td><td>Compares two strings</td><td>0 / &lt;0 / &gt;0</td></tr>\n<tr><td><b>strncmp(s1, s2, n)</b></td><td>Compares first n characters</td><td></td></tr>\n<tr><td><b>strchr(s, ch)</b></td><td>Pointer to first occurrence of ch</td><td>NULL if not found</td></tr>\n<tr><td><b>strrchr(s, ch)</b></td><td>Pointer to last occurrence of ch</td><td></td></tr>\n<tr><td><b>strstr(s1, s2)</b></td><td>Pointer to first occurrence of s2 in s1</td><td>NULL if not found</td></tr>\n</table>\n<pre class=\"c\">char a[30] = \"Good\", b[] = \"Day\";\n/* 4               */\nstrlen(a);\n/* a = \"Hi\"        */\nstrcpy(a, \"Hi\");\n/* a = \"HiDay\"     */\nstrcat(a, b);\n/* negative        */\nstrcmp(\"abc\", \"abd\");\n/* first 3 chars   */\nstrncpy(a, \"Hello\", 3);\n/* append 2 chars  */\nstrncat(a, \"World\", 2);\n/* -&gt; \"llo\"        */\nstrchr(\"hello\", 'l');\nstrstr(\"diploma\", \"lom\");/* -&gt; \"loma\"       */</pre>\n<h4>Important points</h4>\n<ul><li>The destination of <code>strcpy</code>/<code>strcat</code> must be <b>large enough</b>; C does not check it.</li>\n<li><code>strrev()</code>, <code>strupr()</code>, <code>strlwr()</code> and <code>stricmp()</code> exist in Turbo C but are <b>not standard C</b>. In exams, write your own logic (programs c5p7 and c5p9).</li>\n<li><code>strlen</code> returns a <code>size_t</code> value, printed with <code>%zu</code> (or cast to int and use <code>%d</code>).</li></ul>"
+     },
+     "diagram": "c5_str_funcs",
+     "programs": [
+      "c5p5",
+      "c5p8"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.1.7 Comparison of Strings – strcmp()"
+     },
+     "body": {
+      "en": "<p><code>strcmp(s1, s2)</code> compares two strings <b>character by character</b> using their ASCII values until the characters differ or <code>'\\0'</code> is reached (see diagram).</p>\n<table>\n<tr><th>Return value</th><th>Meaning</th><th>Example</th></tr>\n<tr><td>0</td><td>s1 and s2 are equal</td><td>strcmp(\"GTU\", \"GTU\")</td></tr>\n<tr><td>&lt; 0</td><td>s1 comes before s2 (dictionary order)</td><td>strcmp(\"Apple\", \"Apply\")</td></tr>\n<tr><td>&gt; 0</td><td>s1 comes after s2</td><td>strcmp(\"Cat\", \"Bat\")</td></tr>\n</table>\n<p>For \"Apple\" and \"Apply\": the first four characters match; then 'e' (101) − 'y' (121) = −20, so the result is negative.</p>\n<pre class=\"c\">if (strcmp(s1, s2) == 0)\n    printf(\"Equal\");\nelse if (strcmp(s1, s2) &lt; 0)\n    printf(\"s1 comes first\");\nelse\n    printf(\"s2 comes first\");</pre>\n<ul><li>The comparison is <b>case-sensitive</b>: 'Z' (90) &lt; 'a' (97), so \"Zebra\" comes before \"apple\".</li>\n<li>Strings must <b>not</b> be compared with <code>==</code>, which compares the addresses of the arrays, not their contents:</li></ul>\n<pre class=\"c\">/* WRONG: compares addresses */\nif (s1 == s2)</pre>\n<p>strcmp() is used for checking passwords, searching names and sorting strings alphabetically.</p>"
+     },
+     "diagram": "c5_strcmp",
+     "programs": [
+      "c5p6",
+      "c5p7"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.1.8 Table of Strings (Array of Strings)"
+     },
+     "body": {
+      "en": "<p>A list of strings, such as names of students or days, is stored in a <b>two-dimensional character array</b>. Each <b>row</b> holds one string (see diagram).</p>\n<p><code>char name[rows][columns];</code>: rows = number of strings; columns = maximum length + 1.</p>\n<pre class=\"c\">char name[4][8] = {\"Amit\", \"Riya\", \"Om\", \"Kavya\"};\nprintf(\"%s\", name[1]);     /* Riya */\nprintf(\"%c\", name[1][0]);  /* R    */</pre>\n<ul><li><code>name[i]</code> is the address of row i, i.e. the i-th string, used with <code>%s</code>, <code>scanf</code>, <code>strcpy</code>, etc.</li>\n<li><code>name[i][j]</code> is the j-th character of the i-th string.</li>\n<li>Each row has the same fixed size, so short strings waste some memory.</li></ul>\n<h4>Reading and printing a list</h4>\n<pre class=\"c\">for (i = 0; i &lt; n; i++)\n    scanf(\"%19s\", name[i]);\nfor (i = 0; i &lt; n; i++)\n    printf(\"%s\\n\", name[i]);</pre>\n<h4>Array of pointers (alternative)</h4>\n<pre class=\"c\">/* ragged */\nchar *day[] = {\"Mon\", \"Tue\", \"Wed\"};</pre>\n<p>Each element points to a string literal of its own length, so memory is not wasted. These literals should not be modified.</p>\n<p>A common use is sorting names alphabetically with <code>strcmp()</code> and <code>strcpy()</code> (program c5p10).</p>"
+     },
+     "diagram": "c5_str_array",
+     "programs": [
+      "c5p10"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.1.9 Command Line Arguments"
+     },
+     "body": {
+      "en": "<p><b>Command line arguments</b> are values passed to a program <b>when it is run</b> from the command prompt, after the program name. They let the user give input (file names, numbers, options) without the program asking for it.</p>\n<h4>Syntax</h4>\n<pre class=\"c\">int main(int argc, char *argv[])\n{\n    ...\n}</pre>\n<ul><li><b>argc</b> (argument count): an int holding the number of arguments, <b>including the program name</b>. It is always at least 1.</li>\n<li><b>argv</b> (argument vector): an array of character pointers (strings). <code>argv[0]</code> is the program name, <code>argv[1]</code> the first argument, …, and <code>argv[argc]</code> is NULL.</li></ul>\n<h4>Example</h4>\n<pre class=\"c\">/* run as: ./marks Ravi 25 Surat */\nargc    = 4\nargv[0] = \"./marks\"\nargv[1] = \"Ravi\"\nargv[2] = \"25\"     /* a string! */\nargv[3] = \"Surat\"\nargv[4] = NULL</pre>\n<ul><li>Arguments are separated by spaces. An argument containing spaces is enclosed in quotes: <code>\"Ravi Patel\"</code>.</li>\n<li>All arguments are <b>strings</b>. Numbers must be converted with <code>atoi()</code>/<code>atof()</code>.</li>\n<li>Check <code>argc</code> before using <code>argv</code>. If the arguments are missing, print a usage message.</li>\n<li>Running: Linux <code>./marks Ravi 25 Surat</code>; Windows <code>marks Ravi 25 Surat</code>; Turbo C <i>Run → Arguments</i>; Code::Blocks <i>Project → Set program's arguments</i>.</li></ul>\n<h4>Uses</h4>\n<ul><li>Passing file names to file-copy or file-display programs (like the DOS <code>copy a.txt b.txt</code> command)</li>\n<li>Giving numbers or options to a program in scripts</li></ul>"
+     },
+     "diagram": "c5_cmdline",
+     "programs": [
+      "c5p11",
+      "c5p12",
+      "c5p15"
+     ]
+    },
+    {
+     "h": {
+      "en": "Key Points – 5.1"
+     },
+     "body": {
+      "en": "<ul>\n<li>A string is a character array terminated by <b>'\\0'</b>; size needed = length + 1.</li>\n<li><code>'A'</code> is a char (1 byte); <code>\"A\"</code> is a string (2 bytes).</li>\n<li>Strings cannot be assigned with = or compared with ==; use <b>strcpy()</b> and <b>strcmp()</b>.</li>\n<li><code>scanf(\"%s\")</code> reads one word; <code>%[^\\n]</code> and <code>fgets()</code> read a whole line; <code>gets()</code> is unsafe (removed in C11).</li>\n<li><code>printf(\"%10.3s\")</code>: width 10, first 3 characters; <code>puts()</code> adds a newline.</li>\n<li>Characters are integers (ASCII): 'a' − 32 = 'A', '7' − '0' = 7; use the &lt;ctype.h&gt; functions.</li>\n<li>string.h: strlen, strcpy, strncpy, strcat, strncat, strcmp, strncmp, strchr, strstr.</li>\n<li>strcmp returns 0 (equal), &lt;0 (first is smaller), &gt;0 (first is larger).</li>\n<li>Table of strings = 2-D char array <code>char s[rows][len+1]</code>; <code>s[i]</code> is the i-th string.</li>\n<li><code>main(int argc, char *argv[])</code>: argc counts the arguments including the program name; argv[0] = program name; convert with atoi().</li>\n</ul>"
+     },
+     "key": true
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "5.2 File Management in C (Text Files)"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "5.2.1 Introduction to Files"
+     },
+     "body": {
+      "en": "<p>A <b>file</b> is a named collection of related data stored <b>permanently</b> on a secondary storage device such as a hard disk or pen drive.</p>\n<h4>Why files are needed</h4>\n<ul><li>Variables and arrays are stored in RAM, so the data is <b>lost</b> when the program ends or the power goes off. Data in a file is <b>permanent</b>.</li>\n<li>Large amounts of data can be stored and read again later, without typing them every time.</li>\n<li>The output of one program can be used as the input of another.</li></ul>\n<h4>Types of files</h4>\n<table>\n<tr><th>Text file</th><th>Binary file</th></tr>\n<tr><td>Data stored as readable characters (ASCII)</td><td>Data stored in the same form as in memory (bytes)</td></tr>\n<tr><td>Can be opened in Notepad</td><td>Not readable in a text editor</td></tr>\n<tr><td>Lines end with a newline character</td><td>No line structure</td></tr>\n<tr><td>e.g. .txt, .c, .csv</td><td>e.g. .exe, .jpg, .dat</td></tr>\n<tr><td>Modes: \"r\", \"w\", \"a\"</td><td>Modes: \"rb\", \"wb\", \"ab\"</td></tr>\n</table>\n<p>The syllabus covers <b>text files</b> only.</p>\n<h4>Basic file operations</h4>\n<ol><li>Naming / creating a file</li><li>Opening a file</li><li>Reading data from a file</li><li>Writing data to a file</li><li>Closing a file</li></ol>\n<h4>File pointer and buffer</h4>\n<p>All file functions are declared in <code>&lt;stdio.h&gt;</code>. A file is accessed through a <b>file pointer</b>: a pointer to a structure of type <code>FILE</code>, which stores information about the file (name, current position, buffer, mode, etc.).</p>\n<pre class=\"c\">/* FILE is defined in stdio.h */\nFILE *fp;</pre>\n<p>Data does not go directly between the program and the disk; it passes through a temporary memory area called the <b>buffer</b> (see diagram). The four steps of file handling are: declare → open → read/write → close.</p>\n<pre class=\"c\">#include &lt;stdio.h&gt;\nint main(void)\n{\n    /* 1. declare */\n    FILE *fp;\n    /* 2. open    */\n    fp = fopen(\"demo.txt\", \"w\");\n    if (fp == NULL) return 1;\n    /* 3. process */\n    fprintf(fp, \"Hello File\\n\");\n    /* 4. close   */\n    fclose(fp);\n    return 0;\n}</pre>"
+     },
+     "diagram": "c5_file_io",
+     "programs": [
+      "c5p13"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.2.2 Opening a File – fopen() and File Modes"
+     },
+     "body": {
+      "en": "<p><code>fopen()</code> opens a file in a given mode and returns a file pointer. If the file cannot be opened (file not found, no permission, disk full), it returns <b>NULL</b>.</p>\n<pre class=\"c\">fp = fopen(\"filename\", \"mode\");</pre>\n<p>Both the file name and the mode are <b>strings</b> (double quotes). The file name may include a path, e.g. <code>\"C:\\\\data\\\\marks.txt\"</code>.</p>\n<h4>File opening modes (text files)</h4>\n<table>\n<tr><th>Mode</th><th>Meaning</th><th>If file exists</th><th>If file does not exist</th></tr>\n<tr><td><b>\"r\"</b></td><td>Read only</td><td>Opened; reading starts at the beginning</td><td>Returns NULL</td></tr>\n<tr><td><b>\"w\"</b></td><td>Write only</td><td><b>Contents erased</b> (overwritten)</td><td>New file created</td></tr>\n<tr><td><b>\"a\"</b></td><td>Append</td><td>Data added at the end</td><td>New file created</td></tr>\n<tr><td><b>\"r+\"</b></td><td>Read and write</td><td>Opened from the beginning</td><td>Returns NULL</td></tr>\n<tr><td><b>\"w+\"</b></td><td>Write and read</td><td>Contents erased</td><td>New file created</td></tr>\n<tr><td><b>\"a+\"</b></td><td>Read and append</td><td>Read anywhere; write only at the end</td><td>New file created</td></tr>\n</table>\n<h4>Always check for NULL</h4>\n<pre class=\"c\">FILE *fp;\nfp = fopen(\"data.txt\", \"r\");\nif (fp == NULL)\n{\n    printf(\"Cannot open file\\n\");\n    return 1;            /* or exit(1); */\n}</pre>\n<p>Using a NULL file pointer in other file functions makes the program crash.</p>"
+     },
+     "diagram": "c5_file_modes",
+     "programs": [
+      "c5p13",
+      "c5p16"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.2.3 Closing a File – fclose()"
+     },
+     "body": {
+      "en": "<p>A file must be closed after its work is finished.</p>\n<pre class=\"c\">/* returns 0 on success, EOF on error */\nfclose(fp);</pre>\n<h4>Why closing is necessary</h4>\n<ul><li>It <b>flushes the buffer</b>: data still waiting in the buffer is written to the disk. Without fclose(), the last data may be lost.</li>\n<li>It breaks the link between the file pointer and the file and releases the memory used.</li>\n<li>Only a limited number of files can be open at the same time.</li>\n<li>To change mode (e.g. after writing, to read the same file), close it and reopen it in the new mode.</li></ul>\n<pre class=\"c\">FILE *f1, *f2;\nf1 = fopen(\"in.txt\", \"r\");\nf2 = fopen(\"out.txt\", \"w\");\n/* ... processing ... */\nfclose(f1);\nfclose(f2);</pre>\n<p>All open files are closed automatically when the program ends normally, but it is good practice to close each file explicitly.</p>"
+     },
+     "programs": [
+      "c5p13"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.2.4 Character I/O – fgetc() / fputc() and EOF"
+     },
+     "body": {
+      "en": "<pre class=\"c\">/* read one char; EOF at end */\nint ch = fgetc(fp);\n/* write one char */\nfputc(ch, fp);</pre>\n<ul><li><code>fgetc(fp)</code> (also <code>getc(fp)</code>) reads the next character from the file and moves the position forward. At the end of the file it returns <b>EOF</b>.</li>\n<li><code>fputc(ch, fp)</code> (also <code>putc(ch, fp)</code>) writes one character to the file.</li></ul>\n<h4>EOF (End Of File)</h4>\n<p><code>EOF</code> is a constant defined in stdio.h (usually <b>−1</b>), returned when there is no more data to read. The variable receiving fgetc() must be <b>int</b>, not char, so that EOF can be distinguished from a valid character.</p>\n<h4>Reading a whole file</h4>\n<pre class=\"c\">/* int, to hold EOF */\nint ch;\nwhile ((ch = fgetc(fp)) != EOF)\n    /* display whole file */\n    putchar(ch);</pre>\n<h4>Writing from the keyboard to a file</h4>\n<pre class=\"c\">fp = fopen(\"a.txt\", \"w\");\nwhile ((ch = getchar()) != '\\n')\n    /* keyboard -&gt; file */\n    fputc(ch, fp);\nfclose(fp);</pre>\n<h4>feof()</h4>\n<p><code>feof(fp)</code> returns non-zero (true) once an attempt has been made to read <b>past</b> the end of the file:</p>\n<pre class=\"c\">ch = fgetc(fp);\n/* true after reading past end */\nwhile (!feof(fp))\n{\n    putchar(ch);\n    ch = fgetc(fp);\n}</pre>\n<p>Character I/O is used for copying files and counting characters, words and lines (see the flowchart \"Copy One File to Another\").</p>"
+     },
+     "diagram": "c5_fc_copy",
+     "programs": [
+      "c5p14",
+      "c5p15"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.2.5 String I/O – fgets() / fputs()"
+     },
+     "body": {
+      "en": "<pre class=\"c\">/* NULL at end of file */\nfgets(str, n, fp);\n/* returns EOF on error */\nfputs(str, fp);</pre>\n<ul><li><code>fgets(str, n, fp)</code> reads a line from the file into str. It stops after a newline, after n−1 characters, or at the end of the file. The newline is kept and <code>'\\0'</code> is added. It returns <b>NULL</b> at the end of the file.</li>\n<li><code>fputs(str, fp)</code> writes the string to the file. Unlike <code>puts()</code>, it does <b>not</b> add a newline.</li></ul>\n<h4>Reading a file line by line</h4>\n<pre class=\"c\">char line[100];\nwhile (fgets(line, sizeof(line), fp) != NULL)\n    printf(\"%s\", line);  /* line by line */</pre>\n<h4>Writing strings</h4>\n<pre class=\"c\">fputs(\"GTU Diploma\\n\", fp);\nfputs(name, fp);</pre>\n<p>String I/O is convenient for processing text line by line, e.g. searching or replacing a word in a file (program c5p17).</p>"
+     },
+     "programs": [
+      "c5p13",
+      "c5p17"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.2.6 Formatted I/O – fprintf() / fscanf()"
+     },
+     "body": {
+      "en": "<p>These work exactly like <code>printf()</code> and <code>scanf()</code>, but take a file pointer as the first argument. They are used to store and read <b>mixed data</b> (int, float, string) such as student or employee records.</p>\n<pre class=\"c\">fprintf(fp, \"control string\", var1, var2, ...);\nfscanf(fp, \"control string\", &amp;var1, &amp;var2, ...);</pre>\n<h4>Writing a record</h4>\n<pre class=\"c\">fprintf(fp, \"%d %s %.2f\\n\", roll, name, per);</pre>\n<h4>Reading records until the end of the file</h4>\n<pre class=\"c\">while (fscanf(fp, \"%d %s %f\", &amp;roll, name, &amp;per) == 3)\n    printf(\"%d %s %.2f\\n\", roll, name, per);</pre>\n<ul><li><code>fscanf()</code> returns the <b>number of items read</b>, or EOF at the end of the file, so the loop condition <code>== 3</code> stops correctly.</li>\n<li>Like scanf(\"%s\"), fscanf reads a string only up to white space.</li></ul>\n<h4>Standard files</h4>\n<p>C automatically opens three files: <b>stdin</b> (keyboard), <b>stdout</b> (screen) and <b>stderr</b> (screen, for errors). They can be used with file functions:</p>\n<pre class=\"c\">/* same as printf */\nfprintf(stdout, \"Hello\\n\");\n/* error message  */\nfprintf(stderr, \"Error!\\n\");\n/* same as scanf  */\nfscanf(stdin, \"%d\", &amp;n);</pre>"
+     },
+     "programs": [
+      "c5p16"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.2.7 Summary of File Functions and Error Handling"
+     },
+     "body": {
+      "en": "<table>\n<tr><th>Function</th><th>Purpose</th><th>Returns at end / on error</th></tr>\n<tr><td>fopen(name, mode)</td><td>Opens a file</td><td>NULL</td></tr>\n<tr><td>fclose(fp)</td><td>Closes a file</td><td>EOF</td></tr>\n<tr><td>fgetc(fp) / getc(fp)</td><td>Reads a character</td><td>EOF</td></tr>\n<tr><td>fputc(ch, fp) / putc(ch, fp)</td><td>Writes a character</td><td>EOF</td></tr>\n<tr><td>fgets(s, n, fp)</td><td>Reads a line</td><td>NULL</td></tr>\n<tr><td>fputs(s, fp)</td><td>Writes a string</td><td>EOF</td></tr>\n<tr><td>fscanf(fp, …)</td><td>Formatted read</td><td>EOF</td></tr>\n<tr><td>fprintf(fp, …)</td><td>Formatted write</td><td>negative value</td></tr>\n<tr><td>feof(fp)</td><td>Tests end of file</td><td>non-zero at end</td></tr>\n</table>\n<h4>Common file errors</h4>\n<ul><li>Opening a file that does not exist in \"r\" mode</li>\n<li>Using an invalid file name, or a directory without permission</li>\n<li>Reading past the end of the file</li>\n<li>Writing to a file opened in \"r\" mode, or reading one opened in \"w\" mode</li>\n<li>Using a file pointer after fclose()</li></ul>\n<h4>Error handling</h4>\n<pre class=\"c\">#include &lt;stdlib.h&gt;\nfp = fopen(argv[1], \"r\");\nif (fp == NULL)\n{\n    printf(\"Error: %s not found\\n\", argv[1]);\n    /* end the program */\n    exit(1);\n}</pre>\n<p>Always check the return value of <code>fopen()</code>, and use the return values of the read functions (EOF/NULL) or <code>feof()</code> to stop reading.</p>"
+     },
+     "diagram": "c5_file_funcs"
+    },
+    {
+     "h": {
+      "en": "Key Points – 5.2"
+     },
+     "body": {
+      "en": "<ul>\n<li>A file stores data <b>permanently</b> on disk; variables are lost when the program ends.</li>\n<li>Text file = readable characters with lines; binary file = raw bytes (not in syllabus).</li>\n<li>Steps: <code>FILE *fp;</code> → <code>fopen()</code> → read/write → <code>fclose()</code>.</li>\n<li>fopen returns <b>NULL</b> on failure; always check it.</li>\n<li>Modes: \"r\" (read, must exist), \"w\" (write, erases), \"a\" (append at end), \"r+\", \"w+\", \"a+\".</li>\n<li>fclose flushes the buffer to the disk and frees the file.</li>\n<li>Character I/O: fgetc/fputc; string I/O: fgets/fputs; formatted I/O: fscanf/fprintf.</li>\n<li>EOF (usually −1) marks the end of the file; store fgetc() in an <b>int</b>.</li>\n<li>fgets keeps the newline and returns NULL at end; fputs does not add a newline.</li>\n<li>stdin, stdout and stderr are opened automatically.</li>\n</ul>"
+     },
+     "key": true
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "c5p1",
+   "title": {
+    "en": "Declaring, initializing and printing strings"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <string.h>\n\nint main(void)\n{\n    // string literal\n    char s1[10] = \"GTU\";\n    // char by char\n    char s2[]   = {'C', 'P', 'F', '\\0'};\n    char s3[20] = \"Diploma\";\n    int i;\n\n    printf(\"s1 = %s\\n\", s1);\n    printf(\"s2 = %s\\n\", s2);\n    // adds newline\n    puts(s3);\n\n    printf(\"Characters of s3: \");\n    // loop till null\n    for (i = 0; s3[i] != '\\0'; i++)\n        printf(\"%c \", s3[i]);\n    printf(\"\\n\");\n\n    printf(\"strlen(s1) = %zu, sizeof(s1) = %zu\\n\", strlen(s1), sizeof(s1));\n    printf(\"[%10s] [%-10s] [%.3s]\\n\", s3, s3, s3);\n    return 0;\n}"
+   },
+   "out": "s1 = GTU\ns2 = CPF\nDiploma\nCharacters of s3: D i p l o m a \nstrlen(s1) = 3, sizeof(s1) = 10\n[   Diploma] [Diploma   ] [Dip]",
+   "expl": {
+    "en": "<ul><li><code>\"GTU\"</code> automatically gets <code>'\\0'</code> at the end. When initializing character by character, <code>'\\0'</code> must be added by hand.</li>\n<li><code>%s</code> prints characters until it reaches <code>'\\0'</code>. <code>puts()</code> prints the string and a newline.</li>\n<li>The loop <code>s3[i] != '\\0'</code> is the standard way to process a string one character at a time.</li>\n<li><code>strlen</code> gives the number of characters (3); <code>sizeof</code> gives the array size (10 bytes).</li>\n<li><code>%10s</code> right-aligns in a width of 10, <code>%-10s</code> left-aligns, and <code>%.3s</code> prints only the first 3 characters.</li></ul>"
+   }
+  },
+  {
+   "id": "c5p2",
+   "title": {
+    "en": "Reading strings: scanf %s, scanf %[^\\n] and fgets"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <string.h>\n\nint main(void)\n{\n    char first[20], city[30], addr[50];\n\n    printf(\"Enter full name: \");\n    // stops at space\n    scanf(\"%s\", first);\n    printf(\"scanf %%s read      : %s\\n\", first);\n    // discard rest of line\n    while (getchar() != '\\n')\n        ;\n\n    printf(\"Enter city: \");\n    // reads till newline\n    scanf(\"%[^\\n]\", city);\n    printf(\"scanf %%[^\\\\n] read  : %s\\n\", city);\n    // remove the newline\n    getchar();\n\n    printf(\"Enter address: \");\n    // safe, keeps '\\n'\n    fgets(addr, sizeof(addr), stdin);\n    // remove '\\n'\n    addr[strcspn(addr, \"\\n\")] = '\\0';\n    printf(\"fgets read         : %s\\n\", addr);\n    return 0;\n}"
+   },
+   "out": "Enter full name: Ravi Patel\nscanf %s read      : Ravi\nEnter city: Surat City\nscanf %[^\\n] read  : Surat City\nEnter address: 12 Ring Road, Surat\nfgets read         : 12 Ring Road, Surat",
+   "expl": {
+    "en": "<ul><li><code>scanf(\"%s\", s)</code> reads only up to the first white space, so \"Ravi Patel\" gives only \"Ravi\". No <code>&amp;</code> is needed, because an array name is already an address.</li>\n<li><code>scanf(\"%[^\\n]\", s)</code> (scanset) reads everything up to the newline, so spaces are included.</li>\n<li><code>fgets(s, size, stdin)</code> reads a whole line <b>safely</b>: never more than size−1 characters. It keeps the <code>'\\n'</code>, which is removed with <code>strcspn()</code>.</li>\n<li><code>gets()</code> is not used because it does not check the size and was removed from C11.</li></ul>"
+   }
+  },
+  {
+   "id": "c5p3",
+   "title": {
+    "en": "Count vowels, consonants, digits and spaces in a line"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <ctype.h>\n\nint main(void)\n{\n    char s[100];\n    int i, v = 0, c = 0, d = 0, sp = 0;\n\n    printf(\"Enter a line: \");\n    fgets(s, sizeof(s), stdin);\n\n    for (i = 0; s[i] != '\\0'; i++)\n    {\n        char ch = tolower(s[i]);\n        if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u')\n            v++;\n        else if (isalpha(ch))\n            c++;\n        else if (isdigit(ch))\n            d++;\n        else if (ch == ' ')\n            sp++;\n    }\n    printf(\"Vowels = %d, Consonants = %d, Digits = %d, Spaces = %d\\n\", v, c, d, sp);\n    return 0;\n}"
+   },
+   "out": "Enter a line: GTU Diploma Sem 1 exam in 2025\nVowels = 8, Consonants = 11, Digits = 5, Spaces = 6",
+   "expl": {
+    "en": "<p>Each character is checked using functions from <code>&lt;ctype.h&gt;</code>: <code>isalpha()</code> (letter), <code>isdigit()</code> (digit) and <code>tolower()</code> (convert to lowercase, so both 'A' and 'a' are counted). Other useful functions: <code>isupper()</code>, <code>islower()</code>, <code>isspace()</code>, <code>toupper()</code>.</p>"
+   }
+  },
+  {
+   "id": "c5p4",
+   "title": {
+    "en": "String length with and without strlen()"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <string.h>\n\nint main(void)\n{\n    char s[50];\n    int len = 0;\n\n    printf(\"Enter a word: \");\n    // width limit avoids overflow\n    scanf(\"%49s\", s);\n\n    // count until null character\n    while (s[len] != '\\0')\n        len++;\n\n    printf(\"Length (loop)   = %d\\n\", len);\n    printf(\"Length (strlen) = %zu\\n\", strlen(s));\n    return 0;\n}"
+   },
+   "out": "Enter a word: Programming\nLength (loop)   = 11\nLength (strlen) = 11",
+   "expl": {
+    "en": "<p>A string ends with <code>'\\0'</code>, so its length is the number of characters before the null character. The loop counts them exactly as <code>strlen()</code> does. <code>%49s</code> limits input to 49 characters, leaving room for <code>'\\0'</code> in the 50-byte array.</p>"
+   }
+  },
+  {
+   "id": "c5p5",
+   "title": {
+    "en": "Demonstration of string-handling functions"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <string.h>\n\nint main(void)\n{\n    char a[40] = \"Computer\", b[20] = \"Science\", c[40];\n\n    printf(\"strlen(a)       = %zu\\n\", strlen(a));\n\n    // c = \"Computer\"\n    strcpy(c, a);\n    printf(\"strcpy(c, a)    : c = %s\\n\", c);\n\n    strcat(c, \" \");\n    // join\n    strcat(c, b);\n    printf(\"strcat          : c = %s\\n\", c);\n\n    printf(\"strcmp(a, b)    = %d\\n\", strcmp(a, b) < 0 ? -1 : 1);\n    printf(\"strcmp(a, a)    = %d\\n\", strcmp(a, a));\n\n    // copy first 4 chars\n    strncpy(c, a, 4);\n    c[4] = '\\0';\n    printf(\"strncpy(c, a, 4): c = %s\\n\", c);\n\n    printf(\"strchr(a, 'p')  = %s\\n\", strchr(a, 'p'));\n    printf(\"strstr(a, \\\"put\\\") = %s\\n\", strstr(a, \"put\"));\n    return 0;\n}"
+   },
+   "out": "strlen(a)       = 8\nstrcpy(c, a)    : c = Computer\nstrcat          : c = Computer Science\nstrcmp(a, b)    = -1\nstrcmp(a, a)    = 0\nstrncpy(c, a, 4): c = Comp\nstrchr(a, 'p')  = puter\nstrstr(a, \"put\") = puter",
+   "expl": {
+    "en": "<ul><li><code>strcpy(dest, src)</code> copies src into dest. <b>A string cannot be assigned with =</b> (<code>c = a;</code> is an error).</li>\n<li><code>strcat(s1, s2)</code> appends s2 to s1. s1 must be large enough to hold both.</li>\n<li><code>strcmp</code> returns 0 if the strings are equal; a negative value if s1 comes first in dictionary (ASCII) order; a positive value otherwise. The exact number depends on the compiler, so we only check the sign.</li>\n<li><code>strncpy</code> copies at most n characters and may not add <code>'\\0'</code>, so it is added by hand.</li>\n<li><code>strchr</code> and <code>strstr</code> return a pointer to the first occurrence, which prints the rest of the string.</li></ul>"
+   }
+  },
+  {
+   "id": "c5p6",
+   "title": {
+    "en": "Compare two strings (equal / alphabetical order)"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <string.h>\n\nint main(void)\n{\n    char s1[30], s2[30];\n    int r;\n\n    printf(\"Enter first string : \");\n    scanf(\"%29s\", s1);\n    printf(\"Enter second string: \");\n    scanf(\"%29s\", s2);\n\n    r = strcmp(s1, s2);\n    if (r == 0)\n        printf(\"Both strings are EQUAL\\n\");\n    else if (r < 0)\n        printf(\"\\\"%s\\\" comes before \\\"%s\\\"\\n\", s1, s2);\n    else\n        printf(\"\\\"%s\\\" comes after \\\"%s\\\"\\n\", s1, s2);\n    return 0;\n}"
+   },
+   "out": "Enter first string : Apple\nEnter second string: Apply\n\"Apple\" comes before \"Apply\"",
+   "expl": {
+    "en": "<p><code>strcmp</code> compares character by character using ASCII values. The first difference is 'e' (101) and 'y' (121), so the result is negative and \"Apple\" comes first (see the diagram \"How strcmp() Compares Two Strings\"). Note that <code>s1 == s2</code> would compare <b>addresses</b>, not contents.</p>"
+   }
+  },
+  {
+   "id": "c5p7",
+   "title": {
+    "en": "Reverse a string and check palindrome (without strrev)"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <string.h>\n\nint main(void)\n{\n    char s[50], r[50];\n    int i, n;\n\n    printf(\"Enter a string: \");\n    scanf(\"%49s\", s);\n\n    n = strlen(s);\n    for (i = 0; i < n; i++)\n        // last char first\n        r[i] = s[n - 1 - i];\n    // terminate the copy\n    r[n] = '\\0';\n\n    printf(\"Reverse = %s\\n\", r);\n    if (strcmp(s, r) == 0)\n        printf(\"%s is a PALINDROME\\n\", s);\n    else\n        printf(\"%s is NOT a palindrome\\n\", s);\n    return 0;\n}"
+   },
+   "out": "Enter a string: madam\nReverse = madam\nmadam is a PALINDROME",
+   "expl": {
+    "en": "<p>Characters are copied from the end of <code>s</code> to the start of <code>r</code>. After the loop, <code>r[n] = '\\0'</code> must be added, otherwise r is not a valid string. A <b>palindrome</b> reads the same backwards (madam, level, racecar). <code>strrev()</code> exists only in Turbo C and is not part of standard C, so writing the logic yourself is preferred in exams.</p>"
+   }
+  },
+  {
+   "id": "c5p8",
+   "title": {
+    "en": "User-defined versions of strcpy, strcat and strlen"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nint my_strlen(char s[]);\nvoid my_strcpy(char d[], char s[]);\nvoid my_strcat(char d[], char s[]);\n\nint main(void)\n{\n    char a[40], b[] = \"Engineering\";\n\n    my_strcpy(a, \"Computer \");\n    printf(\"After copy : %s\\n\", a);\n    my_strcat(a, b);\n    printf(\"After join : %s\\n\", a);\n    printf(\"Length     : %d\\n\", my_strlen(a));\n    return 0;\n}\n\nint my_strlen(char s[])\n{\n    int i = 0;\n    while (s[i] != '\\0')\n        i++;\n    return i;\n}\n\nvoid my_strcpy(char d[], char s[])\n{\n    int i = 0;\n    // copy including '\\0'\n    while ((d[i] = s[i]) != '\\0')\n        i++;\n}\n\nvoid my_strcat(char d[], char s[])\n{\n    // start at end of d\n    int i = my_strlen(d), j = 0;\n    while (s[j] != '\\0')\n        d[i++] = s[j++];\n    d[i] = '\\0';\n}"
+   },
+   "out": "After copy : Computer \nAfter join : Computer Engineering\nLength     : 20",
+   "expl": {
+    "en": "<ul><li><b>Copy:</b> each character, including the final <code>'\\0'</code>, is copied. The assignment inside the condition copies first, then tests.</li>\n<li><b>Concatenate:</b> start writing at the position of <code>'\\0'</code> in d (its length), copy s, then terminate.</li>\n<li>Strings are passed to functions as character arrays, i.e. by address, so the changes to <code>d</code> are seen in main().</li></ul>"
+   }
+  },
+  {
+   "id": "c5p9",
+   "title": {
+    "en": "Convert case and count words in a sentence"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <ctype.h>\n\nint main(void)\n{\n    char s[100];\n    int i, words = 0, inword = 0;\n\n    printf(\"Enter a sentence: \");\n    fgets(s, sizeof(s), stdin);\n\n    for (i = 0; s[i] != '\\0'; i++)\n    {\n        if (isspace(s[i]))\n            inword = 0;\n        // start of a new word\n        else if (!inword)\n        {\n            inword = 1;\n            words++;\n        }\n    }\n\n    printf(\"Upper  : \");\n    for (i = 0; s[i] != '\\0'; i++) putchar(toupper(s[i]));\n    printf(\"Lower  : \");\n    for (i = 0; s[i] != '\\0'; i++) putchar(tolower(s[i]));\n    printf(\"Toggle : \");\n    for (i = 0; s[i] != '\\0'; i++)\n        putchar(isupper(s[i]) ? tolower(s[i]) : toupper(s[i]));\n    printf(\"Words  = %d\\n\", words);\n    return 0;\n}"
+   },
+   "out": "Enter a sentence: Welcome To  GTU Diploma\nUpper  : WELCOME TO  GTU DIPLOMA\nLower  : welcome to  gtu diploma\nToggle : wELCOME tO  gtu dIPLOMA\nWords  = 4",
+   "expl": {
+    "en": "<ul><li>Case conversion is done character by character with <code>toupper()</code> and <code>tolower()</code>. <code>strupr()</code>/<code>strlwr()</code> are Turbo C only.</li>\n<li><b>Character arithmetic</b> gives the same result: <code>'a' - 32 = 'A'</code>, because lowercase letters are 32 more than uppercase in ASCII.</li>\n<li>Word counting uses a flag <code>inword</code>: a word starts when a non-space character follows a space, so even double spaces are handled correctly.</li>\n<li>The printed lines end with the newline that <code>fgets()</code> kept.</li></ul>"
+   }
+  },
+  {
+   "id": "c5p10",
+   "title": {
+    "en": "Sort names in alphabetical order (array of strings)"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <string.h>\n\nint main(void)\n{\n    char name[10][20], temp[20];\n    int n, i, j;\n\n    printf(\"How many names? \");\n    scanf(\"%d\", &n);\n    printf(\"Enter %d names:\\n\", n);\n    for (i = 0; i < n; i++)\n        // name[i] is a row (string)\n        scanf(\"%19s\", name[i]);\n\n    // bubble sort on strings\n    for (i = 0; i < n - 1; i++)\n        for (j = 0; j < n - 1 - i; j++)\n            if (strcmp(name[j], name[j + 1]) > 0)\n            {\n                strcpy(temp, name[j]);\n                strcpy(name[j], name[j + 1]);\n                strcpy(name[j + 1], temp);\n            }\n\n    printf(\"Sorted names:\\n\");\n    for (i = 0; i < n; i++)\n        printf(\"%d. %s\\n\", i + 1, name[i]);\n    return 0;\n}"
+   },
+   "out": "How many names? 5\nEnter 5 names:\nRiya\nAmit\nKavya\nOm\nDhruv\nSorted names:\n1. Amit\n2. Dhruv\n3. Kavya\n4. Om\n5. Riya",
+   "expl": {
+    "en": "<ul><li><code>char name[10][20]</code> stores up to 10 names of up to 19 characters each; <code>name[i]</code> is the i-th string.</li>\n<li>Strings are compared with <code>strcmp()</code> and swapped with <code>strcpy()</code> (not with = or &gt;).</li>\n<li>The logic is the same bubble sort as for numbers in Unit 3.</li></ul>"
+   }
+  },
+  {
+   "id": "c5p11",
+   "title": {
+    "en": "Command line arguments: display argc and argv"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nint main(int argc, char *argv[])\n{\n    int i;\n\n    printf(\"Number of arguments (argc) = %d\\n\", argc);\n    for (i = 0; i < argc; i++)\n        printf(\"argv[%d] = %s\\n\", i, argv[i]);\n    return 0;\n}"
+   },
+   "out": "$ ./marks Ravi 25 Surat\nNumber of arguments (argc) = 4\nargv[0] = ./marks\nargv[1] = Ravi\nargv[2] = 25\nargv[3] = Surat",
+   "expl": {
+    "en": "<ul><li><b>Command line arguments</b> are values given after the program name when it is run from the command prompt.</li>\n<li><code>argc</code> (argument count) = number of words including the program name, here 4.</li>\n<li><code>argv</code> (argument vector) is an array of strings; <code>argv[0]</code> is the program name.</li>\n<li>In Turbo C, run with <i>Run → Arguments</i>; in a terminal, type <code>./marks Ravi 25 Surat</code> (Linux) or <code>marks Ravi 25 Surat</code> (Windows).</li></ul>"
+   }
+  },
+  {
+   "id": "c5p12",
+   "title": {
+    "en": "Sum of numbers passed as command line arguments"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n// atoi()\n#include <stdlib.h>\n\nint main(int argc, char *argv[])\n{\n    int i, sum = 0;\n\n    if (argc < 2)\n    {\n        printf(\"Usage: %s num1 num2 ...\\n\", argv[0]);\n        return 1;\n    }\n    // skip argv[0]\n    for (i = 1; i < argc; i++)\n        // string -> int\n        sum += atoi(argv[i]);\n\n    printf(\"Sum of %d numbers = %d\\n\", argc - 1, sum);\n    return 0;\n}"
+   },
+   "out": "$ ./sum 10 25 40 5\nSum of 4 numbers = 80",
+   "expl": {
+    "en": "<p>All command line arguments arrive as <b>strings</b>, so \"10\" must be converted to the integer 10 with <code>atoi()</code> (or <code>atof()</code> for real numbers) from <code>&lt;stdlib.h&gt;</code>. The loop starts at 1 to skip the program name. If no numbers are given, a usage message is printed.</p>"
+   }
+  },
+  {
+   "id": "c5p13",
+   "title": {
+    "en": "Write to a text file and read it back (fputs, fprintf, fgets)"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nint main(void)\n{\n    FILE *fp;\n    char line[100];\n\n    // open for writing\n    fp = fopen(\"note.txt\", \"w\");\n    if (fp == NULL)\n    {\n        printf(\"Cannot create file\\n\");\n        return 1;\n    }\n    printf(\"Enter a line: \");\n    fgets(line, sizeof(line), stdin);\n    // write string\n    fputs(line, fp);\n    fprintf(fp, \"Written by C program, %d lines\\n\", 2);\n    // save and close\n    fclose(fp);\n\n    // open for reading\n    fp = fopen(\"note.txt\", \"r\");\n    if (fp == NULL)\n    {\n        printf(\"Cannot open file\\n\");\n        return 1;\n    }\n    printf(\"--- Contents of note.txt ---\\n\");\n    while (fgets(line, sizeof(line), fp) != NULL)\n        printf(\"%s\", line);\n    fclose(fp);\n    return 0;\n}"
+   },
+   "out": "Enter a line: C programming is fun\n--- Contents of note.txt ---\nC programming is fun\nWritten by C program, 2 lines",
+   "expl": {
+    "en": "<ul><li><code>FILE *fp;</code> declares a <b>file pointer</b>. <code>fopen()</code> returns NULL if the file cannot be opened, so always check it.</li>\n<li>Mode <code>\"w\"</code> creates the file, or erases it if it already exists. <code>fputs()</code> writes a string and <code>fprintf()</code> writes formatted text.</li>\n<li><code>fclose()</code> writes any data left in the buffer to the disk and releases the file.</li>\n<li>Mode <code>\"r\"</code> opens it for reading. <code>fgets()</code> returns NULL at end of file, which ends the loop.</li></ul>"
+   }
+  },
+  {
+   "id": "c5p14",
+   "title": {
+    "en": "Count characters, words and lines in a file (fgetc)"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <ctype.h>\n\nint main(void)\n{\n    FILE *fp;\n    int ch, chars = 0, words = 0, lines = 0, inword = 0;\n\n    fp = fopen(\"poem.txt\", \"r\");\n    if (fp == NULL)\n    {\n        printf(\"File not found\\n\");\n        return 1;\n    }\n\n    // read till end of file\n    while ((ch = fgetc(fp)) != EOF)\n    {\n        // display the file\n        putchar(ch);\n        chars++;\n        if (ch == '\\n')\n            lines++;\n        if (isspace(ch))\n            inword = 0;\n        else if (!inword)\n        {\n            inword = 1;\n            words++;\n        }\n    }\n    fclose(fp);\n\n    printf(\"Characters = %d, Words = %d, Lines = %d\\n\", chars, words, lines);\n    return 0;\n}"
+   },
+   "out": "Twinkle twinkle little star\nHow I wonder what you are\nUp above the world so high\nLike a diamond in the sky\nCharacters = 107, Words = 22, Lines = 4",
+   "expl": {
+    "en": "<ul><li><code>fgetc(fp)</code> reads one character from the file. At the end it returns <b>EOF</b> (End Of File, usually −1).</li>\n<li><code>ch</code> is declared <b>int</b>, not char, so that EOF can be distinguished from a real character.</li>\n<li>The file <code>poem.txt</code> had 4 lines of text. The character count includes the newline characters.</li></ul>"
+   }
+  },
+  {
+   "id": "c5p15",
+   "title": {
+    "en": "Copy one file to another (file names from command line)"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nint main(int argc, char *argv[])\n{\n    FILE *fs, *ft;\n    int ch;\n\n    if (argc != 3)\n    {\n        printf(\"Usage: %s source target\\n\", argv[0]);\n        return 1;\n    }\n    fs = fopen(argv[1], \"r\");\n    if (fs == NULL)\n    {\n        printf(\"Cannot open %s\\n\", argv[1]);\n        return 1;\n    }\n    ft = fopen(argv[2], \"w\");\n    if (ft == NULL)\n    {\n        printf(\"Cannot create %s\\n\", argv[2]);\n        fclose(fs);\n        return 1;\n    }\n\n    // copy char by char\n    while ((ch = fgetc(fs)) != EOF)\n        fputc(ch, ft);\n    fclose(fs);\n    fclose(ft);\n    printf(\"%s copied to %s\\n\", argv[1], argv[2]);\n\n    // show the copy\n    ft = fopen(argv[2], \"r\");\n    printf(\"--- %s ---\\n\", argv[2]);\n    while ((ch = fgetc(ft)) != EOF)\n        putchar(ch);\n    fclose(ft);\n    return 0;\n}"
+   },
+   "out": "$ ./copy story.txt copy.txt\nstory.txt copied to copy.txt\n--- copy.txt ---\nI like tea in the morning.\nTea keeps me fresh.\nMy friend also likes tea.",
+   "expl": {
+    "en": "<p>This combines <b>command line arguments</b> and <b>file handling</b> and follows the flowchart \"Copy One File to Another\". The source is opened in \"r\" mode and the target in \"w\" mode. Each character read with <code>fgetc()</code> is written with <code>fputc()</code> until EOF. Both files are closed, then the copy is opened again to show that it is identical.</p>"
+   }
+  },
+  {
+   "id": "c5p16",
+   "title": {
+    "en": "Student records with fprintf / fscanf and append mode"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n\nint main(void)\n{\n    FILE *fp;\n    int n, i, roll, marks;\n    char name[20];\n\n    fp = fopen(\"students.txt\", \"w\");\n    if (fp == NULL) return 1;\n    printf(\"How many students? \");\n    scanf(\"%d\", &n);\n    for (i = 0; i < n; i++)\n    {\n        printf(\"Roll Name Marks: \");\n        scanf(\"%d %19s %d\", &roll, name, &marks);\n        // formatted write\n        fprintf(fp, \"%d %s %d\\n\", roll, name, marks);\n    }\n    fclose(fp);\n\n    // append mode\n    fp = fopen(\"students.txt\", \"a\");\n    fprintf(fp, \"%d %s %d\\n\", 104, \"Kavya\", 91);\n    fclose(fp);\n\n    fp = fopen(\"students.txt\", \"r\");\n    printf(\"\\n%-6s %-10s %s\\n\", \"Roll\", \"Name\", \"Marks\");\n    while (fscanf(fp, \"%d %19s %d\", &roll, name, &marks) == 3)\n        printf(\"%-6d %-10s %d\\n\", roll, name, marks);\n    fclose(fp);\n    return 0;\n}"
+   },
+   "out": "How many students? 3\nRoll Name Marks: 101 Amit 78\nRoll Name Marks: 102 Riya 85\nRoll Name Marks: 103 Om 69\n\nRoll   Name       Marks\n101    Amit       78\n102    Riya       85\n103    Om         69\n104    Kavya      91",
+   "expl": {
+    "en": "<ul><li><code>fprintf(fp, …)</code> works like printf but writes to the file. <code>fscanf(fp, …)</code> works like scanf but reads from the file.</li>\n<li><code>fscanf()</code> returns the number of items read; the loop stops when it can no longer read 3 items (end of file).</li>\n<li>Mode <code>\"a\"</code> (append) adds the new record at the <b>end</b> without erasing the existing data; mode \"w\" would have erased it.</li></ul>"
+   }
+  },
+  {
+   "id": "c5p17",
+   "title": {
+    "en": "Find and replace a word in a file"
+   },
+   "code": {
+    "en": "#include <stdio.h>\n#include <string.h>\n\nvoid replace(char *line, char *find, char *rep, char *out);\n\nint main(void)\n{\n    FILE *fin, *fout;\n    char line[200], out[400], find[30], rep[30];\n    int count = 0;\n\n    printf(\"Word to find   : \");\n    scanf(\"%29s\", find);\n    printf(\"Replace with   : \");\n    scanf(\"%29s\", rep);\n\n    fin = fopen(\"story.txt\", \"r\");\n    fout = fopen(\"result.txt\", \"w\");\n    if (fin == NULL || fout == NULL)\n    {\n        printf(\"File error\\n\");\n        return 1;\n    }\n    while (fgets(line, sizeof(line), fin) != NULL)\n    {\n        if (strstr(line, find) != NULL)\n            count++;\n        replace(line, find, rep, out);\n        fputs(out, fout);\n    }\n    fclose(fin);\n    fclose(fout);\n    printf(\"Lines changed  : %d\\n--- result.txt ---\\n\", count);\n\n    fin = fopen(\"result.txt\", \"r\");\n    while (fgets(line, sizeof(line), fin) != NULL)\n        printf(\"%s\", line);\n    fclose(fin);\n    return 0;\n}\n\nvoid replace(char *line, char *find, char *rep, char *out)\n{\n    char *p = line, *q;\n    int fl = strlen(find);\n\n    out[0] = '\\0';\n    // next occurrence\n    while ((q = strstr(p, find)) != NULL)\n    {\n        // text before word\n        strncat(out, p, q - p);\n        // new word\n        strcat(out, rep);\n        // skip old word\n        p = q + fl;\n    }\n    // rest of line\n    strcat(out, p);\n}"
+   },
+   "out": "Word to find   : tea\nReplace with   : coffee\nLines changed  : 2\n--- result.txt ---\nI like coffee in the morning.\nTea keeps me fresh.\nMy friend also likes coffee.",
+   "expl": {
+    "en": "<p>This is the GTU micro-project \"find and replace in a file\". Each line is read with <code>fgets()</code>. <code>strstr()</code> finds each occurrence of the word, and the new line is built in <code>out</code> using <code>strncat()</code> (the text before the word) and <code>strcat()</code> (the replacement). The result is written to a new file with <code>fputs()</code> and then displayed.</p>\n<p><b>Note:</b> the search is case-sensitive, so \"Tea\" in line 2 is not changed. strstr() also matches inside longer words (e.g. \"tea\" inside \"team\"); a complete solution would also check word boundaries.</p>"
+   }
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "c5_string_memory",
+   "title": {
+    "en": "String in Memory"
+   },
+   "file": "diagrams/c5_string_memory.svg"
+  },
+  {
+   "id": "c5_read_methods",
+   "title": {
+    "en": "Reading a String: Methods"
+   },
+   "file": "diagrams/c5_read_methods.svg"
+  },
+  {
+   "id": "c5_str_funcs",
+   "title": {
+    "en": "Important String Functions"
+   },
+   "file": "diagrams/c5_str_funcs.svg"
+  },
+  {
+   "id": "c5_strcmp",
+   "title": {
+    "en": "How strcmp() Works"
+   },
+   "file": "diagrams/c5_strcmp.svg"
+  },
+  {
+   "id": "c5_str_array",
+   "title": {
+    "en": "Array of Strings"
+   },
+   "file": "diagrams/c5_str_array.svg"
+  },
+  {
+   "id": "c5_cmdline",
+   "title": {
+    "en": "Command Line Arguments"
+   },
+   "file": "diagrams/c5_cmdline.svg"
+  },
+  {
+   "id": "c5_file_io",
+   "title": {
+    "en": "File Input/Output in C"
+   },
+   "file": "diagrams/c5_file_io.svg"
+  },
+  {
+   "id": "c5_file_modes",
+   "title": {
+    "en": "File Opening Modes"
+   },
+   "file": "diagrams/c5_file_modes.svg"
+  },
+  {
+   "id": "c5_file_funcs",
+   "title": {
+    "en": "File I/O Functions"
+   },
+   "file": "diagrams/c5_file_funcs.svg"
+  },
+  {
+   "id": "c5_fc_copy",
+   "title": {
+    "en": "Flowchart: Copy a File"
+   },
+   "file": "diagrams/c5_fc_copy.svg"
+  }
+ ],
+ "syntax": [
+  {
+   "title": {
+    "en": "Declaring and Initializing Strings"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Declaration"
+     },
+     "f": "char name[size];\nchar city[20];",
+     "terms": {
+      "en": "size = max length + 1 (for '\\0')."
+     }
+    },
+    {
+     "name": {
+      "en": "Initialize with literal"
+     },
+     "f": "char s[10] = \"GTU\";\nchar s[] = \"GTU\";",
+     "terms": {
+      "en": "'\\0' added automatically."
+     }
+    },
+    {
+     "name": {
+      "en": "Initialize char by char"
+     },
+     "f": "char s[] = {'G', 'T', 'U', '\\0'};",
+     "terms": {
+      "en": "'\\0' must be written."
+     }
+    },
+    {
+     "name": {
+      "en": "Assign later"
+     },
+     "f": "strcpy(s, \"GTU\");",
+     "terms": {
+      "en": "s = \"GTU\"; is an error."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Reading and Writing Strings"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Read one word"
+     },
+     "f": "scanf(\"%s\", s);\nscanf(\"%19s\", s);",
+     "terms": {
+      "en": "No &; stops at space."
+     }
+    },
+    {
+     "name": {
+      "en": "Read a line (scanset)"
+     },
+     "f": "scanf(\"%[^\\n]\", s);",
+     "terms": {
+      "en": "Reads till newline."
+     }
+    },
+    {
+     "name": {
+      "en": "Read a line safely"
+     },
+     "f": "fgets(s, sizeof(s), stdin);\ns[strcspn(s, \"\\n\")] = '\\0';",
+     "terms": {
+      "en": "Keeps '\\n'; remove it."
+     }
+    },
+    {
+     "name": {
+      "en": "Print"
+     },
+     "f": "printf(\"%s\", s);\nprintf(\"%10.3s\", s);\nputs(s);",
+     "terms": {
+      "en": "puts adds newline."
+     }
+    },
+    {
+     "name": {
+      "en": "Process each character"
+     },
+     "f": "for (i = 0; s[i] != '\\0'; i++)\n    ...",
+     "terms": {
+      "en": ""
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Character Functions"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "ctype.h tests"
+     },
+     "f": "isalpha(ch)  isdigit(ch)\nisupper(ch)  islower(ch)\nisspace(ch)  isalnum(ch)",
+     "terms": {
+      "en": "Non-zero = true."
+     }
+    },
+    {
+     "name": {
+      "en": "Case conversion"
+     },
+     "f": "toupper(ch);  tolower(ch);\nch = ch - 32;   /* to upper */",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Digit char to number"
+     },
+     "f": "d = ch - '0';",
+     "terms": {
+      "en": "'7' - '0' = 7"
+     }
+    },
+    {
+     "name": {
+      "en": "String to number"
+     },
+     "f": "n = atoi(\"25\");\nx = atof(\"3.5\");",
+     "terms": {
+      "en": "stdlib.h"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "String Functions <string.h>"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Length"
+     },
+     "f": "n = strlen(s);",
+     "terms": {
+      "en": "Without '\\0'."
+     }
+    },
+    {
+     "name": {
+      "en": "Copy"
+     },
+     "f": "strcpy(dest, src);\nstrncpy(dest, src, n);",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Concatenate"
+     },
+     "f": "strcat(s1, s2);\nstrncat(s1, s2, n);",
+     "terms": {
+      "en": "s2 appended to s1."
+     }
+    },
+    {
+     "name": {
+      "en": "Compare"
+     },
+     "f": "r = strcmp(s1, s2);\nr = strncmp(s1, s2, n);",
+     "terms": {
+      "en": "0 equal, <0, >0"
+     }
+    },
+    {
+     "name": {
+      "en": "Search"
+     },
+     "f": "p = strchr(s, ch);\np = strstr(s1, s2);",
+     "terms": {
+      "en": "NULL if not found."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Array of Strings and Command Line"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Table of strings"
+     },
+     "f": "char name[5][20];\nscanf(\"%s\", name[i]);\nprintf(\"%s\", name[i]);",
+     "terms": {
+      "en": "Row = one string."
+     }
+    },
+    {
+     "name": {
+      "en": "Array of pointers"
+     },
+     "f": "char *day[] = {\"Mon\", \"Tue\"};",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "main with arguments"
+     },
+     "f": "int main(int argc, char *argv[])",
+     "terms": {
+      "en": "argv[0] = program name."
+     }
+    },
+    {
+     "name": {
+      "en": "Use an argument"
+     },
+     "f": "if (argc < 2) return 1;\nn = atoi(argv[1]);",
+     "terms": {
+      "en": ""
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "File Handling (Text Mode)"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "File pointer"
+     },
+     "f": "FILE *fp;",
+     "terms": {
+      "en": "stdio.h"
+     }
+    },
+    {
+     "name": {
+      "en": "Open"
+     },
+     "f": "fp = fopen(\"a.txt\", \"r\");\nif (fp == NULL) { ... }",
+     "terms": {
+      "en": "Modes: \"r\" \"w\" \"a\" \"r+\" \"w+\" \"a+\""
+     }
+    },
+    {
+     "name": {
+      "en": "Close"
+     },
+     "f": "fclose(fp);",
+     "terms": {
+      "en": "Flushes buffer."
+     }
+    },
+    {
+     "name": {
+      "en": "Character I/O"
+     },
+     "f": "ch = fgetc(fp);\nfputc(ch, fp);",
+     "terms": {
+      "en": "int ch; EOF at end."
+     }
+    },
+    {
+     "name": {
+      "en": "Read till end"
+     },
+     "f": "while ((ch = fgetc(fp)) != EOF)\n    putchar(ch);",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "String I/O"
+     },
+     "f": "fgets(s, n, fp);\nfputs(s, fp);",
+     "terms": {
+      "en": "fgets: NULL at end."
+     }
+    },
+    {
+     "name": {
+      "en": "Formatted I/O"
+     },
+     "f": "fprintf(fp, \"%d %s\\n\", r, nm);\nfscanf(fp, \"%d %s\", &r, nm);",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "End of file test"
+     },
+     "f": "while (!feof(fp)) ...",
+     "terms": {
+      "en": ""
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Strings Basics"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a string in C?"
+     },
+     "a": {
+      "en": "A sequence of characters stored in a character array and terminated by the null character '\\0'."
+     }
+    },
+    {
+     "q": {
+      "en": "Is there a string data type in C?"
+     },
+     "a": {
+      "en": "No. Strings are stored as arrays of char."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the null character?"
+     },
+     "a": {
+      "en": "'\\0', the character with ASCII value 0. It marks the end of a string."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is the size of a string array one more than its length?"
+     },
+     "a": {
+      "en": "One extra element is needed to store '\\0'."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between 'A' and \"A\"?"
+     },
+     "a": {
+      "en": "'A' is a character constant (1 byte, value 65). \"A\" is a string constant of 2 bytes: 'A' and '\\0'."
+     }
+    },
+    {
+     "q": {
+      "en": "Can we assign a string with = after declaration?"
+     },
+     "a": {
+      "en": "No. An array name is a constant address. Use strcpy()."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is & not used with %s in scanf?"
+     },
+     "a": {
+      "en": "The array name already gives the address of the first element."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the limitation of scanf(\"%s\")?"
+     },
+     "a": {
+      "en": "It stops at the first white space, so it reads only one word."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you read a line with spaces?"
+     },
+     "a": {
+      "en": "With scanf(\"%[^\\n]\", s), fgets(s, n, stdin), or a getchar() loop."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is gets() not recommended?"
+     },
+     "a": {
+      "en": "It does not check the array size and can cause a buffer overflow. It was removed in C11; use fgets()."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between puts() and printf()?"
+     },
+     "a": {
+      "en": "puts() prints only a string and adds a newline; printf() prints formatted output and adds no newline automatically."
+     }
+    },
+    {
+     "q": {
+      "en": "What does %.3s do in printf?"
+     },
+     "a": {
+      "en": "It prints only the first 3 characters of the string."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Characters and String Functions"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "How are characters stored?"
+     },
+     "a": {
+      "en": "As integer ASCII codes, so arithmetic on them is possible ('A' = 65, 'a' = 97, '0' = 48)."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you convert lowercase to uppercase without a library function?"
+     },
+     "a": {
+      "en": "Subtract 32: ch = ch - 32 (for 'a' to 'z')."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you convert the character '5' to the number 5?"
+     },
+     "a": {
+      "en": "'5' - '0' = 53 - 48 = 5."
+     }
+    },
+    {
+     "q": {
+      "en": "Which header file contains string functions?"
+     },
+     "a": {
+      "en": "<string.h>. Character functions are in <ctype.h>."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between strlen() and sizeof()?"
+     },
+     "a": {
+      "en": "strlen() counts the characters before '\\0' at run time; sizeof gives the total array size in bytes at compile time."
+     }
+    },
+    {
+     "q": {
+      "en": "What does strcat() do?"
+     },
+     "a": {
+      "en": "It appends the second string to the end of the first. The first must be large enough."
+     }
+    },
+    {
+     "q": {
+      "en": "What does strcmp() return?"
+     },
+     "a": {
+      "en": "0 if equal, a negative value if the first string is smaller, a positive value if it is larger (dictionary/ASCII order)."
+     }
+    },
+    {
+     "q": {
+      "en": "Why can't we compare strings with ==?"
+     },
+     "a": {
+      "en": "== compares the addresses of the arrays, not their contents."
+     }
+    },
+    {
+     "q": {
+      "en": "Is strcmp() case-sensitive?"
+     },
+     "a": {
+      "en": "Yes. 'A' (65) and 'a' (97) are different."
+     }
+    },
+    {
+     "q": {
+      "en": "What does strstr() return?"
+     },
+     "a": {
+      "en": "A pointer to the first occurrence of the second string in the first, or NULL if it is not found."
+     }
+    },
+    {
+     "q": {
+      "en": "Is strrev() a standard function?"
+     },
+     "a": {
+      "en": "No. strrev(), strupr() and strlwr() are available only in some compilers like Turbo C."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a palindrome string?"
+     },
+     "a": {
+      "en": "A string that reads the same forwards and backwards, e.g. madam, level."
+     }
+    },
+    {
+     "q": {
+      "en": "How is an array of strings declared?"
+     },
+     "a": {
+      "en": "As a 2-D char array, e.g. char name[10][20]: 10 strings of up to 19 characters."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Command Line Arguments"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What are command line arguments?"
+     },
+     "a": {
+      "en": "Values given after the program name when it is run from the command prompt, received by main()."
+     }
+    },
+    {
+     "q": {
+      "en": "What are argc and argv?"
+     },
+     "a": {
+      "en": "argc = number of arguments including the program name; argv = array of strings holding the arguments."
+     }
+    },
+    {
+     "q": {
+      "en": "What is argv[0]?"
+     },
+     "a": {
+      "en": "The name of the program."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the minimum value of argc?"
+     },
+     "a": {
+      "en": "1, because the program name is always counted."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you use a numeric command line argument?"
+     },
+     "a": {
+      "en": "Convert it from a string with atoi() or atof()."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Files"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a file?"
+     },
+     "a": {
+      "en": "A named collection of data stored permanently on secondary storage."
+     }
+    },
+    {
+     "q": {
+      "en": "Why do we need files?"
+     },
+     "a": {
+      "en": "Data in variables is lost when the program ends; files store it permanently for later use."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between a text file and a binary file?"
+     },
+     "a": {
+      "en": "A text file stores readable characters in lines; a binary file stores raw bytes as in memory."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a file pointer?"
+     },
+     "a": {
+      "en": "A pointer of type FILE * that holds information about an open file and is used by all file functions."
+     }
+    },
+    {
+     "q": {
+      "en": "What does fopen() return if the file cannot be opened?"
+     },
+     "a": {
+      "en": "NULL."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between \"w\" and \"a\" modes?"
+     },
+     "a": {
+      "en": "\"w\" erases an existing file and writes from the start; \"a\" keeps the data and writes at the end. Both create the file if it is missing."
+     }
+    },
+    {
+     "q": {
+      "en": "What happens if a file opened in \"r\" mode does not exist?"
+     },
+     "a": {
+      "en": "fopen() returns NULL."
+     }
+    },
+    {
+     "q": {
+      "en": "Why should a file be closed?"
+     },
+     "a": {
+      "en": "fclose() flushes the buffer to the disk, releases resources and breaks the link with the file."
+     }
+    },
+    {
+     "q": {
+      "en": "What is EOF?"
+     },
+     "a": {
+      "en": "A constant (usually -1) returned by read functions when the end of the file is reached."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is the variable for fgetc() declared int?"
+     },
+     "a": {
+      "en": "So that it can hold EOF (-1) as well as all character values."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between fgets() and fputs() regarding newline?"
+     },
+     "a": {
+      "en": "fgets() keeps the newline it reads; fputs() does not add one."
+     }
+    },
+    {
+     "q": {
+      "en": "What do fprintf() and fscanf() do?"
+     },
+     "a": {
+      "en": "Formatted write to and read from a file, like printf() and scanf() with a file pointer."
+     }
+    },
+    {
+     "q": {
+      "en": "Name the standard files opened automatically."
+     },
+     "a": {
+      "en": "stdin (keyboard), stdout (screen) and stderr (screen, for errors)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a buffer?"
+     },
+     "a": {
+      "en": "A temporary memory area through which data passes between the program and the file."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "What is a string? How is a string declared and initialized in C? Explain with example."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "What is the null character? Why is it important in strings?"
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Differentiate between a character constant and a string constant."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain different methods to read a string from the keyboard. Why is gets() unsafe?"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain printf() and puts() for writing strings, with width and precision examples."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain arithmetic operations on characters with example."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain any four string-handling functions with syntax and example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain strcpy(), strcat(), strcmp() and strlen() with example."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain strcmp() with its return values. Why can't == be used to compare strings?"
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain a table (array) of strings with example."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "What are command line arguments? Explain argc and argv with example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a program to find the length of a string without using strlen()."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Write a program to reverse a string and check whether it is a palindrome."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a program to count vowels, consonants, digits and spaces in a string."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a program to copy and concatenate strings without using library functions."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a program to sort N names in alphabetical order."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Write a program to find the sum of numbers passed as command line arguments."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "What is a file? Why are files needed? Differentiate between text and binary files."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain fopen() and the different file opening modes."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain fgetc(), fputc(), fgets(), fputs(), fprintf() and fscanf()."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "What is EOF? Explain with example how a file is read till the end."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Write a program to count characters, words and lines in a text file."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a program to copy one file to another using command line arguments."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Write a program to write student records to a file and display them."
+   },
+   "marks": 7
+  }
+ ]
+}

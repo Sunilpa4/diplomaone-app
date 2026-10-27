@@ -1,0 +1,1368 @@
+{
+ "subject": "DI02000101",
+ "unit": 2,
+ "format": "notes",
+ "title": {
+  "en": "Operators and Control Flow Structures"
+ },
+ "weightage": 18,
+ "hours": 8,
+ "notes": [
+  {
+   "title": {
+    "en": "2.1 Basic Operators"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "2.1.1 Introduction to Operators"
+     },
+     "body": {
+      "en": "<p>An <b>operator</b> is a symbol (or keyword) that performs an operation on values. The values it works on are called <b>operands</b>. A combination of operators and operands that produces a value is an <b>expression</b>.</p>\n<pre class=\"c\"># a, b: operands   + : operator\nc = a + b\ntotal = (m1 + m2 + m3) / 3     # expression</pre>\n<ul><li><b>Unary</b> operators work on one operand (<code>-x</code>, <code>not x</code>, <code>~x</code>); <b>binary</b> operators work on two (<code>a + b</code>).</li></ul>\n<h4>Types of operators in Python (see diagram)</h4>\n<ol><li>Arithmetic operators</li><li>Comparison (relational) operators</li><li>Logical operators</li><li>Assignment operators</li>\n<li>Bitwise operators</li><li>Membership operators</li><li>Identity operators</li></ol>"
+     },
+     "diagram": "py2_operators"
+    },
+    {
+     "h": {
+      "en": "2.1.2 Arithmetic Operators"
+     },
+     "body": {
+      "en": "<table>\n<tr><th>Operator</th><th>Meaning</th><th>Example (a = 17, b = 5)</th><th>Result</th></tr>\n<tr><td>+</td><td>Addition</td><td>a + b</td><td>22</td></tr>\n<tr><td>-</td><td>Subtraction</td><td>a - b</td><td>12</td></tr>\n<tr><td>*</td><td>Multiplication</td><td>a * b</td><td>85</td></tr>\n<tr><td>/</td><td>Division (true division)</td><td>a / b</td><td>3.4</td></tr>\n<tr><td>//</td><td>Floor division</td><td>a // b</td><td>3</td></tr>\n<tr><td>%</td><td>Modulus (remainder)</td><td>a % b</td><td>2</td></tr>\n<tr><td>**</td><td>Exponent (power)</td><td>a ** b</td><td>1419857</td></tr>\n</table>\n<pre class=\"c\">a, b = 17, 5\na + b     # 22\na - b     # 12\na * b     # 85\na / b     # 3.4     (always float)\na // b    # 3       (floor division)\na % b     # 2       (remainder)\na ** b    # 1419857 (power)\n-17 // 5  # -4      (rounds down)</pre>\n<ul><li><code>/</code> always returns a <b>float</b>, even for 10 / 2 = 5.0.</li>\n<li><code>//</code> returns the largest integer ≤ the quotient, so it rounds <b>down</b> for negative numbers (−17 // 5 = −4).</li>\n<li>If either operand is a float, the result is a float: 7 // 2.0 = 3.0.</li>\n<li><code>+</code> and <code>*</code> also work on strings and lists:</li></ul>\n<pre class=\"c\"># 'Python'   (concatenation)\n\"Py\" + \"thon\"\n\"ab\" * 3         # 'ababab'   (repetition)\n[0] * 4          # [0, 0, 0, 0]</pre>"
+     },
+     "programs": [
+      "py2p1"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.1.3 Comparison (Relational) Operators"
+     },
+     "body": {
+      "en": "<p>Comparison operators compare two values and return a <b>Boolean</b> result (True or False).</p>\n<table>\n<tr><th>Operator</th><th>Meaning</th><th>Example (x = 10, y = 20)</th><th>Result</th></tr>\n<tr><td>==</td><td>Equal to</td><td>x == y</td><td>False</td></tr>\n<tr><td>!=</td><td>Not equal to</td><td>x != y</td><td>True</td></tr>\n<tr><td>&gt;</td><td>Greater than</td><td>x &gt; y</td><td>False</td></tr>\n<tr><td>&lt;</td><td>Less than</td><td>x &lt; y</td><td>True</td></tr>\n<tr><td>&gt;=</td><td>Greater than or equal to</td><td>x &gt;= 10</td><td>True</td></tr>\n<tr><td>&lt;=</td><td>Less than or equal to</td><td>y &lt;= 15</td><td>False</td></tr>\n</table>\n<pre class=\"c\">10 == 10      # True\n10 != 5       # True\n# True (dictionary order)\n\"apple\" &lt; \"banana\"\n5 &lt; x &lt; 15    # chained: 5 &lt; x and x &lt; 15</pre>\n<ul><li>Strings are compared character by character using Unicode values (\"A\" &lt; \"a\").</li>\n<li>Python supports <b>chained comparisons</b>, e.g. <code>0 &lt;= marks &lt;= 100</code>.</li>\n<li>Do not confuse <code>=</code> (assignment) with <code>==</code> (comparison).</li></ul>"
+     },
+     "programs": [
+      "py2p2"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.1.4 Logical Operators"
+     },
+     "body": {
+      "en": "<p>Logical operators combine conditions. Python uses the <b>keywords</b> <code>and</code>, <code>or</code> and <code>not</code> (not &amp;&amp;, || and ! as in C).</p>\n<table>\n<tr><th>A</th><th>B</th><th>A and B</th><th>A or B</th><th>not A</th></tr>\n<tr><td>True</td><td>True</td><td>True</td><td>True</td><td>False</td></tr>\n<tr><td>True</td><td>False</td><td>False</td><td>True</td><td>False</td></tr>\n<tr><td>False</td><td>True</td><td>False</td><td>True</td><td>True</td></tr>\n<tr><td>False</td><td>False</td><td>False</td><td>False</td><td>True</td></tr>\n</table>\n<pre class=\"c\">age, has_id = 19, True\nage &gt;= 18 and has_id     # True\nage &lt; 12 or age &gt; 60     # False\nnot has_id               # False\n# 'default' (short-circuit)\n0 or \"default\"</pre>\n<h4>Short-circuit evaluation</h4>\n<ul><li><code>A and B</code>: if A is false, B is not evaluated and the result is A; otherwise the result is B.</li>\n<li><code>A or B</code>: if A is true, B is not evaluated and the result is A; otherwise the result is B.</li>\n<li>Values like 0, \"\", [], {} and None are treated as <b>False</b> (falsy); all other values are True (truthy).</li></ul>"
+     },
+     "programs": [
+      "py2p2"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.1.5 Assignment Operators"
+     },
+     "body": {
+      "en": "<p>The assignment operator <code>=</code> stores the value of the right side in the variable on the left. <b>Compound assignment</b> operators combine an arithmetic or bitwise operation with assignment.</p>\n<table>\n<tr><th>Operator</th><th>Example</th><th>Same as</th></tr>\n<tr><td>=</td><td>x = 5</td><td>x = 5</td></tr>\n<tr><td>+=</td><td>x += 3</td><td>x = x + 3</td></tr>\n<tr><td>-=</td><td>x -= 3</td><td>x = x - 3</td></tr>\n<tr><td>*=</td><td>x *= 3</td><td>x = x * 3</td></tr>\n<tr><td>/=</td><td>x /= 3</td><td>x = x / 3</td></tr>\n<tr><td>//=</td><td>x //= 3</td><td>x = x // 3</td></tr>\n<tr><td>%=</td><td>x %= 3</td><td>x = x % 3</td></tr>\n<tr><td>**=</td><td>x **= 3</td><td>x = x ** 3</td></tr>\n<tr><td>&amp;= |= ^= &lt;&lt;= &gt;&gt;=</td><td>x &amp;= 3</td><td>x = x &amp; 3</td></tr>\n</table>\n<pre class=\"c\">x = 10\nx += 5     # x = x + 5   -&gt; 15\nx -= 3     # x = x - 3   -&gt; 12\nx *= 2     # x = x * 2   -&gt; 24\nx /= 4     # x = x / 4   -&gt; 6.0\nx //= 2    # x = x // 2  -&gt; 3.0\nx **= 2    # x = x ** 2  -&gt; 9.0\nx %= 4     # x = x % 4   -&gt; 1.0</pre>\n<ul><li>Python has <b>no increment (++) or decrement (−−)</b> operators; use <code>x += 1</code> and <code>x -= 1</code>.</li>\n<li>Multiple assignment: <code>a = b = 0</code>, <code>x, y = 1, 2</code>.</li>\n<li><b>Walrus operator</b> <code>:=</code> (Python 3.8+) assigns a value inside an expression:</li></ul>\n<pre class=\"c\">if (n := len(name)) &gt; 10:\n    print(\"Long name:\", n)</pre>"
+     },
+     "programs": [
+      "py2p3"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.1.6 Bitwise Operators"
+     },
+     "body": {
+      "en": "<p>Bitwise operators work on the <b>binary representation</b> of integers, bit by bit (see diagram).</p>\n<table>\n<tr><th>Operator</th><th>Name</th><th>Rule</th><th>12 op 10</th></tr>\n<tr><td>&amp;</td><td>AND</td><td>1 if both bits are 1</td><td>8</td></tr>\n<tr><td>|</td><td>OR</td><td>1 if any bit is 1</td><td>14</td></tr>\n<tr><td>^</td><td>XOR</td><td>1 if the bits are different</td><td>6</td></tr>\n<tr><td>~</td><td>NOT (complement)</td><td>inverts all bits: ~x = −(x+1)</td><td>~12 = −13</td></tr>\n<tr><td>&lt;&lt;</td><td>Left shift</td><td>shifts bits left: × 2ⁿ</td><td>12 &lt;&lt; 2 = 48</td></tr>\n<tr><td>&gt;&gt;</td><td>Right shift</td><td>shifts bits right: ÷ 2ⁿ</td><td>12 &gt;&gt; 2 = 3</td></tr>\n</table>\n<pre class=\"c\">a, b = 12, 10        # 1100, 1010\na &amp; b     # 8   (1000)\na | b     # 14  (1110)\na ^ b     # 6   (0110)\n~a        # -13 (-(a+1))\na &lt;&lt; 2    # 48  (a * 4)\na &gt;&gt; 2    # 3   (a // 4)</pre>\n<p><b>Working (12 &amp; 10):</b> 1100 &amp; 1010 = 1000 = 8. <b>Uses:</b> checking even/odd (<code>n &amp; 1</code>), fast multiplication/division by powers of 2, setting/clearing flags, encryption. Use <code>bin()</code> to see the bits.</p>"
+     },
+     "diagram": "py2_bitwise",
+     "programs": [
+      "py2p4"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.1.7 Membership and Identity Operators"
+     },
+     "body": {
+      "en": "<h4>Membership operators</h4>\n<p>Test whether a value is present in a <b>sequence or collection</b> (string, list, tuple, set, dictionary).</p>\n<table><tr><th>Operator</th><th>Returns True if</th><th>Example</th></tr>\n<tr><td>in</td><td>value is found</td><td>\"a\" in \"data\" → True</td></tr>\n<tr><td>not in</td><td>value is not found</td><td>5 not in [1, 2] → True</td></tr></table>\n<pre class=\"c\">\"Py\" in \"Python\"          # True\n3 in [1, 2, 3]            # True\n\"Java\" not in [\"C\", \"Py\"] # True\n\"roll\" in {\"roll\": 1}     # True (keys)</pre>\n<h4>Identity operators</h4>\n<p>Test whether two variables refer to the <b>same object</b> in memory (the same <code>id()</code>), see diagram.</p>\n<table><tr><th>Operator</th><th>Returns True if</th><th>Example</th></tr>\n<tr><td>is</td><td>both refer to the same object</td><td>a is b</td></tr>\n<tr><td>is not</td><td>they refer to different objects</td><td>a is not c</td></tr></table>\n<pre class=\"c\">a = [1, 2, 3]\nb = a\nc = [1, 2, 3]\na == c        # True  (equal values)\na is b        # True  (same object)\na is c        # False (different objects)\nx is None     # recommended None test</pre>\n<table><tr><th>==</th><th>is</th></tr>\n<tr><td>Compares <b>values</b></td><td>Compares <b>identity</b> (memory location)</td></tr>\n<tr><td>[1,2] == [1,2] → True</td><td>[1,2] is [1,2] → False</td></tr></table>"
+     },
+     "diagram": "py2_identity",
+     "programs": [
+      "py2p5"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.1.8 Python Operator Precedence and Associativity"
+     },
+     "body": {
+      "en": "<p>When an expression has several operators, <b>precedence</b> decides which is evaluated first. <b>Associativity</b> decides the order when operators have the same precedence.</p>\n<table>\n<tr><th>Precedence</th><th>Operators</th><th>Associativity</th></tr>\n<tr><td>1 (highest)</td><td>( ) parentheses</td><td>–</td></tr>\n<tr><td>2</td><td>** exponent</td><td><b>Right to left</b></td></tr>\n<tr><td>3</td><td>+x, -x, ~x (unary)</td><td>Right to left</td></tr>\n<tr><td>4</td><td>*, /, //, %</td><td>Left to right</td></tr>\n<tr><td>5</td><td>+, -</td><td>Left to right</td></tr>\n<tr><td>6</td><td>&lt;&lt;, &gt;&gt;</td><td>Left to right</td></tr>\n<tr><td>7</td><td>&amp;</td><td>Left to right</td></tr>\n<tr><td>8</td><td>^</td><td>Left to right</td></tr>\n<tr><td>9</td><td>|</td><td>Left to right</td></tr>\n<tr><td>10</td><td>==, !=, &gt;, &lt;, &gt;=, &lt;=, is, is not, in, not in</td><td>Left to right (chaining)</td></tr>\n<tr><td>11</td><td>not</td><td>Right to left</td></tr>\n<tr><td>12</td><td>and</td><td>Left to right</td></tr>\n<tr><td>13</td><td>or</td><td>Left to right</td></tr>\n<tr><td>14 (lowest)</td><td>=, +=, -=, … (assignment)</td><td>Right to left</td></tr>\n</table>\n<pre class=\"c\">2 + 3 * 4        # 14   (* first)\n(2 + 3) * 4      # 20   (parentheses first)\n2 ** 3 ** 2      # 512  (** right to left)\n10 - 4 - 3       # 3    (left to right)\n-3 ** 2          # -9   (** before unary -)\nnot 5 &gt; 3 or 2 &gt; 1   # True</pre>\n<p><b>Solved example:</b> evaluate <code>a + b / c * 3 - 1</code> with a = 4, b = 8, c = 2.<br>\nStep 1: b / c = 4.0 → Step 2: 4.0 * 3 = 12.0 → Step 3: 4 + 12.0 = 16.0 → Step 4: 16.0 − 1 = <b>15.0</b>.</p>\n<p><b>Tip:</b> use parentheses to make complex expressions clear.</p>"
+     },
+     "diagram": "py2_precedence",
+     "programs": [
+      "py2p6"
+     ]
+    },
+    {
+     "h": {
+      "en": "Key Points – 2.1"
+     },
+     "body": {
+      "en": "<ul>\n<li>7 types of operators: arithmetic, comparison, logical, assignment, bitwise, membership, identity.</li>\n<li><code>/</code> gives a float; <code>//</code> is floor division; <code>%</code> remainder; <code>**</code> power.</li>\n<li>Comparisons return True/False and can be chained: <code>a &lt; b &lt; c</code>.</li>\n<li>Logical operators are the keywords and, or, not; they short-circuit.</li>\n<li>Compound assignment: += -= *= /= //= %= **=; no ++/−− in Python.</li>\n<li>Bitwise: &amp; | ^ ~ &lt;&lt; &gt;&gt;; ~x = −(x+1); &lt;&lt; n = × 2ⁿ.</li>\n<li>in / not in check membership; is / is not check identity; == checks value.</li>\n<li>Precedence: () → ** → unary → * / // % → + − → shifts → &amp; → ^ → | → comparisons → not → and → or. ** is right-associative.</li>\n</ul>"
+     },
+     "key": true
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2.2 Control Flow: Decision Making"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "2.2.1 Control Flow and the Concept of Indentation"
+     },
+     "body": {
+      "en": "<p><b>Control flow</b> is the order in which the statements of a program are executed. There are three kinds of control structures:</p>\n<ol><li><b>Sequential:</b> statements run one after another, top to bottom (the default).</li>\n<li><b>Selection (decision making):</b> a block runs only when a condition is true: <code>if</code>, <code>if-else</code>, <code>if-elif-else</code>, nested if.</li>\n<li><b>Iteration (looping):</b> a block is repeated: <code>while</code>, <code>for</code>.</li></ol>\n<p><b>Jump statements</b> (<code>break</code>, <code>continue</code>, <code>pass</code>, <code>return</code>) change the normal flow.</p>\n<h4>Indentation</h4>\n<p>Python uses <b>indentation</b> instead of braces <code>{ }</code> to group statements into a <b>block (suite)</b>.</p>\n<ul><li>A header line (<code>if</code>, <code>elif</code>, <code>else</code>, <code>while</code>, <code>for</code>, <code>def</code>) ends with a <b>colon :</b>.</li>\n<li>All statements of the block are indented by the <b>same amount</b>; 4 spaces is standard (PEP 8).</li>\n<li>The block ends when the indentation returns to the previous level.</li>\n<li>Wrong or inconsistent indentation causes an <b>IndentationError</b>. Do not mix tabs and spaces.</li></ul>\n<pre class=\"c\">if marks &gt;= 35:\n    print(\"Pass\")            # block of if\n    print(\"Well done\")       # same block\n# outside the block\nprint(\"End\")</pre>"
+     }
+    },
+    {
+     "h": {
+      "en": "2.2.2 if Statement"
+     },
+     "body": {
+      "en": "<p>The simple <b>if</b> statement executes a block <b>only when the condition is True</b>; otherwise the block is skipped (see the left flowchart).</p>\n<pre class=\"c\">if condition:\n    statement(s)</pre>\n<pre class=\"c\">age = int(input(\"Age: \"))\nif age &gt;= 18:\n    print(\"Eligible to vote\")</pre>\n<ul><li>The condition can be any expression; non-zero numbers and non-empty values count as True.</li>\n<li>A one-line form is allowed: <code>if x &gt; 0: print(\"Positive\")</code>.</li></ul>"
+     },
+     "diagram": "py2_fc_ifelse"
+    },
+    {
+     "h": {
+      "en": "2.2.3 if…else Statement"
+     },
+     "body": {
+      "en": "<p>The <b>if…else</b> statement chooses between <b>two blocks</b>: the if block runs when the condition is True, and the else block runs when it is False. Exactly one of them always runs (see the right flowchart in 2.2.2).</p>\n<pre class=\"c\">if condition:\n    statement(s)       # when True\nelse:\n    statement(s)       # when False</pre>\n<pre class=\"c\">n = int(input(\"n: \"))\nif n % 2 == 0:\n    print(\"Even\")\nelse:\n    print(\"Odd\")</pre>\n<h4>Conditional expression (ternary operator)</h4>\n<pre class=\"c\">result = \"Pass\" if marks &gt;= 35 else \"Fail\"</pre>\n<p>Syntax: <code>value_if_true if condition else value_if_false</code>.</p>"
+     },
+     "programs": [
+      "py2p7"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.2.4 if…elif…else Statement (Ladder)"
+     },
+     "body": {
+      "en": "<p>Used when there are <b>more than two choices</b>. Conditions are tested <b>from top to bottom</b>; the block of the <b>first true condition</b> runs and the rest are skipped. If no condition is true, the <code>else</code> block (optional) runs (see diagram).</p>\n<pre class=\"c\">if condition1:\n    block1\nelif condition2:\n    block2\nelif condition3:\n    block3\nelse:\n    default block</pre>\n<pre class=\"c\">if per &gt;= 75:\n    print(\"Distinction\")\nelif per &gt;= 60:\n    print(\"First Class\")\nelif per &gt;= 35:\n    print(\"Pass\")\nelse:\n    print(\"Fail\")</pre>\n<ul><li><code>elif</code> is short for \"else if\". Any number of elif parts may be used.</li>\n<li>Python had no switch statement before 3.10, so the if-elif ladder is used for menus. (<code>match-case</code> exists from Python 3.10 but is not in the syllabus.)</li></ul>"
+     },
+     "diagram": "py2_fc_elif",
+     "programs": [
+      "py2p9",
+      "py2p11"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.2.5 Nested if Statement"
+     },
+     "body": {
+      "en": "<p>An <b>if statement placed inside another if or else block</b> is called a <b>nested if</b>. The inner condition is checked only when the outer condition allows it. Each level is indented further.</p>\n<pre class=\"c\">if a &gt;= b:\n    if a &gt;= c:\n        print(\"a is largest\")\n    else:\n        print(\"c is largest\")\nelse:\n    if b &gt;= c:\n        print(\"b is largest\")\n    else:\n        print(\"c is largest\")</pre>\n<p>Nested ifs can often be simplified using logical operators: <code>if a &gt;= b and a &gt;= c:</code>.</p>"
+     },
+     "programs": [
+      "py2p8",
+      "py2p10"
+     ]
+    },
+    {
+     "h": {
+      "en": "Key Points – 2.2"
+     },
+     "body": {
+      "en": "<ul>\n<li>Control structures: sequential, selection (if) and iteration (loops).</li>\n<li>Blocks are defined by a colon and consistent indentation (4 spaces).</li>\n<li>if: runs a block only when the condition is True. if…else: one of two blocks.</li>\n<li>if…elif…else: many choices; only the first true block runs.</li>\n<li>Nested if: if inside if; can often be replaced by and/or.</li>\n<li>Ternary: <code>x if cond else y</code>.</li>\n</ul>"
+     },
+     "key": true
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2.3 Loops and Jump Statements"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "2.3.1 while Loop"
+     },
+     "body": {
+      "en": "<p>The <b>while</b> loop repeats a block <b>as long as the condition is True</b>. The condition is checked <b>before</b> each iteration, so it is an <b>entry-controlled</b> loop; the body may not run even once (see diagram).</p>\n<pre class=\"c\">initialization\nwhile condition:\n    statement(s)\n    update\nelse:                  # optional\n    # runs when condition is False\n    statement(s)</pre>\n<pre class=\"c\">i = 1\nwhile i &lt;= 5:\n    print(i, end=\" \")      # 1 2 3 4 5\n    i += 1</pre>\n<ul><li>The loop variable must be <b>initialized</b> before the loop and <b>updated</b> inside it. Otherwise the loop never ends (an infinite loop).</li>\n<li>It is used when the number of iterations is <b>not known</b> in advance, e.g. processing digits or repeating until the user quits.</li>\n<li>Python has <b>no do-while</b> loop; <code>while True</code> with <code>break</code> is used instead:</li></ul>\n<pre class=\"c\">while True:\n    s = input(\"Command (q to quit): \")\n    if s == \"q\":\n        break</pre>"
+     },
+     "diagram": "py2_fc_while",
+     "programs": [
+      "py2p12",
+      "py2p15",
+      "py2p18"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.3.2 for Loop"
+     },
+     "body": {
+      "en": "<p>The <b>for</b> loop <b>iterates over the items of a sequence</b> (string, list, tuple, set, dictionary, range), taking one item at a time (see diagram).</p>\n<pre class=\"c\">for variable in sequence:\n    statement(s)\nelse:                  # optional\n    # runs after the last item\n    statement(s)</pre>\n<pre class=\"c\">for ch in \"GTU\":                 # string\n    print(ch)\nfor m in [78, 85, 62]:           # list\n    print(m)\n# dictionary\nfor k, v in {\"a\": 1}.items():\n    print(k, v)</pre>\n<ul><li>The number of iterations equals the number of items, so a for loop is used when the count is <b>known</b>.</li>\n<li>There is no explicit condition or update; Python moves to the next item automatically.</li>\n<li>Combined with <code>range()</code>, it works like the counting for loop of C.</li></ul>"
+     },
+     "diagram": "py2_fc_for"
+    },
+    {
+     "h": {
+      "en": "2.3.3 range() Function"
+     },
+     "body": {
+      "en": "<p><code>range()</code> generates a sequence of <b>integers</b>, mostly used with for loops (see diagram).</p>\n<table>\n<tr><th>Form</th><th>Generates</th><th>Example</th></tr>\n<tr><td>range(stop)</td><td>0 to stop − 1</td><td>range(5) → 0 1 2 3 4</td></tr>\n<tr><td>range(start, stop)</td><td>start to stop − 1</td><td>range(2, 6) → 2 3 4 5</td></tr>\n<tr><td>range(start, stop, step)</td><td>start, start+step, … (before stop)</td><td>range(1, 10, 3) → 1 4 7</td></tr>\n</table>\n<pre class=\"c\">range(5)            # 0 1 2 3 4\nrange(2, 8)         # 2 3 4 5 6 7\nrange(1, 10, 2)     # 1 3 5 7 9\nrange(10, 0, -3)    # 10 7 4 1\nlist(range(4))      # [0, 1, 2, 3]\n\nfor i in range(1, 6):\n    print(i * i, end=\" \")   # 1 4 9 16 25</pre>\n<ul><li>The <b>stop value is never included</b>.</li>\n<li>A negative step counts down: <code>range(10, 0, -1)</code> gives 10 to 1.</li>\n<li>Arguments must be integers, and the step cannot be 0 (ValueError).</li>\n<li>range() does not store all the numbers; it produces them as needed, so it uses little memory. Use <code>list(range(…))</code> to see them.</li></ul>"
+     },
+     "diagram": "py2_range",
+     "programs": [
+      "py2p13"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.3.4 Difference between while and for Loop"
+     },
+     "body": {
+      "en": "<table>\n<tr><th>while loop</th><th>for loop</th></tr>\n<tr><td>Repeats while a condition is True</td><td>Repeats for each item of a sequence</td></tr>\n<tr><td>Used when the number of iterations is unknown</td><td>Used when the number of iterations is known</td></tr>\n<tr><td>Initialization and update written by the programmer</td><td>The next item is taken automatically</td></tr>\n<tr><td>Risk of an infinite loop if the update is missed</td><td>Ends after the last item</td></tr>\n<tr><td>while i &lt;= 10:</td><td>for i in range(1, 11):</td></tr>\n<tr><td>e.g. reverse digits, menu until quit</td><td>e.g. tables, traversing a list</td></tr>\n</table>\n<p>Both loops can have an optional <code>else</code> block, and both support <code>break</code> and <code>continue</code>.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "2.3.5 break and continue Statements"
+     },
+     "body": {
+      "en": "<h4>break</h4>\n<p><code>break</code> <b>terminates the loop immediately</b>, and control goes to the first statement after the loop. In nested loops it exits only the innermost loop.</p>\n<pre class=\"c\">for i in range(1, 10):\n    if i == 4:\n        break\n    print(i, end=\" \")      # 1 2 3</pre>\n<h4>continue</h4>\n<p><code>continue</code> <b>skips the remaining statements of the current iteration</b> and moves to the next iteration. In a while loop, make sure the update happens before <code>continue</code>.</p>\n<pre class=\"c\">for i in range(1, 8):\n    if i % 2 == 0:\n        continue\n    print(i, end=\" \")      # 1 3 5 7</pre>\n<h4>else with loops</h4>\n<p>The <code>else</code> block of a loop runs only when the loop ends <b>normally</b> (not by break). It is useful for searching:</p>\n<pre class=\"c\">for i in range(2, n):\n    if n % i == 0:\n        print(\"Not prime\")\n        break\nelse:\n    print(\"Prime\")      # only if no break</pre>\n<table><tr><th>break</th><th>continue</th></tr>\n<tr><td>Ends the whole loop</td><td>Skips only the current iteration</td></tr>\n<tr><td>Control goes after the loop</td><td>Control goes to the next iteration</td></tr>\n<tr><td>The loop's else is skipped</td><td>The loop's else still runs</td></tr></table>"
+     },
+     "diagram": "py2_break_continue",
+     "programs": [
+      "py2p14"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.3.6 pass and return Statements"
+     },
+     "body": {
+      "en": "<h4>pass</h4>\n<p><code>pass</code> is a <b>null statement</b>: it does nothing. Python does not allow an empty block, so <code>pass</code> is used as a <b>placeholder</b> where a statement is required but no action is needed yet.</p>\n<pre class=\"c\">for i in range(5):\n    # loop body to be written later\n    pass\n\ndef future_feature():\n    pass               # empty function\n\nif x &gt; 0:\n    pass               # nothing to do yet\nelse:\n    print(\"Not positive\")</pre>\n<h4>return</h4>\n<p><code>return</code> is used <b>inside a function</b>. It ends the function immediately and sends a value back to the caller. Without a value, or without a return statement, a function returns <code>None</code>. A return inside a loop also ends the loop. Functions are covered in Unit 4.</p>\n<pre class=\"c\">def is_even(n):\n    if n % 2 == 0:\n        return True     # function ends here\n    return False\n\nprint(is_even(10))      # True</pre>\n<table><tr><th>pass</th><th>continue</th><th>break</th><th>return</th></tr>\n<tr><td>Does nothing</td><td>Next iteration</td><td>Exits loop</td><td>Exits function with a value</td></tr></table>"
+     },
+     "programs": [
+      "py2p16"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.3.7 Nesting of Loops"
+     },
+     "body": {
+      "en": "<p>A loop placed inside another loop is a <b>nested loop</b>. For each iteration of the <b>outer loop</b>, the <b>inner loop runs completely</b>. If the outer loop runs m times and the inner loop n times, the inner body executes m × n times.</p>\n<pre class=\"c\"># outer loop: rows\nfor i in range(1, 4):\n    # inner loop: columns\n    for j in range(1, 4):\n        print(i * j, end=\"\\t\")\n    print()\n# 1  2  3\n# 2  4  6\n# 3  6  9</pre>\n<ul><li>Any combination is possible: for in for, while in for, etc.</li>\n<li>Typical uses: patterns (rows × columns), multiplication tables, matrices, prime numbers in a range.</li>\n<li><code>break</code> inside the inner loop exits only the inner loop.</li></ul>"
+     },
+     "programs": [
+      "py2p17"
+     ]
+    },
+    {
+     "h": {
+      "en": "Key Points – 2.3"
+     },
+     "body": {
+      "en": "<ul>\n<li>while: entry-controlled; repeats while the condition is True; needs initialization and update; no do-while in Python.</li>\n<li>for: iterates over the items of a sequence; used with range() for counting.</li>\n<li>range(start, stop, step): stop is excluded; default start 0, step 1; a negative step counts down.</li>\n<li>break exits the loop; continue skips to the next iteration; pass does nothing; return exits a function.</li>\n<li>A loop's else runs only if the loop was not ended by break.</li>\n<li>Nested loops: the inner loop runs fully for each outer iteration (patterns, tables).</li>\n</ul>"
+     },
+     "key": true
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "py2p1",
+   "title": {
+    "en": "Arithmetic operators"
+   },
+   "code": {
+    "en": "a = int(input(\"Enter a: \"))\nb = int(input(\"Enter b: \"))\n\nprint(\"a + b  =\", a + b)\nprint(\"a - b  =\", a - b)\nprint(\"a * b  =\", a * b)\n# true division (float)\nprint(\"a / b  =\", a / b)\n# floor division\nprint(\"a // b =\", a // b)\nprint(\"a % b  =\", a % b)       # remainder\nprint(\"a ** b =\", a ** b)      # power\nprint(\"-17 // 5 =\", -17 // 5, \"  -17 % 5 =\", -17 % 5)"
+   },
+   "out": "Enter a: 17\nEnter b: 5\na + b  = 22\na - b  = 12\na * b  = 85\na / b  = 3.4\na // b = 3\na % b  = 2\na ** b = 1419857\n-17 // 5 = -4   -17 % 5 = 3",
+   "expl": {
+    "en": "<ul><li><code>/</code> always gives a <b>float</b> (17/5 = 3.4). <code>//</code> gives the <b>floor</b> of the quotient (3).</li>\n<li><code>%</code> gives the remainder, and <code>**</code> is the power operator (17⁵ = 1419857).</li>\n<li>With negative numbers, <code>//</code> rounds <b>down</b> towards −∞: −17 // 5 = −4. Then −17 % 5 = 3, because −4 × 5 + 3 = −17.</li></ul>"
+   }
+  },
+  {
+   "id": "py2p2",
+   "title": {
+    "en": "Comparison and logical operators"
+   },
+   "code": {
+    "en": "x, y = 10, 20\nprint(\"x == y :\", x == y)\nprint(\"x != y :\", x != y)\nprint(\"x > y  :\", x > y)\nprint(\"x < y  :\", x < y)\nprint(\"x >= 10:\", x >= 10)\nprint(\"y <= 15:\", y <= 15)\nprint(\"Chained 5 < x < 15 :\", 5 < x < 15)\n\nage, has_id = 19, True\nprint(\"and :\", age >= 18 and has_id)\nprint(\"or  :\", age < 12 or age > 60)\nprint(\"not :\", not has_id)\n\n# and / or return one of the operands\nprint(\"0 or 'default' ->\", 0 or \"default\")\nprint(\"5 and 7 ->\", 5 and 7)"
+   },
+   "out": "x == y : False\nx != y : True\nx > y  : False\nx < y  : True\nx >= 10: True\ny <= 15: False\nChained 5 < x < 15 : True\nand : True\nor  : False\nnot : False\n0 or 'default' -> default\n5 and 7 -> 7",
+   "expl": {
+    "en": "<ul><li>Comparison operators return <code>True</code> or <code>False</code>. Python allows <b>chained comparisons</b>: <code>5 &lt; x &lt; 15</code> means <code>5 &lt; x and x &lt; 15</code>.</li>\n<li><code>and</code> is True only if both sides are True; <code>or</code> is True if either side is True; <code>not</code> reverses the value.</li>\n<li><b>Short-circuit evaluation:</b> <code>and</code> stops at the first false value and <code>or</code> stops at the first true value, and the result is that operand. So <code>0 or 'default'</code> gives 'default' and <code>5 and 7</code> gives 7.</li></ul>"
+   }
+  },
+  {
+   "id": "py2p3",
+   "title": {
+    "en": "Assignment operators"
+   },
+   "code": {
+    "en": "x = 10\nprint(\"x = 10    ->\", x)\nx += 5;  print(\"x += 5    ->\", x)\nx -= 3;  print(\"x -= 3    ->\", x)\nx *= 2;  print(\"x *= 2    ->\", x)\nx /= 4;  print(\"x /= 4    ->\", x)\nx //= 2; print(\"x //= 2   ->\", x)\nx **= 3; print(\"x **= 3   ->\", x)\nx %= 5;  print(\"x %= 5    ->\", x)\n\nn = 6\nn &= 3;  print(\"n &= 3    ->\", n)\nn |= 8;  print(\"n |= 8    ->\", n)\n\n# Walrus operator := (Python 3.8+) assigns inside an expression\nif (length := len(\"Diploma\")) > 5:\n    print(\"Length\", length, \"is more than 5\")"
+   },
+   "out": "x = 10    -> 10\nx += 5    -> 15\nx -= 3    -> 12\nx *= 2    -> 24\nx /= 4    -> 6.0\nx //= 2   -> 3.0\nx **= 3   -> 27.0\nx %= 5    -> 2.0\nn &= 3    -> 2\nn |= 8    -> 10\nLength 7 is more than 5",
+   "expl": {
+    "en": "<ul><li>A <b>compound assignment</b> <code>x op= y</code> means <code>x = x op y</code>; e.g. <code>x += 5</code> means <code>x = x + 5</code>.</li>\n<li>After <code>/=</code> the value becomes a float (6.0), and it stays a float.</li>\n<li>Python has <b>no ++ or −−</b>; write <code>x += 1</code>.</li>\n<li>The <b>walrus operator</b> <code>:=</code> assigns a value inside an expression.</li></ul>"
+   }
+  },
+  {
+   "id": "py2p4",
+   "title": {
+    "en": "Bitwise operators with binary view"
+   },
+   "code": {
+    "en": "a, b = 12, 10\nprint(f\"a      = {a:3}  -> {a:08b}\")\nprint(f\"b      = {b:3}  -> {b:08b}\")\nprint(f\"a & b  = {a & b:3}  -> {a & b:08b}\")\nprint(f\"a | b  = {a | b:3}  -> {a | b:08b}\")\nprint(f\"a ^ b  = {a ^ b:3}  -> {a ^ b:08b}\")\nprint(f\"~a     = {~a:3}\")\nprint(f\"a << 2 = {a << 2:3}  -> {a << 2:08b}\")\nprint(f\"a >> 2 = {a >> 2:3}  -> {a >> 2:08b}\")\n\nn = int(input(\"Enter a number: \"))\nprint(n, \"is\", \"even\" if n & 1 == 0 else \"odd\", \"(checked with n & 1)\")"
+   },
+   "out": "a      =  12  -> 00001100\nb      =  10  -> 00001010\na & b  =   8  -> 00001000\na | b  =  14  -> 00001110\na ^ b  =   6  -> 00000110\n~a     = -13\na << 2 =  48  -> 00110000\na >> 2 =   3  -> 00000011\nEnter a number: 37\n37 is odd (checked with n & 1)",
+   "expl": {
+    "en": "<ul><li>Bitwise operators work on the <b>binary bits</b> of integers. The format <code>:08b</code> prints a number as 8 binary digits.</li>\n<li><code>&amp;</code> is 1 only where both bits are 1; <code>|</code> where either bit is 1; <code>^</code> where the bits differ.</li>\n<li><code>~a</code> = −(a + 1) = −13.</li>\n<li><code>&lt;&lt; n</code> multiplies by 2ⁿ and <code>&gt;&gt; n</code> divides by 2ⁿ (integer result).</li>\n<li><code>n &amp; 1</code> is 0 for even numbers, because the last bit of an even number is 0.</li></ul>"
+   }
+  },
+  {
+   "id": "py2p5",
+   "title": {
+    "en": "Membership and identity operators"
+   },
+   "code": {
+    "en": "subjects = [\"Python\", \"Maths\", \"Chemistry\"]\nprint(\"'Python' in subjects    :\", \"Python\" in subjects)\nprint(\"'Java' not in subjects  :\", \"Java\" not in subjects)\nprint(\"'th' in 'Python'        :\", \"th\" in \"Python\")\nstudent = {\"roll\": 1, \"name\": \"Om\"}\n# checks keys\nprint(\"'roll' in student       :\", \"roll\" in student)\n\na = [1, 2, 3]\nb = a\nc = [1, 2, 3]\nprint(\"a == c :\", a == c)       # same value\n# same object\nprint(\"a is b :\", a is b)\n# different objects\nprint(\"a is c :\", a is c)\nprint(\"a is not c :\", a is not c)\nx = None\nprint(\"x is None :\", x is None)"
+   },
+   "out": "'Python' in subjects    : True\n'Java' not in subjects  : True\n'th' in 'Python'        : True\n'roll' in student       : True\na == c : True\na is b : True\na is c : False\na is not c : True\nx is None : True",
+   "expl": {
+    "en": "<ul><li><b>Membership:</b> <code>in</code> and <code>not in</code> test whether a value is present in a sequence (string, list, tuple, set). For a dictionary they check the <b>keys</b>.</li>\n<li><b>Identity:</b> <code>is</code> and <code>is not</code> test whether two names refer to the <b>same object</b> in memory, while <code>==</code> compares <b>values</b> (see diagram \"Identity (is) vs Equality (==)\").</li>\n<li>The recommended way to test for None is <code>x is None</code>.</li></ul>"
+   }
+  },
+  {
+   "id": "py2p6",
+   "title": {
+    "en": "Operator precedence and associativity"
+   },
+   "code": {
+    "en": "print(\"2 + 3 * 4        =\", 2 + 3 * 4)\nprint(\"(2 + 3) * 4      =\", (2 + 3) * 4)\n# right to left\nprint(\"2 ** 3 ** 2      =\", 2 ** 3 ** 2)\nprint(\"(2 ** 3) ** 2    =\", (2 ** 3) ** 2)\n# left to right\nprint(\"10 - 4 - 3       =\", 10 - 4 - 3)\nprint(\"100 / 10 * 2     =\", 100 / 10 * 2)\n# ** before unary -\nprint(\"-3 ** 2          =\", -3 ** 2)\nprint(\"5 + 2 > 6 and 3 < 1 =\", 5 + 2 > 6 and 3 < 1)\nprint(\"not 5 > 3 or 2 > 1  =\", not 5 > 3 or 2 > 1)\na, b, c = 4, 8, 2\nprint(\"a + b / c * 3 - 1   =\", a + b / c * 3 - 1)"
+   },
+   "out": "2 + 3 * 4        = 14\n(2 + 3) * 4      = 20\n2 ** 3 ** 2      = 512\n(2 ** 3) ** 2    = 64\n10 - 4 - 3       = 3\n100 / 10 * 2     = 20.0\n-3 ** 2          = -9\n5 + 2 > 6 and 3 < 1 = False\nnot 5 > 3 or 2 > 1  = True\na + b / c * 3 - 1   = 15.0",
+   "expl": {
+    "en": "<ul><li><b>Precedence</b> decides which operator is applied first: <code>**</code> → unary → <code>* / // %</code> → <code>+ -</code> → shifts → bitwise → comparisons → <code>not</code> → <code>and</code> → <code>or</code>.</li>\n<li><b>Associativity</b> decides the order among operators of equal precedence. Most are left to right; <code>**</code> is <b>right to left</b>, so 2 ** 3 ** 2 = 2 ** 9 = 512.</li>\n<li><code>-3 ** 2</code> = −9, because ** is applied before the unary minus.</li>\n<li>Last line: b / c = 4.0; × 3 = 12.0; 4 + 12.0 − 1 = 15.0. Use parentheses to make the order clear.</li></ul>"
+   }
+  },
+  {
+   "id": "py2p7",
+   "title": {
+    "en": "Even/odd and positive/negative/zero"
+   },
+   "code": {
+    "en": "n = int(input(\"Enter a number: \"))\n\n# if...else\nif n % 2 == 0:\n    print(n, \"is EVEN\")\nelse:\n    print(n, \"is ODD\")\n\n# if...elif...else\nif n > 0:\n    print(n, \"is POSITIVE\")\nelif n < 0:\n    print(n, \"is NEGATIVE\")\nelse:\n    print(\"The number is ZERO\")\n\n# conditional expression (ternary)\nkind = \"even\" if n % 2 == 0 else \"odd\"\nprint(\"Using ternary:\", kind)"
+   },
+   "out": "Enter a number: -7\n-7 is ODD\n-7 is NEGATIVE\nUsing ternary: odd",
+   "expl": {
+    "en": "<ul><li><code>if…else</code> chooses between two blocks. <code>if…elif…else</code> chooses one block from many.</li>\n<li>The colon <code>:</code> and the indentation mark each block.</li>\n<li>The one-line <b>conditional expression</b> <code>x if condition else y</code> works like the ?: operator of C.</li>\n<li>−7 % 2 = 1 in Python, so −7 is odd.</li></ul>"
+   }
+  },
+  {
+   "id": "py2p8",
+   "title": {
+    "en": "Largest of three numbers (nested if)"
+   },
+   "code": {
+    "en": "a = int(input(\"Enter a: \"))\nb = int(input(\"Enter b: \"))\nc = int(input(\"Enter c: \"))\n\nif a >= b:\n    if a >= c:\n        largest = a\n    else:\n        largest = c\nelse:\n    if b >= c:\n        largest = b\n    else:\n        largest = c\nprint(\"Largest (nested if)     :\", largest)\n\nif a >= b and a >= c:\n    largest = a\nelif b >= c:\n    largest = b\nelse:\n    largest = c\nprint(\"Largest (elif + and)    :\", largest)\nprint(\"Largest (max function)  :\", max(a, b, c))"
+   },
+   "out": "Enter a: 45\nEnter b: 78\nEnter c: 23\nLargest (nested if)     : 78\nLargest (elif + and)    : 78\nLargest (max function)  : 78",
+   "expl": {
+    "en": "<p>A <b>nested if</b> is an if statement inside another if or else block; each level is indented further. The same problem is solved more simply with <code>elif</code> and the logical <code>and</code>, or with the built-in <code>max()</code>. In exams, write the nested-if version unless the question says otherwise.</p>"
+   }
+  },
+  {
+   "id": "py2p9",
+   "title": {
+    "en": "Grade from percentage (if-elif ladder)"
+   },
+   "code": {
+    "en": "m1 = float(input(\"Marks of subject 1: \"))\nm2 = float(input(\"Marks of subject 2: \"))\nm3 = float(input(\"Marks of subject 3: \"))\nper = (m1 + m2 + m3) / 3\nprint(f\"Percentage = {per:.2f}\")\n\nif per >= 75:\n    grade = \"Distinction\"\nelif per >= 60:\n    grade = \"First Class\"\nelif per >= 50:\n    grade = \"Second Class\"\nelif per >= 35:\n    grade = \"Pass Class\"\nelse:\n    grade = \"Fail\"\nprint(\"Result     =\", grade)"
+   },
+   "out": "Marks of subject 1: 72\nMarks of subject 2: 65\nMarks of subject 3: 58\nPercentage = 65.00\nResult     = First Class",
+   "expl": {
+    "en": "<p>The conditions are checked <b>from top to bottom</b>, and only the block of the <b>first true condition</b> executes; the rest are skipped. Because ≥ 75 is checked first, the next test only needs ≥ 60 (not \"60 to 74\"). The <code>else</code> part runs when no condition is true. See the flowchart \"if…elif…else Ladder (Grade)\".</p>"
+   }
+  },
+  {
+   "id": "py2p10",
+   "title": {
+    "en": "Leap year check"
+   },
+   "code": {
+    "en": "year = int(input(\"Enter year: \"))\n\nif (year % 4 == 0 and year % 100 != 0) or year % 400 == 0:\n    print(year, \"is a LEAP year\")\nelse:\n    print(year, \"is NOT a leap year\")\n\nfor y in (1900, 2000, 2024, 2026):\n    leap = (y % 4 == 0 and y % 100 != 0) or y % 400 == 0\n    print(y, \"->\", leap)"
+   },
+   "out": "Enter year: 2028\n2028 is a LEAP year\n1900 -> False\n2000 -> True\n2024 -> True\n2026 -> False",
+   "expl": {
+    "en": "<p>A year is a leap year if it is divisible by 4 but <b>not by 100</b>, <b>or</b> if it is divisible by 400. So 1900 is not a leap year, but 2000 is. The parentheses make the combination of <code>and</code> and <code>or</code> clear.</p>"
+   }
+  },
+  {
+   "id": "py2p11",
+   "title": {
+    "en": "Simple calculator (menu with if-elif)"
+   },
+   "code": {
+    "en": "print(\"1. Add  2. Subtract  3. Multiply  4. Divide\")\nchoice = int(input(\"Enter choice: \"))\na = float(input(\"Enter first number : \"))\nb = float(input(\"Enter second number: \"))\n\nif choice == 1:\n    print(\"Result =\", a + b)\nelif choice == 2:\n    print(\"Result =\", a - b)\nelif choice == 3:\n    print(\"Result =\", a * b)\nelif choice == 4:\n    if b != 0:\n        print(\"Result =\", round(a / b, 3))\n    else:\n        print(\"Error: division by zero\")\nelse:\n    print(\"Invalid choice\")"
+   },
+   "out": "1. Add  2. Subtract  3. Multiply  4. Divide\nEnter choice: 4\nEnter first number : 22\nEnter second number: 7\nResult = 3.143",
+   "expl": {
+    "en": "<p>Suggested project 1 from the syllabus. The <code>if-elif</code> chain works like a <code>switch</code> statement. A nested if prevents division by zero. (Python 3.10+ also has <code>match-case</code>, which is not in the syllabus.)</p>"
+   }
+  },
+  {
+   "id": "py2p12",
+   "title": {
+    "en": "Sum of digits, reverse and palindrome number (while)"
+   },
+   "code": {
+    "en": "n = int(input(\"Enter a number: \"))\ntemp = n\ntotal = 0\nrev = 0\nwhile temp > 0:\n    digit = temp % 10          # last digit\n    total += digit\n    rev = rev * 10 + digit\n    # remove last digit\n    temp //= 10\n\nprint(\"Sum of digits =\", total)\nprint(\"Reverse       =\", rev)\nif rev == n:\n    print(n, \"is a PALINDROME number\")\nelse:\n    print(n, \"is NOT a palindrome\")"
+   },
+   "out": "Enter a number: 12321\nSum of digits = 9\nReverse       = 12321\n12321 is a PALINDROME number",
+   "expl": {
+    "en": "<ul><li><code>while</code> repeats as long as the condition is true. It is used when the number of repetitions is not known in advance.</li>\n<li><code>% 10</code> gives the last digit and <code>// 10</code> removes it. Each digit is added to the sum and appended to the reverse.</li>\n<li>The original value is kept in <code>n</code> because <code>temp</code> becomes 0.</li></ul>"
+   }
+  },
+  {
+   "id": "py2p13",
+   "title": {
+    "en": "Factorial and multiplication table (for, range)"
+   },
+   "code": {
+    "en": "n = int(input(\"Enter a number: \"))\n\nfact = 1\nfor i in range(1, n + 1):\n    fact *= i\nprint(f\"{n}! = {fact}\")\n\nprint(f\"Table of {n}:\")\nfor i in range(1, 11):\n    print(f\"{n} x {i:2} = {n * i:3}\")\n\nprint(\"Even numbers 2-20:\", end=\" \")\nfor i in range(2, 21, 2):\n    print(i, end=\" \")\nprint()"
+   },
+   "out": "Enter a number: 7\n7! = 5040\nTable of 7:\n7 x  1 =   7\n7 x  2 =  14\n7 x  3 =  21\n7 x  4 =  28\n7 x  5 =  35\n7 x  6 =  42\n7 x  7 =  49\n7 x  8 =  56\n7 x  9 =  63\n7 x 10 =  70\nEven numbers 2-20: 2 4 6 8 10 12 14 16 18 20 ",
+   "expl": {
+    "en": "<ul><li><code>for i in range(1, n + 1)</code> runs with i = 1, 2, …, n. The stop value is excluded, so <b>n + 1</b> is written.</li>\n<li><code>range(2, 21, 2)</code> gives 2, 4, …, 20 (step 2).</li>\n<li><code>end=\" \"</code> keeps the output on one line, and the final <code>print()</code> ends the line.</li></ul>"
+   }
+  },
+  {
+   "id": "py2p14",
+   "title": {
+    "en": "Prime number check (for-else) and primes in a range"
+   },
+   "code": {
+    "en": "n = int(input(\"Enter a number: \"))\nif n < 2:\n    print(n, \"is not prime\")\nelse:\n    for i in range(2, int(n ** 0.5) + 1):\n        if n % i == 0:\n            print(f\"{n} is NOT prime (divisible by {i})\")\n            break\n    else:\n        print(n, \"is PRIME\")\n\nprint(\"Primes between 1 and 50:\")\nfor num in range(2, 51):\n    for i in range(2, int(num ** 0.5) + 1):\n        if num % i == 0:\n            break\n    else:\n        print(num, end=\" \")\nprint()"
+   },
+   "out": "Enter a number: 91\n91 is NOT prime (divisible by 7)\nPrimes between 1 and 50:\n2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 ",
+   "expl": {
+    "en": "<ul><li>A loop can have an <b>else</b> block, which runs only if the loop ends normally, <b>without break</b>. If a divisor is found, <code>break</code> skips the else. So the else means \"no divisor found → prime\".</li>\n<li>Checking divisors up to √n is enough: 91 = 7 × 13 is found at 7.</li>\n<li>The second part uses <b>nested loops</b>: for each number, an inner loop checks for divisors.</li></ul>"
+   }
+  },
+  {
+   "id": "py2p15",
+   "title": {
+    "en": "Fibonacci series (while) and sum of N numbers"
+   },
+   "code": {
+    "en": "n = int(input(\"How many Fibonacci terms? \"))\na, b = 0, 1\ncount = 0\nwhile count < n:\n    print(a, end=\" \")\n    a, b = b, a + b\n    count += 1\nprint()\n\ntotal, i = 0, 1\nwhile i <= 100:\n    total += i\n    i += 1\nelse:\n    print(\"Loop finished normally.\")\nprint(\"Sum of 1 to 100 =\", total)"
+   },
+   "out": "How many Fibonacci terms? 10\n0 1 1 2 3 5 8 13 21 34 \nLoop finished normally.\nSum of 1 to 100 = 5050",
+   "expl": {
+    "en": "<p>Each Fibonacci term is the sum of the previous two (0, 1, 1, 2, 3, 5, …). The multiple assignment <code>a, b = b, a + b</code> updates both values at once without a temporary variable. A <code>while</code> loop can also have an <code>else</code> part, which runs when the condition becomes false (not after a break).</p>"
+   }
+  },
+  {
+   "id": "py2p16",
+   "title": {
+    "en": "break, continue and pass"
+   },
+   "code": {
+    "en": "print(\"break    :\", end=\" \")\nfor i in range(1, 8):\n    if i == 4:\n        break             # exit the loop\n    print(i, end=\" \")\nprint()\n\nprint(\"continue :\", end=\" \")\nfor i in range(1, 8):\n    if i == 4:\n        # skip this iteration\n        continue\n    print(i, end=\" \")\nprint()\n\nprint(\"pass     :\", end=\" \")\nfor i in range(1, 8):\n    if i == 4:\n        # do nothing (placeholder)\n        pass\n    print(i, end=\" \")\nprint()\n\ndef check(n):\n    if n < 0:\n        # return ends the function\n        return \"negative\"\n    return \"non-negative\"\nprint(\"return   :\", check(-5), check(3))\n\n# infinite loop with exit\nwhile True:\n    s = input(\"Type 'q' to quit: \")\n    if s == \"q\":\n        print(\"Bye!\")\n        break"
+   },
+   "out": "break    : 1 2 3 \ncontinue : 1 2 3 5 6 7 \npass     : 1 2 3 4 5 6 7 \nreturn   : negative non-negative\nType 'q' to quit: hello\nType 'q' to quit: q\nBye!",
+   "expl": {
+    "en": "<ul><li><b>break</b> immediately ends the loop.</li>\n<li><b>continue</b> skips the rest of the current iteration and goes to the next one.</li>\n<li><b>pass</b> does nothing. It is used where a statement is required syntactically but no action is needed, e.g. an empty function or a block to be written later.</li>\n<li><b>return</b> ends a function and sends a value back to the caller (Unit 4).</li>\n<li><code>while True</code> with break is the usual way to repeat until the user chooses to stop.</li></ul>"
+   }
+  },
+  {
+   "id": "py2p17",
+   "title": {
+    "en": "Pattern printing using nested loops"
+   },
+   "code": {
+    "en": "n = int(input(\"Enter rows: \"))\n\nprint(\"Right triangle:\")\nfor i in range(1, n + 1):\n    for j in range(i):\n        print(\"*\", end=\" \")\n    print()\n\nprint(\"Number triangle:\")\nfor i in range(1, n + 1):\n    for j in range(1, i + 1):\n        print(j, end=\" \")\n    print()\n\nprint(\"Pyramid:\")\nfor i in range(1, n + 1):\n    print(\" \" * (n - i) + \"* \" * i)\n\nprint(\"Floyd's triangle:\")\nk = 1\nfor i in range(1, n + 1):\n    for j in range(i):\n        print(f\"{k:3}\", end=\"\")\n        k += 1\n    print()"
+   },
+   "out": "Enter rows: 4\nRight triangle:\n* \n* * \n* * * \n* * * * \nNumber triangle:\n1 \n1 2 \n1 2 3 \n1 2 3 4 \nPyramid:\n   * \n  * * \n * * * \n* * * * \nFloyd's triangle:\n  1\n  2  3\n  4  5  6\n  7  8  9 10",
+   "expl": {
+    "en": "<ul><li>In <b>nested loops</b>, the outer loop controls the <b>rows</b> and the inner loop prints the <b>columns</b> of each row. The inner loop runs completely for each pass of the outer loop.</li>\n<li><code>print()</code> after the inner loop moves to the next line.</li>\n<li>The pyramid uses string repetition: (n − i) spaces followed by i stars.</li>\n<li>Floyd's triangle prints consecutive numbers, with <code>k</code> continuing across rows.</li></ul>"
+   }
+  },
+  {
+   "id": "py2p18",
+   "title": {
+    "en": "Number guessing game (project)"
+   },
+   "code": {
+    "en": "import random\n\n# fixed seed only for this demo\nrandom.seed(6)\nsecret = random.randint(1, 50)\nattempts = 0\n\nprint(\"Guess the number between 1 and 50\")\nwhile True:\n    guess = int(input(\"Your guess: \"))\n    attempts += 1\n    if guess < secret:\n        print(\"Too low!\")\n    elif guess > secret:\n        print(\"Too high!\")\n    else:\n        print(f\"Correct! You guessed it in {attempts} attempts.\")\n        break"
+   },
+   "out": "Guess the number between 1 and 50\nYour guess: 25\nToo low!\nYour guess: 40\nToo high!\nYour guess: 35\nToo low!\nYour guess: 37\nCorrect! You guessed it in 4 attempts.",
+   "expl": {
+    "en": "<p>Suggested project 2 from the syllabus. It combines a <code>while True</code> loop, an <code>if-elif-else</code> ladder and <code>break</code>. <code>random.randint(1, 50)</code> picks a random integer from 1 to 50. The seed is fixed here only so that the demo output is repeatable; remove <code>random.seed(6)</code> to get a new number each time.</p>"
+   }
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "py2_operators",
+   "title": {
+    "en": "Types of Operators"
+   },
+   "file": "diagrams/py2_operators.svg"
+  },
+  {
+   "id": "py2_bitwise",
+   "title": {
+    "en": "Bitwise Operators"
+   },
+   "file": "diagrams/py2_bitwise.svg"
+  },
+  {
+   "id": "py2_identity",
+   "title": {
+    "en": "Identity vs Equality"
+   },
+   "file": "diagrams/py2_identity.svg"
+  },
+  {
+   "id": "py2_precedence",
+   "title": {
+    "en": "Operator Precedence"
+   },
+   "file": "diagrams/py2_precedence.svg"
+  },
+  {
+   "id": "py2_fc_ifelse",
+   "title": {
+    "en": "Flowchart: if and if-else"
+   },
+   "file": "diagrams/py2_fc_ifelse.svg"
+  },
+  {
+   "id": "py2_fc_elif",
+   "title": {
+    "en": "Flowchart: if-elif-else Ladder"
+   },
+   "file": "diagrams/py2_fc_elif.svg"
+  },
+  {
+   "id": "py2_fc_while",
+   "title": {
+    "en": "Flowchart: while Loop"
+   },
+   "file": "diagrams/py2_fc_while.svg"
+  },
+  {
+   "id": "py2_fc_for",
+   "title": {
+    "en": "Flowchart: for Loop"
+   },
+   "file": "diagrams/py2_fc_for.svg"
+  },
+  {
+   "id": "py2_range",
+   "title": {
+    "en": "range() Function"
+   },
+   "file": "diagrams/py2_range.svg"
+  },
+  {
+   "id": "py2_break_continue",
+   "title": {
+    "en": "break vs continue vs pass"
+   },
+   "file": "diagrams/py2_break_continue.svg"
+  }
+ ],
+ "syntax": [
+  {
+   "title": {
+    "en": "Operators"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Arithmetic"
+     },
+     "f": "a + b   a - b   a * b\na / b   a // b  a % b   a ** b",
+     "terms": {
+      "en": "/ float, // floor"
+     }
+    },
+    {
+     "name": {
+      "en": "Comparison"
+     },
+     "f": "a == b  a != b  a > b\na < b   a >= b  a <= b",
+     "terms": {
+      "en": "Returns True/False."
+     }
+    },
+    {
+     "name": {
+      "en": "Chained comparison"
+     },
+     "f": "if 0 <= marks <= 100:",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Logical"
+     },
+     "f": "x > 0 and y > 0\nx > 0 or y > 0\nnot flag",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Assignment"
+     },
+     "f": "x += 1   x -= 1   x *= 2\nx /= 2   x //= 2  x **= 2  x %= 3",
+     "terms": {
+      "en": "No ++ / --"
+     }
+    },
+    {
+     "name": {
+      "en": "Bitwise"
+     },
+     "f": "a & b   a | b   a ^ b\n~a      a << n  a >> n",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Membership"
+     },
+     "f": "x in seq\nx not in seq",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Identity"
+     },
+     "f": "a is b\na is not b\nx is None",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Ternary"
+     },
+     "f": "res = a if a > b else b",
+     "terms": {
+      "en": ""
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Decision Making"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "if"
+     },
+     "f": "if condition:\n    statements",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "if-else"
+     },
+     "f": "if condition:\n    statements\nelse:\n    statements",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "if-elif-else"
+     },
+     "f": "if c1:\n    block1\nelif c2:\n    block2\nelse:\n    block3",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Nested if"
+     },
+     "f": "if c1:\n    if c2:\n        block\n    else:\n        block",
+     "terms": {
+      "en": ""
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Loops"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "while"
+     },
+     "f": "i = 1\nwhile i <= n:\n    statements\n    i += 1",
+     "terms": {
+      "en": "Initialize + update."
+     }
+    },
+    {
+     "name": {
+      "en": "Infinite loop with exit"
+     },
+     "f": "while True:\n    ...\n    if done:\n        break",
+     "terms": {
+      "en": "Replaces do-while."
+     }
+    },
+    {
+     "name": {
+      "en": "for over sequence"
+     },
+     "f": "for item in sequence:\n    statements",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "for with range"
+     },
+     "f": "for i in range(1, n + 1):\n    statements",
+     "terms": {
+      "en": "stop excluded"
+     }
+    },
+    {
+     "name": {
+      "en": "range forms"
+     },
+     "f": "range(stop)\nrange(start, stop)\nrange(start, stop, step)",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Loop with else"
+     },
+     "f": "for x in seq:\n    if found: break\nelse:\n    print(\"not found\")",
+     "terms": {
+      "en": "else runs if no break."
+     }
+    },
+    {
+     "name": {
+      "en": "Nested loops"
+     },
+     "f": "for i in range(r):\n    for j in range(c):\n        ...\n    print()",
+     "terms": {
+      "en": ""
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Jump Statements"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "break"
+     },
+     "f": "if cond:\n    break",
+     "terms": {
+      "en": "Exit loop."
+     }
+    },
+    {
+     "name": {
+      "en": "continue"
+     },
+     "f": "if cond:\n    continue",
+     "terms": {
+      "en": "Next iteration."
+     }
+    },
+    {
+     "name": {
+      "en": "pass"
+     },
+     "f": "def todo():\n    pass",
+     "terms": {
+      "en": "Placeholder."
+     }
+    },
+    {
+     "name": {
+      "en": "return"
+     },
+     "f": "def f(x):\n    return x * 2",
+     "terms": {
+      "en": "Exit function."
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Operators"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is an operator and an operand?"
+     },
+     "a": {
+      "en": "An operator is a symbol that performs an operation; the operands are the values it works on. In a + b, + is the operator and a, b are operands."
+     }
+    },
+    {
+     "q": {
+      "en": "List the types of operators in Python."
+     },
+     "a": {
+      "en": "Arithmetic, comparison, logical, assignment, bitwise, membership and identity operators."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between / and //?"
+     },
+     "a": {
+      "en": "/ performs true division and always returns a float (7/2 = 3.5); // performs floor division (7//2 = 3)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the result of -7 // 2?"
+     },
+     "a": {
+      "en": "-4, because floor division rounds down towards minus infinity."
+     }
+    },
+    {
+     "q": {
+      "en": "Which operator is used for power?"
+     },
+     "a": {
+      "en": "** (2 ** 5 = 32)."
+     }
+    },
+    {
+     "q": {
+      "en": "What does % do?"
+     },
+     "a": {
+      "en": "It returns the remainder of a division: 17 % 5 = 2."
+     }
+    },
+    {
+     "q": {
+      "en": "Does Python have ++ and -- operators?"
+     },
+     "a": {
+      "en": "No. Use x += 1 and x -= 1."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between = and ==?"
+     },
+     "a": {
+      "en": "= assigns a value; == compares two values for equality."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a chained comparison?"
+     },
+     "a": {
+      "en": "Combining comparisons like 1 < x < 10, which means 1 < x and x < 10."
+     }
+    },
+    {
+     "q": {
+      "en": "What are logical operators in Python?"
+     },
+     "a": {
+      "en": "The keywords and, or and not."
+     }
+    },
+    {
+     "q": {
+      "en": "What is short-circuit evaluation?"
+     },
+     "a": {
+      "en": "The second operand of and/or is not evaluated if the result is already decided by the first."
+     }
+    },
+    {
+     "q": {
+      "en": "What are bitwise operators?"
+     },
+     "a": {
+      "en": "Operators that work on bits: & (AND), | (OR), ^ (XOR), ~ (NOT), << (left shift), >> (right shift)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is ~12?"
+     },
+     "a": {
+      "en": "-13, because ~x = -(x + 1)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is 5 << 1?"
+     },
+     "a": {
+      "en": "10. A left shift by 1 multiplies by 2."
+     }
+    },
+    {
+     "q": {
+      "en": "What are membership operators?"
+     },
+     "a": {
+      "en": "in and not in; they check whether a value exists in a sequence or collection."
+     }
+    },
+    {
+     "q": {
+      "en": "What are identity operators?"
+     },
+     "a": {
+      "en": "is and is not; they check whether two variables refer to the same object."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between is and ==?"
+     },
+     "a": {
+      "en": "is compares identity (same object in memory); == compares values."
+     }
+    },
+    {
+     "q": {
+      "en": "What is operator precedence?"
+     },
+     "a": {
+      "en": "The priority that decides which operator is evaluated first in an expression."
+     }
+    },
+    {
+     "q": {
+      "en": "Which operator has the highest precedence?"
+     },
+     "a": {
+      "en": "Parentheses (), followed by the exponent **."
+     }
+    },
+    {
+     "q": {
+      "en": "What is associativity? Which operator is right-associative?"
+     },
+     "a": {
+      "en": "The order in which operators of equal precedence are evaluated. ** is right to left: 2**3**2 = 512."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the walrus operator?"
+     },
+     "a": {
+      "en": ":= (Python 3.8+), which assigns a value inside an expression."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Decision Making"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is control flow?"
+     },
+     "a": {
+      "en": "The order in which statements are executed: sequential, selection or iteration."
+     }
+    },
+    {
+     "q": {
+      "en": "How does Python define blocks?"
+     },
+     "a": {
+      "en": "By a colon at the end of the header and consistent indentation of the block statements."
+     }
+    },
+    {
+     "q": {
+      "en": "What error occurs for wrong indentation?"
+     },
+     "a": {
+      "en": "IndentationError."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the difference between if and if-else?"
+     },
+     "a": {
+      "en": "if runs a block only when the condition is true; if-else runs one of two blocks."
+     }
+    },
+    {
+     "q": {
+      "en": "When is if-elif-else used?"
+     },
+     "a": {
+      "en": "When there are more than two choices; only the first true block runs."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a nested if?"
+     },
+     "a": {
+      "en": "An if statement inside another if or else block."
+     }
+    },
+    {
+     "q": {
+      "en": "Does Python have a switch statement?"
+     },
+     "a": {
+      "en": "Not in the traditional form; the if-elif ladder is used. Python 3.10+ has match-case."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the ternary operator in Python?"
+     },
+     "a": {
+      "en": "A conditional expression: x if condition else y."
+     }
+    },
+    {
+     "q": {
+      "en": "Which values are treated as False?"
+     },
+     "a": {
+      "en": "False, None, 0, 0.0, empty string \"\", and empty list, tuple, set and dict."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Loops and Jump Statements"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a loop?"
+     },
+     "a": {
+      "en": "A control structure that repeats a block of statements."
+     }
+    },
+    {
+     "q": {
+      "en": "What loops does Python provide?"
+     },
+     "a": {
+      "en": "while and for. There is no do-while loop."
+     }
+    },
+    {
+     "q": {
+      "en": "When is a while loop preferred?"
+     },
+     "a": {
+      "en": "When the number of iterations is not known in advance."
+     }
+    },
+    {
+     "q": {
+      "en": "What is an infinite loop?"
+     },
+     "a": {
+      "en": "A loop whose condition never becomes false, e.g. while True. It needs a break to stop."
+     }
+    },
+    {
+     "q": {
+      "en": "How does a for loop work in Python?"
+     },
+     "a": {
+      "en": "It takes the items of a sequence one by one and runs the body for each."
+     }
+    },
+    {
+     "q": {
+      "en": "What does range(1, 10, 2) produce?"
+     },
+     "a": {
+      "en": "1, 3, 5, 7, 9."
+     }
+    },
+    {
+     "q": {
+      "en": "Is the stop value included in range()?"
+     },
+     "a": {
+      "en": "No, the stop value is excluded."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you count backwards with range()?"
+     },
+     "a": {
+      "en": "Use a negative step: range(10, 0, -1) gives 10 to 1."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the use of break?"
+     },
+     "a": {
+      "en": "It terminates the loop immediately."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the use of continue?"
+     },
+     "a": {
+      "en": "It skips the rest of the current iteration and continues with the next one."
+     }
+    },
+    {
+     "q": {
+      "en": "What is pass?"
+     },
+     "a": {
+      "en": "A null statement used as a placeholder where a statement is syntactically required."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between break and continue?"
+     },
+     "a": {
+      "en": "break exits the whole loop; continue only skips the current iteration."
+     }
+    },
+    {
+     "q": {
+      "en": "When does the else block of a loop execute?"
+     },
+     "a": {
+      "en": "When the loop finishes normally without being stopped by break."
+     }
+    },
+    {
+     "q": {
+      "en": "What does return do?"
+     },
+     "a": {
+      "en": "It ends a function and sends a value back to the caller."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a nested loop?"
+     },
+     "a": {
+      "en": "A loop inside another loop; the inner loop completes fully for every outer iteration."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "List the types of operators in Python. Explain arithmetic operators with example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain comparison and logical operators with example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain assignment operators in Python."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain bitwise operators with example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain membership and identity operators with example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Differentiate between == and is operators."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain operator precedence and associativity in Python with example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the concept of indentation in Python."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain if, if-else and if-elif-else statements with syntax and example."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain nested if with example."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain while loop with syntax, flowchart and example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain for loop and range() function with example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Differentiate between while loop and for loop."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain break, continue and pass statements with example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the else clause with loops."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "What is a nested loop? Write a program to print a pattern using nested loops."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a Python program to find the largest of three numbers."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Write a Python program to find grade from percentage using if-elif-else."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Write a Python program to check whether a year is a leap year."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Write a Python program to check whether a number is prime."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a Python program to find reverse and sum of digits of a number."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a Python program to print the Fibonacci series."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Write a Python program to find factorial of a number."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Write a Python program for a simple calculator using if-elif."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a Python program for a number guessing game."
+   },
+   "marks": 4
+  }
+ ]
+}

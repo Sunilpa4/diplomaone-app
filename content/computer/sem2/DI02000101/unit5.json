@@ -1,0 +1,1575 @@
+{
+ "subject": "DI02000101",
+ "unit": 5,
+ "format": "notes",
+ "title": {
+  "en": "Python Modules and Packages"
+ },
+ "weightage": 22,
+ "hours": 10,
+ "notes": [
+  {
+   "title": {
+    "en": "5.1 Python Modules"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "5.1.1 Introduction to Python Modules"
+     },
+     "body": {
+      "en": "<p>A <b>module</b> is a file containing Python code (variables, functions and classes) saved with the <b>.py</b> extension. A module lets us organise related code in one file and <b>reuse</b> it in other programs by importing it.</p>\n<h4>Advantages of modules</h4>\n<ol><li><b>Reusability:</b> write the code once and use it in many programs.</li>\n<li><b>Modularity:</b> a large program is divided into small, logical files.</li>\n<li><b>Namespace separation:</b> each module has its own names, which avoids name clashes (math.sqrt vs mymath.sqrt).</li>\n<li><b>Easy maintenance:</b> changes are made in one place only.</li></ol>\n<h4>Types of modules</h4>\n<table>\n<tr><th>Type</th><th>Description</th><th>Examples</th></tr>\n<tr><td>Built-in (standard library)</td><td>Installed with Python</td><td>math, random, os, sys, statistics, datetime</td></tr>\n<tr><td>User-defined</td><td>Written by the programmer</td><td>mymath.py, greet.py</td></tr>\n<tr><td>Third-party</td><td>Installed with pip</td><td>numpy, matplotlib, pandas</td></tr>\n</table>"
+     },
+     "diagram": "py5_module",
+     "programs": [
+      "py5p3"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.1.2 Writing a Module"
+     },
+     "body": {
+      "en": "<p>Writing a module is simple: create a .py file and define variables and functions in it. The file name (without .py) becomes the <b>module name</b>, so it must be a valid identifier (no spaces, and it must not start with a digit).</p>\n<pre class=\"c\"># File: mymath.py\nPI = 3.14159\n\ndef add(a, b):\n    return a + b\n\ndef factorial(n):\n    f = 1\n    for i in range(2, n + 1):\n        f *= i\n    return f</pre>\n<pre class=\"c\"># File: main.py (same folder)\nimport mymath\n\nprint(mymath.add(5, 7))      # 12\nprint(mymath.factorial(5))   # 120\nprint(mymath.PI)             # 3.14159</pre>\n<h4>The __name__ variable</h4>\n<p>Each module has a built-in variable <code>__name__</code>. It equals <code>\"__main__\"</code> when the file is run directly, and the module name when the file is imported. Test code is therefore written inside <code>if __name__ == \"__main__\":</code>, so that it does not run when the module is imported.</p>\n<pre class=\"c\"># File: greet.py\ndef hello(name):\n    return \"Hello, \" + name\n\nif __name__ == \"__main__\":\n    print(hello(\"Tester\"))   # test code</pre>\n<p>When a module is imported for the first time, Python runs it once and stores the compiled bytecode in the <b>__pycache__</b> folder (.pyc files).</p>"
+     },
+     "programs": [
+      "py5p3",
+      "py5p4"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.1.3 Importing a Module"
+     },
+     "body": {
+      "en": "<p>The <code>import</code> statement loads a module so that its contents can be used. After <code>import module</code>, the names are accessed with the <b>dot operator</b>: <code>module.name</code>.</p>\n<pre class=\"c\">import math\nmath.sqrt(25)        # 5.0\nimport math as m\nm.factorial(5)       # 120\nimport math, random  # several modules</pre>\n<ul><li><code>import module as alias</code> gives the module a short name, e.g. <code>import numpy as np</code>.</li>\n<li>Several modules can be imported in one statement, separated by commas.</li>\n<li>A module is loaded only once, even if it is imported many times.</li></ul>\n<h4>Where does Python look for modules?</h4>\n<ol><li>The folder of the running program (current directory)</li>\n<li>The folders listed in the PYTHONPATH environment variable</li>\n<li>The standard library folders</li>\n<li>site-packages (third-party packages installed with pip)</li></ol>\n<pre class=\"c\">import sys\nprint(sys.path)      # folders searched</pre>\n<p>If the module is not found, Python raises <b>ModuleNotFoundError</b>.</p>"
+     },
+     "diagram": "py5_import_forms",
+     "programs": [
+      "py5p2"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.1.4 Importing Objects from a Module"
+     },
+     "body": {
+      "en": "<p>The <code>from … import …</code> statement imports specific names (functions, variables, classes) from a module. They can then be used <b>without</b> the module prefix.</p>\n<pre class=\"c\">from math import sqrt, pi\nsqrt(16)             # 4.0 (no prefix)\npi                   # 3.141592653589793\nfrom math import factorial as fact\nfact(4)              # 24\nfrom math import *   # all public names\nfloor(3.7)           # 3</pre>\n<table>\n<tr><th>import math</th><th>from math import sqrt</th></tr>\n<tr><td>Imports the whole module</td><td>Imports only the given names</td></tr>\n<tr><td>Use: math.sqrt(4)</td><td>Use: sqrt(4)</td></tr>\n<tr><td>No name conflicts</td><td>May clash with your own names</td></tr>\n</table>\n<p><code>from module import *</code> imports all public names (those not starting with _). It is avoided in large programs because it can overwrite existing names silently.</p>\n<h4>Exploring a module</h4>\n<pre class=\"c\">import math\ndir(math)            # list of names\nhelp(math.sqrt)      # documentation\nmath.__name__        # 'math'</pre>"
+     },
+     "programs": [
+      "py5p2"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.1.5 Built-in Mathematic Module: math"
+     },
+     "body": {
+      "en": "<p>The <b>math</b> module provides mathematical constants and functions for real numbers. Import it with <code>import math</code>.</p>\n<h4>Constants</h4>\n<pre class=\"c\">import math\nmath.pi        # 3.141592653589793\nmath.e         # 2.718281828459045\nmath.inf       # infinity\nmath.tau       # 6.283185307179586 (2*pi)</pre>\n<h4>Rounding functions</h4>\n<pre class=\"c\">math.ceil(4.2)     # 5\nmath.floor(4.8)    # 4\nmath.ceil(-4.2)    # -4\nmath.floor(-4.2)   # -5\nmath.trunc(-4.8)   # -4\nmath.fabs(-7)      # 7.0</pre>\n<h4>Power and logarithm functions</h4>\n<pre class=\"c\">math.sqrt(49)      # 7.0\nmath.isqrt(50)     # 7\nmath.pow(2, 3)     # 8.0\nmath.exp(1)        # 2.718281828459045\nmath.log(100, 10)  # 2.0\nmath.log10(1000)   # 3.0\nmath.log2(8)       # 3.0\nmath.log(math.e)   # 1.0 (natural log)</pre>\n<h4>Number-theory functions</h4>\n<pre class=\"c\">math.factorial(5)  # 120\nmath.gcd(24, 36)   # 12\nmath.lcm(4, 6)     # 12\nmath.comb(5, 2)    # 10  (nCr)\nmath.perm(5, 2)    # 20  (nPr)\nmath.hypot(3, 4)   # 5.0</pre>\n<h4>Trigonometric functions (angles in radians)</h4>\n<pre class=\"c\">math.radians(180)  # 3.141592653589793\nmath.degrees(math.pi)   # 180.0\nmath.sin(math.radians(30))  # ~0.5\nmath.cos(0)        # 1.0\nmath.tan(math.radians(45))  # ~1.0</pre>\n<table>\n<tr><th>Function</th><th>Description</th></tr>\n<tr><td>ceil(x) / floor(x)</td><td>Smallest integer ≥ x / largest integer ≤ x</td></tr>\n<tr><td>trunc(x)</td><td>Removes the decimal part</td></tr>\n<tr><td>fabs(x)</td><td>Absolute value as a float</td></tr>\n<tr><td>sqrt(x), isqrt(x)</td><td>Square root (float) / integer square root</td></tr>\n<tr><td>pow(x, y), exp(x)</td><td>x<sup>y</sup> (float), e<sup>x</sup></td></tr>\n<tr><td>log(x[, base]), log10, log2</td><td>Logarithms</td></tr>\n<tr><td>factorial(n), gcd(a, b), lcm(a, b)</td><td>n!, HCF, LCM</td></tr>\n<tr><td>sin, cos, tan, radians, degrees</td><td>Trigonometry and angle conversion</td></tr>\n</table>"
+     },
+     "diagram": "py5_math_round",
+     "programs": [
+      "py5p1"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.1.6 Other Numeric Modules: random, statistics, fractions, decimal, cmath"
+     },
+     "body": {
+      "en": "<p>Python's standard library has a group of <b>\"Numeric and Mathematical Modules\"</b>: numbers, math, cmath, decimal, fractions, random and statistics.</p>\n<h4>random: generating random numbers</h4>\n<pre class=\"c\">import random\nrandom.random()          # 0.0 &lt;= x &lt; 1.0\nrandom.randint(1, 6)     # 1..6 (inclusive)\nrandom.randrange(0, 10, 2)  # 0,2,4,6,8\nrandom.uniform(1, 5)     # float 1..5\nrandom.choice([\"a\", \"b\", \"c\"])\nrandom.sample(range(50), 3)  # 3 unique\nrandom.shuffle(lst)      # in place\nrandom.seed(10)          # repeatable</pre>\n<p>Uses: games (dice), OTP generation, lucky draws, shuffling quiz questions and simulations.</p>\n<h4>statistics</h4>\n<pre class=\"c\">import statistics as st\nd = [2, 4, 4, 5, 7]\nst.mean(d)       # 4.4\nst.median(d)     # 4\nst.mode(d)       # 4\nst.stdev(d)      # sample std. deviation</pre>\n<h4>fractions, decimal and cmath</h4>\n<pre class=\"c\">from fractions import Fraction\nFraction(1, 3) + Fraction(1, 6)  # 1/2\nfrom decimal import Decimal\nDecimal(\"0.1\") + Decimal(\"0.2\")  # 0.3\n0.1 + 0.2        # 0.30000000000000004\nimport cmath\ncmath.sqrt(-16)  # 4j</pre>\n<table>\n<tr><th>Module</th><th>Purpose</th></tr>\n<tr><td>math</td><td>Functions for real numbers</td></tr>\n<tr><td>cmath</td><td>Functions for complex numbers</td></tr>\n<tr><td>random</td><td>Random numbers and choices</td></tr>\n<tr><td>statistics</td><td>Mean, median, mode, standard deviation, variance</td></tr>\n<tr><td>fractions</td><td>Exact rational numbers</td></tr>\n<tr><td>decimal</td><td>Exact decimal arithmetic (money)</td></tr>\n<tr><td>numbers</td><td>Abstract base classes for number types</td></tr>\n</table>"
+     },
+     "programs": [
+      "py5p5",
+      "py5p6"
+     ]
+    },
+    {
+     "h": {
+      "en": "Key Points – 5.1"
+     },
+     "body": {
+      "en": "<ul>\n<li>A module is a .py file of reusable code; there are built-in, user-defined and third-party modules.</li>\n<li>Writing a module = saving functions in name.py; use it with <code>import name</code> from the same folder.</li>\n<li>Import forms: import m; import m as x; from m import a, b; from m import *; from m import a as b.</li>\n<li><code>if __name__ == \"__main__\":</code> runs test code only when the file is run directly.</li>\n<li>dir(module) lists the names in a module; a missing module → ModuleNotFoundError.</li>\n<li>math: pi, e, sqrt, pow, ceil, floor, trunc, factorial, gcd, log, sin (radians).</li>\n<li>random: random, randint (both ends included), choice, shuffle, sample, seed.</li>\n<li>statistics, fractions, decimal and cmath are the other numeric modules.</li>\n</ul>"
+     },
+     "key": true
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "5.2 Python Packages"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "5.2.1 Introduction to Packages"
+     },
+     "body": {
+      "en": "<p>A <b>package</b> is a <b>folder (directory)</b> that contains related modules and a special file named <code>__init__.py</code>. Packages organise modules in a hierarchy, just as folders organise files on a computer.</p>\n<pre class=\"c\">project/\n    main.py\n    shapes/              # package\n        __init__.py\n        area.py          # module\n        perimeter.py     # module</pre>\n<table>\n<tr><th>Module</th><th>Package</th></tr>\n<tr><td>A single .py file</td><td>A folder of modules</td></tr>\n<tr><td>Contains functions, classes, variables</td><td>Contains modules and sub-packages</td></tr>\n<tr><td>e.g. math, random, area.py</td><td>e.g. numpy, matplotlib, shapes</td></tr>\n<tr><td>import area</td><td>import shapes.area</td></tr>\n</table>\n<h4>Role of __init__.py</h4>\n<ul><li>It marks the folder as a Python package.</li>\n<li>It runs automatically, once, when the package is first imported.</li>\n<li>It can import selected functions so that they are available directly from the package, and it can define <code>__all__</code>.</li>\n<li>It may be empty. (Since Python 3.3, a folder without it still works as a \"namespace package\", but the syllabus/exam answer is that __init__.py is required.)</li></ul>"
+     },
+     "diagram": "py5_package_tree",
+     "programs": [
+      "py5p7"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.2.2 Writing a Package"
+     },
+     "body": {
+      "en": "<h4>Steps to create a user-defined package</h4>\n<ol><li>Create a folder with the package name, e.g. <b>shapes</b>.</li>\n<li>Create an <code>__init__.py</code> file inside it (it may be empty).</li>\n<li>Add module files (area.py, perimeter.py) containing functions.</li>\n<li>Write the main program <b>outside</b> the package folder (in its parent folder) and import the package.</li></ol>\n<pre class=\"c\"># File: shapes/area.py\ndef circle(r):\n    return round(3.14159 * r * r, 2)\n\ndef rectangle(l, b):\n    return l * b</pre>\n<pre class=\"c\"># File: shapes/__init__.py\nfrom .area import circle, rectangle\n__all__ = [\"area\", \"perimeter\"]</pre>\n<h4>Sub-packages</h4>\n<p>A package can contain other packages (sub-packages), each with its own __init__.py:</p>\n<pre class=\"c\">college/\n    __init__.py\n    student/\n        __init__.py\n        result.py\n    staff/\n        __init__.py\n        salary.py\n\nfrom college.student.result import grade</pre>"
+     },
+     "programs": [
+      "py5p7",
+      "py5p8"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.2.3 Importing from Packages and Third-party Packages"
+     },
+     "body": {
+      "en": "<p>Modules inside a package are imported with <b>dot notation</b>: <code>package.module</code> or <code>package.subpackage.module</code>.</p>\n<pre class=\"c\">import shapes.area\nshapes.area.circle(2)        # 12.57\n\nfrom shapes import perimeter\nperimeter.rectangle(4, 5)    # 18\n\nfrom shapes.area import rectangle\nrectangle(4, 5)              # 20\n\nfrom shapes import *         # uses __all__</pre>\n<ul><li><code>__all__</code> in __init__.py controls what <code>from package import *</code> imports.</li>\n<li>A dot inside a package (<code>from .area import circle</code>) is a <b>relative import</b>, meaning \"from this package\".</li></ul>\n<h4>Installing third-party packages with pip</h4>\n<p><b>pip</b> (Python's package installer) downloads packages from PyPI (the Python Package Index). Commands are typed in the terminal / command prompt:</p>\n<pre class=\"c\">pip install numpy\npip install matplotlib\npip list            # installed packages\npip show numpy      # details\npip uninstall numpy</pre>\n<p>Popular packages: <b>NumPy</b> (numerical arrays), <b>Matplotlib</b> (graphs), Pandas (data analysis), Django/Flask (web development), Requests (HTTP).</p>"
+     },
+     "programs": [
+      "py5p8"
+     ]
+    },
+    {
+     "h": {
+      "en": "Key Points – 5.2"
+     },
+     "body": {
+      "en": "<ul>\n<li>A package is a folder of modules with an __init__.py file; it can have sub-packages.</li>\n<li>__init__.py marks the package, runs once on the first import, and may define __all__.</li>\n<li>To write a package: create a folder → add __init__.py → add modules → import from outside.</li>\n<li>Import: <code>import pkg.mod</code>, <code>from pkg import mod</code>, <code>from pkg.mod import func</code>.</li>\n<li>Third-party packages are installed with <code>pip install name</code> (numpy, matplotlib).</li>\n</ul>"
+     },
+     "key": true
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "5.3 Matplotlib Package"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "5.3.1 Introduction to Matplotlib"
+     },
+     "body": {
+      "en": "<p><b>Matplotlib</b> is a third-party Python package for creating 2-D graphs and charts (data visualisation): line graphs, bar charts, histograms, pie charts, scatter plots, etc. Its <b>pyplot</b> module provides simple functions for plotting.</p>\n<pre class=\"c\">pip install matplotlib        # once\nimport matplotlib.pyplot as plt</pre>\n<h4>Basic steps to draw a graph</h4>\n<ol><li>Import pyplot: <code>import matplotlib.pyplot as plt</code></li>\n<li>Prepare the data (lists or NumPy arrays).</li>\n<li>Create the plot: plot(), bar(), hist(), pie().</li>\n<li>Add the title, labels, grid and legend.</li>\n<li>Display it with show() or save it with savefig().</li></ol>\n<pre class=\"c\">import matplotlib.pyplot as plt\nx = [1, 2, 3, 4]\ny = [10, 20, 15, 25]\nplt.plot(x, y)       # 1. create plot\nplt.title(\"Sales\")   # 2. decorate\nplt.show()           # 3. display</pre>\n<table>\n<tr><th>Function</th><th>Use</th></tr>\n<tr><td>plot()</td><td>Line graph</td></tr>\n<tr><td>bar()</td><td>Bar chart</td></tr>\n<tr><td>hist()</td><td>Histogram</td></tr>\n<tr><td>pie()</td><td>Pie chart</td></tr>\n<tr><td>subplot()</td><td>Several plots in one figure</td></tr>\n<tr><td>xlabel(), ylabel(), title(), grid(), legend()</td><td>Decoration</td></tr>\n<tr><td>show(), savefig()</td><td>Display / save</td></tr>\n</table>"
+     },
+     "diagram": "py5_mpl_anatomy",
+     "programs": [
+      "py5p9"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.3.2 plot() and show()"
+     },
+     "body": {
+      "en": "<p><code>plt.plot(x, y, fmt, **options)</code> draws a <b>line graph</b> by joining the points (x, y). If only one list is given, it is used as y and x becomes 0, 1, 2, …</p>\n<pre class=\"c\">plt.plot(x, y)                 # line\nplt.plot(x, y, \"ro--\")   # red o dashed\nplt.plot(x, y, color=\"green\",\n         marker=\"s\", linestyle=\":\",\n         linewidth=2, label=\"2024\")\nplt.plot(y)          # x = 0, 1, 2, ...</pre>\n<h4>Format string \"[color][marker][line]\"</h4>\n<table>\n<tr><th>Colours</th><th>Markers</th><th>Line styles</th></tr>\n<tr><td>\"r\" red, \"g\" green, \"b\" blue, \"k\" black, \"y\" yellow, \"m\" magenta, \"c\" cyan</td><td>\"o\" circle, \"s\" square, \"^\" triangle, \"*\" star, \"+\" plus, \"x\" cross, \".\" point</td><td>\"-\" solid, \"--\" dashed, \":\" dotted, \"-.\" dash-dot</td></tr>\n</table>\n<p><code>plt.show()</code> opens a window that displays the figure. The program waits until the window is closed. Several plot() calls before show() draw several lines on the same graph.</p>"
+     },
+     "programs": [
+      "py5p9",
+      "py5p14"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.3.3 xlabel(), ylabel(), title(), grid() and legend()"
+     },
+     "body": {
+      "en": "<table>\n<tr><th>Function</th><th>Purpose</th></tr>\n<tr><td>plt.title(text)</td><td>Title above the plot</td></tr>\n<tr><td>plt.xlabel(text)</td><td>Label of the x-axis</td></tr>\n<tr><td>plt.ylabel(text)</td><td>Label of the y-axis</td></tr>\n<tr><td>plt.grid(True)</td><td>Shows grid lines (axis=\"x\"/\"y\", linestyle, alpha)</td></tr>\n<tr><td>plt.legend()</td><td>Box that explains each line, using label=\"…\"</td></tr>\n<tr><td>plt.xlim() / plt.ylim()</td><td>Range of the axes</td></tr>\n<tr><td>plt.xticks() / plt.yticks()</td><td>Positions and labels of the tick marks</td></tr>\n</table>\n<pre class=\"c\">plt.title(\"Monthly Sales\")\nplt.xlabel(\"Month\")\nplt.ylabel(\"Sales (Rs.)\")\nplt.grid(True)          # grid lines\nplt.grid(axis=\"y\")      # only y grid\nplt.legend()            # uses label=\nplt.xlim(0, 10)         # axis limits\nplt.ylim(0, 100)\nplt.xticks([1, 2], [\"Jan\", \"Feb\"])</pre>"
+     },
+     "programs": [
+      "py5p9"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.3.4 Bar Chart: bar()"
+     },
+     "body": {
+      "en": "<p>A <b>bar chart</b> compares values of different <b>categories</b> using rectangular bars whose heights are proportional to the values.</p>\n<p>Syntax: <code>plt.bar(x, height, width=0.8, color=None, label=None)</code></p>\n<pre class=\"c\">subjects = [\"Py\", \"Maths\", \"EW\"]\nmarks = [85, 72, 90]\nplt.bar(subjects, marks, color=\"orange\",\n        width=0.5)\nplt.barh(subjects, marks)   # horizontal</pre>\n<ul><li>x: category names or positions; height: values.</li>\n<li><code>plt.barh()</code> draws horizontal bars.</li>\n<li>Uses: subject-wise marks, month-wise sales, population of cities.</li></ul>"
+     },
+     "programs": [
+      "py5p10"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.3.5 Histogram: hist()"
+     },
+     "body": {
+      "en": "<p>A <b>histogram</b> shows the <b>frequency distribution</b> of numeric data: the range of values is divided into intervals called <b>bins</b>, and the height of each bar is the number of values that fall in that bin.</p>\n<p>Syntax: <code>plt.hist(data, bins=10, color=None, edgecolor=None)</code></p>\n<pre class=\"c\">marks = [35, 42, 55, 61, 64, 72, 75, 88]\nplt.hist(marks, bins=5)\nplt.hist(marks, bins=[30, 50, 70, 90],\n         edgecolor=\"black\")</pre>\n<table>\n<tr><th>Bar chart</th><th>Histogram</th></tr>\n<tr><td>Compares categories</td><td>Shows the distribution of numeric data</td></tr>\n<tr><td>You give the heights</td><td>Matplotlib counts the frequencies</td></tr>\n<tr><td>Gaps between the bars</td><td>Bars touch each other</td></tr>\n<tr><td>plt.bar(x, height)</td><td>plt.hist(data, bins)</td></tr>\n</table>"
+     },
+     "programs": [
+      "py5p11"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.3.6 Pie Chart: pie()"
+     },
+     "body": {
+      "en": "<p>A <b>pie chart</b> shows the parts of a whole as slices of a circle. The size of each slice is proportional to its share of the total.</p>\n<p>Syntax: <code>plt.pie(values, labels=None, autopct=None, explode=None, colors=None, startangle=0, shadow=False)</code></p>\n<pre class=\"c\">items = [\"Rent\", \"Food\", \"Other\"]\namt = [6000, 4000, 2000]\nplt.pie(amt, labels=items,\n        autopct=\"%1.1f%%\",\n        explode=[0.1, 0, 0],\n        startangle=90)\nplt.axis(\"equal\")    # perfect circle</pre>\n<ul><li><b>labels</b>: the name of each slice; <b>autopct</b>: shows percentages (\"%1.1f%%\" means 1 decimal place).</li>\n<li><b>explode</b>: pulls a slice out (0.1 = 10% of the radius); <b>startangle</b>: rotates the start position.</li>\n<li>Uses: monthly budget, market share, vote share.</li></ul>"
+     },
+     "programs": [
+      "py5p12"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.3.7 Multiple Plots: subplot()"
+     },
+     "body": {
+      "en": "<p><code>plt.subplot(nrows, ncols, index)</code> divides the figure into a grid of nrows × ncols cells and makes cell number <i>index</i> the current one. The index starts at <b>1</b> and counts left to right, top to bottom. It can also be written as a 3-digit number: <code>subplot(221)</code>.</p>\n<pre class=\"c\">plt.subplot(1, 2, 1)  # 1 row, 2 cols, 1st\nplt.plot([1, 2, 3])\nplt.title(\"Left\")\nplt.subplot(1, 2, 2)     # 2nd\nplt.bar([\"a\", \"b\"], [3, 5])\nplt.title(\"Right\")\nplt.tight_layout()\nplt.show()</pre>\n<ul><li><code>plt.figure(figsize=(w, h))</code> sets the figure size in inches.</li>\n<li><code>plt.suptitle()</code> gives a title to the whole figure; <code>plt.tight_layout()</code> adjusts the spacing.</li></ul>"
+     },
+     "programs": [
+      "py5p13"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.3.8 Saving a Plot: savefig()"
+     },
+     "body": {
+      "en": "<p><code>plt.savefig(filename, dpi=…)</code> saves the current figure as an image file. The format is chosen from the extension: .png, .jpg, .pdf or .svg.</p>\n<pre class=\"c\">plt.plot(x, y)\nplt.savefig(\"chart.png\")            # PNG\nplt.savefig(\"chart.pdf\")            # PDF\nplt.savefig(\"chart.jpg\", dpi=200)\nplt.show()     # savefig BEFORE show</pre>\n<ul><li>Call savefig() <b>before</b> show(), because show() clears the figure after the window is closed, so a later savefig() would save a blank image.</li>\n<li><b>dpi</b> (dots per inch) controls the resolution; <code>bbox_inches=\"tight\"</code> removes extra white space.</li></ul>"
+     },
+     "programs": [
+      "py5p10",
+      "py5p14"
+     ]
+    },
+    {
+     "h": {
+      "en": "Key Points – 5.3"
+     },
+     "body": {
+      "en": "<ul>\n<li>Matplotlib is a plotting package: <code>import matplotlib.pyplot as plt</code>.</li>\n<li>plot(x, y, \"ro--\") draws a line graph; show() displays the figure.</li>\n<li>title(), xlabel(), ylabel(), grid(), legend(), xlim()/ylim() decorate the plot.</li>\n<li>bar() compares categories; hist(data, bins) shows a distribution; pie(values, labels, autopct) shows parts of a whole.</li>\n<li>subplot(rows, cols, index) puts several plots in one figure; the index starts at 1.</li>\n<li>savefig(\"a.png\") saves the plot; call it before show().</li>\n</ul>"
+     },
+     "key": true
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "5.4 NumPy Package"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "5.4.1 Introduction to NumPy"
+     },
+     "body": {
+      "en": "<p><b>NumPy</b> (Numerical Python) is a third-party package for fast numerical computing. Its main object is the <b>ndarray</b> (n-dimensional array): a grid of values that all have the <b>same data type</b>. It is the base of data science libraries such as Pandas, SciPy and scikit-learn. Install it with <code>pip install numpy</code> and import it as <code>import numpy as np</code>.</p>\n<pre class=\"c\">import numpy as np\nlst = [1, 2, 3]\narr = np.array([1, 2, 3])\nlst * 2      # [1, 2, 3, 1, 2, 3]\narr * 2      # [2 4 6]\nlst + [10]   # [1, 2, 3, 10]\narr + 10     # [11 12 13]</pre>\n<table>\n<tr><th>Python list</th><th>NumPy array</th></tr>\n<tr><td>Can hold mixed types</td><td>All elements of one type (homogeneous)</td></tr>\n<tr><td>Slower; more memory</td><td>Much faster; less memory (stored in one block)</td></tr>\n<tr><td>No element-wise maths (list * 2 repeats)</td><td>Element-wise maths (array * 2 doubles)</td></tr>\n<tr><td>Size can change (append)</td><td>Fixed size once created</td></tr>\n<tr><td>Built-in</td><td>Needs import numpy</td></tr>\n</table>\n<p>Uses: matrices, scientific calculations, image processing, statistics and machine learning.</p>"
+     },
+     "programs": [
+      "py5p18"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.4.2 Creating NumPy Arrays"
+     },
+     "body": {
+      "en": "<p><code>np.array(object, dtype=None)</code> converts a list, a tuple or nested lists into an ndarray.</p>\n<pre class=\"c\">import numpy as np\na = np.array([1, 2, 3])              # 1-D\nb = np.array([[1, 2], [3, 4]])       # 2-D\nc = np.array((5, 6, 7))      # from tuple\nd = np.array([1, 2], dtype=float)\n# d = [1. 2.]\ne = np.array([1, 2.5])   # all float\ntype(a)      # &lt;class 'numpy.ndarray'&gt;</pre>\n<ul><li>A list of lists gives a <b>2-D array</b> (matrix); a third level of nesting gives a 3-D array.</li>\n<li>If the types are mixed, NumPy converts all elements to the most general type (int → float → str).</li>\n<li><code>dtype</code> sets the type explicitly: int, float, complex, bool, str.</li></ul>"
+     },
+     "diagram": "py5_np_array",
+     "programs": [
+      "py5p15"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.4.3 Array Attributes: shape, ndim, size, dtype, itemsize"
+     },
+     "body": {
+      "en": "<table>\n<tr><th>Attribute</th><th>Meaning</th><th>For [[1, 2, 3], [4, 5, 6]]</th></tr>\n<tr><td>shape</td><td>Tuple giving the size of each dimension (rows, columns)</td><td>(2, 3)</td></tr>\n<tr><td>ndim</td><td>Number of dimensions (axes)</td><td>2</td></tr>\n<tr><td>size</td><td>Total number of elements (product of shape)</td><td>6</td></tr>\n<tr><td>dtype</td><td>Data type of the elements</td><td>int64</td></tr>\n<tr><td>itemsize</td><td>Memory of one element in bytes</td><td>8</td></tr>\n<tr><td>nbytes</td><td>Total memory = size × itemsize</td><td>48</td></tr>\n</table>\n<pre class=\"c\">b = np.array([[1, 2, 3], [4, 5, 6]])\nb.shape      # (2, 3)\nb.ndim       # 2\nb.size       # 6\nb.dtype      # dtype('int64')\nb.itemsize   # 8 (bytes per element)\nb.nbytes     # 48</pre>\n<p>Attributes are written <b>without brackets</b> (a.shape), because they are not functions.</p>"
+     },
+     "programs": [
+      "py5p15"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.4.4 Array Initialization"
+     },
+     "body": {
+      "en": "<p>NumPy has functions that create arrays filled with initial values, without typing every element:</p>\n<table>\n<tr><th>Function</th><th>Creates</th></tr>\n<tr><td>np.zeros(shape)</td><td>All 0 (float by default)</td></tr>\n<tr><td>np.ones(shape)</td><td>All 1</td></tr>\n<tr><td>np.full(shape, value)</td><td>All elements = value</td></tr>\n<tr><td>np.eye(n) / np.identity(n)</td><td>Identity matrix</td></tr>\n<tr><td>np.arange(start, stop, step)</td><td>Evenly spaced values; stop excluded</td></tr>\n<tr><td>np.linspace(start, stop, num)</td><td>num equally spaced values; stop included</td></tr>\n<tr><td>np.empty(shape)</td><td>Uninitialised (garbage values; fast)</td></tr>\n<tr><td>np.random.rand(n), randint(a, b, n)</td><td>Random values</td></tr>\n</table>\n<pre class=\"c\">np.zeros(3)            # [0. 0. 0.]\nnp.zeros((2, 3))       # 2 x 3 of 0.\nnp.ones((2, 2), dtype=int)\nnp.full((2, 2), 7)     # all 7\nnp.eye(3)              # identity 3 x 3\nnp.arange(0, 10, 2)    # [0 2 4 6 8]\nnp.linspace(0, 1, 5)   # [0. .25 .5 .75 1.]\nnp.empty(3)            # uninitialised\nnp.random.rand(3)      # 3 floats 0..1\nnp.random.randint(1, 10, 5)</pre>\n<h4>Changing the shape</h4>\n<pre class=\"c\">a = np.arange(1, 7)       # [1 2 3 4 5 6]\nm = a.reshape(2, 3)       # [[1 2 3]\n                          #  [4 5 6]]\nm.T                       # transpose 3 x 2\nm.flatten()               # back to 1-D\na.reshape(4, 2)           # ValueError</pre>"
+     },
+     "programs": [
+      "py5p16"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.4.5 Indexing and Slicing"
+     },
+     "body": {
+      "en": "<h4>1-D arrays: same as lists</h4>\n<pre class=\"c\">a = np.array([10, 20, 30, 40, 50])\na[0], a[-1]      # 10, 50\na[1:4]           # [20 30 40]\na[::-1]          # [50 40 30 20 10]</pre>\n<h4>2-D arrays: arr[row, column]</h4>\n<pre class=\"c\">m = np.array([[1, 2, 3],\n              [4, 5, 6],\n              [7, 8, 9]])\nm[1, 2]          # 6  (row 1, col 2)\nm[1][2]          # 6  (also works)\nm[0]             # [1 2 3]  row 0\nm[:, 1]          # [2 5 8]  column 1\nm[0:2, 1:3]      # [[2 3] [5 6]]</pre>\n<h4>Boolean and fancy indexing</h4>\n<p>A condition gives a Boolean array, which can be used to select (filter) elements. A list of indexes selects those positions.</p>\n<pre class=\"c\">a = np.array([5, 12, 7, 20, 3])\na &gt; 6            # [F T T T F]\na[a &gt; 6]         # [12  7 20]\na[[0, 2]]        # [5 7] fancy indexing\na[a &gt; 10] = 0    # [5 0 7 0 3]</pre>\n<h4>Slices are views</h4>\n<pre class=\"c\">a = np.array([1, 2, 3, 4])\ns = a[0:2]       # view, not copy\ns[0] = 99        # a = [99 2 3 4]\nc = a[0:2].copy()   # independent</pre>"
+     },
+     "diagram": "py5_np_slicing",
+     "programs": [
+      "py5p17"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.4.6 Array Operations"
+     },
+     "body": {
+      "en": "<p>Arithmetic on arrays happens <b>element by element</b>, without loops. This is called <b>vectorisation</b> and is much faster than Python loops.</p>\n<pre class=\"c\">a = np.array([10, 20, 30])\nb = np.array([1, 2, 3])\na + b        # [11 22 33]\na - b        # [ 9 18 27]\na * b        # [10 40 90]\na / b        # [10. 10. 10.]\na ** 2       # [100 400 900]\na + 5        # [15 25 35] broadcasting\na &gt; 15       # [False True True]</pre>\n<h4>Broadcasting</h4>\n<p>When the shapes differ, NumPy automatically \"stretches\" the smaller array (or scalar) to match the bigger one, if the shapes are compatible.</p>\n<pre class=\"c\">m = np.array([[1, 2, 3],\n              [4, 5, 6]])\nm + np.array([10, 20, 30])\n# [[11 22 33]\n#  [14 25 36]]</pre>\n<h4>Universal functions (ufuncs)</h4>\n<pre class=\"c\">np.sqrt([4, 9, 16])    # [2. 3. 4.]\nnp.abs([-1, 2, -3])    # [1 2 3]\nnp.round(np.pi, 2)     # 3.14\nnp.exp([0, 1])         # [1. 2.718...]\nnp.sin(np.pi / 2)      # 1.0</pre>"
+     },
+     "programs": [
+      "py5p18"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.4.7 Basic Math and Statistics Functions"
+     },
+     "body": {
+      "en": "<table>\n<tr><th>Function</th><th>Returns</th></tr>\n<tr><td>np.sum(a)</td><td>Sum of the elements</td></tr>\n<tr><td>np.min(a) / np.max(a)</td><td>Smallest / largest element</td></tr>\n<tr><td>np.mean(a)</td><td>Average = sum / count</td></tr>\n<tr><td>np.var(a)</td><td>Variance = mean of (x − mean)²</td></tr>\n<tr><td>np.std(a)</td><td>Standard deviation = √variance</td></tr>\n<tr><td>np.median(a)</td><td>Middle value</td></tr>\n<tr><td>np.argmin(a) / np.argmax(a)</td><td>Index of the min / max</td></tr>\n</table>\n<pre class=\"c\">a = np.array([4, 8, 6, 2])\nnp.sum(a)      # 20\nnp.min(a)      # 2\nnp.max(a)      # 8\nnp.mean(a)     # 5.0\nnp.var(a)      # 5.0\nnp.std(a)      # 2.23606797749979\nnp.median(a)   # 5.0\nnp.argmax(a)   # 1 (index of max)</pre>\n<h4>Working of var and std for [4, 8, 6, 2]</h4>\n<pre class=\"c\">data = 4, 8, 6, 2       mean = 5\ndeviations = -1, 3, 1, -3\nsquares    =  1, 9, 1,  9   sum = 20\nvariance = 20 / 4 = 5.0\nstd = sqrt(5) = 2.236</pre>\n<h4>The axis parameter (2-D arrays)</h4>\n<p><b>axis=0</b> works down the columns (result per column); <b>axis=1</b> works across the rows (result per row). Without axis, all elements are used.</p>\n<pre class=\"c\">m = np.array([[1, 2],\n              [3, 4]])\nnp.sum(m)           # 10\nnp.sum(m, axis=0)   # [4 6] columns\nnp.sum(m, axis=1)   # [3 7] rows\nnp.mean(m, axis=0)  # [2. 3.]</pre>"
+     },
+     "diagram": "py5_np_axis",
+     "programs": [
+      "py5p19"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.4.8 np.dot(), np.cross() and np.matmul()"
+     },
+     "body": {
+      "en": "<h4>np.dot(a, b): dot product</h4>\n<p>For two vectors, the dot product is the sum of the products of corresponding elements, a <b>scalar</b>: a·b = a₁b₁ + a₂b₂ + a₃b₃.</p>\n<pre class=\"c\">u = np.array([1, 2, 3])\nv = np.array([4, 5, 6])\nnp.dot(u, v)     # 1*4 + 2*5 + 3*6 = 32\nu @ v            # 32 (same)</pre>\n<h4>np.cross(a, b): cross product</h4>\n<p>For two 3-D vectors, it gives a <b>vector perpendicular</b> to both: a × b = (a₂b₃ − a₃b₂, a₃b₁ − a₁b₃, a₁b₂ − a₂b₁).</p>\n<pre class=\"c\">np.cross(u, v)   # [-3  6 -3]\n# [2*6-3*5, 3*4-1*6, 1*5-2*4]\nnp.cross([1, 0, 0], [0, 1, 0])  # [0 0 1]</pre>\n<h4>np.matmul(A, B): matrix multiplication</h4>\n<p>Each element of the result = (row of A) · (column of B). The number of columns of A must equal the number of rows of B: (m × n) @ (n × p) → (m × p). The <code>@</code> operator does the same.</p>\n<pre class=\"c\">A = np.array([[1, 2], [3, 4]])\nB = np.array([[5, 6], [7, 8]])\nnp.matmul(A, B)  # [[19 22] [43 50]]\nA @ B            # same\nnp.dot(A, B)     # same for 2-D\nA * B            # [[ 5 12] [21 32]]</pre>\n<table>\n<tr><th>Operation</th><th>Meaning</th><th>Result for vectors</th></tr>\n<tr><td>a * b</td><td>Element-wise product</td><td>Array</td></tr>\n<tr><td>np.dot(a, b)</td><td>Dot product (matrix product for 2-D)</td><td>Scalar</td></tr>\n<tr><td>np.cross(a, b)</td><td>Cross product</td><td>Perpendicular vector</td></tr>\n<tr><td>np.matmul(a, b) / a @ b</td><td>Matrix multiplication</td><td>Scalar for 1-D, matrix for 2-D</td></tr>\n</table>"
+     },
+     "diagram": "py5_np_ops",
+     "programs": [
+      "py5p20"
+     ]
+    },
+    {
+     "h": {
+      "en": "Key Points – 5.4"
+     },
+     "body": {
+      "en": "<ul>\n<li>NumPy gives the fast, homogeneous ndarray: <code>import numpy as np; a = np.array([1, 2, 3])</code>.</li>\n<li>Attributes: shape (tuple), ndim, size, dtype, itemsize (bytes per element), nbytes.</li>\n<li>Initialization: zeros, ones, full, eye, arange (stop excluded), linspace (stop included), random; reshape changes the shape.</li>\n<li>Indexing: a[i], m[row, col], m[:, c], m[r1:r2, c1:c2], a[a &gt; 5]; slices are views.</li>\n<li>Operations are element-wise; broadcasting handles scalars and rows.</li>\n<li>np.sum, min, max, mean, std, var, median; axis=0 → columns, axis=1 → rows.</li>\n<li>dot → scalar for vectors; cross → perpendicular vector; matmul / @ → matrix product; * is element-wise.</li>\n</ul>"
+     },
+     "key": true
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "py5p1",
+   "title": {
+    "en": "math module: constants and functions"
+   },
+   "code": {
+    "en": "import math\n\nprint(\"pi            :\", math.pi)\nprint(\"e             :\", math.e)\nprint(\"sqrt(49)      :\", math.sqrt(49))\nprint(\"isqrt(50)     :\", math.isqrt(50))\nprint(\"pow(2, 10)    :\", math.pow(2, 10))\nprint(\"ceil(4.2)     :\", math.ceil(4.2))\nprint(\"floor(4.8)    :\", math.floor(4.8))\nprint(\"ceil(-4.2)    :\", math.ceil(-4.2))\nprint(\"floor(-4.2)   :\", math.floor(-4.2))\nprint(\"trunc(-4.8)   :\", math.trunc(-4.8))\nprint(\"fabs(-7)      :\", math.fabs(-7))\nprint(\"factorial(5)  :\", math.factorial(5))\nprint(\"gcd(24, 36)   :\", math.gcd(24, 36))\nprint(\"lcm(4, 6)     :\", math.lcm(4, 6))\nprint(\"log(100, 10)  :\", math.log(100, 10))\nprint(\"log10(1000)   :\", math.log10(1000))\nprint(\"log2(8)       :\", math.log2(8))\nprint(\"exp(1)        :\", math.exp(1))\nprint(\"radians(180)  :\", math.radians(180))\nprint(\"degrees(pi)   :\", math.degrees(math.pi))\nprint(\"sin(30 deg)   :\", round(math.sin(math.radians(30)), 2))\nprint(\"cos(60 deg)   :\", round(math.cos(math.radians(60)), 2))\nprint(\"hypot(3, 4)   :\", math.hypot(3, 4))\nprint(\"comb(5, 2), perm(5, 2):\", math.comb(5, 2), math.perm(5, 2))\n\nr = float(input(\"Radius: \"))\nprint(\"Area of circle:\", round(math.pi * r ** 2, 2))"
+   },
+   "out": "pi            : 3.141592653589793\ne             : 2.718281828459045\nsqrt(49)      : 7.0\nisqrt(50)     : 7\npow(2, 10)    : 1024.0\nceil(4.2)     : 5\nfloor(4.8)    : 4\nceil(-4.2)    : -4\nfloor(-4.2)   : -5\ntrunc(-4.8)   : -4\nfabs(-7)      : 7.0\nfactorial(5)  : 120\ngcd(24, 36)   : 12\nlcm(4, 6)     : 12\nlog(100, 10)  : 2.0\nlog10(1000)   : 3.0\nlog2(8)       : 3.0\nexp(1)        : 2.718281828459045\nradians(180)  : 3.141592653589793\ndegrees(pi)   : 180.0\nsin(30 deg)   : 0.5\ncos(60 deg)   : 0.5\nhypot(3, 4)   : 5.0\ncomb(5, 2), perm(5, 2): 10 20\nRadius: 7\nArea of circle: 153.94",
+   "expl": {
+    "en": "<ul><li>The <b>math</b> module is a built-in module that gives mathematical constants (pi, e) and functions. Write <code>import math</code>, then call each function as <code>math.function()</code>.</li>\n<li><code>ceil()</code> rounds <b>up</b> and <code>floor()</code> rounds <b>down</b> (towards −∞); <code>trunc()</code> just removes the decimal part.</li>\n<li>Trigonometric functions use <b>radians</b>, so convert degrees with <code>math.radians()</code>.</li>\n<li>math.pow() and math.sqrt() always return a float; <code>isqrt()</code> returns the integer square root.</li></ul>"
+   }
+  },
+  {
+   "id": "py5p2",
+   "title": {
+    "en": "Different ways of importing a module"
+   },
+   "code": {
+    "en": "# 1. whole module\nimport math\nprint(\"1.\", math.sqrt(16))\n\n# 2. with alias\nimport math as m\nprint(\"2.\", m.factorial(4))\n\n# 3. selected names\nfrom math import pi, ceil\nprint(\"3.\", pi, ceil(2.1))\n\n# 4. all names\nfrom math import *\nprint(\"4.\", floor(7.9), gcd(12, 18))\n\n# 5. name with alias\nfrom math import sqrt as root\nprint(\"5.\", root(81))\n\nprint(\"Module name :\", math.__name__)\nnames = [n for n in dir(math) if not n.startswith(\"_\")]\nprint(\"math has\", len(names), \"public names\")\nprint(\"First 6     :\", names[:6])"
+   },
+   "out": "1. 4.0\n2. 24\n3. 3.141592653589793 3\n4. 7 6\n5. 9.0\nModule name : math\nmath has 62 public names\nFirst 6     : ['acos', 'acosh', 'asin', 'asinh', 'atan', 'atan2']",
+   "expl": {
+    "en": "<ul><li><code>import module</code>: names are used with the module prefix (math.sqrt).</li>\n<li><code>import module as alias</code>: gives a short name (math → m).</li>\n<li><code>from module import name1, name2</code>: imports only the names you need, which are then used <b>without</b> the prefix.</li>\n<li><code>from module import *</code>: imports all public names. This is not recommended in big programs because names may clash.</li>\n<li><code>dir(module)</code> lists everything defined in a module.</li></ul>"
+   }
+  },
+  {
+   "id": "py5p3",
+   "title": {
+    "en": "Writing and importing a user-defined module"
+   },
+   "code": {
+    "en": "# ===== File: mymath.py =====\n\"\"\"mymath.py - a user-defined module.\"\"\"\nPI = 3.14159\n\n\ndef add(a, b):\n    return a + b\n\n\ndef factorial(n):\n    f = 1\n    for i in range(2, n + 1):\n        f *= i\n    return f\n\n\ndef is_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, int(n ** 0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n\n\ndef circle_area(r):\n    return PI * r * r\n\n# ===== File: main.py =====\nimport mymath\n\nprint(\"PI          :\", mymath.PI)\nprint(\"add(5, 7)   :\", mymath.add(5, 7))\nprint(\"factorial(6):\", mymath.factorial(6))\nprint(\"Area (r=3)  :\", round(mymath.circle_area(3), 2))\n\nfrom mymath import is_prime\nprimes = [n for n in range(1, 30) if is_prime(n)]\nprint(\"Primes < 30 :\", primes)\nprint(\"Functions   :\", [n for n in dir(mymath) if not n.startswith(\"_\")])\nprint(\"Docstring   :\", mymath.__doc__)"
+   },
+   "out": "PI          : 3.14159\nadd(5, 7)   : 12\nfactorial(6): 720\nArea (r=3)  : 28.27\nPrimes < 30 : [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]\nFunctions   : ['PI', 'add', 'circle_area', 'factorial', 'is_prime']\nDocstring   : mymath.py - a user-defined module.",
+   "expl": {
+    "en": "<ul><li>Any <b>.py file</b> is a module. Here <i>mymath.py</i> holds a constant and four functions.</li>\n<li>The main program, saved in the <b>same folder</b>, imports it with <code>import mymath</code> (the file name without .py).</li>\n<li>The module's variables and functions are then used as <code>mymath.name</code>, or imported directly with <code>from mymath import is_prime</code>.</li>\n<li>When a module is imported for the first time, Python compiles it into the <i>__pycache__</i> folder, which makes later imports faster.</li></ul>"
+   }
+  },
+  {
+   "id": "py5p4",
+   "title": {
+    "en": "__name__ == \"__main__\": test code in a module"
+   },
+   "code": {
+    "en": "# ===== File: greet.py =====\n\"\"\"greet.py - module with test code.\"\"\"\ndef hello(name):\n    return \"Hello, \" + name + \"!\"\n\n\nprint(\"greet.py: __name__ =\", __name__)\n\nif __name__ == \"__main__\":\n    # runs only when greet.py is run directly\n    print(hello(\"Tester\"))\n\n# ===== File: main.py =====\nimport greet\n\nprint(\"main.py : __name__ =\", __name__)\nprint(greet.hello(\"Riya\"))"
+   },
+   "out": "greet.py: __name__ = greet\nmain.py : __name__ = __main__\nHello, Riya!",
+   "expl": {
+    "en": "<ul><li>Every module has a built-in variable <code>__name__</code>. When the file is <b>run directly</b> it is <code>\"__main__\"</code>; when it is <b>imported</b> it is the module's name (\"greet\").</li>\n<li>Code inside <code>if __name__ == \"__main__\":</code> therefore runs only when greet.py is run directly. That is why \"Hello, Tester!\" is <b>not</b> printed here.</li>\n<li>Running <code>python greet.py</code> directly would print <code>greet.py: __name__ = __main__</code> and <code>Hello, Tester!</code>.</li></ul>"
+   }
+  },
+  {
+   "id": "py5p5",
+   "title": {
+    "en": "random module: random numbers (OTP, dice, shuffle)"
+   },
+   "code": {
+    "en": "import random\n\n# same numbers every run (for testing)\nrandom.seed(10)\nprint(\"random()        :\", round(random.random(), 4))\nprint(\"randint(1, 6)   :\", random.randint(1, 6))\nprint(\"randrange(0,50,5):\", random.randrange(0, 50, 5))\nprint(\"uniform(1, 10)  :\", round(random.uniform(1, 10), 2))\ncolors = [\"red\", \"green\", \"blue\", \"yellow\"]\nprint(\"choice()        :\", random.choice(colors))\nprint(\"sample(3)       :\", random.sample(range(1, 50), 3))\ncards = [1, 2, 3, 4, 5]\nrandom.shuffle(cards)\nprint(\"shuffle()       :\", cards)\n\notp = \"\".join(str(random.randint(0, 9)) for _ in range(6))\nprint(\"6-digit OTP     :\", otp)\nrolls = [random.randint(1, 6) for _ in range(10)]\nprint(\"10 dice rolls   :\", rolls)"
+   },
+   "out": "random()        : 0.5714\nrandint(1, 6)   : 4\nrandrange(0,50,5): 35\nuniform(1, 10)  : 6.2\nchoice()        : green\nsample(3)       : [30, 32, 18]\nshuffle()       : [4, 5, 3, 1, 2]\n6-digit OTP     : 513506\n10 dice rolls   : [2, 5, 3, 4, 4, 3, 6, 3, 4, 2]",
+   "expl": {
+    "en": "<ul><li><code>random()</code>: a float from 0.0 up to (but not including) 1.0. <code>randint(a, b)</code>: an integer from a to b, <b>both included</b>. <code>randrange(start, stop, step)</code>: stop is excluded.</li>\n<li><code>uniform(a, b)</code>: a random float between a and b. <code>choice(seq)</code>: one random item. <code>sample(seq, k)</code>: k unique items. <code>shuffle(list)</code>: mixes the list in place.</li>\n<li><code>seed()</code> fixes the starting point, so the same \"random\" numbers appear on every run. Without it, you get different numbers each time.</li></ul>"
+   }
+  },
+  {
+   "id": "py5p6",
+   "title": {
+    "en": "statistics, fractions, decimal and cmath modules"
+   },
+   "code": {
+    "en": "import statistics as st\nfrom fractions import Fraction\nfrom decimal import Decimal, getcontext\nimport cmath\n\nmarks = [78, 85, 62, 90, 85, 71]\nprint(\"mean    :\", round(st.mean(marks), 2))\nprint(\"median  :\", st.median(marks))\nprint(\"mode    :\", st.mode(marks))\nprint(\"stdev   :\", round(st.stdev(marks), 2))\nprint(\"variance:\", round(st.variance(marks), 2))\n\nf = Fraction(1, 3) + Fraction(1, 6)\nprint(\"1/3 + 1/6       =\", f)\nprint(\"Fraction(0.75)  =\", Fraction(0.75))\n\nprint(\"0.1 + 0.2 (float)   =\", 0.1 + 0.2)\nprint(\"0.1 + 0.2 (Decimal) =\", Decimal(\"0.1\") + Decimal(\"0.2\"))\ngetcontext().prec = 5\nprint(\"1/7 with 5 digits   =\", Decimal(1) / Decimal(7))\n\nz = cmath.sqrt(-16)\nprint(\"cmath.sqrt(-16) =\", z)\nprint(\"abs(3+4j)       =\", abs(3 + 4j))\nprint(\"phase(1j)       =\", round(cmath.phase(1j), 4))"
+   },
+   "out": "mean    : 78.5\nmedian  : 81.5\nmode    : 85\nstdev   : 10.45\nvariance: 109.1\n1/3 + 1/6       = 1/2\nFraction(0.75)  = 3/4\n0.1 + 0.2 (float)   = 0.30000000000000004\n0.1 + 0.2 (Decimal) = 0.3\n1/7 with 5 digits   = 0.14286\ncmath.sqrt(-16) = 4j\nabs(3+4j)       = 5.0\nphase(1j)       = 1.5708",
+   "expl": {
+    "en": "<p>Python's <b>numeric and mathematical modules</b> include:</p>\n<ul><li><b>statistics</b>: mean, median, mode, standard deviation and variance.</li>\n<li><b>fractions</b>: exact rational numbers (1/3 + 1/6 = 1/2).</li>\n<li><b>decimal</b>: exact decimal arithmetic with a chosen precision. It avoids float errors like 0.1 + 0.2 = 0.30000000000000004, which matters for money calculations.</li>\n<li><b>cmath</b>: math functions for complex numbers; for example, the square root of a negative number.</li>\n<li>Also <b>math</b> and <b>random</b> (previous programs) and <b>numbers</b> (abstract number types).</li></ul>"
+   }
+  },
+  {
+   "id": "py5p7",
+   "title": {
+    "en": "Writing and importing a user-defined package (shapes)"
+   },
+   "code": {
+    "en": "# ===== File: shapes/__init__.py =====\n\"\"\"shapes package.\"\"\"\nprint(\"shapes package imported\")\nfrom .area import circle, rectangle\n__all__ = [\"area\", \"perimeter\"]\n\n# ===== File: shapes/area.py =====\ndef circle(r):\n    return round(3.14159 * r * r, 2)\n\n\ndef rectangle(l, b):\n    return l * b\n\n# ===== File: shapes/perimeter.py =====\ndef circle(r):\n    return round(2 * 3.14159 * r, 2)\n\n\ndef rectangle(l, b):\n    return 2 * (l + b)\n\n# ===== File: main.py =====\nimport shapes.area\nprint(\"Area of circle (r=2)  :\", shapes.area.circle(2))\n\nfrom shapes import perimeter\nprint(\"Perimeter of circle   :\", perimeter.circle(2))\n\nfrom shapes.area import rectangle\nprint(\"Area of rectangle 4x5 :\", rectangle(4, 5))\n\nfrom shapes.perimeter import rectangle as rect_p\nprint(\"Perimeter rectangle   :\", rect_p(4, 5))\n\nimport shapes\nprint(\"Via __init__ import   :\", shapes.circle(1))\nprint(\"__all__               :\", shapes.__all__)"
+   },
+   "out": "shapes package imported\nArea of circle (r=2)  : 12.57\nPerimeter of circle   : 12.57\nArea of rectangle 4x5 : 20\nPerimeter rectangle   : 18\nVia __init__ import   : 3.14\n__all__               : ['area', 'perimeter']",
+   "expl": {
+    "en": "<ul><li>A <b>package</b> is a folder of modules containing an <code>__init__.py</code> file. Here the package <i>shapes</i> has two modules: <i>area.py</i> and <i>perimeter.py</i>.</li>\n<li>Modules are imported with dot notation: <code>import shapes.area</code>, <code>from shapes import perimeter</code> or <code>from shapes.area import rectangle</code>.</li>\n<li><code>__init__.py</code> runs <b>once</b>, on the first import of the package (the message is printed only once). It can import functions so they are available directly, as in <code>shapes.circle</code>.</li>\n<li><code>__all__</code> lists the modules imported by <code>from shapes import *</code>.</li></ul>"
+   }
+  },
+  {
+   "id": "py5p8",
+   "title": {
+    "en": "Package with sub-packages (college)"
+   },
+   "code": {
+    "en": "# ===== File: college/__init__.py =====\n\"\"\"college package with sub-packages.\"\"\"\nNAME = \"GTU Diploma\"\n\n# ===== File: college/student/__init__.py =====\n\n\n# ===== File: college/student/result.py =====\ndef percentage(marks):\n    return round(sum(marks) / len(marks), 2)\n\n\ndef grade(p):\n    return \"Distinction\" if p >= 70 else \"First\" if p >= 60 else \"Pass\"\n\n# ===== File: college/staff/__init__.py =====\n\n\n# ===== File: college/staff/salary.py =====\ndef net_salary(basic, da_percent=50):\n    return basic + basic * da_percent / 100\n\n# ===== File: main.py =====\nimport college\nfrom college.student.result import percentage, grade\nfrom college.staff import salary\n\nprint(\"Package :\", college.NAME)\nmarks = [78, 85, 69, 91, 74]\np = percentage(marks)\nprint(\"Percentage:\", p, \"->\", grade(p))\nprint(\"Net salary:\", salary.net_salary(30000))\nprint(\"With DA 40%:\", salary.net_salary(30000, 40))"
+   },
+   "out": "Package : GTU Diploma\nPercentage: 79.4 -> Distinction\nNet salary: 45000.0\nWith DA 40%: 42000.0",
+   "expl": {
+    "en": "<ul><li>A package can contain <b>sub-packages</b> (folders inside folders), each with its own <code>__init__.py</code>, e.g. <code>college/student/result.py</code>.</li>\n<li>Python follows the dotted path: <code>college.student.result</code> means the folder college → folder student → file result.py.</li>\n<li>Large libraries such as NumPy and Matplotlib are organised in exactly this way (for example, <code>matplotlib.pyplot</code>).</li></ul>"
+   }
+  },
+  {
+   "id": "py5p9",
+   "title": {
+    "en": "Matplotlib line plot: plot(), xlabel(), ylabel(), title(), grid(), show()"
+   },
+   "code": {
+    "en": "import matplotlib.pyplot as plt\n\ndays = [1, 2, 3, 4, 5, 6, 7]\nsurat = [31, 33, 32, 35, 36, 34, 33]\nahmedabad = [33, 35, 36, 38, 37, 36, 35]\n\nplt.plot(days, surat, \"o-\", color=\"purple\", label=\"Surat\")\nplt.plot(days, ahmedabad, \"s--\", color=\"orange\", label=\"Ahmedabad\")\nplt.title(\"Maximum Temperature in a Week\")\nplt.xlabel(\"Day\")\nplt.ylabel(\"Temperature (°C)\")\nplt.grid(True)\nplt.legend()\nprint(\"Highest in Surat:\", max(surat), \"°C on day\", days[surat.index(max(surat))])\nplt.show()"
+   },
+   "out": "Highest in Surat: 36 °C on day 5",
+   "expl": {
+    "en": "<ul><li><code>import matplotlib.pyplot as plt</code> is the standard way to import the plotting module.</li>\n<li><code>plt.plot(x, y, fmt)</code> draws a line graph; the format string \"o-\" means circle markers with a solid line, and \"s--\" means squares with a dashed line.</li>\n<li><code>title()</code>, <code>xlabel()</code> and <code>ylabel()</code> add text; <code>grid(True)</code> draws grid lines; <code>legend()</code> shows the labels.</li>\n<li><code>plt.show()</code> opens the plot window, shown below the output.</li></ul>"
+   },
+   "plot": "py5_out_line"
+  },
+  {
+   "id": "py5p10",
+   "title": {
+    "en": "Bar chart with bar() and saving it with savefig()"
+   },
+   "code": {
+    "en": "import matplotlib.pyplot as plt\n\nsubjects = [\"Python\", \"Maths\", \"Physics\", \"English\", \"EW\"]\nmarks = [85, 72, 64, 78, 90]\ncolors = [\"#7B2CD9\", \"#1565C0\", \"#2E7D32\", \"#E07B00\", \"#C62828\"]\n\nplt.bar(subjects, marks, color=colors, width=0.6)\nplt.title(\"Semester 2 Marks\")\nplt.xlabel(\"Subject\")\nplt.ylabel(\"Marks\")\nplt.ylim(0, 100)\nfor i, m in enumerate(marks):\n    plt.text(i, m + 2, str(m), ha=\"center\")\nplt.grid(axis=\"y\", linestyle=\":\")\nplt.savefig(\"marks_bar.png\")\nprint(\"Chart saved as marks_bar.png\")\nplt.show()"
+   },
+   "out": "Chart saved as marks_bar.png",
+   "expl": {
+    "en": "<ul><li><code>plt.bar(categories, values)</code> draws vertical bars (<code>plt.barh()</code> draws horizontal ones). The options <code>color</code> and <code>width</code> change the look.</li>\n<li><code>plt.text(x, y, s)</code> writes the value above each bar; <code>ylim()</code> sets the y-axis range.</li>\n<li><code>plt.savefig(\"file.png\")</code> saves the chart as an image file (png, jpg, pdf or svg). It must be called <b>before</b> show(), because show() clears the figure.</li></ul>"
+   },
+   "plot": "py5_out_bar"
+  },
+  {
+   "id": "py5p11",
+   "title": {
+    "en": "Histogram with hist()"
+   },
+   "code": {
+    "en": "import matplotlib.pyplot as plt\n\nmarks = [35, 42, 48, 51, 55, 58, 60, 62, 63, 65,\n         66, 68, 70, 71, 72, 74, 75, 76, 78, 80,\n         81, 83, 85, 86, 88, 90, 92, 95, 97, 45]\n\nplt.hist(marks, bins=[30, 40, 50, 60, 70, 80, 90, 100],\n         color=\"skyblue\", edgecolor=\"black\")\nplt.title(\"Marks Distribution of 30 Students\")\nplt.xlabel(\"Marks range\")\nplt.ylabel(\"Number of students\")\nplt.grid(axis=\"y\", alpha=0.5)\n\nfor low in range(30, 100, 10):\n    n = len([m for m in marks if low <= m < low + 10])\n    print(f\"{low}-{low + 9}: {n}\")\nplt.show()"
+   },
+   "out": "30-39: 1\n40-49: 3\n50-59: 3\n60-69: 6\n70-79: 7\n80-89: 6\n90-99: 4",
+   "expl": {
+    "en": "<ul><li>A <b>histogram</b> shows how many values fall into each range (<b>bin</b>). <code>plt.hist(data, bins)</code> counts the values automatically.</li>\n<li>bins can be a number (e.g. 7 equal bins) or a list of bin edges, as here. <code>edgecolor</code> draws borders between the bars.</li>\n<li>Difference from a bar chart: a bar chart compares <b>categories</b>; a histogram shows the <b>distribution</b> of numeric data, with touching bars.</li></ul>"
+   },
+   "plot": "py5_out_hist"
+  },
+  {
+   "id": "py5p12",
+   "title": {
+    "en": "Pie chart with pie()"
+   },
+   "code": {
+    "en": "import matplotlib.pyplot as plt\n\nitems = [\"Rent\", \"Food\", \"Travel\", \"Books\", \"Savings\"]\namount = [6000, 4000, 1500, 1000, 2500]\nexplode = [0, 0, 0, 0, 0.1]\n\nplt.pie(amount, labels=items, autopct=\"%1.1f%%\",\n        explode=explode, startangle=90, shadow=True)\nplt.title(\"Monthly Expenses of a Student\")\nplt.axis(\"equal\")\ntotal = sum(amount)\nfor i, a in zip(items, amount):\n    print(f\"{i:8}: {a:5}  ({a / total * 100:.1f}%)\")\nplt.show()"
+   },
+   "out": "Rent    :  6000  (40.0%)\nFood    :  4000  (26.7%)\nTravel  :  1500  (10.0%)\nBooks   :  1000  (6.7%)\nSavings :  2500  (16.7%)",
+   "expl": {
+    "en": "<ul><li><code>plt.pie(values, labels=…)</code> draws a circle divided into slices that are proportional to the values.</li>\n<li><code>autopct=\"%1.1f%%\"</code> prints the percentage on each slice; <code>explode</code> pulls a slice out; <code>startangle=90</code> rotates the chart to start at the top; <code>shadow</code> adds depth.</li>\n<li><code>plt.axis(\"equal\")</code> keeps the pie a perfect circle.</li></ul>"
+   },
+   "plot": "py5_out_pie"
+  },
+  {
+   "id": "py5p13",
+   "title": {
+    "en": "Multiple plots in one figure with subplot()"
+   },
+   "code": {
+    "en": "import matplotlib.pyplot as plt\n\nx = [1, 2, 3, 4, 5]\ny = [2, 4, 1, 5, 3]\n\nplt.figure(figsize=(8, 6))\n\nplt.subplot(2, 2, 1)\nplt.plot(x, y, \"o-\")\nplt.title(\"Line\")\n\nplt.subplot(2, 2, 2)\nplt.bar(x, y, color=\"orange\")\nplt.title(\"Bar\")\n\nplt.subplot(2, 2, 3)\nplt.hist([1, 2, 2, 3, 3, 3, 4, 4, 5], bins=5, color=\"green\")\nplt.title(\"Histogram\")\n\nplt.subplot(2, 2, 4)\nplt.pie(y, labels=[\"A\", \"B\", \"C\", \"D\", \"E\"])\nplt.title(\"Pie\")\n\nplt.suptitle(\"subplot(rows, cols, index)\")\nplt.tight_layout()\nprint(\"4 plots drawn in a 2 x 2 grid\")\nplt.show()"
+   },
+   "out": "4 plots drawn in a 2 x 2 grid",
+   "expl": {
+    "en": "<ul><li><code>plt.subplot(rows, cols, index)</code> divides the figure into a grid and selects one cell; the index starts at <b>1</b> and goes left to right, top to bottom.</li>\n<li>Every plotting command after a subplot() call draws in that cell.</li>\n<li><code>figure(figsize=(w, h))</code> sets the size in inches; <code>suptitle()</code> gives a title to the whole figure; <code>tight_layout()</code> prevents overlapping.</li></ul>"
+   },
+   "plot": "py5_out_subplot"
+  },
+  {
+   "id": "py5p14",
+   "title": {
+    "en": "Plotting sin and cos with NumPy and Matplotlib"
+   },
+   "code": {
+    "en": "import numpy as np\nimport matplotlib.pyplot as plt\n\n# 100 points\nx = np.linspace(0, 2 * np.pi, 100)\nplt.plot(x, np.sin(x), label=\"sin(x)\", color=\"purple\")\nplt.plot(x, np.cos(x), label=\"cos(x)\", color=\"green\", linestyle=\"--\")\nplt.axhline(0, color=\"black\", linewidth=0.8)\nplt.title(\"Sine and Cosine Waves\")\nplt.xlabel(\"x (radians)\")\nplt.ylabel(\"value\")\nplt.grid(True)\nplt.legend()\nplt.savefig(\"waves.png\", dpi=150)\nprint(\"x has\", x.size, \"points from\", x[0], \"to\", round(x[-1], 4))\nplt.show()"
+   },
+   "out": "x has 100 points from 0.0 to 6.2832",
+   "expl": {
+    "en": "<ul><li><code>np.linspace(start, stop, n)</code> creates n evenly spaced points, and <code>np.sin()</code>/<code>np.cos()</code> work on the whole array at once, so no loop is needed.</li>\n<li>NumPy and Matplotlib are almost always used together: NumPy computes the data and Matplotlib draws it.</li>\n<li><code>savefig(…, dpi=150)</code> saves a high-resolution image.</li></ul>"
+   },
+   "plot": "py5_out_waves"
+  },
+  {
+   "id": "py5p15",
+   "title": {
+    "en": "Creating NumPy arrays and array attributes"
+   },
+   "code": {
+    "en": "import numpy as np\n\na = np.array([10, 20, 30, 40])\nb = np.array([[1, 2, 3], [4, 5, 6]])\nc = np.array([1.5, 2.5, 3.5])\nd = np.array([1, 2, 3], dtype=float)\ne = np.array([[[1, 2], [3, 4]], [[5, 6], [7, 8]]])\n\nfor name, arr in [(\"a\", a), (\"b\", b), (\"c\", c), (\"d\", d), (\"e\", e)]:\n    print(f\"{name}: shape={arr.shape} ndim={arr.ndim} size={arr.size} \"\n          f\"dtype={arr.dtype} itemsize={arr.itemsize}\")\nprint(\"b =\")\nprint(b)\nprint(\"type(b)  :\", type(b))\nprint(\"b.nbytes :\", b.nbytes, \"bytes\")\nprint(\"mixed    :\", np.array([1, 2.5, 3]))\nprint(\"as list  :\", a.tolist())"
+   },
+   "out": "a: shape=(4,) ndim=1 size=4 dtype=int64 itemsize=8\nb: shape=(2, 3) ndim=2 size=6 dtype=int64 itemsize=8\nc: shape=(3,) ndim=1 size=3 dtype=float64 itemsize=8\nd: shape=(3,) ndim=1 size=3 dtype=float64 itemsize=8\ne: shape=(2, 2, 2) ndim=3 size=8 dtype=int64 itemsize=8\nb =\n[[1 2 3]\n [4 5 6]]\ntype(b)  : <class 'numpy.ndarray'>\nb.nbytes : 48 bytes\nmixed    : [1.  2.5 3. ]\nas list  : [10, 20, 30, 40]",
+   "expl": {
+    "en": "<ul><li><code>np.array(list)</code> creates an <b>ndarray</b> (n-dimensional array). All items have the <b>same type</b>; mixing int and float converts everything to float.</li>\n<li><b>Attributes:</b> <code>shape</code> (size of each dimension, as a tuple), <code>ndim</code> (number of dimensions), <code>size</code> (total number of elements), <code>dtype</code> (data type), <code>itemsize</code> (bytes per element) and <code>nbytes</code> (total bytes = size × itemsize).</li>\n<li>int64 and float64 use 8 bytes per element.</li></ul>"
+   }
+  },
+  {
+   "id": "py5p16",
+   "title": {
+    "en": "Array initialization: zeros, ones, full, eye, arange, linspace, reshape"
+   },
+   "code": {
+    "en": "import numpy as np\n\nprint(\"zeros(4)        :\", np.zeros(4))\nprint(\"ones((2, 3)) =\", np.ones((2, 3), dtype=int), sep=\"\\n\")\nprint(\"full((2, 2), 7) =\", np.full((2, 2), 7), sep=\"\\n\")\nprint(\"eye(3) =\", np.eye(3, dtype=int), sep=\"\\n\")\nprint(\"arange(0, 10, 2):\", np.arange(0, 10, 2))\nprint(\"arange(5)       :\", np.arange(5))\nprint(\"linspace(0,1,5) :\", np.linspace(0, 1, 5))\nr = np.arange(1, 13).reshape(3, 4)\nprint(\"arange(1,13).reshape(3,4) =\", r, sep=\"\\n\")\nprint(\"flatten()       :\", r.flatten())\nprint(\"transpose shape :\", r.T.shape)\nnp.random.seed(1)\nprint(\"random.randint  :\", np.random.randint(1, 100, 5))\nprint(\"random.rand(3)  :\", np.round(np.random.rand(3), 3))"
+   },
+   "out": "zeros(4)        : [0. 0. 0. 0.]\nones((2, 3)) =\n[[1 1 1]\n [1 1 1]]\nfull((2, 2), 7) =\n[[7 7]\n [7 7]]\neye(3) =\n[[1 0 0]\n [0 1 0]\n [0 0 1]]\narange(0, 10, 2): [0 2 4 6 8]\narange(5)       : [0 1 2 3 4]\nlinspace(0,1,5) : [0.   0.25 0.5  0.75 1.  ]\narange(1,13).reshape(3,4) =\n[[ 1  2  3  4]\n [ 5  6  7  8]\n [ 9 10 11 12]]\nflatten()       : [ 1  2  3  4  5  6  7  8  9 10 11 12]\ntranspose shape : (4, 3)\nrandom.randint  : [38 13 73 10 76]\nrandom.rand(3)  : [0.999 0.236 0.397]",
+   "expl": {
+    "en": "<ul><li><code>zeros()</code>, <code>ones()</code> and <code>full(shape, value)</code> create arrays filled with 0, 1 or any value. The shape is given as a tuple for 2-D arrays.</li>\n<li><code>eye(n)</code> creates an identity matrix.</li>\n<li><code>arange(start, stop, step)</code> works like range() (stop excluded); <code>linspace(start, stop, n)</code> gives n equally spaced values, <b>including</b> stop.</li>\n<li><code>reshape(r, c)</code> changes the shape without changing the data (r × c must equal size); <code>flatten()</code> makes it 1-D; <code>.T</code> transposes.</li>\n<li><code>np.random</code> creates arrays of random numbers.</li></ul>"
+   }
+  },
+  {
+   "id": "py5p17",
+   "title": {
+    "en": "Indexing and slicing of NumPy arrays"
+   },
+   "code": {
+    "en": "import numpy as np\n\na = np.array([10, 20, 30, 40, 50, 60])\nprint(\"a[0], a[-1]   :\", a[0], a[-1])\nprint(\"a[1:4]        :\", a[1:4])\nprint(\"a[::2]        :\", a[::2])\nprint(\"a[::-1]       :\", a[::-1])\n\nm = np.array([[1, 2, 3, 4],\n              [5, 6, 7, 8],\n              [9, 10, 11, 12]])\nprint(\"m[1, 2]       :\", m[1, 2])\nprint(\"m[1]          :\", m[1])\nprint(\"m[:, 2]       :\", m[:, 2])\nprint(\"m[0:2, 1:3] =\", m[0:2, 1:3], sep=\"\\n\")\nprint(\"m[-1, -1]     :\", m[-1, -1])\n\n# boolean indexing\nprint(\"a[a > 25]     :\", a[a > 25])\nprint(\"m[m % 2 == 0] :\", m[m % 2 == 0])\n# fancy indexing\nprint(\"a[[0, 2, 5]]  :\", a[[0, 2, 5]])\na[a > 40] = 0\nprint(\"a after a[a>40]=0:\", a)\ns = a[1:3]\ns[0] = 99\nprint(\"slice is a view -> a:\", a)"
+   },
+   "out": "a[0], a[-1]   : 10 60\na[1:4]        : [20 30 40]\na[::2]        : [10 30 50]\na[::-1]       : [60 50 40 30 20 10]\nm[1, 2]       : 7\nm[1]          : [5 6 7 8]\nm[:, 2]       : [ 3  7 11]\nm[0:2, 1:3] =\n[[2 3]\n [6 7]]\nm[-1, -1]     : 12\na[a > 25]     : [30 40 50 60]\nm[m % 2 == 0] : [ 2  4  6  8 10 12]\na[[0, 2, 5]]  : [10 30 60]\na after a[a>40]=0: [10 20 30 40  0  0]\nslice is a view -> a: [10 99 30 40  0  0]",
+   "expl": {
+    "en": "<ul><li>1-D arrays are indexed and sliced like lists.</li>\n<li>2-D arrays use <code>m[row, col]</code>; slices work on each axis: <code>m[:, 2]</code> is column 2 and <code>m[0:2, 1:3]</code> is a sub-matrix.</li>\n<li><b>Boolean indexing</b> <code>a[a &gt; 25]</code> selects the elements that satisfy a condition; <b>fancy indexing</b> <code>a[[0, 2, 5]]</code> selects the given positions.</li>\n<li>Unlike a list slice, a NumPy slice is a <b>view</b>: changing it changes the original array (use <code>.copy()</code> to avoid this).</li></ul>"
+   }
+  },
+  {
+   "id": "py5p18",
+   "title": {
+    "en": "Array operations: element-wise arithmetic, broadcasting, comparison"
+   },
+   "code": {
+    "en": "import numpy as np\n\na = np.array([10, 20, 30, 40])\nb = np.array([1, 2, 3, 4])\nprint(\"a + b  :\", a + b)\nprint(\"a - b  :\", a - b)\nprint(\"a * b  :\", a * b)\nprint(\"a / b  :\", a / b)\nprint(\"a ** 2 :\", a ** 2)\nprint(\"a % 3  :\", a % 3)\n# broadcasting a scalar\nprint(\"a + 5  :\", a + 5)\nprint(\"a > 15 :\", a > 15)\nprint(\"sqrt(b):\", np.round(np.sqrt(b), 3))\n\nm = np.array([[1, 2, 3], [4, 5, 6]])\nrow = np.array([10, 20, 30])\n# broadcasting a row\nprint(\"m + row =\", m + row, sep=\"\\n\")\nprint(\"m * 2 =\", m * 2, sep=\"\\n\")\n\nlst = [1, 2, 3]\nprint(\"list * 2  :\", lst * 2)\nprint(\"array * 2 :\", np.array(lst) * 2)"
+   },
+   "out": "a + b  : [11 22 33 44]\na - b  : [ 9 18 27 36]\na * b  : [ 10  40  90 160]\na / b  : [10. 10. 10. 10.]\na ** 2 : [ 100  400  900 1600]\na % 3  : [1 2 0 1]\na + 5  : [15 25 35 45]\na > 15 : [False  True  True  True]\nsqrt(b): [1.    1.414 1.732 2.   ]\nm + row =\n[[11 22 33]\n [14 25 36]]\nm * 2 =\n[[ 2  4  6]\n [ 8 10 12]]\nlist * 2  : [1, 2, 3, 1, 2, 3]\narray * 2 : [2 4 6]",
+   "expl": {
+    "en": "<ul><li>Arithmetic operators work <b>element by element</b> on arrays of the same shape, with no loop needed (this is called <b>vectorisation</b>).</li>\n<li><b>Broadcasting:</b> a scalar or a smaller array is automatically stretched to match the shape (a + 5, m + row).</li>\n<li>Comparisons give Boolean arrays. Universal functions (ufuncs) such as <code>np.sqrt()</code>, <code>np.sin()</code> and <code>np.exp()</code> also work element-wise.</li>\n<li>Note the difference: <code>list * 2</code> repeats the list, while <code>array * 2</code> doubles each element.</li></ul>"
+   }
+  },
+  {
+   "id": "py5p19",
+   "title": {
+    "en": "NumPy math and statistics: sum, min, max, mean, std, var"
+   },
+   "code": {
+    "en": "import numpy as np\n\nmarks = np.array([[78, 85, 62],\n                  [90, 71, 88],\n                  # rows: students, cols: subjects\n                  [65, 80, 75]])\nprint(\"Marks =\", marks, sep=\"\\n\")\nprint(\"np.sum(marks)       :\", np.sum(marks))\nprint(\"np.min, np.max      :\", np.min(marks), np.max(marks))\nprint(\"np.mean(marks)      :\", round(np.mean(marks), 2))\nprint(\"np.std(marks)       :\", round(np.std(marks), 2))\nprint(\"np.var(marks)       :\", round(np.var(marks), 2))\nprint(\"Total per student   :\", np.sum(marks, axis=1))\nprint(\"Average per subject :\", np.round(np.mean(marks, axis=0), 2))\nprint(\"Max per subject     :\", np.max(marks, axis=0))\nprint(\"Topper (row index)  :\", np.argmax(np.sum(marks, axis=1)))\nprint(\"np.median           :\", np.median(marks))\nprint(\"cumsum of row 0     :\", np.cumsum(marks[0]))"
+   },
+   "out": "Marks =\n[[78 85 62]\n [90 71 88]\n [65 80 75]]\nnp.sum(marks)       : 694\nnp.min, np.max      : 62 90\nnp.mean(marks)      : 77.11\nnp.std(marks)       : 9.27\nnp.var(marks)       : 85.88\nTotal per student   : [225 249 220]\nAverage per subject : [77.67 78.67 75.  ]\nMax per subject     : [90 85 88]\nTopper (row index)  : 1\nnp.median           : 78.0\ncumsum of row 0     : [ 78 163 225]",
+   "expl": {
+    "en": "<ul><li><code>np.sum()</code>, <code>np.min()</code>, <code>np.max()</code>, <code>np.mean()</code>, <code>np.std()</code> (standard deviation) and <code>np.var()</code> (variance) work on the whole array by default.</li>\n<li><b>axis=0</b> works <b>down the columns</b> (one result per column); <b>axis=1</b> works <b>across the rows</b> (one result per row).</li>\n<li>Variance = mean of the squared deviations from the mean; standard deviation = √variance. NumPy uses the population formula (divide by n).</li>\n<li><code>argmax()</code> gives the index of the largest value.</li></ul>"
+   }
+  },
+  {
+   "id": "py5p20",
+   "title": {
+    "en": "np.dot(), np.cross() and np.matmul()"
+   },
+   "code": {
+    "en": "import numpy as np\n\nu = np.array([1, 2, 3])\nv = np.array([4, 5, 6])\nprint(\"u * v (element-wise):\", u * v)\nprint(\"np.dot(u, v)        :\", np.dot(u, v))\nprint(\"np.cross(u, v)      :\", np.cross(u, v))\n\nA = np.array([[1, 2],\n              [3, 4]])\nB = np.array([[5, 6],\n              [7, 8]])\nprint(\"A * B (element-wise) =\", A * B, sep=\"\\n\")\nprint(\"np.dot(A, B) =\", np.dot(A, B), sep=\"\\n\")\nprint(\"np.matmul(A, B) =\", np.matmul(A, B), sep=\"\\n\")\nprint(\"A @ B =\", A @ B, sep=\"\\n\")\n\nC = np.array([[1, 2, 3],\n              [4, 5, 6]])          # 2 x 3\nD = np.array([[1, 0],\n              [0, 1],\n              [2, 2]])             # 3 x 2\nprint(\"C (2x3) @ D (3x2) =\", np.matmul(C, D), sep=\"\\n\")\ntry:\n    np.matmul(C, C)\nexcept ValueError as e:\n    print(\"Error:\", str(e).split(\",\")[0])"
+   },
+   "out": "u * v (element-wise): [ 4 10 18]\nnp.dot(u, v)        : 32\nnp.cross(u, v)      : [-3  6 -3]\nA * B (element-wise) =\n[[ 5 12]\n [21 32]]\nnp.dot(A, B) =\n[[19 22]\n [43 50]]\nnp.matmul(A, B) =\n[[19 22]\n [43 50]]\nA @ B =\n[[19 22]\n [43 50]]\nC (2x3) @ D (3x2) =\n[[ 7  8]\n [16 17]]\nError: matmul: Input operand 1 has a mismatch in its core dimension 0",
+   "expl": {
+    "en": "<ul><li><code>np.dot(u, v)</code> of two vectors gives a <b>scalar</b>: 1×4 + 2×5 + 3×6 = 32.</li>\n<li><code>np.cross(u, v)</code> gives a vector perpendicular to both: (2×6−3×5, 3×4−1×6, 1×5−2×4) = (−3, 6, −3).</li>\n<li><code>np.matmul(A, B)</code> (or the <code>@</code> operator) is <b>matrix multiplication</b>: row × column. For 2-D arrays, np.dot gives the same result.</li>\n<li>The <code>*</code> operator is element-wise, <b>not</b> matrix multiplication.</li>\n<li>For matmul, the number of columns of the first matrix must equal the number of rows of the second, otherwise a ValueError is raised.</li></ul>"
+   }
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "py5_module",
+   "title": {
+    "en": "Module: Write Once, Import Anywhere"
+   },
+   "file": "diagrams/py5_module.svg"
+  },
+  {
+   "id": "py5_import_forms",
+   "title": {
+    "en": "Ways to Import"
+   },
+   "file": "diagrams/py5_import_forms.svg"
+  },
+  {
+   "id": "py5_math_round",
+   "title": {
+    "en": "ceil(), floor(), trunc()"
+   },
+   "file": "diagrams/py5_math_round.svg"
+  },
+  {
+   "id": "py5_package_tree",
+   "title": {
+    "en": "Package Structure"
+   },
+   "file": "diagrams/py5_package_tree.svg"
+  },
+  {
+   "id": "py5_mpl_anatomy",
+   "title": {
+    "en": "Parts of a Matplotlib Plot"
+   },
+   "file": "diagrams/py5_mpl_anatomy.svg"
+  },
+  {
+   "id": "py5_out_line",
+   "title": {
+    "en": "Output: Line Plot (plot)"
+   },
+   "file": "diagrams/py5_out_line.svg"
+  },
+  {
+   "id": "py5_out_bar",
+   "title": {
+    "en": "Output: Bar Chart (bar)"
+   },
+   "file": "diagrams/py5_out_bar.svg"
+  },
+  {
+   "id": "py5_out_hist",
+   "title": {
+    "en": "Output: Histogram (hist)"
+   },
+   "file": "diagrams/py5_out_hist.svg"
+  },
+  {
+   "id": "py5_out_pie",
+   "title": {
+    "en": "Output: Pie Chart (pie)"
+   },
+   "file": "diagrams/py5_out_pie.svg"
+  },
+  {
+   "id": "py5_out_subplot",
+   "title": {
+    "en": "Output: subplot() Grid"
+   },
+   "file": "diagrams/py5_out_subplot.svg"
+  },
+  {
+   "id": "py5_out_waves",
+   "title": {
+    "en": "Output: Sine and Cosine (NumPy + Matplotlib)"
+   },
+   "file": "diagrams/py5_out_waves.svg"
+  },
+  {
+   "id": "py5_np_array",
+   "title": {
+    "en": "NumPy Arrays and Attributes"
+   },
+   "file": "diagrams/py5_np_array.svg"
+  },
+  {
+   "id": "py5_np_slicing",
+   "title": {
+    "en": "Indexing and Slicing a 2-D Array"
+   },
+   "file": "diagrams/py5_np_slicing.svg"
+  },
+  {
+   "id": "py5_np_axis",
+   "title": {
+    "en": "axis in NumPy Functions"
+   },
+   "file": "diagrams/py5_np_axis.svg"
+  },
+  {
+   "id": "py5_np_ops",
+   "title": {
+    "en": "dot, cross and matmul"
+   },
+   "file": "diagrams/py5_np_ops.svg"
+  }
+ ],
+ "syntax": [
+  {
+   "title": {
+    "en": "Modules"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Write a module"
+     },
+     "f": "# mymath.py\ndef add(a, b):\n    return a + b",
+     "terms": {
+      "en": "file name = module name"
+     }
+    },
+    {
+     "name": {
+      "en": "Import whole module"
+     },
+     "f": "import mymath\nmymath.add(2, 3)",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Alias"
+     },
+     "f": "import numpy as np",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Import objects"
+     },
+     "f": "from math import sqrt, pi\nfrom math import *",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Object alias"
+     },
+     "f": "from math import factorial as fact",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Main guard"
+     },
+     "f": "if __name__ == \"__main__\":\n    test()",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Explore"
+     },
+     "f": "dir(math)\nhelp(math.sqrt)",
+     "terms": {
+      "en": ""
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Numeric Modules"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "math"
+     },
+     "f": "math.sqrt(x)  math.pow(x, y)\nmath.ceil(x)  math.floor(x)\nmath.factorial(n)  math.gcd(a, b)\nmath.log(x, b)  math.sin(r)",
+     "terms": {
+      "en": "angles in radians"
+     }
+    },
+    {
+     "name": {
+      "en": "random"
+     },
+     "f": "random.randint(a, b)\nrandom.random()\nrandom.choice(seq)\nrandom.shuffle(lst)\nrandom.seed(n)",
+     "terms": {
+      "en": "randint: b included"
+     }
+    },
+    {
+     "name": {
+      "en": "statistics"
+     },
+     "f": "st.mean(d)  st.median(d)\nst.mode(d)  st.stdev(d)",
+     "terms": {
+      "en": ""
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Packages"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Structure"
+     },
+     "f": "pkg/\n    __init__.py\n    mod1.py\n    mod2.py",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Import"
+     },
+     "f": "import pkg.mod1\nfrom pkg import mod1\nfrom pkg.mod1 import func",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "__all__"
+     },
+     "f": "# pkg/__init__.py\n__all__ = [\"mod1\", \"mod2\"]",
+     "terms": {
+      "en": "for import *"
+     }
+    },
+    {
+     "name": {
+      "en": "pip"
+     },
+     "f": "pip install numpy\npip list\npip uninstall numpy",
+     "terms": {
+      "en": "terminal"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Matplotlib"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Import"
+     },
+     "f": "import matplotlib.pyplot as plt",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Line plot"
+     },
+     "f": "plt.plot(x, y, \"ro--\", label=\"A\")\nplt.show()",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Decorate"
+     },
+     "f": "plt.title(\"T\")\nplt.xlabel(\"X\")  plt.ylabel(\"Y\")\nplt.grid(True)  plt.legend()",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Bar"
+     },
+     "f": "plt.bar(names, values, color=\"g\")",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Histogram"
+     },
+     "f": "plt.hist(data, bins=5,\n         edgecolor=\"black\")",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Pie"
+     },
+     "f": "plt.pie(vals, labels=names,\n        autopct=\"%1.1f%%\")",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Subplot"
+     },
+     "f": "plt.subplot(rows, cols, index)",
+     "terms": {
+      "en": "index from 1"
+     }
+    },
+    {
+     "name": {
+      "en": "Save"
+     },
+     "f": "plt.savefig(\"chart.png\")",
+     "terms": {
+      "en": "before show()"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "NumPy"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Import / create"
+     },
+     "f": "import numpy as np\na = np.array([1, 2, 3])\nm = np.array([[1, 2], [3, 4]])",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Attributes"
+     },
+     "f": "a.shape  a.ndim  a.size\na.dtype  a.itemsize",
+     "terms": {
+      "en": "no brackets"
+     }
+    },
+    {
+     "name": {
+      "en": "Initialise"
+     },
+     "f": "np.zeros((2, 3))  np.ones(4)\nnp.full((2, 2), 7)  np.eye(3)\nnp.arange(0, 10, 2)\nnp.linspace(0, 1, 5)",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Reshape"
+     },
+     "f": "a.reshape(r, c)  a.T  a.flatten()",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Index / slice"
+     },
+     "f": "a[i]  a[i:j]\nm[r, c]  m[:, c]  m[r1:r2, c1:c2]\na[a > 5]",
+     "terms": {
+      "en": ""
+     }
+    },
+    {
+     "name": {
+      "en": "Operations"
+     },
+     "f": "a + b  a * b  a ** 2  a + 5",
+     "terms": {
+      "en": "element-wise"
+     }
+    },
+    {
+     "name": {
+      "en": "Statistics"
+     },
+     "f": "np.sum(a)  np.min(a)  np.max(a)\nnp.mean(a)  np.std(a)  np.var(a)\nnp.sum(m, axis=0)",
+     "terms": {
+      "en": "axis 0 = columns"
+     }
+    },
+    {
+     "name": {
+      "en": "Products"
+     },
+     "f": "np.dot(a, b)\nnp.cross(a, b)\nnp.matmul(A, B)  # A @ B",
+     "terms": {
+      "en": ""
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Modules"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a module?"
+     },
+     "a": {
+      "en": "A file containing Python code (functions, variables, classes) with the .py extension, which can be imported and reused in other programs."
+     }
+    },
+    {
+     "q": {
+      "en": "What are the types of modules?"
+     },
+     "a": {
+      "en": "Built-in modules (math, random), user-defined modules (your own .py files) and third-party modules (numpy, matplotlib)."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you create a user-defined module?"
+     },
+     "a": {
+      "en": "Write the functions in a .py file, e.g. mymath.py, and import it in another program in the same folder with import mymath."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between import math and from math import sqrt?"
+     },
+     "a": {
+      "en": "import math imports the whole module and names are used as math.sqrt(); from math import sqrt imports only sqrt, which is used directly as sqrt()."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is from module import * not recommended?"
+     },
+     "a": {
+      "en": "It imports all names, which can silently overwrite variables or functions that have the same name and makes the code harder to read."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the use of if __name__ == \"__main__\"?"
+     },
+     "a": {
+      "en": "Code under it runs only when the file is run directly, not when it is imported as a module. It is used for test code."
+     }
+    },
+    {
+     "q": {
+      "en": "What does dir() do?"
+     },
+     "a": {
+      "en": "dir(module) returns a list of all the names (functions, variables) defined in a module."
+     }
+    },
+    {
+     "q": {
+      "en": "Which error occurs if a module is not found?"
+     },
+     "a": {
+      "en": "ModuleNotFoundError."
+     }
+    },
+    {
+     "q": {
+      "en": "Where does Python search for modules?"
+     },
+     "a": {
+      "en": "In the current folder, the PYTHONPATH folders, the standard library and site-packages; the list is in sys.path."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the difference between math.ceil() and math.floor()?"
+     },
+     "a": {
+      "en": "ceil() rounds up to the next integer (4.2 → 5); floor() rounds down (4.8 → 4). For −4.2, ceil is −4 and floor is −5."
+     }
+    },
+    {
+     "q": {
+      "en": "Do math trigonometric functions use degrees?"
+     },
+     "a": {
+      "en": "No, they use radians. Convert with math.radians(degrees)."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between random.randint() and random.randrange()?"
+     },
+     "a": {
+      "en": "randint(a, b) includes both a and b; randrange(a, b) excludes b and accepts a step."
+     }
+    },
+    {
+     "q": {
+      "en": "What does random.seed() do?"
+     },
+     "a": {
+      "en": "It fixes the starting point of the random generator so that the same sequence of numbers is produced on every run."
+     }
+    },
+    {
+     "q": {
+      "en": "Name the numeric and mathematical modules."
+     },
+     "a": {
+      "en": "math, cmath, random, statistics, fractions, decimal and numbers."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Packages"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a package?"
+     },
+     "a": {
+      "en": "A folder containing related Python modules and an __init__.py file. It can also contain sub-packages."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between a module and a package?"
+     },
+     "a": {
+      "en": "A module is a single .py file; a package is a folder of modules (with __init__.py)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the use of __init__.py?"
+     },
+     "a": {
+      "en": "It marks a folder as a package, runs when the package is first imported, and can import names or define __all__."
+     }
+    },
+    {
+     "q": {
+      "en": "What is __all__?"
+     },
+     "a": {
+      "en": "A list in __init__.py (or in a module) that defines which names are imported by from package import *."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you import a module from a package?"
+     },
+     "a": {
+      "en": "import package.module, from package import module, or from package.module import function."
+     }
+    },
+    {
+     "q": {
+      "en": "What is pip?"
+     },
+     "a": {
+      "en": "Python's package installer, used to install third-party packages from PyPI, e.g. pip install numpy."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Matplotlib"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is Matplotlib?"
+     },
+     "a": {
+      "en": "A Python package for data visualisation: it draws line graphs, bar charts, histograms, pie charts, etc. Its pyplot module is imported as plt."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the use of plt.show()?"
+     },
+     "a": {
+      "en": "It displays the figure window with the plot."
+     }
+    },
+    {
+     "q": {
+      "en": "What does the format string \"ro--\" mean in plot()?"
+     },
+     "a": {
+      "en": "Red colour (r), circle markers (o) and a dashed line (--)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the use of legend()?"
+     },
+     "a": {
+      "en": "It shows a box that identifies each plotted line using the label given in plot()."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between a bar chart and a histogram?"
+     },
+     "a": {
+      "en": "A bar chart compares categories with given heights and has gaps between the bars; a histogram shows the frequency distribution of numeric data in bins, with touching bars."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the use of autopct in pie()?"
+     },
+     "a": {
+      "en": "It displays the percentage value on each slice, e.g. autopct=\"%1.1f%%\"."
+     }
+    },
+    {
+     "q": {
+      "en": "What does subplot(2, 2, 3) mean?"
+     },
+     "a": {
+      "en": "It divides the figure into 2 rows and 2 columns and selects the 3rd cell (bottom-left)."
+     }
+    },
+    {
+     "q": {
+      "en": "Why should savefig() be called before show()?"
+     },
+     "a": {
+      "en": "show() clears the figure when the window is closed, so a later savefig() would save an empty image."
+     }
+    },
+    {
+     "q": {
+      "en": "Which function adds grid lines?"
+     },
+     "a": {
+      "en": "plt.grid(True)."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "NumPy"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is NumPy?"
+     },
+     "a": {
+      "en": "Numerical Python, a package for fast numerical computing with n-dimensional arrays (ndarray)."
+     }
+    },
+    {
+     "q": {
+      "en": "Why are NumPy arrays faster than lists?"
+     },
+     "a": {
+      "en": "Elements have one type and are stored in a single block of memory, and operations run in optimised C code without Python loops."
+     }
+    },
+    {
+     "q": {
+      "en": "Name the array attributes."
+     },
+     "a": {
+      "en": "shape, ndim, size, dtype, itemsize (and nbytes)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the shape of np.array([[1, 2, 3], [4, 5, 6]])?"
+     },
+     "a": {
+      "en": "(2, 3): 2 rows and 3 columns. ndim is 2 and size is 6."
+     }
+    },
+    {
+     "q": {
+      "en": "What is itemsize?"
+     },
+     "a": {
+      "en": "The memory used by one element in bytes, e.g. 8 for int64 or float64."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between arange() and linspace()?"
+     },
+     "a": {
+      "en": "arange(start, stop, step) uses a step and excludes stop; linspace(start, stop, n) gives n equally spaced values and includes stop."
+     }
+    },
+    {
+     "q": {
+      "en": "What does reshape() do?"
+     },
+     "a": {
+      "en": "It changes the shape of an array without changing its data; the total size must remain the same."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you access a column of a 2-D array?"
+     },
+     "a": {
+      "en": "With m[:, c], e.g. m[:, 1] gives column 1."
+     }
+    },
+    {
+     "q": {
+      "en": "What is boolean indexing?"
+     },
+     "a": {
+      "en": "Selecting elements using a condition: a[a > 5] returns all elements greater than 5."
+     }
+    },
+    {
+     "q": {
+      "en": "What is broadcasting?"
+     },
+     "a": {
+      "en": "NumPy's ability to perform operations on arrays of different shapes by automatically expanding the smaller one, e.g. a + 5."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the difference between axis=0 and axis=1?"
+     },
+     "a": {
+      "en": "axis=0 works down the columns (one result per column); axis=1 works across the rows (one result per row)."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between np.var() and np.std()?"
+     },
+     "a": {
+      "en": "var() is the average of squared deviations from the mean; std() is the square root of the variance."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between a * b and np.matmul(a, b)?"
+     },
+     "a": {
+      "en": "a * b multiplies element by element; np.matmul() performs matrix multiplication (row × column)."
+     }
+    },
+    {
+     "q": {
+      "en": "What does np.dot() return for two 1-D arrays?"
+     },
+     "a": {
+      "en": "A scalar: the sum of the products of corresponding elements."
+     }
+    },
+    {
+     "q": {
+      "en": "What does np.cross() return?"
+     },
+     "a": {
+      "en": "The cross product of two 3-D vectors, a vector perpendicular to both."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "What is a module? Explain how to create and import a user-defined module with example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain different ways of importing a module in Python."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain any five functions of the math module with example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the random module with any four functions."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "What is the use of if __name__ == \"__main__\" in a module?"
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "What is a package? Explain the steps to create a user-defined package with example."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Differentiate between module and package."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "What is Matplotlib? Explain plot(), xlabel(), ylabel(), title(), grid() and show() with example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a Python program to draw a bar chart of subject-wise marks using Matplotlib."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a Python program to draw a pie chart using Matplotlib."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain hist() with example. Differentiate between bar chart and histogram."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain subplot() and savefig() with example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "What is NumPy? Differentiate between Python list and NumPy array."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain NumPy array attributes: shape, ndim, size, dtype, itemsize."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain array initialization functions: zeros(), ones(), full(), eye(), arange(), linspace()."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain indexing and slicing of NumPy arrays with example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain array operations and broadcasting in NumPy."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain np.sum(), np.min(), np.max(), np.mean(), np.std() and np.var() with example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain np.dot(), np.cross() and np.matmul() with example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a NumPy program to create a 3 x 3 matrix and find the sum of each row and column."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Write a NumPy program to multiply two matrices."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Write a Python program to plot sine and cosine waves using NumPy and Matplotlib."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a program to create a package for area and perimeter of shapes and use it."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Write a program to generate a 6-digit OTP using the random module."
+   },
+   "marks": 3
+  }
+ ]
+}
