@@ -47,8 +47,47 @@ def page(title, body, style="", script="", jquery=False, bs_js=False, icons=Fals
     return "\n".join(h)
 
 
+def _wrap_line(ln):
+    """Split an over-long HTML line at a space between attributes (inside a tag, outside quotes)."""
+    if len(ln) <= MAXW or "://" in ln:
+        return [ln]
+    ind = len(ln) - len(ln.lstrip())
+    in_tag, quote, cut = False, None, -1
+    for i, ch in enumerate(ln):
+        if quote:
+            if ch == quote:
+                quote = None
+        elif in_tag and ch in "\"'":
+            quote = ch
+        elif ch == "<":
+            in_tag = True
+        elif ch == ">":
+            in_tag = False
+        elif ch == " " and in_tag and ind < i <= MAXW:
+            cut = i
+    if cut < 0:
+        return [ln]
+    return [ln[:cut]] + _wrap_line(" " * (ind + 4) + ln[cut + 1:])
+
+
+def wrap_html(code):
+    out, in_script = [], False
+    for ln in code.split("\n"):
+        st = ln.strip()
+        if st.startswith("<script") and "src=" not in st:
+            in_script = True
+        if in_script or st.startswith("<style") or st.startswith("</style"):
+            out.append(ln)
+        else:
+            out += _wrap_line(ln)
+        if st.startswith("</script>"):
+            in_script = False
+    return "\n".join(out)
+
+
 def WE(id_, title, code, out, expl="", actions=None):
     code = code.strip("\n")
+    code = wrap_html(code)
     _check(id_, code)
     assert "<" not in title, id_
     d = {"id": id_, "title": {"en": title}, "code": {"en": code}, "out": out.strip(), "expl": {"en": expl.strip()},

@@ -1,0 +1,1424 @@
+{
+ "subject": "DI03000061",
+ "unit": 3,
+ "format": "notes",
+ "title": {
+  "en": "Bootstrap Components"
+ },
+ "weightage": 23,
+ "hours": 14,
+ "notes": [
+  {
+   "title": {
+    "en": "3.1 Components, Icons, Dropdowns, Cards, Button and Input Groups"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Introduction to Bootstrap Components"
+     },
+     "body": {
+      "en": "\n<p>A <b>Bootstrap component</b> is a ready-made, reusable user interface (UI) part, such as a navbar, card, dropdown, alert or progress bar. It is made of HTML with predefined Bootstrap classes. Interactive components also use Bootstrap's JavaScript (<code>bootstrap.bundle.min.js</code>).</p>\n<h4>Advantages of components</h4>\n<ul><li><b>Saves time:</b> no need to write CSS or JavaScript from scratch; just add classes.</li>\n<li><b>Consistent look:</b> all pages and buttons look the same across the website.</li>\n<li><b>Responsive:</b> components adjust automatically to phone, tablet and desktop.</li>\n<li><b>Cross-browser:</b> tested on all modern browsers.</li>\n<li><b>Accessible:</b> they use ARIA attributes and keyboard support for screen readers.</li>\n<li><b>Easy to customise:</b> colours, sizes and spacing are changed with utility classes or Sass variables.</li>\n<li><b>Well documented</b> with many examples, and a large community.</li></ul>\n<h4>Types of components</h4>\n<table><tr><th>Type</th><th>Components</th></tr>\n<tr><td>Navigation</td><td>Navs (tabs, pills), navbar, breadcrumb, pagination, dropdown</td></tr>\n<tr><td>Content containers</td><td>Card (panel, thumbnail, well), list group, media object, jumbotron, accordion</td></tr>\n<tr><td>Buttons and forms</td><td>Buttons, button group, button toolbar, input group, close button</td></tr>\n<tr><td>Feedback / status</td><td>Alerts, badges (labels), progress bars, spinners, toasts</td></tr>\n<tr><td>Overlays (Unit 4)</td><td>Modal, tooltip, popover, offcanvas</td></tr></table>\n<p><b>CSS-only components</b> (card, badge, breadcrumb, list group) need only bootstrap.css. <b>JavaScript components</b> (dropdown, navbar toggler, tabs, dismissible alert) also need bootstrap.bundle.min.js and work through <code>data-bs-*</code> attributes.</p>\n"
+     },
+     "diagram": "web3_components"
+    },
+    {
+     "h": {
+      "en": "Bootstrap 3 Components and their Bootstrap 5 Replacements"
+     },
+     "body": {
+      "en": "\n<p>The GTU syllabus uses some <b>Bootstrap 3</b> component names. Bootstrap 4 and 5 removed or renamed many of them. In this course we use <b>Bootstrap 5</b>, but you should know both names for the viva.</p>\n<table><tr><th>Bootstrap 3</th><th>Bootstrap 5</th></tr>\n<tr><td>Glyphicons (icon font in bootstrap.css)</td><td>Bootstrap Icons, a separate library: <code>bi bi-*</code></td></tr>\n<tr><td>.label .label-danger</td><td>.badge .bg-danger</td></tr>\n<tr><td>.panel, .panel-heading, .panel-body</td><td>.card, .card-header, .card-body</td></tr>\n<tr><td>.thumbnail</td><td>.card or .img-thumbnail</td></tr>\n<tr><td>.well</td><td>.card or .bg-light .p-3 .border</td></tr>\n<tr><td>.jumbotron</td><td>Removed; use utilities .p-5 .bg-body-tertiary .rounded-3</td></tr>\n<tr><td>.page-header</td><td>Removed; use .border-bottom .pb-2 .mb-3</td></tr>\n<tr><td>.media (BS3/BS4)</td><td>Flex utilities: .d-flex .flex-shrink-0 .ms-3</td></tr>\n<tr><td>.navbar-default / .navbar-inverse</td><td>.bg-* with data-bs-theme=\"light\" / \"dark\"</td></tr>\n<tr><td>.pull-left / .pull-right</td><td>.float-start / .float-end, or .ms-auto in flex</td></tr>\n<tr><td>&lt;span class=\"caret\"&gt;</td><td>Added automatically by .dropdown-toggle</td></tr>\n<tr><td>data-toggle, data-target</td><td>data-bs-toggle, data-bs-target</td></tr>\n<tr><td>.input-group-addon</td><td>.input-group-text</td></tr></table>\n<p><b>Reason for the changes:</b> Bootstrap 4/5 moved to flexbox, removed jQuery, and made smaller general utility classes, so many single-purpose components were no longer needed.</p>\n"
+     },
+     "diagram": "web3_bs3_map"
+    },
+    {
+     "h": {
+      "en": "Glyphicons and Bootstrap Icons"
+     },
+     "body": {
+      "en": "\n<p><b>Glyphicons</b> were the icon font included in <b>Bootstrap 3</b> (about 250 icons). Icons were added with a span: <code>&lt;span class=\"glyphicon glyphicon-search\"&gt;&lt;/span&gt;</code>. Bootstrap 4 dropped Glyphicons.</p>\n<p><b>Bootstrap Icons</b> is the official free icon library for Bootstrap 5, with more than 2000 icons. It is a separate CSS + font file.</p>\n<pre class=\"c\">&lt;!-- Bootstrap 3 --&gt;\n&lt;span class=\"glyphicon glyphicon-user\"&gt;&lt;/span&gt;\n&lt;!-- Bootstrap 5 --&gt;\n&lt;i class=\"bi bi-person\"&gt;&lt;/i&gt;</pre>\n<h4>Using Bootstrap Icons</h4>\n<ol><li>Link <b>bootstrap-icons.css</b> in the head (from a CDN or a local copy).</li>\n<li>Add <code>&lt;i class=\"bi bi-{name}\"&gt;&lt;/i&gt;</code> where the icon should appear.</li>\n<li>Because an icon is a font character, change its <b>size</b> with font-size (<code>fs-1</code> to <code>fs-6</code>) and its <b>colour</b> with text colour classes (<code>text-danger</code>).</li></ol>\n<pre class=\"c\">&lt;!-- in &lt;head&gt; --&gt;\n&lt;link rel=\"stylesheet\" href=\"bootstrap-icons.css\"&gt;\n\n&lt;i class=\"bi bi-house\"&gt;&lt;/i&gt; Home\n&lt;i class=\"bi bi-search text-primary fs-4\"&gt;&lt;/i&gt;\n&lt;button class=\"btn btn-success\"&gt;\n  &lt;i class=\"bi bi-download\"&gt;&lt;/i&gt; Download\n&lt;/button&gt;\n&lt;i class=\"bi bi-star-fill\" style=\"color: orange\"&gt;&lt;/i&gt;</pre>\n<h4>Common icons</h4>\n<ul><li>bi-house, bi-person, bi-envelope, bi-telephone, bi-search</li>\n<li>bi-cart, bi-heart, bi-star-fill, bi-trash, bi-pencil, bi-download</li>\n<li>bi-list (menu), bi-x-lg (close), bi-check-circle, bi-exclamation-triangle</li></ul>\n<p>Icons are used in buttons, navbars, menus, alerts and list items. For accessibility, add <code>aria-hidden=\"true\"</code> to decorative icons, or a visually-hidden text label for icon-only buttons.</p>\n"
+     },
+     "programs": [
+      "w3_1"
+     ]
+    },
+    {
+     "h": {
+      "en": "Dropdowns"
+     },
+     "body": {
+      "en": "\n<p>A <b>dropdown</b> is a toggleable menu that shows a list of links when a button or link is clicked. It is a JavaScript component and needs <b>bootstrap.bundle.min.js</b> (which includes Popper.js for positioning).</p>\n<h4>Structure</h4>\n<ul><li>Wrapper <code>.dropdown</code> (or <code>.btn-group</code>).</li>\n<li>Toggle button with <code>.dropdown-toggle</code> and <code>data-bs-toggle=\"dropdown\"</code>; the caret is added automatically.</li>\n<li>Menu <code>ul.dropdown-menu</code> with <code>a.dropdown-item</code> items.</li></ul>\n<pre class=\"c\">&lt;div class=\"dropdown\"&gt;\n  &lt;button class=\"btn btn-primary dropdown-toggle\"\n      type=\"button\" data-bs-toggle=\"dropdown\"&gt;\n    Courses\n  &lt;/button&gt;\n  &lt;ul class=\"dropdown-menu\"&gt;\n    &lt;li&gt;&lt;h6 class=\"dropdown-header\"&gt;Diploma&lt;/h6&gt;&lt;/li&gt;\n    &lt;li&gt;&lt;a class=\"dropdown-item\" href=\"#\"&gt;Computer&lt;/a&gt;&lt;/li&gt;\n    &lt;li&gt;&lt;a class=\"dropdown-item active\" href=\"#\"&gt;IT&lt;/a&gt;&lt;/li&gt;\n    &lt;li&gt;&lt;hr class=\"dropdown-divider\"&gt;&lt;/li&gt;\n    &lt;li&gt;&lt;a class=\"dropdown-item disabled\"&gt;M.E.&lt;/a&gt;&lt;/li&gt;\n  &lt;/ul&gt;\n&lt;/div&gt;</pre>\n<h4>Menu options</h4>\n<table><tr><th>Class</th><th>Use</th></tr>\n<tr><td>.dropdown-header</td><td>Non-clickable heading inside the menu</td></tr>\n<tr><td>.dropdown-divider</td><td>Horizontal line between groups (BS3: li.divider)</td></tr>\n<tr><td>.active / .disabled</td><td>Highlighted current item / greyed-out item</td></tr>\n<tr><td>.dropdown-item-text</td><td>Plain text item</td></tr>\n<tr><td>.dropdown-menu-end</td><td>Menu aligned to the right edge</td></tr>\n<tr><td>.dropdown-menu-dark</td><td>Dark menu</td></tr>\n<tr><td>.dropup / .dropend / .dropstart</td><td>Menu opens upward / right / left</td></tr>\n<tr><td>.dropdown-toggle-split</td><td>Split button: action part + caret part</td></tr></table>\n<pre class=\"c\">&lt;div class=\"btn-group\"&gt;\n  &lt;button class=\"btn btn-danger\"&gt;Action&lt;/button&gt;\n  &lt;button class=\"btn btn-danger dropdown-toggle\n      dropdown-toggle-split\" data-bs-toggle=\"dropdown\"&gt;\n  &lt;/button&gt;\n  &lt;ul class=\"dropdown-menu dropdown-menu-end\"&gt;...&lt;/ul&gt;\n&lt;/div&gt;\n&lt;div class=\"btn-group dropup\"&gt;...&lt;/div&gt;</pre>\n<p><b>Events:</b> show.bs.dropdown, shown.bs.dropdown, hide.bs.dropdown, hidden.bs.dropdown. Forms can also be placed inside a dropdown menu.</p>\n"
+     },
+     "diagram": "web3_dropdown",
+     "programs": [
+      "w3_2"
+     ]
+    },
+    {
+     "h": {
+      "en": "Cards"
+     },
+     "body": {
+      "en": "\n<p>A <b>card</b> is a flexible content container with optional header, footer, image and body. In Bootstrap 4/5, the card replaced the BS3 <b>panel, well and thumbnail</b>.</p>\n<h4>Parts of a card</h4>\n<ul><li><b>.card</b>: outer box with border and rounded corners.</li>\n<li><b>.card-header / .card-footer</b>: grey strips at the top and bottom.</li>\n<li><b>.card-body</b>: padded content area containing <b>.card-title</b>, <b>.card-subtitle</b>, <b>.card-text</b> and <b>.card-link</b>.</li>\n<li><b>.card-img-top / .card-img-bottom</b>: full-width image at the top or bottom.</li>\n<li><b>.card-img-overlay</b>: places text on top of the image.</li></ul>\n<pre class=\"c\">&lt;div class=\"card\" style=\"width: 18rem\"&gt;\n  &lt;img src=\"course.jpg\" class=\"card-img-top\" alt=\"Course\"&gt;\n  &lt;div class=\"card-body\"&gt;\n    &lt;h5 class=\"card-title\"&gt;Python Course&lt;/h5&gt;\n    &lt;p class=\"card-text\"&gt;Learn Python in 30 days.&lt;/p&gt;\n    &lt;a href=\"#\" class=\"btn btn-primary\"&gt;Enroll&lt;/a&gt;\n  &lt;/div&gt;\n  &lt;div class=\"card-footer text-muted\"&gt;Starts 1 Dec&lt;/div&gt;\n&lt;/div&gt;</pre>\n<h4>Card layouts and styles</h4>\n<ul><li><b>Grid of cards:</b> cards inside grid columns; <code>.h-100</code> gives equal height.</li>\n<li><b>.card-group:</b> joined cards of equal height.</li>\n<li><b>Horizontal card:</b> a row inside the card with image in col-md-4 and body in col-md-8.</li>\n<li><b>Colours:</b> <code>text-bg-primary</code>, <code>border-success</code>.</li>\n<li><b>List group in card:</b> <code>ul.list-group.list-group-flush</code>.</li>\n<li><b>Width:</b> 100% by default; set it with the grid, w-* utilities or a style.</li></ul>\n<pre class=\"c\">&lt;div class=\"row row-cols-1 row-cols-md-3 g-3\"&gt;\n  &lt;div class=\"col\"&gt;\n    &lt;div class=\"card h-100\"&gt;...&lt;/div&gt;\n  &lt;/div&gt;\n  &lt;div class=\"col\"&gt;\n    &lt;div class=\"card h-100 text-bg-success\"&gt;...&lt;/div&gt;\n  &lt;/div&gt;\n&lt;/div&gt;</pre>\n"
+     },
+     "diagram": "web3_card",
+     "programs": [
+      "w3_3"
+     ]
+    },
+    {
+     "h": {
+      "en": "Button Groups and Button Toolbar"
+     },
+     "body": {
+      "en": "\n<p>A <b>button group</b> joins several buttons together in a single line (no gap, only the outer corners rounded). A <b>button toolbar</b> combines several button groups in one row.</p>\n<h4>Button group</h4>\n<pre class=\"c\">&lt;div class=\"btn-group\" role=\"group\"&gt;\n  &lt;button class=\"btn btn-primary\"&gt;Left&lt;/button&gt;\n  &lt;button class=\"btn btn-primary\"&gt;Middle&lt;/button&gt;\n  &lt;button class=\"btn btn-primary\"&gt;Right&lt;/button&gt;\n&lt;/div&gt;\n&lt;div class=\"btn-group-vertical\"&gt;...&lt;/div&gt;</pre>\n<ul><li><b>.btn-group</b>: horizontal group. Add <code>role=\"group\"</code> and an aria-label for accessibility.</li>\n<li><b>.btn-group-vertical</b>: buttons stacked vertically.</li>\n<li><b>Sizes:</b> <code>.btn-group-lg</code>, <code>.btn-group-sm</code> on the group instead of on every button.</li>\n<li><b>Toggle group:</b> radio or checkbox inputs with <code>.btn-check</code> and labels with <code>.btn</code>, so one or more buttons stay selected.</li></ul>\n<h4>Button toolbar</h4>\n<pre class=\"c\">&lt;div class=\"btn-toolbar\" role=\"toolbar\"&gt;\n  &lt;div class=\"btn-group me-2\"&gt;\n    &lt;button class=\"btn btn-secondary\"&gt;1&lt;/button&gt;\n    &lt;button class=\"btn btn-secondary\"&gt;2&lt;/button&gt;\n  &lt;/div&gt;\n  &lt;div class=\"btn-group\"&gt;\n    &lt;button class=\"btn btn-info\"&gt;8&lt;/button&gt;\n  &lt;/div&gt;\n&lt;/div&gt;</pre>\n<p>Use spacing utilities (<code>me-2</code>) between the groups. Input groups can also be placed in a toolbar.</p>\n<h4>Nesting (dropdown inside a group)</h4>\n<p>Place a <code>.btn-group</code> containing a dropdown inside another <code>.btn-group</code>. This creates a group where one button opens a submenu, e.g. odd and even semester buttons with subject menus.</p>\n<pre class=\"c\">&lt;div class=\"btn-group\"&gt;\n  &lt;button class=\"btn btn-primary\"&gt;Sem 1&lt;/button&gt;\n  &lt;div class=\"btn-group\"&gt;\n    &lt;button class=\"btn btn-primary dropdown-toggle\"\n        data-bs-toggle=\"dropdown\"&gt;Sem 3&lt;/button&gt;\n    &lt;ul class=\"dropdown-menu\"&gt;\n      &lt;li&gt;&lt;a class=\"dropdown-item\" href=\"#\"&gt;RWPD&lt;/a&gt;&lt;/li&gt;\n    &lt;/ul&gt;\n  &lt;/div&gt;\n&lt;/div&gt;</pre>\n<p><b>Uses:</b> pagination-like controls, text editor toolbars (bold, italic, underline), view switchers (list/grid), semester selectors.</p>\n"
+     },
+     "diagram": "web3_btn_groups",
+     "programs": [
+      "w3_4",
+      "w3_5"
+     ]
+    },
+    {
+     "h": {
+      "en": "Input Groups"
+     },
+     "body": {
+      "en": "\n<p>An <b>input group</b> extends a form control by adding text, icons or buttons <b>before, after or on both sides</b> of the input in one joined box.</p>\n<pre class=\"c\">&lt;div class=\"input-group mb-3\"&gt;\n  &lt;span class=\"input-group-text\"&gt;@&lt;/span&gt;\n  &lt;input type=\"text\" class=\"form-control\"\n      placeholder=\"Username\"&gt;\n&lt;/div&gt;\n&lt;div class=\"input-group mb-3\"&gt;\n  &lt;span class=\"input-group-text\"&gt;Rs.&lt;/span&gt;\n  &lt;input type=\"number\" class=\"form-control\"&gt;\n  &lt;span class=\"input-group-text\"&gt;.00&lt;/span&gt;\n&lt;/div&gt;\n&lt;div class=\"input-group\"&gt;\n  &lt;input type=\"text\" class=\"form-control\"\n      placeholder=\"Search\"&gt;\n  &lt;button class=\"btn btn-primary\"&gt;Go&lt;/button&gt;\n&lt;/div&gt;</pre>\n<h4>Classes and options</h4>\n<ul><li><b>.input-group</b>: wrapper; its children are joined together.</li>\n<li><b>.input-group-text</b>: grey add-on with text or an icon (BS3: <code>.input-group-addon</code>).</li>\n<li><b>Buttons and dropdowns</b> can be added directly as add-ons.</li>\n<li><b>Checkbox or radio</b> inside <code>.input-group-text</code> with <code>.form-check-input</code>.</li>\n<li><b>Multiple inputs</b> (e.g. first and last name) and multiple add-ons are allowed.</li>\n<li><b>Select and file input:</b> <code>.form-select</code>, <code>input type=\"file\"</code>.</li>\n<li><b>Sizes:</b> <code>.input-group-sm</code>, <code>.input-group-lg</code>.</li>\n<li><b>.flex-nowrap</b> stops the parts wrapping onto a new line on small screens.</li></ul>\n<p><b>Examples:</b> @ for username, +91 for mobile, Rs. and .00 for an amount, envelope icon for email, Search + Go button, \"https://\" before a website field.</p>\n<p>Always connect a <b>label</b> (or aria-label) with the input because the add-on text is not a label.</p>\n"
+     },
+     "diagram": "web3_input_group",
+     "programs": [
+      "w3_6"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3.2 Navs, Navbar, Breadcrumb, Pagination and Badges"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Navs: Tabs and Pills"
+     },
+     "body": {
+      "en": "\n<p><b>Navs</b> are navigation components built from a list of links. The base class <code>.nav</code> with <code>.nav-item</code> and <code>.nav-link</code> gives a simple horizontal menu.</p>\n<pre class=\"c\">&lt;ul class=\"nav nav-tabs\"&gt;\n  &lt;li class=\"nav-item\"&gt;\n    &lt;a class=\"nav-link active\" href=\"#\"&gt;Unit 1&lt;/a&gt;\n  &lt;/li&gt;\n  &lt;li class=\"nav-item\"&gt;\n    &lt;a class=\"nav-link\" href=\"#\"&gt;Unit 2&lt;/a&gt;\n  &lt;/li&gt;\n  &lt;li class=\"nav-item\"&gt;\n    &lt;a class=\"nav-link disabled\"&gt;Unit 3&lt;/a&gt;\n  &lt;/li&gt;\n&lt;/ul&gt;\n&lt;!-- pills: nav nav-pills, vertical: add flex-column --&gt;</pre>\n<h4>Nav styles</h4>\n<table><tr><th>Class</th><th>Result</th></tr>\n<tr><td>.nav-tabs</td><td>Tabs: the active link looks like a folder tab joined to the content below</td></tr>\n<tr><td>.nav-pills</td><td>Pills: the active link has a coloured rounded background</td></tr>\n<tr><td>.nav-underline</td><td>Active link underlined</td></tr>\n<tr><td>.nav-fill / .nav-justified</td><td>Items fill the full width (justified = equal widths)</td></tr>\n<tr><td>.flex-column</td><td>Vertical (stacked) nav</td></tr>\n<tr><td>.justify-content-center / -end</td><td>Centre or right-align the items</td></tr>\n<tr><td>.active / .disabled</td><td>Current item / disabled item</td></tr></table>\n<h4>Tab and pill plug-in (dynamic tabs)</h4>\n<p>With JavaScript, tabs and pills switch between content panes without loading a new page.</p>\n<ul><li>Each link gets <code>data-bs-toggle=\"tab\"</code> (or \"pill\") and <code>data-bs-target=\"#id\"</code>.</li>\n<li>Panes are <code>.tab-pane</code> inside <code>.tab-content</code>; the first pane has <code>show active</code>.</li>\n<li><code>.fade</code> gives a fade animation.</li></ul>\n<pre class=\"c\">&lt;ul class=\"nav nav-tabs\" role=\"tablist\"&gt;\n  &lt;li class=\"nav-item\"&gt;\n    &lt;button class=\"nav-link active\" data-bs-toggle=\"tab\"\n        data-bs-target=\"#u1\" type=\"button\"&gt;Unit 1&lt;/button&gt;\n  &lt;/li&gt;\n  &lt;li class=\"nav-item\"&gt;\n    &lt;button class=\"nav-link\" data-bs-toggle=\"tab\"\n        data-bs-target=\"#u2\" type=\"button\"&gt;Unit 2&lt;/button&gt;\n  &lt;/li&gt;\n&lt;/ul&gt;\n&lt;div class=\"tab-content p-3 border border-top-0\"&gt;\n  &lt;div class=\"tab-pane fade show active\" id=\"u1\"&gt;\n    Introduction...&lt;/div&gt;\n  &lt;div class=\"tab-pane fade\" id=\"u2\"&gt;Grid...&lt;/div&gt;\n&lt;/div&gt;</pre>\n<p>Events: show.bs.tab, shown.bs.tab, hide.bs.tab. From code: <code>bootstrap.Tab.getOrCreateInstance(el).show()</code>.</p>\n"
+     },
+     "diagram": "web3_navs",
+     "programs": [
+      "w3_7",
+      "w3_8"
+     ]
+    },
+    {
+     "h": {
+      "en": "Navbar"
+     },
+     "body": {
+      "en": "\n<p>A <b>navbar</b> is the responsive navigation header of a website. It contains the brand (logo/name), navigation links, dropdowns, forms and buttons. On small screens it collapses behind a <b>hamburger</b> (toggler) button.</p>\n<pre class=\"c\">&lt;nav class=\"navbar navbar-expand-lg bg-dark\"\n    data-bs-theme=\"dark\"&gt;\n  &lt;div class=\"container-fluid\"&gt;\n    &lt;a class=\"navbar-brand\" href=\"#\"&gt;DiplomaOne&lt;/a&gt;\n    &lt;button class=\"navbar-toggler\" type=\"button\"\n        data-bs-toggle=\"collapse\" data-bs-target=\"#menu\"&gt;\n      &lt;span class=\"navbar-toggler-icon\"&gt;&lt;/span&gt;\n    &lt;/button&gt;\n    &lt;div class=\"collapse navbar-collapse\" id=\"menu\"&gt;\n      &lt;ul class=\"navbar-nav me-auto\"&gt;\n        &lt;li class=\"nav-item\"&gt;\n          &lt;a class=\"nav-link active\" href=\"#\"&gt;Home&lt;/a&gt;\n        &lt;/li&gt;\n        &lt;li class=\"nav-item\"&gt;\n          &lt;a class=\"nav-link\" href=\"#\"&gt;About&lt;/a&gt;\n        &lt;/li&gt;\n      &lt;/ul&gt;\n      &lt;form class=\"d-flex\"&gt;\n        &lt;input class=\"form-control me-2\" type=\"search\"&gt;\n        &lt;button class=\"btn btn-warning\"&gt;Search&lt;/button&gt;\n      &lt;/form&gt;\n    &lt;/div&gt;\n  &lt;/div&gt;\n&lt;/nav&gt;</pre>\n<h4>Parts of a navbar</h4>\n<ul><li><b>.navbar</b> with <b>.navbar-expand-{bp}</b>: the menu is expanded from that breakpoint upward and collapsed below it (e.g. lg = collapsed below 992 px).</li>\n<li><b>.navbar-brand</b>: website name or logo image.</li>\n<li><b>.navbar-toggler</b> with <b>.navbar-toggler-icon</b>: the hamburger button; <code>data-bs-toggle=\"collapse\"</code> opens the menu.</li>\n<li><b>.collapse.navbar-collapse</b>: the part that is hidden on small screens; its id matches data-bs-target.</li>\n<li><b>.navbar-nav</b> with .nav-item / .nav-link: the links; .dropdown items are allowed.</li>\n<li><b>.navbar-text</b>: plain text.</li>\n<li><b>Forms:</b> <code>form.d-flex</code> for a search box; <code>me-auto</code> on navbar-nav pushes the form to the right.</li></ul>\n<h4>Colour schemes</h4>\n<p>Use a background class (<code>bg-dark</code>, <code>bg-primary</code>, <code>bg-body-tertiary</code>) and <code>data-bs-theme=\"dark\"</code> for light text. (BS3: .navbar-default and .navbar-inverse.)</p>\n<h4>Fixed navbar</h4>\n<table><tr><th>Class</th><th>Behaviour</th></tr>\n<tr><td>.fixed-top</td><td>Stays at the top of the screen while scrolling</td></tr>\n<tr><td>.fixed-bottom</td><td>Stays at the bottom (used for footers)</td></tr>\n<tr><td>.sticky-top</td><td>Scrolls with the page, then sticks at the top</td></tr></table>\n<p>Fixed elements are removed from the normal flow, so add <b>padding-top</b> (and padding-bottom) to the body so that content is not hidden behind them.</p>\n<pre class=\"c\">&lt;nav class=\"navbar fixed-top bg-primary\"&gt;...&lt;/nav&gt;\n&lt;footer class=\"fixed-bottom bg-dark text-white\"&gt;\n  ...&lt;/footer&gt;\n&lt;style&gt;\n  body { padding-top: 60px; padding-bottom: 50px; }\n&lt;/style&gt;</pre>\n"
+     },
+     "diagram": "web3_navbar",
+     "programs": [
+      "w3_9",
+      "w3_10"
+     ]
+    },
+    {
+     "h": {
+      "en": "Breadcrumb and Pagination"
+     },
+     "body": {
+      "en": "\n<h4>Breadcrumb</h4>\n<p>A <b>breadcrumb</b> shows the current page's location in the website hierarchy, e.g. Home / Computer / Sem 3 / RWPD. Each level is a link except the current page.</p>\n<pre class=\"c\">&lt;nav aria-label=\"breadcrumb\"&gt;\n  &lt;ol class=\"breadcrumb\"&gt;\n    &lt;li class=\"breadcrumb-item\"&gt;&lt;a href=\"#\"&gt;Home&lt;/a&gt;&lt;/li&gt;\n    &lt;li class=\"breadcrumb-item\"&gt;&lt;a href=\"#\"&gt;Sem 3&lt;/a&gt;&lt;/li&gt;\n    &lt;li class=\"breadcrumb-item active\"&gt;RWPD&lt;/li&gt;\n  &lt;/ol&gt;\n&lt;/nav&gt;</pre>\n<ul><li><code>ol.breadcrumb</code> with <code>li.breadcrumb-item</code>; the last item has <code>.active</code> and <code>aria-current=\"page\"</code>.</li>\n<li>The separator \"/\" is added by CSS. Change it with the CSS variable <code>--bs-breadcrumb-divider</code>, e.g. '&gt;'.</li>\n<li>Wrap it in <code>nav aria-label=\"breadcrumb\"</code> for accessibility.</li></ul>\n<h4>Pagination</h4>\n<p><b>Pagination</b> splits long content (search results, products, articles) into pages and shows numbered page links.</p>\n<pre class=\"c\">&lt;ul class=\"pagination justify-content-center\"&gt;\n  &lt;li class=\"page-item disabled\"&gt;\n    &lt;a class=\"page-link\"&gt;Previous&lt;/a&gt;\n  &lt;/li&gt;\n  &lt;li class=\"page-item\"&gt;&lt;a class=\"page-link\" href=\"#\"&gt;1&lt;/a&gt;&lt;/li&gt;\n  &lt;li class=\"page-item active\"&gt;\n    &lt;a class=\"page-link\" href=\"#\"&gt;2&lt;/a&gt;\n  &lt;/li&gt;\n  &lt;li class=\"page-item\"&gt;&lt;a class=\"page-link\" href=\"#\"&gt;3&lt;/a&gt;&lt;/li&gt;\n  &lt;li class=\"page-item\"&gt;&lt;a class=\"page-link\" href=\"#\"&gt;Next&lt;/a&gt;&lt;/li&gt;\n&lt;/ul&gt;</pre>\n<ul><li>Structure: <code>ul.pagination &gt; li.page-item &gt; a.page-link</code>.</li>\n<li><code>.active</code> marks the current page; <code>.disabled</code> greys out Previous on the first page or Next on the last page.</li>\n<li>Sizes: <code>.pagination-lg</code>, <code>.pagination-sm</code>.</li>\n<li>Alignment: <code>justify-content-center</code> or <code>-end</code> on the ul.</li>\n<li>Arrows: use <code>&amp;laquo;</code> and <code>&amp;raquo;</code> (shown as double arrows) for Previous / Next.</li></ul>\n<p><b>With JavaScript:</b> keep a list of items and show only the items of the current page: <code>items.slice((page - 1) * perPage, page * perPage)</code>. Rebuild the page links on every click.</p>\n"
+     },
+     "diagram": "web3_breadcrumb",
+     "programs": [
+      "w3_11"
+     ]
+    },
+    {
+     "h": {
+      "en": "Badges (Labels)"
+     },
+     "body": {
+      "en": "\n<p>A <b>badge</b> is a small count or label that is attached to text, buttons or links, e.g. \"New\", the number of unread messages, or a status. In <b>Bootstrap 3</b> these were called <b>labels</b> (<code>.label .label-success</code>) and <b>badges</b> (rounded counters); Bootstrap 5 joins both in <b>.badge</b>.</p>\n<pre class=\"c\">&lt;h4&gt;Notices &lt;span class=\"badge bg-danger\"&gt;New&lt;/span&gt;&lt;/h4&gt;\n&lt;span class=\"badge rounded-pill text-bg-warning\"&gt;Pill&lt;/span&gt;\n&lt;button class=\"btn btn-primary\"&gt;\n  Inbox &lt;span class=\"badge text-bg-light\"&gt;7&lt;/span&gt;\n&lt;/button&gt;\n&lt;button class=\"btn btn-dark position-relative\"&gt;\n  &lt;i class=\"bi bi-bell\"&gt;&lt;/i&gt;\n  &lt;span class=\"position-absolute top-0 start-100\n      translate-middle badge rounded-pill bg-danger\"&gt;3&lt;/span&gt;\n&lt;/button&gt;</pre>\n<ul><li><b>Colour:</b> <code>bg-*</code> or <code>text-bg-*</code> (text-bg also sets a readable text colour).</li>\n<li><b>.rounded-pill</b>: pill-shaped badge.</li>\n<li><b>Size:</b> a badge scales with its parent, so a badge in an h1 is larger than one in a paragraph.</li>\n<li><b>In buttons:</b> shows counts like Inbox 7.</li>\n<li><b>Positioned:</b> <code>position-absolute top-0 start-100 translate-middle</code> puts a notification count on the corner of an icon button.</li>\n<li>Add visually-hidden text (e.g. \"unread messages\") so screen readers understand the number.</li></ul>\n<p><b>Uses:</b> new items, notification counts, status (Paid / Pending), tags and categories, ratings in list groups.</p>\n"
+     },
+     "programs": [
+      "w3_12"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3.3 Jumbotron, Thumbnails, Alerts, Progress, Media, List Group and Panels"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Jumbotron and Page Header"
+     },
+     "body": {
+      "en": "\n<h4>Jumbotron</h4>\n<p>A <b>jumbotron</b> is a large, padded box with a light background used to highlight important content, such as the main message on a home page, with a big heading, a lead paragraph and a call-to-action button.</p>\n<ul><li>Bootstrap 3 and 4 had the class <code>.jumbotron</code> (and <code>.jumbotron-fluid</code> for full width).</li>\n<li><b>Bootstrap 5 removed it</b>; the same result is built with utilities: padding <code>p-5</code>, background <code>bg-body-tertiary</code>, <code>rounded-3</code>, big heading <code>display-5</code>, and <code>lead</code> text.</li>\n<li>For a full-width jumbotron, put it outside the container and use a <code>container</code> inside.</li></ul>\n<pre class=\"c\">&lt;div class=\"p-5 mb-4 bg-body-tertiary rounded-3\"&gt;\n  &lt;h1 class=\"display-5 fw-bold\"&gt;Learn Web Design&lt;/h1&gt;\n  &lt;p class=\"lead\"&gt;Free notes for GTU diploma students.&lt;/p&gt;\n  &lt;a class=\"btn btn-primary btn-lg\" href=\"#\"&gt;Get started&lt;/a&gt;\n&lt;/div&gt;</pre>\n<h4>Page header</h4>\n<p>A <b>page header</b> is a heading at the top of a page or section with extra space and a line below it. BS3 used <code>.page-header</code>; in BS5 use <code>border-bottom pb-2 mb-3</code>, with a <code>small</code> grey subtitle.</p>\n<pre class=\"c\">&lt;div class=\"border-bottom pb-2 mb-3\"&gt;\n  &lt;h1&gt;Exam Results\n    &lt;small class=\"text-body-secondary\"&gt;Summer 2026&lt;/small&gt;\n  &lt;/h1&gt;\n&lt;/div&gt;</pre>\n"
+     },
+     "programs": [
+      "w3_13"
+     ]
+    },
+    {
+     "h": {
+      "en": "Thumbnails"
+     },
+     "body": {
+      "en": "\n<p>A <b>thumbnail</b> is a small preview image (often with a caption) shown in a grid, used for photo galleries, products, courses or videos.</p>\n<ul><li><b>Bootstrap 3:</b> <code>.thumbnail</code> on a box around an image, with <code>.caption</code> for the text.</li>\n<li><b>Bootstrap 5:</b> <code>.img-thumbnail</code> gives an image a 1 px border, padding and rounded corners. For thumbnails with captions and buttons, use <b>cards</b> in grid columns.</li></ul>\n<pre class=\"c\">&lt;!-- simple bordered image --&gt;\n&lt;img src=\"lab.jpg\" class=\"img-thumbnail\" alt=\"Lab\"&gt;\n&lt;!-- BS3 .thumbnail with caption = BS5 card --&gt;\n&lt;div class=\"col-md-4\"&gt;\n  &lt;div class=\"card\"&gt;\n    &lt;img src=\"lab.jpg\" class=\"card-img-top\" alt=\"Lab\"&gt;\n    &lt;div class=\"card-body\"&gt;\n      &lt;h5&gt;Computer Lab&lt;/h5&gt;\n      &lt;a href=\"#\" class=\"btn btn-primary\"&gt;View&lt;/a&gt;\n    &lt;/div&gt;\n  &lt;/div&gt;\n&lt;/div&gt;</pre>\n<h4>Thumbnail gallery steps</h4>\n<ol><li>Create a <code>.row</code> with <code>g-3</code> gutters.</li>\n<li>Use responsive columns such as <code>col-6 col-md-3</code> (2 per row on phones, 4 on desktop).</li>\n<li>In each column put an image with <code>img-fluid img-thumbnail</code>, or a card with <code>card-img-top</code>.</li>\n<li>Add a caption, and wrap the image in a link for a larger view.</li></ol>\n<p>The education site example (Practical 14) combines a breadcrumb, a jumbotron, badges, thumbnails and pagination on one page.</p>\n"
+     }
+    },
+    {
+     "h": {
+      "en": "Alerts"
+     },
+     "body": {
+      "en": "\n<p><b>Alerts</b> provide contextual feedback messages for user actions, e.g. success after saving, an error, a warning or information.</p>\n<pre class=\"c\">&lt;div class=\"alert alert-success\" role=\"alert\"&gt;\n  &lt;strong&gt;Saved!&lt;/strong&gt; Your form was submitted.\n&lt;/div&gt;\n&lt;div class=\"alert alert-warning alert-dismissible fade show\"&gt;\n  Last date for fees is 30 Nov.\n  &lt;button type=\"button\" class=\"btn-close\"\n      data-bs-dismiss=\"alert\"&gt;&lt;/button&gt;\n&lt;/div&gt;</pre>\n<h4>Alert classes</h4>\n<ul><li><b>.alert</b> with a colour: <code>alert-primary, -secondary, -success, -danger, -warning, -info, -light, -dark</code>.</li>\n<li><b>.alert-link</b>: link in the matching colour; <b>.alert-heading</b>: title in the alert.</li>\n<li><b>Dismissible alert:</b> add <code>.alert-dismissible</code> and a close button <code>button.btn-close data-bs-dismiss=\"alert\"</code>. <code>.fade .show</code> adds a fade-out animation.</li>\n<li>Add <code>role=\"alert\"</code> so screen readers announce the message.</li></ul>\n<h4>Alert JavaScript</h4>\n<p>The alert plug-in fires <b>close.bs.alert</b> (when closing starts) and <b>closed.bs.alert</b> (after it is removed). A message can be shown after an alert is closed, as in Practical 17.</p>\n<pre class=\"c\">var box = document.getElementById(\"fee\");\nbox.addEventListener(\"closed.bs.alert\", function () {\n  msg.textContent = \"Alert closed\";\n});\n// close from code\nbootstrap.Alert.getOrCreateInstance(box).close();</pre>\n<p>New alerts can be created by inserting alert HTML into a container with JavaScript.</p>\n"
+     },
+     "diagram": "web3_alerts_badges",
+     "programs": [
+      "w3_14"
+     ]
+    },
+    {
+     "h": {
+      "en": "Progress Bars"
+     },
+     "body": {
+      "en": "\n<p>A <b>progress bar</b> shows how much of a task is complete, e.g. a file upload, the steps of a form, course completion or skill levels.</p>\n<pre class=\"c\">&lt;div class=\"progress\" style=\"height: 20px\"&gt;\n  &lt;div class=\"progress-bar bg-success\" style=\"width: 75%\"&gt;\n    75%&lt;/div&gt;\n&lt;/div&gt;\n&lt;div class=\"progress\"&gt;\n  &lt;div class=\"progress-bar progress-bar-striped\n      progress-bar-animated bg-danger\" style=\"width: 85%\"&gt;\n  &lt;/div&gt;\n&lt;/div&gt;</pre>\n<h4>Types of progress bars</h4>\n<table><tr><th>Type</th><th>How</th></tr>\n<tr><td>Basic</td><td>.progress outer track + .progress-bar with style=\"width: 40%\"</td></tr>\n<tr><td>With label</td><td>Text inside .progress-bar (e.g. 75%)</td></tr>\n<tr><td>Height</td><td>style=\"height: 20px\" on .progress</td></tr>\n<tr><td>Coloured</td><td>bg-success, bg-info, bg-warning, bg-danger</td></tr>\n<tr><td>Striped</td><td>.progress-bar-striped</td></tr>\n<tr><td>Animated</td><td>.progress-bar-striped .progress-bar-animated (stripes move)</td></tr>\n<tr><td>Multiple (stacked)</td><td>Several bars in .progress-stacked, each in its own .progress</td></tr></table>\n<p>For accessibility add <code>role=\"progressbar\"</code> and <code>aria-valuenow</code>, <code>aria-valuemin</code>, <code>aria-valuemax</code>.</p>\n<h4>Changing progress with JavaScript</h4>\n<p>Change the width style and the text of the bar. <code>setInterval()</code> increases the value step by step.</p>\n<pre class=\"c\">var v = 0;\nvar t = setInterval(function () {\n  v = v + 10;\n  bar.style.width = v + \"%\";\n  bar.textContent = v + \"%\";\n  if (v &gt;= 100) clearInterval(t);\n}, 500);</pre>\n"
+     },
+     "diagram": "web3_progress",
+     "programs": [
+      "w3_15"
+     ]
+    },
+    {
+     "h": {
+      "en": "Media Objects"
+     },
+     "body": {
+      "en": "\n<p>A <b>media object</b> is a layout with an image (or video, icon) on one side and text content beside it. It is used for comments, tweets, blog posts, testimonials and profile lists.</p>\n<ul><li><b>Bootstrap 3/4:</b> <code>.media</code>, <code>.media-left</code>, <code>.media-body</code>, <code>.media-heading</code>.</li>\n<li><b>Bootstrap 5:</b> the media component was removed because the same layout is made with <b>flex utilities</b>: <code>.d-flex</code> on the wrapper, <code>.flex-shrink-0</code> on the image part, <code>.flex-grow-1 .ms-3</code> on the text part.</li></ul>\n<pre class=\"c\">&lt;div class=\"d-flex\"&gt;\n  &lt;div class=\"flex-shrink-0\"&gt;\n    &lt;img src=\"grandpa.jpg\" width=\"64\" alt=\"\"&gt;\n  &lt;/div&gt;\n  &lt;div class=\"flex-grow-1 ms-3\"&gt;\n    &lt;h5&gt;Grandfather&lt;/h5&gt;\n    Retired teacher.\n    &lt;div class=\"d-flex mt-3\"&gt;  &lt;!-- nested --&gt;\n      &lt;img src=\"father.jpg\" width=\"48\" alt=\"\"&gt;\n      &lt;div class=\"ms-3\"&gt;&lt;h6&gt;Father&lt;/h6&gt;Engineer.&lt;/div&gt;\n    &lt;/div&gt;\n  &lt;/div&gt;\n&lt;/div&gt;</pre>\n<h4>Variations</h4>\n<ul><li><b>Nesting:</b> place another d-flex block inside the text part, e.g. replies to a comment or a family tree (Practical 16).</li>\n<li><b>Alignment:</b> <code>align-items-center</code> or <code>align-self-end</code> moves the image to the middle or bottom.</li>\n<li><b>Order:</b> put the image after the text (with <code>ms-3</code>) for a right-aligned image.</li>\n<li><b>Media list:</b> use a ul with <code>list-unstyled</code> and each li as a d-flex media item.</li></ul>\n"
+     },
+     "diagram": "web3_media_list",
+     "programs": [
+      "w3_16"
+     ]
+    },
+    {
+     "h": {
+      "en": "List Group and Panels"
+     },
+     "body": {
+      "en": "\n<h4>List group</h4>\n<p>A <b>list group</b> displays a series of content items as a bordered list. It is used for menus, settings, notifications and lists of providers.</p>\n<pre class=\"c\">&lt;ul class=\"list-group\"&gt;\n  &lt;li class=\"list-group-item active\"&gt;JioFiber&lt;/li&gt;\n  &lt;li class=\"list-group-item d-flex\n      justify-content-between\"&gt;Airtel\n    &lt;span class=\"badge bg-primary rounded-pill\"&gt;4.3&lt;/span&gt;\n  &lt;/li&gt;\n  &lt;li class=\"list-group-item disabled\"&gt;BSNL&lt;/li&gt;\n  &lt;li class=\"list-group-item list-group-item-success\"&gt;\n    DGVCL&lt;/li&gt;\n&lt;/ul&gt;\n&lt;div class=\"list-group\"&gt;\n  &lt;a href=\"#\" class=\"list-group-item\n      list-group-item-action\"&gt;Clickable item&lt;/a&gt;\n&lt;/div&gt;</pre>\n<ul><li><code>ul.list-group</code> with <code>li.list-group-item</code>.</li>\n<li><b>.active / .disabled</b>: current or disabled item.</li>\n<li><b>Links and buttons:</b> <code>div.list-group</code> with <code>a.list-group-item-action</code> for hover and click effects.</li>\n<li><b>Colours:</b> <code>list-group-item-success</code>, <code>-danger</code>, <code>-warning</code>, etc.</li>\n<li><b>.list-group-flush</b>: removes outer borders (used inside cards); <b>.list-group-numbered</b>: numbers the items; <b>.list-group-horizontal</b>: items in a row.</li>\n<li><b>Badges</b> with <code>d-flex justify-content-between</code> show counts on the right.</li>\n<li>With <code>data-bs-toggle=\"list\"</code>, list items work like tabs.</li></ul>\n<h4>Panels</h4>\n<p>A <b>panel</b> (Bootstrap 3) is a bordered box with a coloured heading and a body, used to group related content, e.g. \"Internet providers\". Classes: <code>.panel .panel-primary</code>, <code>.panel-heading</code>, <code>.panel-title</code>, <code>.panel-body</code>, <code>.panel-footer</code>. Panels were <b>replaced by cards</b> in Bootstrap 4/5.</p>\n<pre class=\"c\">&lt;!-- BS3 panel --&gt;\n&lt;div class=\"panel panel-primary\"&gt;\n  &lt;div class=\"panel-heading\"&gt;Internet&lt;/div&gt;\n  &lt;div class=\"panel-body\"&gt;...&lt;/div&gt;\n&lt;/div&gt;\n&lt;!-- BS5 equivalent --&gt;\n&lt;div class=\"card border-primary\"&gt;\n  &lt;div class=\"card-header text-bg-primary\"&gt;Internet&lt;/div&gt;\n  &lt;div class=\"card-body\"&gt;...&lt;/div&gt;\n&lt;/div&gt;</pre>\n<p>Practical 17 combines card panels, list groups and dismissible alerts, and shows a message after an alert is closed.</p>\n"
+     },
+     "programs": [
+      "w3_17"
+     ]
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "w3_1",
+   "title": {
+    "en": "Bootstrap Icons (replacement of Glyphicons)"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Icons</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n  <link rel=\"stylesheet\"\n    href=\"css/bootstrap-icons.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h4\"><i class=\"bi bi-bootstrap-fill text-primary\"></i>\n      Bootstrap Icons</h1>\n\n    <p class=\"fs-3\">\n      <i class=\"bi bi-house\"></i>\n      <i class=\"bi bi-person-circle\"></i>\n      <i class=\"bi bi-envelope\"></i>\n      <i class=\"bi bi-telephone\"></i>\n      <i class=\"bi bi-search\"></i>\n      <i class=\"bi bi-cart3\"></i>\n    </p>\n\n    <h2 class=\"h6\">Size and colour</h2>\n    <p>\n      <i class=\"bi bi-heart-fill text-danger fs-6\"></i>\n      <i class=\"bi bi-heart-fill text-danger fs-4\"></i>\n      <i class=\"bi bi-heart-fill text-danger fs-1\"></i>\n      <i class=\"bi bi-star-fill text-warning\"\n        style=\"font-size: 3rem;\"></i>\n    </p>\n\n    <h2 class=\"h6\">Icons in buttons</h2>\n    <button class=\"btn btn-primary\">\n      <i class=\"bi bi-download\"></i> Download</button>\n    <button class=\"btn btn-success\">\n      <i class=\"bi bi-check-lg\"></i> Save</button>\n    <button class=\"btn btn-danger\">\n      <i class=\"bi bi-trash\"></i> Delete</button>\n    <button class=\"btn btn-outline-dark\" aria-label=\"Settings\">\n      <i class=\"bi bi-gear\"></i></button>\n\n    <h2 class=\"h6 mt-3\">Icons in a list</h2>\n    <ul class=\"list-unstyled\">\n      <li><i class=\"bi bi-geo-alt-fill text-danger\"></i>\n        Surat, Gujarat</li>\n      <li><i class=\"bi bi-clock text-primary\"></i>\n        10:30 am to 5:00 pm</li>\n      <li><i class=\"bi bi-wifi text-success\"></i> Free Wi-Fi</li>\n    </ul>\n  </div>\n</body>\n</html>"
+   },
+   "out": "A heading with a blue Bootstrap logo icon, then a large row of icons: house, person, envelope, telephone, search and cart.\nFour red/yellow icons in increasing sizes, buttons with icons (Download, Save, Delete and a gear-only button), and a list with a red location pin, a blue clock and a green Wi-Fi icon.",
+   "expl": {
+    "en": "<ul><li><b>Glyphicons</b> (the icon font of Bootstrap 3) were removed in Bootstrap 4. Bootstrap 5 uses the separate, free <b>Bootstrap Icons</b> library (2000+ icons).</li>\n<li>Install: link <code>bootstrap-icons.min.css</code> (local file or CDN <code>cdn.jsdelivr.net/npm/bootstrap-icons</code>).</li>\n<li>Use: <code>&lt;i class=\"bi bi-house\"&gt;&lt;/i&gt;</code>. Bootstrap 3 syntax was <code>&lt;span class=\"glyphicon glyphicon-home\"&gt;&lt;/span&gt;</code>.</li>\n<li>Icons are font characters, so <b>size</b> follows font-size (<code>fs-1</code> ... <code>fs-6</code> or CSS) and <b>colour</b> follows text colour (<code>text-danger</code>).</li>\n<li>Many icons have a <code>-fill</code> version (bi-heart / bi-heart-fill).</li>\n<li>For an icon-only button add <code>aria-label</code> so screen readers can describe it.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w3_2",
+   "title": {
+    "en": "Dropdown menus: right aligned, drop up, headers, dividers (Practical 9)"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Dropdown Menus</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n  <link rel=\"stylesheet\"\n    href=\"css/bootstrap-icons.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h5\">Dropdown menus</h1>\n    <div class=\"d-flex flex-wrap gap-2 mb-3\">\n      <div class=\"dropdown\">\n        <button class=\"btn btn-primary dropdown-toggle\"\n            type=\"button\"\n          data-bs-toggle=\"dropdown\">Courses</button>\n        <ul class=\"dropdown-menu\">\n          <li><h6 class=\"dropdown-header\">Diploma</h6></li>\n          <li><a class=\"dropdown-item\" href=\"#\">\n            <i class=\"bi bi-pc-display\"></i> Computer</a></li>\n          <li><a class=\"dropdown-item active\" href=\"#\">\n            <i class=\"bi bi-cpu\"></i> IT</a></li>\n          <li><hr class=\"dropdown-divider\"></li>\n          <li><h6 class=\"dropdown-header\">Degree</h6></li>\n          <li><a class=\"dropdown-item\" href=\"#\">B.E.</a></li>\n          <li><a class=\"dropdown-item disabled\">M.E. (soon)</a></li>\n        </ul>\n      </div>\n\n      <div class=\"btn-group\">\n        <button class=\"btn btn-success\">Split</button>\n        <button class=\"btn btn-success dropdown-toggle\n          dropdown-toggle-split\" data-bs-toggle=\"dropdown\"></button>\n        <ul class=\"dropdown-menu\">\n          <li><a class=\"dropdown-item\" href=\"#\">Action</a></li>\n          <li><a class=\"dropdown-item\" href=\"#\">Another</a></li>\n        </ul>\n      </div>\n\n      <div class=\"dropup\">\n        <button class=\"btn btn-warning dropdown-toggle\"\n          data-bs-toggle=\"dropdown\">Drop up</button>\n        <ul class=\"dropdown-menu\">\n          <li><a class=\"dropdown-item\" href=\"#\">Item 1</a></li>\n          <li><a class=\"dropdown-item\" href=\"#\">Item 2</a></li>\n        </ul>\n      </div>\n    </div>\n\n    <div class=\"d-flex justify-content-end\">\n      <div class=\"dropdown\">\n        <button class=\"btn btn-dark dropdown-toggle\"\n          data-bs-toggle=\"dropdown\">\n          <i class=\"bi bi-person-circle\"></i> Account</button>\n        <ul class=\"dropdown-menu dropdown-menu-end\n          dropdown-menu-dark\">\n          <li><a class=\"dropdown-item\" href=\"#\">\n            <i class=\"bi bi-person\"></i> Profile</a></li>\n          <li><a class=\"dropdown-item\" href=\"#\">\n            <i class=\"bi bi-gear\"></i> Settings</a></li>\n          <li><hr class=\"dropdown-divider\"></li>\n          <li><a class=\"dropdown-item\" href=\"#\">\n            <i class=\"bi bi-box-arrow-right\"></i> Logout</a></li>\n        </ul>\n      </div>\n    </div>\n  </div>\n  <script src=\"js/bootstrap.bundle.min.js\"></script>\n</body>\n</html>"
+   },
+   "out": "Three buttons: \"Courses\", a split button \"Split\" with a separate arrow part, and a yellow \"Drop up\". A black \"Account\" button sits at the right edge below them.\nTapping Courses opens a menu with grey headers \"Diploma\" and \"Degree\", items with icons, IT highlighted in blue (active), a divider line and a greyed-out disabled item. Drop up opens its menu above the button. The Account menu is dark and right-aligned with the button (it does not go off the screen), with Profile, Settings and Logout.",
+   "expl": {
+    "en": "<ul><li>A dropdown needs a wrapper (<code>.dropdown</code> or <code>.btn-group</code>), a toggle button with <code>.dropdown-toggle</code> and <code>data-bs-toggle=\"dropdown\"</code>, and a <code>ul.dropdown-menu</code> with <code>.dropdown-item</code> links. bootstrap.bundle.min.js (with Popper) makes it work.</li>\n<li><b>Headers:</b> <code>h6.dropdown-header</code>. <b>Dividers:</b> <code>hr.dropdown-divider</code>. <b>States:</b> <code>.active</code> and <code>.disabled</code> on items.</li>\n<li><b>Right-aligned menu:</b> <code>.dropdown-menu-end</code> (Bootstrap 3: .dropdown-menu-right / pull-right).</li>\n<li><b>Direction:</b> <code>.dropup</code>, <code>.dropend</code>, <code>.dropstart</code>. <b>Dark menu:</b> <code>.dropdown-menu-dark</code>.</li>\n<li><b>Split button:</b> a normal button plus a <code>.dropdown-toggle-split</code> toggle inside a <code>.btn-group</code>.</li>\n<li>Icons (<code>bi bi-*</code>) can be added to items, as glyphicons were used in Bootstrap 3.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w3_3",
+   "title": {
+    "en": "Card component"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Cards</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n  <link rel=\"stylesheet\"\n    href=\"css/bootstrap-icons.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <div class=\"row row-cols-1 row-cols-md-3 g-3\">\n      <div class=\"col\">\n        <div class=\"card h-100\">\n          <img src=\"images/python.jpg\" class=\"card-img-top\"\n            alt=\"Python\">\n          <div class=\"card-body\">\n            <h5 class=\"card-title\">Python Course</h5>\n            <p class=\"card-text\">Learn Python from basics to\n              projects in 8 weeks.</p>\n            <a href=\"#\" class=\"btn btn-primary\">Enroll</a>\n          </div>\n        </div>\n      </div>\n      <div class=\"col\">\n        <div class=\"card h-100 text-center\">\n          <div class=\"card-header\">Featured</div>\n          <div class=\"card-body\">\n            <h5 class=\"card-title\">Web Design</h5>\n            <h6 class=\"card-subtitle mb-2 text-muted\">\n              HTML, CSS, Bootstrap</h6>\n            <p class=\"card-text\">Build responsive sites.</p>\n            <a href=\"#\" class=\"card-link\">Details</a>\n            <a href=\"#\" class=\"card-link\">Syllabus</a>\n          </div>\n          <div class=\"card-footer text-muted\">Starts 1 Dec</div>\n        </div>\n      </div>\n      <div class=\"col\">\n        <div class=\"card h-100 text-bg-success\">\n          <div class=\"card-body\">\n            <h5 class=\"card-title\">\n              <i class=\"bi bi-trophy\"></i> Results</h5>\n            <p class=\"card-text\">98% students passed in\n              summer 2026.</p>\n          </div>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"card mt-3\">\n      <div class=\"row g-0\">\n        <div class=\"col-4\">\n          <img src=\"images/teacher.jpg\" alt=\"Teacher\"\n            width=\"300\" height=\"300\"\n            class=\"img-fluid rounded-start h-100 object-fit-cover\">\n        </div>\n        <div class=\"col-8\">\n          <div class=\"card-body\">\n            <h5 class=\"card-title\">Horizontal card</h5>\n            <p class=\"card-text\">Image on the left using the\n              grid inside a card.</p>\n          </div>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"card border-danger mt-3\">\n      <ul class=\"list-group list-group-flush\">\n        <li class=\"list-group-item\">Card with a list group</li>\n        <li class=\"list-group-item\">border-danger</li>\n      </ul>\n    </div>\n  </div>\n</body>\n</html>"
+   },
+   "out": "Three cards (stacked on a phone, side by side from 768 px, all the same height): a course card with an image on top, title, text and an Enroll button; a centred card with a \"Featured\" header, subtitle, two links and a footer \"Starts 1 Dec\"; and a green card with a trophy icon.\nBelow are a horizontal card with an image on the left and text on the right, and a red-bordered card containing a list.",
+   "expl": {
+    "en": "<ul><li>A <b>card</b> is a flexible content box with optional header, body, footer, images and lists. In Bootstrap 4/5 it replaced <b>panels, wells and thumbnails</b> of Bootstrap 3.</li>\n<li>Parts: <code>.card</code> &gt; <code>.card-header</code>, <code>.card-body</code> (<code>.card-title</code>, <code>.card-subtitle</code>, <code>.card-text</code>, <code>.card-link</code>), <code>.card-footer</code>.</li>\n<li><b>Images:</b> <code>.card-img-top</code>, <code>.card-img-bottom</code>, or <code>.card-img-overlay</code> for text over an image.</li>\n<li><b>Colours:</b> <code>.text-bg-success</code> (background + matching text), <code>.border-danger</code>.</li>\n<li><b>Layouts:</b> cards in a grid (<code>row-cols-md-3</code>) with <code>h-100</code> for equal heights; <code>.card-group</code> joins cards; a horizontal card uses <code>.row.g-0</code> inside the card.</li>\n<li><code>.list-group-flush</code> removes outer borders of a list inside a card.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w3_4",
+   "title": {
+    "en": "Button groups and button toolbar"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Button Groups</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n  <link rel=\"stylesheet\"\n    href=\"css/bootstrap-icons.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h6\">1. Basic button group</h1>\n    <div class=\"btn-group mb-3\" role=\"group\">\n      <button class=\"btn btn-primary\">Left</button>\n      <button class=\"btn btn-primary\">Middle</button>\n      <button class=\"btn btn-primary\">Right</button>\n    </div>\n\n    <h2 class=\"h6\">2. Sizes</h2>\n    <div class=\"btn-group btn-group-lg mb-1\">\n      <button class=\"btn btn-outline-dark\">Large</button>\n      <button class=\"btn btn-outline-dark\">Group</button>\n    </div><br>\n    <div class=\"btn-group btn-group-sm mb-3\">\n      <button class=\"btn btn-outline-dark\">Small</button>\n      <button class=\"btn btn-outline-dark\">Group</button>\n    </div>\n\n    <h2 class=\"h6\">3. Toolbar (groups in a row)</h2>\n    <div class=\"btn-toolbar mb-3\" role=\"toolbar\">\n      <div class=\"btn-group me-2\">\n        <button class=\"btn btn-secondary\">1</button>\n        <button class=\"btn btn-secondary\">2</button>\n        <button class=\"btn btn-secondary\">3</button>\n      </div>\n      <div class=\"btn-group me-2\">\n        <button class=\"btn btn-info\"><i class=\"bi bi-type-bold\"></i>\n        </button>\n        <button class=\"btn btn-info\"><i\n            class=\"bi bi-type-italic\"></i>\n        </button>\n      </div>\n      <div class=\"btn-group\">\n        <button class=\"btn btn-success\">Save</button>\n      </div>\n    </div>\n\n    <h2 class=\"h6\">4. Vertical group and nested dropdown</h2>\n    <div class=\"d-flex gap-3 align-items-start\">\n      <div class=\"btn-group-vertical\">\n        <button class=\"btn btn-warning\">Top</button>\n        <button class=\"btn btn-warning\">Middle</button>\n        <button class=\"btn btn-warning\">Bottom</button>\n      </div>\n      <div class=\"btn-group\">\n        <button class=\"btn btn-danger\">Home</button>\n        <div class=\"btn-group\">\n          <button class=\"btn btn-danger dropdown-toggle\"\n            data-bs-toggle=\"dropdown\">More</button>\n          <ul class=\"dropdown-menu\">\n            <li><a class=\"dropdown-item\" href=\"#\">About</a></li>\n            <li><a class=\"dropdown-item\" href=\"#\">Contact</a></li>\n          </ul>\n        </div>\n      </div>\n    </div>\n\n    <h2 class=\"h6 mt-3\">5. Radio toggle group</h2>\n    <div class=\"btn-group\">\n      <input type=\"radio\" class=\"btn-check\" name=\"v\" id=\"v1\"\n        checked>\n      <label class=\"btn btn-outline-primary\" for=\"v1\">Day</label>\n      <input type=\"radio\" class=\"btn-check\" name=\"v\" id=\"v2\">\n      <label class=\"btn btn-outline-primary\" for=\"v2\">Week</label>\n      <input type=\"radio\" class=\"btn-check\" name=\"v\" id=\"v3\">\n      <label class=\"btn btn-outline-primary\" for=\"v3\">Month</label>\n    </div>\n  </div>\n  <script src=\"js/bootstrap.bundle.min.js\"></script>\n</body>\n</html>"
+   },
+   "out": "1. Three blue buttons joined together (only the outer corners rounded).\n2. A large and a small joined pair.\n3. A toolbar: a group 1-2-3, a group with bold and italic icons, and a Save button, with gaps between the groups.\n4. Three yellow buttons stacked vertically, and a red Home button joined with a \"More\" dropdown.\n5. A Day / Week / Month selector where only one can be selected (Day is highlighted).",
+   "expl": {
+    "en": "<ul><li><b>.btn-group</b> joins buttons in one line. Add <code>role=\"group\"</code> for accessibility.</li>\n<li>Sizes for the whole group: <code>.btn-group-lg</code>, <code>.btn-group-sm</code>.</li>\n<li><b>.btn-toolbar</b> combines several button groups in one row; spacing between groups with margin utilities (<code>me-2</code>).</li>\n<li><b>.btn-group-vertical</b> stacks buttons vertically.</li>\n<li><b>Nesting:</b> a <code>.btn-group</code> containing a dropdown can be placed inside another button group.</li>\n<li><b>Checkbox / radio buttons:</b> hidden <code>input.btn-check</code> followed by a <code>label.btn</code>; radios with the same name allow one choice.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w3_5",
+   "title": {
+    "en": "Odd and even semester menu using button groups and toolbar (Practical 10)"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Semester Menu</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h4 text-center mb-3\">Computer Engineering</h1>\n\n    <div class=\"btn-toolbar justify-content-center gap-2\"\n      role=\"toolbar\">\n      <div class=\"btn-group flex-wrap\" role=\"group\">\n        <span class=\"btn btn-dark disabled\">Odd</span>\n        <div class=\"btn-group\">\n          <button class=\"btn btn-primary dropdown-toggle\"\n            data-bs-toggle=\"dropdown\">Sem 1</button>\n          <ul class=\"dropdown-menu\">\n            <li><a class=\"dropdown-item\" href=\"#\">Maths 1</a></li>\n            <li><a class=\"dropdown-item\"\n                href=\"#\">C Programming</a></li>\n            <li><a class=\"dropdown-item\" href=\"#\">Physics</a></li>\n          </ul>\n        </div>\n        <div class=\"btn-group\">\n          <button class=\"btn btn-primary dropdown-toggle\"\n            data-bs-toggle=\"dropdown\">Sem 3</button>\n          <ul class=\"dropdown-menu\">\n            <li><a class=\"dropdown-item\"\n                href=\"#\">Data Structures</a></li>\n            <li><a class=\"dropdown-item\" href=\"#\">RDBMS</a></li>\n            <li><a class=\"dropdown-item\" href=\"#\">RWPD</a></li>\n          </ul>\n        </div>\n        <div class=\"btn-group\">\n          <button class=\"btn btn-primary dropdown-toggle\"\n            data-bs-toggle=\"dropdown\">Sem 5</button>\n          <ul class=\"dropdown-menu\">\n            <li><a class=\"dropdown-item\" href=\"#\">Java</a></li>\n            <li><a class=\"dropdown-item\" href=\"#\">Cloud</a></li>\n          </ul>\n        </div>\n      </div>\n\n      <div class=\"btn-group flex-wrap\" role=\"group\">\n        <span class=\"btn btn-dark disabled\">Even</span>\n        <div class=\"btn-group\">\n          <button class=\"btn btn-success dropdown-toggle\"\n            data-bs-toggle=\"dropdown\">Sem 2</button>\n          <ul class=\"dropdown-menu\">\n            <li><a class=\"dropdown-item\" href=\"#\">Python</a></li>\n            <li><a class=\"dropdown-item\"\n                href=\"#\">Electronics</a></li>\n          </ul>\n        </div>\n        <div class=\"btn-group\">\n          <button class=\"btn btn-success dropdown-toggle\"\n            data-bs-toggle=\"dropdown\">Sem 4</button>\n          <ul class=\"dropdown-menu\">\n            <li><a class=\"dropdown-item\"\n                href=\"#\">OOP with Java</a></li>\n            <li><a class=\"dropdown-item\" href=\"#\">Web Dev</a></li>\n          </ul>\n        </div>\n        <div class=\"btn-group\">\n          <button class=\"btn btn-success dropdown-toggle\"\n            data-bs-toggle=\"dropdown\">Sem 6</button>\n          <ul class=\"dropdown-menu dropdown-menu-end\">\n            <li><a class=\"dropdown-item\" href=\"#\">Project</a></li>\n            <li><a class=\"dropdown-item\"\n                href=\"#\">Mobile Apps</a></li>\n          </ul>\n        </div>\n      </div>\n    </div>\n    <p class=\"text-center mt-3\" id=\"pick\">Select a course</p>\n  </div>\n  <script src=\"js/bootstrap.bundle.min.js\"></script>\n  <script>\n    var items = document.querySelectorAll(\".dropdown-item\");\n    items.forEach(function (a) {\n      a.addEventListener(\"click\", function (e) {\n        e.preventDefault();\n        var sem = a.closest(\".btn-group\")\n                   .querySelector(\".dropdown-toggle\").textContent;\n        document.getElementById(\"pick\").textContent =\n          sem.trim() + \" : \" + a.textContent;\n      });\n    });\n  </script>\n</body>\n</html>"
+   },
+   "out": "Two joined button groups in a toolbar: \"Odd | Sem 1 | Sem 3 | Sem 5\" in blue and \"Even | Sem 2 | Sem 4 | Sem 6\" in green (on a phone the second group moves to the next line).\nEach semester button opens a submenu with its courses. Choosing a course, e.g. RDBMS under Sem 3, shows \"Sem 3 : RDBMS\" below the menu.",
+   "expl": {
+    "en": "<ul><li>The <b>button toolbar</b> (<code>.btn-toolbar</code>) holds two <b>button groups</b>: odd and even semesters. <code>justify-content-center gap-2</code> centres them with a gap.</li>\n<li>Each semester is a <b>nested button group</b> containing a dropdown toggle and a <code>.dropdown-menu</code> (the submenu of courses).</li>\n<li>The \"Odd\" / \"Even\" labels are disabled buttons used as titles.</li>\n<li><code>flex-wrap</code> lets buttons wrap on narrow screens, keeping the page responsive.</li>\n<li>The small script uses <code>closest()</code> to find the semester of the clicked course and shows the choice.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w3_6",
+   "title": {
+    "en": "Input groups: job application form (Practical 11)"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Job Application</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n  <link rel=\"stylesheet\"\n    href=\"css/bootstrap-icons.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\" style=\"max-width: 640px;\">\n    <h1 class=\"h4 mb-3\">Job Application</h1>\n    <form>\n      <div class=\"input-group mb-2\">\n        <span class=\"input-group-text\"><i\n            class=\"bi bi-person\"></i></span>\n        <input class=\"form-control\" placeholder=\"First name\">\n        <input class=\"form-control\" placeholder=\"Last name\">\n      </div>\n      <div class=\"input-group mb-2\">\n        <span class=\"input-group-text\">@</span>\n        <input type=\"email\" class=\"form-control\"\n          placeholder=\"email\">\n        <span class=\"input-group-text\">.com</span>\n      </div>\n      <div class=\"input-group mb-2\">\n        <span class=\"input-group-text\">+91</span>\n        <input type=\"tel\" class=\"form-control\"\n          placeholder=\"Mobile number\">\n      </div>\n      <div class=\"input-group mb-2\">\n        <span class=\"input-group-text\">Expected salary Rs.</span>\n        <input type=\"number\" class=\"form-control\">\n        <span class=\"input-group-text\">.00</span>\n      </div>\n      <div class=\"input-group mb-2\">\n        <label class=\"input-group-text\" for=\"post\">Post</label>\n        <select class=\"form-select\" id=\"post\">\n          <option>Web Developer</option>\n          <option>Tester</option>\n        </select>\n      </div>\n      <div class=\"input-group mb-2\">\n        <div class=\"input-group-text\">\n          <input class=\"form-check-input mt-0\" type=\"checkbox\"\n            checked>\n        </div>\n        <input class=\"form-control\" value=\"Ready to relocate\">\n      </div>\n      <div class=\"input-group mb-2\">\n        <input type=\"file\" class=\"form-control\" id=\"cv\">\n        <label class=\"input-group-text\" for=\"cv\">Upload CV</label>\n      </div>\n      <div class=\"input-group input-group-sm mb-2\">\n        <span class=\"input-group-text\">Portfolio</span>\n        <input class=\"form-control\" placeholder=\"https://\">\n        <button class=\"btn btn-outline-secondary\" type=\"button\">\n          Check</button>\n      </div>\n      <div class=\"input-group mb-3\">\n        <span class=\"input-group-text\">Cover letter</span>\n        <textarea class=\"form-control\" rows=\"2\"></textarea>\n      </div>\n      <button class=\"btn btn-primary w-100\">\n        <i class=\"bi bi-send\"></i> Apply</button>\n    </form>\n  </div>\n</body>\n</html>"
+   },
+   "out": "A \"Job Application\" form in which every field has a grey attached part: a person icon before first and last name, \"@\" and \".com\" around the email, \"+91\" before the mobile number, \"Expected salary Rs.\" and \".00\" around the salary, \"Post\" before a drop-down, a checkbox before \"Ready to relocate\", an \"Upload CV\" label after the file input, a small \"Portfolio\" field with a Check button, and a \"Cover letter\" box. A full-width blue Apply button is at the bottom.",
+   "expl": {
+    "en": "<ul><li>An <b>input group</b> attaches text, icons, buttons, checkboxes or selects to the sides of a form control: wrapper <code>.input-group</code>, addon <code>.input-group-text</code>.</li>\n<li>Addons can be placed <b>before</b>, <b>after</b> or on <b>both sides</b>; several inputs can share one group (first + last name).</li>\n<li>Sizes: <code>.input-group-sm</code>, <code>.input-group-lg</code>.</li>\n<li>A <b>checkbox or radio</b> goes inside <code>.input-group-text</code> with <code>.mt-0</code>.</li>\n<li><b>Buttons</b> and <b>dropdowns</b> can be put directly in the group; <code>.form-select</code> and file inputs also work.</li>\n<li>Bootstrap 3/4 used <code>.input-group-addon</code> / <code>.input-group-prepend</code>; Bootstrap 5 uses only <code>.input-group-text</code>.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w3_7",
+   "title": {
+    "en": "Navigation tabs and pills"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Navs</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n  <link rel=\"stylesheet\"\n    href=\"css/bootstrap-icons.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h6\">1. Base nav</h1>\n    <ul class=\"nav mb-3\">\n      <li class=\"nav-item\"><a class=\"nav-link active\"\n          href=\"#\">Home</a></li>\n      <li class=\"nav-item\"><a class=\"nav-link\"\n          href=\"#\">Notes</a></li>\n      <li class=\"nav-item\"><a\n          class=\"nav-link disabled\">Soon</a></li>\n    </ul>\n\n    <h2 class=\"h6\">2. Tabs</h2>\n    <ul class=\"nav nav-tabs mb-3\">\n      <li class=\"nav-item\"><a class=\"nav-link active\"\n          href=\"#\">Unit 1</a></li>\n      <li class=\"nav-item\"><a class=\"nav-link\"\n          href=\"#\">Unit 2</a></li>\n      <li class=\"nav-item\"><a class=\"nav-link\"\n          href=\"#\">Unit 3</a></li>\n    </ul>\n\n    <h2 class=\"h6\">3. Pills, justified (equal width)</h2>\n    <ul class=\"nav nav-pills nav-justified mb-3\">\n      <li class=\"nav-item\"><a class=\"nav-link active\"\n          href=\"#\">Day</a></li>\n      <li class=\"nav-item\"><a class=\"nav-link\"\n          href=\"#\">Week</a></li>\n      <li class=\"nav-item\"><a class=\"nav-link\"\n          href=\"#\">Month</a></li>\n    </ul>\n\n    <h2 class=\"h6\">4. Centred pills and underline</h2>\n    <ul class=\"nav nav-pills justify-content-center mb-2\">\n      <li class=\"nav-item\"><a class=\"nav-link\" href=\"#\">A</a></li>\n      <li class=\"nav-item\"><a class=\"nav-link active\"\n          href=\"#\">B</a></li>\n      <li class=\"nav-item\"><a class=\"nav-link\" href=\"#\">C</a></li>\n    </ul>\n    <ul class=\"nav nav-underline justify-content-end mb-3\">\n      <li class=\"nav-item\"><a class=\"nav-link active\"\n          href=\"#\">New</a></li>\n      <li class=\"nav-item\"><a class=\"nav-link\"\n          href=\"#\">Popular</a></li>\n    </ul>\n\n    <h2 class=\"h6\">5. Vertical pills</h2>\n    <ul class=\"nav nav-pills flex-column\" style=\"max-width: 200px;\">\n      <li class=\"nav-item\"><a class=\"nav-link active\" href=\"#\">\n        <i class=\"bi bi-speedometer2\"></i> Dashboard</a></li>\n      <li class=\"nav-item\"><a class=\"nav-link\" href=\"#\">\n        <i class=\"bi bi-people\"></i> Students</a></li>\n      <li class=\"nav-item\"><a class=\"nav-link\" href=\"#\">\n        <i class=\"bi bi-gear\"></i> Settings</a></li>\n    </ul>\n  </div>\n</body>\n</html>"
+   },
+   "out": "1. Plain links Home (active), Notes and a greyed-out Soon.\n2. Folder-style tabs Unit 1, Unit 2, Unit 3 with Unit 1 selected.\n3. Three pill buttons filling the full width with Day in blue.\n4. Centred pills with B selected, then right-aligned underline links with New underlined.\n5. A vertical menu of pills: Dashboard (blue), Students and Settings, with icons.",
+   "expl": {
+    "en": "<ul><li>A base nav is <code>ul.nav</code> &gt; <code>li.nav-item</code> &gt; <code>a.nav-link</code>; <code>.active</code> marks the current item and <code>.disabled</code> greys it out.</li>\n<li><b>Tabs:</b> <code>.nav-tabs</code>. <b>Pills:</b> <code>.nav-pills</code>. <b>Underline:</b> <code>.nav-underline</code> (Bootstrap 5.3).</li>\n<li><b>Fill and justify:</b> <code>.nav-fill</code> stretches items to fill the width; <code>.nav-justified</code> makes them equal width.</li>\n<li><b>Alignment:</b> flex utilities <code>justify-content-center</code> / <code>justify-content-end</code>.</li>\n<li><b>Vertical:</b> <code>.flex-column</code> (or <code>flex-sm-row</code> to be vertical only on phones).</li>\n<li>These navs only look like tabs. To switch content when clicked, the tab plug-in is used (next program).</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w3_8",
+   "title": {
+    "en": "Course unit summary using tabs and pills (Practical 12)"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Unit Summary</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h4\">Responsive Web Page Design</h1>\n    <ul class=\"nav nav-tabs\" role=\"tablist\">\n      <li class=\"nav-item\">\n        <button class=\"nav-link active\" data-bs-toggle=\"tab\"\n          data-bs-target=\"#u1\" type=\"button\">Unit 1</button></li>\n      <li class=\"nav-item\">\n        <button class=\"nav-link\" data-bs-toggle=\"tab\"\n          data-bs-target=\"#u2\" type=\"button\">Unit 2</button></li>\n      <li class=\"nav-item\">\n        <button class=\"nav-link\" data-bs-toggle=\"tab\"\n          data-bs-target=\"#u3\" type=\"button\">Unit 3</button></li>\n    </ul>\n    <div class=\"tab-content border border-top-0 p-3 mb-4\">\n      <div class=\"tab-pane fade show active\" id=\"u1\">\n        <h2 class=\"h5\">jQuery and Bootstrap Intro</h2>\n        <p>Selectors, events, Bootstrap setup, responsive page.</p>\n      </div>\n      <div class=\"tab-pane fade\" id=\"u2\">\n        <h2 class=\"h5\">Bootstrap Grid</h2>\n        <p>Containers, offset, ordering, nesting, forms.</p>\n      </div>\n      <div class=\"tab-pane fade\" id=\"u3\">\n        <h2 class=\"h5\">Components</h2>\n        <p>Cards, navbar, alerts, progress bars, list group.</p>\n      </div>\n    </div>\n\n    <div class=\"row\">\n      <div class=\"col-md-3 mb-2\">\n        <div class=\"nav flex-md-column nav-pills\" role=\"tablist\">\n          <button class=\"nav-link active\" data-bs-toggle=\"pill\"\n            data-bs-target=\"#p4\" type=\"button\">Unit 4</button>\n          <button class=\"nav-link\" data-bs-toggle=\"pill\"\n            data-bs-target=\"#p5\" type=\"button\">Unit 5</button>\n        </div>\n      </div>\n      <div class=\"col-md-9\">\n        <div class=\"tab-content bg-light p-3 rounded\">\n          <div class=\"tab-pane fade show active\" id=\"p4\">\n            <h2 class=\"h5\">Plug-ins</h2>\n            <p>Modal, tooltip, popover, collapse, carousel.</p>\n          </div>\n          <div class=\"tab-pane fade\" id=\"p5\">\n            <h2 class=\"h5\">Utilities and Customisation</h2>\n            <p>Spacing, flex, colours, Sass variables, themes.</p>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <script src=\"js/bootstrap.bundle.min.js\"></script>\n</body>\n</html>"
+   },
+   "out": "Tabs Unit 1, Unit 2, Unit 3 above a bordered box. Unit 1's summary is shown first; tapping Unit 2 or Unit 3 fades in that unit's summary instead.\nBelow are pills Unit 4 and Unit 5 (side by side on a phone, a vertical list on the left on a desktop) with a grey content box that changes when a pill is tapped.",
+   "expl": {
+    "en": "<ul><li>The <b>tab plug-in</b> switches content: each nav button has <code>data-bs-toggle=\"tab\"</code> (or <code>\"pill\"</code>) and <code>data-bs-target=\"#id\"</code> pointing to a <code>.tab-pane</code>.</li>\n<li>Panes are inside <code>.tab-content</code>. The first pane has <code>.show .active</code>; <code>.fade</code> adds a fade animation.</li>\n<li>Vertical pills: <code>.flex-md-column</code> makes the pill list vertical from 768 px, inside a grid column next to the content.</li>\n<li>Using &lt;button&gt; for the nav links is recommended for accessibility; <code>role=\"tablist\"</code> describes the purpose.</li>\n<li>Tabs can also be switched from JavaScript: <code>bootstrap.Tab.getOrCreateInstance(el).show()</code>.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w3_9",
+   "title": {
+    "en": "Responsive navbar with collapse"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Navbar</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n  <link rel=\"stylesheet\"\n    href=\"css/bootstrap-icons.min.css\">\n</head>\n<body>\n  <nav class=\"navbar navbar-expand-lg bg-primary\"\n      data-bs-theme=\"dark\">\n    <div class=\"container-fluid\">\n      <a class=\"navbar-brand\" href=\"#\">\n        <i class=\"bi bi-mortarboard-fill\"></i> GP Surat</a>\n      <button class=\"navbar-toggler\" type=\"button\"\n        data-bs-toggle=\"collapse\" data-bs-target=\"#menu\"\n        aria-label=\"Toggle navigation\">\n        <span class=\"navbar-toggler-icon\"></span>\n      </button>\n      <div class=\"collapse navbar-collapse\" id=\"menu\">\n        <ul class=\"navbar-nav me-auto\">\n          <li class=\"nav-item\">\n            <a class=\"nav-link active\" href=\"#\">Home</a></li>\n          <li class=\"nav-item\">\n            <a class=\"nav-link\" href=\"#\">Departments</a></li>\n          <li class=\"nav-item\">\n            <a class=\"nav-link\" href=\"#\">Admission</a></li>\n        </ul>\n        <span class=\"navbar-text\">Helpline: 0261-2240000</span>\n      </div>\n    </div>\n  </nav>\n  <div class=\"container py-3\">\n    <p>On small screens the menu collapses into the\n      <b>hamburger</b> button. Tap it to open the menu.</p>\n    <p>From 992 px (lg) the full menu is shown.</p>\n  </div>\n  <script src=\"js/bootstrap.bundle.min.js\"></script>\n</body>\n</html>"
+   },
+   "out": "A blue navigation bar with the brand \"GP Surat\" and a graduation cap icon.\nOn a phone only the brand and a three-line (hamburger) button are visible; tapping the button slides down the menu Home, Departments, Admission and the helpline text. On a desktop (992 px and wider) all links appear in one line, with the helpline text at the right.",
+   "expl": {
+    "en": "<ul><li><code>nav.navbar</code> + <b>.navbar-expand-lg</b>: the menu is expanded from lg upward and collapsed below it (other options: -sm, -md, -xl, or <code>.navbar-expand</code> to never collapse).</li>\n<li><b>.navbar-brand</b>: the logo/name. <b>.navbar-nav</b> with <b>.nav-link</b>: the menu links. <b>.navbar-text</b>: plain text.</li>\n<li><b>.navbar-toggler</b> with <code>data-bs-toggle=\"collapse\"</code> and <code>data-bs-target=\"#menu\"</code> opens and closes the <code>.collapse.navbar-collapse</code> part.</li>\n<li><code>.me-auto</code> on the links pushes the following content to the right.</li>\n<li><b>Colours:</b> a background class (<code>bg-primary</code>, <code>bg-dark</code>, <code>bg-body-tertiary</code>) plus <code>data-bs-theme=\"dark\"</code> for light text (Bootstrap 3/4: navbar-inverse / navbar-dark).</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w3_10",
+   "title": {
+    "en": "Fixed-top navbar with dropdown, search and sign-up, fixed-bottom footer (Practical 13)"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Fixed Navbar</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n  <link rel=\"stylesheet\"\n    href=\"css/bootstrap-icons.min.css\">\n  <style>\n    body { padding-top: 70px; padding-bottom: 50px; }\n    .lorem { height: 900px;\n      background: linear-gradient(#F3ECFA, #fff); }\n  </style>\n</head>\n<body>\n  <nav class=\"navbar navbar-expand-md fixed-top bg-dark\"\n      data-bs-theme=\"dark\">\n    <div class=\"container\">\n      <a class=\"navbar-brand d-flex align-items-center gap-2\"\n          href=\"#\">\n        <img src=\"images/logo.png\" alt=\"Logo\" width=\"32\" height=\"32\"\n          class=\"rounded-circle\"> EduWorld</a>\n      <button class=\"navbar-toggler\" data-bs-toggle=\"collapse\"\n        data-bs-target=\"#nav1\" aria-label=\"Menu\">\n        <span class=\"navbar-toggler-icon\"></span></button>\n      <div class=\"collapse navbar-collapse\" id=\"nav1\">\n        <ul class=\"navbar-nav me-auto\">\n          <li class=\"nav-item\">\n            <a class=\"nav-link active\" href=\"#\">Home</a></li>\n          <li class=\"nav-item dropdown\">\n            <a class=\"nav-link dropdown-toggle\" href=\"#\"\n              data-bs-toggle=\"dropdown\">Courses</a>\n            <ul class=\"dropdown-menu\">\n              <li><a class=\"dropdown-item\" href=\"#\">Diploma</a></li>\n              <li><a class=\"dropdown-item\" href=\"#\">Degree</a></li>\n            </ul>\n          </li>\n          <li class=\"nav-item\">\n            <a class=\"nav-link\" href=\"#\">Contact</a></li>\n        </ul>\n        <form class=\"d-flex gap-2\" role=\"search\">\n          <input class=\"form-control\" type=\"search\"\n            placeholder=\"Search\">\n          <button class=\"btn btn-outline-light\" type=\"submit\">\n            <i class=\"bi bi-search\"></i></button>\n          <button class=\"btn btn-warning text-nowrap\" type=\"button\">\n            Sign up</button>\n        </form>\n      </div>\n    </div>\n  </nav>\n\n  <main class=\"container\">\n    <h1 class=\"h3\">Welcome to EduWorld</h1>\n    <p>Scroll the page: the top menu and the bottom footer stay\n      fixed while this content moves.</p>\n    <p class=\"lorem\">Lorem ipsum ...</p>\n  </main>\n\n  <footer class=\"fixed-bottom bg-dark text-white text-center\n    small py-2\">\n    &copy; 2026 EduWorld | Surat, Gujarat |\n    <i class=\"bi bi-telephone\"></i> 98765 43210\n  </footer>\n  <script src=\"js/bootstrap.bundle.min.js\"></script>\n</body>\n</html>"
+   },
+   "out": "A black menu bar fixed at the top with a round logo placeholder and \"EduWorld\". On a desktop it shows Home, a Courses dropdown (Diploma, Degree), Contact, a search box with a search button and a yellow \"Sign up\" button. On a phone these are hidden behind the hamburger button.\nA black footer \"© 2026 EduWorld | Surat, Gujarat | 98765 43210\" is fixed at the bottom. When the page is scrolled, the long lavender area moves but the top bar and footer stay in place.",
+   "expl": {
+    "en": "<ul><li><b>.fixed-top</b> fixes the navbar to the top of the screen; <b>.fixed-bottom</b> fixes the footer to the bottom. They use <code>position: fixed</code>.</li>\n<li>Fixed elements are removed from the normal flow, so <b>padding-top</b> and <b>padding-bottom</b> are added to the body to stop content hiding behind them.</li>\n<li><code>.sticky-top</code> is an alternative: the navbar scrolls with the page until it reaches the top, then sticks.</li>\n<li>A <b>logo</b> is an &lt;img&gt; inside <code>.navbar-brand</code>.</li>\n<li>A <b>dropdown in a navbar</b> uses <code>li.nav-item.dropdown</code> with a <code>.dropdown-toggle</code> link.</li>\n<li><b>Forms in a navbar:</b> a <code>form.d-flex</code> with an input and buttons; it moves into the collapsed menu on small screens.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w3_11",
+   "title": {
+    "en": "Breadcrumb and pagination (applied to a list)"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Breadcrumb and Pagination</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <nav aria-label=\"breadcrumb\">\n      <ol class=\"breadcrumb\">\n        <li class=\"breadcrumb-item\"><a href=\"#\">Home</a></li>\n        <li class=\"breadcrumb-item\"><a href=\"#\">Computer</a></li>\n        <li class=\"breadcrumb-item\"><a href=\"#\">Semester 3</a></li>\n        <li class=\"breadcrumb-item active\">RWPD</li>\n      </ol>\n    </nav>\n\n    <h1 class=\"h5\">Student list</h1>\n    <ul class=\"list-group mb-3\" id=\"list\"></ul>\n\n    <nav aria-label=\"Student pages\">\n      <ul class=\"pagination justify-content-center\" id=\"pager\"></ul>\n    </nav>\n\n    <h2 class=\"h6\">Pagination sizes</h2>\n    <ul class=\"pagination pagination-sm\">\n      <li class=\"page-item disabled\"><span class=\"page-link\">\n        &laquo;</span></li>\n      <li class=\"page-item active\"><span\n          class=\"page-link\">1</span></li>\n      <li class=\"page-item\"><a class=\"page-link\" href=\"#\">2</a></li>\n      <li class=\"page-item\"><a class=\"page-link\"\n          href=\"#\">&raquo;</a></li>\n    </ul>\n    <ul class=\"pagination pagination-lg\">\n      <li class=\"page-item\"><a class=\"page-link\" href=\"#\">1</a></li>\n      <li class=\"page-item\"><a class=\"page-link\" href=\"#\">2</a></li>\n    </ul>\n  </div>\n  <script>\n    var names = [\"Aarav\", \"Bhavya\", \"Chirag\", \"Diya\", \"Esha\",\n      \"Farhan\", \"Gauri\", \"Harsh\", \"Isha\", \"Jay\", \"Kavya\"];\n    var per = 4, page = 1;\n    var pages = Math.ceil(names.length / per);\n\n    function item(n, label, cls) {\n      return '<li class=\"page-item' + cls + '\">' +\n        '<a class=\"page-link\" href=\"#\" data-p=\"' + n + '\">' +\n        label + \"</a></li>\";\n    }\n\n    function show() {\n      var start = (page - 1) * per;\n      var html = \"\";\n      names.slice(start, start + per).forEach(function (n, i) {\n        html += '<li class=\"list-group-item\">' + (start + i + 1) +\n          \". \" + n + \"</li>\";\n      });\n      document.getElementById(\"list\").innerHTML = html;\n\n      var first = page == 1 ? \" disabled\" : \"\";\n      var p = item(page - 1, \"Previous\", first);\n      for (var i = 1; i <= pages; i++) {\n        p += item(i, i, i == page ? \" active\" : \"\");\n      }\n      var last = page == pages ? \" disabled\" : \"\";\n      p += item(page + 1, \"Next\", last);\n      document.getElementById(\"pager\").innerHTML = p;\n    }\n\n    document.getElementById(\"pager\").onclick = function (e) {\n      e.preventDefault();\n      var n = parseInt(e.target.dataset.p);\n      if (n >= 1 && n <= pages) { page = n; show(); }\n    };\n    show();\n  </script>\n</body>\n</html>"
+   },
+   "out": "A breadcrumb trail \"Home / Computer / Semester 3 / RWPD\" where the first three are links and RWPD is the current page.\nA student list shows 4 names at a time (1. Aarav to 4. Diya) with a centred pagination bar \"Previous 1 2 3 Next\". Tapping 2 shows students 5-8, tapping 3 shows 9-11; Previous is disabled on page 1 and Next on the last page.\nBelow are a small and a large pagination example.",
+   "expl": {
+    "en": "<ul><li><b>Breadcrumb</b> shows the user's location in the site hierarchy: <code>ol.breadcrumb</code> with <code>li.breadcrumb-item</code>; the last item has <code>.active</code>. The separator \"/\" is added by CSS (change it with the <code>--bs-breadcrumb-divider</code> variable).</li>\n<li><b>Pagination</b> divides long content into pages: <code>ul.pagination</code> &gt; <code>li.page-item</code> &gt; <code>a.page-link</code>; states <code>.active</code> and <code>.disabled</code>; sizes <code>.pagination-lg</code> / <code>.pagination-sm</code>; alignment with <code>justify-content-center</code>.</li>\n<li><b>Applying pagination:</b> the script shows only <code>per</code> items using <code>slice(start, start + per)</code> and rebuilds the page buttons. One click handler on the &lt;ul&gt; reads <code>data-p</code> from the clicked link (event delegation).</li>\n<li>&amp;laquo; and &amp;raquo; are the &laquo; and &raquo; symbols.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w3_12",
+   "title": {
+    "en": "Badges (labels) and page header"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Badges</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n  <link rel=\"stylesheet\"\n    href=\"css/bootstrap-icons.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <div class=\"pb-2 mb-3 border-bottom\">\n      <h1>Exam Results <small class=\"text-body-secondary\">\n        Summer 2026</small></h1>\n    </div>\n\n    <h2>Notices <span class=\"badge bg-danger\">New</span></h2>\n    <h4>Messages <span class=\"badge bg-secondary\">4</span></h4>\n\n    <p>\n      <span class=\"badge bg-primary\">Primary</span>\n      <span class=\"badge bg-success\">Passed</span>\n      <span class=\"badge bg-warning text-dark\">Pending</span>\n      <span class=\"badge bg-info text-dark\">Info</span>\n      <span class=\"badge bg-dark\">Dark</span>\n    </p>\n    <p>\n      <span class=\"badge rounded-pill bg-primary\">Pill</span>\n      <span class=\"badge rounded-pill text-bg-success\">99+</span>\n      <span class=\"badge text-bg-light border\">Light</span>\n    </p>\n\n    <button class=\"btn btn-primary\">\n      Inbox <span class=\"badge text-bg-light\">7</span>\n    </button>\n    <button class=\"btn btn-dark position-relative ms-3\">\n      <i class=\"bi bi-bell\"></i>\n      <span class=\"position-absolute top-0 start-100\n        translate-middle badge rounded-pill bg-danger\">3</span>\n    </button>\n  </div>\n</body>\n</html>"
+   },
+   "out": "A page header \"Exam Results\" with a grey \"Summer 2026\" subtitle and a line below it.\n\"Notices\" has a red \"New\" badge and \"Messages\" a grey \"4\" badge (badges scale with the heading size). A row of coloured badges (Primary, Passed, Pending, Info, Dark), then pill-shaped badges.\nA blue \"Inbox 7\" button with a white count, and a black bell button with a small red \"3\" bubble on its top-right corner.",
+   "expl": {
+    "en": "<ul><li>A <b>badge</b> is a small count or label: <code>&lt;span class=\"badge bg-primary\"&gt;</code>. It scales to the size of its parent (inside h2 it is larger).</li>\n<li><b>Bootstrap 3</b> had <b>labels</b> (<code>.label .label-success</code>) and <b>badges</b> (<code>.badge</code> for counts); Bootstrap 4/5 use badges for both.</li>\n<li>Colours: <code>bg-*</code> (add <code>text-dark</code> for light colours) or <code>text-bg-*</code>, which sets a readable text colour automatically.</li>\n<li><code>.rounded-pill</code> gives a capsule shape.</li>\n<li><b>Positioned badge</b> (notification bubble): <code>.position-relative</code> on the button and <code>position-absolute top-0 start-100 translate-middle</code> on the badge.</li>\n<li><b>Page header</b> (Bootstrap 3 <code>.page-header</code>) is made in Bootstrap 5 with utilities: <code>pb-2 mb-3 border-bottom</code>.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w3_13",
+   "title": {
+    "en": "Education website: breadcrumb, pagination, badge, jumbotron, thumbnails (Practical 14)"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Education Website</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <nav aria-label=\"breadcrumb\">\n      <ol class=\"breadcrumb\">\n        <li class=\"breadcrumb-item\"><a href=\"#\">Home</a></li>\n        <li class=\"breadcrumb-item active\">Courses</li>\n      </ol>\n    </nav>\n\n    <div class=\"p-4 p-md-5 mb-4 bg-body-tertiary rounded-3\">\n      <h1 class=\"display-6 fw-bold\">Learn Web Design\n        <span class=\"badge bg-success fs-6 align-middle\">Free</span>\n      </h1>\n      <p class=\"lead\">Online courses for GTU diploma students:\n        notes, videos and practicals.</p>\n      <a class=\"btn btn-primary btn-lg\" href=\"#\">Get started</a>\n    </div>\n\n    <div class=\"pb-1 mb-3 border-bottom\">\n      <h2 class=\"h4\">Popular courses\n        <small\n            class=\"text-body-secondary\">(page 1 of 3)</small></h2>\n    </div>\n\n    <div class=\"row g-3\">\n      <div class=\"col-6 col-md-3\">\n        <div class=\"card h-100\">\n          <img src=\"images/html.jpg\" class=\"card-img-top\"\n              alt=\"HTML\">\n          <div class=\"card-body p-2\">\n            <h3 class=\"h6\">HTML5 <span class=\"badge\n              bg-danger\">Hot</span></h3>\n            <small class=\"text-muted\">12 lessons</small>\n          </div>\n        </div>\n      </div>\n      <div class=\"col-6 col-md-3\">\n        <div class=\"card h-100\">\n          <img src=\"images/css.jpg\" class=\"card-img-top\" alt=\"CSS\">\n          <div class=\"card-body p-2\">\n            <h3 class=\"h6\">CSS3</h3>\n            <small class=\"text-muted\">15 lessons</small>\n          </div>\n        </div>\n      </div>\n      <div class=\"col-6 col-md-3\">\n        <a href=\"#\" class=\"d-block\">\n          <img src=\"images/js.jpg\" class=\"img-thumbnail\"\n              alt=\"JavaScript\"\n            width=\"400\" height=\"260\"></a>\n        <p class=\"small mb-0\">JavaScript (thumbnail link)</p>\n      </div>\n      <div class=\"col-6 col-md-3\">\n        <a href=\"#\" class=\"d-block\">\n          <img src=\"images/bootstrap.jpg\" class=\"img-thumbnail\"\n            alt=\"Bootstrap\" width=\"400\" height=\"260\"></a>\n        <p class=\"small mb-0\">Bootstrap <span class=\"badge\n          bg-primary\">New</span></p>\n      </div>\n    </div>\n\n    <nav class=\"mt-4\" aria-label=\"Course pages\">\n      <ul class=\"pagination justify-content-center\">\n        <li class=\"page-item disabled\">\n          <span class=\"page-link\">Previous</span></li>\n        <li class=\"page-item active\"><span\n            class=\"page-link\">1</span></li>\n        <li class=\"page-item\"><a class=\"page-link\"\n            href=\"#\">2</a></li>\n        <li class=\"page-item\"><a class=\"page-link\"\n            href=\"#\">3</a></li>\n        <li class=\"page-item\"><a class=\"page-link\"\n            href=\"#\">Next</a></li>\n      </ul>\n    </nav>\n  </div>\n</body>\n</html>"
+   },
+   "out": "An education site page: the breadcrumb \"Home / Courses\", then a large grey jumbotron box with the heading \"Learn Web Design\", a green \"Free\" badge, a lead line and a big \"Get started\" button.\nA \"Popular courses (page 1 of 3)\" header with a line below, then four course thumbnails (2 per row on a phone, 4 on a desktop): two cards (HTML5 with a red \"Hot\" badge, CSS3) and two bordered thumbnail images (JavaScript, Bootstrap with a \"New\" badge). A centred pagination bar \"Previous 1 2 3 Next\" is at the bottom.",
+   "expl": {
+    "en": "<ul><li><b>Jumbotron:</b> a big box to highlight the main message. The <code>.jumbotron</code> class was removed in Bootstrap 5; it is built with utilities: <code>p-5 mb-4 bg-body-tertiary rounded-3</code> plus <code>.display-*</code> and <code>.lead</code> text.</li>\n<li><b>Page header:</b> heading with <code>small</code> subtitle and <code>border-bottom</code>.</li>\n<li><b>Thumbnails:</b> Bootstrap 3 had <code>.thumbnail</code>; in Bootstrap 5 use <code>.img-thumbnail</code> images or cards in a grid.</li>\n<li><b>Badges</b> mark new or popular items; <b>breadcrumb</b> shows the location; <b>pagination</b> moves between pages of courses.</li>\n<li>The grid <code>col-6 col-md-3</code> gives 2 or 4 thumbnails per row.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w3_14",
+   "title": {
+    "en": "Alerts, dismissible alerts and message after closing"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Alerts</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n  <link rel=\"stylesheet\"\n    href=\"css/bootstrap-icons.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <div class=\"alert alert-primary\">A simple primary alert.</div>\n    <div\n        class=\"alert alert-success d-flex align-items-center gap-2\">\n      <i class=\"bi bi-check-circle-fill\"></i>\n      <div>Form submitted successfully.</div>\n    </div>\n    <div class=\"alert alert-warning\">\n      <h4 class=\"alert-heading\">Exam form</h4>\n      <p class=\"mb-0\">Last date is 30 November. See the\n        <a href=\"#\" class=\"alert-link\">notice</a>.</p>\n    </div>\n\n    <div class=\"alert alert-danger alert-dismissible fade show\"\n      id=\"err\" role=\"alert\">\n      <strong>Error!</strong> Fee not paid.\n      <button type=\"button\" class=\"btn-close\"\n        data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>\n    </div>\n    <div class=\"alert alert-info alert-dismissible fade show\"\n      id=\"inf\" role=\"alert\">\n      Library closed on Sunday.\n      <button type=\"button\" class=\"btn-close\"\n        data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>\n    </div>\n\n    <p id=\"log\" class=\"text-success fw-bold\"></p>\n    <button class=\"btn btn-outline-dark\" id=\"add\">\n      Show new alert</button>\n  </div>\n  <script src=\"js/bootstrap.bundle.min.js\"></script>\n  <script>\n    document.addEventListener(\"closed.bs.alert\", function (e) {\n      document.getElementById(\"log\").textContent =\n        \"Alert '\" + e.target.id + \"' was closed.\";\n    });\n\n    document.getElementById(\"add\").onclick = function () {\n      var d = document.createElement(\"div\");\n      d.id = \"new\" + Date.now() % 1000;\n      d.className =\n        \"alert alert-secondary alert-dismissible fade show\";\n      d.innerHTML = \"New alert added at \" +\n        new Date().toLocaleTimeString() +\n        '<button type=\"button\" class=\"btn-close\"' +\n        ' data-bs-dismiss=\"alert\"></button>';\n      this.before(d);\n    };\n  </script>\n</body>\n</html>"
+   },
+   "out": "Coloured alert boxes: blue (simple), green with a tick icon, and yellow with a heading \"Exam form\" and a bold link.\nA red \"Error! Fee not paid.\" alert and a blue \"Library closed on Sunday.\" alert each have a close (x) button. Closing one fades it out, and a green message appears, e.g. \"Alert 'err' was closed.\" The \"Show new alert\" button adds a grey dismissible alert with the current time.",
+   "expl": {
+    "en": "<ul><li><b>Alert:</b> <code>div.alert</code> + colour <code>alert-primary / success / danger / warning / info / secondary / light / dark</code>.</li>\n<li>Extra content: <code>.alert-heading</code> for a title and <code>.alert-link</code> for links in matching colour; icons can be added with flex utilities.</li>\n<li><b>Dismissible alert:</b> add <code>.alert-dismissible</code> and a <code>button.btn-close</code> with <code>data-bs-dismiss=\"alert\"</code>. <code>.fade .show</code> animate the closing. (Bootstrap 3 used <code>class=\"close\"</code> and &amp;times;.)</li>\n<li><b>Alert events:</b> <code>close.bs.alert</code> fires when closing starts, <code>closed.bs.alert</code> after the alert is removed. Here the second one shows a message after closing.</li>\n<li>JavaScript: <code>bootstrap.Alert.getOrCreateInstance(\"#err\").close()</code> closes an alert from code.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w3_15",
+   "title": {
+    "en": "Progress bars: labels, colours, striped, animated, dynamic (Practical 15)"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Progress Bars</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h6\">a. Basic progress bar</h1>\n    <div class=\"progress mb-3\" role=\"progressbar\" aria-valuenow=\"40\"\n      aria-valuemin=\"0\" aria-valuemax=\"100\">\n      <div class=\"progress-bar\" style=\"width: 40%\"></div>\n    </div>\n\n    <h2 class=\"h6\">b. With label and height</h2>\n    <div class=\"progress mb-3\" style=\"height: 22px;\">\n      <div class=\"progress-bar bg-success\" style=\"width: 75%\">\n        75% complete</div>\n    </div>\n\n    <h2 class=\"h6\">c. Colours, striped, animated, multiple</h2>\n    <div class=\"progress mb-2\">\n      <div class=\"progress-bar bg-warning progress-bar-striped\"\n        style=\"width: 60%\">60%</div>\n    </div>\n    <div class=\"progress mb-2\">\n      <div class=\"progress-bar bg-danger progress-bar-striped\n        progress-bar-animated\" style=\"width: 85%\">85%</div>\n    </div>\n    <div class=\"progress-stacked mb-3\">\n      <div class=\"progress\" style=\"width: 30%\">\n        <div class=\"progress-bar bg-success\">Pass 30%</div></div>\n      <div class=\"progress\" style=\"width: 20%\">\n        <div class=\"progress-bar bg-warning\">ATKT 20%</div></div>\n      <div class=\"progress\" style=\"width: 10%\">\n        <div class=\"progress-bar bg-danger\">Fail</div></div>\n    </div>\n\n    <h2 class=\"h6\">d. Change value with JavaScript</h2>\n    <div class=\"progress mb-2\" style=\"height: 24px;\">\n      <div class=\"progress-bar progress-bar-striped\" id=\"bar\"\n        style=\"width: 0%\">0%</div>\n    </div>\n    <button class=\"btn btn-primary btn-sm\"\n        id=\"start\">Start upload</button>\n    <button class=\"btn btn-outline-secondary btn-sm\"\n        id=\"minus\">-10</button>\n    <button class=\"btn btn-outline-secondary btn-sm\"\n        id=\"plus\">+10</button>\n  </div>\n  <script>\n    var bar = document.getElementById(\"bar\");\n    var value = 0, timer = null;\n\n    function setValue(v) {\n      value = Math.max(0, Math.min(100, v));\n      bar.style.width = value + \"%\";\n      bar.textContent = value + \"%\";\n      bar.classList.toggle(\"bg-success\", value == 100);\n      if (value == 100) bar.textContent = \"Done!\";\n    }\n\n    document.getElementById(\"start\").onclick = function () {\n      clearInterval(timer);\n      setValue(0);\n      timer = setInterval(function () {\n        setValue(value + 5);\n        if (value >= 100) clearInterval(timer);\n      }, 200);\n    };\n    document.getElementById(\"plus\").onclick = function () {\n      setValue(value + 10);\n    };\n    document.getElementById(\"minus\").onclick = function () {\n      setValue(value - 10);\n    };\n  </script>\n</body>\n</html>"
+   },
+   "out": "a. A thin grey bar, 40% filled in blue.\nb. A taller green bar, 75% filled, with the text \"75% complete\".\nc. A yellow striped bar at 60%, a red striped bar at 85% whose stripes move, and one bar split into green \"Pass 30%\", yellow \"ATKT 20%\" and red \"Fail\".\nd. An empty bar with buttons. \"Start upload\" fills it 5% at a time (0% to 100% in 4 seconds) and it turns green with \"Done!\". The +10 and -10 buttons change the value by 10.",
+   "expl": {
+    "en": "<ul><li>A progress bar has two parts: the track <code>.progress</code> and the filled part <code>.progress-bar</code>. The <b>width</b> style sets the value.</li>\n<li><b>Label:</b> text inside .progress-bar. <b>Height:</b> set on .progress. <b>Accessibility:</b> <code>role=\"progressbar\"</code> with aria-valuenow, -valuemin, -valuemax.</li>\n<li><b>Colours:</b> <code>bg-success, bg-info, bg-warning, bg-danger</code>.</li>\n<li><b>Striped:</b> <code>.progress-bar-striped</code>; <b>animated:</b> add <code>.progress-bar-animated</code>.</li>\n<li><b>Multiple bars:</b> <code>.progress-stacked</code> containing several <code>.progress</code> elements, each with its own width (Bootstrap 5.3).</li>\n<li><b>Dynamic value:</b> JavaScript changes <code>style.width</code> and the text; <code>setInterval()</code> repeats the change every 200 ms and <code>clearInterval()</code> stops it.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w3_16",
+   "title": {
+    "en": "Media objects: family tree with nested media (Practical 16)"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Family</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h4 mb-3\">Our Family</h1>\n    <div class=\"d-flex mb-3\">\n      <img src=\"images/grandfather.jpg\" alt=\"Grandfather\"\n        width=\"64\" height=\"64\" class=\"rounded-circle flex-shrink-0\">\n      <div class=\"ms-3\">\n        <h2 class=\"h6 mb-0\">Ramesh Patel (Grandfather)</h2>\n        <p class=\"small text-muted\">Retired teacher, age 72</p>\n\n        <div class=\"d-flex mt-2\">\n          <img src=\"images/father.jpg\" alt=\"Father\" width=\"56\"\n            height=\"56\" class=\"rounded-circle flex-shrink-0\">\n          <div class=\"ms-3\">\n            <h3 class=\"h6 mb-0\">Mahesh Patel (Father)</h3>\n            <p class=\"small text-muted\">Engineer, age 48</p>\n\n            <div class=\"d-flex mt-2\">\n              <img src=\"images/me.jpg\" alt=\"Me\" width=\"48\"\n                  height=\"48\"\n                class=\"rounded flex-shrink-0\">\n              <div class=\"ms-3\">\n                <h4 class=\"h6 mb-0\">Riya Patel (Me)</h4>\n                <p class=\"small text-muted mb-0\">Diploma, 18</p>\n              </div>\n            </div>\n            <div class=\"d-flex mt-2\">\n              <img src=\"images/brother.jpg\" alt=\"Brother\" width=\"48\"\n                height=\"48\" class=\"rounded flex-shrink-0\">\n              <div class=\"ms-3\">\n                <h4 class=\"h6 mb-0\">Dev Patel (Brother)</h4>\n                <p class=\"small text-muted mb-0\">Class 9, 14</p>\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"d-flex mt-2\">\n          <img src=\"images/uncle.jpg\" alt=\"Uncle\" width=\"56\"\n            height=\"56\" class=\"rounded-circle flex-shrink-0\">\n          <div class=\"ms-3\">\n            <h3 class=\"h6 mb-0\">Suresh Patel (Uncle)</h3>\n            <p class=\"small text-muted mb-0\">Businessman, age 45</p>\n          </div>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"d-flex flex-row-reverse text-end border-top pt-3\">\n      <img src=\"images/grandmother.jpg\" alt=\"Grandmother\" width=\"64\"\n        height=\"64\" class=\"rounded-circle flex-shrink-0\">\n      <div class=\"me-3\">\n        <h2 class=\"h6 mb-0\">Savita Patel (Grandmother)</h2>\n        <p class=\"small text-muted mb-0\">Image on the right side</p>\n      </div>\n    </div>\n  </div>\n</body>\n</html>"
+   },
+   "out": "A family tree: Grandfather (round photo) at the top with his details. Indented under him are Father and Uncle (smaller round photos); indented under Father are \"Riya Patel (Me)\" and \"Dev Patel (Brother)\" with small rounded-square photos.\nEach level moves further right, showing the hierarchy. At the bottom, the Grandmother entry has its photo on the right and right-aligned text.",
+   "expl": {
+    "en": "<ul><li>A <b>media object</b> is an image (or icon) beside text content, like a comment or profile.</li>\n<li>Bootstrap 4 had <code>.media</code> / <code>.media-body</code>; in Bootstrap 5 it is built with <b>flex utilities</b>: <code>div.d-flex</code> containing an image with <code>.flex-shrink-0</code> and a content div with <code>.ms-3</code> (space) and optionally <code>.flex-grow-1</code>.</li>\n<li><b>Rounded media:</b> <code>.rounded-circle</code> or <code>.rounded</code> on the image.</li>\n<li><b>Nested media:</b> put another <code>.d-flex</code> media block inside the content div; each level is indented, showing parent-child hierarchy.</li>\n<li><b>Image on the right:</b> <code>.flex-row-reverse</code> with <code>.me-3</code>. Vertical alignment: <code>.align-items-center</code> or <code>.align-items-end</code>.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w3_17",
+   "title": {
+    "en": "Service providers: panels (cards), list groups and alerts (Practical 17)"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Service Providers</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n  <link rel=\"stylesheet\"\n    href=\"css/bootstrap-icons.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h4 mb-3\">City Service Providers</h1>\n    <div class=\"alert alert-info alert-dismissible fade show\"\n        id=\"tip\">\n      <i class=\"bi bi-info-circle\"></i> Tap a provider to select it.\n      <button type=\"button\" class=\"btn-close\"\n        data-bs-dismiss=\"alert\"></button>\n    </div>\n    <p id=\"closed\" class=\"text-success small\"></p>\n\n    <div class=\"row g-3\">\n      <div class=\"col-md-6\">\n        <div class=\"card border-primary\">\n          <div class=\"card-header text-bg-primary\">\n            <i class=\"bi bi-wifi\"></i> Internet providers</div>\n          <div class=\"list-group list-group-flush\" id=\"net\">\n            <a href=\"#\"\n                class=\"list-group-item list-group-item-action\n              d-flex justify-content-between\">JioFiber\n              <span class=\"badge text-bg-primary\">4.5</span></a>\n            <a href=\"#\"\n                class=\"list-group-item list-group-item-action\n              d-flex justify-content-between\">Airtel Xstream\n              <span class=\"badge text-bg-primary\">4.3</span></a>\n            <a href=\"#\"\n                class=\"list-group-item list-group-item-action\n              disabled\">BSNL (not available)</a>\n          </div>\n          <div\n              class=\"card-footer small text-muted\">3 providers</div>\n        </div>\n      </div>\n      <div class=\"col-md-6\">\n        <div class=\"card border-success\">\n          <div class=\"card-header text-bg-success\">\n            <i class=\"bi bi-lightning\"></i> Power and gas</div>\n          <ul class=\"list-group list-group-flush\">\n            <li class=\"list-group-item list-group-item-success\">\n              DGVCL - electricity</li>\n            <li class=\"list-group-item list-group-item-warning\">\n              Gujarat Gas - piped gas</li>\n            <li class=\"list-group-item list-group-item-danger\">\n              Emergency: 1912</li>\n          </ul>\n        </div>\n      </div>\n    </div>\n    <div id=\"msg\" class=\"mt-3\"></div>\n  </div>\n  <script src=\"js/bootstrap.bundle.min.js\"></script>\n  <script>\n    document.getElementById(\"tip\")\n      .addEventListener(\"closed.bs.alert\", function () {\n        document.getElementById(\"closed\").textContent =\n          \"Tip closed. You can still select a provider.\";\n      });\n\n    document.querySelectorAll(\"#net .list-group-item\").forEach(\n      function (item) {\n        item.addEventListener(\"click\", function (e) {\n          e.preventDefault();\n          document.querySelectorAll(\"#net .active\").forEach(\n            function (a) { a.classList.remove(\"active\"); });\n          item.classList.add(\"active\");\n          var name = item.firstChild.textContent.trim();\n          document.getElementById(\"msg\").innerHTML =\n            '<div class=\"alert alert-success alert-dismissible\">' +\n            \"You selected <b>\" + name + \"</b>.\" +\n            '<button class=\"btn-close\" data-bs-dismiss=\"alert\">' +\n            \"</button></div>\";\n        });\n      });\n  </script>\n</body>\n</html>"
+   },
+   "out": "A \"City Service Providers\" page with a blue dismissible tip alert. Closing it shows the green text \"Tip closed. You can still select a provider.\"\nTwo panels (side by side on a desktop): a blue \"Internet providers\" panel listing JioFiber 4.5 and Airtel Xstream 4.3 with rating badges and a greyed-out BSNL, plus a footer \"3 providers\"; and a green \"Power and gas\" panel (electricity and gas) with green, yellow and red coloured list items.\nTapping an internet provider highlights it in blue and shows a green alert \"You selected JioFiber.\".",
+   "expl": {
+    "en": "<ul><li><b>Panel:</b> Bootstrap 3 had <code>.panel .panel-primary</code> with <code>.panel-heading</code>, <code>.panel-body</code>, <code>.panel-footer</code>. In Bootstrap 5 a <b>card</b> is used: <code>.card.border-primary</code>, <code>.card-header.text-bg-primary</code>, <code>.card-footer</code>.</li>\n<li><b>List group:</b> <code>.list-group</code> with <code>.list-group-item</code>; <code>.list-group-flush</code> inside a card; clickable items with <code>a.list-group-item-action</code>; states <code>.active</code>, <code>.disabled</code>; colours <code>.list-group-item-success</code> etc.; badges aligned with <code>d-flex justify-content-between</code>.</li>\n<li><b>Alerts:</b> the dismissible tip and the success message. The <code>closed.bs.alert</code> event shows a message after the alert has been closed.</li>\n<li>The click handler removes <code>.active</code> from all items and adds it to the clicked one.</li></ul>"
+   },
+   "run": "html"
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "web3_components",
+   "title": {
+    "en": "Types of Bootstrap Components"
+   },
+   "file": "diagrams/web3_components.svg"
+  },
+  {
+   "id": "web3_bs3_map",
+   "title": {
+    "en": "Bootstrap 3 Components in Bootstrap 5"
+   },
+   "file": "diagrams/web3_bs3_map.svg"
+  },
+  {
+   "id": "web3_dropdown",
+   "title": {
+    "en": "Dropdown Menu Structure"
+   },
+   "file": "diagrams/web3_dropdown.svg"
+  },
+  {
+   "id": "web3_card",
+   "title": {
+    "en": "Card Component"
+   },
+   "file": "diagrams/web3_card.svg"
+  },
+  {
+   "id": "web3_btn_groups",
+   "title": {
+    "en": "Button Group and Toolbar"
+   },
+   "file": "diagrams/web3_btn_groups.svg"
+  },
+  {
+   "id": "web3_input_group",
+   "title": {
+    "en": "Input Group"
+   },
+   "file": "diagrams/web3_input_group.svg"
+  },
+  {
+   "id": "web3_navs",
+   "title": {
+    "en": "Navs: Tabs and Pills"
+   },
+   "file": "diagrams/web3_navs.svg"
+  },
+  {
+   "id": "web3_navbar",
+   "title": {
+    "en": "Responsive Navbar"
+   },
+   "file": "diagrams/web3_navbar.svg"
+  },
+  {
+   "id": "web3_breadcrumb",
+   "title": {
+    "en": "Breadcrumb and Pagination"
+   },
+   "file": "diagrams/web3_breadcrumb.svg"
+  },
+  {
+   "id": "web3_alerts_badges",
+   "title": {
+    "en": "Alerts, Badges and Jumbotron"
+   },
+   "file": "diagrams/web3_alerts_badges.svg"
+  },
+  {
+   "id": "web3_progress",
+   "title": {
+    "en": "Progress Bars"
+   },
+   "file": "diagrams/web3_progress.svg"
+  },
+  {
+   "id": "web3_media_list",
+   "title": {
+    "en": "Media Object and List Group"
+   },
+   "file": "diagrams/web3_media_list.svg"
+  }
+ ],
+ "syntax": [
+  {
+   "title": {
+    "en": "Icons and Dropdowns"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Bootstrap Icons"
+     },
+     "f": "<!-- in <head> -->\n<link rel=\"stylesheet\" href=\"bootstrap-icons.css\">\n\n<i class=\"bi bi-house\"></i> Home\n<i class=\"bi bi-search text-primary fs-4\"></i>\n<button class=\"btn btn-success\">\n  <i class=\"bi bi-download\"></i> Download\n</button>\n<i class=\"bi bi-star-fill\" style=\"color: orange\"></i>",
+     "terms": {
+      "en": "Link bootstrap-icons.css; i.bi.bi-name; size fs-*, colour text-*."
+     }
+    },
+    {
+     "name": {
+      "en": "Glyphicon vs Bootstrap Icon"
+     },
+     "f": "<!-- Bootstrap 3 -->\n<span class=\"glyphicon glyphicon-user\"></span>\n<!-- Bootstrap 5 -->\n<i class=\"bi bi-person\"></i>",
+     "terms": {
+      "en": "BS3 span.glyphicon -> BS5 i.bi"
+     }
+    },
+    {
+     "name": {
+      "en": "Dropdown"
+     },
+     "f": "<div class=\"dropdown\">\n  <button class=\"btn btn-primary dropdown-toggle\"\n      type=\"button\" data-bs-toggle=\"dropdown\">\n    Courses\n  </button>\n  <ul class=\"dropdown-menu\">\n    <li><h6 class=\"dropdown-header\">Diploma</h6></li>\n    <li><a class=\"dropdown-item\" href=\"#\">Computer</a></li>\n    <li><a class=\"dropdown-item active\" href=\"#\">IT</a></li>\n    <li><hr class=\"dropdown-divider\"></li>\n    <li><a class=\"dropdown-item disabled\">M.E.</a></li>\n  </ul>\n</div>",
+     "terms": {
+      "en": ".dropdown, .dropdown-toggle, .dropdown-menu, .dropdown-item, -header, -divider"
+     }
+    },
+    {
+     "name": {
+      "en": "Split / dropup"
+     },
+     "f": "<div class=\"btn-group\">\n  <button class=\"btn btn-danger\">Action</button>\n  <button class=\"btn btn-danger dropdown-toggle\n      dropdown-toggle-split\" data-bs-toggle=\"dropdown\">\n  </button>\n  <ul class=\"dropdown-menu dropdown-menu-end\">...</ul>\n</div>\n<div class=\"btn-group dropup\">...</div>",
+     "terms": {
+      "en": ".dropdown-toggle-split, .dropup, .dropdown-menu-end"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Cards"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Card"
+     },
+     "f": "<div class=\"card\" style=\"width: 18rem\">\n  <img src=\"course.jpg\" class=\"card-img-top\" alt=\"Course\">\n  <div class=\"card-body\">\n    <h5 class=\"card-title\">Python Course</h5>\n    <p class=\"card-text\">Learn Python in 30 days.</p>\n    <a href=\"#\" class=\"btn btn-primary\">Enroll</a>\n  </div>\n  <div class=\"card-footer text-muted\">Starts 1 Dec</div>\n</div>",
+     "terms": {
+      "en": ".card > .card-img-top, .card-body (title, text), .card-footer"
+     }
+    },
+    {
+     "name": {
+      "en": "Grid of cards"
+     },
+     "f": "<div class=\"row row-cols-1 row-cols-md-3 g-3\">\n  <div class=\"col\">\n    <div class=\"card h-100\">...</div>\n  </div>\n  <div class=\"col\">\n    <div class=\"card h-100 text-bg-success\">...</div>\n  </div>\n</div>",
+     "terms": {
+      "en": "row-cols-* + .card.h-100 for equal height."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Button and Input Groups"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Button group"
+     },
+     "f": "<div class=\"btn-group\" role=\"group\">\n  <button class=\"btn btn-primary\">Left</button>\n  <button class=\"btn btn-primary\">Middle</button>\n  <button class=\"btn btn-primary\">Right</button>\n</div>\n<div class=\"btn-group-vertical\">...</div>",
+     "terms": {
+      "en": ".btn-group, .btn-group-vertical, -lg / -sm"
+     }
+    },
+    {
+     "name": {
+      "en": "Button toolbar"
+     },
+     "f": "<div class=\"btn-toolbar\" role=\"toolbar\">\n  <div class=\"btn-group me-2\">\n    <button class=\"btn btn-secondary\">1</button>\n    <button class=\"btn btn-secondary\">2</button>\n  </div>\n  <div class=\"btn-group\">\n    <button class=\"btn btn-info\">8</button>\n  </div>\n</div>",
+     "terms": {
+      "en": ".btn-toolbar holding several .btn-group"
+     }
+    },
+    {
+     "name": {
+      "en": "Nested dropdown"
+     },
+     "f": "<div class=\"btn-group\">\n  <button class=\"btn btn-primary\">Sem 1</button>\n  <div class=\"btn-group\">\n    <button class=\"btn btn-primary dropdown-toggle\"\n        data-bs-toggle=\"dropdown\">Sem 3</button>\n    <ul class=\"dropdown-menu\">\n      <li><a class=\"dropdown-item\" href=\"#\">RWPD</a></li>\n    </ul>\n  </div>\n</div>",
+     "terms": {
+      "en": ".btn-group inside .btn-group"
+     }
+    },
+    {
+     "name": {
+      "en": "Input group"
+     },
+     "f": "<div class=\"input-group mb-3\">\n  <span class=\"input-group-text\">@</span>\n  <input type=\"text\" class=\"form-control\"\n      placeholder=\"Username\">\n</div>\n<div class=\"input-group mb-3\">\n  <span class=\"input-group-text\">Rs.</span>\n  <input type=\"number\" class=\"form-control\">\n  <span class=\"input-group-text\">.00</span>\n</div>\n<div class=\"input-group\">\n  <input type=\"text\" class=\"form-control\"\n      placeholder=\"Search\">\n  <button class=\"btn btn-primary\">Go</button>\n</div>",
+     "terms": {
+      "en": ".input-group + .input-group-text / button"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Navigation"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Navs"
+     },
+     "f": "<ul class=\"nav nav-tabs\">\n  <li class=\"nav-item\">\n    <a class=\"nav-link active\" href=\"#\">Unit 1</a>\n  </li>\n  <li class=\"nav-item\">\n    <a class=\"nav-link\" href=\"#\">Unit 2</a>\n  </li>\n  <li class=\"nav-item\">\n    <a class=\"nav-link disabled\">Unit 3</a>\n  </li>\n</ul>\n<!-- pills: nav nav-pills, vertical: add flex-column -->",
+     "terms": {
+      "en": ".nav + .nav-tabs / .nav-pills / .nav-underline; .flex-column"
+     }
+    },
+    {
+     "name": {
+      "en": "Tab plug-in"
+     },
+     "f": "<ul class=\"nav nav-tabs\" role=\"tablist\">\n  <li class=\"nav-item\">\n    <button class=\"nav-link active\" data-bs-toggle=\"tab\"\n        data-bs-target=\"#u1\" type=\"button\">Unit 1</button>\n  </li>\n  <li class=\"nav-item\">\n    <button class=\"nav-link\" data-bs-toggle=\"tab\"\n        data-bs-target=\"#u2\" type=\"button\">Unit 2</button>\n  </li>\n</ul>\n<div class=\"tab-content p-3 border border-top-0\">\n  <div class=\"tab-pane fade show active\" id=\"u1\">\n    Introduction...</div>\n  <div class=\"tab-pane fade\" id=\"u2\">Grid...</div>\n</div>",
+     "terms": {
+      "en": "data-bs-toggle=\"tab\", .tab-content, .tab-pane.fade"
+     }
+    },
+    {
+     "name": {
+      "en": "Navbar"
+     },
+     "f": "<nav class=\"navbar navbar-expand-lg bg-dark\"\n    data-bs-theme=\"dark\">\n  <div class=\"container-fluid\">\n    <a class=\"navbar-brand\" href=\"#\">DiplomaOne</a>\n    <button class=\"navbar-toggler\" type=\"button\"\n        data-bs-toggle=\"collapse\" data-bs-target=\"#menu\">\n      <span class=\"navbar-toggler-icon\"></span>\n    </button>\n    <div class=\"collapse navbar-collapse\" id=\"menu\">\n      <ul class=\"navbar-nav me-auto\">\n        <li class=\"nav-item\">\n          <a class=\"nav-link active\" href=\"#\">Home</a>\n        </li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link\" href=\"#\">About</a>\n        </li>\n      </ul>\n      <form class=\"d-flex\">\n        <input class=\"form-control me-2\" type=\"search\">\n        <button class=\"btn btn-warning\">Search</button>\n      </form>\n    </div>\n  </div>\n</nav>",
+     "terms": {
+      "en": ".navbar-expand-lg, -brand, -toggler, .collapse.navbar-collapse, .navbar-nav"
+     }
+    },
+    {
+     "name": {
+      "en": "Fixed navbar / footer"
+     },
+     "f": "<nav class=\"navbar fixed-top bg-primary\">...</nav>\n<footer class=\"fixed-bottom bg-dark text-white\">\n  ...</footer>\n<style>\n  body { padding-top: 60px; padding-bottom: 50px; }\n</style>",
+     "terms": {
+      "en": ".fixed-top, .fixed-bottom, .sticky-top + body padding"
+     }
+    },
+    {
+     "name": {
+      "en": "Breadcrumb"
+     },
+     "f": "<nav aria-label=\"breadcrumb\">\n  <ol class=\"breadcrumb\">\n    <li class=\"breadcrumb-item\"><a href=\"#\">Home</a></li>\n    <li class=\"breadcrumb-item\"><a href=\"#\">Sem 3</a></li>\n    <li class=\"breadcrumb-item active\">RWPD</li>\n  </ol>\n</nav>",
+     "terms": {
+      "en": "ol.breadcrumb > li.breadcrumb-item (.active)"
+     }
+    },
+    {
+     "name": {
+      "en": "Pagination"
+     },
+     "f": "<ul class=\"pagination justify-content-center\">\n  <li class=\"page-item disabled\">\n    <a class=\"page-link\">Previous</a>\n  </li>\n  <li class=\"page-item\"><a class=\"page-link\" href=\"#\">1</a></li>\n  <li class=\"page-item active\">\n    <a class=\"page-link\" href=\"#\">2</a>\n  </li>\n  <li class=\"page-item\"><a class=\"page-link\" href=\"#\">3</a></li>\n  <li class=\"page-item\"><a class=\"page-link\" href=\"#\">Next</a></li>\n</ul>",
+     "terms": {
+      "en": "ul.pagination > li.page-item > a.page-link"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Badges, Jumbotron, Thumbnails"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Badges"
+     },
+     "f": "<h4>Notices <span class=\"badge bg-danger\">New</span></h4>\n<span class=\"badge rounded-pill text-bg-warning\">Pill</span>\n<button class=\"btn btn-primary\">\n  Inbox <span class=\"badge text-bg-light\">7</span>\n</button>\n<button class=\"btn btn-dark position-relative\">\n  <i class=\"bi bi-bell\"></i>\n  <span class=\"position-absolute top-0 start-100\n      translate-middle badge rounded-pill bg-danger\">3</span>\n</button>",
+     "terms": {
+      "en": ".badge + bg-* / text-bg-*, .rounded-pill, positioned badge"
+     }
+    },
+    {
+     "name": {
+      "en": "Jumbotron (BS5)"
+     },
+     "f": "<div class=\"p-5 mb-4 bg-body-tertiary rounded-3\">\n  <h1 class=\"display-5 fw-bold\">Learn Web Design</h1>\n  <p class=\"lead\">Free notes for GTU diploma students.</p>\n  <a class=\"btn btn-primary btn-lg\" href=\"#\">Get started</a>\n</div>",
+     "terms": {
+      "en": "p-5 bg-body-tertiary rounded-3 + display-5, lead"
+     }
+    },
+    {
+     "name": {
+      "en": "Page header (BS5)"
+     },
+     "f": "<div class=\"border-bottom pb-2 mb-3\">\n  <h1>Exam Results\n    <small class=\"text-body-secondary\">Summer 2026</small>\n  </h1>\n</div>",
+     "terms": {
+      "en": "border-bottom pb-2 mb-3 + small subtitle"
+     }
+    },
+    {
+     "name": {
+      "en": "Thumbnails"
+     },
+     "f": "<!-- simple bordered image -->\n<img src=\"lab.jpg\" class=\"img-thumbnail\" alt=\"Lab\">\n<!-- BS3 .thumbnail with caption = BS5 card -->\n<div class=\"col-md-4\">\n  <div class=\"card\">\n    <img src=\"lab.jpg\" class=\"card-img-top\" alt=\"Lab\">\n    <div class=\"card-body\">\n      <h5>Computer Lab</h5>\n      <a href=\"#\" class=\"btn btn-primary\">View</a>\n    </div>\n  </div>\n</div>",
+     "terms": {
+      "en": ".img-thumbnail, or cards in grid columns"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Alerts and Progress"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Alerts"
+     },
+     "f": "<div class=\"alert alert-success\" role=\"alert\">\n  <strong>Saved!</strong> Your form was submitted.\n</div>\n<div class=\"alert alert-warning alert-dismissible fade show\">\n  Last date for fees is 30 Nov.\n  <button type=\"button\" class=\"btn-close\"\n      data-bs-dismiss=\"alert\"></button>\n</div>",
+     "terms": {
+      "en": ".alert-*, .alert-dismissible, .btn-close data-bs-dismiss"
+     }
+    },
+    {
+     "name": {
+      "en": "Alert events"
+     },
+     "f": "var box = document.getElementById(\"fee\");\nbox.addEventListener(\"closed.bs.alert\", function () {\n  msg.textContent = \"Alert closed\";\n});\n// close from code\nbootstrap.Alert.getOrCreateInstance(box).close();",
+     "terms": {
+      "en": "close.bs.alert, closed.bs.alert, Alert.close()"
+     }
+    },
+    {
+     "name": {
+      "en": "Progress bar"
+     },
+     "f": "<div class=\"progress\" style=\"height: 20px\">\n  <div class=\"progress-bar bg-success\" style=\"width: 75%\">\n    75%</div>\n</div>\n<div class=\"progress\">\n  <div class=\"progress-bar progress-bar-striped\n      progress-bar-animated bg-danger\" style=\"width: 85%\">\n  </div>\n</div>",
+     "terms": {
+      "en": ".progress > .progress-bar; -striped, -animated"
+     }
+    },
+    {
+     "name": {
+      "en": "Progress with JS"
+     },
+     "f": "var v = 0;\nvar t = setInterval(function () {\n  v = v + 10;\n  bar.style.width = v + \"%\";\n  bar.textContent = v + \"%\";\n  if (v >= 100) clearInterval(t);\n}, 500);",
+     "terms": {
+      "en": "bar.style.width = v + \"%\"; setInterval"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Media, List Group, Panels"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Media object (BS5)"
+     },
+     "f": "<div class=\"d-flex\">\n  <div class=\"flex-shrink-0\">\n    <img src=\"grandpa.jpg\" width=\"64\" alt=\"\">\n  </div>\n  <div class=\"flex-grow-1 ms-3\">\n    <h5>Grandfather</h5>\n    Retired teacher.\n    <div class=\"d-flex mt-3\">  <!-- nested -->\n      <img src=\"father.jpg\" width=\"48\" alt=\"\">\n      <div class=\"ms-3\"><h6>Father</h6>Engineer.</div>\n    </div>\n  </div>\n</div>",
+     "terms": {
+      "en": "d-flex > flex-shrink-0 (img) + flex-grow-1 ms-3"
+     }
+    },
+    {
+     "name": {
+      "en": "List group"
+     },
+     "f": "<ul class=\"list-group\">\n  <li class=\"list-group-item active\">JioFiber</li>\n  <li class=\"list-group-item d-flex\n      justify-content-between\">Airtel\n    <span class=\"badge bg-primary rounded-pill\">4.3</span>\n  </li>\n  <li class=\"list-group-item disabled\">BSNL</li>\n  <li class=\"list-group-item list-group-item-success\">\n    DGVCL</li>\n</ul>\n<div class=\"list-group\">\n  <a href=\"#\" class=\"list-group-item\n      list-group-item-action\">Clickable item</a>\n</div>",
+     "terms": {
+      "en": ".list-group-item, .active, -action, -success, -flush"
+     }
+    },
+    {
+     "name": {
+      "en": "Panel vs card"
+     },
+     "f": "<!-- BS3 panel -->\n<div class=\"panel panel-primary\">\n  <div class=\"panel-heading\">Internet</div>\n  <div class=\"panel-body\">...</div>\n</div>\n<!-- BS5 equivalent -->\n<div class=\"card border-primary\">\n  <div class=\"card-header text-bg-primary\">Internet</div>\n  <div class=\"card-body\">...</div>\n</div>",
+     "terms": {
+      "en": "BS3 .panel-heading/.panel-body -> BS5 .card-header/.card-body"
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Components and Icons"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a Bootstrap component?"
+     },
+     "a": {
+      "en": "A ready-made, reusable UI part (navbar, card, alert, dropdown ...) built with HTML and Bootstrap classes, plus JavaScript for interactive ones."
+     }
+    },
+    {
+     "q": {
+      "en": "Give four advantages of Bootstrap components."
+     },
+     "a": {
+      "en": "They save time, give a consistent look, are responsive, work in all browsers, are accessible and easy to customise."
+     }
+    },
+    {
+     "q": {
+      "en": "Name the types of Bootstrap components."
+     },
+     "a": {
+      "en": "Navigation (navs, navbar, breadcrumb, pagination), content (card, list group, media), buttons and forms (button group, input group), feedback (alert, badge, progress)."
+     }
+    },
+    {
+     "q": {
+      "en": "Which file is needed for JavaScript components?"
+     },
+     "a": {
+      "en": "bootstrap.bundle.min.js, which includes Popper.js."
+     }
+    },
+    {
+     "q": {
+      "en": "What are Glyphicons?"
+     },
+     "a": {
+      "en": "The icon font included in Bootstrap 3 (about 250 icons), used as span.glyphicon.glyphicon-name."
+     }
+    },
+    {
+     "q": {
+      "en": "What replaced Glyphicons in Bootstrap 5?"
+     },
+     "a": {
+      "en": "Bootstrap Icons, a separate free library used as i.bi.bi-name."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you change the size and colour of a Bootstrap icon?"
+     },
+     "a": {
+      "en": "It is a font, so use font-size (fs-1 to fs-6) and text colour classes such as text-danger."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Dropdowns and Cards"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Which attribute opens a dropdown?"
+     },
+     "a": {
+      "en": "data-bs-toggle=\"dropdown\" on the toggle button."
+     }
+    },
+    {
+     "q": {
+      "en": "What does .dropdown-toggle do?"
+     },
+     "a": {
+      "en": "Marks the toggle button and adds the caret automatically."
+     }
+    },
+    {
+     "q": {
+      "en": "What is .dropdown-header?"
+     },
+     "a": {
+      "en": "A non-clickable heading inside a dropdown menu."
+     }
+    },
+    {
+     "q": {
+      "en": "What is .dropdown-divider?"
+     },
+     "a": {
+      "en": "A horizontal line that separates groups of items."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you make a dropdown open upward?"
+     },
+     "a": {
+      "en": "Use .dropup instead of .dropdown (.dropend and .dropstart for right and left)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a split button dropdown?"
+     },
+     "a": {
+      "en": "A button group with an action button and a separate caret button with .dropdown-toggle-split."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a card?"
+     },
+     "a": {
+      "en": "A flexible content container with optional header, image, body and footer."
+     }
+    },
+    {
+     "q": {
+      "en": "Which Bootstrap 3 components were replaced by the card?"
+     },
+     "a": {
+      "en": "Panel, well and thumbnail."
+     }
+    },
+    {
+     "q": {
+      "en": "Name the parts of a card body."
+     },
+     "a": {
+      "en": ".card-title, .card-subtitle, .card-text and .card-link."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you make cards in a row the same height?"
+     },
+     "a": {
+      "en": "Put them in grid columns and add .h-100 to each card (or use .card-group)."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Button and Input Groups"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a button group?"
+     },
+     "a": {
+      "en": "A set of buttons joined in one line using .btn-group."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a button toolbar?"
+     },
+     "a": {
+      "en": "A .btn-toolbar that contains several button groups in a row."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you make a vertical button group?"
+     },
+     "a": {
+      "en": "Use .btn-group-vertical."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you add a dropdown inside a button group?"
+     },
+     "a": {
+      "en": "Nest a .btn-group containing the dropdown toggle and menu inside the main .btn-group."
+     }
+    },
+    {
+     "q": {
+      "en": "What is an input group?"
+     },
+     "a": {
+      "en": "A form control with text, icons or buttons added before or after it in one joined box."
+     }
+    },
+    {
+     "q": {
+      "en": "Which class holds the add-on text in an input group?"
+     },
+     "a": {
+      "en": ".input-group-text (Bootstrap 3: .input-group-addon)."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you change the size of an input group?"
+     },
+     "a": {
+      "en": "Add .input-group-sm or .input-group-lg to the wrapper."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Navs, Navbar, Breadcrumb, Pagination, Badges"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Difference between nav tabs and nav pills?"
+     },
+     "a": {
+      "en": "Tabs look like folder tabs joined to the content; pills show the active link with a coloured rounded background."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you make a vertical nav?"
+     },
+     "a": {
+      "en": "Add .flex-column to the .nav."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the difference between .nav-fill and .nav-justified?"
+     },
+     "a": {
+      "en": ".nav-fill fills the width with items of different widths; .nav-justified gives all items equal width."
+     }
+    },
+    {
+     "q": {
+      "en": "How do tabs switch content without reloading the page?"
+     },
+     "a": {
+      "en": "data-bs-toggle=\"tab\" and data-bs-target link each tab to a .tab-pane inside .tab-content."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a navbar?"
+     },
+     "a": {
+      "en": "A responsive navigation header with brand, links, dropdowns and forms that collapses on small screens."
+     }
+    },
+    {
+     "q": {
+      "en": "What does .navbar-expand-lg mean?"
+     },
+     "a": {
+      "en": "The menu is expanded from the lg breakpoint (992 px) and collapsed behind the toggler below it."
+     }
+    },
+    {
+     "q": {
+      "en": "What is .navbar-toggler?"
+     },
+     "a": {
+      "en": "The hamburger button that opens and closes the collapsed menu."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you make a fixed navbar?"
+     },
+     "a": {
+      "en": "Add .fixed-top (or .fixed-bottom) and add body padding so content is not hidden."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between .fixed-top and .sticky-top?"
+     },
+     "a": {
+      "en": ".fixed-top is always fixed; .sticky-top scrolls with the page until it reaches the top, then sticks."
+     }
+    },
+    {
+     "q": {
+      "en": "How is a dark navbar made in Bootstrap 5?"
+     },
+     "a": {
+      "en": "bg-dark with data-bs-theme=\"dark\" (Bootstrap 3: .navbar-inverse)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a breadcrumb?"
+     },
+     "a": {
+      "en": "A navigation aid showing the current page's location in the site hierarchy, e.g. Home / Sem 3 / RWPD."
+     }
+    },
+    {
+     "q": {
+      "en": "What is pagination?"
+     },
+     "a": {
+      "en": "Numbered page links that split long content into pages: ul.pagination > li.page-item > a.page-link."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a badge?"
+     },
+     "a": {
+      "en": "A small label or count attached to text or buttons, e.g. New or 7 unread."
+     }
+    },
+    {
+     "q": {
+      "en": "What were labels in Bootstrap 3 called in Bootstrap 5?"
+     },
+     "a": {
+      "en": "Badges (.label became .badge)."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Jumbotron to Panels"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a jumbotron?"
+     },
+     "a": {
+      "en": "A large padded box with a light background used to highlight the main message of a page."
+     }
+    },
+    {
+     "q": {
+      "en": "Is .jumbotron available in Bootstrap 5?"
+     },
+     "a": {
+      "en": "No. It is built with utilities like p-5, bg-body-tertiary, rounded-3 and display-5."
+     }
+    },
+    {
+     "q": {
+      "en": "What is .img-thumbnail?"
+     },
+     "a": {
+      "en": "An image class that adds padding, a 1 px border and rounded corners."
+     }
+    },
+    {
+     "q": {
+      "en": "What is an alert?"
+     },
+     "a": {
+      "en": "A contextual feedback message, e.g. success, danger, warning or info."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you make a dismissible alert?"
+     },
+     "a": {
+      "en": "Add .alert-dismissible and a button.btn-close with data-bs-dismiss=\"alert\"; .fade .show animate it."
+     }
+    },
+    {
+     "q": {
+      "en": "Which event fires after an alert is closed?"
+     },
+     "a": {
+      "en": "closed.bs.alert (close.bs.alert fires when closing starts)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a progress bar?"
+     },
+     "a": {
+      "en": "A bar showing how much of a task is complete: .progress with a .progress-bar whose width is set in %."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you make an animated progress bar?"
+     },
+     "a": {
+      "en": "Add .progress-bar-striped and .progress-bar-animated."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you change a progress bar with JavaScript?"
+     },
+     "a": {
+      "en": "Set bar.style.width = value + \"%\" and update its text."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a media object?"
+     },
+     "a": {
+      "en": "An image on one side with text beside it; in Bootstrap 5 it is made with d-flex, flex-shrink-0 and ms-3."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a list group?"
+     },
+     "a": {
+      "en": "A bordered list of items: .list-group with .list-group-item."
+     }
+    },
+    {
+     "q": {
+      "en": "What does .list-group-item-action do?"
+     },
+     "a": {
+      "en": "Adds hover and active effects to clickable list items (links or buttons)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a panel?"
+     },
+     "a": {
+      "en": "A Bootstrap 3 bordered box with a coloured heading and body, replaced by cards in Bootstrap 4/5."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "What are Bootstrap components? List their advantages and types."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain Glyphicons and Bootstrap Icons with examples."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Design a web page with different types of menus using dropdowns, dropdown headers, dividers and icons. (Practical 9)"
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain the dropdown component with its classes."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the card component with an example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain button groups and button toolbar with examples."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Create a web page showing odd and even semester subjects using button groups and a button toolbar with dropdowns. (Practical 10)"
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain input groups. Design a job application form using input groups. (Practical 11)"
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Differentiate between nav tabs and nav pills."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Create a web page that shows a unit summary using the tab and pill plug-in. (Practical 12)"
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain the parts of a responsive navbar."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Design a page with a fixed navbar (logo, links, dropdown, search, sign up) and a fixed footer. (Practical 13)"
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain breadcrumb and pagination with examples."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "What are badges? How are they used?"
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Design an education website using breadcrumb, jumbotron, badges, thumbnails and pagination. (Practical 14)"
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain alerts and dismissible alerts."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Create basic, labelled, striped and animated progress bars and change them with JavaScript. (Practical 15)"
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain the media object. Display a family tree using nested media objects. (Practical 16)"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain list groups and panels."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Display service providers using panels, list groups and alerts, and show a message after an alert is closed. (Practical 17)"
+   },
+   "marks": 7
+  }
+ ],
+ "tabs": [
+  "notes",
+  "programs",
+  "diagrams",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "Detailed notes as per GTU syllabus with diagrams, solved Bootstrap and jQuery programs (tap Run to see the page live), class reference and viva."
+ }
+}
