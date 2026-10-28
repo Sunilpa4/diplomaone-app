@@ -1,0 +1,990 @@
+{
+ "subject": "DI04000021",
+ "unit": 3,
+ "format": "notes",
+ "title": {
+  "en": "Inheritance, Interfaces and Abstraction"
+ },
+ "weightage": 25,
+ "hours": 10,
+ "notes": [
+  {
+   "title": {
+    "en": "3.1 Inheritance"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Concept and Need of Inheritance"
+     },
+     "body": {
+      "en": "\n<ul><li><b>Inheritance</b> lets one class (child/subclass) acquire the members of another (parent/superclass) with <code>extends</code>: the child is born with the parent's fields and methods.</li>\n<li>Write it as an IS-A sentence: Employee IS-A Person. If the sentence is true in real life, inheritance is the right tool.</li>\n<li><b>Need:</b> reusability (write common code once), extensibility (a child only adds its specialities) and maintainability (fix once in the parent - 200 children heal instantly).</li>\n<li>Access rules: public/protected members flow freely; private members exist in the object but cannot be named directly by the child; constructors are never inherited.</li></ul>\n<p>Run jv3_1: Employee uses intro() although it never wrote it - that is the whole miracle in one line.</p>\n"
+     },
+     "programs": [
+      "jv3_1"
+     ]
+    },
+    {
+     "h": {
+      "en": "Types of Inheritance"
+     },
+     "body": {
+      "en": "\n<ul><li><b>Single:</b> one parent, one child - Person -> Employee.</li>\n<li><b>Multilevel:</b> a chain of generations - Person -> Employee -> Manager; the grandchild receives everything from both.</li>\n<li><b>Hierarchical:</b> one parent, many children - Vehicle -> Car, Bike (the most common real-world shape).</li>\n<li><b>Hybrid:</b> a mixture of the above.</li>\n<li><b>Multiple</b> (two class parents) is <b>NOT supported</b> in Java: if both parents defined the same field or method, the child could not choose. The same effect is obtained with <b>interfaces</b> (3.3).</li></ul>\n"
+     },
+     "diagram": "jv3_inherit_types",
+     "programs": [
+      "jv3_2",
+      "jv3_3"
+     ]
+    },
+    {
+     "h": {
+      "en": "The super Keyword and Constructor Chaining"
+     },
+     "body": {
+      "en": "\n<ul><li><code>super</code> inside a child refers to the <b>parent part</b> of the object.</li>\n<li><code>super(args)</code> calls the parent's constructor and must be the <b>first statement</b> of the child constructor; constructors always run top-down (parent first).</li>\n<li>If the parent has ONLY parameterized constructors, the child must call <code>super(...)</code> explicitly - otherwise a compile error.</li>\n<li><code>super.method()</code> calls the parent's version of an overridden method; <code>super.field</code> reads a hidden parent field.</li>\n<li>Rule of thumb: <b>this</b> = current object, <b>super</b> = its parent.</li></ul>\n"
+     },
+     "diagram": "jv3_super_this",
+     "programs": [
+      "jv3_4"
+     ]
+    },
+    {
+     "h": {
+      "en": "Method Overriding"
+     },
+     "body": {
+      "en": "\n<ul><li><b>Overriding</b>: a child gives its own body to a method it inherited - same name, same parameters. Objective: specialisation (a LaserPrinter prints its own header).</li>\n<li>Contrast with <b>overloading</b> (Unit 2): same name, different parameters, same class.</li>\n<li>Rules: the signature must match; the return type must match (or be a subclass); the new method must not be MORE private than the inherited one; <b>static methods cannot be overridden</b> (they are hidden, not overridden); private and final methods cannot be overridden either.</li>\n<li>Add <code>@Override</code> for free signature checking by the compiler.</li></ul>\n"
+     },
+     "diagram": "jv3_override_vs",
+     "programs": [
+      "jv3_5"
+     ]
+    },
+    {
+     "h": {
+      "en": "Dynamic Method Dispatch (Run-Time Polymorphism)"
+     },
+     "body": {
+      "en": "\n<ul><li>A parent reference may hold any child object: <code>Shape sh = new Circle();</code>.</li>\n<li>For an <b>overridden</b> method, the JVM decides at run time which version to run by looking at the real object behind the reference - not the reference type.</li>\n<li>This is the meaning of <b>run-time (dynamic) polymorphism</b>; overloading was the compile-time version.</li>\n<li>Why it matters: you can loop over <code>Shape[]</code> and every shape still answers with its own area.</li></ul>\n"
+     },
+     "diagram": "jv3_dispatch",
+     "programs": [
+      "jv3_6"
+     ]
+    },
+    {
+     "h": {
+      "en": "The final Keyword"
+     },
+     "body": {
+      "en": "\n<ul><li><b>final variable</b> - a constant: assigned once, then read-only (naming convention: WHEELS, PI in capitals).</li>\n<li><b>final method</b> - a subclass inherits it but CANNOT override it - the behaviour stays identical for all children.</li>\n<li><b>final class</b> - cannot be extended at all; <code>String</code> and <code>Math</code> are famous final classes (protects them from being changed at runtime).</li></ul>\n<p><b>Practical 11</b> runs in jv3_7 - uncomment the error lines in the lab to see the compiler refuse.</p>\n"
+     },
+     "programs": [
+      "jv3_7"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3.2 Abstract Classes"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Abstract Class and Abstract Methods"
+     },
+     "body": {
+      "en": "\n<ul><li>An <b>abstract method</b> declares WHAT without HOW: <code>abstract double area();</code> - no braces, no body.</li>\n<li>A class with <b>at least one</b> abstract method must itself be declared <b>abstract</b>; an abstract class <b>cannot be instantiated</b> (no <code>new Shape()</code>).</li>\n<li><b>Rules of an abstract class:</b> it may mix abstract and ready-made concrete methods, may hold any fields and constructors; a subclass extending it MUST implement every abstract method or declare itself abstract.</li>\n<li>Use it for \"half-built blueprints\": share the common parts (displayType), force the special parts (area) on children.</li></ul>\n<p><b>Practical 10(a)</b> builds exactly the syllabus's Shape with abstract area() and concrete displayType() - run jv3_8.</p>\n"
+     },
+     "programs": [
+      "jv3_8"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3.3 Interfaces"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Interface: Need, Declaration and Implementation"
+     },
+     "body": {
+      "en": "\n<ul><li>An <b>interface</b> is a pure contract: method declarations with no state. Need: when different classes must promise the same ability without being related by a family tree (a Printer and a Phone can both be <i>Callable</i>).</li>\n<li><b>Declaration:</b> <code>interface Drawable { void draw(); }</code> - methods are implicitly <code>public abstract</code>; fields are implicitly <code>public static final</code> (constants).</li>\n<li><b>Implementation:</b> <code>implements</code> keyword; the class must give <b>public</b> bodies for every method, or declare itself abstract.</li>\n<li>Interfaces cannot be instantiated, but references are allowed: <code>Drawable d = new Circle();</code> - the object's own draw() runs (dynamic dispatch).</li>\n<li>Abstract class vs interface table - the diagram.</li></ul>\n"
+     },
+     "diagram": "jv3_abstract_vs",
+     "programs": [
+      "jv3_9"
+     ]
+    },
+    {
+     "h": {
+      "en": "Multiple Inheritance and Default/Static Methods in Interfaces"
+     },
+     "body": {
+      "en": "\n<ul><li>Class-level multiple inheritance is banned, but a class may implement <b>any number of interfaces</b>: <code>class Report implements Printable, Showable</code> - safe because interface methods carry no state and no default body clashes.</li>\n<li>Java 8 added <b>default methods</b> with bodies inside interfaces: ready-made behaviour that every implementer inherits for free; and <b>static methods</b> invoked on the interface name.</li>\n<li>If two interfaces offer the same default method, the class must override it - diamond conflicts are solved explicitly, never silently.</li></ul>\n"
+     },
+     "diagram": "jv3_interface_multi",
+     "programs": [
+      "jv3_10",
+      "jv3_11"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3.4 Packages"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Defining, Importing and Built-in Packages"
+     },
+     "body": {
+      "en": "\n<ul><li>A <b>package</b> is a named family of classes stored in a matching folder: it prevents name clashes, shapes access control (default and protected are package-scoped) and keeps projects navigable.</li>\n<li><b>Defining:</b> first line of the file: <code>package college;</code> - the file lives in a folder named college.</li>\n<li><b>Importing:</b> <code>import college.Student;</code> for one class, <code>import java.util.*;</code> for many, or the fully qualified name with no import at all: <code>java.util.Date</code>.</li>\n<li><b>Built-in packages:</b> java.lang (String, Math, Object - imported automatically), java.util (Scanner, ArrayList, Date), java.io (files), java.time (dates).</li></ul>\n<p>Practical 12 (jv3_12) creates the <code>college</code> package with a real Student class and imports it from Main - watch both files in the program window.</p>\n"
+     },
+     "diagram": "jv3_packages",
+     "programs": [
+      "jv3_12",
+      "jv3_13",
+      "jv3_14"
+     ]
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "jv3_1",
+   "title": {
+    "en": "Single inheritance: Person and Employee"
+   },
+   "code": {
+    "en": "// parent (super class)\nclass Person {\n  String name = \"Ravi\";\n  int age = 35;\n  void intro() {\n    String w = name + \", age \" + age;\n    System.out.println(w);\n  }\n}\n\n// child (sub class)\nclass Employee extends Person {\n  double salary = 42000;\n  void work() {\n    System.out.println(\"pay = \" + salary);\n  }\n}\n\nclass Main {\n  public static void main(String[] a) {\n    Employee e = new Employee();\n    // inherited from Person\n    e.intro();\n    e.work();             // own method\n    // both fields came along too:\n    String row = e.name + \" earns \";\n    System.out.println(row + e.salary);\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\nRavi, age 35\npay = 42000.0\nRavi earns 42000.0",
+   "expl": {
+    "en": "\n<p><b>Practical 9 (part 1).</b> With <code>extends</code>, the child class receives ALL fields and methods of the parent (except private ones and constructors).</p>\n<ul><li><code>Employee e = new Employee()</code> has intro(), work(), name, age AND salary - as if the parent's code were copied in.</li>\n<li>This relation is written <i>Employee IS-A Person</i> - inheritance models real \"is a\" facts.</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv3_2",
+   "title": {
+    "en": "Multilevel inheritance: Person, Employee, Manager"
+   },
+   "code": {
+    "en": "// level 1\nclass Person {\n  String name = \"Ravi\";\n  void intro() {\n    System.out.println(\"I am \" + name);\n  }\n}\n\n// level 2\nclass Employee extends Person {\n  double salary = 42000;\n  void work() {\n    String row = \"I work for \" + salary;\n    System.out.println(row);\n  }\n}\n\n// level 3\nclass Manager extends Employee {\n  String dept = \"Computer\";\n  void lead() {\n    System.out.println(\"I lead \" + dept);\n  }\n}\n\nclass Main {\n  public static void main(String[] a) {\n    Manager m = new Manager();\n    m.intro();       // from Person\n    m.work();        // from Employee\n    m.lead();        // own\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\nI am Ravi\nI work for 42000.0\nI lead Computer",
+   "expl": {
+    "en": "\n<p><b>Practical 9 (part 2).</b> <b>Multilevel inheritance</b>: Parent -> Child -> Grandchild. A Manager gets the members of both Person and Employee in one step.</p>\n<ul><li>The chain is unlimited: every level passes everything it has (and got) further down.</li>\n<li>Constructors also run in order Person -> Employee -> Manager when a Manager is created (see jv3_4 with super).</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv3_3",
+   "title": {
+    "en": "Types of inheritance: single, multilevel, hierarchical, hybrid"
+   },
+   "code": {
+    "en": "// one parent\nclass Vehicle {\n  String type = \"vehicle\";\n}\n\n// single: one child\nclass Car extends Vehicle { }\n\nclass Bike extends Vehicle { }\n// hierarchical: many children\n\n// + multilevel\nclass PetrolCar extends Car { }\n\nclass Main {\n  public static void main(String[] a) {\n    Car c = new Car();\n    Bike b = new Bike();\n    PetrolCar p = new PetrolCar();\n    System.out.println(\"car: \" + c.type);\n    System.out.println(\"bike: \" + b.type);\n    String pt = p.type;\n    System.out.println(\"petrol = \" + pt);\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\ncar: vehicle\nbike: vehicle\npetrol = vehicle",
+   "expl": {
+    "en": "\n<ul><li><b>Single</b>: one parent, one child (Person -> Employee).</li>\n<li><b>Multilevel</b>: a chain of generations (Car -> PetrolCar).</li>\n<li><b>Hierarchical</b>: one parent, many children (Vehicle -> Car, Bike).</li>\n<li><b>Hybrid</b>: a mix of the above (allowed).</li>\n<li><b>Multiple</b> (two parents for one class) is <b>NOT allowed</b> for classes in Java - fields/methods would clash. The same effect is done with <b>interfaces</b> (see jv3_10).</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv3_4",
+   "title": {
+    "en": "The super keyword: constructor chaining and parent methods"
+   },
+   "code": {
+    "en": "class Shape {\n  String name;\n  // parent constructor\n  Shape(String name) {\n    this.name = name;\n    System.out.println(\"Shape: \" + name);\n  }\n  void info() {\n    System.out.println(\"I am a 2D shape\");\n  }\n}\n\nclass Circle extends Shape {\n  double r;\n  Circle(double r) {\n    // 1. call parent ctor FIRST\n    super(\"circle\");\n    this.r = r;\n  }\n  void info() {\n    // 2. parent's version\n    super.info();\n    System.out.println(\"radius = \" + r);\n  }\n}\n\nclass Main {\n  public static void main(String[] a) {\n    Circle c = new Circle(2.5);\n    c.info();\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\nShape: circle\nI am a 2D shape\nradius = 2.5",
+   "expl": {
+    "en": "\n<ul><li><code>super(...)</code> calls the <b>parent constructor</b> and must be the first statement of the child constructor. If the parent has only parameterized constructors, the child MUST call super(...) itself.</li>\n<li><code>super.method()</code> explicitly calls the parent's version of a method - essential when the child overrides it.</li>\n<li><code>super.field</code> reads the parent's field when names clash.</li>\n<li>Watch the output order: the parent's constructor runs before the child's body - <b>top-down construction</b>.</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv3_5",
+   "title": {
+    "en": "Method overriding vs overloading"
+   },
+   "code": {
+    "en": "class Printer {\n  // overloading:\n  void print(String s) { }\n  // different args\n  void print(String s, int n) { }\n\n  void header() {\n    System.out.println(\"-- basic --\");\n  }\n}\n\nclass LaserPrinter extends Printer {\n  // annotation checks it\n  @Override\n  void header() {\n    System.out.println(\"** LaserJet **\");\n  }\n}\n\nclass Main {\n  public static void main(String[] a) {\n    LaserPrinter hp = new LaserPrinter();\n    // overloaded form\n    hp.print(\"A\", 5);\n    // OVERRIDDEN version runs\n    hp.header();\n    // the parent's version is replaced\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\n** LaserJet **",
+   "expl": {
+    "en": "\n<ul><li><b>Overloading</b> = same name, different parameter list, same class (compile-time choice).</li>\n<li><b>Overriding</b> = same name AND same signature in a child class; the child's version replaces the parent's at run time.</li>\n<li><code>@Override</code> is an optional annotation - the compiler then refuses to compile if you mistyped the signature.</li>\n<li>The child method cannot be <i>more private</i> than the parent's (e.g. public -> private is an error).</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv3_6",
+   "title": {
+    "en": "Dynamic method dispatch (run-time polymorphism)"
+   },
+   "code": {
+    "en": "class Shape {\n  double area() {\n    return 0;\n  }\n}\nclass Circle extends Shape {\n  double r = 5;\n  double area() { return 3.14 * r * r; }\n}\nclass Square extends Shape {\n  double s = 4;\n  double area() { return s * s; }\n}\n\nclass Main {\n  public static void main(String[] a) {\n    // parent reference\n    Shape sh;\n    // holds a Circle\n    sh = new Circle();\n    double ar = sh.area();\n    System.out.println(\"area = \" + ar);\n    // now a Square\n    sh = new Square();\n    ar = sh.area();\n    System.out.println(\"area = \" + ar);\n    // WHICH area() runs is decided\n    // at RUN TIME by the object, not\n    // by the reference type.\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\narea = 78.5\narea = 16.0",
+   "expl": {
+    "en": "\n<ul><li>A <b>parent reference may point to a child object</b>: <code>Shape sh = new Circle();</code>.</li>\n<li>When an overridden method is called through that reference, Java looks at the <b>actual object</b> (Circle / Square) - not at the reference type - and runs the child's version.</li>\n<li>This is <b>dynamic method dispatch</b> = run-time polymorphism; the choice happens while the program executes.</li>\n<li>It is the engine behind flexible designs: one variable, many behaviours.</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv3_7",
+   "title": {
+    "en": "The final keyword: variable, method, class"
+   },
+   "code": {
+    "en": "class Vehicle {\n  final int WHEELS = 2;       // constant\n  final void service() {\n    System.out.println(\"service done\");\n  }\n}\n\nclass Bike extends Vehicle {\n  // void service() { }\n  // ^ ERROR: a final method cannot override\n  void horn() {\n    System.out.println(\"peep\");\n  }\n}\n\n// no class may extend it\nfinal class Pet {}\n\nclass Main {\n  public static void main(String[] a) {\n    Vehicle v = new Vehicle();\n    int w = v.WHEELS;\n    System.out.println(\"wheels = \" + w);\n    // ERROR: cannot assign\n    // v.WHEELS = 4;\n    Bike b = new Bike();\n    // parent's, never changed\n    b.service();\n    b.horn();\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\nwheels = 2\nservice done\npeep",
+   "expl": {
+    "en": "\n<p><b>Practical 11.</b> <code>final</code> = \"end of change\", with three seats:</p>\n<ul><li><b>final variable</b> - a constant: assigned once, then read-only.</li>\n<li><b>final method</b> - subclasses inherit it but cannot override it.</li>\n<li><b>final class</b> - cannot be extended at all (String itself is final!).</li>\n<li>The commented-out lines would produce real compile errors - try them in lab.</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv3_8",
+   "title": {
+    "en": "Abstract class Shape with abstract method area()"
+   },
+   "code": {
+    "en": "// abstract class = half-built blueprint\nabstract class Shape {\n  String type = \"shape\";\n\n  abstract double area();   // no body\n  // -> the child class MUST write it\n\n  // normal method\n  void displayType() {\n    System.out.println(\"Type: \" + type);\n  }\n}\n\nclass Rectangle extends Shape {\n  double l = 12, w = 5;\n  Rectangle() { type = \"rectangle\"; }\n  // duty fulfilled\n  double area() {\n    return l * w;\n  }\n}\n\nclass Main {\n  public static void main(String[] a) {\n    // ERROR: abstract!\n    // Shape s = new Shape();\n    Rectangle r = new Rectangle();\n    r.displayType();          // inherited\n    double ar = r.area();\n    System.out.println(\"area = \" + ar);\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\nType: rectangle\narea = 60.0",
+   "expl": {
+    "en": "\n<p><b>Practical 10 (part 1).</b></p>\n<ul><li>An <b>abstract method</b> has only a declaration - no body; any subclass must implement it or be abstract itself.</li>\n<li>An <b>abstract class</b> mixes abstract and normal methods (displayType is ready-made); it <b>cannot be instantiated</b> - no <code>new Shape()</code>.</li>\n<li>Use it to force a common contract (\"every shape has an area\") while sharing concrete code.</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv3_9",
+   "title": {
+    "en": "Interface Drawable implemented by Circle and Rectangle"
+   },
+   "code": {
+    "en": "// a pure contract\ninterface Drawable {\n  // auto public abstract\n  void draw();\n  // auto public static final\n  int UNIT = 20;\n}\n\nabstract class Shape {\n  String type = \"shape\";\n  void displayType() { }\n}\n\nclass Circle extends Shape\n    // both together\n    implements Drawable {\n  // must be public!\n  public void draw() {\n    System.out.println(\"O  (circle)\");\n  }\n}\n\nclass Rectangle extends Shape\n    implements Drawable {\n  public void draw() {\n    System.out.println(\"[ ] (rectangle)\");\n  }\n}\n\nclass Main {\n  public static void main(String[] a) {\n    Drawable d1 = new Circle();\n    d1.draw();\n    Drawable d2 = new Rectangle();\n    d2.draw();\n    int u = Drawable.UNIT;\n    System.out.println(\"UNIT = \" + u);\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\nO  (circle)\n[ ] (rectangle)\nUNIT = 20",
+   "expl": {
+    "en": "\n<p><b>Practical 10 (part 2).</b></p>\n<ul><li>An <b>interface</b> declares <i>what</i> to do, never <i>how</i>: methods are implicitly <code>public abstract</code>, fields are implicitly <code>public static final</code> (constants).</li>\n<li>A class <code>implements</code> an interface and must write a <b>public</b> body for every method; it may also extend another class at the same time (as Circle and Rectangle do).</li>\n<li>Interface references work like parent references: <code>Drawable d1 = new Circle();</code> dispatches to the object's draw().</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv3_10",
+   "title": {
+    "en": "Multiple inheritance with two interfaces"
+   },
+   "code": {
+    "en": "interface Printable {\n  void print();\n}\ninterface Showable {\n  void show();\n}\n\nclass Report implements Printable,\n    Showable {\n  public void print() {\n    System.out.println(\"printing...\");\n  }\n  public void show() {\n    System.out.println(\"showing...\");\n  }\n}\n\nclass Main {\n  public static void main(String[] a) {\n    Report r = new Report();\n    r.print();\n    r.show();\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\nprinting...\nshowing...",
+   "expl": {
+    "en": "\n<ul><li>Classes get only ONE parent, but interfaces are unlimited: <code>implements Printable, Showable</code>.</li>\n<li>No clash can happen, because interface methods carry no state and (normally) no body - the child provides the single implementation either way.</li>\n<li>This is how Java supplies <b>multiple inheritance</b> safely.</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv3_11",
+   "title": {
+    "en": "Default and static methods in an interface (Java 8+)"
+   },
+   "code": {
+    "en": "interface ShapeMath {\n  // abstract\n  double area();\n\n  // ready-made\n  default String desc() {\n    return \"I have area \" + area();\n  }\n  // called on the interface\n  static String banner() {\n    return \"== shape maths ==\";\n  }\n}\n\nclass Square implements ShapeMath {\n  double s = 4;\n  public double area() { return s * s; }\n  // desc() inherited for free\n}\n\nclass Main {\n  public static void main(String[] a) {\n    Square q = new Square();\n    System.out.println(ShapeMath.banner());\n    System.out.println(q.desc());\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\n== shape maths ==\nI have area 16.0",
+   "expl": {
+    "en": "\n<ul><li>Since Java 8 interfaces may hold <b>default</b> methods with bodies - inherited by every implementing class without rewriting.</li>\n<li><b>static methods in interfaces</b> belong to the interface itself and are called as <code>ShapeMath.banner()</code>.</li>\n<li>If two interfaces offer the same default method, the class must override it to resolve the conflict (the diamond rule).</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv3_12",
+   "title": {
+    "en": "User-defined package: create, import and use"
+   },
+   "code": {
+    "en": "// ===== File: college/Student.java =====\n// File: college/Student.java\npackage college;         // folder = package\n\npublic class Student {\n  public int roll;\n  public String name;\n\n  public Student(int r, String n) {\n    roll = r;\n    name = n;\n  }\n  public String intro() {\n    return \"I am \" + name;\n  }\n}\n\n// ===== File: Main.java =====\nimport college.Student;\n\nclass Main {\n  public static void main(String[] a) {\n    // Student lives in the package\n    Student s = new Student(\n        12, \"Pooja\");\n    System.out.println(\"roll = \" + s.roll);\n    System.out.println(\"name = \" + s.name);\n    System.out.println(s.intro());\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\nroll = 12\nname = Pooja\nI am Pooja",
+   "expl": {
+    "en": "\n<p><b>Practical 12.</b> A <b>package</b> is a named folder for related classes - it avoids name clashes and makes imports possible.</p>\n<ul><li>The class file writes <code>package college;</code> first and sits inside a folder named <code>college</code>.</li>\n<li>Main.java takes it in with <code>import college.Student;</code>. Without import, its full name <code>college.Student</code> would be needed.</li>\n<li>Members used from another package must be <b>public</b>.</li>\n<li>The compile line is <code>javac college/Student.java Main.java</code> and then <code>java Main</code>.</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv3_13",
+   "title": {
+    "en": "Built-in packages: java.lang and java.util"
+   },
+   "code": {
+    "en": "// from java.util\nimport java.util.ArrayList;\nimport java.util.Date;\n\nclass Main {\n  public static void main(String[] a) {\n    // java.lang is imported AUTOMATICALLY\n    System.out.println(Math.sqrt(81));\n    System.out.println(Math.max(4, 9));\n    String s = \"auto-imported\";\n    System.out.println(s.length());\n\n    // java.util, needed import\n    Date today = new Date();\n    System.out.println(today.getDate());\n    ArrayList<String> list =\n        new ArrayList<>();\n    list.add(\"red\");\n    System.out.println(list);   // Unit 4!\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\n9.0\n9\n13\n28\n[red]",
+   "expl": {
+    "en": "\n<ul><li>Java ships hundreds of reusable packages: <b>java.lang</b> (String, Math, Object - auto-imported), <b>java.util</b> (Scanner, ArrayList, Date), java.io, java.net, java.time ...</li>\n<li><code>java.lang</code> is special: it is always available without an import statement.</li>\n<li>For every other package write <code>import java.util.Date;</code> or use the wildcard <code>import java.util.*;</code>.</li>\n<li>Package names are lower case by convention.</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv3_14",
+   "title": {
+    "en": "Cross-package access: protected fields in subclasses"
+   },
+   "code": {
+    "en": "// ===== File: college/Student.java =====\n// File: college/Student.java\npackage college;\n\npublic class Student {\n  protected int roll;\n  protected String name;\n\n  public Student(int r, String n) {\n    roll = r;\n    name = n;\n  }\n}\n\n// ===== File: Main.java =====\nimport college.Student;\n\n// a subclass IN ANOTHER package\nclass Topper extends Student {\n  Topper() {\n    super(1, \"Meera\");\n  }\n  void show() {\n    // roll is protected in Student:\n    // visible here because Topper\n    // is a SUBCLASS (protected rule)\n    System.out.println(\"roll = \" + roll);\n    System.out.println(\"name = \" + name);\n  }\n}\n\nclass Main {\n  public static void main(String[] a) {\n    Topper t = new Topper();\n    t.show();\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\nroll = 1\nname = Meera",
+   "expl": {
+    "en": "\n<ul><li><b>protected</b> members are visible inside the package AND inside any <b>subclass</b>, even in a different package.</li>\n<li>Here Student (package college) has protected fields; class Topper in the default package extends it and reads roll and name directly.</li>\n<li>Without extends, protected fields would be invisible from the default package - that is exactly the difference between default and protected.</li></ul>\n"
+   }
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "jv3_inherit_types",
+   "title": {
+    "en": "Types of Inheritance"
+   },
+   "file": "diagrams/jv3_inherit_types.svg"
+  },
+  {
+   "id": "jv3_super_this",
+   "title": {
+    "en": "this vs super"
+   },
+   "file": "diagrams/jv3_super_this.svg"
+  },
+  {
+   "id": "jv3_override_vs",
+   "title": {
+    "en": "Overloading vs Overriding"
+   },
+   "file": "diagrams/jv3_override_vs.svg"
+  },
+  {
+   "id": "jv3_dispatch",
+   "title": {
+    "en": "Dynamic Method Dispatch"
+   },
+   "file": "diagrams/jv3_dispatch.svg"
+  },
+  {
+   "id": "jv3_abstract_vs",
+   "title": {
+    "en": "Abstract Class vs Interface"
+   },
+   "file": "diagrams/jv3_abstract_vs.svg"
+  },
+  {
+   "id": "jv3_interface_multi",
+   "title": {
+    "en": "Multiple Inheritance via Interfaces"
+   },
+   "file": "diagrams/jv3_interface_multi.svg"
+  },
+  {
+   "id": "jv3_packages",
+   "title": {
+    "en": "Packages and import"
+   },
+   "file": "diagrams/jv3_packages.svg"
+  }
+ ],
+ "syntax": [
+  {
+   "title": {
+    "en": "Inheritance"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "extends basics"
+     },
+     "f": "class Employee extends Person { }\n// child gets parent's fields + methods\nEmployee e = new Employee();\ne.intro();      // inherited method",
+     "terms": {
+      "en": "extends = acquire parent members"
+     }
+    },
+    {
+     "name": {
+      "en": "super keyword"
+     },
+     "f": "class Circle extends Shape {\n  Circle(double r) {\n    super(\"circle\");    // parent ctor, first\n    super.info();       // parent's method\n    super.name;         // parent's field\n  }\n}",
+     "terms": {
+      "en": "super = parent part; super() goes first"
+     }
+    },
+    {
+     "name": {
+      "en": "Overriding + dispatch"
+     },
+     "f": "class Circle extends Shape {\n  @Override\n  double area() { return 3.14*r*r; }\n}\nShape sh = new Circle();\nsh.area();    // runs Circle.area()",
+     "terms": {
+      "en": "same signature; object decides at run time"
+     }
+    },
+    {
+     "name": {
+      "en": "final keyword"
+     },
+     "f": "final int WHEELS = 2;     // constant\nfinal void service() { }  // no override\nfinal class Pet { }       // no subclass",
+     "terms": {
+      "en": "final = constant / frozen method / sealed class"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Abstraction and Interfaces"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Abstract class"
+     },
+     "f": "abstract class Shape {\n  abstract double area();   // no body\n  void displayType() { }    // concrete ok\n}\nclass Rect extends Shape {\n  double area() { return l*w; }\n}\n// new Shape()  -- compile error",
+     "terms": {
+      "en": "child must implement or be abstract"
+     }
+    },
+    {
+     "name": {
+      "en": "Interface"
+     },
+     "f": "interface Drawable {\n  void draw();            // public abstract\n  int UNIT = 20;          // public static final\n}\nclass Circle implements Drawable {\n  public void draw() { }  // MUST be public\n}",
+     "terms": {
+      "en": "pure contract; implements = promise bodies"
+     }
+    },
+    {
+     "name": {
+      "en": "Java 8 interface methods"
+     },
+     "f": "interface ShapeMath {\n  double area();\n  default String desc() { return \"d\"; }\n  static String banner() { return \"b\"; }\n}\nShapeMath.banner();       // static on interface",
+     "terms": {
+      "en": "default = inheritable body; static = on interface"
+     }
+    },
+    {
+     "name": {
+      "en": "Multiple inheritance"
+     },
+     "f": "class Report implements\n    Printable, Showable { }\n// two interfaces, one class - safe\n// two CLASSES as parents - forbidden",
+     "terms": {
+      "en": "many interfaces OK, one class parent only"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Packages"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "User package + import"
+     },
+     "f": "// file college/Student.java\npackage college;\npublic class Student { }\n\n// file Main.java\nimport college.Student;\nStudent s = new Student(12, \"Pooja\");",
+     "terms": {
+      "en": "first line package; import before class"
+     }
+    },
+    {
+     "name": {
+      "en": "Built-in packages"
+     },
+     "f": "import java.util.Scanner;\nimport java.util.Date;\nimport java.util.*;        // wildcard\n// java.lang: auto (String, Math)",
+     "terms": {
+      "en": "java.lang is automatic; others need import"
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Inheritance and super"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is inheritance?"
+     },
+     "a": {
+      "en": "A mechanism in which a new class (child/subclass) acquires the fields and methods of an existing class (parent/superclass) using extends."
+     }
+    },
+    {
+     "q": {
+      "en": "Give the need of inheritance."
+     },
+     "a": {
+      "en": "Reusability of tested code, easy extension by adding only specialities, and single-point maintenance in the parent."
+     }
+    },
+    {
+     "q": {
+      "en": "What is an IS-A relationship?"
+     },
+     "a": {
+      "en": "Employee IS-A Person: if the sentence is true in real life, let Employee extend Person."
+     }
+    },
+    {
+     "q": {
+      "en": "Which keyword creates inheritance?"
+     },
+     "a": {
+      "en": "extends for classes; implements for interfaces."
+     }
+    },
+    {
+     "q": {
+      "en": "What does a child NOT inherit?"
+     },
+     "a": {
+      "en": "Private members (they exist but cannot be named) and constructors."
+     }
+    },
+    {
+     "q": {
+      "en": "List the types of inheritance in Java."
+     },
+     "a": {
+      "en": "Single, multilevel, hierarchical, hybrid; multiple (two class parents) is NOT supported."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is multiple inheritance of classes banned?"
+     },
+     "a": {
+      "en": "If both parents had the same field or method the child would face ambiguity; interfaces solve it without state."
+     }
+    },
+    {
+     "q": {
+      "en": "What is multilevel inheritance?"
+     },
+     "a": {
+      "en": "A chain A -> B -> C; C receives members of both A and B (Person -> Employee -> Manager)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is hierarchical inheritance?"
+     },
+     "a": {
+      "en": "One parent, many children - Vehicle -> Car, Bike."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the super keyword?"
+     },
+     "a": {
+      "en": "Reference to the parent part of the object: super(args) calls the parent constructor, super.method() the parent method, super.field a hidden field."
+     }
+    },
+    {
+     "q": {
+      "en": "Where must super() be written and why?"
+     },
+     "a": {
+      "en": "As the first statement of the child constructor; the parent part must be built before the child's body runs."
+     }
+    },
+    {
+     "q": {
+      "en": "What happens if the parent has only parameterized constructors?"
+     },
+     "a": {
+      "en": "Java cannot silently add super() - the child must call super(args) explicitly, else compile error."
+     }
+    },
+    {
+     "q": {
+      "en": "What is method overriding?"
+     },
+     "a": {
+      "en": "A child redefines an inherited method with the SAME name and signature so its own version runs instead."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Overriding, Dispatch, final"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Overriding vs overloading?"
+     },
+     "a": {
+      "en": "Same signature in child class, run-time, vs different parameters in one class, compile-time."
+     }
+    },
+    {
+     "q": {
+      "en": "What is @Override?"
+     },
+     "a": {
+      "en": "An annotation asking the compiler to verify the method actually overrides one - catches signature typos."
+     }
+    },
+    {
+     "q": {
+      "en": "Which methods cannot be overridden?"
+     },
+     "a": {
+      "en": "static (they are hidden, not overridden), private (not visible) and final methods."
+     }
+    },
+    {
+     "q": {
+      "en": "What is dynamic method dispatch?"
+     },
+     "a": {
+      "en": "Calling an overridden method through a parent reference - the JVM runs the version of the actual object at run time."
+     }
+    },
+    {
+     "q": {
+      "en": "Give an example of run-time polymorphism."
+     },
+     "a": {
+      "en": "Shape sh = new Circle(); sh.area(); - Circle's area runs although the reference is typed Shape."
+     }
+    },
+    {
+     "q": {
+      "en": "What are the three uses of final?"
+     },
+     "a": {
+      "en": "final variable = constant; final method = cannot be overridden; final class = cannot be extended."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is String a final class?"
+     },
+     "a": {
+      "en": "So no subclass can change string behaviour after an object is created - protects shared literals."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Abstract Classes"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is an abstract method?"
+     },
+     "a": {
+      "en": "A declaration without a body: abstract double area(); - the child provides the body."
+     }
+    },
+    {
+     "q": {
+      "en": "What is an abstract class? Can it be instantiated?"
+     },
+     "a": {
+      "en": "A class declared abstract, possibly with abstract methods; no - new Shape() is a compile error."
+     }
+    },
+    {
+     "q": {
+      "en": "Give the rules of abstract classes."
+     },
+     "a": {
+      "en": "May mix abstract and concrete methods; may have fields/constructors; a subclass must implement every abstract method or be abstract too."
+     }
+    },
+    {
+     "q": {
+      "en": "When do you choose an abstract class?"
+     },
+     "a": {
+      "en": "For a family blueprint that shares ready-made code (displayType) yet forces children to fill in specifics (area)."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Interfaces"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is an interface?"
+     },
+     "a": {
+      "en": "A pure contract of method declarations (implicitly public abstract) plus constants (public static final); no state, no constructors."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the need of an interface?"
+     },
+     "a": {
+      "en": "Unrelated classes promising the same ability - a Printer and a Phone can both be Callable without sharing a parent."
+     }
+    },
+    {
+     "q": {
+      "en": "How does a class implement an interface?"
+     },
+     "a": {
+      "en": "class X implements Drawable { public void draw() { } } - every method must be given a public body."
+     }
+    },
+    {
+     "q": {
+      "en": "Why must an implemented method be public?"
+     },
+     "a": {
+      "en": "Interface methods are public abstract; an implementing method cannot reduce visibility."
+     }
+    },
+    {
+     "q": {
+      "en": "Can an interface be instantiated? What about a reference?"
+     },
+     "a": {
+      "en": "Never instantiated; but Drawable d = new Circle(); works - the object's draw() runs."
+     }
+    },
+    {
+     "q": {
+      "en": "What is multiple inheritance with interfaces?"
+     },
+     "a": {
+      "en": "Implementing several interfaces at once - safe because interfaces have no state or clashing bodies."
+     }
+    },
+    {
+     "q": {
+      "en": "What are default methods in interfaces?"
+     },
+     "a": {
+      "en": "Java 8+ interface methods with bodies, inherited free by every implementer; the class may override them."
+     }
+    },
+    {
+     "q": {
+      "en": "What happens if two interfaces give the same default method?"
+     },
+     "a": {
+      "en": "The implementing class must override it and resolve the conflict - Java never picks silently."
+     }
+    },
+    {
+     "q": {
+      "en": "What are static methods in interfaces?"
+     },
+     "a": {
+      "en": "Methods belonging to the interface itself, called as ShapeMath.banner(); not inherited into instances."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Packages"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Abstract class vs interface: three differences."
+     },
+     "a": {
+      "en": "Fields any vs constants only; constructor yes vs no; one parent class vs many interfaces."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a package?"
+     },
+     "a": {
+      "en": "A named group of related classes in a matching folder; controls name clashes and access (default/protected are package-based)."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you define and import your own package?"
+     },
+     "a": {
+      "en": "Write package college; in college/Student.java, then import college.Student; in the user file."
+     }
+    },
+    {
+     "q": {
+      "en": "Name three built-in packages."
+     },
+     "a": {
+      "en": "java.lang (String, Math - automatic), java.util (Scanner, ArrayList), java.io (files); also java.time."
+     }
+    },
+    {
+     "q": {
+      "en": "Which package never needs an import?"
+     },
+     "a": {
+      "en": "java.lang."
+     }
+    },
+    {
+     "q": {
+      "en": "What does import java.util.* mean?"
+     },
+     "a": {
+      "en": "Import every public class of java.util (the wildcard) - still per-name, not the whole library copied."
+     }
+    },
+    {
+     "q": {
+      "en": "How must cross-package members be declared?"
+     },
+     "a": {
+      "en": "public (or protected for subclasses)."
+     }
+    },
+    {
+     "q": {
+      "en": "Is the fully-qualified name legal without import?"
+     },
+     "a": {
+      "en": "Yes: java.util.Date d = new java.util.Date(); - import is just a shortcut."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a hybrid inheritance example?"
+     },
+     "a": {
+      "en": "Vehicle -> Car -> PetrolCar plus Vehicle -> Bike: multilevel and hierarchical combined."
+     }
+    },
+    {
+     "q": {
+      "en": "If a parent method is final, what about a useful child version?"
+     },
+     "a": {
+      "en": "Impossible by design - the child inherits the exact behaviour; redesign with a non-final method."
+     }
+    },
+    {
+     "q": {
+      "en": "In Practical 10, why doesn't Drawable conflict with Shape?"
+     },
+     "a": {
+      "en": "Shape is the single parent class (state, constructors); Drawable only adds a promise (draw) with no state - no diamond problem."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "What is inheritance? Explain its need with an example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the types of inheritance with diagrams."
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Write a Java program for multilevel inheritance (Person, Employee, Manager). (Practical 9)"
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Explain the super keyword with constructor chaining."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Differentiate method overloading and method overriding."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain dynamic method dispatch with a Shape example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the final keyword: variable, method, class. (Practical 11)"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "What is an abstract class? State its rules with an example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a program for abstract class Shape with area() and displayType(). (Practical 10a)"
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "What is an interface? Explain declaration and implementation."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain how interfaces achieve multiple inheritance in Java. (Practical 10b)"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain default and static methods in interfaces (Java 8+)."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Differentiate abstract class and interface."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain user-defined packages with a program. (Practical 12)"
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "List built-in packages of Java and their purpose."
+   },
+   "marks": 3
+  }
+ ]
+}
