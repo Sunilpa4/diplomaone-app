@@ -1,0 +1,1347 @@
+{
+ "subject": "DI03000061",
+ "unit": 4,
+ "format": "notes",
+ "title": {
+  "en": "Bootstrap Plug-ins"
+ },
+ "weightage": 23,
+ "hours": 14,
+ "notes": [
+  {
+   "title": {
+    "en": "4.1 Plug-ins: Transition, Modal, Scrollspy, Tab and Dropdown"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Introduction to Bootstrap Plug-ins"
+     },
+     "body": {
+      "en": "\n<p>A <b>Bootstrap plug-in</b> is a ready-made JavaScript module that adds interactive behaviour to components: opening a modal, showing a dropdown menu, sliding a carousel, collapsing content, and so on.</p>\n<h4>Why plug-ins?</h4>\n<ul><li><b>No custom JavaScript needed:</b> most plug-ins work just by adding data attributes in HTML.</li>\n<li><b>Saves development time</b> and gives the same tested behaviour in all browsers.</li>\n<li><b>Responsive and touch friendly</b> (e.g. swipe in carousel).</li>\n<li><b>Accessible:</b> keyboard support, focus handling and ARIA attributes are built in.</li>\n<li><b>Customisable</b> through options, methods and events when needed.</li></ul>\n<h4>Including plug-ins</h4>\n<p>All plug-ins are in one file, <b>bootstrap.bundle.min.js</b>, which also contains <b>Popper</b> (needed for dropdowns, tooltips and popovers). Place it at the end of the body. Bootstrap 5 does <b>not</b> need jQuery; Bootstrap 3 needed jQuery loaded first.</p>\n<pre class=\"c\">&lt;!-- end of body: one file for all plug-ins --&gt;\n&lt;script src=\"js/bootstrap.bundle.min.js\"&gt;&lt;/script&gt;\n&lt;!-- Bootstrap 3 needed jQuery first --&gt;\n&lt;script src=\"js/jquery.min.js\"&gt;&lt;/script&gt;\n&lt;script src=\"js/bootstrap.min.js\"&gt;&lt;/script&gt;</pre>\n<h4>List of plug-ins</h4>\n<table><tr><th>Plug-in</th><th>Use</th></tr>\n<tr><td>Transition</td><td>Helper for CSS animations (built in since BS4)</td></tr>\n<tr><td>Modal</td><td>Dialog box / pop-up window</td></tr>\n<tr><td>Dropdown</td><td>Toggleable menus</td></tr>\n<tr><td>Scrollspy</td><td>Highlights nav links while scrolling</td></tr>\n<tr><td>Tab</td><td>Switches tab panes</td></tr>\n<tr><td>Tooltip / Popover</td><td>Small hover labels / click boxes</td></tr>\n<tr><td>Alert</td><td>Dismisses alert messages</td></tr>\n<tr><td>Button</td><td>Toggle state of buttons</td></tr>\n<tr><td>Collapse</td><td>Shows / hides content, accordion</td></tr>\n<tr><td>Carousel</td><td>Image slideshow</td></tr>\n<tr><td>Affix</td><td>Fixes an element on scroll (BS3; now .sticky-top)</td></tr></table>\n<p>Bootstrap 5 also adds <b>Offcanvas</b> (side panel) and <b>Toast</b> (small notification).</p>\n"
+     },
+     "diagram": "web4_plugins"
+    },
+    {
+     "h": {
+      "en": "Using Plug-ins: Data Attributes and JavaScript API"
+     },
+     "body": {
+      "en": "\n<p>Every Bootstrap plug-in can be used in two ways.</p>\n<h4>1. Data attributes (no code)</h4>\n<p>Add <code>data-bs-toggle</code>, <code>data-bs-target</code>, <code>data-bs-dismiss</code>, <code>data-bs-ride</code> etc. to HTML elements. Options can also be given as attributes, e.g. <code>data-bs-interval=\"3000\"</code>. In Bootstrap 3 the prefix was <code>data-</code> (data-toggle).</p>\n<h4>2. JavaScript API</h4>\n<ul><li><b>Create:</b> <code>new bootstrap.Modal(element, options)</code> or <code>bootstrap.Modal.getOrCreateInstance(element)</code>.</li>\n<li><b>Options:</b> an object such as <code>{ backdrop: \"static\" }</code>.</li>\n<li><b>Methods:</b> show(), hide(), toggle(), dispose() and plug-in-specific ones. Methods are asynchronous: they start the animation and return immediately.</li>\n<li><b>Events:</b> each plug-in fires custom events named <code>action.bs.plugin</code>. The infinitive form (<b>show</b>.bs.modal) fires at the start; the past participle (<b>shown</b>.bs.modal) fires after the animation. Calling <code>e.preventDefault()</code> in a start event cancels the action.</li></ul>\n<pre class=\"c\">&lt;!-- 1. data attributes --&gt;\n&lt;button data-bs-toggle=\"collapse\" data-bs-target=\"#box\"&gt;\n  Toggle&lt;/button&gt;\n&lt;div class=\"collapse\" id=\"box\"&gt;...&lt;/div&gt;\n&lt;script&gt;\n  // 2. JavaScript API\n  var el = document.getElementById(\"box\");\n  var c = new bootstrap.Collapse(el, { toggle: false });\n  c.show();                                 // method\n  bootstrap.Collapse.getInstance(el);       // existing\n  bootstrap.Collapse.getOrCreateInstance(el);\n  el.addEventListener(\"shown.bs.collapse\", function () {\n    console.log(\"opened\");                  // event\n  });\n&lt;/script&gt;</pre>\n<p>Bootstrap 3 used jQuery syntax:</p>\n<pre class=\"c\">// Bootstrap 3 (jQuery)\n$(\"#box\").collapse(\"show\");\n$(\"#myModal\").on(\"shown.bs.modal\", function () { });</pre>\n"
+     },
+     "diagram": "web4_api",
+     "programs": [
+      "w4_1"
+     ]
+    },
+    {
+     "h": {
+      "en": "Transition Plug-in"
+     },
+     "body": {
+      "en": "\n<p>The <b>transition plug-in</b> (transition.js in Bootstrap 3) was a small helper that detected the end of CSS transitions (the <code>transitionend</code> event) so that other plug-ins could wait for animations. It was required by modal, carousel, collapse, alert and tab for their animations.</p>\n<ul><li>In <b>Bootstrap 4/5</b> it is no longer a separate plug-in; the transition logic is built into each plug-in.</li>\n<li><b>.fade</b> gives an opacity transition; <b>.show</b> makes the element visible. Toggling .show fades an element in or out.</li>\n<li>Animations: modal (fade and slide down), alert (fade out), collapse (<code>.collapsing</code> height change), carousel (<code>.slide</code> or <code>.carousel-fade</code>), tab panes (fade).</li>\n<li>Custom transitions use the CSS <code>transition</code> property; JavaScript can react to <code>transitionend</code>.</li>\n<li>Animations are switched off when the user's system has <b>reduced motion</b> enabled.</li></ul>\n<pre class=\"c\">&lt;div class=\"alert alert-info fade show\" id=\"msg\"&gt;Hello&lt;/div&gt;\n&lt;script&gt;\n  msg.classList.toggle(\"show\");   // fade out / in\n  msg.addEventListener(\"transitionend\", function () {\n    console.log(\"finished\");\n  });\n&lt;/script&gt;</pre>\n<h4>Smooth page transition (Practical 18)</h4>\n<p>Home, About and Contact can be placed as <code>.tab-pane.fade</code> sections in one page. Navbar links with <code>data-bs-toggle=\"tab\"</code> switch them; the old page fades out and the new page fades in without reloading. Extra CSS (<code>transform: translateY()</code>) can add a slide effect.</p>\n<pre class=\"c\">&lt;a class=\"nav-link active\" data-bs-toggle=\"tab\"\n  href=\"#home\"&gt;Home&lt;/a&gt;\n&lt;a class=\"nav-link\" data-bs-toggle=\"tab\"\n  href=\"#about\"&gt;About&lt;/a&gt;\n&lt;div class=\"tab-content\"&gt;\n  &lt;section class=\"tab-pane fade show active\" id=\"home\"&gt;\n    ...&lt;/section&gt;\n  &lt;section class=\"tab-pane fade\" id=\"about\"&gt;...&lt;/section&gt;\n&lt;/div&gt;</pre>\n"
+     },
+     "programs": [
+      "w4_2",
+      "w4_3"
+     ]
+    },
+    {
+     "h": {
+      "en": "Modal Dialog Box"
+     },
+     "body": {
+      "en": "\n<p>A <b>modal</b> is a dialog box (pop-up window) displayed on top of the current page. The page behind is covered by a dark <b>backdrop</b> and cannot be used until the modal is closed. Uses: confirmations (save, delete), login forms, messages, image previews.</p>\n<pre class=\"c\">&lt;button class=\"btn btn-primary\" data-bs-toggle=\"modal\"\n  data-bs-target=\"#info\"&gt;Open&lt;/button&gt;\n\n&lt;div class=\"modal fade\" id=\"info\" tabindex=\"-1\"&gt;\n  &lt;div class=\"modal-dialog modal-dialog-centered\"&gt;\n    &lt;div class=\"modal-content\"&gt;\n      &lt;div class=\"modal-header\"&gt;\n        &lt;h5 class=\"modal-title\"&gt;Welcome&lt;/h5&gt;\n        &lt;button class=\"btn-close\" data-bs-dismiss=\"modal\"&gt;\n        &lt;/button&gt;\n      &lt;/div&gt;\n      &lt;div class=\"modal-body\"&gt;Results on 5 Dec.&lt;/div&gt;\n      &lt;div class=\"modal-footer\"&gt;\n        &lt;button class=\"btn btn-secondary\"\n          data-bs-dismiss=\"modal\"&gt;Close&lt;/button&gt;\n      &lt;/div&gt;\n    &lt;/div&gt;\n  &lt;/div&gt;\n&lt;/div&gt;</pre>\n<h4>Structure</h4>\n<ul><li><b>.modal</b> (with <code>.fade</code> for animation, <code>tabindex=\"-1\"</code>) &gt; <b>.modal-dialog</b> &gt; <b>.modal-content</b>.</li>\n<li><b>.modal-header</b> (title + close button), <b>.modal-body</b> (content), <b>.modal-footer</b> (action buttons).</li></ul>\n<h4>Opening and closing</h4>\n<ul><li>Open: <code>data-bs-toggle=\"modal\"</code> and <code>data-bs-target=\"#id\"</code> on a button (or href on a link).</li>\n<li>Close: any element with <code>data-bs-dismiss=\"modal\"</code>, a click on the backdrop, or the Esc key.</li></ul>\n<h4>Variations</h4>\n<table><tr><th>Class / attribute</th><th>Effect</th></tr>\n<tr><td>.modal-sm / .modal-lg / .modal-xl</td><td>Small (300 px) / large (800 px) / extra large (1140 px)</td></tr>\n<tr><td>.modal-fullscreen, .modal-fullscreen-md-down</td><td>Full screen (always / below md)</td></tr>\n<tr><td>.modal-dialog-centered</td><td>Vertically centred</td></tr>\n<tr><td>.modal-dialog-scrollable</td><td>Only the body scrolls for long content</td></tr>\n<tr><td>data-bs-backdrop=\"static\"</td><td>Does not close on an outside click</td></tr>\n<tr><td>data-bs-keyboard=\"false\"</td><td>Does not close with Esc</td></tr></table>\n<p>Only one modal should be open at a time. Place the modal HTML at the top level of the body.</p>\n"
+     },
+     "diagram": "web4_modal",
+     "programs": [
+      "w4_4"
+     ]
+    },
+    {
+     "h": {
+      "en": "Modal: Properties, Methods and Events"
+     },
+     "body": {
+      "en": "\n<h4>Properties (options)</h4>\n<table><tr><th>Option</th><th>Default</th><th>Meaning</th></tr>\n<tr><td>backdrop</td><td>true</td><td>true = dark backdrop that closes the modal on click; false = no backdrop; \"static\" = backdrop that does not close it</td></tr>\n<tr><td>keyboard</td><td>true</td><td>Close the modal with the Esc key</td></tr>\n<tr><td>focus</td><td>true</td><td>Put the focus on the modal when opened</td></tr></table>\n<p>(Bootstrap 3 also had <code>show</code> and <code>remote</code> options.)</p>\n<h4>Methods</h4>\n<ul><li><b>show()</b>, <b>hide()</b>, <b>toggle()</b>: open, close, switch.</li>\n<li><b>handleUpdate()</b>: re-adjust the position if the height changes while open.</li>\n<li><b>dispose()</b>: destroys the modal object.</li>\n<li><b>getInstance(el)</b>, <b>getOrCreateInstance(el)</b>: static methods to get the object.</li></ul>\n<h4>Events</h4>\n<table><tr><th>Event</th><th>Fires</th></tr>\n<tr><td>show.bs.modal</td><td>When show is called (before opening); <code>e.relatedTarget</code> = the clicked button</td></tr>\n<tr><td>shown.bs.modal</td><td>After the modal is fully visible</td></tr>\n<tr><td>hide.bs.modal</td><td>When hide is called</td></tr>\n<tr><td>hidden.bs.modal</td><td>After the modal is fully hidden</td></tr>\n<tr><td>hidePrevented.bs.modal</td><td>When a static backdrop is clicked or Esc is pressed with keyboard false</td></tr></table>\n<pre class=\"c\">var el = document.getElementById(\"info\");\nvar m = new bootstrap.Modal(el, {\n  backdrop: \"static\",     // no close on outside click\n  keyboard: false         // no close on Esc\n});\nm.show();\nel.addEventListener(\"show.bs.modal\", function (e) {\n  var opener = e.relatedTarget;    // button clicked\n});\nel.addEventListener(\"hidden.bs.modal\", function () {\n  console.log(\"closed\");\n});</pre>\n<p><b>Practical 19:</b> a \"Save record confirmation\" modal opens when the form is submitted and adds the row only after \"Yes\"; a \"Delete record confirmation\" modal shows the name of the row and removes it after \"Delete\".</p>\n"
+     },
+     "diagram": "web4_modal_api",
+     "programs": [
+      "w4_5",
+      "w4_6"
+     ]
+    },
+    {
+     "h": {
+      "en": "Scrollspy Plug-in"
+     },
+     "body": {
+      "en": "\n<p><b>Scrollspy</b> automatically updates the active link in a navigation (nav, navbar or list group) according to the section of the page that is currently visible while scrolling. It shows the user where they are in a long page.</p>\n<pre class=\"c\">&lt;nav id=\"menu\"&gt;\n  &lt;ul class=\"nav nav-pills\"&gt;\n    &lt;li class=\"nav-item\"&gt;&lt;a class=\"nav-link\" href=\"#s1\"&gt;One&lt;/a&gt;&lt;/li&gt;\n    &lt;li class=\"nav-item\"&gt;&lt;a class=\"nav-link\" href=\"#s2\"&gt;Two&lt;/a&gt;&lt;/li&gt;\n  &lt;/ul&gt;\n&lt;/nav&gt;\n&lt;div data-bs-spy=\"scroll\" data-bs-target=\"#menu\"\n  data-bs-smooth-scroll=\"true\" tabindex=\"0\"\n  style=\"height: 300px; overflow-y: auto\"&gt;\n  &lt;h4 id=\"s1\"&gt;One&lt;/h4&gt;&lt;p&gt;...&lt;/p&gt;\n  &lt;h4 id=\"s2\"&gt;Two&lt;/h4&gt;&lt;p&gt;...&lt;/p&gt;\n&lt;/div&gt;</pre>\n<h4>Requirements</h4>\n<ul><li>Add <code>data-bs-spy=\"scroll\"</code> to the <b>scrolling element</b> (body or a div) and <code>data-bs-target</code> pointing to the nav.</li>\n<li>Each nav link <code>href=\"#id\"</code> must match the id of a section; the target nav must be visible.</li>\n<li>A scrolling div needs a fixed <b>height</b>, <code>overflow-y: auto</code> and <code>tabindex=\"0\"</code>.</li></ul>\n<h4>Options, method and event</h4>\n<ul><li><b>Options:</b> <code>smoothScroll</code> (smooth scrolling on link click), <code>rootMargin</code> and <code>threshold</code> (when a section counts as visible), <code>target</code>. Bootstrap 3/4 used <code>offset</code> (pixels from the top).</li>\n<li><b>Method:</b> <code>refresh()</code> after adding or removing sections; <code>dispose()</code>.</li>\n<li><b>Event:</b> <code>activate.bs.scrollspy</code> fires when a new link becomes active (<code>e.relatedTarget</code> = that link).</li></ul>\n<p>Uses: long articles, documentation, single-page websites, news stories (Practical 20).</p>\n"
+     },
+     "diagram": "web4_scrollspy",
+     "programs": [
+      "w4_7"
+     ]
+    },
+    {
+     "h": {
+      "en": "Tab Plug-in"
+     },
+     "body": {
+      "en": "\n<p>The <b>tab plug-in</b> makes tabs, pills or list groups switch between content panes without loading a new page (see Unit 3 for the nav styles).</p>\n<ul><li>Links get <code>data-bs-toggle=\"tab\"</code>, <code>\"pill\"</code> or <code>\"list\"</code>, and point to a pane with href or <code>data-bs-target</code>.</li>\n<li>Panes are <code>.tab-pane</code> inside <code>.tab-content</code>; the first has <code>.active</code> (and <code>.show</code> with <code>.fade</code>).</li></ul>\n<h4>Methods</h4>\n<ul><li><code>bootstrap.Tab.getOrCreateInstance(link).show()</code>: activates the tab and shows its pane.</li>\n<li><code>dispose()</code>, <code>getInstance()</code>.</li></ul>\n<pre class=\"c\">var link = document.querySelector('a[href=\"#about\"]');\nbootstrap.Tab.getOrCreateInstance(link).show();\n\nlink.addEventListener(\"shown.bs.tab\", function (e) {\n  // e.target = new tab, e.relatedTarget = previous tab\n});</pre>\n<h4>Events (order)</h4>\n<ol><li><b>hide.bs.tab</b> on the current tab</li>\n<li><b>show.bs.tab</b> on the new tab</li>\n<li><b>hidden.bs.tab</b> on the previous tab</li>\n<li><b>shown.bs.tab</b> on the new tab</li></ol>\n<p><code>e.target</code> is the active tab and <code>e.relatedTarget</code> the previous one. Uses: product details, unit summaries, settings pages, and the page switch of Practical 18.</p>\n"
+     },
+     "programs": [
+      "w4_8"
+     ]
+    },
+    {
+     "h": {
+      "en": "Dropdown Plug-in"
+     },
+     "body": {
+      "en": "\n<p>The <b>dropdown plug-in</b> toggles a <code>.dropdown-menu</code> when the button with <code>data-bs-toggle=\"dropdown\"</code> is clicked. It uses <b>Popper</b> to place the menu so that it stays inside the screen.</p>\n<h4>Options</h4>\n<table><tr><th>Option</th><th>Meaning</th></tr>\n<tr><td>autoClose</td><td>true (any click closes), \"inside\", \"outside\", false (only the toggle closes it)</td></tr>\n<tr><td>offset</td><td>Distance of the menu, e.g. \"0,10\"</td></tr>\n<tr><td>boundary / reference</td><td>Area for overflow checking / element used for positioning</td></tr>\n<tr><td>display</td><td>\"dynamic\" (Popper) or \"static\"</td></tr></table>\n<h4>Methods and events</h4>\n<ul><li><b>Methods:</b> toggle(), show(), hide(), update() (re-position), dispose().</li>\n<li><b>Events:</b> show.bs.dropdown, shown.bs.dropdown, hide.bs.dropdown, hidden.bs.dropdown (fired on the toggle element).</li>\n<li><b>Keyboard:</b> up/down arrows move through the items; Esc closes.</li></ul>\n<pre class=\"c\">&lt;button class=\"btn btn-success dropdown-toggle\"\n  data-bs-toggle=\"dropdown\" data-bs-auto-close=\"outside\"\n  data-bs-offset=\"0,10\"&gt;Filters&lt;/button&gt;\n&lt;script&gt;\n  var dd = bootstrap.Dropdown.getOrCreateInstance(btn);\n  dd.toggle();\n  btn.addEventListener(\"hidden.bs.dropdown\", function () {\n    console.log(\"menu closed\");\n  });\n&lt;/script&gt;</pre>\n"
+     },
+     "programs": [
+      "w4_9"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "4.2 Tooltip, Popover, Alert, Button, Collapse, Carousel and Affix"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Tooltip Plug-in"
+     },
+     "body": {
+      "en": "\n<p>A <b>tooltip</b> is a small label that appears when the user hovers over or focuses on an element. The text comes from the <code>title</code> (or <code>data-bs-title</code>) attribute.</p>\n<pre class=\"c\">&lt;button class=\"btn btn-secondary\" data-bs-toggle=\"tooltip\"\n  data-bs-placement=\"top\" title=\"Save the form\"&gt;Save&lt;/button&gt;\n&lt;script&gt;\n  var sel = '[data-bs-toggle=\"tooltip\"]';\n  document.querySelectorAll(sel).forEach(function (el) {\n    new bootstrap.Tooltip(el);\n  });\n&lt;/script&gt;</pre>\n<ul><li>Tooltips are <b>opt-in</b>: for performance they must be initialised with JavaScript (<code>new bootstrap.Tooltip(el)</code>).</li>\n<li>They depend on <b>Popper</b> (use the bundle file).</li>\n<li>Empty titles show no tooltip. For disabled buttons, put the tooltip on a wrapper span with <code>tabindex=\"0\"</code>.</li></ul>\n<h4>Options</h4>\n<p><b>placement</b> (top, right, bottom, left, auto), <b>trigger</b> (\"hover focus\", \"click\", \"focus\", \"manual\"), <b>html</b> (allow HTML), <b>title</b>, <b>delay</b>, <b>animation</b>, <b>offset</b>, <b>container</b>, <b>customClass</b>.</p>\n<h4>Methods</h4>\n<p>show(), hide(), toggle(), enable(), disable(), toggleEnabled(), setContent(), update(), dispose().</p>\n<h4>Events</h4>\n<table><tr><th>Event</th><th>Fires</th></tr>\n<tr><td>show.bs.tooltip</td><td>When show starts</td></tr>\n<tr><td>shown.bs.tooltip</td><td>After the tooltip is visible</td></tr>\n<tr><td>hide.bs.tooltip / hidden.bs.tooltip</td><td>When hiding starts / ends</td></tr>\n<tr><td>inserted.bs.tooltip</td><td>After the tooltip element is added to the page</td></tr></table>\n<pre class=\"c\">var t = new bootstrap.Tooltip(btn, {\n  placement: \"bottom\", trigger: \"click\", html: true,\n  title: \"&lt;b&gt;Bold&lt;/b&gt; tip\", delay: { show: 200, hide: 100 }\n});\nt.show();  t.hide();  t.toggle();  t.disable();\nbtn.addEventListener(\"shown.bs.tooltip\", function () { });</pre>\n"
+     },
+     "diagram": "web4_tooltip_popover",
+     "programs": [
+      "w4_10"
+     ]
+    },
+    {
+     "h": {
+      "en": "Popover Plug-in"
+     },
+     "body": {
+      "en": "\n<p>A <b>popover</b> is a larger pop-up box with a <b>title</b> and <b>content</b>, opened by a click by default. It is built on the tooltip plug-in.</p>\n<pre class=\"c\">&lt;button class=\"btn btn-danger\" data-bs-toggle=\"popover\"\n  data-bs-title=\"Last date\"\n  data-bs-content=\"Fees by 30 Nov.\"&gt;Click me&lt;/button&gt;\n&lt;a tabindex=\"0\" class=\"btn btn-warning\" role=\"button\"\n  data-bs-toggle=\"popover\" data-bs-trigger=\"focus\"\n  data-bs-content=\"Closes on next click\"&gt;Dismissible&lt;/a&gt;\n&lt;script&gt;\n  document.querySelectorAll('[data-bs-toggle=\"popover\"]')\n    .forEach(function (el) { new bootstrap.Popover(el); });\n&lt;/script&gt;</pre>\n<ul><li>Attributes: <code>data-bs-toggle=\"popover\"</code>, <code>data-bs-title</code>, <code>data-bs-content</code>, <code>data-bs-placement</code>, <code>data-bs-trigger</code>.</li>\n<li>Popovers are <b>opt-in</b> and need Popper, like tooltips.</li>\n<li><b>Dismiss on next click:</b> <code>data-bs-trigger=\"focus\"</code> on an &lt;a&gt; with tabindex=\"0\".</li>\n<li><b>Options:</b> same as tooltip plus <code>content</code>. <b>Methods:</b> show(), hide(), toggle(), enable(), disable(), setContent(), dispose(). <b>Events:</b> show/shown/hide/hidden/inserted.bs.popover.</li></ul>\n<table><tr><th>Tooltip</th><th>Popover</th></tr>\n<tr><td>Short text only</td><td>Title and content (can be HTML)</td></tr>\n<tr><td>Hover / focus</td><td>Click (default)</td></tr>\n<tr><td>Small black label</td><td>White box with header</td></tr></table>\n<p><b>Practical 20</b> uses scrollspy for the story sections, tooltips on photos, collapse for \"Read more\" and popovers for the reporter and fare details.</p>\n"
+     },
+     "programs": [
+      "w4_11",
+      "w4_15"
+     ]
+    },
+    {
+     "h": {
+      "en": "Alert and Button Plug-ins"
+     },
+     "body": {
+      "en": "\n<h4>Alert plug-in</h4>\n<p>The <b>alert plug-in</b> makes alerts dismissible. A close button with <code>data-bs-dismiss=\"alert\"</code> removes the alert from the page (with a fade when <code>.fade .show</code> are present).</p>\n<pre class=\"c\">&lt;div class=\"alert alert-warning alert-dismissible fade show\"\n  id=\"note\"&gt;Holiday on Monday.\n  &lt;button class=\"btn-close\" data-bs-dismiss=\"alert\"&gt;&lt;/button&gt;\n&lt;/div&gt;\n&lt;script&gt;\n  bootstrap.Alert.getOrCreateInstance(note).close();\n  note.addEventListener(\"closed.bs.alert\", function () {\n    console.log(\"alert removed\");\n  });\n&lt;/script&gt;</pre>\n<ul><li><b>Methods:</b> <code>close()</code> (fade out and remove), <code>dispose()</code>, getInstance(), getOrCreateInstance().</li>\n<li><b>Events:</b> <code>close.bs.alert</code> (close called) and <code>closed.bs.alert</code> (alert removed); used to show a message after closing.</li></ul>\n<h4>Button plug-in</h4>\n<p>The <b>button plug-in</b> controls the state of buttons.</p>\n<pre class=\"c\">&lt;button class=\"btn btn-outline-primary\"\n  data-bs-toggle=\"button\"&gt;Like&lt;/button&gt;\n&lt;input type=\"checkbox\" class=\"btn-check\" id=\"c1\"&gt;\n&lt;label class=\"btn btn-outline-success\" for=\"c1\"&gt;Hostel&lt;/label&gt;\n&lt;script&gt;\n  bootstrap.Button.getOrCreateInstance(likeBtn).toggle();\n&lt;/script&gt;</pre>\n<ul><li><b>Toggle button:</b> <code>data-bs-toggle=\"button\"</code> switches the <code>.active</code> class and <code>aria-pressed</code> on every click. Method: <code>toggle()</code>.</li>\n<li><b>Checkbox / radio buttons:</b> in Bootstrap 5, <code>input.btn-check</code> with <code>label.btn</code>; in Bootstrap 3, <code>data-toggle=\"buttons\"</code> on a btn-group.</li>\n<li><b>Loading state:</b> Bootstrap 3 had <code>$(btn).button(\"loading\")</code> with <code>data-loading-text</code>, and <code>button(\"reset\")</code>. In Bootstrap 5, disable the button and add a <code>.spinner-border-sm</code> using JavaScript.</li></ul>\n"
+     },
+     "programs": [
+      "w4_12"
+     ]
+    },
+    {
+     "h": {
+      "en": "Collapse Plug-in"
+     },
+     "body": {
+      "en": "\n<p>The <b>collapse plug-in</b> shows and hides content with a smooth height animation. It is used for \"Read more\" sections, FAQs, accordions and the responsive navbar menu.</p>\n<pre class=\"c\">&lt;a class=\"btn btn-primary\" data-bs-toggle=\"collapse\"\n  href=\"#more\"&gt;Read more&lt;/a&gt;\n&lt;button class=\"btn btn-success\" data-bs-toggle=\"collapse\"\n  data-bs-target=\".multi\"&gt;Toggle both&lt;/button&gt;\n&lt;div class=\"collapse\" id=\"more\"&gt;Extra text...&lt;/div&gt;\n&lt;div class=\"collapse multi\"&gt;A&lt;/div&gt;\n&lt;div class=\"collapse multi\"&gt;B&lt;/div&gt;</pre>\n<h4>How it works</h4>\n<ul><li>Hidden content has <code>.collapse</code>; while animating it gets <code>.collapsing</code>; when visible it has <code>.collapse.show</code>.</li>\n<li>Trigger: <code>data-bs-toggle=\"collapse\"</code> on a link (href) or button (data-bs-target). A class selector controls <b>multiple targets</b>.</li>\n<li><code>.collapse-horizontal</code> animates width instead of height.</li></ul>\n<h4>Properties, methods and events</h4>\n<table><tr><th>Type</th><th>Members</th></tr>\n<tr><td>Options</td><td><b>parent</b>: selector; when one item opens, others in the parent close (accordion). <b>toggle</b>: toggle on creation (default true)</td></tr>\n<tr><td>Methods</td><td>show(), hide(), toggle(), dispose(), getInstance(), getOrCreateInstance()</td></tr>\n<tr><td>Events</td><td>show.bs.collapse, shown.bs.collapse, hide.bs.collapse, hidden.bs.collapse</td></tr></table>\n<pre class=\"c\">var c = new bootstrap.Collapse(\"#more\", {\n  toggle: false,          // do not open on creation\n  parent: \"#faq\"          // accordion behaviour\n});\nc.show();  c.hide();  c.toggle();\nmore.addEventListener(\"hidden.bs.collapse\", function () {\n  console.log(\"closed\");\n});</pre>\n<h4>Accordion</h4>\n<p>An <b>accordion</b> is a group of collapsible items where only one is open at a time, using <code>data-bs-parent</code>.</p>\n<pre class=\"c\">&lt;div class=\"accordion\" id=\"faq\"&gt;\n  &lt;div class=\"accordion-item\"&gt;\n    &lt;h2 class=\"accordion-header\"&gt;\n      &lt;button class=\"accordion-button\" data-bs-toggle=\"collapse\"\n        data-bs-target=\"#q1\"&gt;Who can apply?&lt;/button&gt;\n    &lt;/h2&gt;\n    &lt;div id=\"q1\" class=\"accordion-collapse collapse show\"\n      data-bs-parent=\"#faq\"&gt;\n      &lt;div class=\"accordion-body\"&gt;SSC passed.&lt;/div&gt;\n    &lt;/div&gt;\n  &lt;/div&gt;\n  &lt;!-- more .accordion-item ... --&gt;\n&lt;/div&gt;</pre>\n"
+     },
+     "diagram": "web4_collapse",
+     "programs": [
+      "w4_13",
+      "w4_14"
+     ]
+    },
+    {
+     "h": {
+      "en": "Carousel Plug-in"
+     },
+     "body": {
+      "en": "\n<p>A <b>carousel</b> is a slideshow that cycles through images, text or other content, with optional controls, indicators and captions.</p>\n<pre class=\"c\">&lt;div id=\"g\" class=\"carousel slide\" data-bs-ride=\"carousel\"\n  data-bs-interval=\"3000\"&gt;\n  &lt;div class=\"carousel-indicators\"&gt;\n    &lt;button data-bs-target=\"#g\" data-bs-slide-to=\"0\"\n      class=\"active\"&gt;&lt;/button&gt;\n    &lt;button data-bs-target=\"#g\" data-bs-slide-to=\"1\"&gt;&lt;/button&gt;\n  &lt;/div&gt;\n  &lt;div class=\"carousel-inner\"&gt;\n    &lt;div class=\"carousel-item active\"&gt;\n      &lt;img src=\"img/1.jpg\" class=\"d-block w-100\" alt=\"One\"&gt;\n      &lt;div class=\"carousel-caption\"&gt;\n        &lt;h5&gt;Rani ki Vav&lt;/h5&gt;&lt;p&gt;Patan&lt;/p&gt;&lt;/div&gt;\n    &lt;/div&gt;\n    &lt;div class=\"carousel-item\"&gt;\n      &lt;img src=\"img/2.jpg\" class=\"d-block w-100\" alt=\"Two\"&gt;\n    &lt;/div&gt;\n  &lt;/div&gt;\n  &lt;button class=\"carousel-control-prev\" data-bs-target=\"#g\"\n    data-bs-slide=\"prev\"&gt;\n    &lt;span class=\"carousel-control-prev-icon\"&gt;&lt;/span&gt;&lt;/button&gt;\n  &lt;button class=\"carousel-control-next\" data-bs-target=\"#g\"\n    data-bs-slide=\"next\"&gt;\n    &lt;span class=\"carousel-control-next-icon\"&gt;&lt;/span&gt;&lt;/button&gt;\n&lt;/div&gt;</pre>\n<h4>Parts</h4>\n<ul><li><b>.carousel.slide</b>: wrapper with an id; <code>data-bs-ride=\"carousel\"</code> starts auto-play on load.</li>\n<li><b>.carousel-inner</b> &gt; <b>.carousel-item</b>: the slides; one must have <code>.active</code>.</li>\n<li><b>.carousel-caption</b>: text over the image.</li>\n<li><b>.carousel-indicators</b>: small bars to jump to a slide (<code>data-bs-slide-to</code>).</li>\n<li><b>.carousel-control-prev / -next</b>: arrows (<code>data-bs-slide=\"prev\"/\"next\"</code>).</li></ul>\n<h4>Options, methods and events</h4>\n<table><tr><th>Type</th><th>Members</th></tr>\n<tr><td>Options</td><td>interval (ms, default 5000), ride, pause (\"hover\"), wrap (loop), keyboard, touch (swipe)</td></tr>\n<tr><td>Methods</td><td>cycle(), pause(), prev(), next(), nextWhenVisible(), to(n), dispose()</td></tr>\n<tr><td>Events</td><td>slide.bs.carousel (start), slid.bs.carousel (end); e.from, e.to, e.direction</td></tr></table>\n<pre class=\"c\">var car = bootstrap.Carousel.getOrCreateInstance(\"#g\");\ncar.to(3);   car.pause();   car.cycle();\ncar.next();  car.prev();\ng.addEventListener(\"slid.bs.carousel\", function (e) {\n  count.textContent = \"Photo \" + (e.to + 1);\n});</pre>\n<ul><li><code>.carousel-fade</code> fades between slides instead of sliding; <code>.carousel-dark</code> gives dark controls (BS 5.3: data-bs-theme=\"dark\").</li>\n<li><code>data-bs-interval</code> on a single item sets its own time.</li>\n<li>Give all images the same size (or fixed height with <code>object-fit: cover</code>) so the carousel does not jump.</li></ul>\n<p><b>Practical 21</b> builds an animated gallery of seven photos with indicators, captions, a fade switch, pause/play and thumbnails.</p>\n"
+     },
+     "diagram": "web4_carousel",
+     "programs": [
+      "w4_16",
+      "w4_17"
+     ]
+    },
+    {
+     "h": {
+      "en": "Affix Plug-in"
+     },
+     "body": {
+      "en": "\n<p>The <b>affix plug-in</b> (Bootstrap 3) fixed an element, such as a navbar or side menu, in place after the page was scrolled past a certain point. Before that point the element scrolled normally.</p>\n<ul><li>Usage: <code>data-spy=\"affix\"</code> with <code>data-offset-top=\"200\"</code> (and data-offset-bottom).</li>\n<li>The plug-in switched classes: <code>.affix-top</code> (before the offset), <code>.affix</code> (fixed), <code>.affix-bottom</code> (near the bottom). The developer wrote CSS for these classes.</li>\n<li>Events: affix.bs.affix, affixed.bs.affix, affix-top.bs.affix, etc.</li></ul>\n<h4>Bootstrap 4/5 replacement</h4>\n<p>The affix plug-in was <b>removed in Bootstrap 4</b> because CSS <b>position: sticky</b> gives the same result without JavaScript.</p>\n<pre class=\"c\">&lt;!-- Bootstrap 3 --&gt;\n&lt;nav class=\"navbar\" data-spy=\"affix\" data-offset-top=\"200\"&gt;\n&lt;!-- Bootstrap 5 --&gt;\n&lt;nav class=\"navbar sticky-top bg-dark\"&gt;...&lt;/nav&gt;\n&lt;style&gt;\n  .side { position: sticky; top: 70px; }\n&lt;/style&gt;</pre>\n<ul><li><b>.sticky-top</b>: the element scrolls with the page until it reaches the top, then sticks there.</li>\n<li><b>.sticky-{sm|md|lg|xl|xxl}-top</b>: sticky only from that breakpoint; <b>.sticky-bottom</b> sticks at the bottom.</li>\n<li><b>.fixed-top</b>: always fixed (not the same as affix).</li>\n<li>For extra effects (shadow, smaller logo), a <code>scroll</code> event listener can add a class when <code>scrollY</code> passes an offset.</li></ul>\n"
+     },
+     "diagram": "web4_affix",
+     "programs": [
+      "w4_18"
+     ]
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "w4_1",
+   "title": {
+    "en": "Using a plug-in two ways: data attributes and JavaScript"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Using Plug-ins</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h5\">Bootstrap plug-ins</h1>\n    <p class=\"small text-muted\" id=\"ver\"></p>\n\n    <!-- 1. data attributes: no JavaScript code needed -->\n    <button class=\"btn btn-primary mb-2\" data-bs-toggle=\"collapse\"\n      data-bs-target=\"#box1\">Toggle with data attribute</button>\n    <div class=\"collapse\" id=\"box1\">\n      <div class=\"card card-body mb-3\">\n        Opened by data-bs-toggle=\"collapse\".</div>\n    </div>\n\n    <!-- 2. JavaScript API -->\n    <div class=\"mb-2\">\n      <button class=\"btn btn-success\" id=\"show\">show()</button>\n      <button class=\"btn btn-warning\" id=\"hide\">hide()</button>\n      <button class=\"btn btn-dark\" id=\"tog\">toggle()</button>\n    </div>\n    <div class=\"collapse\" id=\"box2\">\n      <div class=\"card card-body mb-3\">\n        Opened by JavaScript methods.</div>\n    </div>\n\n    <h2 class=\"h6\">Event log</h2>\n    <ul class=\"small\" id=\"log\"></ul>\n  </div>\n  <script src=\"js/bootstrap.bundle.min.js\"></script>\n  <script>\n    document.getElementById(\"ver\").textContent =\n      \"Bootstrap version: \" + bootstrap.Collapse.VERSION;\n\n    // create (or get) the plug-in object for the element\n    var box2 = document.getElementById(\"box2\");\n    var c = new bootstrap.Collapse(box2, { toggle: false });\n    function $(id) { return document.getElementById(id); }\n    $(\"show\").onclick = function () { c.show(); };\n    $(\"hide\").onclick = function () { c.hide(); };\n    $(\"tog\").onclick = function () { c.toggle(); };\n\n    // events: show.bs.collapse, shown, hide, hidden\n    [\"shown\", \"hidden\"].forEach(function (ev) {\n      document.addEventListener(ev + \".bs.collapse\", function (e) {\n        var li = document.createElement(\"li\");\n        li.textContent = ev + \".bs.collapse on #\" + e.target.id;\n        document.getElementById(\"log\").appendChild(li);\n      });\n    });\n  </script>\n</body>\n</html>"
+   },
+   "out": "The page shows \"Bootstrap version: 5.3.3\".\n\"Toggle with data attribute\" opens and closes the first box without any JavaScript code.\nThe show(), hide() and toggle() buttons control the second box through JavaScript.\nEach time a box finishes opening or closing, a line such as \"shown.bs.collapse on #box2\" is added to the event log.",
+   "expl": {
+    "en": "<ul><li>Every Bootstrap plug-in can be used in <b>two ways</b>:\n<ol><li><b>Data attributes</b> (no code): <code>data-bs-toggle</code>, <code>data-bs-target</code>, and options as <code>data-bs-*</code>.</li>\n<li><b>JavaScript API</b>: <code>new bootstrap.Collapse(el, options)</code> or <code>bootstrap.Collapse.getOrCreateInstance(el)</code>, then call methods.</li></ol></li>\n<li><b>Options</b> are passed as an object, here <code>{ toggle: false }</code> so the box does not open on creation.</li>\n<li><b>Methods</b> such as show(), hide(), toggle(), dispose() control the plug-in.</li>\n<li><b>Events</b> are named <code>action.bs.plugin</code>: the present form (show) fires at the start and the past form (shown) after the animation ends.</li>\n<li>All plug-ins are in <code>bootstrap.bundle.min.js</code>, which includes Popper (needed for dropdowns, tooltips and popovers). Bootstrap 5 does not need jQuery.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w4_2",
+   "title": {
+    "en": "Transition: fade classes and the transitionend event"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Transition</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n  <style>\n    .box {\n      width: 90px;\n      transition: margin-left 0.8s ease, background-color 0.8s;\n    }\n    .box.moved {\n      margin-left: 60%;\n      background-color: #6f42c1 !important;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h5\">Bootstrap transitions</h1>\n\n    <h2 class=\"h6\">1. .fade and .show</h2>\n    <button class=\"btn btn-primary mb-2\"\n        id=\"fadeBtn\">Fade out</button>\n    <div class=\"alert alert-info fade show\" id=\"msg\">\n      I fade in and out with Bootstrap's .fade class.</div>\n\n    <h2 class=\"h6\">2. Custom CSS transition</h2>\n    <button class=\"btn btn-success mb-2\"\n        id=\"moveBtn\">Move box</button>\n    <div class=\"box bg-success text-white p-3 rounded\" id=\"box\">\n      Box</div>\n    <p class=\"small mt-2\" id=\"log\">Waiting...</p>\n  </div>\n  <script>\n    var msg = document.getElementById(\"msg\");\n    document.getElementById(\"fadeBtn\").onclick = function () {\n      msg.classList.toggle(\"show\");          // opacity 1 <-> 0\n      this.textContent = msg.classList.contains(\"show\") ?\n        \"Fade out\" : \"Fade in\";\n    };\n\n    var box = document.getElementById(\"box\");\n    document.getElementById(\"moveBtn\").onclick = function () {\n      box.classList.toggle(\"moved\");\n    };\n    // fired when a CSS transition finishes\n    box.addEventListener(\"transitionend\", function (e) {\n      document.getElementById(\"log\").textContent =\n        \"Transition finished: \" + e.propertyName;\n    });\n  </script>\n</body>\n</html>"
+   },
+   "out": "A blue info alert with a \"Fade out\" button. Clicking it fades the alert smoothly to invisible, and the button changes to \"Fade in\".\n\"Move box\" slides the green box to the right, changing its colour to purple. After the movement the text reads \"Transition finished: margin-left\" (or background-color).",
+   "expl": {
+    "en": "<ul><li><b>Transition plug-in (Bootstrap 3: transition.js)</b> was a helper used by other plug-ins (modal, carousel, collapse, alert) to detect the end of CSS transitions. In Bootstrap 5 it is built into every plug-in and is not used separately.</li>\n<li><b>.fade</b> sets <code>transition: opacity .15s linear</code> and opacity 0; adding <b>.show</b> makes opacity 1. Toggling .show gives a fade effect.</li>\n<li>Animated components: modal (fade + slide), alert (fade on close), collapse (<code>.collapsing</code> height animation), carousel (slide or <code>.carousel-fade</code>), tab panes (fade).</li>\n<li>Custom effects use the CSS <code>transition</code> property; the <code>transitionend</code> event tells JavaScript when it finished.</li>\n<li>Bootstrap respects the user's <b>prefers-reduced-motion</b> setting and turns animations off.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w4_3",
+   "title": {
+    "en": "Smooth page transition: Home, About and Contact (Practical 18)"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Smooth Pages</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n  <style>\n    /* extend Bootstrap's fade with a slide-up */\n    .tab-pane.fade {\n      transform: translateY(25px);\n      transition: opacity 0.5s ease, transform 0.5s ease;\n    }\n    .tab-pane.fade.show { transform: none; }\n  </style>\n</head>\n<body>\n  <nav class=\"navbar navbar-expand bg-primary\" data-bs-theme=\"dark\">\n    <div class=\"container\">\n      <span class=\"navbar-brand\">GreenTech</span>\n      <ul class=\"navbar-nav\" role=\"tablist\">\n        <li class=\"nav-item\">\n          <a class=\"nav-link active\" data-bs-toggle=\"tab\"\n            href=\"#home\">Home</a></li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link\" data-bs-toggle=\"tab\"\n            href=\"#about\">About</a></li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link\" data-bs-toggle=\"tab\"\n            href=\"#contact\">Contact</a></li>\n      </ul>\n    </div>\n  </nav>\n\n  <div class=\"tab-content container py-4\">\n    <section class=\"tab-pane fade show active\" id=\"home\">\n      <div class=\"p-4 bg-body-tertiary rounded-3\">\n        <h1 class=\"display-6\">Welcome to GreenTech</h1>\n        <p class=\"lead\">Solar solutions for homes in Gujarat.</p>\n        <button class=\"btn btn-primary\" id=\"goContact\">\n          Contact us</button>\n      </div>\n    </section>\n\n    <section class=\"tab-pane fade\" id=\"about\">\n      <h2>About us</h2>\n      <p>Started in 2015 in Surat, we have installed solar\n        panels on more than 2,000 roofs.</p>\n      <div class=\"row g-3\">\n        <div class=\"col-sm-6\"><div class=\"card card-body\">\n          <b>Mission</b> Clean energy for every home.</div></div>\n        <div class=\"col-sm-6\"><div class=\"card card-body\">\n          <b>Team</b> 40 trained engineers.</div></div>\n      </div>\n    </section>\n\n    <section class=\"tab-pane fade\" id=\"contact\">\n      <h2>Contact us</h2>\n      <form class=\"row g-2\">\n        <div class=\"col-sm-6\">\n          <input class=\"form-control\" placeholder=\"Name\"></div>\n        <div class=\"col-sm-6\">\n          <input class=\"form-control\" placeholder=\"Mobile\"></div>\n        <div class=\"col-12\">\n          <textarea class=\"form-control\" rows=\"2\"\n            placeholder=\"Message\"></textarea></div>\n        <div class=\"col-12\">\n          <button type=\"button\" class=\"btn btn-success\">\n            Send</button></div>\n      </form>\n    </section>\n  </div>\n  <script src=\"js/bootstrap.bundle.min.js\"></script>\n  <script>\n    // open a \"page\" from JavaScript\n    document.getElementById(\"goContact\").onclick = function () {\n      var link = document.querySelector('a[href=\"#contact\"]');\n      bootstrap.Tab.getOrCreateInstance(link).show();\n    };\n  </script>\n</body>\n</html>"
+   },
+   "out": "A blue navbar with the brand \"GreenTech\" and the links Home, About and Contact.\nThe Home page shows a grey welcome box with a \"Contact us\" button.\nClicking About or Contact (or the \"Contact us\" button) makes the current page fade out, and the new page fades in while sliding up slightly, without reloading. About shows two cards (Mission, Team); Contact shows a form with Name, Mobile, Message and Send.",
+   "expl": {
+    "en": "<ul><li>The three \"pages\" are <code>.tab-pane</code> sections in one <code>.tab-content</code>, so changing page needs no reload.</li>\n<li>The navbar links use the <b>tab plug-in</b>: <code>data-bs-toggle=\"tab\"</code> with <code>href=\"#id\"</code>.</li>\n<li>The <b>transition</b> comes from <code>.fade</code> on each pane: Bootstrap waits for the old pane to fade out before showing the new one (transition end detection).</li>\n<li>Custom CSS adds <code>transform: translateY(25px)</code> to make the page slide up while fading in.</li>\n<li><code>bootstrap.Tab.getOrCreateInstance(link).show()</code> opens a page from a button.</li>\n<li><code>navbar-expand</code> keeps the menu always expanded because it has only three short links.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w4_4",
+   "title": {
+    "en": "Modal dialog: basic, centred, large scrollable and static"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Modals</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h5\">Modal dialog boxes</h1>\n    <div class=\"d-flex flex-wrap gap-2\">\n      <button class=\"btn btn-primary\" data-bs-toggle=\"modal\"\n        data-bs-target=\"#basic\">Basic (centred)</button>\n      <button class=\"btn btn-success\" data-bs-toggle=\"modal\"\n        data-bs-target=\"#rules\">Large + scrollable</button>\n      <button class=\"btn btn-danger\" data-bs-toggle=\"modal\"\n        data-bs-target=\"#static\">Static backdrop</button>\n    </div>\n  </div>\n\n  <!-- 1. basic, vertically centred -->\n  <div class=\"modal fade\" id=\"basic\" tabindex=\"-1\">\n    <div class=\"modal-dialog modal-dialog-centered\">\n      <div class=\"modal-content\">\n        <div class=\"modal-header\">\n          <h5 class=\"modal-title\">Welcome</h5>\n          <button class=\"btn-close\"\n              data-bs-dismiss=\"modal\"></button>\n        </div>\n        <div class=\"modal-body\">\n          Results will be declared on 5 Dec.</div>\n        <div class=\"modal-footer\">\n          <button class=\"btn btn-secondary\"\n            data-bs-dismiss=\"modal\">Close</button>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <!-- 2. large, body scrolls -->\n  <div class=\"modal fade\" id=\"rules\" tabindex=\"-1\">\n    <div class=\"modal-dialog modal-lg modal-dialog-scrollable\">\n      <div class=\"modal-content\">\n        <div class=\"modal-header\">\n          <h5 class=\"modal-title\">Exam rules</h5>\n          <button class=\"btn-close\"\n              data-bs-dismiss=\"modal\"></button>\n        </div>\n        <div class=\"modal-body\" id=\"ruleList\"></div>\n        <div class=\"modal-footer\">\n          <button class=\"btn btn-success\"\n            data-bs-dismiss=\"modal\">I agree</button>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <!-- 3. does not close on outside click or Esc -->\n  <div class=\"modal fade\" id=\"static\" tabindex=\"-1\"\n    data-bs-backdrop=\"static\" data-bs-keyboard=\"false\">\n    <div class=\"modal-dialog modal-sm\">\n      <div class=\"modal-content\">\n        <div class=\"modal-body text-center\">\n          <p>Session expired. Please log in again.</p>\n          <button class=\"btn btn-danger\"\n            data-bs-dismiss=\"modal\">Log in</button>\n        </div>\n      </div>\n    </div>\n  </div>\n  <script src=\"js/bootstrap.bundle.min.js\"></script>\n  <script>\n    var html = \"\";\n    for (var i = 1; i <= 25; i++) {\n      html += \"<p>\" + i + \". Rule number \" + i +\n        \" of the examination.</p>\";\n    }\n    document.getElementById(\"ruleList\").innerHTML = html;\n  </script>\n</body>\n</html>"
+   },
+   "out": "Three buttons. \"Basic (centred)\" opens a dialog in the middle of the screen with the title \"Welcome\", the text \"Results will be declared on 5 Dec.\" and a Close button; the page behind becomes dark.\n\"Large + scrollable\" opens a wide dialog \"Exam rules\" with 25 rules; only the body scrolls while the header and the \"I agree\" button stay visible.\n\"Static backdrop\" opens a small dialog \"Session expired\" that does not close on an outside click or the Esc key, only with \"Log in\".",
+   "expl": {
+    "en": "<ul><li><b>Modal structure:</b> <code>.modal.fade</code> &gt; <code>.modal-dialog</code> &gt; <code>.modal-content</code> &gt; <code>.modal-header</code> / <code>.modal-body</code> / <code>.modal-footer</code>.</li>\n<li><b>Open:</b> a button with <code>data-bs-toggle=\"modal\"</code> and <code>data-bs-target=\"#id\"</code>. <b>Close:</b> any element with <code>data-bs-dismiss=\"modal\"</code>, a click on the backdrop, or Esc.</li>\n<li><b>Sizes:</b> <code>.modal-sm</code> (300 px), default (500 px), <code>.modal-lg</code> (800 px), <code>.modal-xl</code> (1140 px), <code>.modal-fullscreen</code> or <code>.modal-fullscreen-md-down</code>.</li>\n<li><b>Position:</b> <code>.modal-dialog-centered</code>; long content: <code>.modal-dialog-scrollable</code>.</li>\n<li><b>Static backdrop:</b> <code>data-bs-backdrop=\"static\"</code> and <code>data-bs-keyboard=\"false\"</code>.</li>\n<li><code>tabindex=\"-1\"</code> lets the modal take keyboard focus.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w4_5",
+   "title": {
+    "en": "Modal options, methods and events"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Modal API</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h5\">Student list</h1>\n    <ul class=\"list-group mb-3\">\n      <li class=\"list-group-item d-flex justify-content-between\">\n        Ravi Patel\n        <button class=\"btn btn-sm btn-outline-primary\"\n          data-bs-toggle=\"modal\" data-bs-target=\"#edit\"\n          data-name=\"Ravi Patel\">Edit</button></li>\n      <li class=\"list-group-item d-flex justify-content-between\">\n        Priya Shah\n        <button class=\"btn btn-sm btn-outline-primary\"\n          data-bs-toggle=\"modal\" data-bs-target=\"#edit\"\n          data-name=\"Priya Shah\">Edit</button></li>\n    </ul>\n    <button class=\"btn btn-dark btn-sm\" id=\"openJs\">\n      Open with show()</button>\n    <h2 class=\"h6 mt-3\">Event log</h2>\n    <ol class=\"small\" id=\"log\"></ol>\n  </div>\n\n  <div class=\"modal fade\" id=\"edit\" tabindex=\"-1\">\n    <div class=\"modal-dialog\">\n      <div class=\"modal-content\">\n        <div class=\"modal-header\">\n          <h5 class=\"modal-title\">Edit</h5>\n          <button class=\"btn-close\"\n              data-bs-dismiss=\"modal\"></button>\n        </div>\n        <div class=\"modal-body\">\n          <input class=\"form-control\" id=\"nameBox\">\n        </div>\n        <div class=\"modal-footer\">\n          <button class=\"btn btn-primary\" id=\"closeJs\">\n            Close with hide()</button>\n        </div>\n      </div>\n    </div>\n  </div>\n  <script src=\"js/bootstrap.bundle.min.js\"></script>\n  <script>\n    var el = document.getElementById(\"edit\");\n    // options: backdrop, keyboard, focus\n    var modal = new bootstrap.Modal(el, {\n      backdrop: \"static\", keyboard: false\n    });\n\n    document.getElementById(\"openJs\").onclick = function () {\n      modal.show();\n    };\n    document.getElementById(\"closeJs\").onclick = function () {\n      modal.hide();\n    };\n\n    function log(t) {\n      var li = document.createElement(\"li\");\n      li.textContent = t;\n      document.getElementById(\"log\").appendChild(li);\n    }\n\n    // relatedTarget = the button that opened the modal\n    el.addEventListener(\"show.bs.modal\", function (e) {\n      var b = e.relatedTarget;\n      var name = b ? b.getAttribute(\"data-name\") : \"New student\";\n      el.querySelector(\".modal-title\").textContent = \"Edit \" + name;\n      document.getElementById(\"nameBox\").value = b ? name : \"\";\n      log(\"show.bs.modal\");\n    });\n    el.addEventListener(\"shown.bs.modal\", function () {\n      document.getElementById(\"nameBox\").focus();\n      log(\"shown.bs.modal\");\n    });\n    el.addEventListener(\"hide.bs.modal\", function () {\n      log(\"hide.bs.modal\");\n    });\n    el.addEventListener(\"hidden.bs.modal\", function () {\n      log(\"hidden.bs.modal\");\n    });\n    el.addEventListener(\"hidePrevented.bs.modal\", function () {\n      log(\"hidePrevented.bs.modal (static backdrop)\");\n    });\n  </script>\n</body>\n</html>"
+   },
+   "out": "A list with \"Ravi Patel\" and \"Priya Shah\", each with an Edit button. Clicking Edit next to Priya opens a modal titled \"Edit Priya Shah\", with her name already in the text box and the cursor in it.\n\"Open with show()\" opens the same modal titled \"Edit New student\" with an empty box.\nClicking outside the modal does not close it; it only bounces and logs \"hidePrevented.bs.modal (static backdrop)\". \"Close with hide()\" closes it.\nThe event log lists show.bs.modal, shown.bs.modal, hide.bs.modal and hidden.bs.modal in order.",
+   "expl": {
+    "en": "<ul><li><b>Options</b> (object or data-bs-*): <code>backdrop</code> (true / false / \"static\"), <code>keyboard</code> (Esc closes), <code>focus</code>.</li>\n<li><b>Methods:</b> <code>show()</code>, <code>hide()</code>, <code>toggle()</code>, <code>handleUpdate()</code> (re-position), <code>dispose()</code>; static <code>bootstrap.Modal.getInstance(el)</code> and <code>getOrCreateInstance(el)</code>.</li>\n<li><b>Events:</b> <code>show.bs.modal</code> (before opening), <code>shown.bs.modal</code> (fully visible), <code>hide.bs.modal</code>, <code>hidden.bs.modal</code>, <code>hidePrevented.bs.modal</code> (static backdrop clicked).</li>\n<li><code>e.relatedTarget</code> in show.bs.modal is the button that opened it, so one modal can serve many rows (data-name).</li>\n<li>Calling <code>e.preventDefault()</code> in show.bs.modal or hide.bs.modal stops the modal from opening or closing.</li>\n<li>Bootstrap 3 used jQuery: <code>$(\"#edit\").modal(\"show\")</code> and <code>.on(\"shown.bs.modal\", ...)</code>.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w4_6",
+   "title": {
+    "en": "Save and delete record confirmation modals (Practical 19)"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Record Confirmation</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n  <link rel=\"stylesheet\"\n    href=\"css/bootstrap-icons.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h5\">Student records</h1>\n    <form class=\"row g-2 mb-3\" id=\"frm\">\n      <div class=\"col-7\">\n        <input class=\"form-control\" id=\"name\"\n          placeholder=\"Student name\" required></div>\n      <div class=\"col-3\">\n        <input class=\"form-control\" id=\"sem\" type=\"number\"\n          min=\"1\" max=\"6\" placeholder=\"Sem\" required></div>\n      <div class=\"col-2 d-grid\">\n        <button class=\"btn btn-primary\" type=\"submit\">Save</button>\n      </div>\n    </form>\n    <div id=\"msg\"></div>\n    <table class=\"table table-bordered table-sm\">\n      <thead class=\"table-light\">\n        <tr><th>Name</th><th>Sem</th><th></th></tr></thead>\n      <tbody id=\"rows\">\n        <tr><td>Ravi Patel</td><td>3</td><td></td></tr>\n        <tr><td>Priya Shah</td><td>5</td><td></td></tr>\n      </tbody>\n    </table>\n  </div>\n\n  <div class=\"modal fade\" id=\"saveModal\" tabindex=\"-1\">\n    <div class=\"modal-dialog modal-dialog-centered\">\n      <div class=\"modal-content\">\n        <div class=\"modal-header bg-primary text-white\">\n          <h5 class=\"modal-title\">\n            <i class=\"bi bi-save\"></i> Save record?</h5>\n          <button class=\"btn-close btn-close-white\"\n            data-bs-dismiss=\"modal\"></button>\n        </div>\n        <div class=\"modal-body\" id=\"saveText\"></div>\n        <div class=\"modal-footer\">\n          <button class=\"btn btn-secondary\"\n            data-bs-dismiss=\"modal\">Cancel</button>\n          <button class=\"btn btn-primary\"\n              id=\"yesSave\">Yes, save</button>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"modal fade\" id=\"delModal\" tabindex=\"-1\">\n    <div class=\"modal-dialog modal-dialog-centered modal-sm\">\n      <div class=\"modal-content\">\n        <div class=\"modal-body text-center\">\n          <i class=\"bi bi-exclamation-triangle\n            text-danger fs-1\"></i>\n          <h5>Delete record?</h5>\n          <p id=\"delText\"></p>\n          <button class=\"btn btn-secondary\"\n            data-bs-dismiss=\"modal\">No</button>\n          <button class=\"btn btn-danger\" id=\"yesDel\">Delete</button>\n        </div>\n      </div>\n    </div>\n  </div>\n  <script src=\"js/bootstrap.bundle.min.js\"></script>\n  <script>\n    var saveM = new bootstrap.Modal(\"#saveModal\");\n    var delM = new bootstrap.Modal(\"#delModal\");\n    var rows = document.getElementById(\"rows\");\n    var delRow = null;\n\n    function addDeleteButton(tr) {\n      tr.cells[2].innerHTML = '<button class=\"btn btn-sm ' +\n        'btn-outline-danger\"><i class=\"bi bi-trash\"></i></button>';\n      tr.cells[2].firstChild.onclick = function () {\n        delRow = tr;\n        document.getElementById(\"delText\").textContent =\n          tr.cells[0].textContent + \" will be removed.\";\n        delM.show();\n      };\n    }\n    Array.from(rows.rows).forEach(addDeleteButton);\n\n    function show(text, type) {\n      document.getElementById(\"msg\").innerHTML =\n        '<div class=\"alert alert-' + type + ' py-2\">' +\n        text + \"</div>\";\n    }\n\n    document.getElementById(\"frm\").onsubmit = function (e) {\n      e.preventDefault();\n      document.getElementById(\"saveText\").textContent =\n        \"Save \" + name.value + \" (Sem \" + sem.value + \")?\";\n      saveM.show();\n    };\n    document.getElementById(\"yesSave\").onclick = function () {\n      var tr = rows.insertRow();\n      tr.insertCell().textContent = name.value;\n      tr.insertCell().textContent = sem.value;\n      tr.insertCell();\n      addDeleteButton(tr);\n      show(\"Record of \" + name.value + \" saved.\", \"success\");\n      document.getElementById(\"frm\").reset();\n      saveM.hide();\n    };\n    document.getElementById(\"yesDel\").onclick = function () {\n      show(delRow.cells[0].textContent + \" deleted.\", \"danger\");\n      delRow.remove();\n      delM.hide();\n    };\n  </script>\n</body>\n</html>"
+   },
+   "out": "A form (Student name, Sem, Save) above a table with Ravi Patel (3) and Priya Shah (5); each row has a red trash button.\nAfter filling in \"Amit Desai\" and 4 and clicking Save, a centred blue modal \"Save record?\" asks \"Save Amit Desai (Sem 4)?\". \"Yes, save\" adds the row, closes the modal and shows a green message \"Record of Amit Desai saved.\"\nClicking a trash button opens a small modal with a warning icon: \"Delete record? Priya Shah will be removed.\" Delete removes the row and shows a red message \"Priya Shah deleted.\"; No just closes it.",
+   "expl": {
+    "en": "<ul><li>Two modals: a <b>save confirmation</b> (blue header, Cancel / Yes) and a <b>delete confirmation</b> (small, warning icon, No / Delete).</li>\n<li>The form's <code>submit</code> event is stopped with <code>e.preventDefault()</code>; the browser first checks the <code>required</code> fields, then the save modal opens.</li>\n<li><code>new bootstrap.Modal(\"#saveModal\")</code> creates the modal object; <code>show()</code> and <code>hide()</code> are called after the user's choice.</li>\n<li><code>delRow</code> remembers which row's trash button was clicked, so the same delete modal works for every row.</li>\n<li><code>insertRow()</code>, <code>insertCell()</code> and <code>remove()</code> change the table; the result is shown in a Bootstrap alert.</li>\n<li><code>name</code> and <code>sem</code> are used directly because elements with an id are available as global variables (writing <code>document.getElementById</code> is safer in big projects).</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w4_7",
+   "title": {
+    "en": "Scrollspy: highlight the menu while scrolling"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Scrollspy</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n  <style>\n    .spy { height: 220px; overflow-y: auto; position: relative; }\n    .spy p { min-height: 180px; }\n  </style>\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h5\">RWPD units</h1>\n    <nav id=\"unitNav\" class=\"navbar bg-body-tertiary px-2 mb-2\">\n      <ul class=\"nav nav-pills small\">\n        <li class=\"nav-item\">\n          <a class=\"nav-link\" href=\"#u1\">jQuery</a></li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link\" href=\"#u2\">Grid</a></li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link\" href=\"#u3\">Components</a></li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link\" href=\"#u4\">Plug-ins</a></li>\n      </ul>\n    </nav>\n\n    <div class=\"spy border rounded p-3\" data-bs-spy=\"scroll\"\n      data-bs-target=\"#unitNav\" data-bs-smooth-scroll=\"true\"\n      tabindex=\"0\">\n      <h4 id=\"u1\">Unit 1: jQuery</h4>\n      <p>Selectors, events, effects and DOM changes...</p>\n      <h4 id=\"u2\">Unit 2: Bootstrap grid</h4>\n      <p>Containers, rows, columns, offset and nesting...</p>\n      <h4 id=\"u3\">Unit 3: Components</h4>\n      <p>Navbar, cards, alerts, badges, list groups...</p>\n      <h4 id=\"u4\">Unit 4: Plug-ins</h4>\n      <p>Modal, scrollspy, tooltip, collapse, carousel...</p>\n    </div>\n    <p class=\"small mt-2\">Now reading: <b id=\"now\">-</b></p>\n  </div>\n  <script src=\"js/bootstrap.bundle.min.js\"></script>\n  <script>\n    var spy = document.querySelector(\".spy\");\n    spy.addEventListener(\"activate.bs.scrollspy\", function (e) {\n      document.getElementById(\"now\").textContent =\n        e.relatedTarget.textContent;\n    });\n  </script>\n</body>\n</html>"
+   },
+   "out": "A grey bar with the pills jQuery, Grid, Components and Plug-ins above a scrollable box containing the four unit sections.\nAt first \"jQuery\" is highlighted. As the box is scrolled, the highlighted pill changes automatically to Grid, then Components, then Plug-ins, and \"Now reading:\" shows the same name.\nClicking a pill scrolls smoothly to that section.",
+   "expl": {
+    "en": "<ul><li><b>Scrollspy</b> automatically updates the active link of a nav or list group according to the section that is visible while scrolling.</li>\n<li>Add <code>data-bs-spy=\"scroll\"</code> and <code>data-bs-target=\"#navId\"</code> to the <b>scrolling element</b> (here the box; it can also be the body).</li>\n<li>Each link's <code>href</code> must match a section <code>id</code> (#u1 ... #u4), and the target must be a visible .nav, .navbar or .list-group.</li>\n<li>The scroll container needs a fixed <b>height</b> with <code>overflow-y: auto</code>, plus <code>tabindex=\"0\"</code> for keyboard access.</li>\n<li><b>Options:</b> <code>smoothScroll</code>, <code>rootMargin</code>, <code>threshold</code> (Bootstrap 3 used <code>offset</code>). <b>Method:</b> <code>refresh()</code> after adding sections. <b>Event:</b> <code>activate.bs.scrollspy</code> with <code>e.relatedTarget</code> = the newly active link.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w4_8",
+   "title": {
+    "en": "Tab plug-in: list group tabs with methods and events"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Tab Plug-in</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h5\">Course details</h1>\n    <div class=\"row g-3\">\n      <div class=\"col-sm-4\">\n        <div class=\"list-group\" id=\"tabs\" role=\"tablist\">\n          <a class=\"list-group-item list-group-item-action active\"\n            data-bs-toggle=\"list\" href=\"#t1\">Overview</a>\n          <a class=\"list-group-item list-group-item-action\"\n            data-bs-toggle=\"list\" href=\"#t2\">Syllabus</a>\n          <a class=\"list-group-item list-group-item-action\"\n            data-bs-toggle=\"list\" href=\"#t3\">Fees</a>\n        </div>\n      </div>\n      <div class=\"col-sm-8\">\n        <div class=\"tab-content border rounded p-3\">\n          <div class=\"tab-pane fade show active\" id=\"t1\">\n            3-year diploma in Computer Engineering.</div>\n          <div class=\"tab-pane fade\" id=\"t2\">\n            6 semesters, about 40 subjects.</div>\n          <div class=\"tab-pane fade\" id=\"t3\">\n            Rs. 15,000 per year.</div>\n        </div>\n        <button class=\"btn btn-sm btn-outline-dark mt-2\"\n          id=\"prev\">&laquo; Previous</button>\n        <button class=\"btn btn-sm btn-dark mt-2\"\n          id=\"next\">Next &raquo;</button>\n        <p class=\"small mt-2\" id=\"log\"></p>\n      </div>\n    </div>\n  </div>\n  <script src=\"js/bootstrap.bundle.min.js\"></script>\n  <script>\n    var links = Array.from(document.querySelectorAll(\"#tabs a\"));\n\n    function current() {\n      return links.findIndex(function (a) {\n        return a.classList.contains(\"active\");\n      });\n    }\n    function go(step) {\n      var i = (current() + step + links.length) % links.length;\n      bootstrap.Tab.getOrCreateInstance(links[i]).show();\n    }\n    var nextBtn = document.getElementById(\"next\");\n    var prevBtn = document.getElementById(\"prev\");\n    nextBtn.onclick = function () { go(1); };\n    prevBtn.onclick = function () { go(-1); };\n\n    links.forEach(function (a) {\n      a.addEventListener(\"shown.bs.tab\", function (e) {\n        document.getElementById(\"log\").textContent =\n          \"shown.bs.tab: \" + e.target.textContent +\n          \" (previous: \" + e.relatedTarget.textContent + \")\";\n      });\n    });\n  </script>\n</body>\n</html>"
+   },
+   "out": "A vertical list (Overview, Syllabus, Fees) beside a content box; on a phone the list is above the box. Overview is active, showing \"3-year diploma in Computer Engineering.\"\nClicking Syllabus or Fees fades in that content. \"Next »\" and \"« Previous\" move through the tabs in a loop.\nAfter each change the text shows, e.g., \"shown.bs.tab: Syllabus (previous: Overview)\".",
+   "expl": {
+    "en": "<ul><li>The <b>tab plug-in</b> works with .nav-tabs, .nav-pills and also <b>list groups</b>: <code>data-bs-toggle=\"list\"</code> (or \"tab\" / \"pill\").</li>\n<li>Each link points to a <code>.tab-pane</code> by href or <code>data-bs-target</code>; panes are inside <code>.tab-content</code>.</li>\n<li><b>Method:</b> <code>bootstrap.Tab.getOrCreateInstance(link).show()</code> activates a tab from code (also <code>dispose()</code>).</li>\n<li><b>Events</b> (in order): <code>hide.bs.tab</code> on the old tab, <code>show.bs.tab</code> on the new tab, <code>hidden.bs.tab</code>, <code>shown.bs.tab</code>. <code>e.relatedTarget</code> is the previous (or next) tab.</li>\n<li>The modulo <code>%</code> makes Next go from the last tab back to the first.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w4_9",
+   "title": {
+    "en": "Dropdown plug-in: auto-close options, methods and events"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Dropdown Plug-in</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h5\">Dropdown plug-in</h1>\n    <div class=\"d-flex flex-wrap gap-2 mb-3\">\n      <div class=\"dropdown\">\n        <button class=\"btn btn-primary dropdown-toggle\" id=\"dd1\"\n          data-bs-toggle=\"dropdown\">Default</button>\n        <ul class=\"dropdown-menu\">\n          <li><a class=\"dropdown-item\" href=\"#\">Computer</a></li>\n          <li><a class=\"dropdown-item\" href=\"#\">IT</a></li>\n        </ul>\n      </div>\n      <div class=\"dropdown\">\n        <button class=\"btn btn-success dropdown-toggle\"\n          data-bs-toggle=\"dropdown\"\n          data-bs-auto-close=\"outside\">Outside only</button>\n        <div class=\"dropdown-menu p-3\">\n          <div class=\"form-check\">\n            <input class=\"form-check-input\" type=\"checkbox\" id=\"c1\">\n            <label class=\"form-check-label\" for=\"c1\">Hostel</label>\n          </div>\n          <div class=\"form-check\">\n            <input class=\"form-check-input\" type=\"checkbox\" id=\"c2\">\n            <label class=\"form-check-label\" for=\"c2\">Bus</label>\n          </div>\n        </div>\n      </div>\n      <div class=\"dropdown\">\n        <button class=\"btn btn-warning dropdown-toggle\"\n          data-bs-toggle=\"dropdown\" data-bs-offset=\"0,12\"\n          data-bs-auto-close=\"false\">Manual close</button>\n        <ul class=\"dropdown-menu\">\n          <li><span class=\"dropdown-item-text\">Closes only\n            on button click</span></li>\n        </ul>\n      </div>\n    </div>\n    <button class=\"btn btn-dark btn-sm\" id=\"tog\">\n      toggle() first dropdown</button>\n    <ol class=\"small mt-3\" id=\"log\"></ol>\n  </div>\n  <script src=\"js/bootstrap.bundle.min.js\"></script>\n  <script>\n    var dd1 = bootstrap.Dropdown.getOrCreateInstance(\"#dd1\");\n    document.getElementById(\"tog\").onclick = function (e) {\n      e.stopPropagation();  // this click must not close it again\n      dd1.toggle();\n    };\n\n    [\"show\", \"shown\", \"hide\", \"hidden\"].forEach(function (ev) {\n      document.addEventListener(ev + \".bs.dropdown\", function (e) {\n        var li = document.createElement(\"li\");\n        li.textContent = ev + \".bs.dropdown: \" +\n          e.target.textContent.trim();\n        document.getElementById(\"log\").appendChild(li);\n      });\n    });\n  </script>\n</body>\n</html>"
+   },
+   "out": "Three dropdown buttons. \"Default\" opens a menu (Computer, IT) that closes on any click.\n\"Outside only\" opens a small form with Hostel and Bus checkboxes; ticking them keeps the menu open, and it closes only when clicking outside.\n\"Manual close\" opens a menu 12 px lower that closes only when its own button is clicked again.\n\"toggle() first dropdown\" opens and closes the Default menu from code. The log lists events such as \"show.bs.dropdown: Default\" and \"hidden.bs.dropdown: Default\".",
+   "expl": {
+    "en": "<ul><li>The <b>dropdown plug-in</b> opens a .dropdown-menu when the toggle with <code>data-bs-toggle=\"dropdown\"</code> is clicked. It uses <b>Popper</b> for positioning, so the bundle file is needed.</li>\n<li><b>Options:</b> <code>autoClose</code> = true (any click), \"inside\", \"outside\" or false; <code>offset</code> = \"x,y\" distance; <code>display</code> = \"static\" (no Popper); <code>boundary</code>, <code>reference</code>.</li>\n<li><b>Methods:</b> <code>toggle()</code>, <code>show()</code>, <code>hide()</code>, <code>update()</code>, <code>dispose()</code>.</li>\n<li><b>Events:</b> <code>show.bs.dropdown</code>, <code>shown.bs.dropdown</code>, <code>hide.bs.dropdown</code>, <code>hidden.bs.dropdown</code>; they fire on the toggle button.</li>\n<li><code>e.stopPropagation()</code> stops the outside-click handler from closing the menu immediately after toggle().</li>\n<li>Keyboard: arrow keys move through items, Esc closes the menu.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w4_10",
+   "title": {
+    "en": "Tooltip plug-in: placements, HTML, methods and events"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Tooltips</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n  <link rel=\"stylesheet\"\n    href=\"css/bootstrap-icons.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h5\">Tooltips</h1>\n    <div class=\"d-flex flex-wrap gap-2 mb-3\">\n      <button class=\"btn btn-secondary\" data-bs-toggle=\"tooltip\"\n        data-bs-placement=\"top\" title=\"Tooltip on top\">Top</button>\n      <button class=\"btn btn-secondary\" data-bs-toggle=\"tooltip\"\n        data-bs-placement=\"right\" title=\"Right side\">Right</button>\n      <button class=\"btn btn-secondary\" data-bs-toggle=\"tooltip\"\n        data-bs-placement=\"bottom\" title=\"Below\">Bottom</button>\n      <button class=\"btn btn-secondary\" data-bs-toggle=\"tooltip\"\n        data-bs-placement=\"left\" title=\"On the left\">Left</button>\n    </div>\n    <p>Read about\n      <a href=\"#\" data-bs-toggle=\"tooltip\" data-bs-html=\"true\"\n        title=\"<b>HTML</b>: <i>HyperText</i> Markup\">HTML</a>\n      and\n      <i class=\"bi bi-info-circle text-primary\"\n        data-bs-toggle=\"tooltip\" title=\"Icon tooltip\"></i>\n      icons.</p>\n    <span class=\"d-inline-block\" tabindex=\"0\"\n      data-bs-toggle=\"tooltip\" title=\"Form is closed\">\n      <button class=\"btn btn-primary\" disabled>Apply</button>\n    </span>\n\n    <h2 class=\"h6 mt-3\">Methods on the \"Target\" button</h2>\n    <button class=\"btn btn-success\" id=\"target\"\n        title=\"I am the target\"\n      data-bs-trigger=\"manual\">Target</button>\n    <div class=\"btn-group btn-group-sm ms-2\">\n      <button class=\"btn btn-outline-dark\" id=\"s\">show</button>\n      <button class=\"btn btn-outline-dark\" id=\"h\">hide</button>\n      <button class=\"btn btn-outline-dark\" id=\"t\">toggle</button>\n    </div>\n    <p class=\"small mt-2\" id=\"log\"></p>\n  </div>\n  <script src=\"js/bootstrap.bundle.min.js\"></script>\n  <script>\n    // tooltips are opt-in: create them yourself\n    var sel = '[data-bs-toggle=\"tooltip\"]';\n    document.querySelectorAll(sel).forEach(function (el) {\n      new bootstrap.Tooltip(el);\n    });\n\n    var target = document.getElementById(\"target\");\n    var tip = new bootstrap.Tooltip(target, {\n      placement: \"bottom\"\n    });\n    function $(id) { return document.getElementById(id); }\n    $(\"s\").onclick = function () { tip.show(); };\n    $(\"h\").onclick = function () { tip.hide(); };\n    $(\"t\").onclick = function () {\n      tip.toggle();\n    };\n\n    [\"shown\", \"hidden\"].forEach(function (ev) {\n      target.addEventListener(ev + \".bs.tooltip\", function () {\n        document.getElementById(\"log\").textContent =\n          \"Event: \" + ev + \".bs.tooltip\";\n      });\n    });\n  </script>\n</body>\n</html>"
+   },
+   "out": "Four grey buttons (Top, Right, Bottom, Left). Hovering (or tapping on a phone) shows a small black tooltip on that side.\nThe link \"HTML\" shows a tooltip with bold and italic text; the info icon also has a tooltip; the disabled \"Apply\" button shows \"Form is closed\" through its wrapper.\nThe show, hide and toggle buttons control the tooltip below the green \"Target\" button, and the text shows \"Event: shown.bs.tooltip\" or \"Event: hidden.bs.tooltip\".",
+   "expl": {
+    "en": "<ul><li>A <b>tooltip</b> is a small pop-up label shown on hover or focus. Text comes from the <code>title</code> attribute (or <code>data-bs-title</code>).</li>\n<li>For performance, tooltips are <b>opt-in</b>: they must be initialised with JavaScript, <code>new bootstrap.Tooltip(el)</code>. They use Popper (bundle file).</li>\n<li><b>Options:</b> <code>placement</code> (top, right, bottom, left, auto), <code>trigger</code> (\"hover focus\", \"click\", \"manual\"), <code>html</code>, <code>delay</code>, <code>animation</code>, <code>offset</code>, <code>container</code>.</li>\n<li><b>Methods:</b> show(), hide(), toggle(), enable(), disable(), toggleEnabled(), setContent(), update(), dispose().</li>\n<li><b>Events:</b> show.bs.tooltip, shown.bs.tooltip, hide.bs.tooltip, hidden.bs.tooltip, inserted.bs.tooltip.</li>\n<li>Disabled elements do not fire mouse events, so the tooltip is put on a wrapper span with <code>tabindex=\"0\"</code>.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w4_11",
+   "title": {
+    "en": "Popover plug-in: title, content, dismiss on next click"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Popovers</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h5\">Popovers</h1>\n    <div class=\"d-flex flex-wrap gap-2 mb-3\">\n      <button class=\"btn btn-danger\" data-bs-toggle=\"popover\"\n        data-bs-title=\"Last date\" data-bs-placement=\"bottom\"\n        data-bs-content=\"Fees must be paid by 30 Nov.\">\n        Click me</button>\n      <button class=\"btn btn-info\" data-bs-toggle=\"popover\"\n        data-bs-placement=\"right\" data-bs-trigger=\"hover focus\"\n        data-bs-content=\"Opens on hover and closes on leave.\">\n        Hover me</button>\n      <a tabindex=\"0\" class=\"btn btn-warning\" role=\"button\"\n        data-bs-toggle=\"popover\" data-bs-trigger=\"focus\"\n        data-bs-title=\"Dismissible\"\n        data-bs-content=\"Click anywhere else to close.\">\n        Dismiss on next click</a>\n    </div>\n    <button class=\"btn btn-outline-primary\" id=\"prof\">\n      Profile card (HTML)</button>\n    <p class=\"small mt-3\" id=\"log\"></p>\n  </div>\n  <script src=\"js/bootstrap.bundle.min.js\"></script>\n  <script>\n    document.querySelectorAll('[data-bs-toggle=\"popover\"]')\n      .forEach(function (el) { new bootstrap.Popover(el); });\n\n    // options given in JavaScript, with HTML content\n    var prof = document.getElementById(\"prof\");\n    var pop = new bootstrap.Popover(prof, {\n      html: true,\n      placement: \"bottom\",\n      title: \"Ravi Patel\",\n      content: \"<b>Sem 3</b>, Computer<br>Enrolment: 2401001\"\n    });\n    prof.addEventListener(\"shown.bs.popover\", function () {\n      document.getElementById(\"log\").textContent =\n        \"shown.bs.popover fired\";\n    });\n  </script>\n</body>\n</html>"
+   },
+   "out": "A red \"Click me\" button opens a box below it with the heading \"Last date\" and the text \"Fees must be paid by 30 Nov.\"; clicking again closes it.\n\"Hover me\" shows its popover only while the mouse is over it. The yellow \"Dismiss on next click\" popover closes when the user clicks anywhere else.\n\"Profile card (HTML)\" opens a popover titled \"Ravi Patel\" with bold \"Sem 3\", \"Computer\" and the enrolment number on a new line, and the text \"shown.bs.popover fired\" appears.",
+   "expl": {
+    "en": "<ul><li>A <b>popover</b> is like a larger tooltip with a <b>title</b> and <b>content</b>, shown on click by default.</li>\n<li>Attributes: <code>data-bs-toggle=\"popover\"</code>, <code>data-bs-title</code>, <code>data-bs-content</code>, <code>data-bs-placement</code>, <code>data-bs-trigger</code>.</li>\n<li>Popovers are also <b>opt-in</b>: initialise each with <code>new bootstrap.Popover(el, options)</code>. Popover depends on the tooltip plug-in and Popper.</li>\n<li><b>Dismiss on next click:</b> <code>trigger: \"focus\"</code> on an &lt;a&gt; with <code>tabindex=\"0\"</code>.</li>\n<li><b>Options:</b> html, placement, trigger, title, content, delay, offset, container. <b>Methods:</b> show(), hide(), toggle(), enable(), disable(), setContent(), dispose().</li>\n<li><b>Events:</b> show.bs.popover, shown.bs.popover, hide.bs.popover, hidden.bs.popover, inserted.bs.popover.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w4_12",
+   "title": {
+    "en": "Button plug-in and alert plug-in"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Button and Alert</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n  <link rel=\"stylesheet\"\n    href=\"css/bootstrap-icons.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h5\">Button plug-in</h1>\n    <button class=\"btn btn-outline-primary\" id=\"like\"\n      data-bs-toggle=\"button\">\n      <i class=\"bi bi-hand-thumbs-up\"></i> Like</button>\n    <button class=\"btn btn-dark btn-sm\"\n        id=\"jsTog\">toggle() Like</button>\n    <span class=\"small ms-2\" id=\"state\">Not pressed</span>\n\n    <h2 class=\"h6 mt-3\">Checkbox and radio buttons</h2>\n    <div class=\"btn-group mb-2\">\n      <input type=\"checkbox\" class=\"btn-check\" id=\"b1\" checked>\n      <label class=\"btn btn-outline-success\" for=\"b1\">Hostel</label>\n      <input type=\"checkbox\" class=\"btn-check\" id=\"b2\">\n      <label class=\"btn btn-outline-success\" for=\"b2\">Bus</label>\n    </div>\n    <div class=\"btn-group mb-2\">\n      <input type=\"radio\" class=\"btn-check\" name=\"sh\" id=\"r1\"\n          checked>\n      <label class=\"btn btn-outline-danger\" for=\"r1\">Morning</label>\n      <input type=\"radio\" class=\"btn-check\" name=\"sh\" id=\"r2\">\n      <label class=\"btn btn-outline-danger\" for=\"r2\">Noon</label>\n    </div>\n\n    <h2 class=\"h6 mt-2\">Loading state</h2>\n    <button class=\"btn btn-primary\" id=\"load\">Submit</button>\n\n    <h1 class=\"h5 mt-4\">Alert plug-in</h1>\n    <div class=\"alert alert-warning fade show\" id=\"note\">\n      Holiday on Monday for Diwali.</div>\n    <button class=\"btn btn-warning btn-sm\" id=\"closeNote\">\n      Close alert with close()</button>\n    <p class=\"small mt-2\" id=\"log\"></p>\n  </div>\n  <script src=\"js/bootstrap.bundle.min.js\"></script>\n  <script>\n    var like = document.getElementById(\"like\");\n    var b = bootstrap.Button.getOrCreateInstance(like);\n    function showState() {\n      document.getElementById(\"state\").textContent =\n        like.classList.contains(\"active\") ?\n        \"Pressed\" : \"Not pressed\";\n    }\n    like.addEventListener(\"click\", showState);\n    document.getElementById(\"jsTog\").onclick = function () {\n      b.toggle();\n      showState();\n    };\n\n    // loading state (Bootstrap 3: data-loading-text)\n    document.getElementById(\"load\").onclick = function () {\n      var btn = this;\n      btn.disabled = true;\n      btn.innerHTML = '<span class=\"spinner-border ' +\n        'spinner-border-sm\"></span> Saving...';\n      setTimeout(function () {\n        btn.disabled = false;\n        btn.textContent = \"Submit\";\n      }, 2000);\n    };\n\n    var note = document.getElementById(\"note\");\n    document.getElementById(\"closeNote\").onclick = function () {\n      bootstrap.Alert.getOrCreateInstance(note).close();\n    };\n    note.addEventListener(\"close.bs.alert\", function () {\n      document.getElementById(\"log\").textContent = \"close.bs.alert\";\n    });\n    note.addEventListener(\"closed.bs.alert\", function () {\n      document.getElementById(\"log\").textContent +=\n        \" -> closed.bs.alert (removed from page)\";\n    });\n  </script>\n</body>\n</html>"
+   },
+   "out": "An outlined \"Like\" button turns solid blue when clicked and the text changes to \"Pressed\"; \"toggle() Like\" does the same from code.\n\"Hostel\" and \"Bus\" can both be selected (checkboxes), while only one of \"Morning\" or \"Noon\" stays selected (radio).\n\"Submit\" shows a spinner with \"Saving...\" and is disabled for 2 seconds.\n\"Close alert with close()\" fades out the yellow Diwali alert and the log shows \"close.bs.alert -> closed.bs.alert (removed from page)\".",
+   "expl": {
+    "en": "<ul><li><b>Button plug-in:</b> <code>data-bs-toggle=\"button\"</code> makes a toggle button; clicking adds/removes <code>.active</code> and sets <code>aria-pressed</code>. Method: <code>bootstrap.Button.getOrCreateInstance(el).toggle()</code>.</li>\n<li><b>Checkbox / radio buttons:</b> Bootstrap 5 uses <code>input.btn-check</code> + <code>label.btn</code> (Bootstrap 3 used data-toggle=\"buttons\").</li>\n<li><b>Loading state:</b> Bootstrap 3 had <code>$(btn).button(\"loading\")</code> with data-loading-text. In Bootstrap 5, disable the button and show a <code>.spinner-border-sm</code> with JavaScript.</li>\n<li><b>Alert plug-in:</b> makes alerts dismissible. Method <code>close()</code>; events <code>close.bs.alert</code> (closing starts) and <code>closed.bs.alert</code> (alert removed).</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w4_13",
+   "title": {
+    "en": "Collapse plug-in: properties, methods and events"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Collapse</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h5\">Collapse</h1>\n    <a class=\"btn btn-primary\" data-bs-toggle=\"collapse\"\n      href=\"#info\">Link with href</a>\n    <button class=\"btn btn-primary\" data-bs-toggle=\"collapse\"\n      data-bs-target=\"#info\">Button with data-bs-target</button>\n    <div class=\"collapse mt-2\" id=\"info\">\n      <div class=\"card card-body\">Admission opens on 1 June.</div>\n    </div>\n\n    <h2 class=\"h6 mt-3\">One button, multiple targets</h2>\n    <button class=\"btn btn-success\" data-bs-toggle=\"collapse\"\n      data-bs-target=\".multi\">Toggle both</button>\n    <div class=\"row g-2 mt-1\">\n      <div class=\"col-6\"><div class=\"collapse multi show\">\n        <div class=\"card card-body\">Box A</div></div></div>\n      <div class=\"col-6\"><div class=\"collapse multi show\">\n        <div class=\"card card-body\">Box B</div></div></div>\n    </div>\n\n    <h2 class=\"h6 mt-3\">Horizontal</h2>\n    <button class=\"btn btn-warning\" data-bs-toggle=\"collapse\"\n      data-bs-target=\"#side\">Width animation</button>\n    <div class=\"collapse collapse-horizontal mt-2\" id=\"side\">\n      <div class=\"card card-body\" style=\"width: 220px\">\n        Slides open sideways.</div>\n    </div>\n\n    <h2 class=\"h6 mt-3\">Methods</h2>\n    <div class=\"btn-group btn-group-sm\">\n      <button class=\"btn btn-outline-dark\" id=\"m1\">show()</button>\n      <button class=\"btn btn-outline-dark\" id=\"m2\">hide()</button>\n      <button class=\"btn btn-outline-dark\" id=\"m3\">toggle()</button>\n    </div>\n    <ol class=\"small mt-2\" id=\"log\"></ol>\n  </div>\n  <script src=\"js/bootstrap.bundle.min.js\"></script>\n  <script>\n    var info = document.getElementById(\"info\");\n    var c = bootstrap.Collapse.getOrCreateInstance(info, {\n      toggle: false\n    });\n    function $(id) { return document.getElementById(id); }\n    $(\"m1\").onclick = function () { c.show(); };\n    $(\"m2\").onclick = function () { c.hide(); };\n    $(\"m3\").onclick = function () {\n      c.toggle();\n    };\n\n    [\"show\", \"shown\", \"hide\", \"hidden\"].forEach(function (ev) {\n      info.addEventListener(ev + \".bs.collapse\", function () {\n        var li = document.createElement(\"li\");\n        li.textContent = ev + \".bs.collapse\";\n        document.getElementById(\"log\").appendChild(li);\n      });\n    });\n  </script>\n</body>\n</html>"
+   },
+   "out": "\"Link with href\" and \"Button with data-bs-target\" both open and close the same box \"Admission opens on 1 June.\" with a smooth height animation.\n\"Toggle both\" hides or shows Box A and Box B together. \"Width animation\" slides a box open sideways.\nshow(), hide() and toggle() control the first box from code, and the log lists show.bs.collapse, shown.bs.collapse, hide.bs.collapse and hidden.bs.collapse.",
+   "expl": {
+    "en": "<ul><li><b>Collapse</b> shows and hides content with a height animation. The content gets <code>.collapse</code> (hidden), <code>.collapsing</code> (during animation) and <code>.collapse.show</code> (visible).</li>\n<li><b>Trigger:</b> an &lt;a&gt; with <code>href=\"#id\"</code> or a button with <code>data-bs-target=\"#id\"</code>, plus <code>data-bs-toggle=\"collapse\"</code>. A class selector (<code>.multi</code>) controls <b>multiple targets</b>.</li>\n<li><code>.collapse-horizontal</code> animates the width instead of the height (the child needs a width).</li>\n<li><b>Properties (options):</b> <code>parent</code> (selector; only one child of the parent stays open, used for accordions) and <code>toggle</code> (toggle on creation, default true).</li>\n<li><b>Methods:</b> show(), hide(), toggle(), dispose(), getInstance(), getOrCreateInstance().</li>\n<li><b>Events:</b> show.bs.collapse, shown.bs.collapse, hide.bs.collapse, hidden.bs.collapse.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w4_14",
+   "title": {
+    "en": "Accordion (collapse with data-bs-parent): FAQ"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Accordion</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h5\">Admission FAQ</h1>\n    <div class=\"accordion\" id=\"faq\">\n      <div class=\"accordion-item\">\n        <h2 class=\"accordion-header\">\n          <button class=\"accordion-button\" data-bs-toggle=\"collapse\"\n            data-bs-target=\"#q1\">Who can apply?</button></h2>\n        <div id=\"q1\" class=\"accordion-collapse collapse show\"\n          data-bs-parent=\"#faq\">\n          <div class=\"accordion-body\">\n            Students who passed SSC (Class 10).</div>\n        </div>\n      </div>\n      <div class=\"accordion-item\">\n        <h2 class=\"accordion-header\">\n          <button class=\"accordion-button collapsed\"\n            data-bs-toggle=\"collapse\" data-bs-target=\"#q2\">\n            How is merit decided?</button></h2>\n        <div id=\"q2\" class=\"accordion-collapse collapse\"\n          data-bs-parent=\"#faq\">\n          <div class=\"accordion-body\">\n            By SSC marks through ACPDC online admission.</div>\n        </div>\n      </div>\n      <div class=\"accordion-item\">\n        <h2 class=\"accordion-header\">\n          <button class=\"accordion-button collapsed\"\n            data-bs-toggle=\"collapse\" data-bs-target=\"#q3\">\n            What is the course duration?</button></h2>\n        <div id=\"q3\" class=\"accordion-collapse collapse\"\n          data-bs-parent=\"#faq\">\n          <div class=\"accordion-body\">\n            3 years (6 semesters).</div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <script src=\"js/bootstrap.bundle.min.js\"></script>\n</body>\n</html>"
+   },
+   "out": "Three questions in bordered rows. The first answer, \"Students who passed SSC (Class 10).\", is open with a blue header.\nClicking another question opens its answer with an animation and automatically closes the open one, so only one answer is visible at a time. The arrow on the right rotates when a row opens.",
+   "expl": {
+    "en": "<ul><li>An <b>accordion</b> is a group of collapse panels where only one is open at a time.</li>\n<li>Structure: <code>.accordion</code> &gt; <code>.accordion-item</code> &gt; <code>.accordion-header</code> (with <code>button.accordion-button</code>) + <code>.accordion-collapse.collapse</code> &gt; <code>.accordion-body</code>.</li>\n<li><code>data-bs-parent=\"#faq\"</code> is the collapse <b>parent option</b>: opening one panel closes the others. Remove it to allow several open panels.</li>\n<li><code>.collapsed</code> on a button shows the closed arrow; <code>.show</code> on the first panel opens it at the start.</li>\n<li><code>.accordion-flush</code> removes borders and rounded corners. (Bootstrap 3 built accordions from panels: .panel-group.)</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w4_15",
+   "title": {
+    "en": "News story page: scrollspy, tooltip, collapse and popover (Practical 20)"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>News Story</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n  <style>\n    .news { height: 330px; overflow-y: auto; position: relative; }\n    .news section { min-height: 300px; }\n  </style>\n</head>\n<body>\n  <div class=\"container py-2\">\n    <h1 class=\"h4 mb-1\">Surat Gets New Metro Line</h1>\n    <p class=\"small text-muted mb-2\">By\n      <a href=\"#\" id=\"reporter\" data-bs-toggle=\"popover\"\n        data-bs-trigger=\"focus\" data-bs-title=\"Neha Joshi\"\n        data-bs-content=\"City reporter, 8 years at the desk.\">\n        Neha Joshi</a> | 28 Oct 2026</p>\n\n    <nav id=\"newsNav\" class=\"mb-2\">\n      <ul class=\"nav nav-pills nav-fill small\">\n        <li class=\"nav-item\">\n          <a class=\"nav-link\" href=\"#s1\">Story</a></li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link\" href=\"#s2\">Photos</a></li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link\" href=\"#s3\">Route</a></li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link\" href=\"#s4\">Opinion</a></li>\n      </ul>\n    </nav>\n\n    <div class=\"news border rounded p-3\" data-bs-spy=\"scroll\"\n      data-bs-target=\"#newsNav\" tabindex=\"0\">\n      <section id=\"s1\">\n        <h2 class=\"h5\">The story</h2>\n        <p>The first phase of the metro was opened today. Trains\n          will run every 10 minutes from 6 am to 10 pm.</p>\n        <button class=\"btn btn-sm btn-outline-primary\"\n          data-bs-toggle=\"collapse\" data-bs-target=\"#more\">\n          Read more</button>\n        <div class=\"collapse\" id=\"more\">\n          <p class=\"mt-2\">The line has 14 stations and connects\n            the railway station with the diamond market.</p>\n        </div>\n      </section>\n      <section id=\"s2\">\n        <h2 class=\"h5\">Photos</h2>\n        <div class=\"row g-2\">\n          <div class=\"col-6\">\n            <img src=\"img/train.jpg\" alt=\"Train\" class=\"img-fluid\n              rounded\" data-bs-toggle=\"tooltip\"\n              title=\"New metro train at the depot\"></div>\n          <div class=\"col-6\">\n            <img src=\"img/station.jpg\" alt=\"Station\"\n                class=\"img-fluid\n              rounded\" data-bs-toggle=\"tooltip\"\n              title=\"Platform of Chowk Bazar station\"></div>\n        </div>\n      </section>\n      <section id=\"s3\">\n        <h2 class=\"h5\">Route</h2>\n        <p>Sarthana to Dream City, 21.6 km, with a\n          <abbr data-bs-toggle=\"tooltip\" title=\"Inter-change\">\n            interchange</abbr> at Majura Gate.</p>\n      </section>\n      <section id=\"s4\">\n        <h2 class=\"h5\">Opinion</h2>\n        <p>Daily travellers say the metro will save\n          30 minutes a day.</p>\n        <button class=\"btn btn-sm btn-warning\"\n            data-bs-toggle=\"popover\"\n          data-bs-placement=\"top\"\n          data-bs-content=\"Fare: Rs. 10 to 40.\">\n          Ticket fare</button>\n      </section>\n    </div>\n  </div>\n  <script src=\"js/bootstrap.bundle.min.js\"></script>\n  <script>\n    document.querySelectorAll('[data-bs-toggle=\"tooltip\"]')\n      .forEach(function (el) { new bootstrap.Tooltip(el); });\n    document.querySelectorAll('[data-bs-toggle=\"popover\"]')\n      .forEach(function (el) { new bootstrap.Popover(el); });\n  </script>\n</body>\n</html>"
+   },
+   "out": "A news page with the heading \"Surat Gets New Metro Line\", the reporter's name and date, and the pills Story, Photos, Route and Opinion.\nThe story box scrolls, and the active pill changes automatically (scrollspy). \"Read more\" expands extra text (collapse).\nPointing at either photo shows a tooltip such as \"New metro train at the depot\". Clicking the reporter's name shows a popover about her, which closes on the next click. \"Ticket fare\" opens a popover \"Fare: Rs. 10 to 40.\".",
+   "expl": {
+    "en": "<ul><li><b>Scrollspy:</b> the scroll box has <code>data-bs-spy=\"scroll\"</code> and <code>data-bs-target=\"#newsNav\"</code>; each pill's href matches a section id.</li>\n<li><b>Tooltip:</b> photos and the abbreviation have <code>data-bs-toggle=\"tooltip\"</code> and a <code>title</code>; all are initialised with <code>new bootstrap.Tooltip(el)</code>.</li>\n<li><b>Collapse:</b> \"Read more\" toggles the hidden paragraph <code>#more</code>.</li>\n<li><b>Popover:</b> the reporter link uses <code>data-bs-trigger=\"focus\"</code> (closes on the next click); \"Ticket fare\" uses the default click trigger.</li>\n<li>Tooltips and popovers must be initialised by JavaScript; scrollspy and collapse work with data attributes alone.</li>\n<li>The images are placeholders; use your own photos in an <code>img</code> folder.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w4_16",
+   "title": {
+    "en": "Carousel plug-in: indicators, controls, captions, options"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Carousel</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n  <style>\n    .carousel-item img { height: 260px; object-fit: cover; }\n    .carousel-caption {\n      background: rgba(0, 0, 0, 0.45);\n      border-radius: 8px;\n      padding: 8px;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h5\">College events</h1>\n    <div id=\"events\" class=\"carousel slide\" data-bs-ride=\"carousel\"\n      data-bs-interval=\"3000\">\n      <div class=\"carousel-indicators\">\n        <button data-bs-target=\"#events\" data-bs-slide-to=\"0\"\n          class=\"active\"></button>\n        <button data-bs-target=\"#events\"\n            data-bs-slide-to=\"1\"></button>\n        <button data-bs-target=\"#events\"\n            data-bs-slide-to=\"2\"></button>\n      </div>\n      <div class=\"carousel-inner rounded\">\n        <div class=\"carousel-item active\">\n          <img src=\"img/annual-day.jpg\" class=\"d-block w-100\"\n            alt=\"Annual Day\" width=\"1200\" height=\"400\">\n          <div class=\"carousel-caption d-none d-md-block\">\n            <h5>Annual Day</h5><p>Dance and drama night.</p></div>\n        </div>\n        <div class=\"carousel-item\">\n          <img src=\"img/sports.jpg\" class=\"d-block w-100\"\n            alt=\"Sports\" width=\"1200\" height=\"400\">\n          <div class=\"carousel-caption d-none d-md-block\">\n            <h5>Sports Week</h5><p>Cricket and kabaddi.</p></div>\n        </div>\n        <div class=\"carousel-item\">\n          <img src=\"img/tech-fest.jpg\" class=\"d-block w-100\"\n            alt=\"Tech Fest\" width=\"1200\" height=\"400\">\n          <div class=\"carousel-caption d-none d-md-block\">\n            <h5>Tech Fest</h5><p>Project exhibition.</p></div>\n        </div>\n      </div>\n      <button class=\"carousel-control-prev\" data-bs-target=\"#events\"\n        data-bs-slide=\"prev\">\n        <span class=\"carousel-control-prev-icon\"></span>\n      </button>\n      <button class=\"carousel-control-next\" data-bs-target=\"#events\"\n        data-bs-slide=\"next\">\n        <span class=\"carousel-control-next-icon\"></span>\n      </button>\n    </div>\n  </div>\n  <script src=\"js/bootstrap.bundle.min.js\"></script>\n</body>\n</html>"
+   },
+   "out": "A slideshow of three event photos (Annual Day, Sports Week, Tech Fest) that changes automatically every 3 seconds with a sliding animation.\nSmall bars at the bottom (indicators) show the current slide and jump to any slide; arrows at the left and right go to the previous or next photo. On tablet and desktop each photo has a white caption.",
+   "expl": {
+    "en": "<ul><li>A <b>carousel</b> is a slideshow that cycles through images or content.</li>\n<li>Structure: <code>.carousel.slide</code> &gt; <code>.carousel-indicators</code>, <code>.carousel-inner</code> &gt; <code>.carousel-item</code> (one with <code>.active</code>), <code>.carousel-caption</code>, <code>.carousel-control-prev / -next</code>.</li>\n<li><code>data-bs-ride=\"carousel\"</code> starts it automatically on page load; <code>data-bs-interval=\"3000\"</code> sets 3 seconds per slide.</li>\n<li>Indicators use <code>data-bs-slide-to=\"n\"</code>; controls use <code>data-bs-slide=\"prev\"</code> / <code>\"next\"</code>.</li>\n<li><b>Options:</b> interval, keyboard, pause (\"hover\"), ride, wrap (loop), touch (swipe). <code>.carousel-fade</code> fades instead of sliding; <code>data-bs-interval</code> on an item sets its own time.</li>\n<li><code>object-fit: cover</code> with a fixed height keeps all slides the same height; a semi-transparent caption background keeps the text readable on bright photos.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w4_17",
+   "title": {
+    "en": "Animated photo gallery with seven photos (Practical 21)"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Photo Gallery</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n  <link rel=\"stylesheet\"\n    href=\"css/bootstrap-icons.min.css\">\n  <style>\n    .carousel-item img { height: 300px; object-fit: cover; }\n    .carousel-caption {\n      background: rgba(0, 0, 0, 0.45);\n      border-radius: 8px;\n      padding: 8px;\n    }\n    .thumb { height: 50px; object-fit: cover; cursor: pointer;\n      opacity: 0.5; transition: opacity 0.3s; }\n    .thumb.on { opacity: 1; outline: 3px solid #0d6efd; }\n    /* caption slides up on every new photo */\n    .carousel-item.active .carousel-caption {\n      animation: up 0.8s ease;\n    }\n    @keyframes up {\n      from { transform: translateY(40px); opacity: 0; }\n      to { transform: none; opacity: 1; }\n    }\n  </style>\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h4 text-center\">Wonders of Gujarat</h1>\n    <div class=\"form-check form-switch mb-2\">\n      <input class=\"form-check-input\" type=\"checkbox\" id=\"fade\">\n      <label class=\"form-check-label\" for=\"fade\">Fade effect</label>\n    </div>\n\n    <div id=\"gallery\" class=\"carousel slide shadow\"\n      data-bs-ride=\"carousel\" data-bs-interval=\"2500\">\n      <div class=\"carousel-indicators\" id=\"dots\"></div>\n      <div class=\"carousel-inner rounded\" id=\"slides\"></div>\n      <button class=\"carousel-control-prev\"\n          data-bs-target=\"#gallery\"\n        data-bs-slide=\"prev\">\n        <span class=\"carousel-control-prev-icon\"></span></button>\n      <button class=\"carousel-control-next\"\n          data-bs-target=\"#gallery\"\n        data-bs-slide=\"next\">\n        <span class=\"carousel-control-next-icon\"></span></button>\n    </div>\n\n    <div class=\"d-flex justify-content-between\n      align-items-center my-2\">\n      <span class=\"badge text-bg-dark\"\n          id=\"count\">Photo 1 of 7</span>\n      <div>\n        <button class=\"btn btn-sm btn-outline-dark\" id=\"pause\">\n          <i class=\"bi bi-pause-fill\"></i> Pause</button>\n        <button class=\"btn btn-sm btn-dark\" id=\"play\">\n          <i class=\"bi bi-play-fill\"></i> Play</button>\n      </div>\n    </div>\n    <div class=\"row g-1\" id=\"thumbs\"></div>\n  </div>\n  <script src=\"js/bootstrap.bundle.min.js\"></script>\n  <script>\n    var photos = [\n      [\"rani-ki-vav\", \"Rani ki Vav\", \"Stepwell in Patan\"],\n      [\"gir\", \"Gir Forest\", \"Home of Asiatic lions\"],\n      [\"statue-of-unity\", \"Statue of Unity\", \"182 m tall\"],\n      [\"rann\", \"Rann of Kutch\", \"White salt desert\"],\n      [\"somnath\", \"Somnath Temple\", \"On the Arabian Sea\"],\n      [\"saputara\", \"Saputara\", \"Hill station in Dang\"],\n      [\"dwarka\", \"Dwarkadhish Temple\", \"Dwarka\"]\n    ];\n    var dots = \"\", slides = \"\", thumbs = \"\";\n    photos.forEach(function (p, i) {\n      var on = i === 0 ? \" active\" : \"\";\n      dots += '<button data-bs-target=\"#gallery\" class=\"' + on +\n        '\" data-bs-slide-to=\"' + i + '\"></button>';\n      slides += '<div class=\"carousel-item' + on + '\">' +\n        '<img src=\"img/' + p[0] + '.jpg\"' +\n        ' class=\"d-block w-100\" width=\"1200\" height=\"400\"' +\n        ' alt=\"' + p[1] + '\"><div class=\"carousel-caption\">' +\n        \"<h5>\" + p[1] + \"</h5><p>\" + p[2] + \"</p></div></div>\";\n      thumbs += '<div class=\"col\"><img src=\"img/' + p[0] +\n        '.jpg\" alt=\"' + (i + 1) + '\" class=\"thumb w-100 rounded' +\n        (i === 0 ? \" on\" : \"\") + '\" data-i=\"' + i + '\"></div>';\n    });\n    document.getElementById(\"dots\").innerHTML = dots;\n    document.getElementById(\"slides\").innerHTML = slides;\n    document.getElementById(\"thumbs\").innerHTML = thumbs;\n\n    var el = document.getElementById(\"gallery\");\n    var car = bootstrap.Carousel.getOrCreateInstance(el);\n    var th = document.querySelectorAll(\".thumb\");\n\n    th.forEach(function (t) {\n      t.onclick = function () { car.to(Number(t.dataset.i)); };\n    });\n    document.getElementById(\"pause\").onclick = function () {\n      car.pause();\n    };\n    document.getElementById(\"play\").onclick = function () {\n      car.cycle();\n    };\n    document.getElementById(\"fade\").onchange = function () {\n      el.classList.toggle(\"carousel-fade\", this.checked);\n    };\n\n    // slid.bs.carousel: e.to = index of the new slide\n    el.addEventListener(\"slid.bs.carousel\", function (e) {\n      document.getElementById(\"count\").textContent =\n        \"Photo \" + (e.to + 1) + \" of \" + photos.length;\n      th.forEach(function (t, i) {\n        t.classList.toggle(\"on\", i === e.to);\n      });\n    });\n  </script>\n</body>\n</html>"
+   },
+   "out": "A gallery titled \"Wonders of Gujarat\" with seven photos (Rani ki Vav, Gir Forest, Statue of Unity, Rann of Kutch, Somnath Temple, Saputara, Dwarkadhish Temple) that change every 2.5 seconds. Each caption slides up when its photo appears.\nBelow the slideshow, a badge shows \"Photo 3 of 7\", next to Pause and Play buttons. A row of seven small thumbnails highlights the current photo, and clicking a thumbnail jumps to that photo.\nTurning on the \"Fade effect\" switch makes the photos fade instead of slide; the arrows and indicators also work.",
+   "expl": {
+    "en": "<ul><li>The seven slides, indicators and thumbnails are generated from the <code>photos</code> array with <code>forEach</code>, which avoids repeating HTML seven times.</li>\n<li><code>data-bs-ride=\"carousel\"</code> + <code>data-bs-interval=\"2500\"</code> auto-play the gallery.</li>\n<li><b>Methods:</b> <code>to(n)</code> goes to slide n (thumbnail click), <code>pause()</code> stops, <code>cycle()</code> starts auto-play; also <code>prev()</code>, <code>next()</code>, <code>nextWhenVisible()</code>, <code>dispose()</code>.</li>\n<li><b>Events:</b> <code>slide.bs.carousel</code> (slide starts) and <code>slid.bs.carousel</code> (slide finished); <code>e.to</code> and <code>e.from</code> give the indexes and <code>e.direction</code> the direction.</li>\n<li><b>Animation:</b> <code>.slide</code> slides; toggling <code>.carousel-fade</code> gives a cross-fade; a CSS <code>@keyframes</code> animation makes each caption slide up.</li>\n<li>Replace the placeholders with real photos in an <code>img</code> folder using the same file names.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w4_18",
+   "title": {
+    "en": "Affix plug-in replaced by sticky positioning"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Sticky (Affix)</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n  <style>\n    .page { height: 420px; overflow-y: auto; }\n    .side { top: 64px; }            /* below the sticky navbar */\n    #bar.stuck { box-shadow: 0 4px 10px rgba(0, 0, 0, .5); }\n  </style>\n</head>\n<body>\n  <div class=\"page border rounded\" id=\"page\">\n    <header class=\"bg-primary text-white p-3\">\n      <h1 class=\"h5 m-0\">DiplomaOne Blog</h1></header>\n    <nav class=\"navbar bg-dark sticky-top px-3\" id=\"bar\"\n      data-bs-theme=\"dark\">\n      <span class=\"navbar-brand small\">Menu</span>\n      <span class=\"text-white-50 small\" id=\"state\">normal</span>\n    </nav>\n    <div class=\"row g-0\">\n      <div class=\"col-4 p-2\">\n        <div class=\"list-group small sticky-top side\">\n          <a href=\"#\" class=\"list-group-item\">Latest</a>\n          <a href=\"#\" class=\"list-group-item\">Popular</a>\n          <a href=\"#\" class=\"list-group-item\">Tips</a>\n        </div>\n      </div>\n      <div class=\"col-8 p-2\" id=\"posts\"></div>\n    </div>\n  </div>\n  <script>\n    var html = \"\";\n    for (var i = 1; i <= 12; i++) {\n      html += '<div class=\"card card-body mb-2\">Post ' + i +\n        \": responsive web design tips...</div>\";\n    }\n    document.getElementById(\"posts\").innerHTML = html;\n\n    // affix-like class change after scrolling 60 px\n    var page = document.getElementById(\"page\");\n    page.addEventListener(\"scroll\", function () {\n      var stuck = page.scrollTop > 60;\n      var bar = document.getElementById(\"bar\");\n      bar.classList.toggle(\"stuck\", stuck);\n      document.getElementById(\"state\").textContent =\n        stuck ? \"affixed (sticky)\" : \"normal\";\n    });\n  </script>\n</body>\n</html>"
+   },
+   "out": "A blog page with a blue header, a dark \"Menu\" bar, a side menu (Latest, Popular, Tips) and 12 posts.\nWhen the page is scrolled, the blue header moves away but the dark bar stays fixed at the top with a shadow, and its text changes from \"normal\" to \"affixed (sticky)\". The side menu also stays visible just below the bar while the posts scroll.",
+   "expl": {
+    "en": "<ul><li><b>Affix (Bootstrap 3)</b> made an element fixed after the page scrolled past an offset: <code>data-spy=\"affix\" data-offset-top=\"200\"</code>, adding the classes .affix-top, .affix and .affix-bottom.</li>\n<li>Bootstrap 4 <b>removed the affix plug-in</b> because CSS <code>position: sticky</code> does the same job without JavaScript.</li>\n<li><b>.sticky-top</b> keeps an element in normal flow until it reaches the top of its scroll container, then it sticks. Responsive: <code>.sticky-md-top</code>; also <code>.sticky-bottom</code>.</li>\n<li>The side menu uses <code>top: 64px</code> so it sticks below the navbar.</li>\n<li>For extra effects, a <code>scroll</code> event listener adds a class (like .affix) when <code>scrollTop</code> passes an offset; here it adds a shadow.</li></ul>"
+   },
+   "run": "html"
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "web4_plugins",
+   "title": {
+    "en": "Bootstrap Plug-ins"
+   },
+   "file": "diagrams/web4_plugins.svg"
+  },
+  {
+   "id": "web4_api",
+   "title": {
+    "en": "Two Ways to Use a Plug-in"
+   },
+   "file": "diagrams/web4_api.svg"
+  },
+  {
+   "id": "web4_modal",
+   "title": {
+    "en": "Modal Dialog Structure"
+   },
+   "file": "diagrams/web4_modal.svg"
+  },
+  {
+   "id": "web4_modal_api",
+   "title": {
+    "en": "Modal: Options, Methods, Events"
+   },
+   "file": "diagrams/web4_modal_api.svg"
+  },
+  {
+   "id": "web4_scrollspy",
+   "title": {
+    "en": "Scrollspy"
+   },
+   "file": "diagrams/web4_scrollspy.svg"
+  },
+  {
+   "id": "web4_tooltip_popover",
+   "title": {
+    "en": "Tooltip and Popover"
+   },
+   "file": "diagrams/web4_tooltip_popover.svg"
+  },
+  {
+   "id": "web4_collapse",
+   "title": {
+    "en": "Collapse and Accordion"
+   },
+   "file": "diagrams/web4_collapse.svg"
+  },
+  {
+   "id": "web4_carousel",
+   "title": {
+    "en": "Carousel Structure"
+   },
+   "file": "diagrams/web4_carousel.svg"
+  },
+  {
+   "id": "web4_affix",
+   "title": {
+    "en": "Affix (BS3) and Sticky (BS5)"
+   },
+   "file": "diagrams/web4_affix.svg"
+  }
+ ],
+ "syntax": [
+  {
+   "title": {
+    "en": "Using Plug-ins"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Include the bundle"
+     },
+     "f": "<!-- end of body: one file for all plug-ins -->\n<script src=\"js/bootstrap.bundle.min.js\"></script>\n<!-- Bootstrap 3 needed jQuery first -->\n<script src=\"js/jquery.min.js\"></script>\n<script src=\"js/bootstrap.min.js\"></script>",
+     "terms": {
+      "en": "bootstrap.bundle.min.js = all plug-ins + Popper; BS3 needed jQuery."
+     }
+    },
+    {
+     "name": {
+      "en": "Data attributes and API"
+     },
+     "f": "<!-- 1. data attributes -->\n<button data-bs-toggle=\"collapse\" data-bs-target=\"#box\">\n  Toggle</button>\n<div class=\"collapse\" id=\"box\">...</div>\n<script>\n  // 2. JavaScript API\n  var el = document.getElementById(\"box\");\n  var c = new bootstrap.Collapse(el, { toggle: false });\n  c.show();                                 // method\n  bootstrap.Collapse.getInstance(el);       // existing\n  bootstrap.Collapse.getOrCreateInstance(el);\n  el.addEventListener(\"shown.bs.collapse\", function () {\n    console.log(\"opened\");                  // event\n  });\n</script>",
+     "terms": {
+      "en": "new bootstrap.X(el, options); methods; action.bs.plugin events"
+     }
+    },
+    {
+     "name": {
+      "en": "Bootstrap 3 jQuery API"
+     },
+     "f": "// Bootstrap 3 (jQuery)\n$(\"#box\").collapse(\"show\");\n$(\"#myModal\").on(\"shown.bs.modal\", function () { });",
+     "terms": {
+      "en": "$(el).plugin(\"method\"), .on(\"event.bs.plugin\")"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Transition, Modal, Scrollspy"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Fade transition"
+     },
+     "f": "<div class=\"alert alert-info fade show\" id=\"msg\">Hello</div>\n<script>\n  msg.classList.toggle(\"show\");   // fade out / in\n  msg.addEventListener(\"transitionend\", function () {\n    console.log(\"finished\");\n  });\n</script>",
+     "terms": {
+      "en": ".fade + .show; transitionend event"
+     }
+    },
+    {
+     "name": {
+      "en": "Page transition"
+     },
+     "f": "<a class=\"nav-link active\" data-bs-toggle=\"tab\"\n  href=\"#home\">Home</a>\n<a class=\"nav-link\" data-bs-toggle=\"tab\"\n  href=\"#about\">About</a>\n<div class=\"tab-content\">\n  <section class=\"tab-pane fade show active\" id=\"home\">\n    ...</section>\n  <section class=\"tab-pane fade\" id=\"about\">...</section>\n</div>",
+     "terms": {
+      "en": "tab panes with .fade switch pages without reload"
+     }
+    },
+    {
+     "name": {
+      "en": "Modal"
+     },
+     "f": "<button class=\"btn btn-primary\" data-bs-toggle=\"modal\"\n  data-bs-target=\"#info\">Open</button>\n\n<div class=\"modal fade\" id=\"info\" tabindex=\"-1\">\n  <div class=\"modal-dialog modal-dialog-centered\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\">Welcome</h5>\n        <button class=\"btn-close\" data-bs-dismiss=\"modal\">\n        </button>\n      </div>\n      <div class=\"modal-body\">Results on 5 Dec.</div>\n      <div class=\"modal-footer\">\n        <button class=\"btn btn-secondary\"\n          data-bs-dismiss=\"modal\">Close</button>\n      </div>\n    </div>\n  </div>\n</div>",
+     "terms": {
+      "en": ".modal.fade > .modal-dialog > .modal-content > header/body/footer"
+     }
+    },
+    {
+     "name": {
+      "en": "Modal API"
+     },
+     "f": "var el = document.getElementById(\"info\");\nvar m = new bootstrap.Modal(el, {\n  backdrop: \"static\",     // no close on outside click\n  keyboard: false         // no close on Esc\n});\nm.show();\nel.addEventListener(\"show.bs.modal\", function (e) {\n  var opener = e.relatedTarget;    // button clicked\n});\nel.addEventListener(\"hidden.bs.modal\", function () {\n  console.log(\"closed\");\n});",
+     "terms": {
+      "en": "backdrop, keyboard, focus; show() hide(); show/shown/hide/hidden.bs.modal"
+     }
+    },
+    {
+     "name": {
+      "en": "Scrollspy"
+     },
+     "f": "<nav id=\"menu\">\n  <ul class=\"nav nav-pills\">\n    <li class=\"nav-item\"><a class=\"nav-link\" href=\"#s1\">One</a></li>\n    <li class=\"nav-item\"><a class=\"nav-link\" href=\"#s2\">Two</a></li>\n  </ul>\n</nav>\n<div data-bs-spy=\"scroll\" data-bs-target=\"#menu\"\n  data-bs-smooth-scroll=\"true\" tabindex=\"0\"\n  style=\"height: 300px; overflow-y: auto\">\n  <h4 id=\"s1\">One</h4><p>...</p>\n  <h4 id=\"s2\">Two</h4><p>...</p>\n</div>",
+     "terms": {
+      "en": "data-bs-spy=\"scroll\" data-bs-target; href = section id"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Tab and Dropdown"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Tab methods/events"
+     },
+     "f": "var link = document.querySelector('a[href=\"#about\"]');\nbootstrap.Tab.getOrCreateInstance(link).show();\n\nlink.addEventListener(\"shown.bs.tab\", function (e) {\n  // e.target = new tab, e.relatedTarget = previous tab\n});",
+     "terms": {
+      "en": "Tab.show(); hide/show/hidden/shown.bs.tab"
+     }
+    },
+    {
+     "name": {
+      "en": "Dropdown options"
+     },
+     "f": "<button class=\"btn btn-success dropdown-toggle\"\n  data-bs-toggle=\"dropdown\" data-bs-auto-close=\"outside\"\n  data-bs-offset=\"0,10\">Filters</button>\n<script>\n  var dd = bootstrap.Dropdown.getOrCreateInstance(btn);\n  dd.toggle();\n  btn.addEventListener(\"hidden.bs.dropdown\", function () {\n    console.log(\"menu closed\");\n  });\n</script>",
+     "terms": {
+      "en": "autoClose, offset; toggle(); *.bs.dropdown"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Tooltip and Popover"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Tooltip"
+     },
+     "f": "<button class=\"btn btn-secondary\" data-bs-toggle=\"tooltip\"\n  data-bs-placement=\"top\" title=\"Save the form\">Save</button>\n<script>\n  var sel = '[data-bs-toggle=\"tooltip\"]';\n  document.querySelectorAll(sel).forEach(function (el) {\n    new bootstrap.Tooltip(el);\n  });\n</script>",
+     "terms": {
+      "en": "opt-in: new bootstrap.Tooltip(el); title, placement"
+     }
+    },
+    {
+     "name": {
+      "en": "Tooltip API"
+     },
+     "f": "var t = new bootstrap.Tooltip(btn, {\n  placement: \"bottom\", trigger: \"click\", html: true,\n  title: \"<b>Bold</b> tip\", delay: { show: 200, hide: 100 }\n});\nt.show();  t.hide();  t.toggle();  t.disable();\nbtn.addEventListener(\"shown.bs.tooltip\", function () { });",
+     "terms": {
+      "en": "placement, trigger, html, delay; show hide toggle disable"
+     }
+    },
+    {
+     "name": {
+      "en": "Popover"
+     },
+     "f": "<button class=\"btn btn-danger\" data-bs-toggle=\"popover\"\n  data-bs-title=\"Last date\"\n  data-bs-content=\"Fees by 30 Nov.\">Click me</button>\n<a tabindex=\"0\" class=\"btn btn-warning\" role=\"button\"\n  data-bs-toggle=\"popover\" data-bs-trigger=\"focus\"\n  data-bs-content=\"Closes on next click\">Dismissible</a>\n<script>\n  document.querySelectorAll('[data-bs-toggle=\"popover\"]')\n    .forEach(function (el) { new bootstrap.Popover(el); });\n</script>",
+     "terms": {
+      "en": "data-bs-title + data-bs-content; trigger focus = dismiss"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Alert and Button"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Alert plug-in"
+     },
+     "f": "<div class=\"alert alert-warning alert-dismissible fade show\"\n  id=\"note\">Holiday on Monday.\n  <button class=\"btn-close\" data-bs-dismiss=\"alert\"></button>\n</div>\n<script>\n  bootstrap.Alert.getOrCreateInstance(note).close();\n  note.addEventListener(\"closed.bs.alert\", function () {\n    console.log(\"alert removed\");\n  });\n</script>",
+     "terms": {
+      "en": "data-bs-dismiss=\"alert\"; close(); close/closed.bs.alert"
+     }
+    },
+    {
+     "name": {
+      "en": "Button plug-in"
+     },
+     "f": "<button class=\"btn btn-outline-primary\"\n  data-bs-toggle=\"button\">Like</button>\n<input type=\"checkbox\" class=\"btn-check\" id=\"c1\">\n<label class=\"btn btn-outline-success\" for=\"c1\">Hostel</label>\n<script>\n  bootstrap.Button.getOrCreateInstance(likeBtn).toggle();\n</script>",
+     "terms": {
+      "en": "data-bs-toggle=\"button\"; .btn-check; toggle()"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Collapse, Carousel, Affix"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Collapse"
+     },
+     "f": "<a class=\"btn btn-primary\" data-bs-toggle=\"collapse\"\n  href=\"#more\">Read more</a>\n<button class=\"btn btn-success\" data-bs-toggle=\"collapse\"\n  data-bs-target=\".multi\">Toggle both</button>\n<div class=\"collapse\" id=\"more\">Extra text...</div>\n<div class=\"collapse multi\">A</div>\n<div class=\"collapse multi\">B</div>",
+     "terms": {
+      "en": "data-bs-toggle=\"collapse\" + href / data-bs-target"
+     }
+    },
+    {
+     "name": {
+      "en": "Collapse API"
+     },
+     "f": "var c = new bootstrap.Collapse(\"#more\", {\n  toggle: false,          // do not open on creation\n  parent: \"#faq\"          // accordion behaviour\n});\nc.show();  c.hide();  c.toggle();\nmore.addEventListener(\"hidden.bs.collapse\", function () {\n  console.log(\"closed\");\n});",
+     "terms": {
+      "en": "parent, toggle; show hide toggle; *.bs.collapse"
+     }
+    },
+    {
+     "name": {
+      "en": "Accordion"
+     },
+     "f": "<div class=\"accordion\" id=\"faq\">\n  <div class=\"accordion-item\">\n    <h2 class=\"accordion-header\">\n      <button class=\"accordion-button\" data-bs-toggle=\"collapse\"\n        data-bs-target=\"#q1\">Who can apply?</button>\n    </h2>\n    <div id=\"q1\" class=\"accordion-collapse collapse show\"\n      data-bs-parent=\"#faq\">\n      <div class=\"accordion-body\">SSC passed.</div>\n    </div>\n  </div>\n  <!-- more .accordion-item ... -->\n</div>",
+     "terms": {
+      "en": ".accordion-item, .accordion-button, data-bs-parent"
+     }
+    },
+    {
+     "name": {
+      "en": "Carousel"
+     },
+     "f": "<div id=\"g\" class=\"carousel slide\" data-bs-ride=\"carousel\"\n  data-bs-interval=\"3000\">\n  <div class=\"carousel-indicators\">\n    <button data-bs-target=\"#g\" data-bs-slide-to=\"0\"\n      class=\"active\"></button>\n    <button data-bs-target=\"#g\" data-bs-slide-to=\"1\"></button>\n  </div>\n  <div class=\"carousel-inner\">\n    <div class=\"carousel-item active\">\n      <img src=\"img/1.jpg\" class=\"d-block w-100\" alt=\"One\">\n      <div class=\"carousel-caption\">\n        <h5>Rani ki Vav</h5><p>Patan</p></div>\n    </div>\n    <div class=\"carousel-item\">\n      <img src=\"img/2.jpg\" class=\"d-block w-100\" alt=\"Two\">\n    </div>\n  </div>\n  <button class=\"carousel-control-prev\" data-bs-target=\"#g\"\n    data-bs-slide=\"prev\">\n    <span class=\"carousel-control-prev-icon\"></span></button>\n  <button class=\"carousel-control-next\" data-bs-target=\"#g\"\n    data-bs-slide=\"next\">\n    <span class=\"carousel-control-next-icon\"></span></button>\n</div>",
+     "terms": {
+      "en": ".carousel.slide, -indicators, -inner, -item, -caption, -control"
+     }
+    },
+    {
+     "name": {
+      "en": "Carousel API"
+     },
+     "f": "var car = bootstrap.Carousel.getOrCreateInstance(\"#g\");\ncar.to(3);   car.pause();   car.cycle();\ncar.next();  car.prev();\ng.addEventListener(\"slid.bs.carousel\", function (e) {\n  count.textContent = \"Photo \" + (e.to + 1);\n});",
+     "terms": {
+      "en": "to(n) pause() cycle() next() prev(); slide/slid.bs.carousel"
+     }
+    },
+    {
+     "name": {
+      "en": "Affix vs sticky"
+     },
+     "f": "<!-- Bootstrap 3 -->\n<nav class=\"navbar\" data-spy=\"affix\" data-offset-top=\"200\">\n<!-- Bootstrap 5 -->\n<nav class=\"navbar sticky-top bg-dark\">...</nav>\n<style>\n  .side { position: sticky; top: 70px; }\n</style>",
+     "terms": {
+      "en": "BS3 data-spy=\"affix\" -> BS5 .sticky-top"
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Plug-in Basics"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a Bootstrap plug-in?"
+     },
+     "a": {
+      "en": "A ready-made JavaScript module that adds interactive behaviour (modal, dropdown, carousel, collapse ...) to components."
+     }
+    },
+    {
+     "q": {
+      "en": "Why use Bootstrap plug-ins?"
+     },
+     "a": {
+      "en": "No custom JavaScript is needed, they save time, work in all browsers, are responsive, accessible and customisable."
+     }
+    },
+    {
+     "q": {
+      "en": "Which file contains all Bootstrap 5 plug-ins?"
+     },
+     "a": {
+      "en": "bootstrap.bundle.min.js (includes Popper)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is Popper used for?"
+     },
+     "a": {
+      "en": "Positioning dropdowns, tooltips and popovers."
+     }
+    },
+    {
+     "q": {
+      "en": "Does Bootstrap 5 need jQuery?"
+     },
+     "a": {
+      "en": "No. Bootstrap 3 and 4 needed jQuery; Bootstrap 5 uses plain JavaScript."
+     }
+    },
+    {
+     "q": {
+      "en": "What are the two ways to use a plug-in?"
+     },
+     "a": {
+      "en": "Data attributes in HTML, or the JavaScript API (new bootstrap.X(el, options) and methods)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the difference between show.bs.modal and shown.bs.modal?"
+     },
+     "a": {
+      "en": "show fires when opening starts; shown fires after the animation has finished."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you stop a modal from opening in an event?"
+     },
+     "a": {
+      "en": "Call e.preventDefault() in the show.bs.modal handler."
+     }
+    },
+    {
+     "q": {
+      "en": "What is getOrCreateInstance()?"
+     },
+     "a": {
+      "en": "A static method that returns the existing plug-in object of an element or creates a new one."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Transition and Modal"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What was the transition plug-in?"
+     },
+     "a": {
+      "en": "A Bootstrap 3 helper (transition.js) that detected the end of CSS transitions for other plug-ins; built into each plug-in since Bootstrap 4."
+     }
+    },
+    {
+     "q": {
+      "en": "What do .fade and .show do?"
+     },
+     "a": {
+      "en": ".fade adds an opacity transition and hides the element; .show makes it visible."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a modal?"
+     },
+     "a": {
+      "en": "A dialog box shown on top of the page with a dark backdrop."
+     }
+    },
+    {
+     "q": {
+      "en": "Name the parts of a modal."
+     },
+     "a": {
+      "en": ".modal > .modal-dialog > .modal-content with .modal-header, .modal-body and .modal-footer."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you open a modal without JavaScript?"
+     },
+     "a": {
+      "en": "A button with data-bs-toggle=\"modal\" and data-bs-target=\"#id\"."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you close a modal?"
+     },
+     "a": {
+      "en": "An element with data-bs-dismiss=\"modal\", the Esc key, a backdrop click, or the hide() method."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a static backdrop?"
+     },
+     "a": {
+      "en": "data-bs-backdrop=\"static\": the modal does not close when clicking outside it."
+     }
+    },
+    {
+     "q": {
+      "en": "Name the modal sizes."
+     },
+     "a": {
+      "en": ".modal-sm, default, .modal-lg, .modal-xl and .modal-fullscreen."
+     }
+    },
+    {
+     "q": {
+      "en": "List the modal options."
+     },
+     "a": {
+      "en": "backdrop, keyboard and focus."
+     }
+    },
+    {
+     "q": {
+      "en": "List the modal methods."
+     },
+     "a": {
+      "en": "show(), hide(), toggle(), handleUpdate(), dispose()."
+     }
+    },
+    {
+     "q": {
+      "en": "List the modal events."
+     },
+     "a": {
+      "en": "show.bs.modal, shown.bs.modal, hide.bs.modal, hidden.bs.modal, hidePrevented.bs.modal."
+     }
+    },
+    {
+     "q": {
+      "en": "What is e.relatedTarget in show.bs.modal?"
+     },
+     "a": {
+      "en": "The button that was clicked to open the modal."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Scrollspy, Tab, Dropdown"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is scrollspy?"
+     },
+     "a": {
+      "en": "A plug-in that updates the active nav link according to the section visible while scrolling."
+     }
+    },
+    {
+     "q": {
+      "en": "Which attributes start scrollspy?"
+     },
+     "a": {
+      "en": "data-bs-spy=\"scroll\" and data-bs-target=\"#nav\" on the scrolling element."
+     }
+    },
+    {
+     "q": {
+      "en": "Which event does scrollspy fire?"
+     },
+     "a": {
+      "en": "activate.bs.scrollspy."
+     }
+    },
+    {
+     "q": {
+      "en": "When is the scrollspy refresh() method used?"
+     },
+     "a": {
+      "en": "After sections are added to or removed from the page."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you show a tab from JavaScript?"
+     },
+     "a": {
+      "en": "bootstrap.Tab.getOrCreateInstance(link).show()."
+     }
+    },
+    {
+     "q": {
+      "en": "List the tab events in order."
+     },
+     "a": {
+      "en": "hide.bs.tab, show.bs.tab, hidden.bs.tab, shown.bs.tab."
+     }
+    },
+    {
+     "q": {
+      "en": "What does the dropdown autoClose option do?"
+     },
+     "a": {
+      "en": "Decides which clicks close the menu: true, \"inside\", \"outside\" or false."
+     }
+    },
+    {
+     "q": {
+      "en": "List the dropdown events."
+     },
+     "a": {
+      "en": "show.bs.dropdown, shown.bs.dropdown, hide.bs.dropdown, hidden.bs.dropdown."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Tooltip, Popover, Alert, Button"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a tooltip?"
+     },
+     "a": {
+      "en": "A small label shown on hover or focus, taken from the title attribute."
+     }
+    },
+    {
+     "q": {
+      "en": "Why must tooltips be initialised with JavaScript?"
+     },
+     "a": {
+      "en": "They are opt-in for performance reasons: new bootstrap.Tooltip(el)."
+     }
+    },
+    {
+     "q": {
+      "en": "Name the tooltip placements."
+     },
+     "a": {
+      "en": "top, right, bottom, left and auto."
+     }
+    },
+    {
+     "q": {
+      "en": "List the tooltip methods."
+     },
+     "a": {
+      "en": "show(), hide(), toggle(), enable(), disable(), toggleEnabled(), setContent(), update(), dispose()."
+     }
+    },
+    {
+     "q": {
+      "en": "List the tooltip events."
+     },
+     "a": {
+      "en": "show.bs.tooltip, shown.bs.tooltip, hide.bs.tooltip, hidden.bs.tooltip, inserted.bs.tooltip."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you show a tooltip on a disabled button?"
+     },
+     "a": {
+      "en": "Put the tooltip on a wrapper span with tabindex=\"0\"."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between a tooltip and a popover?"
+     },
+     "a": {
+      "en": "A tooltip shows short text on hover; a popover has a title and content and opens on click."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you make a popover close on the next click?"
+     },
+     "a": {
+      "en": "Use data-bs-trigger=\"focus\" on an <a> with tabindex=\"0\"."
+     }
+    },
+    {
+     "q": {
+      "en": "What does the alert plug-in do?"
+     },
+     "a": {
+      "en": "Closes alerts with data-bs-dismiss=\"alert\" or the close() method."
+     }
+    },
+    {
+     "q": {
+      "en": "Which event fires after an alert is closed?"
+     },
+     "a": {
+      "en": "closed.bs.alert."
+     }
+    },
+    {
+     "q": {
+      "en": "What does data-bs-toggle=\"button\" do?"
+     },
+     "a": {
+      "en": "Makes a toggle button that switches the .active class and aria-pressed."
+     }
+    },
+    {
+     "q": {
+      "en": "How was the loading state of a button made in Bootstrap 3?"
+     },
+     "a": {
+      "en": "$(btn).button(\"loading\") with data-loading-text; in Bootstrap 5, disable it and add a spinner with JavaScript."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Collapse, Carousel, Affix"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is the collapse plug-in?"
+     },
+     "a": {
+      "en": "It shows and hides content with a height animation."
+     }
+    },
+    {
+     "q": {
+      "en": "Which classes does collapse use?"
+     },
+     "a": {
+      "en": ".collapse (hidden), .collapsing (animating) and .collapse.show (visible)."
+     }
+    },
+    {
+     "q": {
+      "en": "List the collapse options."
+     },
+     "a": {
+      "en": "parent and toggle."
+     }
+    },
+    {
+     "q": {
+      "en": "List the collapse events."
+     },
+     "a": {
+      "en": "show.bs.collapse, shown.bs.collapse, hide.bs.collapse, hidden.bs.collapse."
+     }
+    },
+    {
+     "q": {
+      "en": "How does an accordion keep only one item open?"
+     },
+     "a": {
+      "en": "Each collapse has data-bs-parent pointing to the accordion."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a carousel?"
+     },
+     "a": {
+      "en": "A slideshow that cycles through images or content."
+     }
+    },
+    {
+     "q": {
+      "en": "Which attribute starts a carousel automatically?"
+     },
+     "a": {
+      "en": "data-bs-ride=\"carousel\" (time set with data-bs-interval)."
+     }
+    },
+    {
+     "q": {
+      "en": "What are carousel indicators?"
+     },
+     "a": {
+      "en": "Small bars or dots that show the current slide and jump to a slide with data-bs-slide-to."
+     }
+    },
+    {
+     "q": {
+      "en": "List the carousel methods."
+     },
+     "a": {
+      "en": "cycle(), pause(), prev(), next(), nextWhenVisible(), to(n), dispose()."
+     }
+    },
+    {
+     "q": {
+      "en": "Which carousel event fires after a slide changes?"
+     },
+     "a": {
+      "en": "slid.bs.carousel (slide.bs.carousel at the start); e.to gives the new index."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you make a carousel fade?"
+     },
+     "a": {
+      "en": "Add .carousel-fade to the .carousel."
+     }
+    },
+    {
+     "q": {
+      "en": "What was the affix plug-in?"
+     },
+     "a": {
+      "en": "A Bootstrap 3 plug-in that fixed an element after scrolling past an offset (data-spy=\"affix\" data-offset-top)."
+     }
+    },
+    {
+     "q": {
+      "en": "What replaces affix in Bootstrap 5?"
+     },
+     "a": {
+      "en": "CSS position: sticky through .sticky-top (and .sticky-bottom)."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between .fixed-top and .sticky-top?"
+     },
+     "a": {
+      "en": ".fixed-top is always fixed; .sticky-top scrolls normally until it reaches the top, then sticks."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "What are Bootstrap plug-ins? Why are they used?"
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain the two ways of using Bootstrap plug-ins with an example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the transition plug-in."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Design a smooth page transition between home, about and contact us pages using the Bootstrap transition plug-in. (Practical 18)"
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain the modal plug-in with its structure."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the properties, methods and events of the modal dialog box."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Design a web page with modal dialogs for save record confirmation and delete record confirmation. (Practical 19)"
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain the scrollspy plug-in with an example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the tab plug-in with its methods and events."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain the dropdown plug-in."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain the tooltip plug-in with its methods and events."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the popover plug-in. Differentiate between tooltip and popover."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Design a news story page using scrollspy for multiple sections, tooltips for photos, and collapsible and popover plug-ins. (Practical 20)"
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain the alert and button plug-ins."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain the collapse plug-in with its properties, methods and events."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Create an accordion using the collapse plug-in."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain the carousel plug-in with its options, methods and events."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Design an animated photo gallery page using the carousel plug-in with at least seven photos. (Practical 21)"
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "What was the affix plug-in? How is the same effect achieved in Bootstrap 5?"
+   },
+   "marks": 3
+  }
+ ],
+ "tabs": [
+  "notes",
+  "programs",
+  "diagrams",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "Detailed notes as per GTU syllabus with diagrams, solved Bootstrap and jQuery programs (tap Run to see the page live), class reference and viva."
+ }
+}
