@@ -1,0 +1,1320 @@
+{
+ "subject": "DI03000061",
+ "unit": 2,
+ "format": "notes",
+ "title": {
+  "en": "Bootstrap Grid"
+ },
+ "weightage": 20,
+ "hours": 12,
+ "notes": [
+  {
+   "title": {
+    "en": "2.1 Bootstrap Grid System"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Introduction to the Bootstrap Grid"
+     },
+     "body": {
+      "en": "\n<p>The <b>Bootstrap grid system</b> is a <b>mobile-first, flexbox-based</b> layout system that divides the page width into <b>12 equal columns</b>. Using rows and columns, content can be arranged in any layout, and the layout changes automatically at different screen sizes (breakpoints).</p>\n<h4>Three main parts</h4>\n<ol><li><b>Container</b> (<code>.container</code> or <code>.container-fluid</code>): centres and pads the content. Every grid must be inside a container.</li>\n<li><b>Row</b> (<code>.row</code>): a horizontal group of columns. It is a flex container with negative margins that line up columns with the container edge.</li>\n<li><b>Column</b> (<code>.col-*</code>): holds the content. The number tells how many of the 12 columns it spans.</li></ol>\n<pre class=\"c\">&lt;div class=\"container\"&gt;\n  &lt;div class=\"row\"&gt;\n    &lt;div class=\"col-sm-4\"&gt;Column 1&lt;/div&gt;\n    &lt;div class=\"col-sm-8\"&gt;Column 2&lt;/div&gt;\n  &lt;/div&gt;\n&lt;/div&gt;</pre>\n<h4>Rules of the grid</h4>\n<ul><li>Rows must be placed inside a container; only columns can be direct children of rows.</li>\n<li>Content goes inside columns, not directly in rows.</li>\n<li>The total of the column numbers in one row should be 12. If it is more than 12, the extra columns wrap onto a new line.</li>\n<li>Columns have horizontal padding called the <b>gutter</b>; it can be changed with <code>g-*</code>, <code>gx-*</code>, <code>gy-*</code>.</li>\n<li>Column classes apply to their breakpoint <b>and all larger screens</b>.</li></ul>\n<pre class=\"c\">&lt;div class=\"row g-0\"&gt;no gutter&lt;/div&gt;\n&lt;div class=\"row g-4\"&gt;large gutter&lt;/div&gt;\n&lt;div class=\"row gx-5 gy-2\"&gt;x and y separately&lt;/div&gt;</pre>\n"
+     },
+     "diagram": "web2_grid_anatomy",
+     "programs": [
+      "w2_2"
+     ]
+    },
+    {
+     "h": {
+      "en": "Grid Classes and Breakpoints"
+     },
+     "body": {
+      "en": "\n<p>A column class has the form <b>.col-{breakpoint}-{number}</b>.</p>\n<table><tr><th></th><th>xs<br>&lt;576</th><th>sm<br>&gt;=576</th><th>md<br>&gt;=768</th><th>lg<br>&gt;=992</th><th>xl<br>&gt;=1200</th><th>xxl<br>&gt;=1400</th></tr>\n<tr><td>Class prefix</td><td>.col-</td><td>.col-sm-</td><td>.col-md-</td><td>.col-lg-</td><td>.col-xl-</td><td>.col-xxl-</td></tr>\n<tr><td>Container width</td><td>100%</td><td>540px</td><td>720px</td><td>960px</td><td>1140px</td><td>1320px</td></tr></table>\n<h4>Types of column classes</h4>\n<ul><li><b>.col</b>: equal-width columns that share the row automatically.</li>\n<li><b>.col-{n}</b>: n of 12 columns on all screen sizes (e.g. <code>.col-6</code> = half).</li>\n<li><b>.col-{bp}-{n}</b>: n columns from that breakpoint upward; below it the column is full width (stacked).</li>\n<li><b>.col-auto</b>: width according to the content.</li>\n<li><b>Mixing classes:</b> <code>col-12 col-md-6 col-lg-3</code> gives 1, 2 or 4 columns per row.</li>\n<li><b>.row-cols-{n}</b> on the row sets how many columns appear per row.</li></ul>\n<pre class=\"c\">&lt;!-- equal width --&gt;\n&lt;div class=\"row\"&gt;\n  &lt;div class=\"col\"&gt;1&lt;/div&gt;\n  &lt;div class=\"col\"&gt;2&lt;/div&gt;\n&lt;/div&gt;\n&lt;!-- mobile: stacked, tablet: 2, desktop: 4 --&gt;\n&lt;div class=\"row\"&gt;\n  &lt;div class=\"col-12 col-md-6 col-lg-3\"&gt;A&lt;/div&gt;\n  &lt;div class=\"col-12 col-md-6 col-lg-3\"&gt;B&lt;/div&gt;\n  &lt;div class=\"col-12 col-md-6 col-lg-3\"&gt;C&lt;/div&gt;\n  &lt;div class=\"col-12 col-md-6 col-lg-3\"&gt;D&lt;/div&gt;\n&lt;/div&gt;\n&lt;!-- width from content, rest auto --&gt;\n&lt;div class=\"row\"&gt;\n  &lt;div class=\"col-auto\"&gt;Label&lt;/div&gt;\n  &lt;div class=\"col\"&gt;Rest&lt;/div&gt;\n&lt;/div&gt;\n&lt;!-- columns per row set on the row --&gt;\n&lt;div class=\"row row-cols-2 row-cols-lg-4 g-3\"&gt;...&lt;/div&gt;</pre>\n<p><b>Example:</b> for a page with 3 boxes in a row on desktop but stacked on mobile, use <code>col-md-4</code> on each box.</p>\n"
+     },
+     "diagram": "web2_grid12"
+    },
+    {
+     "h": {
+      "en": "Bootstrap Containers"
+     },
+     "body": {
+      "en": "\n<p>A <b>container</b> is the outermost layout element. It holds rows and columns, centres the content and adds padding at the left and right.</p>\n<table><tr><th>Container</th><th>Behaviour</th></tr>\n<tr><td>.container</td><td>Responsive fixed width: max-width changes at each breakpoint (540, 720, 960, 1140, 1320 px); 100% below 576 px</td></tr>\n<tr><td>.container-fluid</td><td>Always 100% of the screen width</td></tr>\n<tr><td>.container-{sm|md|lg|xl|xxl}</td><td>100% wide until that breakpoint, then fixed like .container</td></tr></table>\n<pre class=\"c\">&lt;div class=\"container\"&gt;fixed width per breakpoint&lt;/div&gt;\n&lt;div class=\"container-fluid\"&gt;always 100% wide&lt;/div&gt;\n&lt;div class=\"container-md\"&gt;100% until md, then fixed&lt;/div&gt;</pre>\n<ul><li>Use <b>.container</b> for normal page content, so lines do not become too long on big screens.</li>\n<li>Use <b>.container-fluid</b> for full-width headers, footers, banners and dashboards.</li>\n<li>Containers can be nested, but usually this is not required.</li></ul>\n"
+     },
+     "diagram": "web2_containers",
+     "programs": [
+      "w2_1"
+     ]
+    },
+    {
+     "h": {
+      "en": "Offset Columns"
+     },
+     "body": {
+      "en": "\n<p><b>Offset</b> classes move a column to the right by leaving empty columns on its left. They increase the left margin of the column by a number of grid columns.</p>\n<ul><li>Syntax: <code>.offset-{n}</code> or responsive <code>.offset-{bp}-{n}</code> (n = 1 to 11).</li>\n<li><code>.col-md-4 .offset-md-4</code>: the column starts after 4 empty columns.</li>\n<li><code>.col-md-6 .offset-md-3</code>: centres a half-width column (3 + 6 + 3 = 12).</li>\n<li>Reset an offset at a larger breakpoint with <code>.offset-lg-0</code>.</li>\n<li><b>Margin utilities</b> can also separate columns: <code>.ms-auto</code> pushes a column to the right, <code>.me-auto</code> to the left.</li></ul>\n<pre class=\"c\">&lt;div class=\"row\"&gt;\n  &lt;div class=\"col-md-4\"&gt;.col-md-4&lt;/div&gt;\n  &lt;div class=\"col-md-4 offset-md-4\"&gt;\n    .col-md-4 .offset-md-4&lt;/div&gt;\n&lt;/div&gt;\n&lt;div class=\"row\"&gt;\n  &lt;div class=\"col-md-6 offset-md-3\"&gt;centred&lt;/div&gt;\n&lt;/div&gt;\n&lt;div class=\"row\"&gt;\n  &lt;div class=\"col-4\"&gt;left&lt;/div&gt;\n  &lt;div class=\"col-4 ms-auto\"&gt;pushed right&lt;/div&gt;\n&lt;/div&gt;</pre>\n<p><b>Bootstrap 3:</b> <code>.col-md-offset-4</code>. <b>Bootstrap 4/5:</b> <code>.offset-md-4</code>.</p>\n"
+     },
+     "diagram": "web2_offset_order",
+     "programs": [
+      "w2_3"
+     ]
+    },
+    {
+     "h": {
+      "en": "Reordering Columns"
+     },
+     "body": {
+      "en": "\n<p><b>Reordering</b> changes the visual order of columns without changing the order in the HTML code. It uses the flexbox <code>order</code> property.</p>\n<ul><li><code>.order-0</code> to <code>.order-5</code>: set the order value; smaller values appear first. Columns without an order class have order 0.</li>\n<li><code>.order-first</code> (order: -1) and <code>.order-last</code> (order: 6).</li>\n<li>Responsive: <code>.order-{bp}-{value}</code>, e.g. <code>.order-md-2</code> works from 768 px.</li></ul>\n<pre class=\"c\">&lt;div class=\"row\"&gt;\n  &lt;div class=\"col order-3\"&gt;First in HTML&lt;/div&gt;\n  &lt;div class=\"col order-1\"&gt;Second in HTML&lt;/div&gt;\n  &lt;div class=\"col order-2\"&gt;Third in HTML&lt;/div&gt;\n&lt;/div&gt;\n&lt;!-- different order on phone and desktop --&gt;\n&lt;div class=\"row\"&gt;\n  &lt;main class=\"col-md-8 order-md-2\"&gt;Main&lt;/main&gt;\n  &lt;aside class=\"col-md-4 order-md-1\"&gt;Sidebar&lt;/aside&gt;\n&lt;/div&gt;</pre>\n<h4>Why reorder?</h4>\n<ul><li>On a phone, the main content should come first, but on a desktop a sidebar on the left looks better.</li>\n<li>Search engines and screen readers read the HTML order, so important content can be written first in HTML.</li></ul>\n<p><b>Bootstrap 3</b> used <code>.col-md-push-*</code> and <code>.col-md-pull-*</code>; they were replaced by order classes in Bootstrap 4.</p>\n"
+     },
+     "programs": [
+      "w2_4"
+     ]
+    },
+    {
+     "h": {
+      "en": "Nesting Columns"
+     },
+     "body": {
+      "en": "\n<p><b>Nesting</b> means placing a new <code>.row</code> with its own columns inside an existing column. It is used to make complex layouts.</p>\n<ul><li>The nested row must be placed <b>inside a column</b>.</li>\n<li>The nested row again has <b>12 columns</b>, which divide the width of the parent column (not the whole page).</li>\n<li>Nested columns can use any column classes, offsets and order classes.</li>\n<li>Nesting can be repeated at any depth.</li></ul>\n<pre class=\"c\">&lt;div class=\"row\"&gt;\n  &lt;div class=\"col-sm-9\"&gt;\n    Level 1: .col-sm-9\n    &lt;div class=\"row\"&gt;\n      &lt;div class=\"col-6\"&gt;Level 2: .col-6&lt;/div&gt;\n      &lt;div class=\"col-6\"&gt;Level 2: .col-6&lt;/div&gt;\n    &lt;/div&gt;\n  &lt;/div&gt;\n  &lt;div class=\"col-sm-3\"&gt;Level 1: .col-sm-3&lt;/div&gt;\n&lt;/div&gt;</pre>\n<p><b>Example:</b> a <code>col-md-8</code> news area containing two <code>col-sm-6</code> news boxes. Each inner box is half of the news area, i.e. 4 of the 12 page columns.</p>\n"
+     },
+     "diagram": "web2_nesting",
+     "programs": [
+      "w2_5",
+      "w2_6"
+     ]
+    },
+    {
+     "h": {
+      "en": "Advantages of the Bootstrap Grid"
+     },
+     "body": {
+      "en": "\n<ol><li><b>Responsive:</b> one layout works on all screen sizes; columns stack, resize or rearrange automatically.</li>\n<li><b>Mobile first:</b> designed for small screens and enhanced for large screens.</li>\n<li><b>Simple to use:</b> only classes are needed; no media queries or float calculations.</li>\n<li><b>Flexible 12-column system:</b> 12 can be divided into 1, 2, 3, 4, 6 or 12 equal parts.</li>\n<li><b>Six breakpoints</b> (xs to xxl) for fine control.</li>\n<li><b>Flexbox based:</b> equal-height columns, vertical alignment (<code>align-items-center</code>), horizontal alignment (<code>justify-content-between</code>) and auto-width columns.</li>\n<li><b>Offset, reorder and nesting</b> allow complex layouts.</li>\n<li><b>Gutters</b> give consistent spacing that can be changed easily.</li>\n<li><b>Consistent and cross-browser:</b> the same layout in all modern browsers; a team uses the same system.</li>\n<li><b>Saves development time</b> and keeps the HTML organised.</li></ol>\n<p>Practical 5 (class time table) shows how the grid turns a table-like design into a layout that rearranges itself on phones.</p>\n"
+     },
+     "programs": [
+      "w2_7"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2.2 Responsive Images, Image Shapes, Typography and Tables"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Responsive Images and Image Shapes"
+     },
+     "body": {
+      "en": "\n<h4>Responsive images</h4>\n<p>The class <b>.img-fluid</b> makes an image responsive. It applies <code>max-width: 100%;</code> and <code>height: auto;</code> so the image scales down with its parent element but never becomes larger than its real size. (Bootstrap 3: <code>.img-responsive</code>.)</p>\n<pre class=\"c\">&lt;img src=\"images/campus.jpg\" class=\"img-fluid\"\n  alt=\"Campus\"&gt;\n&lt;img src=\"a.jpg\" class=\"rounded\" alt=\"...\"&gt;\n&lt;img src=\"b.jpg\" class=\"rounded-circle\" alt=\"...\"&gt;\n&lt;img src=\"c.jpg\" class=\"img-thumbnail\" alt=\"...\"&gt;\n&lt;img src=\"d.jpg\" class=\"rounded mx-auto d-block\"\n  alt=\"centred\"&gt;\n&lt;img src=\"e.jpg\" class=\"float-end\" alt=\"right\"&gt;</pre>\n<h4>Image shapes / styles</h4>\n<table><tr><th>Class</th><th>Effect</th></tr>\n<tr><td>.rounded</td><td>Rounded corners (sizes .rounded-0 to .rounded-5)</td></tr>\n<tr><td>.rounded-circle</td><td>Circle (ellipse if the image is not square)</td></tr>\n<tr><td>.rounded-pill</td><td>Capsule shape</td></tr>\n<tr><td>.img-thumbnail</td><td>1 px border, padding and rounded corners</td></tr>\n<tr><td>.rounded-top / -end / -bottom / -start</td><td>Round only one side</td></tr></table>\n<h4>Aligning images</h4>\n<ul><li><code>.float-start</code> / <code>.float-end</code>: float left or right (text wraps around).</li>\n<li><code>.mx-auto .d-block</code>: centre a block image; or <code>.text-center</code> on the parent for an inline image.</li></ul>\n<h4>Figures</h4>\n<pre class=\"c\">&lt;figure class=\"figure\"&gt;\n  &lt;img src=\"lab.jpg\" class=\"figure-img img-fluid rounded\"\n    alt=\"Lab\"&gt;\n  &lt;figcaption class=\"figure-caption text-center\"&gt;\n    Computer lab&lt;/figcaption&gt;\n&lt;/figure&gt;</pre>\n<p>Always use the <code>alt</code> attribute to describe the image. The <code>&lt;picture&gt;</code> element with <code>srcset</code> can load different image files for different screen sizes.</p>\n"
+     },
+     "diagram": "web2_img_shapes",
+     "programs": [
+      "w2_8",
+      "w2_11"
+     ]
+    },
+    {
+     "h": {
+      "en": "Bootstrap Typography"
+     },
+     "body": {
+      "en": "\n<p><b>Typography</b> means the style and appearance of text. Bootstrap sets a default font size of <b>1rem (16 px)</b>, line height 1.5 and a native system font stack, and provides classes for headings, paragraphs, inline text, lists and alignment.</p>\n<h4>Headings and display headings</h4>\n<pre class=\"c\">&lt;h1&gt;h1 heading&lt;/h1&gt;   &lt;p class=\"h1\"&gt;p styled as h1&lt;/p&gt;\n&lt;h3&gt;Main title\n  &lt;small class=\"text-body-secondary\"&gt;sub title&lt;/small&gt;\n&lt;/h3&gt;\n&lt;h1 class=\"display-1\"&gt;Display 1&lt;/h1&gt;\n&lt;p class=\"lead\"&gt;Lead paragraph stands out.&lt;/p&gt;</pre>\n<ul><li>&lt;h1&gt; to &lt;h6&gt; and the classes <code>.h1</code> to <code>.h6</code> (heading look on any element).</li>\n<li><code>.display-1</code> to <code>.display-6</code>: larger, lighter headings for hero sections.</li>\n<li><code>&lt;small&gt;</code> inside a heading, with <code>.text-body-secondary</code>, gives a secondary title.</li>\n<li><code>.lead</code>: larger paragraph for an introduction.</li></ul>\n<h4>Inline text elements</h4>\n<pre class=\"c\">&lt;mark&gt;highlight&lt;/mark&gt;  &lt;del&gt;deleted&lt;/del&gt;\n&lt;s&gt;no longer true&lt;/s&gt;   &lt;ins&gt;inserted&lt;/ins&gt;\n&lt;u&gt;underline&lt;/u&gt;        &lt;small&gt;fine print&lt;/small&gt;\n&lt;strong&gt;bold&lt;/strong&gt;   &lt;em&gt;italic&lt;/em&gt;\n&lt;abbr title=\"HyperText Markup Language\"&gt;HTML&lt;/abbr&gt;\n&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;C&lt;/kbd&gt;</pre>\n<h4>Blockquotes</h4>\n<pre class=\"c\">&lt;blockquote class=\"blockquote\"&gt;\n  &lt;p&gt;Write less, do more.&lt;/p&gt;\n&lt;/blockquote&gt;\n&lt;figcaption class=\"blockquote-footer\"&gt;\n  jQuery &lt;cite title=\"Motto\"&gt;motto&lt;/cite&gt;\n&lt;/figcaption&gt;</pre>\n<h4>Lists</h4>\n<pre class=\"c\">&lt;ul class=\"list-unstyled\"&gt; ... &lt;/ul&gt;\n&lt;ul class=\"list-inline\"&gt;\n  &lt;li class=\"list-inline-item\"&gt;HTML&lt;/li&gt;\n  &lt;li class=\"list-inline-item\"&gt;CSS&lt;/li&gt;\n&lt;/ul&gt;</pre>\n<h4>Text utility classes</h4>\n<pre class=\"c\">&lt;p class=\"text-start\"&gt;left&lt;/p&gt;\n&lt;p class=\"text-center\"&gt;centre&lt;/p&gt;\n&lt;p class=\"text-end\"&gt;right&lt;/p&gt;\n&lt;p class=\"text-md-center\"&gt;centre from md&lt;/p&gt;\n&lt;p class=\"text-uppercase\"&gt;upper&lt;/p&gt;\n&lt;p class=\"text-capitalize\"&gt;each word capital&lt;/p&gt;\n&lt;p class=\"fw-bold\"&gt;bold&lt;/p&gt; &lt;p class=\"fst-italic\"&gt;italic&lt;/p&gt;\n&lt;p class=\"text-primary\"&gt;blue&lt;/p&gt; &lt;p class=\"text-muted\"&gt;grey&lt;/p&gt;\n&lt;p class=\"text-truncate\"&gt;very long text ...&lt;/p&gt;</pre>\n<ul><li><b>Alignment:</b> text-start, text-center, text-end (responsive: text-md-start).</li>\n<li><b>Transform:</b> text-lowercase, text-uppercase, text-capitalize.</li>\n<li><b>Weight and style:</b> fw-bold, fw-semibold, fw-normal, fw-light, fst-italic.</li>\n<li><b>Size:</b> fs-1 to fs-6. <b>Wrapping:</b> text-wrap, text-nowrap, text-truncate.</li>\n<li><b>Decoration:</b> text-decoration-underline, text-decoration-line-through, text-decoration-none.</li></ul>\n"
+     },
+     "diagram": "web2_typography",
+     "programs": [
+      "w2_9"
+     ]
+    },
+    {
+     "h": {
+      "en": "Bootstrap Tables"
+     },
+     "body": {
+      "en": "\n<p>Add the base class <b>.table</b> to any &lt;table&gt; to get Bootstrap styling (padding, horizontal dividers, full width). Other classes add more styles.</p>\n<table><tr><th>Class</th><th>Effect</th></tr>\n<tr><td>.table</td><td>Basic styling (required)</td></tr>\n<tr><td>.table-striped</td><td>Zebra stripes on rows</td></tr>\n<tr><td>.table-striped-columns</td><td>Stripes on columns</td></tr>\n<tr><td>.table-bordered</td><td>Borders on all sides of every cell</td></tr>\n<tr><td>.table-borderless</td><td>No borders</td></tr>\n<tr><td>.table-hover</td><td>Highlight row on mouse over</td></tr>\n<tr><td>.table-sm</td><td>Compact: cell padding halved</td></tr>\n<tr><td>.table-dark / .table-light</td><td>Dark or light table or header</td></tr>\n<tr><td>.table-active</td><td>Highlight a row or cell</td></tr>\n<tr><td>.table-primary, -success, -danger, -warning, -info, -secondary</td><td>Contextual colours on a table, row or cell</td></tr>\n<tr><td>.table-responsive</td><td>On a wrapper div: horizontal scroll on small screens</td></tr>\n<tr><td>.caption-top</td><td>Show the &lt;caption&gt; above the table</td></tr></table>\n<pre class=\"c\">&lt;table class=\"table table-striped table-hover\"&gt;\n  &lt;thead class=\"table-dark\"&gt;\n    &lt;tr&gt;&lt;th&gt;Roll&lt;/th&gt;&lt;th&gt;Name&lt;/th&gt;&lt;/tr&gt;\n  &lt;/thead&gt;\n  &lt;tbody&gt;\n    &lt;tr&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;Aman&lt;/td&gt;&lt;/tr&gt;\n    &lt;tr class=\"table-success\"&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;Bhumi&lt;/td&gt;&lt;/tr&gt;\n  &lt;/tbody&gt;\n&lt;/table&gt;</pre>\n<h4>Responsive tables</h4>\n<p>Wide tables cannot shrink below their content width. Wrapping them in <code>.table-responsive</code> (or <code>.table-responsive-sm/md/lg/xl/xxl</code>) adds horizontal scrolling inside the box instead of breaking the page layout.</p>\n<pre class=\"c\">&lt;div class=\"table-responsive\"&gt;\n  &lt;table class=\"table table-bordered\"&gt; ... &lt;/table&gt;\n&lt;/div&gt;</pre>\n<p><b>Bootstrap 3:</b> row classes <code>.success</code>, <code>.danger</code>, <code>.active</code>, <code>.table-condensed</code>. <b>Bootstrap 5:</b> <code>.table-success</code>, <code>.table-danger</code>, <code>.table-active</code>, <code>.table-sm</code>.</p>\n"
+     },
+     "diagram": "web2_tables",
+     "programs": [
+      "w2_10"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2.3 Form Layout and Buttons"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Bootstrap Form Layouts"
+     },
+     "body": {
+      "en": "\n<p>Bootstrap styles forms consistently in all browsers and offers several layouts.</p>\n<h4>1. Vertical form (default)</h4>\n<p>Labels appear above full-width controls. Each group gets a margin class (<code>.mb-3</code>).</p>\n<pre class=\"c\">&lt;form&gt;\n  &lt;div class=\"mb-3\"&gt;\n    &lt;label for=\"email\" class=\"form-label\"&gt;Email&lt;/label&gt;\n    &lt;input type=\"email\" class=\"form-control\" id=\"email\"&gt;\n    &lt;div class=\"form-text\"&gt;Help text&lt;/div&gt;\n  &lt;/div&gt;\n  &lt;button type=\"submit\" class=\"btn btn-primary\"&gt;Submit&lt;/button&gt;\n&lt;/form&gt;</pre>\n<h4>2. Grid form</h4>\n<p>Use <code>.row</code> and <code>.col-*</code> to place several fields in one row (e.g. first and last name side by side).</p>\n<h4>3. Horizontal form</h4>\n<p>Labels and controls are side by side. Each field is a <code>.row</code>; the label gets a column class plus <code>.col-form-label</code> (vertically centred with the input).</p>\n<pre class=\"c\">&lt;div class=\"row mb-3\"&gt;\n  &lt;label for=\"city\" class=\"col-sm-2 col-form-label\"&gt;City&lt;/label&gt;\n  &lt;div class=\"col-sm-10\"&gt;\n    &lt;input type=\"text\" class=\"form-control\" id=\"city\"&gt;\n  &lt;/div&gt;\n&lt;/div&gt;</pre>\n<h4>4. Inline form</h4>\n<p>All fields in one line on larger screens, using <code>.row-cols-lg-auto</code> and <code>.align-items-center</code>; they stack on phones.</p>\n<pre class=\"c\">&lt;form class=\"row row-cols-lg-auto g-3 align-items-center\"&gt;\n  &lt;div class=\"col-12\"&gt;\n    &lt;input class=\"form-control\" placeholder=\"Username\"&gt;\n  &lt;/div&gt;\n  &lt;div class=\"col-12\"&gt;\n    &lt;button class=\"btn btn-primary\"&gt;Login&lt;/button&gt;\n  &lt;/div&gt;\n&lt;/form&gt;</pre>\n<h4>Important form classes</h4>\n<ul><li><b>.form-label</b> for labels; <b>.form-text</b> for help text.</li>\n<li><b>.form-control</b> for text inputs and textareas; <b>.form-select</b> for select boxes.</li>\n<li><b>.col-form-label</b> in horizontal forms.</li>\n<li>Bootstrap 3's <code>.form-group</code>, <code>.form-horizontal</code> and <code>.form-inline</code> were replaced by grid and spacing utilities.</li></ul>\n"
+     },
+     "diagram": "web2_form_layouts",
+     "programs": [
+      "w2_12"
+     ]
+    },
+    {
+     "h": {
+      "en": "Form Controls and Validation"
+     },
+     "body": {
+      "en": "\n<h4>Form controls</h4>\n<pre class=\"c\">&lt;input class=\"form-control form-control-lg\"&gt;\n&lt;select class=\"form-select\"&gt;&lt;option&gt;One&lt;/option&gt;&lt;/select&gt;\n&lt;textarea class=\"form-control\" rows=\"3\"&gt;&lt;/textarea&gt;\n\n&lt;div class=\"form-check\"&gt;\n  &lt;input class=\"form-check-input\" type=\"checkbox\" id=\"c1\"&gt;\n  &lt;label class=\"form-check-label\" for=\"c1\"&gt;Check&lt;/label&gt;\n&lt;/div&gt;\n&lt;div class=\"form-check form-switch\"&gt;\n  &lt;input class=\"form-check-input\" type=\"checkbox\" id=\"s1\"&gt;\n  &lt;label class=\"form-check-label\" for=\"s1\"&gt;Switch&lt;/label&gt;\n&lt;/div&gt;\n&lt;input type=\"range\" class=\"form-range\"&gt;\n\n&lt;div class=\"form-floating\"&gt;\n  &lt;input class=\"form-control\" id=\"n\" placeholder=\"Name\"&gt;\n  &lt;label for=\"n\"&gt;Name&lt;/label&gt;\n&lt;/div&gt;</pre>\n<ul><li><b>Text inputs</b> (.form-control): sizes <code>.form-control-lg</code>, <code>.form-control-sm</code>; attributes readonly, disabled; <code>.form-control-plaintext</code> for read-only plain text.</li>\n<li><b>Select</b> (.form-select): also sizes and <code>multiple</code>.</li>\n<li><b>Checkboxes and radios:</b> <code>.form-check</code> wrapper, <code>.form-check-input</code>, <code>.form-check-label</code>; <code>.form-check-inline</code> places them in a row.</li>\n<li><b>Switches:</b> add <code>.form-switch</code> to a checkbox's .form-check.</li>\n<li><b>Range:</b> <code>.form-range</code>. <b>File input:</b> .form-control with type=\"file\". <b>Colour:</b> .form-control-color.</li>\n<li><b>Floating labels:</b> <code>.form-floating</code>; the input comes before the label and needs a placeholder.</li>\n<li><b>Input groups:</b> <code>.input-group</code> + <code>.input-group-text</code> for prefixes such as +91 or @.</li></ul>\n<h4>Form validation</h4>\n<p>Bootstrap uses the browser's HTML5 validation (<code>required</code>, <code>type=\"email\"</code>, <code>pattern</code>, <code>min</code>, <code>maxlength</code>) and shows coloured feedback:</p>\n<pre class=\"c\">&lt;form class=\"needs-validation\" novalidate&gt;\n  &lt;input class=\"form-control\" required&gt;\n  &lt;div class=\"invalid-feedback\"&gt;Required.&lt;/div&gt;\n  &lt;button class=\"btn btn-primary\"&gt;Submit&lt;/button&gt;\n&lt;/form&gt;\n&lt;script&gt;\n  form.addEventListener(\"submit\", function (e) {\n    if (!form.checkValidity()) e.preventDefault();\n    form.classList.add(\"was-validated\");\n  });\n&lt;/script&gt;</pre>\n<ul><li><code>novalidate</code> on the form turns off the browser's default pop-up messages.</li>\n<li>Adding <b>.was-validated</b> to the form shows red borders and <b>.invalid-feedback</b> text for invalid fields, green borders and <b>.valid-feedback</b> for valid ones.</li>\n<li>For server-side validation, add <code>.is-invalid</code> or <code>.is-valid</code> to individual fields.</li></ul>\n"
+     },
+     "programs": [
+      "w2_13",
+      "w2_15"
+     ]
+    },
+    {
+     "h": {
+      "en": "Bootstrap Buttons"
+     },
+     "body": {
+      "en": "\n<p>Buttons are created with the base class <b>.btn</b> plus a <b>variant</b> class. They can be used on &lt;button&gt;, &lt;a&gt; and &lt;input&gt; elements.</p>\n<pre class=\"c\">&lt;button type=\"button\" class=\"btn btn-primary\"&gt;Primary&lt;/button&gt;\n&lt;button class=\"btn btn-outline-success\"&gt;Outline&lt;/button&gt;\n&lt;button class=\"btn btn-danger btn-lg\"&gt;Large&lt;/button&gt;\n&lt;button class=\"btn btn-secondary btn-sm\"&gt;Small&lt;/button&gt;\n&lt;button class=\"btn btn-primary\" disabled&gt;Disabled&lt;/button&gt;\n&lt;a href=\"#\" class=\"btn btn-link\" role=\"button\"&gt;Link&lt;/a&gt;\n&lt;input type=\"reset\" class=\"btn btn-warning\" value=\"Reset\"&gt;\n\n&lt;div class=\"d-grid gap-2\"&gt;\n  &lt;button class=\"btn btn-primary\"&gt;Block button&lt;/button&gt;\n&lt;/div&gt;</pre>\n<table><tr><th>Type</th><th>Classes</th></tr>\n<tr><td>Colours</td><td>btn-primary, btn-secondary, btn-success, btn-danger, btn-warning, btn-info, btn-light, btn-dark, btn-link</td></tr>\n<tr><td>Outline</td><td>btn-outline-primary, btn-outline-danger, ...</td></tr>\n<tr><td>Sizes</td><td>btn-lg, btn-sm (Bootstrap 3 also had btn-xs)</td></tr>\n<tr><td>Block (full width)</td><td>wrapper .d-grid (BS4: btn-block)</td></tr>\n<tr><td>States</td><td>.active, disabled attribute (or .disabled on &lt;a&gt;)</td></tr>\n<tr><td>Toggle</td><td>data-bs-toggle=\"button\"</td></tr>\n<tr><td>Close button</td><td>.btn-close</td></tr></table>\n<ul><li>For an &lt;a&gt; used as a button, add <code>role=\"button\"</code>.</li>\n<li>Always set <code>type</code> on &lt;button&gt; (submit, reset or button).</li>\n<li>Button groups and toolbars are covered in Unit 3.</li></ul>\n"
+     },
+     "diagram": "web2_buttons",
+     "programs": [
+      "w2_14"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2.4 Carets and Show/Hide Text"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Carets"
+     },
+     "body": {
+      "en": "\n<p>A <b>caret</b> is the small triangle (arrow) shown on a button or link to indicate that it opens a dropdown menu.</p>\n<ul><li>In <b>Bootstrap 5</b>, the class <b>.dropdown-toggle</b> adds the caret automatically using a CSS ::after pseudo-element.</li>\n<li>In <b>Bootstrap 3</b>, the caret was a separate element: <code>&lt;span class=\"caret\"&gt;&lt;/span&gt;</code>.</li>\n<li>The caret direction follows the wrapper class: <code>.dropdown</code> (down), <code>.dropup</code> (up), <code>.dropend</code> (right), <code>.dropstart</code> (left).</li>\n<li><code>.dropdown-toggle-split</code> makes a split button with the caret on a separate part.</li></ul>\n<pre class=\"c\">&lt;div class=\"dropdown\"&gt;\n  &lt;button class=\"btn btn-primary dropdown-toggle\"\n    data-bs-toggle=\"dropdown\"&gt;Menu&lt;/button&gt;\n  &lt;ul class=\"dropdown-menu\"&gt;\n    &lt;li&gt;&lt;a class=\"dropdown-item\" href=\"#\"&gt;One&lt;/a&gt;&lt;/li&gt;\n  &lt;/ul&gt;\n&lt;/div&gt;\n&lt;!-- .dropup  .dropend  .dropstart change the direction --&gt;</pre>\n<p>Dropdowns need <code>bootstrap.bundle.min.js</code> (includes Popper) and the attribute <code>data-bs-toggle=\"dropdown\"</code>. They are studied in detail in Units 3 and 4.</p>\n"
+     }
+    },
+    {
+     "h": {
+      "en": "Hide or Show Text in Bootstrap"
+     },
+     "body": {
+      "en": "\n<p>Bootstrap <b>display utility classes</b> show or hide elements, and they can depend on the screen size.</p>\n<p>Format: <b>.d-{value}</b> for all sizes or <b>.d-{breakpoint}-{value}</b> from a breakpoint upward. Values: none, inline, inline-block, block, grid, table, flex, inline-flex.</p>\n<pre class=\"c\">&lt;div class=\"d-none\"&gt;always hidden&lt;/div&gt;\n&lt;div class=\"d-none d-md-block\"&gt;hidden on phones only&lt;/div&gt;\n&lt;div class=\"d-block d-md-none\"&gt;visible on phones only&lt;/div&gt;\n&lt;div class=\"d-none d-lg-block d-xl-none\"&gt;only on lg&lt;/div&gt;\n&lt;span class=\"invisible\"&gt;hidden, keeps space&lt;/span&gt;\n&lt;span class=\"visually-hidden\"&gt;for screen readers&lt;/span&gt;\n&lt;div class=\"d-print-none\"&gt;not printed&lt;/div&gt;</pre>\n<table><tr><th>Requirement</th><th>Classes</th></tr>\n<tr><td>Hidden on all screens</td><td>.d-none</td></tr>\n<tr><td>Hidden only on xs (phones)</td><td>.d-none .d-sm-block</td></tr>\n<tr><td>Hidden only on md</td><td>.d-md-none .d-lg-block</td></tr>\n<tr><td>Visible only on xs</td><td>.d-block .d-sm-none</td></tr>\n<tr><td>Visible only on lg</td><td>.d-none .d-lg-block .d-xl-none</td></tr>\n<tr><td>Hidden when printing</td><td>.d-print-none</td></tr></table>\n<h4>Other ways to hide</h4>\n<ul><li><b>.invisible:</b> hides the element but it still takes up space (visibility: hidden). <b>.visible</b> shows it again.</li>\n<li><b>.visually-hidden:</b> hides it from the screen but screen readers still read it (Bootstrap 3/4: .sr-only).</li>\n<li><b>JavaScript:</b> toggle the d-none class, e.g. <code>element.classList.toggle(\"d-none\")</code>, or use the collapse plug-in (Unit 4).</li></ul>\n<p><b>Bootstrap 3</b> used <code>.hidden-xs</code>, <code>.hidden-sm</code>, <code>.visible-md-block</code> etc. Bootstrap 4/5 replaced them with d-* classes.</p>\n"
+     },
+     "diagram": "web2_display",
+     "programs": [
+      "w2_16"
+     ]
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "w2_1",
+   "title": {
+    "en": "Student information using container and container-fluid (Practical 3)"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Containers</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n</head>\n<body>\n  <div class=\"container-fluid bg-primary text-white py-3\">\n    <h1 class=\"h4 mb-0\">.container-fluid: always 100% wide</h1>\n  </div>\n\n  <div class=\"container border border-primary my-3 p-3\">\n    <h2 class=\"h5\">.container: fixed width per breakpoint</h2>\n    <table class=\"table table-bordered mb-0\">\n      <tr><th>Name</th><td>Riya Patel</td></tr>\n      <tr><th>Enrolment No.</th><td>246070307051</td></tr>\n      <tr><th>Branch</th><td>Computer Engineering</td></tr>\n      <tr><th>Semester</th><td>3</td></tr>\n      <tr><th>College</th><td>GP Surat</td></tr>\n    </table>\n  </div>\n\n  <div class=\"container-md bg-light border p-3 mb-3\">\n    .container-md: 100% wide below 768 px, then fixed\n  </div>\n\n  <footer class=\"container-fluid bg-dark text-white\n    text-center py-2\">\n    Footer in .container-fluid\n  </footer>\n</body>\n</html>"
+   },
+   "out": "A full-width blue header strip, then a box with a blue border holding the student details table (name, enrolment number, branch, semester, college), a grey .container-md box and a full-width black footer.\nOn a phone (390 px) every block is full width. On a desktop (1100 px) the header and footer still stretch edge to edge, while the student box and the grey box are 960 px wide and centred with white space on both sides.",
+   "expl": {
+    "en": "<ul><li><b>.container</b> is a responsive <b>fixed-width</b> box, centred with auto margins. Its max-width is 540, 720, 960, 1140 and 1320 px at sm, md, lg, xl and xxl; below 576 px it is 100%.</li>\n<li><b>.container-fluid</b> is always <b>100% wide</b>, at every screen size; it suits headers, footers and full-width banners.</li>\n<li><b>.container-{breakpoint}</b> (e.g. <code>.container-md</code>) is 100% wide until that breakpoint and then behaves like .container.</li>\n<li>Every container has horizontal padding (gutter) so content does not touch the screen edge.</li>\n<li>Utilities used: <code>bg-primary</code>, <code>text-white</code>, <code>py-3</code> (vertical padding), <code>my-3</code> (vertical margin), <code>border</code>.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w2_2",
+   "title": {
+    "en": "Grid basics: rows, columns, sizes and breakpoints"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Grid Basics</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n  <style>\n    .box { background: #EADDF7; border: 1px solid #7B2CD9;\n           padding: 10px; text-align: center; }\n  </style>\n</head>\n<body>\n  <div class=\"container py-3\">\n    <p class=\"fw-bold mb-1\">1. Equal-width columns: .col</p>\n    <div class=\"row mb-3\">\n      <div class=\"col\"><div class=\"box\">col</div></div>\n      <div class=\"col\"><div class=\"box\">col</div></div>\n      <div class=\"col\"><div class=\"box\">col</div></div>\n    </div>\n\n    <p class=\"fw-bold mb-1\">2. Fixed: col-3 + col-6 + col-3</p>\n    <div class=\"row mb-3\">\n      <div class=\"col-3\"><div class=\"box\">3</div></div>\n      <div class=\"col-6\"><div class=\"box\">6</div></div>\n      <div class=\"col-3\"><div class=\"box\">3</div></div>\n    </div>\n\n    <p class=\"fw-bold mb-1\">3. Responsive: col-12 col-md-4</p>\n    <div class=\"row g-2 mb-3\">\n      <div class=\"col-12 col-md-4\"><div class=\"box\">A</div></div>\n      <div class=\"col-12 col-md-4\"><div class=\"box\">B</div></div>\n      <div class=\"col-12 col-md-4\"><div class=\"box\">C</div></div>\n    </div>\n\n    <p class=\"fw-bold mb-1\">4. Auto width: col-auto + col</p>\n    <div class=\"row mb-3\">\n      <div class=\"col-auto\"><div class=\"box\">col-auto</div></div>\n      <div class=\"col\"><div class=\"box\">col (rest)</div></div>\n    </div>\n\n    <p class=\"fw-bold mb-1\">5. row-cols-2 row-cols-md-4</p>\n    <div class=\"row row-cols-2 row-cols-md-4 g-2\">\n      <div class=\"col\"><div class=\"box\">1</div></div>\n      <div class=\"col\"><div class=\"box\">2</div></div>\n      <div class=\"col\"><div class=\"box\">3</div></div>\n      <div class=\"col\"><div class=\"box\">4</div></div>\n    </div>\n  </div>\n</body>\n</html>"
+   },
+   "out": "Five lavender demo rows.\n1. Three equal columns side by side. 2. Columns of widths 3, 6 and 3 (the middle one is twice as wide). 3. A, B and C stacked on a phone, but in one row of three from 768 px. 4. A narrow box that is only as wide as its text, with the rest of the row filled by the second box. 5. Two boxes per row on a phone, four per row from 768 px.",
+   "expl": {
+    "en": "<ul><li>The grid structure is always <b>.container &gt; .row &gt; .col-*</b>. Content goes inside the columns, and only columns may be direct children of a row.</li>\n<li>Each row has <b>12 columns</b>. <code>col-3 + col-6 + col-3 = 12</code>. If the total is more than 12, the extra columns wrap to a new line.</li>\n<li><code>.col</code> without a number makes equal-width columns that share the row automatically.</li>\n<li><code>.col-md-4</code> means 4 of 12 columns <b>from md (768 px) upward</b>; below that, <code>col-12</code> gives full width (mobile first).</li>\n<li><code>.col-auto</code> sizes a column to its content. <code>row-cols-*</code> sets the number of columns per row on the row itself.</li>\n<li><code>g-2</code> sets the <b>gutter</b> (gap) between columns; <code>gx-*</code> horizontal and <code>gy-*</code> vertical only.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w2_3",
+   "title": {
+    "en": "Offset columns"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Offset Columns</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n  <style>\n    .box { background: #EADDF7; border: 1px solid #7B2CD9;\n           padding: 10px; text-align: center; }\n  </style>\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h5\">Offset columns</h1>\n    <div class=\"row mb-2\">\n      <div class=\"col-4\"><div class=\"box\">col-4</div></div>\n      <div class=\"col-4 offset-4\">\n        <div class=\"box\">col-4 offset-4</div></div>\n    </div>\n    <div class=\"row mb-2\">\n      <div class=\"col-6 offset-3\">\n        <div class=\"box\">col-6 offset-3 (centred)</div></div>\n    </div>\n    <div class=\"row mb-2\">\n      <div class=\"col-md-5 offset-md-2\">\n        <div class=\"box\">col-md-5 offset-md-2</div></div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-3\"><div class=\"box\">col-3</div></div>\n      <div class=\"col-3 ms-auto\">\n        <div class=\"box\">ms-auto</div></div>\n    </div>\n  </div>\n</body>\n</html>"
+   },
+   "out": "Row 1: a box on the left and a box on the right, with an empty gap of 4 columns between them.\nRow 2: one box of half width, centred (3 empty columns on each side).\nRow 3: on a phone the box is full width; from 768 px it is 5 columns wide and starts after 2 empty columns.\nRow 4: one box at the far left and one pushed to the far right.",
+   "expl": {
+    "en": "<ul><li><b>Offset</b> moves a column to the right by adding empty columns before it (it adds <code>margin-left</code>).</li>\n<li><code>.offset-4</code> leaves 4 empty columns; total = offset + width must be 12 or less.</li>\n<li><code>.col-6 .offset-3</code> centres a half-width column: 3 + 6 + 3 = 12.</li>\n<li><b>Responsive offsets</b> such as <code>.offset-md-2</code> work only from that breakpoint upward; use <code>.offset-md-0</code> to reset at a larger size.</li>\n<li><b>Margin utilities</b> <code>ms-auto</code> (margin-start: auto) and <code>me-auto</code> push columns to the opposite side.</li>\n<li>Bootstrap 3 used <code>col-md-offset-2</code>; Bootstrap 4/5 use <code>offset-md-2</code>.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w2_4",
+   "title": {
+    "en": "Reordering columns with order classes"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Reordering</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n  <style>\n    .box { background: #EADDF7; border: 1px solid #7B2CD9;\n           padding: 10px; text-align: center; }\n  </style>\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h5\">Reordering columns</h1>\n    <p class=\"small text-muted\">HTML order: First, Second, Third</p>\n    <div class=\"row g-2 mb-3\">\n      <div class=\"col-md-4\"><div class=\"box\">First</div></div>\n      <div class=\"col-md-4 order-md-last\">\n        <div class=\"box\">Second (order-md-last)</div></div>\n      <div class=\"col-md-4 order-first order-md-0\">\n        <div class=\"box\">Third (order-first)</div></div>\n    </div>\n\n    <p class=\"small text-muted\">order-1, order-2, order-3</p>\n    <div class=\"row g-2\">\n      <div class=\"col-4 order-3\"><div class=\"box\">A</div></div>\n      <div class=\"col-4 order-1\"><div class=\"box\">B</div></div>\n      <div class=\"col-4 order-2\"><div class=\"box\">C</div></div>\n    </div>\n  </div>\n</body>\n</html>"
+   },
+   "out": "Group 1 on a phone shows the boxes stacked as Third, First, Second. On a desktop (768 px and wider) they appear in one row as First, Third, Second, even though the HTML order is First, Second, Third.\nGroup 2 always shows B, C, A, because of the order-1, order-2 and order-3 classes.",
+   "expl": {
+    "en": "<ul><li><b>Reordering</b> changes the <b>visual order</b> of columns without changing the HTML order. It uses the CSS flexbox <code>order</code> property.</li>\n<li><code>.order-0</code> to <code>.order-5</code> set the order number; lower numbers come first. Columns without a class have order 0.</li>\n<li><code>.order-first</code> (order -1) puts a column first and <code>.order-last</code> (order 6) puts it last.</li>\n<li>Responsive versions such as <code>.order-md-last</code> apply only from that breakpoint, so the order can be different on phone and desktop.</li>\n<li>Typical use: on a phone show the main content first and the sidebar after it, but on a desktop show the sidebar on the left.</li>\n<li>Bootstrap 3 used <code>col-md-push-*</code> / <code>col-md-pull-*</code> instead.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w2_5",
+   "title": {
+    "en": "Nesting columns"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Nesting</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n  <style>\n    .box { background: #EADDF7; border: 1px solid #7B2CD9;\n           padding: 10px; text-align: center; }\n  </style>\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h5\">Nesting columns</h1>\n    <div class=\"row g-2\">\n      <div class=\"col-md-8\">\n        <div class=\"box\">\n          Level 1: col-md-8\n          <div class=\"row g-2 mt-1\">\n            <div class=\"col-6\">\n              <div class=\"box bg-white\">Level 2: col-6</div>\n            </div>\n            <div class=\"col-6\">\n              <div class=\"box bg-white\">Level 2: col-6</div>\n            </div>\n            <div class=\"col-4\">\n              <div class=\"box bg-white\">col-4</div></div>\n            <div class=\"col-4\">\n              <div class=\"box bg-white\">col-4</div></div>\n            <div class=\"col-4\">\n              <div class=\"box bg-white\">col-4</div></div>\n          </div>\n        </div>\n      </div>\n      <div class=\"col-md-4\">\n        <div class=\"box\">Level 1: col-md-4</div>\n      </div>\n    </div>\n  </div>\n</body>\n</html>"
+   },
+   "out": "A big lavender box \"Level 1: col-md-8\" contains its own row of two white boxes (col-6 each) and then three smaller white boxes (col-4 each). Next to it (on a desktop) or below it (on a phone) is the box \"Level 1: col-md-4\".\nThe inner boxes always split the parent's width into 12 again.",
+   "expl": {
+    "en": "<ul><li><b>Nesting</b> means placing a new <code>.row</code> inside an existing column, and then columns inside that row.</li>\n<li>The nested row again has <b>12 columns</b>, measured relative to the width of the parent column, not the whole page. So the inner <code>col-6</code> is half of the col-md-8 column.</li>\n<li>A nested row must be <b>inside a column</b>, never directly inside another row.</li>\n<li>Nesting is used for complex layouts, e.g. a main area with a list of product cards inside it.</li>\n<li>There is no limit on nesting depth, but too many levels make the HTML hard to read.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w2_6",
+   "title": {
+    "en": "Responsive page with offset, reorder and nesting (Practical 4)"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Department Page</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n</head>\n<body>\n  <header class=\"bg-primary text-white text-center py-3\">\n    <h1 class=\"h4 mb-0\">Computer Engineering Department</h1>\n  </header>\n  <div class=\"container my-3\">\n    <div class=\"row g-3\">\n      <main class=\"col-md-8 order-md-2\">\n        <div class=\"p-3 border rounded\">\n          <h2 class=\"h5\">Latest News</h2>\n          <div class=\"row g-2\">\n            <div class=\"col-sm-6\">\n              <div class=\"p-2 bg-light\">Hackathon on 12 Dec</div>\n            </div>\n            <div class=\"col-sm-6\">\n              <div class=\"p-2 bg-light\">Seminar on AI</div>\n            </div>\n          </div>\n        </div>\n      </main>\n      <aside class=\"col-md-4 order-md-1\">\n        <div class=\"p-3 bg-warning-subtle rounded\">\n          <h2 class=\"h5\">Quick Links</h2>\n          <ul class=\"mb-0\">\n            <li>Syllabus</li><li>Time table</li>\n            <li>Results</li>\n          </ul>\n        </div>\n      </aside>\n    </div>\n    <div class=\"row mt-3\">\n      <div class=\"col-md-6 offset-md-3\">\n        <div class=\"p-3 bg-success text-white text-center\n          rounded\">Contact: hod.ce@gpsurat.ac.in</div>\n      </div>\n    </div>\n  </div>\n</body>\n</html>"
+   },
+   "out": "A blue header, then \"Latest News\" (with two grey news boxes) and a yellow \"Quick Links\" list, and finally a green contact box.\nOn a phone: News first, then Quick Links, then the full-width contact box. On a desktop: Quick Links on the left (4 columns), News on the right (8 columns) with its two news boxes side by side, and the contact box centred below at half width.",
+   "expl": {
+    "en": "<ul><li><b>Reordering:</b> in the HTML, &lt;main&gt; comes first so phones show the important news first. <code>order-md-1</code> / <code>order-md-2</code> move the sidebar to the left on larger screens.</li>\n<li><b>Nesting:</b> the news section contains its own <code>.row</code> with two <code>col-sm-6</code> columns.</li>\n<li><b>Offset:</b> <code>col-md-6 offset-md-3</code> centres the contact box on medium and larger screens.</li>\n<li>Semantic tags &lt;header&gt;, &lt;main&gt; and &lt;aside&gt; can be used as columns by giving them col classes.</li>\n<li><code>bg-warning-subtle</code> is a light background colour added in Bootstrap 5.3.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w2_7",
+   "title": {
+    "en": "Class time table using the grid system (Practical 5)"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Time Table</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n  <style>\n    .tt > div { border: 1px solid #ccc; padding: 8px; }\n    .tt .day { background: #EADDF7; font-weight: bold; }\n    .tt .lab { background: #E3F5E6; }\n  </style>\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h4 text-center\">CE Semester 3 - Time Table</h1>\n    <div class=\"row g-0 text-center fw-bold bg-primary\n      text-white d-none d-md-flex\">\n      <div class=\"col-md-2 p-2\">Day</div>\n      <div class=\"col-md-2 p-2\">10:30</div>\n      <div class=\"col-md-2 p-2\">11:30</div>\n      <div class=\"col-md-2 p-2\">12:30</div>\n      <div class=\"col-md-2 p-2\">2:00</div>\n      <div class=\"col-md-2 p-2\">3:00</div>\n    </div>\n    <div class=\"row g-0 text-center tt\">\n      <div class=\"col-12 col-md-2 day\">Monday</div>\n      <div class=\"col-6 col-md-2\">DS</div>\n      <div class=\"col-6 col-md-2\">RDBMS</div>\n      <div class=\"col-6 col-md-2\">OS</div>\n      <div class=\"col-6 col-md-4 lab\">RWPD Lab</div>\n    </div>\n    <div class=\"row g-0 text-center tt\">\n      <div class=\"col-12 col-md-2 day\">Tuesday</div>\n      <div class=\"col-6 col-md-2\">CN</div>\n      <div class=\"col-6 col-md-2\">DE</div>\n      <div class=\"col-6 col-md-2\">DS</div>\n      <div class=\"col-6 col-md-4 lab\">DS Lab</div>\n    </div>\n    <div class=\"row g-0 text-center tt\">\n      <div class=\"col-12 col-md-2 day\">Wednesday</div>\n      <div class=\"col-6 col-md-2\">OS</div>\n      <div class=\"col-6 col-md-2\">RDBMS</div>\n      <div class=\"col-6 col-md-2\">CN</div>\n      <div class=\"col-6 col-md-4 lab\">RDBMS Lab</div>\n    </div>\n  </div>\n</body>\n</html>"
+   },
+   "out": "A time table titled \"CE Semester 3 - Time Table\".\nOn a desktop it looks like a normal table: a blue header row (Day, 10:30 ... 3:00), then one row per day with three lectures and a green 2-hour lab spanning two periods.\nOn a phone the header is hidden; each day name appears as a full-width lavender bar with its subjects below it, two per line.",
+   "expl": {
+    "en": "<ul><li>Each day is a <code>.row</code>; the day name and periods are columns: 2 + 2 + 2 + 2 + 4 = 12 on desktop. The lab uses <code>col-md-4</code> because it lasts two periods.</li>\n<li>On a phone, <code>col-12</code> makes the day name full width and <code>col-6</code> places two subjects per line.</li>\n<li>The header row uses <code>d-none d-md-flex</code>: hidden on phones and shown (as a flex row) from 768 px.</li>\n<li><code>g-0</code> removes gutters so the cells touch like table cells; borders are added with a small CSS rule.</li>\n<li>A real &lt;table&gt; inside <code>.table-responsive</code> is another way (see the tables program); the grid version rearranges itself instead of scrolling.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w2_8",
+   "title": {
+    "en": "Responsive images and image shapes"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Images</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h5\">1. Responsive image: .img-fluid</h1>\n    <img src=\"images/campus.jpg\" alt=\"College campus\"\n      width=\"1200\" height=\"400\" class=\"img-fluid mb-3\">\n\n    <h2 class=\"h5\">2. Image shapes</h2>\n    <div class=\"row g-3 text-center\">\n      <div class=\"col-6 col-md-3\">\n        <img src=\"images/a.jpg\" alt=\"rounded\" width=\"300\"\n          height=\"300\" class=\"img-fluid rounded\">\n        <p class=\"small\">.rounded</p>\n      </div>\n      <div class=\"col-6 col-md-3\">\n        <img src=\"images/b.jpg\" alt=\"circle\" width=\"300\"\n          height=\"300\" class=\"img-fluid rounded-circle\">\n        <p class=\"small\">.rounded-circle</p>\n      </div>\n      <div class=\"col-6 col-md-3\">\n        <img src=\"images/c.jpg\" alt=\"thumbnail\" width=\"300\"\n          height=\"300\" class=\"img-fluid img-thumbnail\">\n        <p class=\"small\">.img-thumbnail</p>\n      </div>\n      <div class=\"col-6 col-md-3\">\n        <img src=\"images/d.jpg\" alt=\"pill\" width=\"300\"\n          height=\"200\" class=\"img-fluid rounded-pill\">\n        <p class=\"small\">.rounded-pill</p>\n      </div>\n    </div>\n\n    <h2 class=\"h5\">3. Figure with caption, centred image</h2>\n    <figure class=\"figure text-center d-block\">\n      <img src=\"images/lab.jpg\" alt=\"Computer lab\" width=\"400\"\n        height=\"250\" class=\"figure-img img-fluid rounded\">\n      <figcaption class=\"figure-caption\">\n        Fig. 1: Computer lab</figcaption>\n    </figure>\n  </div>\n</body>\n</html>"
+   },
+   "out": "1. A wide campus image that always fits the screen width (it shrinks on a phone and never overflows).\n2. Four coloured placeholder images (they stand for real photos): one with rounded corners, one cut into a circle, one with a white border and padding like a thumbnail, and one with pill-shaped (capsule) ends. Two per row on a phone, four per row on a desktop.\n3. A centred lab image with the grey caption \"Fig. 1: Computer lab\".",
+   "expl": {
+    "en": "<ul><li><b>.img-fluid</b> sets <code>max-width: 100%; height: auto;</code> so the image scales down with its parent but never grows bigger than its real size. Bootstrap 3 called this <code>.img-responsive</code>.</li>\n<li><b>Image shapes:</b> <code>.rounded</code> (rounded corners), <code>.rounded-circle</code> (circle; a square image gives a perfect circle), <code>.img-thumbnail</code> (1 px border, padding, rounded), <code>.rounded-pill</code>. Sizes: <code>rounded-0</code> to <code>rounded-5</code>.</li>\n<li><b>Aligning images:</b> <code>.float-start</code>, <code>.float-end</code>, or <code>.d-block mx-auto</code> to centre a block image; <code>text-center</code> on the parent centres inline images.</li>\n<li><b>Figures:</b> <code>.figure</code>, <code>.figure-img</code> and <code>.figure-caption</code> show an image with a caption.</li>\n<li>Always give <code>alt</code> text (for screen readers and when an image fails). In the app preview, missing photos are shown as labelled colour placeholders.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w2_9",
+   "title": {
+    "en": "Bootstrap typography: blog page (Practical 7)"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Blog</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"display-5\">Tech Blog</h1>\n    <p class=\"lead\">Notes and ideas for diploma students.</p>\n    <hr>\n    <h2>Why learn Bootstrap?\n      <small class=\"text-body-secondary\">a quick guide</small>\n    </h2>\n    <p class=\"text-muted small\">Posted on 28 Oct 2026 by\n      <abbr title=\"Head of Department\">HOD</abbr></p>\n    <p>Bootstrap helps you build <mark>responsive</mark>\n      pages quickly. You write <strong>less CSS</strong>\n      and get a <em>consistent</em> design.\n      Old way: <del>fixed-width tables</del>,\n      new way: <ins>flexbox grid</ins>.</p>\n    <blockquote class=\"blockquote border-start border-4\n      ps-3\">\n      <p>Write less, do more.</p>\n      <footer class=\"blockquote-footer\">jQuery motto,\n        <cite>jquery.com</cite></footer>\n    </blockquote>\n    <h3 class=\"h5\">Topics covered</h3>\n    <ul class=\"list-inline\">\n      <li class=\"list-inline-item badge bg-primary\">Grid</li>\n      <li class=\"list-inline-item badge bg-success\">Forms</li>\n      <li class=\"list-inline-item badge bg-danger\">Tables</li>\n    </ul>\n    <p class=\"text-center text-uppercase fw-bold\">centre\n      uppercase bold</p>\n    <p class=\"text-end fst-italic\">right aligned italic</p>\n    <p class=\"text-justify\">Press <kbd>Ctrl</kbd> +\n      <kbd>S</kbd> to save. Use <code>&lt;h1&gt;</code>\n      for the main heading.</p>\n  </div>\n</body>\n</html>"
+   },
+   "out": "A blog page with a very large heading \"Tech Blog\", a bigger grey lead line and a horizontal rule.\nThe post heading has a smaller grey subtitle \"a quick guide\", then a small grey \"Posted on\" line where HOD has a dotted underline (hover shows \"Head of Department\").\nThe paragraph shows \"responsive\" highlighted in yellow, bold, italic, struck-through and underlined words. A quotation has a left border and a grey \"- jQuery motto, jquery.com\" footer. Three coloured topic badges sit in one line, followed by a centred uppercase bold line, a right-aligned italic line and keyboard keys Ctrl and S.",
+   "expl": {
+    "en": "<ul><li><b>Headings:</b> &lt;h1&gt;-&lt;h6&gt; or classes <code>.h1</code>-<code>.h6</code>; <code>&lt;small&gt;</code> inside a heading gives a secondary sub-title.</li>\n<li><b>Display headings</b> <code>.display-1</code> to <code>.display-6</code> are larger, lighter headings; <b>.lead</b> makes a paragraph stand out.</li>\n<li><b>Inline text elements:</b> &lt;mark&gt; highlight, &lt;del&gt;/&lt;s&gt; deleted, &lt;ins&gt;/&lt;u&gt; inserted, &lt;strong&gt; bold, &lt;em&gt; italic, &lt;small&gt;, &lt;abbr&gt; abbreviation, &lt;kbd&gt; keyboard input, &lt;code&gt; inline code.</li>\n<li><b>Blockquote:</b> <code>.blockquote</code> with <code>.blockquote-footer</code> for the source.</li>\n<li><b>Lists:</b> <code>.list-unstyled</code> (no bullets) and <code>.list-inline</code> with <code>.list-inline-item</code> (items in one line).</li>\n<li><b>Text utilities:</b> alignment <code>text-start / text-center / text-end</code> (also responsive, e.g. text-md-center), transform <code>text-uppercase / lowercase / capitalize</code>, weight <code>fw-bold / fw-light</code>, style <code>fst-italic</code>, colours <code>text-primary / text-muted</code>.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w2_10",
+   "title": {
+    "en": "Bootstrap tables in different styles"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Tables</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h5\">1. .table .table-striped .table-hover</h1>\n    <table class=\"table table-striped table-hover\">\n      <thead><tr><th>Roll</th><th>Name</th><th>Marks</th>\n      </tr></thead>\n      <tbody>\n        <tr><td>1</td><td>Aman</td><td>78</td></tr>\n        <tr><td>2</td><td>Bhumi</td><td>91</td></tr>\n        <tr><td>3</td><td>Chirag</td><td>65</td></tr>\n      </tbody>\n    </table>\n\n    <h2 class=\"h5\">2. Bordered, small, dark header</h2>\n    <table class=\"table table-bordered table-sm\">\n      <thead class=\"table-dark\">\n        <tr><th>Subject</th><th>Code</th></tr></thead>\n      <tr><td>DS</td><td>DI03000021</td></tr>\n      <tr><td>RWPD</td><td>DI03000061</td></tr>\n    </table>\n\n    <h2 class=\"h5\">3. Contextual (coloured) rows</h2>\n    <table class=\"table\">\n      <tr class=\"table-success\"><td>Pass</td><td>52</td></tr>\n      <tr class=\"table-warning\"><td>ATKT</td><td>6</td></tr>\n      <tr class=\"table-danger\"><td>Fail</td><td>2</td></tr>\n      <tr class=\"table-info\"><td>Absent</td><td>1</td></tr>\n    </table>\n\n    <h2 class=\"h5\">4. .table-responsive (scrolls sideways)</h2>\n    <div class=\"table-responsive\">\n      <table class=\"table table-bordered text-nowrap\">\n        <tr><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th>\n          <th>Fri</th><th>Sat</th></tr>\n        <tr><td>DS Lab</td><td>RDBMS Lab</td><td>OS</td>\n          <td>CN Lab</td><td>RWPD Lab</td><td>Library</td></tr>\n      </table>\n    </div>\n  </div>\n</body>\n</html>"
+   },
+   "out": "1. A marks table with grey stripes on alternate rows; the row under the mouse is highlighted.\n2. A small table with borders around every cell and a black header row.\n3. Rows coloured green (Pass), yellow (ATKT), red (Fail) and light blue (Absent).\n4. A wide timetable that does not squeeze on a phone: it scrolls horizontally inside its own box.",
+   "expl": {
+    "en": "<ul><li><b>.table</b> adds basic Bootstrap styling (padding, horizontal lines). It must be added to every table.</li>\n<li><b>.table-striped</b> zebra-stripes the rows; <b>.table-striped-columns</b> stripes columns.</li>\n<li><b>.table-hover</b> highlights a row when the mouse is over it.</li>\n<li><b>.table-bordered</b> adds borders on all sides; <b>.table-borderless</b> removes them; <b>.table-sm</b> halves the cell padding.</li>\n<li><b>Colours:</b> <code>.table-dark</code>, <code>.table-primary</code>, <code>.table-success</code>, <code>.table-danger</code>, <code>.table-warning</code>, <code>.table-info</code>, <code>.table-light</code> on a table, row (&lt;tr&gt;) or cell.</li>\n<li><b>.table-responsive</b> on a wrapping &lt;div&gt; makes a wide table scroll horizontally on small screens; <code>.table-responsive-md</code> does this only below 768 px.</li>\n<li>Bootstrap 3 used <code>.active</code>/<code>.success</code> on rows; Bootstrap 5 uses <code>.table-active</code>/<code>.table-success</code>.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w2_11",
+   "title": {
+    "en": "Co-curricular activities: images and tables (Practical 6)"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Activities</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h3 text-center mb-3\">Student Activities</h1>\n    <div class=\"row g-3\">\n      <div class=\"col-sm-6 col-lg-4\">\n        <img src=\"images/sports.jpg\" alt=\"Sports Day\"\n          width=\"600\" height=\"400\" class=\"img-fluid rounded\">\n        <h2 class=\"h6 mt-2\">Sports Day</h2>\n        <p class=\"small\">Cricket, kabaddi and athletics.</p>\n      </div>\n      <div class=\"col-sm-6 col-lg-4\">\n        <img src=\"images/tech.jpg\" alt=\"Tech Fest\"\n          width=\"600\" height=\"400\" class=\"img-fluid img-thumbnail\">\n        <h2 class=\"h6 mt-2\">Tech Fest</h2>\n        <p class=\"small\">Project expo and coding contest.</p>\n      </div>\n      <div class=\"col-sm-6 col-lg-4\">\n        <img src=\"images/nss.jpg\" alt=\"NSS Camp\"\n          width=\"600\" height=\"400\" class=\"img-fluid rounded-4\">\n        <h2 class=\"h6 mt-2\">NSS Camp</h2>\n        <p class=\"small\">Village cleanliness drive.</p>\n      </div>\n      <div class=\"col-sm-6 col-lg-4 text-center\">\n        <img src=\"images/garba.jpg\" alt=\"Garba\" width=\"300\"\n          height=\"300\" class=\"img-fluid rounded-circle w-50\">\n        <h2 class=\"h6 mt-2\">Navratri Garba</h2>\n        <p class=\"small\">Cultural night on campus.</p>\n      </div>\n      <div class=\"col-sm-6 col-lg-4 text-center\">\n        <img src=\"images/blood.jpg\" alt=\"Blood Camp\"\n          width=\"300\" height=\"300\"\n          class=\"img-fluid rounded-circle w-50\">\n        <h2 class=\"h6 mt-2\">Blood Donation</h2>\n        <p class=\"small\">120 units collected.</p>\n      </div>\n      <div class=\"col-sm-6 col-lg-4 text-center\">\n        <img src=\"images/trip.jpg\" alt=\"Industrial Visit\"\n          width=\"300\" height=\"300\"\n          class=\"img-fluid rounded-circle w-50\">\n        <h2 class=\"h6 mt-2\">Industrial Visit</h2>\n        <p class=\"small\">Visit to a software company.</p>\n      </div>\n    </div>\n\n    <h2 class=\"h5 mt-4\">Participation</h2>\n    <div class=\"table-responsive\">\n      <table class=\"table table-striped table-hover\n        table-bordered\">\n        <thead class=\"table-primary\">\n          <tr><th>Activity</th><th>Students</th>\n            <th>Month</th></tr>\n        </thead>\n        <tbody>\n          <tr><td>Sports Day</td><td>180</td><td>Jan</td></tr>\n          <tr class=\"table-success\"><td>Tech Fest</td>\n            <td>95</td><td>Feb</td></tr>\n          <tr><td>NSS Camp</td><td>60</td><td>Mar</td></tr>\n          <tr class=\"table-warning\"><td>Garba</td>\n            <td>300</td><td>Oct</td></tr>\n        </tbody>\n      </table>\n    </div>\n  </div>\n</body>\n</html>"
+   },
+   "out": "A \"Student Activities\" page with six activities, each with an image (placeholder), a title and a short description.\nThe first three images are rectangles: rounded, a thumbnail with a border, and extra-rounded. The last three are circles.\nOne activity per row on a phone, two from 576 px and three from 992 px. Below is a striped, bordered \"Participation\" table with a light blue header and a highlighted row on hover; the Tech Fest row is green and the Garba row yellow.",
+   "expl": {
+    "en": "<ul><li>Responsive layout: <code>col-sm-6 col-lg-4</code> gives 1, 2 or 3 activities per row.</li>\n<li>Different image styles: <code>rounded</code>, <code>img-thumbnail</code>, <code>rounded-4</code> and <code>rounded-circle</code>; every image also has <code>img-fluid</code> so it fits its column. <code>w-50</code> makes the circle images half the column width.</li>\n<li>The table combines several styles: striped, hover, bordered, a coloured header (<code>table-primary</code>) and coloured rows (<code>table-success</code>, <code>table-warning</code>). It is wrapped in <code>table-responsive</code>.</li>\n<li>Replace <code>images/sports.jpg</code> etc. with the real photo files in the project's images folder.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w2_12",
+   "title": {
+    "en": "Form layouts: vertical, grid, horizontal and inline"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Form Layouts</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h5\">1. Vertical (default)</h1>\n    <form class=\"mb-4\">\n      <div class=\"mb-2\">\n        <label for=\"em\" class=\"form-label\">Email</label>\n        <input type=\"email\" class=\"form-control\" id=\"em\"\n          placeholder=\"name@example.com\">\n        <div class=\"form-text\">We never share your email.</div>\n      </div>\n      <button class=\"btn btn-primary\">Send</button>\n    </form>\n\n    <h2 class=\"h5\">2. Grid layout</h2>\n    <form class=\"row g-2 mb-4\">\n      <div class=\"col-md-6\">\n        <input class=\"form-control\" placeholder=\"First name\">\n      </div>\n      <div class=\"col-md-6\">\n        <input class=\"form-control\" placeholder=\"Last name\">\n      </div>\n    </form>\n\n    <h2 class=\"h5\">3. Horizontal</h2>\n    <form class=\"mb-4\">\n      <div class=\"row mb-2\">\n        <label class=\"col-sm-3 col-form-label\">City</label>\n        <div class=\"col-sm-9\">\n          <input class=\"form-control\" value=\"Surat\"></div>\n      </div>\n      <div class=\"row\">\n        <label class=\"col-sm-3 col-form-label\">Pin</label>\n        <div class=\"col-sm-9\">\n          <input class=\"form-control\" value=\"395001\"></div>\n      </div>\n    </form>\n\n    <h2 class=\"h5\">4. Inline</h2>\n    <form class=\"row row-cols-sm-auto g-2 align-items-center\">\n      <div class=\"col-12\">\n        <input class=\"form-control\" placeholder=\"Username\">\n      </div>\n      <div class=\"col-12\">\n        <div class=\"form-check\">\n          <input class=\"form-check-input\" type=\"checkbox\"\n            id=\"rm\">\n          <label class=\"form-check-label\" for=\"rm\">\n            Remember</label>\n        </div>\n      </div>\n      <div class=\"col-12\">\n        <button class=\"btn btn-success\">Login</button></div>\n    </form>\n  </div>\n</body>\n</html>"
+   },
+   "out": "1. A vertical form: the label \"Email\" above a full-width input with grey help text and a blue Send button.\n2. First and last name boxes side by side on a desktop, stacked on a phone.\n3. Labels City and Pin on the left of their inputs (from 576 px); on a phone the label is above.\n4. Username, a Remember checkbox and a green Login button in one line from 576 px, stacked on a phone.",
+   "expl": {
+    "en": "<ul><li><b>Vertical form</b> (default): each field in a <code>.mb-3</code> block with <code>.form-label</code> and <code>.form-control</code>; <code>.form-text</code> gives help text.</li>\n<li><b>Grid form:</b> add <code>.row</code> to the form (or a div) and put fields in <code>.col-*</code> columns.</li>\n<li><b>Horizontal form:</b> each field group is a <code>.row</code>; the label gets <code>.col-sm-3 .col-form-label</code> (vertically centred) and the input is inside <code>.col-sm-9</code>.</li>\n<li><b>Inline form:</b> <code>.row-cols-sm-auto</code> makes each column only as wide as its content, so all fields fit in one line; <code>.align-items-center</code> aligns them vertically.</li>\n<li>Bootstrap 3 used <code>.form-group</code>, <code>.form-horizontal</code> and <code>.form-inline</code>; Bootstrap 5 uses grid and spacing classes instead.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w2_13",
+   "title": {
+    "en": "Form controls: select, check, radio, switch, range, floating labels"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Form Controls</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <form>\n      <div class=\"form-floating mb-2\">\n        <input type=\"text\" class=\"form-control\" id=\"nm\"\n          placeholder=\"Name\">\n        <label for=\"nm\">Floating label: Name</label>\n      </div>\n      <select class=\"form-select mb-2\">\n        <option selected>Choose semester</option>\n        <option>Semester 1</option>\n        <option>Semester 3</option>\n      </select>\n      <textarea class=\"form-control mb-2\" rows=\"2\"\n        placeholder=\"Address\"></textarea>\n      <input class=\"form-control form-control-lg mb-2\"\n        placeholder=\".form-control-lg\">\n      <input class=\"form-control form-control-sm mb-2\"\n        placeholder=\".form-control-sm\">\n      <input class=\"form-control mb-2\" value=\"Read only\"\n        readonly>\n      <input class=\"form-control mb-3\" placeholder=\"Disabled\"\n        disabled>\n\n      <div class=\"form-check form-check-inline\">\n        <input class=\"form-check-input\" type=\"radio\" name=\"g\"\n          id=\"m\" checked>\n        <label class=\"form-check-label\" for=\"m\">Male</label>\n      </div>\n      <div class=\"form-check form-check-inline\">\n        <input class=\"form-check-input\" type=\"radio\" name=\"g\"\n          id=\"f\">\n        <label class=\"form-check-label\" for=\"f\">Female</label>\n      </div>\n      <div class=\"form-check\">\n        <input class=\"form-check-input\" type=\"checkbox\"\n          id=\"t\" checked>\n        <label class=\"form-check-label\" for=\"t\">\n          I accept the terms</label>\n      </div>\n      <div class=\"form-check form-switch mb-2\">\n        <input class=\"form-check-input\" type=\"checkbox\"\n          id=\"sw\">\n        <label class=\"form-check-label\" for=\"sw\">\n          Email notifications</label>\n      </div>\n      <label for=\"rg\" class=\"form-label\">Attendance %</label>\n      <input type=\"range\" class=\"form-range\" id=\"rg\"\n        min=\"0\" max=\"100\" value=\"80\">\n      <div class=\"input-group mt-2\">\n        <span class=\"input-group-text\">+91</span>\n        <input class=\"form-control\" placeholder=\"Mobile\">\n      </div>\n    </form>\n  </div>\n</body>\n</html>"
+   },
+   "out": "A form showing every control type: a Name box whose label sits inside it and floats up when you type, a Bootstrap-styled drop-down list, a two-line Address box, a large and a small input, a read-only box and a greyed-out disabled box.\nBelow are two inline radio buttons (Male selected), a ticked checkbox, an on/off switch, a slider set to 80 and a mobile number box with a \"+91\" prefix.",
+   "expl": {
+    "en": "<ul><li><b>.form-control</b> styles text inputs and textareas; size with <code>.form-control-lg</code> / <code>.form-control-sm</code>; use the <code>readonly</code> and <code>disabled</code> attributes.</li>\n<li><b>.form-select</b> styles &lt;select&gt; drop-downs (Bootstrap 3/4 used .form-control).</li>\n<li><b>Checks and radios:</b> wrapper <code>.form-check</code>, input <code>.form-check-input</code>, label <code>.form-check-label</code>; add <code>.form-check-inline</code> for one line. Radios with the same <code>name</code> allow one choice.</li>\n<li><b>Switch:</b> <code>.form-check.form-switch</code> on a checkbox.</li>\n<li><b>Range:</b> <code>.form-range</code> on <code>type=\"range\"</code>.</li>\n<li><b>Floating labels:</b> <code>.form-floating</code> wrapper; the input must come <b>before</b> the label and needs a placeholder.</li>\n<li><b>Input group:</b> <code>.input-group</code> with <code>.input-group-text</code> adds text or buttons before/after an input (more in Unit 3).</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w2_14",
+   "title": {
+    "en": "Bootstrap buttons"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Buttons</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h6\">Colour variants</h1>\n    <button class=\"btn btn-primary\">Primary</button>\n    <button class=\"btn btn-secondary\">Secondary</button>\n    <button class=\"btn btn-success\">Success</button>\n    <button class=\"btn btn-danger\">Danger</button>\n    <button class=\"btn btn-warning\">Warning</button>\n    <button class=\"btn btn-info\">Info</button>\n    <button class=\"btn btn-light\">Light</button>\n    <button class=\"btn btn-dark\">Dark</button>\n    <button class=\"btn btn-link\">Link</button>\n\n    <h2 class=\"h6 mt-3\">Outline buttons</h2>\n    <button class=\"btn btn-outline-primary\">Primary</button>\n    <button class=\"btn btn-outline-danger\">Danger</button>\n\n    <h2 class=\"h6 mt-3\">Sizes</h2>\n    <button class=\"btn btn-primary btn-lg\">Large</button>\n    <button class=\"btn btn-primary\">Default</button>\n    <button class=\"btn btn-primary btn-sm\">Small</button>\n\n    <h2 class=\"h6 mt-3\">States and tags</h2>\n    <button class=\"btn btn-success active\">Active</button>\n    <button class=\"btn btn-success\" disabled>Disabled</button>\n    <a href=\"#\" class=\"btn btn-dark\" role=\"button\">Link</a>\n    <input type=\"submit\" class=\"btn btn-info\" value=\"Input\">\n\n    <h2 class=\"h6 mt-3\">Full-width (block) buttons</h2>\n    <div class=\"d-grid gap-2\">\n      <button class=\"btn btn-primary\">Block button 1</button>\n      <button class=\"btn btn-outline-secondary\">\n        Block button 2</button>\n    </div>\n    <div class=\"d-grid gap-2 col-6 mx-auto mt-2\">\n      <button class=\"btn btn-warning\">Centred, half width</button>\n    </div>\n  </div>\n</body>\n</html>"
+   },
+   "out": "Coloured buttons: blue, grey, green, red, yellow, light blue, white, black and a plain blue link-style button.\nThen outline buttons (coloured border, filling when hovered), a large, normal and small button, a darker \"Active\" button, a faded \"Disabled\" button, a link and an input styled as buttons.\nAt the bottom are two full-width buttons and one yellow half-width button in the centre.",
+   "expl": {
+    "en": "<ul><li>Every button needs the base class <b>.btn</b> plus a variant: <code>btn-primary, secondary, success, danger, warning, info, light, dark, link</code>.</li>\n<li><b>Outline:</b> <code>.btn-outline-*</code> gives a coloured border and text with no background.</li>\n<li><b>Sizes:</b> <code>.btn-lg</code> and <code>.btn-sm</code> (Bootstrap 3 also had btn-xs).</li>\n<li><b>States:</b> <code>.active</code> looks pressed; the <code>disabled</code> attribute (for &lt;a&gt;, class <code>.disabled</code>) makes it unclickable.</li>\n<li><b>.btn</b> works on &lt;button&gt;, &lt;a&gt; (add <code>role=\"button\"</code>) and &lt;input type=\"submit/button/reset\"&gt;.</li>\n<li><b>Block buttons:</b> Bootstrap 4 had <code>.btn-block</code>; Bootstrap 5 uses a wrapper <code>.d-grid gap-2</code>. Add <code>col-6 mx-auto</code> to centre a narrower block button.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w2_15",
+   "title": {
+    "en": "Student registration form with validation (Practical 8)"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Registration</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <div class=\"row\">\n      <div class=\"col-lg-8 offset-lg-2\">\n        <h1 class=\"h4 text-center mb-3\">\n          Student Registration</h1>\n        <form id=\"reg\" class=\"row g-3 needs-validation\"\n          novalidate>\n          <div class=\"col-md-6\">\n            <label for=\"fn\" class=\"form-label\">Full name</label>\n            <input class=\"form-control\" id=\"fn\" required>\n            <div class=\"invalid-feedback\">Enter your name.</div>\n          </div>\n          <div class=\"col-md-6\">\n            <label for=\"en\" class=\"form-label\">\n              Enrolment no.</label>\n            <input class=\"form-control\" id=\"en\" required\n              pattern=\"[0-9]{12}\">\n            <div class=\"invalid-feedback\">12 digits.</div>\n          </div>\n          <div class=\"col-md-6\">\n            <label for=\"ml\" class=\"form-label\">Email</label>\n            <input type=\"email\" class=\"form-control\" id=\"ml\"\n              required>\n            <div class=\"invalid-feedback\">Valid email.</div>\n          </div>\n          <div class=\"col-md-6\">\n            <label for=\"br\" class=\"form-label\">Branch</label>\n            <select class=\"form-select\" id=\"br\" required>\n              <option value=\"\">Choose...</option>\n              <option>Computer</option><option>IT</option>\n              <option>Electrical</option>\n            </select>\n            <div class=\"invalid-feedback\">Select branch.</div>\n          </div>\n          <div class=\"col-12\">\n            <span class=\"me-3\">Gender:</span>\n            <div class=\"form-check form-check-inline\">\n              <input class=\"form-check-input\" type=\"radio\"\n                name=\"gd\" id=\"g1\" required>\n              <label class=\"form-check-label\" for=\"g1\">\n                Male</label>\n            </div>\n            <div class=\"form-check form-check-inline\">\n              <input class=\"form-check-input\" type=\"radio\"\n                name=\"gd\" id=\"g2\">\n              <label class=\"form-check-label\" for=\"g2\">\n                Female</label>\n            </div>\n          </div>\n          <div class=\"col-12\">\n            <label for=\"ad\" class=\"form-label\">Address</label>\n            <textarea class=\"form-control\" id=\"ad\"\n              rows=\"2\"></textarea>\n          </div>\n          <div class=\"col-12 form-check ms-2\">\n            <input class=\"form-check-input\" type=\"checkbox\"\n              id=\"ok\" required>\n            <label class=\"form-check-label\" for=\"ok\">\n              Details are correct</label>\n            <div class=\"invalid-feedback\">Please confirm.</div>\n          </div>\n          <div class=\"col-12 d-flex gap-2\">\n            <button type=\"submit\" class=\"btn btn-primary\">\n              Register</button>\n            <button type=\"reset\" class=\"btn btn-outline-secondary\">\n              Reset</button>\n          </div>\n        </form>\n        <div id=\"msg\" class=\"alert alert-success mt-3 d-none\">\n          Registration successful!</div>\n      </div>\n    </div>\n  </div>\n  <script>\n    var form = document.getElementById(\"reg\");\n    form.addEventListener(\"submit\", function (e) {\n      e.preventDefault();\n      var ok = form.checkValidity();\n      form.classList.add(\"was-validated\");\n      document.getElementById(\"msg\")\n        .classList.toggle(\"d-none\", !ok);\n    });\n  </script>\n</body>\n</html>"
+   },
+   "out": "A centred \"Student Registration\" form: Full name and Enrolment no. side by side (stacked on a phone), Email and a Branch drop-down, Male/Female radio buttons, an Address box, a confirmation checkbox, and blue Register and grey Reset buttons.\nPressing Register with empty fields turns the required fields red with messages like \"Enter your name.\" and \"12 digits.\"; correct fields turn green. When everything is valid, a green \"Registration successful!\" box appears.",
+   "expl": {
+    "en": "<ul><li><b>Layout:</b> <code>col-lg-8 offset-lg-2</code> centres the form on large screens; inside, <code>form.row.g-3</code> with <code>col-md-6</code> puts two fields per row from 768 px.</li>\n<li><b>Controls:</b> form-control, form-select, form-check (inline radios and a checkbox) and buttons of type submit and reset.</li>\n<li><b>HTML5 validation:</b> <code>required</code>, <code>type=\"email\"</code> and <code>pattern=\"[0-9]{12}\"</code>. The <code>novalidate</code> attribute stops the browser's own pop-ups so Bootstrap can show its styled messages.</li>\n<li>On submit, <code>checkValidity()</code> checks every field and the class <b>.was-validated</b> on the form shows red/green borders and the <b>.invalid-feedback</b> messages (<code>.valid-feedback</code> for success text).</li>\n<li><code>classList.toggle(\"d-none\", !ok)</code> shows the success alert only when the form is valid.</li></ul>"
+   },
+   "run": "html"
+  },
+  {
+   "id": "w2_16",
+   "title": {
+    "en": "Carets and show/hide text on different screens"
+   },
+   "code": {
+    "en": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\">\n  <title>Carets and Display</title>\n  <link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\n</head>\n<body>\n  <div class=\"container py-3\">\n    <h1 class=\"h5\">1. Carets (dropdown arrows)</h1>\n    <div class=\"d-flex flex-wrap gap-2 mb-4\">\n      <div class=\"dropdown\">\n        <button class=\"btn btn-primary dropdown-toggle\"\n          data-bs-toggle=\"dropdown\">Down</button>\n        <ul class=\"dropdown-menu\">\n          <li><a class=\"dropdown-item\" href=\"#\">Item 1</a></li>\n          <li><a class=\"dropdown-item\" href=\"#\">Item 2</a></li>\n        </ul>\n      </div>\n      <div class=\"dropup\">\n        <button class=\"btn btn-success dropdown-toggle\"\n          data-bs-toggle=\"dropdown\">Up</button>\n        <ul class=\"dropdown-menu\">\n          <li><a class=\"dropdown-item\" href=\"#\">Item</a></li>\n        </ul>\n      </div>\n      <div class=\"dropend\">\n        <button class=\"btn btn-warning dropdown-toggle\"\n          data-bs-toggle=\"dropdown\">End</button>\n        <ul class=\"dropdown-menu\">\n          <li><a class=\"dropdown-item\" href=\"#\">Item</a></li>\n        </ul>\n      </div>\n      <div class=\"dropstart\">\n        <button class=\"btn btn-info dropdown-toggle\"\n          data-bs-toggle=\"dropdown\">Start</button>\n        <ul class=\"dropdown-menu\">\n          <li><a class=\"dropdown-item\" href=\"#\">Item</a></li>\n        </ul>\n      </div>\n    </div>\n\n    <h2 class=\"h5\">2. Show or hide by screen size</h2>\n    <p class=\"d-block d-md-none alert alert-warning\">\n      Visible ONLY on mobile (below 768 px)</p>\n    <p class=\"d-none d-md-block alert alert-success\">\n      Visible ONLY on tablet and desktop</p>\n    <p class=\"d-none d-lg-block alert alert-info\">\n      Visible only on large screens (992 px +)</p>\n    <p>Text <span class=\"invisible\">hidden but takes\n      space</span> end.</p>\n    <p>Screen reader text:\n      <span class=\"visually-hidden\">secret</span> (hidden)</p>\n    <button class=\"btn btn-dark\" id=\"tg\">Show / hide note</button>\n    <p id=\"note\" class=\"d-none mt-2\">Toggled with d-none.</p>\n  </div>\n  <script src=\"js/bootstrap.bundle.min.js\"></script>\n  <script>\n    document.getElementById(\"tg\").onclick = function () {\n      document.getElementById(\"note\")\n        .classList.toggle(\"d-none\");\n    };\n  </script>\n</body>\n</html>"
+   },
+   "out": "1. Four buttons, each with a small triangle (caret): Down (arrow points down, its menu opens below), Up (opens above), End (arrow points right, opens on the right) and Start (arrow points left, opens on the left).\n2. On a phone only the yellow \"Visible ONLY on mobile\" box is shown; on a desktop it is replaced by the green box and, from 992 px, the blue box too. \"Text ... end.\" shows an empty gap where the invisible words are. The black button shows and hides the line \"Toggled with d-none.\"",
+   "expl": {
+    "en": "<ul><li><b>Caret:</b> the small triangle that shows a menu can open. In Bootstrap 5 the class <b>.dropdown-toggle</b> draws it automatically; Bootstrap 3 used <code>&lt;span class=\"caret\"&gt;</code>.</li>\n<li>Its direction follows the wrapper: <code>.dropdown</code> (down), <code>.dropup</code> (up), <code>.dropend</code> (right), <code>.dropstart</code> (left). <code>data-bs-toggle=\"dropdown\"</code> and bootstrap.bundle.min.js make the menu work.</li>\n<li><b>Display utilities</b> <code>.d-{breakpoint}-{value}</code> show or hide elements: <code>d-none</code> hides, <code>d-block / d-inline / d-flex</code> show.</li>\n<li>Hide on mobile only: <code>d-none d-md-block</code>. Show on mobile only: <code>d-block d-md-none</code>.</li>\n<li><code>.invisible</code> hides the content but keeps its space (visibility: hidden); <code>.visible</code> shows it.</li>\n<li><code>.visually-hidden</code> hides content from the screen but keeps it for screen readers (Bootstrap 3: .sr-only).</li>\n<li>Bootstrap 3 used <code>.hidden-xs</code>, <code>.visible-md</code> etc.; these were replaced by d-* classes.</li></ul>"
+   },
+   "run": "html"
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "web2_grid_anatomy",
+   "title": {
+    "en": "Bootstrap Grid Structure"
+   },
+   "file": "diagrams/web2_grid_anatomy.svg"
+  },
+  {
+   "id": "web2_grid12",
+   "title": {
+    "en": "12-Column Grid"
+   },
+   "file": "diagrams/web2_grid12.svg"
+  },
+  {
+   "id": "web2_containers",
+   "title": {
+    "en": "Containers"
+   },
+   "file": "diagrams/web2_containers.svg"
+  },
+  {
+   "id": "web2_offset_order",
+   "title": {
+    "en": "Offset and Reordering"
+   },
+   "file": "diagrams/web2_offset_order.svg"
+  },
+  {
+   "id": "web2_nesting",
+   "title": {
+    "en": "Nesting Columns"
+   },
+   "file": "diagrams/web2_nesting.svg"
+  },
+  {
+   "id": "web2_img_shapes",
+   "title": {
+    "en": "Image Classes"
+   },
+   "file": "diagrams/web2_img_shapes.svg"
+  },
+  {
+   "id": "web2_typography",
+   "title": {
+    "en": "Bootstrap Typography"
+   },
+   "file": "diagrams/web2_typography.svg"
+  },
+  {
+   "id": "web2_tables",
+   "title": {
+    "en": "Table Classes"
+   },
+   "file": "diagrams/web2_tables.svg"
+  },
+  {
+   "id": "web2_form_layouts",
+   "title": {
+    "en": "Form Layouts"
+   },
+   "file": "diagrams/web2_form_layouts.svg"
+  },
+  {
+   "id": "web2_buttons",
+   "title": {
+    "en": "Bootstrap Buttons"
+   },
+   "file": "diagrams/web2_buttons.svg"
+  },
+  {
+   "id": "web2_display",
+   "title": {
+    "en": "Show / Hide with Display Classes"
+   },
+   "file": "diagrams/web2_display.svg"
+  }
+ ],
+ "syntax": [
+  {
+   "title": {
+    "en": "Grid System"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Basic grid"
+     },
+     "f": "<div class=\"container\">\n  <div class=\"row\">\n    <div class=\"col-sm-4\">Column 1</div>\n    <div class=\"col-sm-8\">Column 2</div>\n  </div>\n</div>",
+     "terms": {
+      "en": "container > row > col. 12 columns per row."
+     }
+    },
+    {
+     "name": {
+      "en": "Column classes"
+     },
+     "f": "<!-- equal width -->\n<div class=\"row\">\n  <div class=\"col\">1</div>\n  <div class=\"col\">2</div>\n</div>\n<!-- mobile: stacked, tablet: 2, desktop: 4 -->\n<div class=\"row\">\n  <div class=\"col-12 col-md-6 col-lg-3\">A</div>\n  <div class=\"col-12 col-md-6 col-lg-3\">B</div>\n  <div class=\"col-12 col-md-6 col-lg-3\">C</div>\n  <div class=\"col-12 col-md-6 col-lg-3\">D</div>\n</div>\n<!-- width from content, rest auto -->\n<div class=\"row\">\n  <div class=\"col-auto\">Label</div>\n  <div class=\"col\">Rest</div>\n</div>\n<!-- columns per row set on the row -->\n<div class=\"row row-cols-2 row-cols-lg-4 g-3\">...</div>",
+     "terms": {
+      "en": ".col, .col-n, .col-bp-n, .col-auto, .row-cols-n"
+     }
+    },
+    {
+     "name": {
+      "en": "Containers"
+     },
+     "f": "<div class=\"container\">fixed width per breakpoint</div>\n<div class=\"container-fluid\">always 100% wide</div>\n<div class=\"container-md\">100% until md, then fixed</div>",
+     "terms": {
+      "en": ".container fixed, .container-fluid 100%, .container-bp mixed."
+     }
+    },
+    {
+     "name": {
+      "en": "Gutters"
+     },
+     "f": "<div class=\"row g-0\">no gutter</div>\n<div class=\"row g-4\">large gutter</div>\n<div class=\"row gx-5 gy-2\">x and y separately</div>",
+     "terms": {
+      "en": "g-0 to g-5; gx horizontal, gy vertical."
+     }
+    },
+    {
+     "name": {
+      "en": "Offset"
+     },
+     "f": "<div class=\"row\">\n  <div class=\"col-md-4\">.col-md-4</div>\n  <div class=\"col-md-4 offset-md-4\">\n    .col-md-4 .offset-md-4</div>\n</div>\n<div class=\"row\">\n  <div class=\"col-md-6 offset-md-3\">centred</div>\n</div>\n<div class=\"row\">\n  <div class=\"col-4\">left</div>\n  <div class=\"col-4 ms-auto\">pushed right</div>\n</div>",
+     "terms": {
+      "en": "offset-bp-n adds n empty columns on the left."
+     }
+    },
+    {
+     "name": {
+      "en": "Reordering"
+     },
+     "f": "<div class=\"row\">\n  <div class=\"col order-3\">First in HTML</div>\n  <div class=\"col order-1\">Second in HTML</div>\n  <div class=\"col order-2\">Third in HTML</div>\n</div>\n<!-- different order on phone and desktop -->\n<div class=\"row\">\n  <main class=\"col-md-8 order-md-2\">Main</main>\n  <aside class=\"col-md-4 order-md-1\">Sidebar</aside>\n</div>",
+     "terms": {
+      "en": "order-0..5, order-first, order-last; responsive order-md-*."
+     }
+    },
+    {
+     "name": {
+      "en": "Nesting"
+     },
+     "f": "<div class=\"row\">\n  <div class=\"col-sm-9\">\n    Level 1: .col-sm-9\n    <div class=\"row\">\n      <div class=\"col-6\">Level 2: .col-6</div>\n      <div class=\"col-6\">Level 2: .col-6</div>\n    </div>\n  </div>\n  <div class=\"col-sm-3\">Level 1: .col-sm-3</div>\n</div>",
+     "terms": {
+      "en": "New .row inside a column; 12 columns of the parent width."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Images"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Image classes"
+     },
+     "f": "<img src=\"images/campus.jpg\" class=\"img-fluid\"\n  alt=\"Campus\">\n<img src=\"a.jpg\" class=\"rounded\" alt=\"...\">\n<img src=\"b.jpg\" class=\"rounded-circle\" alt=\"...\">\n<img src=\"c.jpg\" class=\"img-thumbnail\" alt=\"...\">\n<img src=\"d.jpg\" class=\"rounded mx-auto d-block\"\n  alt=\"centred\">\n<img src=\"e.jpg\" class=\"float-end\" alt=\"right\">",
+     "terms": {
+      "en": "img-fluid, rounded, rounded-circle, img-thumbnail."
+     }
+    },
+    {
+     "name": {
+      "en": "Figure"
+     },
+     "f": "<figure class=\"figure\">\n  <img src=\"lab.jpg\" class=\"figure-img img-fluid rounded\"\n    alt=\"Lab\">\n  <figcaption class=\"figure-caption text-center\">\n    Computer lab</figcaption>\n</figure>",
+     "terms": {
+      "en": "figure, figure-img, figure-caption."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Typography"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Headings"
+     },
+     "f": "<h1>h1 heading</h1>   <p class=\"h1\">p styled as h1</p>\n<h3>Main title\n  <small class=\"text-body-secondary\">sub title</small>\n</h3>\n<h1 class=\"display-1\">Display 1</h1>\n<p class=\"lead\">Lead paragraph stands out.</p>",
+     "terms": {
+      "en": ".h1-.h6, .display-1 to 6, .lead"
+     }
+    },
+    {
+     "name": {
+      "en": "Inline text"
+     },
+     "f": "<mark>highlight</mark>  <del>deleted</del>\n<s>no longer true</s>   <ins>inserted</ins>\n<u>underline</u>        <small>fine print</small>\n<strong>bold</strong>   <em>italic</em>\n<abbr title=\"HyperText Markup Language\">HTML</abbr>\n<kbd>Ctrl</kbd> + <kbd>C</kbd>",
+     "terms": {
+      "en": "mark, del, s, ins, u, small, strong, em, abbr, kbd"
+     }
+    },
+    {
+     "name": {
+      "en": "Blockquote"
+     },
+     "f": "<blockquote class=\"blockquote\">\n  <p>Write less, do more.</p>\n</blockquote>\n<figcaption class=\"blockquote-footer\">\n  jQuery <cite title=\"Motto\">motto</cite>\n</figcaption>",
+     "terms": {
+      "en": ".blockquote + .blockquote-footer"
+     }
+    },
+    {
+     "name": {
+      "en": "Lists"
+     },
+     "f": "<ul class=\"list-unstyled\"> ... </ul>\n<ul class=\"list-inline\">\n  <li class=\"list-inline-item\">HTML</li>\n  <li class=\"list-inline-item\">CSS</li>\n</ul>",
+     "terms": {
+      "en": ".list-unstyled, .list-inline + .list-inline-item"
+     }
+    },
+    {
+     "name": {
+      "en": "Text utilities"
+     },
+     "f": "<p class=\"text-start\">left</p>\n<p class=\"text-center\">centre</p>\n<p class=\"text-end\">right</p>\n<p class=\"text-md-center\">centre from md</p>\n<p class=\"text-uppercase\">upper</p>\n<p class=\"text-capitalize\">each word capital</p>\n<p class=\"fw-bold\">bold</p> <p class=\"fst-italic\">italic</p>\n<p class=\"text-primary\">blue</p> <p class=\"text-muted\">grey</p>\n<p class=\"text-truncate\">very long text ...</p>",
+     "terms": {
+      "en": "Alignment, transform, weight, colour, truncate."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Tables"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Table classes"
+     },
+     "f": "<table class=\"table table-striped table-hover\">\n  <thead class=\"table-dark\">\n    <tr><th>Roll</th><th>Name</th></tr>\n  </thead>\n  <tbody>\n    <tr><td>1</td><td>Aman</td></tr>\n    <tr class=\"table-success\"><td>2</td><td>Bhumi</td></tr>\n  </tbody>\n</table>",
+     "terms": {
+      "en": "table, striped, hover, bordered, sm, dark, table-success ..."
+     }
+    },
+    {
+     "name": {
+      "en": "Responsive table"
+     },
+     "f": "<div class=\"table-responsive\">\n  <table class=\"table table-bordered\"> ... </table>\n</div>",
+     "terms": {
+      "en": "Wrapper div scrolls horizontally on small screens."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Forms"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Vertical form"
+     },
+     "f": "<form>\n  <div class=\"mb-3\">\n    <label for=\"email\" class=\"form-label\">Email</label>\n    <input type=\"email\" class=\"form-control\" id=\"email\">\n    <div class=\"form-text\">Help text</div>\n  </div>\n  <button type=\"submit\" class=\"btn btn-primary\">Submit</button>\n</form>",
+     "terms": {
+      "en": "mb-3 groups, form-label, form-control, form-text."
+     }
+    },
+    {
+     "name": {
+      "en": "Horizontal form"
+     },
+     "f": "<div class=\"row mb-3\">\n  <label for=\"city\" class=\"col-sm-2 col-form-label\">City</label>\n  <div class=\"col-sm-10\">\n    <input type=\"text\" class=\"form-control\" id=\"city\">\n  </div>\n</div>",
+     "terms": {
+      "en": "row + col-sm-2 col-form-label + col-sm-10."
+     }
+    },
+    {
+     "name": {
+      "en": "Inline form"
+     },
+     "f": "<form class=\"row row-cols-lg-auto g-3 align-items-center\">\n  <div class=\"col-12\">\n    <input class=\"form-control\" placeholder=\"Username\">\n  </div>\n  <div class=\"col-12\">\n    <button class=\"btn btn-primary\">Login</button>\n  </div>\n</form>",
+     "terms": {
+      "en": "row-cols-lg-auto + align-items-center."
+     }
+    },
+    {
+     "name": {
+      "en": "Form controls"
+     },
+     "f": "<input class=\"form-control form-control-lg\">\n<select class=\"form-select\"><option>One</option></select>\n<textarea class=\"form-control\" rows=\"3\"></textarea>\n\n<div class=\"form-check\">\n  <input class=\"form-check-input\" type=\"checkbox\" id=\"c1\">\n  <label class=\"form-check-label\" for=\"c1\">Check</label>\n</div>\n<div class=\"form-check form-switch\">\n  <input class=\"form-check-input\" type=\"checkbox\" id=\"s1\">\n  <label class=\"form-check-label\" for=\"s1\">Switch</label>\n</div>\n<input type=\"range\" class=\"form-range\">\n\n<div class=\"form-floating\">\n  <input class=\"form-control\" id=\"n\" placeholder=\"Name\">\n  <label for=\"n\">Name</label>\n</div>",
+     "terms": {
+      "en": "form-select, form-check, form-switch, form-range, form-floating."
+     }
+    },
+    {
+     "name": {
+      "en": "Validation"
+     },
+     "f": "<form class=\"needs-validation\" novalidate>\n  <input class=\"form-control\" required>\n  <div class=\"invalid-feedback\">Required.</div>\n  <button class=\"btn btn-primary\">Submit</button>\n</form>\n<script>\n  form.addEventListener(\"submit\", function (e) {\n    if (!form.checkValidity()) e.preventDefault();\n    form.classList.add(\"was-validated\");\n  });\n</script>",
+     "terms": {
+      "en": "novalidate, checkValidity(), .was-validated, .invalid-feedback."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Buttons, Carets and Display"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Buttons"
+     },
+     "f": "<button type=\"button\" class=\"btn btn-primary\">Primary</button>\n<button class=\"btn btn-outline-success\">Outline</button>\n<button class=\"btn btn-danger btn-lg\">Large</button>\n<button class=\"btn btn-secondary btn-sm\">Small</button>\n<button class=\"btn btn-primary\" disabled>Disabled</button>\n<a href=\"#\" class=\"btn btn-link\" role=\"button\">Link</a>\n<input type=\"reset\" class=\"btn btn-warning\" value=\"Reset\">\n\n<div class=\"d-grid gap-2\">\n  <button class=\"btn btn-primary\">Block button</button>\n</div>",
+     "terms": {
+      "en": ".btn + variant; outline, lg/sm, disabled, d-grid block."
+     }
+    },
+    {
+     "name": {
+      "en": "Caret"
+     },
+     "f": "<div class=\"dropdown\">\n  <button class=\"btn btn-primary dropdown-toggle\"\n    data-bs-toggle=\"dropdown\">Menu</button>\n  <ul class=\"dropdown-menu\">\n    <li><a class=\"dropdown-item\" href=\"#\">One</a></li>\n  </ul>\n</div>\n<!-- .dropup  .dropend  .dropstart change the direction -->",
+     "terms": {
+      "en": ".dropdown-toggle draws the caret."
+     }
+    },
+    {
+     "name": {
+      "en": "Show / hide"
+     },
+     "f": "<div class=\"d-none\">always hidden</div>\n<div class=\"d-none d-md-block\">hidden on phones only</div>\n<div class=\"d-block d-md-none\">visible on phones only</div>\n<div class=\"d-none d-lg-block d-xl-none\">only on lg</div>\n<span class=\"invisible\">hidden, keeps space</span>\n<span class=\"visually-hidden\">for screen readers</span>\n<div class=\"d-print-none\">not printed</div>",
+     "terms": {
+      "en": "d-none, d-bp-block, invisible, visually-hidden, d-print-none."
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Grid System"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is the Bootstrap grid system?"
+     },
+     "a": {
+      "en": "A mobile-first, flexbox-based layout system that divides the page into 12 columns using containers, rows and columns."
+     }
+    },
+    {
+     "q": {
+      "en": "How many columns does the Bootstrap grid have?"
+     },
+     "a": {
+      "en": "12 columns per row."
+     }
+    },
+    {
+     "q": {
+      "en": "What are the three parts of the grid?"
+     },
+     "a": {
+      "en": "Container, row and column."
+     }
+    },
+    {
+     "q": {
+      "en": "What happens if the columns in a row add up to more than 12?"
+     },
+     "a": {
+      "en": "The extra column(s) wrap onto a new line."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the difference between .container and .container-fluid?"
+     },
+     "a": {
+      "en": ".container has a fixed max-width at each breakpoint and is centred; .container-fluid is always 100% wide."
+     }
+    },
+    {
+     "q": {
+      "en": "What is .container-md?"
+     },
+     "a": {
+      "en": "A container that is 100% wide below the md breakpoint (768 px) and fixed width from md upward."
+     }
+    },
+    {
+     "q": {
+      "en": "What does col-md-6 mean?"
+     },
+     "a": {
+      "en": "The column takes 6 of 12 columns (half width) on screens 768 px and wider; on smaller screens it is full width."
+     }
+    },
+    {
+     "q": {
+      "en": "What does .col (without a number) do?"
+     },
+     "a": {
+      "en": "It creates equal-width columns that share the row automatically."
+     }
+    },
+    {
+     "q": {
+      "en": "What is .col-auto?"
+     },
+     "a": {
+      "en": "A column whose width depends on its content."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a gutter?"
+     },
+     "a": {
+      "en": "The space (padding) between columns, controlled with g-*, gx-* and gy-* classes."
+     }
+    },
+    {
+     "q": {
+      "en": "What is an offset?"
+     },
+     "a": {
+      "en": "Empty columns added to the left of a column to move it right, e.g. offset-md-3."
+     }
+    },
+    {
+     "q": {
+      "en": "How can a column be centred using offset?"
+     },
+     "a": {
+      "en": "col-md-6 offset-md-3 (3 + 6 + 3 = 12)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is column reordering?"
+     },
+     "a": {
+      "en": "Changing the visual order of columns without changing the HTML, using order-* classes."
+     }
+    },
+    {
+     "q": {
+      "en": "Which CSS property is used by order classes?"
+     },
+     "a": {
+      "en": "The flexbox order property."
+     }
+    },
+    {
+     "q": {
+      "en": "What replaced push and pull classes of Bootstrap 3?"
+     },
+     "a": {
+      "en": "The order-* classes (order-first, order-last, order-md-2 etc.)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is nesting of columns?"
+     },
+     "a": {
+      "en": "Placing a new row with columns inside an existing column."
+     }
+    },
+    {
+     "q": {
+      "en": "In nesting, the 12 columns are relative to what?"
+     },
+     "a": {
+      "en": "The width of the parent column."
+     }
+    },
+    {
+     "q": {
+      "en": "List two advantages of the Bootstrap grid."
+     },
+     "a": {
+      "en": "Automatic responsive layouts without media queries, and flexible column sizes with offset, ordering and nesting."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Images, Typography and Tables"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Which class makes an image responsive?"
+     },
+     "a": {
+      "en": ".img-fluid (max-width: 100%; height: auto). Bootstrap 3 used .img-responsive."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you make a circular image?"
+     },
+     "a": {
+      "en": "Add .rounded-circle to a square image."
+     }
+    },
+    {
+     "q": {
+      "en": "What does .img-thumbnail do?"
+     },
+     "a": {
+      "en": "Adds a 1 px border, padding and rounded corners like a thumbnail."
+     }
+    },
+    {
+     "q": {
+      "en": "How can an image be centred?"
+     },
+     "a": {
+      "en": "Use .d-block .mx-auto on the image, or .text-center on its parent."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the default font size in Bootstrap 5?"
+     },
+     "a": {
+      "en": "1rem, normally 16 px."
+     }
+    },
+    {
+     "q": {
+      "en": "What are display headings?"
+     },
+     "a": {
+      "en": "Large, lighter headings with classes .display-1 to .display-6."
+     }
+    },
+    {
+     "q": {
+      "en": "What does the .lead class do?"
+     },
+     "a": {
+      "en": "Makes a paragraph larger so it stands out."
+     }
+    },
+    {
+     "q": {
+      "en": "Which tag highlights text?"
+     },
+     "a": {
+      "en": "The mark element."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the use of .list-unstyled?"
+     },
+     "a": {
+      "en": "It removes bullets and left padding from a list."
+     }
+    },
+    {
+     "q": {
+      "en": "Which classes align text?"
+     },
+     "a": {
+      "en": "text-start, text-center and text-end (also responsive like text-md-center)."
+     }
+    },
+    {
+     "q": {
+      "en": "Which class is needed on every Bootstrap table?"
+     },
+     "a": {
+      "en": ".table"
+     }
+    },
+    {
+     "q": {
+      "en": "How do you create a striped table?"
+     },
+     "a": {
+      "en": "Add .table-striped to the table."
+     }
+    },
+    {
+     "q": {
+      "en": "What does .table-hover do?"
+     },
+     "a": {
+      "en": "Highlights a table row when the mouse is over it."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you make a table responsive?"
+     },
+     "a": {
+      "en": "Wrap it in a div with class .table-responsive so it scrolls horizontally on small screens."
+     }
+    },
+    {
+     "q": {
+      "en": "Name some contextual table classes."
+     },
+     "a": {
+      "en": "table-primary, table-success, table-danger, table-warning, table-info, table-active."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Forms, Buttons, Carets and Display"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Name the form layouts in Bootstrap."
+     },
+     "a": {
+      "en": "Vertical (default), grid, horizontal and inline."
+     }
+    },
+    {
+     "q": {
+      "en": "Which class styles text inputs?"
+     },
+     "a": {
+      "en": ".form-control"
+     }
+    },
+    {
+     "q": {
+      "en": "Which class styles a select box in Bootstrap 5?"
+     },
+     "a": {
+      "en": ".form-select"
+     }
+    },
+    {
+     "q": {
+      "en": "How is a horizontal form created?"
+     },
+     "a": {
+      "en": "Each field is a .row; the label uses a column class with .col-form-label and the input is placed in another column."
+     }
+    },
+    {
+     "q": {
+      "en": "What are floating labels?"
+     },
+     "a": {
+      "en": "Labels shown inside the input that move up when the user types; created with .form-floating."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you create a switch?"
+     },
+     "a": {
+      "en": "Add .form-switch to the .form-check of a checkbox."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the use of novalidate?"
+     },
+     "a": {
+      "en": "It disables the browser's default validation pop-ups so Bootstrap's styled messages can be shown."
+     }
+    },
+    {
+     "q": {
+      "en": "What does .was-validated do?"
+     },
+     "a": {
+      "en": "Shows valid (green) or invalid (red) styles and feedback messages for all fields in the form."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the base class of a Bootstrap button?"
+     },
+     "a": {
+      "en": ".btn"
+     }
+    },
+    {
+     "q": {
+      "en": "How do you create an outline button?"
+     },
+     "a": {
+      "en": "Use btn-outline-* classes, e.g. btn-outline-primary."
+     }
+    },
+    {
+     "q": {
+      "en": "How is a full-width (block) button made in Bootstrap 5?"
+     },
+     "a": {
+      "en": "Place it in a wrapper with .d-grid (Bootstrap 4 used .btn-block)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a caret?"
+     },
+     "a": {
+      "en": "A small triangle that shows a button or link opens a dropdown menu."
+     }
+    },
+    {
+     "q": {
+      "en": "How is a caret added in Bootstrap 5?"
+     },
+     "a": {
+      "en": "The .dropdown-toggle class adds it automatically (Bootstrap 3 used span.caret)."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you hide an element on phones only?"
+     },
+     "a": {
+      "en": "Use .d-none .d-md-block (or .d-sm-block)."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between .d-none and .invisible?"
+     },
+     "a": {
+      "en": ".d-none removes the element from the layout; .invisible hides it but keeps its space."
+     }
+    },
+    {
+     "q": {
+      "en": "What is .visually-hidden?"
+     },
+     "a": {
+      "en": "Hides content visually but keeps it for screen readers (Bootstrap 3/4: .sr-only)."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Explain the Bootstrap grid system with an example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain container, container-fluid and responsive containers. (Practical 3)"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Display student information on a responsive web page using container and container-fluid classes. (Practical 3)"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain offset columns with an example."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain reordering of columns with an example."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain nesting of columns with an example."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Create a responsive web page using offset, reordering and nesting columns. (Practical 4)"
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "List the advantages of the Bootstrap grid system."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Create a responsive class time table using the Bootstrap grid system. (Practical 5)"
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain responsive images and image shape classes in Bootstrap."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain table classes in Bootstrap with examples."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Create a responsive page showing student activities with images in different styles and tables in different styles. (Practical 6)"
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain Bootstrap typography classes."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Create a responsive blog page using Bootstrap typography. (Practical 7)"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain different form layouts in Bootstrap."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain Bootstrap button classes with examples."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Design a responsive student registration form using form layout, form controls and buttons. (Practical 8)"
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "What is a caret? How is it created in Bootstrap 5?"
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "How can text be shown or hidden on different screen sizes in Bootstrap?"
+   },
+   "marks": 4
+  }
+ ],
+ "tabs": [
+  "notes",
+  "programs",
+  "diagrams",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "Detailed notes as per GTU syllabus with diagrams, solved Bootstrap and jQuery programs (tap Run to see the page live), class reference and viva."
+ }
+}

@@ -9,7 +9,7 @@ os.makedirs(DIAG_DIR, exist_ok=True)
 
 TABS = ["notes", "programs", "diagrams", "syntax", "viva", "exam"]
 INTRO = {"en": "Detailed notes as per GTU syllabus with diagrams, solved Bootstrap and jQuery programs (tap Run to see the page live), class reference and viva."}
-MAXW = 56
+MAXW = 68
 
 SUBJECT = {
     "code": "DI03000061",
@@ -23,8 +23,8 @@ SUBJECT = {
                     "1.2 Bootstrap: why Bootstrap, history, advantages, responsive web page, removing responsiveness, major features"], "file": None},
         {"no": 2, "title": {"en": "Bootstrap Grid"}, "hours": 12, "weightage": 20,
          "topics": ["2.1 Grid system, containers, offset, reordering and nesting columns",
-                    "2.2 Responsive images, typography and tables",
-                    "2.3 Form layout and buttons", "2.4 Image shapes, carets, show/hide text"], "file": None},
+                    "2.2 Responsive images, image shapes, typography and tables",
+                    "2.3 Form layout and buttons", "2.4 Carets and show/hide text"], "file": None},
         {"no": 3, "title": {"en": "Bootstrap Components"}, "hours": 14, "weightage": 23,
          "topics": ["3.1 Icons, dropdowns, cards, button groups and toolbar, input groups",
                     "3.2 Navs (pills, tabs), navbar, breadcrumb, pagination, badges",

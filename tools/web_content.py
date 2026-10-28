@@ -9,7 +9,7 @@ import re
 
 from sql_content import VE, XE, G  # noqa: F401  (re-exported)
 
-MAXW = 56
+MAXW = 68
 
 
 def _check(id_, code):
