@@ -1,0 +1,844 @@
+{
+ "subject": "DI04000011",
+ "unit": 2,
+ "format": "notes",
+ "title": {
+  "en": "Software Requirement Analysis and Design"
+ },
+ "weightage": 28,
+ "hours": 15,
+ "notes": [
+  {
+   "title": {
+    "en": "2.1 Requirement Gathering and Analysis"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Types of Requirements: Functional and Non-Functional"
+     },
+     "body": {
+      "en": "\n<ul><li><b>Functional requirements</b>: the verbs of the system - what it must DO. 'Student books a seat', 'system prints a receipt', 'admin cancels a route'. Every one can be tested.</li>\n<li><b>Non-functional requirements</b> (quality attributes/constraints): how WELL and under WHAT limits - response under 2 seconds, 1000 concurrent users, encrypted passwords, Hindi+Gujarati UI, budget cap.</li>\n<li>Common exam framing: functional = service statement; non-functional = quality/constraint statement (performance, security, reliability, usability, portability).</li>\n<li>Both belong in the SRS; a system with perfect features but 30-second replies is still a failed project.</li></ul>\n"
+     },
+     "diagram": "se2_req_types"
+    },
+    {
+     "h": {
+      "en": "Techniques for Requirement Gathering"
+     },
+     "body": {
+      "en": "\n<ul><li><b>Interviews</b>: structured 1-to-1 talks with key users - deep but slow.</li>\n<li><b>Questionnaires/surveys</b>: collect from MANY users fast and cheap; quality limited by question quality.</li>\n<li><b>Brainstorming/workshops (JAD)</b>: stakeholders solve requirements together - conflicts settle in the room.</li>\n<li><b>Observation</b>: watch users work; uncovers steps nobody REMEMBERS to mention.</li>\n<li><b>Document analysis</b>: study existing forms, registers and reports for data definitions.</li>\n<li><b>Prototyping</b>: a quick mock makes vague wishes concrete (Unit 1).</li>\n<li>Practice (Practical 4): blend techniques - interview the registrar, questionnaire the students, watch the counter clerks.</li></ul>\n"
+     },
+     "diagram": "se2_gather"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2.2 Software Requirement Specification (SRS)"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "SRS: What It Is and Its Structure"
+     },
+     "body": {
+      "en": "\n<ul><li>The <b>SRS</b> is the negotiated contract between customer and developers recording exactly what the software must do - prepared after requirement gathering (Practical 5 is a broad SRS for your project).</li>\n<li>Typical IEEE-style structure: <b>1. Introduction</b> (purpose, scope, definitions), <b>2. Overall description</b> (product perspective, users, constraints, assumptions), <b>3. Specific requirements</b> (functional + non-functional + interfaces), appendices.</li>\n<li>Distinguish voices: <b>customer requirements</b> are the client's plain-language wishes ('a fast bus booking'); <b>functional requirements</b> are testable system actions ('the system shall confirm a seat within 2 seconds').</li>\n<li>The SRS is a legal-ish document: ambiguity is a defect.</li></ul>\n"
+     },
+     "diagram": "se2_srs"
+    },
+    {
+     "h": {
+      "en": "Characteristics of a Good SRS"
+     },
+     "body": {
+      "en": "\n<ul><li><b>Correct</b> - every requirement stated is one the client truly needs.</li>\n<li><b>Unambiguous</b> - every sentence has exactly ONE interpretation (the flagship exam answer: two developers must not be able to build two systems).</li>\n<li><b>Complete</b> - nothing significant left blank (including what happens on bad input).</li>\n<li><b>Consistent</b> - requirements never contradict each other.</li>\n<li><b>Ranked for importance/stability</b> - MUST vs nice-to-have flagged.</li>\n<li><b>Verifiable</b> - each item testable ('fast' fails this test; 'under 2 s at 500 users' passes).</li>\n<li><b>Modifiable, traceable</b> - changes are absorbed cleanly; each requirement can be traced from SRS to design to test case.</li></ul>\n"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2.3 Software Design Fundamentals"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Good Design and Analysis vs Design"
+     },
+     "body": {
+      "en": "\n<ul><li><b>Analysis answers WHAT</b> (needs, use cases); <b>design answers HOW</b> (modules, classes, data structures, interfaces, algorithms). Analysis talks to the customer; design instructs the builders.</li>\n<li>Characteristics of a GOOD design: <b>correct</b> (does the job per SRS), <b>complete</b>, <b>efficient</b>, <b>understandable</b>, and above all <b>changeable</b> - because requirements WILL change.</li>\n<li>Changeability is achieved through modular design, where two measures rule every choice: cohesion and coupling.</li></ul>\n"
+     },
+     "diagram": "se2_analysis_vs_design"
+    },
+    {
+     "h": {
+      "en": "Cohesion: Strength INSIDE a Module"
+     },
+     "body": {
+      "en": "\n<ul><li><b>Cohesion</b> = how strongly the items inside one module belong together. HIGHER is better.</li>\n<li>Worst&#8594;best ladder: <b>coincidental</b> (random grab-bag) &lt; <b>logical</b> (similar kind: 'all print utilities') &lt; <b>temporal</b> (done at the same time: 'init stuff') &lt; <b>procedural</b> (fixed sequence) &lt; <b>communicational</b> (work on the same data) &lt; <b>sequential</b> (one step's output feeds the next) &lt; <b>functional</b> (every line serves ONE clear task - the goal).</li>\n<li>Memory anchor: C-L-T-P-C-S-F climbing to functional.</li>\n<li>Rule in practice: if a module's name needs 'and' (\"validates and saves and prints\"), split it.</li></ul>\n"
+     },
+     "diagram": "se2_cohesion"
+    },
+    {
+     "h": {
+      "en": "Coupling: Dependence BETWEEN Modules"
+     },
+     "body": {
+      "en": "\n<ul><li><b>Coupling</b> = how much one module depends on another. LOWER is better.</li>\n<li>Worst&#8594;best: <b>content</b> (one module rewrites another's insides) &gt; <b>common</b> (shared global data) &gt; <b>external</b> (shared file format/protocol) &gt; <b>control</b> (flags steering another's logic) &gt; <b>stamp</b> (whole records handed over when a field or two would do) &gt; <b>data</b> (just needed parameters) &gt; <b>message</b> (talk only through messages/events - loosest).</li>\n<li>Why you care: high coupling makes edits ripple through the system - one change in a global structure rewrites five modules' logic.</li>\n<li>The design mantra for the exam and for life: <b>high cohesion + low coupling</b>.</li></ul>\n"
+     },
+     "diagram": "se2_coupling"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2.4 Function-Oriented Design: Data Flow Diagrams"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "DFD Symbols and Rules"
+     },
+     "body": {
+      "en": "\n<ul><li>A <b>DFD</b> shows how data MOVES through a system - the four symbols: process (circle, transforms data), external entity (rectangle: outside actor), data store (two parallel lines: file/DB at rest), data flow (labeled arrow).</li>\n<li>Rules that exams check: data always flows THROUGH a process; entities never talk directly to each other or to stores; every flow is labeled; every process both consumes and produces data.</li>\n<li>DFDs document the business workflow without deciding HOW it is coded - they are analysis artifacts handed to design.</li></ul>\n"
+     },
+     "diagram": "se2_dfd_symbols"
+    },
+    {
+     "h": {
+      "en": "Context Level and Level-1 DFD"
+     },
+     "body": {
+      "en": "\n<ul><li><b>Context level</b>: the ENTIRE system as a single bubble, with only external entities and the flows between them - 'the system at a glance'.</li>\n<li><b>Level 1</b>: explode that bubble into its major functions (4-8 bubbles), keeping the same external flows - an act called <b>balancing</b> (in/out flows must match between levels).</li>\n<li>Deeper levels keep exploding: bubble 2 becomes 2.1, 2.2, ... Stop when a bubble is one clear task.</li>\n<li>Practical 6: build context + level-1 DFD for your chosen project (here: food ordering) and note the order store under the bubbles.</li></ul>\n"
+     },
+     "diagram": "se2_dfd_levels"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2.5 Object-Oriented Modeling with UML"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Use Case Diagram"
+     },
+     "body": {
+      "en": "\n<ul><li>A use-case diagram is the <b>who-wants-what</b> map: stick-figure <b>actors</b> (roles, not persons) linked to <b>use case</b> ovals inside a system-boundary rectangle.</li>\n<li>Relations: default plain lines ('actor can do this'); <b>&lt;&lt;include&gt;&gt;</b> when one case always reuses another (place order &rarr; include pay); <b>&lt;&lt;extend&gt;&gt;</b> for optional add-ons (apply coupon).</li>\n<li>Practical 7: derive actors first, then per-actor goals - each oval is a testable user goal, not a screen.</li></ul>\n"
+     },
+     "diagram": "se2_usecase"
+    },
+    {
+     "h": {
+      "en": "Class Diagram"
+     },
+     "body": {
+      "en": "\n<ul><li>The static backbone: <b>classes</b> as three-compartment boxes (name / attributes / operations), with <b>associations</b> (plain line, e.g. Member borrows Book), <b>multiplicity</b> (1, 0..*, 1..*), and <b>generalisation</b> (hollow triangle toward the parent: EBook &#8594; Book IS-A).</li>\n<li>Also know: aggregation (hollow diamond - weak whole-part), composition (filled diamond - strong), dependency (dashed arrow).</li>\n<li>Build order (Practical 8): nouns of the SRS &rarr; classes; their properties &rarr; attributes; verbs &rarr; operations; relationships + multiplicity last.</li></ul>\n"
+     },
+     "diagram": "se2_class"
+    },
+    {
+     "h": {
+      "en": "Component Diagram"
+     },
+     "body": {
+      "en": "\n<ul><li>Shows the physical packaging: <b>components</b> (replaceable boxes such as OrderService, PaymentGateway) with <b>interfaces</b> drawn as lollipop (provided) and socket (required).</li>\n<li>Components connect only through interfaces - so a payment-gateway swap touches nothing else.</li>\n<li>Practical 9: carve your app into 3-5 components and mark what each OFFERS and what it NEEDS.</li></ul>\n"
+     },
+     "diagram": "se2_component"
+    },
+    {
+     "h": {
+      "en": "Sequence Diagram"
+     },
+     "body": {
+      "en": "\n<ul><li>An <b>interaction over time</b>: objects/actors across the top with vertical dashed <b>lifelines</b> running downward; horizontal solid arrows are calls, dashed arrows returns; thin bars on lifelines show activation.</li>\n<li>Time flows DOWN the page, so the diagram doubles as the call script for one scenario (e.g. place an order with a payment gateway).</li>\n<li>Practical 10: pick ONE use case and lay out its message order - if the diagram reads cleanly, the workflow is understood.</li></ul>\n"
+     },
+     "diagram": "se2_sequence"
+    },
+    {
+     "h": {
+      "en": "Activity Diagram"
+     },
+     "body": {
+      "en": "\n<ul><li>Flowchart's object-aware cousin: filled dot = start, ringed dot = end, rounded boxes = actions, <b>diamonds = decisions</b>, bold fork/join bars = parallel work (e.g. notify kitchen WHILE the receipt prints).</li>\n<li>Swimlanes can assign actions to roles (customer lane vs kitchen lane) - great for showing hand-offs.</li>\n<li>Practical 11: draw the complete flow of one user story, marking where the flow splits on 'pay online?' and where it merges back.</li></ul>\n"
+     },
+     "diagram": "se2_activity"
+    }
+   ]
+  }
+ ],
+ "syntax": [
+  {
+   "title": {
+    "en": "Requirements & SRS"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "requirement types"
+     },
+     "f": "functional  = what system DOES\n  (book seat, print receipt)\nnon-functional = constraints\n  (2s reply, encrypted pwd)",
+     "terms": {
+      "en": "verbs vs qualities"
+     }
+    },
+    {
+     "name": {
+      "en": "gathering toolkit"
+     },
+     "f": "interviews | questionnaires |\nworkshops | observation |\ndocument study | prototyping",
+     "terms": {
+      "en": "blend several, never just one"
+     }
+    },
+    {
+     "name": {
+      "en": "good SRS checklist"
+     },
+     "f": "correct, unambiguous, complete,\nconsistent, ranked, verifiable,\nmodifiable, traceable",
+     "terms": {
+      "en": "the eight golden adjectives"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Design Quality"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "cohesion ladder (best last)"
+     },
+     "f": "coincidental < logical <\ntemporal < procedural <\ncommunicational < sequential <\nFUNCTIONAL  (one clear job)",
+     "terms": {
+      "en": "inside modules: aim high"
+     }
+    },
+    {
+     "name": {
+      "en": "coupling ladder (worst first)"
+     },
+     "f": "content > common > external >\ncontrol > stamp > data >\nMESSAGE  (loosest)",
+     "terms": {
+      "en": "between modules: aim low"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Diagram Symbols"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "DFD symbols"
+     },
+     "f": "circle      = process\nrect        = external entity\n|| double   = data store\n-> labeled  = data flow",
+     "terms": {
+      "en": "data moves THROUGH processes"
+     }
+    },
+    {
+     "name": {
+      "en": "class diagram marks"
+     },
+     "f": "box       = class (name/attr/op)\nline      = association + 1..* count\ndiamond   = aggregation (> weak)\ntriangle  = generalisation (IS-A)",
+     "terms": {
+      "en": "static structure"
+     }
+    },
+    {
+     "name": {
+      "en": "sequence diagram marks"
+     },
+     "f": "stick/box up top + dashed lifeline\nsolid ->  = call   dashed -> = reply\ntime flows DOWNWARD",
+     "terms": {
+      "en": "one scenario, in order"
+     }
+    },
+    {
+     "name": {
+      "en": "activity diagram marks"
+     },
+     "f": "dot = start   ring-dot = end\nrounded box = action\ndiamond = decision\nbold bars = fork/join (parallel)",
+     "terms": {
+      "en": "flowchart, upgraded"
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Requirements and SRS"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What are functional requirements?"
+     },
+     "a": {
+      "en": "Statements of what the system DOES - services like booking a seat, issuing a receipt, searching records."
+     }
+    },
+    {
+     "q": {
+      "en": "What are non-functional requirements?"
+     },
+     "a": {
+      "en": "Quality and constraint statements - performance, security, capacity, usability, portability - telling how well functions must work."
+     }
+    },
+    {
+     "q": {
+      "en": "Give one functional and one non-functional requirement for a library system."
+     },
+     "a": {
+      "en": "Functional: 'the system records each book issue'; Non-functional: 'search results appear within 2 seconds for 200 users.'"
+     }
+    },
+    {
+     "q": {
+      "en": "Name four requirement gathering techniques."
+     },
+     "a": {
+      "en": "Interviews, questionnaires, brainstorming workshops and observation (plus document study and prototyping)."
+     }
+    },
+    {
+     "q": {
+      "en": "When is observation better than interviews?"
+     },
+     "a": {
+      "en": "When users do work they cannot fully describe - watching reveals steps never mentioned in a talk."
+     }
+    },
+    {
+     "q": {
+      "en": "What is requirement analysis?"
+     },
+     "a": {
+      "en": "Classifying, negotiating and validating gathered requirements into a consistent, agreed set before designing."
+     }
+    },
+    {
+     "q": {
+      "en": "What is an SRS?"
+     },
+     "a": {
+      "en": "Software Requirement Specification - the formal document stating exactly what the software must do, agreed between customer and developer."
+     }
+    },
+    {
+     "q": {
+      "en": "List any four characteristics of a good SRS."
+     },
+     "a": {
+      "en": "Correct, unambiguous, complete, consistent (also: ranked, verifiable, modifiable, traceable)."
+     }
+    },
+    {
+     "q": {
+      "en": "Why must an SRS be unambiguous?"
+     },
+     "a": {
+      "en": "Every sentence needs exactly ONE meaning - ambiguity lets two developers build two different systems from the same line."
+     }
+    },
+    {
+     "q": {
+      "en": "Customer requirements vs functional requirements?"
+     },
+     "a": {
+      "en": "Customer requirements are the client's plain-language needs; functional requirements are their testable restatement as system actions."
+     }
+    },
+    {
+     "q": {
+      "en": "What makes a requirement 'verifiable'?"
+     },
+     "a": {
+      "en": "Some finite, cost-effective test exists to prove the system meets it ('responds within 2 s' - yes; 'fast' - no)."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Design: Cohesion and Coupling"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Analysis vs design, one line?"
+     },
+     "a": {
+      "en": "Analysis defines WHAT the system must do for users; design defines HOW the build will do it for the developers."
+     }
+    },
+    {
+     "q": {
+      "en": "What makes a design 'good'?"
+     },
+     "a": {
+      "en": "Correct, complete, efficient, understandable and - above all - changeable."
+     }
+    },
+    {
+     "q": {
+      "en": "Define cohesion."
+     },
+     "a": {
+      "en": "The measure of how strongly the elements INSIDE one module belong together - the higher, the better."
+     }
+    },
+    {
+     "q": {
+      "en": "Best and worst cohesion types?"
+     },
+     "a": {
+      "en": "Best: functional (one clear job). Worst: coincidental (a random grab-bag)."
+     }
+    },
+    {
+     "q": {
+      "en": "Define coupling."
+     },
+     "a": {
+      "en": "The measure of interdependence BETWEEN modules - the lower, the better."
+     }
+    },
+    {
+     "q": {
+      "en": "Worst and best coupling types?"
+     },
+     "a": {
+      "en": "Worst: content coupling (one rewrites another's innards). Best: message/data coupling (only needed parameters/messages cross)."
+     }
+    },
+    {
+     "q": {
+      "en": "State the design golden rule."
+     },
+     "a": {
+      "en": "High cohesion, low coupling - modules each do one clear job and lean on each other as little as possible."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "DFDs (Practical 6)"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a DFD?"
+     },
+     "a": {
+      "en": "Data Flow Diagram - shows how data moves through processes, stores and external entities, without fixing code details."
+     }
+    },
+    {
+     "q": {
+      "en": "Name the four DFD symbols."
+     },
+     "a": {
+      "en": "Process (circle), external entity (rectangle), data store (two parallel lines), data flow (labeled arrow)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a context-level DFD?"
+     },
+     "a": {
+      "en": "The whole system drawn as ONE bubble with only external entities and the flows between them."
+     }
+    },
+    {
+     "q": {
+      "en": "What changes from context to level-1 DFD?"
+     },
+     "a": {
+      "en": "The single bubble is exploded into 4-8 major functions; external flows must stay balanced across the change."
+     }
+    },
+    {
+     "q": {
+      "en": "What is balancing in a DFD?"
+     },
+     "a": {
+      "en": "The in/out flows of a bubble on one level must exactly match the in/out flows of its expanded lower level."
+     }
+    },
+    {
+     "q": {
+      "en": "Can a data store talk directly to an entity?"
+     },
+     "a": {
+      "en": "No - all data movement passes through a process bubble; that's a DFD rule commonly probed."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "UML Diagrams (Practicals 7-11)"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What does a use case diagram show?"
+     },
+     "a": {
+      "en": "Actors (roles) and the user goals (use cases) they can perform within the system boundary."
+     }
+    },
+    {
+     "q": {
+      "en": "include vs extend in use cases?"
+     },
+     "a": {
+      "en": "<<include>> = always-reused shared part; <<extend>> = optional behaviour added only in some cases."
+     }
+    },
+    {
+     "q": {
+      "en": "What are the three compartments of a class box?"
+     },
+     "a": {
+      "en": "Class name, attributes, operations."
+     }
+    },
+    {
+     "q": {
+      "en": "What does multiplicity mean in a class diagram?"
+     },
+     "a": {
+      "en": "The count constraint at each end of an association - e.g. Member 1...* borrows Book 0...*."
+     }
+    },
+    {
+     "q": {
+      "en": "Association vs generalisation?"
+     },
+     "a": {
+      "en": "Association links peer classes (borrows); generalisation is IS-A inheritance (EBook -> Book, hollow triangle)."
+     }
+    },
+    {
+     "q": {
+      "en": "What does a component diagram emphasise?"
+     },
+     "a": {
+      "en": "Physical, replaceable units (components) and the provided/required interfaces they snap together through."
+     }
+    },
+    {
+     "q": {
+      "en": "Lollipop vs socket symbols?"
+     },
+     "a": {
+      "en": "Lollipop = PROVIDED interface (offered service); socket = REQUIRED interface (needed service)."
+     }
+    },
+    {
+     "q": {
+      "en": "What does a sequence diagram show?"
+     },
+     "a": {
+      "en": "Interaction over time: objects across the top, lifelines downward, ordered messages (calls solid, returns dashed)."
+     }
+    },
+    {
+     "q": {
+      "en": "When do you pick a sequence diagram?"
+     },
+     "a": {
+      "en": "To walk one scenario step by step in time order - e.g. exactly what happens when the student taps 'order'."
+     }
+    },
+    {
+     "q": {
+      "en": "Sequence vs activity diagram?"
+     },
+     "a": {
+      "en": "Sequence emphasises WHO sends WHICH message WHEN; activity emphasises flow of actions including decisions and parallel branches."
+     }
+    },
+    {
+     "q": {
+      "en": "What are the start and end symbols in an activity diagram?"
+     },
+     "a": {
+      "en": "A filled circle; a bull's-eye (ring with filled dot)."
+     }
+    },
+    {
+     "q": {
+      "en": "What are swimlanes for?"
+     },
+     "a": {
+      "en": "They group actions by the actor/system-role that performs them, making hand-offs visible."
+     }
+    },
+    {
+     "q": {
+      "en": "Subject verbs for UML: which diagram for 'workflow with decisions'?"
+     },
+     "a": {
+      "en": "Activity diagram."
+     }
+    },
+    {
+     "q": {
+      "en": "Practical 6: give a sensible level-1 bubble list for a food app."
+     },
+     "a": {
+      "en": "browse menu, place order, pay, notify kitchen."
+     }
+    },
+    {
+     "q": {
+      "en": "Which SIX artifacts does Practical 4-11 ask you to produce?"
+     },
+     "a": {
+      "en": "Gathered requirements, a broad SRS, DFD + E-R diagrams, use-case diagram, class/component/sequence/activity diagrams."
+     }
+    },
+    {
+     "q": {
+      "en": "What draws biggest exam marks from this unit?"
+     },
+     "a": {
+      "en": "DFD levels, cohesion/coupling ladders and each UML diagram symbol set - draw them."
+     }
+    },
+    {
+     "q": {
+      "en": "Why does a class diagram matter before coding?"
+     },
+     "a": {
+      "en": "It freezes the nouns, their data and relations, so implementation follows one agreed static structure."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Distinguish functional and non-functional requirements with three examples each."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain any four requirement-gathering techniques and their best-fit situations."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "What is an SRS? Describe its standard structure with section meanings."
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "State and explain six characteristics of a good SRS. (Practical 5)"
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Differentiate analysis and design with a WHAT-vs-HOW table."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain the characteristics of a good software design."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain six classes of cohesion from worst to best with mini examples."
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Explain the types of coupling from worst to best with mini examples."
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Why do we pursue 'high cohesion and low coupling'? Justify with maintenance impact."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Draw the four DFD symbols and state the flow rules among them."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Draw context-level and level-1 DFDs for an online food ordering system. (Practical 6a)"
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Explain balancing across DFD levels with an example."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Draw a use case diagram for a food ordering app showing two actors and <<include>>. (Practical 7)"
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Draw a class diagram with association, multiplicity and generalisation for a library system. (Practical 8)"
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Differentiate use case, sequence and activity diagrams by viewpoint."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Draw the sequence diagram for 'place order' including a payment gateway. (Practical 10)"
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Draw an activity diagram for an order flow with a payment decision branch. (Practical 11)"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain a component diagram's symbols and their use in a backend design. (Practical 9)"
+   },
+   "marks": 4
+  }
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "diagrams": [
+  {
+   "id": "se2_req_types",
+   "title": {
+    "en": "Functional vs Non-Functional Requirements"
+   },
+   "file": "diagrams/se2_req_types.svg"
+  },
+  {
+   "id": "se2_gather",
+   "title": {
+    "en": "Requirement Gathering Techniques"
+   },
+   "file": "diagrams/se2_gather.svg"
+  },
+  {
+   "id": "se2_srs",
+   "title": {
+    "en": "SRS: Structure and Qualities"
+   },
+   "file": "diagrams/se2_srs.svg"
+  },
+  {
+   "id": "se2_analysis_vs_design",
+   "title": {
+    "en": "Analysis vs Design: WHAT vs HOW"
+   },
+   "file": "diagrams/se2_analysis_vs_design.svg"
+  },
+  {
+   "id": "se2_cohesion",
+   "title": {
+    "en": "Cohesion: Best to Worst"
+   },
+   "file": "diagrams/se2_cohesion.svg"
+  },
+  {
+   "id": "se2_coupling",
+   "title": {
+    "en": "Coupling: Worst to Best"
+   },
+   "file": "diagrams/se2_coupling.svg"
+  },
+  {
+   "id": "se2_dfd_symbols",
+   "title": {
+    "en": "DFD Symbols (Yourdon-DeMarco)"
+   },
+   "file": "diagrams/se2_dfd_symbols.svg"
+  },
+  {
+   "id": "se2_dfd_levels",
+   "title": {
+    "en": "DFD Levels: Food Ordering System"
+   },
+   "file": "diagrams/se2_dfd_levels.svg"
+  },
+  {
+   "id": "se2_usecase",
+   "title": {
+    "en": "Use Case Diagram: Food App"
+   },
+   "file": "diagrams/se2_usecase.svg"
+  },
+  {
+   "id": "se2_class",
+   "title": {
+    "en": "Class Diagram: Library Slice"
+   },
+   "file": "diagrams/se2_class.svg"
+  },
+  {
+   "id": "se2_sequence",
+   "title": {
+    "en": "Sequence Diagram: Place Order"
+   },
+   "file": "diagrams/se2_sequence.svg"
+  },
+  {
+   "id": "se2_activity",
+   "title": {
+    "en": "Activity Diagram: Place Order Flow"
+   },
+   "file": "diagrams/se2_activity.svg"
+  },
+  {
+   "id": "se2_component",
+   "title": {
+    "en": "Component Diagram: Food App Backend"
+   },
+   "file": "diagrams/se2_component.svg"
+  }
+ ]
+}
