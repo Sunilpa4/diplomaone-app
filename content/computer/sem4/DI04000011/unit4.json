@@ -1,0 +1,738 @@
+{
+ "subject": "DI04000011",
+ "unit": 4,
+ "format": "notes",
+ "title": {
+  "en": "Coding and Testing"
+ },
+ "weightage": 20,
+ "hours": 8,
+ "notes": [
+  {
+   "title": {
+    "en": "4.1 Coding: Standards, Reviews and Documentation"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Coding Standards and Guidelines"
+     },
+     "body": {
+      "en": "\n<ul><li>The coding phase translates the detailed design into source code a machine can run - and humans can still <b>read, debug and modify</b> for years.</li>\n<li><b>Coding standards</b> are mandatory rules a team imposes: naming conventions (camelCase for methods, ALL_CAPS for constants), a fixed indentation/layout style, rules for comment density, allowed error-handling style, limits on global variables and <b>no GOTOs</b>.</li>\n<li><b>Coding guidelines</b> are softer advice: write code for the reader first; keep functions small; avoid obscure tricks; check return values; keep side-effects out of expressions.</li>\n<li><b>Why they matter</b>: code is read 10x more often than it is written. Uniform style means any team member can maintain any module, reviews go faster, and common bug classes (dangling pointers, unchecked inputs) are designed out.</li>\n<li>Tool support: linters and IDE formatters enforce standards automatically - the rule is debated once, then never again.</li></ul>\n"
+     },
+     "diagram": "se4_standards"
+    },
+    {
+     "h": {
+      "en": "Code Review: Walkthrough and Inspection"
+     },
+     "body": {
+      "en": "\n<ul><li><b>Static verification</b>: humans examine a work product (code, design, SRS) <b>before it runs</b>. Eyeballs find defects testing can only reach much later - and for about 1/100th of the repair cost.</li>\n<li><b>Code walkthrough</b>: informal. The author walks the team through the code line by line, narrating intent; members raise questions and spot issues. Author leads, preparation is light, output is discussion and comments.</li>\n<li><b>Code inspection</b>: formal (Fagan). Defined roles - moderator, author, readers, recorder - each member prepares with <b>checklists</b> (uninitialised variables? array bounds? null handling?), the meeting logs every defect, and fixes are verified later. Goal: <b>find defects now</b>, not share knowledge.</li>\n<li>Difference table (exam favourite): walkthrough = author-led, informal, little preparation, knowledge sharing; inspection = moderator-led, highly formal, checklist preparation, defect log.</li>\n<li>Reviews apply to every phase product - SRS review and design review catch errors where they are cheapest.</li></ul>\n"
+     },
+     "diagram": "se4_review"
+    },
+    {
+     "h": {
+      "en": "Internal and External Documentation"
+     },
+     "body": {
+      "en": "\n<ul><li><b>Internal documentation</b> lives inside the code: header comments per class and module (purpose, author, date, change log), comments explaining <i>why</i> (the <i>what</i> is the code's job), meaningful identifiers, and doc-strings that tools turn into API docs.</li>\n<li><b>External documentation</b> lives beside the code: user manual, installation guide, SRS and design documents, API reference, maintenance manual.</li>\n<li>Audience split: internal serves the <b>next developer</b> (future you), external serves <b>users, testers and reviewers</b>.</li>\n<li>Documentation is a <b>deliverable, not an afterthought</b>: an undocumented program is unmaintainable no matter how clever, and untestable by anyone but its author.</li>\n<li>Rule of thumb: comment the intent (\"retry once because the bus API drops connections\"), not the mechanics (\"increment i by 1\").</li></ul>\n"
+     },
+     "diagram": "se4_docs"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "4.2 Testing Fundamentals"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Why Test, V&V, and the Psychology of Testing"
+     },
+     "body": {
+      "en": "\n<ul><li><b>Objective of testing</b> (Myers): testing is the process of executing a program <b>with the intent of finding errors</b>. A successful test is one that <b>finds a fault</b> - not one that passes.</li>\n<li>Testing shows the <b>presence</b> of bugs, never their absence (Dijkstra) - so we test as thoroughly as budget allows, prioritising risky areas.</li>\n<li>Vocabulary: <b>error</b> = human mistake; <b>fault/defect/bug</b> = the flaw written into the software; <b>failure</b> = observed wrong behaviour at run time.</li>\n<li><b>Verification</b>: are we building the product right? (reviews, walkthroughs - checks against the previous phase's spec). <b>Validation</b>: are we building the right product? (testing against requirements - does it satisfy the customer?).</li>\n<li>Psychology: developers should not be the sole judges of their own code - independent testers adopt a defect-hunting mindset the author cannot.</li></ul>\n"
+     }
+    },
+    {
+     "h": {
+      "en": "Levels of Testing: Unit, Integration, System, Acceptance"
+     },
+     "body": {
+      "en": "\n<ul><li><b>Unit testing</b>: each module/function in isolation. Done by the developer, white-box flavoured, cheapest place to catch faults. Frameworks: JUnit for Java.</li>\n<li><b>Integration testing</b>: modules wired together - tests the <b>interfaces</b>. Incremental strategies (top-down with stubs, bottom-up with drivers) beat big-bang because a failure points at a small set of suspects.</li>\n<li><b>System testing</b>: the whole built product against the SRS - functionality plus performance, security, recovery, load. Black-box; the test team owns it.</li>\n<li><b>Acceptance testing</b>: the customer's verdict - is this the right product? Alpha and beta are its two classic forms (next section).</li>\n<li>Read the pyramid bottom-up: cheap and narrow below, realistic and costly above; faults found late cost orders of magnitude more to repair.</li></ul>\n"
+     },
+     "diagram": "se4_levels"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "4.3 Black-Box Testing"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Black-Box Techniques (Specification-Based)"
+     },
+     "body": {
+      "en": "\n<ul><li>Test from the <b>specification only</b> - the code is an opaque box. We feed inputs, observe outputs, and compare against what the SRS promises.</li>\n<li><b>Equivalence class partitioning</b>: divide the input domain into classes assumed to behave alike; one representative per class stands for a thousand inputs. Example age validation 5-60: classes = {below 5}, {5..60}, {above 60} - test 3, 25, 70.</li>\n<li><b>Boundary Value Analysis (BVA)</b>: bugs breed at edges, so test <b>on and just beside</b> every boundary: for 5-60 test 4, 5, 6 and 59, 60, 61. BVA extends (not replaces) equivalence classes.</li>\n<li><b>Cause-effect graphing</b>: map logical combinations of input causes to output effects (a decision table) - generates tests for complex ruled logic like booking eligibility.</li>\n<li><b>Error guessing</b>: experience-led attacks - empty fields, duplicate booking, past dates, overflow inputs. No method, often gold.</li>\n<li>Detection and repair strategy: isolate the failing class, reproduce with the smallest input, then widen coverage around the fix.</li></ul>\n"
+     },
+     "diagram": "se4_blackbox"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "4.4 White-Box Testing"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "White-Box Test Case Design (Structure-Based)"
+     },
+     "body": {
+      "en": "\n<ul><li>The box is transparent: testers see the code and design inputs that <b>exercise its structures</b> - statements, branches, loops.</li>\n<li><b>Statement coverage</b>: every statement executes at least once. Weakest useful criterion - a never-taken branch can hide a crash.</li>\n<li><b>Branch (decision) coverage</b>: every if takes both the TRUE and FALSE side at least once. For <code>if (x &gt; 0)</code>, tests x=3 and x=-7 give 100% branch coverage.</li>\n<li><b>Condition coverage</b> refines further for compound decisions (a &amp;&amp; b): each atomic condition true and false.</li>\n<li><b>Path coverage</b>: every route from entry to exit executes; bounded with <b>basis path testing</b> - count independent paths via cyclomatic complexity V(G) = edges - nodes + 2P, then design one test per basis path. Loops are exercised zero, once, and many times.</li>\n<li>Relation to black-box: <b>complements, never replaces</b>. Black-box finds missing functionality; white-box finds hidden faulty code. Real test plans mix both.</li></ul>\n"
+     },
+     "diagram": "se4_whitebox"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "4.5 Alpha, Beta and Designing Test Cases"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Alpha and Beta Testing"
+     },
+     "body": {
+      "en": "\n<ul><li>Both are <b>acceptance testing</b>: real usage decides whether the product is releasable.</li>\n<li><b>Alpha</b>: performed <b>in-house</b> at the developer's site, by internal staff or friendly users, with developers watching. Controlled environment, late development/fix stage; goal is to catch crashes and glaring defects before outsiders see them.</li>\n<li><b>Beta</b>: performed <b>in the wild</b> at selected client sites, by real users with real data on real hardware - developers are absent. Uncontrolled environment; goal is feedback on usability, configuration surprises and defects only the wild can produce.</li>\n<li>Order: alpha first (lab), then beta (limited clients), then release candidate, then release.</li>\n<li>Exam contrast: alpha = developer's site, controlled, internal users; beta = customer's site, uncontrolled, real users.</li></ul>\n"
+     },
+     "diagram": "se4_ab"
+    },
+    {
+     "h": {
+      "en": "Designing Test Cases (Practical 15)"
+     },
+     "body": {
+      "en": "\n<ul><li>A <b>test case</b> is a documented experiment: unique <b>id</b>, module, title, preconditions, numbered steps, <b>test data</b>, <b>expected result</b>, actual result, and pass/fail status.</li>\n<li>The expected result is written <b>before</b> execution - from the SRS, not from what the program happens to do. A test without expectations is a demo, not a test.</li>\n<li>Design habit: for every module write <b>positive</b> cases (does it do what it should) and <b>negative</b> cases (does it refuse what it must), then add boundary cases from BVA.</li>\n<li>Example for a bus-booking seat module: TC-07 'no double-booking' - precondition seat 12A already booked; steps: login as user2, book 12A; expected: error message, seat allocation unchanged.</li>\n<li>Test design techniques feed in from both worlds: black-box classes and boundaries derive cases from the spec; white-box coverage adds cases from the code structure. Record everything - a test suite is a project asset for every future regression.</li></ul>\n"
+     },
+     "diagram": "se4_testcase"
+    }
+   ]
+  }
+ ],
+ "syntax": [
+  {
+   "title": {
+    "en": "Coding cards"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "standards vs guidelines"
+     },
+     "f": "STANDARDS = mandatory rules\nnaming indentation comments\nno GOTOs, few globals\nGUIDELINES = softer advice\ncode for the reader first",
+     "terms": {
+      "en": "rules enforced, advice earned"
+     }
+    },
+    {
+     "name": {
+      "en": "review pairing"
+     },
+     "f": "walkthrough : author led\n  informal, share knowledge\ninspection  : moderator led\n  checklist, defect log,\n  formal roles",
+     "terms": {
+      "en": "chat vs audit"
+     }
+    },
+    {
+     "name": {
+      "en": "docs split"
+     },
+     "f": "INTERNAL  inside the code\n  headers comments doc-strings\nEXTERNAL  beside the code\n  manual guide SRS API ref",
+     "terms": {
+      "en": "for developers vs users"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Testing cards"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "v and v"
+     },
+     "f": "VERIFICATION build it RIGHT\n  reviews against the spec\nVALIDATION  build the RIGHT\n  testing against needs",
+     "terms": {
+      "en": "process vs product"
+     }
+    },
+    {
+     "name": {
+      "en": "levels ladder"
+     },
+     "f": "unit        one module\nintegration interfaces\nsystem      whole vs SRS\nacceptance  customer yes",
+     "terms": {
+      "en": "alpha + beta live on top"
+     }
+    },
+    {
+     "name": {
+      "en": "black-box box"
+     },
+     "f": "equivalence classes\nboundary values 4 5 6 | 59 60 61\ncause-effect graphs\nerror guessing",
+     "terms": {
+      "en": "spec only, no code peeking"
+     }
+    },
+    {
+     "name": {
+      "en": "white-box box"
+     },
+     "f": "statement every line once\nbranch    both if sides\ncondition each atom T/F\npath      basis set, V(G)",
+     "terms": {
+      "en": "structure LED, coverage %"
+     }
+    },
+    {
+     "name": {
+      "en": "test case rows"
+     },
+     "f": "id module title\nprecondition steps data\nEXPECTED  (before run)\nactual status pass/fail",
+     "terms": {
+      "en": "no expectation = demo"
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Coding, Standards and Review"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is the coding phase?"
+     },
+     "a": {
+      "en": "Translating the detailed design into executable source code - while keeping it readable and maintainable for the humans who come after."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a coding standard?"
+     },
+     "a": {
+      "en": "A mandatory team rule for writing code: naming conventions, indentation, comment density, error-handling style, banned constructs like GOTO."
+     }
+    },
+    {
+     "q": {
+      "en": "How do guidelines differ from standards?"
+     },
+     "a": {
+      "en": "Standards are enforced rules; guidelines are advisory wisdom - style you follow for readability but no tool will block you for breaking."
+     }
+    },
+    {
+     "q": {
+      "en": "Name four things coding standards typically police."
+     },
+     "a": {
+      "en": "Naming conventions, indentation/layout, comment density, limits on globals and GOTOs (plus function-size caps)."
+     }
+    },
+    {
+     "q": {
+      "en": "Why do teams invest in standards?"
+     },
+     "a": {
+      "en": "Uniform style means anyone can maintain any module, reviews run faster, and whole bug classes are prevented at the keyboard."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a code walkthrough?"
+     },
+     "a": {
+      "en": "An informal, author-led review: the author narrates the code line by line and peers ask questions - mainly knowledge sharing."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a code inspection?"
+     },
+     "a": {
+      "en": "A formal review (Fagan): moderator, readers and recorder prepare with checklists, log every defect, and verify fixes afterwards."
+     }
+    },
+    {
+     "q": {
+      "en": "Walkthrough vs inspection in one line each."
+     },
+     "a": {
+      "en": "Walkthrough = informal chat led by the author; inspection = formal audit led by a moderator with checklists and a defect log."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is review cheaper than testing for many defects?"
+     },
+     "a": {
+      "en": "A fault caught in review costs about one unit to fix; the same fault in live use costs around a hundred - and reviews need no execution setup."
+     }
+    },
+    {
+     "q": {
+      "en": "What is internal documentation?"
+     },
+     "a": {
+      "en": "Documentation inside the source: module headers, why-comments, meaningful names, doc-strings - serving the next developer."
+     }
+    },
+    {
+     "q": {
+      "en": "What is external documentation?"
+     },
+     "a": {
+      "en": "Documents beside the code: user manual, installation guide, SRS, design docs, API reference - serving users, testers and reviewers."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Testing Fundamentals and Levels"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is the objective of testing?"
+     },
+     "a": {
+      "en": "To execute a program with the intent of FINDING errors - a successful test reveals a fault, it does not prove correctness."
+     }
+    },
+    {
+     "q": {
+      "en": "Error vs fault vs failure."
+     },
+     "a": {
+      "en": "Error = human mistake; fault = the defect written into the software; failure = the wrong behaviour actually observed at run time."
+     }
+    },
+    {
+     "q": {
+      "en": "Define verification and validation."
+     },
+     "a": {
+      "en": "Verification: building the product RIGHT (checked against specs, e.g. reviews). Validation: building the RIGHT product (checked against real needs, e.g. testing)."
+     }
+    },
+    {
+     "q": {
+      "en": "Why can testing never prove a program correct?"
+     },
+     "a": {
+      "en": "It can only show the presence of bugs, never their absence - the input space is effectively infinite (Dijkstra)."
+     }
+    },
+    {
+     "q": {
+      "en": "Why should developers not test their own code alone?"
+     },
+     "a": {
+      "en": "Authors carry blind spots and a defending mindset; independent testers hunt defects impartially."
+     }
+    },
+    {
+     "q": {
+      "en": "List the four levels of testing in order."
+     },
+     "a": {
+      "en": "Unit (module alone), integration (interfaces between modules), system (whole product vs SRS), acceptance (customer verdict: alpha/beta)."
+     }
+    },
+    {
+     "q": {
+      "en": "Which level is cheapest for fixing defects and why?"
+     },
+     "a": {
+      "en": "Unit testing - the module is isolated, the author is present, and the change has no ripple effects yet."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Black-Box and White-Box"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What does integration testing target?"
+     },
+     "a": {
+      "en": "Interfaces between modules - parameter mismatch, protocol confusion, shared data assumptions."
+     }
+    },
+    {
+     "q": {
+      "en": "What is black-box testing?"
+     },
+     "a": {
+      "en": "Designing tests from the specification alone - inputs in, outputs compared - with no knowledge of the internal code."
+     }
+    },
+    {
+     "q": {
+      "en": "Explain equivalence class partitioning."
+     },
+     "a": {
+      "en": "Partition inputs into classes expected to behave identically; one test per class stands for the whole class."
+     }
+    },
+    {
+     "q": {
+      "en": "Give the equivalence classes for age valid 5-60."
+     },
+     "a": {
+      "en": "Below 5 (invalid), 5-60 (valid), above 60 (invalid) - e.g. test 3, 25, 70."
+     }
+    },
+    {
+     "q": {
+      "en": "What is Boundary Value Analysis?"
+     },
+     "a": {
+      "en": "Test values on and immediately beside every boundary - for 5-60: 4, 5, 6 and 59, 60, 61 - because errors cluster at edges."
+     }
+    },
+    {
+     "q": {
+      "en": "Why does BVA beat random testing at edges?"
+     },
+     "a": {
+      "en": "Off-by-one and comparison-slip faults live exactly at boundaries; random inputs rarely land there."
+     }
+    },
+    {
+     "q": {
+      "en": "What is cause-effect graphing?"
+     },
+     "a": {
+      "en": "Map logical combinations of input causes to output effects as a graph/decision table, then derive a test per rule combination."
+     }
+    },
+    {
+     "q": {
+      "en": "What is error guessing?"
+     },
+     "a": {
+      "en": "Experience-based attack cases - empty input, duplicates, overflow, past dates - no formal method, often very effective."
+     }
+    },
+    {
+     "q": {
+      "en": "What is white-box testing?"
+     },
+     "a": {
+      "en": "Designing tests with knowledge of the code's internal structure, aiming to execute statements, branches and paths."
+     }
+    },
+    {
+     "q": {
+      "en": "Define statement coverage."
+     },
+     "a": {
+      "en": "Every executable statement runs at least once - the weakest meaningful coverage criterion."
+     }
+    },
+    {
+     "q": {
+      "en": "Define branch coverage."
+     },
+     "a": {
+      "en": "Every decision takes both its true and false outcomes at least once."
+     }
+    },
+    {
+     "q": {
+      "en": "What tests give 100% branch coverage on if (x > 0)?"
+     },
+     "a": {
+      "en": "One x above zero and one at-or-below zero, e.g. x=3 and x=-7."
+     }
+    },
+    {
+     "q": {
+      "en": "What is basis path testing?"
+     },
+     "a": {
+      "en": "Derive V(G) = edges - nodes + 2P independent paths from the control-flow graph and write one test per basis path."
+     }
+    },
+    {
+     "q": {
+      "en": "Black-box vs white-box - one contrast each."
+     },
+     "a": {
+      "en": "Black-box: spec-driven, finds missing functionality, tester needs no code. White-box: structure-driven, finds faulty hidden code, needs source access."
+     }
+    },
+    {
+     "q": {
+      "en": "Can white-box replace black-box?"
+     },
+     "a": {
+      "en": "Never - code can do everything it does correctly and STILL miss a required feature; only spec-based tests catch absence."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Alpha-Beta and Test Cases"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is alpha testing?"
+     },
+     "a": {
+      "en": "Acceptance testing in-house at the developer's site by internal/friendly users, controlled environment, developers watching."
+     }
+    },
+    {
+     "q": {
+      "en": "What is beta testing?"
+     },
+     "a": {
+      "en": "Acceptance testing at selected real client sites by real users with real data - uncontrolled environment, developers absent."
+     }
+    },
+    {
+     "q": {
+      "en": "Alpha vs beta ordering and goal."
+     },
+     "a": {
+      "en": "Alpha first in the lab to remove crashes; beta next in the wild for usability and environment surprises; then release candidate."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a test case?"
+     },
+     "a": {
+      "en": "A documented experiment: id, module, title, preconditions, steps, test data, expected result, actual result, pass/fail."
+     }
+    },
+    {
+     "q": {
+      "en": "Why must the expected result be written before execution?"
+     },
+     "a": {
+      "en": "It must come from the SRS - otherwise testers just record whatever the buggy program does and call it correct."
+     }
+    },
+    {
+     "q": {
+      "en": "Positive vs negative test cases."
+     },
+     "a": {
+      "en": "Positive: system does what it should with valid input. Negative: system safely refuses invalid input or states."
+     }
+    },
+    {
+     "q": {
+      "en": "What is regression testing?"
+     },
+     "a": {
+      "en": "Re-running the existing suite after any change to prove no old functionality broke - a test suite is a permanent asset."
+     }
+    },
+    {
+     "q": {
+      "en": "What goes into a good test case title?"
+     },
+     "a": {
+      "en": "The exact behaviour under judgement, e.g. 'no double-booking of a seat' - searchable, specific, traceable to the SRS."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you pick test data for a module?"
+     },
+     "a": {
+      "en": "One representative per equivalence class, every boundary value, plus guilty-past cases from error guessing."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Explain the need for coding standards and list four rules a standard typically enforces."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Distinguish coding standards from coding guidelines with two examples of each."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Compare code walkthrough and code inspection in a four-point table."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the roles and checklist-based process of a formal code inspection."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Distinguish internal from external documentation with examples of each."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "'Testing can show the presence of bugs, never their absence.' Discuss testing objectives and psychology."
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Distinguish error, fault and failure; and verification from validation."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the four levels of testing with one activity and owner for each."
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Explain equivalence class partitioning and Boundary Value Analysis with the age(5-60) example."
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Explain cause-effect graphing and error guessing as black-box techniques."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain statement, branch and path coverage. Show the tests achieving 100% branch coverage for if (x > 0)."
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "What is basis path testing? Explain cyclomatic complexity V(G) = E - N + 2P."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Compare black-box and white-box testing; explain why both are needed in a real plan."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Compare alpha and beta testing (site, users, environment, goal, order)."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Design a complete test case (all fields) for 'a seat cannot be booked twice' in a bus-booking app. (Practical 15)"
+   },
+   "marks": 6
+  }
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "diagrams": [
+  {
+   "id": "se4_standards",
+   "title": {
+    "en": "Coding Standards: What They Police"
+   },
+   "file": "diagrams/se4_standards.svg"
+  },
+  {
+   "id": "se4_review",
+   "title": {
+    "en": "Walkthrough vs Inspection"
+   },
+   "file": "diagrams/se4_review.svg"
+  },
+  {
+   "id": "se4_docs",
+   "title": {
+    "en": "Internal vs External Documentation"
+   },
+   "file": "diagrams/se4_docs.svg"
+  },
+  {
+   "id": "se4_levels",
+   "title": {
+    "en": "Levels of Testing"
+   },
+   "file": "diagrams/se4_levels.svg"
+  },
+  {
+   "id": "se4_blackbox",
+   "title": {
+    "en": "Black-Box Testing: Inputs Only"
+   },
+   "file": "diagrams/se4_blackbox.svg"
+  },
+  {
+   "id": "se4_whitebox",
+   "title": {
+    "en": "White-Box Testing: Cover the Code"
+   },
+   "file": "diagrams/se4_whitebox.svg"
+  },
+  {
+   "id": "se4_ab",
+   "title": {
+    "en": "Alpha and Beta Testing"
+   },
+   "file": "diagrams/se4_ab.svg"
+  },
+  {
+   "id": "se4_testcase",
+   "title": {
+    "en": "Test Case Template (Practical 15)"
+   },
+   "file": "diagrams/se4_testcase.svg"
+  }
+ ]
+}
