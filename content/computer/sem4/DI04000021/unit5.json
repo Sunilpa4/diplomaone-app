@@ -1,0 +1,925 @@
+{
+ "subject": "DI04000021",
+ "unit": 5,
+ "format": "notes",
+ "title": {
+  "en": "Modern Java Features"
+ },
+ "weightage": 10,
+ "hours": 7,
+ "notes": [
+  {
+   "title": {
+    "en": "5.1 Java Language Version Updates"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "The Evolution of Java: 7 to 21"
+     },
+     "body": {
+      "en": "\n<ul><li>Java releases roughly every 6 months now; <b>LTS</b> versions (8, 11, 17, 21) are what industry standardises on.</li>\n<li><b>Java 7</b>: try-with-resources, strings in switch, diamond operator, multi-catch.</li>\n<li><b>Java 8</b> (the revolution): lambda expressions, Stream API, java.time, default methods in interfaces.</li>\n<li><b>Java 9-11</b>: modules (JPMS), jshell, var for locals, HttpClient.</li>\n<li><b>Java 14-17</b>: switch expressions, text blocks, records, pattern-matching instanceof, sealed classes.</li>\n<li>The diploma lab JDK is 11, so lambda/streams/var <b>run</b> here; the 14+ syntax appears as study-exhibits (jv5_12) and in exam theory.</li></ul>\n"
+     },
+     "diagram": "jv5_timeline"
+    },
+    {
+     "h": {
+      "en": "Java 7 Features: try-with-resources and Friends"
+     },
+     "body": {
+      "en": "\n<ul><li><b>try-with-resources</b>: declare an AutoCloseable object in the try header and the JVM closes it on EVERY exit path - the finally block of Unit 4 becomes unnecessary for pure cleanup.</li>\n<li><b>Strings in switch</b>: direct case labels like \"Friday\" - far clearer than an if-else ladder over equals().</li>\n<li><b>Diamond operator</b>: <code>new ArrayList&lt;&gt;()</code> reads the element type from the declaration on the left.</li>\n<li><b>Multi-catch</b>: <code>catch (A | B e)</code> - one recovery block for unrelated exception types.</li></ul>\n<p>jv5_1 closes a Scanner without finally; jv5_2 packs switch-on-String, diamond and multi-catch into one genuine run.</p>\n"
+     },
+     "diagram": "jv5_twr",
+     "programs": [
+      "jv5_1",
+      "jv5_2"
+     ]
+    },
+    {
+     "h": {
+      "en": "var, java.time and the Post-8 Wave"
+     },
+     "body": {
+      "en": "\n<ul><li><code>var</code> (Java 10): local-variable <b>type inference</b> - javac copies the type from the right side; still fully static, not JavaScript-style dynamic typing.</li>\n<li>Rules of var: locals and loops only; must be initialised where declared; not for fields, parameters or return types.</li>\n<li><b>record</b> (16+): one line declares an immutable data carrier with constructor, accessors, equals, hashCode and toString.</li>\n<li><b>Pattern-matching instanceof</b> (16+): <code>if (o instanceof String t)</code> tests and binds in one step - no manual cast.</li>\n<li>Also in the wave: text blocks (15+), sealed classes (17+), switch expressions (14+).</li>\n<li><b>java.time</b> (Java 8): LocalDate/LocalTime/Period - immutable, thread-safe, with clean formatting; it retired Date/Calendar for everyday work.</li></ul>\n<p>jv5_3 runs var on JDK 11; jv5_11 counts down to an exam date with java.time; jv5_12 shows records/patterns as commented exhibits beside their classic equivalents.</p>\n"
+     },
+     "programs": [
+      "jv5_3",
+      "jv5_11",
+      "jv5_12"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "5.2 Functional Features (Java 8)"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Functional Interfaces and Lambda Basics"
+     },
+     "body": {
+      "en": "\n<ul><li>A <b>functional interface</b> has EXACTLY ONE abstract method (any number of default/static ones) - that single method is what the lambda implements.</li>\n<li><b>Lambda syntax</b>: <code>(parameters) -&gt; body</code>; empty parentheses when no parameters; a single expression needs no braces and no return keyword; braces for multi-statement bodies.</li>\n<li>javac matches parameter types from the interface's method signature, so lambda parameter types are usually omitted.</li>\n<li><code>@FunctionalInterface</code> asks the compiler to police the one-method rule.</li></ul>\n<p>jv5_4 contrasts a 5-line anonymous class with its one-line lambda twin - both print, both are Speaker objects.</p>\n"
+     },
+     "diagram": "jv5_lambda",
+     "programs": [
+      "jv5_4"
+     ]
+    },
+    {
+     "h": {
+      "en": "Lambdas with Parameters: Passing Behaviour Around"
+     },
+     "body": {
+      "en": "\n<ul><li><code>Calc add = (x, y) -&gt; x + y;</code> - one contract, many behaviours, each a two-word class.</li>\n<li>Lambdas are <b>values</b>: store them in variables, pass them to methods, call them later - code becomes data.</li>\n<li>This is run-time flexibility without inheritance: the strategy is chosen by which lambda you pass, not by which subclass you wrote.</li></ul>\n<p>jv5_5 passes add/sub/mul/div lambdas of the same Calc type into a shared show() method.</p>\n"
+     },
+     "programs": [
+      "jv5_5"
+     ]
+    },
+    {
+     "h": {
+      "en": "forEach and the Ready-made Functional Interfaces"
+     },
+     "body": {
+      "en": "\n<ul><li>Every collection owns <code>forEach(Consumer)</code>: <code>team.forEach(t -&gt; println(...))</code> visits each element - the syllabus' \"print list elements\" task.</li>\n<li>Meet the built-ins of <code>java.util.function</code>: <b>Supplier&lt;T&gt;</b> (get), <b>Consumer&lt;T&gt;</b> (accept), <b>Predicate&lt;T&gt;</b> (test), <b>Function&lt;T,R&gt;</b> (apply); plus old friend <b>Runnable</b> (run).</li>\n<li>These five cover filter/map/forEach/factory tasks without writing your own interfaces.</li></ul>\n<p>jv5_6 prints a list three ways; jv5_10 runs Runnable and Supplier lambdas directly.</p>\n"
+     },
+     "diagram": "jv5_func_iface",
+     "programs": [
+      "jv5_6",
+      "jv5_10"
+     ]
+    },
+    {
+     "h": {
+      "en": "Stream API: filter, map, forEach"
+     },
+     "body": {
+      "en": "\n<ul><li>A <b>stream</b> is a conveyor-belt view over a collection - not a container, not a loop.</li>\n<li><code>filter(Predicate)</code> keeps elements whose test is true; <code>map(Function)</code> transforms each element; <code>forEach(Consumer)</code> consumes them.</li>\n<li>The source collection is <b>never mutated</b> - streams compute views; a spent stream cannot be reused.</li>\n<li><b>Practical 15</b>: filter even numbers (jv5_7) and map strings to uppercase (jv5_8) - exactly the two required tasks.</li></ul>\n"
+     },
+     "diagram": "jv5_stream",
+     "programs": [
+      "jv5_7",
+      "jv5_8"
+     ]
+    },
+    {
+     "h": {
+      "en": "Full Pipelines: sorted, collect, and Laziness"
+     },
+     "body": {
+      "en": "\n<ul><li>Pipelines chain <b>intermediate</b> steps (filter, map, sorted - each returns a new stream) and end with ONE <b>terminal</b> step (forEach, count, collect).</li>\n<li>Intermediate steps are <b>lazy</b>: nothing flows until the terminal step starts the belt - this enables wholesale optimisation.</li>\n<li><code>collect(Collectors.toList())</code> pours the survivors back into a real modifiable List.</li>\n<li>Style gain: whole \"data questions\" read as one readable sentence instead of nested loops with temp lists.</li></ul>\n<p>jv5_9 filters passes, sorts them, maps to grade strings and collects - one pipeline, new list, originals intact.</p>\n"
+     },
+     "programs": [
+      "jv5_9"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "5.3 Introduction to AI with Java"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Meaning of AI and Machine Learning"
+     },
+     "body": {
+      "en": "\n<ul><li><b>Artificial Intelligence</b>: the goal - getting machines to perform tasks that would need human intelligence (recognise, decide, predict, translate).</li>\n<li><b>Machine Learning</b>: the dominant approach inside AI - instead of hand-writing every rule, the program <b>learns behaviour from data/examples</b>. Change the data, and behaviour changes without rewriting code.</li>\n<li><b>Deep Learning</b>: ML using layered neural networks - today's image/speech/language breakthroughs.</li>\n<li>Exam line: AI is the destination; ML is the road paved with examples; DL is the newest, fastest vehicle on that road.</li></ul>\n"
+     },
+     "diagram": "jv5_aiml"
+    },
+    {
+     "h": {
+      "en": "Role of Java in AI and Its Libraries"
+     },
+     "body": {
+      "en": "\n<ul><li>Java dominates enterprise backends; AI columns inside such systems (fraud scores, recommendations, routing) are deployed <b>in Java</b> - data handling via collections/streams/JDBC, integration via APIs.</li>\n<li><b>Deeplearning4j (DL4J)</b>: build and train neural networks natively on the JVM, with GPU acceleration.</li>\n<li><b>TensorFlow Java API</b>: load and run <b>pre-trained</b> TensorFlow models from Java code - train in Python, deploy in Java is a common industry split.</li>\n<li>Also worth meeting: Weka (classic ML library) and the shape of an AI service call from a Java app.</li></ul>\n<p>jv5_13 demonstrates the ML idea in 30 honest lines: a nearest-neighbour predictor that classifies new students from examples alone - no hand-written pass/fail rule anywhere.</p>\n"
+     },
+     "diagram": "jv5_ailibs",
+     "programs": [
+      "jv5_13"
+     ]
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "jv5_1",
+   "title": {
+    "en": "try-with-resources: self-closing Scanner (Java 7)"
+   },
+   "code": {
+    "en": "import java.util.Scanner;\n\nclass Main {\n  public static void main(String[] a) {\n    // wrap a String: no keyboard needed,\n    // output stays genuine every run\n    try (Scanner sc =\n        new Scanner(\"Meera 95 Ravi 82\")) {\n      String name = sc.next();\n      int marks = sc.nextInt();\n      String r1 = name + \": \" + marks;\n      System.out.println(r1);\n      name = sc.next();\n      marks = sc.nextInt();\n      String r2 = name + \": \" + marks;\n      System.out.println(r2);\n    }\n    // sc.close() happened AUTOMATICALLY,\n    // even if an exception had occurred\n    String m = \"scanner closed by itself\";\n    System.out.println(m);\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\nMeera: 95\nRavi: 82\nscanner closed by itself",
+   "expl": {
+    "en": "\n<p><b>Java 7's try-with-resources</b>: any object declared in the try's parentheses that implements <code>AutoCloseable</code> is closed automatically when the block ends - catch, crash or clean finish.</p>\n<ul><li>Compare with Unit 4: no finally needed purely for closing - the JVM writes it for you.</li>\n<li>Several resources can share one try, separated by semicolons.</li>\n<li>Works with files, sockets, database connections - everything closable.</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv5_2",
+   "title": {
+    "en": "Java 7 tote bag: switch on String, diamond, multi-catch"
+   },
+   "code": {
+    "en": "import java.util.ArrayList;\n\nclass Main {\n  static String grade(String day) {\n    switch (day) {   // String since Java 7\n      case \"Monday\": return \"fresh start\";\n      case \"Friday\": return \"weekend!\";\n      default: return \"regular day\";\n    }\n  }\n\n  public static void main(String[] a) {\n    // diamond <>: type from the left\n    ArrayList<String> seen =\n        new ArrayList<>();\n    seen.add(grade(\"Friday\"));\n    seen.add(grade(\"Wednesday\"));\n    try {\n      String s = null;\n      s.length();            // NPE test\n      int r = 5 / 0;         // AE test\n      System.out.println(r);\n    } catch (NullPointerException\n        | ArithmeticException e) {\n      // Java 7: one handler, two types\n      String t = e.getClass()\n          .getSimpleName();\n      String m = \"multi-caught: \" + t;\n      System.out.println(m);\n    }\n    System.out.println(seen);\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\nmulti-caught: NullPointerException\n[weekend!, regular day]",
+   "expl": {
+    "en": "\n<p>Three Java 7 conveniences in one run:</p>\n<ul><li><b>switch on String</b> - before Java 7, only int-like types worked; strings needed if-else ladders.</li>\n<li><b>Diamond operator</b> <code>&lt;&gt;</code> - the right side borrows the element type from the left declaration.</li>\n<li><b>Multi-catch</b> <code>catch (A | B e)</code> - one handler for several unrelated exception types (no inheritance between them).</li></ul>\n<p>All three are compile-time conveniences the JVM never sees - but they make day-to-day Java much shorter.</p>\n"
+   }
+  },
+  {
+   "id": "jv5_3",
+   "title": {
+    "en": "var: type inference for locals (Java 10)"
+   },
+   "code": {
+    "en": "import java.util.ArrayList;\n\nclass Main {\n  public static void main(String[] a) {\n    // String\n    var name = \"Suresh\";\n    // double\n    var score = 88.5;\n    var subjects = new ArrayList<String>();\n    subjects.add(\"Java\");\n    subjects.add(\"Python\");\n\n    // the compiler wrote the types, not us:\n    String t1 = name.getClass()\n        .getSimpleName();\n    System.out.println(\"name is \" + t1);\n    String t2 = subjects.getClass()\n        .getSimpleName();\n    System.out.println(\"subs is \" + t2);\n\n    int n = subjects.size();\n    for (var i = 0; i < n; i++) {\n      String v = subjects.get(i);\n      String row = i + \": \" + v;\n      System.out.println(row);\n    }\n    // works here too\n    for (var s : subjects) {\n      System.out.println(\"again: \" + s);\n    }\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\nname is String\nsubs is ArrayList\n0: Java\n1: Python\nagain: Java\nagain: Python",
+   "expl": {
+    "en": "\n<p><code>var</code> (Java 10) tells <b>javac</b>: \"read the type from the right side\".</p>\n<ul><li>It is <b>compile-time inference</b> - the .class file contains the fully real type; Java stays statically typed (a var String can never later hold an int).</li>\n<li>Works for local variables, counting loops and for-each - NOT for fields, parameters or return types.</li>\n<li>Initialization is compulsory at declaration: <code>var x;</code> alone is a compile error because there is nothing to infer from.</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv5_4",
+   "title": {
+    "en": "Lambda basics: a functional interface implemented inline"
+   },
+   "code": {
+    "en": "interface Speaker {\n  // ONE abstract method\n  void speak();\n}\n\nclass Main {\n  public static void main(String[] a) {\n    // old style: anonymous inner class\n    Speaker robot = new Speaker() {\n      public void speak() {\n        String m2 = \"old: I am bulky\";\n        System.out.println(m2);\n      }\n    };\n    robot.speak();\n\n    // lambda: just the interesting part\n    Speaker nano = () -> {\n      String m3 = \"lambda: just the body!\";\n      System.out.println(m3);\n    };\n    nano.speak();\n\n    // stored + called later, like data\n    Speaker later = () -> {\n      String m4 = \"lambdas are values too\";\n      System.out.println(m4);\n    };\n    later.speak();\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\nold: I am bulky\nlambda: just the body!\nlambdas are values too",
+   "expl": {
+    "en": "\n<p>Java 8's headline feature. A <b>functional interface</b> has exactly ONE abstract method, so a lambda can stand in for a whole anonymous class:</p>\n<ul><li>Old style: 5 lines of anonymous-class ceremony.</li>\n<li>Lambda: <code>() -&gt; body</code> - parameters on the left, behaviour on the right.</li>\n<li>Notice the declared type is still <b>Speaker</b>: the lambda IS-A Speaker; javac matches the single method by signature.</li>\n<li>When the signature has no parameters, the parentheses are simply empty: <code>() -&gt;</code>.</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv5_5",
+   "title": {
+    "en": "Lambda with parameters: Calculator operations"
+   },
+   "code": {
+    "en": "interface Calc {\n  // shape of operation\n  int op(int x, int y);\n}\n\nclass Main {\n  static void show(String label, Calc c) {\n    int r = c.op(7, 3);\n    String row = label + \" 7,3 -> \" + r;\n    System.out.println(row);\n  }\n\n  public static void main(String[] a) {\n    Calc add = (x, y) -> x + y;\n    Calc sub = (x, y) -> x - y;\n    Calc mul = (x, y) -> x * y;\n\n    show(\"add:\", add);\n    show(\"sub:\", sub);\n    show(\"mul:\", mul);\n\n    // javac reads the types from Calc\n    Calc div = (p, q) -> p / q;\n    int d = div.op(7, 3);\n    String ds = \"div: \" + d;\n    System.out.println(ds);\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\nadd: 7,3 -> 10\nsub: 7,3 -> 4\nmul: 7,3 -> 21\ndiv: 2",
+   "expl": {
+    "en": "\n<p>When the interface's single method takes parameters, the lambda's left side lists them:</p>\n<ul><li><code>(x, y) -&gt; x + y</code> - names only; javac infers int from <code>Calc.op</code>'s signature.</li>\n<li>One-expression bodies need neither <code>return</code> nor braces.</li>\n<li>Passing a lambda to a method (<code>show(\"add:\", add)</code>) makes code behave like data - the seed of functional style.</li>\n<li>Same Calc contract, four different behaviours, zero extra classes.</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv5_6",
+   "title": {
+    "en": "Lambdas with forEach: printing a list"
+   },
+   "code": {
+    "en": "import java.util.ArrayList;\n\nclass Main {\n  public static void main(String[] a) {\n    ArrayList<String> team =\n        new ArrayList<>();\n    team.add(\"Meera\");\n    team.add(\"Ravi\");\n    team.add(\"Farhan\");\n\n    String h1 = \"--- classic for-each ---\";\n    System.out.println(h1);\n    for (String t : team) {\n      System.out.println(\"* \" + t);\n    }\n\n    String h2 = \"--- forEach + lambda ---\";\n    System.out.println(h2);\n    team.forEach(t ->\n        System.out.println(\"# \" + t));\n\n    // block body with curly braces:\n    team.forEach(t -> {\n      String tag = t.toUpperCase();\n      System.out.println(\"shout: \" + tag);\n    });\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\n--- classic for-each ---\n* Meera\n* Ravi\n* Farhan\n--- forEach + lambda ---\n# Meera\n# Ravi\n# Farhan\nshout: MEERA\nshout: RAVI\nshout: FARHAN",
+   "expl": {
+    "en": "\n<p><b>Syllabus: print list elements with a lambda.</b> Every collection owns <code>forEach(action)</code>, whose parameter type is the functional interface <code>Consumer&lt;T&gt;</code>:</p>\n<ul><li><code>t -&gt; System.out.println(...)</code> feeds each element to println, one by one.</li>\n<li>Multiple statements? Wrap the body in braces, exactly like a tiny method.</li>\n<li>Classic for-each vs forEach-lambda: same walk; the lambda form composes better with streams (next programs).</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv5_7",
+   "title": {
+    "en": "Practical 15 (A): filter even numbers with streams"
+   },
+   "code": {
+    "en": "import java.util.Arrays;\nimport java.util.List;\n\nclass Main {\n  public static void main(String[] a) {\n    List<Integer> nums = Arrays.asList(\n        5, 12, 7, 20, 33, 40, 2);\n    System.out.println(\"all: \" + nums);\n\n    String h = \"--- evens only ---\";\n    System.out.println(h);\n    nums.stream()\n        // keep if true\n        .filter(n -> n % 2 == 0)\n        .forEach(n -> System.out\n            .println(\"* \" + n));\n    // ..and how many evens?\n    long count = nums.stream()\n        .filter(n -> n % 2 == 0)\n        .count();\n    String ec = \"even count = \" + count;\n    System.out.println(ec);\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\nall: [5, 12, 7, 20, 33, 40, 2]\n--- evens only ---\n* 12\n* 20\n* 40\n* 2\neven count = 4",
+   "expl": {
+    "en": "\n<p><b>Practical 15 (part A).</b> A <b>stream</b> is a conveyor-belt view of a collection:</p>\n<ul><li><code>.stream()</code> opens the belt; <code>.filter(lambda)</code> keeps only elements where the lambda returns true; <code>.forEach(lambda)</code> consumes each survivor.</li>\n<li>The original list is never touched - streams calculate views, they do not mutate.</li>\n<li>A stream is single-use: for a second pipeline (count) we open a fresh <code>nums.stream()</code>.</li>\n<li>Read it aloud: \"stream, filter the evens, for each print\". Almost English.</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv5_8",
+   "title": {
+    "en": "Practical 15 (B): map strings to uppercase"
+   },
+   "code": {
+    "en": "import java.util.Arrays;\nimport java.util.List;\n\nclass Main {\n  public static void main(String[] a) {\n    List<String> langs = Arrays.asList(\n        \"java\", \"python\", \"kotlin\");\n    System.out.println(\"raw: \" + langs);\n\n    String h = \"--- UPPERCASE ---\";\n    System.out.println(h);\n    langs.stream()\n        // transform\n        .map(s -> s.toUpperCase())\n        .forEach(s -> System.out\n            .println(\"# \" + s));\n\n    // original list UNCHANGED:\n    String check = \"raw is still \" + langs;\n    System.out.println(check);\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\nraw: [java, python, kotlin]\n--- UPPERCASE ---\n# JAVA\n# PYTHON\n# KOTLIN\nraw is still [java, python, kotlin]",
+   "expl": {
+    "en": "\n<p><b>Practical 15 (part B).</b> <code>map</code> is the transformer station on the belt: each element goes in, the lambda's result comes out.</p>\n<ul><li><code>map(s -&gt; s.toUpperCase())</code> turns a Stream of lowercase strings into a Stream of UPPERCASE ones.</li>\n<li>filter + map compose: keep only what matches, transform what survives.</li>\n<li>The source list stays untouched - see it printed unchanged at the end of the run.</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv5_9",
+   "title": {
+    "en": "Stream pipeline: filter, map, sorted, collect"
+   },
+   "code": {
+    "en": "import java.util.Arrays;\nimport java.util.List;\nimport java.util.stream.Collectors;\n\nclass Main {\n  public static void main(String[] a) {\n    List<Integer> marks = Arrays.asList(\n        88, 45, 72, 95, 61, 50);\n\n    // pass only, sort, then grade text:\n    List<String> report = marks.stream()\n        .filter(m -> m >= 50)\n        // ascending\n        .sorted()\n        // int -> String\n        .map(m -> \"pass: \" + m)\n        .collect(Collectors.toList());\n\n    System.out.println(\"input : \" + marks);\n    System.out.println(\"report: \" + report);\n\n    long passes = report.size();\n    String pc = \"passes = \" + passes;\n    System.out.println(pc);\n    marks.stream()\n        .filter(m -> m < 50)\n        .forEach(m -> System.out\n            .println(\"fail: \" + m));\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\ninput : [88, 45, 72, 95, 61, 50]\nreport: [pass: 50, pass: 61, pass: 72, pass: 88, pass: 95]\npasses = 5\nfail: 45",
+   "expl": {
+    "en": "\n<p>A full pipeline reads like a query:</p>\n<ul><li><b>Source</b> (stream), <b>intermediate</b> steps (filter, sorted, map - each returns a new stream), one <b>terminal</b> step (collect - pours results back into a List).</li>\n<li>Intermediate steps are <b>lazy</b>: nothing moves until forEach/collect/count starts the belt.</li>\n<li><code>Collectors.toList()</code> (java.util.stream) gathers everything back into a modifiable list.</li>\n<li>This is where lambdas become genuinely expressive: complete behaviour passed as parameters to a data pipeline.</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv5_10",
+   "title": {
+    "en": "Runnable and Supplier with lambdas"
+   },
+   "code": {
+    "en": "import java.util.function.Supplier;\n\nclass Main {\n  public static void main(String[] a) {\n    // Runnable = functional interface\n    // with void run()\n    Runnable banner = () -> {\n      String b = \"== attendance time ==\";\n      System.out.println(b);\n    };\n    Runnable line = () -> {\n      String ln = \"-----------------\";\n      System.out.println(ln);\n    };\n    banner.run();\n    line.run();\n\n    // Supplier<T>: values via get()\n    Supplier<String> bell =\n        () -> \"next period: Java lab\";\n    System.out.println(bell.get());\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\n== attendance time ==\n-----------------\nnext period: Java lab",
+   "expl": {
+    "en": "\n<p>java.lang and java.util.function ship <b>ready-made functional interfaces</b>:</p>\n<ul><li><b>Runnable</b> - <code>void run()</code>, classically used for threads, here simply invoked directly.</li>\n<li><b>Supplier&lt;T&gt;</b> - <code>T get()</code>, hands out values on demand.</li>\n<li>Others in the family: <b>Consumer&lt;T&gt;</b> (accept - used by forEach), <b>Predicate&lt;T&gt;</b> (test - used by filter), <b>Function&lt;T,R&gt;</b> (apply - used by map).</li>\n<li>Recognising these five names unlocks most stream code you will ever meet.</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv5_11",
+   "title": {
+    "en": "java.time: modern dates and times (Java 8)"
+   },
+   "code": {
+    "en": "import java.time.LocalDate;\nimport java.time.LocalTime;\nimport java.time.Period;\nimport java.time.format.DateTimeFormatter;\n\nclass Main {\n  public static void main(String[] a) {\n    LocalDate examDay =\n        LocalDate.of(2027, 4, 20);\n    LocalDate today = LocalDate.now();\n    Period left = Period.between(\n        today, examDay);\n    String e1 = \"exam on \" + examDay;\n    System.out.println(e1);\n    int mo = left.getMonths();\n    String r = \"months to go: \" + mo;\n    System.out.println(r);\n    String dd = \"days: \" + left.getDays();\n    System.out.println(dd);\n\n    LocalTime lab = LocalTime.of(13, 30);\n    DateTimeFormatter fmt =\n        DateTimeFormatter.ofPattern(\n            \"hh:mm a\");\n    String la = \"lab at \" + lab.format(fmt);\n    System.out.println(la);\n    var dw = examDay.getDayOfWeek();\n    System.out.println(\"day: \" + dw);\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\nexam on 2027-04-20\nmonths to go: 5\ndays: 23\nlab at 01:30 PM\nday: TUESDAY",
+   "expl": {
+    "en": "\n<p>Java 8 replaced the notoriously awkward Date/Calendar with <b>java.time</b>:</p>\n<ul><li><code>LocalDate</code> / <code>LocalTime</code> - immutable, thread-safe, no time-zone drama.</li>\n<li><code>Period.between()</code> does calendar subtraction properly (months and days, not raw milliseconds).</li>\n<li>Formatting via <code>DateTimeFormatter.ofPattern(\"hh:mm a\")</code> - the \"a\" prints AM/PM.</li>\n<li>Run it any day: \"months to go\" is genuinely computed from the system clock, not hardcoded.</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv5_12",
+   "title": {
+    "en": "Records and pattern matching: exhibit + classic twin"
+   },
+   "code": {
+    "en": "class Main {\n  // needs JDK 16+; this sandbox has 11,\n  // so the modern syntax stays as a\n  // commented exhibit beside a working\n  // classic equivalent\n\n  // classic Java\n  static class Student {\n    final int roll;\n    final String name;\n    Student(int r, String n) {\n      roll = r; name = n;\n    }\n    public String toString() {\n      return roll + \" : \" + name;\n    }\n  }\n\n  public static void main(String[] a) {\n    Student s = new Student(7, \"Meera\");\n    System.out.println(s);\n    // JDK 16 one-line equivalent:\n    // record Student(int roll,\n    //                String name) {}\n    // gives ctor, accessors,\n    // toString, equals - all free!\n\n    Object o = \"pattern demo\";\n    if (o instanceof String) {  // old style\n      // manual cast\n      String t = (String) o;\n      int n = t.length();\n      System.out.println(\"len = \" + n);\n    }\n    // JDK 16: if (o instanceof String t)\n    //   -> test AND bind in one step\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\n7 : Meera\nlen = 12",
+   "expl": {
+    "en": "\n<p>The post-Java-8 wave keeps shrinking boilerplate:</p>\n<ul><li><b>record</b> (16+): a compact immutable data class - one line writes constructor, equals, hashCode, toString and accessors (roll(), name()).</li>\n<li><b>Pattern matching for instanceof</b> (16+): <code>if (o instanceof String t)</code> tests AND binds in one breath - the cast disappears.</li>\n<li><b>Text blocks</b> (15+): triple-quoted multi-line strings - perfect for JSON and SQL.</li>\n<li><b>Sealed classes</b> (17+): a class listing exactly who may extend it.</li></ul>\n<p>The sandbox JDK is 11, so the commented lines show the new syntax while the classic equivalent still compiles and runs - exam answers should use the modern forms.</p>\n"
+   }
+  },
+  {
+   "id": "jv5_13",
+   "title": {
+    "en": "Mini AI: nearest-neighbour classifier in pure Java"
+   },
+   "code": {
+    "en": "class Main {\n  // tiny dataset: [hours studied, attend %]\n  static String[] names = {\n      \"pass\", \"pass\", \"fail\",\n      \"fail\", \"pass\"};\n  static int[][] data = {\n      {6, 90}, {5, 85}, {1, 40},\n      {2, 55}, {7, 92}};\n\n  static String predict(int h, int att) {\n    int best = 0;\n    double bestDist = 1e9;\n    for (int i = 0; i < data.length; i++) {\n      int dh = data[i][0] - h;\n      int da = data[i][1] - att;\n      double d2 = dh * dh + da * da;\n      double d = Math.sqrt(d2);\n      if (d < bestDist) {\n        bestDist = d;\n        best = i;\n      }\n    }\n    return names[best];\n  }\n\n  public static void main(String[] a) {\n    System.out.println(\"k-NN verdicts:\");\n    String v1 = predict(6, 88);\n    System.out.println(\"6h/88% -> \" + v1);\n    String v2 = predict(1, 45);\n    System.out.println(\"1h/45% -> \" + v2);\n    String v3 = predict(4, 70);\n    System.out.println(\"4h/70% -> \" + v3);\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\nk-NN verdicts:\n6h/88% -> pass\n1h/45% -> fail\n4h/70% -> pass",
+   "expl": {
+    "en": "\n<p>A real (tiny) <b>machine-learning</b> idea running in plain Java - the spirit of \"Java in AI\":</p>\n<ul><li>k-Nearest-Neighbour: classify a new student by the CLOSEST known student in (hours, attendance) space - the model simply remembers examples.</li>\n<li>This is what enterprise Java + DL4J do at scale: the same distance/classify loop over millions of rows, accelerated on GPUs.</li>\n<li>The behaviour comes from <b>data</b> - change the table and the verdicts change with it. That is the definition of ML: rules derived from examples rather than hand-written ifs.</li></ul>\n<p>Syllabus link: meaning of AI/ML + Java's role - this program is the smallest honest demonstration of both.</p>\n"
+   }
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "jv5_timeline",
+   "title": {
+    "en": "Java Version Highlights (7 onwards)"
+   },
+   "file": "diagrams/jv5_timeline.svg"
+  },
+  {
+   "id": "jv5_twr",
+   "title": {
+    "en": "try-with-resources vs try-finally (Java 7)"
+   },
+   "file": "diagrams/jv5_twr.svg"
+  },
+  {
+   "id": "jv5_lambda",
+   "title": {
+    "en": "Lambda Anatomy"
+   },
+   "file": "diagrams/jv5_lambda.svg"
+  },
+  {
+   "id": "jv5_func_iface",
+   "title": {
+    "en": "Ready-made Functional Interfaces"
+   },
+   "file": "diagrams/jv5_func_iface.svg"
+  },
+  {
+   "id": "jv5_stream",
+   "title": {
+    "en": "Stream Pipeline: filter, map, collect"
+   },
+   "file": "diagrams/jv5_stream.svg"
+  },
+  {
+   "id": "jv5_aiml",
+   "title": {
+    "en": "AI, ML, DL - How They Nest"
+   },
+   "file": "diagrams/jv5_aiml.svg"
+  },
+  {
+   "id": "jv5_ailibs",
+   "title": {
+    "en": "Java's Role in AI + Its Libraries"
+   },
+   "file": "diagrams/jv5_ailibs.svg"
+  }
+ ],
+ "syntax": [
+  {
+   "title": {
+    "en": "Java 7+ features"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "try-with-resources"
+     },
+     "f": "try (Scanner sc =\n    new Scanner(line)) {\n  use(sc);\n}   // sc.close() automatic",
+     "terms": {
+      "en": "resource in the try header - self-closing"
+     }
+    },
+    {
+     "name": {
+      "en": "switch on String + diamond"
+     },
+     "f": "switch (day) {\n  case \"Monday\": return \"fresh\";\n}\nArrayList<String> l =\n    new ArrayList<>();",
+     "terms": {
+      "en": "Java 7: String cases; <> reads the left side"
+     }
+    },
+    {
+     "name": {
+      "en": "var (Java 10)"
+     },
+     "f": "var name = \"Suresh\";   // String\nvar list = new ArrayList<String>();\nfor (var i = 0; i < n; i++) { }\n// locals only, init required",
+     "terms": {
+      "en": "javac infers local types from the value"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Lambdas"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "lambda shapes"
+     },
+     "f": "() -> 42                 // no params\nn -> n * n              // one param\n(x, y) -> x + y         // two params\nn -> { int s = n*n; return s; }",
+     "terms": {
+      "en": "(params) -> body; braces for many lines"
+     }
+    },
+    {
+     "name": {
+      "en": "functional interface"
+     },
+     "f": "@FunctionalInterface\ninterface Calc {\n  int op(int x, int y);\n}\nCalc add = (x, y) -> x + y;",
+     "terms": {
+      "en": "exactly ONE abstract method = lambda target"
+     }
+    },
+    {
+     "name": {
+      "en": "forEach with lambda"
+     },
+     "f": "team.forEach(t ->\n    System.out.println(t));\nteam.forEach(t -> {\n  String u = t.toUpperCase();\n  System.out.println(u);\n});",
+     "terms": {
+      "en": "Collections.visit-all, lambda style"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Streams"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "filter + forEach (P15a)"
+     },
+     "f": "nums.stream()\n    .filter(n -> n % 2 == 0)\n    .forEach(n ->\n        System.out.println(n));",
+     "terms": {
+      "en": "keep evens, print each - list untouched"
+     }
+    },
+    {
+     "name": {
+      "en": "map + forEach (P15b)"
+     },
+     "f": "langs.stream()\n    .map(s -> s.toUpperCase())\n    .forEach(s ->\n        System.out.println(s));",
+     "terms": {
+      "en": "transform each, print - source unchanged"
+     }
+    },
+    {
+     "name": {
+      "en": "full pipeline"
+     },
+     "f": "marks.stream()\n    .filter(m -> m >= 50)\n    .sorted()\n    .map(m -> \"pass: \" + m)\n    .collect(Collectors.toList());",
+     "terms": {
+      "en": "source -> ops -> terminal collect/count"
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Java Version Updates (7-21)"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What new features did Java 7 introduce?"
+     },
+     "a": {
+      "en": "try-with-resources, strings in switch, the diamond operator <>, and multi-catch (catch (A | B e))."
+     }
+    },
+    {
+     "q": {
+      "en": "Name the headline features of Java 8."
+     },
+     "a": {
+      "en": "Lambda expressions, the Stream API, java.time, and default/static methods in interfaces."
+     }
+    },
+    {
+     "q": {
+      "en": "What is an LTS release? Give examples."
+     },
+     "a": {
+      "en": "A Long-Term Support version industry commits to - 8, 11, 17 and 21."
+     }
+    },
+    {
+     "q": {
+      "en": "What do records achieve (Java 16)?"
+     },
+     "a": {
+      "en": "One line declares an immutable data class: constructor, accessors, equals, hashCode and toString all generated."
+     }
+    },
+    {
+     "q": {
+      "en": "What is pattern matching for instanceof?"
+     },
+     "a": {
+      "en": "if (o instanceof String t) tests the type AND binds the cast variable in a single step."
+     }
+    },
+    {
+     "q": {
+      "en": "What does text block syntax look like?"
+     },
+     "a": {
+      "en": "Triple quotes \"\"\" ... \"\"\" - multi-line strings without escape gymnastics (Java 15)."
+     }
+    },
+    {
+     "q": {
+      "en": "What does the try-with-resources header do?"
+     },
+     "a": {
+      "en": "Any AutoCloseable declared in try(...) is closed automatically on every exit path - normal, caught or crashing."
+     }
+    },
+    {
+     "q": {
+      "en": "try-with-resources vs finally for closing?"
+     },
+     "a": {
+      "en": "finally needs hand-written null checks and close(); try-with-resources is shorter and exception-safe by construction."
+     }
+    },
+    {
+     "q": {
+      "en": "What does the diamond operator do?"
+     },
+     "a": {
+      "en": "new ArrayList<>() infers the element type from the left-hand declaration - no repetition."
+     }
+    },
+    {
+     "q": {
+      "en": "What is multi-catch used for?"
+     },
+     "a": {
+      "en": "One catch block for several unrelated exception types: catch (NullPointerException | ArithmeticException e)."
+     }
+    },
+    {
+     "q": {
+      "en": "What does var infer, and where can it be used?"
+     },
+     "a": {
+      "en": "The type of a local variable from its initialiser; locals and loops only - not fields, parameters or return types."
+     }
+    },
+    {
+     "q": {
+      "en": "Is Java with var dynamically typed?"
+     },
+     "a": {
+      "en": "No - the real type is frozen at compile time into the .class; var x = \"s\" can never hold an int later."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a functional interface?"
+     },
+     "a": {
+      "en": "An interface with EXACTLY ONE abstract method - the unique shape a lambda can implement."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the lambda syntax?"
+     },
+     "a": {
+      "en": "(parameters) -> body. One expression needs no braces/return; multi-statements use braces."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Lambdas and Functional Interfaces"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Why can a lambda omit parameter types?"
+     },
+     "a": {
+      "en": "javac infers them from the single abstract method's signature - (x, y) -> x + y typed by Calc.op."
+     }
+    },
+    {
+     "q": {
+      "en": "What does @FunctionalInterface do?"
+     },
+     "a": {
+      "en": "Asks the compiler to ERROR OUT if a second abstract method is added - protecting every lambda of that type."
+     }
+    },
+    {
+     "q": {
+      "en": "Lambda vs anonymous inner class?"
+     },
+     "a": {
+      "en": "Same power; lambda removes the class ceremony, keeps only the interesting body - jv5_4 shows both."
+     }
+    },
+    {
+     "q": {
+      "en": "Can a lambda be stored in a variable?"
+     },
+     "a": {
+      "en": "Yes - lambdas are values of their functional-interface type; store them, pass them, call them later."
+     }
+    },
+    {
+     "q": {
+      "en": "Name four built-in functional interfaces."
+     },
+     "a": {
+      "en": "Runnable (run), Supplier<T> (get), Consumer<T> (accept), Predicate<T> (test); plus Function<T,R> (apply)."
+     }
+    },
+    {
+     "q": {
+      "en": "Which interface powers forEach?"
+     },
+     "a": {
+      "en": "Consumer<T> - its accept(t) receives each element."
+     }
+    },
+    {
+     "q": {
+      "en": "Write the lambda to print every team member."
+     },
+     "a": {
+      "en": "team.forEach(t -> System.out.println(t));"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Stream API"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a stream in Java?"
+     },
+     "a": {
+      "en": "A conveyor-belt VIEW over a collection: a pipeline of operations, not a storage and not a loop."
+     }
+    },
+    {
+     "q": {
+      "en": "What do filter, map and forEach do?"
+     },
+     "a": {
+      "en": "filter keeps elements passing a Predicate; map transforms each via a Function; forEach consumes each via a Consumer."
+     }
+    },
+    {
+     "q": {
+      "en": "Does a stream modify its source collection?"
+     },
+     "a": {
+      "en": "Never - streams compute views; the source list stays untouched (see jv5_8 output)."
+     }
+    },
+    {
+     "q": {
+      "en": "What does it mean that streams are lazy?"
+     },
+     "a": {
+      "en": "Intermediate steps (filter/map/sorted) do nothing until a terminal step (forEach/collect/count) triggers the pipeline."
+     }
+    },
+    {
+     "q": {
+      "en": "Why can't you re-use a stream?"
+     },
+     "a": {
+      "en": "A stream is consumed once; for a second pipeline open a fresh collection.stream()."
+     }
+    },
+    {
+     "q": {
+      "en": "Practical 15: which two operations are demonstrated?"
+     },
+     "a": {
+      "en": "filter to keep even numbers, and map to convert strings to uppercase - both displayed with forEach."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "AI, ML and Java's Role"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What does collect(Collectors.toList()) do?"
+     },
+     "a": {
+      "en": "Terminal step pouring the surviving stream elements back into a new, modifiable List."
+     }
+    },
+    {
+     "q": {
+      "en": "What is AI, in one exam sentence?"
+     },
+     "a": {
+      "en": "Machines performing tasks that normally require human intelligence - recognition, decisions, prediction, language."
+     }
+    },
+    {
+     "q": {
+      "en": "What is Machine Learning?"
+     },
+     "a": {
+      "en": "Programs that learn their behaviour from DATA/examples rather than hand-written rules - change the data, change the behaviour."
+     }
+    },
+    {
+     "q": {
+      "en": "How does Deep Learning fit inside AI?"
+     },
+     "a": {
+      "en": "DL is a branch of ML using layered neural networks; ML is inside AI; classic rule-based AI needs no learning."
+     }
+    },
+    {
+     "q": {
+      "en": "Contrast a rule-based program with an ML one."
+     },
+     "a": {
+      "en": "Rules: if mark < 33 then fail (hand-written). ML: like jv5_13 - verdict comes from the most similar past example."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the role of Java in AI?"
+     },
+     "a": {
+      "en": "Java runs the enterprise backends where AI features get deployed: strong data handling (collections/streams/JDBC) and API integration at scale."
+     }
+    },
+    {
+     "q": {
+      "en": "Name two AI libraries for Java."
+     },
+     "a": {
+      "en": "Deeplearning4j (train and run neural nets on the JVM) and TensorFlow Java API (run pre-trained TF models from Java)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is Deeplearning4j used for?"
+     },
+     "a": {
+      "en": "Building and training neural networks natively in Java/JVM languages, with GPU acceleration - the Java answer to deep learning."
+     }
+    },
+    {
+     "q": {
+      "en": "What is TensorFlow Java API used for?"
+     },
+     "a": {
+      "en": "Loading pre-trained TensorFlow models and scoring them from Java code - the 'deploy in Java' half of a Python-training workflow."
+     }
+    },
+    {
+     "q": {
+      "en": "What does k-NN do? (jv5_13)"
+     },
+     "a": {
+      "en": "Classifies a new case by the CLOSEST stored example - predicting pass/fail from hours-studied and attendance without any if-rule."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is jv5_13 genuinely ML and not just if-else?"
+     },
+     "a": {
+      "en": "Because its verdicts are derived from the example table: edit the data and the answers change - behaviour learned, not coded."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the industry split between Python and Java AI?"
+     },
+     "a": {
+      "en": "Python typically TRAINS models; Java DEPLOYS them inside large-scale services."
+     }
+    },
+    {
+     "q": {
+      "en": "Mention two more post-8 conveniences students should recognise."
+     },
+     "a": {
+      "en": "switch expressions with arrow labels (Java 14) and sealed classes (Java 17) - listed for theory; run on later JDKs."
+     }
+    },
+    {
+     "q": {
+      "en": "Which Java feature makes Scanner/file closing safest, and since when?"
+     },
+     "a": {
+      "en": "try-with-resources, since Java 7."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Explain any four features introduced since Java 7 (try-with-resources, diamond, multi-catch, var)."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Draw a timeline of Java releases (7 to 21) with one highlight per version."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "What is try-with-resources? Compare it with the traditional try-finally approach."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a program using try-with-resources to read tokens from a Scanner."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "What is var? State its scope of use and its limitations."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain records, text blocks and pattern-matching instanceof briefly (Java 14-17 features)."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "What is a functional interface? Explain with an example."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain lambda expression syntax with two examples (no-param and with-param)."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a program that prints list elements using forEach and a lambda."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the Stream API pipeline: filter, map, forEach."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a program to filter even numbers and to map strings to uppercase using streams. (Practical 15)"
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Differentiate intermediate and terminal stream operations with two examples each."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Define AI and Machine Learning. How are they related?"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the role of Java in AI. Name two AI libraries for Java and their purpose."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Describe the k-nearest-neighbour idea used in the mini-ML program (jv5_13)."
+   },
+   "marks": 3
+  }
+ ]
+}
