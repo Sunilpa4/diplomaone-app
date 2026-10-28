@@ -19,12 +19,75 @@ final _pyRe = RegExp(
     r'''(#[^\n]*)|((?:\b[rRbBfFuU]{1,2})?(?:'{3}[\s\S]*?'{3}|"{3}[\s\S]*?"{3}|'(?:\\.|[^'\\\n])*'|"(?:\\.|[^"\\\n])*"))|(^>>>|^\.\.\.(?= ))|([A-Za-z_]\w*)(?=\s*\()|([A-Za-z_]\w*)|(\b(?:0[xXoObB][0-9a-fA-F_]+|\d[\d_]*(?:\.\d+)?(?:[eE][-+]?\d+)?j?)\b)''',
     multiLine: true);
 
-/// Syntax highlighting for C and Python (same colours as the HTML preview).
+final _jsKw = 'async await break case catch class const continue default delete do else export extends false finally for function if import in instanceof let new null of return switch this throw true try typeof undefined var void while yield'.split(' ').toSet();
+final _jsTy = 'document window console Math JSON Array Object String Number Date bootstrap'.split(' ').toSet();
+const _tag = Color(0xFFF07178), _attr = Color(0xFFFFCB6B);
+final _hTok = RegExp(r'''<!--[\s\S]*?-->|<\/?[A-Za-z][\w-]*(?:"[^"]*"|'[^']*'|[^>"'])*>''');
+final _hName = RegExp(r'^<\/?[\w-]+');
+final _hAttr = RegExp(r'''([\w:@.-]+)(?:(\s*=\s*)("[^"]*"|'[^']*'|[^\s>]+))?''');
+
+List<TextSpan> _tagSpans(String t) {
+  final out = <TextSpan>[];
+  final n = _hName.firstMatch(t)!;
+  out.add(TextSpan(text: n.group(0), style: const TextStyle(color: _tag)));
+  final rest = t.substring(n.end);
+  final endLen = rest.endsWith('/>') ? 2 : 1;
+  final body = rest.substring(0, rest.length - endLen);
+  var last = 0;
+  for (final m in _hAttr.allMatches(body)) {
+    if (m.start > last) out.add(TextSpan(text: body.substring(last, m.start)));
+    out.add(TextSpan(text: m.group(1), style: const TextStyle(color: _attr)));
+    if (m.group(2) != null) {
+      out.add(TextSpan(text: m.group(2)));
+      out.add(TextSpan(text: m.group(3), style: const TextStyle(color: _st)));
+    }
+    last = m.end;
+  }
+  if (last < body.length) out.add(TextSpan(text: body.substring(last)));
+  out.add(TextSpan(text: rest.substring(rest.length - endLen), style: const TextStyle(color: _tag)));
+  return out;
+}
+
+List<TextSpan> _htmlSpans(String src) {
+  final out = <TextSpan>[];
+  final lower = src.toLowerCase();
+  var i = 0;
+  while (i < src.length) {
+    final m = _hTok.allMatches(src, i).firstOrNull;
+    if (m == null) {
+      out.add(TextSpan(text: src.substring(i)));
+      break;
+    }
+    if (m.start > i) out.add(TextSpan(text: src.substring(i, m.start)));
+    final t = m.group(0)!;
+    i = m.end;
+    if (t.startsWith('<!--')) {
+      out.add(TextSpan(text: t, style: const TextStyle(color: _cm, fontStyle: FontStyle.italic)));
+      continue;
+    }
+    out.addAll(_tagSpans(t));
+    final low = t.toLowerCase();
+    for (final raw in const ['script', 'style']) {
+      if (low.startsWith('<$raw')) {
+        final close = lower.indexOf('</$raw', i);
+        final end = close < 0 ? src.length : close;
+        final inner = src.substring(i, end);
+        out.addAll(raw == 'script' ? highlight(inner, 'js') : [TextSpan(text: inner)]);
+        i = end;
+      }
+    }
+  }
+  return out;
+}
+
+/// Syntax highlighting for C, Python, HTML and JavaScript (same colours as the HTML preview).
 List<TextSpan> highlight(String src, String? lang) {
-  if (lang != 'c' && lang != 'python') return [TextSpan(text: src)];
+  if (lang == 'html') return _htmlSpans(src);
+  if (lang != 'c' && lang != 'python' && lang != 'js') return [TextSpan(text: src)];
   final py = lang == 'python';
+  final js = lang == 'js';
   final re = py ? _pyRe : _cRe;
-  final kw = py ? _pKw : _cKw, ty = py ? _pTy : _cTy;
+  final kw = py ? _pKw : (js ? _jsKw : _cKw), ty = py ? _pTy : (js ? _jsTy : _cTy);
   final out = <TextSpan>[];
   var last = 0;
   for (final m in re.allMatches(src)) {

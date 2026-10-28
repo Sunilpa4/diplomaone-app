@@ -9,6 +9,7 @@ import '../widgets/code_block.dart';
 import '../widgets/common.dart';
 import '../widgets/diagram.dart';
 import '../widgets/html_body.dart';
+import '../widgets/web_preview.dart';
 
 /// Unit page: purple bar with tabs (Notes / Programs / Diagrams / ...), lavender section
 /// headers, white tap-to-open cards – the design from the reference screenshot.
@@ -118,8 +119,21 @@ class UnitCtx {
   Widget programBody(Map<String, dynamic> p) => Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         label('code'),
         CodeBlock(tr(p['code']), lang: codeLang),
-        label('output'),
-        CodeBlock(p['out'] as String? ?? '', output: true),
+        if (p['run'] == 'html' || codeLang == 'html') ...[
+          RunButton(code: tr(p['code']), title: tr(p['title'])),
+          if ((p['out'] as String? ?? '').isNotEmpty) ...[
+            label('output'),
+            Container(
+              padding: const EdgeInsets.all(10),
+              margin: const EdgeInsets.only(bottom: 10),
+              decoration: BoxDecoration(color: const Color(0xFFF2FBF8), borderRadius: BorderRadius.circular(8)),
+              child: Text(p['out'] as String, style: const TextStyle(fontSize: 13.5, height: 1.45, color: C.ink)),
+            ),
+          ],
+        ] else ...[
+          label('output'),
+          CodeBlock(p['out'] as String? ?? '', output: true),
+        ],
         if (p['plot'] != null) ...[label('plot'), diagram(p['plot'] as String, caption: false)],
         if (p['expl'] != null && tr(p['expl']).isNotEmpty) ...[
           label('expl'),
