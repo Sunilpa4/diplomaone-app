@@ -1,0 +1,721 @@
+{
+ "subject": "DI04000011",
+ "unit": 3,
+ "format": "notes",
+ "title": {
+  "en": "Software Project Estimation and Scheduling"
+ },
+ "weightage": 26,
+ "hours": 11,
+ "notes": [
+  {
+   "title": {
+    "en": "3.1 The Software Project Manager"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Responsibilities of a Software Project Manager"
+     },
+     "body": {
+      "en": "\n<ul><li><b>Estimation and planning</b>: project size, effort, cost and duration - then the task schedule that grows from it.</li>\n<li><b>People choreography</b>: pick team members, assign tasks to skills, review progress honestly.</li>\n<li><b>Risk and change management</b>: keep the risk register current; absorb requirement changes through a controlled process.</li>\n<li><b>Communication hub</b>: report status to management and customer; shield the team from daily interruptions.</li>\n<li><b>Quality guard</b>: insist reviews and tests actually happen - the schedule may flex, quality may not.</li>\n<li>Mental model: the PM is the umbrella activities from Unit 1 embodied as one accountable person.</li></ul>\n"
+     },
+     "diagram": "se3_pm_duties"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3.2 Metrics for Size Estimation"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Lines of Code (LOC)"
+     },
+     "body": {
+      "en": "\n<ul><li>The oldest metric: estimate how many lines the finished program will have (KLOC = thousands of lines), then effort follows from historical productivity data.</li>\n<li><b>Strengths</b>: intuitive, directly measurable against a delivered product.</li>\n<li><b>Weaknesses</b>: only computable AFTER coding; strongly language- and style-dependent (the same task is 40 LOC in Python, 200 in assembly); rewards verbosity and punishes reusable libraries.</li>\n<li>Variant <b>KLOC</b> feeds COCOMO; variant function-independent FP (below) feeds early estimates.</li></ul>\n"
+     },
+     "diagram": "se3_loc_fp"
+    },
+    {
+     "h": {
+      "en": "Function Points (FP)"
+     },
+     "body": {
+      "en": "\n<ul><li>FP measures the <b>functionality delivered</b>, from the user's view, BEFORE code exists - directly from requirements/SRS.</li>\n<li>Count five component types: <b>external inputs, external outputs, external inquiries, internal logical files, external interface files</b> - each at a simple/average/complex weight.</li>\n<li><b>UFP</b> = sum over components of (count &times; weight).</li>\n<li>Adjust for product complexity: <b>FP = UFP &times; [0.65 + 0.01 &times; &Sigma;F<sub>i</sub>]</b> over 14 influence factors (data communication, distribution, performance, reusability...), each rated 0-5.</li>\n<li>Language-independent and estimable early - its scheduling superpower. Weakness: component weights carry some subjectivity and practice.</li></ul>\n"
+     },
+     "diagram": "se3_fp_calc"
+    },
+    {
+     "h": {
+      "en": "Worked FP Example (Practical 12)"
+     },
+     "body": {
+      "en": "\n<ul><li>Mini Bus-Booking app requirement: 2 input screens (route entry, booking entry), 1 output (receipt/PNR), 1 inquiry (seat availability), 1 internal file (bookings). All 'average'.</li>\n<li>UFP = 2&times;4 + 1&times;5 + 1&times;4 + 1&times;10 = 8 + 5 + 4 + 10 = <b>27</b>.</li>\n<li>Suppose the 14 complexity factors sum to 30 (a typical medium project): FP = 27 &times; (0.65 + 0.01&times;30) = 27 &times; 0.95 &#8776; <b>25.7 FP</b>.</li>\n<li>Using a calibration of ~5 FP per person-month in our environment &rarr; about <b>5.2 person-months</b> of effort.</li>\n<li>For your own project, count every screen, report, table and interface the same way - that count is your Practical 12 deliverable.</li></ul>\n"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3.3 Project Estimation: COCOMO"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "The COCOMO Model"
+     },
+     "body": {
+      "en": "\n<ul><li><b>COnstructive COst MOdel</b> (Boehm, 1981): empirical equations turning estimated KLOC into effort, duration and team size.</li>\n<li>Thre product classes: <b>organic</b> (small, familiar, relaxed constraints - a college app), <b>semi-detached</b> (mixed experience/limits), <b>embedded</b> (hard real-time, tight hardware, safety).</li>\n<li>Basic COCOMO equations with class constants: E = a&times;(KLOC)<sup>b</sup> person-months; D = c&times;E<sup>d</sup> months; N = E/D people.</li>\n<li>Accuracy ladder: <b>Basic</b> (early, KLOC only) &rarr; <b>Intermediate</b> (multiplies by 15 cost drivers: personnel capability, product complexity...) &rarr; <b>Detailed</b> (drivers per phase, per subsystem).</li>\n<li>COCOMO II modernises the same idea for reuse, prototyping and object points - syllabus says 'COCOMO / COCOMO II approach', so know both names.</li></ul>\n"
+     },
+     "diagram": "se3_cocomo"
+    },
+    {
+     "h": {
+      "en": "Worked Basic-COCOMO Example (Practical 13)"
+     },
+     "body": {
+      "en": "\n<ul><li>Estimate for our bus-booking app: judged <b>organic</b>, size about 10 KLOC.</li>\n<li>Effort E = 2.4 &times; (10)<sup>1.05</sup> &#8776; 2.4 &times; 11.2 &#8776; <b>27 person-months</b>.</li>\n<li>Duration D = 2.5 &times; (27)<sup>0.38</sup> &#8776; 2.5 &times; 3.5 &#8776; <b>8.7 months</b>.</li>\n<li>Team size N = E / D &#8776; 27 / 8.7 &#8776; <b>3 people</b> - matches a small class team with a lead.</li>\n<li>Method rigour: always state (1) chosen class and WHY, (2) how KLOC was estimated, (3) the arithmetic, (4) the sanity check against FP results.</li></ul>\n"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3.4 Project Scheduling"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "From Estimates to a Schedule"
+     },
+     "body": {
+      "en": "\n<ul><li>Scheduling decomposes the project into tasks (a <b>Work Breakdown Structure</b>), estimates each task's effort, finds <b>dependencies</b> (testing waits on coding) and lays the tasks over a calendar with owners.</li>\n<li>The work itself is a LOOP: list tasks &rarr; estimate &rarr; dependencies &rarr; draw chart &rarr; track weekly &rarr; re-plan - the schedule is rebuilt as fast as reality shifts (see flow chart).</li>\n<li>Two charting styles follow from the chosen process model: Gantt for planned projects; sprint burndown for agile ones.</li></ul>\n"
+     },
+     "diagram": "se3_flow"
+    },
+    {
+     "h": {
+      "en": "Gantt Chart"
+     },
+     "body": {
+      "en": "\n<ul><li>One horizontal bar per task over weeks/months; bar length = duration; overlap = parallelism; a bar's end feeding the next bar's start shows dependencies.</li>\n<li>Update bars with % done during reviews; slipping bars are impossible to hide - that visibility is the Gantt's power.</li>\n<li>Strength: instantly readable by anyone, ideal for communicating plans; weakness: deep 'which delay kills the deadline?' (the critical path) needs annotations or a PERT-style companion.</li>\n<li>Practical 14 (traditional track): host your project's tasks on an 8-week Gantt like the example.</li></ul>\n"
+     },
+     "diagram": "se3_gantt"
+    },
+    {
+     "h": {
+      "en": "Sprint Burndown Chart (Agile)"
+     },
+     "body": {
+      "en": "\n<ul><li>Track <b>remaining effort</b> daily through a sprint: the dashed ideal line drops evenly toward zero; the team's actual line above it = behind schedule, below it = ahead.</li>\n<li>Set plotted points honestly each stand-up - the burndown answers \"are we on time RIGHT NOW?\" in one glance.</li>\n<li>Compare: Gantt = when will everything happen; burndown = are we on time today. Sprint-based agile replaces per-task Gantts with per-sprint burndowns.</li>\n<li>Practical 14 (agile track): plot remaining task-hours for your sprint every day and read the gap.</li></ul>\n"
+     },
+     "diagram": "se3_burndown"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3.5 Risk Management"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Risk Identification and Assessment"
+     },
+     "body": {
+      "en": "\n<ul><li>A <b>risk</b> is an uncertain event that, if it happens, hurts the project (deadline, budget, quality, people).</li>\n<li><b>Identification</b> sources: checklists of classic software risks (team inexperience, changing requirements, unproven tech), brainstorming with the team, vendor/dependency review.</li>\n<li><b>Assessment</b> scores each risk by <b>probability</b> (P) and <b>impact</b> (I); risk exposure R = P &times; I ranks them - high/high demands action today, low/low just gets accepted.</li>\n<li>Output: the <b>risk register</b> - risk description, P, I, R, owner, mitigation plan, trigger to watch.</li></ul>\n"
+     },
+     "diagram": "se3_risk_matrix"
+    },
+    {
+     "h": {
+      "en": "Risk Mitigation, Monitoring and Control"
+     },
+     "body": {
+      "en": "\n<ul><li><b>Mitigation strategies</b>: avoid (drop the risky feature/tech), transfer (buy a proven library, outsource), reduce probability (prototype the scary part first - remember Spiral!), reduce impact (backups, extra buffer).</li>\n<li>Only two roots work long-term: <b>risk avoidance</b> (design the risk out) and <b>contingency</b> (prepare a concrete plan B with a trigger).</li>\n<li><b>Monitoring &amp; control</b>: re-scan risks weekly, watch trigger signs (API keeps changing, key developer's notice period), execute plan B when triggered, re-score the register.</li>\n<li>Exam phrasing: the cycle identify &rarr; assess &rarr; mitigate &rarr; monitor repeats for the project's whole life - never a one-time activity.</li></ul>\n"
+     },
+     "diagram": "se3_risk_cycle"
+    }
+   ]
+  }
+ ],
+ "syntax": [
+  {
+   "title": {
+    "en": "Estimation cards"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "size metrics"
+     },
+     "f": "LOC = count code lines\n      (late, language-bound)\nFP  = count functionality\n      (early, from the SRS)",
+     "terms": {
+      "en": "bricks vs rooms"
+     }
+    },
+    {
+     "name": {
+      "en": "FP formula"
+     },
+     "f": "FP = UFP x (0.65 + 0.01 x Sum(Fi))\nUFP = sum(count x weight)\nover inputs outputs inquiries\ninternal-files external-files",
+     "terms": {
+      "en": "5 component types, 14 factors"
+     }
+    },
+    {
+     "name": {
+      "en": "COCOMO equations"
+     },
+     "f": "E = a x (KLOC)^b    person-months\nD = c x E^d         months\nN = E / D           people\na b c d per class: organic /\nsemi-detached / embedded",
+     "terms": {
+      "en": "KLOC in, effort/time/team out"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Scheduling & Risk cards"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Gantt read"
+     },
+     "f": "bars over calendar weeks\noverlap = parallel tasks\nbar-end -> next start = depends\n% filled = progress now",
+     "terms": {
+      "en": "the whole plan at a glance"
+     }
+    },
+    {
+     "name": {
+      "en": "burndown read"
+     },
+     "f": "plot remaining effort daily\ndashed line = ideal finish\nactual above = BEHIND\nactual below = AHEAD",
+     "terms": {
+      "en": "are we on time today?"
+     }
+    },
+    {
+     "name": {
+      "en": "risk cycle"
+     },
+     "f": "identify -> assess (P x I)\n-> mitigate / plan B -> monitor\nweekly -> (repeat)",
+     "terms": {
+      "en": "never a one-time act"
+     }
+    },
+    {
+     "name": {
+      "en": "risk register row"
+     },
+     "f": "risk | prob | impact | R=P*I |\nowner | mitigation | trigger",
+     "terms": {
+      "en": "one line per watched risk"
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Project Manager and Metrics"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "List four responsibilities of a software project manager."
+     },
+     "a": {
+      "en": "Estimation and planning, task/team assignment and tracking, risk and change management, stakeholder communication and quality guarding."
+     }
+    },
+    {
+     "q": {
+      "en": "Why does a PM own risk management?"
+     },
+     "a": {
+      "en": "Risk scanning needs authority over schedule and budget - only the PM can act on the register."
+     }
+    },
+    {
+     "q": {
+      "en": "What is project estimation?"
+     },
+     "a": {
+      "en": "Predicting size, effort, cost and duration before (and while) building - the basis of every plan."
+     }
+    },
+    {
+     "q": {
+      "en": "Define LOC as a size metric."
+     },
+     "a": {
+      "en": "Estimated or counted lines of code of the finished product (KLOC in thousands) - the oldest, simplest size unit."
+     }
+    },
+    {
+     "q": {
+      "en": "Two weaknesses of LOC."
+     },
+     "a": {
+      "en": "Available only after coding; language- and style-dependent, so it inflates verbose code and depresses reusable-library projects."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a Function Point?"
+     },
+     "a": {
+      "en": "A measure of functionality DELIVERED, counted from requirements (inputs, outputs, inquiries, files) - before any code exists."
+     }
+    },
+    {
+     "q": {
+      "en": "List the five FP component types."
+     },
+     "a": {
+      "en": "External inputs, external outputs, external inquiries, internal logical files, external interface files."
+     }
+    },
+    {
+     "q": {
+      "en": "Write the FP adjustment formula."
+     },
+     "a": {
+      "en": "FP = UFP x (0.65 + 0.01 x S Fi), with Fi the 14 general system characteristics scored 0-5."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is FP estimable earlier than LOC?"
+     },
+     "a": {
+      "en": "It is calculated from the SRS, i.e. before design and coding - perfect for planning in week 1."
+     }
+    },
+    {
+     "q": {
+      "en": "Compute UFP: 2 inputs, 1 output, 1 inquiry, 1 internal file, all average."
+     },
+     "a": {
+      "en": "2x4 + 1x5 + 1x4 + 1x10 = 27."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "COCOMO Estimation"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is COCOMO?"
+     },
+     "a": {
+      "en": "Boehm's empirical model converting estimated KLOC into effort, duration and team size via class-tuned constants."
+     }
+    },
+    {
+     "q": {
+      "en": "Name COCOMO's three project classes."
+     },
+     "a": {
+      "en": "Organic (small/familiar), semi-detached (mixed) and embedded (hard real-time/binding constraints)."
+     }
+    },
+    {
+     "q": {
+      "en": "Give the basic COCOMO effort and duration equations."
+     },
+     "a": {
+      "en": "Effort E = a x (KLOC)^b person-months; Duration D = c x E^d months; team size N = E / D."
+     }
+    },
+    {
+     "q": {
+      "en": "Organic constants for basic COCOMO?"
+     },
+     "a": {
+      "en": "a=2.4, b=1.05, c=2.5, d=0.38."
+     }
+    },
+    {
+     "q": {
+      "en": "Levels of COCOMO?"
+     },
+     "a": {
+      "en": "Basic (KLOC only), Intermediate (15 cost-driver multipliers), Detailed (drivers applied per phase)."
+     }
+    },
+    {
+     "q": {
+      "en": "Estimate E, D, N for an organic 10-KLOC app."
+     },
+     "a": {
+      "en": "E = 2.4 x 10^1.05 ≈ 27 pm; D = 2.5 x 27^0.38 ≈ 8.7 months; N ≈ 3 people."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Scheduling Charts"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a Work Breakdown Structure?"
+     },
+     "a": {
+      "en": "The project decomposed hierarchically into tasks/subtasks - the input list for scheduling."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a task dependency?"
+     },
+     "a": {
+      "en": "A 'must finish before start' relation - testing depends on coding, deployment on testing."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a Gantt chart?"
+     },
+     "a": {
+      "en": "A bar chart: tasks listed vertically, calendar horizontally; bar length = duration; overlaps = parallel work."
+     }
+    },
+    {
+     "q": {
+      "en": "Gantt strength and weakness?"
+     },
+     "a": {
+      "en": "Strength: instantly readable progress/schedule view. Weakness: critical-path and deep dependency effects hide unless annotated."
+     }
+    },
+    {
+     "q": {
+      "en": "When is a flow chart used in scheduling?"
+     },
+     "a": {
+      "en": "To document the plan-building procedure itself: tasks -> estimate -> dependencies -> chart -> track -> re-plan."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a sprint burndown chart?"
+     },
+     "a": {
+      "en": "Daily plot of REMAINING sprint effort against an ideal straight line - shows instantly whether the team is ahead or behind."
+     }
+    },
+    {
+     "q": {
+      "en": "Burndown above the ideal line means?"
+     },
+     "a": {
+      "en": "Behind schedule - more work remains than the plan expects today."
+     }
+    },
+    {
+     "q": {
+      "en": "Which chart suits an agile team and why?"
+     },
+     "a": {
+      "en": "Burndown: one sprint scope, daily accuracy, zero drawing ceremony; a Gantt is redundant within a sprint."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Risk Management"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Define risk in software projects."
+     },
+     "a": {
+      "en": "An uncertain event which, if it occurs, harms the project - time, cost, quality or people."
+     }
+    },
+    {
+     "q": {
+      "en": "Name three classic software risks."
+     },
+     "a": {
+      "en": "Unrealistic schedule, changing requirements, key-person loss (also: unproven third-party tech)."
+     }
+    },
+    {
+     "q": {
+      "en": "Steps of risk management?"
+     },
+     "a": {
+      "en": "Identification, assessment (probability x impact), mitigation planning, monitoring and control."
+     }
+    },
+    {
+     "q": {
+      "en": "What is risk exposure R?"
+     },
+     "a": {
+      "en": "R = probability x impact - the ranking number that decides which risks deserve attention."
+     }
+    },
+    {
+     "q": {
+      "en": "High-probability high-impact risk - response?"
+     },
+     "a": {
+      "en": "Mitigate now: redesign it out, prototype early, add buffer - plus a concrete contingency (plan B)."
+     }
+    },
+    {
+     "q": {
+      "en": "What does risk monitoring do?"
+     },
+     "a": {
+      "en": "Re-scans the register weekly, watches triggers (vendor slipping, churning requirements) and fires plan B when triggered."
+     }
+    },
+    {
+     "q": {
+      "en": "Avoid/transfer/reduce - examples?"
+     },
+     "a": {
+      "en": "Avoid: drop the risky feature. Transfer: buy a proven component. Reduce: prototype the unknown API first."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a risk register?"
+     },
+     "a": {
+      "en": "A living table: risk, probability, impact, R=P x I, owner, mitigation, trigger - one row per watched risk."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is Spiral called risk-driven? (link to U1)"
+     },
+     "a": {
+      "en": "Each cycle runs an explicit risk-analysis quadrant before more engineering spends."
+     }
+    },
+    {
+     "q": {
+      "en": "Practical 12 deliverable?"
+     },
+     "a": {
+      "en": "Your project's FP count - table of the five components with weights, UFP, factor sum, final FP."
+     }
+    },
+    {
+     "q": {
+      "en": "Practical 13 deliverable?"
+     },
+     "a": {
+      "en": "Basic COCOMO: chosen class with reason, estimated KLOC, E/D/N arithmetic."
+     }
+    },
+    {
+     "q": {
+      "en": "Practical 14 deliverable?"
+     },
+     "a": {
+      "en": "Flow-chart the schedule steps; Gantt for a planned project or sprint burndown for an agile one."
+     }
+    },
+    {
+     "q": {
+      "en": "Estimate effort if basic COCOMO says N = 4 for 8 months."
+     },
+     "a": {
+      "en": "E = N x D = 32 person-months."
+     }
+    },
+    {
+     "q": {
+      "en": "One sentence: estimation vs scheduling vs tracking."
+     },
+     "a": {
+      "en": "Estimate predicts size/effort; scheduling turns it into a dated task plan; tracking measures reality against it."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "List and explain the responsibilities of a software project manager."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Compare LOC and Function Point metrics, including two weaknesses of each."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the five components and the adjustment formula of Function Point analysis."
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Calculate FP for a mini bus-booking app (2 inputs, 1 output, 1 inquiry, 1 internal file, all average; sum of complexity factors 30). (Practical 12)"
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Explain the COCOMO model with its three project classes."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Estimate effort, duration and team size for an organic 10-KLOC project; show equations. (Practical 13)"
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Distinguish Basic, Intermediate and Detailed COCOMO."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "What is project scheduling? Explain the role of WBS and task dependencies."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Draw and explain an example Gantt chart for an 8-week project. (Practical 14)"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the sprint burndown chart and how a team reads ahead/behind status."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Compare Gantt charts and sprint burndown charts as scheduling tools."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Explain the four steps of risk management in a loop."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain probability-impact assessment with a 3x3 risk matrix."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Describe mitigation strategies (avoid, transfer, reduce) with software examples."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the risk register and the monitoring/control step."
+   },
+   "marks": 3
+  }
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "diagrams": [
+  {
+   "id": "se3_pm_duties",
+   "title": {
+    "en": "Software Project Manager: Duties"
+   },
+   "file": "diagrams/se3_pm_duties.svg"
+  },
+  {
+   "id": "se3_loc_fp",
+   "title": {
+    "en": "LOC vs Function Points"
+   },
+   "file": "diagrams/se3_loc_fp.svg"
+  },
+  {
+   "id": "se3_fp_calc",
+   "title": {
+    "en": "Function Point Calculation"
+   },
+   "file": "diagrams/se3_fp_calc.svg"
+  },
+  {
+   "id": "se3_cocomo",
+   "title": {
+    "en": "Basic COCOMO"
+   },
+   "file": "diagrams/se3_cocomo.svg"
+  },
+  {
+   "id": "se3_gantt",
+   "title": {
+    "en": "Gantt Chart: 8-Week Project Plan"
+   },
+   "file": "diagrams/se3_gantt.svg"
+  },
+  {
+   "id": "se3_flow",
+   "title": {
+    "en": "Flow Chart: Building the Schedule"
+   },
+   "file": "diagrams/se3_flow.svg"
+  },
+  {
+   "id": "se3_burndown",
+   "title": {
+    "en": "Sprint Burndown Chart"
+   },
+   "file": "diagrams/se3_burndown.svg"
+  },
+  {
+   "id": "se3_risk_cycle",
+   "title": {
+    "en": "Risk Management Cycle"
+   },
+   "file": "diagrams/se3_risk_cycle.svg"
+  },
+  {
+   "id": "se3_risk_matrix",
+   "title": {
+    "en": "Risk Assessment: Probability x Impact Grid"
+   },
+   "file": "diagrams/se3_risk_matrix.svg"
+  }
+ ]
+}
