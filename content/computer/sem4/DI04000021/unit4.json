@@ -1,0 +1,983 @@
+{
+ "subject": "DI04000021",
+ "unit": 4,
+ "format": "notes",
+ "title": {
+  "en": "Exception Handling and Collections Framework"
+ },
+ "weightage": 20,
+ "hours": 8,
+ "notes": [
+  {
+   "title": {
+    "en": "4.1 Errors and Exceptions"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Types of Errors"
+     },
+     "body": {
+      "en": "\n<ul><li><b>Compile-time errors</b>: caught by <code>javac</code> - syntax slips, type mismatches, missing semicolons. No .class file is produced until they are fixed.</li>\n<li><b>Runtime errors (exceptions)</b>: the program compiles cleanly but blows up while running - divide by zero, null reference, array index out of range. The JVM throws an <b>exception object</b> describing what went wrong and where.</li>\n<li><b>Logical errors</b>: the program compiles and runs, yet the answer is wrong - a formula slip, an inverted condition. No compiler or JVM ever warns you; only testing does.</li></ul>\n<p>Run jv4_1 to see all three side by side, then jv4_2 to watch an unhandled runtime error kill a program mid-way.</p>\n"
+     },
+     "diagram": "jv4_error_types",
+     "programs": [
+      "jv4_1",
+      "jv4_2"
+     ]
+    },
+    {
+     "h": {
+      "en": "Exception Hierarchy and Built-in Exceptions"
+     },
+     "body": {
+      "en": "\n<ul><li>Every throwable object descends from <b>Throwable</b>, which splits into <b>Error</b> (serious JVM problems - not meant to be caught) and <b>Exception</b> (application problems - designed to be caught).</li>\n<li>Under Exception sits <b>RuntimeException</b> - the <b>unchecked</b> family. javac never forces you to handle these: ArithmeticException, NullPointerException, ArrayIndexOutOfBoundsException, NumberFormatException, IllegalArgumentException, IllegalStateException.</li>\n<li>Other Exception children are <b>checked</b>: javac requires either try-catch or a <code>throws</code> clause - e.g. InterruptedException, IOException.</li>\n<li>Why it matters: knowing an exception's family tells you whether the compiler will help you remember to handle it.</li></ul>\n"
+     },
+     "diagram": "jv4_hierarchy",
+     "programs": [
+      "jv4_5"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "4.2 Exception Handling"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "try and catch"
+     },
+     "body": {
+      "en": "\n<ul><li><code>try { ... }</code> wraps the risky statements; <code>catch (SomeException e) { ... }</code> holds the recovery plan.</li>\n<li>The moment a statement inside try throws, control jumps to the matching catch - the rest of the try block is skipped for that run.</li>\n<li><code>e</code> is the exception object: <code>e.getMessage()</code> gives the detail string, <code>e.getClass().getSimpleName()</code> gives the exact type.</li>\n<li>After the catch completes, execution resumes AFTER the whole try-catch - the program survives.</li></ul>\n<p><b>Practical 13 walkthrough:</b> jv4_3 and jv4_4 catch the two required built-ins - divide by zero and null pointer.</p>\n"
+     },
+     "programs": [
+      "jv4_3",
+      "jv4_4"
+     ]
+    },
+    {
+     "h": {
+      "en": "finally: Guaranteed Cleanup"
+     },
+     "body": {
+      "en": "\n<ul><li><code>finally { ... }</code> attaches to a try (with or without catch) and runs on <b>every</b> path: normal completion, caught exception, even uncaught exception (right before the crash).</li>\n<li>That one guarantee makes finally the home of cleanup: closing files and connections, releasing locks, printing audit logs.</li>\n<li>Order of blocks is fixed: try, then catch(es), then finally. Only one catch ever runs, but finally ALWAYS runs.</li></ul>\n<p>jv4_7 calls bank() twice - success and failure - and \"close vault\" prints both times. That is finally keeping its promise.</p>\n"
+     },
+     "diagram": "jv4_try_flow",
+     "programs": [
+      "jv4_7"
+     ]
+    },
+    {
+     "h": {
+      "en": "Multiple catch Blocks"
+     },
+     "body": {
+      "en": "\n<ul><li>One try may own several catch clauses; the JVM tests them <b>top to bottom</b> and runs the first whose type matches the thrown object (matching is by IS-A - a parent type matches child objects).</li>\n<li>Because of IS-A matching, order must run <b>specific first, general last</b>. A parent catch placed higher swallows everything below.</li>\n<li>javac enforces this: a catch unreachable because of an earlier parent catch is a compile error.</li></ul>\n<p>jv4_6 parses a too-big number and the NumberFormatException catch wins; jv4_11 shows the NPE catch beating its RuntimeException parent written below it.</p>\n"
+     },
+     "diagram": "jv4_catch_order",
+     "programs": [
+      "jv4_6",
+      "jv4_11"
+     ]
+    },
+    {
+     "h": {
+      "en": "throw: Raising Exceptions Yourself"
+     },
+     "body": {
+      "en": "\n<ul><li><code>throw new ExceptionType(\"message\")</code> creates and raises an exception object on the spot - a single object, so the word is singular.</li>\n<li>The remainder of the method is skipped; the JVM hunts for a matching catch up the call chain.</li>\n<li>Main use: <b>validation</b> - reject impossible data (negative age, overdrawn balance) the moment it appears, with a message the catch can show to a human.</li>\n<li>Any class from the hierarchy may be thrown; RuntimeException children keep it unchecked.</li></ul>\n<p>jv4_8 refuses under-18 voters with IllegalArgumentException - a built-in type used by our own logic.</p>\n"
+     },
+     "programs": [
+      "jv4_8"
+     ]
+    },
+    {
+     "h": {
+      "en": "throws: Declaring Risk in the Header"
+     },
+     "body": {
+      "en": "\n<ul><li>A method that might raise a <b>checked</b> exception must say so: <code>void f() throws InterruptedException { ... }</code>.</li>\n<li>This is a <b>warning, not an action</b> - it pushes the duty onto the caller, who must catch the exception or declare throws again.</li>\n<li>Several types can be listed with commas: <code>throws IOException, InterruptedException</code>.</li>\n<li><b>throw vs throws:</b> throw is a statement that raises one object inside the body; throws is a clause in the signature that advertises what may come out. jv4_9 and jv4_10 contrast the two.</li></ul>\n"
+     },
+     "diagram": "jv4_throw_throws",
+     "programs": [
+      "jv4_9",
+      "jv4_10"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "4.3 Collections Framework"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Need of Collections and the Hierarchy"
+     },
+     "body": {
+      "en": "\n<ul><li>Arrays are fixed-size and type-naked; real programs need containers that <b>grow</b>, <b>search</b>, and <b>remove</b> - that is the Collections framework (package <code>java.util</code>).</li>\n<li>Top of the family: interface <b>Collection</b>; below it interfaces <b>List</b> and <b>Set</b>; concrete classes such as <b>ArrayList</b> and <b>HashSet</b> implement them.</li>\n<li>Collections store <b>objects</b>, not primitives - autoboxing (Unit 2) wraps <code>int</code> into <code>Integer</code> automatically when you add.</li>\n<li>Design habit: declare with the interface type (<code>List&lt;String&gt; l = new ArrayList&lt;&gt;();</code>) and construct with the class - swapping implementations later costs one word.</li></ul>\n"
+     },
+     "diagram": "jv4_collections"
+    },
+    {
+     "h": {
+      "en": "List: ArrayList Essentials"
+     },
+     "body": {
+      "en": "\n<ul><li><code>ArrayList&lt;E&gt;</code> - the growable array: <code>add(e)</code> appends, <code>add(i, e)</code> inserts, <code>get(i)</code>/<code>set(i, e)</code> access by index, <code>size()</code> replaces array <code>length</code>.</li>\n<li><b>Remove</b> by value <code>remove(\"Farhan\")</code> or by index <code>remove(0)</code>; the list shrinks and re-indexes itself.</li>\n<li><b>Search</b>: <code>contains(e)</code> answers yes/no, <code>indexOf(e)</code> answers where (-1 when absent).</li>\n<li>Printing the list object itself shows <code>[a, b, c]</code> - friendly toString included.</li></ul>\n<p><b>Practical 14 walkthrough:</b> jv4_12 performs add, remove and search exactly as the practical demands.</p>\n"
+     },
+     "programs": [
+      "jv4_12"
+     ]
+    },
+    {
+     "h": {
+      "en": "Iterating Collections: the for-each Loop"
+     },
+     "body": {
+      "en": "\n<ul><li>The enhanced for loop - <code>for (String t : team) { ... }</code> - visits every element left to right with no index bookkeeping.</li>\n<li>Works on any List or Set (any Collection), so one syntax covers the whole framework.</li>\n<li>Limits: no index inside the body, and you cannot add/remove elements of the collection while iterating (that throws ConcurrentModificationException in real programs).</li>\n<li>Keep the classic counting loop for tasks that genuinely need positions.</li></ul>\n<p>jv4_13 runs both loops on the same ArrayList of marks and totals them with for-each.</p>\n"
+     },
+     "programs": [
+      "jv4_13"
+     ]
+    },
+    {
+     "h": {
+      "en": "Set: HashSet and Uniqueness"
+     },
+     "body": {
+      "en": "\n<ul><li><code>HashSet&lt;E&gt;</code> stores each element <b>once</b>: re-adding an equal value is silently ignored - perfect for unique tags, roll numbers, friend lists.</li>\n<li><code>contains()</code> is a hash-table lookup - near-instant even for huge sets, unlike a linear scan in a list.</li>\n<li>No <code>get(i)</code> and no insertion order: traversal follows the hash table's own arrangement.</li>\n<li><b>List vs Set</b>: choose List when order and duplicates matter (marks, steps, history), Set when membership must be unique (IDs, hashtags).</li></ul>\n<p>jv4_14 adds a duplicate \"java\" and HashSet quietly refuses - then compares with an ArrayList that keeps both \"tea\" entries.</p>\n"
+     },
+     "diagram": "jv4_list_vs_set",
+     "programs": [
+      "jv4_14"
+     ]
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "jv4_1",
+   "title": {
+    "en": "Types of errors: compile-time, runtime, logical"
+   },
+   "code": {
+    "en": "class Main {\n  public static void main(String[] a) {\n    // 1) COMPILE-TIME: javac stops it:\n    //    int n = \"ten\";  // won't compile\n    //    (String cannot hold an int value)\n\n    // 2) LOGICAL error: code runs but the\n    //    answer is wrong\n    int sum = 10 + 20;\n    double avg = sum / 2 + 1;  // wanted +10\n    String w = \"avg (wrong) = \" + avg;\n    System.out.println(w);\n    // bug: / applied before +; meant +10\n\n    // 3) RUNTIME error: compiles fine but\n    //    crashes while running (see next)\n    String r = \"logic bugs compile + run\";\n    System.out.println(r);\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\navg (wrong) = 16.0\nlogic bugs compile + run",
+   "expl": {
+    "en": "\n<p>The three species of program error:</p>\n<ul><li><b>Compile-time</b>: grammar or type mistakes; <code>javac</code> refuses to build the .class file.</li>\n<li><b>Runtime</b> (an <b>exception</b>): compiles fine, crashes while running - divide by zero, null reference.</li>\n<li><b>Logical</b>: runs perfectly and prints the WRONG answer - the hardest kind, no one flags it for you.</li></ul>\n<p>The logical bug above: <code>sum / 2</code> happens before <code>+ 1</code>, so 16.0 prints where +10 was intended. Only careful testing catches such bugs.</p>\n"
+   }
+  },
+  {
+   "id": "jv4_2",
+   "title": {
+    "en": "Division by zero without try-catch (program crashes)"
+   },
+   "code": {
+    "en": "class Main {\n  public static void main(String[] a) {\n    int marks = 90;\n    int subjects = 0;   // division by zero!\n\n    System.out.println(\"before the crash\");\n    double avg = marks / subjects;\n    // JVM throws ArithmeticException here\n    System.out.println(\"avg = \" + avg);\n\n    // this line never runs:\n    System.out.println(\"after the crash\");\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\nbefore the crash\nException in thread \"main\" java.lang.ArithmeticException: / by zero\n\tat Main.main(Main.java:7)",
+   "expl": {
+    "en": "\n<p>This is what an <b>unhandled exception</b> does: the program stops dead at the line <code>marks / subjects</code>.</p>\n<ul><li>The JVM creates an <b>ArithmeticException</b> object and looks for a handler - finds none.</li>\n<li>So it prints the <b>stack trace</b> (<i>Exception in thread \"main\"</i>, the exception name, and the exact line number) and terminates.</li>\n<li>The last println never executes - proof that the crash killed the rest of main().</li></ul>\n<p>The next program catches exactly this politely, with try-catch.</p>\n"
+   }
+  },
+  {
+   "id": "jv4_3",
+   "title": {
+    "en": "try-catch: handling ArithmeticException politely"
+   },
+   "code": {
+    "en": "class Main {\n  public static void main(String[] a) {\n    int marks = 90;\n    int subjects = 0;\n\n    try {\n      String note = \"try: computing...\";\n      System.out.println(note);\n      // boom\n      double avg = marks / subjects;\n      System.out.println(\"avg = \" + avg);\n    } catch (ArithmeticException e) {\n      String m = \"caught: \"+e.getMessage();\n      System.out.println(m);\n      subjects = 1;  // recover politely\n    }\n\n    String go = \"program continues...\";\n    System.out.println(go);\n    double avg = marks / subjects;\n    System.out.println(\"avg = \" + avg);\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\ntry: computing...\ncaught: / by zero\nprogram continues...\navg = 90.0",
+   "expl": {
+    "en": "\n<p><b>Practical 13 (part 1).</b> Put risky code in <code>try</code>, put recovery in <code>catch</code>:</p>\n<ul><li>As soon as the division throws, control <b>jumps</b> to the matching catch - <code>e</code> is the exception object.</li>\n<li><code>e.getMessage()</code> gives the detail: <code>/ by zero</code>.</li>\n<li>After catch finishes, normal flow resumes - the program ends gracefully instead of crashing.</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv4_4",
+   "title": {
+    "en": "try-catch: NullPointerException"
+   },
+   "code": {
+    "en": "class Main {\n  public static void main(String[] a) {\n    // no object at all!\n    String name = null;\n\n    try {\n      String t = \"try to read length...\";\n      System.out.println(t);\n      int n = name.length();   // NPE!\n      System.out.println(\"length = \" + n);\n    } catch (NullPointerException e) {\n      String m = \"caught a null pointer!\";\n      System.out.println(m);\n      String w = \"name was never set\";\n      System.out.println(w);\n    }\n\n    String end = \"still running fine\";\n    System.out.println(end);\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\ntry to read length...\ncaught a null pointer!\nname was never set\nstill running fine",
+   "expl": {
+    "en": "\n<p><b>Practical 13 (part 2).</b> A reference holding <code>null</code> points to <i>nothing</i> - calling a method on it throws <b>NullPointerException</b>.</p>\n<ul><li>Fix it by catching, or better: check <code>if (name != null)</code> before touching it.</li>\n<li>NPE is the most common exception in real Java code; careful design avoids returning null at all.</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv4_5",
+   "title": {
+    "en": "try-catch: stepping past the end of an array"
+   },
+   "code": {
+    "en": "class Main {\n  public static void main(String[] a) {\n    // indexes 0..2\n    int[] marks = {80, 75, 90};\n\n    try {\n      // 3 is bad\n      for (int i = 0; i <= 3; i++) {\n        String row = \"marks[\" + i + \"]\";\n        row += \" = \" + marks[i];\n        System.out.println(row);\n      }\n    } catch (RuntimeException e) {\n      String t = e.getClass()\n          .getSimpleName();\n      System.out.println(\"caught: \" + t);\n      System.out.println(e.getMessage());\n    }\n    System.out.println(\"loop recovered\");\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\nmarks[0] = 80\nmarks[1] = 75\nmarks[2] = 90\ncaught: ArrayIndexOutOfBoundsException\nIndex 3 out of bounds for length 3\nloop recovered",
+   "expl": {
+    "en": "\n<p>Arrays know their own size; stepping outside <code>0 .. length-1</code> throws <b>ArrayIndexOutOfBoundsException</b>.</p>\n<ul><li>Here <code>i &lt;= 3</code> is the classic off-by-one slip - the report names it exactly (see the printed class name and message).</li>\n<li>We caught the parent <code>RuntimeException</code> and asked the object its own type with <code>getSimpleName()</code> - proof that this exception is part of the runtime family.</li>\n<li>Simply writing <code>i &lt; marks.length</code> makes this exception impossible.</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv4_6",
+   "title": {
+    "en": "Multiple catch blocks: first match wins"
+   },
+   "code": {
+    "en": "class Main {\n  public static void main(String[] a) {\n    String small = \"5\";         // parseable\n    String big = \"99999999999\";  // boom\n\n    try {\n      int n = Integer.parseInt(small);\n      System.out.println(\"small = \" + n);\n      n = Integer.parseInt(big);\n      System.out.println(\"big = \" + n);\n    } catch (NumberFormatException e) {\n      String m = \"not a valid int value\";\n      System.out.println(m);\n    } catch (ArithmeticException e) {\n      String m = \"math trouble\";\n      System.out.println(m);\n    } catch (Exception e) {  // parent last\n      String m = \"other: \" + e.getMessage();\n      System.out.println(m);\n    }\n    String done = \"done either way\";\n    System.out.println(done);\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\nsmall = 5\nnot a valid int value\ndone either way",
+   "expl": {
+    "en": "\n<p>One try may have <b>several catch blocks</b>; the JVM walks them top-down and runs the <b>first</b> whose type fits.</p>\n<ul><li><code>parseInt(\"99999999999\")</code> overflows int and throws NumberFormatException, so the first catch runs.</li>\n<li>Only ONE catch block runs per exception.</li>\n<li>Order matters: specific children first, general <code>Exception</code> last - a parent catch written first would swallow everything (and javac rejects unreachable catches).</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv4_7",
+   "title": {
+    "en": "finally: runs whether or not an exception occurs"
+   },
+   "code": {
+    "en": "class Main {\n  static void bank(int amount) {\n    try {\n      System.out.println(\"open vault\");\n      if (amount < 0) {\n        int r = amount / 0;  // fault!\n        System.out.println(r);\n      }\n      String p = \"pay out \" + amount;\n      System.out.println(p);\n    } catch (ArithmeticException e) {\n      String t = \"transaction failed\";\n      System.out.println(t);\n    } finally {\n      String c = \"close vault (always!)\";\n      System.out.println(c);\n    }\n  }\n  public static void main(String[] a) {\n    bank(500);\n    System.out.println(\"---------\");\n    bank(-1);\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\nopen vault\npay out 500\nclose vault (always!)\n---------\nopen vault\ntransaction failed\nclose vault (always!)",
+   "expl": {
+    "en": "\n<p><b>finally</b> is the \"whatever happens\" block - it runs:</p>\n<ul><li>when the try completes normally (first call),</li>\n<li>when an exception is caught (second call),</li>\n<li>even when an exception is NOT caught (right before the crash).</li></ul>\n<p>That is why it is the correct place for cleanup: closing files, releasing locks, logging out. Notice how \"close vault\" prints in <i>both</i> runs of bank().</p>\n"
+   }
+  },
+  {
+   "id": "jv4_8",
+   "title": {
+    "en": "throw: raising an exception yourself"
+   },
+   "code": {
+    "en": "class Main {\n  static void checkAge(int age) {\n    if (age < 18) {\n      throw new IllegalArgumentException(\n        \"age \" + age + \" is below 18\");\n      // a line after throw never runs\n    }\n    String ok = \"voter card approved\";\n    System.out.println(ok);\n  }\n\n  public static void main(String[] a) {\n    try {\n      checkAge(21);\n      checkAge(15);  // this one explodes\n      checkAge(40);  // never reached\n    } catch (IllegalArgumentException e) {\n      System.out.println(\"rejected:\");\n      System.out.println(e.getMessage());\n    }\n    String end = \"registration desk closed\";\n    System.out.println(end);\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\nvoter card approved\nrejected:\nage 15 is below 18\nregistration desk closed",
+   "expl": {
+    "en": "\n<p><code>throw</code> lets <b>your own code</b> raise an exception object:</p>\n<ul><li>Syntax: <code>throw new ExceptionType(message)</code> - one single object, created on the spot.</li>\n<li>The rest of the method is skipped; the nearest matching catch (here, in main) takes over.</li>\n<li>Use it to reject impossible input - classic for validation rules like a minimum voting age.</li></ul>\n<p>Practical 13 shape: a built-in exception type raised deliberately, with our own message, handled by try-catch.</p>\n"
+   }
+  },
+  {
+   "id": "jv4_9",
+   "title": {
+    "en": "throws: declaring that a method may fail"
+   },
+   "code": {
+    "en": "class Main {\n  // promises it may pause (checked)\n  static void nap(int ms)\n      throws InterruptedException {\n    String s = \"sleeping \" + ms + \"ms...\";\n    System.out.println(s);\n    Thread.sleep(ms);  // may throw\n    System.out.println(\"awake!\");\n  }\n\n  public static void main(String[] a)\n      throws InterruptedException {\n    nap(300);\n    nap(100);\n    String end = \"end of a quiet day\";\n    System.out.println(end);\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\nsleeping 300ms...\nawake!\nsleeping 100ms...\nawake!\nend of a quiet day",
+   "expl": {
+    "en": "\n<p><code>throws</code> belongs to a method's <b>signature</b>: it advertises \"calling me might raise this checked exception - handle it or pass it on\".</p>\n<ul><li><code>Thread.sleep()</code> is declared <code>throws InterruptedException</code>, so every caller must catch it or re-declare throws.</li>\n<li>Here we choose to declare it again on main() - the JVM tolerates that.</li>\n<li><b>throw</b> = actually raise; <b>throws</b> = merely warn in the header. They are NOT interchangeable.</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv4_10",
+   "title": {
+    "en": "throw + throws together in a real method"
+   },
+   "code": {
+    "en": "class Main {\n  static void withdraw(int bal, int amt)\n      throws IllegalStateException {\n    if (amt > bal) {\n      throw new IllegalStateException(\n        \"not enough balance: \" + bal);\n    }\n    String p = \"paid out \" + amt;\n    System.out.println(p);\n  }\n\n  public static void main(String[] a) {\n    int balance = 2000;\n    try {\n      withdraw(balance, 1500);  // fine\n      withdraw(balance, 3000);  // too much!\n    } catch (IllegalStateException e) {\n      System.out.println(\"ATM error:\");\n      System.out.println(e.getMessage());\n    }\n    String end = \"thank you, visit again\";\n    System.out.println(end);\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\npaid out 1500\nATM error:\nnot enough balance: 2000\nthank you, visit again",
+   "expl": {
+    "en": "\n<p>The typical business-method pairing:</p>\n<ul><li><code>throws IllegalStateException</code> in the header warns callers \"this may fail\";</li>\n<li><code>throw new ...</code> inside enforces the rule (amount must fit the balance);</li>\n<li>The caller decides politely: catch the fault and show a human message instead of crashing the ATM screen.</li></ul>\n<p>IllegalStateException is unchecked; a checked exception would have FORCED the caller to handle it at compile time.</p>\n"
+   }
+  },
+  {
+   "id": "jv4_11",
+   "title": {
+    "en": "Catch order: subclass before the superclass"
+   },
+   "code": {
+    "en": "class Main {\n  public static void main(String[] a) {\n    Object o = null;\n    try {\n      // null cast ok\n      String s = (String) o;\n      s.length();   // NPE is thrown\n    } catch (NullPointerException e) {\n      String m1 = \"1st: specific - NPE\";\n      System.out.println(m1);\n    } catch (RuntimeException e) {\n      String m2 = \"2nd: parent runtime\";\n      System.out.println(m2);\n    } catch (Exception e) {\n      String m3 = \"3rd: grandparent\";\n      System.out.println(m3);\n    }\n    String tail = \"narrow ones first!\";\n    System.out.println(tail);\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\n1st: specific - NPE\nnarrow ones first!",
+   "expl": {
+    "en": "\n<p>Catch blocks are matched <b>top to bottom by type</b>:</p>\n<ul><li>The thrown object is a NullPointerException, so the <b>first</b> catch prints - not the parent RuntimeException one below it.</li>\n<li>Had we written <code>catch (Exception e)</code> first, the child catches would be unreachable and javac would complain.</li>\n<li>Rule of thumb: go <b>up the hierarchy as you go down the catch list</b> - most specific first, most general last.</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv4_12",
+   "title": {
+    "en": "ArrayList: add, remove, search"
+   },
+   "code": {
+    "en": "import java.util.ArrayList;\n\nclass Main {\n  public static void main(String[] a) {\n    ArrayList<String> team =\n        new ArrayList<>();\n\n    team.add(\"Meera\");      // append\n    team.add(\"Ravi\");\n    team.add(\"Farhan\");\n    team.add(1, \"Zoya\");  // insert at index\n    System.out.println(\"team = \" + team);\n    int sz = team.size();\n    System.out.println(\"size = \" + sz);\n\n    team.remove(\"Farhan\");  // by value\n    team.remove(0);         // by index\n    String now = \"after remove: \" + team;\n    System.out.println(now);\n\n    boolean has = team.contains(\"Zoya\");\n    System.out.println(\"has Zoya? \" + has);\n    int pos = team.indexOf(\"Ravi\");\n    String ri = \"Ravi at index \" + pos;\n    System.out.println(ri);\n    String f = \"first = \" + team.get(0);\n    System.out.println(f);\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\nteam = [Meera, Zoya, Ravi, Farhan]\nsize = 4\nafter remove: [Zoya, Ravi]\nhas Zoya? true\nRavi at index 1\nfirst = Zoya",
+   "expl": {
+    "en": "\n<p><b>Practical 14 (part A).</b> <code>ArrayList&lt;String&gt;</code> is the growable array of the Collections framework - the diamond names the element type.</p>\n<ul><li><code>add()</code> grows the list; the two-argument add inserts in the middle.</li>\n<li><code>remove()</code> works by value or by index; <code>size()</code> replaces array <code>length</code>.</li>\n<li>Search trio: <code>contains()</code> answers yes/no, <code>indexOf()</code> answers where, <code>get(i)</code> fetches.</li>\n<li>Printing the list shows <code>[a, b, c]</code> - ArrayList brings its own friendly toString.</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv4_13",
+   "title": {
+    "en": "ArrayList traversal: for-each loop in action"
+   },
+   "code": {
+    "en": "import java.util.ArrayList;\n\nclass Main {\n  public static void main(String[] a) {\n    ArrayList<Integer> marks =\n        new ArrayList<>();\n    marks.add(82);  // boxed to Integer\n    marks.add(95);\n    marks.add(67);\n    marks.add(88);\n\n    String h1 = \"--- index loop ---\";\n    System.out.println(h1);\n    for (int k = 0; k < marks.size(); k++) {\n      String row = k + \": \" + marks.get(k);\n      System.out.println(row);\n    }\n\n    String h2 = \"--- for-each loop ---\";\n    System.out.println(h2);\n    int total = 0;\n    for (int m : marks) {   // clean + safe\n      total += m;           // auto-unboxing\n    }\n    double avg = total * 1.0 / marks.size();\n    System.out.println(\"total = \" + total);\n    System.out.println(\"average = \" + avg);\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\n--- index loop ---\n0: 82\n1: 95\n2: 67\n3: 88\n--- for-each loop ---\ntotal = 332\naverage = 83.0",
+   "expl": {
+    "en": "\n<p><b>Practical 14 (part B).</b> Two traversal styles:</p>\n<ul><li>The classic counting loop gives the <b>index</b> k - useful when position matters.</li>\n<li>The <b>for-each</b> loop <code>for (int m : marks)</code> reads naturally (\"for each mark m in marks\") and can never walk past the end.</li>\n<li>Autoboxing quietly wraps <code>int</code> into <code>Integer</code> on add and unwraps on use - you saw it in Unit 2; here the glove work pays off.</li></ul>\n"
+   }
+  },
+  {
+   "id": "jv4_14",
+   "title": {
+    "en": "HashSet: uniqueness and fast membership"
+   },
+   "code": {
+    "en": "import java.util.HashSet;\nimport java.util.ArrayList;\n\nclass Main {\n  public static void main(String[] a) {\n    HashSet<String> tags =\n        new HashSet<>();\n    tags.add(\"java\");\n    tags.add(\"exam\");\n    tags.add(\"java\");  // dup ignored\n    tags.add(\"coding\");\n    System.out.println(\"tags = \" + tags);\n    int sz = tags.size();\n    System.out.println(\"size = \" + sz);\n\n    boolean hasExam = tags.contains(\"exam\");\n    String h = \"has exam? \" + hasExam;\n    System.out.println(h);\n    tags.remove(\"coding\");\n    String now = \"after remove: \" + tags;\n    System.out.println(now);\n\n    String h2 = \"--- each unique tag ---\";\n    System.out.println(h2);\n    for (String t : tags) {\n      System.out.println(\"* \" + t);\n    }\n\n    ArrayList<String> likes =\n        new ArrayList<>();\n    likes.add(\"tea\"); likes.add(\"tea\");\n    String d = \"list dup ok: \" + likes;\n    System.out.println(d);\n  }\n}"
+   },
+   "out": "$ javac Main.java\n$ java Main\ntags = [exam, coding, java]\nsize = 3\nhas exam? true\nafter remove: [exam, java]\n--- each unique tag ---\n* exam\n* java\nlist dup ok: [tea, tea]",
+   "expl": {
+    "en": "\n<p><b>Practical 14 (part C).</b> HashSet = a bag that refuses duplicates:</p>\n<ul><li>Four adds, one repeated \"java\" - <code>size()</code> stays honest at 3.</li>\n<li><code>contains()</code> on a HashSet is a hash-table lookup: very fast even with thousands of members.</li>\n<li>Traversal uses the same for-each loop as a list, but the <b>order is not insertion order</b> - it follows the hash table, so never rely on it.</li>\n<li>Compare the ArrayList at the end: lists happily keep duplicates; sets do not. Use a set for unique tags/friends/roll numbers and a list when order and duplicates matter.</li></ul>\n"
+   }
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "jv4_error_types",
+   "title": {
+    "en": "Three Kinds of Errors"
+   },
+   "file": "diagrams/jv4_error_types.svg"
+  },
+  {
+   "id": "jv4_hierarchy",
+   "title": {
+    "en": "Exception Hierarchy (simplified)"
+   },
+   "file": "diagrams/jv4_hierarchy.svg"
+  },
+  {
+   "id": "jv4_try_flow",
+   "title": {
+    "en": "Control Flow: try / catch / finally"
+   },
+   "file": "diagrams/jv4_try_flow.svg"
+  },
+  {
+   "id": "jv4_throw_throws",
+   "title": {
+    "en": "throw vs throws"
+   },
+   "file": "diagrams/jv4_throw_throws.svg"
+  },
+  {
+   "id": "jv4_catch_order",
+   "title": {
+    "en": "Multiple catch: First Match Wins"
+   },
+   "file": "diagrams/jv4_catch_order.svg"
+  },
+  {
+   "id": "jv4_collections",
+   "title": {
+    "en": "Collections Framework: Overview"
+   },
+   "file": "diagrams/jv4_collections.svg"
+  },
+  {
+   "id": "jv4_list_vs_set",
+   "title": {
+    "en": "ArrayList vs HashSet"
+   },
+   "file": "diagrams/jv4_list_vs_set.svg"
+  }
+ ],
+ "syntax": [
+  {
+   "title": {
+    "en": "try, catch, finally"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "try-catch"
+     },
+     "f": "try {\n  double avg = marks / subjects;\n} catch (ArithmeticException e) {\n  System.out.println(e.getMessage());\n}",
+     "terms": {
+      "en": "risky code in try, recovery in catch"
+     }
+    },
+    {
+     "name": {
+      "en": "multiple catch"
+     },
+     "f": "try { ... }\ncatch (NullPointerException e) { }\ncatch (RuntimeException e)  { }\ncatch (Exception e)         { }\n// specific first, parent last!",
+     "terms": {
+      "en": "first matching catch runs; only one"
+     }
+    },
+    {
+     "name": {
+      "en": "finally block"
+     },
+     "f": "try { ... }\ncatch (Exception e) { ... }\nfinally {\n  file.close();   // ALWAYS runs\n}",
+     "terms": {
+      "en": "guaranteed cleanup on every path"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "throw / throws"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "throw"
+     },
+     "f": "if (age < 18) {\n  throw new IllegalArgumentException(\n    \"age \" + age + \" is below 18\");\n}",
+     "terms": {
+      "en": "raise one exception object yourself"
+     }
+    },
+    {
+     "name": {
+      "en": "throws"
+     },
+     "f": "void nap(int ms)\n    throws InterruptedException {\n  Thread.sleep(ms);\n}",
+     "terms": {
+      "en": "header warning for checked exceptions"
+     }
+    },
+    {
+     "name": {
+      "en": "both together"
+     },
+     "f": "void withdraw(int bal, int amt)\n    throws IllegalStateException {\n  if (amt > bal) throw new\n    IllegalStateException(\"no funds\");\n}",
+     "terms": {
+      "en": "throws warns callers, throw does it"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Collections"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "ArrayList"
+     },
+     "f": "ArrayList<String> team =\n    new ArrayList<>();\nteam.add(\"Meera\");\nteam.add(1, \"Zoya\");\nteam.remove(\"Farhan\");\nteam.contains(\"Zoya\");   // true\nteam.get(0);  team.size();",
+     "terms": {
+      "en": "growable list - add, remove, search"
+     }
+    },
+    {
+     "name": {
+      "en": "HashSet"
+     },
+     "f": "HashSet<String> tags =\n    new HashSet<>();\ntags.add(\"java\");\ntags.add(\"java\");  // ignored\ntags.contains(\"exam\");  // fast\ntags.remove(\"coding\");",
+     "terms": {
+      "en": "unique members, no order, no index"
+     }
+    },
+    {
+     "name": {
+      "en": "for-each loop"
+     },
+     "f": "for (int m : marks) {\n  total += m;\n}\nfor (String t : tags) {\n  System.out.println(t);\n}",
+     "terms": {
+      "en": "visit every element, no index needed"
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Errors, Hierarchy, try-catch"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Name the three types of errors in Java."
+     },
+     "a": {
+      "en": "Compile-time (javac stops it), runtime (exception while running) and logical (runs but wrong answer)."
+     }
+    },
+    {
+     "q": {
+      "en": "Which error type is hardest to find and why?"
+     },
+     "a": {
+      "en": "Logical - nothing flags it; the program simply produces the wrong output, so only testing reveals it."
+     }
+    },
+    {
+     "q": {
+      "en": "What is an exception?"
+     },
+     "a": {
+      "en": "An object the JVM creates at run time describing a failure - it carries the type (e.g. ArithmeticException), a message and the stack trace."
+     }
+    },
+    {
+     "q": {
+      "en": "What happens to an uncaught exception?"
+     },
+     "a": {
+      "en": "The JVM prints the stack trace and terminates the program; statements after the throwing line never run."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the root class of all throwables?"
+     },
+     "a": {
+      "en": "Throwable - with two children: Error (serious, not caught) and Exception (application-level, catchable)."
+     }
+    },
+    {
+     "q": {
+      "en": "Checked vs unchecked exceptions?"
+     },
+     "a": {
+      "en": "Checked: javac forces try-catch or throws (InterruptedException, IOException). Unchecked: RuntimeException children - the compiler stays silent (ArithmeticException, NPE)."
+     }
+    },
+    {
+     "q": {
+      "en": "List five built-in unchecked exceptions."
+     },
+     "a": {
+      "en": "ArithmeticException, NullPointerException, ArrayIndexOutOfBoundsException, NumberFormatException, IllegalArgumentException."
+     }
+    },
+    {
+     "q": {
+      "en": "What causes a NullPointerException?"
+     },
+     "a": {
+      "en": "Calling a method or touching a field through a reference that holds null (no object behind it)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the message of integer divide by zero?"
+     },
+     "a": {
+      "en": "The ArithmeticException carries \"/ by zero\"."
+     }
+    },
+    {
+     "q": {
+      "en": "What do try and catch do?"
+     },
+     "a": {
+      "en": "try wraps risky statements; catch (Type e) receives the thrown object and runs recovery - one catch handles one exception family."
+     }
+    },
+    {
+     "q": {
+      "en": "Which statements are skipped when an exception is thrown?"
+     },
+     "a": {
+      "en": "The rest of the try block; control jumps straight to the matching catch."
+     }
+    },
+    {
+     "q": {
+      "en": "What does e.getMessage() give?"
+     },
+     "a": {
+      "en": "The detail string of the exception - for division by zero, \"/ by zero\"."
+     }
+    },
+    {
+     "q": {
+      "en": "When does finally run?"
+     },
+     "a": {
+      "en": "Always: after normal try completion, after a caught exception, and even when nothing catches (right before the program dies)."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "finally and Multiple catch"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Give two good uses of finally."
+     },
+     "a": {
+      "en": "Closing files/connections and releasing locks - cleanup that must happen on every path."
+     }
+    },
+    {
+     "q": {
+      "en": "Can finally exist without catch?"
+     },
+     "a": {
+      "en": "Yes - try-finally is legal; the exception still propagates after finally runs. Catching is simpler for beginners."
+     }
+    },
+    {
+     "q": {
+      "en": "How many catch blocks can follow one try? How many run?"
+     },
+     "a": {
+      "en": "Any number may follow, but exactly one runs - the first whose type matches."
+     }
+    },
+    {
+     "q": {
+      "en": "Which catch must come first: Exception or NullPointerException?"
+     },
+     "a": {
+      "en": "NullPointerException - specific children before parent types, otherwise the parent shadows them (javac error)."
+     }
+    },
+    {
+     "q": {
+      "en": "How does the JVM pick a catch block?"
+     },
+     "a": {
+      "en": "Top to bottom, first block whose declared type IS-A supertype of the thrown object."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "throw and throws"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What does throw do, and what follows it?"
+     },
+     "a": {
+      "en": "It raises an exception object immediately: throw new ArithmeticException(\"msg\"); - a NEW object, so the keyword is followed by a constructor call."
+     }
+    },
+    {
+     "q": {
+      "en": "Give a real use of throw."
+     },
+     "a": {
+      "en": "Input validation - rejecting age below 18 or an overdrawn amount before corrupt data spreads."
+     }
+    },
+    {
+     "q": {
+      "en": "What does throws declare?"
+     },
+     "a": {
+      "en": "That a method may raise the listed checked exceptions - a warning in the signature, not an action."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between throw and throws?"
+     },
+     "a": {
+      "en": "throw is a statement in the body that raises one object; throws is a clause in the header listing possible checked exceptions."
+     }
+    },
+    {
+     "q": {
+      "en": "If a method says throws InterruptedException, what must callers do?"
+     },
+     "a": {
+      "en": "Either wrap the call in try-catch or declare throws again in their own header."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is Thread.sleep() special for beginners?"
+     },
+     "a": {
+      "en": "It declares throws InterruptedException, so callers are FORCED to handle or declare - a convenient checked-exception example."
+     }
+    },
+    {
+     "q": {
+      "en": "Is IllegalArgumentException checked or unchecked?"
+     },
+     "a": {
+      "en": "Unchecked (a RuntimeException child) - the compiler does not force handling; good design still catches it."
+     }
+    },
+    {
+     "q": {
+      "en": "Practical 13: which two exceptions are demonstrated?"
+     },
+     "a": {
+      "en": "ArithmeticException (divide by zero) and NullPointerException - each caught with try-catch-finally."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Collections Framework"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Why do we need the Collections framework?"
+     },
+     "a": {
+      "en": "Arrays are fixed-size and low-level; programs need growable containers with add, remove and search built in - ArrayList, HashSet etc. of java.util."
+     }
+    },
+    {
+     "q": {
+      "en": "Name the root interface and two child interfaces."
+     },
+     "a": {
+      "en": "Collection; children List and Set (Queue too)."
+     }
+    },
+    {
+     "q": {
+      "en": "Which classes implement List and Set for this course?"
+     },
+     "a": {
+      "en": "ArrayList implements List; HashSet implements Set."
+     }
+    },
+    {
+     "q": {
+      "en": "Can collections store primitive int directly?"
+     },
+     "a": {
+      "en": "No - only objects; autoboxing wraps int into Integer automatically when you add it."
+     }
+    },
+    {
+     "q": {
+      "en": "What does the diamond <> do in ArrayList<String>?"
+     },
+     "a": {
+      "en": "Names the element type (generics); the compiler then rejects anything that is not a String."
+     }
+    },
+    {
+     "q": {
+      "en": "How is add(i, e) different from add(e)?"
+     },
+     "a": {
+      "en": "add(e) appends at the end; add(i, e) inserts at index i, shifting the rest right."
+     }
+    },
+    {
+     "q": {
+      "en": "Two ways to remove from an ArrayList?"
+     },
+     "a": {
+      "en": "By value - remove(\"Farhan\"); or by index - remove(0)."
+     }
+    },
+    {
+     "q": {
+      "en": "Search trio of ArrayList?"
+     },
+     "a": {
+      "en": "contains(e) -> boolean, indexOf(e) -> position or -1, get(i) -> element."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you get the length-equivalent of an ArrayList?"
+     },
+     "a": {
+      "en": "size() - a method, unlike array's length field."
+     }
+    },
+    {
+     "q": {
+      "en": "What prints when you println an ArrayList?"
+     },
+     "a": {
+      "en": "A friendly [a, b, c] form - ArrayList implements toString()."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the for-each loop form?"
+     },
+     "a": {
+      "en": "for (Type x : collection) { ... } - visits every element in order, no counter needed."
+     }
+    },
+    {
+     "q": {
+      "en": "Two limitations of for-each?"
+     },
+     "a": {
+      "en": "No index available inside, and you cannot add/remove elements of the same collection during the loop."
+     }
+    },
+    {
+     "q": {
+      "en": "What does HashSet do with a duplicate add?"
+     },
+     "a": {
+      "en": "Silently ignores it - the set keeps one copy; size() does not grow."
+     }
+    },
+    {
+     "q": {
+      "en": "How does a HashSet find members so fast?"
+     },
+     "a": {
+      "en": "Hashing: the element's hashCode points to its bucket, so contains() is near-instant instead of a full scan."
+     }
+    },
+    {
+     "q": {
+      "en": "Does HashSet keep insertion order?"
+     },
+     "a": {
+      "en": "No - traversal follows the hash table's arrangement; never rely on the order."
+     }
+    },
+    {
+     "q": {
+      "en": "ArrayList vs HashSet: duplicates and order?"
+     },
+     "a": {
+      "en": "ArrayList keeps duplicates in insertion order; HashSet forbids duplicates and promises no order."
+     }
+    },
+    {
+     "q": {
+      "en": "When do you pick a Set over a List?"
+     },
+     "a": {
+      "en": "When membership must be unique - tags, roll numbers- and order does not matter."
+     }
+    },
+    {
+     "q": {
+      "en": "Practical 14: which operations are shown on ArrayList and HashSet?"
+     },
+     "a": {
+      "en": "add, remove, search (contains/indexOf) and traversal with a for-each loop on both collections."
+     }
+    },
+    {
+     "q": {
+      "en": "Which exception fires if a list is modified during for-each?"
+     },
+     "a": {
+      "en": "ConcurrentModificationException - the iterator notices the structure changed."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Explain the three types of errors in Java with examples."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Draw and explain the Exception hierarchy (Throwable, Error, Exception, RuntimeException)."
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Distinguish between checked and unchecked exceptions with examples."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a Java program demonstrating try-catch for divide by zero and null pointer. (Practical 13)"
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Explain try, catch and finally blocks with a suitable program."
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Write a program showing multiple catch blocks. State the order rule."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Differentiate throw and throws with an example method."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a program using throw to validate age and throws to declare a risky method."
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "List five built-in exceptions and the situation that raises each."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the need of the Collections framework over arrays."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Draw the Collection hierarchy and explain List vs Set briefly."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a program using ArrayList: add, remove, search and traverse. (Practical 14)"
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Write a program using HashSet showing uniqueness; display with for-each. (Practical 14)"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Differentiate ArrayList and HashSet (any six points)."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the for-each loop. How is it different from the classic for loop for collections?"
+   },
+   "marks": 3
+  }
+ ]
+}
