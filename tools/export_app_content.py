@@ -75,6 +75,11 @@ SUBJECTS = {
     "DI03000041": ("Fundamentals of Operating System", "ફંડામેન્ટલ્સ ઓફ ઓપરેટિંગ સિસ્ટમ", "Professional Core", 4, "theory", None),
     "DI03000051": ("Computer Networks", "કમ્પ્યુટર નેટવર્ક્સ", "Professional Core", 4, "theory", None),
     "DI03000061": ("Responsive Web Page Design", "રિસ્પોન્સિવ વેબ પેજ ડિઝાઇન", "Professional Core", 3, "practical", None),
+    # Computer Sem 4 (2025-26 scheme)
+    "DI04000011": ("Software Engineering", "સોફ્ટવેર એન્જિનિયરિંગ", "Professional Core", 4, "theory", None),
+    "DI04000021": ("Object Oriented Programming - Java", "ઓબ્જેક્ટ ઓરિએન્ટેડ પ્રોગ્રામિંગ - જાવા", "Professional Core", 4, "programming", None),
+    "DI04000031": ("Introduction to NoSQL", "નોએસક્યુએલનો પરિચય", "Professional Core", 3, "practical", None),
+    "DI04007011": ("Introduction to Web Development", "વેબ ડેવલપમેન્ટનો પરિચય", "Professional Core", 4, "programming", None),
 }
 # branch key -> {semester: [subject codes in display order]}
 BRANCH_SEMS = {
@@ -83,6 +88,7 @@ BRANCH_SEMS = {
         2: ["DI02000101", "DI02000091", "DI02000011", "DI01000071", "DI02000051", "DI02000061",
             "DI02000131", "DI02000141", "DI02000151"],
         3: ["DI03000021", "DI03000011", "DI03000031", "DI03000041", "DI03000051", "DI03000061"],
+        4: ["DI04000021", "DI04000011", "DI04007011", "DI04000031"],
     },
 }
 

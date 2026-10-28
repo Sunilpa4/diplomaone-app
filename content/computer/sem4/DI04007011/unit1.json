@@ -1,0 +1,859 @@
+{
+ "subject": "DI04007011",
+ "unit": 1,
+ "format": "notes",
+ "title": {
+  "en": "Introduction to PHP"
+ },
+ "weightage": 20,
+ "hours": 12,
+ "notes": [
+  {
+   "title": {
+    "en": "1.1 PHP and the Web Environment"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "What is PHP: History and Advantages"
+     },
+     "body": {
+      "en": "\n<ul><li><b>PHP</b> originally stood for <i>Personal Home Page tools</i> - created by <b>Rasmus Lerdorf in 1994-95</b> to track visitors to his online resume. Today the name is a recursive acronym: <b>PHP: Hypertext Preprocessor</b>.</li>\n<li>It is a <b>server-side scripting language</b> embedded inside HTML: the server executes the PHP code and ships plain HTML to the browser.</li>\n<li><b>Advantages</b>: free and open-source; runs on Windows/Linux/macOS; the classic partner of MySQL; easy to learn (C-like syntax, no compilation step); a gigantic ecosystem - <b>WordPress, Wikipedia, Facebook (historically)</b> - and massive documentation at php.net.</li>\n<li>Interpreted per-request: edit the file, refresh the browser - no build, no deploy ceremony. This is why tutorials (and hostels full of student projects) start with PHP.</li>\n<li>Current lineage: PHP 4 (Zend engine) &rarr; PHP 5 (OOP) &rarr; PHP 7 (2x speed, scalar types) &rarr; PHP 8.x (JIT, modern syntax). Our examples run on PHP 8.</li></ul>\n"
+     }
+    },
+    {
+     "h": {
+      "en": "The Client-Server Request Cycle"
+     },
+     "body": {
+      "en": "\n<ul><li><b>Client</b>: the browser - sends an HTTP request for a page, renders the returned HTML. <b>Server</b>: Apache with the PHP engine - executes scripts and answers with generated HTML.</li>\n<li>The browser <b>never sees PHP source</b>; it receives only the echo'ed output. Server-side means logic, passwords and database credentials stay on the server.</li>\n<li>One cycle: URL typed &rarr; request travels &rarr; PHP engine runs the script &rarr; flat HTML returns &rarr; browser renders. Every page view repeats it.</li>\n<li>Dynamic means <i>generated per request</i>: the same seat-status page shows 37 seats now, 2 seats an hour later - one script, infinite HTML pages.</li></ul>\n"
+     },
+     "diagram": "wd1_client_server"
+    },
+    {
+     "h": {
+      "en": "The 3-Tier Architecture of a Web Application"
+     },
+     "body": {
+      "en": "\n<ul><li><i>Presentation tier</i> (browser, HTML/CSS) &rarr; <i>Application tier</i> (Apache + PHP, business logic) &rarr; <i>Data tier</i> (MySQL tables, files).</li>\n<li>On a developer laptop all three tiers live together (XAMPP); in production they may be three different machines - the tiers communicate over HTTP and SQL.</li>\n<li>Layer pay-off: change the database without touching the pages; reskin the pages without touching the logic. Each tier minds its own business.</li>\n<li>PHP sits in the application tier: it receives browser data through forms (Unit 3), remembers users via sessions (Unit 4) and talks to MySQL (Unit 5).</li></ul>\n"
+     },
+     "diagram": "wd1_3tier"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "1.2 Setting Up: XAMPP and the First Page"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Installing XAMPP and Running Your First Page (Practicals 1-2)"
+     },
+     "body": {
+      "en": "\n<ul><li><b>XAMPP</b> = X (any OS) + <b>A</b>pache + <b>M</b>ariaDB/MySQL + <b>P</b>HP + <b>P</b>erl - one installer packs the whole 3-tier lab. Cousins: WAMP (Windows), LAMP (Linux), MAMP (macOS).</li>\n<li>Install flow: download from apachefriends.org &rarr; install &rarr; open the XAMPP control panel &rarr; <b>Start Apache</b> (and MySQL later, Unit 5). Apache must show green before any page works.</li>\n<li>Web root: the folder <code>C:\\xampp\\htdocs</code> (Windows) or <code>/opt/lampp/htdocs</code> (Linux). Save <code>hello.php</code> there and browse <code>http://localhost/hello.php</code>.</li>\n<li>Troubleshooting reflexes: <b>404</b> = the file is not under htdocs (or wrong name); <b>source code visible</b> = saved as .html instead of .php, or Apache off; <b>blank page</b> = PHP error - check the Apache error log.</li>\n<li>The CLI (<code>php file.php</code>) is a second, server-free way to run PHP - every program in this unit is verified with the PHP 8 CLI, exactly as shown.</li></ul>\n"
+     },
+     "diagram": "wd1_xampp",
+     "programs": [
+      "wd1p1"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "1.3 Embedding, echo/print, and the Type System"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Embedding PHP in HTML; echo, print and Comments"
+     },
+     "body": {
+      "en": "\n<ul><li>PHP code lives inside <code>&lt;?php ... ?&gt;</code> tags, which may appear <b>any number of times, anywhere</b> in an .html skeleton saved as a .php file. The engine replaces each island with the output it generates.</li>\n<li><code>echo</code> writes output - accepts several comma-separated values, no parentheses needed, returns nothing (slightly faster). <code>print</code> outputs one value and returns 1, so it can sit inside an expression (rarely used).</li>\n<li><b>Comments</b>: <code>// line</code>, <code># line</code> and <code>/* block */</code>. Comments never reach the browser - they are for the next reader of the source.</li>\n<li>Every PHP statement ends with a semicolon; missing <code>;</code> is the classic first-parse-error. Short open tag <code>&lt;?= $x ?&gt;</code> is a shortcut for <code>&lt;?php echo $x ?&gt;</code>.</li></ul>\n"
+     },
+     "diagram": "wd1_embed",
+     "programs": [
+      "wd1p2"
+     ]
+    },
+    {
+     "h": {
+      "en": "Variables, Constants and Data Types"
+     },
+     "body": {
+      "en": "\n<ul><li>Variables start with <b>$</b> and a letter/underscore: <code>$seatCount = 40;</code>. No type declaration - the value decides the type, and it can change (<b>loose/dynamic typing</b>).</li>\n<li>PHP is <b>case-sensitive for variables</b> (<code>$Seat</code> &ne; <code>$seat</code>) but case-insensitive for keywords and function names.</li>\n<li>Scalars: <b>int, float, string, bool</b>; compound: <b>array, object</b>; plus <b>NULL</b> and <b>resource</b>. Inspect any variable with <code>var_dump($x)</code> (type + value) or query with <code>gettype($x)</code>.</li>\n<li><b>Constants</b>: <code>define(\"GST\", 0.18)</code> or <code>const GST = 0.18;</code> - no $ sign, global by default, immutable.</li>\n<li>Strings in <b>double quotes interpolate variables</b> (<code>\"Fare: Rs $fare\"</code>); single quotes print them literally. Concatenation uses the <b>dot</b> operator: <code>\"Hello \" . $name</code>.</li></ul>\n"
+     },
+     "diagram": "wd1_datatypes",
+     "programs": [
+      "wd1p3",
+      "wd1p4"
+     ]
+    },
+    {
+     "h": {
+      "en": "Operators and Expressions"
+     },
+     "body": {
+      "en": "\n<ul><li>Families: <b>arithmetic</b> (+ - * / % **), <b>assignment</b> (= += .=), <b>comparison</b> (== === != &lt;&gt; &lt; &gt; &lt;=&gt;), <b>logical</b> (&amp;&amp; || ! and or), <b>string</b> (. .=), <b>increment</b> (++$i $i--).</li>\n<li><b>Loose vs strict comparison</b>: <code>==</code> juggles types (<code>5 == \"5\"</code> is true); <code>===</code> also demands the same type (<code>5 === \"5\"</code> is false). Form data arrives as strings - always compare with <code>===</code>/casts.</li>\n<li>Spaceship <code>&lt;=&gt;</code> returns -1, 0 or 1 (less, equal, greater) - built for sort callbacks.</li>\n<li>Precedence: ** then * / %, then + -, comparisons last before &amp;&amp;, ||. When in doubt, parenthesise - clarity beats cleverness.</li>\n<li>The dot family matters daily: building HTML strings means <code>$msg .= \"&lt;li&gt;$item&lt;/li&gt;\"</code> style accumulation.</li></ul>\n"
+     },
+     "diagram": "wd1_operators"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "1.4 Conditional Structures"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "if, if-else and else-if Chains"
+     },
+     "body": {
+      "en": "\n<ul><li><code>if (cond) { ... }</code> runs the block only when the condition is truthy. Add <code>else { ... }</code> for the alternative, or chain <code>elseif</code> for tested ladders (grade calculators, fare slabs).</li>\n<li>Once one branch matches, the rest are skipped - order the ladder carefully (test the highest slab first).</li>\n<li>Truthy/falsy shorthand: <code>0, \"\", \"0\", NULL, false, []</code> count as false; almost everything else is true. <code>if ($seats)</code> reads as \"if any seats remain\".</li>\n<li>The <b>ternary</b> <code>$label = ($marks &gt;= 40) ? \"Pass\" : \"Fail\";</code> compresses a two-way choice into one expression - ideal inside echo statements.</li>\n<li>Always brace even one-liners in team code: braced blocks survive the next edit.</li></ul>\n"
+     },
+     "diagram": "wd1_ifelif",
+     "programs": [
+      "wd1p5"
+     ]
+    },
+    {
+     "h": {
+      "en": "switch-case: One Expression, Many Routes"
+     },
+     "body": {
+      "en": "\n<ul><li><code>switch ($day) { case \"Mon\": ...; break; ... default: ... }</code> compares one expression against many constant values - cleaner than a long elseif ladder when the test is equality.</li>\n<li><b>break</b> ends each case; forget it and execution <i>falls through</i> into the next case (occasionally intentional, usually a bug).</li>\n<li><code>default</code> handles everything unmatched - put it last, like the safety net of an else.</li>\n<li>Use switch for menus, day names, status codes; use if-elseif for ranges (<code>$marks &gt;= 70</code>) and compound conditions.</li></ul>\n"
+     },
+     "programs": [
+      "wd1p6"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "1.5 Looping Structures"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "for, while, do-while and foreach"
+     },
+     "body": {
+      "en": "\n<ul><li><b>for</b> <code>(init; test; step)</code> - the counted loop: multiplication tables, seat numbers 1..40.</li>\n<li><b>while</b> - pre-checked condition loop: runs zero or more times; classic for reading database rows (<code>while ($row = ...)</code>) once Unit 5 begins.</li>\n<li><b>do-while</b> - body first, test after: guaranteed <b>one execution</b>, natural for menu/retry patterns (\"show menu, ask again while the choice is invalid\").</li>\n<li><b>foreach</b> <code>($arr as $v)</code> or <code>($arr as $k =&gt; $v)</code> - PHP's signature loop for arrays; Unit 2 fills it with real data. No off-by-one, no counter boilerplate.</li>\n<li>Pick by intent: known count &rarr; for; unknown count &rarr; while; at-least-once &rarr; do-while; collections &rarr; foreach.</li></ul>\n"
+     },
+     "diagram": "wd1_loops",
+     "programs": [
+      "wd1p7"
+     ]
+    },
+    {
+     "h": {
+      "en": "break and continue: Steering the Loop"
+     },
+     "body": {
+      "en": "\n<ul><li><code>break</code> leaves the loop immediately - e.g. stop searching once the seat is found.</li>\n<li><code>continue</code> skips the rest of this lap and jumps to the next iteration - e.g. skip printing taken seats, or skip multiples of 3.</li>\n<li>Both act on the <b>innermost</b> enclosing loop by default; <code>break 2;</code> escapes two levels (rare, use sparingly).</li>\n<li>Wisdom: a well-shaped condition usually beats a forest of flags and breaks; keep loop bodies small enough to read at a glance.</li></ul>\n"
+     },
+     "programs": [
+      "wd1p8"
+     ]
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "wd1p1",
+   "title": {
+    "en": "Welcome page: echo, print and comments (Practical 2)"
+   },
+   "code": {
+    "en": "<?php\n// My first PHP page - Practical 2\n#  hash comments also work\n/* block comments\n   span several lines */\n\necho \"Welcome to Web Development!\\n\";\necho \"Diploma\", \" Sem 4\", \" - Computer\\n\";   // echo takes many values\nprint \"Powered by PHP\\n\";                     // print: one value only\n\n$name = \"Ravi\";          // double quotes interpolate variables\necho \"Hello, $name\\n\";   // Hello, Ravi\necho 'Hello, $name' . \"\\n\";  // single quotes stay literal\n?>"
+   },
+   "out": "$ php index.php\nWelcome to Web Development!\nDiploma Sem 4 - Computer\nPowered by PHP\nHello, Ravi\nHello, $name",
+   "expl": {
+    "en": "<p><code>echo</code> accepts comma-separated values; <code>print</code> takes one and returns 1. Double-quoted strings <b>interpolate</b> (expand) <code>$variables</code>; single-quoted strings print them literally. Comments after <code>//</code>, <code>#</code> or inside <code>/* */</code> never reach the output.</p>"
+   }
+  },
+  {
+   "id": "wd1p2",
+   "title": {
+    "en": "Embedding PHP islands inside HTML"
+   },
+   "code": {
+    "en": "<?php\n$seatsTotal = 40;\n$seatsBooked = 3;\n?>\n<!DOCTYPE html>\n<html>\n<head><title>Bus Booking</title></head>\n<body>\n<h1>Bus Booking - Surat to Ahmedabad</h1>\n<p>Date: <?php echo date(\"d M Y\"); ?></p>\n<?php\n    $seats = $seatsTotal - $seatsBooked;\n    echo \"<p><b>Seats left: $seats</b></p>\";\n?>\n<p>Have a safe journey!</p>\n</body>\n</html>"
+   },
+   "out": "$ php index.php\n<!DOCTYPE html>\n<html>\n<head><title>Bus Booking</title></head>\n<body>\n<h1>Bus Booking - Surat to Ahmedabad</h1>\n<p>Date: 28 Oct 2026</p>\n<p><b>Seats left: 37</b></p><p>Have a safe journey!</p>\n</body>\n</html>",
+   "expl": {
+    "en": "<p>The <code>&lt;?php ?&gt;</code> islands can appear anywhere in the page. The engine executes each island and replaces it with its output, so the browser receives one flat HTML document. Run this with the CLI and you see the same HTML the browser would (tags are echoed text here).</p>"
+   }
+  },
+  {
+   "id": "wd1p3",
+   "title": {
+    "en": "Variables, constants and operators (Practical 3)"
+   },
+   "code": {
+    "en": "<?php\n// Fare calculator - variables, constants, operators\ndefine(\"GST_RATE\", 0.18);        // constant: no $ sign\nconst APP_NAME = \"BusBook\";\n\n$baseFare = 250;                 // int\n$distance = 265;                 // int (kms)\n$perKm = 1.2;                    // float\n\n$fare = $baseFare + $distance * $perKm;   // * and + : int+float -> float\n$tax = $fare * GST_RATE;\n$total = $fare + $tax;\n\necho APP_NAME, \" receipt\\n\";\necho \"Base fare : Rs \", $fare, \"\\n\";\necho \"GST 18%   : Rs \", round($tax, 2), \"\\n\";\necho \"Total     : Rs \", round($total, 2), \"\\n\";\n\n$seats = 40;\n$seats -= 3;                     // compound assignment\n$seats++;                        // increment\necho \"Seats left now: $seats\\n\";\n?>"
+   },
+   "out": "$ php index.php\nBusBook receipt\nBase fare : Rs 568\nGST 18%   : Rs 102.24\nTotal     : Rs 670.24\nSeats left now: 38",
+   "expl": {
+    "en": "<p>Operators behave as in C/Java: <code>*</code> binds tighter than <code>+</code>; mixed int/float arithmetic promotes to float. Constants need no <code>$</code> and cannot be redefined. Compound assignment (<code>-=</code>) and <code>++</code> update a variable in place.</p>"
+   }
+  },
+  {
+   "id": "wd1p4",
+   "title": {
+    "en": "Types, var_dump and == vs === (Practical 3)"
+   },
+   "code": {
+    "en": "<?php\n$age = 18;              // int\n$price = 19.99;         // float\n$name = \"Surat\";        // string\n$isActive = true;       // bool\n$pending = null;        // NULL\n\nvar_dump($age, $price, $name, $isActive, $pending);\n\n$fromForm = \"18\";       // form data always arrives as string\nvar_dump($age == $fromForm);    // loose: true (type juggled)\nvar_dump($age === $fromForm);   // strict: false (types differ)\nvar_dump($age === (int)$fromForm); // after casting: true\n\necho \"2 + 3 = \", 2 + 3, \" but 2 . 3 = \", 2 . 3, \"\\n\";\n?>"
+   },
+   "out": "$ php index.php\nint(18)\nfloat(19.99)\nstring(5) \"Surat\"\nbool(true)\nNULL\nbool(true)\nbool(false)\nbool(true)\n2 + 3 = 5 but 2 . 3 = 23",
+   "expl": {
+    "en": "<p><code>var_dump()</code> prints type and value - the PHP debugger's first tool. <b>Loose vs strict</b>: <code>==</code> converts types before comparing (dangerous with form input), <code>===</code> requires identical type AND value. Note the two operators: <code>+</code> adds numbers, <code>.</code> glues strings.</p>"
+   }
+  },
+  {
+   "id": "wd1p5",
+   "title": {
+    "en": "Grade ladder with if - elseif - else (Practical 4)"
+   },
+   "code": {
+    "en": "<?php\n$marks = 54;\n\nif ($marks >= 70) {\n    $grade = \"Distinction\";\n} elseif ($marks >= 60) {\n    $grade = \"First Class\";\n} elseif ($marks >= 50) {\n    $grade = \"Second Class\";\n} elseif ($marks >= 40) {\n    $grade = \"Pass\";\n} else {\n    $grade = \"Fail\";\n}\n\necho \"Marks: $marks  ->  $grade\\n\";\n\n// ternary: compact two-way choice\n$result = ($marks >= 40) ? \"PASS\" : \"FAIL\";\necho \"Result: $result\\n\";\n\n// truthiness shorthand\n$seatsLeft = 0;\nif ($seatsLeft) {\n    echo \"Seats available\\n\";\n} else {\n    echo \"Housefull!\\n\";   // 0 counts as false\n}\n?>"
+   },
+   "out": "$ php index.php\nMarks: 54  ->  Second Class\nResult: PASS\nHousefull!",
+   "expl": {
+    "en": "<p>The ladder tests from the top; the first true branch wins and the rest are skipped - so test the highest slabs first (swap 50 and 40 and watch the bug). The ternary folds a two-way choice into one expression. <code>0</code>, <code>\"\"</code>, <code>null</code>, <code>false</code> are falsy - <code>if ($seatsLeft)</code> reads naturally.</p>"
+   }
+  },
+  {
+   "id": "wd1p6",
+   "title": {
+    "en": "Day planner with switch-case (Practical 4)"
+   },
+   "code": {
+    "en": "<?php\n$day = \"Wed\";\n\nswitch ($day) {\n    case \"Mon\":\n    case \"Wed\":\n    case \"Fri\":\n        echo \"$day: Theory lectures\\n\";\n        break;\n    case \"Tue\":\n    case \"Thu\":\n        echo \"$day: Lab sessions\\n\";\n        break;\n    case \"Sat\":\n        echo \"$day: Project work\\n\";\n        break;\n    default:\n        echo \"$day: Holiday / unknown day\\n\";\n}\n\n$route = \"SURAT\";\nswitch ($route) {\n    case \"SURAT\":\n        echo \"Boarding point: Adajan\\n\";\n        // break forgotten on purpose is a bug - never do this\n        break;\n    case \"BHARUCH\":\n        echo \"Boarding point: Zadeshwar\\n\";\n        break;\n    default:\n        echo \"Route not served\\n\";\n}\n?>"
+   },
+   "out": "$ php index.php\nWed: Theory lectures\nBoarding point: Adajan",
+   "expl": {
+    "en": "<p><code>switch</code> tests one expression against constants - ideal for menus, days and status codes. Stacked cases (<code>Mon/Wed/Fri</code>) share one block. Every case needs a <code>break</code>: without it execution falls through into the next case. <code>default</code> is the safety net for unmatched values.</p>"
+   }
+  },
+  {
+   "id": "wd1p7",
+   "title": {
+    "en": "Four loops doing real work (Practical 5)"
+   },
+   "code": {
+    "en": "<?php\n// for: counted repetition - table of 7\necho \"Table of 7:\\n\";\nfor ($i = 1; $i <= 5; $i++) {\n    echo \"7 x $i = \" . (7 * $i) . \"\\n\";\n}\n\n// while: keep halving until we reach 1\n$n = 40;\necho \"Halving $n:\";\nwhile ($n > 1) {\n    $n = $n / 2;\n    echo \" -> $n\";\n}\necho \"\\n\";\n\n// do-while: body runs at least once\n$attempt = 5;\ndo {\n    echo \"Attempt $attempt: seat locked, verifying...\\n\";\n    $attempt--;\n} while ($attempt > 3);\n\n// foreach: PHP's array loop (arrays come properly in Unit 2)\n$cities = [\"Surat\", \"Bharuch\", \"Vadodara\", \"Ahmedabad\"];\nforeach ($cities as $stop) {\n    echo \"Stop: $stop\\n\";\n}\n?>"
+   },
+   "out": "$ php index.php\nTable of 7:\n7 x 1 = 7\n7 x 2 = 14\n7 x 3 = 21\n7 x 4 = 28\n7 x 5 = 35\nHalving 40: -> 20 -> 10 -> 5 -> 2.5 -> 1.25 -> 0.625\nAttempt 5: seat locked, verifying...\nAttempt 4: seat locked, verifying...\nStop: Surat\nStop: Bharuch\nStop: Vadodara\nStop: Ahmedabad",
+   "expl": {
+    "en": "<p>Choose the loop by intent: <b>for</b> when the count is known, <b>while</b> when the end depends on data (it may run zero times), <b>do-while</b> when the body must run at least once, and <b>foreach</b> whenever an array is in hand - no counter, no off-by-one.</p>"
+   }
+  },
+  {
+   "id": "wd1p8",
+   "title": {
+    "en": "break and continue: fine steering inside loops"
+   },
+   "code": {
+    "en": "<?php\n// continue: print seats 1..10 but skip booked ones 3 and 7\n$booked = [3, 7];\necho \"Free seats:\";\nfor ($seat = 1; $seat <= 10; $seat++) {\n    if (in_array($seat, $booked)) {\n        continue;                       // skip this lap\n    }\n    echo \" $seat\";\n}\necho \"\\n\";\n\n// break: search route list, stop at first match\n$routes = [\"Surat-Baroda\", \"Surat-Ahmedabad\", \"Navsari-Surat\"];\nforeach ($routes as $r) {\n    if (str_contains($r, \"Navsari\")) {\n        echo \"Found: $r\\n\";\n        break;                          // no need to scan the rest\n    }\n}\n\n// break 2: exit nested loops\nfor ($bus = 1; $bus <= 3; $bus++) {\n    for ($seat = 1; $seat <= 5; $seat++) {\n        if ($bus == 2 && $seat == 3) {\n            echo \"Stopping at bus $bus seat $seat\\n\";\n            break 2;                    // leave BOTH loops\n        }\n        echo \"bus $bus seat $seat\\n\";\n    }\n}\necho \"Done.\\n\";\n?>"
+   },
+   "out": "$ php index.php\nFree seats: 1 2 4 5 6 8 9 10\nFound: Navsari-Surat\nbus 1 seat 1\nbus 1 seat 2\nbus 1 seat 3\nbus 1 seat 4\nbus 1 seat 5\nbus 2 seat 1\nbus 2 seat 2\nStopping at bus 2 seat 3\nDone.",
+   "expl": {
+    "en": "<p><code>continue</code> skips to the next iteration (free-seat printing); <code>break</code> abandons the loop entirely (stop once found); <code>break 2</code> escapes two nesting levels. Use them as precision tools - if every loop needs three breaks, the condition itself is probably wrong.</p>"
+   }
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "wd1_client_server",
+   "title": {
+    "en": "Client-Server: One Request Cycle"
+   },
+   "file": "diagrams/wd1_client_server.svg"
+  },
+  {
+   "id": "wd1_3tier",
+   "title": {
+    "en": "3-Tier Architecture of a Web App"
+   },
+   "file": "diagrams/wd1_3tier.svg"
+  },
+  {
+   "id": "wd1_xampp",
+   "title": {
+    "en": "XAMPP: The Whole Lab in One Install"
+   },
+   "file": "diagrams/wd1_xampp.svg"
+  },
+  {
+   "id": "wd1_embed",
+   "title": {
+    "en": "Embedding PHP Inside HTML"
+   },
+   "file": "diagrams/wd1_embed.svg"
+  },
+  {
+   "id": "wd1_datatypes",
+   "title": {
+    "en": "PHP Data Types (Loosely Typed)"
+   },
+   "file": "diagrams/wd1_datatypes.svg"
+  },
+  {
+   "id": "wd1_operators",
+   "title": {
+    "en": "PHP Operator Families"
+   },
+   "file": "diagrams/wd1_operators.svg"
+  },
+  {
+   "id": "wd1_ifelif",
+   "title": {
+    "en": "if - elseif - else Flow"
+   },
+   "file": "diagrams/wd1_ifelif.svg"
+  },
+  {
+   "id": "wd1_loops",
+   "title": {
+    "en": "Four Loops, Four Personalities"
+   },
+   "file": "diagrams/wd1_loops.svg"
+  }
+ ],
+ "syntax": [
+  {
+   "title": {
+    "en": "Page and output cards"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "php tags"
+     },
+     "f": "<?php\n  // code islands,\n  // anywhere in the page\n?>\n<?= $x ?>  short echo",
+     "terms": {
+      "en": "save as .php, not .html"
+     }
+    },
+    {
+     "name": {
+      "en": "echo vs print"
+     },
+     "f": "echo \"a\", \"b\";   fastest\n                 returns nothing\nprint \"a\";      returns 1\n                 fits expressions",
+     "terms": {
+      "en": "both are constructs, not functions"
+     }
+    },
+    {
+     "name": {
+      "en": "comments"
+     },
+     "f": "// line comment\n#  line comment\n/* block\n   comment */",
+     "terms": {
+      "en": "for the reader, never the browser"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Variable and operator cards"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "variables + types"
+     },
+     "f": "$seat = 40;      int\n$fare = 9.5;     float\n$n = \"Surat\";    string\n$ok = true;      bool\nvar_dump($x) -> type+value",
+     "terms": {
+      "en": "value decides the type"
+     }
+    },
+    {
+     "name": {
+      "en": "constants"
+     },
+     "f": "define(\"GST\", 0.18);\nconst NAME = \"BusBook\";\nno $ sign, no reassign,\nglobal by default",
+     "terms": {
+      "en": "set once, use forever"
+     }
+    },
+    {
+     "name": {
+      "en": "== vs ==="
+     },
+     "f": "5 == \"5\"    true   juggled\n5 === \"5\"   false  strict\nform data arrives as\nstrings -> use === / cast",
+     "terms": {
+      "en": "strict wins every time"
+     }
+    },
+    {
+     "name": {
+      "en": "string glue"
+     },
+     "f": "$a . $b       concatenate\n$a .= $b      append in place\n\"Fare: $fare\" interpolates\n'Fare: $fare' stays literal",
+     "terms": {
+      "en": "dots, not pluses, join text"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Decision and loop cards"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "if ladder"
+     },
+     "f": "if ($m >= 70)      {...}\nelseif ($m >= 60)  {...}\nelse               {...}\nfirst TRUE branch wins",
+     "terms": {
+      "en": "order slabs high to low"
+     }
+    },
+    {
+     "name": {
+      "en": "switch"
+     },
+     "f": "switch ($day) {\n  case \"Mon\": ...\n             break;\n  default:   ...\n}",
+     "terms": {
+      "en": "equality tests only; break!"
+     }
+    },
+    {
+     "name": {
+      "en": "four loops"
+     },
+     "f": "for (known count)\nwhile (pre-checked)\ndo-while (once minimum)\nforeach (arrays)",
+     "terms": {
+      "en": "pick by intent"
+     }
+    },
+    {
+     "name": {
+      "en": "break / continue"
+     },
+     "f": "break    leave loop now\ncontinue skip to next lap\nbreak 2  exit two levels",
+     "terms": {
+      "en": "innermost loop by default"
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "PHP and the Web"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What does PHP stand for?"
+     },
+     "a": {
+      "en": "PHP: Hypertext Preprocessor - a recursive acronym; earlier it meant Personal Home Page tools."
+     }
+    },
+    {
+     "q": {
+      "en": "Who created PHP and when?"
+     },
+     "a": {
+      "en": "Rasmus Lerdorf, around 1994-95, to track visitors to his online resume."
+     }
+    },
+    {
+     "q": {
+      "en": "Is PHP server-side or client-side?"
+     },
+     "a": {
+      "en": "Server-side - the PHP engine on the server executes it; the browser receives only the generated HTML."
+     }
+    },
+    {
+     "q": {
+      "en": "List four advantages of PHP."
+     },
+     "a": {
+      "en": "Free and open-source; cross-platform (Windows/Linux/macOS); easy C-like syntax with no compilation; huge ecosystem (WordPress, phpMyAdmin) and native MySQL support."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the client-server environment?"
+     },
+     "a": {
+      "en": "The browser (client) sends HTTP requests; the web server (Apache) processes them - running PHP for dynamic pages - and returns HTML responses."
+     }
+    },
+    {
+     "q": {
+      "en": "Explain the 3-tier architecture of a web application."
+     },
+     "a": {
+      "en": "Presentation tier (browser, HTML/CSS), application tier (Apache + PHP logic), data tier (MySQL/files). Requests flow down, responses bubble back."
+     }
+    },
+    {
+     "q": {
+      "en": "Where do the three tiers live during development?"
+     },
+     "a": {
+      "en": "All on one machine - XAMPP installs Apache, PHP and MySQL together on the developer's laptop."
+     }
+    },
+    {
+     "q": {
+      "en": "What does XAMPP stand for?"
+     },
+     "a": {
+      "en": "X = cross-platform (any OS), Apache, MariaDB/MySQL, PHP, Perl."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Setup, Syntax and Types"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Which folder holds PHP files under XAMPP?"
+     },
+     "a": {
+      "en": "htdocs (e.g. C:\\xampp\\htdocs); browse them at http://localhost/filename.php."
+     }
+    },
+    {
+     "q": {
+      "en": "A page shows 404 - likely cause?"
+     },
+     "a": {
+      "en": "The file is not under htdocs, the name/URL is mistyped, or Apache is not running."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you embed PHP in an HTML page?"
+     },
+     "a": {
+      "en": "Wrap code in <?php ... ?> islands anywhere in the page, and save the file with a .php extension."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between echo and print?"
+     },
+     "a": {
+      "en": "echo takes multiple comma-separated values and returns nothing; print takes one value and returns 1, so it can sit in expressions. echo is marginally faster."
+     }
+    },
+    {
+     "q": {
+      "en": "Which comment styles does PHP support?"
+     },
+     "a": {
+      "en": "// and # for single lines; /* ... */ for blocks."
+     }
+    },
+    {
+     "q": {
+      "en": "What rules govern PHP variable names?"
+     },
+     "a": {
+      "en": "Start with $ then a letter or underscore; case-sensitive; no type declaration needed (loose typing)."
+     }
+    },
+    {
+     "q": {
+      "en": "List PHP's scalar and compound types."
+     },
+     "a": {
+      "en": "Scalar: int, float, string, bool. Compound: array, object. Special: NULL and resource."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you inspect a variable's type and value?"
+     },
+     "a": {
+      "en": "var_dump($x) shows both; gettype($x) returns the type name."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you define a constant?"
+     },
+     "a": {
+      "en": "define(\"GST\", 0.18) or const GST = 0.18; - no $ sign, global, immutable."
+     }
+    },
+    {
+     "q": {
+      "en": "Double-quoted vs single-quoted strings?"
+     },
+     "a": {
+      "en": "Double quotes interpolate variables (\"Hi $name\" expands); single quotes treat them literally."
+     }
+    },
+    {
+     "q": {
+      "en": "Which operator joins two strings?"
+     },
+     "a": {
+      "en": "The dot: \"Hello \" . $name. .= appends in place."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Operators and Decisions"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Difference between == and ===?"
+     },
+     "a": {
+      "en": "== compares after type juggling (\"18\" == 18 is true); === also requires the same type. Prefer === with form data."
+     }
+    },
+    {
+     "q": {
+      "en": "What does the spaceship operator <=> return?"
+     },
+     "a": {
+      "en": "-1, 0 or 1 for less, equal, greater - made for custom sort comparisons."
+     }
+    },
+    {
+     "q": {
+      "en": "Structure of an if-elseif-else ladder?"
+     },
+     "a": {
+      "en": "Conditions tested top-down; the first true branch executes and the rest are skipped; else catches the remainder."
+     }
+    },
+    {
+     "q": {
+      "en": "Which values are falsy in PHP?"
+     },
+     "a": {
+      "en": "false, 0, 0.0, \"\" (empty string), \"0\", null, [] (empty array)."
+     }
+    },
+    {
+     "q": {
+      "en": "When is the ternary operator useful?"
+     },
+     "a": {
+      "en": "Compact two-way choices inside echo or assignments: ($m >= 40) ? \"Pass\" : \"Fail\"."
+     }
+    },
+    {
+     "q": {
+      "en": "When would you pick switch over if-elseif?"
+     },
+     "a": {
+      "en": "When one expression is compared for equality against many constants - day names, menu choices, status codes."
+     }
+    },
+    {
+     "q": {
+      "en": "What happens if break is omitted in a case?"
+     },
+     "a": {
+      "en": "Execution falls through into the next case - almost never intended; always end cases with break."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Loops and Practice"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Difference between while and do-while?"
+     },
+     "a": {
+      "en": "while checks first (may run zero times); do-while runs the body once before checking (minimum one execution)."
+     }
+    },
+    {
+     "q": {
+      "en": "Which loop is best for arrays?"
+     },
+     "a": {
+      "en": "foreach - it iterates elements directly: foreach ($arr as $v) or as $k => $v; no counter needed."
+     }
+    },
+    {
+     "q": {
+      "en": "for vs foreach?"
+     },
+     "a": {
+      "en": "for needs init/test/step and suits counted ranges; foreach streams array elements with no index bookkeeping."
+     }
+    },
+    {
+     "q": {
+      "en": "What do break and continue do?"
+     },
+     "a": {
+      "en": "break exits the loop immediately; continue skips the rest of the current iteration and starts the next."
+     }
+    },
+    {
+     "q": {
+      "en": "What does break 2 do?"
+     },
+     "a": {
+      "en": "Exits two levels of nested loops at once."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is PHP called 'loosely typed'?"
+     },
+     "a": {
+      "en": "Variables take the type of the value assigned and can change type on reassignment - PHP juggles types automatically in expressions."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you run a PHP file without a browser?"
+     },
+     "a": {
+      "en": "With the CLI: php filename.php - useful for logic testing before wiring up forms."
+     }
+    },
+    {
+     "q": {
+      "en": "What PHP version family do we target?"
+     },
+     "a": {
+      "en": "PHP 8.x - JIT compiler, modern syntax; all lab programs in these notes were run on PHP 8."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the URL of a page saved as htdocs/hello.php?"
+     },
+     "a": {
+      "en": "http://localhost/hello.php - localhost is your own machine, port 80 by default."
+     }
+    },
+    {
+     "q": {
+      "en": "A .php file shows its source code in the browser - why?"
+     },
+     "a": {
+      "en": "It was saved as .html (server never invokes PHP), or Apache/PHP handler is off."
+     }
+    },
+    {
+     "q": {
+      "en": "What is variable interpolation?"
+     },
+     "a": {
+      "en": "Embedding $variables inside double-quoted strings so their values are substituted - \"Seats: $seats\"."
+     }
+    },
+    {
+     "q": {
+      "en": "Give three everyday PHP programs from Unit 1."
+     },
+     "a": {
+      "en": "Welcome page with echo/print; grade ladder with if-elseif; seat-listing loop with continue for booked seats."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Explain the client-server environment and the 3-tier architecture of a web application with a diagram."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write the history of PHP and any four advantages. Why is it called server-side?"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Describe the steps to install XAMPP and run hello.php on localhost. (Practical 1-2)"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain embedding of PHP within HTML with a page that contains two <?php islands."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a PHP program for a fare calculator using a constant GST rate, variables and arithmetic operators. (Practical 3)"
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Distinguish == and === with var_dump output, explaining why strict comparison matters for form data."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a PHP program that prints the grade (Distinction/First/Second/Pass/Fail) for given marks using if-elseif-else. (Practical 4)"
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Rewrite a weekday schedule program using switch-case; explain fall-through and the role of break. (Practical 4)"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write one PHP program demonstrating for, while, do-while and foreach, stating when each loop is preferred. (Practical 5)"
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Write a PHP program to print free seats 1-10 skipping booked seats 3 and 7 (continue), then stop a route search at the first 'Navsari' match (break)."
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Explain PHP data types with a var_dump table; distinguish variables and constants."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "List the operator families of PHP with two examples each, and explain the spaceship operator."
+   },
+   "marks": 4
+  }
+ ]
+}
