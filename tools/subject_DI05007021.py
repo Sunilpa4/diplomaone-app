@@ -1,0 +1,86 @@
+"""GTU Information Security (2026-27): English-only, approved units only."""
+import json,os,re
+from pathlib import Path
+ROOT=Path(__file__).resolve().parent.parent
+SUBJ_DIR=ROOT/'content/computer/sem5/DI05007021'
+DIAG_DIR=SUBJ_DIR/'diagrams'
+TABS=['notes','programs','diagrams','syntax','viva','exam']
+def tr(s):return {'en':s}
+UNITS=[
+ (1,'Introduction to Information Security',6,15,[
+  'Need for security','Security goals: confidentiality, integrity and availability',
+  'Security attacks: active and passive attacks; denial of service',
+  'Security services: confidentiality, integrity, authentication, non-repudiation and access control',
+  'Security mechanisms: specific and pervasive mechanisms']),
+ (2,'Conventional and Symmetric Cryptography',12,25,[
+  'Plaintext, ciphertext, cryptography, cryptanalysis, cryptology, encryption and decryption',
+  'Monoalphabetic, Caesar, polyalphabetic, Playfair, Hill, one-time pad and rail-fence techniques',
+  'Steganography: introduction and types','DES: structure, advantages and disadvantages']),
+ (3,'Public-Key Cryptography',10,25,[
+  'Principles and applications of public-key cryptosystems',
+  'RSA: algorithm, computational aspects and security',
+  'Digital signatures, certificates, certificate authorities and registration authorities',
+  'Obtaining certificates; verifying certificate authenticity and integrity']),
+ (4,'Network Security',9,20,[
+  'Security zones, DMZ, Internet, Intranet, VLAN, security implications and tunneling',
+  'Firewalls: need, operation, packet filtering, stateful inspection, application-level gateway, circuit-level gateway and next-generation firewall',
+  'IDS: intruders, components, host-based and network-based IDS; advantages and disadvantages']),
+ (5,'Introduction to Cyber Security',8,15,[
+  'Cyber threats, cyber-attacks, vulnerabilities, intruders and hackers',
+  'Worms, viruses, adware, spyware, Trojans, DoS/DDoS, MITM, IP/ARP spoofing, SQL injection, phishing, botnets and backdoors',
+  'Cybercrime and cyberspace; identity theft, information theft, hacking, cyberstalking and malware distribution'])]
+SUBJECT={'code':'DI05007021','name':tr('Information Security'),'branch':'computer',
+ 'semester':5,'syllabus_year':'2026-27','category':'PCC-13','type':'theory',
+ 'languages':['en'],'code_lang':'python',
+ 'teaching':{'lecture':3,'tutorial':0,'practical':2},
+ 'exam':{'theory_ese':70,'theory_pa':30,'practical_pa':20,'practical_ese':30,'total':150,'credits':4},
+ 'prerequisites':['Mathematics','Computer Network','Operating System','Database concepts'],
+ 'units':[{'no':n,'title':tr(t),'hours':h,'weightage':w,'topics':topics,'file':None} for n,t,h,w,topics in UNITS],
+ 'course_outcomes':[
+  'CO1: Describe the fundamentals of information security.',
+  'CO2: Demonstrate substitution, transposition techniques and symmetric cryptography algorithms.',
+  'CO3: Demonstrate public-key encryption with public-key cryptography.',
+  'CO4: Apply measures to protect network communication using firewalls and intrusion detection systems.',
+  'CO5: Describe the basics of cyber security, cyber-attacks and cybercrime.'],
+ 'theory_rbt_percent':{'remember':25,'understand':50,'apply':25,'analyze':0,'evaluate':0,'create':0},
+ 'practicals':[
+  'Execute basic TCP/IP utilities and commands, e.g. ping, ipconfig, tracert, arp, tcpdump, whois, host, netstat, nslookup, ftp and telnet.',
+  'Implement Caesar cipher encryption and decryption in C/C++/Java/Python.',
+  'Implement Hill cipher encryption in C/C++/Java/Python.',
+  'Implement Playfair cipher encryption in C/C++/Java/Python.',
+  'Implement rail-fence encryption in C/C++/Java/Python.',
+  'Implement RSA asymmetric-key encryption in C/C++/Java/Python.',
+  'Demonstrate protocol traffic analysis using Wireshark.',
+  'Simulate VLAN using Cisco Packet Tracer.',
+  'Simulate a DMZ network using Cisco Packet Tracer.',
+  'Simulate a firewall using Cisco Packet Tracer.',
+  'Study cybersecurity fundamentals, common threats and mitigation strategies.',
+  'Study Kali Linux for cybersecurity.'],
+ 'books':[
+  'William Stallings — Cryptography and Network Security: Principles and Practice, 8th edition (2020)',
+  'J. S. Weissman — Principles of Computer Security: CompTIA Security+ and Beyond Lab Manual (2021)',
+  'Atul Kahate — Cryptography and Network Security, 4th edition (2019)',
+  'Forouzan and Mukhopadhyay — Cryptography and Network Security, 3rd edition (2015)',
+  'Dieter Gollmann — Computer Security, 3rd edition (2011)',
+  'Russell and Gangemi — Computer Security Basics (1991)']}
+
+def write_subject():
+ SUBJ_DIR.mkdir(parents=True,exist_ok=True);DIAG_DIR.mkdir(exist_ok=True)
+ for spec in SUBJECT['units']:
+  name=f"unit{spec['no']}.json";spec['file']=name if (SUBJ_DIR/name).is_file() else None
+ (SUBJ_DIR/'subject.json').write_text(json.dumps(SUBJECT,ensure_ascii=False,indent=1)+'\n')
+
+def write_unit(unit):
+ SUBJ_DIR.mkdir(parents=True,exist_ok=True);DIAG_DIR.mkdir(exist_ok=True)
+ spec=SUBJECT['units'][unit['unit']-1]
+ assert unit['title']==spec['title'] and (unit['hours'],unit['weightage'])==(spec['hours'],spec['weightage'])
+ def check(o):
+  if isinstance(o,dict):
+   assert 'gu' not in o and 'key' not in o
+   for v in o.values():check(v)
+  elif isinstance(o,list):
+   for v in o:check(v)
+  elif isinstance(o,str):assert not re.search(r'[\u0a80-\u0aff]',o)
+ check(unit)
+ out=SUBJ_DIR/f"unit{unit['unit']}.json"
+ out.write_text(json.dumps(unit,ensure_ascii=False,indent=1)+'\n');write_subject();return out
