@@ -1,0 +1,891 @@
+{
+ "subject": "DI04007011",
+ "unit": 4,
+ "format": "notes",
+ "title": {
+  "en": "Cookies, Sessions and Exception Handling"
+ },
+ "weightage": 15,
+ "hours": 10,
+ "notes": [
+  {
+   "title": {
+    "en": "4.1 Working with Cookies (Practical 17)"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Stateless HTTP and the Cookie Round Trip"
+     },
+     "body": {
+      "en": "\n<p><b>HTTP is stateless:</b> one request does not automatically remember what happened on the previous page. Cookies and sessions add continuity for preferences, shopping carts and login.</p>\n<ul><li>A <b>cookie</b> is a small name/value record stored by the browser for a site. PHP sends a <code>Set-Cookie</code> response header; the browser later sends the applicable value in a <code>Cookie</code> request header.</li>\n<li><code>setcookie()</code> queues that response header. <code>$_COOKIE</code> describes the <b>incoming</b> request, so it is not automatically updated by the call. Read the new value after a reload or redirect.</li>\n<li>Cookie values are strings; PHP can encode/decode them for HTTP transport. They are <b>not encrypted</b> by setcookie, and the user can inspect, edit, block or delete them.</li>\n<li>Run cookie programs through <code>http://localhost/...</code> under XAMPP or <code>php -S localhost:8000</code>, not by opening the PHP file directly. The CLI alone has no browser to store and return a cookie.</li>\n<li>Our verified transcripts use <code>curl -b cookies.txt -c cookies.txt</code>: read incoming cookies from a jar and save response cookies back to that same jar.</li></ul>\n"
+     },
+     "diagram": "wd4_cookie_roundtrip",
+     "programs": [
+      "wd4p1"
+     ]
+    },
+    {
+     "h": {
+      "en": "Creating, Reading, Updating and Destroying Cookies"
+     },
+     "body": {
+      "en": "\n<p>The options-array form is <code>setcookie($name, $value, $options)</code>. The older positional form supplies expiry, path, domain, secure and httponly separately; the options array is clearer and also supports SameSite.</p>\n<pre class=\"c\">&lt;?php\n// Before HTML, echo or other output:\nsetcookie(\"city\", \"Surat\", [\n    \"expires\" =&gt; time() + 3600,\n    \"path\" =&gt; \"/\",\n    \"httponly\" =&gt; true,\n    \"samesite\" =&gt; \"Lax\"\n]);\n// New value arrives on the NEXT request:\n$city = $_COOKIE[\"city\"] ?? \"not selected\";\necho htmlspecialchars($city);</pre>\n<ul><li><b>Create:</b> give the cookie a name, string value, expiry and scope. <code>time() + 3600</code> is an absolute timestamp one hour from now, not a duration by itself.</li>\n<li><b>Read:</b> use <code>$_COOKIE['city'] ?? 'default'</code> or an <code>isset</code> check. Missing cookies are normal, not a reason for an undefined-key warning.</li>\n<li><b>Update:</b> set the same <b>name/domain/path</b> again with a new value and expiry. A different path may create a second cookie rather than replace the first.</li>\n<li><b>Delete:</b> set that same cookie with an expiry in the past. <code>unset($_COOKIE['city'])</code> only removes an entry from this script's array; it sends no deletion instruction to the browser.</li>\n<li><b>Before output:</b> setcookie, header and session-start operations must precede HTML, echo and accidental whitespace/BOM output. A true return from setcookie means the header was queued, not that the browser accepted it.</li></ul>\n<pre class=\"c\">&lt;?php\n// Use the SAME name, path and domain as creation.\nsetcookie(\"city\", \"\", [\n    \"expires\" =&gt; time() - 3600,\n    \"path\" =&gt; \"/\",\n    \"httponly\" =&gt; true,\n    \"samesite\" =&gt; \"Lax\"\n]);\n// Browser stops sending it on the next request.</pre>\n"
+     },
+     "diagram": "wd4_cookie_lifecycle",
+     "programs": [
+      "wd4p3"
+     ]
+    },
+    {
+     "h": {
+      "en": "Cookie Lifetime, Scope and Safe Preferences"
+     },
+     "body": {
+      "en": "\n<table><tr><th>Option</th><th>Purpose and practical rule</th></tr>\n<tr><td>expires</td><td>Future timestamp = persistent cookie, subject to browser policy; 0/omitted = browser-session cookie. Browser session restore may preserve session cookies.</td></tr>\n<tr><td>path</td><td>URL paths that receive the cookie. Use / for a whole-site preference. A path is routing scope, not a security boundary.</td></tr>\n<tr><td>domain</td><td>Omit for host-only scope. Set a wider domain only if subdomain sharing is actually needed.</td></tr>\n<tr><td>secure</td><td>Send over HTTPS only. Enable for production HTTPS; these local plain-HTTP examples do not require Secure.</td></tr>\n<tr><td>httponly</td><td>Stops JavaScript from reading the cookie through document.cookie; it does not eliminate every XSS attack.</td></tr>\n<tr><td>samesite</td><td>Lax/Strict/None controls cross-site sending. None requires Secure. SameSite is useful defence-in-depth, not a replacement for CSRF tokens.</td></tr></table>\n<ul><li>Good cookie data: <b>language, theme, last selected city</b>. Bad data: passwords, trusted roles, bank balances or an unprotected login flag.</li>\n<li>Browsers impose small per-cookie limits (roughly 4 KB, including overhead) and other count/size policies. Do not use cookies as a large database.</li>\n<li>Validate every received value against an allowlist. A theme form should accept only <code>light</code>/<code>dark</code>, even if the normal HTML dropdown offers only those choices.</li>\n<li><b>Post/Redirect/Get:</b> process POST, set the cookie, send a 303 Location header, exit; the redirected GET can read the newly returned cookie.</li></ul>\n"
+     },
+     "diagram": "wd4_cookie_flags",
+     "programs": [
+      "wd4p2"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "4.2 Working with Sessions (Practical 16)"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Creating a Session and Sharing Data Between Pages"
+     },
+     "body": {
+      "en": "\n<p>A <b>PHP session</b> stores per-visitor data on the server and normally uses a browser cookie, typically <code>PHPSESSID</code>, to carry an opaque session ID. The ID is a lookup key, not the session's user/cart data.</p>\n<pre class=\"c\">&lt;?php\nsession_start();  // before output, on EACH page\n$_SESSION[\"user\"] = \"Ravi\";\n$_SESSION[\"seats\"] = 2;\n// On another page, after session_start():\necho htmlspecialchars($_SESSION[\"user\"] ?? \"Guest\");</pre>\n<ul><li><code>session_start()</code> creates a session or resumes an existing one using the incoming ID; call it <b>before output on every participating page</b>. Calling it on a second page does not necessarily start a new visitor.</li>\n<li>Set variables with <code>$_SESSION['key'] = $value</code>. Unlike cookie values, session data can contain arrays, numbers and other serialisable application values.</li>\n<li>After starting the session, another page reads the same keys. Use <code>??</code> defaults or <code>isset</code> for first visits and logged-out users.</li>\n<li>PHP's default handler stores data in server-side files; deployments may use a database or another session store. The browser receives only the identifier unless your application explicitly sends more.</li>\n<li>Two browsers with different IDs normally have different sessions. A new incognito window is useful for testing isolation.</li>\n<li>With a cookie-only configuration, a client that refuses the session cookie cannot retain the same session across separate requests. Do not put session IDs into URLs as a workaround.</li></ul>\n"
+     },
+     "diagram": "wd4_session_roundtrip",
+     "programs": [
+      "wd4p4"
+     ]
+    },
+    {
+     "h": {
+      "en": "Removing Session Variables and Destroying a Session"
+     },
+     "body": {
+      "en": "\n<table><tr><th>Operation</th><th>What it actually does</th></tr>\n<tr><td>unset($_SESSION['theme'])</td><td>Removes only that key; user/cart and the session remain.</td></tr>\n<tr><td>session_unset() or $_SESSION = []</td><td>Clears all variables in the active session, not the browser cookie or the session identity.</td></tr>\n<tr><td>session_destroy()</td><td>Destroys the server-side session data. It does not itself clear the current $_SESSION array or remove the browser's session cookie.</td></tr></table>\n<p><b>Complete logout:</b> start/resume the session, clear the in-memory data, expire its cookie with matching scope, destroy the server-side record, then redirect and exit.</p>\n<pre class=\"c\">&lt;?php\nsession_start();\nunset($_SESSION[\"theme\"]); // one key only\n// Full logout is a DIFFERENT operation:\n$_SESSION = [];\n$p = session_get_cookie_params();\nsetcookie(session_name(), \"\", [\n    \"expires\" =&gt; time() - 3600,\n    \"path\" =&gt; $p[\"path\"], \"domain\" =&gt; $p[\"domain\"],\n    \"secure\" =&gt; $p[\"secure\"],\n    \"httponly\" =&gt; $p[\"httponly\"],\n    \"samesite\" =&gt; $p[\"samesite\"] ?? \"Lax\"\n]);\nsession_destroy();</pre>\n<ul><li>Do not confuse <code>session_regenerate_id(true)</code> with logout: it rotates the identifier while preserving current session values and invalidates the old session record.</li>\n<li>Do not rely on closing the browser for authentication expiry. Cookies can be restored, and old server-side data may survive until garbage collection.</li>\n<li>Real applications enforce idle/absolute expiry explicitly using timestamps stored in the session. If expired, perform the same full logout and require authentication again.</li>\n<li>The verified program separately demonstrates one-key removal, clearing all values while the session stays active, and complete destruction followed by a new empty visit.</li></ul>\n"
+     },
+     "programs": [
+      "wd4p5"
+     ]
+    },
+    {
+     "h": {
+      "en": "Protected Login, Session Fixation Defence and Logout"
+     },
+     "body": {
+      "en": "\n<p><b>Practical 16</b> requires more than storing a name: an unauthenticated visitor must not be able to open a protected page, even by typing its URL directly.</p>\n<ol><li><b>Common config:</b> enable strict mode and cookie-only IDs, set cookie parameters, then call session_start before any output.</li>\n<li><b>Login:</b> accept a POST, verify its CSRF token, validate credentials using a password hash and <code>password_verify</code>. Never trust a hidden field or a cookie saying <code>logged_in=1</code>.</li>\n<li><b>Success:</b> call <code>session_regenerate_id(true)</code> to reduce session-fixation risk, store a user ID/name in <code>$_SESSION</code>, then redirect to the dashboard.</li>\n<li><b>Guard:</b> check the server-side authentication key on <em>every</em> protected request, before producing any private content. Redirect and <code>exit</code> if it is missing.</li>\n<li><b>Logout:</b> use a POST with a valid CSRF token; clear variables, expire the session cookie, destroy the session, redirect to login and exit.</li></ol>\n<pre class=\"c\">&lt;?php\nsession_start();\nif (!isset($_SESSION[\"user\"])) {\n    header(\"Location: login.php\", true, 303);\n    exit; // never render the protected body\n}\n// Only authenticated requests reach this line.</pre>\n<ul><li><b>CSRF token:</b> a random server-generated value stored in the session and echoed into the form. Compare it with <code>hash_equals</code> on submission. It helps reject a forged request from another site.</li>\n<li><b>Session fixation</b> means making a victim authenticate under an attacker-known ID. Strict mode rejects uninitialised IDs, and regeneration changes the ID after login.</li>\n<li><b>Session hijacking</b> means stealing a valid ID. HTTPS, Secure/HttpOnly cookies, suitable SameSite policy and prompt logout help; sessions are not automatically secure just because data lives on the server.</li>\n<li><b>Run the program:</b> save its four labelled sections as <code>login.php</code>, <code>config.php</code>, <code>dashboard.php</code> and <code>logout.php</code>. Open login.php through the server; lab credentials are <code>ravi / demo@123</code>. Database-backed credentials arrive in Unit 5.</li></ul>\n"
+     },
+     "diagram": "wd4_login_flow",
+     "programs": [
+      "wd4p6"
+     ]
+    },
+    {
+     "h": {
+      "en": "Cookies vs Sessions: Choosing the Right Storage"
+     },
+     "body": {
+      "en": "\n<table><tr><th>Aspect</th><th>Cookie value</th><th>PHP session data</th></tr>\n<tr><td>Stored at</td><td>Browser</td><td>Server-side session store</td></tr>\n<tr><td>Sent with request</td><td>Applicable cookie's value</td><td>Normally an opaque ID in a cookie</td></tr>\n<tr><td>Typical capacity</td><td>Small per-cookie browser limit</td><td>Governed by server storage/configuration</td></tr>\n<tr><td>Lifetime</td><td>Expiry and browser policy</td><td>Application expiry, storage lifetime and garbage collection</td></tr>\n<tr><td>Trust</td><td>Client may edit the value</td><td>Server controls stored values, but the ID can still be stolen</td></tr>\n<tr><td>Best use</td><td>Theme/language preference</td><td>Authenticated user, cart, temporary workflow data</td></tr></table>\n<ul><li>They are related mechanisms, not mutually exclusive alternatives: PHP sessions <b>usually use a cookie</b> for the session identifier.</li>\n<li>A persistent preference cookie can survive longer than an authenticated session without keeping the visitor logged in.</li>\n<li>A secure persistent remember-me login needs carefully designed expiring, revocable tokens; it is not a plaintext username/password cookie.</li>\n<li>Both fail if the application exposes private data in HTML without checking access. Server-side storage is one part of security, not the whole design.</li></ul>\n"
+     },
+     "diagram": "wd4_cookie_vs_session"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "4.3 Exception Handling (Practical 18)"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "try, throw, catch and finally: The Control Flow"
+     },
+     "body": {
+      "en": "\n<p>An <b>exception</b> is an object reporting a failure that interrupts normal execution. Instead of checking a return code at every nested call, code can throw an exception and let a suitable caller handle it.</p>\n<pre class=\"c\">&lt;?php\ntry {\n    if ($count &lt;= 0) {\n        throw new InvalidArgumentException(\n            \"Count must be positive.\"\n        );\n    }\n    echo $total / $count;\n} catch (InvalidArgumentException $e) {\n    echo htmlspecialchars($e-&gt;getMessage());\n} finally {\n    // Close resources here; avoid return/exit.\n}</pre>\n<ul><li><b>try:</b> surround operations that may throw. A try requires at least a catch or a finally.</li>\n<li><b>throw:</b> throw an exception object such as <code>new InvalidArgumentException('bad count')</code>. It immediately skips remaining statements in the try and searches outward for a matching catch.</li>\n<li><b>catch:</b> receives the exception in a variable, e.g. <code>$e</code>. <code>$e-&gt;getMessage()</code> gives its description; <code>getCode()</code>, <code>getFile()</code> and <code>getLine()</code> help diagnostics.</li>\n<li><b>finally:</b> runs cleanup after the normal try or the catch, including when a return or propagated exception leaves the block. Abrupt termination such as exit/die or killing the process can prevent it.</li>\n<li>If handled without rethrow/return, execution continues after the structure. If there is no matching handler, the exception propagates to the caller; unhandled at the top level it terminates the request.</li>\n<li>The fare program tests <b>both</b> a normal division and an invalid zero-passenger request, making the skipped line and the shared finally visible.</li></ul>\n"
+     },
+     "diagram": "wd4_exception_flow",
+     "programs": [
+      "wd4p7"
+     ]
+    },
+    {
+     "h": {
+      "en": "Custom Exceptions and Catch Order"
+     },
+     "body": {
+      "en": "\n<p>PHP provides <code>Exception</code>, <code>InvalidArgumentException</code>, <code>RuntimeException</code> and other standard classes. Extend a suitable class when callers need to recognise a particular domain failure.</p>\n<pre class=\"c\">&lt;?php\nclass SeatsUnavailable extends RuntimeException {}\ntry {\n    throw new SeatsUnavailable(\"Route is full.\");\n} catch (SeatsUnavailable $e) {\n    echo \"Choose another departure.\";\n} catch (Exception $e) {\n    // Broad parent comes LAST, not first.\n    error_log($e-&gt;getMessage());\n    echo \"Booking could not be completed.\";\n}</pre>\n<ul><li>The booking program distinguishes invalid input (zero seats) from a legitimate request that cannot be fulfilled (too few seats available).</li>\n<li>Only the <b>first compatible catch</b> runs. Put specific subclasses before broad parents such as Exception; otherwise the broad catch absorbs the specific case.</li>\n<li>Different catches can take different actions: ask for corrected input, offer another departure, or log an unexpected failure.</li>\n<li><code>throw $e;</code> in a catch rethrows to an outer handler, useful when local code cannot recover.</li>\n<li>Do not silently catch and ignore failures. Log diagnostic details securely and show a safe user-facing message; internal file paths and stack traces should not be exposed on a production site.</li></ul>\n"
+     },
+     "programs": [
+      "wd4p8"
+     ]
+    },
+    {
+     "h": {
+      "en": "Resource Cleanup with finally"
+     },
+     "body": {
+      "en": "\n<ul><li>Opening a file, acquiring a lock or beginning another resource-dependent operation creates a cleanup obligation. Putting cleanup only at the end of try misses the exception path.</li>\n<li>Initialise the handle before try, open/work inside try, and in finally close it only if <code>is_resource($h)</code>. This also handles failures before the open.</li>\n<li>A successful return does not normally skip finally; a return <em>inside</em> finally can override the intended return or pending exception. Keep finally dedicated to cleanup.</li>\n<li>Many PHP file functions produce a warning and return <code>false</code>, not an exception. Check the documented return value and explicitly throw if you want exception-based application flow.</li>\n<li>The manifest program runs three cases against real files: success, failure after opening, and an unavailable file before opening. Its output confirms two closures and one no-handle cleanup.</li>\n<li>A catch without finally is allowed, and try/finally without catch is also allowed when cleanup is needed but recovery belongs to the caller.</li></ul>\n"
+     },
+     "programs": [
+      "wd4p9"
+     ]
+    },
+    {
+     "h": {
+      "en": "Exception, Error and Throwable in Modern PHP"
+     },
+     "body": {
+      "en": "\n<p>In PHP 7+, throwable failures have two major families, both implementing the <code>Throwable</code> interface:</p>\n<table><tr><th>Family</th><th>Examples</th><th>Catching it</th></tr>\n<tr><td>Exception</td><td>RuntimeException, InvalidArgumentException and your subclasses</td><td>catch (Exception $e), or a more specific exception type</td></tr>\n<tr><td>Error</td><td>TypeError, DivisionByZeroError and related engine errors</td><td>catch (Error $e), or a more specific error type</td></tr>\n<tr><td>Both</td><td>Any object implementing Throwable</td><td>catch (Throwable $t)</td></tr></table>\n<ul><li><b>Exception does not include Error.</b> A raw <code>10 / 0</code> raises DivisionByZeroError; the earlier fare validator instead deliberately throws an InvalidArgumentException before division.</li>\n<li>Ordinary warnings/notices are <b>not automatically throwable</b>. A broad catch is not a universal replacement for checking function returns or validating input.</li>\n<li>The strict-types program generates a real application exception, division error and type error, then proves the broad Throwable catch can also catch a TypeError.</li>\n<li>Prefer specific, expected handlers close to the operation; use a broad boundary handler to log unexpected failures and return a safe error response, not to conceal programming bugs.</li></ul>\n"
+     },
+     "diagram": "wd4_exception_tree",
+     "programs": [
+      "wd4p10"
+     ]
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "wd4p1",
+   "title": {
+    "en": "Create, read and update a cookie (Practical 17)"
+   },
+   "code": {
+    "en": "<?php\n$incoming = $_COOKIE[\"city\"] ?? \"(missing)\";\n$queued = null;\nif ($_SERVER[\"REQUEST_METHOD\"] === \"POST\") {\n    $city = $_POST[\"city\"] ?? \"\";\n    if (!in_array($city, [\"Surat\", \"Vadodara\"], true)) {\n        http_response_code(400);\n        exit(\"Choose a listed city.\");\n    }\n    setcookie(\"city\", $city, [\n        \"expires\" => time() + 3600, \"path\" => \"/\",\n        \"httponly\" => true, \"samesite\" => \"Lax\"\n    ]);\n    $queued = $city;\n}\nheader(\"Content-Type: text/plain; charset=UTF-8\");\necho \"Incoming city: $incoming\\n\";\nif ($queued !== null) {\n    echo \"Queued for NEXT request: $queued\\n\";\n}"
+   },
+   "out": "# 1. First response queues a cookie; incoming array is still empty\n$ curl -i -b cookies.txt -c cookies.txt -d 'city=Surat' 'http://localhost/city.php'\nHTTP/1.1 200 OK\nHost: 127.0.0.1:39093\nDate: Thu, 29 Oct 2026 05:44:44 GMT\nConnection: close\nX-Powered-By: PHP/8.4.27\nSet-Cookie: city=Surat; expires=Thu, 29 Oct 2026 06:44:44 GMT; Max-Age=3600; path=/; HttpOnly; SameSite=Lax\nContent-Type: text/plain; charset=UTF-8\n\nIncoming city: (missing)\nQueued for NEXT request: Surat\n\n# 2. Browser returns the saved cookie\n$ curl -b cookies.txt -c cookies.txt 'http://localhost/city.php'\nIncoming city: Surat\n\n# 3. Updating does not rewrite this request's cookie array\n$ curl -b cookies.txt -c cookies.txt -d 'city=Vadodara' 'http://localhost/city.php'\nIncoming city: Surat\nQueued for NEXT request: Vadodara\n\n# 4. The updated value arrives on the next request\n$ curl -b cookies.txt -c cookies.txt 'http://localhost/city.php'\nIncoming city: Vadodara",
+   "expl": {
+    "en": "<p>A response's <code>Set-Cookie</code> header asks the browser to save a value; only a <b>later request</b> returns it in <code>$_COOKIE</code>. Updating uses the same name and path. Four genuine requests show missing &rarr; Surat &rarr; incoming Surat while queuing Vadodara &rarr; Vadodara. The shared <code>-b/-c cookies.txt</code> file is curl's browser memory. On production HTTPS also set <code>secure =&gt; true</code>; these local HTTP demos omit it.</p>"
+   }
+  },
+  {
+   "id": "wd4p2",
+   "title": {
+    "en": "Remember a theme preference with a cookie (Practical 17)"
+   },
+   "code": {
+    "en": "<?php\nif ($_SERVER[\"REQUEST_METHOD\"] === \"POST\") {\n    $choice = $_POST[\"theme\"] ?? \"\";\n    if (!in_array($choice, [\"light\", \"dark\"], true)) {\n        http_response_code(400);\n        exit(\"Invalid theme.\");\n    }\n    setcookie(\"theme\", $choice, [\n        \"expires\" => time() + 30 * 86400,\n        \"path\" => \"/\", \"httponly\" => true,\n        \"samesite\" => \"Lax\"\n    ]);\n    header(\"Location: theme.php\", true, 303);\n    exit;\n}\n$theme = $_COOKIE[\"theme\"] ?? \"light\";\nif (!in_array($theme, [\"light\", \"dark\"], true)) {\n    $theme = \"light\";\n}\n$bg = $theme === \"dark\" ? \"#172033\" : \"#ffffff\";\n$fg = $theme === \"dark\" ? \"#ffffff\" : \"#172033\";\n?>\n<body style=\"background:<?= $bg ?>;color:<?= $fg ?>\">\n<h2>BusBook: <?= $theme ?> theme</h2>\n<form method=\"post\">\n  <select name=\"theme\">\n    <option value=\"light\">Light</option>\n    <option value=\"dark\">Dark</option>\n  </select>\n  <button>Remember for 30 days</button>\n</form>\n</body>"
+   },
+   "out": "# 1. New visitor: default light theme\n$ curl -b cookies.txt -c cookies.txt 'http://localhost/theme.php'\n<body style=\"background:#ffffff;color:#172033\">\n<h2>BusBook: light theme</h2>\n<form method=\"post\">\n  <select name=\"theme\">\n    <option value=\"light\">Light</option>\n    <option value=\"dark\">Dark</option>\n  </select>\n  <button>Remember for 30 days</button>\n</form>\n</body>\n\n# 2. Save dark; follow the redirect to render the next GET\n$ curl -L -b cookies.txt -c cookies.txt -d 'theme=dark' 'http://localhost/theme.php'\n<body style=\"background:#172033;color:#ffffff\">\n<h2>BusBook: dark theme</h2>\n<form method=\"post\">\n  <select name=\"theme\">\n    <option value=\"light\">Light</option>\n    <option value=\"dark\">Dark</option>\n  </select>\n  <button>Remember for 30 days</button>\n</form>\n</body>\n\n# 3. Return visit in the same browser: still dark\n$ curl -b cookies.txt -c cookies.txt 'http://localhost/theme.php'\n<body style=\"background:#172033;color:#ffffff\">\n<h2>BusBook: dark theme</h2>\n<form method=\"post\">\n  <select name=\"theme\">\n    <option value=\"light\">Light</option>\n    <option value=\"dark\">Dark</option>\n  </select>\n  <button>Remember for 30 days</button>\n</form>\n</body>\n\n# 4. Separate browser without cookies: light\n$ curl 'http://localhost/theme.php'\n<body style=\"background:#ffffff;color:#172033\">\n<h2>BusBook: light theme</h2>\n<form method=\"post\">\n  <select name=\"theme\">\n    <option value=\"light\">Light</option>\n    <option value=\"dark\">Dark</option>\n  </select>\n  <button>Remember for 30 days</button>\n</form>\n</body>",
+   "expl": {
+    "en": "<p>A working preference form, not an authentication cookie. POST validates an allowlisted theme, sets a persistent cookie, then redirects (303) to a fresh GET. The GET sees the new cookie without manually changing <code>$_COOKIE</code>. Re-check incoming cookie values too: the client can edit them. Another browser with no jar still sees the default light theme.</p>"
+   }
+  },
+  {
+   "id": "wd4p3",
+   "title": {
+    "en": "Delete a cookie using the matching path"
+   },
+   "code": {
+    "en": "<?php\n$old = $_COOKIE[\"demo\"] ?? \"(missing)\";\n$action = $_POST[\"action\"] ?? \"read\";\n$options = [\n    \"path\" => \"/\", \"httponly\" => true,\n    \"samesite\" => \"Lax\"\n];\nif ($action === \"set\") {\n    setcookie(\"demo\", \"BusBook\", [\n        \"expires\" => time() + 3600, ...$options\n    ]);\n} elseif ($action === \"clear\") {\n    setcookie(\"demo\", \"\", [\n        \"expires\" => time() - 3600, ...$options\n    ]);\n}\nheader(\"Content-Type: text/plain; charset=UTF-8\");\necho \"Action: $action\\n\";\necho \"Incoming demo: $old\\n\";\nif ($action === \"clear\") {\n    echo \"Deletion queued; the next request proves it.\\n\";\n}"
+   },
+   "out": "# 1. Store the cookie\n$ curl -b cookies.txt -c cookies.txt -d 'action=set' 'http://localhost/clear_cookie.php'\nAction: set\nIncoming demo: (missing)\n\n# 2. Confirm it returned\n$ curl -b cookies.txt -c cookies.txt 'http://localhost/clear_cookie.php'\nAction: read\nIncoming demo: BusBook\n\n# 3. Expire the same name/path cookie\n$ curl -i -b cookies.txt -c cookies.txt -d 'action=clear' 'http://localhost/clear_cookie.php'\nHTTP/1.1 200 OK\nHost: 127.0.0.1:43097\nDate: Thu, 29 Oct 2026 05:44:44 GMT\nConnection: close\nX-Powered-By: PHP/8.4.27\nSet-Cookie: demo=deleted; expires=Thu, 01 Jan 1970 00:00:01 GMT; Max-Age=0; path=/; HttpOnly; SameSite=Lax\nContent-Type: text/plain; charset=UTF-8\n\nAction: clear\nIncoming demo: BusBook\nDeletion queued; the next request proves it.\n\n# 4. Browser no longer sends it\n$ curl -b cookies.txt -c cookies.txt 'http://localhost/clear_cookie.php'\nAction: read\nIncoming demo: (missing)",
+   "expl": {
+    "en": "<p>Cookie identity includes <b>name, domain and path</b>. Expire that same cookie in the past; <code>unset($_COOKIE['demo'])</code> alone would only change a PHP array for one request. The clear response still prints the incoming old value, then the next GET prints missing. Its genuine header shows an expired cookie with <code>Max-Age=0</code>.</p>"
+   }
+  },
+  {
+   "id": "wd4p4",
+   "title": {
+    "en": "Session data across two pages (Practical 16)"
+   },
+   "code": {
+    "en": "<?php // ===== File: booking.php =====\nsession_start();\n$_SESSION[\"visits\"] = ($_SESSION[\"visits\"] ?? 0) + 1;\n$_SESSION[\"seats\"] ??= 0;\nif ($_SERVER[\"REQUEST_METHOD\"] === \"POST\"\n    && ($_POST[\"add\"] ?? \"\") === \"seat\") {\n    $_SESSION[\"seats\"]++;\n}\nheader(\"Content-Type: text/plain; charset=UTF-8\");\necho \"Booking-page visits: \", $_SESSION[\"visits\"], \"\\n\";\necho \"Reserved seats: \", $_SESSION[\"seats\"], \"\\n\";\necho \"Open cart.php to read the same session.\\n\";\n\n<?php // ===== File: cart.php =====\nsession_start();\nheader(\"Content-Type: text/plain; charset=UTF-8\");\necho \"Cart reads visits: \", $_SESSION[\"visits\"] ?? 0, \"\\n\";\necho \"Cart reads seats: \", $_SESSION[\"seats\"] ?? 0, \"\\n\";"
+   },
+   "out": "# 1. First booking-page visit\n$ curl -b cookies.txt -c cookies.txt 'http://localhost/booking.php'\nBooking-page visits: 1\nReserved seats: 0\nOpen cart.php to read the same session.\n\n# 2. Add a seat using the same session\n$ curl -b cookies.txt -c cookies.txt -d 'add=seat' 'http://localhost/booking.php'\nBooking-page visits: 2\nReserved seats: 1\nOpen cart.php to read the same session.\n\n# 3. Another PHP page reads the saved values\n$ curl -b cookies.txt -c cookies.txt 'http://localhost/cart.php'\nCart reads visits: 2\nCart reads seats: 1\n\n# 4. A different browser has its own empty cart\n$ curl 'http://localhost/cart.php'\nCart reads visits: 0\nCart reads seats: 0",
+   "expl": {
+    "en": "<p>Save each labelled section as its own file. Every participating page calls <code>session_start()</code> before output. PHP sends a random session ID cookie, while <code>visits</code> and <code>seats</code> stay server-side. The cart page resumes the same record using that ID; a fresh browser has no seat reservation. This is a state demonstration, not an actual payment or inventory system.</p>"
+   }
+  },
+  {
+   "id": "wd4p5",
+   "title": {
+    "en": "unset, session_unset and full session destruction"
+   },
+   "code": {
+    "en": "<?php\nsession_start();\n$action = $_POST[\"action\"] ?? \"read\";\nif ($action === \"set\") {\n    $_SESSION[\"user\"] = \"Ravi\";\n    $_SESSION[\"theme\"] = \"dark\";\n} elseif ($action === \"remove-theme\") {\n    unset($_SESSION[\"theme\"]);\n} elseif ($action === \"clear-values\") {\n    session_unset();\n} elseif ($action === \"destroy\") {\n    $_SESSION = [];\n    if (ini_get(\"session.use_cookies\")) {\n        $p = session_get_cookie_params();\n        setcookie(session_name(), \"\", [\n            \"expires\" => time() - 3600,\n            \"path\" => $p[\"path\"],\n            \"domain\" => $p[\"domain\"],\n            \"secure\" => $p[\"secure\"],\n            \"httponly\" => $p[\"httponly\"],\n            \"samesite\" => $p[\"samesite\"] ?? \"Lax\"\n        ]);\n    }\n    session_destroy();\n}\nheader(\"Content-Type: text/plain; charset=UTF-8\");\necho \"Action: $action\\n\";\necho \"User: \", $_SESSION[\"user\"] ?? \"(none)\", \"\\n\";\necho \"Theme: \", $_SESSION[\"theme\"] ?? \"(none)\", \"\\n\";\necho \"Active session: \",\n     session_status() === PHP_SESSION_ACTIVE ? \"yes\" : \"no\",\n     \"\\n\";"
+   },
+   "out": "# 1. Seed two session variables\n$ curl -b cookies.txt -c cookies.txt -d 'action=set' 'http://localhost/session_tools.php'\nAction: set\nUser: Ravi\nTheme: dark\nActive session: yes\n\n# 2. Remove only the theme; keep the user\n$ curl -b cookies.txt -c cookies.txt -d 'action=remove-theme' 'http://localhost/session_tools.php'\nAction: remove-theme\nUser: Ravi\nTheme: (none)\nActive session: yes\n\n# 3. Clear all values, but the session remains active\n$ curl -b cookies.txt -c cookies.txt -d 'action=clear-values' 'http://localhost/session_tools.php'\nAction: clear-values\nUser: (none)\nTheme: (none)\nActive session: yes\n\n# 4. Seed again before full logout\n$ curl -b cookies.txt -c cookies.txt -d 'action=set' 'http://localhost/session_tools.php'\nAction: set\nUser: Ravi\nTheme: dark\nActive session: yes\n\n# 5. Clear values, expire cookie and destroy server data\n$ curl -i -b cookies.txt -c cookies.txt -d 'action=destroy' 'http://localhost/session_tools.php'\nHTTP/1.1 200 OK\nHost: 127.0.0.1:46197\nDate: Thu, 29 Oct 2026 05:44:44 GMT\nConnection: close\nX-Powered-By: PHP/8.4.27\nExpires: Thu, 19 Nov 1981 08:52:00 GMT\nCache-Control: no-store, no-cache, must-revalidate\nPragma: no-cache\nSet-Cookie: PHPSESSID=deleted; expires=Thu, 01 Jan 1970 00:00:01 GMT; Max-Age=0; path=/\nContent-Type: text/plain; charset=UTF-8\n\nAction: destroy\nUser: (none)\nTheme: (none)\nActive session: no\n\n# 6. Next visit begins with an empty session\n$ curl -b cookies.txt -c cookies.txt 'http://localhost/session_tools.php'\nAction: read\nUser: (none)\nTheme: (none)\nActive session: yes",
+   "expl": {
+    "en": "<p>Three different operations: <code>unset</code> removes one key; <code>session_unset()</code> clears all variables but leaves the session active; full logout clears <code>$_SESSION</code>, expires the session cookie using its original parameters, and calls <code>session_destroy()</code> to remove server-side data. The final request starts a <b>new empty session</b>, not the old user's record.</p>"
+   }
+  },
+  {
+   "id": "wd4p6",
+   "title": {
+    "en": "Multi-page protected login and logout (Practical 16)"
+   },
+   "code": {
+    "en": "<?php // ===== File: login.php =====\nrequire __DIR__ . \"/config.php\";\n$error = \"\";\nif ($_SERVER[\"REQUEST_METHOD\"] === \"POST\") {\n    if (!valid_csrf()) {\n        http_response_code(403);\n        exit(\"Invalid CSRF token.\");\n    }\n    $user = $_POST[\"username\"] ?? \"\";\n    $pass = $_POST[\"password\"] ?? \"\";\n    // Lab account only: ravi / demo@123.\n    // Unit 5 replaces this with a database hash.\n    $hash = password_hash(\"demo@123\", PASSWORD_DEFAULT);\n    if (is_string($user) && is_string($pass)\n        && $user === \"ravi\"\n        && password_verify($pass, $hash)) {\n        session_regenerate_id(true);\n        $_SESSION[\"user\"] = \"Ravi Patel\";\n        $_SESSION[\"csrf\"] = bin2hex(random_bytes(16));\n        header(\"Location: dashboard.php\", true, 303);\n        exit;\n    }\n    $error = \"Invalid username or password.\";\n}\n?>\n<h2>BusBook Login</h2>\n<p><?= e($error) ?></p>\n<form method=\"post\">\n  <input type=\"hidden\" name=\"csrf\" value=\"<?= e($_SESSION['csrf']) ?>\">\n  Username: <input name=\"username\" required><br>\n  Password: <input type=\"password\" name=\"password\" required><br>\n  <button>Log in</button>\n</form>\n\n<?php // ===== File: config.php =====\n// config.php: include BEFORE any HTML or echo.\nini_set(\"session.use_strict_mode\", \"1\");\nini_set(\"session.use_only_cookies\", \"1\");\n$https = !empty($_SERVER[\"HTTPS\"])\n         && $_SERVER[\"HTTPS\"] !== \"off\";\nsession_set_cookie_params([\n    \"lifetime\" => 0, \"path\" => \"/\",\n    \"secure\" => $https, \"httponly\" => true,\n    \"samesite\" => \"Lax\"\n]);\nsession_start();\n$_SESSION[\"csrf\"] ??= bin2hex(random_bytes(16));\n\nfunction e(string $s): string {\n    return htmlspecialchars(\n        $s, ENT_QUOTES | ENT_SUBSTITUTE, \"UTF-8\"\n    );\n}\nfunction valid_csrf(): bool {\n    $token = $_POST[\"csrf\"] ?? null;\n    return is_string($token)\n        && hash_equals($_SESSION[\"csrf\"], $token);\n}\n\n<?php // ===== File: dashboard.php =====\nrequire __DIR__ . \"/config.php\";\nif (!isset($_SESSION[\"user\"])) {\n    header(\"Location: login.php\", true, 303);\n    exit;\n}\n?>\n<h2>Protected Dashboard</h2>\n<p>Welcome, <?= e($_SESSION[\"user\"]) ?>!</p>\n<form method=\"post\" action=\"logout.php\">\n  <input type=\"hidden\" name=\"csrf\" value=\"<?= e($_SESSION['csrf']) ?>\">\n  <button>Log out</button>\n</form>\n\n<?php // ===== File: logout.php =====\nrequire __DIR__ . \"/config.php\";\nif ($_SERVER[\"REQUEST_METHOD\"] !== \"POST\") {\n    header(\"Allow: POST\");\n    http_response_code(405);\n    exit(\"Use the logout button.\");\n}\nif (!valid_csrf()) {\n    http_response_code(403);\n    exit(\"Invalid CSRF token.\");\n}\n$_SESSION = [];\n$p = session_get_cookie_params();\nsetcookie(session_name(), \"\", [\n    \"expires\" => time() - 3600,\n    \"path\" => $p[\"path\"], \"domain\" => $p[\"domain\"],\n    \"secure\" => $p[\"secure\"],\n    \"httponly\" => $p[\"httponly\"],\n    \"samesite\" => $p[\"samesite\"] ?? \"Lax\"\n]);\nsession_destroy();\nheader(\"Location: login.php\", true, 303);\nexit;"
+   },
+   "out": "# 1. Guest requests the protected page: redirect to login\n$ curl -i -b cookies.txt -c cookies.txt 'http://localhost/dashboard.php'\nHTTP/1.1 303 See Other\nHost: 127.0.0.1:60883\nDate: Thu, 29 Oct 2026 05:44:44 GMT\nConnection: close\nX-Powered-By: PHP/8.4.27\nSet-Cookie: PHPSESSID=be0da8bde4aee31ded5fe4a336b597a3; path=/; HttpOnly; SameSite=Lax\nExpires: Thu, 19 Nov 1981 08:52:00 GMT\nCache-Control: no-store, no-cache, must-revalidate\nPragma: no-cache\nLocation: login.php\nContent-type: text/html; charset=UTF-8\n\n# 2. Open the form and read its CSRF token\n$ curl -b cookies.txt -c cookies.txt 'http://localhost/login.php'\n<h2>BusBook Login</h2>\n<p></p>\n<form method=\"post\">\n  <input type=\"hidden\" name=\"csrf\" value=\"b7d7d184cb4e8b69f2f75294b8237c52\">\n  Username: <input name=\"username\" required><br>\n  Password: <input type=\"password\" name=\"password\" required><br>\n  <button>Log in</button>\n</form>\n\n# 3. Wrong password: no authenticated session\n$ curl -b cookies.txt -c cookies.txt -d 'username=ravi&password=wrong&csrf=b7d7d184cb4e8b69f2f75294b8237c52' 'http://localhost/login.php'\n<h2>BusBook Login</h2>\n<p>Invalid username or password.</p>\n<form method=\"post\">\n  <input type=\"hidden\" name=\"csrf\" value=\"b7d7d184cb4e8b69f2f75294b8237c52\">\n  Username: <input name=\"username\" required><br>\n  Password: <input type=\"password\" name=\"password\" required><br>\n  <button>Log in</button>\n</form>\n\n# 4. Correct password: rotate ID and redirect\n$ curl -i -b cookies.txt -c cookies.txt -d 'username=ravi&password=demo%40123&csrf=b7d7d184cb4e8b69f2f75294b8237c52' 'http://localhost/login.php'\nHTTP/1.1 303 See Other\nHost: 127.0.0.1:60883\nDate: Thu, 29 Oct 2026 05:44:45 GMT\nConnection: close\nX-Powered-By: PHP/8.4.27\nExpires: Thu, 19 Nov 1981 08:52:00 GMT\nCache-Control: no-store, no-cache, must-revalidate\nPragma: no-cache\nSet-Cookie: PHPSESSID=91fc9dcb4a16efacd52d1cd07b41c7cc; path=/; HttpOnly; SameSite=Lax\nLocation: dashboard.php\nContent-type: text/html; charset=UTF-8\n\n# 5. Same browser can now open the dashboard\n$ curl -b cookies.txt -c cookies.txt 'http://localhost/dashboard.php'\n<h2>Protected Dashboard</h2>\n<p>Welcome, Ravi Patel!</p>\n<form method=\"post\" action=\"logout.php\">\n  <input type=\"hidden\" name=\"csrf\" value=\"0a3204137ede889034bbb32161ac28c7\">\n  <button>Log out</button>\n</form>\n\n# 6. Log out with the dashboard's fresh CSRF token\n$ curl -i -b cookies.txt -c cookies.txt -d 'csrf=0a3204137ede889034bbb32161ac28c7' 'http://localhost/logout.php'\nHTTP/1.1 303 See Other\nHost: 127.0.0.1:60883\nDate: Thu, 29 Oct 2026 05:44:45 GMT\nConnection: close\nX-Powered-By: PHP/8.4.27\nExpires: Thu, 19 Nov 1981 08:52:00 GMT\nCache-Control: no-store, no-cache, must-revalidate\nPragma: no-cache\nSet-Cookie: PHPSESSID=deleted; expires=Thu, 01 Jan 1970 00:00:01 GMT; Max-Age=0; path=/; HttpOnly; SameSite=Lax\nLocation: login.php\nContent-type: text/html; charset=UTF-8\n\n# 7. Direct dashboard access is denied again\n$ curl -i -b cookies.txt -c cookies.txt 'http://localhost/dashboard.php'\nHTTP/1.1 303 See Other\nHost: 127.0.0.1:60883\nDate: Thu, 29 Oct 2026 05:44:45 GMT\nConnection: close\nX-Powered-By: PHP/8.4.27\nSet-Cookie: PHPSESSID=4c251d31f827a58c5106f4997eea068c; path=/; HttpOnly; SameSite=Lax\nExpires: Thu, 19 Nov 1981 08:52:00 GMT\nCache-Control: no-store, no-cache, must-revalidate\nPragma: no-cache\nLocation: login.php\nContent-type: text/html; charset=UTF-8",
+   "expl": {
+    "en": "<p><b>Save four separate files:</b> login.php, config.php, dashboard.php and logout.php in one folder. Demo credentials: <code>ravi / demo@123</code>. The sample hash is generated from that lab password; real applications store a previously generated hash in the database, never hard-code real credentials.</p><p>The config starts a strict, cookie-only session before HTML. Login checks a CSRF token and <code>password_verify()</code>, regenerates the session ID on success, stores the user's name, then redirects. Dashboard checks authentication on <b>every</b> request; logout only accepts a valid-token POST, clears server state and expires the cookie. Secure is enabled automatically on direct HTTPS; configure it explicitly for your deployment if HTTPS terminates at a proxy.</p><p>The transcript proves guest denied &rarr; wrong password denied &rarr; correct password accepted &rarr; dashboard visible &rarr; logout &rarr; dashboard denied again. CSRF tokens are extracted from the actual forms for subsequent curl submissions. Random IDs and tokens change each run.</p>"
+   }
+  },
+  {
+   "id": "wd4p7",
+   "title": {
+    "en": "try, throw, catch and finally: fare division (Practical 18)"
+   },
+   "code": {
+    "en": "<?php\nfunction farePerPassenger(float $total, int $count): float {\n    if ($count <= 0) {\n        throw new InvalidArgumentException(\n            \"Passenger count must be positive.\"\n        );\n    }\n    return $total / $count;\n}\nforeach ([3, 0] as $count) {\n    echo \"Passengers: $count\\n\";\n    try {\n        echo \"  checking...\\n\";\n        $fare = farePerPassenger(900, $count);\n        echo \"  Fare each: Rs $fare\\n\";\n        echo \"  this line runs only on success\\n\";\n    } catch (InvalidArgumentException $e) {\n        echo \"  Rejected: \", $e->getMessage(), \"\\n\";\n    } finally {\n        echo \"  finally: request finished\\n\";\n    }\n    echo \"  continues after try/catch\\n\\n\";\n}"
+   },
+   "out": "$ php index.php\nPassengers: 3\n  checking...\n  Fare each: Rs 300\n  this line runs only on success\n  finally: request finished\n  continues after try/catch\n\nPassengers: 0\n  checking...\n  Rejected: Passenger count must be positive.\n  finally: request finished\n  continues after try/catch",
+   "expl": {
+    "en": "<p>Normal case: all try statements run, catch is skipped, finally runs. Zero-passenger case: the function <code>throw</code>s before dividing; the remaining try statements are skipped, the matching catch handles the exception, and finally still runs. The outer loop then continues. This deliberately throws an <code>InvalidArgumentException</code>; an unguarded PHP division by zero instead raises a <code>DivisionByZeroError</code>.</p>"
+   }
+  },
+  {
+   "id": "wd4p8",
+   "title": {
+    "en": "Custom exception and specific-first catches (Practical 18)"
+   },
+   "code": {
+    "en": "<?php\nclass SeatsUnavailable extends RuntimeException {}\n\nfunction reserveSeats(int $wanted, int $available): string {\n    if ($wanted <= 0) {\n        throw new InvalidArgumentException(\n            \"Request at least one seat.\"\n        );\n    }\n    if ($wanted > $available) {\n        throw new SeatsUnavailable(\n            \"Only $available seats remain; wanted $wanted.\"\n        );\n    }\n    return \"Reserved $wanted seats.\";\n}\nforeach ([2, 0, 5] as $wanted) {\n    echo \"Want $wanted:\\n\";\n    try {\n        $result = reserveSeats($wanted, 3);\n        echo \"  $result\\n\";\n    } catch (SeatsUnavailable $e) {\n        echo \"  Availability: \", $e->getMessage(), \"\\n\";\n    } catch (InvalidArgumentException $e) {\n        echo \"  Input: \", $e->getMessage(), \"\\n\";\n    } catch (Exception $e) {\n        echo \"  Unexpected: \", $e->getMessage(), \"\\n\";\n    } finally {\n        echo \"  Booking attempt finished.\\n\\n\";\n    }\n}"
+   },
+   "out": "$ php index.php\nWant 2:\n  Reserved 2 seats.\n  Booking attempt finished.\n\nWant 0:\n  Input: Request at least one seat.\n  Booking attempt finished.\n\nWant 5:\n  Availability: Only 3 seats remain; wanted 5.\n  Booking attempt finished.",
+   "expl": {
+    "en": "<p>A domain-specific class (<code>SeatsUnavailable extends RuntimeException</code>) lets the caller distinguish sold-out routes from bad input. Catch specific types <b>before</b> a parent such as Exception: only the first matching catch executes. A broad parent placed first would swallow the custom case. In production, log internal failures and show a safe generic message rather than exposing paths or stack traces.</p>"
+   }
+  },
+  {
+   "id": "wd4p9",
+   "title": {
+    "en": "finally closes a file on success and failure"
+   },
+   "code": {
+    "en": "<?php\nfunction readManifest(string $path, bool $reject): void {\n    $h = null;\n    try {\n        if (!is_readable($path)) {\n            throw new RuntimeException(\"Manifest unavailable.\");\n        }\n        $h = fopen($path, \"r\");\n        if ($h === false) {\n            throw new RuntimeException(\"Cannot open manifest.\");\n        }\n        echo \"  File opened.\\n\";\n        if ($reject) {\n            throw new RuntimeException(\"Manifest failed validation.\");\n        }\n        echo \"  Passenger: \", trim(fgets($h)), \"\\n\";\n    } catch (RuntimeException $e) {\n        echo \"  Handled: \", $e->getMessage(), \"\\n\";\n    } finally {\n        if (is_resource($h)) {\n            fclose($h);\n            echo \"  finally: file closed\\n\";\n        } else {\n            echo \"  finally: no open handle\\n\";\n        }\n    }\n}\n$file = __DIR__ . \"/manifest.txt\";\nfile_put_contents($file, \"Ravi Patel\\n\");\necho \"1. Success\\n\";\nreadManifest($file, false);\necho \"2. Failure AFTER open\\n\";\nreadManifest($file, true);\necho \"3. Failure BEFORE open\\n\";\nreadManifest(__DIR__ . \"/missing.txt\", false);\nunlink($file);"
+   },
+   "out": "$ php index.php\n1. Success\n  File opened.\n  Passenger: Ravi Patel\n  finally: file closed\n2. Failure AFTER open\n  File opened.\n  Handled: Manifest failed validation.\n  finally: file closed\n3. Failure BEFORE open\n  Handled: Manifest unavailable.\n  finally: no open handle",
+   "expl": {
+    "en": "<p>One cleanup path for three genuine cases: normal read, exception after opening, and missing file before opening. Initialise the handle, test <code>is_resource()</code>, and close in <code>finally</code>. Many file functions warn/return false rather than throwing; test the return and throw deliberately when your application needs exception flow. <code>finally</code> normally runs even with return or a propagated exception, but not after <code>exit()</code> or process termination.</p>"
+   }
+  },
+  {
+   "id": "wd4p10",
+   "title": {
+    "en": "Exception vs Error: catching Throwable in modern PHP"
+   },
+   "code": {
+    "en": "<?php\ndeclare(strict_types=1);\n\nfunction doubleSeats(int $n): int {\n    return $n * 2;\n}\n$jobs = [\n    \"App exception\" => function () {\n        throw new RuntimeException(\"Payment service unavailable.\");\n    },\n    \"Division error\" => function () {\n        return 10 / 0;\n    },\n    \"Type error\" => function () {\n        return doubleSeats(\"two\");\n    },\n];\nforeach ($jobs as $label => $job) {\n    echo \"$label:\\n\";\n    try {\n        $job();\n    } catch (Exception $e) {\n        echo \"  Exception branch: \", get_class($e), \"\\n\";\n    } catch (Error $e) {\n        echo \"  Error branch: \", get_class($e), \"\\n\";\n    } finally {\n        echo \"  cleaned up\\n\";\n    }\n}\necho \"Broad handler:\\n\";\ntry {\n    doubleSeats(\"two\");\n} catch (Throwable $t) {\n    echo \"  Throwable also catches \", get_class($t), \"\\n\";\n}"
+   },
+   "out": "$ php index.php\nApp exception:\n  Exception branch: RuntimeException\n  cleaned up\nDivision error:\n  Error branch: DivisionByZeroError\n  cleaned up\nType error:\n  Error branch: TypeError\n  cleaned up\nBroad handler:\n  Throwable also catches TypeError",
+   "expl": {
+    "en": "<p>PHP 7+ has two throwable families: application <code>Exception</code> and engine <code>Error</code> (including TypeError and DivisionByZeroError). Both implement <code>Throwable</code>. <code>catch (Exception $e)</code> does not catch an Error; <code>catch (Throwable $t)</code> can handle either. Ordinary warnings/notices are <b>not automatically exceptions</b>. Handle expected failures close to the cause; a broad Throwable handler is a last safety boundary, not a reason to ignore programming bugs.</p>"
+   }
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "wd4_cookie_roundtrip",
+   "title": {
+    "en": "A Cookie Takes Two Requests"
+   },
+   "file": "diagrams/wd4_cookie_roundtrip.svg"
+  },
+  {
+   "id": "wd4_cookie_lifecycle",
+   "title": {
+    "en": "Cookie Lifecycle: Same Name and Path"
+   },
+   "file": "diagrams/wd4_cookie_lifecycle.svg"
+  },
+  {
+   "id": "wd4_cookie_flags",
+   "title": {
+    "en": "Cookie Options and Safe Defaults"
+   },
+   "file": "diagrams/wd4_cookie_flags.svg"
+  },
+  {
+   "id": "wd4_session_roundtrip",
+   "title": {
+    "en": "Session ID Travels; Session Data Stays"
+   },
+   "file": "diagrams/wd4_session_roundtrip.svg"
+  },
+  {
+   "id": "wd4_login_flow",
+   "title": {
+    "en": "Login to Logout: The Session Gate"
+   },
+   "file": "diagrams/wd4_login_flow.svg"
+  },
+  {
+   "id": "wd4_cookie_vs_session",
+   "title": {
+    "en": "Cookies vs Sessions"
+   },
+   "file": "diagrams/wd4_cookie_vs_session.svg"
+  },
+  {
+   "id": "wd4_exception_flow",
+   "title": {
+    "en": "Exception Flow: Success and Failure"
+   },
+   "file": "diagrams/wd4_exception_flow.svg"
+  },
+  {
+   "id": "wd4_exception_tree",
+   "title": {
+    "en": "Modern PHP: The Throwable Family"
+   },
+   "file": "diagrams/wd4_exception_tree.svg"
+  }
+ ],
+ "syntax": [
+  {
+   "title": {
+    "en": "Cookie Cards"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Create and read"
+     },
+     "f": "setcookie(\"city\", \"Surat\", [\n  \"expires\" => time() + 3600,\n  \"path\" => \"/\"\n]);\n$_COOKIE[\"city\"] ?? \"default\"",
+     "terms": {
+      "en": "Set before output; read the new value on the next request."
+     }
+    },
+    {
+     "name": {
+      "en": "Update and expire"
+     },
+     "f": "Same name + domain + path:\nsetcookie(name, newValue, opts)\nDelete with a past expiry:\n\"expires\" => time() - 3600\nunset($_COOKIE[...]) is local only",
+     "terms": {
+      "en": "A different path can create a second cookie instead of replacing the first."
+     }
+    },
+    {
+     "name": {
+      "en": "Security options"
+     },
+     "f": "\"secure\"   => true   // HTTPS\n\"httponly\" => true   // no JS read\n\"samesite\" => \"Lax\"\n\"path\"     => \"/\"\nValidate all incoming values.",
+     "terms": {
+      "en": "Production HTTPS: protect transport and minimise scope. Local HTTP demos do not require Secure."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Session Cards"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Start, set and read"
+     },
+     "f": "session_start(); // every page\n$_SESSION[\"user\"] = \"Ravi\";\n$_SESSION[\"cart\"] = [\"seat\" => 2];\n$user = $_SESSION[\"user\"] ?? \"Guest\";",
+     "terms": {
+      "en": "Browser carries the ID; server stores the session values."
+     }
+    },
+    {
+     "name": {
+      "en": "Clear one vs all"
+     },
+     "f": "unset($_SESSION[\"theme\"]);\n// Remove just one variable.\nsession_unset();\n// Clear all values; still active.\n// Or: $_SESSION = [];",
+     "terms": {
+      "en": "Removing values is not the same as destroying the session or expiring its cookie."
+     }
+    },
+    {
+     "name": {
+      "en": "Full logout sequence"
+     },
+     "f": "session_start();\n$_SESSION = [];\n// Expire session_name() cookie\n// using session_get_cookie_params().\nsession_destroy();\n// Redirect, then exit.",
+     "terms": {
+      "en": "Three jobs: clear current values, remove browser cookie, destroy server data. See the complete program."
+     }
+    },
+    {
+     "name": {
+      "en": "Login and page guard"
+     },
+     "f": "// After successful verification:\nsession_regenerate_id(true);\n$_SESSION[\"user\"] = $userId;\n// On every protected page:\nif (!isset($_SESSION[\"user\"])) {\n  header(\"Location: login.php\");\n  exit;\n}",
+     "terms": {
+      "en": "Start before output. Use password_verify, CSRF tokens and HTTPS in the complete app."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Exception Cards"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "try / throw / catch / finally"
+     },
+     "f": "try {\n  throw new Exception(\"Failure\");\n} catch (Exception $e) {\n  echo $e->getMessage();\n} finally {\n  // Release resources.\n}",
+     "terms": {
+      "en": "A throw skips the rest of try. Escape messages if rendering untrusted text as HTML."
+     }
+    },
+    {
+     "name": {
+      "en": "Custom class and order"
+     },
+     "f": "class SoldOut extends RuntimeException {}\n// Catch specific classes first:\ncatch (SoldOut $e) { ... }\ncatch (Exception $e) { ... }\n// Rethrow with: throw $e;",
+     "terms": {
+      "en": "Only the first matching catch executes; broad parents belong last."
+     }
+    },
+    {
+     "name": {
+      "en": "Throwable families"
+     },
+     "f": "Throwable\n  Exception -> RuntimeException\n  Error     -> TypeError\n            -> DivisionByZeroError\ncatch (Throwable $t) { ... }",
+     "terms": {
+      "en": "Exception does not catch Error. Ordinary warnings/notices are not automatically exceptions."
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Cookies and Browser State"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Why do web applications need cookies or sessions?"
+     },
+     "a": {
+      "en": "HTTP is stateless: separate requests do not automatically remember earlier choices or authentication. Cookies/sessions provide continuity."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a cookie?"
+     },
+     "a": {
+      "en": "A small name/value record stored by the browser for a site and sent with requests that match its scope and policy."
+     }
+    },
+    {
+     "q": {
+      "en": "Which two HTTP headers implement the cookie round trip?"
+     },
+     "a": {
+      "en": "The server sends Set-Cookie in a response; the browser later sends Cookie in a request."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is a newly set cookie missing from $_COOKIE in the same request?"
+     },
+     "a": {
+      "en": "setcookie queues an outgoing response header; $_COOKIE contains the values from the incoming request. Read the new cookie on the next request."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you read a cookie without an undefined-key warning?"
+     },
+     "a": {
+      "en": "Use $_COOKIE['name'] ?? 'default', or check isset($_COOKIE['name']) before reading it."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you update a cookie?"
+     },
+     "a": {
+      "en": "Call setcookie again with a new value and the same name, domain and path. A different path can create another cookie."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you delete a cookie?"
+     },
+     "a": {
+      "en": "Expire it in the past using the same name, domain and path. The browser stops returning it on later requests."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is unset($_COOKIE['x']) not browser-side deletion?"
+     },
+     "a": {
+      "en": "It only removes the element from the PHP array for this request; it sends no Set-Cookie deletion header."
+     }
+    },
+    {
+     "q": {
+      "en": "Why must setcookie run before HTML or echo?"
+     },
+     "a": {
+      "en": "It changes HTTP headers, which must be sent before the response body. Leading whitespace or a BOM can also cause headers-already-sent problems."
+     }
+    },
+    {
+     "q": {
+      "en": "Persistent cookie vs browser-session cookie?"
+     },
+     "a": {
+      "en": "A persistent cookie has a future expiry timestamp; expiry 0/omitted creates a browser-session cookie. Browser policy and session restore affect actual retention."
+     }
+    },
+    {
+     "q": {
+      "en": "Secure, HttpOnly and SameSite - what does each do?"
+     },
+     "a": {
+      "en": "Secure restricts sending to HTTPS; HttpOnly blocks JavaScript reading the cookie; SameSite controls cross-site sending. They protect different aspects and do not replace all other security checks."
+     }
+    },
+    {
+     "q": {
+      "en": "Can an application trust a cookie saying role=admin?"
+     },
+     "a": {
+      "en": "No. Cookie values are client-controlled. Authenticate and authorise using validated server-side data; never store raw passwords in cookies."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Sessions, Login and Logout"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a PHP session?"
+     },
+     "a": {
+      "en": "Server-side per-visitor storage normally selected by an opaque ID carried in a browser cookie."
+     }
+    },
+    {
+     "q": {
+      "en": "What does PHPSESSID contain?"
+     },
+     "a": {
+      "en": "Normally a random session identifier, not the user's name, password or cart data. The ID maps to a server-side session record."
+     }
+    },
+    {
+     "q": {
+      "en": "What does session_start do on a second page?"
+     },
+     "a": {
+      "en": "It resumes the existing session if a valid incoming ID is available, otherwise creates one. Call it before output on every participating page."
+     }
+    },
+    {
+     "q": {
+      "en": "Can $_SESSION hold an array?"
+     },
+     "a": {
+      "en": "Yes. Session values can include arrays, strings, numbers and other serialisable application data; they are not limited to cookie-style string values."
+     }
+    },
+    {
+     "q": {
+      "en": "Do two browsers normally share one session?"
+     },
+     "a": {
+      "en": "No. Separate cookie jars normally carry different session IDs and select separate server-side records."
+     }
+    },
+    {
+     "q": {
+      "en": "unset($_SESSION['x']) vs session_unset()?"
+     },
+     "a": {
+      "en": "unset removes one named key. session_unset clears all variables in the active session, but does not destroy its identity or delete its cookie."
+     }
+    },
+    {
+     "q": {
+      "en": "Does session_destroy automatically empty $_SESSION and delete its cookie?"
+     },
+     "a": {
+      "en": "No. It destroys server-side session data. Clear the current array and explicitly expire the matching cookie as separate steps."
+     }
+    },
+    {
+     "q": {
+      "en": "List the steps of full logout."
+     },
+     "a": {
+      "en": "Start/resume the session; clear $_SESSION; expire the session cookie using its original parameters; call session_destroy; redirect and exit."
+     }
+    },
+    {
+     "q": {
+      "en": "What does session_regenerate_id(true) do?"
+     },
+     "a": {
+      "en": "Creates a new session ID while preserving current values, and deletes the old session data. Use after successful authentication to reduce fixation risk."
+     }
+    },
+    {
+     "q": {
+      "en": "Session fixation vs session hijacking?"
+     },
+     "a": {
+      "en": "Fixation makes a victim use an attacker-known ID before authentication. Hijacking steals an already valid ID. ID regeneration, strict mode, HTTPS and cookie protections address different parts of these risks."
+     }
+    },
+    {
+     "q": {
+      "en": "Why enable session.use_strict_mode and cookie-only IDs?"
+     },
+     "a": {
+      "en": "Strict mode rejects uninitialised supplied IDs; cookie-only IDs avoid leaking session identifiers through URLs. They are useful defaults, not a complete security solution."
+     }
+    },
+    {
+     "q": {
+      "en": "How is a PHP page protected after login?"
+     },
+     "a": {
+      "en": "Start/resume the session and test a server-set authentication key before any private output. If missing, redirect to login and exit; hiding a link is not access control."
+     }
+    },
+    {
+     "q": {
+      "en": "Is closing the browser a reliable logout mechanism?"
+     },
+     "a": {
+      "en": "No. Session restore may preserve cookies, and server records may remain. Enforce idle/absolute expiry explicitly and implement full logout."
+     }
+    },
+    {
+     "q": {
+      "en": "What if a browser rejects the session cookie?"
+     },
+     "a": {
+      "en": "In a cookie-only configuration it cannot normally retain the same session across independent requests. Do not work around this by exposing IDs in URLs."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a CSRF token and where is it checked?"
+     },
+     "a": {
+      "en": "A random value stored in the session and included in a form; the server compares it on POST, for example with hash_equals. It helps reject forged state-changing requests."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Exception Handling"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Name the four main exception-handling keywords."
+     },
+     "a": {
+      "en": "try surrounds risky work, throw signals failure with an object, catch handles a matching type, and finally performs cleanup."
+     }
+    },
+    {
+     "q": {
+      "en": "What happens to statements after a throw inside try?"
+     },
+     "a": {
+      "en": "They are skipped. PHP searches for a compatible catch; cleanup in finally normally runs before control continues or the exception propagates."
+     }
+    },
+    {
+     "q": {
+      "en": "Why must specific catches precede parent classes?"
+     },
+     "a": {
+      "en": "Only the first matching catch runs. A broad Exception catch placed first would absorb its subclasses and prevent more specific handling."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you obtain an exception's message and location?"
+     },
+     "a": {
+      "en": "getMessage() returns its description; getCode(), getFile() and getLine() provide diagnostics. Keep internal locations out of public error pages."
+     }
+    },
+    {
+     "q": {
+      "en": "Why use finally instead of cleanup at the end of try?"
+     },
+     "a": {
+      "en": "An exception can skip the remaining try statements. finally provides a shared cleanup path for success and failure, including a normal return."
+     }
+    },
+    {
+     "q": {
+      "en": "Does finally run under absolutely every circumstance?"
+     },
+     "a": {
+      "en": "No. It normally runs for return and propagated exceptions, but exit/die or process termination can prevent it. Avoid return inside finally because it can override a pending result or exception."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you define a custom exception?"
+     },
+     "a": {
+      "en": "Extend Exception or a suitable subclass, for example class SeatsUnavailable extends RuntimeException {}. Throw an instance and catch that specific class."
+     }
+    },
+    {
+     "q": {
+      "en": "What is rethrowing?"
+     },
+     "a": {
+      "en": "A catch can use throw $e to pass the failure to an outer handler after local logging or other handling."
+     }
+    },
+    {
+     "q": {
+      "en": "Will catch(Exception) automatically handle fopen warnings?"
+     },
+     "a": {
+      "en": "No. Many functions emit warnings and return false rather than throw. Check the return value and deliberately throw if your application requires exception flow."
+     }
+    },
+    {
+     "q": {
+      "en": "Exception vs Error in PHP 7+?"
+     },
+     "a": {
+      "en": "They are distinct families. Application exceptions usually extend Exception; engine failures such as TypeError and DivisionByZeroError extend Error. Exception does not catch Error."
+     }
+    },
+    {
+     "q": {
+      "en": "What does catch(Throwable $t) catch?"
+     },
+     "a": {
+      "en": "Both Exception and Error objects, since both implement Throwable. It does not automatically catch ordinary warnings or notices."
+     }
+    },
+    {
+     "q": {
+      "en": "What happens if no matching catch exists?"
+     },
+     "a": {
+      "en": "The exception propagates to callers, with finally cleanup during normal unwinding. If still unhandled at the top level, the request terminates."
+     }
+    },
+    {
+     "q": {
+      "en": "Should a production site display a complete stack trace?"
+     },
+     "a": {
+      "en": "No. Log useful diagnostics securely and show a safe user-facing message. Do not silently ignore failures or reveal internal paths, credentials or traces."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Write a PHP program that creates, reads and updates a city cookie. Demonstrate the first and next request, and explain the Set-Cookie/Cookie header exchange. (Practical 17)"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Why is a newly set cookie not immediately present in $_COOKIE? Explain why setcookie must precede output."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Develop a theme-preference form that remembers light/dark for 30 days. Validate the value, use suitable cookie options, and implement Post/Redirect/Get. (Practical 17)"
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Write the code to destroy a cookie. Explain matching name/domain/path and why unset($_COOKIE['x']) is insufficient."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Compare cookies and PHP sessions in terms of storage, request transport, capacity, lifetime, trust and suitable uses."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a two-page PHP application that sets session variables on one page and reads them on another. Show what happens in a separate browser. (Practical 16)"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Differentiate unset($_SESSION['x']), session_unset and session_destroy. Give the complete logout sequence."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Develop a multi-page login application: password verification, session ID regeneration, a guarded dashboard and POST logout. Prove direct dashboard access fails both before login and after logout. (Practical 16)"
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Explain session fixation, session hijacking, strict mode, HTTPS cookie flags and CSRF tokens in the context of a login system."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain try, throw, catch and finally, including control flow on success, on a matching catch and when no handler exists."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a fare-per-passenger program that throws for zero/negative count, catches the exception and prints cleanup in finally. Test success and failure. (Practical 18)"
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Create a custom SeatsUnavailable exception for a booking function. Distinguish invalid input from insufficient availability and demonstrate specific-before-general catches. (Practical 18)"
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Write a file-reading program with finally cleanup. Demonstrate success, failure after open and failure before open; explain warnings/false versus thrown exceptions."
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Differentiate Exception, Error and Throwable in modern PHP, using TypeError and DivisionByZeroError examples. Why is catch(Exception) not a universal handler?"
+   },
+   "marks": 4
+  }
+ ]
+}

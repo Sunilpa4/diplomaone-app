@@ -29,5 +29,5 @@ UNIT = {
 }
 
 if __name__ == "__main__":
-    subprocess.run([sys.executable, os.path.join(HERE, "diagrams_DI04007011_u1.py")], check=True)
+    subprocess.run([sys.executable, os.path.join(HERE, "diagrams_DI04007011_u2.py")], check=True)
     check_and_write(UNIT, DIAGRAM_TITLES, "DI04007011_unit2_preview.html")

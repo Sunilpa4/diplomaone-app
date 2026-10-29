@@ -42,89 +42,139 @@ def _free_port():
 
 
 def run_web(code, fname="index.php", request=None, extra=None, upload=None, assets=None, timeout=60):
-    """Serve `code` (+ extra php files) with php -S and fire a real curl request.
+    """Serve PHP and issue genuine HTTP requests using curl.
 
-    request: {"method": "GET"|"POST"|"UPLOAD", "data": dict, "headers": dict} (path = fname).
-    upload:  (field_name, filename) - uploads the bundled tiny PNG.
-    assets:  {relative_path: bytes} extra files written into the docroot.
-    Returns a displayable transcript: '$ curl ...' + genuine response body (+ response stderr).
+    request may be one dict (backwards-compatible) or a list of steps. Each step
+    accepts method, path, query, data, headers, show_headers, follow_redirects and
+    label. A sequence shares a curl cookie jar, just like one browser. Set
+    cookies=False on a step to simulate a different, fresh browser.
+    capture={name: regex} extracts a value from the response for later steps;
+    {{name}} in later data/query/header values substitutes that captured value.
+    upload=(field, filename) uploads the bundled tiny PNG. The PHP session store
+    and cookie jar are isolated per run and deleted afterwards.
     """
-    request = request or {}
-    method = request.get("method", "GET")
-    data = request.get("data")
-    headers = request.get("headers", {})
+    steps = request if isinstance(request, list) else [request or {}]
+    assert steps, "run_web needs at least one request"
+    captured = {}
+
+    def expand(value):
+        if isinstance(value, dict):
+            return {k: expand(v) for k, v in value.items()}
+        if isinstance(value, (list, tuple)):
+            return [expand(v) for v in value]
+        if isinstance(value, str):
+            for k, v in captured.items():
+                value = value.replace("{{" + k + "}}", v)
+        return value
+
     with tempfile.TemporaryDirectory() as d:
+        docroot = os.path.join(d, "www")
+        sessions = os.path.join(d, "sessions")
+        os.makedirs(docroot)
+        os.makedirs(sessions)
+        cookie_jar = os.path.join(d, "cookies.txt")
         for name, src in {fname: code, **(extra or {})}.items():
-            p = os.path.join(d, name)
-            os.makedirs(os.path.dirname(p), exist_ok=True) if os.path.dirname(name) else None
+            p = os.path.join(docroot, name)
+            os.makedirs(os.path.dirname(p), exist_ok=True)
             with open(p, "w", encoding="utf-8") as f:
                 f.write(src.strip("\n") + "\n")
         for rel, blob in (assets or {}).items():
-            p = os.path.join(d, rel)
-            os.makedirs(os.path.dirname(p), exist_ok=True) if os.path.dirname(rel) else None
+            p = os.path.join(docroot, rel)
+            os.makedirs(os.path.dirname(p), exist_ok=True)
             with open(p, "wb") as f:
                 f.write(blob)
         port = _free_port()
-        srv = subprocess.Popen([PHP_BIN, "-S", f"127.0.0.1:{port}", "-t", d],
-                               stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=PHP_ENV,
-                               text=True, cwd=d)
-        try:
-            for _ in range(60):     # wait until the dev server answers
-                try:
-                    with socket.create_connection(("127.0.0.1", port), timeout=0.5):
-                        break
-                except OSError:
-                    time.sleep(0.05)
-            url_show = f"http://localhost/{fname}"
-            url = f"http://127.0.0.1:{port}/{fname}"
-            q = request.get("query")
-            if q:
-                url += "?" + urllib.parse.urlencode(q, doseq=True)
-                url_show += "?" + urllib.parse.urlencode(q, doseq=True)
-            cmd = ["curl", "-s", "--max-time", str(timeout)]
-            shown = f"$ curl "
-            if request.get("show_headers"):
-                cmd += ["-i"]
-                shown = "$ curl -i "
-            for k, v in headers.items():
-                cmd += ["-H", f"{k}: {v}"]
-            if method == "GET":
-                shown += f"'{url_show}'"
-                cmd += [url]
-            elif method == "UPLOAD":
-                up_field, up_name = upload
-                up_path = os.path.join(d, up_name)
-                with open(up_path, "wb") as f:
-                    f.write(TINY_PNG)
-                cmd += ["-F", f"{up_field}=@{up_path}"]
-                if data:
-                    for k, v in data.items():
-                        cmd += ["-F", f"{k}={v}"]
-                    shown_parts = " ".join(f"-F {k}={v} " for k, v in data.items())
-                else:
-                    shown_parts = ""
-                shown += f"{shown_parts}-F {up_field}=@{up_name} '{url_show}'"
-                cmd += [url]
-            else:   # POST (urlencoded)
-                body = urllib.parse.urlencode(data or {})
-                cmd += ["-d", body, url]
-                shown += f"-d '{body}' '{url_show}'"
-            cp = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout + 10)
-        finally:
-            srv.kill()
+        with open(os.path.join(d, "server.log"), "w+") as log:
+            srv = subprocess.Popen(
+                [PHP_BIN, "-d", "session.save_path=" + sessions,
+                 "-S", f"127.0.0.1:{port}", "-t", docroot],
+                stdout=log, stderr=subprocess.STDOUT,
+                env=PHP_ENV, text=True, cwd=docroot)
+            transcripts = []
             try:
-                srv.wait(timeout=5)
-            except Exception:
-                pass
-    out = cp.stdout
-    err = cp.stderr.strip()
-    return (shown + "\n" + out.rstrip("\n")) + (("\n" + err) if err and cp.returncode else "")
+                for _ in range(60):
+                    try:
+                        with socket.create_connection(("127.0.0.1", port), timeout=0.5):
+                            break
+                    except OSError:
+                        if srv.poll() is not None:
+                            log.seek(0)
+                            raise RuntimeError("PHP server exited: " + log.read())
+                        time.sleep(0.05)
+                else:
+                    raise RuntimeError("PHP server did not start")
+                for step in steps:
+                    method = step.get("method", "GET").upper()
+                    data = expand(step.get("data"))
+                    path = step.get("path", fname).lstrip("/")
+                    url_show = f"http://localhost/{path}"
+                    url = f"http://127.0.0.1:{port}/{path}"
+                    query = expand(step.get("query"))
+                    if query:
+                        q = urllib.parse.urlencode(query, doseq=True)
+                        url += "?" + q
+                        url_show += "?" + q
+                    cmd = ["curl", "-sS", "--max-time", str(timeout)]
+                    flags = []
+                    if step.get("show_headers"):
+                        cmd += ["-i"]
+                        flags += ["-i"]
+                    if step.get("follow_redirects"):
+                        cmd += ["-L"]
+                        flags += ["-L"]
+                    if isinstance(request, list) and step.get("cookies", True):
+                        cmd += ["-b", cookie_jar, "-c", cookie_jar]
+                        flags += ["-b cookies.txt -c cookies.txt"]
+                    for k, v in expand(step.get("headers", {})).items():
+                        cmd += ["-H", f"{k}: {v}"]
+                        flags += ["-H " + repr(f"{k}: {v}")]
+                    if method == "UPLOAD":
+                        up_field, up_name = upload
+                        up_path = os.path.join(d, up_name)
+                        with open(up_path, "wb") as f:
+                            f.write(TINY_PNG)
+                        cmd += ["-F", f"{up_field}=@{up_path}"]
+                        flags += [f"-F {up_field}=@{up_name}"]
+                        for k, v in (data or {}).items():
+                            cmd += ["-F", f"{k}={v}"]
+                            flags += ["-F " + repr(f"{k}={v}")]
+                    elif method == "POST":
+                        body = urllib.parse.urlencode(data or {}, doseq=True)
+                        cmd += ["-d", body]
+                        flags += ["-d " + repr(body)]
+                    elif method != "GET":
+                        cmd += ["-X", method]
+                        flags += ["-X " + method]
+                    cmd += [url]
+                    shown = "$ curl " + " ".join(flags + [repr(url_show)])
+                    if step.get("label"):
+                        shown = "# " + step["label"] + "\n" + shown
+                    cp = subprocess.run(cmd, capture_output=True, text=True,
+                                        timeout=timeout + 10)
+                    if cp.returncode:
+                        raise RuntimeError(shown + "\n" + cp.stderr)
+                    for key, pattern in step.get("capture", {}).items():
+                        match = re.search(pattern, cp.stdout)
+                        if not match:
+                            raise AssertionError("capture failed: " + key + "\n" + cp.stdout)
+                        captured[key] = match.group(1)
+                    transcripts.append(shown + "\n" + cp.stdout.rstrip("\n"))
+            finally:
+                srv.terminate()
+                try:
+                    srv.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    srv.kill()
+                    srv.wait(timeout=5)
+    return "\n\n".join(transcripts)
 
 
 def PP(id_, title, code, expl="", fname="index.php", env_extra=None, run=True,
        request=None, extra=None, upload=None, assets=None, show_extra=False):
-    """A solved PHP program. CLI run by default; pass request= for a real served request.
-    extra: additional php files (includes) written beside the main file; upload: (field, filename)."""
+    """A solved PHP program. CLI by default; request=dict serves one HTTP request,
+    request=list serves a sequence with a shared cookie jar. extra provides other
+    PHP files; show_extra displays clearly labelled, separate file sections.
+    upload=(field, filename) sends the bundled test PNG."""
     code = code.strip("\n") + "\n"
     assert "<?php" in code, id_ + ": must contain an opening <?php tag"
     out = ""
@@ -135,8 +185,11 @@ def PP(id_, title, code, expl="", fname="index.php", env_extra=None, run=True,
             out = run_php(code, fname, env_extra)
     shown = code
     if extra and show_extra:
-        parts = [f"<?php // ===== File: {n} =====\n" + c.strip("\n") + "\n?>" for n, c in extra.items()]
-        shown = "\n".join(parts) + f"\n<?php // ===== File: {fname} =====\n" + code.lstrip("<?php\n")
+        # Each labelled section is saved as a SEPARATE file. Do not prepend a
+        # second <?php tag or use lstrip("<?php\n"), which removes characters.
+        def labelled(name, source):
+            return source.replace("<?php", "<?php // ===== File: " + name + " =====", 1).strip("\n")
+        shown = "\n\n".join(labelled(n, src) for n, src in [(fname, code), *extra.items()])
     return {"id": id_, "title": {"en": title}, "code": {"en": reflow(shown).rstrip("\n")},
             "out": out, "expl": {"en": expl}}
 
