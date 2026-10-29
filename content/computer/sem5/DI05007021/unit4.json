@@ -1,0 +1,1476 @@
+{
+ "subject": "DI05007021",
+ "unit": 4,
+ "format": "notes",
+ "title": {
+  "en": "Network Security"
+ },
+ "hours": 9,
+ "weightage": 20,
+ "tabs": [
+  "notes",
+  "programs",
+  "diagrams",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "English-only Unit 4: zones/DMZ/Internet/Intranet/VLAN/tunneling; packet, stateful, application, circuit and next-generation firewalls; intruders/IDS/components/HIDS/NIDS. Includes twelve executed logical/offline/private-local examples and clearly guided-only Packet Tracer/Wireshark GUI exercises for Practicals 7–10. Synthetic PCAP is not live capture; models are not deployed protection. Practice marks are suggested, not official allocations."
+ },
+ "notes": [
+  {
+   "title": {
+    "en": "1. Security Topologies and Boundaries"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "1.1 Security zones, Internet and Intranet"
+     },
+     "body": {
+      "en": "<p>A <b>security zone</b> groups systems with an intended security posture or role. A boundary controls communication between zones; merely naming a zone does not enforce a policy.</p><table><tr><th>Term</th><th>Meaning</th><th>Security implication</th></tr><tr><td>Internet</td><td>Interconnected external networks and public services.</td><td>Treat untrusted traffic appropriately; a reachable address does not establish identity.</td></tr><tr><td>Intranet</td><td>An organization’s internal network/services.</td><td>Internal does not mean automatically safe; insiders and compromised endpoints can still cause harm.</td></tr><tr><td>Security boundary</td><td>A point or set of controls separating roles/postures.</td><td>Define allowed flows, enforce them, monitor and verify both permitted and denied cases.</td></tr></table><p>Addressing, physical layout and security trust are different concepts. A private IP address is not authentication. Apply least privilege, suitable ingress/egress controls, source validation and appropriate IPv4/IPv6 policy; the classroom policy code is IPv4-only and not real network enforcement.</p>"
+     },
+     "diagram": "sec4_zones"
+    },
+    {
+     "h": {
+      "en": "1.2 DMZ placement and an explicit flow policy"
+     },
+     "body": {
+      "en": "<p>A <b>DMZ</b> is a separately controlled network segment for services that need exposure beyond the internal network. It reduces uncontrolled direct access to internal assets; it is not automatically a trusted or secure zone.</p><table><tr><th>Logical example flow</th><th>Intended decision</th><th>Reason</th></tr><tr><td>Outside → designated DMZ web server TCP80</td><td>Allow the named service.</td><td>Only a required published service, not all DMZ ports.</td></tr><tr><td>Outside → internal network</td><td>Deny by default.</td><td>Do not expose internal assets directly.</td></tr><tr><td>DMZ app → one approved internal DB TCP5432</td><td>Allow only that exact backend in this model.</td><td>An explicit narrow business dependency, not unrestricted DMZ-to-LAN access.</td></tr><tr><td>DMZ app → other internal host/service</td><td>Deny.</td><td>A compromised exposed service should not gain blanket internal reachability.</td></tr></table><p>The executed model uses RFC5737 documentation ranges: outside 192.0.2.0/24, DMZ 198.51.100.0/24 and inside 203.0.113.0/24. It sends no traffic there. Packet Tracer guides use a separate simulated IP plan and a different minimal policy, clearly labelled; they were not executed. The teaching HTTP port80 policy is not a confidentiality mechanism.</p>"
+     },
+     "diagram": "sec4_dmz",
+     "programs": [
+      "sec4p01"
+     ]
+    },
+    {
+     "h": {
+      "en": "1.3 VLANs, access ports, trunks and inter-VLAN routing"
+     },
+     "body": {
+      "en": "<p>A <b>VLAN</b> separates a Layer-2 broadcast domain logically. An access port typically carries one assigned VLAN for its endpoint. A trunk can carry selected VLANs between devices; IEEE802.1Q inserts a four-byte tag with a 12-bit VLAN identifier.</p><ul><li>Ordinary VLAN IDs are 1–4094; ID0 has priority-tag meaning and 4095 is reserved. This lab uses 10 and 20.</li><li>Hosts in different VLANs need an appropriate Layer-3 path to communicate. A trunk is not itself a router or permission to connect all VLANs.</li><li>VLANs do not encrypt frames and are not VPNs. Correct port/trunk configuration, allowed VLAN lists, controlled routing and policy still matter.</li><li>The Python same-VLAN rule is only a logical model. Actual TShark dissects two constructed802.1Q frames; tag bytes in a file do not prove a switch enforced segmentation.</li><li>A failed ping alone may reflect addressing, gateways, links or ACLs; verify the setup before claiming isolation.</li></ul>"
+     },
+     "diagram": "sec4_vlan",
+     "programs": [
+      "sec4p04"
+     ]
+    },
+    {
+     "h": {
+      "en": "1.4 Tunneling, encapsulation and the actual TLS byte relay"
+     },
+     "body": {
+      "en": "<p><b>Tunneling</b> carries one communication representation inside another between tunnel endpoints. Encapsulation alone is not encryption: IP-in-IP is an example of carrying an IP datagram within an outer IP packet. Confidentiality/authentication require the relevant protection scheme and trust model.</p><ul><li>Distinguish original endpoints, encapsulator/entry and decapsulator/exit. Policy must account for what is visible before, within and after a tunnel.</li><li>An encrypted tunnel can limit an intermediate sensor’s payload visibility; its endpoints and the decrypted segment still need protection.</li><li><b>Actual example:</b> one framed teaching message crosses a real private TLS1.3 client-to-relay connection, then an owned plaintext loopback connection to an echo endpoint. The client requires the correct lab server certificate/hostname under an explicitly supplied lab root; client-certificate authentication (mutual TLS) is not performed.</li><li>This is a bounded application-byte relay, not IPsec, a system-wide VPN, a SOCKS implementation or a Packet Tracer tunnel. No routes, interfaces or system trust stores change; all sockets, workers and temporary keys close.</li></ul>"
+     },
+     "diagram": "sec4_tunnel",
+     "programs": [
+      "sec4p08"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2. Firewalls and Their Types"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "2.1 Why firewalls are needed; packet filtering and rule policy"
+     },
+     "body": {
+      "en": "<p>A <b>firewall</b> controls network/host traffic according to policy. Place enforcement at the relevant boundary and define direction, addresses, protocols, services and exceptions. Prefer justified minimal permissions, verify expected denies/allows, and protect configuration/logs.</p><ul><li><b>Packet filtering:</b> examines header information such as source/destination IP, protocol and ports. A basic stateless filter evaluates packets without a full connection-state context.</li><li>The executed Python model uses explicit <b>first match</b>, then default deny. An earlier broad allow can shadow a later specific deny; real products’ semantics must be checked.</li><li>Rules do not establish that source addresses are authentic. Consider anti-spoofing, asymmetric paths, IPv6, fragmentation and other platform behaviour; these are not implemented by the small model.</li><li>A firewall is not a complete security program or a guarantee against endpoint compromise, allowed-channel attacks or application vulnerabilities. No kernel firewall is installed/configured by these examples.</li></ul>"
+     },
+     "diagram": "sec4_firewall",
+     "programs": [
+      "sec4p02"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.2 Stateful inspection and controlled return traffic"
+     },
+     "body": {
+      "en": "<p>A <b>stateful inspection firewall</b> associates packets with tracked connection/flow state and policy, rather than treating a return packet’s TCP flag alone as proof that it belongs to an approved session.</p><ul><li>For a permitted TCP initiation, track the relevant addresses, ports, protocol, direction and lifecycle. Match appropriate return traffic against that stored state.</li><li>State needs timeouts and resource management. Expired or unsolicited traffic must not automatically inherit an old permission.</li><li>A router ACL keyword such as established, when available, may only test ACK/RST flags; it is not the same as a real state table.</li><li>The executed model tracks a declared SYN → matching SYNACK → ACK sequence, return data and TTL on a synthetic clock. It is not RFC-complete TCP: no sequence validation, retransmission, NAT, fragmentation or kernel filtering is claimed.</li></ul>"
+     },
+     "diagram": "sec4_stateful",
+     "programs": [
+      "sec4p03"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.3 Application-level gateway"
+     },
+     "body": {
+      "en": "<p>An <b>application-level gateway / application proxy</b> mediates supported application communication and may inspect protocol-specific operations, content or authorization according to its design. It can distinguish requests sharing the same TCP port, unlike a header-only rule.</p><ul><li>Example goal: allow an approved HTTP course request but reject a disallowed path. This is application policy, not just “TCP80 allowed.”</li><li>Advantages can include protocol-aware control and useful application logs; limitations include supported-protocol scope, resource demands, configuration complexity and the need for a correct parser.</li><li>Encrypted payload is not automatically visible. Authorized termination/inspection has trust, privacy and operational implications.</li><li>Our real owned loopback example returns 200 for GET /course and 403 for /admin, then closes. Its tiny bounded allow-list is NOT a complete HTTP parser, WAF, deployed firewall or production proxy.</li></ul>"
+     },
+     "programs": [
+      "sec4p07"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.4 Circuit-level gateway"
+     },
+     "body": {
+      "en": "<p>A <b>circuit-level gateway</b> controls establishment/relay of communication sessions according to its policy, rather than necessarily understanding each application command/content item. SOCKS provides a useful connection/relay framework example; RFC1928 describes a shim between application and transport, not a network-layer ICMP gateway.</p><ul><li>It may control which clients can establish which connections and may use an authentication method, depending on the scheme/configuration.</li><li>Relaying a permitted byte stream does not by itself identify harmful application content or encrypt it.</li><li>Do not confuse connection mediation, full application inspection, encryption and IP-level routing; products may combine functions.</li><li>No SOCKS protocol or circuit-gateway product is implemented/tested here. The separate TLS byte-relay example illustrates only its explicitly stated local transport scope.</li></ul>"
+     }
+    },
+    {
+     "h": {
+      "en": "2.5 Next-generation firewalls and comparison"
+     },
+     "body": {
+      "en": "<p>A <b>next-generation firewall (NGFW)</b> combines state-aware network control with additional application/user context and capabilities such as integrated intrusion prevention, depending on the product and enabled features. Feature labels do not guarantee complete prevention or visibility into encrypted payloads.</p><table><tr><th>Syllabus type</th><th>Primary decision context</th><th>Important limitation</th></tr><tr><td>Packet filtering</td><td>Packet headers and rule policy.</td><td>Limited application/session context in a basic stateless design.</td></tr><tr><td>Stateful inspection</td><td>Tracked flow/session state plus policy.</td><td>State handling, resource use, paths and implementation correctness matter.</td></tr><tr><td>Application-level gateway</td><td>Supported application/protocol semantics.</td><td>Parser/protocol support, trust/privacy and resource trade-offs.</td></tr><tr><td>Circuit-level gateway</td><td>Session establishment and byte relay.</td><td>Does not necessarily inspect application commands/content.</td></tr><tr><td>NGFW</td><td>Combined state/application/context and additional protections.</td><td>Capabilities/configuration/licensing vary; no universal encrypted-traffic or malware guarantee.</td></tr></table><p>The unit does not run an NGFW, ASA, Snort/Suricata appliance or a commercial benchmark. Cisco’s feature overview is used as a vendor description, not evidence of measured performance.</p>"
+     },
+     "diagram": "sec4_types"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3. Intrusion Detection Systems"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "3.1 Intruders, intrusion detection and prevention"
+     },
+     "body": {
+      "en": "<p>An <b>intrusion</b> involves attempted or actual violation of a security policy. An intruder may be an outsider, a masquerader using someone else’s identity or an insider misusing authorized access. Unusual behaviour is a reason to investigate, not automatic proof of malicious intent.</p><ul><li><b>IDS:</b> observes relevant events, analyzes them and generates records/alerts. <b>IPS:</b> may actively block/prevent traffic or actions when deployed for that purpose. Detection alone is not blocking.</li><li>Signature/pattern matching, anomaly detection and stateful protocol analysis are detection approaches. HIDS/NIDS describe where observations are collected; these are different classification axes.</li><li>False positives are benign activity flagged as suspicious. False negatives are relevant malicious/violating activity that is missed.</li><li>An attacker can try to avoid sensors, exploit visibility gaps or overload analysis. Correct placement, tuning, updates, evidence and response processes matter.</li></ul>"
+     }
+    },
+    {
+     "h": {
+      "en": "3.2 IDS components and the evidence pipeline"
+     },
+     "body": {
+      "en": "<table><tr><th>Component</th><th>Purpose</th></tr><tr><td>Sensors / host agents</td><td>Collect selected packets, logs, file/process or other host/network events.</td></tr><tr><td>Analysis engine</td><td>Apply appropriate rules, baselines or protocol analysis to observations.</td></tr><tr><td>Configuration / knowledge base</td><td>Maintain policies, signatures/baselines and tuning information.</td></tr><tr><td>Event / alert storage</td><td>Keep relevant protected records with useful context and time information.</td></tr><tr><td>Management console / response integration</td><td>Present alerts, manage health/configuration and support authorized investigation/response.</td></tr></table><p>Protect the monitoring system itself. Sensor health, packet/event loss, clock consistency, protected logs, appropriate access control and an investigation workflow affect the usefulness of results. A dashboard or isolated rule does not prove that every network path was observed.</p>"
+     },
+     "diagram": "sec4_ids"
+    },
+    {
+     "h": {
+      "en": "3.3 Host-based IDS: strengths and limitations"
+     },
+     "body": {
+      "en": "<p><b>HIDS</b> collects evidence at a host, such as relevant logs, file-integrity observations, processes or configuration changes.</p><table><tr><th>Advantages</th><th>Disadvantages / conditions</th></tr><tr><td>Detailed local context and visibility of selected host activity.</td><td>Requires appropriate host deployment, permissions, maintenance and resources.</td></tr><tr><td>May inspect application-level information available at the endpoint, including data after authorized decryption.</td><td>This visibility is not automatic for all apps/data and raises access/privacy concerns.</td></tr><tr><td>Can detect selected file/configuration changes.</td><td>Baseline trust and legitimate updates matter; a compromised host may tamper with the agent or evidence.</td></tr></table><p>The executed file-hash fixture really changes/restores an owned temporary file. It demonstrates change detection only, not who acted, maliciousness, prevention or a deployed HIDS/EDR product.</p>"
+     },
+     "programs": [
+      "sec4p09"
+     ]
+    },
+    {
+     "h": {
+      "en": "3.4 Network-based IDS: strengths and limitations"
+     },
+     "body": {
+      "en": "<p><b>NIDS</b> analyzes network observations at suitable monitoring points, such as an authorized TAP/mirror feed or an appropriate sensor position.</p><table><tr><th>Advantages</th><th>Disadvantages / conditions</th></tr><tr><td>Can observe multiple hosts/flows on the monitored path.</td><td>Unobserved VLANs, routes or switched traffic are not magically visible; placement and feed configuration matter.</td></tr><tr><td>Can identify selected network patterns and correlate traffic context.</td><td>Encryption limits payload inspection without appropriate authorized visibility; packet loss and throughput can affect analysis.</td></tr><tr><td>Can be deployed without an agent on every endpoint.</td><td>It may lack host/process/user context and still requires maintenance, tuning and investigation.</td></tr></table><p>Wireshark/TShark is a packet analyzer, <b>not automatically an IDS</b>. The executed NIDS-style rule uses three invented records; it does not run Snort/Suricata, observe a live network or confirm an intruder.</p>"
+     },
+     "programs": [
+      "sec4p10"
+     ]
+    },
+    {
+     "h": {
+      "en": "3.5 Combine HIDS/NIDS evidence and interpret alert quality"
+     },
+     "body": {
+      "en": "<p>Host and network observations can complement one another. Choose sensors for the asset/threat, confirm coverage and correlate protected evidence rather than expecting a single tool to see everything.</p><table><tr><th>Outcome</th><th>Meaning</th></tr><tr><td>True positive (TP)</td><td>Relevant ground-truth event correctly flagged.</td></tr><tr><td>False positive (FP)</td><td>Benign ground-truth event flagged.</td></tr><tr><td>False negative (FN)</td><td>Relevant ground-truth event missed.</td></tr><tr><td>True negative (TN)</td><td>Benign ground-truth event not flagged.</td></tr></table><p>The actual six-case teaching fixture gives TP 2, FP 1, FN 1, TN 2. Precision=TP/(TP+FP)=2/3; recall=TP/(TP+FN)=2/3; false-positive rate=FP/(FP+TN)=1/3. These are hand-labelled fixture calculations, <b>not measured production IDS accuracy, an AI model or a performance benchmark</b>.</p>"
+     },
+     "diagram": "sec4_hids_nids",
+     "programs": [
+      "sec4p11"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "4. Honest Practical Evidence and Guided Simulation"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "4.1 Practical 7: actual offline TShark protocol analysis"
+     },
+     "body": {
+      "en": "<p>The kit supplies <code>synthetic.pcap</code>, a code-constructed 16-frame Ethernet fixture with fake local MACs, documentation-only IPv4 addresses and reserved .test names. It is <b>not a live capture or Packet Tracer output</b>.</p><ul><li>Actual TShark 4.4.19 dissects ARP, DNS, a complete small TCP/HTTP exchange and two tagged UDP frames. The protocol-column labels are ARP2,DNS2,HTTP2,TCP8,UDP2; filter counts overlap because HTTP runs over TCP and DNS over UDP.</li><li>The DNS response maps portal.diploma.test to 198.51.100.10; the HTTP request is GET /course and response 200. Frames 15/16 carry VLAN IDs 10/20.</li><li>Use <code>tshark -n -r synthetic.pcap -Y dns</code> for authorized offline inspection; -n disables name resolution. No interface capture or remote lookup is required.</li><li>Wireshark GUI opening/filter/follow-stream steps are supplied as guidance, not claimed as executed. No actual TLS traffic appears in this PCAP; the separate live loopback TLS example is not a recorded capture.</li><li>Fixed teaching timestamps and correct synthetic packets are not evidence of real network timing, ownership, attack detection or deployment security.</li></ul>"
+     },
+     "diagram": "sec4_analysis",
+     "programs": [
+      "sec4p05"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.2 Filters, checksums and limits of packet evidence"
+     },
+     "body": {
+      "en": "<p><b>Capture filters</b> use capture/BPF syntax, for example <code>tcp port 80</code>. <b>Display filters</b> use Wireshark syntax, for example <code>tcp.port == 80</code>. Do not substitute one for the other.</p><ul><li>Actual offline filtering finds 10 TCP-port80 frames and 2 HTTP frames. Passing the BPF form as a -Y display expression is actually rejected with an unexpected-token diagnostic; no capture-filter execution is claimed.</li><li>The DNS, HTTP and VLAN fields are actually extracted. With explicit checksum preferences, all present IP/TCP/UDP checksums validate as Good. In the tested 4.4.19 enumeration, Good=1, Bad=0 and Unverified=2.</li><li>A correct checksum is not cryptographic authentication, a firewall rule or a proof of a trusted sender. In other real captures, checksum offload and capture conditions can also affect interpretation.</li><li>Use only owned/instructor-authorized traffic and avoid sharing sensitive payloads/addresses/credentials. Do not grant extra capture privileges or disable security just to force a lab result.</li></ul>"
+     },
+     "programs": [
+      "sec4p06",
+      "sec4p12"
+     ]
+    },
+    {
+     "h": {
+      "en": "4.3 Practicals 8–10: Packet Tracer guides, not fabricated runs"
+     },
+     "body": {
+      "en": "<table><tr><th>Official practical</th><th>Included guided activity</th><th>Honest boundary</th></tr><tr><td>8: VLAN simulation</td><td>Two-switch access/trunk/VLAN10/20 setup, IP plan and same/cross-VLAN checks.</td><td>No Packet Tracer/switch run or .pkt/.pka file is claimed.</td></tr><tr><td>9: DMZ simulation</td><td>Separate simulated WAN/DMZ/inside segments and a three-interface router plan.</td><td>Zone labels alone do not enforce isolation; inspect routing before/after policy.</td></tr><tr><td>10: firewall simulation</td><td>Illustrative router extended-ACL packet-filter policy with one permitted HTTP path and denied internal paths.</td><td>Guided device-dependent syntax, not tested ASA/stateful/NGFW commands or production policy.</td></tr></table><p>The supplied Markdown guides distinguish suggested expected results from observations. Build/save your own authorized simulator project and record actual outcomes. Interface names/features vary by model/version. Source-port or ACK/RST matching in an ACL is not genuine connection-state tracking. A ping failure alone does not establish the intended security policy.</p><p>Python logical models, TShark dissection and the private application examples are supporting evidence, <b>not substitutes represented as successful Packet Tracer execution</b>. No host VLAN/router/firewall configuration is changed.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "4.4 Evidence classes, practical journal and assessment"
+     },
+     "body": {
+      "en": "<table><tr><th>Evidence class</th><th>What actually runs</th></tr><tr><td>Logical models</td><td>DMZ flow policy, ordering/default deny, tiny state table, VLAN membership and an invented NIDS-style rule.</td></tr><tr><td>Real local operations</td><td>Offline TShark dissection/checksums/filter rejection; owned loopback HTTP200/403; a private TLS1.3 byte relay; owned file-change hashing.</td></tr><tr><td>Guided only</td><td>Wireshark GUI/live capture; Packet Tracer VLAN/DMZ/firewall; circuit/NGFW appliances; Snort/Suricata deployment.</td></tr></table><p>The twelve scripts use provided helpers at the extracted ZIP root. Python standard library is sufficient for models; analysis requires TShark, and the private TLS example requires OpenSSL 3. No pip packages, binaries or real private keys are shipped. Live listeners/workers/temporary keys close at the end of each example.</p><ul><li>Record tool/version, actual command or fixture, outcome, interpretation and limits. Do not replace a failed/guided task with invented output.</li><li>The course remains 70+30 theory and 20+30 practical=150. Unit 4 is 9 hours/20% syllabus weight, not a guaranteed paper allocation.</li><li>The sixteen answered questions are original revision exercises with suggested 3/4/7-mark sizes, not official GTU papers, marks or a predicted pattern.</li></ul><p><b>References:</b> <a href=\"https://s3-ap-southeast-1.amazonaws.com/gtusitecirculars/Syallbus/DI05007021.pdf\">GTU DI05007021 syllabus, 2026–27</a>, <a href=\"https://csrc.nist.gov/pubs/sp/800/41/r1/final\">NIST SP800-41r1: firewall technologies/policy (2009 fundamentals)</a>, <a href=\"https://csrc.nist.gov/pubs/sp/800/94/final\">NIST SP800-94: IDPS principles/components (2007; later draft retired)</a>, <a href=\"https://www.cisco.com/c/en/us/support/docs/lan-switching/8021q/17056-741-4.html\">Cisco: IEEE802.1Q frame format (historical format reference)</a>, <a href=\"https://www.cisco.com/site/us/en/learn/topics/security/what-is-a-next-generation-firewall.html\">Cisco: NGFW feature overview (vendor description, not a performance guarantee)</a>, <a href=\"https://www.rfc-editor.org/rfc/rfc1928.html\">RFC1928: SOCKS5 connection/relay framework</a>, <a href=\"https://www.rfc-editor.org/rfc/rfc2003.html\">RFC2003: IP encapsulation and tunnel endpoints</a>, <a href=\"https://www.wireshark.org/docs/wsug_html_chunked/ChapterIntroduction.html\">Wireshark user guide: introduction and limits</a>, <a href=\"https://www.wireshark.org/docs/man-pages/tshark.html\">TShark command reference</a>, <a href=\"https://www.wireshark.org/docs/wsug_html_chunked/ChWorkBuildDisplayFilterSection.html\">Wireshark display-filter expressions</a>, <a href=\"https://www.netacad.com/cisco-packet-tracer\">Cisco Networking Academy: Packet Tracer</a>, <a href=\"https://www.rfc-editor.org/rfc/rfc8446.html\">RFC8446: TLS1.3</a>. Historical NIST/Cisco documents support fundamentals/format facts, not current vendor benchmarks. The NIST800-94 revision draft never became a final publication and was retired.</p>"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "5. Answered Exam-Style Practice — Suggested Marks Only"
+   },
+   "role": "practice",
+   "items": [
+    {
+     "h": {
+      "en": "Practice 1. Explain security zones, Internet and Intranet without assuming internal traffic is safe."
+     },
+     "body": {
+      "en": "<p>A zone groups systems by intended role/security posture; a boundary enforces communication policy. Internet refers to external interconnected networks/services; an Intranet is organizational internal networking. Naming a zone or using a private address does not authenticate a user or stop compromise. Define/enforce allowed directions/services, monitor evidence and test denies/allows. Internal systems and insiders can still violate policy.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 2. Explain a DMZ topology and four flow-policy decisions."
+     },
+     "body": {
+      "en": "<p>Place exposed services in a separately controlled DMZ between outside access and protected internal assets. In the logical model, outside-to-designated-web TCP80 is allowed, outside-to-inside is denied, one exact app-to-approved-DB TCP5432 dependency is allowed, and other DMZ-to-inside access is denied. These are explicit model decisions, not actual router enforcement. The separate Packet Tracer guide uses a different minimal lab plan/policy and was not executed. A DMZ label alone is not isolation or confidentiality.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 3. Differentiate VLAN access/trunk behaviour and inter-VLAN routing."
+     },
+     "body": {
+      "en": "<p>A VLAN separates an L2 broadcast domain. An access port normally serves its assigned VLAN; a trunk carries selected VLANs between devices. An802.1Q tag has a 12-bit VLAN ID in a four-byte tag; ordinary IDs are 1–4094, with 0/4095 special/reserved. Cross-VLAN communication needs an appropriate L3 path and controlled policy. Trunking does not route, encrypt or automatically permit all VLAN traffic. Verify configuration/IP/gateway/link state before interpreting a failed ping.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 4. Explain tunneling and why a tunnel does not automatically encrypt."
+     },
+     "body": {
+      "en": "<p>Tunneling carries one representation within another between entry/exit endpoints; IP-in-IP encapsulation itself is not encryption. Separate the original source/destination from tunnel endpoints and consider visibility before/after termination. The actual example negotiates TLS1.3 with a checked owned certificate, relays one framed message, then uses an owned plaintext loopback backend. It is not IPsec, a machine-wide VPN or a Packet Tracer tunnel; protection covers only the TLS segment.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 5. Explain packet filtering, rule order and default deny."
+     },
+     "body": {
+      "en": "<p>A basic packet filter evaluates header fields such as addresses, protocol and ports. In the declared first-match Python model, a specific deny before a broad allow rejects the flow; reversing them permits it. With no match, the default is deny. Real product semantics and directions must be checked. Header rules do not authenticate source addresses or fully understand applications. The code models decisions and does not install a host/router firewall.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 6. Compare stateless filtering and stateful inspection, including return traffic."
+     },
+     "body": {
+      "en": "<p>Stateless filtering evaluates packets without full stored session context. Stateful inspection tracks relevant flow/session context and policy so matching return traffic can be treated appropriately, with timeouts/lifecycle/resource handling. An unsolicited packet or an ACK/RST flag is not by itself a real established connection. The tiny model checks SYN, matching SYNACK, final ACK, return data and TTL on a synthetic clock, but not sequence validation, NAT, fragments or complete TCP/kernel enforcement.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 7. Explain an application-level gateway and the actual200/403 example."
+     },
+     "body": {
+      "en": "<p>An application gateway mediates supported protocol communication and can inspect application operations instead of only ports. It can provide protocol-aware control/logging but depends on parser correctness, protocol support, resources and trust/privacy decisions. The private real loopback example accepts GET /course with200 and rejects /admin with403, then closes all endpoints/workers. Its bounded allow-list is not a full HTTP parser, production WAF, complete proxy or host firewall.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 8. Explain a circuit-level gateway and contrast it with application inspection."
+     },
+     "body": {
+      "en": "<p>A circuit-level gateway controls establishment/relay of sessions under its policy, possibly including authentication. It need not inspect each application command/content item. SOCKS is a relevant relay framework between application and transport, not an IP/ICMP forwarding or automatic encryption guarantee. Application gateways can make supported application-semantic decisions. No SOCKS/circuit product is implemented or claimed as tested here.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 9. Describe NGFW capabilities and limitations compared with the other four types."
+     },
+     "body": {
+      "en": "<p>Packet filtering uses header/rule context; stateful inspection adds tracked flow state; an application gateway examines supported application semantics; a circuit gateway mediates sessions/relay. An NGFW combines state-aware control with features such as application/user context and integrated prevention depending on product/configuration/licensing. No label guarantees visibility into all encrypted content or prevention of every threat. The unit runs no NGFW appliance or commercial performance benchmark.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 10. Define intruder, IDS and IPS and explain why an alert is not proof."
+     },
+     "body": {
+      "en": "<p>An intruder attempts/causes policy violations and may be an outsider, masquerader or insider misusing rights. IDS collects/analyzes observations and alerts; IPS can actively prevent/block when deployed for that role. Unusual or matching activity may be benign, while a real violation may be missed. Investigate protected evidence and context rather than treating an alert as confirmed guilt or assuming detection automatically blocks traffic.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 11. Describe IDS components and the evidence pipeline."
+     },
+     "body": {
+      "en": "<p>Sensors/agents collect selected network/host observations; an analysis engine applies relevant methods; rules/baselines/configuration express detection knowledge; protected event/alert storage preserves context; a console/response integration supports health, management and authorized investigation. Sensor placement/health, clock consistency, packet/event loss, protected logs and access control affect reliability. A rule or dashboard alone does not prove full coverage.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 12. Compare HIDS and NIDS advantages and disadvantages."
+     },
+     "body": {
+      "en": "<p>HIDS provides selected host/file/process/log context and may observe application data available at its endpoint, but needs agent deployment/permissions/resources, baseline management and protection against tampering. NIDS can observe multiple flows/hosts on the monitored path without agents everywhere, but cannot see off-path/switched traffic automatically, may lack host/user context, and faces encryption/packet-loss/throughput limits. Combine complementary evidence and authorized visibility; neither guarantees complete detection.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 13. Explain false positives/negatives and calculate the six-case fixture metrics."
+     },
+     "body": {
+      "en": "<p>TP is a relevant event correctly flagged; FP a benign event flagged; FN a relevant event missed; TN a benign event unflagged. With TP 2, FP 1, FN 1, TN 2, precision=2/(2+1)=0.6667, recall=2/(2+1)=0.6667 and false-positive rate=1/(1+2)=0.3333. These are actual calculations on six hand-labelled teaching cases, not a measured production IDS benchmark or AI accuracy claim.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 14. Interpret the synthetic PCAP protocol/filter/checksum evidence."
+     },
+     "body": {
+      "en": "<p>The code constructs16 frames, not a live capture: ARP2,DNS2,HTTP2,TCP8,UDP2 protocol-column labels. Protocol filters overlap: TCP-port80 matches10 and HTTP2. DNS gives portal.diploma.test→198.51.100.10; HTTP GET /course gets200; two UDP frames have VLAN10/20 tags. Present IP/TCP/UDP checksums validate as Good1 under tested TShark 4.4.19. Correct checksums/tag bytes are not authentication, switch-policy enforcement or real network timing evidence.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 15. Differentiate capture/display filters and a packet analyzer from IDS."
+     },
+     "body": {
+      "en": "<p>Capture/BPF syntax such as tcp port80 differs from Wireshark display syntax tcp.port==80. The actual offline -Y attempt with BPF form is rejected; no live -f capture is executed. TShark/Wireshark decodes packet data but is not automatically an IDS or a blocking firewall. The displayed subset is not proof that unobserved traffic was absent from the real network.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 16. State the execution limits for Practicals 7–10 and a defensible journal."
+     },
+     "body": {
+      "en": "<p>Real TShark offline analysis of a synthetic file, owned TCP/TLS exchanges and file hashing are executed. VLAN/DMZ/rule/state/alert examples are declared Python logical models. Wireshark GUI/live capture and Packet Tracer VLAN/DMZ/firewall commands are guided only; no .pkt result, kernel policy, switch configuration, Snort/Suricata or NGFW deployment is claimed. Record actual commands, tool versions, observations, failures and limitations. Never fabricate output or weaken host protections to force a result.</p>"
+     }
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "sec4p01",
+   "title": {
+    "en": "Logical DMZ policy matrix — not a configured firewall"
+   },
+   "code": {
+    "en": "from models import Flow, decide\n\ncases = [\n    (\"outside_to_web\", Flow(\"192.0.2.10\", \"198.51.100.10\", 50000, 80)),\n    (\"outside_to_inside\", Flow(\"192.0.2.10\", \"203.0.113.20\", 50000, 80)),\n    (\"app_to_db\", Flow(\"198.51.100.10\", \"203.0.113.20\", 45000, 5432)),\n    (\"app_to_other_inside\",\n     Flow(\"198.51.100.10\", \"203.0.113.21\", 45000, 5432))]\nfor name, flow in cases:\n    print(name + \":\", decide(flow)[0])\nprint(\"kernel_rules_changed:\", False)\n"
+   },
+   "expl": {
+    "en": "Actually evaluates a documented first-match/default-deny Python policy on four fixed flows using documentation-only addresses. Only the named web service and exact app-to-DB path are allowed. No packet is sent to these addresses and no OS/router firewall is configured. Logical policy results are not Packet Tracer execution or proof of deployed segmentation."
+   },
+   "out": "outside_to_web: True\noutside_to_inside: False\napp_to_db: True\napp_to_other_inside: False\nkernel_rules_changed: False\n"
+  },
+  {
+   "id": "sec4p02",
+   "title": {
+    "en": "Logical packet filter: rule ordering and default deny"
+   },
+   "code": {
+    "en": "from models import Flow, Rule, decide\n\nflow = Flow(\"192.0.2.10\", \"198.51.100.10\", 50000, 80)\ndeny = Rule(\"specific-deny\", \"192.0.2.10/32\", \"198.51.100.10/32\",\n            \"TCP\", 80, \"deny\")\nbroad = Rule(\"broad-allow\", \"192.0.2.0/24\", \"198.51.100.0/24\",\n             \"TCP\", 80, \"allow\")\nprint(\"deny_before_broad:\", decide(flow, [deny, broad])[0])\nprint(\"broad_before_deny:\", decide(flow, [broad, deny])[0])\nprint(\"empty_policy:\", decide(flow, [])[0])\n"
+   },
+   "expl": {
+    "en": "The result is computed from the model’s explicit FIRST-MATCH semantics. A broad earlier allow shadows a later specific deny; an empty policy falls through to deny. Real products may have different evaluation semantics, directions and additional controls. This is not a kernel packet filter or a universal vendor rule-order claim."
+   },
+   "out": "deny_before_broad: False\nbroad_before_deny: True\nempty_policy: False\n"
+  },
+  {
+   "id": "sec4p03",
+   "title": {
+    "en": "Logical stateful model: handshake, return traffic and expiry"
+   },
+   "code": {
+    "en": "from models import Flow, StatefulModel\n\nflow = Flow(\"192.0.2.10\", \"198.51.100.10\", 50000, 80)\nmodel = StatefulModel(ttl=5)\nprint(\"unsolicited_return:\", model.observe(flow.reverse(), \"DATA\", 0))\nprint(\"allowed_syn:\", model.observe(flow, \"SYN\", 1))\nprint(\"premature_return_data:\",\n      model.observe(flow.reverse(), \"DATA\", 2))\nprint(\"matching_synack:\", model.observe(flow.reverse(), \"SYNACK\", 3))\nprint(\"final_ack:\", model.observe(flow, \"ACK\", 4))\nprint(\"tracked_return_data:\", model.observe(flow.reverse(), \"DATA\", 5))\nprint(\"expired_return:\", model.observe(flow.reverse(), \"DATA\", 11))\n"
+   },
+   "expl": {
+    "en": "A real Python state table follows a tiny declared TCP direction/phase/TTL model on a synthetic clock. The return path needs matching stored state, not a caller’s claimed ESTABLISHED label. It does not perform sequence-number validation, retransmissions, fragmentation, NAT, full TCP or kernel enforcement; no SYN packets are transmitted."
+   },
+   "out": "unsolicited_return: False\nallowed_syn: True\npremature_return_data: False\nmatching_synack: True\nfinal_ack: True\ntracked_return_data: True\nexpired_return: False\n"
+  },
+  {
+   "id": "sec4p04",
+   "title": {
+    "en": "Logical VLAN membership — separate from real switch enforcement"
+   },
+   "code": {
+    "en": "from models import vlan_l2_allowed\n\nprint(\"same_vlan_10:\", vlan_l2_allowed(10, 10))\nprint(\"cross_vlan_10_20:\", vlan_l2_allowed(10, 20))\nprint(\"same_vlan_20:\", vlan_l2_allowed(20, 20))\nprint(\"router_or_l3_policy_needed_for_cross_vlan:\", True)\nprint(\"packet_tracer_or_switch_configured:\", False)\n"
+   },
+   "expl": {
+    "en": "Evaluates an explicit same-VLAN logical membership rule, not actual forwarding hardware. VLANs separate Layer-2 broadcast domains; controlled Layer-3 routing can connect them. A trunk carries selected VLANs but does not by itself route or encrypt their traffic. The separate PCAP contains real tag bytes that TShark dissects, not evidence that a switch enforced separation."
+   },
+   "out": "same_vlan_10: True\ncross_vlan_10_20: False\nsame_vlan_20: True\nrouter_or_l3_policy_needed_for_cross_vlan: True\npacket_tracer_or_switch_configured: False\n"
+  },
+  {
+   "id": "sec4p05",
+   "title": {
+    "en": "Actual TShark offline dissection of a synthetic PCAP"
+   },
+   "code": {
+    "en": "import json\nfrom collections import Counter\nfrom packets import dissect, pcap_bytes\n\nrows = dissect([\"frame.number\", \"_ws.col.Protocol\"])\ncounts = Counter(row[1] for row in rows)\nprint(\"origin: constructed synthetic fixture, not live capture\")\nprint(\"pcap_bytes:\", len(pcap_bytes()))\nprint(\"frame_count:\", len(rows))\nprint(\"protocol_labels:\", json.dumps(dict(sorted(counts.items()))))\n"
+   },
+   "expl": {
+    "en": "Real TShark reads an owned 16-frame Ethernet PCAP generated by the provided packet helper. It dissects ARP, DNS, a complete small TCP/HTTP exchange and two 802.1Q-tagged UDP frames. The file uses fake/local MACs, RFC5737 documentation IPv4 addresses and reserved .test names. No live interface, foreign traffic or Packet Tracer output is captured."
+   },
+   "out": "origin: constructed synthetic fixture, not live capture\npcap_bytes: 1373\nframe_count: 16\nprotocol_labels: {\"ARP\": 2, \"DNS\": 2, \"HTTP\": 2, \"TCP\": 8, \"UDP\": 2}\n"
+  },
+  {
+   "id": "sec4p06",
+   "title": {
+    "en": "Actual DNS/HTTP/VLAN filters and checksum validation"
+   },
+   "code": {
+    "en": "from packets import dissect\n\ndns = dissect([\"dns.qry.name\", \"dns.a\"], \"dns\")\nrequest = dissect([\"http.request.method\", \"http.request.uri\"],\n                  \"http.request\")\nresponse = dissect([\"http.response.code\"], \"http.response\")\ntags = dissect([\"vlan.id\"], \"vlan\")\nchecks = dissect([\"ip.checksum.status\", \"tcp.checksum.status\",\n                  \"udp.checksum.status\"], \"ip\")\nprint(\"dns_frames:\", len(dns))\nprint(\"dns_answer:\", dns[1][1])\nprint(\"http_request:\", request[0][0], request[0][1])\nprint(\"http_response:\", response[0][0])\nprint(\"vlan_ids:\", [row[0] for row in tags])\nprint(\"all_present_checksums_good:\",\n      all(value == \"1\" for row in checks for value in row if value))\n"
+   },
+   "expl": {
+    "en": "TShark really extracts the synthetic DNS answer, GET /course, response200 and tags10/20. Explicit IP/TCP/UDP checksum verification is enabled; value1 is Good in the actual tested TShark4.4.19 enumeration. Correct fixture checksums are not proof of source authenticity, policy enforcement or security of a network. Packet timing is synthetic and not a benchmark."
+   },
+   "out": "dns_frames: 2\ndns_answer: 198.51.100.10\nhttp_request: GET /course\nhttp_response: 200\nvlan_ids: ['10', '20']\nall_present_checksums_good: True\n"
+  },
+  {
+   "id": "sec4p07",
+   "title": {
+    "en": "Actual loopback application allow-list: 200 versus 403"
+   },
+   "code": {
+    "en": "from localnet import private_http\n\nallowed = private_http(\"/course\")\ndenied = private_http(\"/admin\")\nprint(\"course_status:\", allowed[\"status\"])\nprint(\"admin_status:\", denied[\"status\"])\nprint(\"loopback_only:\", allowed[\"loopback_only\"] and denied[\"loopback_only\"])\nprint(\"listeners_closed:\",\n      allowed[\"listener_closed\"] and denied[\"listener_closed\"])\nprint(\"workers_stopped:\",\n      allowed[\"worker_stopped\"] and denied[\"worker_stopped\"])\n"
+   },
+   "expl": {
+    "en": "Two bounded real TCP exchanges reach only a private127.0.0.1 listener on OS-assigned ports. The owned application allows the fixed /course request and rejects /admin. It is a tiny teaching allow-list, NOT a complete HTTP parser, WAF, deployed firewall, general-purpose proxy or production gateway. No host firewall settings change."
+   },
+   "out": "course_status: 200\nadmin_status: 403\nloopback_only: True\nlisteners_closed: True\nworkers_stopped: True\n"
+  },
+  {
+   "id": "sec4p08",
+   "title": {
+    "en": "Actual private TLS1.3 byte relay — not an IP-level VPN"
+   },
+   "code": {
+    "en": "from localnet import private_tls_relay\n\nresult = private_tls_relay()\nfor name in [\"tls_version\", \"echo_matches\", \"checked_hostname\",\n             \"certificate_required\", \"loopback_only\", \"listeners_closed\",\n             \"workers_stopped\", \"temporary_keys_removed\"]:\n    print(name + \":\", result[name])\n"
+   },
+   "expl": {
+    "en": "A real TLS1.3 handshake validates the owned lab certificate/hostname under an explicitly supplied local root, then relays one framed teaching message to an owned plaintext loopback echo endpoint. TLS protects only the client-to-relay segment here; it checks the server certificate, not a client-certificate/mutual-TLS identity. This is not IPsec, a machine-wide VPN, SOCKS conformance or a Packet Tracer tunnel; no interface/routes/trust store is changed. Fresh private keys and sockets are cleaned up."
+   },
+   "out": "tls_version: TLSv1.3\necho_matches: True\nchecked_hostname: portal.diploma.test\ncertificate_required: True\nloopback_only: True\nlisteners_closed: True\nworkers_stopped: True\ntemporary_keys_removed: True\n"
+  },
+  {
+   "id": "sec4p09",
+   "title": {
+    "en": "HIDS-style file integrity fixture on an owned temporary file"
+   },
+   "code": {
+    "en": "import hashlib\nimport tempfile\nfrom pathlib import Path\nfrom models import hids_check\n\nwith tempfile.TemporaryDirectory(prefix=\"owned-hids-\") as folder:\n    path = Path(folder) / \"course.conf\"\n    path.write_bytes(b\"role=student\\n\")\n    baseline = hashlib.sha256(path.read_bytes()).hexdigest()\n    print(\"unchanged_alert:\", hids_check(path, baseline))\n    path.write_bytes(b\"role=staff\\n\")\n    print(\"changed_alert:\", hids_check(path, baseline))\n    path.write_bytes(b\"role=student\\n\")\n    print(\"restored_alert:\", hids_check(path, baseline))\nprint(\"fixture_removed:\", not Path(folder).exists())\n"
+   },
+   "expl": {
+    "en": "The file is actually created, hashed, changed and restored in a private temporary fixture. A trustworthy baseline is required. A changed hash indicates change, not who made it or whether it was malicious; a legitimate administrator update can also alert. This single check is not a deployed HIDS/EDR product, full host telemetry or prevention system."
+   },
+   "out": "unchanged_alert: False\nchanged_alert: True\nrestored_alert: False\nfixture_removed: True\n"
+  },
+  {
+   "id": "sec4p10",
+   "title": {
+    "en": "NIDS-style rule fixture: a pattern match is not a confirmed intrusion"
+   },
+   "code": {
+    "en": "from models import nids_fixture_alert\n\nrecords = [{\"zone\": \"outside\", \"destination_port\": 22},\n           {\"zone\": \"inside\", \"destination_port\": 22},\n           {\"zone\": \"outside\", \"destination_port\": 80}]\nprint(\"fixture_alerts:\", [nids_fixture_alert(r) for r in records])\nprint(\"pattern_match_confirms_intrusion:\", False)\nprint(\"snort_or_suricata_executed:\", False)\n"
+   },
+   "expl": {
+    "en": "Executes one explicitly simplified pattern rule on three invented records. An authorized outside administrator could also match, and different attacks might not. It does not observe real traffic, authenticate an intruder or run Snort/Suricata. A production NIDS needs appropriate sensors, visibility, parsing, rules, tuning and investigation."
+   },
+   "out": "fixture_alerts: [True, False, False]\npattern_match_confirms_intrusion: False\nsnort_or_suricata_executed: False\n"
+  },
+  {
+   "id": "sec4p11",
+   "title": {
+    "en": "Alert quality on six hand-labelled teaching cases"
+   },
+   "code": {
+    "en": "from models import confusion_counts\n\ntruth = [True, True, False, True, False, False]\npredicted = [True, True, True, False, False, False]\ncounts = confusion_counts(truth, predicted)\nprint(\"fixture_counts:\", counts)\nprint(\"precision:\", round(counts[\"TP\"] / (counts[\"TP\"] + counts[\"FP\"]), 4))\nprint(\"recall:\", round(counts[\"TP\"] / (counts[\"TP\"] + counts[\"FN\"]), 4))\nprint(\"false_positive_rate:\",\n      round(counts[\"FP\"] / (counts[\"FP\"] + counts[\"TN\"]), 4))\nprint(\"production_accuracy_benchmark:\", False)\n"
+   },
+   "expl": {
+    "en": "Actually computes TP2,FP1,FN1,TN2 and the shown fractions from six declared boolean labels. This is not measured network IDS accuracy, a trained AI model or proof that any product achieves these values. False positives consume investigation time; false negatives leave relevant events unnoticed."
+   },
+   "out": "fixture_counts: {'TP': 2, 'FP': 1, 'FN': 1, 'TN': 2}\nprecision: 0.6667\nrecall: 0.6667\nfalse_positive_rate: 0.3333\nproduction_accuracy_benchmark: False\n"
+  },
+  {
+   "id": "sec4p12",
+   "title": {
+    "en": "Actual display-filter syntax: TCP versus HTTP and a rejected BPF form"
+   },
+   "code": {
+    "en": "import subprocess\nfrom packets import dissect\n\ntcp = dissect([\"frame.number\"], \"tcp.port == 80\")\nhttp = dissect([\"frame.number\"], \"http\")\nrejected = False\ntry:\n    dissect([\"frame.number\"], \"tcp port 80\")\nexcept subprocess.CalledProcessError as error:\n    rejected = (error.returncode != 0\n                and \"was unexpected\" in error.stderr.lower()\n                and \"capture filter\" in error.stderr.lower())\nprint(\"tcp_port80_frames:\", len(tcp))\nprint(\"http_frames:\", len(http))\nprint(\"BPF_form_rejected_as_display_filter:\", rejected)\nprint(\"live_capture_filter_executed:\", False)\n"
+   },
+   "expl": {
+    "en": "Actual offline TShark display filtering finds10 TCP-port80 frames but only2 decoded HTTP frames. The BPF-style capture expression tcp port80 is not valid display-filter syntax and is really rejected when passed with -Y. No live capture or -f capture operation is run; use the appropriate syntax in the appropriate context."
+   },
+   "out": "tcp_port80_frames: 10\nhttp_frames: 2\nBPF_form_rejected_as_display_filter: True\nlive_capture_filter_executed: False\n"
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "sec4_zones",
+   "title": {
+    "en": "Zones and Controlled Boundaries"
+   },
+   "file": "diagrams/sec4_zones.svg"
+  },
+  {
+   "id": "sec4_dmz",
+   "title": {
+    "en": "Logical DMZ Flow Policy"
+   },
+   "file": "diagrams/sec4_dmz.svg"
+  },
+  {
+   "id": "sec4_vlan",
+   "title": {
+    "en": "VLAN Access, Trunk and Routing"
+   },
+   "file": "diagrams/sec4_vlan.svg"
+  },
+  {
+   "id": "sec4_tunnel",
+   "title": {
+    "en": "Private TLS Relay Scope"
+   },
+   "file": "diagrams/sec4_tunnel.svg"
+  },
+  {
+   "id": "sec4_firewall",
+   "title": {
+    "en": "Packet-Filter Policy Evaluation"
+   },
+   "file": "diagrams/sec4_firewall.svg"
+  },
+  {
+   "id": "sec4_stateful",
+   "title": {
+    "en": "Small Stateful Teaching Model"
+   },
+   "file": "diagrams/sec4_stateful.svg"
+  },
+  {
+   "id": "sec4_types",
+   "title": {
+    "en": "Five Firewall Types"
+   },
+   "file": "diagrams/sec4_types.svg"
+  },
+  {
+   "id": "sec4_ids",
+   "title": {
+    "en": "IDS Components and Evidence"
+   },
+   "file": "diagrams/sec4_ids.svg"
+  },
+  {
+   "id": "sec4_hids_nids",
+   "title": {
+    "en": "Host and Network Observation"
+   },
+   "file": "diagrams/sec4_hids_nids.svg"
+  },
+  {
+   "id": "sec4_analysis",
+   "title": {
+    "en": "Synthetic PCAP Analysis Provenance"
+   },
+   "file": "diagrams/sec4_analysis.svg"
+  }
+ ],
+ "syntax": [
+  {
+   "title": {
+    "en": "Network Security Quick Reference"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Zone policy"
+     },
+     "f": "Zone label != enforcement\nInternal/private address != trusted identity",
+     "terms": {
+      "en": "Define services/directions, enforce, monitor and verify both positive and negative cases."
+     }
+    },
+    {
+     "name": {
+      "en": "DMZ model"
+     },
+     "f": "Outside -> named DMZ web: allow\nOutside -> inside: deny\nApp -> exact approved DB: narrow exception",
+     "terms": {
+      "en": "Logical model only, not a configured firewall or Packet Tracer result."
+     }
+    },
+    {
+     "name": {
+      "en": "VLANs"
+     },
+     "f": "Access: assigned VLAN\nTrunk: selected VLANs\nRouting: controlled L3 path",
+     "terms": {
+      "en": "802.1Q ordinary IDs1–4094. Tags do not encrypt or automatically prove switch isolation."
+     }
+    },
+    {
+     "name": {
+      "en": "Tunneling"
+     },
+     "f": "Original data -> encapsulation\n-> tunnel endpoints -> decapsulation",
+     "terms": {
+      "en": "Encapsulation alone is not confidentiality. The real demo is a local TLS byte relay, not an IP-level VPN."
+     }
+    },
+    {
+     "name": {
+      "en": "Packet-filter policy"
+     },
+     "f": "Check relevant headers/direction\nFirst match in THIS model\nNo match -> deny",
+     "terms": {
+      "en": "Other products may evaluate differently; source addresses alone are not authentication."
+     }
+    },
+    {
+     "name": {
+      "en": "Stateful model"
+     },
+     "f": "SYN -> matching SYNACK -> ACK\n-> tracked data -> expiry",
+     "terms": {
+      "en": "Tiny logical model; not sequence-validating TCP, NAT, fragments, a kernel firewall or a packet transmission."
+     }
+    },
+    {
+     "name": {
+      "en": "Application versus circuit"
+     },
+     "f": "Application: supported protocol semantics\nCircuit: session establishment/relay",
+     "terms": {
+      "en": "A permitted stream is not automatically safe/encrypted. The tiny local HTTP demo is not production WAF/SOCKS."
+     }
+    },
+    {
+     "name": {
+      "en": "NGFW"
+     },
+     "f": "State/context + application awareness\n+ additional enabled capabilities",
+     "terms": {
+      "en": "Vendor/configuration/licensing/visibility matter; no universal malware or encrypted-payload guarantee."
+     }
+    },
+    {
+     "name": {
+      "en": "IDS pipeline"
+     },
+     "f": "Sensor/agent -> analysis -> alert/store\n-> management/investigation",
+     "terms": {
+      "en": "Protect health, clocks, evidence and access. Detection is not automatic prevention."
+     }
+    },
+    {
+     "name": {
+      "en": "HIDS versus NIDS"
+     },
+     "f": "Host: selected local logs/files/processes\nNetwork: observations on monitored path",
+     "terms": {
+      "en": "Agents/host compromise versus placement/encryption/loss trade-offs; complementary evidence."
+     }
+    },
+    {
+     "name": {
+      "en": "Alert quality"
+     },
+     "f": "Precision=TP/(TP+FP)\nRecall=TP/(TP+FN)\nFPR=FP/(FP+TN)",
+     "terms": {
+      "en": "Six-case fixture only, not a production accuracy benchmark. Handle zero denominators appropriately in other datasets."
+     }
+    },
+    {
+     "name": {
+      "en": "Offline display filters"
+     },
+     "f": "tshark -n -r synthetic.pcap -Y dns\ntshark -n -r synthetic.pcap -Y http\ntshark -n -r synthetic.pcap -Y \"vlan.id == 10\"",
+     "terms": {
+      "en": "Actual file dissection. No interface capture; correct filter syntax depends on context."
+     }
+    },
+    {
+     "name": {
+      "en": "Capture versus display"
+     },
+     "f": "Capture/BPF: tcp port 80\nDisplay: tcp.port == 80",
+     "terms": {
+      "en": "BPF form was really rejected as a -Y display expression. No live capture is claimed."
+     }
+    },
+    {
+     "name": {
+      "en": "Evidence boundaries"
+     },
+     "f": "Synthetic file != live capture\nPython model != switch/firewall deployment\nGuide != observed simulator result",
+     "terms": {
+      "en": "Packet Tracer/Wireshark GUI/IDS appliances are not run. Check actual observations and disclose limitations."
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Unit 4 Viva and Short Revision"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a security zone?"
+     },
+     "a": {
+      "en": "A grouping by intended role/security posture; its name alone does not enforce policy."
+     }
+    },
+    {
+     "q": {
+      "en": "Is an Intranet automatically safe?"
+     },
+     "a": {
+      "en": "No. Insider misuse, compromised endpoints and misconfiguration remain possible."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the purpose of a DMZ?"
+     },
+     "a": {
+      "en": "Separately control exposed services and their paths to outside/internal assets."
+     }
+    },
+    {
+     "q": {
+      "en": "Can every DMZ host reach every internal host?"
+     },
+     "a": {
+      "en": "It should not gain blanket access; permit only justified controlled dependencies."
+     }
+    },
+    {
+     "q": {
+      "en": "What does a VLAN separate?"
+     },
+     "a": {
+      "en": "A logical Layer-2 broadcast domain."
+     }
+    },
+    {
+     "q": {
+      "en": "What does an access port typically carry?"
+     },
+     "a": {
+      "en": "Traffic for the endpoint’s assigned VLAN under the configured port behaviour."
+     }
+    },
+    {
+     "q": {
+      "en": "What does a trunk do?"
+     },
+     "a": {
+      "en": "Carries selected VLANs between devices; it does not itself route or encrypt them."
+     }
+    },
+    {
+     "q": {
+      "en": "What allows inter-VLAN communication?"
+     },
+     "a": {
+      "en": "An appropriate Layer-3 routing path with suitable security policy."
+     }
+    },
+    {
+     "q": {
+      "en": "What are the ordinary VLAN ID limits?"
+     },
+     "a": {
+      "en": "1–4094;0 is used for priority tagging and 4095 is reserved."
+     }
+    },
+    {
+     "q": {
+      "en": "Does a failed ping prove segmentation?"
+     },
+     "a": {
+      "en": "No. Addresses, masks, gateways, links or filtering can explain failure; verify the setup."
+     }
+    },
+    {
+     "q": {
+      "en": "What is tunneling?"
+     },
+     "a": {
+      "en": "Carrying one communication representation within another between entry/exit endpoints."
+     }
+    },
+    {
+     "q": {
+      "en": "Does encapsulation automatically encrypt?"
+     },
+     "a": {
+      "en": "No. Protection depends on the actual protocol/scheme and endpoint trust."
+     }
+    },
+    {
+     "q": {
+      "en": "What does the actual TLS example protect?"
+     },
+     "a": {
+      "en": "The owned client-to-relay TLS1.3 segment; the separate backend is owned plaintext loopback."
+     }
+    },
+    {
+     "q": {
+      "en": "What is packet filtering?"
+     },
+     "a": {
+      "en": "Traffic decision-making using relevant packet headers and rule policy."
+     }
+    },
+    {
+     "q": {
+      "en": "What is default deny?"
+     },
+     "a": {
+      "en": "Deny traffic unless an applicable rule/policy explicitly permits it."
+     }
+    },
+    {
+     "q": {
+      "en": "Does rule order always work the same across products?"
+     },
+     "a": {
+      "en": "No. This model is first-match; real evaluation semantics and direction must be checked."
+     }
+    },
+    {
+     "q": {
+      "en": "What does stateful inspection add?"
+     },
+     "a": {
+      "en": "Stored flow/session context and lifecycle handling for relevant traffic."
+     }
+    },
+    {
+     "q": {
+      "en": "Is a TCP ACK/RST flag alone genuine stored state?"
+     },
+     "a": {
+      "en": "No. An ACL established keyword may only test flags, not validate an approved connection."
+     }
+    },
+    {
+     "q": {
+      "en": "What can an application gateway examine?"
+     },
+     "a": {
+      "en": "Supported application/protocol operations, subject to parser, configuration and visibility limits."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the local application example’s outcome?"
+     },
+     "a": {
+      "en": "GET /course receives 200; /admin receives 403 on owned loopback only."
+     }
+    },
+    {
+     "q": {
+      "en": "What does a circuit-level gateway control?"
+     },
+     "a": {
+      "en": "Session establishment/relay, not necessarily each application content item."
+     }
+    },
+    {
+     "q": {
+      "en": "Does SOCKS inherently provide an IP/ICMP gateway or encrypt traffic?"
+     },
+     "a": {
+      "en": "No. Its specific relay/authentication behaviour must not be confused with those properties."
+     }
+    },
+    {
+     "q": {
+      "en": "What distinguishes an NGFW conceptually?"
+     },
+     "a": {
+      "en": "Additional application/context/inspection or prevention capabilities combined with state-aware control, depending on the product/configuration."
+     }
+    },
+    {
+     "q": {
+      "en": "Does an IDS automatically block an intruder?"
+     },
+     "a": {
+      "en": "No. Detection/alerting is different from prevention/IPS action."
+     }
+    },
+    {
+     "q": {
+      "en": "Can an insider be an intruder?"
+     },
+     "a": {
+      "en": "Yes, when attempting/causing unauthorized policy violations or misusing authorized rights."
+     }
+    },
+    {
+     "q": {
+      "en": "Name typical IDS components."
+     },
+     "a": {
+      "en": "Sensors/agents, analysis engine, rule/baseline configuration, protected event storage and management/response interface."
+     }
+    },
+    {
+     "q": {
+      "en": "What are signature/anomaly methods versus HIDS/NIDS?"
+     },
+     "a": {
+      "en": "Detection approach versus observation location; they are different classification axes."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a HIDS advantage?"
+     },
+     "a": {
+      "en": "Relevant local host/file/process/log context when the deployed sensor has appropriate access."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a HIDS limitation?"
+     },
+     "a": {
+      "en": "Deployment/resources/maintenance, baseline trust and possible tampering on a compromised host."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a NIDS advantage?"
+     },
+     "a": {
+      "en": "Observing multiple flows/hosts on an appropriately monitored network path."
+     }
+    },
+    {
+     "q": {
+      "en": "What limits NIDS visibility?"
+     },
+     "a": {
+      "en": "Off-path/switched traffic, feed placement, encryption, packet loss and available analysis capacity."
+     }
+    },
+    {
+     "q": {
+      "en": "Is Wireshark automatically an IDS?"
+     },
+     "a": {
+      "en": "No. It is a packet analyzer; a rule/product/investigation system is a separate capability."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a false positive versus false negative?"
+     },
+     "a": {
+      "en": "Benign activity flagged versus a relevant ground-truth event missed."
+     }
+    },
+    {
+     "q": {
+      "en": "Why does a good checksum not prove a trusted sender?"
+     },
+     "a": {
+      "en": "Checksums detect certain corruption, not cryptographic identity or authorization."
+     }
+    },
+    {
+     "q": {
+      "en": "What was actually analyzed in the PCAP?"
+     },
+     "a": {
+      "en": "16 constructed benign frames, not live capture; ARP/DNS/TCP/HTTP and two VLAN-tagged UDP frames."
+     }
+    },
+    {
+     "q": {
+      "en": "Which practical/tool claims remain guided only?"
+     },
+     "a": {
+      "en": "Wireshark GUI/live capture and Packet Tracer VLAN/DMZ/firewall; no Snort/Suricata, NGFW, host firewall or switch deployment is claimed."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Practice: Explain security zones, Internet and Intranet without assuming internal traffic is safe."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Explain a DMZ topology and four flow-policy decisions."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Practice: Differentiate VLAN access/trunk behaviour and inter-VLAN routing."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Practice: Explain tunneling and why a tunnel does not automatically encrypt."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Explain packet filtering, rule order and default deny."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Compare stateless filtering and stateful inspection, including return traffic."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Practice: Explain an application-level gateway and the actual200/403 example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Explain a circuit-level gateway and contrast it with application inspection."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Describe NGFW capabilities and limitations compared with the other four types."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Practice: Define intruder, IDS and IPS and explain why an alert is not proof."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Describe IDS components and the evidence pipeline."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Practice: Compare HIDS and NIDS advantages and disadvantages."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Practice: Explain false positives/negatives and calculate the six-case fixture metrics."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Interpret the synthetic PCAP protocol/filter/checksum evidence."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Differentiate capture/display filters and a packet analyzer from IDS."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Practice: State the execution limits for Practicals 7–10 and a defensible journal."
+   },
+   "marks": 4
+  }
+ ],
+ "lesson_count": 18,
+ "answered_practice_count": 16,
+ "learning_outcomes": [
+  {
+   "en": "CO4: Apply measures to protect network communication using firewalls and intrusion detection systems."
+  }
+ ],
+ "practical_numbers": [
+  7,
+  8,
+  9,
+  10
+ ],
+ "content_kind": "network_theory_with_explicit_model_offline_local_and_guided_evidence",
+ "assessment_note": {
+  "en": "Official course: theory ESE 70 + PA 30; practical PA 20 + ESE 30 = 150. Unit 4 is 9h/20%, not a guaranteed paper allocation. Original suggested practice sizes are not official GTU questions; answers are in Notes section 5."
+ },
+ "question_provenance": "Original answered revision exercises; not official past papers",
+ "question_marks_are_suggested": true,
+ "runtime_evidence": {
+  "python": "3.13.16",
+  "os": "Debian GNU/Linux 13 (trixie)",
+  "architecture": "x86_64",
+  "programs_executed": 12,
+  "tshark": "TShark (Wireshark) 4.4.19.",
+  "openssl_cli": "OpenSSL 3.5.7 9 Jun 2026 (Library: OpenSSL 3.5.7 9 Jun 2026)",
+  "python_ssl": "OpenSSL 3.5.7 9 Jun 2026",
+  "helper_sha256": {
+   "models.py": "bc08a5dcb17ad109fe554b75b74760d83c2a5170a1c0f8143dd1bc8c5bd30d6e",
+   "packets.py": "135754c2b1e2f86a4e9abb5808e6cec7de37edb5a0cda217b6b3bd04c5ebaa49",
+   "localnet.py": "2ef1a79b3ddd5f6cec53fbbf8629aea2737d11acdfeaaf8745552e831b5f6ff3",
+   "pki_lab.py": "4428db827699655d3b5936a0aa00b6ffd3965e0d4830416074a584c205c06924"
+  },
+  "external_python_packages_required": false,
+  "TShark_offline_executed": true,
+  "Wireshark_GUI_executed": false,
+  "live_packet_capture_performed": false,
+  "Packet_Tracer_executed": false,
+  "Snort_Suricata_or_NGFW_executed": false,
+  "kernel_firewall_changed": false,
+  "switch_VLAN_or_router_configured": false,
+  "network_namespace_created": false,
+  "public_network_targets_used": false,
+  "persistent_service": false,
+  "host_capture_privileges_enabled": false,
+  "logical_models": [
+   "DMZ flow policy",
+   "rule order/default deny",
+   "tiny TCP direction/phase/TTL",
+   "same-VLAN membership",
+   "invented NIDS rule/label fixtures"
+  ],
+  "real_local_operations": [
+   "TShark offline dissection/filter/checksum validation",
+   "owned loopback HTTP allow-list",
+   "owned private TLS1.3 byte relay",
+   "owned temporary-file hash changes"
+  ],
+  "network_scope": "Owned IPv4 loopback only for actual sockets; documentation IPs exist only in models/synthetic PCAP",
+  "TLS_handshake_performed": true,
+  "mutual_TLS_performed": false,
+  "TLS_scope": "One client-to-relay TLS1.3 segment, then owned plaintext loopback backend; not VPN/IPsec",
+  "system_trust_store_changed": false,
+  "real_private_keys_published": false,
+  "temporary_keys_sockets_workers_cleaned": true,
+  "synthetic_pcap_sha256": "3849b284ffacc096abbf64993a1ea2727ee0002aa2d386574b13d770e8bbf661",
+  "synthetic_pcap_bytes": 1373,
+  "synthetic_frame_count": 16,
+  "pcap_origin": "Constructed benign protocol fixture; NOT live capture or Packet Tracer output",
+  "checksum_status_reference": {
+   "Good": 1,
+   "Bad": 0,
+   "Unverified": 2
+  },
+  "IDS_deployment_or_production_accuracy_claim": false,
+  "production_firewall_or_gateway_claim": false,
+  "practical_execution_scope": {
+   "7": "Actual TShark offline synthetic-file analysis; Wireshark GUI/live capture guided only",
+   "8": "Packet Tracer guided only; Python VLAN model/tag dissection are separate illustrations",
+   "9": "Packet Tracer guided only; logical DMZ policy is not enforcement",
+   "10": "Packet Tracer router-ACL guide only; models/owned application allow-list are not a deployed kernel firewall"
+  }
+ },
+ "worked_data": {
+  "manifest_fields": [
+   "frame.number",
+   "_ws.col.Protocol",
+   "ip.src",
+   "ip.dst",
+   "tcp.srcport",
+   "tcp.dstport",
+   "vlan.id",
+   "ip.checksum.status",
+   "tcp.checksum.status",
+   "udp.checksum.status"
+  ],
+  "manifest_rows": [
+   [
+    "1",
+    "ARP",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+   ],
+   [
+    "2",
+    "ARP",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+   ],
+   [
+    "3",
+    "DNS",
+    "192.0.2.10",
+    "192.0.2.53",
+    "",
+    "",
+    "",
+    "1",
+    "",
+    "1"
+   ],
+   [
+    "4",
+    "DNS",
+    "192.0.2.53",
+    "192.0.2.10",
+    "",
+    "",
+    "",
+    "1",
+    "",
+    "1"
+   ],
+   [
+    "5",
+    "TCP",
+    "192.0.2.10",
+    "198.51.100.10",
+    "50000",
+    "80",
+    "",
+    "1",
+    "1",
+    ""
+   ],
+   [
+    "6",
+    "TCP",
+    "198.51.100.10",
+    "192.0.2.10",
+    "80",
+    "50000",
+    "",
+    "1",
+    "1",
+    ""
+   ],
+   [
+    "7",
+    "TCP",
+    "192.0.2.10",
+    "198.51.100.10",
+    "50000",
+    "80",
+    "",
+    "1",
+    "1",
+    ""
+   ],
+   [
+    "8",
+    "HTTP",
+    "192.0.2.10",
+    "198.51.100.10",
+    "50000",
+    "80",
+    "",
+    "1",
+    "1",
+    ""
+   ],
+   [
+    "9",
+    "HTTP",
+    "198.51.100.10",
+    "192.0.2.10",
+    "80",
+    "50000",
+    "",
+    "1",
+    "1",
+    ""
+   ],
+   [
+    "10",
+    "TCP",
+    "192.0.2.10",
+    "198.51.100.10",
+    "50000",
+    "80",
+    "",
+    "1",
+    "1",
+    ""
+   ],
+   [
+    "11",
+    "TCP",
+    "192.0.2.10",
+    "198.51.100.10",
+    "50000",
+    "80",
+    "",
+    "1",
+    "1",
+    ""
+   ],
+   [
+    "12",
+    "TCP",
+    "198.51.100.10",
+    "192.0.2.10",
+    "80",
+    "50000",
+    "",
+    "1",
+    "1",
+    ""
+   ],
+   [
+    "13",
+    "TCP",
+    "198.51.100.10",
+    "192.0.2.10",
+    "80",
+    "50000",
+    "",
+    "1",
+    "1",
+    ""
+   ],
+   [
+    "14",
+    "TCP",
+    "192.0.2.10",
+    "198.51.100.10",
+    "50000",
+    "80",
+    "",
+    "1",
+    "1",
+    ""
+   ],
+   [
+    "15",
+    "UDP",
+    "203.0.113.10",
+    "203.0.113.11",
+    "",
+    "",
+    "10",
+    "1",
+    "",
+    "1"
+   ],
+   [
+    "16",
+    "UDP",
+    "203.0.113.20",
+    "203.0.113.21",
+    "",
+    "",
+    "20",
+    "1",
+    "",
+    "1"
+   ]
+  ]
+ },
+ "sources": [
+  {
+   "title": "GTU DI05007021 syllabus, 2026–27",
+   "url": "https://s3-ap-southeast-1.amazonaws.com/gtusitecirculars/Syallbus/DI05007021.pdf"
+  },
+  {
+   "title": "NIST SP800-41r1: firewall technologies/policy (2009 fundamentals)",
+   "url": "https://csrc.nist.gov/pubs/sp/800/41/r1/final"
+  },
+  {
+   "title": "NIST SP800-94: IDPS principles/components (2007; later draft retired)",
+   "url": "https://csrc.nist.gov/pubs/sp/800/94/final"
+  },
+  {
+   "title": "Cisco: IEEE802.1Q frame format (historical format reference)",
+   "url": "https://www.cisco.com/c/en/us/support/docs/lan-switching/8021q/17056-741-4.html"
+  },
+  {
+   "title": "Cisco: NGFW feature overview (vendor description, not a performance guarantee)",
+   "url": "https://www.cisco.com/site/us/en/learn/topics/security/what-is-a-next-generation-firewall.html"
+  },
+  {
+   "title": "RFC1928: SOCKS5 connection/relay framework",
+   "url": "https://www.rfc-editor.org/rfc/rfc1928.html"
+  },
+  {
+   "title": "RFC2003: IP encapsulation and tunnel endpoints",
+   "url": "https://www.rfc-editor.org/rfc/rfc2003.html"
+  },
+  {
+   "title": "Wireshark user guide: introduction and limits",
+   "url": "https://www.wireshark.org/docs/wsug_html_chunked/ChapterIntroduction.html"
+  },
+  {
+   "title": "TShark command reference",
+   "url": "https://www.wireshark.org/docs/man-pages/tshark.html"
+  },
+  {
+   "title": "Wireshark display-filter expressions",
+   "url": "https://www.wireshark.org/docs/wsug_html_chunked/ChWorkBuildDisplayFilterSection.html"
+  },
+  {
+   "title": "Cisco Networking Academy: Packet Tracer",
+   "url": "https://www.netacad.com/cisco-packet-tracer"
+  },
+  {
+   "title": "RFC8446: TLS1.3",
+   "url": "https://www.rfc-editor.org/rfc/rfc8446.html"
+  }
+ ]
+}

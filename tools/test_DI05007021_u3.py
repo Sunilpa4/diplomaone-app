@@ -37,9 +37,10 @@ class Unit3Tests(unittest.TestCase):
   self.assertEqual((self.s['semester'],self.s['syllabus_year']),(5,'2026-27'))
   self.assertEqual(self.s['exam'],{'theory_ese':70,'theory_pa':30,'practical_pa':20,'practical_ese':30,'total':150,'credits':4})
 
- def test_02_only_approved_first_three_units(self):
-  self.assertEqual([x['file'] for x in self.s['units']],['unit1.json','unit2.json','unit3.json',None,None])
-  self.assertEqual(sorted(p.name for p in SUBJ_DIR.glob('unit*.json')),['unit1.json','unit2.json','unit3.json'])
+ def test_02_first_three_and_other_installed_approved_units(self):
+  installed=[i for i in range(1,6) if (SUBJ_DIR/f'unit{i}.json').is_file()]
+  self.assertTrue({1,2,3}.issubset(installed))
+  self.assertEqual([x['file'] for x in self.s['units']],[f'unit{i}.json' if i in installed else None for i in range(1,6)])
   self.assertEqual(self.u['tabs'],TABS)
 
  def test_03_english_only_no_priority_flags(self):
@@ -323,17 +324,22 @@ class Unit3Tests(unittest.TestCase):
   for rel,wanted in baseline.items():
    raw=(ROOT/rel).read_bytes()
    if rel=='content/computer/sem5/DI05007021/subject.json':
-    restored=json.loads(raw);self.assertEqual(restored['units'][2]['file'],'unit3.json');restored['units'][2]['file']=None
+    restored=json.loads(raw);self.assertEqual(restored['units'][2]['file'],'unit3.json')
+    for spec in restored['units'][2:]:spec['file']=None
     raw=(json.dumps(restored,ensure_ascii=False,indent=1)+'\n').encode()
    self.assertEqual(hashlib.sha256(raw).hexdigest(),wanted,rel)
   with tempfile.TemporaryDirectory() as td:
    out=Path(td)/'data';r=subprocess.run([sys.executable,'tools/export_app_content.py','--out',str(out)],cwd=ROOT,text=True,capture_output=True,timeout=20)
-   self.assertEqual(r.returncode,0,r.stderr);self.assertEqual((len(list((out/'subjects').glob('*.json'))),len(list((out/'units').glob('*.json')))),(14,67))
+   self.assertEqual(r.returncode,0,r.stderr)
+   self.assertGreaterEqual(len(list((out/'subjects').glob('*.json'))),14)
+   self.assertGreaterEqual(len(list((out/'units').glob('*.json'))),67)
+   installed=[i for i in range(1,6) if (SUBJ_DIR/f'unit{i}.json').is_file()]
    for p in BASE.rglob('*.json'):
     rel=p.relative_to(BASE).as_posix()
     if rel=='catalog.json':continue
     if rel=='subjects/DI05007021.json':
-     expected=json.loads(p.read_bytes());expected['available_units']=[1,2,3];expected['units'][2]['file']='unit3.json'
+     expected=json.loads(p.read_bytes());expected['available_units']=installed
+     for spec in expected['units']:spec['file']=f"unit{spec['no']}.json" if spec['no'] in installed else None
      self.assertEqual(json.loads((out/rel).read_bytes()),expected)
     else:self.assertEqual((out/rel).read_bytes(),p.read_bytes(),rel)
    old=json.loads((BASE/'catalog.json').read_bytes());new=json.loads((out/'catalog.json').read_bytes())
