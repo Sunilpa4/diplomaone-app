@@ -77,7 +77,8 @@ class Unit3Tests(unittest.TestCase):
         self.assertEqual(u['exam_questions'], [])
         self.assertEqual(self.s['exam'], {'theory_ese':0, 'theory_pa':0, 'practical_pa':20,
                                          'practical_ese':30, 'total':50, 'credits':3})
-        self.assertEqual([v['file'] for v in self.s['units']], ['unit1.json','unit2.json','unit3.json',None,None])
+        expected_files=['unit1.json','unit2.json','unit3.json']+[f'unit{n}.json' if (SUBJ_DIR/f'unit{n}.json').is_file() else None for n in (4,5)]
+        self.assertEqual([v['file'] for v in self.s['units']],expected_files)
         self.assertIn('Cassandra’s data model and CQL', u['learning_outcomes'][0]['en'])
 
     def test_03_exact_current_cql_and_fresh_real_outputs(self):
@@ -368,14 +369,16 @@ class Unit3Tests(unittest.TestCase):
             s=json.loads(Path(tmp,'subjects/DI04000031.json').read_text())
             u=json.loads(Path(tmp,'units/DI04000031_u3.json').read_text())
             catalog=json.loads(Path(tmp,'catalog.json').read_text())
-            self.assertEqual(s['available_units'],[1,2,3]);self.assertEqual(len(s['units']),5)
+            expected_available=[1,2,3]+[n for n in (4,5) if (SUBJ_DIR/f'unit{n}.json').is_file()]
+            self.assertEqual(s['available_units'],expected_available);self.assertEqual(len(s['units']),5)
             self.assertEqual(u['programs'],self.u['programs']);self.assertEqual(set(u['svgs']),set(TITLES))
             for rel in ('subjects/DI04000031.json','units/DI04000031_u1.json','units/DI04000031_u2.json','units/DI04000031_u3.json'):
                 self.assertEqual(catalog['files'][rel],hashlib.sha1(Path(tmp,rel).read_bytes()).hexdigest()[:12])
             for n in (1,2):
                 prior=json.loads(Path(tmp,f'units/DI04000031_u{n}.json').read_text());prior.pop('svgs')
                 self.assertEqual(prior,json.loads((SUBJ_DIR/f'unit{n}.json').read_text()))
-            for n in (4,5):self.assertFalse(Path(tmp,f'units/DI04000031_u{n}.json').exists())
+            for n in (4,5):
+                self.assertEqual(Path(tmp,f'units/DI04000031_u{n}.json').exists(),(SUBJ_DIR/f'unit{n}.json').is_file())
 
     def test_29_deterministic_rebuild_json_svg_preview_and_zip(self):
         files=[SUBJ_DIR/'unit3.json',SUBJ_DIR/'subject.json',PREVIEW,Path(ZIP_PATH)]

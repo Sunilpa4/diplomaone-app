@@ -1,6 +1,6 @@
 # DI04000031 — Source and scope record
 
-Checked: **29 October 2026**. The materials cover **Units 1–3**; Units 4–5 remain pending.
+Checked: **29 October 2026**. The materials cover **Units 1–4**; Unit 5 remains pending.
 
 ## Authoritative curriculum
 
@@ -111,3 +111,61 @@ Build: `python3 tools/build_DI04000031_u3.py` (real Cassandra required).
 Validate: `python3 tools/test_DI04000031_u3.py` and prior-unit regressions.
 Export the already built practical ZIP without a DB connection: `python3 tools/export_DI04000031_u3_practicals.py`.
 Release only after exact-new-commit native app CI, then publication and fresh live JSON/SVG/catalog-byte/hash verification. Units 4–5 remain pending.
+
+
+## Unit 4 — Neo4j reference and execution record
+
+- Official Unit 4: **12 hours / 20% content weightage**; CO4: “Utilize Neo4j to solve relationship-based problems with graph queries.” Application-oriented graph concepts, installation, basic Cypher/graph operations; graph-algorithm **examples only, not implementations or mathematical proofs**. Syllabus-named LinkedIn/Netflix/banking contexts are taught as workload analogies, not verified company-deployment claims.
+- **Practical 7** explicitly calls for Desktop or Aura setup and Browser exploration; **Practical 8** asks for nodes/relationships and MATCH/WHERE/RETURN plus friend-recommendation/fraud-use-case demonstrations. The material gives the official Desktop/Aura/Browser procedure and asks students for their own actual GUI observations. The reference is **not** an installed Desktop, provisioned Aura service or automated Browser GUI proof.
+- Actual private reference: **Neo4j Community 5.26.32**, matching **Cypher Shell 5.26.32**, official Python **neo4j driver 5.28.8**, negotiated **Bolt 5.8**, **Temurin 21.0.13+9 JRE**, **Python 3.13.16**, **Debian 13 x86_64**. LTS 5.26 coexists with newer calendar-version releases; these patch versions are observations, not timeless latest/security guarantees. Tested Debian 13 does not imply vendor certification for an OS absent from the versioned matrix.
+- Verified official `neo4j-community-5.26.32-unix.tar.gz` (152610441 bytes), SHA-256 **d279ae6a9b38034280681a558b0cd222dce89f87cc3d9867f1f7bd28ef5ebc30**. Verified official Adoptium `OpenJDK21U-jre_x64_linux_hotspot_21.0.13_9.tar.gz` (52181297 bytes), SHA-256 **a535a1df9c6284d9618872984e026ae0352d1f7e9e0605425c0e6114f47351dd**. `tools/setup_neo4j_runtime.py` pins/verifies these. This is checksum verification, not a separate signature-verification claim.
+- CQL from Unit 3 is not Cypher. The server, Desktop, Browser, Aura and driver are distinct products/interfaces; version executable output alone is not storage/connectivity proof. Matching Cypher Shell actually queried the server and ran full positive probe/social scripts; all sixteen reference scripts also executed through the official native driver.
+- One private local Community instance; no public database endpoint, cluster/failover test, real bank/customer data, performance benchmark or trained model. Reference Bolt/HTTP ports **7688/7475**, usual local defaults **7687/7474**. Authentication is enabled; a random private initial password was configured **before first launch**. Private credentials are mode **0600**, outside the project in the excluded runtime cache. Actual anonymous and old-default-password connections returned **Neo.ClientError.Security.Unauthorized**, while authorized access still succeeded. Configured server usage reporting and driver telemetry are disabled. Local unencrypted access is not production TLS/authorization hardening; remote/Aura instructions preserve TLS verification.
+- The constrained reference heap/page cache is not production sizing advice; GTU recommends an 8 GB learning machine. No host service, system-wide Java replacement, root database service or commercial/cloud resource was automatically provisioned.
+- Sixteen complete independent sources execute actual Cypher in per-statement implicit auto-commit transactions. Returned rows and summary counters are real, JSON-serialized preserving result order; date/datetime display is normalized. Unstable internal IDs, timings and non-error notifications are not invented as stable outputs. The whole file is **not** one atomic transaction.
+- Community examples share the `neo4j` database; they do **not** create sixteen separate databases. Each prepared file first atomically CREATEs a uniquely named fresh ownership constraint and then a scoped marker. This avoids treating a non-unique plain marker-node CREATE as an atomic claim. Existing scope nodes/schema are refused; no IF NOT EXISTS is used to falsely infer ownership. Finally cleanup removes only captured owned nodes and successfully created constraints, releasing the claim last. The guard is for **trusted prepared scripts**, not arbitrary untrusted Cypher or production security/authorization.
+- Tests preserve a sentinel in an existing-node scope and a constraint-only scope. A deterministic interleaving uses **real server DDL/rejections** to insert another creator after preflight; the failed CREATE does not gain ownership or delete that creator’s graph/schema. Unexpected post-claim failures and missing/invalid fixture cases clean only the owned scope. Ambiguous/interrupted runs require inspection, not blanket deletion.
+- Typed graph properties include real strings/integers/floats/booleans/lists/date/datetime. Nodes can have several labels; relationships have one type and stored direction. An undirected read does not create reverse edges. Application IDs are not assumed stable internal IDs. A label alone does not create uniqueness/existence requirements.
+- Actual MERGE example: Jai/P09 visits **1 -> 2**, one business node. MATCH+SET for absent P99 creates nothing and leaves six people, unlike Cassandra UPDATE upsert. SET/REMOVE retain the selected other data; plain connected-node DELETE is rejected; DELETE relationship preserves endpoints; DETACH removes the selected node and all incident relationships, not automatically all other endpoints or physical bytes.
+- OPTIONAL MATCH actual observation: **six rows / one non-null mentee**. Asha mentors Ravi; other optional mentees are null. A later non-null filter deliberately removes unmatched rows.
+- Business uniqueness is observed with an **ONLINE** backing index, not a speedup benchmark. A single statement creates P98 then attempts duplicate P01; the real rejection leaves **P98 count 0**, proving rollback of that statement. A later “No ID” person is accepted: uniqueness alone is not required-property enforcement. Enterprise-only key/existence/type policies are not claimed as implemented Community features.
+- Real failure codes include **Neo.ClientError.Schema.ConstraintValidationFailed** (connected DELETE / duplicate ID), **Neo.ClientError.Statement.TypeError** (nested map-valued stored property), **Neo.ClientError.Statement.SyntaxError** (unbound variable / malformed pattern) and **Neo.ClientError.Statement.SemanticError** (null MERGE identity). No invented numeric codes or mock server class substitutions.
+- Fixed official-driver query parameters really treat the selector-shaped name as a literal unmatched value, not query text. `:param` is a client command; `// @params`, `@params_file`, `@result`, `@expect`, `@stats` are ordinary comments interpreted by the exported runner, not new Cypher syntax. Parameterization does not replace authorization/validation/privacy.
+- Actual JSON/UNWIND import verifies **every one of six people and six directed KNOWS edges**, including all business IDs/names/cities/ages and endpoints/since years, against `graph_fixture.json`. The same file’s movie/banking sections are separate scenario inputs, not secretly imported extras in program 15. The input is a synthetic snapshot, not LOAD CSV, live ingestion or an AI pipeline benchmark.
+- Social fixture: P01 Asha/Surat/20; P02 Ravi/Bharuch/21; P03 Neha/Surat/19; P04 Meera/Vadodara/22; P05 Imran/Surat/20; P06 Dev/Rajkot/23. Stored KNOWS edges: P01->P02, P01->P03, P02->P04, P03->P04, P02->P05, P04->P06. Basic two-hop candidates for Asha are **P04 Meera / P05 Imran** after self/direct-link exclusion and DISTINCT; Meera has two paths, Dev is three hops away.
+- Movie fixture: Asha likes M01 Graph Journeys; Ravi likes M01/M02 Database Stories; Neha likes M03 Space Signals. Unseen candidates via known people are **M02 / M03**, not a trained/ranked recommender or Netflix-deployment proof.
+- Banking fixture: D01 used by A01/A02/A04 yields **A01–A02 / A01–A04 / A02–A04**. D02 used only by A03 yields no pair. Shared-device output is a **review candidate, not a fraud verdict**. Family/public devices, reassignment and data errors can be legitimate. Context, consent, retention, false positives, provenance and human review are explicit.
+- Similarity/common-neighbour intuition, centrality, community detection, path finding and link-prediction ideas are **conceptual examples only**. The executed queries are introductory pattern demonstrations required by Practical 8, not implementations of those algorithm families. No GDS/APOC procedures are installed, no graph-algorithm implementation/pseudocode/proof is shipped, and no AI accuracy/relevance/latency uplift is claimed. A community is not automatically a fraud ring and a graph does not automatically make AI true/unbiased/authorized.
+- Deliverables: **20 lessons / 16 real programs / 14 self-contained mobile SVGs / 16 reference cards / 56 viva answers / 18 answered practical tasks**. The practical-only course has `exam_questions: []`; tasks appear in Notes, without invented official theory-paper marks.
+- Deterministic practical ZIP: **37 files** — 16 exact Cypher sources, 16 actual expected outputs, guarded runner, requirements, synthetic graph_fixture.json, non-secret runtime.json and README. Export is proven DB/network-independent and does not import the executable program module. The ZIP is a workspace download, not an invented hosted download URL.
+- **36 Unit 4 validation groups** cover current real runs/outputs, full fixture equality, genuine failures and counters, actual Cypher Shell scripts, denied access, atomic creation ownership/collision/failure cleanup, lexer/context/fixture guards, safe English HTML/links, all SVG raster/text bounds and visual review, all 16 public ZIP reruns, five preview views, catalog/hash/app-font-normalized SVG integration, byte-identical rebuild/offline export and secret exclusions. Raster validation uses resvg-py **0.5.0** (older 0.2.4 does not accept fractional zoom).
+- Unit 1’s **20 groups** are rerun. Units 1–3 source JSON and their exported public JSON are preserved against their prior verified SHA-256 values. MongoDB/Cassandra runtime suites are not relabeled as rerun after a snapshot discarded their excluded runtimes. Exact-new-commit native Flutter rendering additionally covers all released content before publishing, followed by fresh LIVE byte/hash checks. Unit 5 remains pending.
+
+### Unit 4 primary references
+
+- [GTU DI04000031 syllabus, effective 2025–26](https://s3-ap-southeast-1.amazonaws.com/gtusitecirculars/Syallbus/DI04000031.pdf)
+- [Neo4j property-graph concepts](https://neo4j.com/docs/getting-started/appendix/graphdb-concepts/)
+- [Neo4j deployment choices and releases](https://neo4j.com/deployment-center/)
+- [Neo4j 5 system and Java requirements](https://neo4j.com/docs/operations-manual/5/installation/requirements/)
+- [Neo4j 5 Linux tarball installation](https://neo4j.com/docs/operations-manual/5/installation/linux/tarball/)
+- [Neo4j Desktop installation](https://neo4j.com/docs/desktop/current/installation/)
+- [Aura: create an instance](https://neo4j.com/docs/aura/getting-started/create-instance/)
+- [Neo4j Browser: connect to an instance](https://neo4j.com/docs/browser/operations/dbms-connection/)
+- [Cypher Shell client guide — reference client 5.26.32](https://neo4j.com/docs/operations-manual/current/cypher-shell/)
+- [Cypher 5 MATCH](https://neo4j.com/docs/cypher-manual/5/clauses/match/)
+- [Cypher 5 CREATE](https://neo4j.com/docs/cypher-manual/5/clauses/create/)
+- [Cypher 5 MERGE](https://neo4j.com/docs/cypher-manual/5/clauses/merge/)
+- [Cypher 5 SET](https://neo4j.com/docs/cypher-manual/5/clauses/set/)
+- [Cypher 5 DELETE](https://neo4j.com/docs/cypher-manual/5/clauses/delete/)
+- [Cypher 5 OPTIONAL MATCH](https://neo4j.com/docs/cypher-manual/5/clauses/optional-match/)
+- [Cypher 5 constraints and edition boundaries](https://neo4j.com/docs/cypher-manual/5/constraints/)
+- [Cypher 5 parameters](https://neo4j.com/docs/cypher-manual/5/syntax/parameters/)
+- [Neo4j Graph Data Science algorithm families — conceptual reference only](https://neo4j.com/docs/graph-data-science/current/algorithms/)
+
+The older `.../operations-manual/5/cypher-shell/` and `.../cypher-shell/current/` locations returned not-found pages; use the verified Operations Manual **current** Cypher Shell link above for client guidance, while recording the actually tested 5.26.32 client. `.../constraints/managing-constraints/` is obsolete; the versioned constraints index links create/list/drop pages.
+
+Reproduce the private reference: `python3 tools/setup_neo4j_runtime.py` verifies/extracts official downloads and initializes a private password before the first launch; start its printed foreground command through the managed process tool. Do not reset an existing authentication store, run duplicate processes or publish the credential file.
+Build: `python3 tools/build_DI04000031_u4.py` (real authenticated Neo4j required).
+Validate: `python3 tools/test_DI04000031_u4.py` plus Unit 1 regression / prior-unit preservation checks.
+Export the already built ZIP without database/network access: `python3 tools/export_DI04000031_u4_practicals.py`.
+Release: source sync -> exact-new-SHA native app CI -> publication -> fresh live bytes/catalog hash verification. Redis is still pending.
