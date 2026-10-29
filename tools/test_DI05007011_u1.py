@@ -70,6 +70,7 @@ class HardwareUnit1Tests(unittest.TestCase):
    self.assertTrue(term in self.plain,term)
   self.assertTrue('raid describes a storage arrangement' in self.plain)
   self.assertTrue('m.2 is a form-factor/connector family' in self.plain)
+  self.assertIn('Legacy BIOS OR UEFI boot interfaces',(DIAG_DIR/'hw1_firmware.svg').read_text())
 
  def test_08_connector_display_and_thunderbolt_distinctions(self):
   for term in ['led-backlit lcd','usb-c is a connector form','thunderbolt 1/2','mini displayport-style','3/4/5 use usb-c','traditional analog video','8p8c','trs/trrs','power delivery is negotiated']:

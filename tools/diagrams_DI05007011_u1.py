@@ -77,8 +77,8 @@ def layers():
 
 def firmware():
  b=heading('Startup interface is not settings storage')
- data=[('Platform firmware initialization','Legacy BIOS or applicable modern firmware'),
-       ('UEFI interfaces / boot process','Not merely a graphical setup menu'),
+ data=[('Platform firmware initialization','Applicable hardware / platform state'),
+       ('Legacy BIOS OR UEFI boot interfaces','Alternative paths,not two required stages'),
        ('OS loader and operating system','Drivers/apps then use supported hardware')]
  for i,(n,d) in enumerate(data):
   y=68+83*i
