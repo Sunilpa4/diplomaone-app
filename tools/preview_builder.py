@@ -154,6 +154,7 @@ function hlPy(src){
 }
 function hl(src){
   if (META.code_lang === 'python') return hlPy(src);
+  if (META.code_lang === 'nosql') return esc(src);
   const re = /(\/\/[^\n]*|\/\*[\s\S]*?\*\/)|("(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*')|(^[ \t]*#[^\n]*)|([A-Za-z_]\w*)(?=\s*\()|([A-Za-z_]\w*)|(\b\d+(?:\.\d+)?[fFlLuU]*\b)/gm;
   let o='', last=0, m;
   while ((m = re.exec(src))){
@@ -172,7 +173,7 @@ const progBody = p => `<div class="pl">${L('code')}</div><pre class="code">${hl(
 const pBox = id => { const p=(U.programs||[]).find(x=>x.id===id); if(!p) return ''; return `<div class="pbox"><div class="et">${L('prog')}: ${t(p.title)}</div>${progBody(p)}</div>`; };
 const exBox = id => { const n=(U.numericals||[]).find(x=>x.id===id); if(!n) return ''; return `<div class="ex"><div class="et">${L('ex')}</div><div class="eq2">${t(n.q)}</div>${fixTables(t(n.a))}</div>`; };
 function notes(){
-  let h = `<div class="intro"><b>${t(U.title)}</b><div>${L('unit')} ${U.unit} · ${U.weightage}% ${L('intro')} · ${U.hours} ${L('hours')}</div><div>${L(U.programs?(META.code_lang==='python'?'intropy':'introc'):'introd')}</div></div>`;
+  let h = `<div class="intro"><b>${t(U.title)}</b><div>${L('unit')} ${U.unit} · ${U.weightage}% ${L('intro')} · ${U.hours} ${L('hours')}</div><div>${U.intro_text ? t(U.intro_text) : L(U.programs?(META.code_lang==='python'?'intropy':'introc'):'introd')}</div></div>`;
   U.notes.forEach((sec,si)=>{
     h += `<div class="sec">${head(t(sec.title))}`;
     sec.items.forEach((it,i)=>{

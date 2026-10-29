@@ -1,0 +1,966 @@
+{
+ "subject": "DI04000031",
+ "unit": 1,
+ "format": "notes",
+ "title": {
+  "en": "Introduction to NoSQL"
+ },
+ "hours": 8,
+ "weightage": 13,
+ "intro_text": {
+  "en": "Why NoSQL, CAP with a booking analogy, the four data models and AI use cases. Includes Practical 1 comparison, eight worked selection cases, 16 answered practice tasks and viva. Illustrations are not database-server output; no official theory-paper marks are assigned."
+ },
+ "notes": [
+  {
+   "title": {
+    "en": "1.1 Why NoSQL? Modern Workloads and RDBMS Trade-offs"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "What NoSQL Means — and What This Unit Requires"
+     },
+     "body": {
+      "en": "\n<p><b>NoSQL</b> is a broad family of database approaches beyond the traditional relational model. It is often expanded as <b>Not Only SQL</b>. It is not one product, one query language or a rule that SQL must never be used.</p>\n<p>The four models in this course are <b>Document, Key-Value, Wide-Column and Graph</b>. MongoDB, Redis, Apache Cassandra and Neo4j are representative products; products can have features beyond their main category.</p>\n<p><b>Learning outcome CO1:</b> select and justify a suitable NoSQL type for an application. A strong answer connects <b>data shape + access pattern + required guarantees</b> to the model, and states a trade-off. Naming a popular database alone is not a justification.</p>\n<p><b>Scope:</b> Unit 1 is 8 hours with 13% content weightage. Practical 1 is a <b>study and comparison</b>. Illustrative records and diagrams below are not database-server output. Installation and executed queries start in the later product-specific units.</p>\n<p><b>Assessment:</b> GTU lists 0 theory ESE, 0 theory PA, 20 practical PA and 30 practical ESE: <b>50 total marks, 3 credits</b>. Practice tasks in these notes are revision and lab preparation, not an official theory paper or a per-question GTU marking scheme.</p>\n"
+     }
+    },
+    {
+     "h": {
+      "en": "Why Applications Consider NoSQL — Without Dismissing RDBMS"
+     },
+     "body": {
+      "en": "\n<p>An RDBMS stores related facts in tables and provides SQL, constraints, joins and transaction facilities. It remains a strong default for ledgers, order/payment records and many reporting systems.</p>\n<p>Modern applications can introduce pressures that make a different model worth evaluating:</p>\n<ul><li><b>Varying nested records:</b> a book and a sensor have different attributes. A document may map to the application object more directly than many attribute tables.</li>\n<li><b>Large event streams:</b> millions of device readings with known sensor/time queries may benefit from query-first, partition-oriented storage.</li>\n<li><b>Known-key low-latency access:</b> sessions or short-lived recommendation caches can fit key-value operations.</li>\n<li><b>Relationship-heavy questions:</b> following several account-device-person connections can be expressed naturally as graph paths.</li>\n<li><b>Distributed growth:</b> adding nodes may help capacity, but creates communication, coordination and operational costs.</li></ul>\n<p>These are <b>trade-offs, not absolute limitations</b>. Relational products can support JSON, replication, partitioning and distributed deployments. NoSQL products can provide validation, indexes and transactions. Evaluate the actual product and configuration.</p>\n<p><b>Example:</b> keep authoritative payments in an RDBMS while considering a document catalog and a key-value cache. Do not replace a working relational system merely because the application is called modern or AI-based.</p>\n"
+     },
+     "diagram": "ns1_workload"
+    },
+    {
+     "h": {
+      "en": "Scale Up, Scale Out, Partitioning and Replication"
+     },
+     "body": {
+      "en": "\n<ul><li><b>Scale up:</b> increase one server's CPU, RAM or storage. It can be simple, but a single machine has capacity and cost limits.</li>\n<li><b>Scale out:</b> add machines and distribute work or data. Benefits depend on workload, partitioning and coordination overhead; speed does not automatically multiply by the node count.</li>\n<li><b>Data partitioning / sharding:</b> place different subsets of records on different nodes. For example, readings for different sensor/day keys can be placed in different partitions.</li>\n<li><b>Replication:</b> keep copies of the same data on more than one node. It can support fault tolerance and read placement, but replicas must exchange updates.</li></ul>\n<p><b>Do not confuse:</b> splitting 100 records into two groups of 50 is partitioning; holding two copies of all 100 is replication. A distributed system may do both.</p>\n<p>A <b>data partition</b> is a storage grouping. A <b>network partition</b> in CAP is a communication failure between groups of nodes. The same word has different meanings.</p>\n<p>NoSQL does not imply that every installation is a distributed cluster. A one-node demonstration cannot establish how a multi-node system behaves during a network partition. Replication is also not a substitute for an independent, restorable backup.</p>\n"
+     },
+     "diagram": "ns1_scale"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "1.2 CAP Basics — Definitions and a Booking Analogy"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "CAP: Consistency, Availability and Partition Tolerance"
+     },
+     "body": {
+      "en": "\n<p>CAP describes a fundamental limit for a distributed read/write service when communication can fail. This unit requires the <b>basic idea and an analogy</b>, not a proof or a quorum algorithm.</p>\n<ul><li><b>C — Consistency:</b> operations behave like one up-to-date logical copy. In the basic read/write example, a read that begins after a write has completed must not return the older value. The formal notion is linearizability; overlapping operations require an order consistent with real time.</li>\n<li><b>A — Availability:</b> every valid data operation received by a non-failed node eventually completes with a valid result. Merely returning a communication error or refusing an operation is not enough. The formal definition does not set a fixed response-time bound.</li>\n<li><b>P — Partition tolerance:</b> the design must account for messages lost or indefinitely delayed between groups of nodes, even though those nodes may still be running.</li></ul>\n<p><b>Core conclusion:</b> during a network partition, a service cannot guarantee <b>both C and A for every affected operation</b>. It must sometimes defer/refuse an operation to protect one consistent history, or complete an operation without guaranteeing the latest shared state.</p>\n<p>When the network is healthy, consistency and availability can coexist. A practical design should explain its failure behaviour, not simply repeat “choose any two”.</p>\n"
+     },
+     "diagram": "ns1_cap"
+    },
+    {
+     "h": {
+      "en": "CAP Analogy: Two Booking Offices and One Last Seat"
+     },
+     "body": {
+      "en": "\n<p><b>Starting state:</b> Surat and Bharuch offices both know one seat remains. Assume they normally coordinate with one booking authority. The link between the offices fails; a clerk can still use the local office system.</p>\n<p><b>Consistency-first behaviour (CP-style):</b> only the side that can safely maintain the authoritative booking history may confirm the last seat. An isolated office that cannot verify that history must defer the affected booking/check instead of issuing a potentially conflicting confirmation. Some client operations lose availability. Depending on the design, even the other side may need to pause; CP does not mean one office can always proceed.</p>\n<p><b>Availability-first behaviour (AP-style):</b> each side continues from its local information. Both may still see one seat and issue a local confirmation. After communication returns, two confirmations can conflict over one seat. A reconciliation policy is needed, and a cancellation later does not make the earlier confirmations strongly consistent.</p>\n<p><b>Application decision:</b> confirmed scarce-seat allocation usually values a single booking history more than accepting conflicting sales. A temporary stale recommendation list is often less harmful and may justify serving local cached data. The correct choice follows the business consequence.</p>\n<p><b>Important distinction:</b> declining a booking because an authoritative record says “sold out” is a legitimate business result. Deferring it because the isolated office cannot establish the authoritative state is the availability sacrifice in this analogy.</p>\n"
+     },
+     "diagram": "ns1_booking"
+    },
+    {
+     "h": {
+      "en": "CAP Misconceptions and Eventual Convergence"
+     },
+     "body": {
+      "en": "\n<ul><li><b>Not an unconditional “choose any two” triangle:</b> the C/A conflict matters when a partition occurs. Ignoring partitions does not remove real network failures.</li>\n<li><b>C is not the C of ACID:</b> CAP consistency concerns one-copy/real-time operation behaviour; ACID consistency concerns preservation of application/database constraints through transactions.</li>\n<li><b>A is not “the website shows an error page”:</b> the requested data operation must complete with a valid result. A running process alone is not proof of availability.</li>\n<li><b>P is not sharding:</b> network isolation is different from splitting stored data into groups.</li>\n<li><b>NoSQL is not one fixed CAP category:</b> product behaviour depends on topology, operation, read/write settings and failure conditions. Avoid unconditional labels such as “every Redis deployment is AP”.</li>\n<li><b>Eventual consistency:</b> with no further updates, restored communication and an appropriate replication/conflict policy, replicas can converge. It does not promise that every read was current during the failure or that conflicts resolve correctly without a policy.</li></ul>\n<p><b>Quick example:</b> office A completes a profile update; a later read at isolated office B returns an older profile. The read stayed available, but the pair of operations did not provide CAP's strong consistency. A later repair cannot change what that read returned.</p>\n<p>CAP does not select a database by itself, rank performance, or prove that all NoSQL systems lack transactions.</p>\n"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "1.3 The Four NoSQL Database Models"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Document Databases — MongoDB as the Course Example"
+     },
+     "body": {
+      "en": "\n<p>A <b>document</b> stores a record as named fields whose values can include scalars, arrays and nested objects. A <b>collection</b> groups documents. MongoDB uses <b>BSON</b>, a typed binary representation; JSON-like text is used here to illustrate the shape.</p>\n<p>These two products share an ID/name/category structure but have different nested attributes:</p>\n<pre class=\"c\">{\n  \"_id\": \"P101\",\n  \"name\": \"Sensor Node\",\n  \"category\": \"electronics\",\n  \"attributes\": {\n    \"sample_rate_hz\": 10,\n    \"battery_powered\": true\n  }\n}</pre>\n<pre class=\"c\">{\n  \"_id\": \"P102\",\n  \"name\": \"NoSQL Guide\",\n  \"category\": \"book\",\n  \"attributes\": {\n    \"pages\": 320,\n    \"language\": \"en\"\n  }\n}</pre>\n<p><b>Typical access:</b> fetch a product by ID, or query selected fields with suitable indexes. A document model is useful for product catalogs, content and evolving AI user profiles.</p>\n<p><b>Advantage:</b> data read together can often be kept together, reducing the need to assemble one record from many tables.</p>\n<p><b>Trade-offs:</b> schema flexibility is not absence of design. Validate required fields and types, decide embedding versus references, avoid unbounded embedded arrays, and update duplicated facts carefully. MongoDB can enforce schema validation.</p>\n<p><b>Illustration only:</b> these records are valid JSON fixtures, not captured MongoDB output. BSON types, installation and actual commands are studied in Unit 2.</p>\n"
+     },
+     "diagram": "ns1_document"
+    },
+    {
+     "h": {
+      "en": "Key-Value Databases — Redis as the Course Example"
+     },
+     "body": {
+      "en": "\n<p>A <b>key-value model</b> maps a unique key to a value. The key is the main lookup handle. The value may be a simple byte/string value or a richer supported data structure. Redis is a data-structure server, not only a store of plain text strings.</p>\n<pre class=\"c\">Known key: recs:U42:v1\nValue: [\"P101\", \"P102\"]\nExpiry policy: 300 seconds\nOn a miss: recompute or fetch the source</pre>\n<p><b>Interpretation:</b> U42's recommendation result for model version v1 can be served by a known key. The application declares a 300-second expiry policy and handles a cache miss by fetching/recomputing the result.</p>\n<p><b>Advantages:</b> simple known-key operations and low-latency access are useful for sessions, temporary counters, cached predictions and online features.</p>\n<p><b>Trade-offs:</b> plan unique key names, memory use, invalidation, TTL and cache-miss behaviour. TTL is a configured lifetime, not a guarantee that every cached value remains correct until expiry. Persistence/durability depends on configuration.</p>\n<p>Ordinary key lookup does not automatically solve arbitrary joins or every field-search requirement. Do not treat a possibly stale recommendation cache as the authoritative payment, authorization or stock record.</p>\n<p><b>Illustration only:</b> the displayed key/value is not a Redis CLI transcript. Basic Redis strings, lists, sets, hashes and real commands belong to Unit 5.</p>\n"
+     },
+     "diagram": "ns1_key_value"
+    },
+    {
+     "h": {
+      "en": "Wide-Column Databases — Apache Cassandra as the Course Example"
+     },
+     "body": {
+      "en": "\n<p>A <b>wide-column store</b> organizes data for distributed access using row/column and partition concepts. In Cassandra's CQL interface, data is in <b>typed tables</b> with a primary-key design. Do not describe every wide-column product as having no schema.</p>\n<p><b>Query-first example:</b> a monitoring application writes many sensor readings and normally asks for one sensor, one day and a bounded time interval.</p>\n<pre class=\"c\">Partition key: (sensor_id, day)\nClustering / order within partition: ts\nQuery shape: one sensor + one day\n             + bounded time interval</pre>\n<table><tr><th>Sensor</th><th>Day</th><th>Time</th><th>Reading (C)</th></tr><tr><td>S01</td><td>2026-10-29</td><td>09:00</td><td>30.5</td></tr><tr><td>S01</td><td>2026-10-29</td><td>09:01</td><td>31.0</td></tr><tr><td>S02</td><td>2026-10-29</td><td>09:00</td><td>29.0</td></tr></table>\n<p>The first two rows belong to one <b>(S01, 2026-10-29)</b> partition; the S02 row belongs to another. Within a partition, the clustering/time component supplies an order for range-oriented reads. Time buckets help bound growth, but a hot sensor or very high sample rate still needs sizing review.</p>\n<p><b>Advantages:</b> high-volume distributed writes and predictable queries that target a planned partition.</p>\n<p><b>Trade-offs:</b> design tables around queries; data may be duplicated for another access pattern. Cassandra does not provide relational joins and foreign-key integrity. Poor partition keys can produce hot or oversized partitions.</p>\n<p><b>Do not confuse:</b> a wide-column database such as Cassandra is not the same concept as an analytical columnar warehouse that lays out column values for scans. CQL resembles SQL in spelling but does not imply full relational behaviour.</p>\n<p>This is a conceptual model/table, not Cassandra query output. Installation, real CQL and partition/clustering-key syntax belong to Unit 3.</p>\n"
+     },
+     "diagram": "ns1_wide_column"
+    },
+    {
+     "h": {
+      "en": "Graph Databases — Neo4j as the Course Example"
+     },
+     "body": {
+      "en": "\n<p>A <b>property graph</b> represents entities as <b>nodes</b> and connections as <b>relationships</b>. Nodes may have labels; nodes and relationships can have properties. Neo4j relationships have a direction and a type.</p>\n<p><b>Example:</b> Ravi and Asha like product P101; Asha also likes P102. Following the shared-interest path makes P102 a possible recommendation for Ravi:</p>\n<pre class=\"c\">Ravi -LIKES-&gt; P101 &lt;-LIKES- Asha\nAsha -LIKES-&gt; P102\nCandidate for Ravi: P102\nReason: a shared-interest path</pre>\n<p><b>Typical access:</b> find friends-of-friends, shared account/device paths, dependencies, or connected knowledge entities. The connection path is central to the question.</p>\n<p><b>Advantages:</b> relationship-heavy, multi-hop questions can be expressed directly in the model.</p>\n<p><b>Trade-offs:</b> define meaningful relationship types, index starting nodes and bound traversal depth. Very broad traversals or high-degree nodes can still be expensive. A relational database can also store relationships; a graph is not always faster.</p>\n<p>The drawn path is a <b>simple recommendation heuristic</b>, not a trained AI model and not a captured Neo4j query result. A shared device can indicate a pattern for investigation, not automatic proof of fraud. Actual Cypher and installation belong to Unit 4.</p>\n"
+     },
+     "diagram": "ns1_graph"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "1.4 AI-Focused Use Cases and Responsible Selection"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "How the Four Models Support an AI Application"
+     },
+     "body": {
+      "en": "\n<p>An AI application needs data collection, storage, feature preparation, model training or inference, and result delivery. A database supports these stages; choosing one does not itself train a model or guarantee accurate predictions.</p>\n<table><tr><th>AI data role</th><th>Useful starting model</th><th>Why / caution</th></tr><tr><td>Evolving learner/user profiles</td><td>Document</td><td>Nested skills and preferences fit documents; validate types, consent and retention.</td></tr><tr><td>Cached predictions or recommendation IDs</td><td>Key-Value</td><td>Known user/model key with short lifetime; handle stale results and cache misses.</td></tr><tr><td>High-volume sensor/interaction history</td><td>Wide-Column</td><td>Time-bucketed partitions fit planned range reads; training may need a separate export/analytics pipeline.</td></tr><tr><td>Fraud or recommendation connections</td><td>Graph</td><td>Follow account/device/item paths; investigate patterns and evaluate false positives.</td></tr></table>\n<p><b>Separate workload from buzzword:</b> storing text metadata or arrays of numbers does not automatically provide semantic vector search. Specialized indexing/search and model evaluation must be assessed separately; they are not required by this introductory unit.</p>\n<p><b>Data quality matters:</b> missing values, wrong units, duplicated events and train/serve mismatch can harm an AI system regardless of database choice. Protect personal data, apply least privilege, and define deletion/retention policies.</p>\n<p>These are illustrative architectures, not claims that a named company currently runs a particular product.</p>\n"
+     },
+     "diagram": "ns1_ai_fit"
+    },
+    {
+     "h": {
+      "en": "Polyglot Persistence — Use More Than One Store Only When Justified"
+     },
+     "body": {
+      "en": "\n<p><b>Polyglot persistence</b> means using more than one storage technology within an application, assigning each a workload it handles well.</p>\n<p><b>Example shop:</b> an RDBMS keeps the authoritative orders/payments; a document store holds products with different attributes; a key-value store caches recommendation IDs. A small shop might still be best served by one relational database. The diagram is an option, not a requirement to deploy three systems.</p>\n<ul><li><b>Define ownership:</b> which store is the source of truth for each fact? A cache is not the source of truth for a confirmed payment.</li>\n<li><b>Define synchronization:</b> how are copied fields or cached results refreshed? What happens when an update is delayed?</li>\n<li><b>Define failure behaviour:</b> may the shop show an old recommendation, and must it stop confirming a payment it cannot safely record?</li>\n<li><b>Count operational cost:</b> backups, monitoring, security, credentials, staff expertise and cross-store consistency become harder as stores increase.</li></ul>\n<p><b>Selection checklist:</b> identify entities and relationships; write the top reads/writes; estimate size/rate and retention; state consistency/durability needs; choose the simplest suitable model; test actual product behaviour later.</p>\n"
+     },
+     "diagram": "ns1_polyglot"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Practical 1 — Comparative Study and Solved Selection Cases"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Practical 1: Aim, Procedure, Comparison Matrix and Journal"
+     },
+     "body": {
+      "en": "\n<p><b>Official aim:</b> study and compare Document, Key-Value, Wide-Column and Graph databases, identifying their unique characteristics, advantages and application areas.</p>\n<p><b>Resources:</b> this unit, the official syllabus, product documentation and a notebook/worksheet. Installing all four engines or publishing runtime benchmarks is not required for this comparative practical.</p>\n<h4>Procedure</h4>\n<ol><li>Choose an application and state its main read/write requests.</li>\n<li>Sketch one representative record/model for each of the four types.</li>\n<li>Complete the comparison matrix with type, example, shape, access, advantage, trade-off and application area.</li>\n<li>Select a type for your application and justify it with two workload-specific reasons and one limitation.</li>\n<li>Explain the CAP booking analogy and name an operation that may be deferred or may return stale data.</li>\n<li>Record sources and write a conclusion. Label illustrative data as illustrative; record measured results only if you actually run and measure a system.</li></ol>\n<h4>Worked comparison</h4>\n<table><tr><th>Type / example</th><th>Main representation</th><th>Access pattern</th><th>Benefit / trade-off</th></tr><tr><td>Document / MongoDB</td><td>A document with fields, arrays and nested objects; grouped into collections</td><td>Read a product/profile and query selected fields with suitable indexes</td><td>Natural representation of varying, nested application records. Trade-off: Plan validation, embedding size, duplicated fields and indexes.</td></tr><tr><td>Key-Value / Redis</td><td>A unique key maps to a value; Redis supports several value data structures</td><td>Read/update a known key; use appropriate operations for its value type</td><td>Simple low-latency access for known-key workloads; expiry is useful for caches. Trade-off: Design keys, expiry, memory use, persistence and stale-cache handling.</td></tr><tr><td>Wide-Column / Apache Cassandra</td><td>Typed tables organized into partitions and ordered rows within a partition</td><td>Read one sensor/day partition and a timestamp range</td><td>Scalable distributed writes and predictable partition-oriented queries. Trade-off: Query-first tables, good partition sizes, duplication and limited ad-hoc joins.</td></tr><tr><td>Graph / Neo4j</td><td>Nodes and directed typed relationships, both with properties</td><td>Follow relationship paths such as people sharing a device</td><td>Expresses connected-data and multi-hop traversal questions naturally. Trade-off: Model meaningful relationships, index entry points and bound traversals.</td></tr></table>\n<h4>Suggested journal outline</h4>\n<pre class=\"c\">Aim and application scenario\nData shape and main access pattern\nComparison of all four NoSQL types\nChosen type + example product\nTwo reasons + one trade-off\nSketch and illustrative records\nCAP analogy + acceptable failure behaviour\nConclusion and sources\nEvidence: study, not a runtime benchmark</pre>\n<p><b>Completion check:</b> all four types compared; the access pattern is explicit; one model sketch and representative record are included; the choice has two reasons plus a trade-off; CAP is explained under a partition; study observations are not presented as runtime measurements.</p>\n<p><b>Conclusion example:</b> “For changing nested product details, a document model is a suitable starting choice because it keeps one product together and supports varying attributes. We must still validate fields and design indexes. A relational ledger remains appropriate for authoritative payments.”</p>\n"
+     }
+    },
+    {
+     "h": {
+      "en": "Eight Worked Selection Cases, Revision Checks and Sources"
+     },
+     "body": {
+      "en": "\n<p>Each recommendation below assumes the stated access pattern and priorities. A well-justified alternative can be valid; the product name alone does not decide suitability.</p>\n<h4>S1: A shop adds books and electronics with different nested attributes.</h4><p><b>Access:</b> Read one product and filter selected attributes.<br><b>Suggested starting type:</b> Document. <b>Reason:</b> Different product fields fit documents while keeping one product together.<br><b>Trade-off:</b> Validate common fields and index real filters; avoid unbounded embedded reviews.</p><h4>S2: An app serves cached recommendation IDs for a known user and model version.</h4><p><b>Access:</b> Look up recs:U42:v1; refresh after a short lifetime.<br><b>Suggested starting type:</b> Key-Value. <b>Reason:</b> The key is known and temporary stale recommendations are acceptable by policy.<br><b>Trade-off:</b> Use a TTL, version keys and a cache-miss fallback; do not cache authorization blindly.</p><h4>S3: A large fleet writes sensor readings; reads ask for one sensor on one day.</h4><p><b>Access:</b> Partition by sensor/day and read a bounded timestamp interval.<br><b>Suggested starting type:</b> Wide-Column. <b>Reason:</b> A query-first, time-bucketed partition model fits high-volume event history.<br><b>Trade-off:</b> Check partition growth and hot sensors; add another query table only when justified.</p><h4>S4: An investigator follows account-to-device-to-account connections.</h4><p><b>Access:</b> Traverse several relationships to find shared devices.<br><b>Suggested starting type:</b> Graph. <b>Reason:</b> Relationships and paths are the main query, not just independent records.<br><b>Trade-off:</b> A shared device is evidence for investigation, not proof of fraud; control access.</p><h4>S5: A bank needs atomic transfers, constraints and auditable relational reports.</h4><p><b>Access:</b> Update two balances together and report linked ledger entries.<br><b>Suggested starting type:</b> Relational. <b>Reason:</b> An RDBMS is a strong default for relational constraints and multi-row transactions.<br><b>Trade-off:</b> This does not mean all NoSQL products lack transactions; evaluate actual guarantees.</p><h4>S6: A small college attendance app has stable tables and routine SQL reports.</h4><p><b>Access:</b> Join students, classes and attendance records.<br><b>Suggested starting type:</b> Relational. <b>Reason:</b> The current relational workload does not justify additional distributed-store complexity.<br><b>Trade-off:</b> Measure future pressures before replacing a working design.</p><h4>S7: An AI learning app stores evolving profiles with nested skills and preferences.</h4><p><b>Access:</b> Fetch or update a learner profile and selected preference fields.<br><b>Suggested starting type:</b> Document. <b>Reason:</b> A bounded nested profile maps naturally to a document.<br><b>Trade-off:</b> Enforce validation, consent and retention; separate ever-growing interaction logs.</p><h4>S8: A social app asks for friends-of-friends while excluding existing friends.</h4><p><b>Access:</b> Traverse a bounded two-hop connection pattern.<br><b>Suggested starting type:</b> Graph. <b>Reason:</b> The shape of the connection path determines the answer.<br><b>Trade-off:</b> Bound traversal depth and handle high-degree nodes; do not promise universal speedups.</p>\n<h4>Before the practical viva</h4>\n<ul><li>Explain all four models without saying that every NoSQL system has no schema or transactions.</li>\n<li>Distinguish partitioning from replication, and both from a network partition.</li>\n<li>Explain why an isolated office cannot promise both current shared data and completion of every affected request.</li>\n<li>Choose a model from the query, not simply because the app uses AI.</li>\n<li>State one situation where keeping an RDBMS is the better default.</li></ul>\n<h4>Sources and scope</h4>\n<p>The GTU syllabus fixes the unit scope and practical-only assessment. Product documentation supports the model descriptions; the Gilbert-Lynch paper is a reference for accurate CAP definitions, <b>not a required theorem proof</b>. Sources checked on 29 October 2026; no database-version claim or performance benchmark is made here.</p>\n<ol><li><a href=\"https://s3-ap-southeast-1.amazonaws.com/gtusitecirculars/Syallbus/DI04000031.pdf\">GTU DI04000031 official syllabus (2025-26)</a></li><li><a href=\"https://users.ece.cmu.edu/~adrian/731-sp04/readings/GL-cap.pdf\">Gilbert and Lynch: Brewer's Conjecture (CAP definitions)</a></li><li><a href=\"https://www.mongodb.com/docs/manual/data-modeling/\">MongoDB: Data Modeling</a></li><li><a href=\"https://cassandra.apache.org/doc/latest/cassandra/developing/data-modeling/intro.html\">Apache Cassandra: Introduction to Data Modeling</a></li><li><a href=\"https://neo4j.com/docs/getting-started/appendix/graphdb-concepts/\">Neo4j: Graph Database Concepts</a></li><li><a href=\"https://redis.io/docs/latest/develop/data-types/\">Redis: Data Types</a></li></ol>"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Practice Tasks with Answer Guides — Not an Official Theory Paper"
+   },
+   "role": "practice",
+   "items": [
+    {
+     "h": {
+      "en": "Explain why an application may consider NoSQL. Give two situations where keeping an RDBMS is reasonable."
+     },
+     "body": {
+      "en": "<p>Consider NoSQL when the workload favors nested varying records, known-key caches, large partition-oriented event streams or multi-hop relationships. Explain the specific reads/writes, not just the data size.</p><p>Keep an RDBMS as a strong default for an auditable transfer ledger needing atomic multi-row updates, or a small stable college system needing constraints and SQL joins/reports. Relational products may also support JSON and distributed deployments; NoSQL is not universally faster.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Distinguish scale up, scale out, data partitioning, replication and a network partition using one example each."
+     },
+     "body": {
+      "en": "<ul><li>Scale up: add RAM to one server.</li><li>Scale out: add storage/compute nodes.</li><li>Data partitioning: group readings by sensor/day and distribute groups.</li><li>Replication: keep additional copies of each group.</li><li>Network partition: a failed link prevents two running node groups from exchanging updates.</li></ul><p>Partitioning is not copying, and neither is the communication failure described by CAP.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Define C, A and P in CAP. Explain why a healthy network is not an unconditional choose-two situation."
+     },
+     "body": {
+      "en": "<p>C: one current logical operation history; a read following a completed write cannot return the earlier value in the basic example. A: every valid operation received by a non-failed node eventually completes with a valid result. P: account for lost/delayed communication between groups.</p><p>During a partition, a service cannot guarantee both C and A for all affected operations. With healthy communication, both may be provided. No proof or quorum calculation is required in this unit.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Use Surat and Bharuch booking offices to explain the last-seat conflict and a consistency-first response."
+     },
+     "body": {
+      "en": "<p>Both offices start with one seat visible. The inter-office link fails. If each confirms from its local copy, two confirmations may claim one seat. A consistency-first design makes an office that cannot verify the authoritative history defer that operation; only a side able to maintain the guarantee may proceed.</p><p>The sacrifice is availability for some requests. Declining because a known authoritative record is sold out is different from deferring because authoritative state cannot be established.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "A completed profile update at one office is followed by an old profile read at an isolated office. Which guarantee is missing?"
+     },
+     "body": {
+      "en": "<p>The isolated read may have completed, preserving availability for that operation, but it did not behave like a current single copy after the completed update, so CAP strong consistency was not provided for the sequence.</p><p>Eventual repair does not change the old value already returned. Decide whether such staleness is acceptable for that profile field; do not assume it is acceptable for authorization or payment facts.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "After two isolated caches accept updates, what must happen when communication returns?"
+     },
+     "body": {
+      "en": "<p>They exchange changes and apply an explicit reconciliation/conflict policy. For a disposable recommendation cache, recomputing from the source may be suitable. For authoritative state, the policy must respect its business rules.</p><p>Restored communication alone is not proof of correct conflict resolution, and later convergence is not retroactive strong consistency.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Sketch a document model for a book and an electronic sensor with different attributes. State one benefit and two design checks."
+     },
+     "body": {
+      "en": "<p>Use product documents with common _id, name and category fields. Put pages/language inside a book attributes object and sample_rate_hz/battery_powered inside the sensor attributes object.</p><p>The model keeps one bounded product together while allowing different fields. Validate common required fields/types and index actual query fields. Do not embed an unlimited review/event history in one document. These are model illustrations, not execution evidence.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Design a known-user recommendation cache key and explain TTL, versioning and a cache miss."
+     },
+     "body": {
+      "en": "<p>Example key: recs:U42:v1; value: a small list of product IDs; expiry policy: 300 seconds. The user ID identifies the target and v1 identifies the model/result version.</p><p>TTL limits residence time, not correctness until expiry. Invalidate or version when required; on a miss fetch/recompute from the appropriate source. Do not use this cached list as an authoritative permission or stock decision.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "A sensor fleet is queried by sensor, date and time interval. Suggest a wide-column layout and one risk."
+     },
+     "body": {
+      "en": "<p>Use a conceptual (sensor_id, day) partition key and timestamp ordering inside the partition. A request targets one sensor/day and a bounded time range, matching a query-first access pattern.</p><p>Very high-rate sensors can still create hot or oversized partitions; estimate growth and retention. Another query may require another deliberately maintained table. This is not a claim of full SQL joins or measured performance.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Draw the Ravi/Asha product graph and explain a simple candidate recommendation."
+     },
+     "body": {
+      "en": "<p>Draw Ravi -LIKES-&gt; P101, Asha -LIKES-&gt; P101, and Asha -LIKES-&gt; P102. The shared interest in P101 connects the people; Asha's additional interest makes P102 a candidate for Ravi, who does not already like it in the illustration.</p><p>Label nodes, relationship types and directions. This is a path-based heuristic, not a trained model, a guarantee of user preference or an executed Cypher result.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Complete a four-row comparison with representation, example, typical access, advantage and trade-off."
+     },
+     "body": {
+      "en": "<ul><li>Document / MongoDB: nested document; product/profile reads; flexible bounded records; validate and plan embedding/indexes.</li><li>Key-Value / Redis: key to supported value; known-key access; simple low-latency operations; handle expiry, persistence and misses.</li><li>Wide-Column / Cassandra: typed partitioned tables; sensor/day ranges; distributed query-first writes; avoid hot partitions and unplanned joins.</li><li>Graph / Neo4j: nodes and typed relationships; bounded path traversal; connected-pattern queries; plan indexes/depth/high-degree nodes.</li></ul><p>State that these are typical fits, not universal performance rankings.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Map four AI data needs to the four NoSQL types and explain why the database alone is not an AI model."
+     },
+     "body": {
+      "en": "<p>Nested learner profiles: Document. Known-key cached predictions: Key-Value. High-volume sensor/event history with planned partition queries: Wide-Column. Shared-device or recommendation paths: Graph.</p><p>Storage/querying is separate from feature generation, training, inference and evaluation. Enforce data quality, consent, retention and least privilege. A suspicious graph path is evidence to review, not proof of fraud.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Propose a minimal polyglot shop design and identify the source of truth for payments."
+     },
+     "body": {
+      "en": "<p>Option: an RDBMS owns committed orders/payments; a document store owns product details if varied nested attributes justify it; a key-value cache stores disposable recommendation IDs.</p><p>Define ownership, refresh/miss behaviour, failure handling, backups and security. Payment confirmation must use the authoritative transaction record, not a cache. If one RDBMS already meets the workload, keep the simpler design.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Prepare the journal structure and acceptance checklist for the official comparative practical."
+     },
+     "body": {
+      "en": "<p>Record aim; scenario; data/access pattern; all-four-type matrix; model sketches; chosen type; two reasons and a trade-off; a basic CAP analogy; conclusion and sources.</p><p>Check that all four types have characteristics, advantages and application areas. Distinguish illustrative records from actual observed runtime evidence. The official first practical does not require installing all four engines or inventing benchmark numbers.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Correct these claims: “NoSQL has no schema”, “all NoSQL is AP”, “wide-column means an analytical columnar warehouse”, and “a graph database trains AI”."
+     },
+     "body": {
+      "en": "<ul><li>NoSQL covers several models; Cassandra CQL has typed schemas and MongoDB can validate documents.</li><li>CAP behaviour depends on deployment, operation, settings and failure conditions, not one label for every product.</li><li>Wide-column partition/query modeling is distinct from columnar analytical storage.</li><li>A graph stores/query relationships; model training/inference is separate, though graph data can support it.</li></ul>"
+     }
+    },
+    {
+     "h": {
+      "en": "Choose a starting model for a changing catalog, known-key cache, sensor/day history, shared-device investigation and an atomic bank ledger. Justify each."
+     },
+     "body": {
+      "en": "<p>Catalog: Document for varying nested product records. Cache: Key-Value for known-key temporary results. Sensor/day history: Wide-Column for planned partition/time access. Shared devices: Graph for connection paths. Ledger: keep an RDBMS as a strong default for relational constraints and atomic multi-row transactions.</p><p>Each choice assumes the stated priorities; include its limitation and evaluate actual guarantees. A defensible alternative may be valid, and some NoSQL products do support transactions.</p>"
+     }
+    }
+   ]
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "ns1_workload",
+   "title": {
+    "en": "Choose a Model from the Workload"
+   },
+   "file": "diagrams/ns1_workload.svg"
+  },
+  {
+   "id": "ns1_scale",
+   "title": {
+    "en": "Scaling, Data Partitions and Replicas"
+   },
+   "file": "diagrams/ns1_scale.svg"
+  },
+  {
+   "id": "ns1_cap",
+   "title": {
+    "en": "CAP Basics During a Network Partition"
+   },
+   "file": "diagrams/ns1_cap.svg"
+  },
+  {
+   "id": "ns1_booking",
+   "title": {
+    "en": "CAP Analogy: One Seat, Two Offices"
+   },
+   "file": "diagrams/ns1_booking.svg"
+  },
+  {
+   "id": "ns1_document",
+   "title": {
+    "en": "Document Model: Different Product Attributes"
+   },
+   "file": "diagrams/ns1_document.svg"
+  },
+  {
+   "id": "ns1_key_value",
+   "title": {
+    "en": "Key-Value Model: Known-Key Recommendation Cache"
+   },
+   "file": "diagrams/ns1_key_value.svg"
+  },
+  {
+   "id": "ns1_wide_column",
+   "title": {
+    "en": "Wide-Column Model: Sensor/Day Partitions"
+   },
+   "file": "diagrams/ns1_wide_column.svg"
+  },
+  {
+   "id": "ns1_graph",
+   "title": {
+    "en": "Graph Model: A Shared-Interest Path"
+   },
+   "file": "diagrams/ns1_graph.svg"
+  },
+  {
+   "id": "ns1_ai_fit",
+   "title": {
+    "en": "AI Data Roles and Model Fit"
+   },
+   "file": "diagrams/ns1_ai_fit.svg"
+  },
+  {
+   "id": "ns1_polyglot",
+   "title": {
+    "en": "Polyglot Persistence with Clear Ownership"
+   },
+   "file": "diagrams/ns1_polyglot.svg"
+  }
+ ],
+ "syntax": [
+  {
+   "title": {
+    "en": "Model and Design Reference Cards"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Selection rule"
+     },
+     "f": "data shape + access pattern\n+ scale/retention + guarantees\n-> model + reasons + trade-off",
+     "terms": {
+      "en": "A product name alone is not a design justification. Write the actual reads and writes first."
+     }
+    },
+    {
+     "name": {
+      "en": "Relational and NoSQL are options, not enemies"
+     },
+     "f": "RDBMS: tables, relations, SQL, constraints\nNoSQL: several non-relational models\nBoth: evaluate actual product guarantees",
+     "terms": {
+      "en": "Do not claim that relational systems cannot distribute data, or that every NoSQL system lacks transactions or schema."
+     }
+    },
+    {
+     "name": {
+      "en": "Scaling versus copies"
+     },
+     "f": "scale up: increase one server\nscale out: add machines\npartition: different subsets\nreplicate: copies of the same data",
+     "terms": {
+      "en": "A network partition is a communication failure, not a data-partition key. A replica is not an independent backup."
+     }
+    },
+    {
+     "name": {
+      "en": "Document model illustration"
+     },
+     "f": "{\n  \"_id\": \"P102\",\n  \"name\": \"NoSQL Guide\",\n  \"attributes\": {\"pages\": 320}\n}",
+     "terms": {
+      "en": "Valid illustrative JSON, not captured MongoDB output. MongoDB stores BSON and can enforce validation."
+     }
+    },
+    {
+     "name": {
+      "en": "Known-key cache illustration"
+     },
+     "f": "key: recs:U42:v1\nvalue: [\"P101\", \"P102\"]\nTTL policy: 300 seconds\nmiss -> source or recomputation",
+     "terms": {
+      "en": "Conceptual layout, not a Redis command transcript. Include model version, expiry and stale-data policy."
+     }
+    },
+    {
+     "name": {
+      "en": "Wide-column query-first layout"
+     },
+     "f": "partition: (sensor_id, day)\norder inside partition: ts\nquery: one sensor/day + time interval",
+     "terms": {
+      "en": "Conceptual layout, not executable CQL. Cassandra uses typed columns; partition size and hot keys need review."
+     }
+    },
+    {
+     "name": {
+      "en": "Graph relationship illustration"
+     },
+     "f": "Ravi -LIKES-> P101 <-LIKES- Asha\nAsha -LIKES-> P102\npossible candidate for Ravi: P102",
+     "terms": {
+      "en": "A connection-path heuristic, not a trained recommendation model or executed Cypher query."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "CAP, AI and Practical Reference Cards"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "CAP definitions"
+     },
+     "f": "C: one current logical copy\nA: valid operations eventually complete\n   at non-failed nodes\nP: account for communication partitions",
+     "terms": {
+      "en": "C means linearizable operation behaviour in CAP. A has no fixed latency bound in the formal definition."
+     }
+    },
+    {
+     "name": {
+      "en": "During a partition"
+     },
+     "f": "protect C -> some operations may wait/fail\nprotect A -> latest shared state may fail\nhealthy link -> C and A may coexist",
+     "terms": {
+      "en": "This is a basic trade-off summary, not an unconditional choose-any-two slogan or a fixed product classification."
+     }
+    },
+    {
+     "name": {
+      "en": "AI data roles"
+     },
+     "f": "profiles -> Document\nknown-key cache -> Key-Value\npartitioned event history -> Wide-Column\nconnected patterns -> Graph",
+     "terms": {
+      "en": "Starting points under the stated access patterns. A database supports AI data work; it does not itself train the model."
+     }
+    },
+    {
+     "name": {
+      "en": "Polyglot persistence"
+     },
+     "f": "orders: authoritative relational store\nproducts: optional document store\nrecs: optional key-value cache\nmore stores -> more operational cost",
+     "terms": {
+      "en": "Use multiple stores only when their benefit justifies synchronization, backup, security and maintenance work."
+     }
+    },
+    {
+     "name": {
+      "en": "Practical 1 journal"
+     },
+     "f": "aim -> scenario -> access pattern\n-> four-type comparison -> model sketch\n-> choice + 2 reasons + 1 trade-off\n-> CAP analogy -> conclusion + sources",
+     "terms": {
+      "en": "Comparative study evidence is not a benchmark. No theory-paper marks are assigned to these reference cards or practice tasks."
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Foundations and Workload Selection"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What does NoSQL mean?"
+     },
+     "a": {
+      "en": "A broad group of database approaches beyond the traditional relational model, often expanded as Not Only SQL. It is not one language or one product."
+     }
+    },
+    {
+     "q": {
+      "en": "Name the four models in this syllabus."
+     },
+     "a": {
+      "en": "Document, Key-Value, Wide-Column and Graph."
+     }
+    },
+    {
+     "q": {
+      "en": "Give one course product for each model."
+     },
+     "a": {
+      "en": "MongoDB: Document; Redis: Key-Value/data structures; Apache Cassandra: Wide-Column; Neo4j: Graph."
+     }
+    },
+    {
+     "q": {
+      "en": "Does NoSQL mean SQL must never be used?"
+     },
+     "a": {
+      "en": "No. The category concerns data models and approaches. CQL, for example, has SQL-like syntax without being a relational query model."
+     }
+    },
+    {
+     "q": {
+      "en": "Does every NoSQL database have no schema?"
+     },
+     "a": {
+      "en": "No. Cassandra CQL tables have declared types, MongoDB supports validation, and every application still needs a deliberate data model."
+     }
+    },
+    {
+     "q": {
+      "en": "Does every NoSQL product lack transactions?"
+     },
+     "a": {
+      "en": "No. Transaction support and its scope depend on the product, version and configuration. Evaluate the actual guarantees."
+     }
+    },
+    {
+     "q": {
+      "en": "Give two reasons to consider a NoSQL model."
+     },
+     "a": {
+      "en": "Varying nested records may fit documents; relationship-heavy multi-hop questions may fit a graph. The access pattern must justify the choice."
+     }
+    },
+    {
+     "q": {
+      "en": "When can an RDBMS remain the better default?"
+     },
+     "a": {
+      "en": "Stable relational data with constraints, joins, atomic multi-row updates and routine SQL reporting, especially when one database already serves the workload well."
+     }
+    },
+    {
+     "q": {
+      "en": "What is an access pattern?"
+     },
+     "a": {
+      "en": "A specific way the application reads or writes data, such as fetching a profile by user ID or reading one sensor/day time interval."
+     }
+    },
+    {
+     "q": {
+      "en": "Scale up versus scale out?"
+     },
+     "a": {
+      "en": "Scale up increases one machine's resources; scale out adds machines and distributes work or data. Neither guarantees a particular speedup."
+     }
+    },
+    {
+     "q": {
+      "en": "Partitioning versus replication?"
+     },
+     "a": {
+      "en": "Partitioning places different data subsets in different groups; replication keeps additional copies of the same data. A deployment can use both."
+     }
+    },
+    {
+     "q": {
+      "en": "Can a one-node lab prove partition tolerance?"
+     },
+     "a": {
+      "en": "No. It can exercise local operations but cannot establish how multiple isolated node groups handle a network partition."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "CAP and Failure Behaviour"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Expand CAP."
+     },
+     "a": {
+      "en": "Consistency, Availability and Partition tolerance."
+     }
+    },
+    {
+     "q": {
+      "en": "What does C mean in CAP?"
+     },
+     "a": {
+      "en": "Operations behave as one current logical copy, formally linearizability. A read started after a completed write must not return the older value in the basic read/write example."
+     }
+    },
+    {
+     "q": {
+      "en": "What does A mean in CAP?"
+     },
+     "a": {
+      "en": "Every valid data operation received by a non-failed node eventually completes with a valid result; the formal definition does not impose a fixed latency bound."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a network partition?"
+     },
+     "a": {
+      "en": "A communication failure that prevents groups of nodes from exchanging messages, although nodes on both sides may still be running."
+     }
+    },
+    {
+     "q": {
+      "en": "State the basic CAP limitation."
+     },
+     "a": {
+      "en": "During a network partition, a distributed read/write service cannot guarantee both a single up-to-date operation history and completion of every affected operation."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is “choose any two, always” misleading?"
+     },
+     "a": {
+      "en": "The C/A conflict concerns partition conditions. When communication is healthy, a system may provide both consistency and availability; real networks cannot simply be assumed never to partition."
+     }
+    },
+    {
+     "q": {
+      "en": "How does the last-seat booking analogy protect consistency?"
+     },
+     "a": {
+      "en": "An isolated office that cannot safely verify the authoritative booking history defers the affected operation. A side may proceed only if the design can maintain its guarantee."
+     }
+    },
+    {
+     "q": {
+      "en": "What can happen if both isolated offices confirm from local data?"
+     },
+     "a": {
+      "en": "Both may confirm the same last seat. Reconciling later may require rejecting one confirmation and does not make the original operations strongly consistent."
+     }
+    },
+    {
+     "q": {
+      "en": "Is a “sold out” result necessarily a CAP availability failure?"
+     },
+     "a": {
+      "en": "No. An authoritative sold-out decision is a legitimate result. Deferring because authoritative state cannot be established during isolation is the availability sacrifice in the analogy."
+     }
+    },
+    {
+     "q": {
+      "en": "Is CAP consistency the same as ACID consistency?"
+     },
+     "a": {
+      "en": "No. CAP C is one-copy/real-time operation behaviour; ACID consistency is preservation of application/database constraints across transactions."
+     }
+    },
+    {
+     "q": {
+      "en": "What is eventual consistency in a basic explanation?"
+     },
+     "a": {
+      "en": "If updates stop, communication recovers and replication/conflict resolution operate appropriately, replicas can converge. It does not promise every earlier read was current."
+     }
+    },
+    {
+     "q": {
+      "en": "Should a database brand always be labeled CP or AP?"
+     },
+     "a": {
+      "en": "No. Explain topology, operations, settings and failure conditions. A brand label alone is insufficient to establish the guarantees."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "The Four Data Models"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a document?"
+     },
+     "a": {
+      "en": "A record of named fields that can include nested objects and arrays. In MongoDB, documents are grouped in collections and stored as BSON."
+     }
+    },
+    {
+     "q": {
+      "en": "JSON versus BSON at this level?"
+     },
+     "a": {
+      "en": "JSON is a text representation used in the illustrations. BSON is MongoDB's typed binary document representation and supports more types than JSON."
+     }
+    },
+    {
+     "q": {
+      "en": "Why does a product catalog fit documents?"
+     },
+     "a": {
+      "en": "Products may have different nested attributes while common identifying fields remain consistent; one product can be read as a bounded record."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the main lookup handle in a key-value model?"
+     },
+     "a": {
+      "en": "A unique key. In the example, recs:U42:v1 selects the cached recommendation IDs for a user and model version."
+     }
+    },
+    {
+     "q": {
+      "en": "What is TTL?"
+     },
+     "a": {
+      "en": "Time to live: a configured lifetime after which an entry expires. It is not proof that the value stayed correct during that lifetime."
+     }
+    },
+    {
+     "q": {
+      "en": "Is Redis limited to plain strings?"
+     },
+     "a": {
+      "en": "No. Redis supports data structures including the strings, lists, sets and hashes studied in Unit 5."
+     }
+    },
+    {
+     "q": {
+      "en": "What is query-driven Cassandra modeling?"
+     },
+     "a": {
+      "en": "Designing tables and keys from the application's queries, rather than expecting arbitrary relational joins to reconstruct normalized entities."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a partition key in the sensor illustration?"
+     },
+     "a": {
+      "en": "The conceptual pair (sensor_id, day), grouping readings for one sensor and one date. The timestamp orders rows within that partition."
+     }
+    },
+    {
+     "q": {
+      "en": "Is wide-column the same as an analytical columnar warehouse?"
+     },
+     "a": {
+      "en": "No. Cassandra's partition-oriented wide-column model is not the same concept as columnar storage layouts optimized for analytical scans."
+     }
+    },
+    {
+     "q": {
+      "en": "What are the main parts of a property graph?"
+     },
+     "a": {
+      "en": "Nodes, labels, directed typed relationships and properties. Neo4j nodes and relationships can both have properties."
+     }
+    },
+    {
+     "q": {
+      "en": "Why use a graph for shared-device investigation?"
+     },
+     "a": {
+      "en": "The question follows account-to-device-to-account paths, making the relationships central to the access pattern."
+     }
+    },
+    {
+     "q": {
+      "en": "Does a graph guarantee every relationship query is fast?"
+     },
+     "a": {
+      "en": "No. Entry-point indexes, traversal depth, high-degree nodes, data volume and the actual query all affect cost."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "AI Uses and Practical 1"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Which model is a starting point for evolving AI user profiles?"
+     },
+     "a": {
+      "en": "Document, when bounded nested profiles and selected field queries dominate. Validation and privacy still matter."
+     }
+    },
+    {
+     "q": {
+      "en": "Which model is a starting point for a known-key prediction cache?"
+     },
+     "a": {
+      "en": "Key-Value, with versioned keys, a TTL or invalidation rule, an acceptable staleness policy and a miss fallback."
+     }
+    },
+    {
+     "q": {
+      "en": "Which model can fit large sensor histories with sensor/day queries?"
+     },
+     "a": {
+      "en": "Wide-Column, using query-first time-bucketed partitions. Check hot sensors, retention and partition size."
+     }
+    },
+    {
+     "q": {
+      "en": "Which model can fit connected fraud patterns?"
+     },
+     "a": {
+      "en": "Graph, because paths among accounts, devices and payments are important. A suspicious path is not proof of fraud."
+     }
+    },
+    {
+     "q": {
+      "en": "Does choosing a NoSQL database train an AI model?"
+     },
+     "a": {
+      "en": "No. The database stores and serves data. Feature preparation, training/inference and model evaluation are separate tasks."
+     }
+    },
+    {
+     "q": {
+      "en": "What is polyglot persistence?"
+     },
+     "a": {
+      "en": "Using multiple storage technologies in one application, each for a justified workload, while managing ownership and synchronization."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a source of truth?"
+     },
+     "a": {
+      "en": "The authoritative place for a fact, such as a committed payment record. A stale cache or copied view must not silently become authoritative."
+     }
+    },
+    {
+     "q": {
+      "en": "Name two costs of using several database products."
+     },
+     "a": {
+      "en": "More backup/restore and monitoring work; more security/credential management and cross-store synchronization complexity."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the official aim of Practical 1?"
+     },
+     "a": {
+      "en": "Study and compare the four NoSQL types, identifying their unique characteristics, advantages and application areas."
+     }
+    },
+    {
+     "q": {
+      "en": "Must Practical 1 install all four database servers?"
+     },
+     "a": {
+      "en": "No. Its official activity is comparative study. Installation and actual operations appear in the later product-specific practicals."
+     }
+    },
+    {
+     "q": {
+      "en": "What evidence belongs in a comparison journal?"
+     },
+     "a": {
+      "en": "An application/access pattern, a four-type matrix, model sketches, a justified choice with a trade-off, a CAP analogy, conclusion and sources. Clearly distinguish illustrations from measurements."
+     }
+    },
+    {
+     "q": {
+      "en": "Are these practice tasks an official GTU theory paper?"
+     },
+     "a": {
+      "en": "No. DI04000031 has 0 theory ESE and 0 theory PA, with 20 practical PA and 30 practical ESE. The tasks prepare understanding, journals and viva without invented question marks."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [],
+ "learning_outcomes": [
+  {
+   "en": "Select and justify an appropriate NoSQL database type for an application (CO1)."
+  }
+ ],
+ "practical_numbers": [
+  1
+ ],
+ "content_kind": "conceptual_comparison",
+ "lesson_count": 14,
+ "worked_selection_cases": 8,
+ "practice_task_count": 16,
+ "assessment_note": {
+  "en": "Practical-only assessment: PA 20 + ESE 30 = 50. No theory ESE/PA; practice tasks are not an official question paper."
+ },
+ "sources": [
+  {
+   "title": "GTU DI04000031 official syllabus (2025-26)",
+   "url": "https://s3-ap-southeast-1.amazonaws.com/gtusitecirculars/Syallbus/DI04000031.pdf"
+  },
+  {
+   "title": "Gilbert and Lynch: Brewer's Conjecture (CAP definitions)",
+   "url": "https://users.ece.cmu.edu/~adrian/731-sp04/readings/GL-cap.pdf"
+  },
+  {
+   "title": "MongoDB: Data Modeling",
+   "url": "https://www.mongodb.com/docs/manual/data-modeling/"
+  },
+  {
+   "title": "Apache Cassandra: Introduction to Data Modeling",
+   "url": "https://cassandra.apache.org/doc/latest/cassandra/developing/data-modeling/intro.html"
+  },
+  {
+   "title": "Neo4j: Graph Database Concepts",
+   "url": "https://neo4j.com/docs/getting-started/appendix/graphdb-concepts/"
+  },
+  {
+   "title": "Redis: Data Types",
+   "url": "https://redis.io/docs/latest/develop/data-types/"
+  }
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "syntax",
+  "viva"
+ ]
+}
