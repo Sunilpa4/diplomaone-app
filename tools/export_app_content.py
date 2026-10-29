@@ -80,7 +80,8 @@ SUBJECTS = {
     "DI04000021": ("Object Oriented Programming - Java", "ઓબ્જેક્ટ ઓરિએન્ટેડ પ્રોગ્રામિંગ - જાવા", "Professional Core", 4, "programming", None),
     "DI04000031": ("Introduction to NoSQL", "નોએસક્યુએલનો પરિચય", "Professional Core", 3, "practical", None),
     "DI04007011": ("Introduction to Web Development", "વેબ ડેવલપમેન્ટનો પરિચય", "Professional Core", 4, "programming", None),
-    # Computer Sem 5 (2026-27): only the provided/approved subject is added.
+    # Computer Sem 5 (2026-27): the two provided main-subject syllabi.
+    "DI05007011": ("Computer Hardware Architecture and System Maintenance", None, "Professional Core", 4, "theory", None),
     "DI05007021": ("Information Security", None, "Professional Core", 4, "theory", None),
 }
 # branch key -> {semester: [subject codes in display order]}
@@ -91,7 +92,7 @@ BRANCH_SEMS = {
             "DI02000131", "DI02000141", "DI02000151"],
         3: ["DI03000021", "DI03000011", "DI03000031", "DI03000041", "DI03000051", "DI03000061"],
         4: ["DI04000021", "DI04000011", "DI04007011", "DI04000031"],
-        5: ["DI05007021"],
+        5: ["DI05007011", "DI05007021"],
     },
 }
 
