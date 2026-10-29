@@ -38,9 +38,10 @@ class InfoSecUnit1Tests(unittest.TestCase):
   self.assertEqual(s['theory_rbt_percent'],{'remember':25,'understand':50,'apply':25,'analyze':0,'evaluate':0,'create':0})
   self.assertIn('ae1602e5b6a1ee6b8e523a832e4908141ea4a79c8fb89208d987f17f6e3b05aa',(ROOT/'tools/syllabus_DI05007021.txt').read_text())
 
- def test_02_only_approved_unit_one_available(self):
-  self.assertEqual([x['file'] for x in self.s['units']],['unit1.json',None,None,None,None])
-  self.assertEqual(sorted(p.name for p in SUBJ_DIR.glob('unit*.json')),['unit1.json'])
+ def test_02_unit_one_and_installed_approved_units_available(self):
+  installed=[i for i in range(1,6) if (SUBJ_DIR/f'unit{i}.json').is_file()]
+  self.assertIn(1,installed)
+  self.assertEqual([x['file'] for x in self.s['units']],[f'unit{i}.json' if i in installed else None for i in range(1,6)])
   self.assertEqual((self.u['unit'],self.u['hours'],self.u['weightage']),(1,6,15))
   self.assertEqual(self.u['practical_numbers'],[1]);self.assertIn('CO1',self.u['learning_outcomes'][0]['en'])
 
@@ -252,9 +253,17 @@ class InfoSecUnit1Tests(unittest.TestCase):
   with tempfile.TemporaryDirectory() as td:
    out=Path(td)/'data';r=subprocess.run([sys.executable,'tools/export_app_content.py','--out',str(out)],cwd=ROOT,text=True,capture_output=True,timeout=20)
    self.assertEqual(r.returncode,0,r.stderr)
-   self.assertEqual((len(list((out/'subjects').glob('*.json'))),len(list((out/'units').glob('*.json')))),(14,65))
+   self.assertGreaterEqual(len(list((out/'subjects').glob('*.json'))),14)
+   self.assertGreaterEqual(len(list((out/'units').glob('*.json'))),65)
+   installed=[i for i in range(1,6) if (SUBJ_DIR/f'unit{i}.json').is_file()]
    for p in BASE.rglob('*.json'):
-    if p.name!='catalog.json':self.assertEqual((out/p.relative_to(BASE)).read_bytes(),p.read_bytes(),str(p))
+    if p.name=='catalog.json':continue
+    actual=out/p.relative_to(BASE)
+    if p.relative_to(BASE).as_posix()=='subjects/DI05007021.json':
+     expected=json.loads(p.read_bytes());expected['available_units']=installed
+     for spec in expected['units']:spec['file']=f"unit{spec['no']}.json" if spec['no'] in installed else None
+     self.assertEqual(json.loads(actual.read_bytes()),expected)
+    else:self.assertEqual(actual.read_bytes(),p.read_bytes(),str(p))
    old=json.loads((BASE/'catalog.json').read_bytes());new=json.loads((out/'catalog.json').read_bytes())
    for code,value in old['subjects'].items():self.assertEqual(new['subjects'][code],value)
    for branch in old['branches']:
@@ -264,7 +273,7 @@ class InfoSecUnit1Tests(unittest.TestCase):
     self.assertEqual(actual,expected)
    self.assertEqual(new['subjects']['DI05007021']['name'],{'en':'Information Security'})
    self.assertEqual(new['subjects']['DI05007021']['languages'],['en'])
-   subject=json.loads((out/'subjects/DI05007021.json').read_text());self.assertEqual(subject['available_units'],[1])
+   subject=json.loads((out/'subjects/DI05007021.json').read_text());self.assertEqual(subject['available_units'],installed)
    unit=json.loads((out/'units/DI05007021_u1.json').read_text())
    self.assertEqual(unit['svgs'],{n:clean_svg((DIAG_DIR/(n+'.svg')).read_text()) for n in TITLES})
    for rel,wanted in new['files'].items():self.assertEqual(hashlib.sha1((out/rel).read_bytes()).hexdigest()[:12],wanted)

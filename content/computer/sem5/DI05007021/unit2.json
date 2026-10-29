@@ -1,0 +1,1350 @@
+{
+ "subject": "DI05007021",
+ "unit": 2,
+ "format": "notes",
+ "title": {
+  "en": "Conventional and Symmetric Cryptography"
+ },
+ "hours": 12,
+ "weightage": 25,
+ "tabs": [
+  "notes",
+  "programs",
+  "diagrams",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "English-only Unit 2: cryptographic terms; monoalphabetic, Caesar, polyalphabetic/Vigenere, Playfair, Hill, one-time pad and rail fence; steganography types; historical DES structure and trade-offs. Includes worked calculations and twelve actually executed examples for Practicals 2–5 and supporting study. Classical methods and DES are not production protection. Suggested practice marks are not official GTU allocations."
+ },
+ "notes": [
+  {
+   "title": {
+    "en": "1. Cryptography Foundations"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "1.1 Plaintext, ciphertext and the study of ciphers"
+     },
+     "body": {
+      "en": "<table><tr><th>Term</th><th>Meaning</th></tr><tr><td>Plaintext</td><td>The original information supplied to encryption; it may be text or bytes.</td></tr><tr><td>Ciphertext</td><td>The transformed output of encryption; binary output can be displayed as hexadecimal.</td></tr><tr><td>Encryption</td><td>Transforms plaintext using an algorithm and key to obtain ciphertext.</td></tr><tr><td>Decryption</td><td>Applies the appropriate inverse operation and key to recover the encoded plaintext.</td></tr><tr><td>Cryptography</td><td>Design and use of techniques for protecting information.</td></tr><tr><td>Cryptanalysis</td><td>Study of obtaining information or defeating a cryptographic goal without the intended secret; here only fixed classroom examples are used.</td></tr><tr><td>Cryptology</td><td>The field encompassing cryptography and cryptanalysis.</td></tr></table><p><b>Distinguish:</b> hexadecimal/Base64 are encodings, not secret-key encryption. Hashing produces a digest; it is not reversible encryption with a decryption key. Ciphertext that looks random is not, by appearance alone, proven secure.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "1.2 Conventional / symmetric encryption model"
+     },
+     "body": {
+      "en": "<p>In <b>symmetric-key encryption</b>, communicating parties share secret key material. Our classroom model uses <code>C = E_K(P)</code> and <code>P = D_K(C)</code>. The algorithm can be public; security should not depend on hiding its design.</p><ul><li>Sender encrypts the prepared message; receiver uses the corresponding secret key to decrypt. The key needs secure generation, distribution, storage and retirement.</li><li>Encryption chiefly addresses confidentiality. Appropriate authentication/integrity protection is still needed: obtaining readable decrypted text is not proof of sender identity or freshness.</li><li>These classical ciphers and single DES are <b>historical teaching methods, not suitable choices for protecting real data today</b>. Use vetted current authenticated-encryption implementations and protocols for real applications; do not deploy this lab library.</li></ul><p>Actual demonstrations are offline and use public classroom messages and keys. No live target, account or real secret is attacked.</p>"
+     },
+     "diagram": "sec2_model"
+    },
+    {
+     "h": {
+      "en": "1.3 Substitution, transposition and classroom conventions"
+     },
+     "body": {
+      "en": "<table><tr><th>Technique</th><th>What changes?</th><th>Examples</th></tr><tr><td>Monoalphabetic substitution</td><td>One fixed alphabet mapping replaces each letter.</td><td>Caesar; a general 26-letter permutation.</td></tr><tr><td>Polyalphabetic substitution</td><td>The mapping varies with position/key state.</td><td>Repeating-key Vigenere, used here as a representative.</td></tr><tr><td>Polygraphic substitution</td><td>A block or pair of symbols is transformed together.</td><td>Playfair digraphs; Hill letter vectors. This term is not a synonym for polyalphabetic.</td></tr><tr><td>Transposition</td><td>Positions change while the letters themselves are retained.</td><td>Rail fence; its letter histogram is unchanged.</td></tr></table><p><b>Declared lab convention:</b> A=0 through Z=25; ASCII letters become uppercase and whitespace is removed. Other characters are rejected rather than silently discarded. Decryption returns normalized/prepared text, not the original case, spacing or punctuation. Playfair additionally merges J into I; fillers and Hill padding are explicit and are not guessed away.</p>"
+     },
+     "diagram": "sec2_substitution"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2. Substitution Techniques"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "2.1 Monoalphabetic substitution"
+     },
+     "body": {
+      "en": "<p>Choose a permutation of the alphabet. Each plaintext letter always uses the same mapped ciphertext letter. The inverse permutation decrypts it.</p><table><tr><th>Plain alphabet</th><th>Cipher alphabet</th></tr><tr><td>ABCDEFGHIJKLMNOPQRSTUVWXYZ</td><td>QWERTYUIOPASDFGHJKLZXCVBNM</td></tr></table><p><b>Worked example:</b> HELLO → ITSSG because H→I, E→T, L→S and O→G. Repeated L becomes repeated S.</p><ul><li>A valid substitution alphabet has all 26 letters exactly once. A duplicate or missing letter prevents a unique inverse.</li><li>There are 26! possible permutations, but a large nominal keyspace alone does not prove security. Repeated patterns and language frequency remain useful to cryptanalysis.</li><li>Frequency analysis relabels statistical patterns; short messages may not provide enough evidence for a unique recovery.</li></ul>"
+     },
+     "programs": [
+      "sec2p03"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.2 Caesar cipher: shift, wraparound and reversal"
+     },
+     "body": {
+      "en": "<p>Caesar is a restricted monoalphabetic substitution. With numeric letters and integer shift k:</p><p><code>C = (P + k) mod 26</code><br><code>P = (C - k) mod 26</code></p><table><tr><th>Plain letter</th><th>Numeric step, k=3</th><th>Cipher</th></tr><tr><td>A</td><td>(0+3) mod 26 = 3</td><td>D</td></tr><tr><td>T</td><td>(19+3) mod 26 = 22</td><td>W</td></tr><tr><td>X</td><td>(23+3) mod 26 = 0</td><td>A</td></tr><tr><td>Z</td><td>(25+3) mod 26 = 2</td><td>C</td></tr></table><p><b>Worked message:</b> ATTACKATDAWN → DWWDFNDWGDZQ. Subtract 3 to recover the normalized plaintext. There are only 26 shifts, including the identity shift 0. The separate KHOOR demo checks all 26 on fixed teaching data; HELLO appears at shift 3. Recognizing meaningful text is not a universal automatic key-identification guarantee.</p>"
+     },
+     "programs": [
+      "sec2p01",
+      "sec2p02"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.3 Polyalphabetic substitution: Vigenere example"
+     },
+     "body": {
+      "en": "<p>A changing substitution alphabet can map the same plaintext letter differently at different positions. Our representative is <b>repeating-key Vigenere</b>:</p><p><code>C_i = (P_i + K_i) mod 26</code><br><code>P_i = (C_i - K_i) mod 26</code></p><table><tr><th>Item</th><th>Sequence</th></tr><tr><td>Plaintext</td><td>ATTACKATDAWN</td></tr><tr><td>Repeated key</td><td>LEMONLEMONLE</td></tr><tr><td>Ciphertext</td><td>LXFOPVEFRNHR</td></tr></table><p>For the first three positions: A(0)+L(11)=L(11); T(19)+E(4)=X(23); T(19)+M(12)=31 mod 26=F(5). Continue using the repeated key. Reverse by subtraction.</p><ul><li>A repeated short key introduces periodic structure. Vigenere is not secure modern encryption.</li><li>A key merely as long as one sample is not automatically a one-time pad: randomness, independence, secrecy and no reuse are essential too.</li></ul>"
+     },
+     "diagram": "sec2_vigenere",
+     "programs": [
+      "sec2p04"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.4 Playfair: key square and digraph preparation"
+     },
+     "body": {
+      "en": "<p>Playfair transforms <b>pairs of letters</b>. Our declared variant uses a 5×5 square, combines I/J and fills unused alphabet letters after the deduplicated keyword. With key PLAYFAIREXAMPLE:</p><table><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr><tr><td>P</td><td>L</td><td>A</td><td>Y</td><td>F</td></tr><tr><td>I</td><td>R</td><td>E</td><td>X</td><td>M</td></tr><tr><td>B</td><td>C</td><td>D</td><td>G</td><td>H</td></tr><tr><td>K</td><td>N</td><td>O</td><td>Q</td><td>S</td></tr><tr><td>T</td><td>U</td><td>V</td><td>W</td><td>Z</td></tr></table><ol><li>Normalize letters and map J to I.</li><li>Scan pairs. If both letters would be equal, insert X after the first and reconsider the next original letter.</li><li>If the final letter has no partner, append X.</li><li>For a repeated or final X, this implementation uses Q as the filler instead.</li></ol><p><b>Examples:</b> BALLOON → BA LX LO ON, hence BALXLOON. XX → XQ XQ. Different conventions exist; always state the one used. Fillers are not automatically removed during decryption because genuine X/Q letters may otherwise be destroyed.</p>"
+     },
+     "diagram": "sec2_playfair"
+    },
+    {
+     "h": {
+      "en": "2.5 Playfair encryption and decryption rules"
+     },
+     "body": {
+      "en": "<table><tr><th>Pair positions</th><th>Encrypt</th><th>Decrypt</th></tr><tr><td>Same row</td><td>Move each letter one column right, wrapping.</td><td>Move each letter one column left.</td></tr><tr><td>Same column</td><td>Move each letter one row down, wrapping.</td><td>Move each letter one row up.</td></tr><tr><td>Different row and column</td><td>Use the other rectangle corner in each letter’s own row.</td><td>Use the same rectangle-corner operation.</td></tr></table><p>In the above square, HI forms a rectangle: H(row 3,column 5) → B(row 3,column 1), I(row 2,column 1) → M(row 2,column 5), giving <b>HI → BM</b>.</p><p>The actual full example prepares HIDETHEGOLDINTHETREESTUMP as <b>HIDETHEGOLDINTHETREXESTUMP</b> and encrypts it to <b>BMODZBXDNABEKUDMUIXMMOUVIF</b>. Reversal returns the prepared text. Playfair is historical polygraphic substitution, not modern authenticated encryption.</p>"
+     },
+     "programs": [
+      "sec2p05"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.6 Hill cipher: column vectors and valid keys"
+     },
+     "body": {
+      "en": "<p>Hill is a <b>polygraphic substitution</b> using matrix multiplication modulo 26. For an n×n key matrix K and a column vector P of n letter numbers:</p><p><code>C = K P mod 26</code><br><code>P = K^-1 C mod 26</code></p><ul><li>Use a consistent convention: these notes and programs use <b>column vectors</b>, not row vectors. Different conventions can produce different ciphertext for the same displayed numbers.</li><li>The matrix must be invertible modulo 26: <b>gcd(det(K),26)=1</b>. A determinant that is merely nonzero is not enough; it must not share factors 2 or 13 with 26.</li><li>For K=[[3,3],[2,5]], det=15−6=9 and 9×3=27≡1 mod 26. K^-1 = 3×[[5,−3],[−2,3]] mod 26 = [[15,17],[20,9]].</li><li>For example, [[2,0],[0,1]] has nonzero determinant 2 but no inverse modulo 26. The implementation rejects such a key before encrypting.</li><li>Prepare complete blocks by appending X when required. Keep that prepared text or original-length knowledge; do not delete every trailing X blindly.</li></ul><p>The shared teaching helper supports 2×2 and 3×3 matrices, not arbitrary large matrices or a production cryptosystem.</p>"
+     },
+     "diagram": "sec2_hill"
+    },
+    {
+     "h": {
+      "en": "2.7 Hill worked examples: HELP → HIAT and ACT → POH"
+     },
+     "body": {
+      "en": "<p><b>2×2, K=[[3,3],[2,5]]:</b></p><table><tr><th>Block</th><th>Multiply column vector</th><th>Reduce mod 26</th><th>Cipher</th></tr><tr><td>HE = [7,4]</td><td>[3×7+3×4, 2×7+5×4] = [33,34]</td><td>[7,8]</td><td>HI</td></tr><tr><td>LP = [11,15]</td><td>[3×11+3×15, 2×11+5×15] = [78,97]</td><td>[0,19]</td><td>AT</td></tr></table><p>Combine to obtain HIAT. Applying [[15,17],[20,9]] to each ciphertext column returns HELP.</p><p><b>3×3:</b> K=[[6,24,1],[13,16,10],[20,17,15]] has determinant 441, coprime to 26. ACT=[0,2,19] gives [67,222,319] mod 26 = [15,14,7], hence <b>POH</b>. The actual program also prepares HI as HIX and reverses to HIX without guessing away its padding.</p><p>Decryption is an additional checked learning aid; the official Hill practical asks for basic encryption.</p>"
+     },
+     "programs": [
+      "sec2p06",
+      "sec2p07"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3. One-Time Pad and Transposition"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "3.1 One-time pad: arithmetic and essential conditions"
+     },
+     "body": {
+      "en": "<p>A genuine <b>one-time pad (OTP)</b> uses independent, uniformly random secret key symbols at least as long as the message, with each pad part used only once. Under those ideal conditions it provides perfect secrecy of message content against ciphertext-only observation—not authentication, integrity or automatic traffic-length hiding.</p><table><tr><th>Item</th><th>Letter example, A=0</th></tr><tr><td>Plaintext</td><td>HELLO</td></tr><tr><td>Public worked pad</td><td>XMCKL</td></tr><tr><td>Ciphertext</td><td>EQNVZ</td></tr></table><p>H(7)+X(23)=30 mod26=E(4); E(4)+M(12)=Q(16); L(11)+C(2)=N(13); L(11)+K(10)=V(21); O(14)+L(11)=Z(25). Subtract the pad modulo 26 to reverse.</p><ul><li><b>The displayed pad is public fixed classroom data:</b> it demonstrates arithmetic, not perfect secrecy.</li><li>A memorized phrase, repeated Vigenere key or predictable sequence is not a genuine OTP.</li><li>The difficult practical requirements are enough truly suitable key material, secure distribution/storage, synchronization and never reusing a pad portion.</li></ul>"
+     },
+     "diagram": "sec2_otp",
+     "programs": [
+      "sec2p09"
+     ]
+    },
+    {
+     "h": {
+      "en": "3.2 Binary XOR pad, reuse and security limits"
+     },
+     "body": {
+      "en": "<p>For byte/bit messages, <code>C = P XOR K</code> and <code>P = C XOR K</code>. Our fresh-key example actually uses Python secrets, an OS-backed CSPRNG; it does not prove ideal information-theoretic randomness or implement a complete key-distribution protocol.</p><ul><li>Message and key lengths must match in the helper. The program never prints or saves its fresh key or random ciphertext bytes; it reports actual lengths and successful recovery.</li><li><b>Reuse is dangerous:</b> C1=P1 XOR K and C2=P2 XOR K imply C1 XOR C2=P1 XOR P2. The separate fixed public HELLO/WORLD demonstration checks this equality.</li><li>This relation leaks structure but is not a claim that an attacker instantly learns both arbitrary messages.</li><li>Even ideal OTP confidentiality does not stop active modification: changing ciphertext bits changes recovered plaintext bits. Integrity/authentication needs separate appropriate design.</li></ul>"
+     },
+     "programs": [
+      "sec2p10"
+     ]
+    },
+    {
+     "h": {
+      "en": "3.3 Rail-fence transposition"
+     },
+     "body": {
+      "en": "<p>Write letters diagonally across successive rails, bounce at top/bottom, then read each rail from left to right. For three rails the position pattern is <code>0,1,2,1,0,1,2,1,...</code>.</p><table><tr><th>Rail</th><th>Letters for WEAREDISCOVEREDRUNATONCE</th></tr><tr><td>0</td><td>WECRUO</td></tr><tr><td>1</td><td>ERDSOEERNTNE</td></tr><tr><td>2</td><td>AIVDAC</td></tr></table><p>Read rows to get <b>WECRUOERDSOEERNTNEAIVDAC</b>. To decrypt, reconstruct the zigzag positions, count how many symbols each rail receives, fill the rails from ciphertext, then traverse the original zigzag.</p><ul><li>Rail fence changes positions, not symbols: the ciphertext and normalized plaintext have the same letter multiset/frequencies.</li><li>Rows can have unequal lengths. The code handles that directly and needs no padding.</li><li>One rail produces the identity transformation. For these examples choose a positive rail count no greater than the message length; an empty message allows one rail.</li><li>A small/simple rail pattern is not modern secure encryption.</li></ul>"
+     },
+     "diagram": "sec2_rail",
+     "programs": [
+      "sec2p08"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "4. Steganography"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "4.1 Hiding existence: carriers, types and a bounded LSB example"
+     },
+     "body": {
+      "en": "<p><b>Steganography</b> embeds information in a carrier to conceal the existence of the communication. <b>Cryptography</b> tries to conceal meaning from unauthorized readers. Neither property automatically supplies the other.</p><table><tr><th>Carrier type</th><th>Illustrative technique / limitation</th></tr><tr><td>Text</td><td>Use a controlled textual representation or formatting; editing/reformatting may destroy the embedded pattern.</td></tr><tr><td>Image</td><td>For example, change selected least significant bits of raw pixel channels; compression or processing can alter them.</td></tr><tr><td>Audio</td><td>Embed within a controlled audio representation; resampling/compression may damage the payload.</td></tr><tr><td>Video</td><td>Use controlled frame/audio data; transcoding and large carriers complicate recovery.</td></tr><tr><td>Network/protocol</td><td>Use features of a communication representation or timing; no network covert channel is implemented in this unit.</td></tr></table><p><b>Actual supporting example:</b> synthetic 8×8 RGB data gives 192 channel bytes. A two-byte length header plus GTU (three bytes) occupies 16+24=<b>40 low bits</b>. The program changes 13 channels by at most 1 and really extracts GTU. Its capacity rule is <code>16 + 8×payload_bytes ≤ carrier_bytes</code>.</p><ul><li>This is only a private raw-byte fixture, not a PNG/JPEG editor or general image decoder. No personal media or external carrier is used.</li><li>Small channel changes do not establish invisibility or resistance to steganalysis. The payload is not encrypted or authenticated.</li><li>Never assume recompression, cropping or other changes preserve simple LSB data. Capacity, robustness and detectability are distinct concerns.</li></ul>"
+     },
+     "diagram": "sec2_stego",
+     "programs": [
+      "sec2p12"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "5. Data Encryption Standard — Historical Study"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "5.1 DES parameters and overall structure"
+     },
+     "body": {
+      "en": "<p><b>Single DES</b> is a symmetric block cipher with a <b>64-bit data block</b> and <b>56 effective key bits</b>. Its common 64-bit key representation includes eight parity bits, one per byte; those parity bits are not extra encryption-key strength.</p><ol><li>Apply the initial permutation IP to the 64-bit block.</li><li>Split into L0 and R0, each 32 bits.</li><li>Apply 16 Feistel rounds with sixteen 48-bit round subkeys.</li><li>Swap the final halves, forming R16 || L16.</li><li>Apply IP inverse (the final permutation) to obtain the 64-bit ciphertext.</li></ol><p>Round equations: <code>L_i = R_(i-1)</code>; <code>R_i = L_(i-1) XOR f(R_(i-1),K_i)</code>. The same Feistel structure decrypts when the subkey order is reversed. IP and its inverse are fixed permutations, not independently secret operations.</p><p><b>Security status:</b> NIST withdrew FIPS 46-3 on <b>19 May 2005</b>. DES belongs here because the syllabus requires its structure and trade-offs, not because it is an acceptable choice for new protection.</p>"
+     },
+     "diagram": "sec2_des"
+    },
+    {
+     "h": {
+      "en": "5.2 DES round function, S-boxes and key schedule"
+     },
+     "body": {
+      "en": "<p><b>Round function f:</b></p><ol><li>Expand the 32-bit right half to 48 bits using E.</li><li>XOR with the current 48-bit subkey.</li><li>Divide into eight 6-bit groups. Each S-box maps 6 bits to 4 bits: the first/last input bits select the row; the middle four select the column.</li><li>Combine the eight outputs into 32 bits and apply the P permutation.</li></ol><p><b>Key schedule:</b> PC-1 selects 56 effective bits from the 64-bit representation. Split into C/D halves of 28 bits, rotate according to the round schedule, then PC-2 selects 48 bits. Rotations are 1 in rounds 1,2,9,16 and 2 in the other rounds.</p><table><tr><th>Actual public-vector trace</th><th>Observed value</th></tr><tr><td>Key / plaintext</td><td>133457799BBCDFF1 / 0123456789ABCDEF</td></tr><tr><td>After IP</td><td>CC00CCFFF0AAF0AA</td></tr><tr><td>First subkey K1</td><td>1B02EFFC7072</td></tr><tr><td>After round 1</td><td>L1=F0AAF0AA; R1=EF4A6544</td></tr><tr><td>After round 16</td><td>L16=43423234; R16=0A4CD995</td></tr><tr><td>Final ciphertext</td><td>85E813540F0AB405</td></tr></table><p>These values are actually computed by the included pure-Python helper and the final encryption/decryption is independently checked against OpenSSL’s legacy DES for the test process only. This is <b>not</b> a NIST/FIPS validation or certification of the code.</p>"
+     },
+     "diagram": "sec2_feistel",
+     "programs": [
+      "sec2p11"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.3 DES advantages in context, disadvantages and modern caution"
+     },
+     "body": {
+      "en": "<table><tr><th>Historical/design advantage</th><th>Important limitation today</th></tr><tr><td>Published, widely studied design with compact bit operations.</td><td>Historical standardization is not present-day security approval.</td></tr><tr><td>Feistel construction permits reversal with reversed round keys.</td><td>Correct reversal does not establish confidentiality strength or authentication.</td></tr><tr><td>Hardware-oriented fixed block structure and clear key schedule.</td><td>A 56-bit effective key is too small for modern protection; no brute-force timing benchmark is claimed here.</td></tr><tr><td>Useful for studying substitution, permutation and diffusion.</td><td>The 64-bit block size is small, and modes/key management still matter; a bare block cipher is not a full secure message protocol.</td></tr></table><p><b>Do not deploy these examples:</b> classical ciphers and single DES are unsuitable for real secrets. Do not assume switching to 3DES is a modern default either. Real applications need appropriate current authenticated encryption and vetted implementations, not home-made classroom cryptography.</p><p>An independent DES check uses the OpenSSL legacy provider only for that individual process; it does not change system-wide provider settings or expose a network service.</p>"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "6. Practical Journal and Exam Preparation"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "6.1 Practicals 2–5: evidence, normalization and limitations"
+     },
+     "body": {
+      "en": "<table><tr><th>Official practical</th><th>Included example</th><th>Required interpretation</th></tr><tr><td>2: Caesar encryption/decryption</td><td>sec2p01.py</td><td>State alphabet, shift and normalization; show both directions.</td></tr><tr><td>3: Hill basic encryption</td><td>sec2p06.py; sec2p07.py extension</td><td>State matrix/vector convention, valid determinant and block preparation.</td></tr><tr><td>4: Playfair encryption</td><td>sec2p05.py</td><td>Show square, I/J rule, digraph/filler convention and pair transformations.</td></tr><tr><td>5: Rail-fence encryption</td><td>sec2p08.py</td><td>Show the zigzag/rails, row concatenation and resulting ciphertext.</td></tr></table><p>The ZIP includes the shared <code>ciphers.py</code> source beside all twelve scripts, so no PYTHONPATH setup or pip dependency is needed. Supporting examples cover fixed-sample Caesar analysis, general substitution, Vigenere, OTP arithmetic/XOR, DES and synthetic LSBs; these are not invented additional official practical numbers.</p><ul><li>Record input, public demo key, preparation convention, calculation/algorithm, actual output, recovery target and limitation in the journal.</li><li>Report recovery of normalized/prepared text honestly. Never silently delete arbitrary X/Q characters or promise to restore lost formatting.</li><li>All example data is local and fictional/public. No files containing user secrets, live targets or external services are used.</li><li><b>Assessment:</b> the official course scheme stays theory 70+30 and practical 20+30=150. This unit is 12 hours / 25% syllabus weight; it does not guarantee exact question marks in an exam.</li><li>The sixteen answered questions below are original revision exercises with suggested 3/4/7-mark sizes only—not official GTU past-paper questions, allocated marks or a promised paper pattern.</li></ul><p><b>References:</b> <a href=\"https://s3-ap-southeast-1.amazonaws.com/gtusitecirculars/Syallbus/DI05007021.pdf\">GTU DI05007021 syllabus, 2026–27</a>, <a href=\"https://cacr.uwaterloo.ca/hac/about/chap7.pdf\">Handbook of Applied Cryptography, chapter 7: classical and block ciphers (historical text)</a>, <a href=\"https://cacr.uwaterloo.ca/hac/about/chap6.pdf\">Handbook of Applied Cryptography, chapter 6: one-time pad and stream ciphers</a>, <a href=\"https://csrc.nist.gov/pubs/fips/46-3/final\">NIST FIPS 46-3: DES, withdrawn 19 May 2005</a>, <a href=\"https://csrc.nist.gov/files/pubs/fips/46-3/final/docs/fips46-3.pdf\">NIST archived DES specification and tables</a>, <a href=\"https://csrc.nist.gov/glossary/term/steganography\">NIST glossary: steganography</a>, <a href=\"https://en.wikipedia.org/wiki/Playfair_cipher\">Playfair rules and conventional worked vector (secondary reference)</a>, <a href=\"https://en.wikipedia.org/wiki/Hill_cipher\">Hill column-vector example and modular inverse (secondary reference)</a>, <a href=\"https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher\">Vigenere repeating-key convention (secondary reference)</a>, <a href=\"https://en.wikipedia.org/wiki/Rail_fence_cipher\">Rail-fence worked zigzag example (secondary reference)</a>. Historical texts are used for algorithm facts, not current deployment advice; no textbook chapter is redistributed.</p>"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "7. Answered Exam-Style Practice — Suggested Marks Only"
+   },
+   "role": "practice",
+   "items": [
+    {
+     "h": {
+      "en": "Practice 1. Define plaintext, ciphertext, encryption, decryption, cryptanalysis and cryptology."
+     },
+     "body": {
+      "en": "<p>Plaintext is input information; ciphertext is encryption output. Encryption transforms plaintext under a key; decryption applies the appropriate inverse and key. Cryptanalysis studies how cryptographic goals may be defeated without the intended secret. Cryptology includes cryptography and cryptanalysis. Encoding and hashing are different operations: hexadecimal is a representation, while a digest has no decryption key.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 2. Explain the symmetric encryption model and its key-management issue."
+     },
+     "body": {
+      "en": "<p>Draw sender P → E_K → C → D_K → recovered P at the receiver. Both parties need the corresponding shared secret key material. Protect key generation, distribution, storage and retirement; knowing the algorithm need not reveal the secret key. Encryption alone does not establish sender identity, integrity or freshness. The lab models this flow on normalized/prepared messages; it is not a production secure protocol.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 3. Differentiate substitution and transposition, including monoalphabetic, polyalphabetic and polygraphic methods."
+     },
+     "body": {
+      "en": "<p>Substitution replaces symbols or blocks; transposition reorders their positions. Caesar and a fixed alphabet permutation are monoalphabetic. Repeating-key Vigenere is polyalphabetic because mapping varies with key position. Playfair is polygraphic on pairs; Hill is polygraphic on vectors, not simply a synonym for polyalphabetic. Rail fence is transposition: letters and their histogram are retained. All these classical methods are historical, not suitable modern protection.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 4. Encrypt ATTACKATDAWN with Caesar shift 3 and explain wraparound and reversal."
+     },
+     "body": {
+      "en": "<p>Use A=0 and C=(P+3) mod26. A→D, T→W, C→F, K→N, D→G, W→Z and N→Q. Thus ATTACKATDAWN → DWWDFNDWGDZQ. Decrypt with P=(C−3) mod26. Wraparound gives X→A, Y→B, Z→C. Only 26 shifts, including identity 0, exist, so trying them on a fixed classroom sample is straightforward; this is not real-data security.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 5. Explain why a monoalphabetic cipher can be weak despite 26! possible mappings."
+     },
+     "body": {
+      "en": "<p>The mapping is a permutation, so repeated plaintext letters always map to the same repeated ciphertext letters and frequencies are relabelled rather than eliminated. For the shown alphabet, HELLO becomes ITSSG and LL becomes SS. Language patterns can aid analysis even with a large nominal keyspace. Short samples may be ambiguous; frequency evidence is not an automatic unique recovery guarantee.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 6. Work the Vigenere example ATTACKATDAWN with key LEMON."
+     },
+     "body": {
+      "en": "<p>Repeat the key to LEMONLEMONLE and add letter numbers modulo 26. The first positions give A+L=L, T+E=X, T+M=F. Continuing produces LXFOPVEFRNHR. Subtract the same key sequence to recover ATTACKATDAWN. The short key repeats, introducing structure; this is a historical polyalphabetic example, not a one-time pad.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 7. Prepare BALLOON and XX for the declared Playfair variant and state why fillers are preserved."
+     },
+     "body": {
+      "en": "<p>Map J to I, split digraphs, insert X between repeated letters and after an unpaired ending; use Q instead when the repeated/final letter is X. BALLOON becomes BA LX LO ON = BALXLOON. XX becomes XQ XQ = XQXQ. Decryption returns prepared text. Automatically removing every X/Q or guessing I/J would damage valid original letters, so any later interpretation needs external knowledge.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 8. Explain the Playfair square and three transformation rules with a worked pair."
+     },
+     "body": {
+      "en": "<p>Deduplicate PLAYFAIREXAMPLE then append remaining letters, merging I/J: PLAYF / IREXM / BCDGH / KNOQS / TUVWZ. Same-row pairs shift right, same-column pairs shift down, and other pairs use rectangle corners in their own rows; wrap edges. Decryption shifts left/up or applies the same rectangle rule. HI uses H(row3,col5), I(row2,col1), giving BM. Apply the declared preparation rules before pairing; this remains historical, unauthenticated encryption.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 9. Encrypt HELP with Hill key [[3,3],[2,5]] using column vectors."
+     },
+     "body": {
+      "en": "<p>A=0. det(K)=3×5−3×2=9, coprime to26, so the key is valid. HE=[7,4] gives K×P=[33,34] mod26=[7,8]=HI. LP=[11,15] gives [78,97] mod26=[0,19]=AT. Combine to obtain HIAT. State the column-vector convention and block size; changing conventions changes the computation. With an odd number of letters this helper appends X explicitly rather than claiming original formatting is recovered.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 10. Find the inverse Hill matrix for [[3,3],[2,5]] and explain the validity condition."
+     },
+     "body": {
+      "en": "<p>det=9 and 9^-1 mod26=3 since 9×3=27≡1. The adjugate is [[5,−3],[−2,3]]. Multiply by3 and reduce modulo 26: K^-1=[[15,17],[20,9]]. K×K^-1 reduces to the identity matrix modulo 26, allowing recovery of prepared letter columns. A key is valid only when gcd(det,26)=1; a nonzero determinant such as2 is still invalid modulo 26.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 11. Explain the 3x3 ACT → POH Hill calculation and the padding limitation."
+     },
+     "body": {
+      "en": "<p>With K=[[6,24,1],[13,16,10],[20,17,15]], ACT=[0,2,19]. Multiplication gives [67,222,319] mod26=[15,14,7]=POH. det=441 is coprime to26. A short block HI is prepared as HIX. Decryption returns that prepared text; without original-length information, a final X cannot safely be labelled padding and removed automatically.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 12. State genuine one-time-pad conditions and work HELLO with pad XMCKL."
+     },
+     "body": {
+      "en": "<p>The pad must be independent, uniformly random, secret, at least as long as the message and never reused. Under the ideal conditions OTP gives perfect message-content secrecy against ciphertext-only observation, not authentication. With A=0, HELLO+XMCKL modulo 26 gives EQNVZ; subtract the pad to reverse. The published fixed sample demonstrates arithmetic only. A repeated phrase or a CSPRNG demonstration is not itself proof of ideal information-theoretic randomness. Key distribution, storage and single use remain hard practical requirements.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 13. Show why reusing an XOR pad leaks a relation between plaintexts."
+     },
+     "body": {
+      "en": "<p>If C1=P1 XOR K and C2=P2 XOR K, then C1 XOR C2=P1 XOR P2 because K XOR K=0. The fixed HELLO/WORLD lab checks this equality. It reveals a relation and may aid recovery with additional knowledge, but does not assert that both arbitrary messages are instantly known. Use pad material once; even a correctly used ideal OTP still needs separate integrity/authentication protection against active modification.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 14. Explain three-rail encryption of WEAREDISCOVEREDRUNATONCE."
+     },
+     "body": {
+      "en": "<p>The zigzag visits rails 0,1,2,1 repeatedly. Filling positions yields rail0 WECRUO, rail1 ERDSOEERNTNE, rail2 AIVDAC. Read rows to produce WECRUOERDSOEERNTNEAIVDAC. Reverse by reconstructing the position pattern and correct per-rail counts, not by assuming equal row lengths. No padding is used here. Only positions change, so the letter histogram is preserved.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 15. Differentiate steganography from cryptography and explain the LSB capacity example."
+     },
+     "body": {
+      "en": "<p>Cryptography seeks to hide meaning; steganography seeks to hide communication’s existence using a carrier, such as text, image, audio, video or protocol data. For the synthetic 8×8 RGB example, 192 channel bytes hold one low bit each. A two-byte length header plus three-byte GTU payload needs16+24=40 bits. Actual extraction recovers GTU. This is not a real image editor, undetectability proof, encryption or authentication; compression and processing can destroy a simple LSB pattern.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 16. Describe DES structure, round/key parameters and why it is not modern protection."
+     },
+     "body": {
+      "en": "<p>DES processes 64-bit blocks with 56 effective key bits plus 8 representation/parity bits. IP is followed by 32-bit halves and 16 Feistel rounds: L_i=R_(i−1), R_i=L_(i−1) XOR f(R_(i−1),K_i). f expands 32→48, XORs a 48-bit subkey, maps eight 6-bit groups through S-boxes to 32 bits, then permutes P. PC-1, 28-bit rotations and PC-2 derive 16 subkeys. After the final half-swap apply IP inverse; reverse subkeys for decryption. NIST withdrew FIPS 46-3 on 19 May 2005. The short effective key, small block and lack of built-in authentication make single DES unsuitable for new protection. The lab trace is not FIPS certification.</p>"
+     }
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "sec2p01",
+   "title": {
+    "en": "Practical 2: Caesar encryption and decryption"
+   },
+   "code": {
+    "en": "from ciphers import caesar\n\nplain = \"ATTACKATDAWN\"\ncipher = caesar(plain, 3)\nprint(\"plaintext:\", plain)\nprint(\"shift: 3\")\nprint(\"ciphertext:\", cipher)\nprint(\"decrypted:\", caesar(cipher, -3))\nprint(\"wrap_XYZ:\", caesar(\"XYZ\", 3))\n"
+   },
+   "expl": {
+    "en": "Actual modulo-26 substitution, A=0 through Z=25. The helper uppercases ASCII letters and removes whitespace, rejecting other characters. Decryption recovers normalized letters, not original formatting. Shift 3 is public teaching data; Caesar is not suitable for real secrets."
+   },
+   "out": "plaintext: ATTACKATDAWN\nshift: 3\nciphertext: DWWDFNDWGDZQ\ndecrypted: ATTACKATDAWN\nwrap_XYZ: ABC\n"
+  },
+  {
+   "id": "sec2p02",
+   "title": {
+    "en": "Cryptanalysis of only a fixed Caesar classroom sample"
+   },
+   "code": {
+    "en": "from ciphers import caesar\n\nsample = \"KHOOR\"\ncandidates = [caesar(sample, -k) for k in range(26)]\nprint(\"fixed_sample:\", sample)\nprint(\"candidate_count:\", len(candidates))\nprint(\"candidate_at_shift_3:\", candidates[3])\nprint(\"HELLO_occurrences:\", candidates.count(\"HELLO\"))\n"
+   },
+   "expl": {
+    "en": "All 26 shifts are actually tested on the fixed sample KHOOR. HELLO is recognizable in this example; the program does not automatically understand arbitrary languages or identify a unique correct key for every short text. No live system, password or external data is attacked."
+   },
+   "out": "fixed_sample: KHOOR\ncandidate_count: 26\ncandidate_at_shift_3: HELLO\nHELLO_occurrences: 1\n"
+  },
+  {
+   "id": "sec2p03",
+   "title": {
+    "en": "Monoalphabetic substitution and inverse mapping"
+   },
+   "code": {
+    "en": "from ciphers import substitution\n\nalphabet = \"QWERTYUIOPASDFGHJKLZXCVBNM\"\nplain = \"HELLO\"\ncipher = substitution(plain, alphabet)\nprint(\"plaintext:\", plain)\nprint(\"ciphertext:\", cipher)\nprint(\"decrypted:\", substitution(cipher, alphabet, True))\nprint(\"repeated_L_maps_to_SS:\", cipher[2:4] == \"SS\")\n"
+   },
+   "expl": {
+    "en": "The 26-letter key is checked for a complete permutation. H maps to I, E to T, L to S and O to G. A fixed substitution preserves repeated-letter patterns and relabels frequency counts; its large nominal keyspace does not make it modern secure encryption."
+   },
+   "out": "plaintext: HELLO\nciphertext: ITSSG\ndecrypted: HELLO\nrepeated_L_maps_to_SS: True\n"
+  },
+  {
+   "id": "sec2p04",
+   "title": {
+    "en": "Polyalphabetic substitution: repeating-key Vigenere"
+   },
+   "code": {
+    "en": "from ciphers import vigenere\n\nplain = \"ATTACKATDAWN\"\nkey = \"LEMON\"\ncipher = vigenere(plain, key)\nprint(\"plaintext:\", plain)\nprint(\"repeated_key: LEMONLEMONLE\")\nprint(\"ciphertext:\", cipher)\nprint(\"decrypted:\", vigenere(cipher, key, True))\n"
+   },
+   "expl": {
+    "en": "The familiar LXFOPVEFRNHR vector is genuinely computed. Repeating-key Vigenere uses different Caesar shifts according to key position. Its short repeated key is not a one-time pad and should not be used as modern protection."
+   },
+   "out": "plaintext: ATTACKATDAWN\nrepeated_key: LEMONLEMONLE\nciphertext: LXFOPVEFRNHR\ndecrypted: ATTACKATDAWN\n"
+  },
+  {
+   "id": "sec2p05",
+   "title": {
+    "en": "Practical 4: Playfair preparation, encryption and reversal"
+   },
+   "code": {
+    "en": "from ciphers import (playfair_square, playfair_prepare,\n                     playfair_encrypt, playfair_decrypt)\n\nkey = \"PLAYFAIREXAMPLE\"\nplain = \"HIDETHEGOLDINTHETREESTUMP\"\ncipher, prepared = playfair_encrypt(plain, key)\nprint(\"square:\", playfair_square(key))\nprint(\"prepared:\", prepared)\nprint(\"ciphertext:\", cipher)\nprint(\"decrypted_prepared:\", playfair_decrypt(cipher, key))\nprint(\"BALLOON_prepared:\", playfair_prepare(\"BALLOON\"))\nprint(\"XX_prepared:\", playfair_prepare(\"XX\"))\n"
+   },
+   "expl": {
+    "en": "Uses a 5x5 I/J-merged square, row/column/rectangle rules, and X between repeated letters or at an odd ending. For a repeated/final X the declared fallback is Q, avoiding an XX pair. The real known vector is BMODZBXDNABEKUDMUIXMMOUVIF. Decryption preserves fillers: deleting every X or guessing J would destroy legitimate information."
+   },
+   "out": "square: PLAYFIREXMBCDGHKNOQSTUVWZ\nprepared: HIDETHEGOLDINTHETREXESTUMP\nciphertext: BMODZBXDNABEKUDMUIXMMOUVIF\ndecrypted_prepared: HIDETHEGOLDINTHETREXESTUMP\nBALLOON_prepared: BALXLOON\nXX_prepared: XQXQ\n"
+  },
+  {
+   "id": "sec2p06",
+   "title": {
+    "en": "Practical 3: Hill 2x2 encryption and modular inverse"
+   },
+   "code": {
+    "en": "from ciphers import hill_encrypt, hill_decrypt, hill_inverse\n\nkey = [[3, 3], [2, 5]]\ncipher, prepared = hill_encrypt(\"HELP\", key)\nprint(\"prepared:\", prepared)\nprint(\"determinant: 9; inverse_det_mod26: 3\")\nprint(\"inverse_matrix:\", hill_inverse(key))\nprint(\"ciphertext:\", cipher)\nprint(\"decrypted:\", hill_decrypt(cipher, key))\n"
+   },
+   "expl": {
+    "en": "Uses A=0 and COLUMN vectors: C=K*P modulo 26. HE=[7,4] becomes [7,8]=HI; LP becomes AT. det(K)=9 is invertible modulo 26, yielding inverse [[15,17],[20,9]]. A nonzero determinant is insufficient unless it is coprime to 26. This extends the official basic encryption practical with a checked reversal."
+   },
+   "out": "prepared: HELP\ndeterminant: 9; inverse_det_mod26: 3\ninverse_matrix: [[15, 17], [20, 9]]\nciphertext: HIAT\ndecrypted: HELP\n"
+  },
+  {
+   "id": "sec2p07",
+   "title": {
+    "en": "Hill 3x3 known vector and explicit padding"
+   },
+   "code": {
+    "en": "from ciphers import hill_encrypt, hill_decrypt\n\nkey = [[6, 24, 1], [13, 16, 10], [20, 17, 15]]\ncipher, prepared = hill_encrypt(\"ACT\", key)\nprint(\"prepared:\", prepared)\nprint(\"ciphertext:\", cipher)\nprint(\"decrypted:\", hill_decrypt(cipher, key))\npadded_cipher, padded = hill_encrypt(\"HI\", key)\nprint(\"HI_prepared:\", padded)\nprint(\"padding_preserved:\", hill_decrypt(padded_cipher, key))\n"
+   },
+   "expl": {
+    "en": "Actually computes ACT -> POH with the declared column-vector convention. HI is prepared as HIX so its length is a multiple of three. The helper does not guess whether an ending X was original or padding. Both 2x2 and 3x3 matrices are supported; this is not a general large-matrix or secure cipher library."
+   },
+   "out": "prepared: ACT\nciphertext: POH\ndecrypted: ACT\nHI_prepared: HIX\npadding_preserved: HIX\n"
+  },
+  {
+   "id": "sec2p08",
+   "title": {
+    "en": "Practical 5: rail-fence encryption and decryption"
+   },
+   "code": {
+    "en": "from ciphers import rail_encrypt, rail_decrypt\n\nplain = \"WEAREDISCOVEREDRUNATONCE\"\ncipher = rail_encrypt(plain, 3)\nprint(\"rails: 3\")\nprint(\"ciphertext:\", cipher)\nprint(\"decrypted:\", rail_decrypt(cipher, 3))\nprint(\"same_letter_multiset:\", sorted(plain) == sorted(cipher))\n"
+   },
+   "expl": {
+    "en": "Letters are genuinely written along the 0,1,2,1 zigzag and read row by row. Decoding reconstructs the exact rail positions, including uneven row lengths. Rail fence changes positions, not the letters; a histogram is therefore preserved. No padding is necessary in this implementation."
+   },
+   "out": "rails: 3\nciphertext: WECRUOERDSOEERNTNEAIVDAC\ndecrypted: WEAREDISCOVEREDRUNATONCE\nsame_letter_multiset: True\n"
+  },
+  {
+   "id": "sec2p09",
+   "title": {
+    "en": "One-time-pad letter arithmetic — fixed worked example only"
+   },
+   "code": {
+    "en": "from ciphers import pad_letters\n\nplain = \"HELLO\"\npublic_demo_pad = \"XMCKL\"\ncipher = pad_letters(plain, public_demo_pad)\nprint(\"plaintext:\", plain)\nprint(\"ciphertext:\", cipher)\nprint(\"decrypted:\", pad_letters(cipher, public_demo_pad, True))\nprint(\"pad_length_matches:\", len(public_demo_pad) == len(plain))\n"
+   },
+   "expl": {
+    "en": "Computes HELLO + XMCKL modulo 26 = EQNVZ. This public, fixed demonstration key is NOT a secret random pad and does not demonstrate perfect secrecy. A genuine OTP requires an independent uniformly random secret pad at least as long as the message, used only once."
+   },
+   "out": "plaintext: HELLO\nciphertext: EQNVZ\ndecrypted: HELLO\npad_length_matches: True\n"
+  },
+  {
+   "id": "sec2p10",
+   "title": {
+    "en": "Binary XOR pad, fresh-key round trip and key-reuse relation"
+   },
+   "code": {
+    "en": "import secrets\nfrom ciphers import xor_bytes\n\nplain = b\"HELLO\"\nephemeral_pad = secrets.token_bytes(len(plain))\ncipher = xor_bytes(plain, ephemeral_pad)\nprint(\"fresh_pad_bytes:\", len(ephemeral_pad))\nprint(\"cipher_bytes:\", len(cipher))\nprint(\"recovered:\", xor_bytes(cipher, ephemeral_pad).decode())\n\n# Separate PUBLIC fixed data: intentionally show why reuse is wrong.\nfirst, second = b\"HELLO\", b\"WORLD\"\npublic_demo_pad = bytes.fromhex(\"1020304050\")\nc1 = xor_bytes(first, public_demo_pad)\nc2 = xor_bytes(second, public_demo_pad)\nprint(\"reuse_leaks_relation:\",\n      xor_bytes(c1, c2) == xor_bytes(first, second))\n"
+   },
+   "expl": {
+    "en": "Fresh-key XOR really runs and the ephemeral key/cipher bytes are never printed or stored. secrets uses an OS-backed CSPRNG, not a proof of ideal information-theoretic randomness. The separate fixed public example verifies C1 XOR C2 = P1 XOR P2 on reuse. This algebra does not imply an attacker always learns both messages outright; key management and authentication are not implemented."
+   },
+   "out": "fresh_pad_bytes: 5\ncipher_bytes: 5\nrecovered: HELLO\nreuse_leaks_relation: True\n"
+  },
+  {
+   "id": "sec2p11",
+   "title": {
+    "en": "Historical DES: actual 16-round known-answer trace"
+   },
+   "code": {
+    "en": "from ciphers import des_trace, des_block\n\n# PUBLIC classroom vector; DES is withdrawn and obsolete.\nkey = bytes.fromhex(\"133457799BBCDFF1\")\nplain = bytes.fromhex(\"0123456789ABCDEF\")\ntrace = des_trace(plain, key)\ncipher = trace[\"result\"]\nprint(\"initial_permutation:\", trace[\"initial\"])\nfor number in (1, 16):\n    row = trace[\"rounds\"][number]\n    print(f\"round_{number}: L={row['left']} R={row['right']} \"\n          f\"K={row['subkey']}\")\nprint(\"ciphertext:\", cipher.hex().upper())\nprint(\"decrypted:\", des_block(cipher, key, True).hex().upper())\nprint(\"round_count:\", len(trace[\"rounds\"]) - 1)\n"
+   },
+   "expl": {
+    "en": "The included pure-Python helper performs the actual DES permutations, key schedule, eight S-boxes, 16 Feistel rounds and final swap/permutation. The 85E813540F0AB405 result is independently checked against OpenSSL with its legacy provider for this single test process only. DES is historical teaching, not production protection or a FIPS-validated implementation. This is an optional structure illustration, not an extra official cipher practical."
+   },
+   "out": "initial_permutation: CC00CCFFF0AAF0AA\nround_1: L=F0AAF0AA R=EF4A6544 K=1B02EFFC7072\nround_16: L=43423234 R=0A4CD995 K=CB3D8B0E17F5\nciphertext: 85E813540F0AB405\ndecrypted: 0123456789ABCDEF\nround_count: 16\n"
+  },
+  {
+   "id": "sec2p12",
+   "title": {
+    "en": "Steganography illustration: LSBs of synthetic RGB bytes"
+   },
+   "code": {
+    "en": "from ciphers import lsb_embed, lsb_extract\n\ncover = bytes([120, 96, 180]) * 64  # 8x8 synthetic RGB pixels\npayload = b\"GTU\"\nstego = lsb_embed(cover, payload)\nprint(\"carrier_channels:\", len(cover))\nprint(\"header_and_payload_bits:\", 16 + 8 * len(payload))\nprint(\"modified_channels:\", sum(a != b for a, b in zip(cover, stego)))\nprint(\"largest_channel_change:\",\n      max(abs(a - b) for a, b in zip(cover, stego)))\nprint(\"recovered:\", lsb_extract(stego).decode())\nprint(\"cover_unchanged:\", cover == bytes([120, 96, 180]) * 64)\n"
+   },
+   "expl": {
+    "en": "Actually embeds a two-byte length header and the harmless GTU payload into low bits of a private synthetic RGB byte array. This is not a JPEG/PNG editor, network covert channel, general image decoder or claim of undetectability. Steganography hides existence; it does not by itself encrypt or authenticate content. Capacity checks and declared-length checks reject unsuitable carriers."
+   },
+   "out": "carrier_channels: 192\nheader_and_payload_bits: 40\nmodified_channels: 13\nlargest_channel_change: 1\nrecovered: GTU\ncover_unchanged: True\n"
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "sec2_model",
+   "title": {
+    "en": "Symmetric Encryption Model"
+   },
+   "file": "diagrams/sec2_model.svg"
+  },
+  {
+   "id": "sec2_substitution",
+   "title": {
+    "en": "Cipher Classification"
+   },
+   "file": "diagrams/sec2_substitution.svg"
+  },
+  {
+   "id": "sec2_vigenere",
+   "title": {
+    "en": "Vigenere Worked Alignment"
+   },
+   "file": "diagrams/sec2_vigenere.svg"
+  },
+  {
+   "id": "sec2_playfair",
+   "title": {
+    "en": "Playfair Square and Rectangle"
+   },
+   "file": "diagrams/sec2_playfair.svg"
+  },
+  {
+   "id": "sec2_hill",
+   "title": {
+    "en": "Hill Column-Vector Calculation"
+   },
+   "file": "diagrams/sec2_hill.svg"
+  },
+  {
+   "id": "sec2_otp",
+   "title": {
+    "en": "One-Time-Pad Conditions"
+   },
+   "file": "diagrams/sec2_otp.svg"
+  },
+  {
+   "id": "sec2_rail",
+   "title": {
+    "en": "Three-Rail Zigzag and Row Readout"
+   },
+   "file": "diagrams/sec2_rail.svg"
+  },
+  {
+   "id": "sec2_stego",
+   "title": {
+    "en": "Synthetic LSB Carrier Example"
+   },
+   "file": "diagrams/sec2_stego.svg"
+  },
+  {
+   "id": "sec2_des",
+   "title": {
+    "en": "Historical DES Overall Structure"
+   },
+   "file": "diagrams/sec2_des.svg"
+  },
+  {
+   "id": "sec2_feistel",
+   "title": {
+    "en": "DES Round Function and Key Sizes"
+   },
+   "file": "diagrams/sec2_feistel.svg"
+  }
+ ],
+ "syntax": [
+  {
+   "title": {
+    "en": "Cipher and Formula Quick Reference"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Basic model"
+     },
+     "f": "C = E_K(P)\nP = D_K(C)",
+     "terms": {
+      "en": "Shared secret material is needed; encryption alone does not authenticate."
+     }
+    },
+    {
+     "name": {
+      "en": "Alphabet convention"
+     },
+     "f": "A=0, B=1, ..., Z=25\nUppercase ASCII; whitespace removed",
+     "terms": {
+      "en": "Other characters are rejected. Recovery targets normalized/prepared text, not formatting."
+     }
+    },
+    {
+     "name": {
+      "en": "Caesar"
+     },
+     "f": "C=(P+k) mod26\nP=(C-k) mod26",
+     "terms": {
+      "en": "26 shifts including identity 0; historical classroom use only."
+     }
+    },
+    {
+     "name": {
+      "en": "Monoalphabetic versus polyalphabetic"
+     },
+     "f": "Fixed alphabet: HELLO -> ITSSG\nChanging shifts: Vigenere",
+     "terms": {
+      "en": "Polygraphic instead means pairs/blocks: Playfair and Hill."
+     }
+    },
+    {
+     "name": {
+      "en": "Vigenere"
+     },
+     "f": "C_i=(P_i+K_i) mod26\nP_i=(C_i-K_i) mod26",
+     "terms": {
+      "en": "Here the key repeats. That is not a genuine one-time pad."
+     }
+    },
+    {
+     "name": {
+      "en": "Playfair"
+     },
+     "f": "5x5; I/J merged\nSame row: right/left\nSame column: down/up\nRectangle: swap columns",
+     "terms": {
+      "en": "Insert X for repeats/endings; use Q for repeated/final X in this declared variant. Preserve fillers."
+     }
+    },
+    {
+     "name": {
+      "en": "Hill"
+     },
+     "f": "C=K*P mod26; column vectors\nP=K^-1*C mod26\ngcd(det(K),26)=1",
+     "terms": {
+      "en": "Only 2x2 and 3x3 in the teaching helper. Nonzero determinant alone is insufficient."
+     }
+    },
+    {
+     "name": {
+      "en": "Hill 2x2 inverse"
+     },
+     "f": "K=[[3,3],[2,5]]\nK^-1=[[15,17],[20,9]]\nHELP -> HIAT",
+     "terms": {
+      "en": "det=9; inverse determinant=3 modulo 26. Preserve explicit X padding."
+     }
+    },
+    {
+     "name": {
+      "en": "OTP conditions"
+     },
+     "f": "Independent + uniformly random + secret\nPad >= message; never reuse a pad part",
+     "terms": {
+      "en": "Public fixed pads show arithmetic, not perfect secrecy. Ideal OTP does not authenticate."
+     }
+    },
+    {
+     "name": {
+      "en": "XOR and reuse"
+     },
+     "f": "C=P XOR K; P=C XOR K\nC1 XOR C2 = P1 XOR P2 if key reused",
+     "terms": {
+      "en": "A fresh CSPRNG key in a lab is not proof of ideal information-theoretic randomness."
+     }
+    },
+    {
+     "name": {
+      "en": "Rail fence"
+     },
+     "f": "Write zigzag; read rows\n3-rail pattern: 0,1,2,1,...",
+     "terms": {
+      "en": "Transposition preserves letters; unequal rail lengths are handled without padding."
+     }
+    },
+    {
+     "name": {
+      "en": "LSB teaching capacity"
+     },
+     "f": "16 + 8*payload_bytes <= carrier_bytes",
+     "terms": {
+      "en": "Two-byte length header; only synthetic raw channel bytes, not a PNG/JPEG decoder."
+     }
+    },
+    {
+     "name": {
+      "en": "DES dimensions"
+     },
+     "f": "64-bit block; 56 effective key bits\n8 parity bits; 16 rounds\n48-bit round subkeys",
+     "terms": {
+      "en": "DES is withdrawn; these are structure facts, not production advice."
+     }
+    },
+    {
+     "name": {
+      "en": "DES Feistel round"
+     },
+     "f": "L_i=R_(i-1)\nR_i=L_(i-1) XOR f(R_(i-1),K_i)\nf: expand -> XOR -> S-boxes -> P",
+     "terms": {
+      "en": "Eight 6-to-4-bit S-boxes return 32 bits; final swap precedes IP inverse."
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Unit 2 Viva and Short Revision"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is plaintext?"
+     },
+     "a": {
+      "en": "The original information supplied to encryption; not necessarily printable text."
+     }
+    },
+    {
+     "q": {
+      "en": "What is ciphertext?"
+     },
+     "a": {
+      "en": "The transformed encryption output, often represented as bytes or hexadecimal."
+     }
+    },
+    {
+     "q": {
+      "en": "How does cryptanalysis differ from cryptography?"
+     },
+     "a": {
+      "en": "Cryptography designs/uses protections; cryptanalysis studies defeating goals without the intended secret."
+     }
+    },
+    {
+     "q": {
+      "en": "What is cryptology?"
+     },
+     "a": {
+      "en": "The field including cryptography and cryptanalysis."
+     }
+    },
+    {
+     "q": {
+      "en": "Is Base64 encryption?"
+     },
+     "a": {
+      "en": "No. It is an encoding without a secret decryption key."
+     }
+    },
+    {
+     "q": {
+      "en": "Does hashing have a decryption key?"
+     },
+     "a": {
+      "en": "No. A digest is not ciphertext that can be reversed with a key."
+     }
+    },
+    {
+     "q": {
+      "en": "What does symmetric-key mean?"
+     },
+     "a": {
+      "en": "Parties share corresponding secret key material for encryption and decryption."
+     }
+    },
+    {
+     "q": {
+      "en": "Does encryption alone prove sender identity?"
+     },
+     "a": {
+      "en": "No. Suitable authentication, integrity and freshness protection require appropriate additional design."
+     }
+    },
+    {
+     "q": {
+      "en": "What does substitution change?"
+     },
+     "a": {
+      "en": "Symbols or symbol blocks are replaced according to the cipher/key."
+     }
+    },
+    {
+     "q": {
+      "en": "What does transposition change?"
+     },
+     "a": {
+      "en": "Positions; the symbols themselves and their counts are retained."
+     }
+    },
+    {
+     "q": {
+      "en": "Is Hill simply a polyalphabetic cipher?"
+     },
+     "a": {
+      "en": "It is polygraphic substitution on letter vectors; polygraphic and polyalphabetic are different classifications."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the Caesar formula?"
+     },
+     "a": {
+      "en": "C=(P+k) mod26 and P=(C−k) mod26, using the declared A=0 convention."
+     }
+    },
+    {
+     "q": {
+      "en": "How many Caesar shifts exist?"
+     },
+     "a": {
+      "en": "26 including identity shift 0; 25 are non-identity."
+     }
+    },
+    {
+     "q": {
+      "en": "Why can a monoalphabetic permutation leak patterns?"
+     },
+     "a": {
+      "en": "A fixed replacement preserves repeated-letter patterns and relabels letter frequencies."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is repeating-key Vigenere not an OTP?"
+     },
+     "a": {
+      "en": "Its short key repeats and is not independent uniform secret pad material used once for every message position."
+     }
+    },
+    {
+     "q": {
+      "en": "What does Playfair encrypt at a time?"
+     },
+     "a": {
+      "en": "Pairs of letters, using a declared 5×5 square and preparation convention."
+     }
+    },
+    {
+     "q": {
+      "en": "How is I/J handled here?"
+     },
+     "a": {
+      "en": "J maps to I to fit 25 alphabet positions; decryption cannot automatically restore which letter was original."
+     }
+    },
+    {
+     "q": {
+      "en": "How is BALLOON prepared?"
+     },
+     "a": {
+      "en": "BA LX LO ON, giving BALXLOON."
+     }
+    },
+    {
+     "q": {
+      "en": "Why does this variant use Q for a repeated/final X?"
+     },
+     "a": {
+      "en": "To avoid creating an XX pair while applying the declared filler rule."
+     }
+    },
+    {
+     "q": {
+      "en": "Can every X be removed after Playfair decryption?"
+     },
+     "a": {
+      "en": "No. X may be legitimate; the result is prepared text, not a guaranteed recovery of original formatting/fillers."
+     }
+    },
+    {
+     "q": {
+      "en": "What are the three Playfair cases?"
+     },
+     "a": {
+      "en": "Same row, same column, and rectangle; encryption shifts right/down or swaps columns."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the Hill key condition modulo 26?"
+     },
+     "a": {
+      "en": "gcd(det(K),26)=1; a nonzero determinant alone is insufficient."
+     }
+    },
+    {
+     "q": {
+      "en": "Why specify column vectors?"
+     },
+     "a": {
+      "en": "Matrix multiplication direction matters; a different convention may yield a different ciphertext."
+     }
+    },
+    {
+     "q": {
+      "en": "What is HELP encrypted with [[3,3],[2,5]]?"
+     },
+     "a": {
+      "en": "HIAT under A=0 and column vectors."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the inverse of that Hill matrix?"
+     },
+     "a": {
+      "en": "[[15,17],[20,9]] modulo 26."
+     }
+    },
+    {
+     "q": {
+      "en": "Why preserve Hill X padding?"
+     },
+     "a": {
+      "en": "Without trustworthy original-length information, an ending X may be genuine plaintext."
+     }
+    },
+    {
+     "q": {
+      "en": "What are ideal OTP requirements?"
+     },
+     "a": {
+      "en": "Independent uniform random secret pad material at least as long as the message, with no pad-part reuse."
+     }
+    },
+    {
+     "q": {
+      "en": "Does an ideal OTP authenticate a message?"
+     },
+     "a": {
+      "en": "No. Perfect confidentiality is not integrity, authentication or replay protection."
+     }
+    },
+    {
+     "q": {
+      "en": "What happens algebraically if an XOR pad is reused?"
+     },
+     "a": {
+      "en": "C1 XOR C2=P1 XOR P2, exposing a plaintext relation."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is a secrets.token_bytes demonstration not a proof of perfect secrecy?"
+     },
+     "a": {
+      "en": "It uses an OS-backed CSPRNG; ideal information-theoretic randomness and complete key handling are not proven."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the three-rail position cycle?"
+     },
+     "a": {
+      "en": "0,1,2,1 repeatedly, with period 4."
+     }
+    },
+    {
+     "q": {
+      "en": "Does rail fence change letter frequencies?"
+     },
+     "a": {
+      "en": "No. It changes only positions in normalized text."
+     }
+    },
+    {
+     "q": {
+      "en": "What does steganography hide?"
+     },
+     "a": {
+      "en": "The existence of communication in a carrier; it does not automatically encrypt or authenticate content."
+     }
+    },
+    {
+     "q": {
+      "en": "What is DES block size versus effective key size?"
+     },
+     "a": {
+      "en": "A 64-bit data block and 56 effective key bits, commonly represented with 8 additional parity bits."
+     }
+    },
+    {
+     "q": {
+      "en": "How many DES rounds and subkey bits?"
+     },
+     "a": {
+      "en": "16 Feistel rounds, each using a 48-bit round subkey; eight 6-to-4-bit S-boxes return 32 bits."
+     }
+    },
+    {
+     "q": {
+      "en": "Why must DES remain historical teaching?"
+     },
+     "a": {
+      "en": "FIPS 46-3 was withdrawn 19 May 2005; single DES is unsuitable for modern protection, and this classroom implementation is not FIPS-validated."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Practice: Define plaintext, ciphertext, encryption, decryption, cryptanalysis and cryptology."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Practice: Explain the symmetric encryption model and its key-management issue."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Differentiate substitution and transposition, including monoalphabetic, polyalphabetic and polygraphic methods."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Practice: Encrypt ATTACKATDAWN with Caesar shift 3 and explain wraparound and reversal."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Explain why a monoalphabetic cipher can be weak despite 26! possible mappings."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Practice: Work the Vigenere example ATTACKATDAWN with key LEMON."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Prepare BALLOON and XX for the declared Playfair variant and state why fillers are preserved."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Explain the Playfair square and three transformation rules with a worked pair."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Practice: Encrypt HELP with Hill key [[3,3],[2,5]] using column vectors."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Practice: Find the inverse Hill matrix for [[3,3],[2,5]] and explain the validity condition."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Practice: Explain the 3x3 ACT → POH Hill calculation and the padding limitation."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: State genuine one-time-pad conditions and work HELLO with pad XMCKL."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Practice: Show why reusing an XOR pad leaks a relation between plaintexts."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Explain three-rail encryption of WEAREDISCOVEREDRUNATONCE."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Differentiate steganography from cryptography and explain the LSB capacity example."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Describe DES structure, round/key parameters and why it is not modern protection."
+   },
+   "marks": 7
+  }
+ ],
+ "lesson_count": 18,
+ "answered_practice_count": 16,
+ "learning_outcomes": [
+  {
+   "en": "CO2: Demonstrate substitution, transposition techniques and symmetric cryptography algorithms."
+  }
+ ],
+ "practical_numbers": [
+  2,
+  3,
+  4,
+  5
+ ],
+ "content_kind": "theory_with_executed_classical_cipher_practicals",
+ "assessment_note": {
+  "en": "Official course: theory ESE70 + PA30; practical PA20 + ESE30 =150. Unit 2 weight25% is not a guaranteed paper allocation. Practice question sizes are suggested only; model answers are in Notes section7."
+ },
+ "question_provenance": "Original answered revision exercises; not official past papers",
+ "question_marks_are_suggested": true,
+ "runtime_evidence": {
+  "python": "3.13.16",
+  "os": "Debian GNU/Linux 13 (trixie)",
+  "architecture": "x86_64",
+  "programs_executed": 12,
+  "helper_sha256": "0570d6354781751b7481d0b953d223452ae2e240d0666a5d29cca32c34129736",
+  "external_packages_required": false,
+  "network_access_used": false,
+  "persistent_service": false,
+  "real_user_data_used": false,
+  "production_security_claim": false,
+  "fips_validation_claim": false,
+  "global_crypto_configuration_changed": false,
+  "cipher_keys_are_public_teaching_data": true,
+  "fresh_pad_material_published": false,
+  "otp_randomness_claim": "OS-backed CSPRNG demonstration, not proof of ideal information-theoretic randomness",
+  "normalization": "Classical ASCII letters uppercased, whitespace removed; Playfair I/J merged; fillers/padding preserved",
+  "steganography_scope": "In-memory synthetic RGB channel bytes only; no real images/files or network channel",
+  "des_status": "Historical withdrawn DES, not modern data protection",
+  "independent_des_reference": {
+   "engine": "OpenSSL",
+   "version": "OpenSSL 3.5.7 9 Jun 2026 (Library: OpenSSL 3.5.7 9 Jun 2026)",
+   "historical_cipher": "DES-ECB for block comparison only",
+   "compared_blocks": 66,
+   "directions": [
+    "encrypt",
+    "decrypt"
+   ],
+   "fixtures": "Two known/public vectors and eight seeded 8-block test cases",
+   "legacy_provider_scope": "Explicit per-process flags only; no system-wide configuration changed",
+   "certification_claim": false
+  }
+ },
+ "worked_data": {
+  "des_public_master_key_hex": "133457799BBCDFF1",
+  "des_public_plaintext_hex": "0123456789ABCDEF",
+  "des_ciphertext_hex": "85E813540F0AB405",
+  "des_rounds": [
+   {
+    "round": 0,
+    "left": "CC00CCFF",
+    "right": "F0AAF0AA",
+    "subkey": ""
+   },
+   {
+    "round": 1,
+    "left": "F0AAF0AA",
+    "right": "EF4A6544",
+    "subkey": "1B02EFFC7072"
+   },
+   {
+    "round": 2,
+    "left": "EF4A6544",
+    "right": "CC017709",
+    "subkey": "79AED9DBC9E5"
+   },
+   {
+    "round": 3,
+    "left": "CC017709",
+    "right": "A25C0BF4",
+    "subkey": "55FC8A42CF99"
+   },
+   {
+    "round": 4,
+    "left": "A25C0BF4",
+    "right": "77220045",
+    "subkey": "72ADD6DB351D"
+   },
+   {
+    "round": 5,
+    "left": "77220045",
+    "right": "8A4FA637",
+    "subkey": "7CEC07EB53A8"
+   },
+   {
+    "round": 6,
+    "left": "8A4FA637",
+    "right": "E967CD69",
+    "subkey": "63A53E507B2F"
+   },
+   {
+    "round": 7,
+    "left": "E967CD69",
+    "right": "064ABA10",
+    "subkey": "EC84B7F618BC"
+   },
+   {
+    "round": 8,
+    "left": "064ABA10",
+    "right": "D5694B90",
+    "subkey": "F78A3AC13BFB"
+   },
+   {
+    "round": 9,
+    "left": "D5694B90",
+    "right": "247CC67A",
+    "subkey": "E0DBEBEDE781"
+   },
+   {
+    "round": 10,
+    "left": "247CC67A",
+    "right": "B7D5D7B2",
+    "subkey": "B1F347BA464F"
+   },
+   {
+    "round": 11,
+    "left": "B7D5D7B2",
+    "right": "C5783C78",
+    "subkey": "215FD3DED386"
+   },
+   {
+    "round": 12,
+    "left": "C5783C78",
+    "right": "75BD1858",
+    "subkey": "7571F59467E9"
+   },
+   {
+    "round": 13,
+    "left": "75BD1858",
+    "right": "18C3155A",
+    "subkey": "97C5D1FABA41"
+   },
+   {
+    "round": 14,
+    "left": "18C3155A",
+    "right": "C28C960D",
+    "subkey": "5F43B7F2E73A"
+   },
+   {
+    "round": 15,
+    "left": "C28C960D",
+    "right": "43423234",
+    "subkey": "BF918D3D3F0A"
+   },
+   {
+    "round": 16,
+    "left": "43423234",
+    "right": "0A4CD995",
+    "subkey": "CB3D8B0E17F5"
+   }
+  ]
+ },
+ "sources": [
+  {
+   "title": "GTU DI05007021 syllabus, 2026–27",
+   "url": "https://s3-ap-southeast-1.amazonaws.com/gtusitecirculars/Syallbus/DI05007021.pdf"
+  },
+  {
+   "title": "Handbook of Applied Cryptography, chapter 7: classical and block ciphers (historical text)",
+   "url": "https://cacr.uwaterloo.ca/hac/about/chap7.pdf"
+  },
+  {
+   "title": "Handbook of Applied Cryptography, chapter 6: one-time pad and stream ciphers",
+   "url": "https://cacr.uwaterloo.ca/hac/about/chap6.pdf"
+  },
+  {
+   "title": "NIST FIPS 46-3: DES, withdrawn 19 May 2005",
+   "url": "https://csrc.nist.gov/pubs/fips/46-3/final"
+  },
+  {
+   "title": "NIST archived DES specification and tables",
+   "url": "https://csrc.nist.gov/files/pubs/fips/46-3/final/docs/fips46-3.pdf"
+  },
+  {
+   "title": "NIST glossary: steganography",
+   "url": "https://csrc.nist.gov/glossary/term/steganography"
+  },
+  {
+   "title": "Playfair rules and conventional worked vector (secondary reference)",
+   "url": "https://en.wikipedia.org/wiki/Playfair_cipher"
+  },
+  {
+   "title": "Hill column-vector example and modular inverse (secondary reference)",
+   "url": "https://en.wikipedia.org/wiki/Hill_cipher"
+  },
+  {
+   "title": "Vigenere repeating-key convention (secondary reference)",
+   "url": "https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher"
+  },
+  {
+   "title": "Rail-fence worked zigzag example (secondary reference)",
+   "url": "https://en.wikipedia.org/wiki/Rail_fence_cipher"
+  }
+ ]
+}
