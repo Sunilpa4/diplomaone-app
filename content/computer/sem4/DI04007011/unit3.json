@@ -1,0 +1,877 @@
+{
+ "subject": "DI04007011",
+ "unit": 3,
+ "format": "notes",
+ "title": {
+  "en": "Working with Data and Forms"
+ },
+ "weightage": 15,
+ "hours": 10,
+ "notes": [
+  {
+   "title": {
+    "en": "3.1 Creating Forms and Reading Data"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "HTML Form Controls (Practical 11)"
+     },
+     "body": {
+      "en": "\n<ul><li>A form wraps controls: <code>&lt;form method=\"post\" action=\"register.php\"&gt;</code> ... inputs ... <code>&lt;input type=\"submit\"&gt;</code> <code>&lt;/form&gt;</code>. Omit <code>action</code> and the form posts back to its own page.</li>\n<li>The control kit: <b>text box</b> (name, city), <b>password</b> (masked), <b>text area</b> (feedback), <b>radio</b> (one-of-many, same <code>name</code>), <b>checkbox</b> (many-of-many; use <code>name=\"hobby[]\"</code> to receive an array), <b>select/option</b> (dropdown), HTML5 types <b>date, color, email, number, file</b>, and <b>buttons</b>.</li>\n<li><b>The name attribute is everything</b>: it becomes the key in <code>$_GET</code>/<code>$_POST</code>. A control without a <code>name</code> submits nothing.</li>\n<li>Group radios by shared name; give every option a distinct <code>value</code> - the browser sends the value, not the label.</li></ul>\n"
+     },
+     "diagram": "wd3_form_controls",
+     "programs": [
+      "wd3p1"
+     ]
+    },
+    {
+     "h": {
+      "en": "Submitting Data: GET vs POST"
+     },
+     "body": {
+      "en": "\n<ul><li><b>GET</b> packs data into the URL query string (<code>?city=Surat&amp;seats=2</code>): visible, bookmarkable, limited (~2 KB), and retried freely on refresh. Use for <b>searches and filters</b>.</li>\n<li><b>POST</b> sends data in the request body: invisible in the URL, effectively unlimited, required for uploads. Use for anything that <b>changes state</b> (register, book, pay).</li>\n<li>Never put passwords or personal data in a GET URL - they land in browser history and server logs.</li>\n<li>Refreshing a POST page re-submits (the classic double-booking hazard) - solved with the Post/Redirect/Get pattern in real apps.</li></ul>\n"
+     },
+     "diagram": "wd3_get_post",
+     "programs": [
+      "wd3p2"
+     ]
+    },
+    {
+     "h": {
+      "en": "Reading Data: The Superglobals"
+     },
+     "body": {
+      "en": "\n<ul><li><code>$_GET</code> and <code>$_POST</code> are associative arrays of the incoming parameters; <code>$_REQUEST</code> merges both (plus cookies - prefer the specific one).</li>\n<li><code>$_FILES</code> carries upload records: <code>name, type, size, tmp_name, error</code> per file field.</li>\n<li><code>$_SERVER</code> describes the request: <code>REQUEST_METHOD</code>, <code>SCRIPT_NAME</code>, <code>REMOTE_ADDR</code>, headers. <code>$_ENV</code> holds environment variables; <code>$GLOBALS</code> every script-global variable.</li>\n<li>All superglobals are available in <b>every scope</b> - no <code>global</code> declaration needed inside functions.</li>\n<li><code>$_SESSION</code> and <code>$_COOKIE</code> complete the family in Unit 4.</li></ul>\n"
+     },
+     "diagram": "wd3_superglobals",
+     "programs": [
+      "wd3p3"
+     ]
+    },
+    {
+     "h": {
+      "en": "The Self-Processing Page Pattern"
+     },
+     "body": {
+      "en": "\n<ul><li>One <code>.php</code> page both shows and handles a form: <code>if ($_SERVER['REQUEST_METHOD'] === 'POST') { validate + process } else { show form }</code>.</li>\n<li>Advantages: errors are shown beside the same form; entered values are re-echoed (sticky form) so users fix one field, not ten.</li>\n<li>Sticky values: <code>value=\"&lt;?php echo htmlspecialchars($name ?? ''); ?&gt;\"</code> - echo what the user typed, escaped.</li>\n<li>Collect messages in an <code>$errors</code> array; show the list above the form when not empty.</li></ul>\n"
+     },
+     "diagram": "wd3_selfprocess"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3.2 Validating User Data (Practical 12)"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "The Validation Toolkit"
+     },
+     "body": {
+      "en": "\n<ul><li>Presence: <code>isset($_POST['name'])</code> (exists, may be null-safe), <code>empty($v)</code> (missing or blank). Start every field with these two.</li>\n<li>Shape: <code>is_numeric()</code>, <code>strlen($s) &gt;= 3</code>, <code>ctype_alpha()</code>; <code>filter_var($email, FILTER_VALIDATE_EMAIL)</code> returns the value or false; <code>filter_var($n, FILTER_VALIDATE_INT)</code> likewise for integers.</li>\n<li>Clean before checking: <code>trim()</code> strips edge spaces; <code>stripslashes()</code> removes stray escapes; cast numbers with <code>(int)</code>.</li>\n<li>Rules live <b>server-side only</b>: HTML <code>required</code>/<code>maxlength</code> hints are trivially bypassed - the server is the bouncer, not the browser.</li>\n<li>After validating, remember output safety separately: <code>htmlspecialchars()</code> on every echo of user data.</li></ul>\n"
+     },
+     "diagram": "wd3_validation",
+     "programs": [
+      "wd3p4"
+     ]
+    },
+    {
+     "h": {
+      "en": "Validated Registration Form (Practicals 11-12)"
+     },
+     "body": {
+      "en": "\n<ul><li>Put it together: self-processing page + sticky values + <code>$errors</code> list + per-field rules.</li>\n<li>Typical rules: name required, letters-minimum-3; email <code>filter_var(..., FILTER_VALIDATE_EMAIL)</code>; mobile exactly 10 digits; age numeric 15-100; route from an allowed list; terms checkbox must be set.</li>\n<li>Only when <code>count($errors) === 0</code> do you accept: show the confirmation/summary, then (Units 4-5) remember the user or save to MySQL.</li>\n<li>Sanity sample: our program posts <code>email=not-an-email, age=abc</code> - watch the validator catch both while echoing the rest back.</li></ul>\n"
+     },
+     "programs": [
+      "wd3p5"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3.3 Directories and Text Files"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Working with Directories"
+     },
+     "body": {
+      "en": "\n<ul><li>Create and remove: <code>mkdir(\"uploads\")</code>, <code>rmdir(\"uploads\")</code> (only when empty); probe with <code>is_dir()</code>/<code>file_exists()</code>.</li>\n<li>List contents: <code>scandir($dir)</code> returns everything (includes <code>.</code> and <code>..</code> - skip them); <code>glob(\"uploads/*.png\")</code> filters by pattern.</li>\n<li>Inspect files: <code>is_file()</code>, <code>filesize()</code>, <code>filemtime()</code> (last modified), <code>basename()</code>/<code>pathinfo()</code> split names and extensions.</li>\n<li>Housekeeping mantra: check <code>is_dir()</code> before <code>mkdir()</code>, and never trust a filename from a browser - rebuild it yourself.</li></ul>\n"
+     },
+     "programs": [
+      "wd3p6"
+     ]
+    },
+    {
+     "h": {
+      "en": "Reading and Writing Text Files (Practical 13)"
+     },
+     "body": {
+      "en": "\n<ul><li>Explicit trio: <code>$h = fopen(\"feedback.txt\", \"a\")</code> &rarr; <code>fwrite($h, $line)</code> / <code>fgets($h)</code> &rarr; <code>fclose($h)</code>. Modes: <code>r</code> read, <code>w</code> write-and-truncate, <code>a</code> append, <code>+</code> variants add the other direction.</li>\n<li>Shortcuts: <code>file_get_contents()</code> reads whole; <code>file_put_contents($f, $t, FILE_APPEND)</code> appends in one call; <code>file()</code> returns an array of lines; <code>fputcsv()</code> writes CSV rows safely.</li>\n<li>The feedback practical carries the full cycle: POST form &rarr; validate &rarr; append one CSV line &rarr; display all stored feedback.</li>\n<li>Always check <code>fopen</code>'s return (<code>false</code> = permission/path problem) before writing.</li></ul>\n"
+     },
+     "diagram": "wd3_files",
+     "programs": [
+      "wd3p7",
+      "wd3p8"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3.4 Uploads, Downloads and Email"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Uploading and Downloading Files (Practical 14)"
+     },
+     "body": {
+      "en": "\n<ul><li>The form needs <code>method=\"post\"</code> and <code>enctype=\"multipart/form-data\"</code>; without the enctype, no file travels.</li>\n<li>Server side: <code>$_FILES['avatar']</code> holds <code>name, type, size, tmp_name, error</code>. If <code>error === UPLOAD_ERR_OK</code>, the file waits in a temp folder - <code>move_uploaded_file($tmp, \"uploads/\".$safe)</code> or it vanishes.</li>\n<li>Verify: check the extension whitelist and size limit, confirm with <code>getimagesize()</code> that an image really is one, and <code>basename()</code> the name to strip path tricks.</li>\n<li>Thumbnail cheat without GD: store once, display with a fixed <code>&lt;img width=\"64\"&gt;</code> - the browser scales it.</li>\n<li>Download: reply with headers - <code>Content-Type: application/octet-stream</code> and <code>Content-Disposition: attachment; filename=\"...\"</code> - then <code>readfile()</code> the contents.</li></ul>\n"
+     },
+     "diagram": "wd3_upload",
+     "programs": [
+      "wd3p9",
+      "wd3p10"
+     ]
+    },
+    {
+     "h": {
+      "en": "Sending Email: Plain, HTML and Attachments (Practical 15)"
+     },
+     "body": {
+      "en": "\n<ul><li><code>mail($to, $subject, $message, $headers)</code> - headers carry <code>From</code>, <code>Cc</code>, <code>Reply-To</code>, and the MIME content type.</li>\n<li>Plain text: default body - just send. <b>HTML email</b>: add <code>Content-Type: text/html; charset=UTF-8</code> and compose the body with tags.</li>\n<li><b>Attachments</b> need MIME multipart: a boundary string, the message part, then the file base64-encoded - real projects use PHPMailer instead of hand-rolled MIME.</li>\n<li>On XAMPP localhost, <code>mail()</code> returns false until an SMTP account is configured (sendmail.ini / Mercury) - so our program composes and displays the exact messages first, then reports the send attempt honestly.</li>\n<li>Newsletter flow: validate email &rarr; store subscriber &rarr; send confirmation (plain + HTML versions).</li></ul>\n"
+     },
+     "diagram": "wd3_email",
+     "programs": [
+      "wd3p11"
+     ]
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "wd3p1",
+   "title": {
+    "en": "Registration form with every control (Practical 11)"
+   },
+   "code": {
+    "en": "<?php\n// register.php - self-processing registration form (Practical 11)\nif ($_SERVER[\"REQUEST_METHOD\"] === \"POST\" || !empty($_GET)) {\n    echo \"<h2>Registration received</h2>\";\n    echo \"Method used : <b>\", $_SERVER[\"REQUEST_METHOD\"], \"</b><br>\";\n    foreach ($_REQUEST as $field => $value) {\n        $value = is_array($value) ? implode(\", \", $value) : htmlspecialchars($value);\n        echo htmlspecialchars($field), \" = <b>$value</b><br>\";\n    }\n    exit;\n}\n?>\n<!DOCTYPE html><html><head><title>BusBook Registration</title></head><body>\n<h2>Passenger Registration</h2>\n<form method=\"get\">\n  Name:    <input type=\"text\" name=\"name\"><br>\n  Email:   <input type=\"email\" name=\"email\"><br>\n  Journey: <input type=\"date\" name=\"jdate\"><br>\n  Seat colour: <input type=\"color\" name=\"tint\"><br>\n  Gender:  <input type=\"radio\" name=\"gender\" value=\"F\">F\n           <input type=\"radio\" name=\"gender\" value=\"M\">M<br>\n  City:    <select name=\"city\">\n             <option>Surat</option><option>Vadodara</option><option>Ahmedabad</option>\n           </select><br>\n  Extras:  <input type=\"checkbox\" name=\"extras[]\" value=\"meal\">Meal\n           <input type=\"checkbox\" name=\"extras[]\" value=\"insurance\">Insurance<br>\n  Message: <textarea name=\"msg\" rows=\"2\" cols=\"24\"></textarea><br>\n  <input type=\"submit\" value=\"Register\">\n</form>\n</body></html>"
+   },
+   "out": "$ curl 'http://localhost/index.php?name=Ravi+Patel&email=ravi%40gmail.com&jdate=2026-11-15&tint=%232266aa&gender=M&city=Surat&extras%5B%5D=meal&extras%5B%5D=insurance&msg=Window+seat+please'\n<h2>Registration received</h2>Method used : <b>GET</b><br>name = <b>Ravi Patel</b><br>email = <b>ravi@gmail.com</b><br>jdate = <b>2026-11-15</b><br>tint = <b>#2266aa</b><br>gender = <b>M</b><br>city = <b>Surat</b><br>extras = <b>meal, insurance</b><br>msg = <b>Window seat please</b><br>",
+   "expl": {
+    "en": "<p>Every control carries a <code>name</code> - that name becomes the array key server-side. Radios share one name (one value wins); checkboxes with <code>extras[]</code> arrive as an <b>array</b>. The handler loops <code>$_REQUEST</code> generically, escaping each value - it prints whatever the form sent. We demo with a GET submit so the URL itself shows the data.</p>"
+   }
+  },
+  {
+   "id": "wd3p2",
+   "title": {
+    "en": "GET vs POST side by side on one page"
+   },
+   "code": {
+    "en": "<?php\n// one page, two forms - compare how the same data travels\necho \"<h3>Gate report</h3>\";\necho \"REQUEST_METHOD: <b>\", $_SERVER[\"REQUEST_METHOD\"], \"</b><br>\";\necho \"\\$_GET   : \", json_encode($_GET), \"<br>\";\necho \"\\$_POST  : \", json_encode($_POST), \"<br>\";\necho \"\\$_REQUEST: \", json_encode($_REQUEST), \"<br>\";\n?>\n<form method=\"get\">\n  Search route: <input name=\"q\" placeholder=\"GET - stays in URL\">\n  <button>Search</button>\n</form>\n<form method=\"post\">\n  Register PIN: <input type=\"password\" name=\"pin\" placeholder=\"POST - hidden body\">\n  <button>Register</button>\n</form>"
+   },
+   "out": "$ curl -d 'pin=4407' 'http://localhost/index.php'\n<h3>Gate report</h3>REQUEST_METHOD: <b>POST</b><br>$_GET   : []<br>$_POST  : {\"pin\":\"4407\"}<br>$_REQUEST: {\"pin\":\"4407\"}<br><form method=\"get\">\n  Search route: <input name=\"q\" placeholder=\"GET - stays in URL\">\n  <button>Search</button>\n</form>\n<form method=\"post\">\n  Register PIN: <input type=\"password\" name=\"pin\" placeholder=\"POST - hidden body\">\n  <button>Register</button>\n</form>",
+   "expl": {
+    "en": "<p>Same key names, different lanes: a GET submit fills <code>$_GET</code> (and the browser address bar); a POST fills <code>$_POST</code>; <code>$_REQUEST</code> merges them. Try both forms and compare the URL bar. <code>json_encode</code> gives a compact honest dump of each super-global.</p>"
+   }
+  },
+  {
+   "id": "wd3p3",
+   "title": {
+    "en": "Superglobals tour: $_SERVER, $_ENV, $GLOBALS"
+   },
+   "code": {
+    "en": "<?php\n$appName = \"BusBook\";          // lives in $GLOBALS\n\necho \"=== \\$_SERVER ===\\n\";\necho \"method     : \", $_SERVER[\"REQUEST_METHOD\"], \"\\n\";\necho \"script     : \", $_SERVER[\"SCRIPT_NAME\"], \"\\n\";\necho \"server     : \", $_SERVER[\"SERVER_NAME\"], \":\", $_SERVER[\"SERVER_PORT\"], \"\\n\";\necho \"user-agent : \", $_SERVER[\"HTTP_USER_AGENT\"] ?? \"(none)\", \"\\n\";\necho \"query str  : \", $_SERVER[\"QUERY_STRING\"] ?: \"(empty)\", \"\\n\\n\";\n\necho \"=== \\$_ENV (sample) ===\\n\";\necho \"PATH set?  \", isset($_ENV[\"PATH\"]) ? \"yes\" : \"no\", \"\\n\\n\";\n\necho \"=== \\$GLOBALS ===\\n\";\necho \"appName via \\$GLOBALS: \", $GLOBALS[\"appName\"], \"\\n\";\necho \"some keys: \", implode(\", \", array_slice(array_keys($GLOBALS), 0, 6)), \" ...\\n\";\n\necho \"\\n=== \\$_GET from the URL ===\\n\";\nprint_r($_GET);\n?>"
+   },
+   "out": "$ curl 'http://localhost/index.php?src=web&debug=1'\n=== $_SERVER ===\nmethod     : GET\nscript     : /index.php\nserver     : 127.0.0.1:33973\nuser-agent : curl/8.14.1\nquery str  : src=web&debug=1\n\n=== $_ENV (sample) ===\nPATH set?  yes\n\n=== $GLOBALS ===\nappName via $GLOBALS: BusBook\nsome keys: _GET, _POST, _COOKIE, _FILES, _SERVER, _ENV ...\n\n=== $_GET from the URL ===\nArray\n(\n    [src] => web\n    [debug] => 1\n)",
+   "expl": {
+    "en": "<p>Superglobals are pre-filled associative arrays visible in every scope. <code>$_SERVER</code> reveals the request line, script path and client agent; <code>$_ENV</code> the environment; <code>$GLOBALS</code> every global variable by name. The curl query lands in <code>$_GET</code> exactly as typed.</p>"
+   }
+  },
+  {
+   "id": "wd3p4",
+   "title": {
+    "en": "Validation functions laboratory (Practical 12)"
+   },
+   "code": {
+    "en": "<?php\n// isolate each validator and watch it judge real values\n$cases = [\n    [\"isset\",     isset($_POST[\"ghost\"]) ? \"true\" : \"false (ghost never submitted)\"],\n    [\"empty('')\", var_export(empty(\"\"), true)],\n    [\"empty('0')\", var_export(empty(\"0\"), true) . \"  <- surprise! '0' is empty\"],\n    [\"is_numeric('12.5')\", var_export(is_numeric(\"12.5\"), true)],\n    [\"is_numeric('12a')\",  var_export(is_numeric(\"12a\"), true)],\n    [\"strlen('Surat') >= 3\", var_export(strlen(\"Surat\") >= 3, true)],\n    [\"strlen('ab') >= 3\",    var_export(strlen(\"ab\") >= 3, true)],\n    [\"filter email ok\",      var_export(filter_var(\"a@b.com\", FILTER_VALIDATE_EMAIL), true)],\n    [\"filter email bad\",     var_export(filter_var(\"a@b\", FILTER_VALIDATE_EMAIL), true)],\n    [\"filter int '42'\",      var_export(filter_var(\"42\", FILTER_VALIDATE_INT), true)],\n    [\"filter int '4.2'\",     var_export(filter_var(\"4.2\", FILTER_VALIDATE_INT), true)],\n    [\"trim('  x  ')\",        \"'\" . trim(\"  x  \") . \"'\"],\n    [\"stripslashes\",         stripslashes(\"surat\\\\'s\")],\n    [\"htmlspecialchars\",     htmlspecialchars(\"<script>alert(1)</script>\")],\n];\nforeach ($cases as [$fn, $verdict]) {\n    printf(\"%-24s -> %s\\n\", $fn, $verdict);\n}\n?>"
+   },
+   "out": "$ php index.php\nisset                    -> false (ghost never submitted)\nempty('')                -> true\nempty('0')               -> true  <- surprise! '0' is empty\nis_numeric('12.5')       -> true\nis_numeric('12a')        -> false\nstrlen('Surat') >= 3     -> true\nstrlen('ab') >= 3        -> false\nfilter email ok          -> 'a@b.com'\nfilter email bad         -> false\nfilter int '42'          -> 42\nfilter int '4.2'         -> false\ntrim('  x  ')            -> 'x'\nstripslashes             -> surat's\nhtmlspecialchars         -> &lt;script&gt;alert(1)&lt;/script&gt;",
+   "expl": {
+    "en": "<p>Each validator answers one narrow question. Traps worth remembering: <code>empty(\"0\")</code> is true (string zero counts as empty); <code>filter_var</code> returns <b>false</b> on failure and the <i>value</i> on success; <code>htmlspecialchars</code> converts dangerous characters into entities for safe echoing. Compose these into per-field rules.</p>"
+   }
+  },
+  {
+   "id": "wd3p5",
+   "title": {
+    "en": "Validated, sticky self-processing form (Practicals 11-12)"
+   },
+   "code": {
+    "en": "<?php\n$errors = [];\n$name = trim($_POST[\"name\"] ?? \"\");\n$email = trim($_POST[\"email\"] ?? \"\");\n$age = trim($_POST[\"age\"] ?? \"\");\n$route = $_POST[\"route\"] ?? \"\";\n$allowedRoutes = [\"Surat-Bharuch\", \"Surat-Vadodara\", \"Surat-Ahmedabad\"];\n\nif ($_SERVER[\"REQUEST_METHOD\"] === \"POST\") {\n    if (strlen($name) < 3)                                  $errors[] = \"Name needs 3+ letters\";\n    if (!filter_var($email, FILTER_VALIDATE_EMAIL))         $errors[] = \"Email looks wrong\";\n    if (!is_numeric($age) || $age < 15 || $age > 100)       $errors[] = \"Age must be 15-100\";\n    if (!in_array($route, $allowedRoutes, true))            $errors[] = \"Pick a listed route\";\n    if (empty($_POST[\"terms\"]))                             $errors[] = \"Accept the terms\";\n\n    if (!$errors) {\n        echo \"<h3>Welcome aboard, \", htmlspecialchars($name), \"!</h3>\";\n        echo \"Seat on <b>$route</b> reserved for age $age.<br>\";\n        echo \"Confirmation sent to \", htmlspecialchars($email), \"<br>\";\n        exit;\n    }\n}\n?>\n<?php if ($errors): ?>\n<b>Fix these:</b><ul>\n<?php foreach ($errors as $e) echo \"<li>$e</li>\"; ?>\n</ul>\n<?php endif; ?>\n<form method=\"post\">\n  Name: <input name=\"name\" value=\"<?= htmlspecialchars($name) ?>\"><br>\n  Email: <input name=\"email\" value=\"<?= htmlspecialchars($email) ?>\"><br>\n  Age: <input name=\"age\" value=\"<?= htmlspecialchars($age) ?>\"><br>\n  Route: <select name=\"route\">\n    <?php foreach ($allowedRoutes as $r): ?>\n      <option <?= $r === $route ? \"selected\" : \"\" ?>><?= $r ?></option>\n    <?php endforeach; ?>\n  </select><br>\n  <input type=\"checkbox\" name=\"terms\" value=\"yes\"> I accept the terms<br>\n  <button>Register</button>\n</form>"
+   },
+   "out": "$ curl -d 'name=Ravi&email=not-an-email&age=abc&route=Surat-Ahmedabad&terms=yes' 'http://localhost/index.php'\n<b>Fix these:</b><ul>\n<li>Email looks wrong</li><li>Age must be 15-100</li></ul>\n<form method=\"post\">\n  Name: <input name=\"name\" value=\"Ravi\"><br>\n  Email: <input name=\"email\" value=\"not-an-email\"><br>\n  Age: <input name=\"age\" value=\"abc\"><br>\n  Route: <select name=\"route\">\n          <option >Surat-Bharuch</option>\n          <option >Surat-Vadodara</option>\n          <option selected>Surat-Ahmedabad</option>\n      </select><br>\n  <input type=\"checkbox\" name=\"terms\" value=\"yes\"> I accept the terms<br>\n  <button>Register</button>\n</form>",
+   "expl": {
+    "en": "<p>The complete pattern: gather + trim input, apply per-field rules into <code>$errors</code>, re-render the same form with the list on top and <b>sticky values</b> echoed back (escaped). Only a clean <code>$errors</code> reaches the welcome message. The demo posts a bad email and non-numeric age - both get caught while good fields survive.</p>"
+   }
+  },
+  {
+   "id": "wd3p6",
+   "title": {
+    "en": "Working with directories"
+   },
+   "code": {
+    "en": "<?php\n$base = __DIR__ . \"/arena\";\n\necho \"mkdir arena          : \", var_export(@mkdir($base), true), \"\\n\";\necho \"mkdir arena/logs     : \", var_export(mkdir(\"$base/logs\"), true), \"\\n\";\necho \"is_dir(arena)        : \", var_export(is_dir($base), true), \"\\n\";\n\nfile_put_contents(\"$base/a.txt\", \"alpha\");\nfile_put_contents(\"$base/b.log\", \"beta\");\nfile_put_contents(\"$base/logs/run.log\", \"run 1\");\n\necho \"scandir              : \", implode(\", \", scandir($base)), \"\\n\";\necho \"glob *.txt           : \", implode(\", \", array_map(\"basename\", glob(\"$base/*.txt\"))), \"\\n\";\n\n$info = pathinfo(\"$base/b.log\");\necho \"pathinfo b.log       : \", $info[\"extension\"], \" ext / \", $info[\"filename\"], \" name\\n\";\necho \"filesize a.txt       : \", filesize(\"$base/a.txt\"), \" bytes\\n\";\necho \"last modified        : \", date(\"H:i:s\", filemtime(\"$base/a.txt\")), \"\\n\";\n\nunlink(\"$base/a.txt\"); unlink(\"$base/b.log\"); unlink(\"$base/logs/run.log\");\nrmdir(\"$base/logs\"); rmdir($base);\necho \"cleanup              : \", is_dir($base) ? \"still there\" : \"all gone\", \"\\n\";\n?>"
+   },
+   "out": "$ php index.php\nmkdir arena          : true\nmkdir arena/logs     : true\nis_dir(arena)        : true\nscandir              : ., .., a.txt, b.log, logs\nglob *.txt           : a.txt\npathinfo b.log       : log ext / b name\nfilesize a.txt       : 5 bytes\nlast modified        : 05:26:59\ncleanup              : all gone",
+   "expl": {
+    "en": "<p>Directory toolkit: <code>mkdir/rmdir</code>, <code>is_dir/file_exists</code> probes, <code>scandir</code> (skip <code>.</code>/<code>..</code>), <code>glob</code> pattern filters, <code>pathinfo</code> to split extensions, <code>filesize/filemtime</code> for facts, <code>unlink</code> for files. Create-before-use and clean-up-after are the two habits.</p>"
+   }
+  },
+  {
+   "id": "wd3p7",
+   "title": {
+    "en": "Feedback form saving to a text file (Practical 13)"
+   },
+   "code": {
+    "en": "<?php\n$file = __DIR__ . \"/feedback.txt\";\nif ($_SERVER[\"REQUEST_METHOD\"] === \"POST\") {\n    $name = trim($_POST[\"name\"] ?? \"\");\n    $msg  = trim($_POST[\"msg\"] ?? \"\");\n    if ($name !== \"\" && $msg !== \"\") {\n        $line = date(\"Y-m-d H:i\") . \",\" . $name . \",\" . str_replace([\"\\n\", \",\"], \" \", $msg) . \"\\n\";\n        file_put_contents($file, $line, FILE_APPEND);\n        echo \"<b>Thanks $name - feedback saved.</b><br>\";\n    }\n}\nif (file_exists($file)) {\n    echo \"<h4>All feedback so far:</h4><pre>\";\n    echo htmlspecialchars(file_get_contents($file));\n    echo \"</pre>\";\n}\n?>\n<form method=\"post\">\n  Name: <input name=\"name\"><br>\n  Feedback: <textarea name=\"msg\"></textarea><br>\n  <button>Send feedback</button>\n</form>"
+   },
+   "out": "$ curl -d 'name=Asha&msg=Loved+the+window+seats%21' 'http://localhost/index.php'\n<b>Thanks Asha - feedback saved.</b><br><h4>All feedback so far:</h4><pre>2026-10-29 05:26,Asha,Loved the window seats!\n</pre><form method=\"post\">\n  Name: <input name=\"name\"><br>\n  Feedback: <textarea name=\"msg\"></textarea><br>\n  <button>Send feedback</button>\n</form>",
+   "expl": {
+    "en": "<p>Full Practical-13 cycle: POST the feedback, validate non-empty, flatten newlines/commas (CSV-friendly), append one stamped line with <code>file_put_contents(..., FILE_APPEND)</code>, then <b>read the file back</b> and show every previous entry (escaped). Refresh-submit adds another line - the file is the database until Unit 5.</p>"
+   }
+  },
+  {
+   "id": "wd3p8",
+   "title": {
+    "en": "File modes cookbook: r / w / a / w+"
+   },
+   "code": {
+    "en": "<?php\n$f = __DIR__ . \"/log.txt\";\n\n// \"w\" - fresh write (truncates anything old)\n$h = fopen($f, \"w\"); fwrite($h, \"day 1: server up\\n\"); fclose($h);\n\n// \"a\" - append keeps history\n$h = fopen($f, \"a\"); fwrite($h, \"day 2: added route BRC\\n\"); fclose($h);\n\n// \"r\" - read line by line\necho \"== read with fgets ==\\n\";\n$h = fopen($f, \"r\");\nwhile (!feof($h)) {\n    $line = fgets($h);\n    if ($line === false) break;\n    echo \"  \" . rtrim($line) . \"\\n\";\n}\nfclose($h);\n\n// shortcuts\nfile_put_contents($f, \"day 3: backup done\\n\", FILE_APPEND);\necho \"== read whole at once ==\\n\";\necho file_get_contents($f);\n\n// \"w+\" truncates then allows reading too\n$h = fopen($f, \"w+\");\nfwrite($h, \"fresh start\\n\");\nrewind($h);\necho \"== w+ after truncate ==\\n  \" . rtrim(fgets($h)) . \"\\n\";\nfclose($h);\n?>"
+   },
+   "out": "$ php index.php\n== read with fgets ==\n  day 1: server up\n  day 2: added route BRC\n== read whole at once ==\nday 1: server up\nday 2: added route BRC\nday 3: backup done\n== w+ after truncate ==\n  fresh start",
+   "expl": {
+    "en": "<p>Same file, four moods: <code>w</code> rewrites from scratch (old content gone), <code>a</code> appends to the end, <code>r</code> reads with <code>fgets + feof</code>, and <code>w+</code> truncates <i>then</i> lets you read back (<code>rewind</code> returns the pointer home). The <code>file_get_contents</code>/<code>file_put_contents</code> pair handles most cases in one call.</p>"
+   }
+  },
+  {
+   "id": "wd3p9",
+   "title": {
+    "en": "Image upload with checks (Practical 14)"
+   },
+   "code": {
+    "en": "<?php\nif ($_SERVER[\"REQUEST_METHOD\"] === \"POST\" && isset($_FILES[\"avatar\"])) {\n    $f = $_FILES[\"avatar\"];\n\n    if ($f[\"error\"] !== UPLOAD_ERR_OK) {\n        echo \"Upload failed (error code {$f['error']}).<br>\";\n    } elseif ($f[\"size\"] > 500000) {\n        echo \"File too large (max 500 KB).<br>\";\n    } elseif (!in_array(strtolower(pathinfo($f[\"name\"], PATHINFO_EXTENSION)), [\"png\", \"jpg\", \"jpeg\", \"gif\"])) {\n        echo \"Only png/jpg/gif images allowed.<br>\";\n    } else {\n        $saveDir = __DIR__ . \"/uploads\";\n        if (!is_dir($saveDir)) mkdir($saveDir);\n        $safe = basename($f[\"name\"]);                    // strip path tricks\n        $dest = \"$saveDir/$safe\";\n        if (move_uploaded_file($f[\"tmp_name\"], $dest)) {\n            $d = getimagesize($dest);\n            echo \"Uploaded <b>$safe</b> ({$f['size']} bytes, {$d[0]}x{$d[1]} px).<br>\";\n            echo \"<img src='uploads/$safe' width='64' alt='avatar thumbnail'>\";\n            echo \" <- thumbnail via <i>img width</i>\";\n        }\n    }\n    exit;\n}\n?>\n<form method=\"post\" enctype=\"multipart/form-data\">\n  Avatar: <input type=\"file\" name=\"avatar\"><br>\n  <button>Upload</button>\n</form>"
+   },
+   "out": "$ curl -F avatar=@ravi-avatar.png 'http://localhost/index.php'\nUploaded <b>ravi-avatar.png</b> (70 bytes, 1x1 px).<br><img src='uploads/ravi-avatar.png' width='64' alt='avatar thumbnail'> <- thumbnail via <i>img width</i>",
+   "expl": {
+    "en": "<p>The gate in order: <b>error code OK</b> &rarr; size limit &rarr; extension whitelist &rarr; <code>getimagesize</code> confirms image-ness &rarr; <code>basename()</code> sanitises the name &rarr; <code>move_uploaded_file()</code> relocates the temp file before it vanishes. The thumbnail trick needs no image library: store once, render small with <code>&lt;img width=\"64\"&gt;</code>. Our 1x1 png demo passes every gate.</p>"
+   }
+  },
+  {
+   "id": "wd3p10",
+   "title": {
+    "en": "Download a file with header()"
+   },
+   "code": {
+    "en": "<?php\n// download.php?file=report.txt - forces a save-as dialog\n$known = [\"report.txt\" => \"Surat Express daily report\\nBookings: 34\\nRevenue: Rs 8,900\\n\"];\n$name = $_GET[\"file\"] ?? \"\";\nif (!isset($known[$name])) {\n    echo \"Unknown file requested.\";\n    exit;\n}\nheader(\"Content-Type: application/octet-stream\");\nheader(\"Content-Disposition: attachment; filename=\\\"$name\\\"\");\nheader(\"Content-Length: \" . strlen($known[$name]));\necho $known[$name];\n?>"
+   },
+   "out": "$ curl -i 'http://localhost/index.php?file=report.txt'\nHTTP/1.1 200 OK\nHost: 127.0.0.1:43545\nDate: Thu, 29 Oct 2026 05:26:59 GMT\nConnection: close\nX-Powered-By: PHP/8.4.27\nContent-Type: application/octet-stream\nContent-Disposition: attachment; filename=\"report.txt\"\nContent-Length: 58\n\nSurat Express daily report\nBookings: 34\nRevenue: Rs 8,900",
+   "expl": {
+    "en": "<p>Three headers change a page into a download: <code>Content-Type: application/octet-stream</code>, <code>Content-Disposition: attachment; filename=...</code>, and <code>Content-Length</code>. The browser pops a save dialog instead of rendering. <code>curl -i</code> shows the genuine response headers - look for Content-Disposition below. Real sites stream with <code>readfile()</code> after these headers.</p>"
+   }
+  },
+  {
+   "id": "wd3p11",
+   "title": {
+    "en": "Newsletter subscription with plain + HTML email (Practical 15)"
+   },
+   "code": {
+    "en": "<?php\nif ($_SERVER[\"REQUEST_METHOD\"] === \"POST\") {\n    $email = trim($_POST[\"email\"] ?? \"\");\n    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {\n        echo \"Invalid email address.<br>\";\n    } else {\n        file_put_contents(__DIR__ . \"/subscribers.txt\", $email . \"\\n\", FILE_APPEND);\n\n        $to = $email;\n        $subject = \"Welcome to BusBook Updates\";\n\n        // ---- plain text version (always send one) ----\n        $plain = \"Hi!\\n\\nThanks for subscribing to BusBook route alerts.\\n\"\n               . \"Unsubscribe anytime: http://localhost/unsub.php?e=\" . urlencode($email);\n\n        // ---- HTML version (needs the MIME header) ----\n        $html = \"<html><body style='font-family:sans-serif'>\"\n              . \"<h2 style='color:#1565C0'>Welcome aboard!</h2>\"\n              . \"<p>Thanks for subscribing to <b>BusBook</b> route alerts.</p>\"\n              . \"<ul><li>Weekly fare drops</li><li>New route news</li></ul>\"\n              . \"</body></html>\";\n\n        $headers = \"From: BusBook <admin@busbook.in>\\r\\n\"\n                 . \"Reply-To: support@busbook.in\\r\\n\"\n                 . \"Content-Type: text/html; charset=UTF-8\\r\\n\";\n\n        echo \"== would send PLAIN ==\\n$plain\\n\\n\";\n        echo \"== would send HTML ==\\n$html\\n\\n\";\n        echo \"headers:\\n$headers\\n\";\n        $ok = @mail($to, $subject, $html, $headers);   // no SMTP on localhost\n        echo \"mail() returned: \", $ok ? \"true (sent)\" : \"false (no SMTP configured - expected on localhost)\", \"\\n\";\n        echo \"subscriber recorded in subscribers.txt\\n\";\n    }\n    exit;\n}\n?>\n<form method=\"post\">\n  Email: <input name=\"email\" type=\"email\"><br>\n  <button>Subscribe</button>\n</form>"
+   },
+   "out": "$ curl -d 'email=ravi.patel%40gmail.com' 'http://localhost/index.php'\n== would send PLAIN ==\nHi!\n\nThanks for subscribing to BusBook route alerts.\nUnsubscribe anytime: http://localhost/unsub.php?e=ravi.patel%40gmail.com\n\n== would send HTML ==\n<html><body style='font-family:sans-serif'><h2 style='color:#1565C0'>Welcome aboard!</h2><p>Thanks for subscribing to <b>BusBook</b> route alerts.</p><ul><li>Weekly fare drops</li><li>New route news</li></ul></body></html>\n\nheaders:\nFrom: BusBook <admin@busbook.in>\nReply-To: support@busbook.in\nContent-Type: text/html; charset=UTF-8\n\nmail() returned: false (no SMTP configured - expected on localhost)\nsubscriber recorded in subscribers.txt",
+   "expl": {
+    "en": "<p>Practical 15 end-to-end: validate the email, persist the subscriber, then compose <b>both</b> a plain-text and an HTML body (the <code>Content-Type: text/html</code> header switches the client into rendering mode; <code>From</code>/<code>Reply-To</code> ride in <code>$headers</code>). <code>mail()</code> returns false on an unconfigured localhost - we show the exact messages and the honest status instead of pretending.</p>"
+   }
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "wd3_form_controls",
+   "title": {
+    "en": "Form Controls Catalog"
+   },
+   "file": "diagrams/wd3_form_controls.svg"
+  },
+  {
+   "id": "wd3_get_post",
+   "title": {
+    "en": "GET vs POST"
+   },
+   "file": "diagrams/wd3_get_post.svg"
+  },
+  {
+   "id": "wd3_superglobals",
+   "title": {
+    "en": "The Superglobals Map"
+   },
+   "file": "diagrams/wd3_superglobals.svg"
+  },
+  {
+   "id": "wd3_selfprocess",
+   "title": {
+    "en": "The Self-Processing Page Pattern"
+   },
+   "file": "diagrams/wd3_selfprocess.svg"
+  },
+  {
+   "id": "wd3_validation",
+   "title": {
+    "en": "Validation Pipeline"
+   },
+   "file": "diagrams/wd3_validation.svg"
+  },
+  {
+   "id": "wd3_files",
+   "title": {
+    "en": "Reading and Writing Text Files"
+   },
+   "file": "diagrams/wd3_files.svg"
+  },
+  {
+   "id": "wd3_upload",
+   "title": {
+    "en": "File Upload Flow"
+   },
+   "file": "diagrams/wd3_upload.svg"
+  },
+  {
+   "id": "wd3_email",
+   "title": {
+    "en": "mail(): Anatomy of Sending"
+   },
+   "file": "diagrams/wd3_email.svg"
+  }
+ ],
+ "syntax": [
+  {
+   "title": {
+    "en": "Form cards"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "form skeleton"
+     },
+     "f": "<form method=\"post\">\n  <input name=\"city\">\n  <select name=\"route\">...\n  <button>Go</button>\n</form>\nno name => no data",
+     "terms": {
+      "en": "name = server-side key"
+     }
+    },
+    {
+     "name": {
+      "en": "when which"
+     },
+     "f": "GET    reads (search, filter)\n       url ?a=1&b=2, ~2KB\nPOST   changes (register, pay)\n       body, unlimited, files",
+     "terms": {
+      "en": "never passwords in a URL"
+     }
+    },
+    {
+     "name": {
+      "en": "checkbox array"
+     },
+     "f": "<input type=\"checkbox\"\n  name=\"hobby[]\" value=\"art\">\narrives as array:\n$_POST[\"hobby\"] = [\"art\", ...]",
+     "terms": {
+      "en": "[] suffix collects many"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Validation cards"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "field rules"
+     },
+     "f": "isset($v)      exists?\nempty($v)      blank?\nis_numeric($v) number?\nstrlen($v) >= 3 long enough?\nin_array strict   listed?",
+     "terms": {
+      "en": "presence first, rules next"
+     }
+    },
+    {
+     "name": {
+      "en": "filter_var"
+     },
+     "f": "filter_var($e,\n  FILTER_VALIDATE_EMAIL)\n-> value or false\nFILTER_VALIDATE_INT same",
+     "terms": {
+      "en": "false = reject, value = accept"
+     }
+    },
+    {
+     "name": {
+      "en": "escape rule"
+     },
+     "f": "htmlspecialchars($userText)\nbefore ANY echo of user data\n< becomes &lt;   & becomes &amp;",
+     "terms": {
+      "en": "validate in, escape out"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "File and mail cards"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "file modes"
+     },
+     "f": "\"r\" read (must exist)\n\"w\" write, TRUNCATES\n\"a\" append (creates)\n\"w+\" truncates, then reads",
+     "terms": {
+      "en": "fopen work fclose"
+     }
+    },
+    {
+     "name": {
+      "en": "one-liners"
+     },
+     "f": "file_get_contents($f)\nfile_put_contents($f,$t,\n  FILE_APPEND)\nfile($f) -> array of lines\nfputcsv / fgetcsv",
+     "terms": {
+      "en": "skip the trio for quick jobs"
+     }
+    },
+    {
+     "name": {
+      "en": "upload bits"
+     },
+     "f": "$_FILES['f'] has\nname type size tmp_name error\nerror === 0 ? then\nmove_uploaded_file(tmp, dest)",
+     "terms": {
+      "en": "tmp file dies with request"
+     }
+    },
+    {
+     "name": {
+      "en": "mail()"
+     },
+     "f": "mail($to, $subj, $body, $hdrs);\nplain  = bare body\nhtml   = Content-Type: text/html\nattach = MIME multipart",
+     "terms": {
+      "en": "localhost needs SMTP config"
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Forms and Controls"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What two attributes does every form control need to submit data?"
+     },
+     "a": {
+      "en": "name (the key PHP sees) and value (what is sent); without name, the control submits nothing."
+     }
+    },
+    {
+     "q": {
+      "en": "Radio vs checkbox?"
+     },
+     "a": {
+      "en": "Radios share one name and submit ONE value (gender); checkboxes are independent - use name=\"x[]\" to collect many into an array."
+     }
+    },
+    {
+     "q": {
+      "en": "Difference between text input and textarea?"
+     },
+     "a": {
+      "en": "Text input is single-line (name, city); textarea is multi-line with rows/cols (feedback)."
+     }
+    },
+    {
+     "q": {
+      "en": "Name three HTML5 input types and their benefit."
+     },
+     "a": {
+      "en": "date / color / email / number - the browser shows a native picker and basic client-side checking."
+     }
+    },
+    {
+     "q": {
+      "en": "What does the submit button actually do?"
+     },
+     "a": {
+      "en": "Fires an HTTP request to the form's action URL carrying every named control; no action attribute means post back to the same page."
+     }
+    },
+    {
+     "q": {
+      "en": "GET vs POST - two key differences?"
+     },
+     "a": {
+      "en": "GET puts data in the URL (visible, bookmarkable, ~2KB limit); POST puts it in the request body (hidden, unlimited, required for uploads)."
+     }
+    },
+    {
+     "q": {
+      "en": "When should a form use GET?"
+     },
+     "a": {
+      "en": "For read-only actions: search, filter, paginate - anything you could safely bookmark."
+     }
+    },
+    {
+     "q": {
+      "en": "Why must passwords never travel by GET?"
+     },
+     "a": {
+      "en": "URLs live in browser history and server logs - anyone with access reads the password."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Superglobals and Patterns"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is $_POST?"
+     },
+     "a": {
+      "en": "The associative superglobal array of parameters sent in the request body of a POST."
+     }
+    },
+    {
+     "q": {
+      "en": "$_REQUEST holds what exactly?"
+     },
+     "a": {
+      "en": "GET + POST (+ cookies) merged - convenient but vague; prefer the specific $_GET/$_POST."
+     }
+    },
+    {
+     "q": {
+      "en": "Which superglobal tells you the request method?"
+     },
+     "a": {
+      "en": "$_SERVER['REQUEST_METHOD'] - 'GET' or 'POST'."
+     }
+    },
+    {
+     "q": {
+      "en": "What does $_FILES contain per upload?"
+     },
+     "a": {
+      "en": "name, type, size, tmp_name, error - the facts PHP gathered about the uploaded file."
+     }
+    },
+    {
+     "q": {
+      "en": "Why are superglobals 'super'?"
+     },
+     "a": {
+      "en": "They are visible in every scope - usable inside functions without global declarations."
+     }
+    },
+    {
+     "q": {
+      "en": "Explain the self-processing page pattern."
+     },
+     "a": {
+      "en": "One file: if REQUEST_METHOD==='POST' validate/process, else render the form; actionless form posts to itself."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a sticky form?"
+     },
+     "a": {
+      "en": "A form re-rendered with the user's previous values echoed back into each field (escaped) - fix one error, keep the rest."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Validation and Files"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Why validate on the server even with HTML required?"
+     },
+     "a": {
+      "en": "Client-side rules are hints that anyone can bypass; the server is the only trustworthy checkpoint."
+     }
+    },
+    {
+     "q": {
+      "en": "isset() vs empty()?"
+     },
+     "a": {
+      "en": "isset checks the key exists (and isn't null); empty catches missing, '', 0, '0', null, false, [] - beware '0' counts as empty."
+     }
+    },
+    {
+     "q": {
+      "en": "What does filter_var do with an email?"
+     },
+     "a": {
+      "en": "FILTER_VALIDATE_EMAIL returns the email if valid, false otherwise - one call replaces regexes."
+     }
+    },
+    {
+     "q": {
+      "en": "Validation vs escaping - same thing?"
+     },
+     "a": {
+      "en": "No: validation guards INPUT (rules on arrival), escaping (htmlspecialchars) guards OUTPUT (safe echo). Both, always."
+     }
+    },
+    {
+     "q": {
+      "en": "What does stripslashes() do?"
+     },
+     "a": {
+      "en": "Removes escape backslashes from text - mostly a legacy-magic-quotes cleanup, kept for completeness."
+     }
+    },
+    {
+     "q": {
+      "en": "fopen modes r, w, a?"
+     },
+     "a": {
+      "en": "r: read (file must exist); w: write after truncating; a: append, creating the file if missing."
+     }
+    },
+    {
+     "q": {
+      "en": "One-call alternatives to fopen/fwrite/fclose?"
+     },
+     "a": {
+      "en": "file_put_contents($f, $text, FILE_APPEND) to write, file_get_contents($f) to read, file($f) for an array of lines."
+     }
+    },
+    {
+     "q": {
+      "en": "What does fputcsv do?"
+     },
+     "a": {
+      "en": "Writes one array as a proper CSV line - quotes and escapes commas/newlines correctly."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you list a directory's contents?"
+     },
+     "a": {
+      "en": "scandir($dir) (skip '.' and '..') or glob('uploads/*.png') for pattern-filtered lists."
+     }
+    },
+    {
+     "q": {
+      "en": "mkdir gotcha?"
+     },
+     "a": {
+      "en": "Check is_dir() first and remember rmdir only removes EMPTY directories."
+     }
+    },
+    {
+     "q": {
+      "en": "What does pathinfo() give you?"
+     },
+     "a": {
+      "en": "dirname, basename, filename and extension of a path - extension extraction without string surgery."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Uploads, Downloads, Email"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Which enctype does an upload form need?"
+     },
+     "a": {
+      "en": "multipart/form-data with method post - without it $_FILES stays empty."
+     }
+    },
+    {
+     "q": {
+      "en": "Why must uploaded files be moved?"
+     },
+     "a": {
+      "en": "The upload waits in a temporary location (tmp_name) that PHP deletes when the request ends - move_uploaded_file() saves it permanently."
+     }
+    },
+    {
+     "q": {
+      "en": "What checks before accepting an upload?"
+     },
+     "a": {
+      "en": "error === UPLOAD_ERR_OK, size limit, extension whitelist, getimagesize() to confirm image type, basename() the name."
+     }
+    },
+    {
+     "q": {
+      "en": "What is basename()'s security role?"
+     },
+     "a": {
+      "en": "It strips directory paths from the submitted name (../../ tricks), so uploads cannot escape the target folder."
+     }
+    },
+    {
+     "q": {
+      "en": "How does a page force a download?"
+     },
+     "a": {
+      "en": "Send Content-Type: application/octet-stream plus Content-Disposition: attachment; filename=\"x\" headers, then the bytes (readfile)."
+     }
+    },
+    {
+     "q": {
+      "en": "mime_content_type or getimagesize - which for images?"
+     },
+     "a": {
+      "en": "getimagesize - it returns pixel dimensions too and proves the file really is an image."
+     }
+    },
+    {
+     "q": {
+      "en": "mail() signature?"
+     },
+     "a": {
+      "en": "mail($to, $subject, $message, $headers) - headers carry From, Reply-To and the MIME Content-Type."
+     }
+    },
+    {
+     "q": {
+      "en": "Plain vs HTML email?"
+     },
+     "a": {
+      "en": "Plain is the bare body; HTML adds the header Content-Type: text/html; charset=UTF-8 so clients render tags."
+     }
+    },
+    {
+     "q": {
+      "en": "How are attachments sent?"
+     },
+     "a": {
+      "en": "MIME multipart: boundary, message part, then the file base64-encoded - in practice use PHPMailer."
+     }
+    },
+    {
+     "q": {
+      "en": "Why does mail() often return false on XAMPP locally?"
+     },
+     "a": {
+      "en": "No SMTP server is configured for localhost - set sendmail.ini/SMTP settings (or Gmail SMTP) before it can send."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Design a bus-passenger registration form using text, email, date, radio, checkbox array, dropdown and textarea controls. (Practical 11)"
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Differentiate GET and POST with examples; when must a form use POST?"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write a PHP page that demonstrates $_GET, $_POST and $_REQUEST on a single form."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the self-processing form pattern with REQUEST_METHOD and sticky values; why is it preferred?"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Validate a registration form: name 3+ letters, valid email via filter_var, numeric age 15-100, route from an allowed list, terms accepted. Show the $errors pattern. (Practical 12)"
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Why is server-side validation mandatory even when HTML provides required and type=email?"
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Write a program demonstrating mkdir, scandir, glob, pathinfo, filesize, unlink and cleanup."
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Write the feedback practical: POST form, validate non-empty, append a timestamped line to feedback.txt, then display all stored feedback. (Practical 13)"
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Compare fopen modes r, w, a, w+ and the file_get_contents/file_put_contents shortcuts."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write the image-upload practical: enctype, $_FILES checks (error, size, extension), basename, move_uploaded_file, thumbnail display. (Practical 14)"
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Explain the three headers that turn a PHP response into a file download."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Write the newsletter practical: validate email, store the subscriber, compose plain and HTML bodies, show headers, attempt mail(). Why does mail() fail on localhost? (Practical 15)"
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "Explain validation vs escaping as two separate duties, with htmlspecialchars example."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "List every index of $_FILES['photo'] and explain the role of tmp_name."
+   },
+   "marks": 4
+  }
+ ]
+}
