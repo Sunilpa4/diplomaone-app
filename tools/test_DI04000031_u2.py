@@ -75,7 +75,8 @@ class Unit2Tests(unittest.TestCase):
         self.assertEqual(self.s['exam']['theory_ese'], 0)
         self.assertEqual(self.s['exam']['theory_pa'], 0)
         self.assertEqual(self.s['exam']['total'], 50)
-        self.assertEqual([v['file'] for v in self.s['units']], ['unit1.json', 'unit2.json', None, None, None])
+        expected_files = ['unit1.json', 'unit2.json'] + [f'unit{n}.json' if (SUBJ_DIR / f'unit{n}.json').is_file() else None for n in (3, 4, 5)]
+        self.assertEqual([v['file'] for v in self.s['units']], expected_files)
 
     def test_03_exact_current_sources_and_fresh_real_outputs(self):
         self.assertEqual(self.by_id, self.fresh)
@@ -314,13 +315,15 @@ class Unit2Tests(unittest.TestCase):
             subject = json.loads(Path(tmp, 'subjects/DI04000031.json').read_text())
             unit = json.loads(Path(tmp, 'units/DI04000031_u2.json').read_text())
             catalog = json.loads(Path(tmp, 'catalog.json').read_text())
-            self.assertEqual(subject['available_units'], [1, 2])
+            expected_available = [1, 2] + [n for n in (3, 4, 5) if (SUBJ_DIR / f'unit{n}.json').is_file()]
+            self.assertEqual(subject['available_units'], expected_available)
             self.assertEqual(catalog['subjects']['DI04000031']['status'], 'available')
             self.assertEqual(set(unit['svgs']), set(TITLES))
             self.assertEqual(unit['programs'], self.u['programs'])
             for rel in ('subjects/DI04000031.json', 'units/DI04000031_u1.json', 'units/DI04000031_u2.json'):
                 self.assertEqual(catalog['files'][rel], hashlib.sha1(Path(tmp, rel).read_bytes()).hexdigest()[:12])
-            self.assertFalse(Path(tmp, 'units/DI04000031_u3.json').exists())
+            for n in (3, 4, 5):
+                self.assertEqual(Path(tmp, f'units/DI04000031_u{n}.json').exists(), (SUBJ_DIR / f'unit{n}.json').is_file())
             u1 = json.loads(Path(tmp, 'units/DI04000031_u1.json').read_text())
             local1 = json.loads((SUBJ_DIR / 'unit1.json').read_text())
             u1.pop('svgs'); self.assertEqual(u1, local1)
