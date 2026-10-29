@@ -1,0 +1,1235 @@
+{
+ "subject": "DI05007021",
+ "unit": 3,
+ "format": "notes",
+ "title": {
+  "en": "Public-Key Cryptography"
+ },
+ "hours": 10,
+ "weightage": 25,
+ "tabs": [
+  "notes",
+  "programs",
+  "diagrams",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "English-only Unit 3: public-key principles/applications; worked RSA algorithm, modular computation and security; digital signatures, certificates, CA/RA, enrollment and validation. Includes Practical 6 and ten actually executed arithmetic/OpenSSL examples. Toy RSA is not secure encryption; local PKI fixtures are not public enrollment or a live TLS service. Suggested practice marks are not official GTU allocations."
+ },
+ "notes": [
+  {
+   "title": {
+    "en": "1. Public-Key Principles and Applications"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "1.1 Public and private keys: different roles, related mathematics"
+     },
+     "body": {
+      "en": "<p>A <b>public-key / asymmetric cryptosystem</b> uses a mathematically related key pair. The public key may be distributed; the corresponding private key must remain protected. Knowing a public key should not make deriving the private key computationally feasible under the scheme’s assumptions.</p><ul><li><b>Encryption:</b> protect information for a recipient using the recipient’s authentic public encryption key; the corresponding private key performs the intended decryption.</li><li><b>Signature:</b> a signer uses a private signing key; others verify with the authentic public verification key. This is a different operation and security goal from encryption.</li><li>Not every public-key algorithm supports every operation. Encryption, signatures and key agreement have distinct schemes and requirements.</li><li>A publicly available key is not automatically an authentic key. An attacker’s key with someone else’s name does not become trustworthy just because the mathematics works.</li></ul>"
+     },
+     "diagram": "sec3_keys"
+    },
+    {
+     "h": {
+      "en": "1.2 Applications and the hybrid approach"
+     },
+     "body": {
+      "en": "<table><tr><th>Application</th><th>Public-key role</th><th>Important limit</th></tr><tr><td>Confidential exchange</td><td>Use an appropriate encryption/key-establishment scheme.</td><td>Authenticate the recipient key; encryption alone does not identify the sender.</td></tr><tr><td>Digital signatures</td><td>Check integrity and origin evidence under a trusted verification key.</td><td>Protect the signing key and establish what identity it represents.</td></tr><tr><td>PKI / certificates</td><td>Bind a public key to an identity/attributes under an issuer’s policy.</td><td>Trust anchors and validation rules must be established independently.</td></tr><tr><td>Hybrid systems</td><td>Use public-key methods to establish/authenticate key material and symmetric authenticated encryption for bulk data.</td><td>Do not directly RSA-encrypt a large file or invent a complete protocol from classroom formulas.</td></tr></table><p>Hybrid is a design idea, not a claim that every protocol transports a key with RSA. <b>TLS 1.3 does not use RSA key transport</b>; RSA signatures can still be relevant to authentication. No live TLS handshake or bulk-encryption protocol is implemented in this unit.</p>"
+     },
+     "diagram": "sec3_hybrid"
+    },
+    {
+     "h": {
+      "en": "1.3 Symmetric versus asymmetric protection"
+     },
+     "body": {
+      "en": "<table><tr><th>Aspect</th><th>Symmetric</th><th>Asymmetric</th></tr><tr><td>Key relationship</td><td>Shared secret material.</td><td>Public/private pair with different roles.</td></tr><tr><td>Distribution challenge</td><td>Arrange protected shared-secret distribution.</td><td>Distribute authentic public keys while protecting private keys.</td></tr><tr><td>Typical use</td><td>Efficient authenticated bulk encryption with an appropriate scheme.</td><td>Key establishment, signatures and other small-data public-key operations.</td></tr><tr><td>Identity issue</td><td>Shared-secret holders may generate the same MAC.</td><td>A signature can be publicly checked, but only under a properly trusted identity/key binding.</td></tr></table><p>Key lengths from different algorithm families are not comparable bit-for-bit: “RSA 2048 bits” does not mean 2048 bits of security. Neither family automatically solves endpoint compromise, authorization, replay or availability. Follow current requirements and vetted protocols in real systems; this course does not promise future or post-quantum security.</p>"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2. RSA Algorithm, Computation and Security"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "2.1 RSA key generation in the two-prime classroom model"
+     },
+     "body": {
+      "en": "<ol><li>Choose distinct suitable primes p and q. Real generation needs secure, vetted procedures; the published small primes here are only teaching data.</li><li>Compute <code>n=p×q</code> and <code>phi(n)=(p−1)(q−1)</code>.</li><li>Select e with <code>1&lt;e&lt;phi(n)</code> and <code>gcd(e,phi(n))=1</code>.</li><li>Compute the modular inverse <code>d=e^-1 mod phi(n)</code>.</li><li>Public key: (n,e). The private material includes d and ordinarily the factors/CRT information; keep real private material secret.</li></ol><p><b>Worked key:</b> p=61, q=53, n=3233, phi=60×52=3120. Choose e=17; d=2753 because 17×2753=46801=1+15×3120.</p><p>e need not be prime merely to satisfy this classroom arithmetic condition; coprimality is the requirement. Real key-generation policies impose additional rules. RFC 8017 states the inverse relation modulo lambda(n); choosing an inverse modulo phi(n) here is sufficient because lambda(n) divides phi(n). This example’s lambda(n)=780.</p>"
+     },
+     "diagram": "sec3_keygen"
+    },
+    {
+     "h": {
+      "en": "2.2 RSA encryption/decryption and representative bounds"
+     },
+     "body": {
+      "en": "<p>For a valid numeric representative <code>0≤m&lt;n</code>, textbook RSA uses <code>c=m^e mod n</code> and <code>m=c^d mod n</code>. The ciphertext representative also lies from 0 through n−1.</p><table><tr><th>Step</th><th>Actual classroom result</th></tr><tr><td>Key material</td><td>n=3233, e=17, public demo d=2753</td></tr><tr><td>Encrypt m=65</td><td>65^17 mod 3233 = 2790</td></tr><tr><td>Decrypt c=2790</td><td>2790^2753 mod 3233 = 65</td></tr></table><p>Here 65 is a numeric representative, not the A=0 letter convention from Unit 2. Real byte messages need a defined encoding/padding scheme; arbitrary text cannot simply be treated as one unlimited integer. The helper rejects negative or out-of-range representatives. Correct two-prime RSA works for all representatives in range, not only those coprime to n; the general justification uses the Chinese remainder structure.</p>"
+     },
+     "diagram": "sec3_rsa",
+     "programs": [
+      "sec3p01"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.3 Computational aspect: modular exponentiation"
+     },
+     "body": {
+      "en": "<p>Do not first construct a huge full power and only then reduce it. <b>Square-and-multiply</b> repeatedly squares/reduces and multiplies selected powers according to the exponent bits.</p><table><tr><th>Power</th><th>Value modulo 3233</th></tr><tr><td>65^1</td><td>65</td></tr><tr><td>65^2</td><td>992</td></tr><tr><td>65^4</td><td>1232</td></tr><tr><td>65^8</td><td>1547</td></tr><tr><td>65^16</td><td>789</td></tr></table><p>17=16+1, so <code>65^17 mod 3233 = 789×65 mod 3233 = 2790</code>. The program processes five exponent-bit positions. The number of such modular operations grows with the exponent’s bit length; this is not a speed benchmark and does not make our Python helper constant-time.</p><ul><li>Large real operands still require efficient arithmetic and protected implementations.</li><li>CRT can speed private operations using factor-related values, but the private factors/CRT parameters must be protected; this unit does not implement a hardened CRT engine.</li><li>Side channels, randomness, padding, key handling and protocol behaviour matter beyond the modular-power formula.</li></ul>"
+     },
+     "programs": [
+      "sec3p02"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.4 RSA security: assumptions, raw-RSA weaknesses and key handling"
+     },
+     "body": {
+      "en": "<p>Factoring the public modulus into its secret prime factors enables recovery of private information. This does not mean every possible RSA attack is proven equivalent to factoring. Small parameters, weak generation, implementation flaws and unsafe protocols can fail for other reasons.</p><ul><li><b>Raw RSA is deterministic:</b> the same representative and public key give the same ciphertext.</li><li><b>Raw RSA has algebraic structure:</b> multiplying two ciphertexts modulo n corresponds to multiplying their plaintext representatives modulo n. The fixed tiny example demonstrates this; it is not a live-system attack.</li><li>Anyone with the public encryption key can encrypt; a ciphertext is not proof of sender identity.</li><li>Protect real private keys with appropriate storage/access controls, vetted generation and lifecycle procedures. Do not reuse toy parameters, log private factors or copy a lab CA into an operating-system trust store.</li><li>RSA is not post-quantum protection. Required algorithms and sizes depend on policy, lifetime and the current threat model; the 2048-bit lab setting is not a guarantee for every real use.</li></ul>"
+     },
+     "programs": [
+      "sec3p03"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.5 Real encryption profile: RSA-OAEP with SHA-256"
+     },
+     "body": {
+      "en": "<p>The supporting lab uses actual OpenSSL RSA-OAEP with SHA-256 and MGF1-SHA-256, a fresh 2048-bit key and an empty default OAEP label. It does not use raw pow-based RSA for those byte messages.</p><p>OAEP’s message limit is <code>mLen≤k−2×hLen−2</code>, where k is the modulus byte length and hLen the hash output byte length. Here k=256 and hLen=32, giving <b>190 bytes</b>, not 190 characters in every encoding.</p><ul><li>The actual example yields 256-byte ciphertexts, recovers the message and observes different randomized ciphertexts for two encryptions of the same message.</li><li>A 191-byte message is actually rejected, and a modified ciphertext fails decryption. Failures are not exposed through a public decryption service or claimed as an oracle-resistant protocol.</li><li>OAEP alone does not authenticate a sender or establish public-key ownership. Use a complete appropriate authenticated protocol for real applications.</li><li>Private keys and random ciphertext bytes are not included in expected outputs or the practical kit.</li></ul>"
+     },
+     "programs": [
+      "sec3p04"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3. Digital Signatures"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "3.1 Signing and verification are not private-key encryption"
+     },
+     "body": {
+      "en": "<p>A <b>digital signature</b> is generated with a private signing key and checked against the exact message using the corresponding authentic public verification key. Suitable schemes use defined hashing/encoding steps; do not describe a modern signature as simply “encrypting the message with the private key.”</p><ul><li>The actual file-message example uses <b>RSA-PSS with SHA-256</b> and digest-length salt.</li><li>Original data verifies; modified data and a different public key do not. The RSA 2048 signature here is 256 bytes, not a separate encrypted copy of the document.</li><li>The signed message is not thereby confidential. Its contents can still be visible to anyone who receives it.</li><li>A document signature profile and the signature format on an X.509 certificate are not necessarily identical; our certificate-issuing commands use their explicit OpenSSL certificate profile.</li></ul>"
+     },
+     "diagram": "sec3_signature",
+     "programs": [
+      "sec3p05"
+     ]
+    },
+    {
+     "h": {
+      "en": "3.2 Integrity, origin evidence and non-repudiation assumptions"
+     },
+     "body": {
+      "en": "<p>Signatures can support detection of alteration and evidence of origin under the right trust assumptions. Non-repudiation also depends on identity binding, private-key control, evidence handling, time context and the applicable process.</p><ul><li>A valid signature is not proof that a statement is true, that a particular human operated the device, or that a specific legal outcome follows.</li><li>A compromised or wrongly attributed private key can defeat the intended interpretation of a signature.</li><li>A valid old signed message can be replayed; applications need appropriate freshness/context checks.</li><li><b>Contrast with HMAC:</b> both shared-secret holders can create tags, so HMAC is not public proof against the other holder. A public signature has a different verification model, not an automatic identity guarantee.</li></ul>"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "4. PKI, Certificates and Enrollment"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "4.1 What a digital certificate contains—and does not contain"
+     },
+     "body": {
+      "en": "<p>A <b>digital certificate</b> is a signed data structure associating a public key with a subject and attributes under an issuer’s policy. X.509 is a widely used certificate format; PKI includes the policies, entities, keys, issuance and status processes around it.</p><table><tr><th>Field / extension</th><th>Purpose</th></tr><tr><td>Subject and relevant identity names</td><td>Identify the subject/claimed identity; TLS host matching normally uses the appropriate SAN names.</td></tr><tr><td>Subject public key information</td><td>The public algorithm/key, not the subject’s private key.</td></tr><tr><td>Issuer and serial number</td><td>Identify the issuer and an issuer-scoped certificate identifier.</td></tr><tr><td>Validity: notBefore / notAfter</td><td>The certificate’s time interval; a trustworthy evaluation clock is needed.</td></tr><tr><td>Basic constraints, key usage and extended key usage</td><td>State CA status and permitted/intended uses under validation rules.</td></tr><tr><td>Issuer signature</td><td>Allows verification that the signed certificate data matches the issuer’s signing operation under the issuer key/trust assumptions.</td></tr></table><p>A certificate is not an encrypted container for a private key and not a guarantee that a website is harmless. Inspecting its printed name or signature field is not full validation. PEM and DER are encodings, not proof of authenticity.</p>"
+     },
+     "diagram": "sec3_certificate"
+    },
+    {
+     "h": {
+      "en": "4.2 CA, RA, trust anchors and intermediate issuers"
+     },
+     "body": {
+      "en": "<p>A <b>certificate authority (CA)</b> issues/signs certificates under its policy and manages relevant status information. A <b>registration authority (RA)</b> handles delegated registration/identity checks and approves or forwards requests. The roles may be integrated; they are not necessarily separate companies.</p><ul><li>A root trust anchor is accepted through a trusted configuration/policy, not merely because its certificate is self-signed.</li><li>An intermediate CA can issue within constraints granted by its issuer. An ordinary end-entity certificate is not automatically entitled to issue more certificates.</li><li>The relying party needs an authentic trust anchor and a valid certification path. Matching an issuer name alone does not verify the issuer signature or its authority.</li><li>The local example explicitly supplies an owned lab root and intermediate to OpenSSL. No browser/OS root store is modified, and the fictitious .test names are not publicly enrolled.</li></ul>"
+     },
+     "diagram": "sec3_chain"
+    },
+    {
+     "h": {
+      "en": "4.3 Steps for obtaining a certificate"
+     },
+     "body": {
+      "en": "<ol><li>Choose the intended use, identity names and applicable CA/organizational policy.</li><li>Generate and protect the key pair using an appropriate trusted implementation; normally retain the private key locally.</li><li>Create a signed CSR carrying the public key and requested subject/attributes.</li><li>The RA/CA performs the required identity/control/authorization checks; verifying the CSR signature alone is insufficient.</li><li>The CA applies its issuance policy and signs an appropriate certificate.</li><li>Check the issued certificate, install it and the required intermediate chain for the application, while protecting the private key.</li><li>Plan renewal, revocation/status handling and key replacement when required.</li></ol><p><b>Actual CSR example:</b> a generated request’s signature validates; a signature-byte modification fails. This demonstrates proof related to key possession, not a real identity investigation, domain-control validation or approval by a public CA. Our local issuing helper is a disposable teaching fixture, not a production enrollment service.</p>"
+     },
+     "diagram": "sec3_enrollment",
+     "programs": [
+      "sec3p06"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "5. Verification and Safe Practical 6"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "5.1 Verify authenticity and integrity using an explicit profile"
+     },
+     "body": {
+      "en": "<p>Validation is a set of checks under an intended use, not just a successful signature calculation:</p><ol><li>Start from an independently trusted anchor and build the required chain.</li><li>Verify issuer signatures and CA/constraint rules, including relevant critical extensions.</li><li>Check the validity interval at a trustworthy evaluation time.</li><li>Match the intended identity—for this lab, SAN hostname portal.diploma.test.</li><li>Check key usage/extended key usage and the application purpose.</li><li>Apply the required current revocation/status policy using appropriate trusted status information.</li><li>In an actual protocol, also perform its proof-of-possession, handshake and application checks; an offline certificate check does not substitute for them.</li></ol><p>The executed profile explicitly supplies the lab root/intermediate, disables default CA path/store lookup, uses strict X.509 checks and checks server purpose/hostname. It actually rejects a wrong hostname, wrong purpose, missing intermediate, an expired evaluation time and an unrelated trust root. Another example detects an altered certificate signature. No insecure “ignore errors” or time-bypass fix is taught.</p>"
+     },
+     "diagram": "sec3_validation",
+     "programs": [
+      "sec3p07",
+      "sec3p08",
+      "sec3p10"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.2 Revocation is distinct from expiry and ordinary path validity"
+     },
+     "body": {
+      "en": "<p>A certificate may be revoked before its expiry, for example after suspected private-key compromise or a policy/identity change. A CA-signed <b>CRL</b> lists relevant revoked serials; its issuer/signature and freshness also matter. OCSP is another status mechanism, not performed in this lab.</p><table><tr><th>Actual observation</th><th>Meaning</th></tr><tr><td>Before revocation, supplied leaf CRL check succeeds.</td><td>The leaf is acceptable under that particular current local status/profile.</td></tr><tr><td>After local revocation and a new CRL, error 23 rejects the leaf.</td><td>The explicit leaf status check detected revocation.</td></tr><tr><td>Ordinary path checking without CRL still succeeds.</td><td>A valid path alone is not a revocation-status assertion.</td></tr></table><p><b>Scope limit:</b> the demonstration checks the leaf only against a locally supplied CRL. It does not check full-chain revocation, perform live CRL/OCSP download, install trust roots, or contact a public CA. Real clients apply their own required status policy; do not silently disable validation when status or chain construction fails.</p>"
+     },
+     "diagram": "sec3_revocation",
+     "programs": [
+      "sec3p09"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.3 Practical 6 journal, secure boundaries and assessment"
+     },
+     "body": {
+      "en": "<p><b>Official Practical 6:</b> implement RSA asymmetric-key encryption in an allowed language. The pure-Python arithmetic example supplies the small-number key calculation, encryption and decryption. The remaining examples are clearly supporting RSA/PKI study, not invented additional official practical numbers.</p><ul><li>Record p,q,n,phi,e,d,m,c and the recovered representative only for <b>public small-number teaching data</b>; never publish real private keys or factors.</li><li>The kit includes rsa_math.py and pki_lab.py beside all ten scripts. Python’s standard library plus OpenSSL 3 CLI are required; no pip package is needed. Reference execution is on Linux, not a claimed Windows GUI/browser certificate workflow.</li><li>Real demo RSA keys are fresh 2048-bit keys in mode 0600 files under a mode 0700 temporary directory, deleted at context exit. Their unencrypted temporary PEM form is a bounded lab convenience, not a recommendation for persistent production key storage.</li><li>No real identities, public CA enrollment, external network service, TLS handshake, OS trust installation or FIPS certification is claimed. All shown .test identities and documents are fictional.</li><li>The official course scheme remains 70+30 theory and 20+30 practical=150. Unit 3 is 10 hours/25% syllabus weight, not a guaranteed question allocation. The sixteen answered revision questions have suggested 3/4/7-mark sizes only; they are not official GTU papers or predictions.</li></ul><p><b>References:</b> <a href=\"https://s3-ap-southeast-1.amazonaws.com/gtusitecirculars/Syallbus/DI05007021.pdf\">GTU DI05007021 syllabus, 2026–27</a>, <a href=\"https://www.rfc-editor.org/rfc/rfc8017.html\">RFC 8017: RSA primitives, OAEP and PSS</a>, <a href=\"https://www.rfc-editor.org/rfc/rfc5280.html\">RFC 5280: X.509 certificates, trust paths and CRLs</a>, <a href=\"https://csrc.nist.gov/pubs/fips/186-5/final\">NIST FIPS 186-5: Digital Signature Standard</a>, <a href=\"https://www.rfc-editor.org/rfc/rfc8446.html\">RFC 8446: TLS 1.3, including no RSA key transport</a>, <a href=\"https://docs.openssl.org/3.5/man1/openssl-pkeyutl/\">OpenSSL 3.5 pkeyutl: asymmetric operations</a>, <a href=\"https://docs.openssl.org/3.5/man1/openssl-dgst/\">OpenSSL 3.5 dgst: signatures and verification</a>, <a href=\"https://docs.openssl.org/3.5/man1/openssl-req/\">OpenSSL 3.5 req: CSR signatures</a>, <a href=\"https://docs.openssl.org/3.5/man1/openssl-verify/\">OpenSSL 3.5 verify: certificate verification</a>, <a href=\"https://docs.openssl.org/3.5/man1/openssl-verification-options/\">OpenSSL 3.5 verification options: trust/purpose/time</a>, <a href=\"https://docs.openssl.org/3.5/man1/openssl-ca/\">OpenSSL 3.5 ca: local issuance and CRLs</a>. Explanations and classroom questions are original; standards are cited for scheme/validation concepts, not as certification of this code.</p>"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "6. Answered Exam-Style Practice — Suggested Marks Only"
+   },
+   "role": "practice",
+   "items": [
+    {
+     "h": {
+      "en": "Practice 1. Explain public/private key roles for encryption and signatures."
+     },
+     "body": {
+      "en": "<p>Encryption for a recipient uses the recipient’s authentic public encryption key; corresponding private material performs decryption. Signing uses a private signing key and verification uses the authentic public verification key. These are distinct schemes/goals, not interchangeable directions of one secure “encryption” operation. Public keys need authentic identity binding; private keys need protection. Not every public-key algorithm supports every operation.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 2. Describe three applications of public-key cryptography and the hybrid approach."
+     },
+     "body": {
+      "en": "<p>Examples are appropriate key establishment/encryption, digital signatures and PKI identity-to-key binding. A hybrid design uses public-key methods to establish/authenticate material and appropriate symmetric authenticated encryption for bulk data. Do not RSA-encrypt an unrestricted file directly. TLS 1.3 is not an RSA key-transport protocol, even though RSA signatures can be relevant to authentication. A conceptual hybrid diagram is not a tested complete protocol.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 3. Compare symmetric and asymmetric methods without claiming automatic identity protection."
+     },
+     "body": {
+      "en": "<p>Symmetric systems use shared secret material and are typically appropriate for efficient authenticated bulk processing under the right scheme. Asymmetric systems use public/private pairs for operations such as signatures and key establishment. Symmetric distribution must protect shared secrets; asymmetric distribution must authenticate public keys and protect private keys. Neither solves compromised endpoints, authorization or replay automatically, and key-size numbers from different families are not directly equivalent security strengths.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 4. Generate the textbook RSA key for p61, q53 and e17."
+     },
+     "body": {
+      "en": "<p>n=61×53=3233; phi=(61−1)(53−1)=60×52=3120. gcd(17,3120)=1. The inverse d=2753 because 17×2753=46801=1+15×3120, so ed≡1 modulo phi. Public data is(n,e)=(3233,17); d and normally factors/CRT data form private material in a real system. Here all values are published toy data and grossly too small for protection. lambda=lcm(60,52)=780; the phi-based inverse is also a valid lambda-based inverse relation.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 5. Encrypt representative65 and decrypt2790 using the worked RSA key."
+     },
+     "body": {
+      "en": "<p>For 0≤m&lt;3233, c=m^17 mod 3233. With m=65, c=2790. Decrypt m=2790^2753 mod 3233=65. Both message and ciphertext are numeric representatives within range; this is not a general text encoding or secure padding scheme. Reject representatives outside0 through 3232. Correct two-prime RSA works for all representatives in range, not only values coprime to n. Real protection requires appropriate standardized schemes and protected implementations.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 6. Use modular exponentiation to explain65^17 mod 3233."
+     },
+     "body": {
+      "en": "<p>Repeated squaring yields 65^1=65,65^2=992,65^4=1232,65^8=1547 and65^16=789 modulo 3233. Since 17=16+1, multiply 789×65 and reduce modulo 3233 to obtain 2790. The square-and-multiply program processes five exponent bits and reduces intermediate products. The operation count relates to exponent bit length; it does not construct the whole integer power first. This teaching code is not constant-time or a performance benchmark.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 7. Explain why raw RSA is not secure encryption and why key size alone is insufficient."
+     },
+     "body": {
+      "en": "<p>Raw RSA is deterministic and has a multiplicative algebraic relation, so the modular-power formula alone is not an appropriate message-encryption scheme. Factoring n is enough to recover private information, but not every RSA failure is proven equivalent to factoring; weak randomness, padding, side channels, key storage and protocol errors also matter. Anyone with the public encryption key can encrypt, so ciphertext is not sender authentication. Use vetted current schemes/protocols; toy parameters and a lab2048-bit setting are not universal or future-security guarantees.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 8. Derive the 2048-bit RSA-OAEP/SHA-256 message limit and interpret the lab."
+     },
+     "body": {
+      "en": "<p>RFC8017 gives mLen≤k−2hLen−2. Here k=2048/8=256 bytes and SHA-256 hLen=32, so the limit is 256−64−2=190 bytes. The actual lab yields 256-byte ciphertexts, recovers the message, sees differing randomized ciphertexts, rejects 191 bytes and rejects a modified ciphertext. Bytes are not necessarily characters. OAEP is not sender authentication or a full secure messaging protocol, and no public decryption endpoint is exposed.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 9. Explain digital-signature generation/verification and the RSA-PSS example."
+     },
+     "body": {
+      "en": "<p>A signing scheme uses a private signing key; verification checks the exact message with the corresponding authentic public key using the specified hashing/encoding rules. The actual example uses RSA-PSS/SHA-256 with digest-length salt and a fresh 2048-bit key. Original data verifies; changed data and a wrong key fail. A signature is not “private-key encryption” and does not hide message contents. Trust, private-key control, identity binding and context are necessary before interpreting the result.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 10. State what a valid digital signature does not prove."
+     },
+     "body": {
+      "en": "<p>It does not automatically prove that a statement is true, that a particular human operated a device, that a legal outcome follows, or that an old signed message is fresh. A compromised/misattributed signing key weakens origin evidence. Applications need identity/key trust and appropriate freshness/context handling. Shared-secret HMAC has a different model because either holder can create a tag and it is not public proof against the other holder.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 11. Explain important X.509 certificate fields and why the private key is absent."
+     },
+     "body": {
+      "en": "<p>Fields include subject/relevant identity names, subject public-key information, issuer, issuer-scoped serial number, validity interval, applicable basic constraints and key-usage/EKU extensions, and the issuer signature. The public key is distributed; the private key must remain separately protected. The certificate is not an encrypted private-key container or a guarantee that a website is harmless. Parsing fields alone is not chain/identity/purpose/status validation.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 12. Differentiate CA, RA and trust anchor with an intermediate chain."
+     },
+     "body": {
+      "en": "<p>The CA issues/signs certificates and manages relevant status under its policy. An RA handles delegated registration/identity checks; the roles can be combined. A trust anchor is accepted through trusted configuration, not merely self-signature. A constrained intermediate signed by a trusted root may issue an end-entity certificate according to its authority. Chain validation checks signatures and constraints, not just matching issuer names. Our lab root is explicitly supplied only to the lab verifier, not installed in an OS/browser.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 13. Describe the steps to obtain a certificate and the limit of a valid CSR signature."
+     },
+     "body": {
+      "en": "<p>Select intended identity/use/policy; generate/protect the key; create a signed CSR with public key and requested attributes; complete required RA/CA identity/control/authorization checks; obtain the policy-conforming CA-signed certificate; check/install the certificate and intermediate chain while protecting the private key; plan renewal and revocation. A valid CSR signature relates to possession of its key, not proof that the requester owns the claimed identity. The actual tampered-CSR rejection does not replace real RA vetting or public CA approval.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 14. Give a checklist for certificate authenticity/integrity validation."
+     },
+     "body": {
+      "en": "<p>Use an independently trusted anchor, build the chain, verify issuer signatures and CA/critical-extension constraints, evaluate validity at a trustworthy time, match intended identity such as the appropriate SAN hostname, check usage/EKU and application purpose, and apply the required current status/revocation policy. Actual protocols need their own handshake/possession/application checks too. A printed name or one good signature is insufficient. Do not accept arbitrary downloaded roots or bypass failed checks.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 15. Interpret the five negative certificate tests and the modified-signature test."
+     },
+     "body": {
+      "en": "<p>The correct explicit lab profile succeeds. A wrong hostname fails with error 62, wrong purpose with 26, missing intermediate or unrelated root with 20, and expiry at the explicit evaluation time with 10. Modifying a certificate signature produces error 7 under the correct chain. These are actual OpenSSL observations, not merely arbitrary command failures. They are reference codes for this tested version/profile; an offline profile does not claim a live TLS/browser handshake or complete PKIX conformance testing.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 16. Explain why an ordinary valid chain is not evidence of non-revocation."
+     },
+     "body": {
+      "en": "<p>A certificate can be revoked before expiry. The local lab issues a CRL, verifies before revocation, revokes the leaf, generates a new CRL and observes error 23 under an explicit leaf CRL check. Plain path verification without that check still succeeds, so path validity is not a status assertion. Verify trusted status data/signatures and required freshness under policy. This demonstration checks only the leaf against a supplied local CRL; full-chain revocation, OCSP and live CRL fetching are not performed.</p>"
+     }
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "sec3p01",
+   "title": {
+    "en": "Practical 6: textbook RSA with public small-number data"
+   },
+   "code": {
+    "en": "from rsa_math import toy_keypair, rsa_encrypt, rsa_decrypt\n\npair = toy_keypair(61, 53, 17)\ncipher = rsa_encrypt(65, pair)\nprint(\"n:\", pair[\"n\"])\nprint(\"phi:\", pair[\"phi\"])\nprint(\"public_exponent:\", pair[\"e\"])\nprint(\"public_demo_private_exponent:\", pair[\"d\"])\nprint(\"ciphertext:\", cipher)\nprint(\"recovered:\", rsa_decrypt(cipher, pair))\nprint(\"ed_mod_phi:\", pair[\"e\"] * pair[\"d\"] % pair[\"phi\"])\n"
+   },
+   "expl": {
+    "en": "Actually computes n=3233, phi=3120, d=2753 and 65 -> 2790 -> 65. Every number, including the toy private exponent, is PUBLIC classroom data. This fulfils the arithmetic part of Practical 6, not secure message encryption. Real keys need secure generation, much larger parameters, appropriate standardized padding and vetted implementations."
+   },
+   "out": "n: 3233\nphi: 3120\npublic_exponent: 17\npublic_demo_private_exponent: 2753\nciphertext: 2790\nrecovered: 65\ned_mod_phi: 1\n"
+  },
+  {
+   "id": "sec3p02",
+   "title": {
+    "en": "RSA computational aspect: modular exponentiation trace"
+   },
+   "code": {
+    "en": "from rsa_math import power_trace\n\nresult, rows = power_trace(65, 17, 3233)\nprint(\"successive_powers:\", [row[\"power\"] for row in rows])\nprint(\"processed_exponent_bits:\", len(rows))\nprint(\"ciphertext:\", result)\nprint(\"matches_builtin_pow:\", result == pow(65, 17, 3233))\n"
+   },
+   "expl": {
+    "en": "The helper performs actual square-and-multiply, reducing after each multiplication instead of first constructing the enormous integer 65**17. For exponent 17 the powers are 65,992,1232,1547,789 modulo3233. This is a transparent, bounded teaching implementation, not constant-time production RSA."
+   },
+   "out": "successive_powers: [65, 992, 1232, 1547, 789]\nprocessed_exponent_bits: 5\nciphertext: 2790\nmatches_builtin_pow: True\n"
+  },
+  {
+   "id": "sec3p03",
+   "title": {
+    "en": "Why raw textbook RSA is not a secure encryption scheme"
+   },
+   "code": {
+    "en": "from rsa_math import toy_keypair, rsa_encrypt\n\npair = toy_keypair(61, 53, 17)\na, b = 2, 3\nc1, c2 = rsa_encrypt(a, pair), rsa_encrypt(b, pair)\nprint(\"same_message_same_raw_cipher:\",\n      rsa_encrypt(65, pair) == rsa_encrypt(65, pair))\nprint(\"multiplicative_relation:\",\n      c1 * c2 % pair[\"n\"] == rsa_encrypt(a * b, pair))\nprint(\"fixed_sample_product:\", a * b)\n"
+   },
+   "expl": {
+    "en": "Uses only fixed tiny public classroom values. Raw RSA is deterministic and has an algebraic multiplicative relation: those are warnings against deploying textbook pow-based encryption, not an attack on a live service. Anyone with a public encryption key can encrypt, so ciphertext is not sender authentication."
+   },
+   "out": "same_message_same_raw_cipher: True\nmultiplicative_relation: True\nfixed_sample_product: 6\n"
+  },
+  {
+   "id": "sec3p04",
+   "title": {
+    "en": "Real RSA-OAEP/SHA-256: recovery, size bound and rejection"
+   },
+   "code": {
+    "en": "from pki_lab import Lab\n\nwith Lab() as lab:\n    facts = lab.public_facts(\"recipient\")\n    message = b\"Course S01: public key demo\"\n    first = lab.oaep_encrypt(message)\n    second = lab.oaep_encrypt(message)\n    assert first.returncode == second.returncode == 0\n    recovered = lab.oaep_decrypt(first.stdout)\n    too_long = lab.oaep_encrypt(b\"A\" * 191)\n    changed = bytearray(first.stdout)\n    changed[-1] ^= 1\n    tampered = lab.oaep_decrypt(bytes(changed))\n    assert b\"data too large\" in too_long.stderr.lower()\n    print(\"rsa_bits:\", facts[\"bits\"])\n    print(\"public_exponent:\", facts[\"public_exponent\"])\n    print(\"ciphertext_bytes:\", len(first.stdout))\n    print(\"oaep_sha256_max_bytes:\", facts[\"bits\"] // 8 - 66)\n    print(\"randomized_ciphertexts:\", first.stdout != second.stdout)\n    print(\"recovered_matches:\", recovered.stdout == message)\n    print(\"oversize_rejected:\", too_long.returncode != 0)\n    print(\"tampered_rejected:\", tampered.returncode != 0)\n"
+   },
+   "expl": {
+    "en": "Actual OpenSSL generates a fresh 2048-bit RSA key and performs OAEP with SHA-256 and MGF1-SHA-256. The 256-byte modulus allows at most256−2×32−2=190 message bytes under this profile; a191-byte input is really rejected. Random ciphertext/key bytes are not published. This is not a complete authenticated messaging protocol, TLS implementation or promise that a2048-bit key is suitable forever."
+   },
+   "out": "rsa_bits: 2048\npublic_exponent: 65537\nciphertext_bytes: 256\noaep_sha256_max_bytes: 190\nrandomized_ciphertexts: True\nrecovered_matches: True\noversize_rejected: True\ntampered_rejected: True\n"
+  },
+  {
+   "id": "sec3p05",
+   "title": {
+    "en": "Real RSA-PSS/SHA-256: signature and tamper/wrong-key checks"
+   },
+   "code": {
+    "en": "from pki_lab import Lab\n\nwith Lab() as lab:\n    message = b\"Course document: approved version 1\"\n    signature = lab.pss_sign(message)\n    print(\"signature_bytes:\", len(signature))\n    print(\"original_valid:\", lab.pss_verify(message, signature))\n    print(\"modified_valid:\",\n          lab.pss_verify(b\"Modified course document\", signature))\n    print(\"wrong_key_valid:\",\n          lab.pss_verify(message, signature, \"other\"))\n"
+   },
+   "expl": {
+    "en": "Really signs using RSA-PSS, SHA-256 and digest-length salt and verifies the original, modified data and a separately generated wrong public key. A signature is not described as encrypting a message with the private key. Public-key authenticity, private-key control, identity binding and evidence procedures remain necessary; mathematical validity alone does not prove a human action, truth or a legal outcome."
+   },
+   "out": "signature_bytes: 256\noriginal_valid: True\nmodified_valid: False\nwrong_key_valid: False\n"
+  },
+  {
+   "id": "sec3p06",
+   "title": {
+    "en": "CSR signature: key possession is not identity vetting"
+   },
+   "code": {
+    "en": "from pki_lab import Lab, HOST\n\nwith Lab() as lab:\n    request = lab.request(\"learner\", \"Course Learner S01\", HOST)\n    der = lab.run(\"req\", \"-in\", request, \"-outform\", \"DER\").stdout\n    modified = bytearray(der)\n    modified[-1] ^= 1\n    bad = lab.write(\"bad.csr.der\", bytes(modified))\n    print(\"original_csr_signature_valid:\", lab.request_valid(request))\n    print(\"modified_csr_signature_valid:\", lab.request_valid(bad, True))\n    print(\"ra_identity_vetting_performed:\", False)\n"
+   },
+   "expl": {
+    "en": "Creates and really verifies a PKCS#10 request, then flips a signature byte in its DER copy and observes rejection. The request contains a public key and a signature made with its corresponding private key, not that private key. Possession of a key does NOT establish that the requested name belongs to the requester; RA/CA identity checks are conceptual here, not performed."
+   },
+   "out": "original_csr_signature_valid: True\nmodified_csr_signature_valid: False\nra_identity_vetting_performed: False\n"
+  },
+  {
+   "id": "sec3p07",
+   "title": {
+    "en": "Local CA -> intermediate -> server certificate chain"
+   },
+   "code": {
+    "en": "from pki_lab import Lab, HOST\n\nwith Lab() as lab:\n    lab.pki()\n    names = lab.run(\"x509\", \"-in\", lab.path(\"leaf.cert.pem\"),\n                    \"-noout\", \"-subject\", \"-issuer\",\n                    \"-nameopt\", \"RFC2253\").stdout.decode().splitlines()\n    san = lab.run(\"x509\", \"-in\", lab.path(\"leaf.cert.pem\"),\n                  \"-noout\", \"-ext\", \"subjectAltName\").stdout.decode()\n    result = lab.verify()\n    print(names[0])\n    print(names[1])\n    print(\"reserved_SAN_present:\", \"DNS:\" + HOST in san)\n    print(\"explicit_lab_trust_path_valid:\", result.returncode == 0)\n    print(\"public_CA_enrollment:\", False)\n"
+   },
+   "expl": {
+    "en": "Actual fresh RSA keys, signed root/intermediate/leaf certificates and OpenSSL path verification are used. The root is trusted ONLY because this isolated verifier explicitly receives the owned lab root. No browser/system trust store is changed; no public CA, real domain, external enrollment, RA vetting or live TLS handshake is involved."
+   },
+   "out": "subject=CN=Course Portal\nissuer=CN=Course Intermediate CA\nreserved_SAN_present: True\nexplicit_lab_trust_path_valid: True\npublic_CA_enrollment: False\n"
+  },
+  {
+   "id": "sec3p08",
+   "title": {
+    "en": "Real certificate validation matrix: reject five bad profiles"
+   },
+   "code": {
+    "en": "from pki_lab import Lab\n\ndef rejected(result, code):\n    text = (result.stdout + result.stderr).decode(errors=\"replace\")\n    return result.returncode != 0 and f\"error {code} at \" in text\n\nwith Lab() as lab:\n    print(\"valid_profile:\", lab.verify().returncode == 0)\n    print(\"wrong_hostname_rejected:\",\n          rejected(lab.verify(hostname=\"wrong.diploma.test\"), 62))\n    print(\"wrong_purpose_rejected:\",\n          rejected(lab.verify(purpose=\"sslclient\"), 26))\n    print(\"missing_intermediate_rejected:\",\n          rejected(lab.verify(intermediate=False), 20))\n    print(\"expired_at_evaluation_time_rejected:\",\n          rejected(lab.verify(attime=lab.expiry_epoch() + 1), 10))\n    print(\"unrelated_root_rejected:\",\n          rejected(lab.verify(root=lab.unrelated_root()), 20))\n"
+   },
+   "expl": {
+    "en": "Actual OpenSSL failures are checked for the expected verification error codes, not merely any failed command. The matrix checks five bad cases (hostname, usage, missing issuer, expiry and unrelated root) plus a positive control. Expiry uses an explicit evaluation timestamp, not a changed OS clock. No bypass flags, network fetching or system-root installation are used."
+   },
+   "out": "valid_profile: True\nwrong_hostname_rejected: True\nwrong_purpose_rejected: True\nmissing_intermediate_rejected: True\nexpired_at_evaluation_time_rejected: True\nunrelated_root_rejected: True\n"
+  },
+  {
+   "id": "sec3p09",
+   "title": {
+    "en": "Actual local leaf CRL check before and after revocation"
+   },
+   "code": {
+    "en": "from pki_lab import Lab\n\nwith Lab() as lab:\n    before = lab.verify(crl=lab.crl())\n    after = lab.verify(crl=lab.crl(revoke=True))\n    unchecked = lab.verify()\n    text = (after.stdout + after.stderr).decode(errors=\"replace\")\n    print(\"before_revocation_valid:\", before.returncode == 0)\n    print(\"revoked_with_supplied_CRL_rejected:\",\n          after.returncode != 0 and \"error 23 at \" in text)\n    print(\"path_without_CRL_still_valid:\", unchecked.returncode == 0)\n    print(\"full_chain_revocation_or_OCSP_checked:\", False)\n"
+   },
+   "expl": {
+    "en": "A real local CA database issues the leaf, generates a CRL, marks that leaf revoked and generates a replacement CRL. Explicit leaf CRL checking then rejects it. Ordinary path verification alone still succeeds, demonstrating that path validity is not a revocation-status assertion. Only the leaf is checked against a locally supplied CRL; full-chain revocation, live CRL download and OCSP are NOT performed."
+   },
+   "out": "before_revocation_valid: True\nrevoked_with_supplied_CRL_rejected: True\npath_without_CRL_still_valid: True\nfull_chain_revocation_or_OCSP_checked: False\n"
+  },
+  {
+   "id": "sec3p10",
+   "title": {
+    "en": "Certificate integrity: modified signature and private-key cleanup"
+   },
+   "code": {
+    "en": "import stat\nfrom pki_lab import Lab\n\nwith Lab() as lab:\n    lab.pki()\n    der = lab.run(\"x509\", \"-in\", lab.path(\"leaf.cert.pem\"),\n                  \"-outform\", \"DER\").stdout\n    modified = bytearray(der)\n    modified[-1] ^= 1\n    bad = lab.write(\"bad.cert.der\", bytes(modified))\n    result = lab.verify(certificate=bad)\n    text = (result.stdout + result.stderr).decode(errors=\"replace\")\n    modes = {stat.S_IMODE(p.stat().st_mode)\n             for p in lab.folder.glob(\"*.key.pem\")}\n    print(\"original_profile_valid:\", lab.verify().returncode == 0)\n    print(\"modified_signature_rejected:\",\n          result.returncode != 0 and \"error 7 at \" in text)\n    print(\"private_key_modes_0600:\", modes == {0o600})\n    folder = lab.folder\nprint(\"temporary_lab_removed:\", not folder.exists())\n"
+   },
+   "expl": {
+    "en": "Actually modifies the certificate signature bytes and gets a signature-validation failure under the correct lab trust profile. All fresh private-key files are restricted to0600 within a0700 temporary directory and removed at context exit, including failure cleanup paths tested separately. No private PEM material is exported in notes, expected outputs or the ZIP. This disposable lab is not a production CA or arbitrary-code security sandbox."
+   },
+   "out": "original_profile_valid: True\nmodified_signature_rejected: True\nprivate_key_modes_0600: True\ntemporary_lab_removed: True\n"
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "sec3_keys",
+   "title": {
+    "en": "Public-Key Encryption Roles"
+   },
+   "file": "diagrams/sec3_keys.svg"
+  },
+  {
+   "id": "sec3_hybrid",
+   "title": {
+    "en": "Conceptual Hybrid Protection"
+   },
+   "file": "diagrams/sec3_hybrid.svg"
+  },
+  {
+   "id": "sec3_keygen",
+   "title": {
+    "en": "Worked Textbook RSA Key"
+   },
+   "file": "diagrams/sec3_keygen.svg"
+  },
+  {
+   "id": "sec3_rsa",
+   "title": {
+    "en": "RSA 65 to 2790 and Back"
+   },
+   "file": "diagrams/sec3_rsa.svg"
+  },
+  {
+   "id": "sec3_signature",
+   "title": {
+    "en": "Sign and Verify: Different from Encryption"
+   },
+   "file": "diagrams/sec3_signature.svg"
+  },
+  {
+   "id": "sec3_certificate",
+   "title": {
+    "en": "Public Certificate Fields"
+   },
+   "file": "diagrams/sec3_certificate.svg"
+  },
+  {
+   "id": "sec3_enrollment",
+   "title": {
+    "en": "Enrollment and CA/RA Roles"
+   },
+   "file": "diagrams/sec3_enrollment.svg"
+  },
+  {
+   "id": "sec3_chain",
+   "title": {
+    "en": "Explicit Lab Trust Chain"
+   },
+   "file": "diagrams/sec3_chain.svg"
+  },
+  {
+   "id": "sec3_validation",
+   "title": {
+    "en": "Certificate Validation Checklist"
+   },
+   "file": "diagrams/sec3_validation.svg"
+  },
+  {
+   "id": "sec3_revocation",
+   "title": {
+    "en": "Path Validity Is Not Non-Revocation"
+   },
+   "file": "diagrams/sec3_revocation.svg"
+  }
+ ],
+ "syntax": [
+  {
+   "title": {
+    "en": "RSA and PKI Quick Reference"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Public-key roles"
+     },
+     "f": "Encrypt: recipient public -> private decrypt\nSign: signer private -> public verify",
+     "terms": {
+      "en": "Different schemes/goals; public-key authenticity still matters."
+     }
+    },
+    {
+     "name": {
+      "en": "RSA toy key"
+     },
+     "f": "n=p*q; phi=(p-1)*(q-1)\ngcd(e,phi)=1; d=e^-1 mod phi",
+     "terms": {
+      "en": "Distinct suitable primes. Real generation and key policy are not implemented by small-number trial division."
+     }
+    },
+    {
+     "name": {
+      "en": "Worked classroom key"
+     },
+     "f": "p61, q53 -> n3233, phi3120\ne17 -> public demo d2753",
+     "terms": {
+      "en": "All values are public teaching data, not secure key material."
+     }
+    },
+    {
+     "name": {
+      "en": "Representative bounds"
+     },
+     "f": "0 <= m < n; 0 <= c < n\nc=pow(m,e,n); m=pow(c,d,n)",
+     "terms": {
+      "en": "Raw arithmetic is not a standardized padded message-encryption scheme."
+     }
+    },
+    {
+     "name": {
+      "en": "Fast exponentiation"
+     },
+     "f": "65,992,1232,1547,789 mod 3233\n17=16+1 -> 789*65 mod 3233=2790",
+     "terms": {
+      "en": "Reduce repeatedly; the teaching helper is not constant-time production code."
+     }
+    },
+    {
+     "name": {
+      "en": "OAEP size bound"
+     },
+     "f": "mLen <= k - 2*hLen - 2\nRSA 2048/SHA256 -> 256-64-2=190 bytes",
+     "terms": {
+      "en": "Explicit SHA-256 and MGF1-SHA-256. Bytes are not always characters."
+     }
+    },
+    {
+     "name": {
+      "en": "PSS signature"
+     },
+     "f": "RSA-PSS + SHA-256\nDigest-length salt in this lab",
+     "terms": {
+      "en": "A signature is not private-key encryption, confidentiality or an automatic legal/human-identity guarantee."
+     }
+    },
+    {
+     "name": {
+      "en": "Certificate fields"
+     },
+     "f": "Identity + public key + issuer/serial\nValidity + constraints/usage + issuer signature",
+     "terms": {
+      "en": "No subject private key is part of the certificate."
+     }
+    },
+    {
+     "name": {
+      "en": "CA versus RA"
+     },
+     "f": "CA: policy-based issuance/status\nRA: delegated registration/identity checks",
+     "terms": {
+      "en": "The roles may be integrated. CSR signature checking alone is not identity vetting."
+     }
+    },
+    {
+     "name": {
+      "en": "Enrollment sequence"
+     },
+     "f": "Key -> signed CSR -> identity/policy checks\n-> CA issuance -> installation/lifecycle",
+     "terms": {
+      "en": "Keep private material protected; no public enrollment occurs in this lab."
+     }
+    },
+    {
+     "name": {
+      "en": "Validation profile"
+     },
+     "f": "Trust/path -> signatures/constraints\n-> dates -> identity -> purpose -> status",
+     "terms": {
+      "en": "Do not bypass errors. Offline certificate checks do not prove a live TLS handshake."
+     }
+    },
+    {
+     "name": {
+      "en": "Actual negative reference codes"
+     },
+     "f": "Hostname62; purpose26; issuer20\nExpiry10; signature7; revoked23",
+     "terms": {
+      "en": "Observed OpenSSL 3.5.7 outcomes for these specific fixtures, not universal output wording."
+     }
+    },
+    {
+     "name": {
+      "en": "Revocation scope"
+     },
+     "f": "Leaf CRL check != all-chain status\nPlain valid path != not revoked",
+     "terms": {
+      "en": "Only an explicitly supplied local leaf CRL is checked here; no OCSP/download."
+     }
+    },
+    {
+     "name": {
+      "en": "Temporary lab boundary"
+     },
+     "f": "Fresh RSA 2048; .test names only\nPrivate files 0600; directory 0700; cleanup",
+     "terms": {
+      "en": "No trust-store installation, public CA, real identity vetting, production CA or FIPS certification."
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Unit 3 Viva and Short Revision"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a public-key cryptosystem?"
+     },
+     "a": {
+      "en": "A system using mathematically related public/private keys for specified asymmetric operations."
+     }
+    },
+    {
+     "q": {
+      "en": "Is a public key automatically authentic?"
+     },
+     "a": {
+      "en": "No. Its identity binding must be established through an appropriate trusted process."
+     }
+    },
+    {
+     "q": {
+      "en": "Whose public key encrypts for a recipient?"
+     },
+     "a": {
+      "en": "The recipient’s authentic public encryption key; the corresponding private key decrypts under the scheme."
+     }
+    },
+    {
+     "q": {
+      "en": "Does any public-key algorithm support encryption and signatures?"
+     },
+     "a": {
+      "en": "No. Algorithms and schemes have different supported operations and requirements."
+     }
+    },
+    {
+     "q": {
+      "en": "Why use hybrid designs?"
+     },
+     "a": {
+      "en": "Public-key methods establish/authenticate material, while appropriate symmetric authenticated encryption handles bulk data efficiently."
+     }
+    },
+    {
+     "q": {
+      "en": "Does TLS 1.3 use RSA key transport?"
+     },
+     "a": {
+      "en": "No. RSA signatures may be relevant to authentication, but TLS 1.3 does not use RSA key transport."
+     }
+    },
+    {
+     "q": {
+      "en": "What are n and phi in two-prime RSA?"
+     },
+     "a": {
+      "en": "n=p×q and phi=(p−1)(q−1) for distinct primes."
+     }
+    },
+    {
+     "q": {
+      "en": "What condition must classroom e satisfy?"
+     },
+     "a": {
+      "en": "1&lt;e&lt;phi and gcd(e,phi)=1; primality of e alone is not the condition."
+     }
+    },
+    {
+     "q": {
+      "en": "What is d in the phi-based classroom model?"
+     },
+     "a": {
+      "en": "The modular inverse e^-1 modulo phi."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the worked key’s n,phi,e,d?"
+     },
+     "a": {
+      "en": "3233,3120,17,2753, all published small-number teaching data."
+     }
+    },
+    {
+     "q": {
+      "en": "What does RSA do to m65 in that model?"
+     },
+     "a": {
+      "en": "It gives ciphertext 2790 and decrypts back to 65."
+     }
+    },
+    {
+     "q": {
+      "en": "What representative values are allowed?"
+     },
+     "a": {
+      "en": "Integers from 0 through n−1; out-of-range values are rejected."
+     }
+    },
+    {
+     "q": {
+      "en": "Must m be coprime to n for correct two-prime RSA?"
+     },
+     "a": {
+      "en": "No. Correctness extends to all representatives in range using the two-prime/CRT structure."
+     }
+    },
+    {
+     "q": {
+      "en": "Why use square-and-multiply?"
+     },
+     "a": {
+      "en": "To compute modular powers with intermediate reduction using exponent bits, rather than constructing a huge full power."
+     }
+    },
+    {
+     "q": {
+      "en": "Is the teaching pow helper constant-time?"
+     },
+     "a": {
+      "en": "No. It is transparent bounded arithmetic, not protected production RSA."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is raw RSA deterministic?"
+     },
+     "a": {
+      "en": "The same representative and public key produce the same modular-power result, without randomized scheme encoding."
+     }
+    },
+    {
+     "q": {
+      "en": "Does factoring n suffice to recover private information?"
+     },
+     "a": {
+      "en": "Yes, but that does not prove all possible RSA failures equivalent to factoring."
+     }
+    },
+    {
+     "q": {
+      "en": "Does a 2048-bit RSA key imply 2048-bit security?"
+     },
+     "a": {
+      "en": "No. Algorithm key length is not the same as security strength across algorithm families."
+     }
+    },
+    {
+     "q": {
+      "en": "What OAEP hashes are used in the actual lab?"
+     },
+     "a": {
+      "en": "SHA-256 for OAEP and MGF1-SHA-256."
+     }
+    },
+    {
+     "q": {
+      "en": "What is its OAEP message-byte limit?"
+     },
+     "a": {
+      "en": "190 bytes with a 256-byte modulus and 32-byte digest:256−64−2."
+     }
+    },
+    {
+     "q": {
+      "en": "Does OAEP identify the sender?"
+     },
+     "a": {
+      "en": "No. Anyone with the public encryption key can encrypt; an authenticated protocol is still required."
+     }
+    },
+    {
+     "q": {
+      "en": "What signature scheme actually runs?"
+     },
+     "a": {
+      "en": "RSA-PSS/SHA-256 with digest-length salt and fresh 2048-bit keys."
+     }
+    },
+    {
+     "q": {
+      "en": "Is signing private-key encryption?"
+     },
+     "a": {
+      "en": "No. A signature scheme has defined hashing/encoding/verification rules and a different goal."
+     }
+    },
+    {
+     "q": {
+      "en": "Can a signed statement still be false?"
+     },
+     "a": {
+      "en": "Yes. A valid signature does not establish truth, a specific human action, freshness or a legal outcome automatically."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is HMAC not public non-repudiation?"
+     },
+     "a": {
+      "en": "Each shared-secret holder can create valid tags, unlike a publicly verified signature under its assumptions."
+     }
+    },
+    {
+     "q": {
+      "en": "What does a certificate bind?"
+     },
+     "a": {
+      "en": "A public key to a subject/attributes under an issuer’s signature and issuance policy."
+     }
+    },
+    {
+     "q": {
+      "en": "Does a certificate contain its subject’s private key?"
+     },
+     "a": {
+      "en": "No. The private material must be separately protected."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a CA?"
+     },
+     "a": {
+      "en": "An authority performing policy-based certificate issuance/signing and relevant status management."
+     }
+    },
+    {
+     "q": {
+      "en": "What is an RA?"
+     },
+     "a": {
+      "en": "A delegated registration/identity-checking role; it can be integrated with a CA."
+     }
+    },
+    {
+     "q": {
+      "en": "Does a valid CSR signature prove the claimed identity?"
+     },
+     "a": {
+      "en": "No. It relates to possession of the signing key, not the truth/authorization of the requested identity."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is a self-signed root not automatically trusted?"
+     },
+     "a": {
+      "en": "Trust comes from an independently trusted configuration/policy, not self-signature alone."
+     }
+    },
+    {
+     "q": {
+      "en": "Which hostname is used in the lab certificate?"
+     },
+     "a": {
+      "en": "The reserved fictional SAN portal.diploma.test; no public domain is enrolled."
+     }
+    },
+    {
+     "q": {
+      "en": "What else matters besides an issuer signature?"
+     },
+     "a": {
+      "en": "Trust path, constraints, time, intended identity, usage/purpose and the required status policy."
+     }
+    },
+    {
+     "q": {
+      "en": "How do expiry and revocation differ?"
+     },
+     "a": {
+      "en": "Expiry ends the stated validity interval; revocation can invalidate a certificate earlier."
+     }
+    },
+    {
+     "q": {
+      "en": "Does ordinary path validity prove non-revocation?"
+     },
+     "a": {
+      "en": "No. The actual revoked leaf still passes the profile without its explicit CRL check."
+     }
+    },
+    {
+     "q": {
+      "en": "What important activities are not performed?"
+     },
+     "a": {
+      "en": "Public enrollment, real RA identity vetting, OS/browser trust installation, live TLS, full-chain revocation, OCSP and FIPS certification."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Practice: Explain public/private key roles for encryption and signatures."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Describe three applications of public-key cryptography and the hybrid approach."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Compare symmetric and asymmetric methods without claiming automatic identity protection."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Generate the textbook RSA key for p61, q53 and e17."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Practice: Encrypt representative65 and decrypt2790 using the worked RSA key."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Use modular exponentiation to explain65^17 mod 3233."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Practice: Explain why raw RSA is not secure encryption and why key size alone is insufficient."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Practice: Derive the 2048-bit RSA-OAEP/SHA-256 message limit and interpret the lab."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Explain digital-signature generation/verification and the RSA-PSS example."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Practice: State what a valid digital signature does not prove."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Practice: Explain important X.509 certificate fields and why the private key is absent."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Differentiate CA, RA and trust anchor with an intermediate chain."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Describe the steps to obtain a certificate and the limit of a valid CSR signature."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Practice: Give a checklist for certificate authenticity/integrity validation."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Practice: Interpret the five negative certificate tests and the modified-signature test."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Explain why an ordinary valid chain is not evidence of non-revocation."
+   },
+   "marks": 4
+  }
+ ],
+ "lesson_count": 16,
+ "answered_practice_count": 16,
+ "learning_outcomes": [
+  {
+   "en": "CO3: Demonstrate public-key encryption with public-key cryptography."
+  }
+ ],
+ "practical_numbers": [
+  6
+ ],
+ "content_kind": "theory_with_executed_RSA_and_local_PKI_support",
+ "assessment_note": {
+  "en": "Official course: theory ESE 70 + PA 30; practical PA 20 + ESE 30 = 150. Unit 3 is 10h/25%, not a guaranteed paper allocation. Original practice sizes are suggested only; model answers are in Notes section 6."
+ },
+ "question_provenance": "Original answered revision exercises; not official past papers",
+ "question_marks_are_suggested": true,
+ "runtime_evidence": {
+  "python": "3.13.16",
+  "os": "Debian GNU/Linux 13 (trixie)",
+  "architecture": "x86_64",
+  "openssl": "OpenSSL 3.5.7 9 Jun 2026 (Library: OpenSSL 3.5.7 9 Jun 2026)",
+  "programs_executed": 10,
+  "helper_sha256": {
+   "rsa_math.py": "1c91e1fc52f21bde44dbdb604d8e2d02febd8577138b132f4217f7f59e32cbc4",
+   "pki_lab.py": "4428db827699655d3b5936a0aa00b6ffd3965e0d4830416074a584c205c06924"
+  },
+  "external_python_packages_required": false,
+  "openssl_cli_required": true,
+  "real_rsa_bits": 2048,
+  "public_exponent": 65537,
+  "encryption_profile": "RSA-OAEP; SHA-256; MGF1-SHA-256; empty label",
+  "signature_profile": "RSA-PSS; SHA-256; MGF1-SHA-256; digest-length salt",
+  "private_key_files_mode": "0600",
+  "temporary_directory_mode": "0700",
+  "ephemeral_real_private_keys_published": false,
+  "temporary_fixtures_removed": true,
+  "network_access_used": false,
+  "tls_handshake_performed": false,
+  "public_CA_enrollment": false,
+  "real_RA_identity_vetting_performed": false,
+  "browser_or_system_trust_modified": false,
+  "global_crypto_configuration_changed": false,
+  "production_CA_or_protocol_claim": false,
+  "full_PKIX_conformance_claim": false,
+  "fips_validation_claim": false,
+  "certificate_scope": "Fresh local root/intermediate/leaf; explicitly supplied lab root; reserved .test identity",
+  "certificate_negative_cases": [
+   "wrong hostname",
+   "wrong purpose",
+   "missing intermediate",
+   "expired evaluation time",
+   "unrelated root",
+   "modified signature"
+  ],
+  "leaf_CRL_check_performed": true,
+  "full_chain_revocation_checked": false,
+  "live_CRL_or_OCSP_performed": false,
+  "normalization": "Actual math, sizes, fixed fictional names and verification outcomes; random bytes/keys/paths/dates not published as fixed values"
+ },
+ "worked_data": {
+  "public_toy_parameters": {
+   "p": 61,
+   "q": 53,
+   "n": 3233,
+   "phi": 3120,
+   "e": 17,
+   "d": 2753,
+   "lambda_n": 780
+  },
+  "modexp_trace": [
+   {
+    "bit": 1,
+    "power": 65,
+    "accumulator": 65
+   },
+   {
+    "bit": 0,
+    "power": 992,
+    "accumulator": 65
+   },
+   {
+    "bit": 0,
+    "power": 1232,
+    "accumulator": 65
+   },
+   {
+    "bit": 0,
+    "power": 1547,
+    "accumulator": 65
+   },
+   {
+    "bit": 1,
+    "power": 789,
+    "accumulator": 2790
+   }
+  ]
+ },
+ "sources": [
+  {
+   "title": "GTU DI05007021 syllabus, 2026–27",
+   "url": "https://s3-ap-southeast-1.amazonaws.com/gtusitecirculars/Syallbus/DI05007021.pdf"
+  },
+  {
+   "title": "RFC 8017: RSA primitives, OAEP and PSS",
+   "url": "https://www.rfc-editor.org/rfc/rfc8017.html"
+  },
+  {
+   "title": "RFC 5280: X.509 certificates, trust paths and CRLs",
+   "url": "https://www.rfc-editor.org/rfc/rfc5280.html"
+  },
+  {
+   "title": "NIST FIPS 186-5: Digital Signature Standard",
+   "url": "https://csrc.nist.gov/pubs/fips/186-5/final"
+  },
+  {
+   "title": "RFC 8446: TLS 1.3, including no RSA key transport",
+   "url": "https://www.rfc-editor.org/rfc/rfc8446.html"
+  },
+  {
+   "title": "OpenSSL 3.5 pkeyutl: asymmetric operations",
+   "url": "https://docs.openssl.org/3.5/man1/openssl-pkeyutl/"
+  },
+  {
+   "title": "OpenSSL 3.5 dgst: signatures and verification",
+   "url": "https://docs.openssl.org/3.5/man1/openssl-dgst/"
+  },
+  {
+   "title": "OpenSSL 3.5 req: CSR signatures",
+   "url": "https://docs.openssl.org/3.5/man1/openssl-req/"
+  },
+  {
+   "title": "OpenSSL 3.5 verify: certificate verification",
+   "url": "https://docs.openssl.org/3.5/man1/openssl-verify/"
+  },
+  {
+   "title": "OpenSSL 3.5 verification options: trust/purpose/time",
+   "url": "https://docs.openssl.org/3.5/man1/openssl-verification-options/"
+  },
+  {
+   "title": "OpenSSL 3.5 ca: local issuance and CRLs",
+   "url": "https://docs.openssl.org/3.5/man1/openssl-ca/"
+  }
+ ]
+}

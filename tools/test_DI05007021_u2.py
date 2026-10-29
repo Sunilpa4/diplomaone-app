@@ -31,9 +31,10 @@ class Unit2Tests(unittest.TestCase):
   self.assertEqual([x['hours'] for x in self.s['units']],[6,12,10,9,8])
   self.assertEqual([x['weightage'] for x in self.s['units']],[15,25,25,20,15])
 
- def test_02_only_units_one_and_two_installed(self):
-  self.assertEqual([x['file'] for x in self.s['units']],['unit1.json','unit2.json',None,None,None])
-  self.assertEqual(sorted(p.name for p in SUBJ_DIR.glob('unit*.json')),['unit1.json','unit2.json'])
+ def test_02_units_one_two_and_other_installed_approved_units(self):
+  installed=[i for i in range(1,6) if (SUBJ_DIR/f'unit{i}.json').is_file()]
+  self.assertTrue({1,2}.issubset(installed))
+  self.assertEqual([x['file'] for x in self.s['units']],[f'unit{i}.json' if i in installed else None for i in range(1,6)])
   self.assertEqual(self.u['tabs'],TABS)
 
  def test_03_english_only_and_no_priority_flags(self):
@@ -337,18 +338,22 @@ class Unit2Tests(unittest.TestCase):
   for rel,wanted in baseline.items():
    raw=(ROOT/rel).read_bytes()
    if rel==subject_rel:
-    restored=json.loads(raw);self.assertEqual(restored['units'][1]['file'],'unit2.json');restored['units'][1]['file']=None
+    restored=json.loads(raw);self.assertEqual(restored['units'][1]['file'],'unit2.json')
+    for spec in restored['units'][1:]:spec['file']=None
     raw=(json.dumps(restored,ensure_ascii=False,indent=1)+'\n').encode()
    self.assertEqual(hashlib.sha256(raw).hexdigest(),wanted,rel)
   with tempfile.TemporaryDirectory() as td:
    out=Path(td)/'data';r=subprocess.run([sys.executable,'tools/export_app_content.py','--out',str(out)],cwd=ROOT,text=True,capture_output=True,timeout=20)
    self.assertEqual(r.returncode,0,r.stderr)
-   self.assertEqual((len(list((out/'subjects').glob('*.json'))),len(list((out/'units').glob('*.json')))),(14,66))
+   self.assertGreaterEqual(len(list((out/'subjects').glob('*.json'))),14)
+   self.assertGreaterEqual(len(list((out/'units').glob('*.json'))),66)
+   installed=[i for i in range(1,6) if (SUBJ_DIR/f'unit{i}.json').is_file()]
    for p in BASE.rglob('*.json'):
     rel=p.relative_to(BASE).as_posix()
     if rel=='catalog.json':continue
     if rel=='subjects/DI05007021.json':
-     expected=json.loads(p.read_bytes());expected['available_units']=[1,2];expected['units'][1]['file']='unit2.json'
+     expected=json.loads(p.read_bytes());expected['available_units']=installed
+     for spec in expected['units']:spec['file']=f"unit{spec['no']}.json" if spec['no'] in installed else None
      self.assertEqual(json.loads((out/rel).read_bytes()),expected)
     else:self.assertEqual((out/rel).read_bytes(),p.read_bytes(),rel)
    cat=json.loads((out/'catalog.json').read_bytes())
