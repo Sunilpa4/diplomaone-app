@@ -13,6 +13,8 @@ if not os.path.isdir(PHP_ROOT):
     PHP_ROOT = "/tmp/phproot"
 PHP_BIN = os.path.join(PHP_ROOT, "usr", "bin", "php8.4")
 PHP_ENV = dict(os.environ, LD_LIBRARY_PATH=os.path.join(PHP_ROOT, "usr", "lib", "x86_64-linux-gnu"))
+if os.path.isdir(os.path.join(PHP_ROOT, "conf.d")):
+    PHP_ENV["PHP_INI_SCAN_DIR"] = os.path.join(PHP_ROOT, "conf.d")
 
 TINY_PNG = base64.b64decode(
     "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==")
@@ -41,7 +43,7 @@ def _free_port():
         return s.getsockname()[1]
 
 
-def run_web(code, fname="index.php", request=None, extra=None, upload=None, assets=None, timeout=60):
+def run_web(code, fname="index.php", request=None, extra=None, upload=None, assets=None, timeout=60, env_extra=None):
     """Serve PHP and issue genuine HTTP requests using curl.
 
     request may be one dict (backwards-compatible) or a list of steps. Each step
@@ -56,6 +58,9 @@ def run_web(code, fname="index.php", request=None, extra=None, upload=None, asse
     steps = request if isinstance(request, list) else [request or {}]
     assert steps, "run_web needs at least one request"
     captured = {}
+    env = dict(PHP_ENV)
+    if env_extra:
+        env.update(env_extra)
 
     def expand(value):
         if isinstance(value, dict):
@@ -89,7 +94,7 @@ def run_web(code, fname="index.php", request=None, extra=None, upload=None, asse
                 [PHP_BIN, "-d", "session.save_path=" + sessions,
                  "-S", f"127.0.0.1:{port}", "-t", docroot],
                 stdout=log, stderr=subprocess.STDOUT,
-                env=PHP_ENV, text=True, cwd=docroot)
+                env=env, text=True, cwd=docroot)
             transcripts = []
             try:
                 for _ in range(60):
@@ -180,7 +185,7 @@ def PP(id_, title, code, expl="", fname="index.php", env_extra=None, run=True,
     out = ""
     if run:
         if request is not None:
-            out = run_web(code, fname, request, extra, upload, assets)
+            out = run_web(code, fname, request, extra, upload, assets, env_extra=env_extra)
         else:
             out = run_php(code, fname, env_extra)
     shown = code
