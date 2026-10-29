@@ -1,0 +1,1346 @@
+{
+  "subject": "DI05007011",
+  "unit": 5,
+  "format": "notes",
+  "title": {
+    "en": "PC Troubleshooting & Preventive Maintenance"
+  },
+  "hours": 7,
+  "weightage": 16,
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "intro_text": {
+    "en": "Detailed English GTU 2026–27 Unit 5: POST/IPL, visual and systematic diagnosis, component troubleshooting, prevention, instruments, named software and supervised assembly/disassembly. Safety/data protection first; original practice marks are suggested."
+  },
+  "notes": [
+    {
+      "title": {
+        "en": "5.1 Troubleshooting Foundations and Safety"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "5.1.1 Troubleshooting, faults and maintenance"
+          },
+          "body": {
+            "en": "<p><b>Troubleshooting</b> is a systematic process of identifying a symptom, collecting evidence, isolating possible causes, applying an authorised correction and verifying normal operation. A <b>symptom</b> is what is observed; a <b>cause</b> explains why it happens.</p><p><b>Example:</b> “no image on the monitor” is a symptom. A wrong monitor input, loose display cable, failed graphics path or incomplete POST could each cause it. Immediately replacing the motherboard is not a diagnosis.</p><p><b>Corrective maintenance</b> restores operation after a fault. <b>Preventive maintenance</b> reduces avoidable failures through suitable cleaning, inspections, backups and documented upkeep. Maintenance cannot guarantee that a component will never fail.</p><p>This unit teaches a safe decision process, not permission to repair live power circuits or disassemble sealed electrical equipment.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "5.1.2 Stop conditions and data protection"
+          },
+          "body": {
+            "en": "<p><b>Stop immediately</b> for smoke, burning smell, sparks, liquid ingress, damaged mains wiring, a swollen battery, electric shock/tingling or unsafe overheating. Do not keep restarting to reproduce such symptoms. Isolate power only if safe and seek qualified assistance.</p><p>Before non-destructive diagnostics, establish whether important data is backed up. Obtain owner consent before actions affecting settings, storage or software. Record symptoms and changes. Do not initialise, format, repartition or reinstall an operating system merely because a drive is not detected.</p><p>A clicking/failing drive with unique important data may require a recovery specialist before further testing; repeated scans can add stress. A backup is a separate usable copy, not just a RAID mirror or another folder on the same drive.</p>"
+          },
+          "diagram": "hw5_safety"
+        },
+        {
+          "h": {
+            "en": "5.1.3 Electrical isolation and ESD precautions"
+          },
+          "body": {
+            "en": "<ol><li>Shut down using the supported procedure when possible.</li><li>Disconnect external power and peripherals required by the service procedure. A PC that appears off can retain standby power while connected.</li><li>For laptops, follow the exact battery-isolation/service procedure; do not puncture, bend or pry a battery.</li><li>Use a suitable ESD-safe work area and manufacturer-approved grounding method; handle boards by edges.</li><li>Keep screws/tools organised and avoid jewellery, conductive debris and static-prone surfaces.</li></ol><p>Pressing a power button after unplugging may be part of a manufacturer procedure but <b>does not prove PSU capacitors are discharged</b>. Never open a PSU or monitor power enclosure. ESD protection is not protection from mains shock; a wrist strap is not permission to work on energised electrical circuits.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "5.2 POST, IPL Hardware and Startup Evidence"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "5.2.1 POST definition and functions"
+          },
+          "body": {
+            "en": "<p><b>Power-On Self-Test (POST)</b> is the firmware-controlled startup checking/initialisation process used to establish enough working hardware to proceed towards boot. Modern UEFI systems may call individual phases by different names, but the teaching concept remains useful.</p><ul><li>Initialise processor/platform state and supporting control logic.</li><li>Establish usable memory according to the platform design.</li><li>Initialise enough display/input or diagnostic reporting to indicate status.</li><li>Discover/configure supported devices and boot options.</li><li>Report relevant startup failures and hand control onward when possible.</li></ul><p>POST is not a complete endurance test of every component. Passing POST does not prove RAM, storage or power delivery is fault-free under load. A system may pass firmware checks yet fail while loading the OS.</p>"
+          },
+          "diagram": "hw5_startup"
+        },
+        {
+          "h": {
+            "en": "5.2.2 IPL hardware and boot handoff"
+          },
+          "body": {
+            "en": "<p><b>IPL</b> means <b>Initial Program Load</b>. In this syllabus context, IPL hardware refers to the hardware participating in starting the initial boot program: CPU, firmware storage, working RAM, relevant storage/controller or network-boot hardware, and necessary platform interfaces.</p><p>Firmware selects an available configured boot entry/device and loads the appropriate next-stage program. A UEFI system commonly starts a configured EFI boot application; legacy BIOS boot follows a different convention. The bootloader then arranges OS loading.</p><p><b>Distinction:</b> device detection is not the same as a valid boot entry. A drive can be visible in firmware but lack a valid bootloader, supported configuration or readable OS. Conversely, a blank screen may occur before the system ever reaches boot-device selection.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "5.2.3 Typical test sequence — not a universal timetable"
+          },
+          "body": {
+            "en": "<ol><li>Power/reset conditions permit firmware execution.</li><li>Early CPU/platform/firmware initialisation begins.</li><li>Memory setup/training establishes usable RAM.</li><li>Display and other device initialisation proceed as required.</li><li>Firmware evaluates configured boot paths.</li><li>Boot software loads and the OS continues hardware/driver initialisation.</li></ol><p>The order, overlap and indicators vary by board, firmware and boot mode. Some fast-start modes reduce or skip repeated checks. Memory training can temporarily extend a first boot or cause documented restarts; do not interrupt a known firmware update or manufacturer-documented training process.</p><p><b>Observe:</b> whether fans/LEDs activate, a vendor logo appears, a diagnostic LED changes, or an OS login screen is reached. These observations identify a stage, not an automatic failed part.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "5.2.4 Beep codes, diagnostic LEDs and numeric codes"
+          },
+          "body": {
+            "en": "<p>Firmware may report startup status using <b>beeps</b>, labelled LEDs, blink patterns or numeric/hexadecimal POST codes. Record the exact pattern, board/system model, firmware version where available and point at which it occurs.</p><p><b>Do not use a universal beep-code table.</b> The meaning of one long/two short beeps or a hexadecimal value varies by vendor, product and firmware. A displayed value may be a progress code, not a final error. A DRAM-labelled LED points to a memory-initialisation area, not definitive proof that a DIMM alone is faulty.</p><ol><li>Identify the exact system/board and revision.</li><li>Consult its official service manual/diagnostic reference.</li><li>Match the complete documented pattern, not an internet chart for another product.</li><li>Perform only the approved checks and record the outcome.</li></ol><p>No manufacturer-specific numeric codes are invented here. For an exam asking “codes”, explain the reporting methods and the model-specific lookup procedure; use exact documented examples only when the named platform is supplied.</p>"
+          },
+          "diagram": "hw5_codes"
+        },
+        {
+          "h": {
+            "en": "5.2.5 Startup messages and safe interpretation"
+          },
+          "body": {
+            "en": "<table><tr><th>Illustrative message/symptom</th><th>What it suggests</th><th>Safe next evidence</th></tr><tr><td>No boot device / no bootable device</td><td>No usable configured boot path was found</td><td>Check detection and boot entries without changing storage modes blindly</td></tr><tr><td>Memory training/error indication</td><td>RAM initialisation path needs investigation</td><td>Exact manual, supported modules/population and authorised testing</td></tr><tr><td>Date/time repeatedly resets</td><td>RTC/settings support may need attention</td><td>Record settings and seek model-specific battery/service procedure</td></tr><tr><td>CPU fan warning</td><td>Fan/tachometer configuration or cooling issue</td><td>Shut down if overheating; inspect only under safe isolation</td></tr><tr><td>SMART/storage warning</td><td>Possible storage-health concern</td><td>Protect data before stressful diagnostics</td></tr></table><p>Wording is illustrative, not a promised exact error string or definitive cause. Do not disable warnings simply to silence them, and do not clear firmware settings before recording boot/encryption-related configuration.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "5.3 Visual Inspection and Layman Checks"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "5.3.1 External checks before opening anything"
+          },
+          "body": {
+            "en": "<ol><li>Ask what changed: movement, new hardware, update, spill, power event or cable change.</li><li>Check that the intended power adapter/cable and accessible switches are correctly connected.</li><li>Check the monitor is powered, set to the right input and connected to the intended output.</li><li>Remove only nonessential external devices if safe and approved, then observe.</li><li>Check device batteries, paper/consumables and obvious user-facing status indicators.</li><li>Try a compatible known-good external cable/peripheral where appropriate, changing one variable at a time.</li></ol><p>Do not repeatedly toggle power when a firmware update is active. Do not bypass damaged plugs, replace protective fuses with improvised wire or use mismatched adapters.</p>"
+          },
+          "diagram": "hw5_external"
+        },
+        {
+          "h": {
+            "en": "5.3.2 Unpowered visual inspection techniques"
+          },
+          "body": {
+            "en": "<p>After authorised isolation/ESD preparation, inspect without probing or disturbing unrelated parts:</p><ul><li>Cable seating, latches and obvious connector damage.</li><li>Loose screws, foreign objects and misplaced motherboard standoffs.</li><li>Dust obstructing heatsinks/vents or cables interfering with fans.</li><li>Signs of corrosion, liquid residue, scorching or physically damaged parts.</li><li>RAM/card seating and cooling assembly condition, using the service manual.</li></ul><p>A normal-looking component can still be faulty. A capacitor’s appearance is not a complete electrical test, and unfamiliar marks can be harmless manufacturing residue. Photograph and document; do not touch suspected damage or attempt solder repair without qualification.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "5.3.3 Layman checks versus technician work"
+          },
+          "body": {
+            "en": "<table><tr><th>Reasonable basic check</th><th>Boundary requiring caution/escalation</th></tr><tr><td>Select correct monitor input / reconnect accessible external cable</td><td>Opening a monitor or probing its supply</td></tr><tr><td>Replace a user-replaceable device battery as instructed</td><td>Handling a swollen/internal laptop battery</td></tr><tr><td>Check printer paper and follow user jam instructions</td><td>Bypassing interlocks or opening laser/fuser assemblies</td></tr><tr><td>Read device status and record messages</td><td>Changing storage modes, flashing firmware or formatting drives without a plan</td></tr><tr><td>Check supported peripheral pairing/USB connection</td><td>Random registry edits, pin shorting or unverified repair utilities</td></tr></table><p><b>Rule:</b> if a step risks electrical injury, data loss, warranty damage or uncertain reconnection, stop and obtain authorised guidance.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "5.4 Systematic Troubleshooting Methodology"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "5.4.1 Six-stage troubleshooting process"
+          },
+          "body": {
+            "en": "<ol><li><b>Identify the problem:</b> interview the user, reproduce only when safe, record exact symptoms and protect data.</li><li><b>Form a probable-cause theory:</b> start with simple explanations and the stage reached.</li><li><b>Test the theory safely:</b> choose a controlled, non-destructive check. If disproved, revise the theory.</li><li><b>Plan and implement an authorised correction:</b> consider dependencies, downtime, rollback and safety.</li><li><b>Verify full operation:</b> confirm the original symptom is resolved and important related functions work.</li><li><b>Document:</b> evidence, settings changed, parts used, test results and preventive advice.</li></ol><p>This is an iterative method. “Replace every part until it works” loses evidence and may introduce new faults. A known-good substitution is useful only when compatibility and isolation are established.</p>"
+          },
+          "diagram": "hw5_method"
+        },
+        {
+          "h": {
+            "en": "5.4.2 One variable, minimum configuration and known-good substitution"
+          },
+          "body": {
+            "en": "<p><b>One variable at a time:</b> if a different cable restores display, repeat an appropriate safe check before blaming the GPU. Changing cable, RAM and firmware together prevents a clear causal conclusion.</p><p><b>Minimum configuration:</b> an authorised technician can reduce a system to the components needed for a defined test, following the manual. This does not mean randomly removing RAM/storage or powering a loose board on a conductive surface.</p><p><b>Known-good substitution:</b> the substitute must be verified compatible and used under safe power isolation. A higher wattage label alone does not make a PSU or adapter a suitable replacement.</p><p>Always record original connections/settings and maintain a rollback route. Boot/security changes may affect encrypted drives or recovery requirements; confirm access to necessary recovery information before changes.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "5.4.3 Worked case: no display, fans running"
+          },
+          "body": {
+            "en": "<p><b>Observation:</b> fans spin, but the screen remains black. This proves some power activity, not successful POST.</p><ol><li>Check monitor power, selected input, cable and correct video output.</li><li>Use a suitable known-good display/cable if available.</li><li>Record diagnostic indicators and consult the exact system manual.</li><li>Under authorised isolation, inspect the specified RAM/graphics/power connections and compatibility.</li><li>If firmware video appears but the OS image fails later, investigate the later driver/OS/display-mode path rather than assuming early POST failure.</li><li>Verify the correction over suitable restarts and normal use; document it.</li></ol><p><b>Lesson:</b> the symptom can arise from input selection, cabling, display, graphics, memory or platform initialisation. Do not declare a motherboard failure from fan movement alone.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "5.4.4 Worked case: boot failure with valuable data"
+          },
+          "body": {
+            "en": "<p><b>Observation:</b> a “no bootable device” message appears after a configuration change.</p><ol><li>Record the message and recent changes; ask about backups and encryption.</li><li>Check whether the drive is detected in firmware without applying changes.</li><li>Check documented boot-entry/order information and current mode against recorded original settings.</li><li>If the drive is missing or makes abnormal mechanical noises, prioritise data/recovery assessment.</li><li>Seek an authorised recovery/repair plan rather than formatting or reinstalling immediately.</li></ol><p><b>Lesson:</b> absent boot software and physically failed storage are different theories. Blindly changing SATA/RAID/boot modes can make a valid system unbootable or complicate recovery.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "5.5 Component-wise Troubleshooting"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "5.5.1 Motherboard troubleshooting"
+          },
+          "body": {
+            "en": "<p><b>Symptoms:</b> no POST, intermittent starts, missing devices or instability. These also overlap PSU, CPU, RAM, cooling and configuration faults.</p><ol><li>Confirm external power/input observations and record POST indicators.</li><li>Check CPU/RAM support and any recent assembly/configuration change.</li><li>Under isolation, inspect main/CPU power connections, seating, cooling and correct case standoffs.</li><li>Use documented minimum-configuration or compatible substitution tests only when qualified.</li><li>Escalate damaged connectors, burns, corrosion or unresolved power faults.</li></ol><p>Do not short unknown pins, heat the board, perform improvised reflow or clear settings without a recorded configuration/recovery plan. A board replacement can affect licensing, encryption and storage settings.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "5.5.2 Keyboard troubleshooting"
+          },
+          "body": {
+            "en": "<p><b>Symptoms:</b> no input, repeated keys, wrong characters or partial key failure.</p><table><tr><th>Symptom</th><th>Safe checks</th></tr><tr><td>No input</td><td>Correct connection; accessible USB port; wireless battery/paired host; compatible known-good keyboard</td></tr><tr><td>Wrong characters</td><td>OS layout, language, modifier/lock state and application settings</td></tr><tr><td>Repeated keys</td><td>Physical obstruction, repeat/accessibility settings and device comparison</td></tr><tr><td>Several keys fail</td><td>Document pattern; inspect for spill/damage; qualified service if persistent</td></tr></table><p>Do not spray liquids into switches or pry unfamiliar key assemblies. If liquid enters, disconnect power safely and seek service rather than powering repeatedly to see if it dried.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "5.5.3 Mouse troubleshooting"
+          },
+          "body": {
+            "en": "<p><b>Symptoms:</b> no pointer movement, erratic tracking, missed clicks or scrolling issues.</p><ol><li>Check connection, battery and correct paired receiver/host.</li><li>Try a suitable opaque, textured surface and inspect the sensor window for debris.</li><li>Compare OS pointer/accessibility settings and another application.</li><li>Try an authorised compatible port/device to isolate host versus peripheral.</li><li>Document persistent button/scroll faults for repair/replacement.</li></ol><p>High sensor resolution is not a cure for all tracking issues. Do not look into laser emitters or treat every proprietary dongle as interchangeable.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "5.5.4 Printer troubleshooting"
+          },
+          "body": {
+            "en": "<p><b>Symptoms:</b> no print, offline queue, paper jam, blank output or quality defects.</p><ol><li>Check user-facing power/status, correct printer selection, supported paper and consumables.</li><li>Inspect the queue/connection and compare the printer’s internal self-test with a host test page.</li><li>If an internal page prints correctly but host jobs fail, investigate connection/queue/driver settings.</li><li>For jams, follow the exact user procedure after required cooling/isolation; do not force paper through an unspecified path.</li><li>For quality issues, use supported nozzle checks or model-specific consumable guidance.</li></ol><p>Laser fusers may be hot and internal circuitry hazardous. Do not bypass covers/interlocks, scrape inkjet heads or use household vacuums for toner. Record defects rather than guessing an internal part solely from a streak pattern.</p>"
+          },
+          "diagram": "hw5_print"
+        },
+        {
+          "h": {
+            "en": "5.5.5 HDD and storage troubleshooting"
+          },
+          "body": {
+            "en": "<p><b>Symptoms:</b> slow response, unusual sounds, detection failure, read errors or boot problems.</p><ol><li>Assess value/backups before scans or repair attempts.</li><li>Record model, connection, warning and the stage at which detection fails.</li><li>For authorised unpowered work, inspect supported data/power connections and drive seating.</li><li>Review available health information without assuming “Good” guarantees safety.</li><li>Escalate unique-data recovery, abnormal clicking, repeated disconnects or worsening errors.</li></ol><p>Never open the drive mechanism, freeze/tap a disk or format it as a diagnostic step. Some scans write/erase; verify the exact test mode before running anything. A USB bridge may hide health information or have its own fault.</p>"
+          },
+          "diagram": "hw5_storage"
+        },
+        {
+          "h": {
+            "en": "5.5.6 Monitor troubleshooting"
+          },
+          "body": {
+            "en": "<p><b>Symptoms:</b> no image, intermittent image, wrong colour/resolution or flicker.</p><ol><li>Check power/status, brightness and the selected input.</li><li>Check cable/adapter and supported video mode.</li><li>Use a compatible known-good source or display to isolate the path.</li><li>Compare firmware/boot image with the OS stage; later loss of image may involve software/mode settings.</li><li>Escalate physical panel damage, burning smell, liquid or internal power faults.</li></ol><p>A monitor showing “no signal” may be functioning well enough to report absent input; it does not prove the entire monitor is perfect. Do not open its power enclosure or press on the panel to repair pixels.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "5.5.7 RAM troubleshooting"
+          },
+          "body": {
+            "en": "<p><b>Symptoms:</b> memory POST indicators, crashes, corrupted data or reproducible memory-test errors. These can involve modules, slots, controller/CPU, motherboard, power, compatibility or unstable settings.</p><ol><li>Record the configuration and recent changes; protect data.</li><li>Check exact support/population rules and whether unsupported tuning is active.</li><li>Under authorised isolation, inspect/reseat or compare modules only following the manual.</li><li>Use an appropriate memory tester in a controlled maintenance window.</li><li>Compare repeatable results across authorised configurations without assuming an address alone identifies a physical DIMM.</li></ol><p>MemTest86 itself warns that reported memory errors are not exclusively proof of bad RAM. A clean run reduces uncertainty but does not prove every intermittent failure impossible. No actual memory test is claimed here.</p>"
+          },
+          "diagram": "hw5_ram"
+        },
+        {
+          "h": {
+            "en": "5.5.8 SMPS troubleshooting"
+          },
+          "body": {
+            "en": "<p><b>Symptoms:</b> no start, unexpected shutdowns or unstable power. Cooling, motherboard shorts, incorrect connections and other faults can produce similar symptoms.</p><ol><li>Check safe external power path and specified cable/adapter.</li><li>Stop for smell, sparks, damaged mains wiring or liquid.</li><li>Under isolation, a qualified technician checks correct documented connectors and system compatibility.</li><li>Use an approved tester or compatible known-good substitution only under qualified procedures.</li><li>Replace/service the sealed supply through authorised channels when required.</li></ol><p><b>Never open an SMPS.</b> Fan movement or a simple voltage reading cannot establish ripple, load regulation and protection behaviour. Do not perform improvised paperclip tests, interchange modular PSU cables or probe the mains/primary side.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "5.6 Preventive Maintenance and Service Records"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "5.6.1 Preventive maintenance plan"
+          },
+          "body": {
+            "en": "<p>A maintenance schedule should reflect dust, temperature, workload, manufacturer recommendations and business/data risk, rather than one compulsory interval for every environment.</p><table><tr><th>Area</th><th>Preventive action</th><th>Evidence</th></tr><tr><td>Data</td><td>Maintain independent backups and test restore of suitable sample data</td><td>Backup/restore log</td></tr><tr><td>Cooling</td><td>Keep vents unobstructed; inspect dust under safe isolation</td><td>Inspection date and observations</td></tr><tr><td>Physical condition</td><td>Check cables, mounting and accessible connectors</td><td>Damage/changes recorded</td></tr><tr><td>Software</td><td>Use supported security/OS updates and trusted sources</td><td>Version/update record</td></tr><tr><td>Storage/memory</td><td>Review appropriate health trends and investigated symptoms</td><td>Model-specific observations, not invented pass claims</td></tr><tr><td>Power/environment</td><td>Use suitable power protection and environmental limits</td><td>Inspection/service record</td></tr></table><p>Do not disable security updates, delete files or run “repair all” utilities as a routine ritual. Changes need purpose, consent and rollback.</p>"
+          },
+          "diagram": "hw5_maintenance"
+        },
+        {
+          "h": {
+            "en": "5.6.2 Safe cleaning and handling"
+          },
+          "body": {
+            "en": "<ol><li>Obtain approval, shut down/isolate as specified and prepare ESD protection.</li><li>Follow model guidance for covers, filters and accessible cleaning.</li><li>Use approved dry/cleaning tools; avoid ordinary vacuums and uncontrolled liquid sprays inside a PC.</li><li>If approved compressed air is used, follow product/device guidance and prevent fans from uncontrolled overspinning.</li><li>Keep liquids away from openings and allow approved surfaces to dry as instructed.</li><li>Reassemble/check connections before restoring power and verify operation.</li></ol><p>Do not open sealed PSUs, disassemble batteries or remove heatsinks for routine cleaning without a specific service need. Removing a cooler may require approved thermal-interface replacement and correct fastening.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "5.6.3 Service log and verification checklist"
+          },
+          "body": {
+            "en": "<p>A useful log separates observation from inference:</p><table><tr><th>Field</th><th>Example format — not an actual test</th></tr><tr><td>Problem</td><td>User reports intermittent restart under workload</td></tr><tr><td>Evidence</td><td>Time, application, visible message, temperatures if safely obtained</td></tr><tr><td>Hypothesis</td><td>Cooling/power/software path to be investigated</td></tr><tr><td>Action</td><td>One authorised change; original setting recorded</td></tr><tr><td>Verification</td><td>Original workload and related functions checked; actual outcome noted</td></tr><tr><td>Follow-up</td><td>Remaining uncertainty, backup advice and review date</td></tr></table><p>Record permission, part model/serial only where appropriate, configuration changes and return-to-service status. Do not expose passwords, recovery keys or personal files in public reports. “Booted once” is not full verification of the original intermittent fault.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "5.7 Troubleshooting Tools: Principles and Limits"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "5.7.1 Digital multimeter (DMM)"
+          },
+          "body": {
+            "en": "<p>A <b>digital multimeter</b> measures quantities such as voltage, resistance and current using the selected function and appropriate input terminals. It can help qualified technicians verify a documented low-voltage test condition.</p><ul><li><b>Voltage</b> is measured between two points; the meter and leads must be suitable for the circuit.</li><li><b>Resistance/continuity</b> measurements require an isolated, non-energised circuit and appropriate discharge/service procedures.</li><li><b>Current</b> measurement changes the circuit connection and can create a short if misused. Do not put a current-mode meter across a supply.</li></ul><p>The syllabus’s SMPS voltage practical requires an instructor-approved protected low-voltage setup and correct test procedure. This lesson provides no mains probing or live connector pin-by-pin instructions. Meter category/rating, range, terminal selection and circuit conditions must be assessed by a qualified person.</p>"
+          },
+          "diagram": "hw5_tools"
+        },
+        {
+          "h": {
+            "en": "5.7.2 Oscilloscope"
+          },
+          "body": {
+            "en": "<p>An <b>oscilloscope</b> displays signal voltage versus time, helping examine waveform shape, timing, ripple or glitches within the instrument/probe capability. A DMM’s steady reading may miss a fast transient that a suitable scope captures.</p><p>Important specifications include bandwidth, sample rate, probe attenuation and input limits. The probe reference/ground arrangement is critical: on many bench scopes the ground clip is earth-referenced and attaching it to an inappropriate point can short a circuit and cause injury.</p><p>Use only instructor-defined, safe isolated low-voltage training circuits. Never defeat protective earth or connect an ordinary bench probe to a PSU primary/mains node. A scope trace is useful evidence only when the setup and reference are valid.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "5.7.3 Logic analyzer and logic probe"
+          },
+          "body": {
+            "en": "<p>A <b>logic analyzer</b> captures multiple digital channels and presents states/transitions over time, often with protocol decoding. It helps compare digital timing relationships; it generally does not show the full analogue waveform quality.</p><p>A <b>logic probe</b> provides a simpler indication of high, low or pulses at a compatible digital test point. Its thresholds, voltage limits and ground reference must match the circuit. A floating or tri-stated node can be misleading.</p><table><tr><th>Tool</th><th>Main question</th></tr><tr><td>Oscilloscope</td><td>What is the voltage waveform versus time?</td></tr><tr><td>Logic analyzer</td><td>Which digital states/transitions occurred across channels?</td></tr><tr><td>Logic probe</td><td>Is this compatible point high, low or pulsing?</td></tr></table><p>Do not connect unknown TTL/CMOS or modern low-voltage signals without checking limits. These tools are not substitutes for electrical isolation or exact board documentation.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "5.7.4 Logic pulser and current tracer"
+          },
+          "body": {
+            "en": "<p>A <b>logic pulser</b> injects controlled digital pulses into a compatible circuit for diagnostic response testing. A <b>current tracer</b> detects or follows current-related fields/signatures to help locate a current path or fault under an approved diagnostic arrangement.</p><p>These are specialist board-level tools. Injecting a pulse into an actively driven or voltage-incompatible modern node can damage it; deliberately energising a short without controlled equipment can overheat components.</p><p>For this diploma lesson, learn purpose, comparison and limitations using diagrams or an instructor-designed isolated training circuit. Do not inject signals, short rails or connect tracer/pulser equipment to a live PC, mains wiring or PSU primary circuitry. Unresolved board-level faults belong with qualified service.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "5.8 Diagnostic Software: Purpose and Cautions"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "5.8.1 Memtest family and memory testing"
+          },
+          "body": {
+            "en": "<p>“<b>Memtest</b>” is a general syllabus label. <b>MemTest86</b> and <b>Memtest86+</b> are separate products/projects with different supported environments and licensing/version details. Identify the actual tool and obtain it from its official source.</p><p>A memory test writes/reads patterns in memory to look for inconsistencies. Prepare an approved boot/test environment and maintenance window. Creating a bootable USB can erase that USB, so use a designated device only after confirming its contents are disposable.</p><p>Record test version, hardware configuration, settings and observed errors/passes. Errors may involve memory, CPU/cache/controller, board, compatibility or settings; they are not a guaranteed physical-DIMM identification. A pass is limited evidence for the tested conditions, not a permanent health certificate.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "5.8.2 CCleaner — cleanup is not hardware repair"
+          },
+          "body": {
+            "en": "<p><b>CCleaner</b> is a maintenance/cleanup utility associated with removing selected temporary data and managing some software-related items. It does not repair damaged RAM, a defective PSU or a failing drive.</p><p>Deleting caches, cookies or application data can sign users out, remove useful information or affect troubleshooting evidence. Preview precisely what will be removed and obtain permission. Prefer supported built-in cleanup tools when they meet the need.</p><p><b>Do not use registry cleaning or “fix all” routines as a universal repair.</b> Backups/restore planning and a documented symptom are more important than aggressive cleanup. Feature names, availability and licensing can change; this lesson is not a recommendation to install every named utility.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "5.8.3 HDDScan — storage testing"
+          },
+          "body": {
+            "en": "<p><b>HDDScan</b> is a storage-diagnostic utility that can expose supported health information and device/test functions. Capabilities depend on the drive, interface/bridge, OS and tool version.</p><p>Read the exact test description before starting. A read/verify operation differs from a write/erase test; destructive modes can permanently remove data. Even non-writing surface reads can stress a failing drive and take substantial time.</p><p>Protect valuable data first and stop/escalate when symptoms suggest physical failure. A surface scan is not a backup and cannot make a damaged drive permanently reliable. No scan result is fabricated for this unit.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "5.8.4 Defraggler — fragmentation versus device health"
+          },
+          "body": {
+            "en": "<p><b>Defraggler</b> is a file/disk defragmentation utility. On HDDs, consolidating fragmented file extents may reduce unnecessary mechanical access for some workloads. It does not repair bad electronics, rescue every unreadable file or replace a backup.</p><p><b>Do not routinely run manual traditional HDD-style defragmentation on SSDs.</b> Modern Windows has media-aware Optimize Drives behaviour; SSD optimisation generally involves TRIM/retrim while OS-managed filesystem-specific behaviour can vary. Follow the supported OS/device procedure instead of treating SSDs as rotating disks.</p><p>Do not run optimisation on a suspected failing drive before data protection. Utility availability/version/features may change. No external maintenance utility is required merely to complete this theory lesson.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "5.8.5 CPU-Z — hardware identification"
+          },
+          "body": {
+            "en": "<p><b>CPU-Z</b> reports supported processor, motherboard, memory and related identification/timing information. It helps record a configuration and compare it with support documentation.</p><p>A software-reported frequency may be an instantaneous clock, while marketed DDR transfer rate uses transfers per second. Memory SPD information describes module data and does not always equal current operating settings. Features depend on hardware access and tool support.</p><p>CPU-Z is not a complete stress test and cannot certify electrical safety, cooling adequacy or genuine health of every reported component. In a VM, reported resources may reflect the virtual environment rather than a physical laptop’s removable parts.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "5.8.6 CrystalDiskInfo and SMART interpretation"
+          },
+          "body": {
+            "en": "<p><b>CrystalDiskInfo</b> displays supported storage identity, temperature and health/status information, including SMART-related data where available. Support depends on device, interface, bridge and version.</p><p><b>SMART</b> is a device health/reporting mechanism, not a guarantee against sudden failure. Attribute meanings and raw values are vendor-specific; NVMe health logs and SATA attributes are not identical tables. Watch relevant warnings and trends rather than applying one universal raw-value threshold to every model.</p><p>Back up important data regardless of a “Good” label. A warning supports investigation/data protection, not automatic proof of one exact internal failure. Temperatures must be judged against device specifications and workload. No health screenshot or measurement is claimed here.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "5.8.7 Choosing a tool for a question"
+          },
+          "body": {
+            "en": "<table><tr><th>Question</th><th>Possible evidence source</th><th>What it cannot establish alone</th></tr><tr><td>Are memory errors reproducible?</td><td>Appropriate memtest tool</td><td>Exact failed DIMM or all future stability</td></tr><tr><td>What hardware is reported?</td><td>CPU-Z / system tools</td><td>Complete component health or physical provenance</td></tr><tr><td>What storage warnings are available?</td><td>CrystalDiskInfo / supported vendor utility</td><td>Guaranteed remaining life</td></tr><tr><td>Are blocks/read operations problematic?</td><td>Authorised HDDScan/vendor test</td><td>Data recovery success or safe destructive testing</td></tr><tr><td>Is space used by dispensable temporary data?</td><td>Built-in cleanup / carefully reviewed cleanup tool</td><td>Repair of physical hardware</td></tr><tr><td>Is an HDD workload affected by fragmentation?</td><td>Supported OS analysis/optimisation</td><td>Cure for a failing disk</td></tr></table><p>Use trusted official downloads compatible with the system. Avoid unknown driver-updater/repair bundles and do not disable endpoint protection merely to force an untrusted diagnostic executable to run.</p>"
+          },
+          "diagram": "hw5_software"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "5.9 PC Assembly and Disassembly"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "5.9.1 Planning and compatibility checks"
+          },
+          "body": {
+            "en": "<p>Assembly combines compatible parts into a functioning system. Before starting, prepare the exact motherboard/case/CPU/cooler/PSU manuals and confirm CPU/socket/firmware support, RAM generation/capacity, case form factor, cooler clearance, power connectors and storage/expansion lanes.</p><p>Obtain an appropriate toolkit, ESD-safe workspace, labels and screw containers. Photograph existing connections when servicing. Preserve owner data/settings and avoid public exposure of serials, passwords or recovery keys.</p><p>This is a <b>guided sequence for supervised work</b>, not evidence that a PC was assembled. Laptop/service procedures can differ substantially from a modular desktop.</p>"
+          },
+          "diagram": "hw5_assembly"
+        },
+        {
+          "h": {
+            "en": "5.9.2 Safe desktop disassembly sequence"
+          },
+          "body": {
+            "en": "<ol><li>Confirm authorisation, backups and the exact service manual.</li><li>Shut down, isolate power/peripherals and follow manufacturer preparation.</li><li>Open the case as specified, document connections and inspect without touching hazardous areas.</li><li>Remove only components required for the task, releasing latches and securing screws carefully.</li><li>Support cards/drives and avoid pulling by cables; store removed parts in suitable ESD-safe packaging.</li><li>Remove cooling/CPU components only when needed, with the specified retention/release procedure.</li><li>Keep sealed PSU/battery/monitor internals closed; stop for damage or uncertainty.</li></ol><p>Order depends on case access and interference. Do not wrench a stuck connector, use a screwdriver to bridge pins, touch socket contacts or place boards on conductive surfaces.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "5.9.3 Safe desktop assembly sequence"
+          },
+          "body": {
+            "en": "<ol><li>Prepare the case with only the correct standoffs for the board.</li><li>Install supported CPU, memory and any pre-mount components in the order specified by the manuals.</li><li>Fit the cooling assembly using approved thermal-interface material and fastening sequence; never power a CPU without its required cooler.</li><li>Mount the motherboard and storage/cards with correct screws and clearances.</li><li>Connect documented main/CPU power, storage and fan/front-panel leads. Use only PSU-approved modular cables.</li><li>Check routing, latches, fan clearance and that no loose screws/tools remain.</li><li>Perform a final inspection, restore covers as required, then conduct the supervised first-start procedure.</li></ol><p>Do not force connectors, mix CPU/GPU power leads or use every possible case standoff “for strength”; an extra standoff under a circuit area can short the board.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "5.9.4 First start, verification and handover"
+          },
+          "body": {
+            "en": "<p>Observe POST/diagnostic indicators and firmware detection using the exact board guidance. Verify supported CPU/RAM/storage recognition and suitable fan/cooling status. If a critical cooling warning or unsafe condition appears, shut down safely and investigate.</p><p>Install/restore software only under an agreed data/licensing plan. Use supported drivers and updates. Check input/output, networking, storage, normal workloads and recovery/backup arrangements as appropriate.</p><p>Record actual tests and outcomes, any unresolved problem and remaining warranty/service requirements. Never write “all hardware passed” solely because the OS desktop appeared once. A successful supervised assembly practical needs real evidence, not screenshots generated by AI.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "5.9.5 Final unit revision checklist"
+          },
+          "body": {
+            "en": "<ul><li>Define POST and IPL and identify the startup stage reached.</li><li>Interpret exact vendor diagnostics without inventing universal beep/hex codes.</li><li>Use visual/basic checks before invasive work.</li><li>Apply systematic theories, one-variable tests, verification and documentation.</li><li>Explain troubleshooting for motherboard, keyboard, mouse, printer, HDD, monitor, RAM and SMPS.</li><li>Compare DMM, oscilloscope, logic analyzer/probe/pulser and current tracer with safety limits.</li><li>Explain all six named software tools without treating them as automatic repairs.</li><li>Describe supervised assembly/disassembly, ESD, data protection and preventive maintenance.</li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "5.10 Answered Exam-Style Practice — Suggested Marks"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Practice 1 — Define troubleshooting and explain its stages."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Identify symptoms and protect data; form a theory; test safely; implement an authorised correction; verify full relevant operation; document evidence and follow-up. Explain the loop back when a theory is disproved.</p><p>For longer responses, expand using the detailed lesson, ordered reasoning, relevant diagram and explicit safety/data-protection limits.</p>"
+          },
+          "diagram": "hw5_method"
+        },
+        {
+          "h": {
+            "en": "Practice 2 — Explain POST functions and a typical startup sequence."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Define POST, then describe early platform/CPU state, usable RAM, reporting/device initialisation and boot handoff. State that exact order/indicators vary and POST is not a full endurance test.</p><p>For longer responses, expand using the detailed lesson, ordered reasoning, relevant diagram and explicit safety/data-protection limits.</p>"
+          },
+          "diagram": "hw5_startup"
+        },
+        {
+          "h": {
+            "en": "Practice 3 — Explain IPL hardware and distinguish detection from bootability."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> IPL is Initial Program Load. Discuss CPU, firmware, RAM, controller/storage or network-boot support and configured boot software. A detected drive still needs a valid usable boot path.</p><p>For longer responses, expand using the detailed lesson, ordered reasoning, relevant diagram and explicit safety/data-protection limits.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 4 — Explain how to interpret beep, LED and hexadecimal POST codes."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Record complete pattern and startup stage. Identify exact model/revision/firmware and consult official diagnostics. A code may show progress and a DRAM indicator does not prove one failed DIMM. Do not invent universal code mappings.</p><p>For longer responses, expand using the detailed lesson, ordered reasoning, relevant diagram and explicit safety/data-protection limits.</p>"
+          },
+          "diagram": "hw5_codes"
+        },
+        {
+          "h": {
+            "en": "Practice 5 — Describe visual inspection and layman checks."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Begin with safe external power/input/cable/status checks and recent changes. Under authorised isolation/ESD inspect seating, cooling, debris and damage. Stop for electrical/liquid/battery hazards; visual normality does not prove electrical health.</p><p>For longer responses, expand using the detailed lesson, ordered reasoning, relevant diagram and explicit safety/data-protection limits.</p>"
+          },
+          "diagram": "hw5_external"
+        },
+        {
+          "h": {
+            "en": "Practice 6 — Develop a no-display troubleshooting plan."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Check monitor power/input, intended source and cable. Compare compatible known-good display/cable. Record POST indicators and isolate whether failure occurs before firmware video or during OS loading. Internal checks require manual/isolation. Fans do not prove POST.</p><p>For longer responses, expand using the detailed lesson, ordered reasoning, relevant diagram and explicit safety/data-protection limits.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 7 — Develop a boot-failure plan that protects data."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Record recent changes and backups/encryption. Observe drive detection and configured boot entries without blind mode changes. Escalate physical failure/recovery risks. Do not initialise, format or reinstall as a first diagnostic step.</p><p>For longer responses, expand using the detailed lesson, ordered reasoning, relevant diagram and explicit safety/data-protection limits.</p>"
+          },
+          "diagram": "hw5_storage"
+        },
+        {
+          "h": {
+            "en": "Practice 8 — Explain motherboard troubleshooting."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Consider PSU, CPU, RAM, cooling and compatibility before condemning the board. Review POST/manual and recent assembly. Under isolation inspect documented connectors/standoffs/seating; use qualified controlled comparisons and escalate physical damage.</p><p>For longer responses, expand using the detailed lesson, ordered reasoning, relevant diagram and explicit safety/data-protection limits.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 9 — Explain keyboard and mouse troubleshooting."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> For keyboard check layout/modifiers, connection, battery/pairing and compatible comparison. For mouse check surface, sensor window, connection/battery and pointer settings. Avoid unsafe liquid cleaning and mismatched receivers.</p><p>For longer responses, expand using the detailed lesson, ordered reasoning, relevant diagram and explicit safety/data-protection limits.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 10 — Explain printer troubleshooting."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Check power/status/media/consumables and selected queue. Compare internal self-test and host test page to isolate paths. Use exact jam/cooling/cleaning procedures; never bypass interlocks or reach into hot/high-voltage assemblies.</p><p>For longer responses, expand using the detailed lesson, ordered reasoning, relevant diagram and explicit safety/data-protection limits.</p>"
+          },
+          "diagram": "hw5_print"
+        },
+        {
+          "h": {
+            "en": "Practice 11 — Explain HDD/storage troubleshooting."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Prioritise backups/value and recovery risk. Record sounds, detection and warnings. Use authorised unpowered connection checks and appropriate health evidence. Avoid destructive tests and stress on failing drives; never open/tap/freeze a drive.</p><p>For longer responses, expand using the detailed lesson, ordered reasoning, relevant diagram and explicit safety/data-protection limits.</p>"
+          },
+          "diagram": "hw5_storage"
+        },
+        {
+          "h": {
+            "en": "Practice 12 — Explain RAM troubleshooting and memory-test limits."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Check support/population/settings and repeatable symptoms. Under authorisation isolate configuration changes and run a suitable test. Errors can involve CPU/cache/controller/board/compatibility as well as DIMMs. A pass covers only tested conditions.</p><p>For longer responses, expand using the detailed lesson, ordered reasoning, relevant diagram and explicit safety/data-protection limits.</p>"
+          },
+          "diagram": "hw5_ram"
+        },
+        {
+          "h": {
+            "en": "Practice 13 — Explain monitor and SMPS troubleshooting boundaries."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Monitor: user-facing power/input/cable/source/mode checks and compatible comparison. SMPS: safe external path, documented isolated connections and qualified testing/substitution. Never open power enclosures or infer PSU health from a fan alone.</p><p>For longer responses, expand using the detailed lesson, ordered reasoning, relevant diagram and explicit safety/data-protection limits.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 14 — Prepare a preventive maintenance plan."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Plan by environment/risk. Include backups with restore checks, cooling/cleaning, cable inspections, supported updates and documented health observations. Use safe isolation and manufacturer guidance; record actual evidence.</p><p>For longer responses, expand using the detailed lesson, ordered reasoning, relevant diagram and explicit safety/data-protection limits.</p>"
+          },
+          "diagram": "hw5_maintenance"
+        },
+        {
+          "h": {
+            "en": "Practice 15 — Compare DMM, oscilloscope, logic analyzer and logic probe."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> DMM measures selected quantities; scope shows analogue waveform versus time; analyzer records multiple digital states; probe indicates high/low/pulses. Explain limits, compatible thresholds and electrical/ground-reference safety.</p><p>For longer responses, expand using the detailed lesson, ordered reasoning, relevant diagram and explicit safety/data-protection limits.</p>"
+          },
+          "diagram": "hw5_tools"
+        },
+        {
+          "h": {
+            "en": "Practice 16 — Explain logic pulser and current tracer."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> A pulser injects compatible controlled digital pulses; a tracer follows current-related signatures. These require approved specialist/training setups. Do not stimulate unknown live-PC nodes or energise shorts experimentally.</p><p>For longer responses, expand using the detailed lesson, ordered reasoning, relevant diagram and explicit safety/data-protection limits.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 17 — Explain the use and limits of Memtest, CPU-Z and CrystalDiskInfo."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Memory tools search for reproducible memory-path errors but cannot uniquely assign every failure to a DIMM. CPU-Z identifies supported configuration, not full health. CrystalDiskInfo exposes supported health data with vendor/bridge limits; Good does not eliminate backup need.</p><p>For longer responses, expand using the detailed lesson, ordered reasoning, relevant diagram and explicit safety/data-protection limits.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 18 — Explain CCleaner, HDDScan and Defraggler with cautions."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Cleanup removes selected data, not physical faults; avoid universal registry repair. HDDScan test modes require data-loss/stress assessment. Defragmentation addresses some HDD fragmentation, not failing hardware; use supported media-aware SSD optimisation.</p><p>For longer responses, expand using the detailed lesson, ordered reasoning, relevant diagram and explicit safety/data-protection limits.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 19 — Why is SMART not a backup or health guarantee?"
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Health reporting is device/vendor/interface dependent and cannot predict every sudden fault. Review meaningful trends/warnings and protect independent copies. Raw attribute values are not universally comparable.</p><p>For longer responses, expand using the detailed lesson, ordered reasoning, relevant diagram and explicit safety/data-protection limits.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 20 — Describe safe PC disassembly."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Authorise/back up, consult manual, isolate power/battery as appropriate, use ESD precautions, photograph/label connections, release documented latches and store parts safely. Do not open sealed power/battery internals or force connectors.</p><p>For longer responses, expand using the detailed lesson, ordered reasoning, relevant diagram and explicit safety/data-protection limits.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 21 — Describe safe PC assembly and first start."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Check compatibility/manuals, correct standoffs, CPU/RAM/cooler installation, secure board/cards/storage and documented power/data leads. Inspect before power, observe POST/cooling/detection, then verify actual workloads and document.</p><p>For longer responses, expand using the detailed lesson, ordered reasoning, relevant diagram and explicit safety/data-protection limits.</p>"
+          },
+          "diagram": "hw5_assembly"
+        },
+        {
+          "h": {
+            "en": "Practice 22 — Explain why a fault cannot be diagnosed from one symptom alone."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Use no-display as an example: input selection, cable, monitor, GPU, RAM/platform initialisation or later OS state can contribute. Collect discriminating evidence and change one variable rather than replacing unrelated parts.</p><p>For longer responses, expand using the detailed lesson, ordered reasoning, relevant diagram and explicit safety/data-protection limits.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 23 — Prepare a service report and verification checklist."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Include permission, symptom/recent changes, safety/data status, actual evidence, theory, one authorised action/rollback, real verification results, unresolved risks and follow-up. Omit public credentials and never fabricate test outcomes.</p><p>For longer responses, expand using the detailed lesson, ordered reasoning, relevant diagram and explicit safety/data-protection limits.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 24 — A user sees a storage warning but has no backup. What should happen first?"
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Prioritise data preservation and assess failure/recovery risk before surface scans, optimisation or repair writes. A failing unique-data drive may need qualified recovery help. Do not treat cleanup/defrag as a cure.</p><p>For longer responses, expand using the detailed lesson, ordered reasoning, relevant diagram and explicit safety/data-protection limits.</p>"
+          }
+        }
+      ]
+    }
+  ],
+  "programs": [],
+  "diagrams": [
+    {
+      "id": "hw5_safety",
+      "title": {
+        "en": "Safety-first decision"
+      },
+      "file": "diagrams/hw5_safety.svg"
+    },
+    {
+      "id": "hw5_startup",
+      "title": {
+        "en": "Startup stages (generic, not universal)"
+      },
+      "file": "diagrams/hw5_startup.svg"
+    },
+    {
+      "id": "hw5_codes",
+      "title": {
+        "en": "Decode a diagnostic indicator"
+      },
+      "file": "diagrams/hw5_codes.svg"
+    },
+    {
+      "id": "hw5_external",
+      "title": {
+        "en": "Basic no-display checks"
+      },
+      "file": "diagrams/hw5_external.svg"
+    },
+    {
+      "id": "hw5_method",
+      "title": {
+        "en": "Systematic troubleshooting loop"
+      },
+      "file": "diagrams/hw5_method.svg"
+    },
+    {
+      "id": "hw5_maintenance",
+      "title": {
+        "en": "Preventive maintenance cycle"
+      },
+      "file": "diagrams/hw5_maintenance.svg"
+    },
+    {
+      "id": "hw5_tools",
+      "title": {
+        "en": "Choose the measurement question"
+      },
+      "file": "diagrams/hw5_tools.svg"
+    },
+    {
+      "id": "hw5_assembly",
+      "title": {
+        "en": "Supervised assembly checklist"
+      },
+      "file": "diagrams/hw5_assembly.svg"
+    },
+    {
+      "id": "hw5_storage",
+      "title": {
+        "en": "Storage symptom decision"
+      },
+      "file": "diagrams/hw5_storage.svg"
+    },
+    {
+      "id": "hw5_ram",
+      "title": {
+        "en": "Memory errors: not one guaranteed cause"
+      },
+      "file": "diagrams/hw5_ram.svg"
+    },
+    {
+      "id": "hw5_print",
+      "title": {
+        "en": "Printer fault isolation"
+      },
+      "file": "diagrams/hw5_print.svg"
+    },
+    {
+      "id": "hw5_software",
+      "title": {
+        "en": "Diagnostic evidence is not automatic repair"
+      },
+      "file": "diagrams/hw5_software.svg"
+    }
+  ],
+  "syntax": [
+    {
+      "title": {
+        "en": "Troubleshooting Quick Reference"
+      },
+      "items": [
+        {
+          "name": {
+            "en": "Core method"
+          },
+          "f": "Identify -> theory -> safe test -> correct -> verify -> document",
+          "terms": {
+            "en": "Revise theory when evidence disagrees; one variable at a time."
+          }
+        },
+        {
+          "name": {
+            "en": "Stop conditions"
+          },
+          "f": "Smoke / sparks / damaged mains / liquid / swollen battery",
+          "terms": {
+            "en": "Stop and obtain qualified help; isolate only if safe."
+          }
+        },
+        {
+          "name": {
+            "en": "Startup stages"
+          },
+          "f": "Firmware/POST -> configured boot -> OS loading",
+          "terms": {
+            "en": "Order varies; identify the stage actually reached."
+          }
+        },
+        {
+          "name": {
+            "en": "POST-code rule"
+          },
+          "f": "Exact pattern + exact model + official manual",
+          "terms": {
+            "en": "No universal beep/hex table is claimed."
+          }
+        },
+        {
+          "name": {
+            "en": "Storage rule"
+          },
+          "f": "Data value / backup before stressful or destructive tests",
+          "terms": {
+            "en": "Never format as a detection test."
+          }
+        },
+        {
+          "name": {
+            "en": "Measurement limits"
+          },
+          "f": "DMM quantity; scope waveform; analyzer digital channels",
+          "terms": {
+            "en": "No mains/PSU primary probing; references and ratings matter."
+          }
+        },
+        {
+          "name": {
+            "en": "Memory-test interpretation"
+          },
+          "f": "Error != guaranteed single bad DIMM\nPass != all future conditions proven",
+          "terms": {
+            "en": "CPU/cache/controller/board/settings can contribute."
+          }
+        },
+        {
+          "name": {
+            "en": "SSD optimisation"
+          },
+          "f": "Use supported media-aware OS/device guidance",
+          "terms": {
+            "en": "Do not routinely run manual HDD-style defrag on SSDs."
+          }
+        },
+        {
+          "name": {
+            "en": "Service record"
+          },
+          "f": "Observation / theory / action / actual result / next step",
+          "terms": {
+            "en": "Do not publish passwords, recovery keys or private files."
+          }
+        }
+      ]
+    }
+  ],
+  "viva": [
+    {
+      "title": {
+        "en": "Unit 5 Viva and Quick Revision"
+      },
+      "items": [
+        {
+          "q": {
+            "en": "What is a symptom?"
+          },
+          "a": {
+            "en": "An observable problem, not necessarily its cause."
+          }
+        },
+        {
+          "q": {
+            "en": "What is preventive maintenance?"
+          },
+          "a": {
+            "en": "Planned upkeep to reduce avoidable faults; it cannot guarantee no failure."
+          }
+        },
+        {
+          "q": {
+            "en": "What does POST stand for?"
+          },
+          "a": {
+            "en": "Power-On Self-Test."
+          }
+        },
+        {
+          "q": {
+            "en": "Does passing POST certify every component?"
+          },
+          "a": {
+            "en": "No. It establishes enough initialised hardware to continue, not complete load/endurance health."
+          }
+        },
+        {
+          "q": {
+            "en": "What is IPL?"
+          },
+          "a": {
+            "en": "Initial Program Load: starting the initial boot program through the configured boot path."
+          }
+        },
+        {
+          "q": {
+            "en": "Is a detected drive necessarily bootable?"
+          },
+          "a": {
+            "en": "No. Valid boot entries/software and compatible configuration are also needed."
+          }
+        },
+        {
+          "q": {
+            "en": "Are beep codes universal?"
+          },
+          "a": {
+            "en": "No. Use the exact model/firmware diagnostic documentation."
+          }
+        },
+        {
+          "q": {
+            "en": "Can a displayed POST code be a progress code?"
+          },
+          "a": {
+            "en": "Yes. It need not identify a failed component."
+          }
+        },
+        {
+          "q": {
+            "en": "Does a DRAM LED prove the DIMM alone is bad?"
+          },
+          "a": {
+            "en": "No. Memory initialisation also involves compatibility, controller, board and power."
+          }
+        },
+        {
+          "q": {
+            "en": "What should come before formatting an undetected drive?"
+          },
+          "a": {
+            "en": "Data protection and a supported diagnostic/recovery plan; formatting is not a detection test."
+          }
+        },
+        {
+          "q": {
+            "en": "What should you do for smoke or a swollen battery?"
+          },
+          "a": {
+            "en": "Stop, isolate only if safe and obtain qualified assistance."
+          }
+        },
+        {
+          "q": {
+            "en": "Does an ESD strap protect from mains shock?"
+          },
+          "a": {
+            "en": "No. It is static-control equipment, not electrical-shock protection."
+          }
+        },
+        {
+          "q": {
+            "en": "Does unplugging prove PSU capacitors are safe?"
+          },
+          "a": {
+            "en": "No. Never open the PSU enclosure."
+          }
+        },
+        {
+          "q": {
+            "en": "Why change one variable at a time?"
+          },
+          "a": {
+            "en": "To preserve a clear relationship between a change and observed outcome."
+          }
+        },
+        {
+          "q": {
+            "en": "Why document original settings?"
+          },
+          "a": {
+            "en": "To support diagnosis, rollback and recovery."
+          }
+        },
+        {
+          "q": {
+            "en": "What does fans spinning prove?"
+          },
+          "a": {
+            "en": "Some power activity, not successful POST or full PSU health."
+          }
+        },
+        {
+          "q": {
+            "en": "Why try a known-good external display cable?"
+          },
+          "a": {
+            "en": "It can safely isolate one possible cause when compatible and authorised."
+          }
+        },
+        {
+          "q": {
+            "en": "What is a reasonable first check for wrong keyboard characters?"
+          },
+          "a": {
+            "en": "Keyboard layout, language and modifier/lock state."
+          }
+        },
+        {
+          "q": {
+            "en": "What may cause erratic optical tracking?"
+          },
+          "a": {
+            "en": "Surface, sensor contamination, connection/power or settings—not only sensor failure."
+          }
+        },
+        {
+          "q": {
+            "en": "Does an internal printer test verify host printing?"
+          },
+          "a": {
+            "en": "No. Host queue, driver and network/USB paths still need checking."
+          }
+        },
+        {
+          "q": {
+            "en": "Should a clicking drive be repeatedly scanned before recovery?"
+          },
+          "a": {
+            "en": "Not when unique data may be at risk; obtain recovery assessment first."
+          }
+        },
+        {
+          "q": {
+            "en": "What does a clean memory test establish?"
+          },
+          "a": {
+            "en": "Limited evidence under the tested conditions, not permanent perfect health."
+          }
+        },
+        {
+          "q": {
+            "en": "Can a simple DMM voltage reading certify a PSU?"
+          },
+          "a": {
+            "en": "No. Ripple, load behaviour and protections are not fully established."
+          }
+        },
+        {
+          "q": {
+            "en": "Can current mode be placed across a supply like voltage mode?"
+          },
+          "a": {
+            "en": "No. It can short the supply and cause damage or injury."
+          }
+        },
+        {
+          "q": {
+            "en": "When is resistance/continuity measured?"
+          },
+          "a": {
+            "en": "On a properly isolated non-energised circuit under an appropriate procedure."
+          }
+        },
+        {
+          "q": {
+            "en": "Why is a bench oscilloscope ground clip important?"
+          },
+          "a": {
+            "en": "It is often earth-referenced; incorrect connection can short a circuit."
+          }
+        },
+        {
+          "q": {
+            "en": "How does a logic analyzer differ from a scope?"
+          },
+          "a": {
+            "en": "It captures interpreted digital states across channels rather than full analogue waveforms."
+          }
+        },
+        {
+          "q": {
+            "en": "What does a logic probe indicate?"
+          },
+          "a": {
+            "en": "Compatible high/low/pulse activity at a test point."
+          }
+        },
+        {
+          "q": {
+            "en": "What is a logic pulser?"
+          },
+          "a": {
+            "en": "A specialist device injecting controlled pulses into a compatible test circuit."
+          }
+        },
+        {
+          "q": {
+            "en": "What does a current tracer help follow?"
+          },
+          "a": {
+            "en": "A current path/signature under an approved specialist setup."
+          }
+        },
+        {
+          "q": {
+            "en": "Are MemTest86 and Memtest86+ identical?"
+          },
+          "a": {
+            "en": "No. They are separate products/projects."
+          }
+        },
+        {
+          "q": {
+            "en": "Does a memory-test error always mean faulty RAM?"
+          },
+          "a": {
+            "en": "No. CPU/cache/controller, board, compatibility and settings can contribute."
+          }
+        },
+        {
+          "q": {
+            "en": "Can CCleaner repair physical RAM?"
+          },
+          "a": {
+            "en": "No. Cleanup is not physical hardware repair."
+          }
+        },
+        {
+          "q": {
+            "en": "Why must HDDScan mode be checked?"
+          },
+          "a": {
+            "en": "Some tests/modes may write or erase, and even reads can stress failing storage."
+          }
+        },
+        {
+          "q": {
+            "en": "Should SSDs routinely receive manual HDD-style defragmentation?"
+          },
+          "a": {
+            "en": "No. Use supported media-aware OS/device optimisation guidance."
+          }
+        },
+        {
+          "q": {
+            "en": "What is CPU-Z mainly useful for?"
+          },
+          "a": {
+            "en": "Supported hardware/configuration identification, not full component health certification."
+          }
+        },
+        {
+          "q": {
+            "en": "Does CrystalDiskInfo Good guarantee no drive failure?"
+          },
+          "a": {
+            "en": "No. Health data has limits and sudden failures remain possible."
+          }
+        },
+        {
+          "q": {
+            "en": "Is every SMART raw attribute interpreted identically?"
+          },
+          "a": {
+            "en": "No. Meanings and scales vary by vendor/device/interface."
+          }
+        },
+        {
+          "q": {
+            "en": "Why are extra case standoffs dangerous?"
+          },
+          "a": {
+            "en": "They can contact unintended board areas and cause a short."
+          }
+        },
+        {
+          "q": {
+            "en": "Can CPU and GPU 8-pin power leads be interchanged?"
+          },
+          "a": {
+            "en": "No. Similar appearance does not imply compatible pinout."
+          }
+        },
+        {
+          "q": {
+            "en": "Why verify more than one successful boot?"
+          },
+          "a": {
+            "en": "The original fault may be intermittent or workload-dependent."
+          }
+        },
+        {
+          "q": {
+            "en": "What belongs in a service log?"
+          },
+          "a": {
+            "en": "Permission, symptoms, actual evidence/actions/results, changes, uncertainty and follow-up."
+          }
+        }
+      ]
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Practice: Define troubleshooting and explain its stages."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Explain POST functions and a typical startup sequence."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Explain IPL hardware and distinguish detection from bootability."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Explain how to interpret beep, LED and hexadecimal POST codes."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Describe visual inspection and layman checks."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Develop a no-display troubleshooting plan."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Develop a boot-failure plan that protects data."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Explain motherboard troubleshooting."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Explain keyboard and mouse troubleshooting."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Explain printer troubleshooting."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Explain HDD/storage troubleshooting."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Explain RAM troubleshooting and memory-test limits."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Explain monitor and SMPS troubleshooting boundaries."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Prepare a preventive maintenance plan."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Compare DMM, oscilloscope, logic analyzer and logic probe."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Explain logic pulser and current tracer."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Explain the use and limits of Memtest, CPU-Z and CrystalDiskInfo."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Explain CCleaner, HDDScan and Defraggler with cautions."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Why is SMART not a backup or health guarantee?"
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Describe safe PC disassembly."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Describe safe PC assembly and first start."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Explain why a fault cannot be diagnosed from one symptom alone."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Prepare a service report and verification checklist."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: A user sees a storage warning but has no backup. What should happen first?"
+      },
+      "marks": 4
+    }
+  ],
+  "practical_numbers": [
+    13,
+    14,
+    15
+  ],
+  "content_kind": "theory_and_guided_service_methodology",
+  "question_provenance": "Original author-created practice, not claimed as GTU past-paper questions.",
+  "question_marks_are_suggested": true,
+  "assessment_note": {
+    "en": "7 hours and 16% unit weightage follow the supplied syllabus. Individual practice marks are suggestions, not official allocations."
+  },
+  "sources": [
+    {
+      "title": "GTU DI05007011 syllabus effective 2026–27",
+      "reference": "Owner-supplied DI05007011.pdf, Unit 5 on pages 7–8; practical list page 9",
+      "status": "Inspected for topic coverage; teaching explanations newly authored."
+    },
+    {
+      "title": "MemTest86 — Troubleshooting Memory Errors",
+      "url": "https://www.memtest86.com/troubleshooting.htm",
+      "status": "Consulted for limits of attributing test errors exclusively to RAM."
+    },
+    {
+      "title": "Microsoft — Defragment / optimize your data drives in Windows",
+      "url": "https://support.microsoft.com/en-us/windows/experience/storage-filemanagement/defragment-optimize-your-data-drives-in-windows",
+      "status": "Consulted for HDD/SSD media-aware optimisation distinction."
+    }
+  ],
+  "runtime_evidence": {
+    "physical_hardware_tested": false,
+    "diagnostic_software_run": false,
+    "programs_executed": false,
+    "note": "No real code/beep pattern, voltage, scan, SMART log, memory test, repair or PC assembly result is claimed."
+  }
+}

@@ -1,0 +1,1263 @@
+{
+  "subject": "DI05007011",
+  "unit": 4,
+  "format": "notes",
+  "title": {
+    "en": "Input, Output & Peripheral Devices"
+  },
+  "hours": 12,
+  "weightage": 25,
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "intro_text": {
+    "en": "Detailed English GTU 2026–27 Unit 4 with card-based notes: keyboards, mice, scanners, LCD/LED monitors and laser/inkjet/thermal printers. Construction, working, applications, diagrams and original practice; suggested marks only."
+  },
+  "notes": [
+    {
+      "title": {
+        "en": "4.1 Input, Output and Peripheral Fundamentals"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "4.1.1 Definitions and information flow"
+          },
+          "body": {
+            "en": "<p>An <b>input device</b> converts a user action or physical information into data a computer can process. A keyboard captures key actions; a scanner captures the appearance of a document. An <b>output device</b> converts computer data into a useful presentation, such as a displayed image or printed page.</p><p>A <b>peripheral</b> adds an input, output, storage or communication function to a system. Some devices combine roles: a multifunction printer can scan as input and print as output. “Peripheral” does not mean that a device is always outside the cabinet.</p><p><b>Example:</b> typing a letter produces key reports, software interprets them, a display shows the document and a printer produces a hard copy. A character on screen is not produced directly by a keyboard switch without the controller, OS and application.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "4.1.2 Device, interface, driver and application"
+          },
+          "body": {
+            "en": "<p>The <b>device mechanism</b> detects or produces physical information. A <b>controller</b> processes device signals. An <b>interface</b> such as USB, Bluetooth or a display link transfers information. A <b>driver</b> and the operating system expose appropriate functions to applications.</p><ol><li>A physical event occurs, such as pressing a key.</li><li>Device electronics detect and encode the event.</li><li>The interface transfers a report or data.</li><li>The OS/driver interprets the transfer.</li><li>The application responds, for example by inserting a character.</li></ol><p>Device mechanism and connection method are separate classifications: a keyboard can be mechanical and wireless at the same time. This unit lists broad types briefly, then explains only the mechanisms explicitly requested by the syllabus.</p>"
+          },
+          "diagram": "hw4_io"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "4.2 Keyboard: Types and General Working"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "4.2.1 Types of keyboard — list only"
+          },
+          "body": {
+            "en": "<ul><li>Mechanical keyboard</li><li>Membrane keyboard</li><li>Scissor-switch keyboard</li><li>Capacitive keyboard</li><li>Optical-switch keyboard</li><li>Flexible/roll-up keyboard</li><li>Ergonomic/split keyboard</li><li>Virtual/on-screen keyboard</li><li>Wired keyboard</li><li>Wireless keyboard</li></ul><p>These names refer to different axes—switch mechanism, shape, software representation or connection. They are not mutually exclusive categories.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "4.2.2 Key matrix, scanning and debouncing"
+          },
+          "body": {
+            "en": "<p>Many keyboards arrange switches in a <b>row–column matrix</b>. The controller drives/selects rows and reads columns to identify pressed positions, reducing the number of separate signal wires required.</p><ol><li>A key changes the electrical state at its row–column intersection.</li><li>The controller repeatedly scans the matrix.</li><li><b>Debouncing</b> prevents a single physical press from being interpreted as multiple transitions caused by contact bounce.</li><li>Firmware generates press/release information and sends a report to the host.</li><li>The OS applies the keyboard layout, modifier state and application context.</li></ol><p><b>Example:</b> holding Shift and pressing a letter does not mean the key itself emits an uppercase picture. Software interprets the key positions and modifiers according to the selected layout.</p>"
+          },
+          "diagram": "hw4_matrix"
+        },
+        {
+          "h": {
+            "en": "4.2.3 Ghosting, rollover and key reports"
+          },
+          "body": {
+            "en": "<p><b>Ghosting</b> can occur when particular multiple-key combinations create ambiguous paths in a matrix without suitable isolation. Diodes and controller design can reduce this problem. <b>Rollover</b> describes supported simultaneous key reporting; limits depend on the switch matrix, firmware and interface/report design.</p><p>USB keyboards commonly use HID reports identifying keys/usages and modifier states. “ASCII code directly from every switch” is an oversimplification: layout and text generation happen through software. Key repeat is normally a controlled feature rather than uncontrolled switch bounce.</p><p><b>Key point:</b> switch travel, rollover and connection latency are distinct properties. Do not claim that every mechanical keyboard supports unlimited rollover.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "4.3 Mechanical, Membrane and Wireless Keyboards"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "4.3.1 Mechanical keyboard — construction"
+          },
+          "body": {
+            "en": "<p>A conventional <b>mechanical keyboard</b> uses an individual mechanical switch under each key. A typical contact switch contains a keycap/stem, guide housing, spring, moving/fixed contacts and a mounting arrangement connected to the PCB.</p><p>The spring provides return force. The stem transfers finger motion. The contacts change state at the actuation point. Switch designs may be <b>linear</b>, <b>tactile</b> or <b>clicky</b>; click sound and electrical actuation are related by the mechanism but are not identical measurements.</p><p>Some keyboards use optical or magnetic sensing with mechanical key travel. Here “mechanical” describes the conventional contact-switch example, not a claim that every product marketed as mechanical has identical contacts.</p>"
+          },
+          "diagram": "hw4_mechanical"
+        },
+        {
+          "h": {
+            "en": "4.3.2 Mechanical keyboard — operation, merits and limits"
+          },
+          "body": {
+            "en": "<ol><li>The user presses the keycap.</li><li>The stem moves against the spring.</li><li>The contact mechanism changes electrical state at its designed point.</li><li>The controller scans, debounces and reports the key.</li><li>Releasing the key allows the spring to return the stem and the contact state changes back.</li></ol><p><b>Advantages:</b> distinct switch feel options, individual switch construction, and repairability on suitably designed models. <b>Limitations:</b> price, thickness, possible noise and model-dependent maintenance. Not every switch is hot-swappable; removing soldered switches is not a routine user task.</p><p><b>Applications:</b> sustained typing, specialist input and gaming depending on preference. Mechanism alone does not guarantee typing accuracy, speed or durability for every product.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "4.3.3 Membrane keyboard — construction and operation"
+          },
+          "body": {
+            "en": "<p>A common <b>membrane keyboard</b> uses conductive traces on flexible layers separated by a spacer. At a key position, pressing the assembly brings conductive areas together. Rubber domes often provide the restoring force and tactile behaviour, although implementations vary.</p><ol><li>The user presses the key and deforms the dome/membrane assembly.</li><li>Conductive contacts meet through the spacer opening.</li><li>The controller detects the matrix connection and generates a report.</li><li>On release the flexible assembly returns and separates the contacts.</li></ol><p><b>Advantages:</b> low cost, compact construction and often quieter operation. <b>Limitations:</b> feel, rollover and serviceability depend on design; a damaged membrane sheet may affect several keys. Do not assume every membrane product is waterproof.</p>"
+          },
+          "diagram": "hw4_membrane"
+        },
+        {
+          "h": {
+            "en": "4.3.4 Mechanical versus membrane keyboard"
+          },
+          "body": {
+            "en": "<table><tr><th>Basis</th><th>Conventional mechanical</th><th>Common membrane</th></tr><tr><td>Switch construction</td><td>Individual mechanical switch assemblies</td><td>Flexible conductive layers, often with rubber domes</td></tr><tr><td>Feel</td><td>Many switch-specific options</td><td>Often softer/dome-dependent</td></tr><tr><td>Cost/height</td><td>Often higher/thicker</td><td>Often lower/compact</td></tr><tr><td>Repairability</td><td>Model-dependent individual switch replacement</td><td>Sheet-level construction can limit repair</td></tr><tr><td>Noise/rollover</td><td>Depends on switch and design</td><td>Depends on dome/matrix/controller</td></tr></table><p>Choose using ergonomics, reliability, serviceability, noise and required features. Never decide waterproofing or rollover solely from the category name.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "4.3.5 Wireless keyboard — construction and operation"
+          },
+          "body": {
+            "en": "<p>A <b>wireless keyboard</b> includes a key mechanism/matrix, controller, radio transceiver and antenna, plus batteries or a rechargeable power system. Common links are <b>Bluetooth</b> and proprietary radio links using a compatible USB receiver. Wireless describes the connection, not the key-switch construction.</p><ol><li>The matrix/controller detects the key.</li><li>Firmware encodes an input report.</li><li>A paired/associated radio link carries the report to the host or receiver.</li><li>The OS handles it as keyboard input.</li><li>Power-saving firmware may sleep between activity periods and wake on a supported event.</li></ol><p><b>Applications:</b> cable-free desks, presentations and supported multi-device use. <b>Limits:</b> battery state, interference, pairing and platform support. A random receiver is not guaranteed compatible; pairing/reconnection methods depend on the model.</p>"
+          },
+          "diagram": "hw4_wireless"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "4.4 Mouse: Types and Working Principle"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "4.4.1 Types of mouse — list only"
+          },
+          "body": {
+            "en": "<ul><li>Mechanical/ball mouse</li><li>Optical LED mouse</li><li>Laser-sensor mouse</li><li>Wired mouse</li><li>Wireless radio mouse with receiver</li><li>Bluetooth mouse</li><li>Trackball pointing device</li><li>Vertical/ergonomic mouse</li></ul><p>Sensor, communication method and shape overlap: a Bluetooth mouse commonly uses an optical tracking sensor.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "4.4.2 General mouse working and input reports"
+          },
+          "body": {
+            "en": "<p>A mouse translates hand movement into <b>relative displacement</b>, commonly represented as horizontal and vertical changes. Buttons and scroll sensors add selection and navigation inputs. A controller sends motion/button reports to the host, which applies pointer settings and updates the on-screen position.</p><p><b>Example:</b> a report of positive horizontal motion does not specify an absolute screen pixel. The final pointer movement depends on OS scaling/acceleration and application handling. An optical mouse is not a scanner that sends the desk photograph to the application.</p><p>Sensor resolution, often described using CPI or marketed as DPI, differs from display resolution. High resolution alone does not guarantee better tracking on every surface.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "4.4.3 Optical mouse — construction"
+          },
+          "body": {
+            "en": "<p>A typical <b>optical mouse</b> includes an LED or laser illumination source, lens/optics, image sensor, signal processor/controller, button switches, scroll sensor and a wired or radio interface.</p><p>The optics illuminate and image small surface features. The sensor repeatedly samples these features. Processing estimates how the pattern has shifted between observations and converts that change to motion values.</p><p>LED and laser implementations differ in illumination and optical design. “Laser” is not synonymous with wireless. Surface transparency, reflectivity and texture affect performance, so glass or glossy surfaces may require a supported sensor or suitable mouse mat.</p>"
+          },
+          "diagram": "hw4_optical"
+        },
+        {
+          "h": {
+            "en": "4.4.4 Optical mouse — operation"
+          },
+          "body": {
+            "en": "<ol><li>The source illuminates the work surface.</li><li>The optical system forms a surface image on the sensor.</li><li>The sensor captures successive samples.</li><li>Processing compares features to estimate relative X/Y motion.</li><li>The controller combines movement with button/scroll status and sends reports.</li><li>The host updates pointer or application behaviour.</li></ol><p><b>Worked interpretation:</b> if the observed texture shifts left relative to the sensor, the processing infers mouse movement in the opposite direction under the calibrated coordinate convention. There is no ball rotating encoder wheels in this design.</p><p>For cleaning, disconnect/isolate power as appropriate and follow manufacturer guidance. Do not look into laser emitters or dismantle sensor optics.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "4.4.5 Bluetooth mouse — construction and operation"
+          },
+          "body": {
+            "en": "<p>A <b>Bluetooth mouse</b> normally combines an optical sensor, buttons/scroll mechanism, a controller, Bluetooth radio/antenna and battery system. The computer requires compatible Bluetooth hardware and software.</p><ol><li>In pairing mode, the mouse advertises/is discovered under the supported procedure.</li><li>The host and mouse establish an authorised connection.</li><li>Sensor and button data are encoded as supported HID reports.</li><li>The radio link carries reports; the host updates pointer state.</li><li>Power-saving and reconnection mechanisms preserve battery life.</li></ol><p>Not every wireless mouse uses Bluetooth. A proprietary USB-dongle model may use a different radio protocol. A Bluetooth adapter and a proprietary receiver are not interchangeable merely because both occupy USB ports.</p>"
+          },
+          "diagram": "hw4_bt_mouse"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "4.5 Scanners: Principles, Flatbed and Sheet-fed"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "4.5.1 Types of scanner — list only"
+          },
+          "body": {
+            "en": "<ul><li>Flatbed scanner</li><li>Sheet-fed/document scanner</li><li>Handheld/portable scanner</li><li>Drum scanner</li><li>Film/slide scanner</li><li>Overhead/book scanner</li><li>Barcode scanner</li></ul><p>These are broad device categories with different intended inputs; barcode decoding is not the same task as scanning a full document image.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "4.5.2 General scanner working principle"
+          },
+          "body": {
+            "en": "<p>A <b>scanner</b> converts the optical appearance of a document/object into digital image samples. A typical reflective document scanner illuminates the original, directs reflected light to a sensor, converts the sensor response into digital values and builds an image line by line.</p><p>Scanners commonly use <b>CCD-based optical assemblies</b> or <b>contact image sensors (CIS)</b>, depending on the model. Electronics perform sampling, conversion and calibration; software sets cropping, colour and output format.</p><p><b>Resolution</b> describes spatial sampling. Optical sampling capability differs from interpolated output resolution. <b>OCR</b> is a separate recognition stage that tries to extract text from the scanned image; an ordinary scan does not automatically become editable text.</p>"
+          },
+          "diagram": "hw4_scan"
+        },
+        {
+          "h": {
+            "en": "4.5.3 Flatbed scanner — construction"
+          },
+          "body": {
+            "en": "<p>A <b>flatbed scanner</b> holds the original on a glass platen while the scan assembly moves beneath it. Main parts include the platen, lid/backing, illumination source, sensor/optics, carriage/drive, controller, power system and host interface.</p><p>In a CCD design, lenses/mirrors may route reflected light to the sensor; a CIS assembly commonly sits close to the platen and uses a compact lens/sensor arrangement. Do not draw a lens/mirror path as if every flatbed uses exactly that arrangement.</p><p><b>Applications:</b> photographs, single sheets and supported books or delicate originals that should not pass through rollers. Raised/bound material may produce shadows, focus limits or distortion; avoid pressing down enough to break the glass.</p>"
+          },
+          "diagram": "hw4_flatbed"
+        },
+        {
+          "h": {
+            "en": "4.5.4 Flatbed scanner — operation"
+          },
+          "body": {
+            "en": "<ol><li>Place the original according to the alignment mark and close the lid as appropriate.</li><li>Select optical resolution, colour mode, size and file format in supported software.</li><li>The carriage moves through the scan area and captures successive lines.</li><li>The controller assembles and transfers image data.</li><li>Software saves the image/PDF and optionally applies OCR.</li></ol><p><b>Example:</b> scan a photograph in colour at a suitable true optical resolution; scan a text page with settings appropriate for readable OCR. Increasing interpolated resolution does not create missing physical detail.</p><p>Clean the platen using manufacturer-approved materials while isolated as instructed. Avoid spraying liquid into edges or directly onto internal parts.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "4.5.5 Sheet-fed scanner — construction and operation"
+          },
+          "body": {
+            "en": "<p>A <b>sheet-fed scanner</b> moves documents past a scanning station. Typical parts include an input tray, pickup/separation mechanism, transport rollers, paper sensors, illumination/sensor assembly, controller and output tray. An automatic document feeder (ADF) separates and feeds pages; duplex designs vary.</p><ol><li>Prepare supported pages and load them within tray limits.</li><li>The separation mechanism feeds one sheet into the transport path.</li><li>Rollers move it past the imaging sensor at controlled speed.</li><li>The sensor captures lines and the controller assembles the page.</li><li>The page exits; the next page is fed. Duplex models image both sides using their supported mechanism.</li></ol><p><b>Applications:</b> office records and multi-page digitisation. <b>Limits:</b> staples, torn sheets, sticky notes and unsupported thick/bound material may jam or damage the mechanism. Remove staples and follow media specifications; do not feed a book.</p>"
+          },
+          "diagram": "hw4_sheetfed"
+        },
+        {
+          "h": {
+            "en": "4.5.6 Flatbed versus sheet-fed and worked scan size"
+          },
+          "body": {
+            "en": "<table><tr><th>Basis</th><th>Flatbed</th><th>Sheet-fed</th></tr><tr><td>Original movement</td><td>Document usually stationary</td><td>Document moves through rollers</td></tr><tr><td>Best suited to</td><td>Photos, books/delicate originals within specifications</td><td>Supported loose multi-page documents</td></tr><tr><td>Throughput</td><td>Manual placement can slow batches</td><td>Automatic feeding supports batches</td></tr><tr><td>Common limits</td><td>Platen size, focus on raised originals</td><td>Paper condition, thickness, jams/double feeds</td></tr></table><p><b>Worked image-size example:</b> a 4 × 6 inch photograph at 300 samples/inch produces 1200 × 1800 = 2,160,000 pixels. At uncompressed 24-bit RGB (3 bytes/pixel), pixel data is 6,480,000 bytes ≈ <b>6.48 MB decimal</b> before file headers. Compression changes the saved file size. Doubling each dimension’s sampling rate approximately quadruples pixel count.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "4.6 Monitors: LCD and LED"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "4.6.1 Types of monitor — list only"
+          },
+          "body": {
+            "en": "<ul><li>CRT monitor</li><li>LCD monitor with older non-LED backlight</li><li>LED-backlit LCD monitor</li><li>OLED monitor</li><li>Direct-view LED display</li><li>Plasma display (historical)</li></ul><p>LCD describes the light-modulating panel mechanism; LED may describe a backlight or a direct-emitting display. These labels are not a single mutually exclusive classification.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "4.6.2 Display basics: pixels, refresh and signal path"
+          },
+          "body": {
+            "en": "<p>A monitor converts a video signal into visible images. The input electronics interpret the supported signal and timing; a panel controller drives picture elements. <b>Resolution</b> describes the pixel grid. <b>Refresh rate</b> describes how often a display updates under the selected mode. <b>Response time</b> concerns pixel transitions; it is not identical to refresh rate or end-to-end input latency.</p><p><b>Example:</b> 1920 × 1080 represents 2,073,600 pixels. A 60 Hz update interval is about 1000/60 = <b>16.67 ms</b>. This does not mean every pixel transition takes exactly 16.67 ms or every input appears after exactly one interval.</p><p>The source, port, cable and monitor must jointly support the requested mode. Connector shape alone does not guarantee every resolution/refresh combination.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "4.6.3 LCD — construction"
+          },
+          "body": {
+            "en": "<p>A <b>Liquid Crystal Display (LCD)</b> controls transmitted light using liquid crystal material. A typical active-matrix colour LCD includes a backlight, light-guiding/diffusing layers, polarisers, glass substrates, transparent electrodes/TFT switching array, liquid crystal layer and colour filters.</p><p>The panel contains red, green and blue subpixels in a common arrangement, although layouts vary. Thin-film transistors select/control subpixel states. The liquid crystal layer does not normally create the illumination; a backlight is required in a conventional transmissive monitor.</p><p>Panel modes such as TN, IPS and VA differ in electrode/liquid-crystal arrangement. The simple stack diagram explains the functional idea rather than a literal scale drawing of every panel.</p>"
+          },
+          "diagram": "hw4_lcd"
+        },
+        {
+          "h": {
+            "en": "4.6.4 LCD — working principle and operation"
+          },
+          "body": {
+            "en": "<ol><li>The backlight supplies illumination.</li><li>Polarising and optical layers condition the light.</li><li>Applied electric fields change the liquid crystal orientation/state at subpixels.</li><li>This alters how light passes through the optical/polariser arrangement.</li><li>Colour filters and controlled subpixel intensities form the image perceived by the viewer.</li></ol><p>Display electronics continuously drive and refresh the active matrix from image data. Exact voltage-to-light behaviour depends on panel mode; “applying voltage always makes every LCD pixel black” is not a universal rule.</p><p><b>Applications:</b> office monitors, laptops and instrumentation. <b>Limits:</b> viewing angle, contrast, response and colour performance vary by panel/backlight; not every LCD behaves alike.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "4.6.5 LED monitor — common LED-backlit LCD"
+          },
+          "body": {
+            "en": "<p>In ordinary PC sales terminology, an <b>LED monitor</b> commonly means an <b>LCD with LED backlighting</b>. The LCD still modulates light. LED sources replace the older cold-cathode fluorescent lamp (CCFL) backlight used by many earlier LCDs.</p><p><b>Construction:</b> LCD panel and its driver electronics plus LED sources, backlight driver, optical distribution layers and power/control circuits. LEDs may be positioned at the edges with a light guide, or behind the panel. Some designs support local dimming; not all do.</p><p><b>Operation:</b> the LED backlight generates light; the LCD controls transmission per subpixel. Backlight brightness control and LCD pixel control work together. Mini-LED often describes a finer-zone LED backlight, not automatically a self-emitting pixel panel.</p><p><b>Distinction:</b> OLED pixels emit light themselves; direct-view LED displays also use emitting elements differently. Do not explain a typical LED-backlit LCD as if each LCD pixel were an independent LED.</p>"
+          },
+          "diagram": "hw4_led"
+        },
+        {
+          "h": {
+            "en": "4.6.6 LCD and LED terminology comparison"
+          },
+          "body": {
+            "en": "<table><tr><th>Term</th><th>Image/light mechanism</th><th>Correct interpretation</th></tr><tr><td>Older CCFL-backlit LCD</td><td>Liquid crystal modulation + fluorescent backlight</td><td>LCD panel with older backlight technology</td></tr><tr><td>Common LED monitor</td><td>Liquid crystal modulation + LED backlight</td><td>A type of LCD monitor</td></tr><tr><td>Direct-view LED</td><td>Emitting LED elements form the image</td><td>Not the same optical stack as LED-backlit LCD</td></tr><tr><td>OLED</td><td>Organic emitting subpixels</td><td>Self-emissive, not ordinary LCD</td></tr></table><p><b>Safe care:</b> switch off and follow the manual for cleaning. Do not open a monitor enclosure: power circuitry can be hazardous. Do not press on a panel to repair a pixel or spray fluid into screen edges.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "4.7 Printers: Types and Laser Printing"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "4.7.1 Types of printer — list only"
+          },
+          "body": {
+            "en": "<ul><li>Dot-matrix printer</li><li>Daisy-wheel printer (historical)</li><li>Line printer</li><li>Laser printer</li><li>Inkjet printer</li><li>Direct thermal printer</li><li>Thermal-transfer printer</li><li>LED electrophotographic printer</li></ul><p>Laser and LED electrophotographic printers differ in exposure source. “LED printer” is not the same topic as an LED-backlit monitor.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "4.7.2 Printer data path and basic terms"
+          },
+          "body": {
+            "en": "<p>A printer converts page data into marks on media. The host/driver or printer interpreter prepares a page description or raster. A spooler queues jobs. Printer electronics control the marking mechanism and paper path.</p><p><b>DPI</b> describes addressable print-dot density, not automatically independent image pixels or colour accuracy. <b>PPM</b> describes pages per minute under stated test conditions; first-page time, duplex mode, colour, quality and media affect results. <b>Duplex</b> means printing on both sides, by an automatic mechanism or a stated manual process.</p><p>A test page checks a particular path. A printer-generated internal test page succeeding does not prove the host driver/network path works. Follow the manufacturer’s instructions and do not assume consumables are interchangeable between models.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "4.7.3 Laser printer — construction"
+          },
+          "body": {
+            "en": "<p>A <b>laser printer</b> uses an electrophotographic process: an electrostatic image attracts toner, which is transferred and fused onto paper.</p><ul><li><b>Controller/raster processor:</b> prepares the page image.</li><li><b>Photosensitive drum or belt:</b> carries an electrostatic latent image.</li><li><b>Charging system:</b> establishes a controlled surface charge.</li><li><b>Laser/scanning optics:</b> selectively expose the photoconductor.</li><li><b>Developer/toner unit:</b> supplies charged toner.</li><li><b>Transfer mechanism:</b> moves toner to paper, directly or through an intermediate belt.</li><li><b>Fuser:</b> uses heat and pressure to bond toner.</li><li><b>Cleaning/reset system and paper path:</b> prepare the next cycle and handle media.</li></ul><p>Cartridges may combine several assemblies. Colour machines use multiple colour separations; their physical arrangements vary.</p>"
+          },
+          "diagram": "hw4_laser"
+        },
+        {
+          "h": {
+            "en": "4.7.4 Laser printer — working sequence"
+          },
+          "body": {
+            "en": "<ol><li><b>Process the page:</b> controller prepares raster data.</li><li><b>Charge:</b> establish the photoconductor’s initial potential.</li><li><b>Expose:</b> the modulated laser changes selected surface regions to form an invisible electrostatic image.</li><li><b>Develop:</b> toner is attracted according to the device’s electrostatic design.</li><li><b>Transfer:</b> toner moves to the paper through the supported transfer arrangement.</li><li><b>Fuse:</b> heat and pressure bond the toner.</li><li><b>Clean/reset:</b> residual toner/charge are managed for later cycles.</li></ol><p>The sign of charge and exact exposed-versus-unexposed toner attraction depend on design. Avoid universal claims that the laser always writes a positive image or that toner is liquid ink. Stages overlap during continuous printing, and cleaning is commonly described before charging when drawing a repeating cycle.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "4.7.5 Laser printer — applications, merits and safety"
+          },
+          "body": {
+            "en": "<p><b>Applications:</b> office documents, reports and suitable high-volume text work. <b>Advantages:</b> sharp text and good throughput on appropriate models. <b>Limitations:</b> warm-up/first-page delay, consumable costs and media/fuser compatibility.</p><p><b>Safety:</b> the fuser becomes hot and internal circuits use high voltage. Do not defeat interlocks, look into laser paths or reach into powered mechanisms. Allow cooling before the manual-approved jam-clearing procedure. Do not use ordinary household vacuum cleaners on spilled toner; follow approved spill handling.</p><p>Use media rated for the printer. Inappropriate labels/transparencies can damage the fuser or contaminate the paper path. No disassembly or live laser test is performed here.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "4.8 Inkjet Printers"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "4.8.1 Inkjet printer — construction"
+          },
+          "body": {
+            "en": "<p>An <b>inkjet printer</b> forms images by placing small liquid-ink droplets onto media. A typical desktop model contains ink cartridges or tanks, delivery paths, a printhead/nozzle array, a head-driving mechanism or fixed head, paper feed, controller, and capping/cleaning station.</p><p>In a <b>scanning-head</b> design a carriage moves across the paper. In a <b>page-wide</b> design a broader stationary array prints as paper moves. Construction must be described as model-dependent, not every inkjet having a moving cartridge.</p><p>Colour printing commonly uses cyan, magenta, yellow and black, with additional inks on some models. Ink formulation, printhead type and media coating must be compatible.</p>"
+          },
+          "diagram": "hw4_inkjet"
+        },
+        {
+          "h": {
+            "en": "4.8.2 Inkjet working: thermal and piezoelectric"
+          },
+          "body": {
+            "en": "<p>Many desktop inkjets use <b>drop-on-demand</b> operation: a nozzle ejects a drop when requested.</p><table><tr><th>Mechanism</th><th>How a drop is generated</th></tr><tr><td>Thermal bubble</td><td>A small heater rapidly produces a vapour bubble in a chamber, displacing ink through the nozzle; the chamber refills</td></tr><tr><td>Piezoelectric</td><td>An electrically driven piezoelectric element deforms, changing chamber volume/pressure and ejecting a drop</td></tr></table><ol><li>The controller receives the raster image and selects nozzles.</li><li>The print mechanism positions head/media.</li><li>Nozzle actuators eject controlled drops.</li><li>Ink forms the dot pattern and dries or is fixed by the supported system.</li><li>Feed/head motion advances printing to subsequent areas.</li></ol><p>Continuous inkjet is another family, commonly used for specialised marking; it is not identical to desktop drop-on-demand. A <b>thermal inkjet</b> heats ink to eject drops, unlike a <b>direct thermal printer</b> heating special paper.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "4.8.3 Inkjet applications, advantages and care"
+          },
+          "body": {
+            "en": "<p><b>Applications:</b> home/office colour documents, photographs and specialist graphics with suitable ink/media. <b>Advantages:</b> good colour/photo capability on appropriate models and flexible media choices. <b>Limits:</b> nozzle clogging after disuse, ink/media cost, drying time and model-dependent speed.</p><p>A nozzle check prints a pattern to reveal missing jets. Use only the manufacturer’s supported cleaning cycle when appropriate; repeated excessive cleaning wastes ink. Do not scrape nozzle plates, inject unapproved solvents or touch electrical contacts. Keep consumables in the specified condition and use the printer’s power-off procedure so the head can park correctly.</p><p>Claiming inkjet always costs less per page or always prints slower than laser is unreliable. Tank systems, cartridge yield, coverage and quality settings change the comparison.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "4.9 Thermal Printers and Comparison"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "4.9.1 Thermal printer — construction"
+          },
+          "body": {
+            "en": "<p>A <b>thermal printer</b> uses a controlled heated printhead. Two important mechanisms are <b>direct thermal</b> and <b>thermal transfer</b>.</p><p>Shared elements commonly include a line of heating dots, controller/driver electronics, a platen roller, media feed and sensors. Direct thermal models use heat-sensitive media. Thermal-transfer models add a ribbon supply/take-up path between the head and label/media.</p><p>Media size, coating, ribbon chemistry and sensor settings matter. A roll fitting physically into the tray does not prove it is a supported thermal medium.</p>"
+          },
+          "diagram": "hw4_thermal"
+        },
+        {
+          "h": {
+            "en": "4.9.2 Direct thermal — operation and applications"
+          },
+          "body": {
+            "en": "<ol><li>The printer positions heat-sensitive media against the printhead/platen.</li><li>The controller energises selected heating elements.</li><li>The coating darkens at those positions.</li><li>The feed advances the media and repeats the line process.</li></ol><p><b>Applications:</b> receipts, queue tickets, shipping labels and other short/medium-life records where suitable. No ink ribbon is required. However heat, light, abrasion and chemicals can fade or darken some direct-thermal media. It is not automatically suitable for archival records.</p><p>Thermal-head temperature/energy and feed speed must match the medium. Do not touch a hot head or adjust its electronics experimentally.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "4.9.3 Thermal transfer — operation and applications"
+          },
+          "body": {
+            "en": "<ol><li>A compatible ribbon is positioned between the thermal head and media.</li><li>Selected heating dots soften/transfer ribbon colourant to the media.</li><li>The ribbon and medium advance through their controlled paths.</li><li>Used ribbon is collected while a new portion is supplied.</li></ol><p><b>Applications:</b> durable product/barcode/asset labels when the correct wax, resin or mixed ribbon and label stock are selected. Ribbon use adds consumables and handling. Durability depends on the ribbon/media pairing and environment; it is not unlimited.</p><p><b>Difference:</b> direct thermal develops a coating in the medium; thermal transfer moves colourant from a ribbon. Neither should be confused with an inkjet’s thermally generated droplets.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "4.9.4 Laser, inkjet and thermal comparison"
+          },
+          "body": {
+            "en": "<table><tr><th>Basis</th><th>Laser</th><th>Inkjet</th><th>Thermal</th></tr><tr><td>Marking principle</td><td>Electrophotographic toner transfer and fusing</td><td>Liquid ink droplets</td><td>Heated special media or ribbon transfer</td></tr><tr><td>Consumables</td><td>Toner; drum/fuser parts as applicable</td><td>Ink; head/maintenance parts as applicable</td><td>Thermal medium and/or ribbon</td></tr><tr><td>Typical uses</td><td>Office text/reports</td><td>Colour/photo/general documents</td><td>Receipts, tickets, labels</td></tr><tr><td>Main cautions</td><td>Hot fuser, high voltage, toner handling</td><td>Nozzle care, ink/media compatibility</td><td>Head heat, media/ribbon compatibility</td></tr><tr><td>Selection factors</td><td>Volume, quality, total cost, supported media</td><td>Quality, duty cycle, media, ink cost</td><td>Required durability, width, environment</td></tr></table><p><b>Worked selection:</b> choose a suitable laser for high-volume office text; a photo-capable inkjet for supported photographic output; a direct thermal receipt printer for compatible short-life receipts; or thermal transfer for durable labels. Verify actual model specifications rather than selecting by category alone.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "4.9.5 Unit-wide revision checklist"
+          },
+          "body": {
+            "en": "<ul><li>List requested device types without expanding every unrelated type.</li><li>Explain keyboard matrix, mechanical/membrane mechanisms and wireless reporting.</li><li>Explain optical tracking and Bluetooth mouse communication separately.</li><li>Draw flatbed and sheet-fed scanner paths; distinguish scanning from OCR.</li><li>Explain LCD modulation and the meaning of common LED-monitor terminology.</li><li>Draw laser, inkjet and thermal printing sequences with construction and applications.</li><li>Keep device-specific electrical work, interlock bypassing and internal repairs outside this lesson.</li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "4.10 Answered Exam-Style Practice — Suggested Marks"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Practice 1 — Explain keyboard working using a matrix."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Define row/column scanning. Trace key press, state detection, debounce, press/release report, OS layout interpretation and application response. Explain ghosting/rollover separately.</p><p>Expand longer answers using the corresponding detailed lesson, labelled construction diagram and ordered operation steps.</p>"
+          },
+          "diagram": "hw4_matrix"
+        },
+        {
+          "h": {
+            "en": "Practice 2 — Describe mechanical keyboard construction and operation."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Label keycap/stem, spring, housing and contact assembly. Describe press, actuation, scanning/debounce and release. Mention feel options and design-dependent serviceability.</p><p>Expand longer answers using the corresponding detailed lesson, labelled construction diagram and ordered operation steps.</p>"
+          },
+          "diagram": "hw4_mechanical"
+        },
+        {
+          "h": {
+            "en": "Practice 3 — Describe a membrane keyboard and compare it with mechanical."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Explain conductive layers, spacer and typical dome. Press closes contacts and release separates them. Compare construction, feel, cost and repairability without universal rollover/waterproofing claims.</p><p>Expand longer answers using the corresponding detailed lesson, labelled construction diagram and ordered operation steps.</p>"
+          },
+          "diagram": "hw4_membrane"
+        },
+        {
+          "h": {
+            "en": "Practice 4 — Explain wireless keyboard construction and operation."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Identify key matrix, controller, battery and radio. Trace input reports over Bluetooth or a matching proprietary receiver to OS/application. Connection method is separate from switch mechanism.</p><p>Expand longer answers using the corresponding detailed lesson, labelled construction diagram and ordered operation steps.</p>"
+          },
+          "diagram": "hw4_wireless"
+        },
+        {
+          "h": {
+            "en": "Practice 5 — Explain optical mouse construction and working."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Identify illumination, optics, sensor, processor, buttons/scroll and interface. Describe repeated surface sampling, motion estimation and relative reports. Explain that pointer scaling occurs on the host.</p><p>Expand longer answers using the corresponding detailed lesson, labelled construction diagram and ordered operation steps.</p>"
+          },
+          "diagram": "hw4_optical"
+        },
+        {
+          "h": {
+            "en": "Practice 6 — Explain a Bluetooth mouse."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Describe optical tracking, buttons, controller, Bluetooth radio and battery. Outline supported pairing, report delivery, host response and sleep/reconnection. Distinguish a proprietary receiver.</p><p>Expand longer answers using the corresponding detailed lesson, labelled construction diagram and ordered operation steps.</p>"
+          },
+          "diagram": "hw4_bt_mouse"
+        },
+        {
+          "h": {
+            "en": "Practice 7 — Explain scanner working and distinguish scanning from OCR."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Illuminate the original; sense reflected light; sample/convert/calibrate lines; assemble an image. OCR is later recognition of text, not the optical sensing stage itself.</p><p>Expand longer answers using the corresponding detailed lesson, labelled construction diagram and ordered operation steps.</p>"
+          },
+          "diagram": "hw4_scan"
+        },
+        {
+          "h": {
+            "en": "Practice 8 — Describe flatbed scanner construction and operation."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Identify platen, original/lid, moving scan assembly, drive, sensor/optics and controller. Trace placement, settings, carriage travel, image capture and file output. State CCD/CIS differences are model-dependent.</p><p>Expand longer answers using the corresponding detailed lesson, labelled construction diagram and ordered operation steps.</p>"
+          },
+          "diagram": "hw4_flatbed"
+        },
+        {
+          "h": {
+            "en": "Practice 9 — Describe sheet-fed scanner construction and operation."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Identify tray, separation/transport rollers, sensors, imaging station, controller and output path. Trace one-page feeding and scanning. Explain duplex support is design-dependent and unsupported/stapled media can jam.</p><p>Expand longer answers using the corresponding detailed lesson, labelled construction diagram and ordered operation steps.</p>"
+          },
+          "diagram": "hw4_sheetfed"
+        },
+        {
+          "h": {
+            "en": "Practice 10 — Compare flatbed and sheet-fed scanners."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Contrast stationary-original versus moving-page operation, suitable originals, batch throughput and handling limits. Flatbed suits delicate/bound originals within specifications; sheet-fed suits supported loose batches.</p><p>Expand longer answers using the corresponding detailed lesson, labelled construction diagram and ordered operation steps.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 11 — Calculate uncompressed scan data for 4 × 6 inches at 300 samples/inch, RGB 24-bit."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Width=1200 pixels; height=1800; total=2,160,000 pixels. Three bytes per pixel yields 6,480,000 bytes, or 6.48 MB decimal, excluding headers. Compression changes file size.</p><p>Expand longer answers using the corresponding detailed lesson, labelled construction diagram and ordered operation steps.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 12 — Explain LCD construction and operation."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Draw backlight, polarising/optical layers, TFT/electrodes, liquid crystal and colour filters. Explain electrically controlled light transmission at subpixels. Note exact voltage/light behaviour varies by panel mode.</p><p>Expand longer answers using the corresponding detailed lesson, labelled construction diagram and ordered operation steps.</p>"
+          },
+          "diagram": "hw4_lcd"
+        },
+        {
+          "h": {
+            "en": "Practice 13 — Explain an LED monitor and distinguish it from OLED."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> A common LED monitor is LED-backlit LCD, with LEDs supplying light and the LCD modulating it. Edge/direct backlighting and optional local dimming vary. OLED emits from its own subpixels.</p><p>Expand longer answers using the corresponding detailed lesson, labelled construction diagram and ordered operation steps.</p>"
+          },
+          "diagram": "hw4_led"
+        },
+        {
+          "h": {
+            "en": "Practice 14 — Distinguish resolution, refresh rate and response time."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Resolution is the pixel grid; refresh is updates per second; response concerns pixel transitions. 60 Hz gives about 16.67 ms per update interval, not guaranteed total input latency.</p><p>Expand longer answers using the corresponding detailed lesson, labelled construction diagram and ordered operation steps.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 15 — Draw and explain laser printer construction and working."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Identify controller, photoconductor, charging, laser exposure, development, transfer, fuser and cleaning. Trace the electrostatic-to-toner image process; explain high voltage/hot fuser/interlock safety.</p><p>Expand longer answers using the corresponding detailed lesson, labelled construction diagram and ordered operation steps.</p>"
+          },
+          "diagram": "hw4_laser"
+        },
+        {
+          "h": {
+            "en": "Practice 16 — State laser printer applications, merits and limits."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Describe office text/report use, suitable sharpness/throughput, first-page/warm-up behaviour and consumables/media compatibility. Total cost and speed depend on model/workload.</p><p>Expand longer answers using the corresponding detailed lesson, labelled construction diagram and ordered operation steps.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 17 — Explain inkjet construction and operation."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Identify ink supply, nozzle array/head, controller, paper transport, carriage or fixed array, and maintenance station. Explain requested droplets, positioning and drying. Compare thermal-bubble and piezo actuation.</p><p>Expand longer answers using the corresponding detailed lesson, labelled construction diagram and ordered operation steps.</p>"
+          },
+          "diagram": "hw4_inkjet"
+        },
+        {
+          "h": {
+            "en": "Practice 18 — Explain inkjet applications and care."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Give colour/photo/general printing uses with compatible media. Explain possible clogs and approved nozzle-check/cleaning procedures. Avoid scraping nozzles or using unapproved solvents; costs depend on design.</p><p>Expand longer answers using the corresponding detailed lesson, labelled construction diagram and ordered operation steps.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 19 — Explain direct thermal and thermal-transfer printers."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Draw heated-head/media paths. Direct thermal develops a heat-sensitive coating without a ribbon. Thermal transfer moves ribbon colourant to media. Explain suitable applications, durability and consumable differences.</p><p>Expand longer answers using the corresponding detailed lesson, labelled construction diagram and ordered operation steps.</p>"
+          },
+          "diagram": "hw4_thermal"
+        },
+        {
+          "h": {
+            "en": "Practice 20 — Compare laser, inkjet and thermal printing."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Compare toner/fusing, liquid droplets and heat-based media/ribbon transfer. State construction, consumables, applications and safety differences. Select using workload, media, quality, durability and total cost.</p><p>Expand longer answers using the corresponding detailed lesson, labelled construction diagram and ordered operation steps.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 21 — Select suitable peripherals for a small office."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Use a sheet-fed scanner for supported multi-page batches and flatbed for delicate originals. Consider a suitable laser for text reports, photo inkjet for photographic output and thermal printer for compatible receipts/labels. Verify actual model specifications.</p><p>Expand longer answers using the corresponding detailed lesson, labelled construction diagram and ordered operation steps.</p>"
+          }
+        }
+      ]
+    }
+  ],
+  "programs": [],
+  "diagrams": [
+    {
+      "id": "hw4_io",
+      "title": {
+        "en": "Input and output path"
+      },
+      "file": "diagrams/hw4_io.svg"
+    },
+    {
+      "id": "hw4_matrix",
+      "title": {
+        "en": "Keyboard Matrix Concept"
+      },
+      "file": "diagrams/hw4_matrix.svg"
+    },
+    {
+      "id": "hw4_mechanical",
+      "title": {
+        "en": "Mechanical contact switch"
+      },
+      "file": "diagrams/hw4_mechanical.svg"
+    },
+    {
+      "id": "hw4_membrane",
+      "title": {
+        "en": "Membrane contact stack"
+      },
+      "file": "diagrams/hw4_membrane.svg"
+    },
+    {
+      "id": "hw4_wireless",
+      "title": {
+        "en": "Wireless keyboard report path"
+      },
+      "file": "diagrams/hw4_wireless.svg"
+    },
+    {
+      "id": "hw4_optical",
+      "title": {
+        "en": "Optical mouse tracking"
+      },
+      "file": "diagrams/hw4_optical.svg"
+    },
+    {
+      "id": "hw4_bt_mouse",
+      "title": {
+        "en": "Bluetooth mouse functional blocks"
+      },
+      "file": "diagrams/hw4_bt_mouse.svg"
+    },
+    {
+      "id": "hw4_scan",
+      "title": {
+        "en": "Document image acquisition"
+      },
+      "file": "diagrams/hw4_scan.svg"
+    },
+    {
+      "id": "hw4_flatbed",
+      "title": {
+        "en": "Flatbed scanner: relative movement"
+      },
+      "file": "diagrams/hw4_flatbed.svg"
+    },
+    {
+      "id": "hw4_sheetfed",
+      "title": {
+        "en": "Sheet-fed paper path"
+      },
+      "file": "diagrams/hw4_sheetfed.svg"
+    },
+    {
+      "id": "hw4_lcd",
+      "title": {
+        "en": "LCD functional optical stack"
+      },
+      "file": "diagrams/hw4_lcd.svg"
+    },
+    {
+      "id": "hw4_led",
+      "title": {
+        "en": "Common LED monitor = LED-backlit LCD"
+      },
+      "file": "diagrams/hw4_led.svg"
+    },
+    {
+      "id": "hw4_laser",
+      "title": {
+        "en": "Laser printing conceptual cycle"
+      },
+      "file": "diagrams/hw4_laser.svg"
+    },
+    {
+      "id": "hw4_inkjet",
+      "title": {
+        "en": "Drop-on-demand inkjet"
+      },
+      "file": "diagrams/hw4_inkjet.svg"
+    },
+    {
+      "id": "hw4_thermal",
+      "title": {
+        "en": "Two thermal printing mechanisms"
+      },
+      "file": "diagrams/hw4_thermal.svg"
+    }
+  ],
+  "syntax": [
+    {
+      "title": {
+        "en": "Peripheral Quick Reference"
+      },
+      "items": [
+        {
+          "name": {
+            "en": "Keyboard signal path"
+          },
+          "f": "Switch -> scan -> debounce -> report -> OS",
+          "terms": {
+            "en": "Layout/modifiers determine text; a switch does not directly generate a screen glyph."
+          }
+        },
+        {
+          "name": {
+            "en": "Optical mouse"
+          },
+          "f": "Surface images -> motion estimate -> relative report",
+          "terms": {
+            "en": "Connection method is independent of optical sensor type."
+          }
+        },
+        {
+          "name": {
+            "en": "Scanner image size"
+          },
+          "f": "Pixels = width_in * samples_per_in * height_in * samples_per_in\nRGB24 bytes = pixels * 3",
+          "terms": {
+            "en": "Uncompressed pixel data; exclude headers and compression."
+          }
+        },
+        {
+          "name": {
+            "en": "Refresh interval"
+          },
+          "f": "Milliseconds per update = 1000 / Hz",
+          "terms": {
+            "en": "Not the same as pixel response or end-to-end input latency."
+          }
+        },
+        {
+          "name": {
+            "en": "LCD / LED"
+          },
+          "f": "Common LED monitor = LED-backlit LCD",
+          "terms": {
+            "en": "Do not confuse with OLED or direct-view LED."
+          }
+        },
+        {
+          "name": {
+            "en": "Laser cycle"
+          },
+          "f": "Charge -> expose -> develop -> transfer -> fuse\nClean/reset prepares later cycles",
+          "terms": {
+            "en": "Controller rasterises the page; exact hardware arrangements vary."
+          }
+        },
+        {
+          "name": {
+            "en": "Inkjet mechanisms"
+          },
+          "f": "Thermal bubble OR piezoelectric actuation",
+          "terms": {
+            "en": "Thermal inkjet is not direct thermal printing."
+          }
+        },
+        {
+          "name": {
+            "en": "Thermal distinction"
+          },
+          "f": "Direct: heat-sensitive medium\nTransfer: ribbon colourant -> medium",
+          "terms": {
+            "en": "Use compatible media and observe hot-head precautions."
+          }
+        }
+      ]
+    }
+  ],
+  "viva": [
+    {
+      "title": {
+        "en": "Unit 4 Viva and Quick Revision"
+      },
+      "items": [
+        {
+          "q": {
+            "en": "What is an input device?"
+          },
+          "a": {
+            "en": "A device converting user actions or physical information into computer-processable data."
+          }
+        },
+        {
+          "q": {
+            "en": "Can one peripheral provide both input and output?"
+          },
+          "a": {
+            "en": "Yes. A multifunction device can scan and print."
+          }
+        },
+        {
+          "q": {
+            "en": "How does a key matrix reduce wiring?"
+          },
+          "a": {
+            "en": "Keys share row and column lines scanned by a controller."
+          }
+        },
+        {
+          "q": {
+            "en": "What is debouncing?"
+          },
+          "a": {
+            "en": "Filtering contact transitions so one press is not mistaken for several unintended presses."
+          }
+        },
+        {
+          "q": {
+            "en": "What is ghosting?"
+          },
+          "a": {
+            "en": "Ambiguous multi-key matrix paths can produce an apparent key that was not pressed."
+          }
+        },
+        {
+          "q": {
+            "en": "What is key rollover?"
+          },
+          "a": {
+            "en": "Supported simultaneous key reporting under the matrix/firmware/interface design."
+          }
+        },
+        {
+          "q": {
+            "en": "Does every key directly send ASCII?"
+          },
+          "a": {
+            "en": "No. Reports identify keys/usages; layout and software determine text."
+          }
+        },
+        {
+          "q": {
+            "en": "What returns a typical mechanical key?"
+          },
+          "a": {
+            "en": "A spring in its switch assembly."
+          }
+        },
+        {
+          "q": {
+            "en": "What makes contact in a common membrane keyboard?"
+          },
+          "a": {
+            "en": "Conductive flexible layers meet through spacer openings when pressed."
+          }
+        },
+        {
+          "q": {
+            "en": "Can a mechanical keyboard be wireless?"
+          },
+          "a": {
+            "en": "Yes. Switch mechanism and communication method are separate properties."
+          }
+        },
+        {
+          "q": {
+            "en": "Does every wireless keyboard use Bluetooth?"
+          },
+          "a": {
+            "en": "No. Some use proprietary radio with a matching receiver."
+          }
+        },
+        {
+          "q": {
+            "en": "What does an optical mouse sense?"
+          },
+          "a": {
+            "en": "Changes between successive samples of surface texture."
+          }
+        },
+        {
+          "q": {
+            "en": "What does the host receive from a relative mouse?"
+          },
+          "a": {
+            "en": "Relative motion plus button/scroll information, not normally a desk photograph."
+          }
+        },
+        {
+          "q": {
+            "en": "Is a laser mouse necessarily wireless?"
+          },
+          "a": {
+            "en": "No. Illumination technology and connection method differ."
+          }
+        },
+        {
+          "q": {
+            "en": "Can any USB receiver connect a Bluetooth mouse?"
+          },
+          "a": {
+            "en": "No. A compatible Bluetooth adapter differs from a proprietary receiver."
+          }
+        },
+        {
+          "q": {
+            "en": "What does scanner OCR do?"
+          },
+          "a": {
+            "en": "Attempts to recognise text from an image; it is separate from image acquisition."
+          }
+        },
+        {
+          "q": {
+            "en": "What moves in a flatbed scanner?"
+          },
+          "a": {
+            "en": "The scanning assembly usually moves beneath a stationary original."
+          }
+        },
+        {
+          "q": {
+            "en": "What moves in a sheet-fed scanner?"
+          },
+          "a": {
+            "en": "The document moves through rollers past the imaging station."
+          }
+        },
+        {
+          "q": {
+            "en": "What is an ADF?"
+          },
+          "a": {
+            "en": "An automatic document feeder that separates and feeds supported pages."
+          }
+        },
+        {
+          "q": {
+            "en": "Does interpolated resolution add true optical detail?"
+          },
+          "a": {
+            "en": "No. It adds computed samples, not newly captured physical detail."
+          }
+        },
+        {
+          "q": {
+            "en": "Is an LCD self-emissive?"
+          },
+          "a": {
+            "en": "A conventional transmissive LCD modulates a separate backlight."
+          }
+        },
+        {
+          "q": {
+            "en": "What do TFTs do in an active-matrix LCD?"
+          },
+          "a": {
+            "en": "Select/control subpixel electrical states."
+          }
+        },
+        {
+          "q": {
+            "en": "What is a common LED monitor?"
+          },
+          "a": {
+            "en": "An LCD monitor using LED backlighting."
+          }
+        },
+        {
+          "q": {
+            "en": "Is OLED the same as LED-backlit LCD?"
+          },
+          "a": {
+            "en": "No. OLED subpixels emit light; ordinary LCD subpixels modulate a backlight."
+          }
+        },
+        {
+          "q": {
+            "en": "Is refresh rate equal to response time?"
+          },
+          "a": {
+            "en": "No. Update frequency and pixel-transition timing are different measures."
+          }
+        },
+        {
+          "q": {
+            "en": "What is toner?"
+          },
+          "a": {
+            "en": "A marking powder used by electrophotographic printers, not liquid ink."
+          }
+        },
+        {
+          "q": {
+            "en": "What does the laser do in a laser printer?"
+          },
+          "a": {
+            "en": "Changes selected photoconductor regions to form an electrostatic latent image."
+          }
+        },
+        {
+          "q": {
+            "en": "What is the fuser for?"
+          },
+          "a": {
+            "en": "Heat and pressure bond toner to the medium."
+          }
+        },
+        {
+          "q": {
+            "en": "Should a user bypass a printer interlock for testing?"
+          },
+          "a": {
+            "en": "No. Follow safe manufacturer procedures; high voltage, heat and laser hazards may exist."
+          }
+        },
+        {
+          "q": {
+            "en": "Name two drop-on-demand inkjet mechanisms."
+          },
+          "a": {
+            "en": "Thermal-bubble and piezoelectric actuation."
+          }
+        },
+        {
+          "q": {
+            "en": "Is a thermal inkjet the same as a direct thermal receipt printer?"
+          },
+          "a": {
+            "en": "No. One ejects liquid ink; the other develops heat-sensitive media."
+          }
+        },
+        {
+          "q": {
+            "en": "What does direct thermal printing need?"
+          },
+          "a": {
+            "en": "Compatible heat-sensitive media and a controlled thermal head."
+          }
+        },
+        {
+          "q": {
+            "en": "What does thermal transfer add?"
+          },
+          "a": {
+            "en": "A compatible ribbon supplying colourant transferred by heat."
+          }
+        },
+        {
+          "q": {
+            "en": "Why may a receipt fade?"
+          },
+          "a": {
+            "en": "Some thermal media are sensitive to light, heat, chemicals and time."
+          }
+        },
+        {
+          "q": {
+            "en": "What is a typical laser application?"
+          },
+          "a": {
+            "en": "Office text and report printing on supported media."
+          }
+        },
+        {
+          "q": {
+            "en": "What is a typical inkjet application?"
+          },
+          "a": {
+            "en": "Colour/photo printing with suitable model, ink and media."
+          }
+        },
+        {
+          "q": {
+            "en": "What is a typical thermal-transfer application?"
+          },
+          "a": {
+            "en": "Durable barcode or asset labels with the correct ribbon/media."
+          }
+        },
+        {
+          "q": {
+            "en": "Does a successful internal printer test prove network printing works?"
+          },
+          "a": {
+            "en": "No. It does not verify the full host/driver/network path."
+          }
+        }
+      ]
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Practice: Explain keyboard working using a matrix."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Describe mechanical keyboard construction and operation."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Describe a membrane keyboard and compare it with mechanical."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Explain wireless keyboard construction and operation."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Explain optical mouse construction and working."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Explain a Bluetooth mouse."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Explain scanner working and distinguish scanning from OCR."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Describe flatbed scanner construction and operation."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Describe sheet-fed scanner construction and operation."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Compare flatbed and sheet-fed scanners."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Calculate uncompressed scan data for 4 × 6 inches at 300 samples/inch, RGB 24-bit."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Explain LCD construction and operation."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Explain an LED monitor and distinguish it from OLED."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Distinguish resolution, refresh rate and response time."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Draw and explain laser printer construction and working."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: State laser printer applications, merits and limits."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Explain inkjet construction and operation."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Explain inkjet applications and care."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Explain direct thermal and thermal-transfer printers."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Compare laser, inkjet and thermal printing."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Select suitable peripherals for a small office."
+      },
+      "marks": 4
+    }
+  ],
+  "practical_numbers": [
+    10,
+    11,
+    12
+  ],
+  "content_kind": "theory_and_guided_peripheral_study",
+  "question_provenance": "Original author-created practice, not claimed as GTU past-paper questions.",
+  "question_marks_are_suggested": true,
+  "assessment_note": {
+    "en": "12 hours and 25% unit weightage follow the supplied syllabus. Individual practice marks are suggested."
+  },
+  "sources": [
+    {
+      "title": "GTU DI05007011 syllabus effective 2026–27",
+      "reference": "Owner-supplied DI05007011.pdf, Unit 4 on pages 6–7; practical list on page 9",
+      "status": "Inspected for coverage. Newly authored teaching material; not manufacturer-specific service instructions."
+    }
+  ],
+  "runtime_evidence": {
+    "physical_hardware_tested": false,
+    "programs_executed": false,
+    "note": "No pairing, scanning, printing, powered measurement or device disassembly was performed."
+  }
+}

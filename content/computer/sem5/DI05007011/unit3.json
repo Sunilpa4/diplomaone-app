@@ -1,0 +1,1298 @@
+{
+  "subject": "DI05007011",
+  "unit": 3,
+  "format": "notes",
+  "title": {
+    "en": "Memory Organization"
+  },
+  "hours": 8,
+  "weightage": 18,
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "intro_text": {
+    "en": "Detailed English notes following the supplied GTU 2026–27 syllabus: hierarchy, RAM/ROM, DDR, HDD/SSD, DVD/USB, cache, associative memory and virtual memory with paging/segmentation. Worked calculations and original practice; suggested marks only."
+  },
+  "notes": [
+    {
+      "title": {
+        "en": "3.1 Memory Hierarchy and Classification"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "3.1.1 What is computer memory?"
+          },
+          "body": {
+            "en": "<p><b>Computer memory</b> stores instructions, data and intermediate results used by a computer. The CPU needs instructions and operands during execution, while users need files to remain available after shutdown. No single technology provides maximum speed, unlimited capacity, low cost and permanent retention simultaneously.</p><p><b>Example:</b> a document may be retained on an SSD. When opened, its working data is loaded into RAM; frequently accessed instructions/data may be copied into cache, and immediate operands are held in CPU registers. Saving updates persistent storage. These are different roles, not four names for the same device.</p><p>Memory is described by capacity, access time, transfer rate, volatility, cost per bit and access method. A larger capacity does not automatically mean a shorter access time.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "3.1.2 The memory hierarchy"
+          },
+          "body": {
+            "en": "<p>A <b>memory hierarchy</b> arranges storage levels so small, fast resources support larger, slower ones. A typical teaching order from CPU-near to more distant storage is <b>registers → cache → main RAM → secondary storage</b>. Removable/archival media may form further levels.</p><table><tr><th>Level</th><th>Role</th><th>General tendency</th></tr><tr><td>CPU registers</td><td>Immediate operands, addresses and state</td><td>Very small; very fast access</td></tr><tr><td>L1/L2/L3 cache</td><td>Copies of selected memory data/instructions</td><td>Fast; larger and often slower at lower levels</td></tr><tr><td>Main RAM</td><td>Active program and data workspace</td><td>Larger; normally volatile</td></tr><tr><td>SSD/HDD</td><td>Persistent programs and files</td><td>Much larger; access slower than ordinary RAM</td></tr><tr><td>Removable/archival media</td><td>Distribution, transfer or backup</td><td>Performance and access method vary</td></tr></table><p>These are tendencies, not universal numerical timings. Cache organisation and storage paths vary by processor/system. A cache hit does not mean the CPU has loaded an entire file into cache.</p>"
+          },
+          "diagram": "hw3_hierarchy"
+        },
+        {
+          "h": {
+            "en": "3.1.3 Locality of reference"
+          },
+          "body": {
+            "en": "<p>Hierarchy works well because programs often reuse nearby or recently used information.</p><ul><li><b>Temporal locality:</b> recently used information is likely to be used again. A loop repeatedly accesses its counter and instructions.</li><li><b>Spatial locality:</b> information near a recently used address is likely to be used soon. Iterating through consecutive array elements is an example.</li></ul><p>A cache transfers fixed-size blocks called <b>cache lines</b>. Bringing one line into cache can help later accesses to adjacent bytes. Accessing a very large array in an irregular pattern may reduce locality and increase cache misses.</p><p><b>Worked example:</b> sequentially reading array elements A[0], A[1], A[2] may use a line already fetched for A[0]. It is incorrect to assume each element always causes an independent RAM access.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "3.1.4 Classification and terminology"
+          },
+          "body": {
+            "en": "<table><tr><th>Basis</th><th>Classes / examples</th><th>Meaning</th></tr><tr><td>Retention</td><td>Volatile RAM; non-volatile flash/ROM</td><td>Whether ordinary stored state survives removal of power</td></tr><tr><td>Role</td><td>Primary/main storage; secondary storage</td><td>Working memory versus persistent bulk storage in the course convention</td></tr><tr><td>Access method</td><td>Random, sequential, direct, associative</td><td>How data is located/accessed</td></tr><tr><td>Technology</td><td>Semiconductor, magnetic, optical</td><td>Physical storage mechanism</td></tr></table><p><b>Random access</b> means locations can be addressed without reading all earlier data in sequence. It does not mean that every access has exactly equal latency in every modern device. <b>Direct access</b> is often used for disks: a block can be selected, but mechanical position affects access time. <b>Associative access</b> searches by content.</p><p>“ROM” in an introductory classification includes read-mostly non-volatile technologies, some of which can be reprogrammed. “Memory” is also used broadly in industry, so state the context.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "3.1.5 Capacity, latency and bandwidth"
+          },
+          "body": {
+            "en": "<p><b>Capacity</b> is how much can be stored. <b>Latency</b> is the delay to obtain the requested information. <b>Bandwidth</b> is the amount transferred per unit time. A device may have high sequential bandwidth but poor small-random-access latency.</p><p><b>Unit example:</b> 8 bits = 1 byte; 1 KiB = 1024 bytes; 1 MiB = 1024 KiB; 1 GiB = 1024 MiB. Decimal GB = 10<sup>9</sup> bytes. A nominal 1 TB drive contains approximately 10<sup>12</sup> bytes before device/filesystem details, equivalent to about 931 GiB, not 1 TiB.</p><p><b>Key points:</b> distinguish b from B, ns from ms, and capacity from transfer rate. A 1 TB HDD need not be faster than a 512 GB SSD.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "3.2 Primary Storage: RAM and ROM"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "3.2.1 RAM — active working memory"
+          },
+          "body": {
+            "en": "<p><b>Random Access Memory (RAM)</b> provides read/write workspace for active programs and data. Ordinary main-memory RAM is volatile: contents are lost without the required power/retention conditions. The OS loads program data into RAM and allocates memory as applications run.</p><p>RAM is not the same as a storage drive. Installing more RAM increases available working capacity, not directly the number of files that fit on the SSD. It can improve performance when insufficient memory previously caused frequent paging, but does not guarantee every program becomes faster.</p><p><b>Example:</b> a machine with many open applications may page heavily. More suitable RAM may reduce paging. It will not remove a network bottleneck or make an unsupported CPU compatible.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "3.2.2 ROM — non-volatile read-mostly storage"
+          },
+          "body": {
+            "en": "<p><b>Read-Only Memory (ROM)</b> traditionally stores data fixed during manufacture or programming and read during normal operation. ROM-family technologies are non-volatile and useful for firmware, boot code and persistent configuration-related data.</p><p>Modern PC BIOS/UEFI firmware is commonly stored in <b>reprogrammable flash</b>, not necessarily immutable mask ROM. Updating firmware is a controlled programming operation; it does not make ordinary RAM non-volatile. The RTC/CMOS support battery is not the chip that stores all firmware instructions.</p><table><tr><th>Basis</th><th>Ordinary main RAM</th><th>ROM/read-mostly non-volatile family</th></tr><tr><td>Normal purpose</td><td>Active read/write workspace</td><td>Firmware or persistent code/data</td></tr><tr><td>Power removed</td><td>State normally lost</td><td>Programmed contents retained</td></tr><tr><td>Updating</td><td>Frequent ordinary reads/writes</td><td>Depends on technology and programming procedure</td></tr><tr><td>Example</td><td>DDR DRAM module</td><td>Firmware flash device</td></tr></table>"
+          }
+        },
+        {
+          "h": {
+            "en": "3.2.3 SRAM — construction and operation"
+          },
+          "body": {
+            "en": "<p><b>Static RAM (SRAM)</b> stores each bit using a bistable circuit, commonly illustrated as a six-transistor cell. While adequately powered, the circuit maintains one of two stable states without periodic refresh. It still loses ordinary data when power is removed.</p><ol><li>A word line selects a cell row.</li><li>Bit-line circuits sense the stored state during reading.</li><li>Write circuitry forces the selected cell into the required state.</li></ol><p>SRAM is fast but requires more transistor area per bit than DRAM, so it generally has lower density and higher cost per bit. It is widely used for CPU caches and small high-speed buffers. Exact cell/array implementations vary.</p>"
+          },
+          "diagram": "hw3_cells"
+        },
+        {
+          "h": {
+            "en": "3.2.4 DRAM — construction, refresh and operation"
+          },
+          "body": {
+            "en": "<p><b>Dynamic RAM (DRAM)</b> commonly represents a bit with charge on a capacitor controlled by an access transistor. Charge leaks, so stored state must be periodically restored through <b>refresh</b>.</p><ol><li>The controller selects a row and activates its word line.</li><li>Sense amplifiers detect the small charge-related signal and restore cell state.</li><li>A selected column transfers data through the interface.</li><li>Rows are refreshed under the specified timing rules.</li></ol><p>DRAM reads require restoration of the sensed cell state; the controller/device manages this. DRAM offers high density and lower cost per bit than typical SRAM, making it suitable for main RAM. The diagrams are conceptual cells, not instructions for building or probing a DIMM.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "3.2.5 SRAM versus DRAM"
+          },
+          "body": {
+            "en": "<table><tr><th>Basis</th><th>SRAM</th><th>DRAM</th></tr><tr><td>Basic cell concept</td><td>Bistable transistor circuit</td><td>Charge storage capacitor with access transistor</td></tr><tr><td>Refresh</td><td>No periodic refresh while powered</td><td>Periodic refresh required</td></tr><tr><td>Density / cost per bit</td><td>Lower density / generally higher cost</td><td>Higher density / generally lower cost</td></tr><tr><td>Typical access</td><td>Fast; suitable for caches</td><td>Slower than typical CPU cache SRAM</td></tr><tr><td>Common role</td><td>Cache and buffers</td><td>Main system RAM</td></tr><tr><td>Volatility</td><td>Ordinarily volatile</td><td>Ordinarily volatile</td></tr></table><p><b>Common mistake:</b> “static” does not mean permanent, and “dynamic” does not mean it automatically changes program values. Both technologies preserve data only under their specified operating conditions.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "3.3 DDR Generations and RAM Modules"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "3.3.1 SDRAM and Double Data Rate"
+          },
+          "body": {
+            "en": "<p><b>Synchronous DRAM (SDRAM)</b> coordinates interface operations with a clock. <b>Double Data Rate (DDR)</b> transfers data on both rising and falling clock edges at the data interface. DDR is a family of DRAM interfaces, not a form of SRAM.</p><p>A transfer rate such as <b>DDR4-3200</b> is normally expressed as 3200 MT/s. It is not a 3200 MHz base data clock; the corresponding DDR clock is 1600 MHz for this simple relationship. Internal timings and architecture require more detail than that relationship alone.</p><p><b>Example:</b> assuming a 64-bit data channel, 3200 million transfers/s × 8 bytes/transfer = <b>25.6 GB/s theoretical bandwidth</b>. Real sustained bandwidth depends on workload, channel population, timings, controller and other overhead.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "3.3.2 DDR to DDR5 — generations"
+          },
+          "body": {
+            "en": "<table><tr><th>Generation</th><th>Common desktop DIMM pin count</th><th>Typical nominal DRAM VDD</th><th>General context</th></tr><tr><td>DDR (DDR1)</td><td>184</td><td>2.5 V</td><td>Early DDR systems</td></tr><tr><td>DDR2</td><td>240</td><td>1.8 V</td><td>Higher transfer capability than DDR1 designs</td></tr><tr><td>DDR3</td><td>240</td><td>1.5 V</td><td>DDR3L is a distinct lower-voltage variant</td></tr><tr><td>DDR4</td><td>288</td><td>1.2 V</td><td>Different keying/signalling from DDR3</td></tr><tr><td>DDR5</td><td>288</td><td>1.1 V</td><td>New interface organisation, including two subchannels on typical DIMMs</td></tr></table><p>Voltage entries are introductory nominal VDD values, not pin-by-pin power specifications or universal overclocked settings. SO-DIMMs and other module types have different pin counts. DDR3L commonly uses 1.35 V; actual dual-voltage support is device-dependent.</p><p><b>Do not interchange generations.</b> DDR2 and DDR3 both having 240 desktop pins does not make them compatible. DDR4 and DDR5 both having 288 does not make them compatible either. Key positions, electrical requirements and controllers differ. Never force a module into a slot.</p>"
+          },
+          "diagram": "hw3_ddr"
+        },
+        {
+          "h": {
+            "en": "3.3.3 Modules, channels and compatibility"
+          },
+          "body": {
+            "en": "<p><b>DIMM</b> is a desktop/server module form; <b>SO-DIMM</b> is a compact module form often used in laptops. Some systems use soldered memory or other module formats. Physical form, DDR generation, buffering/ECC support and CPU/board compatibility must all match.</p><p><b>Dual channel</b> refers to parallel memory channels, not two CPU cores. Two modules may enable dual-channel operation only with suitable controller support and the correct slots/population. A DDR5 DIMM’s subchannels are not a reason to ignore the platform’s physical channel population rules.</p><p><b>Safe identification:</b> record the board model and memory specification from manuals/labels; check maximum capacity and supported arrangements. Handle modules only under manufacturer-approved power-isolated ESD procedures. This lesson does not claim that a module was installed or detected in BIOS.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "3.3.4 DDR revision points"
+          },
+          "body": {
+            "en": "<ul><li>DDR generations are hardware interface standards; do not treat them as interchangeable speed settings.</li><li>MT/s measures transfers per second; MHz measures cycles per second.</li><li>Theoretical channel bandwidth = transfer rate × channel data width in bytes.</li><li>Increasing RAM capacity, increasing transfer rate and enabling more memory channels are different changes.</li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "3.4 ROM Technologies"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "3.4.1 Mask ROM and PROM"
+          },
+          "body": {
+            "en": "<p><b>Mask ROM</b> has contents fixed during manufacturing. It is useful when large quantities need the same permanent code, but changing the code requires a manufacturing change.</p><p><b>Programmable ROM (PROM)</b> is supplied unprogrammed and can be programmed once using a supported programmer. Traditional PROM designs use permanently altered fuse/antifuse structures. Once programmed, an ordinary one-time PROM cannot be erased and rewritten.</p><p><b>Example:</b> if a one-time PROM contains an incorrect lookup table, editing a source file does not change its physical programmed state. A new device is required. Programming voltage and procedure are technology-specific.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "3.4.2 EPROM — ultraviolet erasure"
+          },
+          "body": {
+            "en": "<p><b>Erasable Programmable ROM (EPROM)</b> can be erased and reprogrammed. A classic windowed EPROM stores charge in floating-gate devices. Suitable ultraviolet exposure through its quartz window removes stored charge for erasure, typically erasing the whole chip.</p><p>After erasing, a compatible programmer writes new contents using specified electrical conditions. It is not erased by ordinary software writes during normal circuit operation. Covering the window helps prevent unintended light exposure.</p><p>UV erasers can be hazardous to eyes/skin and require proper enclosures and supervision. Identification of the device is enough for this theory lesson; do not expose eyes to a UV source.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "3.4.3 EEPROM and flash memory"
+          },
+          "body": {
+            "en": "<p><b>Electrically Erasable Programmable ROM (EEPROM)</b> supports electrical erasure/programming. It is useful for settings and small persistent data. Many devices permit fine-grained byte/page updates, but exact erase/write granularity and endurance depend on the device.</p><p><b>Flash memory</b> is an electrically programmable non-volatile family that generally erases in larger blocks or sectors. It provides high density and is used in firmware devices, SSDs, USB flash drives and memory cards. Data is programmed in supported units; rewriting arbitrary old data may require a preceding block erase.</p><p><b>NOR versus NAND:</b> NOR commonly supports convenient random reads and firmware use; NAND is dense and widely used for bulk storage. Neither is ordinary DRAM. Flash has finite program/erase endurance, and retention depends on conditions and wear.</p>"
+          },
+          "diagram": "hw3_rom"
+        },
+        {
+          "h": {
+            "en": "3.4.4 ROM-family comparison"
+          },
+          "body": {
+            "en": "<table><tr><th>Type</th><th>Programming</th><th>Erasure</th><th>Typical role</th></tr><tr><td>Mask ROM</td><td>Factory defined</td><td>Not normally erasable</td><td>Fixed high-volume contents</td></tr><tr><td>PROM</td><td>One-time electrical programming</td><td>Not normally erasable</td><td>Permanent one-time data/code</td></tr><tr><td>EPROM</td><td>Compatible programmer</td><td>UV, typically whole device</td><td>Historical reusable firmware</td></tr><tr><td>EEPROM</td><td>Electrical</td><td>Electrical, device-specific fine granularity</td><td>Settings and small persistent data</td></tr><tr><td>Flash</td><td>Electrical page/program operations</td><td>Electrical block/sector erase</td><td>Firmware and bulk non-volatile storage</td></tr></table><p><b>Key point:</b> being non-volatile does not mean unlimited write life or guaranteed retention forever. Firmware updates must use the exact approved procedure and reliable power; no update is performed in this lesson.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "3.5 Secondary Storage and HDD"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "3.5.1 Secondary storage"
+          },
+          "body": {
+            "en": "<p><b>Secondary storage</b> retains programs and user data persistently and generally provides more capacity at lower cost per bit than main RAM. Examples include HDDs, SSDs, optical discs and USB flash drives.</p><p>The OS commonly organises storage into logical blocks, partitions and filesystems. A file is not a physical track, and formatting does not improve the physical speed of the device by definition. Backup and storage are different roles: a second copy on independently managed storage can be a backup; a single original on a drive is not.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "3.5.2 HDD construction"
+          },
+          "body": {
+            "en": "<p>A <b>Hard Disk Drive (HDD)</b> stores information magnetically on rotating platters. The assembly includes a spindle motor, magnetic recording surfaces, read/write heads, actuator arm, actuator mechanism, controller electronics and a host interface.</p><ul><li><b>Tracks:</b> circular recording paths on a surface.</li><li><b>Sectors:</b> subdivisions storing blocks of information with supporting control/error-correction structure.</li><li><b>Heads:</b> read/write transducers operating very close to the platter surface.</li><li><b>Actuator:</b> positions the heads at the required track region.</li><li><b>Controller:</b> manages host commands, addressing, caching and device operations.</li></ul><p>Older diagrams use cylinders to group corresponding tracks across surfaces. Modern host software normally uses <b>logical block addressing (LBA)</b>; it does not precisely select an exposed physical track from the drive label. Do not open the sealed drive mechanism: contamination can damage it and opening is not a repair method for students.</p>"
+          },
+          "diagram": "hw3_hdd"
+        },
+        {
+          "h": {
+            "en": "3.5.3 HDD working principle"
+          },
+          "body": {
+            "en": "<ol><li>The host issues a request identifying a logical block.</li><li>The controller maps the request to internal storage and checks relevant cache state.</li><li>For a media access, the actuator moves the head to the required track region (<b>seek</b>).</li><li>The platter rotates until the required sector is under the head (<b>rotational latency</b>).</li><li>The drive reads or writes magnetic information, processes error correction and transfers data through its interface.</li></ol><p>Writes may be buffered depending on settings; completed host commands and durable media commitment are not always the same event. Safe shutdown and appropriate power-loss handling matter. Sequential access usually reduces repeated seeks compared with scattered small requests.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "3.5.4 Seek time and rotational latency"
+          },
+          "body": {
+            "en": "<p><b>Seek time</b> is the time to position the head at the required track region. Average seek time is a statistical measure; a nearby-track seek and a long-distance seek differ.</p><p><b>Rotational latency</b> is the waiting time for the required sector to rotate under the head. For a simplified uniformly random starting position, average latency is approximately half a rotation.</p><p><b>Formula:</b> rotation time = 60/RPM seconds; average rotational latency = 30/RPM seconds = 30,000/RPM milliseconds.</p><p><b>Worked example:</b> at 7200 RPM, one rotation takes 60/7200 = 0.008333 s = 8.33 ms. Average rotational latency ≈ 4.17 ms. At 5400 RPM it is ≈ 5.56 ms. These values do not include seek or transfer time.</p>"
+          },
+          "diagram": "hw3_latency"
+        },
+        {
+          "h": {
+            "en": "3.5.5 Disk access time and data transfer rate"
+          },
+          "body": {
+            "en": "<p>For a simplified uncached, single-request HDD access:</p><p><b>Access/service time ≈ seek time + rotational latency + transfer time + controller overhead.</b> Some textbooks use “access time” for positioning only; state which components you include. Queuing adds further response time in a busy system.</p><p><b>Transfer time = data size / effective transfer rate</b> using consistent units. The interface link rate is not necessarily the platter transfer rate.</p><p><b>Worked example:</b> average seek = 8 ms, average rotation wait = 4.17 ms, request = 1 MiB, effective media transfer = 100 MiB/s. Transfer time = 1/100 s = 10 ms. Ignoring overhead/queueing, total ≈ <b>22.17 ms</b>.</p><p><b>Small request example:</b> 4 KiB at 100 MiB/s takes only about 0.039 ms to transfer, but still may require several milliseconds of positioning. This explains why small random HDD requests can have low throughput despite a high sequential transfer rate.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "3.5.6 HDD performance revision and safe care"
+          },
+          "body": {
+            "en": "<ul><li>RPM affects rotational delay, not every source of access time.</li><li>Seek time is mechanical movement; rotational latency is sector waiting.</li><li>Sequential media throughput, link speed and application throughput are distinct.</li><li>Avoid shock while operating; keep suitable cooling and independent backups.</li><li>Diagnostic warnings should lead to backup/qualified assessment; repeated stressful tests are not a substitute for recovering important data.</li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "3.6 Solid State Drives and Other Storage"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "3.6.1 SSD construction and working"
+          },
+          "body": {
+            "en": "<p>A <b>Solid State Drive (SSD)</b> stores data using semiconductor storage, commonly NAND flash, without rotating platters or moving heads. It contains flash packages, a controller, firmware and sometimes DRAM or other caching support.</p><ol><li>The host sends a logical-block read/write command.</li><li>The controller maps logical addresses to flash locations through a <b>flash translation layer (FTL)</b>.</li><li>Reads sense stored cell states; writes program supported pages.</li><li>Garbage collection consolidates valid data and erases blocks for reuse.</li><li>Wear levelling distributes writes; error correction helps maintain data integrity.</li></ol><p>An SSD does not normally overwrite every physical page in place like a simple RAM cell. <b>TRIM/discard</b> tells a supported SSD which logical blocks are no longer needed; it is not a guaranteed secure erase of every historical physical copy.</p>"
+          },
+          "diagram": "hw3_ssd"
+        },
+        {
+          "h": {
+            "en": "3.6.2 SSD types — interface, form and cell storage"
+          },
+          "body": {
+            "en": "<p>Classify SSDs along separate axes rather than treating every label as a mutually exclusive type.</p><table><tr><th>Axis</th><th>Examples</th><th>Meaning</th></tr><tr><td>Host connection/protocol</td><td>SATA; PCIe/NVMe</td><td>How host and drive communicate</td></tr><tr><td>Physical form</td><td>2.5-inch; M.2; add-in card; other supported forms</td><td>Size and connector arrangement</td></tr><tr><td>Flash cell organisation</td><td>SLC, MLC, TLC, QLC</td><td>Commonly 1, 2, 3 or 4 stored bits per cell respectively</td></tr><tr><td>Controller/cache design</td><td>DRAM-equipped; DRAM-less and supported host-memory-buffer designs</td><td>Mapping/cache implementation varies</td></tr></table><p>Increasing bits per cell can improve density but creates endurance/performance trade-offs; a whole-drive result also depends on controller, capacity, spare area and workload. An M.2 drive can be SATA or PCIe depending on support. NVMe is not a synonym for M.2.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "3.6.3 HDD versus SSD"
+          },
+          "body": {
+            "en": "<table><tr><th>Basis</th><th>HDD</th><th>SSD</th></tr><tr><td>Storage mechanism</td><td>Magnetic rotating media</td><td>Semiconductor non-volatile storage</td></tr><tr><td>Mechanical delay</td><td>Seek and rotation</td><td>No head seek or platter rotation</td></tr><tr><td>Random access</td><td>Usually slower due to mechanics</td><td>Usually much lower latency</td></tr><tr><td>Noise/shock</td><td>Motor/actuator noise; mechanical sensitivity</td><td>No moving storage mechanism; still damageable</td></tr><tr><td>Cost per capacity</td><td>Often lower for large capacities</td><td>Often higher; market/model dependent</td></tr><tr><td>Write concerns</td><td>Mechanical/media failure possible</td><td>Flash endurance and write amplification matter</td></tr><tr><td>Data protection</td><td>Backups required</td><td>Backups required</td></tr></table><p><b>Example:</b> an SSD is often preferable for OS/application responsiveness, while an HDD can suit economical bulk storage. Neither guarantees permanent data safety. An SSD is not infinitely fast and its sustained writes may slow after cache exhaustion or thermal throttling.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "3.6.4 DVD — optical storage"
+          },
+          "body": {
+            "en": "<p><b>Digital Versatile Disc (DVD)</b> is optical storage read using a laser and reflected-light differences. Pressed DVD-ROM uses manufactured structures; recordable/rewritable media use different physical recording technologies.</p><table><tr><th>Type</th><th>Typical role</th></tr><tr><td>DVD-ROM</td><td>Factory-produced read-only distribution</td></tr><tr><td>DVD-R / DVD+R</td><td>Write-once recording under format rules</td></tr><tr><td>DVD-RW / DVD+RW</td><td>Supported erasable/rewritable media</td></tr><tr><td>DVD-RAM</td><td>Rewritable optical format requiring compatible drives</td></tr></table><p>A common single-layer, single-sided DVD has approximately <b>4.7 GB decimal</b> capacity; a common dual-layer version about <b>8.5 GB</b>. Actual usable capacity depends on format. Handle by edges/centre hole and protect surfaces from scratches and heat. A DVD is not a magnetic disk, and its capacity should not be confused with a CD’s.</p>"
+          },
+          "diagram": "hw3_removable"
+        },
+        {
+          "h": {
+            "en": "3.6.5 USB flash drive — device versus bus"
+          },
+          "body": {
+            "en": "<p>A <b>USB flash drive</b> combines NAND flash, a controller and a USB interface in a portable device. USB itself is a <b>bus/interface family</b>, not a storage-cell technology. An external USB HDD still uses magnetic storage; a USB mouse is not a storage drive.</p><p>The controller manages flash addressing, errors and writes. Performance depends on flash/controller quality and supported USB mode, not only plug colour or USB-C shape. Safely eject when appropriate, allow writes to complete and keep separate backups.</p><p><b>Security:</b> do not connect unknown USB devices or assume an unfamiliar drive is safe because it looks empty. Do not use a flash drive as the only copy of essential work.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "3.7 Cache Memory: L1, L2 and L3"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "3.7.1 Cache operation — hit, miss and cache lines"
+          },
+          "body": {
+            "en": "<p><b>Cache memory</b> stores copies of selected instructions/data to reduce average access delay. CPU caches commonly use SRAM. The processor checks whether the required memory block is present.</p><ol><li>Split an address conceptually into tag, index (where applicable) and block offset.</li><li>Use cache metadata to identify a possible matching valid line.</li><li>A <b>hit</b> supplies the cached information.</li><li>A <b>miss</b> requires access to a lower hierarchy level and often fills a line.</li></ol><p>Caches must maintain correct behaviour when data is modified or shared. Write-through/write-back and coherence are implementation policies, not reasons to expect stale data as normal program behaviour. A cache is not the same as an SSD’s persistent file store.</p>"
+          },
+          "diagram": "hw3_cache"
+        },
+        {
+          "h": {
+            "en": "3.7.2 L1, L2 and L3 comparison"
+          },
+          "body": {
+            "en": "<table><tr><th>Level</th><th>Typical arrangement</th><th>Significance</th></tr><tr><td>L1</td><td>Smallest/closest; often per-core and split into instruction/data caches</td><td>Very low access delay for frequent accesses</td></tr><tr><td>L2</td><td>Larger; often private per core or shared by a small group</td><td>Catches many L1 misses</td></tr><tr><td>L3 / last-level cache</td><td>Larger; often shared among cores or groups</td><td>Reduces accesses to main RAM and supports shared workloads</td></tr></table><p>Some processors omit a level or organise caches differently. “L3 is always shared by every core” and “L1 always has one fixed size” are not universal rules. Use a specific processor’s documentation for actual sizes/latencies.</p><p>A larger cache can reduce misses for some workloads but does not automatically improve every task. Access delay, associativity, memory bandwidth and program locality also matter.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "3.7.3 Hit ratio and average access time"
+          },
+          "body": {
+            "en": "<p><b>Hit ratio</b> = hits / total accesses; miss ratio = 1 − hit ratio. A simplified single-cache model gives:</p><p><b>Average memory access time (AMAT) = hit time + miss rate × additional miss penalty.</b></p><p><b>Worked example:</b> hit time=2 ns, hit ratio=95%, and an additional miss penalty=60 ns. AMAT=2 + 0.05×60 = <b>5 ns</b>. The word “additional” matters: if a supplied miss time already includes cache lookup, use an equivalent weighted model instead of counting lookup twice.</p><p>This model ignores overlap, multiple outstanding requests and further hierarchy details. It teaches average-latency reasoning, not a complete CPU performance prediction.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "3.8 Associative Memory"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "3.8.1 Content-addressable memory concept"
+          },
+          "body": {
+            "en": "<p><b>Associative memory</b>, also called <b>content-addressable memory (CAM)</b>, is searched using stored content rather than simply supplying a numeric address. A search key is compared with stored entries; matching entry signals indicate where a match exists.</p><p><b>Example:</b> store entries 1010, 0110 and 1100. Searching for 0110 asserts the second entry’s match indication. Ordinary address-based RAM instead receives an address such as entry 1 and returns whatever is stored there.</p><p>Parallel comparison can provide fast lookup but costs area/power. CAM is useful in selected lookup structures. A cache may use associative <b>tag lookup</b> without storing its entire data array as an unrestricted fully associative CAM.</p>"
+          },
+          "diagram": "hw3_cam"
+        },
+        {
+          "h": {
+            "en": "3.8.2 Direct-mapped, associative and set-associative caches"
+          },
+          "body": {
+            "en": "<table><tr><th>Organisation</th><th>Placement rule</th><th>Lookup consequence</th></tr><tr><td>Direct-mapped</td><td>Each block maps to one cache line</td><td>Simple lookup; conflicting blocks can evict each other</td></tr><tr><td>Fully associative</td><td>A block may occupy any cache line</td><td>Tags must be searched across candidates; more costly</td></tr><tr><td>Set-associative</td><td>A block maps to a set and may occupy any way in it</td><td>Balances placement flexibility and lookup cost</td></tr></table><p><b>Example:</b> in a 2-way set-associative cache, an address selects a set and its tag is compared with the two ways in that set. “Associative” here describes matching/placement; it does not mean every address is stored twice.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "3.9 Virtual Memory: Paging and Segmentation"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "3.9.1 Virtual memory concept and purpose"
+          },
+          "body": {
+            "en": "<p><b>Virtual memory</b> gives a process a virtual address space that is mapped to physical resources by the OS and memory-management hardware. It supports isolation, controlled sharing, flexible placement and demand loading. It is not simply a formula that adds SSD capacity to physical RAM.</p><p>A program issues a virtual address. The <b>MMU</b> translates it using mapping information and permissions. Some pages may be backed by files, by swap/pagefile storage or by other OS-managed sources; some may never have been loaded. Virtual memory can exist even when swap is disabled.</p><p>Storage backing is slower than RAM, and not every virtual-memory access causes disk activity. Most accesses to resident pages proceed without storage I/O. A 64-bit process also cannot assume that every mathematically possible 64-bit address is valid or usable.</p>"
+          },
+          "diagram": "hw3_virtual"
+        },
+        {
+          "h": {
+            "en": "3.9.2 Paging and address translation"
+          },
+          "body": {
+            "en": "<p><b>Paging</b> divides virtual address space into fixed-size <b>pages</b> and physical memory into corresponding <b>frames</b>. A page table maps virtual page numbers to physical frame numbers and stores validity/presence/protection metadata.</p><ol><li>Split the virtual address into a page number and offset.</li><li>Look up the mapping, commonly using a <b>translation lookaside buffer (TLB)</b> as a fast translation cache.</li><li>Check the mapping and access permissions.</li><li>Combine the physical frame number with the unchanged offset.</li></ol><p>A TLB miss is not automatically a page fault: the mapping may be found in page tables with the page already resident. Page sizes and translation structures depend on the architecture/OS.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "3.9.3 Worked paging calculation"
+          },
+          "body": {
+            "en": "<p>Assume a simplified system with <b>4 KiB pages</b> = 4096 bytes = 1000H bytes. Virtual address = <b>3A7CH</b>.</p><ol><li>Virtual page number = floor(3A7CH / 1000H) = <b>3</b>.</li><li>Offset = <b>A7CH</b>.</li><li>Suppose page table entry 3 maps to physical frame <b>9</b>.</li><li>Frame base = 9 × 1000H = <b>9000H</b>.</li><li>Physical address = 9000H + A7CH = <b>9A7CH</b>.</li></ol><p>The 12-bit offset is unchanged because the page and frame have the same size. The page number is not itself a byte address. This is a teaching mapping, not a claim about the addresses in your phone or laptop.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "3.9.4 Page faults, replacement and thrashing"
+          },
+          "body": {
+            "en": "<p>A <b>page fault</b> is an exception during a memory access requiring OS handling, for example because a valid page is not currently resident or because permissions do not permit the access. It does not always mean a hardware fault or that a disk read is required.</p><ol><li>The OS checks whether the access is valid.</li><li>For a valid non-resident page, it finds/allocates a frame, possibly replacing another page.</li><li>If necessary, modified victim data is preserved and the requested contents are obtained.</li><li>The mapping is updated and the instruction may be retried.</li></ol><p>An invalid/prohibited access can instead cause a process error. <b>Thrashing</b> occurs when the system spends excessive effort paging rather than doing useful work because active working sets do not fit available memory well. Reducing competing workloads or adding compatible RAM may help; increasing swap alone is not guaranteed to solve it.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "3.9.5 Segmentation and worked address example"
+          },
+          "body": {
+            "en": "<p><b>Segmentation</b> divides an address space into variable-size logical regions such as code, data and stack. A conceptual logical address is a pair <b>(segment number, offset)</b>. A segment table supplies a base address, size/limit and permissions.</p><p><b>Worked example:</b> segment 2 has base 4000H and length 1000H bytes. Valid offsets are 0000H–0FFFH. Offset 0250H translates to 4000H+0250H=<b>4250H</b>. Offset 1200H exceeds the allowed length and must not be accepted.</p><p>This example treats the table limit as a <b>length</b>; some real architectures encode limits differently. Segmentation is a logical memory-management concept, not a hard-drive partition. Some systems combine segmentation and paging; modern general-purpose platforms often present mostly flat addressing with paging.</p>"
+          },
+          "diagram": "hw3_segments"
+        },
+        {
+          "h": {
+            "en": "3.9.6 Paging versus segmentation"
+          },
+          "body": {
+            "en": "<table><tr><th>Basis</th><th>Paging</th><th>Segmentation</th></tr><tr><td>Division</td><td>Fixed-size pages</td><td>Variable-size logical segments</td></tr><tr><td>Address form</td><td>Page number + offset</td><td>Segment number + offset</td></tr><tr><td>Mapping</td><td>Page table to frames</td><td>Segment table base/limit</td></tr><tr><td>Program view</td><td>Often transparent to program logic</td><td>Can reflect logical program units</td></tr><tr><td>Fragmentation</td><td>Internal fragmentation possible within allocated pages</td><td>External fragmentation possible between variable-size segments</td></tr><tr><td>Protection/sharing</td><td>Page permissions and mappings</td><td>Segment permissions and bounds</td></tr></table><p><b>Internal fragmentation example:</b> a region needs 6 KiB but is allocated two 4 KiB pages, leaving up to 2 KiB unused in the final page under this simple allocation. <b>External fragmentation:</b> enough total free memory may exist but be scattered into holes too small for a required contiguous segment.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "3.9.7 Unit-wide revision checklist"
+          },
+          "body": {
+            "en": "<ul><li>Draw and explain the hierarchy and locality.</li><li>Compare RAM/ROM, SRAM/DRAM and DDR generations.</li><li>Differentiate PROM, EPROM, EEPROM and flash.</li><li>Draw HDD parts and calculate seek/rotation/transfer-related time.</li><li>Explain SSD translation, wear levelling and garbage collection.</li><li>Compare HDD/SSD; describe DVD and USB flash storage.</li><li>Explain L1/L2/L3, hits/misses and associative lookup.</li><li>Translate example paging/segmentation addresses and distinguish TLB miss from page fault.</li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "3.10 Answered Exam-Style Practice — Suggested Marks"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Practice 1 — Draw and explain memory hierarchy."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Draw registers, cache, main RAM and secondary storage. Explain capacity, latency and cost trade-offs plus temporal/spatial locality. Use opening a document as an example; avoid treating the levels as identical storage devices.</p><p>For longer answers, expand the outline using the corresponding detailed notes, labelled diagrams and worked examples.</p>"
+          },
+          "diagram": "hw3_hierarchy"
+        },
+        {
+          "h": {
+            "en": "Practice 2 — Classify memory with examples."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Classify by volatility, role, technology and access method. Give volatile DRAM, non-volatile flash, magnetic HDD, optical DVD and content-search CAM examples. Explain random versus sequential/direct access.</p><p>For longer answers, expand the outline using the corresponding detailed notes, labelled diagrams and worked examples.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 3 — Compare RAM and ROM."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Define read/write working RAM and non-volatile read-mostly ROM-family storage. Compare role, retention and updating. State that modern firmware flash can be reprogrammed and is not the RTC battery.</p><p>For longer answers, expand the outline using the corresponding detailed notes, labelled diagrams and worked examples.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 4 — Explain SRAM and DRAM cells and compare them."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Describe a bistable transistor SRAM cell and charge-based DRAM cell. Explain DRAM refresh and read restoration. Compare density, speed, cost and uses. Both ordinary types are volatile.</p><p>For longer answers, expand the outline using the corresponding detailed notes, labelled diagrams and worked examples.</p>"
+          },
+          "diagram": "hw3_cells"
+        },
+        {
+          "h": {
+            "en": "Practice 5 — Explain DDR generations and compatibility."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Define double-edge transfer. Summarise DDR through DDR5 with nominal VDD and common desktop DIMM pin counts from the lesson. Explain that matching pin count does not imply compatibility; module form, keying and controller support matter.</p><p>For longer answers, expand the outline using the corresponding detailed notes, labelled diagrams and worked examples.</p>"
+          },
+          "diagram": "hw3_ddr"
+        },
+        {
+          "h": {
+            "en": "Practice 6 — Calculate theoretical DDR4-3200 bandwidth for one 64-bit channel."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 3 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> 3200 million transfers/s × 64/8 bytes = 25,600 million bytes/s = 25.6 GB/s. This excludes practical losses; 3200 MT/s is not a 3200 MHz base clock.</p><p>For longer answers, expand the outline using the corresponding detailed notes, labelled diagrams and worked examples.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 7 — Compare PROM, EPROM, EEPROM and flash."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> PROM is ordinarily one-time; EPROM can use UV whole-device erasure; EEPROM supports electrical device-specific fine-grained updates; flash generally erases blocks/sectors. Give applications and endurance cautions.</p><p>For longer answers, expand the outline using the corresponding detailed notes, labelled diagrams and worked examples.</p>"
+          },
+          "diagram": "hw3_rom"
+        },
+        {
+          "h": {
+            "en": "Practice 8 — Draw and explain HDD construction and operation."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Label platters, spindle, head, actuator and controller. Define track and sector; explain request, seek, rotational wait and read/write transfer. Distinguish host LBA from a literal exposed physical track map.</p><p>For longer answers, expand the outline using the corresponding detailed notes, labelled diagrams and worked examples.</p>"
+          },
+          "diagram": "hw3_hdd"
+        },
+        {
+          "h": {
+            "en": "Practice 9 — Differentiate seek time, rotational latency and transfer time."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Seek is head positioning; rotational latency is sector waiting; transfer time is data size divided by effective rate. State the chosen access-time model and any excluded overhead/queueing.</p><p>For longer answers, expand the outline using the corresponding detailed notes, labelled diagrams and worked examples.</p>"
+          },
+          "diagram": "hw3_latency"
+        },
+        {
+          "h": {
+            "en": "Practice 10 — Calculate average rotational latency at 5400 and 7200 RPM."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 3 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Average latency in ms = 30,000/RPM. For 5400 RPM: 5.56 ms. For 7200 RPM: 4.17 ms. These values assume uniformly random rotational position and exclude seek/transfer.</p><p>For longer answers, expand the outline using the corresponding detailed notes, labelled diagrams and worked examples.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 11 — Calculate access time for 8 ms seek, 7200 RPM and 1 MiB at 100 MiB/s."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Average rotation wait = 4.17 ms. Transfer = 1/100 second = 10 ms. Approximate total = 8 + 4.17 + 10 = 22.17 ms excluding overhead/queueing.</p><p>For longer answers, expand the outline using the corresponding detailed notes, labelled diagrams and worked examples.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 12 — Explain SSD construction and working."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Describe flash packages, controller/FTL, reads, page programming and block erase. Explain wear levelling, garbage collection and error correction. State that no rotating mechanics are involved and flash endurance is finite.</p><p>For longer answers, expand the outline using the corresponding detailed notes, labelled diagrams and worked examples.</p>"
+          },
+          "diagram": "hw3_ssd"
+        },
+        {
+          "h": {
+            "en": "Practice 13 — Classify SSD types and compare HDD with SSD."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Separate protocol (SATA/PCIe-NVMe), form (2.5-inch/M.2/card) and cell bit count (SLC/MLC/TLC/QLC). Compare HDD/SSD latency, noise, mechanical sensitivity and cost/endurance considerations. Both require backups.</p><p>For longer answers, expand the outline using the corresponding detailed notes, labelled diagrams and worked examples.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 14 — Write notes on DVD and USB flash storage."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> DVD is optical with ROM/recordable/rewritable formats; common single-layer single-sided capacity is 4.7 GB decimal. A USB flash drive contains NAND plus controller; USB is an interface, not a recording medium.</p><p>For longer answers, expand the outline using the corresponding detailed notes, labelled diagrams and worked examples.</p>"
+          },
+          "diagram": "hw3_removable"
+        },
+        {
+          "h": {
+            "en": "Practice 15 — Explain L1, L2 and L3 cache and their significance."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Define cache lines, hits/misses and locality. Compare typical small/fast L1, larger L2 and often shared L3. Exact sizes/sharing vary. Explain reduced average memory delay, not guaranteed improvement for every workload.</p><p>For longer answers, expand the outline using the corresponding detailed notes, labelled diagrams and worked examples.</p>"
+          },
+          "diagram": "hw3_cache"
+        },
+        {
+          "h": {
+            "en": "Practice 16 — Calculate AMAT with 2 ns hit time, 95% hit ratio and 60 ns additional miss penalty."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 3 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Miss rate=0.05. AMAT=2+0.05×60=5 ns. The 60 ns is additional penalty; state this assumption to avoid double counting.</p><p>For longer answers, expand the outline using the corresponding detailed notes, labelled diagrams and worked examples.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 17 — Explain associative memory with an example."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Define content-based search and contrast address-based RAM. Search key 0110 matches the second entry in [1010,0110,1100]. Explain fast parallel comparison with area/power cost.</p><p>For longer answers, expand the outline using the corresponding detailed notes, labelled diagrams and worked examples.</p>"
+          },
+          "diagram": "hw3_cam"
+        },
+        {
+          "h": {
+            "en": "Practice 18 — Compare direct-mapped, fully associative and set-associative caches."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Direct-mapped allows one candidate line, fully associative any line, set-associative any way within the selected set. Discuss conflict flexibility versus lookup complexity. Associativity is not data duplication.</p><p>For longer answers, expand the outline using the corresponding detailed notes, labelled diagrams and worked examples.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 19 — Explain virtual memory and paging."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Define per-process virtual space and MMU translation. Explain pages/frames, page tables, permissions and TLB. Discuss non-resident page handling. Virtual memory is broader than swap and is not simply extra physical RAM.</p><p>For longer answers, expand the outline using the corresponding detailed notes, labelled diagrams and worked examples.</p>"
+          },
+          "diagram": "hw3_virtual"
+        },
+        {
+          "h": {
+            "en": "Practice 20 — Translate 3A7CH with 4 KiB pages when page 3 maps to frame 9."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> 4 KiB =1000H. Page number=3, offset=A7CH. Frame base=9000H. Physical address=9A7CH. The page offset remains unchanged.</p><p>For longer answers, expand the outline using the corresponding detailed notes, labelled diagrams and worked examples.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 21 — Explain page fault handling and thrashing."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Check validity/permissions; obtain a frame and required contents for a valid non-resident access, update mapping and retry where appropriate. Invalid accesses may fail. Excessive paging is thrashing; not every fault reads a disk.</p><p>For longer answers, expand the outline using the corresponding detailed notes, labelled diagrams and worked examples.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 22 — Explain segmentation and calculate an address."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> A segment has a base, bound/length and permissions. For base=4000H, length=1000H, offset=0250H gives 4250H; offset=1200H is invalid because it exceeds the permitted range. State that the example uses length semantics.</p><p>For longer answers, expand the outline using the corresponding detailed notes, labelled diagrams and worked examples.</p>"
+          },
+          "diagram": "hw3_segments"
+        },
+        {
+          "h": {
+            "en": "Practice 23 — Compare paging and segmentation."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Compare fixed pages versus variable logical segments, address components, page/frame maps versus base/limit tables, transparency and fragmentation. Paging can waste space inside a final page; variable contiguous segments can leave external holes.</p><p>For longer answers, expand the outline using the corresponding detailed notes, labelled diagrams and worked examples.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 24 — Explain internal and external fragmentation with examples."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> A 6 KiB region allocated two 4 KiB pages leaves 2 KiB unused under this simple example: internal fragmentation. Free holes totalling enough memory but individually too small for a contiguous segment illustrate external fragmentation.</p><p>For longer answers, expand the outline using the corresponding detailed notes, labelled diagrams and worked examples.</p>"
+          }
+        }
+      ]
+    }
+  ],
+  "programs": [],
+  "diagrams": [
+    {
+      "id": "hw3_hierarchy",
+      "title": {
+        "en": "Memory hierarchy (typical tendencies)"
+      },
+      "file": "diagrams/hw3_hierarchy.svg"
+    },
+    {
+      "id": "hw3_cells",
+      "title": {
+        "en": "SRAM and DRAM Conceptual Cells"
+      },
+      "file": "diagrams/hw3_cells.svg"
+    },
+    {
+      "id": "hw3_ddr",
+      "title": {
+        "en": "DDR compatibility checklist"
+      },
+      "file": "diagrams/hw3_ddr.svg"
+    },
+    {
+      "id": "hw3_rom",
+      "title": {
+        "en": "ROM-family programming differences"
+      },
+      "file": "diagrams/hw3_rom.svg"
+    },
+    {
+      "id": "hw3_hdd",
+      "title": {
+        "en": "HDD Parts and Conceptual Layout"
+      },
+      "file": "diagrams/hw3_hdd.svg"
+    },
+    {
+      "id": "hw3_latency",
+      "title": {
+        "en": "Uncached HDD request time model"
+      },
+      "file": "diagrams/hw3_latency.svg"
+    },
+    {
+      "id": "hw3_ssd",
+      "title": {
+        "en": "SSD logical-to-physical organisation"
+      },
+      "file": "diagrams/hw3_ssd.svg"
+    },
+    {
+      "id": "hw3_removable",
+      "title": {
+        "en": "Optical and USB storage distinctions"
+      },
+      "file": "diagrams/hw3_removable.svg"
+    },
+    {
+      "id": "hw3_cache",
+      "title": {
+        "en": "Cache lookup (conceptual)"
+      },
+      "file": "diagrams/hw3_cache.svg"
+    },
+    {
+      "id": "hw3_cam",
+      "title": {
+        "en": "Address lookup versus content lookup"
+      },
+      "file": "diagrams/hw3_cam.svg"
+    },
+    {
+      "id": "hw3_virtual",
+      "title": {
+        "en": "Paging address translation"
+      },
+      "file": "diagrams/hw3_virtual.svg"
+    },
+    {
+      "id": "hw3_segments",
+      "title": {
+        "en": "Segment base and bounds example"
+      },
+      "file": "diagrams/hw3_segments.svg"
+    }
+  ],
+  "syntax": [
+    {
+      "title": {
+        "en": "Memory Quick Reference"
+      },
+      "items": [
+        {
+          "name": {
+            "en": "Capacity units"
+          },
+          "f": "1 byte = 8 bits\n1 KiB = 1024 bytes",
+          "terms": {
+            "en": "GB/TB decimal differ from GiB/TiB binary."
+          }
+        },
+        {
+          "name": {
+            "en": "DDR bandwidth"
+          },
+          "f": "MT/s * channel width in bytes",
+          "terms": {
+            "en": "3200 MT/s × 8 bytes = 25.6 GB/s theoretical."
+          }
+        },
+        {
+          "name": {
+            "en": "Rotational latency"
+          },
+          "f": "Average ms = 30000 / RPM",
+          "terms": {
+            "en": "Half-rotation model; excludes seek and transfer."
+          }
+        },
+        {
+          "name": {
+            "en": "HDD time model"
+          },
+          "f": "T ≈ Tseek + Trotation + Ttransfer",
+          "terms": {
+            "en": "Add controller/queue time as required; state convention."
+          }
+        },
+        {
+          "name": {
+            "en": "Transfer time"
+          },
+          "f": "Time = size / effective rate",
+          "terms": {
+            "en": "Use consistent units; interface maximum is not effective media rate."
+          }
+        },
+        {
+          "name": {
+            "en": "Cache AMAT"
+          },
+          "f": "AMAT = hit time + miss rate * additional penalty",
+          "terms": {
+            "en": "Miss rate = 1 − hit ratio."
+          }
+        },
+        {
+          "name": {
+            "en": "Paging"
+          },
+          "f": "Page = floor(VA / page_size)\nOffset = VA mod page_size",
+          "terms": {
+            "en": "PA = frame * page_size + offset after valid mapping."
+          }
+        },
+        {
+          "name": {
+            "en": "Segmentation"
+          },
+          "f": "If offset < length: PA = base + offset",
+          "terms": {
+            "en": "Check permission and bounds; example uses length semantics."
+          }
+        }
+      ]
+    }
+  ],
+  "viva": [
+    {
+      "title": {
+        "en": "Unit 3 Viva and Quick Revision"
+      },
+      "items": [
+        {
+          "q": {
+            "en": "What is memory hierarchy?"
+          },
+          "a": {
+            "en": "An arrangement of storage levels balancing access delay, capacity and cost."
+          }
+        },
+        {
+          "q": {
+            "en": "What is temporal locality?"
+          },
+          "a": {
+            "en": "Recently used information is likely to be accessed again."
+          }
+        },
+        {
+          "q": {
+            "en": "What is spatial locality?"
+          },
+          "a": {
+            "en": "Addresses near a recently accessed location are likely to be used soon."
+          }
+        },
+        {
+          "q": {
+            "en": "Is capacity the same as bandwidth?"
+          },
+          "a": {
+            "en": "No. Capacity measures stored quantity; bandwidth measures data transferred per unit time."
+          }
+        },
+        {
+          "q": {
+            "en": "What is volatility?"
+          },
+          "a": {
+            "en": "Whether ordinary stored state is retained when required power is removed."
+          }
+        },
+        {
+          "q": {
+            "en": "Does SRAM retain data with no power?"
+          },
+          "a": {
+            "en": "Ordinary SRAM does not; static means no periodic refresh while powered."
+          }
+        },
+        {
+          "q": {
+            "en": "Why does DRAM need refresh?"
+          },
+          "a": {
+            "en": "Stored capacitor charge leaks and must be restored."
+          }
+        },
+        {
+          "q": {
+            "en": "Where is SRAM commonly used?"
+          },
+          "a": {
+            "en": "CPU caches and small fast buffers."
+          }
+        },
+        {
+          "q": {
+            "en": "Where is DRAM commonly used?"
+          },
+          "a": {
+            "en": "Main system RAM."
+          }
+        },
+        {
+          "q": {
+            "en": "What does DDR mean?"
+          },
+          "a": {
+            "en": "Double Data Rate: transfers on both edges of the data-interface clock."
+          }
+        },
+        {
+          "q": {
+            "en": "Is DDR4-3200 a 3200 MHz base clock?"
+          },
+          "a": {
+            "en": "No. It denotes 3200 MT/s; the simple DDR clock relation gives 1600 MHz."
+          }
+        },
+        {
+          "q": {
+            "en": "Can DDR4 and DDR5 be exchanged because both DIMMs have 288 pins?"
+          },
+          "a": {
+            "en": "No. Keying, signalling and controller requirements differ."
+          }
+        },
+        {
+          "q": {
+            "en": "What does dual channel mean?"
+          },
+          "a": {
+            "en": "Parallel memory-controller channels; it is not a CPU core count."
+          }
+        },
+        {
+          "q": {
+            "en": "Can PROM normally be erased?"
+          },
+          "a": {
+            "en": "An ordinary one-time PROM cannot be erased and rewritten."
+          }
+        },
+        {
+          "q": {
+            "en": "How is classic EPROM erased?"
+          },
+          "a": {
+            "en": "Using suitable ultraviolet exposure in a proper eraser, typically whole-chip."
+          }
+        },
+        {
+          "q": {
+            "en": "How does flash erasure differ from ordinary RAM writes?"
+          },
+          "a": {
+            "en": "Flash generally erases blocks/sectors before supported programming operations."
+          }
+        },
+        {
+          "q": {
+            "en": "What is an HDD track?"
+          },
+          "a": {
+            "en": "A circular recording path on a magnetic platter surface."
+          }
+        },
+        {
+          "q": {
+            "en": "What is seek time?"
+          },
+          "a": {
+            "en": "Time to position the head at the required track region."
+          }
+        },
+        {
+          "q": {
+            "en": "What is rotational latency?"
+          },
+          "a": {
+            "en": "Waiting for the required sector to rotate under the head."
+          }
+        },
+        {
+          "q": {
+            "en": "What is average rotational latency at 7200 RPM?"
+          },
+          "a": {
+            "en": "About 4.17 ms under the half-rotation average model."
+          }
+        },
+        {
+          "q": {
+            "en": "Does interface speed equal HDD media transfer rate?"
+          },
+          "a": {
+            "en": "No. Mechanics, media and request pattern may be slower than the host link."
+          }
+        },
+        {
+          "q": {
+            "en": "Does an SSD have seek time from moving heads?"
+          },
+          "a": {
+            "en": "No. It has no such mechanical heads, though electronic latency remains."
+          }
+        },
+        {
+          "q": {
+            "en": "What is the FTL?"
+          },
+          "a": {
+            "en": "Flash translation layer mapping host logical blocks to flash locations."
+          }
+        },
+        {
+          "q": {
+            "en": "What is wear levelling?"
+          },
+          "a": {
+            "en": "Distributing flash writes/erases to avoid unnecessarily concentrating wear."
+          }
+        },
+        {
+          "q": {
+            "en": "What is garbage collection in an SSD?"
+          },
+          "a": {
+            "en": "Consolidating valid data and reclaiming blocks for erasure/reuse."
+          }
+        },
+        {
+          "q": {
+            "en": "Is TRIM a guaranteed secure erase?"
+          },
+          "a": {
+            "en": "No. It identifies unused logical blocks; secure erasure requires a supported separate process."
+          }
+        },
+        {
+          "q": {
+            "en": "Is every M.2 drive NVMe?"
+          },
+          "a": {
+            "en": "No. Supported M.2 storage devices may use SATA or PCIe/NVMe."
+          }
+        },
+        {
+          "q": {
+            "en": "What is a common single-layer DVD capacity?"
+          },
+          "a": {
+            "en": "Approximately 4.7 GB decimal for a single-sided disc."
+          }
+        },
+        {
+          "q": {
+            "en": "Is USB a storage technology?"
+          },
+          "a": {
+            "en": "USB is an interface/bus family; a USB flash drive stores data in semiconductor flash."
+          }
+        },
+        {
+          "q": {
+            "en": "What is a cache hit?"
+          },
+          "a": {
+            "en": "The requested information is found in a valid matching cache entry."
+          }
+        },
+        {
+          "q": {
+            "en": "Is L3 always shared by every core?"
+          },
+          "a": {
+            "en": "No. Cache organisation varies by processor."
+          }
+        },
+        {
+          "q": {
+            "en": "What is CAM?"
+          },
+          "a": {
+            "en": "Content-addressable memory, searched by comparing a key with stored contents."
+          }
+        },
+        {
+          "q": {
+            "en": "What is a page?"
+          },
+          "a": {
+            "en": "A fixed-size unit of virtual address-space mapping."
+          }
+        },
+        {
+          "q": {
+            "en": "What is a frame?"
+          },
+          "a": {
+            "en": "A physical memory unit corresponding to a supported page size."
+          }
+        },
+        {
+          "q": {
+            "en": "Does a TLB miss always cause a page fault?"
+          },
+          "a": {
+            "en": "No. The page can be resident and its mapping obtained from page tables."
+          }
+        },
+        {
+          "q": {
+            "en": "Does every page fault require reading a disk?"
+          },
+          "a": {
+            "en": "No. Zero-fill, copy-on-write and protection cases may not require disk reads."
+          }
+        },
+        {
+          "q": {
+            "en": "What is thrashing?"
+          },
+          "a": {
+            "en": "Excessive paging that leaves too little time for useful program execution."
+          }
+        },
+        {
+          "q": {
+            "en": "What is segmentation?"
+          },
+          "a": {
+            "en": "Division into variable-size logical regions mapped using bases, limits and permissions."
+          }
+        },
+        {
+          "q": {
+            "en": "What fragmentation can paging produce?"
+          },
+          "a": {
+            "en": "Internal fragmentation within allocated pages."
+          }
+        },
+        {
+          "q": {
+            "en": "What fragmentation can variable-size segments produce?"
+          },
+          "a": {
+            "en": "External fragmentation between allocated regions."
+          }
+        }
+      ]
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Practice: Draw and explain memory hierarchy."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Classify memory with examples."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Compare RAM and ROM."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Explain SRAM and DRAM cells and compare them."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Explain DDR generations and compatibility."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Calculate theoretical DDR4-3200 bandwidth for one 64-bit channel."
+      },
+      "marks": 3
+    },
+    {
+      "q": {
+        "en": "Practice: Compare PROM, EPROM, EEPROM and flash."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Draw and explain HDD construction and operation."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Differentiate seek time, rotational latency and transfer time."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Calculate average rotational latency at 5400 and 7200 RPM."
+      },
+      "marks": 3
+    },
+    {
+      "q": {
+        "en": "Practice: Calculate access time for 8 ms seek, 7200 RPM and 1 MiB at 100 MiB/s."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Explain SSD construction and working."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Classify SSD types and compare HDD with SSD."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Write notes on DVD and USB flash storage."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Explain L1, L2 and L3 cache and their significance."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Calculate AMAT with 2 ns hit time, 95% hit ratio and 60 ns additional miss penalty."
+      },
+      "marks": 3
+    },
+    {
+      "q": {
+        "en": "Practice: Explain associative memory with an example."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Compare direct-mapped, fully associative and set-associative caches."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Explain virtual memory and paging."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Translate 3A7CH with 4 KiB pages when page 3 maps to frame 9."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Explain page fault handling and thrashing."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Explain segmentation and calculate an address."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Compare paging and segmentation."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Explain internal and external fragmentation with examples."
+      },
+      "marks": 4
+    }
+  ],
+  "content_kind": "theory_and_worked_examples",
+  "question_provenance": "Original author-created practice, not claimed as past GTU questions.",
+  "question_marks_are_suggested": true,
+  "assessment_note": {
+    "en": "18% unit weightage and 8 hours are from the supplied syllabus. Individual question marks are suggestions."
+  },
+  "sources": [
+    {
+      "title": "GTU DI05007011 syllabus effective 2026–27",
+      "reference": "Owner-supplied DI05007011.pdf, Unit 3 on pages 5–6",
+      "status": "Inspected supplied syllabus for coverage; teaching explanations are newly authored, not copied from the PDF."
+    }
+  ],
+  "runtime_evidence": {
+    "physical_hardware_tested": false,
+    "programs_executed": false,
+    "note": "Theory, paper calculations and conceptual diagrams only; no device-specific service testing."
+  }
+}

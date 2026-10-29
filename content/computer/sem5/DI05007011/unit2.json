@@ -1,0 +1,1267 @@
+{
+  "subject": "DI05007011",
+  "unit": 2,
+  "format": "notes",
+  "title": {
+    "en": "Processor Architecture & Motherboard"
+  },
+  "hours": 11,
+  "weightage": 25,
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "intro_text": {
+    "en": "Detailed English Unit 2 for GTU DI05007011, effective 2026–27: 8085 architecture and pins, RISC/CISC, multi-core, motherboards, chipsets, buses, SMPS, SATA/NVMe and RAID. Original practice marks are suggested. Hardware practicals require supervision; no physical tests are claimed."
+  },
+  "notes": [
+    {
+      "title": {
+        "en": "2.1 Introduction to Microprocessors"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "2.1.1 Definition and functions of a microprocessor"
+          },
+          "body": {
+            "en": "<p>A <b>microprocessor</b> is a programmable integrated circuit that performs the main processing functions of a CPU. It reads instructions, interprets them and controls arithmetic, logic and data-transfer operations. Its behaviour changes when the program changes; it is not a single-purpose calculator circuit.</p><ul><li><b>Arithmetic:</b> addition, subtraction and other operations supported by the instruction set.</li><li><b>Logic:</b> comparisons and bit operations such as AND, OR and XOR.</li><li><b>Data transfer:</b> moving information between registers, memory and I/O.</li><li><b>Control:</b> sequencing instructions, branching and responding to interrupts.</li></ul><p><b>Example:</b> in an educational temperature-monitoring system, input circuitry supplies a numerical reading. A processor compares it with a stored threshold and asks an output circuit to show a warning. The processor does not directly measure temperature without an appropriate sensor/interface.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "2.1.2 Microprocessor-based system and instruction cycle"
+          },
+          "body": {
+            "en": "<p>A practical system needs a processor, program/data memory, I/O interfaces, clock, reset and a suitable power supply. Buses connect these functional blocks. The <b>instruction set architecture (ISA)</b> defines programmer-visible instructions and registers; microarchitecture is the internal implementation.</p><ol><li><b>Fetch:</b> the CPU obtains an instruction byte from memory using an address associated with the program counter.</li><li><b>Decode:</b> control logic interprets the opcode.</li><li><b>Obtain operands:</b> required values come from registers, immediate bytes or memory.</li><li><b>Execute and store:</b> the required operation is performed and results/state are updated.</li></ol><p>This is a conceptual sequence, not a claim that every instruction uses one clock period. In the 8085, instructions take machine cycles and T-states, and different instructions take different amounts of time.</p>"
+          },
+          "diagram": "hw2_system"
+        },
+        {
+          "h": {
+            "en": "2.1.3 Microprocessor versus microcontroller"
+          },
+          "body": {
+            "en": "<table><tr><th>Basis</th><th>Microprocessor</th><th>Microcontroller</th></tr><tr><td>Typical integration</td><td>CPU-oriented; often external memory and peripheral chips</td><td>CPU with memory and selected peripherals on one chip</td></tr><tr><td>Typical use</td><td>General-purpose processing or processor-based systems</td><td>Embedded control</td></tr><tr><td>Example</td><td>8085 with external memory/I/O</td><td>An embedded controller with flash, RAM and timers</td></tr></table><p>Modern products blur simple boundaries: a system-on-chip can integrate many functions. Identify the actual device rather than assuming every processor needs the same supporting chips.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "2.1.4 Key points — processor fundamentals"
+          },
+          "body": {
+            "en": "<ul><li>A microprocessor executes a stored program; a complete computer includes supporting resources.</li><li>An opcode specifies an operation; an operand supplies data or identifies where data is found.</li><li>Clock frequency alone does not give the execution time of every instruction.</li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.2 Overview and Architecture of the 8085"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "2.2.1 Main features of the 8085"
+          },
+          "body": {
+            "en": "<p>The <b>Intel 8085</b> is a historical 8-bit microprocessor useful for learning CPU organisation. “8-bit” refers to its basic data processing/data-bus width, not its address width.</p><table><tr><th>Feature</th><th>Meaning</th></tr><tr><td>8-bit ALU and external data bus</td><td>Ordinary data operations handle 8-bit quantities</td></tr><tr><td>16-bit address bus</td><td>Addresses 2<sup>16</sup> = 65,536 byte locations = 64 KiB</td></tr><tr><td>40-pin DIP package</td><td>Multiplexing helps fit address, data and control signals into the package</td></tr><tr><td>Single +5 V supply</td><td>The classic device uses a +5 V supply; use the exact device datasheet for electrical limits</td></tr><tr><td>Registers</td><td>A, B, C, D, E, H, L, flag register, PC and SP</td></tr><tr><td>Interrupt inputs</td><td>TRAP, RST 7.5, RST 6.5, RST 5.5 and INTR</td></tr><tr><td>Serial I/O</td><td>SID and SOD, controlled through RIM/SIM</td></tr><tr><td>Clock/control integration</td><td>On-chip clock generation circuitry and bus-control functions</td></tr></table><p>Common teaching examples use a 3 MHz processor clock, but speed grades differ. The crystal/input frequency is divided internally for the processor clock; do not assume an arbitrary crystal frequency equals the CPU operating frequency.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "2.2.2 Reading the 8085 architecture diagram"
+          },
+          "body": {
+            "en": "<p>The architecture contains an <b>ALU and accumulator</b>, temporary/internal registers, flag register, register array, PC, SP, instruction register/decoder, timing/control, interrupt control, serial I/O control, and address/data buffers.</p><p>Registers hold immediate working state. An internal data path transfers values between blocks. Address buffers drive the address lines; multiplexed address/data buffers share AD0–AD7 over time. Timing/control coordinates memory and I/O operations.</p><p><b>Example:</b> to add register B to A, the ALU receives A and B, performs addition, returns the 8-bit result to A and updates relevant flags. It does not automatically store the result to external RAM.</p>"
+          },
+          "diagram": "hw2_arch"
+        },
+        {
+          "h": {
+            "en": "2.2.3 Accumulator, ALU and flag register"
+          },
+          "body": {
+            "en": "<p>The <b>accumulator A</b> is an 8-bit register central to many arithmetic and logical operations. The ALU performs the operation while A commonly supplies an operand and receives the result. Internal temporary registers support execution and are not all directly available to the programmer.</p><table><tr><th>Flag</th><th>Meaning after an applicable operation</th></tr><tr><td>S — Sign</td><td>Copies result bit D7; relevant to signed interpretation</td></tr><tr><td>Z — Zero</td><td>Set when the 8-bit result is zero</td></tr><tr><td>AC — Auxiliary carry</td><td>Carry from bit 3 to bit 4, used for decimal-adjust-related processing</td></tr><tr><td>P — Parity</td><td>Set for an even number of 1 bits in the result</td></tr><tr><td>CY — Carry</td><td>Reports carry/borrow according to the operation</td></tr></table><p><b>Worked example:</b> FFH + 01H = 100H. A retains 00H; CY=1, Z=1, S=0, P=1 and AC=1 for this addition. The carry is stored separately from A. Not every instruction changes every flag: data-transfer instructions generally do not update flags.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "2.2.4 General-purpose registers and register pairs"
+          },
+          "body": {
+            "en": "<p><b>B, C, D, E, H and L</b> are six 8-bit general-purpose registers. Instructions can use them individually or, where supported, as <b>BC, DE and HL</b> 16-bit pairs. The first-named register is the high byte.</p><table><tr><th>Register/pair</th><th>Example</th><th>Interpretation</th></tr><tr><td>B and C</td><td>B=20H, C=10H</td><td>BC=2010H</td></tr><tr><td>D and E</td><td>D=30H, E=00H</td><td>DE=3000H</td></tr><tr><td>H and L</td><td>H=25H, L=40H</td><td>HL=2540H; often used as a memory pointer</td></tr></table><p>In instructions using <b>M</b>, M means the memory byte addressed by HL, not a separate physical register named M. With HL=2540H, <code>MOV A,M</code> reads the byte at address 2540H into A. It does not put the number 2540H into A.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "2.2.5 Program counter and stack pointer"
+          },
+          "body": {
+            "en": "<p>The <b>program counter (PC)</b> is a 16-bit register used for instruction sequencing. During fetching it advances through instruction bytes; jumps, calls, returns and interrupts can change the sequence. PC is an address, not the instruction itself.</p><p>The <b>stack pointer (SP)</b> is a 16-bit register identifying the top of a software-managed stack in external RAM. The stack stores such things as saved register pairs and return addresses. It is not an internal memory array inside SP.</p><p><b>Worked PUSH example:</b> initially SP=3000H, B=12H and C=34H. After <code>PUSH B</code>, 12H is stored at 2FFFH, 34H at 2FFEH, and SP=2FFEH. A matching <code>POP B</code> restores C from 2FFEH and B from 2FFFH, then SP becomes 3000H. Thus the stack grows towards lower addresses. Stack RAM must be valid and must not overwrite program/data accidentally.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "2.2.6 Address, data and control buses"
+          },
+          "body": {
+            "en": "<p>A <b>bus</b> is a set of signal lines carrying related information.</p><table><tr><th>Bus</th><th>8085 characteristic</th><th>Purpose</th></tr><tr><td>Address</td><td>16 bits; CPU drives addresses during normal CPU bus ownership</td><td>Select a memory location or I/O port</td></tr><tr><td>Data</td><td>8 bits, bidirectional</td><td>Carry instruction/data bytes</td></tr><tr><td>Control/status</td><td>Multiple signals with different directions</td><td>Indicate read/write, memory/I/O, readiness and bus ownership</td></tr></table><p><b>Memory range:</b> 0000H–FFFFH includes 65,536 byte addresses. A 16-bit address bus does not mean 16-bit ordinary data transfers. Isolated I/O instructions use an 8-bit port number; memory-mapped I/O uses memory addresses and consumes part of the memory map.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "2.2.7 Multiplexing and ALE — separating address from data"
+          },
+          "body": {
+            "en": "<p>Pins <b>AD0–AD7</b> carry low-order address bits A0–A7 during T1, then serve as the data bus during the later part of the machine cycle. Pins A8–A15 carry the high address byte. This saves pins, but external circuitry must preserve the low address while the shared pins carry data.</p><ol><li>The CPU outputs the address; ALE indicates the address-latch interval.</li><li>An external latch captures A0–A7.</li><li>The latch continues to present the captured low address after ALE falls.</li><li>AD0–AD7 can now carry a read or write data byte.</li></ol><p><b>Example:</b> for address 2050H, A8–A15 carry 20H and AD0–AD7 initially carry 50H. If the memory byte is A6H, the shared lines later carry A6H during the read. Without a latch the low address would be lost.</p>"
+          },
+          "diagram": "hw2_ale"
+        },
+        {
+          "h": {
+            "en": "2.2.8 Key points — 8085 organisation"
+          },
+          "body": {
+            "en": "<ul><li>A is 8-bit; PC and SP are 16-bit.</li><li>BC, DE and HL are supported register pairs; M refers to memory at HL.</li><li>Address capacity = 2<sup>16</sup> bytes = 64 KiB, not 64 MB.</li><li>The ALU computes; the control unit sequences; flags describe applicable results.</li><li>ALE helps demultiplex AD0–AD7; it is not a data-storage instruction.</li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.3 Pin Diagram and Signal Groups of 8085"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "2.3.1 Pin numbering and active-low notation"
+          },
+          "body": {
+            "en": "<p>The diagram shows the <b>classic 40-pin DIP 8085, top view</b>. With the notch at the top, pin 1 is top-left. Count down the left side to 20, then up the right side from 21 to 40. Reversing the view reverses apparent positions.</p><p>Here a slash means <b>active-low</b>: /RD is asserted at logic 0. It corresponds to a bar over RD in many textbooks. The status signal IO/M is 1 for I/O and 0 for memory in normal read/write classification; the slash here separates the names and does not mean both letters are an active-low pin name.</p>"
+          },
+          "diagram": "hw2_pins"
+        },
+        {
+          "h": {
+            "en": "2.3.2 Complete pin-reference table"
+          },
+          "body": {
+            "en": "<table><tr><th>Pin</th><th>Signal</th><th>Function</th></tr><tr><td>1</td><td>X1</td><td>Clock crystal/input connection</td></tr><tr><td>2</td><td>X2</td><td>Clock crystal/input connection</td></tr><tr><td>3</td><td>RESET OUT</td><td>Reset-status output to supporting devices</td></tr><tr><td>4</td><td>SOD</td><td>Serial output data</td></tr><tr><td>5</td><td>SID</td><td>Serial input data</td></tr><tr><td>6</td><td>TRAP</td><td>Non-maskable vectored interrupt input</td></tr><tr><td>7</td><td>RST 7.5</td><td>Maskable vectored interrupt input</td></tr><tr><td>8</td><td>RST 6.5</td><td>Maskable vectored interrupt input</td></tr><tr><td>9</td><td>RST 5.5</td><td>Maskable vectored interrupt input</td></tr><tr><td>10</td><td>INTR</td><td>General maskable interrupt request</td></tr><tr><td>11</td><td>/INTA</td><td>Active-low interrupt acknowledgement</td></tr><tr><td>12</td><td>AD0</td><td>Multiplexed low address/data line</td></tr><tr><td>13</td><td>AD1</td><td>Multiplexed low address/data line</td></tr><tr><td>14</td><td>AD2</td><td>Multiplexed low address/data line</td></tr><tr><td>15</td><td>AD3</td><td>Multiplexed low address/data line</td></tr><tr><td>16</td><td>AD4</td><td>Multiplexed low address/data line</td></tr><tr><td>17</td><td>AD5</td><td>Multiplexed low address/data line</td></tr><tr><td>18</td><td>AD6</td><td>Multiplexed low address/data line</td></tr><tr><td>19</td><td>AD7</td><td>Multiplexed low address/data line</td></tr><tr><td>20</td><td>VSS</td><td>Ground</td></tr><tr><td>21</td><td>A8</td><td>High-order address line</td></tr><tr><td>22</td><td>A9</td><td>High-order address line</td></tr><tr><td>23</td><td>A10</td><td>High-order address line</td></tr><tr><td>24</td><td>A11</td><td>High-order address line</td></tr><tr><td>25</td><td>A12</td><td>High-order address line</td></tr><tr><td>26</td><td>A13</td><td>High-order address line</td></tr><tr><td>27</td><td>A14</td><td>High-order address line</td></tr><tr><td>28</td><td>A15</td><td>High-order address line</td></tr><tr><td>29</td><td>S0</td><td>Machine-cycle status</td></tr><tr><td>30</td><td>ALE</td><td>Address latch enable</td></tr><tr><td>31</td><td>/WR</td><td>Active-low write control</td></tr><tr><td>32</td><td>/RD</td><td>Active-low read control</td></tr><tr><td>33</td><td>IO/M</td><td>I/O versus memory status</td></tr><tr><td>34</td><td>S1</td><td>Machine-cycle status</td></tr><tr><td>35</td><td>READY</td><td>Wait-state request input when low</td></tr><tr><td>36</td><td>/RESET IN</td><td>Active-low reset input</td></tr><tr><td>37</td><td>CLK OUT</td><td>System clock output</td></tr><tr><td>38</td><td>HLDA</td><td>Hold acknowledgement</td></tr><tr><td>39</td><td>HOLD</td><td>External bus-hold request</td></tr><tr><td>40</td><td>VCC</td><td>+5 V supply</td></tr></table>"
+          }
+        },
+        {
+          "h": {
+            "en": "2.3.3 Read, write and status signals"
+          },
+          "body": {
+            "en": "<p><b>/RD</b> asks the selected memory or input device to place data on the bus. <b>/WR</b> asks the selected memory or output device to accept data. Address decoding and status signals determine which device responds; /RD alone does not uniquely select every memory chip.</p><table><tr><th>Cycle</th><th>IO/M</th><th>S1</th><th>S0</th></tr><tr><td>Opcode fetch</td><td>0</td><td>1</td><td>1</td></tr><tr><td>Memory read</td><td>0</td><td>1</td><td>0</td></tr><tr><td>Memory write</td><td>0</td><td>0</td><td>1</td></tr><tr><td>I/O read</td><td>1</td><td>1</td><td>0</td></tr><tr><td>I/O write</td><td>1</td><td>0</td><td>1</td></tr><tr><td>Interrupt acknowledge</td><td>1</td><td>1</td><td>1</td></tr></table><p>This table covers ordinary identification examples. Halt, bus-hold and reset conditions require the device timing/status specification rather than extrapolating this table. During an opcode fetch the byte is an instruction opcode; a memory read may instead obtain an operand.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "2.3.4 Interrupts and serial I/O"
+          },
+          "body": {
+            "en": "<p>An <b>interrupt</b> requests attention so the CPU can run a service routine. A maskable interrupt can be disabled or masked under the supported rules; a non-maskable interrupt is not controlled by the ordinary interrupt-enable flag.</p><table><tr><th>Input</th><th>Priority</th><th>Vector address</th><th>Trigger summary</th></tr><tr><td>TRAP</td><td>Highest</td><td>0024H</td><td>Edge and level sensitive; non-maskable</td></tr><tr><td>RST 7.5</td><td>Next</td><td>003CH</td><td>Rising-edge sensitive, latched</td></tr><tr><td>RST 6.5</td><td>Next</td><td>0034H</td><td>Level sensitive</td></tr><tr><td>RST 5.5</td><td>Next</td><td>002CH</td><td>Level sensitive</td></tr><tr><td>INTR</td><td>Lowest</td><td>Externally supplied instruction determines service entry</td><td>Level sensitive, non-vectored</td></tr></table><p>RST 7.5, 6.5 and 5.5 support individual masking. <b>/INTA</b> acknowledges an accepted INTR request. <b>SID</b> and <b>SOD</b> are serial input/output data pins associated with RIM and SIM. They are not a complete automatic UART or USB interface.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "2.3.5 Clock, reset, READY and DMA handshake"
+          },
+          "body": {
+            "en": "<p><b>X1/X2</b> connect the specified clock network; <b>CLK OUT</b> provides a timing output for supporting circuitry. <b>/RESET IN</b> resets CPU control state and makes execution restart at address 0000H when reset is released according to timing requirements. It does not erase every external RAM location or promise zero in every general register. RESET OUT can reset supporting devices.</p><p><b>READY:</b> a slow memory/peripheral can hold READY low so the processor inserts wait states. This is different from requesting an interrupt.</p><p><b>HOLD/HLDA:</b> an external controller requests the buses using HOLD. After completing the current bus transfer under the device rules, the processor acknowledges using HLDA and releases the relevant buses, allowing direct memory access. A DMA controller still needs valid address, control and arbitration circuitry.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.4 RISC and CISC Architectures"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "2.4.1 Concepts and comparison"
+          },
+          "body": {
+            "en": "<p><b>RISC</b> means Reduced Instruction Set Computer; <b>CISC</b> means Complex Instruction Set Computer. These labels describe broad ISA design traditions, not a guaranteed ranking of speed, power or quality.</p><table><tr><th>Basis</th><th>Typical RISC tendency</th><th>Typical CISC tendency</th></tr><tr><td>Instruction design</td><td>Relatively regular, simpler operations</td><td>More varied operations and addressing modes</td></tr><tr><td>Memory operations</td><td>Load/store approach common</td><td>Some operations directly use memory operands</td></tr><tr><td>Encoding</td><td>Regular encoding common; compressed forms also exist</td><td>Variable-length encoding common</td></tr><tr><td>Registers</td><td>Often a larger programmer-visible register set</td><td>Historically often fewer; exact ISA matters</td></tr><tr><td>Implementation</td><td>Can ease regular decoding/pipelining</td><td>Complex instructions may be decoded into internal operations</td></tr><tr><td>Examples</td><td>Arm, RISC-V</td><td>x86; 8085 is commonly taught in the CISC tradition</td></tr></table>"
+          }
+        },
+        {
+          "h": {
+            "en": "2.4.2 Worked operation comparison and limitations"
+          },
+          "body": {
+            "en": "<p>Suppose a value in memory must be increased. In a load/store ISA, the conceptual steps are <b>load into register → add → store back</b>. Another ISA may provide an instruction that updates a memory operand. Exact assembly syntax and instruction count depend on the ISA.</p><p>Fewer instructions do not automatically mean less time: an instruction may take more cycles, decode differently or wait for memory. Modern implementations use caches, pipelines, speculation and other techniques. Some x86 implementations decode instructions into simpler internal operations; this does not change the externally visible ISA into a RISC ISA.</p><p><b>Exam approach:</b> define both terms, compare at least four tendencies, give examples and end with “actual performance depends on implementation and workload.” Avoid claims that all RISC instructions take one cycle or that CISC cannot be pipelined.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.5 Multi-core Processors"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "2.5.1 Dual-core and quad-core concepts"
+          },
+          "body": {
+            "en": "<p>A <b>core</b> is an instruction-executing processing engine within a processor design. A <b>dual-core</b> processor contains two physical cores; a <b>quad-core</b> contains four. They can make progress on separate instruction streams, subject to software and shared-resource limits.</p><p>Cores may have private caches and share other cache levels, memory controllers or interconnects. Exact sharing is model-dependent. Multiple cores in one package differ from multiple CPU sockets. <b>Simultaneous multithreading (SMT)</b> exposes additional logical execution contexts on a core; four logical processors are not proof of four physical cores.</p>"
+          },
+          "diagram": "hw2_cores"
+        },
+        {
+          "h": {
+            "en": "2.5.2 Advantages and worked speedup example"
+          },
+          "body": {
+            "en": "<ul><li><b>Parallel work:</b> independent tasks or supported portions of a program may run concurrently.</li><li><b>Responsiveness:</b> background work can run while the user interacts with another task.</li><li><b>Throughput:</b> a system can complete more suitable tasks in a given time.</li><li><b>Efficiency opportunities:</b> work can be distributed across suitable cores, but power savings are not automatic.</li></ul><p><b>Worked example:</b> a job takes 100 seconds on one core; 20 seconds are inherently serial and 80 seconds divide perfectly. On four cores the ideal time is 20 + 80/4 = 40 seconds, giving speedup 100/40 = <b>2.5×</b>, not 4×. Synchronisation, scheduling and memory contention may reduce the real gain further.</p><p><b>Key point:</b> compare actual workloads, architecture, memory and thermal limits—not only core counts or GHz.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.6 Motherboard Organisation and Layout"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "2.6.1 Definition and functional block diagram"
+          },
+          "body": {
+            "en": "<p>The <b>motherboard</b> is the main printed circuit board that supports and interconnects the processor, memory, expansion devices, firmware and power/control circuits. A functional block diagram explains relationships; a layout shows physical placement. Neither is a universal wiring guide.</p><p>A generic modern desktop may connect RAM and a primary PCIe graphics/storage path directly to CPU controllers, while a platform controller hub (PCH) handles additional I/O through a CPU–chipset link. AMD and other platforms may use different names and integration. Consult the exact platform block diagram.</p>"
+          },
+          "diagram": "hw2_modern"
+        },
+        {
+          "h": {
+            "en": "2.6.2 Main components and identification"
+          },
+          "body": {
+            "en": "<table><tr><th>Component</th><th>Function</th><th>Identification caution</th></tr><tr><td>CPU socket/package area</td><td>Connects/supports a compatible CPU</td><td>Socket shape alone does not prove BIOS/CPU support</td></tr><tr><td>DIMM slots</td><td>Connect compatible RAM modules</td><td>DDR generations are not interchangeable</td></tr><tr><td>VRM and heatsinks</td><td>Regulate CPU/component power</td><td>Do not touch exposed powered circuitry</td></tr><tr><td>Chipset/PCH</td><td>Coordinates supported I/O</td><td>May be covered by a heatsink</td></tr><tr><td>PCIe slots</td><td>Accept compatible expansion cards</td><td>Physical length may exceed wired lane count</td></tr><tr><td>M.2 socket</td><td>Accepts specified modules</td><td>Check key, protocol, length and lane sharing</td></tr><tr><td>SATA ports</td><td>Connect SATA drives by data cable</td><td>A drive also needs appropriate power</td></tr><tr><td>Firmware flash</td><td>Stores BIOS/UEFI firmware</td><td>Not the same as the CMOS battery</td></tr><tr><td>Coin cell/RTC support</td><td>Supports RTC/settings functions depending on board</td><td>Not the main PC power source</td></tr><tr><td>Headers</td><td>Front panel, fans, USB, audio and other connections</td><td>Use exact manual; pin assignments differ</td></tr></table>"
+          }
+        },
+        {
+          "h": {
+            "en": "2.6.3 Reading a physical layout and checking compatibility"
+          },
+          "body": {
+            "en": "<ol><li>Read the exact board model and revision printed on the PCB or label.</li><li>Find the CPU socket, DIMM slots, expansion slots, storage connectors and power connectors in the manual.</li><li>Check CPU support list and required firmware version.</li><li>Check RAM type/capacity, case mounting points, cooler clearance and PSU suitability.</li><li>Check shared-lane restrictions: using one socket may disable a port or reduce lanes elsewhere.</li><li>Map front-panel power/reset/LED connectors from the manual, not wire colour guesses.</li></ol><p>For unpowered visual identification, shut down, isolate external power and follow manufacturer/ESD procedures. A switched-off PC may still have standby power while connected. Do not move components with power present.</p>"
+          },
+          "diagram": "hw2_layout"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.7 Motherboard Form Factors"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "2.7.1 AT and ATX"
+          },
+          "body": {
+            "en": "<p>A <b>form factor</b> specifies mechanical and associated layout/interface conventions. It is not a processor performance grade.</p><p><b>AT:</b> historical IBM PC/AT-derived boards; full-size AT was roughly 305 × 351 mm, while Baby AT was smaller. Legacy AT systems commonly used paired P8/P9 power connectors and a mechanical mains switch. These are historical recognition topics, not instructions to work on mains wiring.</p><p><b>ATX:</b> commonly 305 × 244 mm for full-size boards, with a defined rear-I/O/expansion arrangement and soft-power control. Modern ATX-derived systems commonly use a 24-pin main power connector plus a separate CPU-power connector. Earlier ATX supplies/boards used 20-pin arrangements. Always check the actual generation.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "2.7.2 ATX, Micro-ATX and Mini-ITX comparison"
+          },
+          "body": {
+            "en": "<table><tr><th>Form factor</th><th>Common maximum/standard size</th><th>Expansion tendency</th><th>Typical use</th></tr><tr><td>ATX</td><td>305 × 244 mm</td><td>More expansion positions; often more connectors</td><td>General/full-size desktop</td></tr><tr><td>Micro-ATX</td><td>244 × 244 mm maximum</td><td>Up to four expansion positions in the form-factor envelope</td><td>Compact/mainstream desktop</td></tr><tr><td>Mini-ITX</td><td>170 × 170 mm</td><td>Usually one expansion position</td><td>Small-form-factor desktop</td></tr></table><p>Commercial boards may be narrower than their form-factor maximum. Actual RAM slots, M.2 sockets and performance depend on the model. Mini-ITX does not mean a weak processor; it mainly constrains space, expansion and cooling options.</p><p><b>Worked selection:</b> for a compact office PC with one optional add-in card, Micro-ATX or Mini-ITX may suit. For several add-in cards, examine ATX board lane allocation and spacing. A larger case may support smaller boards only when mounting locations and clearances match.</p>"
+          },
+          "diagram": "hw2_forms"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.8 Chipset Architecture"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "2.8.1 Traditional northbridge and southbridge"
+          },
+          "body": {
+            "en": "<p>A <b>chipset</b> is supporting control logic for the processor platform. In a traditional two-hub PC design, the <b>northbridge</b> handled comparatively high-speed paths such as CPU–RAM and graphics connectivity. The <b>southbridge</b> handled lower-speed I/O such as storage, USB, firmware interfaces and legacy peripherals, according to the chipset generation.</p><p>A simplified path was CPU ↔ northbridge ↔ RAM/graphics, with southbridge connected below the northbridge. “North” and “south” are diagram conventions, not guaranteed physical board positions. They are not parts of the 8085 architecture.</p>"
+          },
+          "diagram": "hw2_legacy"
+        },
+        {
+          "h": {
+            "en": "2.8.2 Modern integration and comparison"
+          },
+          "body": {
+            "en": "<p>Many modern CPUs integrate the memory controller and some PCIe connectivity. A PCH or related chipset handles additional I/O. Some systems-on-chip integrate still more functions.</p><table><tr><th>Question</th><th>Traditional two-hub example</th><th>Common modern example</th></tr><tr><td>Who controls RAM?</td><td>Northbridge</td><td>CPU-integrated memory controller</td></tr><tr><td>Primary graphics path</td><td>Northbridge AGP/PCIe path</td><td>Often CPU PCIe lanes</td></tr><tr><td>Other I/O</td><td>Southbridge</td><td>PCH/chipset or SoC</td></tr><tr><td>Important limitation</td><td>Generation-dependent features</td><td>CPU–chipset link bandwidth can be shared by several devices</td></tr></table><p><b>Example:</b> two fast drives attached through the chipset may share the chipset uplink. Their advertised individual maximum rates do not guarantee both can sustain those rates simultaneously. Platform manuals identify the actual connections.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.9 Expansion Buses and Slots"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "2.9.1 Purpose and bus comparison"
+          },
+          "body": {
+            "en": "<p>An <b>expansion bus</b> connects additional functions such as graphics, network, sound or storage controllers. A <b>slot</b> is a physical connector; electrical signalling and protocol determine compatibility.</p><table><tr><th>Technology</th><th>Organisation</th><th>Typical historical purpose / caution</th></tr><tr><td>ISA</td><td>Legacy parallel shared bus; 8-bit/16-bit versions</td><td>Older expansion cards; obsolete for normal modern desktops</td></tr><tr><td>PCI</td><td>Parallel shared bus, commonly 32-bit; other variants exist</td><td>Network, sound and other cards</td></tr><tr><td>PCI-X</td><td>Parallel PCI-derived server/workstation technology, commonly 64-bit</td><td>Not PCI Express; check voltage/keying and variant support</td></tr><tr><td>PCI Express (PCIe)</td><td>Serial point-to-point links made of lanes</td><td>Modern graphics, network, storage and other expansion</td></tr><tr><td>AGP</td><td>Dedicated parallel graphics interface</td><td>Legacy graphics slot; not compatible with PCIe graphics cards</td></tr><tr><td>USB</td><td>Host-managed serial bus through hubs/ports</td><td>External peripherals and some internal headers; not a PCIe card slot</td></tr><tr><td>VESA Local Bus (VLB)</td><td>Legacy parallel local bus closely associated with 486 systems</td><td>Older graphics/storage expansion; often physically extends a slot arrangement</td></tr></table>"
+          }
+        },
+        {
+          "h": {
+            "en": "2.9.2 PCI Express lanes and bandwidth"
+          },
+          "body": {
+            "en": "<p>A <b>PCIe lane</b> has separate transmit and receive differential pairs, enabling full-duplex communication. Links commonly use x1, x4, x8 or x16 lane widths. Generation and negotiated width both affect available bandwidth.</p><p>A mechanical x16 slot can be electrically wired as x4. A smaller compatible card can often fit a larger suitable slot, but firmware, power, clearance and vendor restrictions still matter. Shared CPU lanes can change widths when multiple cards are installed.</p><p><b>Worked Gen3 estimate:</b> PCIe 3.0 uses 8 GT/s per lane and 128b/130b encoding. Approximate encoded payload capacity before higher-level overhead is 8 × 128/130 ÷ 8 = <b>0.985 GB/s per lane per direction</b>. For x4 it is about <b>3.94 GB/s per direction</b>. Application throughput is lower and depends on devices/workload. Do not confuse GT/s with GB/s.</p>"
+          },
+          "diagram": "hw2_pcie"
+        },
+        {
+          "h": {
+            "en": "2.9.3 Legacy compatibility and USB distinctions"
+          },
+          "body": {
+            "en": "<p><b>ISA, PCI, PCI-X, AGP and VLB are not interchangeable names.</b> Card length, notches, signalling voltage and protocol differ. Never force a card into a slot or use appearance alone to declare compatibility.</p><p><b>USB</b> connects devices through a host-controlled topology. USB-A, USB-B and USB-C describe connector families; connector shape does not uniquely determine data speed, charging power, display support or Thunderbolt capability. USB is included in this syllabus bus list, but is not a conventional motherboard add-in card edge slot.</p><p><b>Revision:</b> PCI-X has an X in the name but is not PCIe. AGP was a dedicated graphics path; PCIe serves many device types. VLB is historical, not an alternative name for a modern high-speed interconnect.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.10 SMPS Working and Connectors"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "2.10.1 Principle and functional stages"
+          },
+          "body": {
+            "en": "<p>A <b>switched-mode power supply (SMPS)</b> converts input power into regulated outputs using high-frequency switching. A desktop PSU accepts mains AC and provides suitable DC rails and control signals.</p><ol><li><b>Input protection/filtering:</b> limits interference and provides protective functions.</li><li><b>Rectification and high-voltage DC stage:</b> converts AC into a DC bus; power-factor-correction circuitry may be included.</li><li><b>High-frequency switching:</b> semiconductor switches control energy transfer.</li><li><b>Isolation/transformer stage:</b> transfers energy with the required isolation in the design.</li><li><b>Secondary rectification/conversion and filtering:</b> produces DC output rails. Modern supplies may derive some rails through DC–DC stages.</li><li><b>Feedback and protection:</b> regulate outputs and respond to relevant abnormal conditions.</li></ol><p>High switching frequency permits smaller magnetic components than a simple mains-frequency transformer design. Efficiency is output power divided by input power; a wattage rating is not the power constantly consumed by every PC.</p>"
+          },
+          "diagram": "hw2_smps"
+        },
+        {
+          "h": {
+            "en": "2.10.2 Common PC power connectors"
+          },
+          "body": {
+            "en": "<table><tr><th>Connector</th><th>Normal role</th><th>Important caution</th></tr><tr><td>ATX main 24-pin / 20+4</td><td>Motherboard main power and control; common legacy rails +3.3 V, +5 V, +12 V, -12 V and +5 V standby</td><td>Exact pinout/revision matters; not every modern platform uses this design</td></tr><tr><td>CPU ATX12V 4-pin / EPS-style 8-pin, often 4+4</td><td>12 V input near CPU VRM</td><td>Not interchangeable with a PCIe GPU 8-pin cable</td></tr><tr><td>PCIe GPU 6-pin / 6+2</td><td>Auxiliary power for compatible graphics cards</td><td>Use PSU/card-approved cables; do not force or substitute CPU leads</td></tr><tr><td>Newer high-power GPU connector families</td><td>Power for supported newer graphics cards</td><td>Follow exact connector, seating, cable and bend guidance</td></tr><tr><td>SATA power 15-pin</td><td>Power for compatible SATA drives</td><td>Different from 7-pin SATA data</td></tr><tr><td>Legacy peripheral 4-pin</td><td>Older drives and selected accessories</td><td>Not the 4-pin CPU-power connector</td></tr><tr><td>Modular PSU-side connectors</td><td>Attach removable PSU cables</td><td>Pinouts are not universal even when plugs fit</td></tr></table><p><b>Soft power:</b> on conventional ATX, the motherboard asserts <b>PS_ON#</b> to request main outputs; the PSU provides <b>PWR_OK</b> when outputs satisfy its required conditions. Standby power can remain present while the PC appears off. A case power button normally signals the motherboard; it is not a mains-isolation switch.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "2.10.3 Safe SMPS study and measurement limits"
+          },
+          "body": {
+            "en": "<p><b>Never open a PSU enclosure.</b> Internal capacitors may retain dangerous energy after unplugging. Do not bypass protective earth, short unknown pins, perform improvised paperclip tests or probe the mains/primary side.</p><p>The syllabus includes a supervised practical measuring SMPS outputs with a digital multimeter. Treat that as an instructor-controlled laboratory activity using a documented, protected low-voltage test setup—not a home experiment. Identify connectors from the exact manual while unpowered; an instructor must approve any powered secondary-side measurements and meter setup.</p><p>A voltage reading alone does not prove ripple, load regulation, protection or overall PSU health. A PSU with a spinning fan is not necessarily good. Replace suspect sealed units through qualified service rather than teaching internal repair here.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.11 SATA, NVMe and RAID"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "2.11.1 SATA storage interface"
+          },
+          "body": {
+            "en": "<p><b>Serial ATA (SATA)</b> is a serial storage interface used by many HDDs, SSDs and optical drives. A typical desktop SATA drive has separate <b>7-pin data</b> and <b>15-pin power</b> connections. The data cable connects a drive to a host port; it does not normally supply the drive’s main operating power.</p><p>SATA generations commonly specify 1.5, 3 and 6 Gb/s link rates. SATA 6 Gb/s uses 8b/10b encoding: 6 × 8/10 ÷ 8 = <b>0.6 GB/s</b> before protocol overhead. Actual application speed is lower. A SATA SSD can outperform an HDD despite using the same interface because the storage medium/controller differs.</p><p>Hot-plug support depends on controller, firmware, software and enclosure design. It is not permission to unplug arbitrary internal cables while powered. For ordinary installation follow the manufacturer’s shutdown/isolation procedure.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "2.11.2 NVMe and the M.2 distinction"
+          },
+          "body": {
+            "en": "<p><b>NVM Express (NVMe)</b> is a storage command/interface architecture designed for non-volatile memory. Common local NVMe SSDs communicate over PCIe. NVMe supports queues and parallel command handling suited to fast storage; it is not simply a faster SATA cable.</p><p><b>M.2</b> is a module/connector form-factor specification. An M.2 storage module/socket may support SATA or PCIe/NVMe, depending on its implementation. <b>M.2 does not automatically mean NVMe</b>, and NVMe drives also exist in other form factors such as add-in cards and supported 2.5-inch connector arrangements.</p><table><tr><th>Check</th><th>Reason</th></tr><tr><td>Protocol</td><td>SATA-only and PCIe/NVMe-only support may differ</td></tr><tr><td>Keying</td><td>Mechanical compatibility does not by itself prove protocol support</td></tr><tr><td>Length</td><td>A 2280 module is nominally 22 mm wide and 80 mm long; other sizes exist</td></tr><tr><td>PCIe generation/lanes</td><td>Negotiated link can limit throughput</td></tr><tr><td>Boot/firmware support</td><td>Detection and boot support depend on platform</td></tr><tr><td>Lane/port sharing</td><td>Installing a module may disable a SATA port or change other links</td></tr></table><p>A typical M.2 NVMe drive plugs directly into the supported motherboard socket and does not use an ordinary SATA data cable. Read the board manual before fitting it.</p>"
+          },
+          "diagram": "hw2_storage"
+        },
+        {
+          "h": {
+            "en": "2.11.3 RAID concept and levels"
+          },
+          "body": {
+            "en": "<p><b>RAID</b> combines drives into an array using techniques such as striping, mirroring and parity. It is a storage-organisation method, <b>not a physical connector or transport interface</b>. Software or dedicated controllers can implement RAID.</p><table><tr><th>Level</th><th>Technique</th><th>Minimum drives</th><th>Usable capacity with N equal drives of S</th><th>Fault tolerance</th></tr><tr><td>RAID 0</td><td>Striping</td><td>2</td><td>N × S</td><td>None; one drive failure can lose the array</td></tr><tr><td>RAID 1</td><td>Mirroring, common two-drive case</td><td>2</td><td>S for a two-drive mirror</td><td>One drive in a two-drive mirror</td></tr><tr><td>RAID 5</td><td>Striping with single distributed parity</td><td>3</td><td>(N − 1) × S</td><td>Any one drive</td></tr><tr><td>RAID 6</td><td>Striping with dual distributed parity</td><td>4</td><td>(N − 2) × S</td><td>Any two drives</td></tr><tr><td>RAID 10</td><td>Stripe across mirrored pairs</td><td>4, typically even</td><td>(N/2) × S</td><td>Depends on which drives fail; not any arbitrary two</td></tr></table><p>Capacity formulae ignore filesystem/controller overhead and assume conventional equal-sized arrangements. Mixed drives are often limited by the smallest member in the relevant group. Rebuilds take time, reduce performance and can expose additional failures.</p>"
+          },
+          "diagram": "hw2_raid"
+        },
+        {
+          "h": {
+            "en": "2.11.4 RAID worked examples and backup distinction"
+          },
+          "body": {
+            "en": "<p><b>Example 1:</b> four 2 TB drives yield about 8 TB in RAID 0, 6 TB in RAID 5, 4 TB in RAID 6 or 4 TB in conventional RAID 10, before overhead. These use decimal drive capacities; OS display units may differ.</p><p><b>Example 2:</b> RAID 10 has mirrors (A,B) and (C,D). Failure of A and C can be tolerated because B and D remain. Failure of A and B loses one whole mirror and the array fails. Therefore “RAID 10 survives any two failed drives” is incorrect.</p><p><b>RAID is not backup.</b> Accidental deletion, ransomware, corruption, theft and fire can affect the entire live array. Use separate, tested backups appropriate to the risk. Creating/reconfiguring an array may erase existing data: the lesson uses paper calculations only, not instructions to alter a learner’s live disks.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "2.11.5 Unit-wide revision checklist"
+          },
+          "body": {
+            "en": "<ul><li>Explain microprocessor, buses, registers, PC and SP.</li><li>Draw the 8085 architecture and top-view pin diagram with correct signal names.</li><li>Explain AD multiplexing and ALE using an address/data example.</li><li>Compare RISC/CISC and dual/quad-core without absolute speed claims.</li><li>Identify motherboard components, form factors and traditional/modern chipsets.</li><li>Distinguish all seven syllabus bus technologies.</li><li>Describe SMPS stages and connector roles with electrical safety.</li><li>Distinguish SATA, PCIe, NVMe, M.2 and RAID; solve basic RAID capacity examples.</li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.12 Answered Exam-Style Practice — Suggested Marks"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Practice 1 — Define a microprocessor and explain a microprocessor-based system."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Define a programmable CPU IC. Draw CPU, memory and I/O connected through address/data/control paths. Explain clock/reset/power requirements and illustrate input → processing → output. The CPU is not the complete system.</p><p>Use the detailed corresponding lesson for definitions, diagrams and examples. Expand an outline into connected explanations in an examination.</p>"
+          },
+          "diagram": "hw2_system"
+        },
+        {
+          "h": {
+            "en": "Practice 2 — Explain the main features of 8085."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> State 8-bit ALU/data bus, 16-bit address bus, 64 KiB address space, 40-pin package, +5 V supply, A and six general registers, PC/SP, interrupts and serial I/O. Explain why address width differs from data width.</p><p>Use the detailed corresponding lesson for definitions, diagrams and examples. Expand an outline into connected explanations in an examination.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 3 — Draw and explain the architecture of 8085."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Draw the labelled blocks. Explain accumulator/ALU and flags; B–L registers; PC/SP; instruction decoding; timing/control; interrupt and serial control; A8–A15 and multiplexed AD0–AD7 buffers. Trace an ADD B operation from operands to A and flags.</p><p>Use the detailed corresponding lesson for definitions, diagrams and examples. Expand an outline into connected explanations in an examination.</p>"
+          },
+          "diagram": "hw2_arch"
+        },
+        {
+          "h": {
+            "en": "Practice 4 — Differentiate PC and SP with an example."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Both are 16-bit address registers. PC sequences instruction fetching and is changed by branches/calls/returns. SP identifies the stack in RAM. With SP=3000H and BC=1234H, PUSH B stores 12H at 2FFFH and 34H at 2FFEH; SP becomes 2FFEH.</p><p>Use the detailed corresponding lesson for definitions, diagrams and examples. Expand an outline into connected explanations in an examination.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 5 — Explain 8085 flags using FFH + 01H."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> The 8-bit result is 00H with carry out. S=0, Z=1, AC=1, P=1 and CY=1. Explain each flag and state that not every instruction updates all flags.</p><p>Use the detailed corresponding lesson for definitions, diagrams and examples. Expand an outline into connected explanations in an examination.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 6 — Explain multiplexing of AD0–AD7 and the role of ALE."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> During T1 the shared pins carry A0–A7, captured by an external latch controlled by ALE. They later carry data while the latch maintains the low address. For 2050H the low byte is 50H and high byte is 20H. A later A6H data byte does not change the latched 50H address.</p><p>Use the detailed corresponding lesson for definitions, diagrams and examples. Expand an outline into connected explanations in an examination.</p>"
+          },
+          "diagram": "hw2_ale"
+        },
+        {
+          "h": {
+            "en": "Practice 7 — Draw the 8085 pin diagram and explain signal groups."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Use the top-view 40-pin diagram. Identify clock/reset/power, AD0–AD7, A8–A15, control/status, interrupts, SID/SOD and HOLD/HLDA. Mark active-low signals and explain the meaning of each group.</p><p>Use the detailed corresponding lesson for definitions, diagrams and examples. Expand an outline into connected explanations in an examination.</p>"
+          },
+          "diagram": "hw2_pins"
+        },
+        {
+          "h": {
+            "en": "Practice 8 — Explain interrupt priority in 8085."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Priority is TRAP, RST 7.5, RST 6.5, RST 5.5, INTR. Explain non-maskable versus maskable and vectored versus non-vectored. Give TRAP=0024H, RST7.5=003CH, RST6.5=0034H and RST5.5=002CH. INTR uses an externally supplied instruction.</p><p>Use the detailed corresponding lesson for definitions, diagrams and examples. Expand an outline into connected explanations in an examination.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 9 — Compare RISC and CISC."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Define each, then compare instruction regularity, encoding, memory-operand style, registers and implementation tendencies. Give Arm/RISC-V and x86 examples. Do not claim either label guarantees speed or power consumption.</p><p>Use the detailed corresponding lesson for definitions, diagrams and examples. Expand an outline into connected explanations in an examination.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 10 — Explain dual-core and quad-core processors and their advantages."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Define two versus four physical cores. Explain suitable parallel processing, responsiveness and throughput. Mention shared resources, software parallelism and SMT distinction. A fully serial program does not automatically become four times faster.</p><p>Use the detailed corresponding lesson for definitions, diagrams and examples. Expand an outline into connected explanations in an examination.</p>"
+          },
+          "diagram": "hw2_cores"
+        },
+        {
+          "h": {
+            "en": "Practice 11 — Calculate ideal quad-core speedup for 20% serial work."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 3 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Normalise one-core time to 100 units. Serial part=20; parallel part=80. Four-core ideal time=20+80/4=40; speedup=100/40=2.5. Real overhead can reduce the gain.</p><p>Use the detailed corresponding lesson for definitions, diagrams and examples. Expand an outline into connected explanations in an examination.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 12 — Describe motherboard components and layout identification."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Define motherboard. Explain CPU socket, VRM, DIMMs, chipset, expansion slots, storage sockets, firmware flash, power and front-panel headers. Draw a generic labelled role map and state that exact positions/pinouts require the board manual.</p><p>Use the detailed corresponding lesson for definitions, diagrams and examples. Expand an outline into connected explanations in an examination.</p>"
+          },
+          "diagram": "hw2_layout"
+        },
+        {
+          "h": {
+            "en": "Practice 13 — Compare AT, ATX, Micro-ATX and Mini-ITX."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Identify AT as a historical form-factor family. Compare ATX 305×244 mm, Micro-ATX up to 244×244 mm, and Mini-ITX 170×170 mm. Discuss expansion, case mounting and cooling. Legacy AT power arrangements differ from ATX soft-power systems.</p><p>Use the detailed corresponding lesson for definitions, diagrams and examples. Expand an outline into connected explanations in an examination.</p>"
+          },
+          "diagram": "hw2_forms"
+        },
+        {
+          "h": {
+            "en": "Practice 14 — Explain northbridge/southbridge and modern integration."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Draw traditional CPU → northbridge with RAM/graphics, then southbridge with lower-speed I/O. Contrast CPU-integrated memory controller/direct PCIe plus PCH in many modern systems. Explain shared chipset-uplink bandwidth and platform dependence.</p><p>Use the detailed corresponding lesson for definitions, diagrams and examples. Expand an outline into connected explanations in an examination.</p>"
+          },
+          "diagram": "hw2_legacy"
+        },
+        {
+          "h": {
+            "en": "Practice 15 — Distinguish PCI, PCI-X and PCI Express."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> PCI is a parallel shared expansion bus; PCI-X extends the parallel PCI family, especially in historical servers; PCIe uses serial point-to-point lane-based links. Names and physical resemblance do not guarantee compatibility.</p><p>Use the detailed corresponding lesson for definitions, diagrams and examples. Expand an outline into connected explanations in an examination.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 16 — Write short notes on ISA, AGP, VLB and USB."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> ISA is a legacy expansion bus; AGP is a legacy dedicated graphics interface; VLB is a 486-era local bus; USB is a host-managed serial peripheral bus. Explain that USB connector shape alone does not specify speed.</p><p>Use the detailed corresponding lesson for definitions, diagrams and examples. Expand an outline into connected explanations in an examination.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 17 — Estimate PCIe Gen3 x4 bandwidth before protocol overhead."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 3 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> One lane: 8 GT/s × 128/130 ÷ 8 ≈ 0.985 GB/s per direction. Four lanes ≈ 3.94 GB/s per direction. Distinguish transfer rate, encoding efficiency and actual application throughput.</p><p>Use the detailed corresponding lesson for definitions, diagrams and examples. Expand an outline into connected explanations in an examination.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 18 — Explain SMPS working with a block diagram."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Describe input filtering/protection, rectification/DC bus, switching, isolation transformer, secondary conversion/filtering and feedback/protection. Identify hazardous primary-side stages and state that the sealed PSU must not be opened.</p><p>Use the detailed corresponding lesson for definitions, diagrams and examples. Expand an outline into connected explanations in an examination.</p>"
+          },
+          "diagram": "hw2_smps"
+        },
+        {
+          "h": {
+            "en": "Practice 19 — Identify common PC power connectors and precautions."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Explain main ATX, CPU 4/4+4, PCIe GPU, SATA power and legacy peripheral connectors. Distinguish CPU and GPU cables and warn that modular PSU-side cables are not universally interchangeable. Never identify power connections from shape alone.</p><p>Use the detailed corresponding lesson for definitions, diagrams and examples. Expand an outline into connected explanations in an examination.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "Practice 20 — Compare SATA, NVMe and M.2."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> SATA is a storage interface; NVMe is a storage command/interface architecture commonly used over PCIe locally; M.2 is a mechanical/module specification. M.2 modules/sockets may support different protocols. Compare data/power cabling and check platform compatibility.</p><p>Use the detailed corresponding lesson for definitions, diagrams and examples. Expand an outline into connected explanations in an examination.</p>"
+          },
+          "diagram": "hw2_storage"
+        },
+        {
+          "h": {
+            "en": "Practice 21 — Explain RAID 0, 1, 5, 6 and 10."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 7 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Define striping, mirroring and parity. State minimum drives, conventional equal-drive capacity formulae and fault tolerance. Emphasise RAID 0 has none and RAID 10 tolerance depends on failed-drive placement. RAID is not backup.</p><p>Use the detailed corresponding lesson for definitions, diagrams and examples. Expand an outline into connected explanations in an examination.</p>"
+          },
+          "diagram": "hw2_raid"
+        },
+        {
+          "h": {
+            "en": "Practice 22 — Calculate capacities for four 2 TB drives and explain RAID 10 failures."
+          },
+          "body": {
+            "en": "<p><b>Suggested marks: 4 — original practice, not an official GTU allocation.</b></p><p><b>Model answer / answer outline:</b> Before overhead: RAID0=8 TB, RAID5=6 TB, RAID6=4 TB, RAID10=4 TB. With mirrors (A,B) and (C,D), A+C failure can survive but A+B failure loses one full mirror. Keep separate tested backups.</p><p>Use the detailed corresponding lesson for definitions, diagrams and examples. Expand an outline into connected explanations in an examination.</p>"
+          }
+        }
+      ]
+    }
+  ],
+  "programs": [],
+  "diagrams": [
+    {
+      "id": "hw2_system",
+      "title": {
+        "en": "Microprocessor-based system (conceptual)"
+      },
+      "file": "diagrams/hw2_system.svg"
+    },
+    {
+      "id": "hw2_arch",
+      "title": {
+        "en": "8085 Functional Architecture"
+      },
+      "file": "diagrams/hw2_arch.svg"
+    },
+    {
+      "id": "hw2_ale",
+      "title": {
+        "en": "Demultiplexing AD0-AD7"
+      },
+      "file": "diagrams/hw2_ale.svg"
+    },
+    {
+      "id": "hw2_pins",
+      "title": {
+        "en": "8085 Complete 40-pin Diagram"
+      },
+      "file": "diagrams/hw2_pins.svg"
+    },
+    {
+      "id": "hw2_cores",
+      "title": {
+        "en": "Quad-core concept (not physical layout)"
+      },
+      "file": "diagrams/hw2_cores.svg"
+    },
+    {
+      "id": "hw2_modern",
+      "title": {
+        "en": "Generic modern platform paths"
+      },
+      "file": "diagrams/hw2_modern.svg"
+    },
+    {
+      "id": "hw2_legacy",
+      "title": {
+        "en": "Traditional two-hub chipset"
+      },
+      "file": "diagrams/hw2_legacy.svg"
+    },
+    {
+      "id": "hw2_layout",
+      "title": {
+        "en": "Generic board identification zones"
+      },
+      "file": "diagrams/hw2_layout.svg"
+    },
+    {
+      "id": "hw2_forms",
+      "title": {
+        "en": "ATX Family Size Comparison"
+      },
+      "file": "diagrams/hw2_forms.svg"
+    },
+    {
+      "id": "hw2_pcie",
+      "title": {
+        "en": "PCIe point-to-point link"
+      },
+      "file": "diagrams/hw2_pcie.svg"
+    },
+    {
+      "id": "hw2_smps",
+      "title": {
+        "en": "SMPS functional energy path"
+      },
+      "file": "diagrams/hw2_smps.svg"
+    },
+    {
+      "id": "hw2_storage",
+      "title": {
+        "en": "Separate the storage concepts"
+      },
+      "file": "diagrams/hw2_storage.svg"
+    },
+    {
+      "id": "hw2_raid",
+      "title": {
+        "en": "RAID 10 example: mirrored pairs"
+      },
+      "file": "diagrams/hw2_raid.svg"
+    }
+  ],
+  "syntax": [
+    {
+      "title": {
+        "en": "Unit 2 Quick Reference"
+      },
+      "items": [
+        {
+          "name": {
+            "en": "8085 address capacity"
+          },
+          "f": "2^16 = 65536 bytes = 64 KiB",
+          "terms": {
+            "en": "Address range 0000H–FFFFH."
+          }
+        },
+        {
+          "name": {
+            "en": "Register widths"
+          },
+          "f": "A,B,C,D,E,H,L: 8 bits\nPC,SP: 16 bits",
+          "terms": {
+            "en": "BC, DE and HL are supported register pairs."
+          }
+        },
+        {
+          "name": {
+            "en": "Stack example"
+          },
+          "f": "SP=3000H; BC=1234H\nPUSH B -> SP=2FFEH",
+          "terms": {
+            "en": "[2FFFH]=12H; [2FFEH]=34H."
+          }
+        },
+        {
+          "name": {
+            "en": "Interrupt priority"
+          },
+          "f": "TRAP > RST7.5 > RST6.5 > RST5.5 > INTR",
+          "terms": {
+            "en": "Priority is not the same as current enabled/pending status."
+          }
+        },
+        {
+          "name": {
+            "en": "Core speedup"
+          },
+          "f": "T(N) = Tserial + Tparallel/N",
+          "terms": {
+            "en": "Idealised model; excludes overhead."
+          }
+        },
+        {
+          "name": {
+            "en": "SATA 6 Gb/s estimate"
+          },
+          "f": "6 * (8/10) / 8 = 0.6 GB/s",
+          "terms": {
+            "en": "Before protocol overhead; not guaranteed drive throughput."
+          }
+        },
+        {
+          "name": {
+            "en": "PCIe Gen3 estimate"
+          },
+          "f": "8 * (128/130) / 8 = 0.985 GB/s/lane",
+          "terms": {
+            "en": "Per direction before higher-layer overhead."
+          }
+        },
+        {
+          "name": {
+            "en": "RAID capacity"
+          },
+          "f": "0: N*S; 5: (N-1)*S\n6: (N-2)*S; 10: (N/2)*S",
+          "terms": {
+            "en": "Conventional equal-drive assumptions; minimum drive counts still apply."
+          }
+        },
+        {
+          "name": {
+            "en": "Storage terms"
+          },
+          "f": "M.2 != NVMe; PCIe != PCI-X\nRAID != backup",
+          "terms": {
+            "en": "Mechanical, protocol, transport and array concepts are distinct."
+          }
+        }
+      ]
+    }
+  ],
+  "viva": [
+    {
+      "title": {
+        "en": "Unit 2 Viva and Quick Revision"
+      },
+      "items": [
+        {
+          "q": {
+            "en": "What makes the 8085 an 8-bit processor?"
+          },
+          "a": {
+            "en": "Its basic ALU/data operations and external data bus are 8-bit; its address bus is 16-bit."
+          }
+        },
+        {
+          "q": {
+            "en": "How much memory can 8085 address?"
+          },
+          "a": {
+            "en": "65,536 byte locations, or 64 KiB, from 0000H to FFFFH."
+          }
+        },
+        {
+          "q": {
+            "en": "Name the six general-purpose registers."
+          },
+          "a": {
+            "en": "B, C, D, E, H and L."
+          }
+        },
+        {
+          "q": {
+            "en": "What is the accumulator?"
+          },
+          "a": {
+            "en": "The 8-bit A register, used by many arithmetic/logical instructions for an operand and result."
+          }
+        },
+        {
+          "q": {
+            "en": "What does M mean in MOV A,M?"
+          },
+          "a": {
+            "en": "The memory byte addressed by HL, not a separate M register."
+          }
+        },
+        {
+          "q": {
+            "en": "What does PC hold?"
+          },
+          "a": {
+            "en": "A 16-bit address used to sequence instruction fetching."
+          }
+        },
+        {
+          "q": {
+            "en": "Where is the stack stored?"
+          },
+          "a": {
+            "en": "In external RAM; SP holds the top-of-stack address."
+          }
+        },
+        {
+          "q": {
+            "en": "Which direction does the 8085 stack grow?"
+          },
+          "a": {
+            "en": "Towards lower memory addresses when data is pushed."
+          }
+        },
+        {
+          "q": {
+            "en": "Name the five flags."
+          },
+          "a": {
+            "en": "Sign, Zero, Auxiliary Carry, Parity and Carry."
+          }
+        },
+        {
+          "q": {
+            "en": "Why are AD0-AD7 multiplexed?"
+          },
+          "a": {
+            "en": "To share pins between the low address byte in T1 and data later, reducing pin count."
+          }
+        },
+        {
+          "q": {
+            "en": "What is ALE used for?"
+          },
+          "a": {
+            "en": "To control capture of the low address byte in an external latch."
+          }
+        },
+        {
+          "q": {
+            "en": "What does /RD mean?"
+          },
+          "a": {
+            "en": "Read control asserted at logic 0."
+          }
+        },
+        {
+          "q": {
+            "en": "What is the highest-priority interrupt?"
+          },
+          "a": {
+            "en": "TRAP, a non-maskable vectored interrupt."
+          }
+        },
+        {
+          "q": {
+            "en": "Is SID/SOD a full UART?"
+          },
+          "a": {
+            "en": "No. They provide basic software-controlled serial input/output functions."
+          }
+        },
+        {
+          "q": {
+            "en": "Why is READY used?"
+          },
+          "a": {
+            "en": "To insert wait states for slow memory or I/O when READY is low."
+          }
+        },
+        {
+          "q": {
+            "en": "What is the HOLD/HLDA handshake?"
+          },
+          "a": {
+            "en": "An external controller requests bus ownership with HOLD; the CPU acknowledges with HLDA under its timing rules."
+          }
+        },
+        {
+          "q": {
+            "en": "Give examples of RISC and CISC ISAs."
+          },
+          "a": {
+            "en": "Arm and RISC-V are RISC examples; x86 is a CISC example."
+          }
+        },
+        {
+          "q": {
+            "en": "Are all RISC instructions one-cycle?"
+          },
+          "a": {
+            "en": "No; timing depends on implementation, instruction and memory/system effects."
+          }
+        },
+        {
+          "q": {
+            "en": "Does quad-core mean four CPU sockets?"
+          },
+          "a": {
+            "en": "No. It means four physical cores in the processor design."
+          }
+        },
+        {
+          "q": {
+            "en": "Does four logical processors prove four cores?"
+          },
+          "a": {
+            "en": "No; SMT can expose multiple logical contexts per physical core."
+          }
+        },
+        {
+          "q": {
+            "en": "What is a motherboard form factor?"
+          },
+          "a": {
+            "en": "Mechanical/layout conventions governing board dimensions, mounting and related arrangements."
+          }
+        },
+        {
+          "q": {
+            "en": "What is the Mini-ITX board size?"
+          },
+          "a": {
+            "en": "170 × 170 mm."
+          }
+        },
+        {
+          "q": {
+            "en": "What did a traditional northbridge handle?"
+          },
+          "a": {
+            "en": "High-speed CPU, memory and graphics paths, depending on generation."
+          }
+        },
+        {
+          "q": {
+            "en": "Where is the memory controller in many modern PCs?"
+          },
+          "a": {
+            "en": "Integrated into the CPU."
+          }
+        },
+        {
+          "q": {
+            "en": "Is PCI-X the same as PCI Express?"
+          },
+          "a": {
+            "en": "No. PCI-X is a parallel PCI-derived technology; PCIe is serial point-to-point."
+          }
+        },
+        {
+          "q": {
+            "en": "What is a PCIe lane?"
+          },
+          "a": {
+            "en": "A full-duplex link unit with separate transmit and receive differential pairs."
+          }
+        },
+        {
+          "q": {
+            "en": "Does a full-length x16 slot guarantee x16 wiring?"
+          },
+          "a": {
+            "en": "No. The slot can be electrically wired for fewer lanes."
+          }
+        },
+        {
+          "q": {
+            "en": "What does USB-C guarantee about speed?"
+          },
+          "a": {
+            "en": "Connector shape alone does not specify the supported speed, power or optional features."
+          }
+        },
+        {
+          "q": {
+            "en": "Why must a PSU enclosure remain closed?"
+          },
+          "a": {
+            "en": "Mains-side circuitry and retained capacitor energy can be dangerous even after unplugging."
+          }
+        },
+        {
+          "q": {
+            "en": "Can CPU and PCIe 8-pin power cables be exchanged?"
+          },
+          "a": {
+            "en": "No; similar appearance does not imply compatible pinouts."
+          }
+        },
+        {
+          "q": {
+            "en": "Can modular PSU cables be reused between arbitrary models?"
+          },
+          "a": {
+            "en": "No. PSU-side pinouts are not universal."
+          }
+        },
+        {
+          "q": {
+            "en": "What is the difference between SATA data and power?"
+          },
+          "a": {
+            "en": "Typical desktop SATA data uses 7 pins; SATA power uses 15 pins."
+          }
+        },
+        {
+          "q": {
+            "en": "Is M.2 a synonym for NVMe?"
+          },
+          "a": {
+            "en": "No. M.2 is a form-factor/connector specification; storage modules may use SATA or PCIe/NVMe."
+          }
+        },
+        {
+          "q": {
+            "en": "Is RAID a storage interface?"
+          },
+          "a": {
+            "en": "No. It is an array organisation method."
+          }
+        },
+        {
+          "q": {
+            "en": "Does RAID 0 provide redundancy?"
+          },
+          "a": {
+            "en": "No. A member failure can lose the entire array."
+          }
+        },
+        {
+          "q": {
+            "en": "Why is RAID not a backup?"
+          },
+          "a": {
+            "en": "It does not independently protect against deletion, ransomware, corruption or site loss."
+          }
+        }
+      ]
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Practice: Define a microprocessor and explain a microprocessor-based system."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Explain the main features of 8085."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Draw and explain the architecture of 8085."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Differentiate PC and SP with an example."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Explain 8085 flags using FFH + 01H."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Explain multiplexing of AD0–AD7 and the role of ALE."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Draw the 8085 pin diagram and explain signal groups."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Explain interrupt priority in 8085."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Compare RISC and CISC."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Explain dual-core and quad-core processors and their advantages."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Calculate ideal quad-core speedup for 20% serial work."
+      },
+      "marks": 3
+    },
+    {
+      "q": {
+        "en": "Practice: Describe motherboard components and layout identification."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Compare AT, ATX, Micro-ATX and Mini-ITX."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Explain northbridge/southbridge and modern integration."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Distinguish PCI, PCI-X and PCI Express."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Write short notes on ISA, AGP, VLB and USB."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Estimate PCIe Gen3 x4 bandwidth before protocol overhead."
+      },
+      "marks": 3
+    },
+    {
+      "q": {
+        "en": "Practice: Explain SMPS working with a block diagram."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Identify common PC power connectors and precautions."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Compare SATA, NVMe and M.2."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Practice: Explain RAID 0, 1, 5, 6 and 10."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Practice: Calculate capacities for four 2 TB drives and explain RAID 10 failures."
+      },
+      "marks": 4
+    }
+  ],
+  "content_kind": "theory_and_guided_study",
+  "question_provenance": "Original author-created practice; not claimed as past GTU examination questions.",
+  "question_marks_are_suggested": true,
+  "assessment_note": {
+    "en": "The 25% unit weightage is from the supplied syllabus. Individual practice marks are suggestions, not official allocations."
+  },
+  "learning_outcomes": [
+    {
+      "en": "Explain 8085 organisation, registers, buses and pin groups; compare processor designs; identify motherboard/chipset/bus roles; explain safe SMPS concepts and distinguish SATA, NVMe, M.2 and RAID."
+    }
+  ],
+  "practical_numbers": [
+    2,
+    3,
+    5
+  ],
+  "sources": [
+    {
+      "title": "GTU DI05007011 syllabus, effective 2026–27",
+      "reference": "Owner-supplied DI05007011.pdf, Unit 2 on pages 4–5; practical list on page 9",
+      "status": "Supplied PDF inspected"
+    },
+    {
+      "title": "Intel 8085 overview and instruction descriptions",
+      "url": "https://en.wikipedia.org/wiki/Intel_8085",
+      "status": "Consulted secondary reference; exact hardware use still requires the device datasheet"
+    }
+  ],
+  "runtime_evidence": {
+    "physical_hardware_tested": false,
+    "programs_executed": false,
+    "note": "Theory and paper calculations only. Empty programs list is intentional; no unrelated Python helper dependencies."
+  }
+}
