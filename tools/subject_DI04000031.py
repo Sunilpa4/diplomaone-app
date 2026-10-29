@@ -31,7 +31,7 @@ SUBJECT = {
                     '1.3 Overview of Document, Key-Value, Wide-Column and Graph databases',
                     '1.4 AI-focused use cases of NoSQL databases'], 'file': None},
         {'no': 2, 'title': {'en': 'Document Databases: MongoDB'}, 'hours': 18, 'weightage': 30,
-         'topics': ['2.1 Documents, collections and BSON',
+         'topics': ['2.1 Documents, collections, BSON and MongoDB architecture',
                     '2.2 Installation, mongosh and basic operations',
                     '2.3 CRUD, data types, query operators, sorting and projection',
                     '2.4 Embedding and references; basic indexing and aggregation',

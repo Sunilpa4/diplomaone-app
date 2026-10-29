@@ -127,11 +127,12 @@ def code(text):
 
 
 def make_T(snips):
-    def T(h, body, diagram=None, key=False):
+    def T(h, body, diagram=None, key=False, programs=None):
         body = re.sub(r'@@(\w+)@@', lambda m: code(snips[m.group(1)]), body)
         item = {'h': tr(h), 'body': tr(body)}
         if diagram: item['diagram'] = diagram
         if key: item['key'] = True
+        if programs: item['programs'] = list(programs)
         return item
     return T
 

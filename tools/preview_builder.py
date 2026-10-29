@@ -195,7 +195,7 @@ function numericals(){
     `<div class="card"><div class="q"><span class="n">${i+1}.</span><span class="t">${t(n.q)}</span>${chev}</div><div class="a">${fixTables(t(n.a))}</div></div>`).join('') + `</div>`;
 }
 function diagrams(){
-  return `<div class="sec">${head(L(U.programs&&META.code_lang!=='python'?'flowcharts':'diagrams'),false)}<div style="height:10px"></div>` + U.diagrams.map((d,i)=>
+  return `<div class="sec">${head(L((U.tabs ? U.tabs.includes('flowcharts')&&!U.tabs.includes('diagrams') : U.programs&&META.code_lang!=='python')?'flowcharts':'diagrams'),false)}<div style="height:10px"></div>` + U.diagrams.map((d,i)=>
     `<div class="dcard" data-dg="${d.id}"><div class="h">${i+1}. ${t(d.title)}</div>${SVG[d.id]}</div>`).join('') + `</div>`;
 }
 function equations(){

@@ -112,7 +112,9 @@ class Unit1Tests(unittest.TestCase):
         self.assertEqual([u['weightage'] for u in s['units']], [13, 30, 20, 20, 17])
         self.assertEqual(sum(u['hours'] for u in s['units']), 60)
         self.assertEqual(sum(u['weightage'] for u in s['units']), 100)
-        self.assertEqual([u['file'] for u in s['units']], ['unit1.json', None, None, None, None])
+        self.assertEqual([u['file'] for u in s['units']], [
+            f'unit{n}.json' if Path(SUBJ_DIR, f'unit{n}.json').exists() else None
+            for n in range(1, 6)])
         self.assertEqual(len(s['practicals']), 9)
 
     def test_02_unit_coverage_and_counts(self):
@@ -341,14 +343,16 @@ class Unit1Tests(unittest.TestCase):
             subject = json.loads(Path(tmp, 'subjects', 'DI04000031.json').read_text())
             unit = json.loads(Path(tmp, 'units', 'DI04000031_u1.json').read_text())
             catalog = json.loads(Path(tmp, 'catalog.json').read_text())
-            self.assertEqual(subject['available_units'], [1])
+            self.assertEqual(subject['available_units'], [
+                v['no'] for v in self.s['units'] if v['file']])
             self.assertEqual(len(subject['units']), 5)
             self.assertEqual(catalog['subjects']['DI04000031']['status'], 'available')
             self.assertEqual(unit['tabs'], TABS)
             self.assertEqual(set(unit['svgs']), set(TITLES))
             for rel in ('subjects/DI04000031.json', 'units/DI04000031_u1.json'):
                 self.assertEqual(catalog['files'][rel], hashlib.sha1(Path(tmp, rel).read_bytes()).hexdigest()[:12])
-            self.assertFalse(Path(tmp, 'units', 'DI04000031_u2.json').exists())
+            for v in self.s['units']:
+                self.assertEqual(Path(tmp, 'units', f"DI04000031_u{v['no']}.json").exists(), bool(v['file']))
 
 
 if __name__ == '__main__': unittest.main(verbosity=2)
