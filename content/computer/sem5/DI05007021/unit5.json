@@ -1,0 +1,1181 @@
+{
+ "subject": "DI05007021",
+ "unit": 5,
+ "format": "notes",
+ "title": {
+  "en": "Introduction to Cyber Security"
+ },
+ "hours": 8,
+ "weightage": 15,
+ "tabs": [
+  "notes",
+  "programs",
+  "diagrams",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "English-only Unit 5: threats/vulnerabilities/actors; viruses, worms, adware, spyware, Trojans, DoS/DDoS, MITM, IP/ARP spoofing, SQL injection, phishing, botnets and backdoors; cyberspace/cybercrime and safe response. Ten bounded defensive examples support study Practicals 11/12. Kali OS/VM work is guided only: actual GPG checks signed metadata, NOT an ISO or booted Kali system. Practice marks are suggested, not official GTU allocations."
+ },
+ "notes": [
+  {
+   "title": {
+    "en": "1. Cyber Security Foundations"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "1.1 Cyber security, cyberspace and what is being protected"
+     },
+     "body": {
+      "en": "<p><b>Cyber security</b> protects digital systems, communications, services and information from relevant threats and attacks. <b>Cyberspace</b> is the interconnected digital environment in which systems, services, data and online activities interact; harm can affect real people and organizations.</p><ul><li>Confidentiality concerns unauthorized disclosure; integrity concerns improper change/destruction; availability concerns useful, timely access.</li><li>Assets include accounts, devices, documents, services, money/reputation and personal privacy/safety. Controls must fit the asset and consequences.</li><li>Cyber security is not just installing a tool. People, procedures, configuration, access control, updates, monitoring and recovery all matter.</li><li>Every exercise in this unit uses fictional/public or owned fixtures. No malware, phishing delivery, botnet, flood, spoofed network path or attack against an external system is performed.</li></ul>"
+     }
+    },
+    {
+     "h": {
+      "en": "1.2 Threat, vulnerability, attack, intruder and hacker"
+     },
+     "body": {
+      "en": "<table><tr><th>Term</th><th>Meaning</th><th>Example / distinction</th></tr><tr><td>Threat</td><td>A circumstance/event/source with potential for harm.</td><td>Possible credential theft or malicious disruption; not necessarily a successful event.</td></tr><tr><td>Vulnerability</td><td>An exploitable/triggerable weakness in a system, implementation, procedure or control.</td><td>An unpatched flaw or improperly restricted access; a weakness is not itself proof of compromise.</td></tr><tr><td>Cyber-attack</td><td>An attempted/actual malicious or unauthorized action against a security objective.</td><td>A harmful access/disclosure/modification/disruption attempt.</td></tr><tr><td>Intruder</td><td>An actor attempting or causing unauthorized policy violations.</td><td>May be an outsider or an insider misusing rights.</td></tr><tr><td>Hacker</td><td>A broad contextual term, not automatically a criminal label.</td><td>Authorized security research/testing differs from unauthorized access or harm.</td></tr></table><p>Assess likely harm and exposure, but do not label an outage, alert or person an attacker from one ambiguous symptom. Permission must cover the target, method and scope; having Kali or another tool is not authorization.</p>"
+     },
+     "diagram": "sec5_risk"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2. Malware and Related Capabilities"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "2.1 Viruses, worms and Trojans"
+     },
+     "body": {
+      "en": "<table><tr><th>Type</th><th>Defining idea</th><th>Defensive focus</th></tr><tr><td>Virus</td><td>Malicious code associated with a host file/program; spread involves infection/execution mechanisms.</td><td>Trusted software, controlled execution, appropriate detection and update/recovery procedures.</td></tr><tr><td>Worm</td><td>Self-propagating malware that can spread between systems without depending on the same host-file model.</td><td>Reduce exposed weaknesses, patch, restrict unnecessary paths and respond across affected systems.</td></tr><tr><td>Trojan</td><td>Malicious functionality presented as something legitimate/useful.</td><td>Verify sources, avoid untrusted installers/attachments and apply least privilege.</td></tr></table><p>These are conceptual distinctions, not exclusive boxes: a Trojan may install a backdoor, spyware or bot component. No real sample is needed for this introduction. The file example handles only harmless text as data and compares hashes; it is not an antivirus or a malware-family classifier.</p>"
+     },
+     "diagram": "sec5_malware",
+     "programs": [
+      "sec5p07"
+     ]
+    },
+    {
+     "h": {
+      "en": "2.2 Adware and spyware"
+     },
+     "body": {
+      "en": "<p><b>Adware</b> involves advertising-related behaviour and may be unwanted, intrusive or bundled deceptively; advertising software is not automatically criminal in every context. <b>Spyware</b> covertly collects/monitors information contrary to the user’s awareness or authorization.</p><ul><li>Potential effects include privacy loss, unwanted changes and resource use. Symptoms such as pop-ups or slow performance are not conclusive attribution.</li><li>Use trusted installation sources, deliberate permission/consent choices, updates and appropriate endpoint controls. Avoid installing unverified “cleanup” tools from alarming pop-ups.</li><li>Authorized, transparent monitoring under appropriate policy is not the same factual situation as covert abusive surveillance. Definitions, intent and legal context matter.</li></ul>"
+     }
+    },
+    {
+     "h": {
+      "en": "2.3 Botnets and backdoors"
+     },
+     "body": {
+      "en": "<p>A <b>botnet</b> is a collection of compromised/controlled devices that can be coordinated for harmful activity such as abuse or disruption. The compromised device owner may also be a victim. A <b>backdoor</b> is a concealed or unauthorized access mechanism that bypasses intended access controls; such access can enable persistence or later misuse.</p><ul><li>The concepts describe control/access capability, not one specific propagation method. A Trojan or other compromise can help establish it.</li><li>Restrict exposure/privileges, patch, use appropriate monitoring and investigate suspicious access. Respond using trusted procedures rather than trying to operate a suspected bot/backdoor yourself.</li><li>No remote-control service, command-and-control channel, persistence, backdoor or malware distribution is created in this course material.</li></ul>"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3. Cyber Threats and Attacks"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "3.1 DoS and DDoS: availability and mitigation limits"
+     },
+     "body": {
+      "en": "<p><b>Denial of service (DoS)</b> is malicious denial/disruption of legitimate resource use. <b>Distributed DoS (DDoS)</b> uses multiple participating systems. Availability is the main goal affected, but ordinary faults, maintenance or permissions can also cause access failures.</p><ul><li>Defensive measures may include appropriate service design, resource limits, monitoring, recovery and coordinated upstream/provider response. One local setting is not a universal solution.</li><li>Our token-bucket code performs six synthetic-clock admission decisions: four allowed and two limited. It sends <b>no requests or flood traffic</b>.</li><li>This model is not deployed mitigation, a stress test or a bandwidth/resilience benchmark. A local limiter cannot by itself save an already saturated upstream link.</li><li>Investigate evidence and follow authorized response procedures; do not attack a service to demonstrate the definition.</li></ul>"
+     },
+     "diagram": "sec5_attacks",
+     "programs": [
+      "sec5p05"
+     ]
+    },
+    {
+     "h": {
+      "en": "3.2 Man-in-the-middle / on-path interference"
+     },
+     "body": {
+      "en": "<p>A <b>man-in-the-middle (MITM)</b> or on-path attacker interposes in a communication path, potentially relaying, reading or altering exchanges. Merely forwarding traffic as an authorized service is not automatically malicious.</p><ul><li>Use appropriate authenticated encryption/protocols, authentic key/certificate trust and correct identity validation. Do not ignore failed certificate checks.</li><li>The actual private TLS example succeeds for its owned server name and rejects a wrong hostname. It is a control demonstration, not a real MITM attack or a detector for all on-path threats.</li><li>A correctly validated certificate for an attacker’s own lookalike site does not make that site honest. TLS does not cure compromised endpoints, wrongly trusted roots or all application flaws.</li><li>Only owned loopback endpoints and fresh temporary keys are used; no foreign network, capture or public target is involved.</li></ul>"
+     },
+     "programs": [
+      "sec5p08"
+     ]
+    },
+    {
+     "h": {
+      "en": "3.3 IP spoofing and ARP spoofing are different claims"
+     },
+     "body": {
+      "en": "<table><tr><th>Concept</th><th>What is misrepresented?</th><th>Limits and suitable defence</th></tr><tr><td>IP spoofing</td><td>Source IP information in packets.</td><td>An address alone is not identity; appropriate ingress/egress validation and authenticated protocols help, but routing/transport context still matters.</td></tr><tr><td>ARP spoofing</td><td>An IPv4-address-to-link-address mapping on a relevant local network.</td><td>Consider suitable switch/host safeguards and trusted monitoring; a mapping change can also be legitimate replacement/failover.</td></tr></table><p>The example compares only two <b>fictional dictionaries</b>. It flags a changed gateway mapping but does not confirm an attack, read/change an ARP cache or transmit forged IP/ARP packets. No poisoning, impersonation path or network reconfiguration is performed.</p>"
+     },
+     "programs": [
+      "sec5p04"
+     ]
+    },
+    {
+     "h": {
+      "en": "3.4 SQL injection: separate query structure from data"
+     },
+     "body": {
+      "en": "<p><b>SQL injection</b> occurs when untrusted input becomes part of query syntax rather than remaining data. The defensive example uses a real <b>in-memory SQLite</b> database with two fictional course records and a fixed parameterized query.</p><ul><li>Define the query structure in application code and bind values through the database API. The fixed SQL-like input is treated as one literal value and returns no match; no vulnerable concatenated query is executed.</li><li>Parameter placeholders normally represent data values, not table names, column names or SQL keywords. Keep structure fixed or choose it from a small application-owned allow-list.</li><li>Validation is useful but does not make concatenation safe. Stored procedures/ORMs are not automatically immune when they construct dynamic SQL unsafely.</li><li>Use suitable least privilege and application authorization too. The second actual SQLite example allows reads and denies a DELETE on its own connection; it is not a complete database-role or row-authorization design.</li><li>No real account, deployed database, external target or credential-bypass experiment is used.</li></ul>"
+     },
+     "diagram": "sec5_sqli",
+     "programs": [
+      "sec5p01",
+      "sec5p02"
+     ]
+    },
+    {
+     "h": {
+      "en": "3.5 Phishing: recognizable hints versus proof"
+     },
+     "body": {
+      "en": "<p><b>Phishing</b> uses deceptive messages/sites or other communication to trick a person into harmful disclosure or action. It may appear through email, messages, social platforms or calls. Urgency, an unexpected request, a mismatched address or an unfamiliar link can be warning signs—not an infallible classifier.</p><ul><li>Pause and verify through an independently known trusted route. Do not use the suspicious message’s link/number to verify itself, send passwords/passcodes or open unexpected attachments.</li><li>Display names and From-header parsing are not sender authentication; headers may be forged. Correct grammar or HTTPS alone is not proof of legitimacy.</li><li>The URL exercise parses reserved .test strings offline: a familiar prefix or userinfo before @ is not the hostname. It never opens a link or supplies a safe-site verdict.</li><li>The email exercise parses neutral training headers only; no message, lure, credential form, attachment or campaign is sent. SPF/DKIM/DMARC validation is not performed.</li><li><b>Terminology:</b> a login OTP means a one-time passcode, not the one-time-pad cipher from Unit 2. Do not disclose authentication codes in response to unexpected requests.</li></ul>"
+     },
+     "diagram": "sec5_phishing",
+     "programs": [
+      "sec5p03",
+      "sec5p06"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "4. Cybercrime, Privacy and Personal Safety"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "4.1 Cybercrime, identity theft, information theft and hacking"
+     },
+     "body": {
+      "en": "<p><b>Cybercrime</b> concerns criminal conduct involving digital systems/data or cyberspace, subject to applicable facts/law. An educational category or suspicious observation is not itself a legal finding.</p><table><tr><th>Category</th><th>Core distinction</th><th>Defensive response</th></tr><tr><td>Identity theft</td><td>Misuse of identifying/account information to impersonate or abuse another identity.</td><td>Protect accounts/identity data, use appropriate authentication, review/report unauthorized activity through trusted channels.</td></tr><tr><td>Information theft</td><td>Unauthorized acquisition/disclosure of protected data.</td><td>Least privilege, appropriate encryption/access controls, monitoring and careful evidence/incident handling.</td></tr><tr><td>Hacking in the crime context</td><td>Unauthorized access/exploitation or harmful misuse, not every authorized security activity.</td><td>Obtain explicit scope/permission for testing and follow responsible institutional procedures.</td></tr></table><p>Stolen information may enable identity abuse, but the two terms are not interchangeable. Intruders may be insiders as well as outsiders. This unit does not invent statute sections, mandatory reporting deadlines or guaranteed remedies; use current appropriate official advice for the jurisdiction.</p>"
+     },
+     "diagram": "sec5_crime"
+    },
+    {
+     "h": {
+      "en": "4.2 Cyberstalking, malware distribution and safe reporting"
+     },
+     "body": {
+      "en": "<p><b>Cyberstalking</b> concerns abusive persistent online monitoring/contact/threatening conduct in its factual/legal context. <b>Malware distribution</b> involves spreading malicious code; discussing a category does not authorize obtaining, forwarding or executing dangerous samples.</p><ul><li>Protect personal information, use appropriate platform safety/block/report controls and seek trusted support. For a student, trusted staff/guardians may help. If there is immediate danger, seek local emergency assistance.</li><li>Preserve appropriate evidence safely under the relevant procedure; do not expose someone’s private details publicly, confront suspects or conduct unauthorized tracing/investigation.</li><li>For suspected malicious files or account abuse, follow the organization’s incident channel and qualified responder instructions. Do not run suspicious material or forward harmful attachments merely to prove a point.</li><li>Use current verified official channels for the place/incident. CERT-In’s official site is linked for Indian advisories/contact information; it is not presented as a substitute for every appropriate reporting authority.</li></ul>"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "5. Safe Study and Defensive Practice"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "5.1 Practical 11: prevention, detection, response and recovery"
+     },
+     "body": {
+      "en": "<table><tr><th>Stage</th><th>Examples</th><th>Important limitation</th></tr><tr><td>Prevent</td><td>Appropriate updates, trusted sources, least privilege, suitable MFA, parameterized input handling and controlled exposure.</td><td>No one control guarantees prevention; protection must fit the use and threat.</td></tr><tr><td>Detect</td><td>Relevant logs/alerts, trusted integrity checks and investigation of context.</td><td>A changed hash, address or pattern is a clue, not automatic attribution or malware proof.</td></tr><tr><td>Respond</td><td>Use authorized procedures, contain appropriately and preserve/report relevant evidence safely.</td><td>Unplanned actions may damage evidence or services; do not conduct unauthorized counterattacks.</td></tr><tr><td>Recover</td><td>Restore known-good data/services under an appropriate plan and verify the result.</td><td>Recovery of one file does not prove the host is clean or that the incident is resolved.</td></tr></table><p>The real recovery exercise changes and restores one harmless temporary file and verifies its digest. Its same-folder copy is <b>not</b> an offline/immutable backup design or a ransomware experiment. Real backups need appropriate separation, access protection, consistency and tested restoration. The case sheet and reporting guide are fictional study work, not actual incident investigations.</p>"
+     },
+     "diagram": "sec5_defence",
+     "programs": [
+      "sec5p09"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.2 Practical 12: what Kali Linux is—and what is only guided"
+     },
+     "body": {
+      "en": "<p><b>Kali Linux</b> is a specialized distribution/toolkit for professional security assessment and auditing. Its official documentation warns that it is not the default general-purpose beginner desktop. Tool access does not grant permission to test other people’s systems.</p><ul><li>The optional VM/OS guide uses official sources, appropriate isolation/snapshots, deliberate shared-folder/network choices and an instructor-approved lab scope.</li><li>Read-only OS/user/file/interface observations in a learner’s own Kali VM are suggested, but <b>Kali is not downloaded, installed or booted here</b>. The reference host is Debian 13, not Kali.</li><li>No malware, offensive toolkit, persistence, credential harvesting, scanning of public systems or multi-gigabyte ISO/VM is included.</li><li>A VM is not a guarantee that executing malware is safe. This introductory study does not require real malware execution or bridging an experiment onto an unapproved network.</li></ul>"
+     }
+    },
+    {
+     "h": {
+      "en": "5.3 Actual Kali signed-metadata check: distinguish three stages"
+     },
+     "body": {
+      "en": "<p>The small reference fixture contains the official <b>Kali 2026.3</b> SHA256SUMS file, detached signature, public archive signing key and provenance record. It uses the primary fingerprint checked against official Kali documentation on 29 October 2026:</p><p><code>827C8569F2518CC677FECA1AED65462EC8D5E4C5</code></p><table><tr><th>Stage</th><th>Reference status</th><th>What it establishes</th></tr><tr><td>Verify manifest signature under the pinned public key.</td><td>Actually executed with GPG 2.4.7 in an isolated temporary keyring.</td><td>The signed metadata verifies under the explicitly pinned key; no automatic global ownertrust is asserted.</td></tr><tr><td>Hash the actual downloaded ISO and compare its filename/digest.</td><td>NOT performed: no ISO bytes were downloaded.</td><td>Required before claiming those image bytes match the signed entry.</td></tr><tr><td>Install/boot/study an appropriate isolated Kali VM.</td><td>Guided only; NOT performed.</td><td>A separate learner/instructor activity, not proof supplied by the metadata signature.</td></tr></table><p>The frozen published entry is <code>kali-linux-2026.3-installer-amd64.iso</code>. Its <b>published manifest digest</b> matches the separately checked official download-page value; it is not a digest computed from an ISO we possess. The example disables automatic key retrieval, checks VALIDSIG under the pin and deletes its keyring. A tampered manifest/signature or wrong pin is rejected in tests.</p><p>Before a new real download, check current official version/key/status through a trusted channel. A public key from an unexpected message or an untrusted checksum page is not automatically authentic. Hash/signature checks have different trust assumptions; neither a historical valid manifest nor this lab guarantees that a future installed OS is secure.</p>"
+     },
+     "diagram": "sec5_kali",
+     "programs": [
+      "sec5p10"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.4 Evidence boundaries, journal and official assessment"
+     },
+     "body": {
+      "en": "<p>The ten supporting scripts use actual in-memory SQL protections, offline URL/email parsing, fictional ARP/rate models, benign owned files/recovery, an owned TLS identity check and frozen signed-metadata verification. They do not perform the attacks whose names appear in the syllabus.</p><ul><li>Python standard library handles the local models/files/SQLite; the TLS example needs OpenSSL 3 and the metadata check needs GPG. Provided helpers/data sit beside the root scripts; no pip package or PYTHONPATH setup is required.</li><li>No real identities/accounts/messages, malware samples, user credentials, public target, spoofed traffic, botnet/C2, flood or Kali OS is used. Only the TLS example briefly opens owned loopback sockets; workers/temporary keys/keyrings/files are removed.</li><li>Practicals 11/12 are study-oriented. The case/VM guides distinguish expected learner steps from the actual reference observations; a generic Debian output is not relabelled as Kali.</li><li>The official course remains 70+30 theory and 20+30 practical=150. Unit 5 is 8 hours/15% syllabus weight, not a guaranteed question allocation. The sixteen original answered questions have suggested 3/4/7-mark practice sizes, not official GTU papers or predictions.</li></ul><p><b>References:</b> <a href=\"https://s3-ap-southeast-1.amazonaws.com/gtusitecirculars/Syallbus/DI05007021.pdf\">GTU DI05007021 syllabus, 2026–27</a>, <a href=\"https://csrc.nist.gov/glossary/term/threat\">NIST glossary: threat</a>, <a href=\"https://csrc.nist.gov/glossary/term/vulnerability\">NIST glossary: vulnerability</a>, <a href=\"https://csrc.nist.gov/pubs/sp/800/83/r1/final\">NIST SP800-83r1: malware prevention/handling (2013 fundamentals)</a>, <a href=\"https://www.cisa.gov/secure-our-world/recognize-and-report-phishing\">CISA phishing awareness (archived educational page)</a>, <a href=\"https://www.cisa.gov/news-events/news/understanding-denial-service-attacks\">CISA DoS/DDoS explanation (archived 2021 article)</a>, <a href=\"https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html\">OWASP: SQL Injection Prevention Cheat Sheet</a>, <a href=\"https://docs.python.org/3/library/sqlite3.html\">Python sqlite3 parameter/authorizer documentation</a>, <a href=\"https://www.kali.org/docs/introduction/should-i-use-kali-linux/\">Kali official role and suitability</a>, <a href=\"https://www.kali.org/docs/introduction/download-official-kali-linux-images/\">Kali official image/signature verification guidance</a>, <a href=\"https://www.kali.org/get-kali/\">Kali official download page</a>, <a href=\"https://cdimage.kali.org/kali-2026.3/SHA256SUMS\">Kali 2026.3 versioned signed-manifest source</a>, <a href=\"https://www.cert-in.org.in/\">CERT-In official advisories/contact information</a>. NIST2013 and archived CISA pages support educational fundamentals, not current legal or vendor-performance claims. Explanations/examples are original and all case identities are fictional.</p>"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "6. Answered Exam-Style Practice — Suggested Marks Only"
+   },
+   "role": "practice",
+   "items": [
+    {
+     "h": {
+      "en": "Practice 1. Define cyber security and cyberspace with CIA and personal-impact examples."
+     },
+     "body": {
+      "en": "<p>Cyber security protects digital systems, communications, services and information against relevant threats. Cyberspace is the interconnected digital environment of systems/data/services/online interaction. Unauthorized disclosure affects confidentiality, improper changes affect integrity, and unusable services affect availability. Harm can also affect privacy, money, reputation and personal safety. Tools alone do not replace people, process, configuration, access and recovery controls.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 2. Distinguish threat, vulnerability, attack, intruder and hacker."
+     },
+     "body": {
+      "en": "<p>A threat has potential for harm; a vulnerability is a weakness that can be exploited/triggered; an attack is an attempted/actual malicious or unauthorized action against a security goal. An intruder attempts/causes policy violations and may be an insider or outsider. Hacker is a broader contextual term: authorized testing/research is not automatically criminal. A weakness, unusual event or outage alone does not prove compromise or identify a person.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 3. Compare virus, worm and Trojan and explain why categories can overlap."
+     },
+     "body": {
+      "en": "<p>A virus is associated with a host file/program and an infection/execution mechanism; a worm self-propagates between systems without relying on the same host-file model; a Trojan presents malicious functionality as something useful/legitimate. A Trojan may install spyware, a backdoor or bot component, so these are not mutually exclusive labels. Use trusted sources, updates, controlled execution/exposure and appropriate detection/response. No real malware sample is required or executed in the class examples.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 4. Explain adware and spyware without treating every advertisement or authorized monitor as crime."
+     },
+     "body": {
+      "en": "<p>Adware relates to advertising behaviour and can be unwanted/intrusive/deceptively bundled, but advertising software is not automatically criminal. Spyware covertly monitors/collects information contrary to awareness or authorization. Consent, transparency, policy and facts distinguish legitimate monitoring from abuse. Symptoms are not conclusive attribution; avoid unverified cleanup tools and use trusted installation/permission/update practices.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 5. Define botnet and backdoor with defensive implications."
+     },
+     "body": {
+      "en": "<p>A botnet coordinates controlled/compromised devices for harmful activity; their owners may also be victims. A backdoor provides concealed/unauthorized access bypassing intended controls. These are capabilities and may follow different compromise/propagation routes. Reduce exposure and privileges, patch, monitor appropriate evidence and use trusted response processes. Do not operate suspected infrastructure or create persistence/remote control merely to study the definition.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 6. Compare DoS and DDoS and interpret the six-event limiter model."
+     },
+     "body": {
+      "en": "<p>DoS maliciously disrupts legitimate use; DDoS distributes participation across multiple systems. An outage can also be a fault or maintenance/permission issue. The token-bucket fixture at times 0,0,0,1,1,2 with capacity 2/refill 1 allows four and limits two logical admissions. It sends no network requests or flood. Local rate limiting is one possible control concept, not a guarantee against upstream saturation or a resilience benchmark.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 7. Explain MITM/on-path interference and the limits of TLS validation."
+     },
+     "body": {
+      "en": "<p>An attacker may interpose in a path to relay/read/alter communication. Appropriate authenticated protocols and authentic key/certificate trust can help; do not ignore failed identity validation. The real owned loopback TLS example succeeds under its correct server name and rejects a wrong hostname, with cleanup. It is not an actual MITM attack/detector, public TLS audit or client-certificate authentication. A phisher can have a valid certificate for their own lookalike name, and compromised endpoints/trust roots remain different risks.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 8. Differentiate IP spoofing and ARP spoofing; what does a mapping change prove?"
+     },
+     "body": {
+      "en": "<p>IP spoofing misrepresents source IP information; ARP spoofing misrepresents an IPv4-to-link-address mapping on the relevant local network. An address is not identity. A changed fictional mapping is a signal to investigate, not proof of poisoning or attribution; legitimate replacement/failover may explain it. The program only compares dictionaries: it does not read/change a live ARP cache or send forged packets. Use appropriate network safeguards and authenticated protocols under policy.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 9. Explain SQL injection and the actual parameterized-query result."
+     },
+     "body": {
+      "en": "<p>Injection occurs when untrusted input changes SQL syntax. Keep query structure fixed and bind data values through the API. In the real in-memory fixture, normal C01 returns one row; the fixed SQL-like value returns zero because it remains a literal, and both rows stay intact. No vulnerable concatenated query or public account attack occurs. Bindings normally cannot select table/column names; choose structure from owned allow-lists. Also enforce least privilege and application authorization; safe values alone do not decide access.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 10. Explain the SQLite authorizer example and why it is not complete authorization."
+     },
+     "body": {
+      "en": "<p>The own in-memory connection allows SELECT/READ, denies DELETE with an actual SQLite authorization error and still has two rows. That is a per-connection fixture restriction, not an OS/database-account privilege framework, row-access policy or proof that an application is secure. Appropriate real roles/permissions, API/query design and authorization checks are still needed.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 11. Explain phishing hints and why hostname/header parsing or HTTPS is not proof."
+     },
+     "body": {
+      "en": "<p>Deception may use unexpected requests, urgency, display names, misleading links or attachments across email/messages/calls. Pause and verify via a separately known trusted route; do not disclose passwords/login codes or open unexpected material. A familiar URL prefix/userinfo is not the parsed host; From display text is not sender authentication. HTTPS and correct grammar do not establish legitimacy. The examples parse only reserved .test strings and neutral in-memory headers, with no link opening, email delivery, SPF/DKIM/DMARC or automatic phishing verdict.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 12. Distinguish identity theft, information theft and hacking in the crime context."
+     },
+     "body": {
+      "en": "<p>Identity theft misuses identifying/account data for impersonation or identity abuse. Information theft concerns unauthorized acquisition/disclosure of protected data; it may enable identity abuse but is not the same term. Hacking in the crime context concerns unauthorized access/exploitation/harm, not every authorized security activity. Protect information/accounts and report through appropriate trusted procedures. Educational labels are not legal findings; facts and jurisdiction matter.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 13. Describe a privacy-preserving response to cyberstalking or suspected malware distribution."
+     },
+     "body": {
+      "en": "<p>Use appropriate platform safety/block/report functions and trusted support, preserving relevant evidence safely without publishing victim details or forwarding harmful material. Students may involve trusted staff/guardians; immediate danger calls for local emergency assistance. Follow institutional/appropriate official reporting channels and qualified responder guidance. Do not confront suspects, conduct unauthorized tracking, run malware or assume a legal outcome from one observation. The unit does not invent legal sections or reporting deadlines.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 14. Explain prevention, detection, response and recovery using the benign file examples."
+     },
+     "body": {
+      "en": "<p>Prevent with appropriate hardening/trusted sources/access/input controls; detect with relevant trusted evidence; respond under authorized containment/reporting/evidence procedures; recover known-good data/services and verify the outcome. A real changed digest detects one benign file change, not malware identity or attribution. The separate recovery really restores one own file, but its same-folder copy is not an offline/immutable backup architecture, ransomware test or proof that a compromised host is clean.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 15. State Kali Linux’s role and a safe guided VM study plan."
+     },
+     "body": {
+      "en": "<p>Kali is a specialized security-assessment/auditing distribution, not a default beginner general-purpose desktop or permission to target others. Use authentic official sources, check current keys/signatures and actual image hashes, then follow an instructor-approved isolated VM plan with deliberate networking/integration/snapshots. A VM does not make malware execution automatically safe. Kali-side read-only observations are guided; no Kali OS/ISO/VM or offensive toolkit is installed/booted/run in this reference.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 16. Interpret the signed Kali metadata result and the unperformed ISO/boot stages."
+     },
+     "body": {
+      "en": "<p>Actual GPG verifies frozen official Kali 2026.3 SHA256SUMS under primary 827C8569F2518CC677FECA1AED65462EC8D5E4C5, checked against official documentation, in an isolated temporary keyring with automatic retrieval disabled. The published installer entry is authenticated under that pin; it is not a hash computed from a downloaded ISO. No ISO bytes were obtained/verified and no Kali VM booted. A real new download still needs a current authentic key/version/status, signature validation and local hashing of the actual image before guided installation. Historical metadata validity is not permanent security or global ownertrust.</p>"
+     }
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "sec5p01",
+   "title": {
+    "en": "Actual SQLite parameter binding: input stays data, not SQL syntax"
+   },
+   "code": {
+    "en": "import sqlite3\nfrom contextlib import closing\n\nwith closing(sqlite3.connect(\":memory:\")) as db:\n    db.execute(\"CREATE TABLE courses(code TEXT, title TEXT)\")\n    db.executemany(\"INSERT INTO courses VALUES (?, ?)\",\n                   [(\"C01\", \"Networks\"), (\"C02\", \"Security\")])\n    query = \"SELECT title FROM courses WHERE code = ?\"\n    normal = db.execute(query, (\"C01\",)).fetchall()\n    fixed_demo_input = \"' OR 1=1 --\"\n    literal = db.execute(query, (fixed_demo_input,)).fetchall()\n    count = db.execute(\"SELECT COUNT(*) FROM courses\").fetchone()[0]\n    print(\"normal_rows:\", len(normal))\n    print(\"bound_demo_input_rows:\", len(literal))\n    print(\"fixture_rows_unchanged:\", count == 2)\n"
+   },
+   "expl": {
+    "en": "A real in-memory SQLite database executes only fixed/parameterized query structures. The fixed classroom input is bound as a literal value and returns no match, rather than altering SQL syntax. No vulnerable concatenated query, real account, public service or external database is attacked. Binding data values does not supply application authorization or parameterize table/column identifiers."
+   },
+   "out": "normal_rows: 1\nbound_demo_input_rows: 0\nfixture_rows_unchanged: True\n"
+  },
+  {
+   "id": "sec5p02",
+   "title": {
+    "en": "Actual SQLite authorizer: deny a fixture write operation"
+   },
+   "code": {
+    "en": "import sqlite3\nfrom contextlib import closing\n\nwith closing(sqlite3.connect(\":memory:\")) as db:\n    db.execute(\"CREATE TABLE courses(code TEXT)\")\n    db.executemany(\"INSERT INTO courses VALUES (?)\", [(\"C01\",), (\"C02\",)])\n    def authorize(action, arg1, arg2, database, source):\n        allowed = {sqlite3.SQLITE_SELECT, sqlite3.SQLITE_READ}\n        return (sqlite3.SQLITE_OK if action in allowed\n                else sqlite3.SQLITE_DENY)\n    db.set_authorizer(authorize)\n    rows = db.execute(\"SELECT code FROM courses\").fetchall()\n    print(\"read_rows:\", len(rows))\n    denied = False\n    try:\n        db.execute(\"DELETE FROM courses\")\n    except sqlite3.DatabaseError as error:\n        denied = (getattr(error, \"sqlite_errorcode\", None)\n                  == sqlite3.SQLITE_AUTH\n                  or \"not authorized\" in str(error).lower())\n    print(\"delete_denied:\", denied)\n    rows = db.execute(\"SELECT code FROM courses\").fetchall()\n    print(\"remaining_rows:\", len(rows))\n"
+   },
+   "expl": {
+    "en": "The actual SQLite connection authorizer allows reads and denies a DELETE, leaving both fictional rows intact. This illustrates a limited per-connection restriction, not a full database-account/OS least-privilege or row-authorization system. It runs only in memory; no user data or deployed database privilege is changed."
+   },
+   "out": "read_rows: 2\ndelete_denied: True\nremaining_rows: 2\n"
+  },
+  {
+   "id": "sec5p03",
+   "title": {
+    "en": "Offline URL hints: parse hostname, not display-prefix appearance"
+   },
+   "code": {
+    "en": "from defence import url_signals\n\nintended = url_signals(\"https://college.example.test/portal\")\nsuffix = url_signals(\"https://college.example.test.attacker.test/portal\")\nuserinfo = url_signals(\n    \"https://college.example.test@notice.attacker.test/portal\")\nplain = url_signals(\"http://college.example.test/portal\")\nprint(\"intended_exact_host:\", intended[\"exact_expected_host\"])\nprint(\"suffix_exact_host:\", suffix[\"exact_expected_host\"])\nprint(\"userinfo_exact_host:\", userinfo[\"exact_expected_host\"])\nprint(\"userinfo_present:\", userinfo[\"userinfo_present\"])\nprint(\"plain_http_https_signal:\", plain[\"https_scheme\"])\nprint(\"any_legitimacy_proven:\", any(x[\"authenticity_proven\"]\n      for x in [intended, suffix, userinfo, plain]))\n"
+   },
+   "expl": {
+    "en": "Actually parses fixed reserved .test strings locally, without opening any URL. A familiar prefix or userinfo text is not the actual hostname. HTTPS/host matching alone do not prove a site honest, an email authentic or a link safe. This is not a URL-reputation service, comprehensive adversarial URL validator or phishing classifier."
+   },
+   "out": "intended_exact_host: True\nsuffix_exact_host: False\nuserinfo_exact_host: False\nuserinfo_present: True\nplain_http_https_signal: False\nany_legitimacy_proven: False\n"
+  },
+  {
+   "id": "sec5p04",
+   "title": {
+    "en": "ARP-change comparison on fictional dictionaries, not network spoofing"
+   },
+   "code": {
+    "en": "from defence import arp_changes\n\ntrusted = {\"192.0.2.1\": \"02:00:00:00:00:01\",\n           \"192.0.2.53\": \"02:00:00:00:00:53\"}\nobserved = dict(trusted)\nprint(\"unchanged_entries:\", arp_changes(trusted, observed))\nobserved[\"192.0.2.1\"] = \"02:00:00:00:00:99\"\nprint(\"changed_entries:\", arp_changes(trusted, observed))\nprint(\"attack_confirmed:\", False)\nprint(\"ARP_packets_sent_or_cache_modified:\", False)\n"
+   },
+   "expl": {
+    "en": "Compares two invented IP/MAC mappings. A legitimate replacement/failover can also change a mapping, so a difference is a signal to investigate, not proof of ARP poisoning. No live ARP cache is read/changed and no forged ARP/IP packet, MITM path or external target is created."
+   },
+   "out": "unchanged_entries: []\nchanged_entries: ['192.0.2.1']\nattack_confirmed: False\nARP_packets_sent_or_cache_modified: False\n"
+  },
+  {
+   "id": "sec5p05",
+   "title": {
+    "en": "DoS mitigation concept: six synthetic token-bucket decisions"
+   },
+   "code": {
+    "en": "from defence import TokenBucket\n\nmodel = TokenBucket(capacity=2, refill=1)\ntimes = [0, 0, 0, 1, 1, 2]\nallowed = [model.allow(t) for t in times]\nprint(\"synthetic_clock_decisions:\", allowed)\nprint(\"allowed:\", sum(allowed))\nprint(\"limited:\", len(allowed) - sum(allowed))\nprint(\"network_requests_or_flood_sent:\", False)\n"
+   },
+   "expl": {
+    "en": "Actually evaluates a tiny admission model on six fixed logical timestamps. No requests, load test, flood or service exhaustion occurs. A local rate limiter alone cannot guarantee DDoS resilience or protect saturated upstream capacity; the example is not a benchmark or deployed mitigation system."
+   },
+   "out": "synthetic_clock_decisions: [True, True, False, True, False, True]\nallowed: 4\nlimited: 2\nnetwork_requests_or_flood_sent: False\n"
+  },
+  {
+   "id": "sec5p06",
+   "title": {
+    "en": "Parse a training email without delivering it or trusting its display name"
+   },
+   "code": {
+    "en": "from email import policy\nfrom email.parser import BytesParser\n\nraw = (b'From: \"Campus Desk\" <notice@notice.attacker.test>\\r\\n'\n       b'Reply-To: training@reply.attacker.test\\r\\n'\n       b'To: learner@college.example.test\\r\\n'\n       b'Subject: Offline training fixture\\r\\n\\r\\n'\n       b'Training data only. No links, requests or attachments.\\r\\n')\nmessage = BytesParser(policy=policy.default).parsebytes(raw)\nsender = message[\"From\"].addresses[0]\nprint(\"display_name:\", sender.display_name)\nprint(\"parsed_sender_domain:\", sender.domain)\nprint(\"matches_expected_domain:\", sender.domain == \"college.example.test\")\nprint(\"header_parsing_authenticates_sender:\", False)\nprint(\"email_sent_or_links_opened:\", False)\n"
+   },
+   "expl": {
+    "en": "A real RFC-style parser reads only neutral in-memory training headers. The displayed Campus Desk name is not the sender domain, and even a matching From header can be forged. No SMTP message, lure, credential form or attachment is sent. SPF/DKIM/DMARC or institutional verification is not performed or claimed."
+   },
+   "out": "display_name: Campus Desk\nparsed_sender_domain: notice.attacker.test\nmatches_expected_domain: False\nheader_parsing_authenticates_sender: False\nemail_sent_or_links_opened: False\n"
+  },
+  {
+   "id": "sec5p07",
+   "title": {
+    "en": "Handle a benign file as data: trusted digest versus changed content"
+   },
+   "code": {
+    "en": "import hashlib\nimport tempfile\nfrom pathlib import Path\n\nwith tempfile.TemporaryDirectory(prefix=\"owned-u5-file-\") as folder:\n    path = Path(folder) / \"course-note.txt\"\n    path.write_bytes(b\"Benign course note version 1\\n\")\n    trusted = hashlib.sha256(path.read_bytes()).hexdigest()\n    print(\"original_digest_matches:\",\n          hashlib.sha256(path.read_bytes()).hexdigest() == trusted)\n    path.write_bytes(b\"Benign course note version 2\\n\")\n    print(\"changed_digest_matches:\",\n          hashlib.sha256(path.read_bytes()).hexdigest() == trusted)\n    print(\"malware_scanner_or_payload_executed:\", False)\nprint(\"fixture_removed:\", not Path(folder).exists())\n"
+   },
+   "expl": {
+    "en": "Only a harmless owned text file is written/hashed; it is never executed. A mismatch detects this change relative to a trusted reference, not maliciousness, malware family, authenticity of an untrusted digest or complete host safety. No real malware sample, executable, EICAR string or antivirus product is introduced."
+   },
+   "out": "original_digest_matches: True\nchanged_digest_matches: False\nmalware_scanner_or_payload_executed: False\nfixture_removed: True\n"
+  },
+  {
+   "id": "sec5p08",
+   "title": {
+    "en": "Actual owned TLS check: valid server versus wrong hostname"
+   },
+   "code": {
+    "en": "import ssl\nimport threading\nfrom unittest.mock import patch\nimport localnet\n\nbefore = set(threading.enumerate())\nvalid = localnet.private_tls_relay()\nrejected = False\ntry:\n    with patch.object(localnet, \"HOST\", \"wrong.diploma.test\"):\n        localnet.private_tls_relay()\nexcept ssl.SSLCertVerificationError:\n    rejected = True\nprint(\"valid_TLS_version:\", valid[\"tls_version\"])\nprint(\"valid_echo:\", valid[\"echo_matches\"])\nprint(\"wrong_hostname_rejected:\", rejected)\nprint(\"network_workers_closed:\", set(threading.enumerate()) == before)\nprint(\"MITM_or_foreign_network_attack_performed:\", False)\n"
+   },
+   "expl": {
+    "en": "A real private TLS1.3 relay validates its owned server certificate and rejects a wrong hostname without disabling checks. Only fresh owned loopback fixtures are used; sockets/workers/keys close. This is not an actual MITM attack/detector, public TLS audit, client-certificate authentication, system VPN or guarantee against compromised endpoints or a malicious correctly named site."
+   },
+   "out": "valid_TLS_version: TLSv1.3\nvalid_echo: True\nwrong_hostname_rejected: True\nnetwork_workers_closed: True\nMITM_or_foreign_network_attack_performed: False\n"
+  },
+  {
+   "id": "sec5p09",
+   "title": {
+    "en": "Actual recovery of one benign owned file from a trusted copy"
+   },
+   "code": {
+    "en": "import hashlib\nimport tempfile\nfrom pathlib import Path\nimport shutil\n\nwith tempfile.TemporaryDirectory(prefix=\"owned-u5-recovery-\") as folder:\n    current = Path(folder) / \"course.txt\"\n    backup = Path(folder) / \"copy.txt\"\n    current.write_bytes(b\"Known benign course content\\n\")\n    trusted = hashlib.sha256(current.read_bytes()).digest()\n    shutil.copyfile(current, backup)\n    current.write_bytes(b\"Changed teaching fixture\\n\")\n    print(\"current_changed:\",\n          hashlib.sha256(current.read_bytes()).digest() != trusted)\n    shutil.copyfile(backup, current)\n    print(\"restored_digest_matches:\",\n          hashlib.sha256(current.read_bytes()).digest() == trusted)\n    print(\"ransomware_or_offline_backup_system_tested:\", False)\nprint(\"fixture_removed:\", not Path(folder).exists())\n"
+   },
+   "expl": {
+    "en": "Really copies/restores an owned harmless file and checks the recovered content. This same-folder copy is NOT an offline/immutable backup architecture, ransomware experiment or proof that a compromised host is clean. Real recovery needs appropriate separate protection, access control, consistency and tested procedures."
+   },
+   "out": "current_changed: True\nrestored_digest_matches: True\nransomware_or_offline_backup_system_tested: False\nfixture_removed: True\n"
+  },
+  {
+   "id": "sec5p10",
+   "title": {
+    "en": "Actual Kali signed-metadata verification — not ISO verification or boot"
+   },
+   "code": {
+    "en": "from pathlib import Path\nfrom manifest_verify import verify_manifest\n\nresult = verify_manifest(Path(__file__).resolve().parent / \"kali_metadata\")\nfor name in [\"signature_valid\", \"primary_fingerprint\", \"release\",\n             \"installer_filename\", \"published_installer_sha256\",\n             \"ISO_downloaded_or_verified\", \"Kali_booted\",\n             \"isolated_keyring_removed\"]:\n    print(name + \":\", result[name])\n"
+   },
+   "expl": {
+    "en": "Real GPG verifies the bundled official Kali2026.3 SHA256SUMS detached signature under the primary fingerprint checked against Kali documentation. It uses an isolated temporary keyring, no keyserver/automatic retrieval and no change to user/system keyrings. Only signed METADATA is verified: no ISO/VM image is downloaded, hashed, installed or booted. A frozen historical entry is not a current-release or permanent key-validity guarantee."
+   },
+   "out": "signature_valid: True\nprimary_fingerprint: 827C8569F2518CC677FECA1AED65462EC8D5E4C5\nrelease: 2026.3\ninstaller_filename: kali-linux-2026.3-installer-amd64.iso\npublished_installer_sha256: db9cbed33edb45727d16911813c2434fcd1419585007884153be22a03b30ec2f\nISO_downloaded_or_verified: False\nKali_booted: False\nisolated_keyring_removed: True\n"
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "sec5_risk",
+   "title": {
+    "en": "Threat, Weakness, Action and Impact"
+   },
+   "file": "diagrams/sec5_risk.svg"
+  },
+  {
+   "id": "sec5_malware",
+   "title": {
+    "en": "Malware and Capability Distinctions"
+   },
+   "file": "diagrams/sec5_malware.svg"
+  },
+  {
+   "id": "sec5_attacks",
+   "title": {
+    "en": "Network-Attack Concepts and Limits"
+   },
+   "file": "diagrams/sec5_attacks.svg"
+  },
+  {
+   "id": "sec5_sqli",
+   "title": {
+    "en": "SQL Structure versus Bound Data"
+   },
+   "file": "diagrams/sec5_sqli.svg"
+  },
+  {
+   "id": "sec5_phishing",
+   "title": {
+    "en": "Pause, Check and Verify"
+   },
+   "file": "diagrams/sec5_phishing.svg"
+  },
+  {
+   "id": "sec5_crime",
+   "title": {
+    "en": "Cybercrime, Privacy and Safety"
+   },
+   "file": "diagrams/sec5_crime.svg"
+  },
+  {
+   "id": "sec5_defence",
+   "title": {
+    "en": "Prevent, Detect, Respond, Recover"
+   },
+   "file": "diagrams/sec5_defence.svg"
+  },
+  {
+   "id": "sec5_kali",
+   "title": {
+    "en": "Signed Metadata Is Not an ISO or OS Boot"
+   },
+   "file": "diagrams/sec5_kali.svg"
+  }
+ ],
+ "syntax": [
+  {
+   "title": {
+    "en": "Cyber Security Quick Reference"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Threat versus weakness versus action"
+     },
+     "f": "Threat: potential harm\nVulnerability: weakness\nAttack: attempted/actual unauthorized action",
+     "terms": {
+      "en": "A weakness or symptom alone is not proof of compromise or attribution."
+     }
+    },
+    {
+     "name": {
+      "en": "Malware distinctions"
+     },
+     "f": "Virus: host/infection model\nWorm: self-propagation\nTrojan: deceptive malicious functionality",
+     "terms": {
+      "en": "Adware/spyware/bot/backdoor capabilities can overlap; no samples are executed."
+     }
+    },
+    {
+     "name": {
+      "en": "Availability and limiting"
+     },
+     "f": "DoS/DDoS: malicious availability disruption\nSix-case limiter: logical decisions only",
+     "terms": {
+      "en": "No flood/load test; local admission control does not guarantee upstream DDoS resilience."
+     }
+    },
+    {
+     "name": {
+      "en": "MITM and identity checks"
+     },
+     "f": "Use appropriate authenticated protocols\nDo not bypass certificate/name failures",
+     "terms": {
+      "en": "Correct TLS to an attacker’s own site does not make that site honest."
+     }
+    },
+    {
+     "name": {
+      "en": "IP versus ARP spoofing"
+     },
+     "f": "IP: source IP claim\nARP: local IPv4-to-link-address claim",
+     "terms": {
+      "en": "Only fictional mappings are compared; no spoofed packets/cache writes."
+     }
+    },
+    {
+     "name": {
+      "en": "Parameterized SQL"
+     },
+     "f": "SELECT title FROM courses WHERE code = ?\nBind the value separately through the API",
+     "terms": {
+      "en": "Query structure/identifier choices need fixed allow-lists; binding does not authorize the caller."
+     }
+    },
+    {
+     "name": {
+      "en": "Phishing precautions"
+     },
+     "f": "Pause -> verify through a known trusted route\nReport appropriately; do not disclose codes",
+     "terms": {
+      "en": "Display names, From parsing, HTTPS or perfect grammar alone do not prove legitimacy."
+     }
+    },
+    {
+     "name": {
+      "en": "Cybercrime categories"
+     },
+     "f": "Identity theft; information theft\nUnauthorized hacking; cyberstalking\nMalware distribution",
+     "terms": {
+      "en": "Educational categories are not legal findings. Protect privacy and use current appropriate official channels."
+     }
+    },
+    {
+     "name": {
+      "en": "Defence cycle"
+     },
+     "f": "Prevent -> detect -> respond -> recover",
+     "terms": {
+      "en": "A changed hash is not malware proof. One restored file is not full incident recovery."
+     }
+    },
+    {
+     "name": {
+      "en": "Kali study scope"
+     },
+     "f": "Specialized assessment/auditing distribution\nVM/OS commands are guided only",
+     "terms": {
+      "en": "No ISO/VM download, Kali boot or offensive-tool execution is performed."
+     }
+    },
+    {
+     "name": {
+      "en": "Downloaded-image trust stages"
+     },
+     "f": "1. Verify signed manifest under authentic key\n2. Hash/compare actual downloaded image\n3. Guided safe installation/OS study",
+     "terms": {
+      "en": "Only stage 1 runs here, in an isolated keyring. A checksum and digital signature are different checks."
+     }
+    },
+    {
+     "name": {
+      "en": "Frozen metadata reference"
+     },
+     "f": "Kali 2026.3 signed metadata\nPrimary fingerprint pinned from official docs\nNo global keyring or keyserver lookup",
+     "terms": {
+      "en": "Not a perpetual latest-release, key-validity or ISO-security guarantee; no ISO bytes are present."
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Unit 5 Viva and Short Revision"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is cyber security?"
+     },
+     "a": {
+      "en": "Protection of digital systems, communications, services and information against relevant threats/attacks."
+     }
+    },
+    {
+     "q": {
+      "en": "What is cyberspace?"
+     },
+     "a": {
+      "en": "The interconnected digital environment where systems, data, services and online interactions operate."
+     }
+    },
+    {
+     "q": {
+      "en": "How does a threat differ from a vulnerability?"
+     },
+     "a": {
+      "en": "Potential harm/source/event versus an exploitable/triggerable weakness."
+     }
+    },
+    {
+     "q": {
+      "en": "Does a vulnerability prove an attack occurred?"
+     },
+     "a": {
+      "en": "No. A weakness is not itself evidence of compromise or attribution."
+     }
+    },
+    {
+     "q": {
+      "en": "Is every hacker a criminal intruder?"
+     },
+     "a": {
+      "en": "No. Authorized security work differs from unauthorized access/harm; scope and permission matter."
+     }
+    },
+    {
+     "q": {
+      "en": "What distinguishes a virus from a worm?"
+     },
+     "a": {
+      "en": "Virus uses a host/infection model; a worm self-propagates between systems without that same dependency."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a Trojan?"
+     },
+     "a": {
+      "en": "Malicious functionality presented as something legitimate or useful."
+     }
+    },
+    {
+     "q": {
+      "en": "Can malware categories overlap?"
+     },
+     "a": {
+      "en": "Yes. A Trojan may install spyware, a backdoor or a bot component."
+     }
+    },
+    {
+     "q": {
+      "en": "Is all advertising software automatically criminal malware?"
+     },
+     "a": {
+      "en": "No. Adware can be unwanted/intrusive/deceptive, but consent, behaviour and legal context matter."
+     }
+    },
+    {
+     "q": {
+      "en": "What is spyware?"
+     },
+     "a": {
+      "en": "Covert information collection/monitoring contrary to awareness or authorization."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a botnet?"
+     },
+     "a": {
+      "en": "Coordinated controlled/compromised devices that may be used for harmful activity; owners may also be victims."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a backdoor?"
+     },
+     "a": {
+      "en": "Concealed/unauthorized access bypassing intended access controls."
+     }
+    },
+    {
+     "q": {
+      "en": "How do DoS and DDoS differ?"
+     },
+     "a": {
+      "en": "DDoS distributes participation across multiple systems; both maliciously disrupt legitimate availability."
+     }
+    },
+    {
+     "q": {
+      "en": "Does an outage alone prove DoS?"
+     },
+     "a": {
+      "en": "No. Faults, maintenance, configuration or permissions can also explain it."
+     }
+    },
+    {
+     "q": {
+      "en": "What is MITM/on-path interference?"
+     },
+     "a": {
+      "en": "An attacker interposes in communication, potentially reading, relaying or altering it."
+     }
+    },
+    {
+     "q": {
+      "en": "What does IP spoofing misrepresent?"
+     },
+     "a": {
+      "en": "Source IP information, which is not an authenticated identity by itself."
+     }
+    },
+    {
+     "q": {
+      "en": "What does ARP spoofing misrepresent?"
+     },
+     "a": {
+      "en": "An IPv4-to-link-address mapping on the relevant local network."
+     }
+    },
+    {
+     "q": {
+      "en": "Does a changed MAC mapping prove poisoning?"
+     },
+     "a": {
+      "en": "No. Legitimate replacement/failover may also explain it; the example only compares fictional dictionaries."
+     }
+    },
+    {
+     "q": {
+      "en": "What is SQL injection?"
+     },
+     "a": {
+      "en": "Untrusted input becomes part of SQL syntax rather than remaining data."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the main query defence shown?"
+     },
+     "a": {
+      "en": "Keep structure fixed and bind data values through the database API."
+     }
+    },
+    {
+     "q": {
+      "en": "Can a value placeholder choose a table/column name safely?"
+     },
+     "a": {
+      "en": "Normally no. Keep structural choices fixed or map them from a small owned allow-list."
+     }
+    },
+    {
+     "q": {
+      "en": "Does parameter binding decide user authorization?"
+     },
+     "a": {
+      "en": "No. Appropriate application access controls and least privilege are separate requirements."
+     }
+    },
+    {
+     "q": {
+      "en": "What is phishing?"
+     },
+     "a": {
+      "en": "Deceptive communication/site content intended to trick people into harmful disclosure or action."
+     }
+    },
+    {
+     "q": {
+      "en": "Do good grammar, a familiar display name or HTTPS prove legitimacy?"
+     },
+     "a": {
+      "en": "No. Verify using a separately known trusted route; parsing is not authentication."
+     }
+    },
+    {
+     "q": {
+      "en": "Does login OTP mean the same as Unit 2’s OTP cipher?"
+     },
+     "a": {
+      "en": "No. Here it means a one-time passcode; Unit 2 discusses a one-time pad."
+     }
+    },
+    {
+     "q": {
+      "en": "How do identity theft and information theft differ?"
+     },
+     "a": {
+      "en": "Identity misuse/impersonation versus unauthorized acquisition/disclosure of protected data; one may enable the other."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a safe cyberstalking response principle?"
+     },
+     "a": {
+      "en": "Protect privacy, preserve appropriate evidence safely and seek trusted support/official channels; do not conduct unauthorized tracing."
+     }
+    },
+    {
+     "q": {
+      "en": "Does a hash mismatch identify malware or an attacker?"
+     },
+     "a": {
+      "en": "No. It only establishes a difference against the chosen reference under its assumptions."
+     }
+    },
+    {
+     "q": {
+      "en": "Does one restored same-folder file prove ransomware resilience?"
+     },
+     "a": {
+      "en": "No. The fixture is not an offline/immutable backup system or proof that a host is clean."
+     }
+    },
+    {
+     "q": {
+      "en": "What is Kali intended for?"
+     },
+     "a": {
+      "en": "Specialized authorized security assessment/auditing, not a default beginner desktop or permission to target others."
+     }
+    },
+    {
+     "q": {
+      "en": "What Kali activity is actually executed?"
+     },
+     "a": {
+      "en": "Only GPG verification of frozen official signed metadata; no ISO download/verification, installation or OS boot."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is a valid manifest signature insufficient to verify an absent ISO?"
+     },
+     "a": {
+      "en": "The actual image bytes must still be hashed and compared under an appropriate authentic/current trust process."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Practice: Define cyber security and cyberspace with CIA and personal-impact examples."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Distinguish threat, vulnerability, attack, intruder and hacker."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Compare virus, worm and Trojan and explain why categories can overlap."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Practice: Explain adware and spyware without treating every advertisement or authorized monitor as crime."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Practice: Define botnet and backdoor with defensive implications."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Compare DoS and DDoS and interpret the six-event limiter model."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Explain MITM/on-path interference and the limits of TLS validation."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Practice: Differentiate IP spoofing and ARP spoofing; what does a mapping change prove?"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Explain SQL injection and the actual parameterized-query result."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Practice: Explain the SQLite authorizer example and why it is not complete authorization."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Practice: Explain phishing hints and why hostname/header parsing or HTTPS is not proof."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Practice: Distinguish identity theft, information theft and hacking in the crime context."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Describe a privacy-preserving response to cyberstalking or suspected malware distribution."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Explain prevention, detection, response and recovery using the benign file examples."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Practice: State Kali Linux’s role and a safe guided VM study plan."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Interpret the signed Kali metadata result and the unperformed ISO/boot stages."
+   },
+   "marks": 7
+  }
+ ],
+ "lesson_count": 16,
+ "answered_practice_count": 16,
+ "learning_outcomes": [
+  {
+   "en": "CO5: Describe the basics of cyber security, cyber-attacks and cybercrime."
+  }
+ ],
+ "practical_numbers": [
+  11,
+  12
+ ],
+ "content_kind": "introductory_cybersecurity_with_safe_defensive_and_signed_metadata_support",
+ "assessment_note": {
+  "en": "Official course: theory ESE 70 + PA 30; practical PA 20 + ESE 30 = 150. Unit 5 is 8h/15%, not a guaranteed paper allocation. Original suggested practice sizes are not official GTU questions; answers are in Notes section 6."
+ },
+ "question_provenance": "Original answered revision exercises; not official past papers",
+ "question_marks_are_suggested": true,
+ "runtime_evidence": {
+  "python": "3.13.16",
+  "os": "Debian GNU/Linux 13 (trixie)",
+  "architecture": "x86_64",
+  "programs_executed": 10,
+  "sqlite": "3.46.1",
+  "openssl": "OpenSSL 3.5.7 9 Jun 2026 (Library: OpenSSL 3.5.7 9 Jun 2026)",
+  "gpg": "gpg (GnuPG) 2.4.7",
+  "external_python_packages_required": false,
+  "helper_sha256": {
+   "defence.py": "437b70d9343c5a119e56c95ecf49d6ac6e6f9b0e4784a5039f9f402c1d14903e",
+   "manifest_verify.py": "b329e2c43f250117bca5d79525edf315d6fea3f32b519ac6129672bde9ef5173",
+   "localnet.py": "2ef1a79b3ddd5f6cec53fbbf8629aea2737d11acdfeaaf8745552e831b5f6ff3",
+   "pki_lab.py": "4428db827699655d3b5936a0aa00b6ffd3965e0d4830416074a584c205c06924"
+  },
+  "metadata_file_sha256": {
+   "SHA256SUMS": "e10a7c773e8e10cf5e63ca9783794c7c38c4405bd80b64e1a76ab73c2490dfdc",
+   "SHA256SUMS.gpg": "37a29054e0aa0424f5be1d1bb4c031a47a97d37c36f3ed8b9ffd4ec30996a8fa",
+   "kali-archive-key.asc": "bbaef4b375fdae6d361d648355c9a003b081d421a40f39440f296cbd458071b1",
+   "provenance.json": "2d54e7fe3c3f29e5a95b59a5c81cdbea339279d660116c4741fa60085a2838d1"
+  },
+  "safe_actual_operations": [
+   "In-memory SQLite binding/authorizer",
+   "offline URL/email parsing",
+   "owned benign file checks/recovery",
+   "owned TLS identity check",
+   "isolated GPG signed-metadata verification"
+  ],
+  "logical_models": [
+   "fictional IP/MAC comparison",
+   "synthetic-clock token bucket"
+  ],
+  "malware_or_attack_payload_executed": false,
+  "phishing_email_or_form_delivered": false,
+  "public_network_targets_used": false,
+  "forged_packets_or_ARP_cache_writes": false,
+  "flood_or_load_test_performed": false,
+  "botnet_C2_backdoor_or_persistence_created": false,
+  "real_user_data_or_credentials_used": false,
+  "TLS_scope": "Owned IPv4 loopback only, correct certificate versus wrong hostname; not an actual MITM or mutual-TLS test",
+  "system_trust_or_network_policy_changed": false,
+  "real_private_keys_published": false,
+  "temporary_files_keys_keyrings_sockets_workers_cleaned": true,
+  "Kali_OS_downloaded_installed_or_booted": false,
+  "Kali_tools_executed": false,
+  "ISO_or_VM_image_downloaded": false,
+  "actual_ISO_hash_verified": false,
+  "signed_Kali_metadata_verified": true,
+  "GPG_user_or_system_keyrings_modified": false,
+  "GPG_automatic_key_retrieval_used": false,
+  "Kali_metadata_result": {
+   "signature_valid": true,
+   "primary_fingerprint": "827C8569F2518CC677FECA1AED65462EC8D5E4C5",
+   "release": "2026.3",
+   "installer_filename": "kali-linux-2026.3-installer-amd64.iso",
+   "published_installer_sha256": "db9cbed33edb45727d16911813c2434fcd1419585007884153be22a03b30ec2f",
+   "ISO_downloaded_or_verified": false,
+   "Kali_booted": false,
+   "isolated_keyring_removed": true
+  },
+  "metadata_retrieval_provenance": {
+   "release": "2026.3",
+   "primary_fingerprint": "827C8569F2518CC677FECA1AED65462EC8D5E4C5",
+   "installer_filename": "kali-linux-2026.3-installer-amd64.iso",
+   "published_installer_sha256": "db9cbed33edb45727d16911813c2434fcd1419585007884153be22a03b30ec2f",
+   "origin_urls": {
+    "SHA256SUMS": "https://cdimage.kali.org/kali-2026.3/SHA256SUMS",
+    "SHA256SUMS.gpg": "https://cdimage.kali.org/kali-2026.3/SHA256SUMS.gpg",
+    "kali-archive-key.asc": "https://archive.kali.org/archive-key.asc"
+   },
+   "retrieved_on": "2026-10-29",
+   "ISO_downloaded_or_verified": false,
+   "Kali_booted": false,
+   "scope": "Verified signed metadata only, with official-document fingerprint pin; no ISO bytes downloaded",
+   "file_sha256": {
+    "SHA256SUMS": "e10a7c773e8e10cf5e63ca9783794c7c38c4405bd80b64e1a76ab73c2490dfdc",
+    "SHA256SUMS.gpg": "37a29054e0aa0424f5be1d1bb4c031a47a97d37c36f3ed8b9ffd4ec30996a8fa",
+    "kali-archive-key.asc": "bbaef4b375fdae6d361d648355c9a003b081d421a40f39440f296cbd458071b1"
+   }
+  },
+  "production_malware_detection_or_resilience_claim": false,
+  "legal_finding_or_response_guarantee": false,
+  "normalization": "Actual fixture results and verification outcomes; no real secrets or arbitrary target traffic"
+ },
+ "sources": [
+  {
+   "title": "GTU DI05007021 syllabus, 2026–27",
+   "url": "https://s3-ap-southeast-1.amazonaws.com/gtusitecirculars/Syallbus/DI05007021.pdf"
+  },
+  {
+   "title": "NIST glossary: threat",
+   "url": "https://csrc.nist.gov/glossary/term/threat"
+  },
+  {
+   "title": "NIST glossary: vulnerability",
+   "url": "https://csrc.nist.gov/glossary/term/vulnerability"
+  },
+  {
+   "title": "NIST SP800-83r1: malware prevention/handling (2013 fundamentals)",
+   "url": "https://csrc.nist.gov/pubs/sp/800/83/r1/final"
+  },
+  {
+   "title": "CISA phishing awareness (archived educational page)",
+   "url": "https://www.cisa.gov/secure-our-world/recognize-and-report-phishing"
+  },
+  {
+   "title": "CISA DoS/DDoS explanation (archived 2021 article)",
+   "url": "https://www.cisa.gov/news-events/news/understanding-denial-service-attacks"
+  },
+  {
+   "title": "OWASP: SQL Injection Prevention Cheat Sheet",
+   "url": "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html"
+  },
+  {
+   "title": "Python sqlite3 parameter/authorizer documentation",
+   "url": "https://docs.python.org/3/library/sqlite3.html"
+  },
+  {
+   "title": "Kali official role and suitability",
+   "url": "https://www.kali.org/docs/introduction/should-i-use-kali-linux/"
+  },
+  {
+   "title": "Kali official image/signature verification guidance",
+   "url": "https://www.kali.org/docs/introduction/download-official-kali-linux-images/"
+  },
+  {
+   "title": "Kali official download page",
+   "url": "https://www.kali.org/get-kali/"
+  },
+  {
+   "title": "Kali 2026.3 versioned signed-manifest source",
+   "url": "https://cdimage.kali.org/kali-2026.3/SHA256SUMS"
+  },
+  {
+   "title": "CERT-In official advisories/contact information",
+   "url": "https://www.cert-in.org.in/"
+  }
+ ]
+}
