@@ -1,6 +1,6 @@
 # DI04000031 — Source and scope record
 
-Checked: **29 October 2026**. The materials cover **Units 1–4**; Unit 5 remains pending.
+Checked: **29 October 2026**. The materials cover **Units 1–5**; Unit 5 is intentionally concise at the user’s request.
 
 ## Authoritative curriculum
 
@@ -110,7 +110,7 @@ For the exact reference environment: `python3 tools/setup_cassandra_runtime.py` 
 Build: `python3 tools/build_DI04000031_u3.py` (real Cassandra required).
 Validate: `python3 tools/test_DI04000031_u3.py` and prior-unit regressions.
 Export the already built practical ZIP without a DB connection: `python3 tools/export_DI04000031_u3_practicals.py`.
-Release only after exact-new-commit native app CI, then publication and fresh live JSON/SVG/catalog-byte/hash verification. Units 4–5 remain pending.
+Release only after exact-new-commit native app CI, then publication and fresh live JSON/SVG/catalog-byte/hash verification. At the Unit 3 release, Units 4–5 were still pending.
 
 
 ## Unit 4 — Neo4j reference and execution record
@@ -139,7 +139,7 @@ Release only after exact-new-commit native app CI, then publication and fresh li
 - Deliverables: **20 lessons / 16 real programs / 14 self-contained mobile SVGs / 16 reference cards / 56 viva answers / 18 answered practical tasks**. The practical-only course has `exam_questions: []`; tasks appear in Notes, without invented official theory-paper marks.
 - Deterministic practical ZIP: **37 files** — 16 exact Cypher sources, 16 actual expected outputs, guarded runner, requirements, synthetic graph_fixture.json, non-secret runtime.json and README. Export is proven DB/network-independent and does not import the executable program module. The ZIP is a workspace download, not an invented hosted download URL.
 - **36 Unit 4 validation groups** cover current real runs/outputs, full fixture equality, genuine failures and counters, actual Cypher Shell scripts, denied access, atomic creation ownership/collision/failure cleanup, lexer/context/fixture guards, safe English HTML/links, all SVG raster/text bounds and visual review, all 16 public ZIP reruns, five preview views, catalog/hash/app-font-normalized SVG integration, byte-identical rebuild/offline export and secret exclusions. Raster validation uses resvg-py **0.5.0** (older 0.2.4 does not accept fractional zoom).
-- Unit 1’s **20 groups** are rerun. Units 1–3 source JSON and their exported public JSON are preserved against their prior verified SHA-256 values. MongoDB/Cassandra runtime suites are not relabeled as rerun after a snapshot discarded their excluded runtimes. Exact-new-commit native Flutter rendering additionally covers all released content before publishing, followed by fresh LIVE byte/hash checks. Unit 5 remains pending.
+- Unit 1’s **20 groups** are rerun. Units 1–3 source JSON and their exported public JSON are preserved against their prior verified SHA-256 values. MongoDB/Cassandra runtime suites are not relabeled as rerun after a snapshot discarded their excluded runtimes. Exact-new-commit native Flutter rendering additionally covers all released content before publishing, followed by fresh LIVE byte/hash checks. At the Unit 4 release, Unit 5 was still pending.
 
 ### Unit 4 primary references
 
@@ -168,4 +168,21 @@ Reproduce the private reference: `python3 tools/setup_neo4j_runtime.py` verifies
 Build: `python3 tools/build_DI04000031_u4.py` (real authenticated Neo4j required).
 Validate: `python3 tools/test_DI04000031_u4.py` plus Unit 1 regression / prior-unit preservation checks.
 Export the already built ZIP without database/network access: `python3 tools/export_DI04000031_u4_practicals.py`.
-Release: source sync -> exact-new-SHA native app CI -> publication -> fresh live bytes/catalog hash verification. Redis is still pending.
+Release: source sync -> exact-new-SHA native app CI -> publication -> fresh live bytes/catalog hash verification. Redis was not included in that Unit 4 release.
+
+
+## Unit 5 — concise Redis coverage
+
+- User requested topic coverage without extended detail: **8 short lessons / 8 executed examples / 4 diagrams / 8 reference cards / 12 viva / 5 brief tasks**. Official scope is 10 hours / 17%, CO5, Practical 9: Strings, Lists, Sets, Hashes, basic commands, transactions/caching, AI/real-world uses and simplified integration. No advanced extras or theory-paper marks.
+- Actual reference: **Redis server and redis-cli 8.10.3**, official **redis-py 8.1.0**, Python 3.13.16 on Debian 13 x86_64. Official source archive (21647086 bytes) SHA256 **edde778f6bdee7581e42fc139ca9e07e2822212092f7501f99989656e3629d02**, matched the official redis/redis-hashes entry. A browser-style User-Agent was needed after the first download request returned 403. Core/CLI were built with libc/-O2, no optional modules or TLS build; checksum verification is not a separate signature-verification claim.
+- Private authenticated loopback **6385**, default user disabled, restricted course-key lab ACL and separate private admin. Passwords/ACL files remain mode 0600 outside the project/cache snapshot. No persistence, public endpoint, cluster, model training, benchmark or live second-database integration is claimed. The nonfatal host-overcommit warning was not “fixed” by changing host settings; no background-save/replication demonstration is made.
+- Real outcomes: string/counter 10 -> 11; list load/train/evaluate then pop load; set duplicate removal; hash named string fields; MULTI/EXEC returns [11,"11"]; a real execution-time integer error still permits the later SET. Actual redis-cli tests also verify four structures, EXEC and DISCARD. No rollback guarantee is invented.
+- Expiry is genuinely checked both immediately and with elapsed TTL; -2 means missing. Cache hit/miss/invalidation and versioned recommendation IDs are demonstrated. Python + Redis cache-aside really runs; its authoritative source is explicitly a **local dictionary fixture**, not MongoDB/Cassandra or a trained model.
+- Shared helper uses a fresh prefixed namespace, SET NX ownership claim, declared-key-only cleanup and watched ownership. Pre-existing scope/collision/claim-race data are preserved; changed ownership is not deleted. This is trusted prepared Python, not an arbitrary-code sandbox or a distributed-lock implementation. No FLUSH cleanup.
+- **24 validation groups passed**: real versions/results, all 8 extracted-ZIP reruns, four real structures, transaction/error semantics, natural expiry, actual CLI, auth/ACL denials, ownership/failure cleanup, safe English HTML, four SVGs rasterized/bounds-checked/visually reviewed, five preview tabs, deterministic rebuild, offline export and secrets checks. Rasterization uses app-normalized DejaVu fonts explicitly; a first diagnostic lacking the sans-serif fallback rendered empty text and was corrected before visual approval.
+- **20-file ZIP** contains 8 short Python examples, 8 actual outputs, shared lab.py, requirements, non-secret runtime and a brief README. Export is database/network independent. No private server binaries or credentials ship.
+- Units 1–3 remain byte-identical. Unit 4 changes only **three text leaves** (one Notes paragraph and one viva question/answer) to replace obsolete “Unit 5 pending” wording with a timeless Redis-scope statement. Its 16 programs, actual outputs, runtime evidence and 14 diagrams are unchanged; reversing those three wording edits reproduces both original source/public SHA256 values. Its metadata tests now allow Unit 5. No old database suite is falsely claimed as re-executed for those wording changes.
+- Companion Unit 1 comparative-study regression: **20 groups passed**; its workbook rebuild changed only package creation/modification timestamps, so the original workbook bytes were restored. Final Redis scoped-key scan was empty, and the private Redis process shut down cleanly before database-independent export/CI.
+- Publication remains gated on exact-new-commit native app rendering, followed by fresh live bytes/catalog/hash verification. Full subject availability is **[1,2,3,4,5]** only after that gate.
+
+Primary Redis references: official installation/data-types/commands/transactions/expiry/security and redis-py guides listed in unit5.json; curriculum remains the original GTU DI04000031 PDF. Redis-cli guide path `/docs/latest/develop/cli/` returned not found and is not published as a reference.

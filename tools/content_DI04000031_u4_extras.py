@@ -108,7 +108,7 @@ VIVA=[
   V('Is this runner a general Cypher security sandbox?', 'No. It guards trusted prepared teaching files and captured scope cleanup; arbitrary untrusted Cypher requires a different security/authorization design.'),
   V('Does visible deletion prove immediate disk erasure?', 'No. Logical deletion and space reuse are not an immediate physical-byte-erasure guarantee, nor is a normal delete an undo/backup mechanism.'),
   V('What must the Practical 7–8 journal distinguish?', 'Your actual Desktop/Aura/Browser setup/observations, the executed reference server output, synthetic inputs, positive/negative queries, candidate/AI limits and owned cleanup. Never label guided GUI steps as performed evidence.'),
-  V('What is the official assessment and what remains pending?', 'Theory ESE/PA 0; course practical PA 20 plus ESE 30 gives 50. Tasks have no invented theory-paper marks. This release is Unit 4 only; Redis Unit 5 is still a separate pending unit.'),
+  V('What is the official assessment and which unit covers Redis?', 'Theory ESE/PA 0; course practical PA 20 plus ESE 30 gives 50. Tasks have no invented theory-paper marks. This is the Neo4j unit; Redis is covered separately in Unit 5.'),
  ]),
 ]
 assert sum(len(g['items']) for g in VIVA)==56

@@ -1,0 +1,566 @@
+{
+ "subject": "DI04000031",
+ "unit": 5,
+ "format": "notes",
+ "title": {
+  "en": "Key-Value Databases: Redis"
+ },
+ "hours": 10,
+ "weightage": 17,
+ "tabs": [
+  "notes",
+  "programs",
+  "diagrams",
+  "syntax",
+  "viva"
+ ],
+ "intro_text": {
+  "en": "Concise syllabus coverage: Redis overview/setup; Strings, Lists, Sets and Hashes; basic commands; transactions; caching/TTL; AI use cases and simplified application integration. Includes eight real Redis examples for Practical 9, without advanced extras."
+ },
+ "notes": [
+  {
+   "title": {
+    "en": "Redis — Required Topics in Brief"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "5.1 Overview and installation"
+     },
+     "body": {
+      "en": "<p><b>Redis</b> stores keys mapped to data structures, mainly served from memory. It is useful for caches, sessions, counters and simple queues. Persistence is configurable; do not assume a memory-first cache is a durable system of record.</p><p>Install using the official guide for your OS. Start a private, authenticated instance and connect with redis-cli. The usual port is <b>6379</b>; use your actual settings. Keep passwords out of shared code and never expose Redis directly to public browsers.</p><pre class=\"c\">redis-cli --user YOUR_USER --askpass PING\n# Enter your private password; expected CLI reply: PONG</pre><p>This unit covers <b>10 hours / 17%</b>, <b>CO5</b> and <b>Practical 9</b>: install Redis and practise Strings, Lists, Sets and Hashes. CLI snippets use practice keys on your own instance; the downloadable Python examples isolate and clean their own keys.</p>"
+     },
+     "diagram": "ns5_types",
+     "programs": [
+      "ns5p01"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.2 Strings and basic key operations"
+     },
+     "body": {
+      "en": "<p>A <b>String</b> stores a byte/string value. Use SET/GET, INCR for an integer-formatted counter, EXISTS to test a key, TYPE to inspect its type and DEL to remove it. A missing GET returns nil/null; using the wrong structure command can raise WRONGTYPE.</p><pre class=\"c\">SET lab:product 'Sensor Node'\nGET lab:product\nSET lab:views 10\nINCR lab:views\nTYPE lab:product\nEXISTS lab:product\nDEL lab:product</pre><p>SET normally replaces the existing value. Redis hash field values and numeric-looking strings are not automatically Python numbers.</p>"
+     },
+     "programs": [
+      "ns5p01",
+      "ns5p02"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.3 Lists"
+     },
+     "body": {
+      "en": "<p>A <b>List</b> is ordered and allows duplicates. LPUSH/RPUSH add at the left/right; LPOP/RPOP remove from those ends. LRANGE 0 -1 reads the whole list. RPUSH plus LPOP gives a basic FIFO pattern, not a complete reliable job-processing system.</p><pre class=\"c\">RPUSH lab:jobs train evaluate\nLPUSH lab:jobs load\nLRANGE lab:jobs 0 -1\nLPOP lab:jobs</pre><p>Here the list is load, train, evaluate; LPOP removes load.</p>"
+     },
+     "programs": [
+      "ns5p03"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.4 Sets"
+     },
+     "body": {
+      "en": "<p>A <b>Set</b> stores unique, unordered members. SADD adds, SMEMBERS reads, SISMEMBER tests membership and SREM removes. Adding Python twice does not create two members.</p><pre class=\"c\">SADD lab:skills Python Redis Python\nSMEMBERS lab:skills\nSISMEMBER lab:skills Python\nSREM lab:skills Redis</pre><p>Suitable examples: unique skills, tags or visitor IDs. Display order is not guaranteed; the Python example sorts only for readable output.</p>"
+     },
+     "programs": [
+      "ns5p04"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.5 Hashes"
+     },
+     "body": {
+      "en": "<p>A <b>Hash</b> stores field–value pairs under one key, for example a small user/profile record. HSET writes fields, HGET reads one, HGETALL reads all and HDEL removes fields.</p><pre class=\"c\">HSET lab:user name Asha city Surat age 20\nHGET lab:user name\nHGETALL lab:user\nHDEL lab:user age</pre><p>The age value is stored/read as string \"20\" in these examples. Use a list for ordered items, a set for unique members and a hash for named fields.</p>"
+     },
+     "programs": [
+      "ns5p05"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.6 Transactions"
+     },
+     "body": {
+      "en": "<p><b>MULTI</b> queues commands; <b>EXEC</b> executes them together without another client’s command interleaving during execution. <b>DISCARD</b> cancels the queued work before execution.</p><pre class=\"c\">MULTI\nINCR lab:views\nGET lab:views\nEXEC\n# DISCARD cancels queued commands before execution.</pre><p><b>No rollback:</b> an execution-time error does not undo successful commands, and later queued commands can still run. Program 6 demonstrates this with a non-integer INCR and a later successful write. The Python transaction pipeline uses MULTI/EXEC.</p>"
+     },
+     "diagram": "ns5_transaction",
+     "programs": [
+      "ns5p06"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.7 Caching, expiry and invalidation"
+     },
+     "body": {
+      "en": "<p>A <b>cache hit</b> finds the value; a <b>miss</b> requires the source. In <b>cache-aside</b>, the application reads Redis first, then loads and caches the source value on a miss.</p><pre class=\"c\">SET lab:recs 'P101,P102' EX 60\nGET lab:recs\nTTL lab:recs\nDEL lab:recs   # invalidate after a source-data change</pre><ul><li><b>TTL:</b> limits lifetime. TTL returns seconds; -1 means no expiry and -2 means missing.</li><li><b>Invalidation:</b> delete/update cached data when the authoritative value changes.</li><li><b>Other strategies:</b> write-through updates cache with source writes; write-behind delays source writes and needs careful failure handling.</li></ul><p>Expiry is not memory-pressure eviction. Caches may be stale or unavailable; keep a source fallback and do not claim unlimited memory, durability or guaranteed speedups.</p>"
+     },
+     "diagram": "ns5_cache",
+     "programs": [
+      "ns5p02",
+      "ns5p07"
+     ]
+    },
+    {
+     "h": {
+      "en": "5.8 AI use cases and simplified application integration"
+     },
+     "body": {
+      "en": "<p>Redis can cache <b>recommendation IDs</b>, temporary feature values or sessions, and hold simple job lists. Storing these values does <b>not train an AI model</b>.</p><p><b>Integration:</b> application → Redis; on a miss → source database/service → Redis with TTL → response. Use an official client such as Python redis-py. Version cache keys when the model/data meaning changes and protect personal data.</p><pre class=\"c\">GET cache-key\n# HIT: return the cached value.\n# MISS: read the authoritative source, then\nSET cache-key value EX 60</pre><p>Program 8 really connects Python to Redis and shows source → cache → invalidation. Its source is a small <b>local dictionary fixture</b>, not a live MongoDB/Cassandra integration or benchmark. The reference uses Redis/CLI <b>8.10.3</b> and redis-py <b>8.1.0</b>, privately on port 6385.</p>"
+     },
+     "diagram": "ns5_integration",
+     "programs": [
+      "ns5p07",
+      "ns5p08"
+     ]
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Five Short Practical Tasks"
+   },
+   "role": "practice",
+   "items": [
+    {
+     "h": {
+      "en": "Install/connect and verify one stored round-trip."
+     },
+     "body": {
+      "en": "Use your OS guide, private authentication and redis-cli PING. SET a disposable string, GET the same value, then DEL only that key."
+     }
+    },
+    {
+     "h": {
+      "en": "Choose and practise the four structures."
+     },
+     "body": {
+      "en": "String: product name/counter. List: ordered jobs. Set: unique skills. Hash: named user fields. Use the corresponding quick-reference commands."
+     }
+    },
+    {
+     "h": {
+      "en": "Execute a small transaction and explain failure behaviour."
+     },
+     "body": {
+      "en": "Use MULTI/EXEC (or the Python transaction pipeline). Program 6 returns [11,\"11\"]; a later example’s failed INCR does not prevent its subsequent SET. DISCARD cancels before execution."
+     }
+    },
+    {
+     "h": {
+      "en": "Add expiry and invalidate a cached recommendation."
+     },
+     "body": {
+      "en": "SET the result with EX 60, confirm TTL is active, read it as a hit, then DEL it on source change. TTL -2 confirms it is missing."
+     }
+    },
+    {
+     "h": {
+      "en": "Demonstrate simple application integration."
+     },
+     "body": {
+      "en": "Run program 8: first read comes from the local source fixture; second from Redis. Update the fixture, invalidate, and read the new value. Record actual outputs; no trained model or live multi-database claim."
+     }
+    }
+   ]
+  }
+ ],
+ "programs": [
+  {
+   "id": "ns5p01",
+   "title": {
+    "en": "Connect and Use Basic Keys"
+   },
+   "code": {
+    "en": "from lab import Lab, show\n\nwith Lab('ns5p01',['product']) as lab:\n    r=lab.r; k=lab.key('product')\n    show('ping',r.ping())\n    show('set',r.set(k,'Sensor Node'))\n    show('get',r.get(k))\n    show('exists',r.exists(k))\n    show('type',r.type(k))\n    show('deleted',r.delete(k))\n    show('missing',r.get(k))"
+   },
+   "out": "ping: true\nset: true\nget: \"Sensor Node\"\nexists: 1\ntype: \"string\"\ndeleted: 1\nmissing: null",
+   "expl": {
+    "en": "<p>Real stored round-trip. redis-py reports PING/SET success as true; redis-cli shows PONG/OK. Lab isolates and cleans declared keys.</p>"
+   }
+  },
+  {
+   "id": "ns5p02",
+   "title": {
+    "en": "String Counter and Expiry"
+   },
+   "code": {
+    "en": "from lab import Lab, show\n\nwith Lab('ns5p02',['views','temporary']) as lab:\n    r=lab.r; k=lab.key('views'); temp=lab.key('temporary')\n    r.set(k,'10')\n    show('incremented',r.incr(k))\n    show('stored_string',r.get(k))\n    r.set(temp,'cached',ex=60)\n    show('ttl_active',0<r.ttl(temp)<=60)\n    r.expire(temp,0)\n    show('after_immediate_expiry',r.get(temp))\n    show('missing_ttl',r.ttl(temp))"
+   },
+   "out": "incremented: 11\nstored_string: \"11\"\nttl_active: true\nafter_immediate_expiry: null\nmissing_ttl: -2",
+   "expl": {
+    "en": "<p>INCR returns integer 11; GET reads string \"11\". SET EX adds a lifetime; EXPIRE 0 immediately expires the key. TTL -2 means missing.</p>"
+   }
+  },
+  {
+   "id": "ns5p03",
+   "title": {
+    "en": "Ordered List Operations"
+   },
+   "code": {
+    "en": "from lab import Lab, show\n\nwith Lab('ns5p03',['jobs']) as lab:\n    r=lab.r; k=lab.key('jobs')\n    r.rpush(k,'train','evaluate'); r.lpush(k,'load')\n    show('jobs',r.lrange(k,0,-1))\n    show('removed_left',r.lpop(k))\n    show('remaining',r.lrange(k,0,-1))\n    show('length',r.llen(k))"
+   },
+   "out": "jobs: [\"load\",\"train\",\"evaluate\"]\nremoved_left: \"load\"\nremaining: [\"train\",\"evaluate\"]\nlength: 2",
+   "expl": {
+    "en": "<p>Lists preserve order. These are job-name strings, not executed AI training or a reliable-worker implementation.</p>"
+   }
+  },
+  {
+   "id": "ns5p04",
+   "title": {
+    "en": "Unique Set Members"
+   },
+   "code": {
+    "en": "from lab import Lab, show\n\nwith Lab('ns5p04',['skills']) as lab:\n    r=lab.r; k=lab.key('skills')\n    show('added',r.sadd(k,'Python','Redis','Python'))\n    show('members',sorted(r.smembers(k)))\n    show('has_python',r.sismember(k,'Python'))\n    show('removed',r.srem(k,'Redis'))\n    show('remaining',sorted(r.smembers(k)))"
+   },
+   "out": "added: 2\nmembers: [\"Python\",\"Redis\"]\nhas_python: 1\nremoved: 1\nremaining: [\"Python\"]",
+   "expl": {
+    "en": "<p>Duplicate Python is stored once. Sorting is only for readable output; Redis set order is not guaranteed.</p>"
+   }
+  },
+  {
+   "id": "ns5p05",
+   "title": {
+    "en": "Hash Fields"
+   },
+   "code": {
+    "en": "from lab import Lab, show\n\nwith Lab('ns5p05',['user']) as lab:\n    r=lab.r; k=lab.key('user')\n    show('new_fields',r.hset(k,mapping={\n        'name':'Asha','city':'Surat','age':'20'}))\n    show('name',r.hget(k,'name'))\n    show('profile',r.hgetall(k))\n    show('removed_age',r.hdel(k,'age'))\n    show('remaining',r.hgetall(k))"
+   },
+   "out": "new_fields: 3\nname: \"Asha\"\nprofile: {\"age\":\"20\",\"city\":\"Surat\",\"name\":\"Asha\"}\nremoved_age: 1\nremaining: {\"city\":\"Surat\",\"name\":\"Asha\"}",
+   "expl": {
+    "en": "<p>A hash keeps named string fields under one key. The helper sorts map fields for stable display; it does not change stored values.</p>"
+   }
+  },
+  {
+   "id": "ns5p06",
+   "title": {
+    "en": "Transactions and the No-Rollback Rule"
+   },
+   "code": {
+    "en": "from lab import Lab, show\n\nwith Lab('ns5p06',['count','after']) as lab:\n    r=lab.r; k=lab.key('count'); after=lab.key('after')\n    r.set(k,'10')\n    with r.pipeline(transaction=True) as p:\n        p.incr(k); p.get(k)\n        show('exec',p.execute())\n    r.set(k,'text')\n    with r.pipeline(transaction=True) as p:\n        p.incr(k); p.set(after,'done')\n        show('exec_with_error',p.execute(raise_on_error=False))\n    show('later_write',r.get(after))"
+   },
+   "out": "exec: [11,\"11\"]\nexec_with_error: [{\"server_error\":\"value is not an integer or out of range\"},true]\nlater_write: \"done\"",
+   "expl": {
+    "en": "<p>The transaction pipeline uses MULTI/EXEC. A real non-integer INCR error does not stop the later SET; Redis does not roll back successful commands.</p>"
+   }
+  },
+  {
+   "id": "ns5p07",
+   "title": {
+    "en": "Recommendation Cache and Invalidation"
+   },
+   "code": {
+    "en": "from lab import Lab, show\n\nwith Lab('ns5p07',['recs:U42:v1']) as lab:\n    r=lab.r; k=lab.key('recs:U42:v1')\n    show('initial_miss',r.get(k))\n    r.set(k,'P101,P102',ex=60)\n    show('cache_hit',r.get(k))\n    show('ttl_active',0<r.ttl(k)<=60)\n    r.delete(k)\n    show('after_invalidation',r.get(k))"
+   },
+   "out": "initial_miss: null\ncache_hit: \"P101,P102\"\nttl_active: true\nafter_invalidation: null",
+   "expl": {
+    "en": "<p>Cache recommendation IDs under a versioned key with TTL. These fixed IDs are not output from a trained model; invalidation removes the cached copy.</p>"
+   }
+  },
+  {
+   "id": "ns5p08",
+   "title": {
+    "en": "Python Cache-Aside Integration"
+   },
+   "code": {
+    "en": "from lab import Lab, show\n\nwith Lab('ns5p08',['product:P101']) as lab:\n    r=lab.r; k=lab.key('product:P101')\n    source={'P101':'Sensor Node'}\n    def read_product():\n        value=r.get(k)\n        if value is not None:\n            return {'from':'cache','value':value}\n        value=source['P101']\n        r.set(k,value,ex=60)\n        return {'from':'source','value':value}\n    show('first',read_product())\n    show('second',read_product())\n    source['P101']='Sensor Node v2'; r.delete(k)\n    show('after_update',read_product())"
+   },
+   "out": "first: {\"from\":\"source\",\"value\":\"Sensor Node\"}\nsecond: {\"from\":\"cache\",\"value\":\"Sensor Node\"}\nafter_update: {\"from\":\"source\",\"value\":\"Sensor Node v2\"}",
+   "expl": {
+    "en": "<p>Actual Python + Redis: miss → source fixture, hit → Redis, update/invalidate → new source value. The dictionary is not a live MongoDB/Cassandra service or a performance benchmark.</p>"
+   }
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "ns5_types",
+   "title": {
+    "en": "Four Required Redis Structures"
+   },
+   "file": "diagrams/ns5_types.svg"
+  },
+  {
+   "id": "ns5_transaction",
+   "title": {
+    "en": "MULTI, EXEC and DISCARD"
+   },
+   "file": "diagrams/ns5_transaction.svg"
+  },
+  {
+   "id": "ns5_cache",
+   "title": {
+    "en": "Cache Hit, Miss, TTL and Invalidation"
+   },
+   "file": "diagrams/ns5_cache.svg"
+  },
+  {
+   "id": "ns5_integration",
+   "title": {
+    "en": "Simplified Application and Redis Integration"
+   },
+   "file": "diagrams/ns5_integration.svg"
+  }
+ ],
+ "syntax": [
+  {
+   "title": {
+    "en": "Quick Command Reference"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Connect / keys"
+     },
+     "f": "redis-cli --user YOUR_USER --askpass PING\n# Enter your private password; expected CLI reply: PONG\nEXISTS lab:key\nTYPE lab:key\nDEL lab:key",
+     "terms": {
+      "en": "Private connection; use your actual host/port/user. Never use FLUSHDB/FLUSHALL to clean a shared lab."
+     }
+    },
+    {
+     "name": {
+      "en": "Strings"
+     },
+     "f": "SET lab:product 'Sensor Node'\nGET lab:product\nSET lab:views 10\nINCR lab:views\nTYPE lab:product\nEXISTS lab:product\nDEL lab:product",
+     "terms": {
+      "en": "GET returns a string/nil; INCR requires an integer-formatted value."
+     }
+    },
+    {
+     "name": {
+      "en": "Lists"
+     },
+     "f": "RPUSH lab:jobs train evaluate\nLPUSH lab:jobs load\nLRANGE lab:jobs 0 -1\nLPOP lab:jobs",
+     "terms": {
+      "en": "Ordered items, duplicates allowed; LRANGE end index is inclusive and -1 is the last item."
+     }
+    },
+    {
+     "name": {
+      "en": "Sets"
+     },
+     "f": "SADD lab:skills Python Redis Python\nSMEMBERS lab:skills\nSISMEMBER lab:skills Python\nSREM lab:skills Redis",
+     "terms": {
+      "en": "Unique members; no guaranteed member order."
+     }
+    },
+    {
+     "name": {
+      "en": "Hashes"
+     },
+     "f": "HSET lab:user name Asha city Surat age 20\nHGET lab:user name\nHGETALL lab:user\nHDEL lab:user age",
+     "terms": {
+      "en": "One key, named string field–value pairs."
+     }
+    },
+    {
+     "name": {
+      "en": "Transactions"
+     },
+     "f": "MULTI\nINCR lab:views\nGET lab:views\nEXEC\n# DISCARD cancels queued commands before execution.",
+     "terms": {
+      "en": "Commands queue before EXEC; execution-time failures do not roll back other successful commands."
+     }
+    },
+    {
+     "name": {
+      "en": "Expiry / invalidation"
+     },
+     "f": "SET lab:recs 'P101,P102' EX 60\nGET lab:recs\nTTL lab:recs\nDEL lab:recs   # invalidate after a source-data change",
+     "terms": {
+      "en": "SET EX sets lifetime in seconds. TTL -1: no expiry; -2: missing. Delete/update stale entries."
+     }
+    },
+    {
+     "name": {
+      "en": "Cache-aside integration"
+     },
+     "f": "GET cache-key\n# HIT: return the cached value.\n# MISS: read the authoritative source, then\nSET cache-key value EX 60",
+     "terms": {
+      "en": "Conceptual flow. Program 8 executes Python + Redis with a local source fixture; not a live multi-database deployment."
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Short Viva"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is Redis?"
+     },
+     "a": {
+      "en": "A memory-first data-structure server commonly used for caching, sessions, counters and simple queues."
+     }
+    },
+    {
+     "q": {
+      "en": "Which four structures are required here?"
+     },
+     "a": {
+      "en": "Strings, Lists, Sets and Hashes."
+     }
+    },
+    {
+     "q": {
+      "en": "Which commands store and read a string?"
+     },
+     "a": {
+      "en": "SET and GET. A missing GET returns nil/null."
+     }
+    },
+    {
+     "q": {
+      "en": "List versus Set?"
+     },
+     "a": {
+      "en": "A list is ordered and permits duplicates; a set holds unique members without guaranteed order."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a Redis hash?"
+     },
+     "a": {
+      "en": "Field–value pairs under one key, read/written with HGET/HSET and related commands."
+     }
+    },
+    {
+     "q": {
+      "en": "What does INCR require?"
+     },
+     "a": {
+      "en": "A missing key or a value representing an integer; a non-integer stored string causes an error."
+     }
+    },
+    {
+     "q": {
+      "en": "What do MULTI, EXEC and DISCARD do?"
+     },
+     "a": {
+      "en": "Queue commands, execute the queue, or cancel it before execution respectively."
+     }
+    },
+    {
+     "q": {
+      "en": "Does a Redis transaction roll back runtime errors?"
+     },
+     "a": {
+      "en": "No. Successful commands are not undone and later queued commands can still execute."
+     }
+    },
+    {
+     "q": {
+      "en": "What do TTL -1 and -2 mean?"
+     },
+     "a": {
+      "en": "-1: existing key without expiry. -2: missing key."
+     }
+    },
+    {
+     "q": {
+      "en": "What is cache-aside?"
+     },
+     "a": {
+      "en": "Read cache first; on a miss read the authoritative source and cache the result with a suitable lifetime."
+     }
+    },
+    {
+     "q": {
+      "en": "Why invalidate a cache?"
+     },
+     "a": {
+      "en": "To prevent serving an outdated value after the authoritative source changes."
+     }
+    },
+    {
+     "q": {
+      "en": "Does this unit train AI or prove a live multi-database integration?"
+     },
+     "a": {
+      "en": "No. AI caching is an application use case; the executed integration is Python + Redis with a local dictionary source."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [],
+ "lesson_count": 8,
+ "practice_task_count": 5,
+ "practical_numbers": [
+  9
+ ],
+ "learning_outcomes": [
+  {
+   "en": "Implement Redis data structures for caching and performance optimization (CO5)."
+  }
+ ],
+ "content_kind": "real_redis_practical",
+ "content_density": "concise",
+ "assessment_note": {
+  "en": "Course practical PA 20 + ESE 30 = 50; theory ESE/PA 0. No invented theory-paper marks."
+ },
+ "runtime_evidence": {
+  "server": "Redis",
+  "server_version": "8.10.3",
+  "cli_version": "8.10.3",
+  "driver": "redis-py",
+  "driver_version": "8.1.0",
+  "python": "3.13.16",
+  "os": "Debian 13 x86_64",
+  "programs_executed": 8,
+  "authenticated": true,
+  "private_loopback": true,
+  "public_database_endpoint": false,
+  "persistence_enabled": false,
+  "single_instance": true,
+  "modules_used": false,
+  "ai_model_trained": false,
+  "live_multi_database_integration": false,
+  "performance_benchmark": false,
+  "integration_source": "Local Python dictionary fixture, not a live second database",
+  "output_origin": "Actual Redis replies through official redis-py; set/map display sorted; TTL range normalized",
+  "cleanup": "Fresh SET NX namespace claim; declared keys only; watched ownership before cleanup"
+ },
+ "sources": [
+  {
+   "title": "GTU DI04000031 syllabus",
+   "url": "https://s3-ap-southeast-1.amazonaws.com/gtusitecirculars/Syallbus/DI04000031.pdf"
+  },
+  {
+   "title": "Install Redis",
+   "url": "https://redis.io/docs/latest/operate/oss_and_stack/install/"
+  },
+  {
+   "title": "Redis data types",
+   "url": "https://redis.io/docs/latest/develop/data-types/"
+  },
+  {
+   "title": "Redis commands",
+   "url": "https://redis.io/docs/latest/commands/"
+  },
+  {
+   "title": "Redis transactions",
+   "url": "https://redis.io/docs/latest/develop/using-commands/transactions/"
+  },
+  {
+   "title": "Redis Python client",
+   "url": "https://redis.io/docs/latest/develop/clients/redis-py/"
+  },
+  {
+   "title": "Expiry",
+   "url": "https://redis.io/docs/latest/commands/expire/"
+  },
+  {
+   "title": "Redis security",
+   "url": "https://redis.io/docs/latest/operate/oss_and_stack/management/security/"
+  }
+ ]
+}

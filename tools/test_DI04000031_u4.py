@@ -83,7 +83,7 @@ class Unit4Tests(unittest.TestCase):
         self.assertEqual(sum(len(g['items']) for g in u['syntax']),16)
         self.assertEqual(sum(len(g['items']) for g in u['viva']),56)
         self.assertEqual(self.s['exam'],{'theory_ese':0,'theory_pa':0,'practical_pa':20,'practical_ese':30,'total':50,'credits':3})
-        self.assertEqual([s['file'] for s in self.s['units']],['unit1.json','unit2.json','unit3.json','unit4.json',None])
+        self.assertEqual([s['file'] for s in self.s['units']],['unit1.json','unit2.json','unit3.json','unit4.json','unit5.json' if (SUBJ_DIR/'unit5.json').exists() else None])
         self.assertIn('Utilize Neo4j to solve relationship-based problems',u['learning_outcomes'][0]['en'])
 
     def test_03_exact_current_sources_and_fresh_real_outputs(self):
@@ -372,7 +372,7 @@ class Unit4Tests(unittest.TestCase):
             subject=json.loads(Path(tmp,'subjects/DI04000031.json').read_text())
             unit=json.loads(Path(tmp,'units/DI04000031_u4.json').read_text())
             catalog=json.loads(Path(tmp,'catalog.json').read_text())
-            self.assertEqual(subject['available_units'],[1,2,3,4]);self.assertEqual(len(subject['units']),5)
+            self.assertEqual(subject['available_units'],[1,2,3,4]+([5] if (SUBJ_DIR/'unit5.json').exists() else []));self.assertEqual(len(subject['units']),5)
             self.assertEqual(unit['programs'],self.u['programs']);self.assertEqual(set(unit['svgs']),set(TITLES))
             for d in self.u['diagrams']:
                 self.assertEqual(unit['svgs'][d['id']],clean_svg((SUBJ_DIR/d['file']).read_text()))
@@ -381,7 +381,7 @@ class Unit4Tests(unittest.TestCase):
             for n in (1,2,3):
                 self.assertEqual(hashlib.sha256((SUBJ_DIR/f'unit{n}.json').read_bytes()).hexdigest(),PRIOR_SOURCE_SHA[n])
                 self.assertEqual(hashlib.sha256(Path(tmp,f'units/DI04000031_u{n}.json').read_bytes()).hexdigest(),PRIOR_PUBLIC_SHA[n])
-            self.assertFalse(Path(tmp,'units/DI04000031_u5.json').exists())
+            self.assertEqual(Path(tmp,'units/DI04000031_u5.json').exists(),(SUBJ_DIR/'unit5.json').exists())
 
     def test_33_deterministic_rebuild_json_svg_preview_and_zip(self):
         files=[SUBJ_DIR/'unit4.json',SUBJ_DIR/'subject.json',PREVIEW,Path(ZIP_PATH)]

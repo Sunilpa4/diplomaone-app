@@ -261,7 +261,7 @@ S('6. Algorithm Awareness, Troubleshooting and the Journal',[
 <p><b>Journal for Practicals 7–8:</b> aim/CO4, actual Desktop/Aura setup evidence, versions/edition/OS, password-free URI/database, Browser graph/table observations, entity/relationship/property design, input/parameters, exact Cypher, actual positive and deliberate-negative results, candidate exclusions, full import verification, false-positive/AI limits, owned cleanup and conclusion. Do not relabel guided steps as completed GUI actions, edit output to imitate success or assign invented official theory marks.</p>
 <p><b>Reproduce the reference:</b> use the guarded practical ZIP and your own private compatible instance. Complete files contain an administrative claim header and cleanup footer; prefer the runner, which stops on unexpected setup errors. A manual client that continues after a failed claim could later run a destructive footer, so inspect a fresh disposable scope and stop on unexpected errors. Interrupted/ambiguous runs need investigation, not a bulk deletion of every matching label.</p>
 <p><b>Primary sources checked 29 October 2026:</b></p><ul>'''+''.join('<li><a href="'+url+'">'+title+'</a></li>' for title,url in SOURCES)+'''</ul>
-<p>The unit contains no official theory-question-paper tab. The final Notes section provides answered practical revision tasks; Units 1–3 remain preserved and Unit 5 is a separate pending release.</p>''',programs=['ns4p15','ns4p16']),
+<p>The unit contains no official theory-question-paper tab. The final Notes section provides answered practical revision tasks; Redis is covered separately in Unit 5; this unit focuses on Neo4j.</p>''',programs=['ns4p15','ns4p16']),
 ]),
 ]
 assert sum(len(section['items']) for section in NOTES)==20
