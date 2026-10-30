@@ -20,13 +20,27 @@ abstract class ContentSource {
 ///   catalog  : network (fresh) → last cached copy → copy bundled in the app
 ///   files    : cached copy with the same version hash → network → any cached copy → bundled
 class OnlineSource implements ContentSource {
-  OnlineSource({this.base = kContentBase});
+  OnlineSource({
+    this.base = kContentBase,
+    Future<http.Response> Function(Uri)? get,
+    Future<String?> Function(String)? readCache,
+    Future<void> Function(String, String)? writeCache,
+    Future<String?> Function(String)? loadAsset,
+  })  : _request = get ?? http.get,
+        _readCache = readCache ?? cacheRead,
+        _writeCache = writeCache ?? cacheWrite,
+        _loadAsset = loadAsset;
+
   final String base;
+  final Future<http.Response> Function(Uri) _request;
+  final Future<String?> Function(String) _readCache;
+  final Future<void> Function(String, String) _writeCache;
+  final Future<String?> Function(String)? _loadAsset;
   Map<String, dynamic> _files = {}; // path -> version hash (from catalog)
 
   Future<String?> _get(String url, {Duration timeout = const Duration(seconds: 10)}) async {
     try {
-      final r = await http.get(Uri.parse(url)).timeout(timeout);
+      final r = await _request(Uri.parse(url)).timeout(timeout);
       if (r.statusCode == 200) return utf8.decode(r.bodyBytes);
     } catch (_) {/* offline / timeout */}
     return null;
@@ -34,50 +48,70 @@ class OnlineSource implements ContentSource {
 
   Future<String?> _asset(String path) async {
     try {
+      final loader = _loadAsset;
+      if (loader != null) return await loader(path);
       return await rootBundle.loadString('assets/content/$path');
     } catch (_) {
       return null;
     }
   }
 
+  Map<String, dynamic>? _decode(String? text, bool Function(Map<String, dynamic>) valid) {
+    if (text == null) return null;
+    try {
+      final data = jsonDecode(text);
+      if (data is Map<String, dynamic> && valid(data)) return data;
+    } catch (_) {/* invalid data: try another source */}
+    return null;
+  }
+
+  bool _validCatalog(Map<String, dynamic> c) =>
+      c['branches'] is List && c['subjects'] is Map && (c['files'] == null || c['files'] is Map);
+
   @override
   Future<Map<String, dynamic>> catalog() async {
     // minute-based query defeats stale CDN copies but still allows short caching
     final stamp = DateTime.now().millisecondsSinceEpoch ~/ 60000;
-    var text = await _get('$base/catalog.json?t=$stamp', timeout: const Duration(seconds: 7));
-    if (text != null) {
-      await cacheWrite('catalog.json', text);
+    final text = await _get('$base/catalog.json?t=$stamp', timeout: const Duration(seconds: 7));
+    var c = _decode(text, _validCatalog);
+    if (c != null) {
+      await _writeCache('catalog.json', text!);
     } else {
-      text = await cacheRead('catalog.json') ?? await _asset('catalog.json');
+      c = _decode(await _readCache('catalog.json'), _validCatalog) ??
+          _decode(await _asset('catalog.json'), _validCatalog);
     }
-    if (text == null) throw Exception('catalog unavailable');
-    final c = jsonDecode(text) as Map<String, dynamic>;
+    if (c == null) throw Exception('catalog unavailable');
     _files = (c['files'] as Map?)?.cast<String, dynamic>() ?? {};
     return c;
   }
 
-  Future<Map<String, dynamic>> _file(String path) async {
-    final hash = _files[path] as String?;
+  Future<Map<String, dynamic>> _file(String path, bool Function(Map<String, dynamic>) valid) async {
+    final hash = _files[path] is String ? _files[path] as String : null;
     final key = path.replaceAll('/', '__');
     if (hash != null) {
-      final cached = await cacheRead('$key.$hash');
-      if (cached != null) return jsonDecode(cached) as Map<String, dynamic>;
+      final cached = _decode(await _readCache('$key.$hash'), valid);
+      if (cached != null) return cached;
     }
     final net = await _get('$base/$path${hash != null ? '?h=$hash' : ''}');
-    if (net != null) {
-      await cacheWrite('$key.${hash ?? 'latest'}', net);
-      await cacheWrite('$key.last', net);
-      return jsonDecode(net) as Map<String, dynamic>;
+    final downloaded = _decode(net, valid);
+    if (downloaded != null) {
+      final text = net!;
+      await _writeCache('$key.${hash ?? 'latest'}', text);
+      await _writeCache('$key.last', text);
+      return downloaded;
     }
-    final any = await cacheRead('$key.last') ?? await _asset(path);
-    if (any == null) throw Exception('$path unavailable offline');
-    return jsonDecode(any) as Map<String, dynamic>;
+    final fallback = _decode(await _readCache('$key.last'), valid) ??
+        _decode(await _asset(path), valid);
+    if (fallback == null) throw Exception('$path unavailable offline');
+    return fallback;
   }
 
   @override
-  Future<Map<String, dynamic>> subject(String code) => _file('subjects/$code.json');
+  Future<Map<String, dynamic>> subject(String code) => _file(
+      'subjects/$code.json', (s) => s['code'] == code && s['name'] is Map && s['units'] is List);
   @override
-  Future<Map<String, dynamic>> unit(String code, int no) => _file('units/${code}_u$no.json');
+  Future<Map<String, dynamic>> unit(String code, int no) => _file(
+      'units/${code}_u$no.json', (u) => u['subject'] == code && u['unit'] == no && u['title'] is Map);
 }
 
 /// Cached access used by all screens.
@@ -87,28 +121,30 @@ class Repo {
 
   Map<String, dynamic>? _catalog;
   Future<Map<String, dynamic>>? _catalogLoading;
-  final _subjects = <String, Map<String, dynamic>>{};
-  final _units = <String, Map<String, dynamic>>{};
 
   Future<Map<String, dynamic>> catalog() async {
     if (_catalog != null) return _catalog!;
-    _catalogLoading ??= source.catalog();
+    return refresh();
+  }
+
+  /// Fetch the catalog again; on failure the previous in-memory copy is retained.
+  Future<Map<String, dynamic>> refresh() async {
+    final loading = _catalogLoading ??= source.catalog();
     try {
-      return _catalog = await _catalogLoading!;
-    } catch (e) {
-      _catalogLoading = null; // allow retry
-      rethrow;
+      return _catalog = await loading;
+    } finally {
+      if (identical(_catalogLoading, loading)) _catalogLoading = null;
     }
   }
 
   Future<Map<String, dynamic>> subject(String code) async {
     await catalog();
-    return _subjects[code] ??= await source.subject(code);
+    return source.subject(code);
   }
 
   Future<Map<String, dynamic>> unit(String code, int no) async {
     await catalog();
-    return _units['${code}_$no'] ??= await source.unit(code, no);
+    return source.unit(code, no);
   }
 
   // ---- helpers over the catalog ----

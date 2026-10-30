@@ -199,9 +199,10 @@ class Pill extends StatelessWidget {
 
 /// Loads a future and shows a spinner / error with retry.
 class Loader<T> extends StatefulWidget {
-  const Loader({super.key, required this.load, required this.builder});
+  const Loader({super.key, required this.load, required this.builder, this.standalone = false});
   final Future<T> Function() load;
   final Widget Function(BuildContext, T) builder;
+  final bool standalone;
   @override
   State<Loader<T>> createState() => _LoaderState<T>();
 }
@@ -213,7 +214,7 @@ class _LoaderState<T> extends State<Loader<T>> {
         future: _f,
         builder: (context, s) {
           if (s.hasError) {
-            return Center(
+            final error = Center(
               child: Padding(
                 padding: const EdgeInsets.all(24),
                 child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -225,8 +226,12 @@ class _LoaderState<T> extends State<Loader<T>> {
                 ]),
               ),
             );
+            return widget.standalone ? Scaffold(appBar: AppBar(), body: error) : error;
           }
-          if (!s.hasData) return const Center(child: CircularProgressIndicator());
+          if (!s.hasData) {
+            const loading = Center(child: CircularProgressIndicator());
+            return widget.standalone ? Scaffold(appBar: AppBar(), body: loading) : loading;
+          }
           return widget.builder(context, s.data as T);
         },
       );

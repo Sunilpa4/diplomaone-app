@@ -21,6 +21,8 @@ class HtmlFrame extends StatelessWidget {
           st.setProperty('width'.toJS, '100%'.toJS);
           st.setProperty('height'.toJS, '100%'.toJS);
           st.setProperty('background'.toJS, 'white'.toJS);
+          // Keep lesson scripts in an opaque origin, away from the app's storage.
+          f.callMethod('setAttribute'.toJS, 'sandbox'.toJS, 'allow-scripts allow-forms'.toJS);
           f.setProperty('srcdoc'.toJS, html.toJS);
         },
       );

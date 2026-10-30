@@ -29,6 +29,7 @@ class UnitScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Loader<(Map<String, dynamic>, Map<String, dynamic>)>(
+      standalone: true,
       load: _load,
       builder: (context, d) => ListenableBuilder(
         listenable: app,
