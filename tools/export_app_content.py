@@ -96,6 +96,27 @@ BRANCH_SEMS = {
     },
 }
 
+# DiplomaOne registration: DI01000191 mechanical semester 1
+if 'DI01000191' not in SUBJECTS:
+    SUBJECTS['DI01000191'] = ('Elements of Mechanical Engineering', 'મેકેનિકલ એન્જિનિયરિંગના મૂળતત્ત્વો', 'Professional Core', 4, 'theory', None)
+_mechanical_sem1 = BRANCH_SEMS.setdefault('mechanical', {}).setdefault(1, [])
+if 'DI01000191' not in _mechanical_sem1:
+    _mechanical_sem1.append('DI01000191')
+
+# DiplomaOne registration: DI03000141 mechanical semester 3
+if 'DI03000141' not in SUBJECTS:
+    SUBJECTS['DI03000141'] = ('Theory of Machines and Mechanisms', 'યંત્રો અને મિકેનિઝમ્સનો સિદ્ધાંત', 'Professional Core', 4, 'theory', None)
+_mechanical_sem3 = BRANCH_SEMS.setdefault('mechanical', {}).setdefault(3, [])
+if 'DI03000141' not in _mechanical_sem3:
+    _mechanical_sem3.append('DI03000141')
+
+# DiplomaOne registration: DI03000161 mechanical semester 3
+if 'DI03000161' not in SUBJECTS:
+    SUBJECTS['DI03000161'] = ('Manufacturing Engineering-I', 'ઉત્પાદન ઇજનેરી-I', 'Professional Core', 4, 'theory', None)
+_mechanical_sem3 = BRANCH_SEMS.setdefault('mechanical', {}).setdefault(3, [])
+if 'DI03000161' not in _mechanical_sem3:
+    _mechanical_sem3.append('DI03000161')
+
 FONT_MAP = [
     (re.compile(r'font-family="Arial, Helvetica, sans-serif"'), 'font-family="DejaVu Sans"'),
     (re.compile(r'font-family="DejaVu Sans Mono, Consolas, monospace"'), 'font-family="DejaVu Sans Mono"'),

@@ -1,0 +1,458 @@
+{
+  "subject": "DI03000141",
+  "unit": 5,
+  "format": "notes",
+  "title": {
+    "en": "Flywheel and Governors",
+    "gu": "Flywheel અને Governors"
+  },
+  "hours": 6,
+  "weightage": 14,
+  "languages": [
+    "en",
+    "gu"
+  ],
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "intro_text": {
+    "en": "Diagram-first notes: identify parts, understand construction, follow working and practise only the syllabus numericals.",
+    "gu": "પહેલાં labelled diagram, પછી parts, Construction અને step-by-step Working. Syllabus પ્રમાણે જ numericals."
+  },
+  "notes": [
+    {
+      "title": {
+        "en": "5.1 Foundations",
+        "gu": "5.1 મૂળભૂત સમજ"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "5.1.1 Flywheel purpose and construction",
+            "gu": "5.1.1 Flywheel: હેતુ અને Construction"
+          },
+          "body": {
+            "en": "<p>Construction: a heavy rotating rim or disc is connected by arms/web to a hub on the shaft. Mass far from the axis contributes strongly to moment of inertia I. It must be supported, balanced, guarded and designed against rotational stress.</p><p>Working: when driving torque exceeds resisting torque, the flywheel accelerates and stores kinetic energy; when it is less, the flywheel slows and returns energy. It reduces cyclic speed fluctuation but cannot create energy or maintain mean speed after a persistent load increase. A governor serves that different purpose.</p>",
+            "gu": "<p>Construction: heavy rim/disc, arms/web અને shaft hub. Axis થી દૂર mass moment of inertia I વધારે. Support,balance,guard અને rotational stress design જરૂરી.</p><p>Working: driving torque&gt;resisting torque હોય ત્યારે energy store કરી speed વધે; ઓછું હોય ત્યારે energy આપે અને speed ઘટે. Cyclic fluctuation ઘટાડે, energy બનાવતું નથી; persistent load change પછી mean speed regulate કરવાનું governor નું કાર્ય છે.</p>"
+          },
+          "diagram": "tm5_flywheel"
+        },
+        {
+          "h": {
+            "en": "5.1.2 Turning-moment diagram: signed area means energy",
+            "gu": "5.1.2 Turning-moment Diagram: Signed Area એટલે Energy"
+          },
+          "body": {
+            "en": "<p>Plot driving torque vertically against crank angle horizontally; the mean resisting-torque line represents steady external load in the ideal cycle. Area above it is surplus work; below it is deficit work. Work=integral(T dtheta), with theta in radians for joules.</p><p>Maximum fluctuation of energy is the difference between maximum and minimum accumulated surplus-energy levels over the cycle. It is NOT always the largest single lobe or the sum of all positive lobes. Integrate/accumulate signed areas from a reference point; the total cycle surplus is zero in periodic steady operation.</p>",
+            "gu": "<p>Vertical driving torque અને horizontal crank angle; mean resisting-torque line external load બતાવે. Line ઉપર surplus work, નીચે deficit. Work=integral(T dtheta), joules માટે theta radians.</p><p>Cycle ના accumulated surplus-energy levels માં maximum−minimum એટલે maximum fluctuation ΔE. ફક્ત largest lobe અથવા બધા positive lobes નો sum નહિ. Signed areas sequentially ઉમેરો; periodic steady state માં cycle total surplus zero.</p>"
+          },
+          "diagram": "tm5_energy"
+        },
+        {
+          "h": {
+            "en": "5.1.3 Single-cylinder double-acting steam-engine diagram",
+            "gu": "5.1.3 Double-acting Steam Engine Diagram"
+          },
+          "body": {
+            "en": "<p>Construction context: steam acts alternately on both sides of a piston, and a connecting rod/crank transforms reciprocation into rotation. The double-acting arrangement gives a driving event on each half revolution, unlike a four-stroke single-cylinder IC engine.</p><p>Working interpretation: gas pressure force and crank leverage change through each stroke, giving two broad torque lobes per revolution in a simplified diagram. Flywheel exchanges energy between above-mean and below-mean regions. Real curves depend on admission/cut-off, expansion, back pressure, inertia and geometry; the provided curve is a labelled teaching shape, not measured data or a design prediction.</p>",
+            "gu": "<p>Double-acting steam engine માં piston ની બંને sides પર alternate steam act કરે; rod/crank rotation આપે. દરેક half revolution માં driving event, four-stroke IC થી અલગ.</p><p>Pressure force અને crank leverage બદલાતાં simplified diagram માં revolution દીઠ બે broad torque lobes. Flywheel mean-line ઉપર/નીચે energy exchange કરે. Actual curve admission,cut-off,expansion,back pressure,inertia,geometry પર આધારિત; diagram measured data નથી.</p>"
+          },
+          "diagram": "tm5_steam"
+        },
+        {
+          "h": {
+            "en": "5.1.4 Single-cylinder four-stroke IC diagram",
+            "gu": "5.1.4 Single-cylinder Four-stroke IC Diagram"
+          },
+          "body": {
+            "en": "<p>A four-stroke cycle spans720° or two crank revolutions: intake, compression, power and exhaust. Only the power stroke supplies the principal positive gas-work impulse; compression and pumping strokes require energy, while inertia also alters shaft torque.</p><p>The flywheel stores part of power-stroke surplus and returns it during deficits. With one firing event per two revolutions, speed irregularity can be large compared with multi-cylinder arrangements. Mark stroke boundaries and the mean torque line on the schematic. Actual torque may change sign and its extrema do not necessarily occur exactly at stroke boundaries.</p>",
+            "gu": "<p>Four-stroke cycle720°: intake,compression,power,exhaust. મુખ્ય positive gas-work impulse power stroke માં; compression/pumping energy લે; inertia પણ shaft torque બદલે.</p><p>Flywheel power-stroke surplus store કરીને deficits દરમિયાન પાછું આપે. બે revolutions દીઠ એક firing હોવાથી single cylinder માં irregularity વધુ હોઈ શકે. Stroke boundaries/mean line label કરો. Actual extrema હંમેશાં boundary પર નથી.</p>"
+          },
+          "diagram": "tm5_ic"
+        },
+        {
+          "h": {
+            "en": "5.1.5 Fluctuation coefficients and flywheel energy",
+            "gu": "5.1.5 Fluctuation Coefficients અને Energy"
+          },
+          "body": {
+            "en": "<p>Coefficient of speed fluctuation Cs=(omega_max−omega_min)/omega_mean=(Nmax−Nmin)/Nmean. In the usual small-fluctuation design approximation, maximum energy fluctuation ΔE=I omega_mean² Cs. Stored kinetic energy at a given speed is E=I omega²/2; this is not the same as the exchanged ΔE.</p><p>Coefficient of energy fluctuation CE=ΔE/Wcycle. Cycle work equals power × cycle time: for a four-stroke single-cylinder engine tcycle=120/N seconds with N in rpm; for a one-revolution cycle use60/N. For a thin rim I≈mR²; hubs/arms/disc require their own inertia contributions.</p>",
+            "gu": "<p>Cs=(Nmax−Nmin)/Nmean, angular-speed form પણ same. Usual small-fluctuation design માં ΔE=I omega_mean² Cs. Stored E=Iomega²/2 અને exchanged ΔE એક નથી.</p><p>CE=ΔE/Wcycle; Wcycle=P×cycle time. Four-stroke single cylinder માટે120/N seconds; one-revolution cycle60/N. Thin rim I≈mR²; hub/arms/disc inertia અલગ ગણવા.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "5.1.6 Flywheel numerical with a clear cycle basis",
+            "gu": "5.1.6 Flywheel Numerical: Cycle Basis સ્પષ્ટ"
+          },
+          "body": {
+            "en": "<p>A single-cylinder four-stroke engine develops10 kW at300 rpm. Let CE=.10 and permitted Cs=.02; assume a thin rim at mean radius.50 m. Cycle time=120/300=.40 s; Wcycle=10000×.40=4000 J. Therefore ΔE=.10×4000=400 J.</p><p>omega=2pi×300/60=31.416 rad/s; I=400/(31.416²×.02)=20.264 kg·m². Rim mass=I/R²=20.264/.25=81.06 kg. This is an ideal inertia requirement, not a complete safe flywheel design. Using60/N for this four-stroke cycle would incorrectly halve the calculated cycle work.</p>",
+            "gu": "<p>Four-stroke single-cylinder10kW,300rpm, CE.10,Cs.02,R.50m. Cycle time120/300=.40s; work4000J; ΔE400J.</p><p>omega31.416rad/s; I=400/(31.416²×.02)=20.264kg·m²; thin-rim mass=I/.25=81.06kg. આ ideal inertia requirement છે, complete safe design નહિ. Four-stroke માં60/N લેતાં work ખોટું અડધું થાય.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "5.2 Governors: construction and working",
+        "gu": "5.2 Governors: Construction અને Working"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "5.2.1 Governor terminology and control loop",
+            "gu": "5.2.1 Governor Terms અને Control Loop"
+          },
+          "body": {
+            "en": "<p>A governor senses speed and changes the engine/prime-mover input to regulate mean speed when load changes. Centrifugal governors use rotating balls, arms, spindle and a sleeve connected to a throttle/fuel/steam control. Equilibrium speed is a steady operating speed for a given sleeve position; governor height is the vertical geometry used in its equilibrium model.</p><p>A stable governor has increasing equilibrium speed with increasing radius. Sensitiveness relates speed range to mean speed; hunting is repeated oscillation of speed/control. Friction produces a dead band. Governor effort is the mean force available at the sleeve for a specified lift; power is effort×lift, conventionally work capacity, not continuous shaft watts.</p>",
+            "gu": "<p>Governor speed sense કરીને fuel/steam/input બદલે, load change પછી mean speed regulate કરે. Balls,arms,spindle,sleeve અને control linkage parts. Sleeve position માટે steady speed=equilibrium speed; height equilibrium geometry નો vertical measure.</p><p>Stable governor માં radius વધતાં equilibrium speed વધે. Sensitiveness speed range સાથે સંબંધિત; hunting repeated oscillation. Friction dead band આપે. Governor effort sleeve માટે mean force; effort×lift conventionally work capacity, continuous watts નહિ.</p>"
+          }
+        },
+        {
+          "h": {
+            "en": "5.2.2 Watt governor: unloaded sleeve construction",
+            "gu": "5.2.2 Watt Governor: Construction અને Working"
+          },
+          "body": {
+            "en": "<p>Construction: two balls are attached to upper arms pivoted near the spindle top; lower links connect to a sliding sleeve. The simple Watt model neglects additional central sleeve load and friction.</p><p>Working: when speed rises, balls move outward and upward, lifting the sleeve; the control linkage reduces energy input. Falling speed reverses the motion. For the ideal geometry, omega²=g/h, or h≈895/N² metres for N in rpm. It is most suitable for relatively low-speed regulation; do not use the relation for Porter/Proell without their load and geometry factors.</p>",
+            "gu": "<p>Construction: spindle top પાસે upper arms પર balls, lower links sliding sleeve સુધી. Simple Watt model extra central load/friction neglect કરે.</p><p>Speed વધતાં balls outward/upward, sleeve ઉપર અને control input ઘટાડે; speed ઘટતાં reverse. Ideal omega²=g/h અથવા h≈895/N² metres,N rpm. Relatively low speed માટે. Porter/Proell માટે load/geometry factors વગર આ relation નહિ.</p>"
+          },
+          "diagram": "tm5_watt"
+        },
+        {
+          "h": {
+            "en": "5.2.3 Porter and Proell governors",
+            "gu": "5.2.3 Porter અને Proell Governors"
+          },
+          "body": {
+            "en": "<p>Porter construction: Watt-like arms and balls plus a substantial central load on the sleeve. Working: balls must balance both their weight and sleeve-load effect, allowing higher equilibrium speed for a given height than the simple Watt case. The amount depends on arm geometry and load.</p><p>Proell construction: a loaded sleeve arrangement with the balls carried on extensions of the lower arms rather than directly at the upper/lower-arm joints. Working remains centrifugal sensing and sleeve control, but the ball position and linkage leverage change the equilibrium characteristics. Do not call Proell merely a heavier Watt governor: show the extended lower arms and actual ball locations.</p>",
+            "gu": "<p>Porter માં Watt જેવા arms/balls સાથે sleeve પર central load. Balls પોતાના weight સાથે sleeve-load effect balance કરે; same height માટે simple Watt કરતાં equilibrium speed વધારે, geometry/load પર આધારિત.</p><p>Proell માં loaded sleeve અને balls lower arms ની extensions પર હોય, joint પર નહિ. Centrifugal sensing/sleeve control same principle પરંતુ leverage/equilibrium બદલાય. Diagram માં lower-arm extensions અને ball locations બતાવો.</p>"
+          },
+          "diagram": "tm5_porter"
+        },
+        {
+          "h": {
+            "en": "5.2.4 Flywheel versus governor and safe demonstration",
+            "gu": "5.2.4 Flywheel સામે Governor અને Safe Demonstration"
+          },
+          "body": {
+            "en": "<p>Flywheel: stores/returns kinetic energy, limits within-cycle speed variation, responds through inertia, and does not adjust supply. Governor: changes energy supply, regulates average speed under load variation, and needs an input-control linkage. A machine may need both.</p><p>In a supervised isolated model, identify spindle, balls, sleeve, load and control direction; move it slowly and trace input reduction when sleeve rises. A governor is not automatically an independent overspeed trip. Never adjust or approach exposed rotating balls, flywheels or belts during operation; failure can release high-energy fragments.</p>",
+            "gu": "<p>Flywheel inertia થી kinetic energy store/return કરી cycle અંદર fluctuation ઘટાડે; supply બદલતું નથી. Governor supply બદલી load variation સામે mean speed regulate કરે. Machine માં બંને હોઈ શકે.</p><p>Isolated supervised model પર spindle,balls,sleeve,load/control direction ઓળખો. Sleeve rise થી input reduction trace કરો. Governor independent overspeed trip જ છે એવું નહિ. Exposed rotating parts પાસે adjustment કરવું નહિ.</p>"
+          }
+        }
+      ]
+    }
+  ],
+  "programs": [],
+  "diagrams": [
+    {
+      "id": "tm5_flywheel",
+      "title": {
+        "en": "Flywheel Construction",
+        "gu": "Flywheel Construction"
+      },
+      "file": "diagrams/tm5_flywheel.svg"
+    },
+    {
+      "id": "tm5_energy",
+      "title": {
+        "en": "Turning-moment Energy Principle",
+        "gu": "Turning-moment Energy Principle"
+      },
+      "file": "diagrams/tm5_energy.svg"
+    },
+    {
+      "id": "tm5_steam",
+      "title": {
+        "en": "Steam",
+        "gu": "Steam"
+      },
+      "file": "diagrams/tm5_steam.svg"
+    },
+    {
+      "id": "tm5_ic",
+      "title": {
+        "en": "IC Engine Turning-moment Diagram",
+        "gu": "IC Engine Turning-moment Diagram"
+      },
+      "file": "diagrams/tm5_ic.svg"
+    },
+    {
+      "id": "tm5_watt",
+      "title": {
+        "en": "Watt Governor Construction",
+        "gu": "Watt Governor Construction"
+      },
+      "file": "diagrams/tm5_watt.svg"
+    },
+    {
+      "id": "tm5_porter",
+      "title": {
+        "en": "Porter Governor Construction",
+        "gu": "Porter Governor Construction"
+      },
+      "file": "diagrams/tm5_porter.svg"
+    },
+    {
+      "id": "tm5_proell",
+      "title": {
+        "en": "Proell Governor Construction",
+        "gu": "Proell Governor Construction"
+      },
+      "file": "diagrams/tm5_proell.svg"
+    }
+  ],
+  "syntax": [
+    {
+      "title": {
+        "en": "Formula and Drawing Reference",
+        "gu": "Formula અને Drawing Reference"
+      },
+      "items": [
+        {
+          "name": {
+            "en": "Flywheel",
+            "gu": "Flywheel"
+          },
+          "f": "Cs=(Nmax−Nmin)/Nmean\nΔE≈I omega² Cs; E=I omega²/2\nCE=ΔE/Wcycle; thin rim I≈mR²",
+          "terms": {
+            "en": "Use rad/s for omega; four-stroke single-cylinder cycle time=120/N seconds.",
+            "gu": "Omega rad/s; four-stroke single-cylinder cycle time120/N seconds."
+          }
+        },
+        {
+          "name": {
+            "en": "Ideal Watt",
+            "gu": "Ideal Watt"
+          },
+          "f": "omega²=g/h; h≈895/N² metres (N in rpm)",
+          "terms": {
+            "en": "Only the ideal unloaded-sleeve Watt geometry.",
+            "gu": "માત્ર ideal unloaded-sleeve Watt model."
+          }
+        }
+      ]
+    }
+  ],
+  "viva": [
+    {
+      "title": {
+        "en": "Viva Questions and Answers",
+        "gu": "Viva પ્રશ્નો અને જવાબો"
+      },
+      "items": [
+        {
+          "q": {
+            "en": "Why is flywheel mass near the rim?",
+            "gu": "Rim પાસે mass કેમ?"
+          },
+          "a": {
+            "en": "It produces more moment of inertia per unit mass.",
+            "gu": "દર unit mass માટે વધુ inertia આપે."
+          }
+        },
+        {
+          "q": {
+            "en": "What happens above mean resisting torque?",
+            "gu": "Mean resisting torque ઉપર શું?"
+          },
+          "a": {
+            "en": "The flywheel gains kinetic energy.",
+            "gu": "Flywheel kinetic energy મેળવે."
+          }
+        },
+        {
+          "q": {
+            "en": "What does torque-angle area represent?",
+            "gu": "Torque-angle area શું આપે?"
+          },
+          "a": {
+            "en": "Work, with angle measured in radians.",
+            "gu": "Angle radians માં હોય તો work."
+          }
+        },
+        {
+          "q": {
+            "en": "What is maximum energy fluctuation?",
+            "gu": "Maximum energy fluctuation?"
+          },
+          "a": {
+            "en": "Difference between maximum and minimum accumulated cycle-energy levels.",
+            "gu": "Accumulated cycle-energy ના max−min levels."
+          }
+        },
+        {
+          "q": {
+            "en": "Four-stroke cycle angle?",
+            "gu": "Four-stroke cycle angle?"
+          },
+          "a": {
+            "en": "720 degrees.",
+            "gu": "720 degrees."
+          }
+        },
+        {
+          "q": {
+            "en": "Define Cs.",
+            "gu": "Cs વ્યાખ્યાયિત કરો."
+          },
+          "a": {
+            "en": "(Nmax−Nmin)/Nmean.",
+            "gu": "(Nmax−Nmin)/Nmean."
+          }
+        },
+        {
+          "q": {
+            "en": "Is stored energy equal to exchanged energy?",
+            "gu": "Stored energy=exchanged energy?"
+          },
+          "a": {
+            "en": "No; exchanged ΔE is only the cycle variation.",
+            "gu": "ના; ΔE માત્ર cycle variation."
+          }
+        },
+        {
+          "q": {
+            "en": "What does a governor regulate?",
+            "gu": "Governor શું regulate કરે?"
+          },
+          "a": {
+            "en": "Mean speed by changing energy input as load changes.",
+            "gu": "Load બદલાતાં input બદલી mean speed."
+          }
+        },
+        {
+          "q": {
+            "en": "What distinguishes Porter?",
+            "gu": "Porter નું વિશેષ?"
+          },
+          "a": {
+            "en": "A central sleeve load.",
+            "gu": "Central sleeve load."
+          }
+        },
+        {
+          "q": {
+            "en": "Where are Proell balls?",
+            "gu": "Proell balls ક્યાં?"
+          },
+          "a": {
+            "en": "On extensions of the lower arms.",
+            "gu": "Lower arms ની extensions પર."
+          }
+        },
+        {
+          "q": {
+            "en": "What is hunting?",
+            "gu": "Hunting શું?"
+          },
+          "a": {
+            "en": "Repeated oscillation of speed and governing action.",
+            "gu": "Speed/control ની repeated oscillation."
+          }
+        },
+        {
+          "q": {
+            "en": "Can a flywheel replace a governor?",
+            "gu": "Flywheel governor ને replace કરે?"
+          },
+          "a": {
+            "en": "No; they solve different speed-variation problems.",
+            "gu": "ના; બંનેના functions અલગ."
+          }
+        }
+      ]
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Explain flywheel construction and working with a labelled diagram.",
+        "gu": "Flywheel ની Construction/Working labelled diagram થી સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Draw illustrative turning-moment diagrams for a double-acting steam engine and a four-stroke single-cylinder IC engine.",
+        "gu": "Double-acting steam અને Four-stroke single-cylinder IC ના illustrative turning-moment diagrams દોરો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain signed areas and how maximum fluctuation of energy is obtained.",
+        "gu": "Signed areas અને maximum energy fluctuation મેળવવાની method સમજાવો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Define Cs and CE and distinguish stored energy from maximum energy fluctuation.",
+        "gu": "Cs,CE અને stored energy સામે ΔE સમજાવો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "A flywheel has ΔE500J,Cs.025,N400rpm. Find required I and thin-rim mass at radius.4m.",
+        "gu": "ΔE500J,Cs.025,N400rpm માટે I અને radius.4m પર thin-rim mass શોધો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "A single-cylinder four-stroke engine gives12kW at360rpm with CE.08,Cs.02. Find I.",
+        "gu": "Four-stroke single cylinder12kW,360rpm,CE.08,Cs.02 માટે I શોધો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain governor stability, sensitiveness, hunting, effort and sleeve lift.",
+        "gu": "Governor stability,sensitiveness,hunting,effort,sleeve lift સમજાવો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Explain Watt governor construction and working with a labelled diagram.",
+        "gu": "Watt governor Construction/Working labelled diagram થી સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain Porter and Proell governors and their construction differences.",
+        "gu": "Porter/Proell Construction/Working અને તફાવતો સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Compare flywheel and governor functions and applications.",
+        "gu": "Flywheel/Governor functions તથા applications compare કરો."
+      },
+      "marks": 4
+    }
+  ],
+  "exam_policy": "Questions and suggested marks only. Answers and solved examples belong in Notes and Viva.",
+  "question_provenance": "Original practice questions, not claimed as GTU past-paper questions.",
+  "question_marks_are_suggested": true,
+  "sources": [
+    {
+      "title": "GTU DI03000141 Theory of Machines and Mechanisms syllabus, effective 2024–25",
+      "reference": "Owner-supplied DI03000141.pdf, course contents pages 2–3; practicals pages 5–6."
+    }
+  ],
+  "runtime_evidence": {
+    "physical_practicals_performed": false,
+    "android_runtime_tested": false
+  },
+  "diagram_note": "English-labelled teaching schematics, not fabrication or servicing drawings. Cam profiles are calculated for the stated illustrative data."
+}
