@@ -117,6 +117,69 @@ _mechanical_sem3 = BRANCH_SEMS.setdefault('mechanical', {}).setdefault(3, [])
 if 'DI03000161' not in _mechanical_sem3:
     _mechanical_sem3.append('DI03000161')
 
+# DiplomaOne registration: DI03000171 mechanical semester 3
+if 'DI03000171' not in SUBJECTS:
+    SUBJECTS['DI03000171'] = ('Fluid Mechanics and Hydraulic Machinery', 'પ્રવાહી યાંત્રિકી અને હાઇડ્રોલિક મશીનરી', 'Professional Core', 4, 'theory', None)
+_mechanical_sem3 = BRANCH_SEMS.setdefault('mechanical', {}).setdefault(3, [])
+if 'DI03000171' not in _mechanical_sem3:
+    _mechanical_sem3.append('DI03000171')
+
+# DiplomaOne registration: DI03019011 mechanical semester 3
+if 'DI03019011' not in SUBJECTS:
+    SUBJECTS['DI03019011'] = ('Engineering Thermodynamics', 'ઇજનેરી ઉષ્માગતિશાસ્ત્ર', 'Professional Core', 3, 'theory', None)
+_mechanical_sem3 = BRANCH_SEMS.setdefault('mechanical', {}).setdefault(3, [])
+if 'DI03019011' not in _mechanical_sem3:
+    _mechanical_sem3.append('DI03019011')
+
+# DiplomaOne registration: DI03000151 mechanical semester 3
+if 'DI03000151' not in SUBJECTS:
+    SUBJECTS['DI03000151'] = ('Measurements and Metrology', 'માપન અને માપવિજ્ઞાન', 'Professional Core', 4, 'theory', None)
+_mechanical_sem3 = BRANCH_SEMS.setdefault('mechanical', {}).setdefault(3, [])
+if 'DI03000151' not in _mechanical_sem3:
+    _mechanical_sem3.append('DI03000151')
+
+# DiplomaOne registration: DI03000201 mechanical semester 3
+if 'DI03000201' not in SUBJECTS:
+    SUBJECTS['DI03000201'] = ('Basics of Applied Mechanics', 'પ્રાયોગિક યાંત્રિકીના પાયાના સિદ્ધાંતો', 'Engineering Science', 3, 'theory', None)
+_mechanical_sem3 = BRANCH_SEMS.setdefault('mechanical', {}).setdefault(3, [])
+if 'DI03000201' not in _mechanical_sem3:
+    _mechanical_sem3.append('DI03000201')
+
+# DiplomaOne registration: DI04019011 mechanical semester 4
+if 'DI04019011' not in SUBJECTS:
+    SUBJECTS['DI04019011'] = ('Thermal Engineering - I', 'થર્મલ ઇજનેરી - I', 'Professional Core', 4, 'theory', None)
+_mechanical_sem4 = BRANCH_SEMS.setdefault('mechanical', {}).setdefault(4, [])
+if 'DI04019011' not in _mechanical_sem4:
+    _mechanical_sem4.append('DI04019011')
+
+# DiplomaOne registration: DI04000241 mechanical semester 4
+if 'DI04000241' not in SUBJECTS:
+    SUBJECTS['DI04000241'] = ('Manufacturing Engineering - II', 'મેન્યુફેક્ચરિંગ ઇજનેરી - II', 'Professional Core', 4, 'theory', None)
+_mechanical_sem4 = BRANCH_SEMS.setdefault('mechanical', {}).setdefault(4, [])
+if 'DI04000241' not in _mechanical_sem4:
+    _mechanical_sem4.append('DI04000241')
+
+# DiplomaOne registration: DI04000251 mechanical semester 4
+if 'DI04000251' not in SUBJECTS:
+    SUBJECTS['DI04000251'] = ('Design of Machine Elements', 'મશીન એલિમેન્ટ્સની ડિઝાઇન', 'Professional Core', 4, 'theory', None)
+_mechanical_sem4 = BRANCH_SEMS.setdefault('mechanical', {}).setdefault(4, [])
+if 'DI04000251' not in _mechanical_sem4:
+    _mechanical_sem4.append('DI04000251')
+
+# DiplomaOne registration: DI05019021 mechanical semester 5
+if 'DI05019021' not in SUBJECTS:
+    SUBJECTS['DI05019021'] = ('Thermal Engineering - II', 'થર્મલ ઇજનેરી - II', 'Professional Core', 5, 'theory', None)
+_mechanical_sem5 = BRANCH_SEMS.setdefault('mechanical', {}).setdefault(5, [])
+if 'DI05019021' not in _mechanical_sem5:
+    _mechanical_sem5.append('DI05019021')
+
+# DiplomaOne registration: DI05019011 mechanical semester 5
+if 'DI05019011' not in SUBJECTS:
+    SUBJECTS['DI05019011'] = ('Manufacturing Engineering - III', 'મેન્યુફેક્ચરિંગ ઇજનેરી - III', 'Professional Core', 5, 'theory', None)
+_mechanical_sem5 = BRANCH_SEMS.setdefault('mechanical', {}).setdefault(5, [])
+if 'DI05019011' not in _mechanical_sem5:
+    _mechanical_sem5.append('DI05019011')
+
 FONT_MAP = [
     (re.compile(r'font-family="Arial, Helvetica, sans-serif"'), 'font-family="DejaVu Sans"'),
     (re.compile(r'font-family="DejaVu Sans Mono, Consolas, monospace"'), 'font-family="DejaVu Sans Mono"'),

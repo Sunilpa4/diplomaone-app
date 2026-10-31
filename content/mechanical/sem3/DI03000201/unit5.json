@@ -1,0 +1,379 @@
+{
+  "subject": "DI03000201",
+  "format": "notes",
+  "languages": [
+    "en",
+    "gu"
+  ],
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "programs": [],
+  "exam_policy": "Questions and suggested marks only;answers in Notes/Viva.",
+  "question_provenance": "Original practice,not official past-paper questions or predictions.",
+  "question_marks_are_suggested": true,
+  "translation_policy": "Equivalent paired English/Gujarati definitions,reasoning,examples and cautions.",
+  "runtime_evidence": {
+    "physical_practicals_performed": false,
+    "android_runtime_tested": false
+  },
+  "diagram_note": "Original conceptual English-labelled teaching diagrams;Gujarati explanation;not construction or test-operation instructions.",
+  "intro_text": {
+    "en": "Start with a practical situation,draw the model,and solve one step at a time.",
+    "gu": "Practical પરિસ્થિતિથી શરૂ કરીએ,model દોરીએ અને એક-એક પગલે ઉકેલીએ."
+  },
+  "unit": 5,
+  "title": {
+    "en": "Moment of Inertia",
+    "gu": "Moment of Inertia"
+  },
+  "hours": 4,
+  "weightage": 13,
+  "notes": [
+    {
+      "title": {
+        "en": "5.1 Understand,draw,solve",
+        "gu": "5.1 સમજો,આકૃતિ દોરો,ઉકેલો"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "5.1.1 Why does an I-beam place material far from its centre?",
+            "gu": "5.1.1 I-beamમાં Material Centreથી દૂર કેમ?"
+          },
+          "body": {
+            "en": "<h4>Start with a situation</h4><p>Two sections can have the same area but different resistance to bending because area distribution about the axis matters.</p><h4>Definition</h4><p>Area second moment(moment of inertia of an area)Ix=integral y²dA, Iy=integral x²dA.It is a geometrical property with unitslength⁴.</p><h4>Understand the reason</h4><p>Area farther from the chosen axis contributes more because distance is squared. It supports bending/stiffness calculations together with material properties.</p><h4>Example / application</h4><p>A vertical rectangle hasIx=bh³/12, so increasing depth is powerful when that is the bending axis.</p><h4>Remember / avoid this mistake</h4><p>Area second moment differs from mass moment of inertia(kg·m²) used in rotational dynamics, and from first moment used for centroid.</p>",
+            "gu": "<h4>એક પરિસ્થિતિથી શરૂઆત કરીએ</h4><p>બે sectionsનું area સરખું છતાં bending response જુદો હોય,કારણ કે axis વિશે areaનું distribution મહત્વનું છે.</p><h4>ચોક્કસ વ્યાખ્યા</h4><p>Area second moment(moment of inertia of area) Ix=integral y²dA,Iy=integral x²dA.આ geometrical property છે,units length⁴ છે.</p><h4>હવે કારણ સાથે સમજીએ</h4><p>Chosen axisથી દૂર area distance squaredને કારણે વધુ ફાળો આપે.Material properties સાથે bending/stiffness calculationsમાં કામ આવે.</p><h4>ઉદાહરણ / ઉપયોગ</h4><p>Vertical rectangleમાં Ix=bh³/12,એટલે એ axis માટે depth વધારવાથી મોટી અસર થાય.</p><h4>યાદ રાખો / આ ભૂલ ટાળો</h4><p>Area second moment rotational dynamicsના mass moment(kg·m²)થી અને centroidના first momentથી જુદું છે.</p>"
+          },
+          "diagram": "am5_axes"
+        },
+        {
+          "h": {
+            "en": "5.1.2 Section modulus, radius of gyration and polar moment",
+            "gu": "5.1.2 Section Modulus,Radius of Gyration અને Polar Moment"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>Elastic section modulus Z=I/c, wherec is distance from the chosen centroidal bending axis to the relevant extreme fibre. Asymmetric sections may have different Z on opposite sides.</p><p>Area radius of gyrationk=sqrt(I/A), soI=Ak².Polar area moment about a point J=integral r²dA=Ix+Iy for perpendicular in-plane axes through that point.</p><p>Units:I, J mm⁴ or m⁴; Z mm³ or m³; k mm or m.1 mm⁴=10^-12m⁴.</p><h4>Remember / avoid this mistake</h4><p>Polar area moment is the circular-shaft torsion property in Unit6; for arbitrary noncircular shapes, the torsion constant is generally not simply J.</p>",
+            "gu": "<h4>ચોક્કસ વ્યાખ્યા</h4><p>Elastic section modulus Z=I/c;અહીં c chosen centroidal bending axisથી relevant extreme fibreનું distance છે.Asymmetric sectionમાં opposite sides પર Z જુદાં હોઈ શકે.</p><p>Area radius of gyration k=sqrt(I/A),એટલે I=Ak².Point વિશે polar area moment J=integral r²dA=Ix+Iy,તે pointમાંથી perpendicular in-plane axes માટે.</p><p>Units:I,J mm⁴ કે m⁴;Z mm³ કે m³;k mm કે m.1mm⁴=10^-12m⁴.</p><h4>યાદ રાખો / આ ભૂલ ટાળો</h4><p>Unit6ના circular shaftમાં polar area moment torsion property છે;arbitrary noncircular shapesમાં torsion constant સામાન્ય રીતે ફક્ત J નથી.</p>"
+          },
+          "diagram": "am5_axes"
+        },
+        {
+          "h": {
+            "en": "5.1.3 Parallel and perpendicular axis theorems",
+            "gu": "5.1.3 Parallel અને Perpendicular Axis Theorems"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>Parallel-axis theorem:Ireference=Icentroid+Ad², where both axes are parallel andd is perpendicular separation. The centroidal value is the minimum within that family of parallel axes.</p><p>Perpendicular-axis theorem for a plane area:Jz=Ix+Iy, where all three axes meet at one point andz is normal to the plane.</p><h4>Remember / avoid this mistake</h4><p>InI=Ic+Ad², the component Ic must be about its own centroidal parallel axis; the theorem does not allow arbitrary substitutions of any known I.</p>",
+            "gu": "<h4>ચોક્કસ વ્યાખ્યા</h4><p>Parallel-axis theorem:Ireference=Icentroid+Ad²;બન્ને axes parallel અને d perpendicular separation છે.એ parallel familyમાં centroidal value minimum છે.</p><p>Plane area માટે perpendicular-axis theorem:Jz=Ix+Iy;ત્રણેય axes એક point પર મળે,z planeને normal હોય.</p><h4>યાદ રાખો / આ ભૂલ ટાળો</h4><p>I=Ic+Ad²માં component Ic તેના પોતાના centroidal parallel axis વિશે જોઈએ;ગમે તે known I મૂકી ન શકાય.</p>"
+          },
+          "diagram": "am5_parallel"
+        },
+        {
+          "h": {
+            "en": "5.1.4 Formula bank:without derivations",
+            "gu": "5.1.4 Formula Bank:Derivations વગર"
+          },
+          "body": {
+            "en": "<h4>Understand the reason</h4><p>Rectangleb×h:Ix=bh³/12, Iy=hb³/12. Square sidea:Ix=Iy=a⁴/12. Centred hollow rectangle:Ix=(BH³−bh³)/12, Iy=(HB³−hb³)/12.</p><p>Circle diameterd:Ix=Iy=pi d⁴/64, J=pi d⁴/32. Concentric hollow circle:Ix=Iy=pi(D⁴−d⁴)/64, J=pi(D⁴−d⁴)/32.</p><p>Triangle baseb, heighth:Ix about base=bh³/12; about centroid parallel to base=bh³/36. For a symmetric isosceles triangle, Iy about symmetry axis=hb³/48.</p><p>A hollow triangle needs subtracting inner/outer areas about the same reference axis, including any centroid offsets; do not assume both centroids coincide unless geometry states it.</p><h4>Remember / avoid this mistake</h4><p>The cubic dimension is perpendicular to the selected rectangle axis. A hollow-section subtraction requires the inner area at its actual location.</p>",
+            "gu": "<h4>હવે કારણ સાથે સમજીએ</h4><p>Rectangle b×h:Ix=bh³/12,Iy=hb³/12.Square a:Ix=Iy=a⁴/12.Centred hollow rectangle:Ix=(BH³−bh³)/12,Iy=(HB³−hb³)/12.</p><p>Circle diameter d:Ix=Iy=pi d⁴/64,J=pi d⁴/32.Concentric hollow circle:Ix=Iy=pi(D⁴−d⁴)/64,J=pi(D⁴−d⁴)/32.</p><p>Triangle base b,height h:base વિશે Ix=bh³/12;centroidથી baseને parallel Ix=bh³/36.Symmetric isosceles triangleના symmetry axis વિશે Iy=hb³/48.</p><p>Hollow triangleમાં inner/outer areaને same reference axis વિશે subtract કરો,centroid offsets સહિત;geometry ન કહે ત્યાં સુધી centroids coincide માનો નહિ.</p><h4>યાદ રાખો / આ ભૂલ ટાળો</h4><p>Rectangle axisને perpendicular dimension cube થાય.Hollow subtractionમાં inner areaનું actual location લો.</p>"
+          },
+          "diagram": "am5_shapes"
+        },
+        {
+          "h": {
+            "en": "5.1.5 Rectangle, I, Z and k",
+            "gu": "5.1.5 Rectangleનું I,Z અને k"
+          },
+          "body": {
+            "en": "<h4>Given</h4><p>Rectangleb60 mm, h120 mm; centroidal horizontal axisx.</p><h4>Stepwise solution</h4><ol><li>A=7200 mm²; Ix=60×120³/12=8640000 mm⁴</li><li>Zx=8640000/60=144000 mm³</li><li>kx=sqrt(8640000/7200)=34.6410 mm</li><li>I about bottom=Ix+A(60)²=34560000 mm⁴</li></ol><h4>Remember / avoid this mistake</h4><p>The extreme fibrec=h/2=60 mm; usingh itself would halve Z incorrectly.</p>",
+            "gu": "<h4>આપેલી માહિતી</h4><p>Rectangle b60mm,h120mm;centroidal horizontal axis x.</p><h4>એક-એક પગલે ઉકેલ</h4><ol><li>A=7200mm²;Ix=60×120³/12=8640000mm⁴</li><li>Zx=8640000/60=144000mm³</li><li>kx=sqrt(8640000/7200)=34.6410mm</li><li>I about bottom=Ix+A(60)²=34560000mm⁴</li></ol><h4>યાદ રાખો / આ ભૂલ ટાળો</h4><p>Extreme fibre c=h/2=60mm;સીધું h મૂકીએ તો Z ખોટું અડધું થાય.</p>"
+          },
+          "diagram": "am5_parallel"
+        },
+        {
+          "h": {
+            "en": "5.1.6 Hollow square and triangle:define the cut-out",
+            "gu": "5.1.6 Hollow Square અને Triangleમાં Cut-out ઓળખો"
+          },
+          "body": {
+            "en": "<h4>Given</h4><p>Centred hollow square outside60 mm, inside40 mm; separate example:outer symmetric triangleb120 mm, h90 mm with an inner triangleb60 mm, h45 mm having the same centroid and parallel base.</p><h4>Stepwise solution</h4><ol><li>Hollow square Ix=Iy=(60⁴−40⁴)/12=866666.67 mm⁴</li><li>Hollow triangle Ix=(120×90³−60×45³)/36=2278125 mm⁴</li><li>Hollow triangle Iy=(90×120³−45×60³)/48=3037500 mm⁴</li></ol><h4>Remember / avoid this mistake</h4><p>Triangle subtraction here works without Ad² only because the centroids/axes were explicitly made coincident. An off-centre triangular opening requires its actual offset.</p>",
+            "gu": "<h4>આપેલી માહિતી</h4><p>Centred hollow square બહાર60mm,અંદર40mm;અલગ example:outer symmetric triangle b120mm,h90mmમાં inner triangle b60mm,h45mm છે;centroid common,base parallel છે.</p><h4>એક-એક પગલે ઉકેલ</h4><ol><li>Hollow square Ix=Iy=(60⁴−40⁴)/12=866666.67mm⁴</li><li>Hollow triangle Ix=(120×90³−60×45³)/36=2278125mm⁴</li><li>Hollow triangle Iy=(90×120³−45×60³)/48=3037500mm⁴</li></ol><h4>યાદ રાખો / આ ભૂલ ટાળો</h4><p>અહીં triangular subtractionમાં Ad² નહિ કારણ કે centroids/axes સ્પષ્ટ coincident આપ્યાં છે.Off-centre triangular openingમાં actual offset જોઈએ.</p>"
+          },
+          "diagram": "am5_shapes"
+        },
+        {
+          "h": {
+            "en": "5.1.7 Composite-section method",
+            "gu": "5.1.7 Composite Sectionની Method"
+          },
+          "body": {
+            "en": "<h4>Stepwise solution</h4><ol><li>Draw dimensions and reference axes; partition into nonoverlapping rectangles or signed cut-outs.</li><li>CalculateA, xbar, ybar before centroidal I.</li><li>For each piece, formIx i, c+Ai(yi−ybar)² andIy i, c+Ai(xi−xbar)²; sum with the piece sign.</li><li>Transfer to another parallel reference axis only after the required centroid/distance is known.</li></ol><h4>Remember / avoid this mistake</h4><p>I-section, channel, T, angle and built-up sections follow this same table method. No single bounding rectangle represents the missing area correctly.</p>",
+            "gu": "<h4>એક-એક પગલે ઉકેલ</h4><ol><li>Dimensions,reference axes દોરી nonoverlapping rectangles કે signed cut-outs લો.</li><li>Centroidal I પહેલાં A,xbar,ybar ગણો.</li><li>દરેક piece માટે Ix i,c+Ai(yi−ybar)² અને Iy i,c+Ai(xi−xbar)² બનાવી piece sign સાથે ઉમેરો.</li><li>જરૂરી centroid/distance મળ્યા પછી જ બીજા parallel reference axis પર transfer કરો.</li></ol><h4>યાદ રાખો / આ ભૂલ ટાળો</h4><p>I-section,channel,T,angle,built-up sectionમાં આ જ table method છે.એક bounding rectangle missing areaને સાચું દર્શાવતું નથી.</p>"
+          },
+          "diagram": "am5_sections"
+        },
+        {
+          "h": {
+            "en": "5.1.8 Symmetric and asymmetric I-sections",
+            "gu": "5.1.8 Symmetric અને Asymmetric I-sections"
+          },
+          "body": {
+            "en": "<h4>Given</h4><p>Symmetric I:two flanges100×10 mm, clear web10×80 mm, total depth100 mm. Origin bottom-left.</p><h4>Stepwise solution</h4><ol><li>A=2800 mm²; ybar=50 mm; xbar=50 mm</li><li>Ix=2[100×10³/12+1000(45)²]+10×80³/12=4493333.33 mm⁴</li><li>Iy=2[10×100³/12]+80×10³/12=1673333.33 mm⁴</li><li>For an asymmetric I with bottom flange120×10, top80×10, clear web10×80 and centred common vertical axis:area stays2800 mm²; bottom centroidy5, web50, top95 mm.</li><li>ybar=(1200×5+800×50+800×95)/2800=43.5714 mm</li><li>Ix=4377619.05 mm⁴; Iy=1873333.33 mm⁴</li></ol><h4>Remember / avoid this mistake</h4><p>Use separate flange dimensions and their actual centroid offsets; asymmetry removes the automatic half-height centroid.</p>",
+            "gu": "<h4>આપેલી માહિતી</h4><p>Symmetric I:બે flanges100×10mm,clear web10×80mm,total depth100mm.Origin bottom-left.</p><h4>એક-એક પગલે ઉકેલ</h4><ol><li>A=2800mm²;ybar=50mm;xbar=50mm</li><li>Ix=2[100×10³/12+1000(45)²]+10×80³/12=4493333.33mm⁴</li><li>Iy=2[10×100³/12]+80×10³/12=1673333.33mm⁴</li><li>Asymmetric Iમાં bottom flange120×10,top80×10,clear web10×80 અને common centred vertical axis હોય તો area2800mm²;bottom centroid y5,web50,top95mm.</li><li>ybar=(1200×5+800×50+800×95)/2800=43.5714mm</li><li>Ix=4377619.05mm⁴;Iy=1873333.33mm⁴</li></ol><h4>યાદ રાખો / આ ભૂલ ટાળો</h4><p>Flangesનાં જુદાં dimensions,actual offsets લો;asymmetryમાં centroid આપમેળે half-height નથી.</p>"
+          },
+          "diagram": "am5_sections"
+        },
+        {
+          "h": {
+            "en": "5.1.9 T-section and different section moduli",
+            "gu": "5.1.9 T-section અને જુદાં Section Moduli"
+          },
+          "body": {
+            "en": "<h4>Given</h4><p>T:bottom web20×80 mm; top flange100×20 mm aty80–100 mm; common symmetry axisx50 mm.</p><h4>Stepwise solution</h4><ol><li>A=3600 mm²; ybar=(1600×40+2000×90)/3600=67.7778 mm</li><li>Ix=20×80³/12+1600(40−67.7778)²+100×20³/12+2000(90−67.7778)²=3142222.22 mm⁴</li><li>Iy=80×20³/12+20×100³/12=1720000 mm⁴</li><li>Ztop=Ix/(100−67.7778)=97517.24 mm³; Zbottom=Ix/67.7778=46360.66 mm³</li></ol><h4>Remember / avoid this mistake</h4><p>The sameI produces different top/bottom Z because the extreme-fibre distances differ.</p>",
+            "gu": "<h4>આપેલી માહિતી</h4><p>T:bottom web20×80mm;top flange100×20mm,y80–100mm;common symmetry axis x50mm.</p><h4>એક-એક પગલે ઉકેલ</h4><ol><li>A=3600mm²;ybar=(1600×40+2000×90)/3600=67.7778mm</li><li>Ix=20×80³/12+1600(40−67.7778)²+100×20³/12+2000(90−67.7778)²=3142222.22mm⁴</li><li>Iy=80×20³/12+20×100³/12=1720000mm⁴</li><li>Ztop=Ix/(100−67.7778)=97517.24mm³;Zbottom=Ix/67.7778=46360.66mm³</li></ol><h4>યાદ રાખો / આ ભૂલ ટાળો</h4><p>Extreme-fibre distances જુદાં હોવાથી એ જ Iથી top/bottom Z જુદાં થાય.</p>"
+          },
+          "diagram": "am5_T"
+        },
+        {
+          "h": {
+            "en": "5.1.10 Channel and angle sections",
+            "gu": "5.1.10 Channel અને Angle Sections"
+          },
+          "body": {
+            "en": "<h4>Given</h4><p>Channel:bottom/top100×10 mm aty0–10 and90–100; left web10×80 mm aty10–90.</p><h4>Stepwise solution</h4><ol><li>A=2800 mm²; xbar=(1000×50+1000×50+800×5)/2800=37.1429 mm; ybar=50 mm</li><li>Ix=4493333.33 mm⁴; Iy=2830476.19 mm⁴</li><li>Angle made from bottom100×20 and left20×80 above it has centroid(32.2222,32.2222)mm.</li><li>Ix=100×20³/12+2000(10−32.2222)²+20×80³/12+1600(60−32.2222)²=3142222.22 mm⁴</li><li>Iy=3142222.22 mm⁴</li></ol><h4>Remember / avoid this mistake</h4><p>The angle has equal Ix, Iy here due to diagonal symmetry, but the centroidal horizontal/vertical axes need not be principal axes.</p>",
+            "gu": "<h4>આપેલી માહિતી</h4><p>Channel:bottom/top100×10mm,y0–10 અને90–100;left web10×80mm,y10–90.</p><h4>એક-એક પગલે ઉકેલ</h4><ol><li>A=2800mm²;xbar=(1000×50+1000×50+800×5)/2800=37.1429mm;ybar=50mm</li><li>Ix=4493333.33mm⁴;Iy=2830476.19mm⁴</li><li>Bottom100×20 અને તેના ઉપર left20×80વાળા angleનું centroid(32.2222,32.2222)mm છે.</li><li>Ix=100×20³/12+2000(10−32.2222)²+20×80³/12+1600(60−32.2222)²=3142222.22mm⁴</li><li>Iy=3142222.22mm⁴</li></ol><h4>યાદ રાખો / આ ભૂલ ટાળો</h4><p>અહીં diagonal symmetryથી angleનું Ix,Iy સરખું છે,પણ centroidal horizontal/vertical axes principal હોવા જરૂરી નથી.</p>"
+          },
+          "diagram": "am5_sections"
+        },
+        {
+          "h": {
+            "en": "5.1.11 Hollow and built-up sections",
+            "gu": "5.1.11 Hollow અને Built-up Sections"
+          },
+          "body": {
+            "en": "<h4>Given</h4><p>Centred hollow rectangle B100, H80, b80, h60 mm; and separately two100×10 mm plates centred aty±40 mm.</p><h4>Stepwise solution</h4><ol><li>Hollow Ix=(100×80³−80×60³)/12=2826666.67 mm⁴</li><li>Hollow Iy=(80×100³−60×80³)/12=4106666.67 mm⁴</li><li>Built-up Ix=2[100×10³/12+1000×40²]=3216666.67 mm⁴</li></ol><h4>Remember / avoid this mistake</h4><p>For a structural built-up member, connections must provide the assumed composite action; geometric I alone does not verify joint strength.</p>",
+            "gu": "<h4>આપેલી માહિતી</h4><p>Centred hollow rectangle B100,H80,b80,h60mm;અલગ exampleમાં બે100×10mm platesનાં centres y±40mm.</p><h4>એક-એક પગલે ઉકેલ</h4><ol><li>Hollow Ix=(100×80³−80×60³)/12=2826666.67mm⁴</li><li>Hollow Iy=(80×100³−60×80³)/12=4106666.67mm⁴</li><li>Built-up Ix=2[100×10³/12+1000×40²]=3216666.67mm⁴</li></ol><h4>યાદ રાખો / આ ભૂલ ટાળો</h4><p>Structural built-up memberમાં connections assumed composite action આપે તે જરૂરી;geometric I એકલું joint strength verify નથી કરતું.</p>"
+          },
+          "diagram": "am5_hollow"
+        },
+        {
+          "h": {
+            "en": "5.1.12 Exam checks that catch most mistakes",
+            "gu": "5.1.12 Examમાં મોટાભાગની Errors પકડતા Checks"
+          },
+          "body": {
+            "en": "<h4>Build an exam answer</h4><ol><li>Label the requested axis; write component A, centroid, distance² andIc; sum signed terms; state unitsmm⁴ and convert only at the end.</li><li>CheckIreference≥Icentroid for the same area and parallel axes; check symmetry; for a circle verify J=2I; for a square Ix=Iy.</li></ol><details class=\"self-check\"><summary>Quick check: Can a centroidal Ic be used without Ad² when transferring axes?</summary><p>Only if the axes coincide(d0); otherwise include the shift.</p></details>",
+            "gu": "<h4>પરીક્ષામાં જવાબ ગોઠવીએ</h4><ol><li>Requested axis label કરો;component A,centroid,distance²,Ic લખો;signed terms ઉમેરો;units mm⁴ આપો,છેલ્લે convert કરો.</li><li>Same areaના parallel axesમાં Ireference≥Icentroid જુઓ;symmetry તપાસો;circleમાં J=2I,squareમાં Ix=Iy જુઓ.</li></ol><details class=\"self-check\"><summary>જાતે વિચારો: Axes બદલતાં Ad² વગર Ic લઈ શકાય?</summary><p>Axes coincide(d0) હોય ત્યારે જ;નહિ તો shift ઉમેરો.</p></details>"
+          }
+        }
+      ]
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "am5_axes",
+      "title": {
+        "en": "Area properties:Ix uses y-distance;Iy uses x-distance",
+        "gu": "Area properties:Ix uses y-distance;Iy uses x-distance"
+      },
+      "file": "diagrams/am5_axes.svg"
+    },
+    {
+      "id": "am5_parallel",
+      "title": {
+        "en": "Parallel-axis theorem:Ireference=Icentroid+A d²",
+        "gu": "Parallel-axis theorem:Ireference=Icentroid+A d²"
+      },
+      "file": "diagrams/am5_parallel.svg"
+    },
+    {
+      "id": "am5_shapes",
+      "title": {
+        "en": "Common centroidal sections:identify the exact axis",
+        "gu": "Common centroidal sections:identify the exact axis"
+      },
+      "file": "diagrams/am5_shapes.svg"
+    },
+    {
+      "id": "am5_sections",
+      "title": {
+        "en": "Partition I,channel and angle sections without counting overlap",
+        "gu": "Partition I,channel and angle sections without counting overlap"
+      },
+      "file": "diagrams/am5_sections.svg"
+    },
+    {
+      "id": "am5_T",
+      "title": {
+        "en": "T-section:centroid is not automatically at half-height",
+        "gu": "T-section:centroid is not automatically at half-height"
+      },
+      "file": "diagrams/am5_T.svg"
+    },
+    {
+      "id": "am5_hollow",
+      "title": {
+        "en": "Centred hollow rectangle:subtract inside about the same axes",
+        "gu": "Centred hollow rectangle:subtract inside about the same axes"
+      },
+      "file": "diagrams/am5_hollow.svg"
+    }
+  ],
+  "syntax": [
+    {
+      "title": {
+        "en": "Quick Reference",
+        "gu": "ઝડપી પુનરાવર્તન"
+      },
+      "items": [
+        {
+          "name": {
+            "en": "Section-property toolbox",
+            "gu": "Section Propertyનાં સૂત્રો"
+          },
+          "f": "Ix=sum(Ixi,c+Ai dyi²);Iy=sum(Iyi,c+Ai dxi²)\nZ=I/c;k=sqrt(I/A);J=Ix+Iy\nRectangle:Ix=bh³/12;circle:Ix=pi d⁴/64",
+          "terms": {
+            "en": "Use actual positions and signed holes; formulas without derivations as required by the syllabus.",
+            "gu": "Actual positions,signed holes લો;syllabus મુજબ formulas derivations વગર."
+          }
+        }
+      ]
+    }
+  ],
+  "viva": [
+    {
+      "title": {
+        "en": "Viva with answers",
+        "gu": "Viva:જવાબો સાથે"
+      },
+      "items": [
+        {
+          "q": {
+            "en": "AreaI units?",
+            "gu": "Area Iના Units?"
+          },
+          "a": {
+            "en": "mm⁴ or m⁴",
+            "gu": "mm⁴ or m⁴"
+          }
+        },
+        {
+          "q": {
+            "en": "Section modulus?",
+            "gu": "Section Modulus?"
+          },
+          "a": {
+            "en": "Z=I/c",
+            "gu": "Z=I/c"
+          }
+        },
+        {
+          "q": {
+            "en": "Radius of gyration?",
+            "gu": "Radius of Gyration?"
+          },
+          "a": {
+            "en": "k=sqrt(I/A)",
+            "gu": "k=sqrt(I/A)"
+          }
+        },
+        {
+          "q": {
+            "en": "Parallel-axis theorem?",
+            "gu": "Parallel-axis Theorem?"
+          },
+          "a": {
+            "en": "I=Ic+Ad²",
+            "gu": "I=Ic+Ad²"
+          }
+        },
+        {
+          "q": {
+            "en": "Perpendicular-axis theorem?",
+            "gu": "Perpendicular-axis Theorem?"
+          },
+          "a": {
+            "en": "Jz=Ix+Iy for a plane area",
+            "gu": "Jz=Ix+Iy for a plane area"
+          }
+        },
+        {
+          "q": {
+            "en": "Rectangle centroidal Ix?",
+            "gu": "Rectangle Centroidal Ix?"
+          },
+          "a": {
+            "en": "bh³/12",
+            "gu": "bh³/12"
+          }
+        },
+        {
+          "q": {
+            "en": "CircleJ?",
+            "gu": "Circle J?"
+          },
+          "a": {
+            "en": "pi d⁴/32",
+            "gu": "pi d⁴/32"
+          }
+        }
+      ]
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Define area moment, section modulus, radius of gyration and polar moment with units.",
+        "gu": "Area Moment,Section Modulus,Radius of Gyration,Polar Moment units સાથે સમજાવો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "State parallel/perpendicular axis theorems with labelled axes and conditions.",
+        "gu": "Labelled axes,conditions સાથે Parallel/Perpendicular Axis Theorems લખો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Calculate centroidal Ix, Iy for a symmetric I made of100×10 mm flanges and10×80 mm clear web.",
+        "gu": "100×10mm flanges,10×80mm clear webના symmetric Iનું centroidal Ix,Iy ગણો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "T-section:20×80 mm web below100×20 mm flange. Find centroid, Ix and top/bottom Z.",
+        "gu": "T-section:20×80mm web ઉપર100×20mm flange માટે centroid,Ix,top/bottom Z શોધો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Find centroidal I for a channel, angle or asymmetric I using signed-area/parallel-axis tables.",
+        "gu": "Signed-area/Parallel-axis tablesથી Channel,Angle કે Asymmetric Iનું centroidal I શોધો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "FindIx, Iy for centred hollow rectangle100×80 mm outside,80×60 mm inside.",
+        "gu": "Centred Hollow Rectangle બહાર100×80mm,અંદર80×60mm માટે Ix,Iy શોધો."
+      },
+      "marks": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "Owner-supplied GTU DI03000201 Basics of Applied Mechanics,2024–25",
+      "reference": "Course contents pp2–4,scheme p2,practical list pp6–7."
+    }
+  ]
+}

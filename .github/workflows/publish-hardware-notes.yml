@@ -1,5 +1,4 @@
-# One-file installation: sources are gzip/base64 encoded below, never credentials.
-# Replace the old four-unit workflow at this same filename, if it exists.
+# Publisher payloads are stored separately under tools/publisher_payloads/.
 name: Publish All Notes
 
 on:
@@ -373,6 +372,546 @@ jobs:
                   p.parent.mkdir(parents=True,exist_ok=True);p.write_text(value,encoding='utf-8');manifest.append(rel)
           manifest_path.write_text(json.dumps(sorted(set(manifest))),encoding='utf-8')
           print('Manufacturing Engineering-I all four units ready; existing source retained.')
+          PYCODE
+
+      - name: Install complete Fluid Mechanics and Hydraulic Machinery all four bilingual units
+        shell: bash
+        run: |
+          python3 - <<'PYCODE'
+          from pathlib import Path
+          import base64,gzip,json,os,ast
+          payload = Path('tools/publisher_payloads/mechanical-sem3-fluid-mechanics.b64').read_text(encoding='ascii').strip()
+          files=json.loads(gzip.decompress(base64.b64decode(payload)))
+          manifest_path=Path(os.environ['RUNNER_TEMP'])/'seeded_paths.json'
+          manifest=json.loads(manifest_path.read_text())
+          root=Path('content/mechanical/sem3/DI03000171')
+          planned={}
+          subject_rel=str(root/'subject.json')
+          subject=json.loads(Path(subject_rel).read_text() if Path(subject_rel).exists() else files[subject_rel])
+          if subject.get('code')!='DI03000171' or subject.get('branch')!='mechanical' or subject.get('semester')!=3:
+              raise SystemExit('Existing subject identity conflict; review without overwriting.')
+          if not Path(subject_rel).exists():planned[subject_rel]=files[subject_rel]
+          for n in range(1,5):
+              rel=str(root/f'unit{n}.json');p=Path(rel)
+              unit=json.loads(p.read_text() if p.exists() else files[rel])
+              if unit.get('subject')!='DI03000171' or unit.get('unit')!=n:raise SystemExit('Existing unit identity conflict: '+rel)
+              if any(set(q)!={'q','marks'} for q in unit.get('exam_questions',[])):raise SystemExit('Questions-only Exam policy conflict: '+rel)
+              if p.exists():print('Preserving existing '+rel)
+              else:
+                  planned[rel]=files[rel]
+                  for d in unit.get('diagrams',[]):
+                      svg=str(root/d['file'])
+                      if svg not in files:raise SystemExit('Missing diagram payload: '+svg)
+                      planned[svg]=files[svg]
+          exporter=Path('tools/export_app_content.py');text=exporter.read_text(encoding='utf-8')
+          marker='# DiplomaOne registration: DI03000171 mechanical semester 3'
+          updated=text
+          if marker not in text:
+              block="\n".join([
+                  marker,
+                  "if 'DI03000171' not in SUBJECTS:",
+                  "    SUBJECTS['DI03000171'] = ('Fluid Mechanics and Hydraulic Machinery', 'પ્રવાહી યાંત્રિકી અને હાઇડ્રોલિક મશીનરી', 'Professional Core', 4, 'theory', None)",
+                  "_mechanical_sem3 = BRANCH_SEMS.setdefault('mechanical', {}).setdefault(3, [])",
+                  "if 'DI03000171' not in _mechanical_sem3:",
+                  "    _mechanical_sem3.append('DI03000171')",
+                  "",
+              ])
+              if 'FONT_MAP = [' not in text:raise SystemExit('Exporter layout changed; review registration manually.')
+              updated=text.replace('FONT_MAP = [',block+'\nFONT_MAP = [',1)
+              ast.parse(updated)
+          # All preflight checks occur before installing this subject.
+          for rel,value in planned.items():
+              p=Path(rel)
+              if p.is_absolute() or '..' in p.parts:raise SystemExit('Unsafe source path')
+              if p.exists() and p.read_text(encoding='utf-8')!=value:raise SystemExit('Source collision: '+rel)
+          for rel,value in planned.items():
+              p=Path(rel)
+              if not p.exists():
+                  p.parent.mkdir(parents=True,exist_ok=True);p.write_text(value,encoding='utf-8');manifest.append(rel)
+          if updated!=text:exporter.write_text(updated,encoding='utf-8');manifest.append(str(exporter))
+          manifest_path.write_text(json.dumps(sorted(set(manifest))),encoding='utf-8')
+          print('Fluid Mechanics and Hydraulic Machinery all four units and registration ready; existing source preserved.')
+          PYCODE
+
+      - name: Install Engineering Thermodynamics all five bilingual units and registration
+        shell: bash
+        run: |
+          python3 - <<'PYCODE'
+          from pathlib import Path
+          import base64,gzip,json,os,ast
+          payload = Path('tools/publisher_payloads/mechanical-sem3-thermodynamics.b64').read_text(encoding='ascii').strip()
+          files=json.loads(gzip.decompress(base64.b64decode(payload)))
+          manifest_path=Path(os.environ['RUNNER_TEMP'])/'seeded_paths.json'
+          manifest=json.loads(manifest_path.read_text())
+          root=Path('content/mechanical/sem3/DI03019011')
+          planned={}
+          subject_rel=str(root/'subject.json')
+          subject=json.loads(Path(subject_rel).read_text() if Path(subject_rel).exists() else files[subject_rel])
+          if subject.get('code')!='DI03019011' or subject.get('branch')!='mechanical' or subject.get('semester')!=3:
+              raise SystemExit('Existing subject identity conflict; review without overwriting.')
+          if not Path(subject_rel).exists():planned[subject_rel]=files[subject_rel]
+          for n in range(1,6):
+              rel=str(root/f'unit{n}.json');p=Path(rel)
+              unit=json.loads(p.read_text() if p.exists() else files[rel])
+              if unit.get('subject')!='DI03019011' or unit.get('unit')!=n:raise SystemExit('Existing unit identity conflict: '+rel)
+              if any(set(q)!={'q','marks'} for q in unit.get('exam_questions',[])):raise SystemExit('Questions-only Exam policy conflict: '+rel)
+              if p.exists():print('Preserving existing '+rel)
+              else:
+                  planned[rel]=files[rel]
+                  for d in unit.get('diagrams',[]):
+                      svg=str(root/d['file'])
+                      if svg not in files:raise SystemExit('Missing diagram payload: '+svg)
+                      planned[svg]=files[svg]
+          exporter=Path('tools/export_app_content.py');text=exporter.read_text(encoding='utf-8')
+          marker='# DiplomaOne registration: DI03019011 mechanical semester 3'
+          updated=text
+          if marker not in text:
+              block="\n".join([
+                  marker,
+                  "if 'DI03019011' not in SUBJECTS:",
+                  "    SUBJECTS['DI03019011'] = ('Engineering Thermodynamics', 'ઇજનેરી ઉષ્માગતિશાસ્ત્ર', 'Professional Core', 3, 'theory', None)",
+                  "_mechanical_sem3 = BRANCH_SEMS.setdefault('mechanical', {}).setdefault(3, [])",
+                  "if 'DI03019011' not in _mechanical_sem3:",
+                  "    _mechanical_sem3.append('DI03019011')",
+                  "",
+              ])
+              if 'FONT_MAP = [' not in text:raise SystemExit('Exporter layout changed; review registration manually.')
+              updated=text.replace('FONT_MAP = [',block+'\nFONT_MAP = [',1)
+              ast.parse(updated)
+          # All preflight checks occur before installing this subject.
+          for rel,value in planned.items():
+              p=Path(rel)
+              if p.is_absolute() or '..' in p.parts:raise SystemExit('Unsafe source path')
+              if p.exists() and p.read_text(encoding='utf-8')!=value:raise SystemExit('Source collision: '+rel)
+          for rel,value in planned.items():
+              p=Path(rel)
+              if not p.exists():
+                  p.parent.mkdir(parents=True,exist_ok=True);p.write_text(value,encoding='utf-8');manifest.append(rel)
+          if updated!=text:exporter.write_text(updated,encoding='utf-8');manifest.append(str(exporter))
+          manifest_path.write_text(json.dumps(sorted(set(manifest))),encoding='utf-8')
+          print('Engineering Thermodynamics all five units and registration ready; existing source preserved.')
+          PYCODE
+
+      - name: Install Measurements and Metrology all nine bilingual units and registration
+        shell: bash
+        run: |
+          python3 - <<'PYCODE'
+          from pathlib import Path
+          import base64,gzip,json,os,ast
+          payload = Path('tools/publisher_payloads/mechanical-sem3-metrology.b64').read_text(encoding='ascii').strip()
+          files=json.loads(gzip.decompress(base64.b64decode(payload)))
+          manifest_path=Path(os.environ['RUNNER_TEMP'])/'seeded_paths.json'
+          manifest=json.loads(manifest_path.read_text())
+          root=Path('content/mechanical/sem3/DI03000151')
+          planned={}
+          subject_rel=str(root/'subject.json')
+          subject=json.loads(Path(subject_rel).read_text() if Path(subject_rel).exists() else files[subject_rel])
+          if subject.get('code')!='DI03000151' or subject.get('branch')!='mechanical' or subject.get('semester')!=3:
+              raise SystemExit('Existing subject identity conflict; review without overwriting.')
+          if not Path(subject_rel).exists():planned[subject_rel]=files[subject_rel]
+          for n in range(1,10):
+              rel=str(root/f'unit{n}.json');p=Path(rel)
+              unit=json.loads(p.read_text() if p.exists() else files[rel])
+              if unit.get('subject')!='DI03000151' or unit.get('unit')!=n:raise SystemExit('Existing unit identity conflict: '+rel)
+              if any(set(q)!={'q','marks'} for q in unit.get('exam_questions',[])):raise SystemExit('Questions-only Exam policy conflict: '+rel)
+              if p.exists():print('Preserving existing '+rel)
+              else:
+                  planned[rel]=files[rel]
+                  for d in unit.get('diagrams',[]):
+                      svg=str(root/d['file'])
+                      if svg not in files:raise SystemExit('Missing diagram payload: '+svg)
+                      planned[svg]=files[svg]
+          exporter=Path('tools/export_app_content.py');text=exporter.read_text(encoding='utf-8')
+          marker='# DiplomaOne registration: DI03000151 mechanical semester 3'
+          updated=text
+          if marker not in text:
+              block="\n".join([
+                  marker,
+                  "if 'DI03000151' not in SUBJECTS:",
+                  "    SUBJECTS['DI03000151'] = ('Measurements and Metrology', 'માપન અને માપવિજ્ઞાન', 'Professional Core', 4, 'theory', None)",
+                  "_mechanical_sem3 = BRANCH_SEMS.setdefault('mechanical', {}).setdefault(3, [])",
+                  "if 'DI03000151' not in _mechanical_sem3:",
+                  "    _mechanical_sem3.append('DI03000151')",
+                  "",
+              ])
+              if 'FONT_MAP = [' not in text:raise SystemExit('Exporter layout changed; review registration manually.')
+              updated=text.replace('FONT_MAP = [',block+'\nFONT_MAP = [',1)
+              ast.parse(updated)
+          # All preflight checks occur before installing this subject.
+          for rel,value in planned.items():
+              p=Path(rel)
+              if p.is_absolute() or '..' in p.parts:raise SystemExit('Unsafe source path')
+              if p.exists() and p.read_text(encoding='utf-8')!=value:raise SystemExit('Source collision: '+rel)
+          for rel,value in planned.items():
+              p=Path(rel)
+              if not p.exists():
+                  p.parent.mkdir(parents=True,exist_ok=True);p.write_text(value,encoding='utf-8');manifest.append(rel)
+          if updated!=text:exporter.write_text(updated,encoding='utf-8');manifest.append(str(exporter))
+          manifest_path.write_text(json.dumps(sorted(set(manifest))),encoding='utf-8')
+          print('Measurements and Metrology all nine units and registration ready; existing source preserved.')
+          PYCODE
+
+      - name: Install Basics of Applied Mechanics all eight bilingual units and registration
+        shell: bash
+        run: |
+          python3 - <<'PYCODE'
+          from pathlib import Path
+          import base64,gzip,json,os,ast
+          payload = Path('tools/publisher_payloads/mechanical-sem3-applied-mechanics.b64').read_text(encoding='ascii').strip()
+          files=json.loads(gzip.decompress(base64.b64decode(payload)))
+          manifest_path=Path(os.environ['RUNNER_TEMP'])/'seeded_paths.json'
+          manifest=json.loads(manifest_path.read_text())
+          root=Path('content/mechanical/sem3/DI03000201')
+          planned={}
+          subject_rel=str(root/'subject.json')
+          subject=json.loads(Path(subject_rel).read_text() if Path(subject_rel).exists() else files[subject_rel])
+          if subject.get('code')!='DI03000201' or subject.get('branch')!='mechanical' or subject.get('semester')!=3:
+              raise SystemExit('Existing subject identity conflict; review without overwriting.')
+          if not Path(subject_rel).exists():planned[subject_rel]=files[subject_rel]
+          for n in range(1,9):
+              rel=str(root/f'unit{n}.json');p=Path(rel)
+              unit=json.loads(p.read_text() if p.exists() else files[rel])
+              if unit.get('subject')!='DI03000201' or unit.get('unit')!=n:raise SystemExit('Existing unit identity conflict: '+rel)
+              if any(set(q)!={'q','marks'} for q in unit.get('exam_questions',[])):raise SystemExit('Questions-only Exam policy conflict: '+rel)
+              if p.exists():print('Preserving existing '+rel)
+              else:
+                  planned[rel]=files[rel]
+                  for d in unit.get('diagrams',[]):
+                      svg=str(root/d['file'])
+                      if svg not in files:raise SystemExit('Missing diagram payload: '+svg)
+                      planned[svg]=files[svg]
+          exporter=Path('tools/export_app_content.py');text=exporter.read_text(encoding='utf-8')
+          marker='# DiplomaOne registration: DI03000201 mechanical semester 3'
+          updated=text
+          if marker not in text:
+              block="\n".join([
+                  marker,
+                  "if 'DI03000201' not in SUBJECTS:",
+                  "    SUBJECTS['DI03000201'] = ('Basics of Applied Mechanics', 'પ્રાયોગિક યાંત્રિકીના પાયાના સિદ્ધાંતો', 'Engineering Science', 3, 'theory', None)",
+                  "_mechanical_sem3 = BRANCH_SEMS.setdefault('mechanical', {}).setdefault(3, [])",
+                  "if 'DI03000201' not in _mechanical_sem3:",
+                  "    _mechanical_sem3.append('DI03000201')",
+                  "",
+              ])
+              if 'FONT_MAP = [' not in text:raise SystemExit('Exporter layout changed; review registration manually.')
+              updated=text.replace('FONT_MAP = [',block+'\nFONT_MAP = [',1)
+              ast.parse(updated)
+          # All preflight checks occur before installing this subject.
+          for rel,value in planned.items():
+              p=Path(rel)
+              if p.is_absolute() or '..' in p.parts:raise SystemExit('Unsafe source path')
+              if p.exists() and p.read_text(encoding='utf-8')!=value:raise SystemExit('Source collision: '+rel)
+          for rel,value in planned.items():
+              p=Path(rel)
+              if not p.exists():
+                  p.parent.mkdir(parents=True,exist_ok=True);p.write_text(value,encoding='utf-8');manifest.append(rel)
+          if updated!=text:exporter.write_text(updated,encoding='utf-8');manifest.append(str(exporter))
+          manifest_path.write_text(json.dumps(sorted(set(manifest))),encoding='utf-8')
+          print('Basics of Applied Mechanics all eight units and registration ready; existing source preserved.')
+          PYCODE
+
+      - name: Install Semester 4 Thermal Engineering I all seven bilingual units and registration
+        shell: bash
+        run: |
+          python3 - <<'PYCODE'
+          from pathlib import Path
+          import base64,gzip,json,os,ast
+          payload = Path('tools/publisher_payloads/mechanical-sem4-thermal.b64').read_text(encoding='ascii').strip()
+          files=json.loads(gzip.decompress(base64.b64decode(payload)))
+          manifest_path=Path(os.environ['RUNNER_TEMP'])/'seeded_paths.json'
+          manifest=json.loads(manifest_path.read_text())
+          root=Path('content/mechanical/sem4/DI04019011')
+          planned={}
+          subject_rel=str(root/'subject.json')
+          subject=json.loads(Path(subject_rel).read_text() if Path(subject_rel).exists() else files[subject_rel])
+          if subject.get('code')!='DI04019011' or subject.get('branch')!='mechanical' or subject.get('semester')!=4:
+              raise SystemExit('Existing subject identity conflict; review without overwriting.')
+          if not Path(subject_rel).exists():planned[subject_rel]=files[subject_rel]
+          for n in range(1,8):
+              rel=str(root/f'unit{n}.json');p=Path(rel)
+              unit=json.loads(p.read_text() if p.exists() else files[rel])
+              if unit.get('subject')!='DI04019011' or unit.get('unit')!=n:raise SystemExit('Existing unit identity conflict: '+rel)
+              if any(set(q)!={'q','marks'} for q in unit.get('exam_questions',[])):raise SystemExit('Questions-only Exam policy conflict: '+rel)
+              if p.exists():print('Preserving existing '+rel)
+              else:
+                  planned[rel]=files[rel]
+                  for d in unit.get('diagrams',[]):
+                      svg=str(root/d['file'])
+                      if svg not in files:raise SystemExit('Missing diagram payload: '+svg)
+                      planned[svg]=files[svg]
+          exporter=Path('tools/export_app_content.py');text=exporter.read_text(encoding='utf-8')
+          marker='# DiplomaOne registration: DI04019011 mechanical semester 4'
+          updated=text
+          if marker not in text:
+              block="\n".join([
+                  marker,
+                  "if 'DI04019011' not in SUBJECTS:",
+                  "    SUBJECTS['DI04019011'] = ('Thermal Engineering - I', 'થર્મલ ઇજનેરી - I', 'Professional Core', 4, 'theory', None)",
+                  "_mechanical_sem4 = BRANCH_SEMS.setdefault('mechanical', {}).setdefault(4, [])",
+                  "if 'DI04019011' not in _mechanical_sem4:",
+                  "    _mechanical_sem4.append('DI04019011')",
+                  "",
+              ])
+              if 'FONT_MAP = [' not in text:raise SystemExit('Exporter layout changed; review registration manually.')
+              updated=text.replace('FONT_MAP = [',block+'\nFONT_MAP = [',1)
+              ast.parse(updated)
+          # All preflight checks occur before installing this subject.
+          for rel,value in planned.items():
+              p=Path(rel)
+              if p.is_absolute() or '..' in p.parts:raise SystemExit('Unsafe source path')
+              if p.exists() and p.read_text(encoding='utf-8')!=value:raise SystemExit('Source collision: '+rel)
+          for rel,value in planned.items():
+              p=Path(rel)
+              if not p.exists():
+                  p.parent.mkdir(parents=True,exist_ok=True);p.write_text(value,encoding='utf-8');manifest.append(rel)
+          if updated!=text:exporter.write_text(updated,encoding='utf-8');manifest.append(str(exporter))
+          manifest_path.write_text(json.dumps(sorted(set(manifest))),encoding='utf-8')
+          print('Thermal Engineering - I all seven units and registration ready; existing source preserved.')
+          PYCODE
+
+      - name: Install Semester 4 Manufacturing Engineering II all six bilingual units and registration
+        shell: bash
+        run: |
+          python3 - <<'PYCODE'
+          from pathlib import Path
+          import base64,gzip,json,os,ast
+          payload = Path('tools/publisher_payloads/mechanical-sem4-manufacturing.b64').read_text(encoding='ascii').strip()
+          files=json.loads(gzip.decompress(base64.b64decode(payload)))
+          manifest_path=Path(os.environ['RUNNER_TEMP'])/'seeded_paths.json'
+          manifest=json.loads(manifest_path.read_text())
+          root=Path('content/mechanical/sem4/DI04000241')
+          planned={}
+          subject_rel=str(root/'subject.json')
+          subject=json.loads(Path(subject_rel).read_text() if Path(subject_rel).exists() else files[subject_rel])
+          if subject.get('code')!='DI04000241' or subject.get('branch')!='mechanical' or subject.get('semester')!=4:
+              raise SystemExit('Existing subject identity conflict; review without overwriting.')
+          if not Path(subject_rel).exists():planned[subject_rel]=files[subject_rel]
+          for n in range(1,7):
+              rel=str(root/f'unit{n}.json');p=Path(rel)
+              unit=json.loads(p.read_text() if p.exists() else files[rel])
+              if unit.get('subject')!='DI04000241' or unit.get('unit')!=n:raise SystemExit('Existing unit identity conflict: '+rel)
+              if any(set(q)!={'q','marks'} for q in unit.get('exam_questions',[])):raise SystemExit('Questions-only Exam policy conflict: '+rel)
+              if p.exists():print('Preserving existing '+rel)
+              else:
+                  planned[rel]=files[rel]
+                  for d in unit.get('diagrams',[]):
+                      svg=str(root/d['file'])
+                      if svg not in files:raise SystemExit('Missing diagram payload: '+svg)
+                      planned[svg]=files[svg]
+          exporter=Path('tools/export_app_content.py');text=exporter.read_text(encoding='utf-8')
+          marker='# DiplomaOne registration: DI04000241 mechanical semester 4'
+          updated=text
+          if marker not in text:
+              block="\n".join([
+                  marker,
+                  "if 'DI04000241' not in SUBJECTS:",
+                  "    SUBJECTS['DI04000241'] = ('Manufacturing Engineering - II', 'મેન્યુફેક્ચરિંગ ઇજનેરી - II', 'Professional Core', 4, 'theory', None)",
+                  "_mechanical_sem4 = BRANCH_SEMS.setdefault('mechanical', {}).setdefault(4, [])",
+                  "if 'DI04000241' not in _mechanical_sem4:",
+                  "    _mechanical_sem4.append('DI04000241')",
+                  "",
+              ])
+              if 'FONT_MAP = [' not in text:raise SystemExit('Exporter layout changed; review registration manually.')
+              updated=text.replace('FONT_MAP = [',block+'\nFONT_MAP = [',1)
+              ast.parse(updated)
+          # All preflight checks occur before installing this subject.
+          for rel,value in planned.items():
+              p=Path(rel)
+              if p.is_absolute() or '..' in p.parts:raise SystemExit('Unsafe source path')
+              if p.exists() and p.read_text(encoding='utf-8')!=value:raise SystemExit('Source collision: '+rel)
+          for rel,value in planned.items():
+              p=Path(rel)
+              if not p.exists():
+                  p.parent.mkdir(parents=True,exist_ok=True);p.write_text(value,encoding='utf-8');manifest.append(rel)
+          if updated!=text:exporter.write_text(updated,encoding='utf-8');manifest.append(str(exporter))
+          manifest_path.write_text(json.dumps(sorted(set(manifest))),encoding='utf-8')
+          print('Manufacturing Engineering - II all six units and registration ready; existing source preserved.')
+          PYCODE
+
+      - name: Install Semester 4 Design of Machine Elements all seven bilingual units and registration
+        shell: bash
+        run: |
+          python3 - <<'PYCODE'
+          from pathlib import Path
+          import base64,gzip,json,os,ast
+          payload = Path('tools/publisher_payloads/mechanical-sem4-machine-design.b64').read_text(encoding='ascii').strip()
+          files=json.loads(gzip.decompress(base64.b64decode(payload)))
+          manifest_path=Path(os.environ['RUNNER_TEMP'])/'seeded_paths.json'
+          manifest=json.loads(manifest_path.read_text())
+          root=Path('content/mechanical/sem4/DI04000251')
+          planned={}
+          subject_rel=str(root/'subject.json')
+          subject=json.loads(Path(subject_rel).read_text() if Path(subject_rel).exists() else files[subject_rel])
+          if subject.get('code')!='DI04000251' or subject.get('branch')!='mechanical' or subject.get('semester')!=4:
+              raise SystemExit('Existing subject identity conflict; review without overwriting.')
+          if not Path(subject_rel).exists():planned[subject_rel]=files[subject_rel]
+          for n in range(1,8):
+              rel=str(root/f'unit{n}.json');p=Path(rel)
+              unit=json.loads(p.read_text() if p.exists() else files[rel])
+              if unit.get('subject')!='DI04000251' or unit.get('unit')!=n:raise SystemExit('Existing unit identity conflict: '+rel)
+              if any(set(q)!={'q','marks'} for q in unit.get('exam_questions',[])):raise SystemExit('Questions-only Exam policy conflict: '+rel)
+              if p.exists():print('Preserving existing '+rel)
+              else:
+                  planned[rel]=files[rel]
+                  for d in unit.get('diagrams',[]):
+                      svg=str(root/d['file'])
+                      if svg not in files:raise SystemExit('Missing diagram payload: '+svg)
+                      planned[svg]=files[svg]
+          exporter=Path('tools/export_app_content.py');text=exporter.read_text(encoding='utf-8')
+          marker='# DiplomaOne registration: DI04000251 mechanical semester 4'
+          updated=text
+          if marker not in text:
+              block="\n".join([
+                  marker,
+                  "if 'DI04000251' not in SUBJECTS:",
+                  "    SUBJECTS['DI04000251'] = ('Design of Machine Elements', 'મશીન એલિમેન્ટ્સની ડિઝાઇન', 'Professional Core', 4, 'theory', None)",
+                  "_mechanical_sem4 = BRANCH_SEMS.setdefault('mechanical', {}).setdefault(4, [])",
+                  "if 'DI04000251' not in _mechanical_sem4:",
+                  "    _mechanical_sem4.append('DI04000251')",
+                  "",
+              ])
+              if 'FONT_MAP = [' not in text:raise SystemExit('Exporter layout changed; review registration manually.')
+              updated=text.replace('FONT_MAP = [',block+'\nFONT_MAP = [',1)
+              ast.parse(updated)
+          # All preflight checks occur before installing this subject.
+          for rel,value in planned.items():
+              p=Path(rel)
+              if p.is_absolute() or '..' in p.parts:raise SystemExit('Unsafe source path')
+              if p.exists() and p.read_text(encoding='utf-8')!=value:raise SystemExit('Source collision: '+rel)
+          for rel,value in planned.items():
+              p=Path(rel)
+              if not p.exists():
+                  p.parent.mkdir(parents=True,exist_ok=True);p.write_text(value,encoding='utf-8');manifest.append(rel)
+          if updated!=text:exporter.write_text(updated,encoding='utf-8');manifest.append(str(exporter))
+          manifest_path.write_text(json.dumps(sorted(set(manifest))),encoding='utf-8')
+          print('Design of Machine Elements all seven units and registration ready; existing source preserved.')
+          PYCODE
+
+      - name: Install Semester 5 Thermal Engineering - II all five bilingual units and registration
+        shell: bash
+        run: |
+          python3 - <<'PYCODE'
+          from pathlib import Path
+          import base64,gzip,json,os,ast,hashlib
+          payload = Path('tools/publisher_payloads/mechanical-sem5-thermal.b64').read_text(encoding='ascii').strip()
+          files=json.loads(gzip.decompress(base64.b64decode(payload)))
+          manifest_path=Path(os.environ['RUNNER_TEMP'])/'seeded_paths.json'
+          manifest=json.loads(manifest_path.read_text())
+          root=Path('content/mechanical/sem5/DI05019021')
+          planned={}
+          replace_paths=set()
+          previous_sha256={'content/mechanical/sem5/DI05019021/diagrams/t1_after.svg': '284952ce80e774246acb21aa295a651a9506836370378277bc49f8fed3d4a426', 'content/mechanical/sem5/DI05019021/diagrams/t1_boost.svg': 'aedaba0ce629972df73a35008c3554de0aba85d4d1dfaa1223982981edc280e2', 'content/mechanical/sem5/DI05019021/diagrams/t1_carb.svg': '7cfeff44e443823552c2446a5d461b35b20aa70c9f8d767a0892dd7596c3f59f', 'content/mechanical/sem5/DI05019021/diagrams/t1_class.svg': 'c223ec81ba5336bac864fbdd2b091749547530e18f93d71e6b77b91cda9b62e4', 'content/mechanical/sem5/DI05019021/diagrams/t1_cooling.svg': '215850cf7e9d19bc1337a93da11189a1af3e673a52905869bb9a2e252da0af85', 'content/mechanical/sem5/DI05019021/diagrams/t1_crdi.svg': '07adc6b1aa85f763702de1c6be58e370f5194ecd48950ac3934f6a5d7495d2f5', 'content/mechanical/sem5/DI05019021/diagrams/t1_govern.svg': '1fd1cad17887445ef801790ddc03f66e5b0d3a98516b3540fceed4f264f99f3f', 'content/mechanical/sem5/DI05019021/diagrams/t1_ignition.svg': 'a8dfe88322dee88981df10a6ec13cea58e2a52cc92c6bc96ad0196f8648880ca', 'content/mechanical/sem5/DI05019021/diagrams/t1_lube.svg': '8fb5220104f70088a02a1005c419578f5af76b041455f8791b6f66bc67215556', 'content/mechanical/sem5/DI05019021/diagrams/t1_mpfi.svg': '9215b0f42cc7a41d8d34a66b1b5fac9cb073953d66d982fe21c9928eae73bc3e', 'content/mechanical/sem5/DI05019021/diagrams/t1_power.svg': '77970e7804e2eba5e7e9f5cdfe66e20e75fb543e73dcf39e322aeda45dd8cf15', 'content/mechanical/sem5/DI05019021/diagrams/t1_scavenge.svg': '0ea9f03f3cd6aeefaffa36de9bc4ee4e81817800cc0c0ef32979be0453a5aa9f', 'content/mechanical/sem5/DI05019021/diagrams/t1_timing.svg': 'e042a960b24345daba92aaaa0f916e650a9811d5ebf01b6370e711e5ff12f7e3', 'content/mechanical/sem5/DI05019021/diagrams/t2_cng.svg': '81fd1473dbcecd8837de012281a8b0378eddb437a3501ad249f3d33ea52528d2', 'content/mechanical/sem5/DI05019021/diagrams/t2_e20.svg': 'abac862ced6a7e7a877265b937687be6bbe8e980424082f197864d99e594ad76', 'content/mechanical/sem5/DI05019021/diagrams/t2_fuels.svg': 'a971012ab343d60a6944a35b9f944356cb23f859bce8ae7f2ab2c946cf16f995', 'content/mechanical/sem5/DI05019021/diagrams/t2_lpg.svg': '38f197a32d4ab3b74cc98bc291d715a6ee0bdc68b08c9fd0a3cf1bbf8e827211', 'content/mechanical/sem5/DI05019021/diagrams/t2_pollute.svg': '7afebc0925ee47d02b31796cf02edcb80c5105c4662979e60b86b6c7aaca8837', 'content/mechanical/sem5/DI05019021/diagrams/t3_absorb.svg': '98e147b9664de47c5f870bcf299f38ce57e8d2384dc83479f4e50f47ba40d7a0', 'content/mechanical/sem5/DI05019021/diagrams/t3_apps.svg': 'feb41a4e5a170f606ac4e830c016363c542f7d3040f7d97a69c63994103a8797', 'content/mechanical/sem5/DI05019021/diagrams/t3_fridge.svg': '56b7a311a3ce2aa6976f4dbff69b8556bd0898c986fee8c127d54df6033a50e5', 'content/mechanical/sem5/DI05019021/diagrams/t3_ice.svg': 'ed9405253f522c7d6b313868310330cda131b0b0888fd5c4b10531cd05a1e6ab', 'content/mechanical/sem5/DI05019021/diagrams/t3_loop.svg': 'a7bd48da3d64c84be9f298853d2361aff28fd1dfde4a32b268db992949842b1b', 'content/mechanical/sem5/DI05019021/diagrams/t3_ph.svg': '66a2dbf9be06b50fa62a2837b02b627bfb4b8cdddfb4e4f56878ef0f1d091b31', 'content/mechanical/sem5/DI05019021/diagrams/t3_pv.svg': '642712b8b4161436db46edc79316b4ace4478891c3efd6c495bd99c2dbc63b90', 'content/mechanical/sem5/DI05019021/diagrams/t3_refrig.svg': 'd1742c3437dfe38acc070765065b8d01eaf356f053629493edd390fe07650d8d', 'content/mechanical/sem5/DI05019021/diagrams/t3_safety.svg': '72127b494a07e19332bf62e33843544667242404b898b7eea0020e27febe4ae6', 'content/mechanical/sem5/DI05019021/diagrams/t3_ts.svg': 'f27694d8d99de0ec1634e0df37bea29e4eb473ea052cd4a878a76816836f5aba', 'content/mechanical/sem5/DI05019021/diagrams/t3_water.svg': '9622d0247af025fb5f6739a3a8ebc0610b5bf34f6f70c9c68c7898d8a26d3af6', 'content/mechanical/sem5/DI05019021/diagrams/t4_load.svg': 'c166e0a5711788bdf2718f7acdc0d77c4203299ffa77035eea35e2d809f22d1a', 'content/mechanical/sem5/DI05019021/diagrams/t4_props.svg': 'e01c783f31687d76e67f310d0cb094a25aa57caad7d6e3406afda1000d7e8cc5', 'content/mechanical/sem5/DI05019021/diagrams/t4_psych.svg': '773ba7129cc3ea4e401cc58cba1ac66e6ff510bb1f44164239a2a65dbde344d3', 'content/mechanical/sem5/DI05019021/diagrams/t4_split.svg': 'c7e7029687a1a134e4e236e10afc4bf75bf1ff53bafa8e038df5d9e3bdb7a40a', 'content/mechanical/sem5/DI05019021/diagrams/t4_types.svg': '1450762f427c06364bbb5e34de48783d60accd4a7bfc2758de56b3b47430810d', 'content/mechanical/sem5/DI05019021/diagrams/t4_window.svg': '42589662e2df2680ece6a34f226574a5bf2cafa4e320b2ded81f6e87e20ddc16', 'content/mechanical/sem5/DI05019021/diagrams/t5_cells.svg': 'c59fdfb4f689ecf211d18e85a3cccdcd40c429b9a0c3fe1c261e0c710dbd0b71', 'content/mechanical/sem5/DI05019021/diagrams/t5_colour.svg': 'f1d293cdedaece5628826e6cfca1e0b5137f3edec47c44dff37601c8efc46009', 'content/mechanical/sem5/DI05019021/diagrams/t5_electro.svg': 'a01482d4f8b943a2f99eb62734c01a3f7e13bbd8564c616aa00d87f2af8e17e4', 'content/mechanical/sem5/DI05019021/diagrams/t5_pem.svg': 'acfffe413a40dea971e0c1ca4133cdb416e4ca63c9ad773aa4fada1495cfc646', 'content/mechanical/sem5/DI05019021/diagrams/t5_production.svg': 'dc3aff24541b6c25b94ea9a13bfbbc6776e62544c0b58b7f4176420c24fd6a2f', 'content/mechanical/sem5/DI05019021/diagrams/t5_safe.svg': '8ad995ed3a21c05575c24d2dbbb20682ad211d9309b323996d0326cbed36c873', 'content/mechanical/sem5/DI05019021/diagrams/t5_store.svg': 'd385faca3084c5c25d0f26572f1debc071656948c777bd45ef33af805a764f66', 'content/mechanical/sem5/DI05019021/diagrams/t5_transport.svg': 'c295f9b3dfa77a3c803f2eb4f5d03eede1f284b8b19ad10ba86aea125194a993', 'content/mechanical/sem5/DI05019021/diagrams/t5_vehicle.svg': '49e7b0db7f591f45e120501c8bac5cbc104b88f398c717043ada97ab64ef9cb8', 'content/mechanical/sem5/DI05019021/subject.json': '050fd3650abc1e57cfd14ebe224a8581385b056ea126292e8affd89a76439454', 'content/mechanical/sem5/DI05019021/unit1.json': '680030a47379f03918af213952cbafd4485757b60b826aa2bf9fc14ea75abeb1', 'content/mechanical/sem5/DI05019021/unit2.json': '42ced90d2fa4d2beddc9024ea31cac091780ee815dbf5e0fa11c48efeae5f88b', 'content/mechanical/sem5/DI05019021/unit3.json': 'ae657dd0ac56277c81bdcabc174cf576091a6f4a036d3f4905732381ea905ae5', 'content/mechanical/sem5/DI05019021/unit4.json': 'ef988d9feb709d18a7dea2f2e4214d2dd6731e1c390ab316ed46389b1455a3a2', 'content/mechanical/sem5/DI05019021/unit5.json': '19393dd862b193f547e2c09838ed38f76249ac351a01d2b5d745be4780a78434'}
+          subject_rel=str(root/'subject.json')
+          subject=json.loads(Path(subject_rel).read_text() if Path(subject_rel).exists() else files[subject_rel])
+          if subject.get('code')!='DI05019021' or subject.get('branch')!='mechanical' or subject.get('semester')!=5:
+              raise SystemExit('Existing subject identity conflict; review without overwriting.')
+          if not Path(subject_rel).exists():planned[subject_rel]=files[subject_rel]
+          elif hashlib.sha256(Path(subject_rel).read_bytes()).hexdigest()==previous_sha256.get(subject_rel):
+              planned[subject_rel]=files[subject_rel];replace_paths.add(subject_rel)
+
+          for n in range(1,6):
+              rel=str(root/f'unit{n}.json');p=Path(rel)
+              unit=json.loads(p.read_text() if p.exists() else files[rel])
+              if unit.get('subject')!='DI05019021' or unit.get('unit')!=n:raise SystemExit('Existing unit identity conflict: '+rel)
+              if any(set(q)!={'q','marks'} for q in unit.get('exam_questions',[])):raise SystemExit('Questions-only Exam policy conflict: '+rel)
+              previous_match=p.exists() and hashlib.sha256(p.read_bytes()).hexdigest()==previous_sha256.get(rel)
+              if not p.exists() or previous_match:
+                  planned[rel]=files[rel]
+                  if previous_match:replace_paths.add(rel)
+                  for d in json.loads(files[rel]).get('diagrams',[]):
+                      svg=str(root/d['file'])
+                      if svg not in files:raise SystemExit('Missing diagram payload: '+svg)
+                      planned[svg]=files[svg]
+                      sp=Path(svg)
+                      if sp.exists() and hashlib.sha256(sp.read_bytes()).hexdigest()==previous_sha256.get(svg):replace_paths.add(svg)
+              else:print('Preserving existing owner/current source '+rel+';revised baseline is not silently forced over owner edits.')
+          exporter=Path('tools/export_app_content.py');text=exporter.read_text(encoding='utf-8')
+          marker='# DiplomaOne registration: DI05019021 mechanical semester 5'
+          updated=text
+          if marker not in text:
+              block="\n".join([
+                  marker,
+                  "if 'DI05019021' not in SUBJECTS:",
+                  "    SUBJECTS['DI05019021'] = ('Thermal Engineering - II', 'થર્મલ ઇજનેરી - II', 'Professional Core', 5, 'theory', None)",
+                  "_mechanical_sem5 = BRANCH_SEMS.setdefault('mechanical', {}).setdefault(5, [])",
+                  "if 'DI05019021' not in _mechanical_sem5:",
+                  "    _mechanical_sem5.append('DI05019021')",
+                  "",
+              ])
+              if 'FONT_MAP = [' not in text:raise SystemExit('Exporter layout changed; review registration manually.')
+              updated=text.replace('FONT_MAP = [',block+'\nFONT_MAP = [',1)
+              ast.parse(updated)
+          # All preflight checks occur before installing this subject.
+          for rel,value in planned.items():
+              p=Path(rel)
+              if p.is_absolute() or '..' in p.parts:raise SystemExit('Unsafe source path')
+              if p.exists() and p.read_text(encoding='utf-8')!=value and rel not in replace_paths:raise SystemExit('Source collision: '+rel)
+          for rel,value in planned.items():
+              p=Path(rel)
+              if not p.exists() or rel in replace_paths:
+                  p.parent.mkdir(parents=True,exist_ok=True);p.write_text(value,encoding='utf-8');manifest.append(rel)
+          if updated!=text:exporter.write_text(updated,encoding='utf-8');manifest.append(str(exporter))
+          manifest_path.write_text(json.dumps(sorted(set(manifest))),encoding='utf-8')
+          print('Thermal Engineering - II revision2 all five units ready;recognised revision1 baseline upgraded;owner edits preserved.')
+          PYCODE
+
+      - name: Install Semester 5 Manufacturing Engineering - III all five bilingual units and registration
+        shell: bash
+        run: |
+          python3 - <<'PYCODE'
+          from pathlib import Path
+          import base64,gzip,json,os,ast
+          payload = Path('tools/publisher_payloads/mechanical-sem5-manufacturing.b64').read_text(encoding='ascii').strip()
+          files=json.loads(gzip.decompress(base64.b64decode(payload)))
+          manifest_path=Path(os.environ['RUNNER_TEMP'])/'seeded_paths.json'
+          manifest=json.loads(manifest_path.read_text())
+          root=Path('content/mechanical/sem5/DI05019011')
+          planned={}
+          subject_rel=str(root/'subject.json')
+          subject=json.loads(Path(subject_rel).read_text() if Path(subject_rel).exists() else files[subject_rel])
+          if subject.get('code')!='DI05019011' or subject.get('branch')!='mechanical' or subject.get('semester')!=5:
+              raise SystemExit('Existing subject identity conflict; review without overwriting.')
+          if not Path(subject_rel).exists():planned[subject_rel]=files[subject_rel]
+          for n in range(1,6):
+              rel=str(root/f'unit{n}.json');p=Path(rel)
+              unit=json.loads(p.read_text() if p.exists() else files[rel])
+              if unit.get('subject')!='DI05019011' or unit.get('unit')!=n:raise SystemExit('Existing unit identity conflict: '+rel)
+              if any(set(q)!={'q','marks'} for q in unit.get('exam_questions',[])):raise SystemExit('Questions-only Exam policy conflict: '+rel)
+              if p.exists():print('Preserving existing '+rel)
+              else:
+                  planned[rel]=files[rel]
+                  for d in unit.get('diagrams',[]):
+                      svg=str(root/d['file'])
+                      if svg not in files:raise SystemExit('Missing diagram payload: '+svg)
+                      planned[svg]=files[svg]
+          exporter=Path('tools/export_app_content.py');text=exporter.read_text(encoding='utf-8')
+          marker='# DiplomaOne registration: DI05019011 mechanical semester 5'
+          updated=text
+          if marker not in text:
+              block="\n".join([
+                  marker,
+                  "if 'DI05019011' not in SUBJECTS:",
+                  "    SUBJECTS['DI05019011'] = ('Manufacturing Engineering - III', 'મેન્યુફેક્ચરિંગ ઇજનેરી - III', 'Professional Core', 5, 'theory', None)",
+                  "_mechanical_sem5 = BRANCH_SEMS.setdefault('mechanical', {}).setdefault(5, [])",
+                  "if 'DI05019011' not in _mechanical_sem5:",
+                  "    _mechanical_sem5.append('DI05019011')",
+                  "",
+              ])
+              if 'FONT_MAP = [' not in text:raise SystemExit('Exporter layout changed; review registration manually.')
+              updated=text.replace('FONT_MAP = [',block+'\nFONT_MAP = [',1)
+              ast.parse(updated)
+          # All preflight checks occur before installing this subject.
+          for rel,value in planned.items():
+              p=Path(rel)
+              if p.is_absolute() or '..' in p.parts:raise SystemExit('Unsafe source path')
+              if p.exists() and p.read_text(encoding='utf-8')!=value:raise SystemExit('Source collision: '+rel)
+          for rel,value in planned.items():
+              p=Path(rel)
+              if not p.exists():
+                  p.parent.mkdir(parents=True,exist_ok=True);p.write_text(value,encoding='utf-8');manifest.append(rel)
+          if updated!=text:exporter.write_text(updated,encoding='utf-8');manifest.append(str(exporter))
+          manifest_path.write_text(json.dumps(sorted(set(manifest))),encoding='utf-8')
+          print('Manufacturing Engineering - III all five units and registration ready; existing source preserved.')
           PYCODE
 
       - name: Export source content into staging

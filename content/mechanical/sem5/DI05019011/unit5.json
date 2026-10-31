@@ -1,0 +1,618 @@
+{
+  "subject": "DI05019011",
+  "unit": 5,
+  "title": {
+    "en": "Additive Manufacturing & Modern Trends",
+    "gu": "Additive Manufacturing અને Modern Trends"
+  },
+  "format": "notes",
+  "languages": [
+    "en",
+    "gu"
+  ],
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "hours": 8,
+  "weightage": 18,
+  "notes": [
+    {
+      "title": {
+        "en": "Introduction and classification",
+        "gu": "પરિચય અને Classification"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "5.1.1 AM definition and classification",
+            "gu": "5.1.1 AM Definition, Classification"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>Additive manufacturing builds a part from digital geometry by adding material, usually layer by layer, unlike removing stock in conventional machining.</p><h4>Understand the syllabus demand</h4><ul><li>Process families: material extrusion, vat photopolymerisation, powder-bed fusion, material jetting, binder jetting, directed energy deposition, sheet lamination.</li><li>Syllabus mapping: FDM→material extrusion; SLA→vat photopolymerisation; laser sintering/fusion→powder-bed family; WAAM→wire/arc directed energy deposition.</li><li>Benefits: complex geometry, customisation and fewer dedicated tools; limits: surface/anisotropy, supports, post-processing, qualification, build time and material cost.</li><li>AM is not automatically cheaper, stronger, zero-waste or suitable for every safety-critical part.</li></ul><details class=\"self-check\"><summary>Can every AM material run in the same printer?</summary><p>No. Match feedstock form, material chemistry, process, thermal history and required final properties.</p></details>",
+            "gu": "<h4>Definition / Principle</h4><p>AM digital geometryથી material ઉમેરતાં,સામાન્ય layer-by-layer part બનાવે; machiningમાં stock દૂર થાય.</p><h4>Syllabusની માંગ સમજીએ</h4><ul><li>Families material extrusion, vat photopolymerisation, powder-bed fusion, material jetting, binder jetting, directed energy deposition, sheet lamination.</li><li>Syllabus mapping FDM→extrusion; SLA→vat; laser sintering/fusion→powder-bed; WAAM→wire/arc DED.</li><li>Benefits complex geometry, customisation, dedicated tools ઓછાં; limits surface/anisotropy, supports, post-processing, qualification, time, cost.</li><li>AM હંમેશાં cheaper, stronger, zero-waste/દરેક safety-critical part માટે suitable નહિ.</li></ul><details class=\"self-check\"><summary>દરેક AM Material એક જ Printerમાં ચાલે?</summary><p>ના.Feed form, chemistry, process, thermal history અને required properties match કરવા જરૂરી છે.</p></details>"
+          },
+          "syllabus_item": "5.1",
+          "diagram": "u5_class"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "5.2 Principle,process chain,STL and materials",
+        "gu": "5.2 Principle,Process Chain,STL,Materials"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "5.2.1 AM process chain: from need to inspection",
+            "gu": "5.2.1 AM Process Chain: Needથી Inspection"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>The manufacturing chain includes preparation and verification, not only printer motion.</p><h4>Understand the syllabus demand</h4><ul><li>Application/requirements→CAD or validated scan reconstruction→design-for-AM and material/process choice.</li><li>Export suitable geometry, repair/check units, watertightness and features; choose orientation/supports and slice into layers.</li><li>Generate and review machine-compatible build instructions; operate only approved equipment procedures.</li><li>Remove/clean/support-release and complete required cure, heat treatment, machining or other post-processing.</li><li>Inspect dimensions, surface, internal integrity/material performance as required; update design/parameters from evidence.</li></ul>",
+            "gu": "<h4>Definition / Principle</h4><p>Chainમાં preparation, verification પણ,ફક્ત printer motion નહિ.</p><h4>Syllabusની માંગ સમજીએ</h4><ul><li>Requirements→CAD/validated scan reconstruction→DFAM, material/process choice.</li><li>Geometry export, units/watertight/features check; orientation/supports, slicing.</li><li>Machine-compatible instructions generate/review; approved proceduresથી operation.</li><li>Remove/clean/support-release, required cure/heat treatment/machining/post-process.</li><li>Required dimensions, surface, internal integrity/performance inspect; evidenceથી update.</li></ul>"
+          },
+          "syllabus_item": "5.2",
+          "diagram": "u5_chain"
+        },
+        {
+          "h": {
+            "en": "5.2.2 STL file format: concept and limits",
+            "gu": "5.2.2 STL File Format: Concept, Limits"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>STL approximates a boundary surface by triangular facets; it is not the toolpath or a complete manufacturing specification.</p><h4>Understand the syllabus demand</h4><ul><li>Facets contain vertices and orientation/normal information; binary and ASCII encodings exist.</li><li>Tessellation tolerance affects faceting, error and file size; fine triangles cannot repair an incorrect CAD design.</li><li>Common STL does not reliably encode engineering units, material, colour or exact analytic curves; units must be managed explicitly.</li><li>Check manifold/watertight boundary, holes, reversed normals, self-intersection and scale before slicing; an exported file can still be unprintable.</li></ul>",
+            "gu": "<h4>Definition / Principle</h4><p>STL triangular facetsથી boundary approximate કરે; toolpath/complete manufacturing spec નહિ.</p><h4>Syllabusની માંગ સમજીએ</h4><ul><li>Facets vertices, orientation/normal; binary/ASCII encodings.</li><li>Tolerance faceting, error, size બદલે; fine triangles wrong CAD repair નહિ કરે.</li><li>Common STL engineering units, material, colour, exact curves reliably encode નહિ; units explicit રાખો.</li><li>Manifold/watertight, holes, normals, self-intersection, scale check; exported file પણ unprintable હોઈ શકે.</li></ul>"
+          },
+          "syllabus_item": "5.2",
+          "diagram": "u5_stl"
+        },
+        {
+          "h": {
+            "en": "5.2.3 AM materials overview and selection",
+            "gu": "5.2.3 AM Materials Overview, Selection"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>Feedstock form, process and final performance must match; not every polymer or metal runs in every printer.</p><h4>Understand the syllabus demand</h4><ul><li>Thermoplastic filaments/pellets: FDM-compatible grades such as PLA, ABS and other approved polymers; temperature and moisture behaviour differ.</li><li>Photopolymer resins: SLA-compatible chemistry; cured properties differ from thermoplastic filament and require approved post-cure.</li><li>Powders: polymer/metal/ceramic feedstocks for compatible routes; particle size, flow, packing, reuse and contamination matter.</li><li>Wires: WAAM-compatible metal wire must suit welding metallurgy, gas, substrate and qualification.</li><li>Choose strength, temperature, chemical exposure, accuracy, finish, cost and applicable certification; build orientation and post-process can change properties.</li></ul>",
+            "gu": "<h4>Definition / Principle</h4><p>Feed form, process, performance match;દરેક polymer/metal દરેક printerમાં નહિ.</p><h4>Syllabusની માંગ સમજીએ</h4><ul><li>Thermoplastic filament/pellets PLA, ABS/approved polymers; temperature, moisture જુદાં.</li><li>Photopolymer resins SLA-compatible; cured properties filamentથી જુદી, approved post-cure જોઈએ.</li><li>Compatible powders polymer/metal/ceramic; size, flow, packing, reuse, contamination મહત્વનાં.</li><li>WAAM wire metallurgy, gas, substrate, qualification મુજબ.</li><li>Strength, temp, chemical, accuracy, finish, cost, certification; orientation/post-process properties બદલે.</li></ul>"
+          },
+          "syllabus_item": "5.2",
+          "diagram": "u5_materials"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "5.3 Polymer AM:FDM and SLA",
+        "gu": "5.3 Polymer AM:FDM અને SLA"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "5.3.1 Fused Deposition Modelling (FDM)",
+            "gu": "5.3.1 Fused Deposition Modelling (FDM)"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>Heated thermoplastic feedstock is extruded in controlled tracks that bond into successive layers.</p><h4>Classification / representative type</h4><ul><li>Family: material extrusion; filament-fed and pellet-fed variants exist. The common teaching example is filament-fed FDM.</li></ul><h4>Construction — part and purpose</h4><ol><li>Feed spool and drive gears meter compatible filament.</li><li>Hot end/heater and nozzle soften and extrude material.</li><li>Motion axes position nozzle and build platform along planned paths.</li><li>Build surface/platform supports initial layer; heating/enclosure depend on material and machine.</li><li>Controller executes sliced instructions including extrusion, travel and layer changes.</li><li>Cooling, guards, ventilation and sensing support temperature control and safe operation.</li></ol><h4>Working — sequence and reason</h4><ol><li>Validated geometry is oriented and sliced with suitable supports and material settings.</li><li>Drive feeds filament to the heated zone.</li><li>Nozzle deposits roads onto the build surface/previous layer.</li><li>Adjacent roads and layers bond while cooling; bond quality depends on thermal history.</li><li>Layer increment repeats the planned cross-sections until the shape is complete.</li><li>Approved removal/support finishing and inspection assess dimensions, bonding and defects.</li></ol><h4>Working parameters / controls</h4><ul><li>Nozzle/material temperature, layer height, road width, speed and cooling affect bonding, surface and time.</li><li>Orientation, infill, shells, supports and moisture affect stiffness, anisotropy, warping and porosity; no universal values are prescribed.</li></ul><h4>Applications / advantages</h4><p>Prototypes, custom jigs and suitable functional polymer parts; accessible tooling and material choices.</p><h4>Limitations / safety</h4><p>Layer anisotropy, stair steps, warping, thermal/fume hazards and support marks; printed strength must be qualified for the load.</p>",
+            "gu": "<h4>Definition / Principle</h4><p>Heated thermoplastic tracksમાં extrude થઈ successive layersમાં bond થાય.</p><h4>Classification / Representative Type</h4><ul><li>Family material extrusion; filament/pellet variants;અહીં common filament-fed.</li></ul><h4>Construction — ભાગ અને કામ</h4><ol><li>Feed spool અને drive gears compatible filamentને માપેલી માત્રામાં આગળ ધપાવે છે,જેથી extrusion માટે સતત feed મળે.</li><li>Hot end/heater filamentને soften કરે છે અને nozzle તેને નિયંત્રિત આકારમાં બહાર કાઢે છે.</li><li>Motion axes nozzle તથા build platformને planned paths મુજબ relative position આપે છે.</li><li>Build surface/platform શરૂઆતના layerને આધાર આપે છે. Heating અથવા enclosureની જરૂર material અને machine પર આધારિત છે.</li><li>Controller sliced instructions મુજબ extrusion,travel અને layer changesનો ક્રમ ચલાવે છે.</li><li>Cooling,guards,ventilation તથા sensing temperature control અને safe operationમાં મદદ કરે છે.</li></ol><h4>Working — ક્રમ અને કારણ</h4><ol><li>Validated geometry માટે orientation,supports અને material settings નક્કી કરીને slicing થાય છે,જેથી layersના paths મળે.</li><li>Drive filamentને heated zoneમાં પહોંચાડે છે,જ્યાં તે extrusion માટે જરૂરી soft સ્થિતિમાં આવે છે.</li><li>Nozzle build surface અથવા previous layer ઉપર materialની roads મૂકે છે;આ solid blockને કાપવાની પ્રક્રિયા નથી.</li><li>પાસપાસની roads તથા layers cooling દરમિયાન bond થાય છે. Bondની quality thermal history પર આધારિત રહે છે.</li><li>દરેક layer પછી height increment થાય છે અને planned cross-sections પુનરાવર્તિત થઈ સંપૂર્ણ shape બને છે.</li><li>મંજૂર removal તથા support finishing પછી dimensions,bonding અને defects તપાસાય છે;ફક્ત print complete થવું પૂરતું નથી.</li></ol><h4>Working Parameters / Controls</h4><ul><li>Temperature, layer height, road width, speed, cooling bonding/surface/time બદલે.</li><li>Orientation, infill, shells, supports, moisture stiffness, anisotropy, warp, porosity બદલે; universal values નહિ.</li></ul><h4>Applications / લાભ</h4><p>Prototypes, custom jigs, suitable functional polymer parts; accessible tooling/materials.</p><h4>મર્યાદાઓ / Safety</h4><p>Anisotropy, steps, warping, thermal/fume hazards, support marks; load માટે strength qualify.</p>"
+          },
+          "syllabus_item": "5.3",
+          "classification_first": true,
+          "construction_point_count": 6,
+          "working_point_count": 6,
+          "diagram": "u5_fdm"
+        },
+        {
+          "h": {
+            "en": "5.3.2 Stereolithography (SLA)",
+            "gu": "5.3.2 Stereolithography (SLA)"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>Light selectively cures a photopolymer resin layer into solid material.</p><h4>Classification / representative type</h4><ul><li>Family: vat photopolymerisation; laser-scanned SLA differs from projected-image DLP though both use photosensitive resin.</li></ul><h4>Construction — part and purpose</h4><ol><li>Resin vat contains process-compatible liquid photopolymer.</li><li>Build platform and Z motion position the part relative to the curing region.</li><li>Light source and scan optics selectively expose the layer in laser SLA.</li><li>Recoating/separation arrangement supplies a fresh controlled resin layer according to top-/bottom-up design.</li><li>Controller uses sliced cross-sections and support geometry.</li><li>Protected enclosure, approved wash/post-cure facilities and PPE/waste controls manage resin/light hazards.</li></ol><h4>Working — sequence and reason</h4><ol><li>Validated geometry is oriented, supported and sliced.</li><li>A controlled layer of resin occupies the exposure region.</li><li>Light initiates polymerisation in selected areas.</li><li>Platform/separation motion permits a new layer without damaging the partially formed part.</li><li>Repeated exposure bonds layers into the intended shape.</li><li>Approved washing, support removal and post-curing precede dimensional/property inspection.</li></ol><h4>Working parameters / controls</h4><ul><li>Exposure dose, layer thickness, scan pattern, resin state, orientation and separation forces affect cure and distortion.</li><li>Post-cure and ageing affect final properties; resin appearance alone does not establish cure or biocompatibility.</li></ul><h4>Applications / advantages</h4><p>Fine-feature prototypes, patterns and qualified resin parts needing good surface detail.</p><h4>Limitations / safety</h4><p>Resin skin/eye hazards, uncured residue, limited material behaviour, supports and UV/light hazards; no home chemical-handling recipe.</p>",
+            "gu": "<h4>Definition / Principle</h4><p>Light photopolymer resinને selectively cure કરી solid layer બનાવે.</p><h4>Classification / Representative Type</h4><ul><li>Family vat photopolymerisation; laser SLA, projected DLPથી જુદું, both resin.</li></ul><h4>Construction — ભાગ અને કામ</h4><ol><li>Resin vatમાં process-compatible liquid photopolymer રહે છે;સામાન્ય thermoplastic filament અહીંનો feedstock નથી.</li><li>Build platform અને Z motion curing region સામે partનું સ્થાન નિયંત્રિત કરે છે.</li><li>Laser SLAમાં light source અને scan optics layerના પસંદ કરેલા વિસ્તારોને expose કરે છે.</li><li>Top-/bottom-up design મુજબ recoating/separation arrangement નવા controlled resin layer માટે જગ્યા અને resin આપે છે.</li><li>Controller sliced cross-sections અને support geometry મુજબ exposure તથા motionનો ક્રમ સંભાળે છે.</li><li>Protected enclosure,approved wash/post-cure facilities તથા PPE/waste controls resin અને lightના hazards સંભાળે છે.</li></ol><h4>Working — ક્રમ અને કારણ</h4><ol><li>Validated geometryને orient કરી યોગ્ય supports આપ્યા પછી slices બનાવાય છે.</li><li>Exposure regionમાં controlled resin layer આવે છે,જેથી ઇચ્છિત thicknessના materialને cure કરી શકાય.</li><li>Light પસંદ કરેલા વિસ્તારોમાં polymerisation શરૂ કરે છે અને liquid resinનો તે ભાગ solid બને છે.</li><li>Platform/separation motion partially formed partને નુકસાન કર્યા વગર આગળના layer માટે જગ્યા બનાવે છે.</li><li>Repeated exposureથી નવા layers અગાઉના layers સાથે bond થઈ ઇચ્છિત shape બનાવે છે.</li><li>મંજૂર washing,support removal અને post-curing પૂર્ણ થયા પછી dimensions તથા propertiesની તપાસ થાય છે.</li></ol><h4>Working Parameters / Controls</h4><ul><li>Dose, layer thickness, scan, resin, orientation, separation forces cure/distortion બદલે.</li><li>Post-cure, ageing properties બદલે; appearanceથી cure/biocompatibility prove નહિ.</li></ul><h4>Applications / લાભ</h4><p>Fine-feature prototypes, patterns, qualified resin parts.</p><h4>મર્યાદાઓ / Safety</h4><p>Resin hazards, residue, material limits, supports, light hazards; home recipe નહિ.</p>"
+          },
+          "syllabus_item": "5.3",
+          "classification_first": true,
+          "construction_point_count": 6,
+          "working_point_count": 6,
+          "diagram": "u5_sla"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "5.4 Metal AM:source SLS and WAAM",
+        "gu": "5.4 Metal AM:Source SLS અને WAAM"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "5.4.1 SLS naming: read the syllabus without mixing materials",
+            "gu": "5.4.1 SLS Naming: Materials ન ભેળવો"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>The source places Selective Laser Sintering under Metal AM; that label needs context rather than silently teaching a nylon printer as a metal process.</p><h4>Understand the syllabus demand</h4><ul><li>SLS commonly names polymer powder-bed laser sintering; metal routes are often described as metal laser powder-bed fusion, DMLS/SLM or legacy metal laser-sintering terminology.</li><li>Powder-bed laser principle is shared, but material, thermal behaviour, atmosphere, supports and post-processing differ.</li><li>Direct metal laser routes may melt powder; indirect/binder-assisted routes can need debinding, sintering/infiltration. The word sintering alone does not prove every metal particle remained solid.</li><li>Answer5.4with the stated metal context and explain the actual mechanism; do not claim ordinary polymer SLS makes dense metal parts.</li></ul>",
+            "gu": "<h4>Definition / Principle</h4><p>Source SLSને Metal AMમાં મૂકે છે; context જોઈએ, nylon printerને metal process ન શીખવો.</p><h4>Syllabusની માંગ સમજીએ</h4><ul><li>SLS સામાન્ય polymer laser sintering; metalમાં laser powder-bed fusion, DMLS/SLM/legacy metal-sintering terminology.</li><li>Principle shared,પણ material, thermal behaviour, atmosphere, supports, post-process જુદાં.</li><li>Direct metalમાં powder melt થઈ શકે; indirect/binderમાં debind, sinter/infiltrate;સિન્ટરિંગ શબ્દથી દરેક particle solid રહ્યો prove નહિ.</li><li>5.4માં metal context, actual mechanism લખો; ordinary polymer SLS dense metal part બનાવે એવો દાવો નહિ.</li></ul>"
+          },
+          "syllabus_item": "5.4",
+          "diagram": "u5_slsnote"
+        },
+        {
+          "h": {
+            "en": "5.4.2 Metal laser powder-bed route (source metal SLS context)",
+            "gu": "5.4.2 Metal Laser Powder-bed Route (Source Metal SLS Context)"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>A laser selectively bonds/fuses compatible powder cross-sections; the actual metal route must state direct fusion or indirect post-sintering requirements.</p><h4>Classification / representative type</h4><ul><li>Family: powder-bed fusion for the representative direct laser metal route; polymer SLS and indirect metal routes are not identical specifications.</li></ul><h4>Construction — part and purpose</h4><ol><li>Compatible metal powder supply and build chamber contain feedstock.</li><li>Recoater spreads a controlled powder layer across the build area.</li><li>Laser, scan optics and focus control deliver local energy.</li><li>Build plate/platform and Z movement establish successive layers.</li><li>Controlled atmosphere, filtration and thermal management limit oxidation and transport emissions as designed.</li><li>Support structures where required, monitoring, contained powder handling and post-process facilities support the qualified route.</li></ol><h4>Working — sequence and reason</h4><ol><li>Validated geometry is oriented and sliced with process-appropriate supports/allowances.</li><li>A thin powder layer is spread with controlled uniformity.</li><li>Laser scans selected cross-section and bonds/fuses material by the actual approved route.</li><li>Platform changes height and recoating supplies the next layer.</li><li>Layers accumulate; thermal history and scan strategy influence stress, porosity and distortion.</li><li>Contained powder removal and required stress relief/support removal/finishing/inspection complete the part—not the build alone.</li></ol><h4>Working parameters / controls</h4><ul><li>Laser energy/scan speed, hatch spacing, layer thickness, powder quality, atmosphere and preheat affect density and geometry.</li><li>Energy density is only a simplified descriptor; equal nominal values do not guarantee equal melt stability or properties.</li></ul><h4>Applications / advantages</h4><p>Complex qualified metal parts, conformal-channel tooling and weight-optimised designs.</p><h4>Limitations / safety</h4><p>Cost, powder/fire/inhalation hazards, residual stress, supports, build size and qualification; no powder handling or laser operating procedure is given.</p>",
+            "gu": "<h4>Definition / Principle</h4><p>Laser compatible powder sections bond/fuse કરે; direct fusion/indirect post-sintering requirements સ્પષ્ટ રાખો.</p><h4>Classification / Representative Type</h4><ul><li>Representative direct laser metal family powder-bed fusion; polymer SLS, indirect metal same specifications નહિ.</li></ul><h4>Construction — ભાગ અને કામ</h4><ol><li>Compatible metal powder supply તથા build chamber feedstockને નિયંત્રિત વિસ્તારમાં રાખે છે;polymer powderને metal feed ન માનવો.</li><li>Recoater build areaમાં નિયંત્રિત powder layer ફેલાવે છે,જેથી laserને સમાન પ્રકારનો layer મળે.</li><li>Laser,scan optics અને focus control પસંદ કરેલા નાના વિસ્તારમાં જરૂરી energy પહોંચાડે છે.</li><li>Build plate/platform તથા Z movement successive layersની ઊંચાઈ અને આધાર નક્કી કરે છે.</li><li>Controlled atmosphere,filtration અને thermal management design મુજબ oxidation તથા emissions નિયંત્રિત કરે છે.</li><li>જરૂરી support structures,monitoring,contained powder handling અને post-process facilities સંપૂર્ણ qualified routeને આધાર આપે છે.</li></ol><h4>Working — ક્રમ અને કારણ</h4><ol><li>Validated geometryને actual process માટે યોગ્ય supports અને allowances સાથે orient તથા slice કરવામાં આવે છે.</li><li>નિયંત્રિત uniformity ધરાવતો thin powder layer build areaમાં ફેલાવવામાં આવે છે.</li><li>Laser selected cross-section scan કરે છે અને actual approved route મુજબ powderને bond/fuse કરે છે;mechanism સ્પષ્ટ રાખવું જરૂરી છે.</li><li>Platformની height બદલાય છે અને recoating આગળના layer માટે powder આપે છે.</li><li>Layers એકત્ર થતાં shape બને છે. Thermal history તથા scan strategy residual stress,porosity અને distortionને અસર કરે છે.</li><li>Contained powder removal અને જરૂરી stress relief,support removal,finishing તથા inspectionથી part પૂર્ણ થાય છે;ફક્ત buildથી નહિ.</li></ol><h4>Working Parameters / Controls</h4><ul><li>Energy/speed, hatch, layer, powder, atmosphere, preheat density/geometry બદલે.</li><li>Energy density simplified descriptor; same valueથી same stability/properties guarantee નહિ.</li></ul><h4>Applications / લાભ</h4><p>Complex qualified metal parts, conformal-channel tooling, weight-optimised designs.</p><h4>મર્યાદાઓ / Safety</h4><p>Cost, powder/fire/inhalation hazards, stress, supports, size, qualification; handling/laser procedure નહિ.</p>"
+          },
+          "syllabus_item": "5.4",
+          "classification_first": true,
+          "construction_point_count": 6,
+          "working_point_count": 6,
+          "diagram": "u5_sls"
+        },
+        {
+          "h": {
+            "en": "5.4.3 Wire Arc Additive Manufacturing (WAAM)",
+            "gu": "5.4.3 Wire Arc Additive Manufacturing (WAAM)"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>An electric arc melts supplied metal wire to deposit beads that build a near-net component.</p><h4>Classification / representative type</h4><ul><li>Family: wire/arc directed energy deposition; arc variants follow suitable GMAW/GTAW/plasma-based arrangements rather than one universal torch.</li></ul><h4>Construction — part and purpose</h4><ol><li>Compatible metal wire spool/feeder supplies deposition material.</li><li>Arc power source and torch provide controlled melting.</li><li>Robot/gantry manipulates torch and/or substrate along planned paths.</li><li>Substrate/build fixture resists thermal loads and provides initial support.</li><li>Shielding and interpass thermal management limit oxidation and overheating.</li><li>Monitoring, enclosure/extraction and finishing/inspection facilities complete the cell.</li></ol><h4>Working — sequence and reason</h4><ol><li>Geometry is converted to suitable bead/layer paths with allowance for finishing.</li><li>Wire reaches the arc zone and melts.</li><li>Molten metal forms a bead on the substrate/previous layer.</li><li>Controlled travel and wire delivery establish bead size/overlap.</li><li>Layer changes and interpass thermal control accumulate shape without uncontrolled heat build-up.</li><li>Cooling, required heat treatment/machining and inspection establish final properties/dimensions.</li></ol><h4>Working parameters / controls</h4><ul><li>Current/voltage, wire feed, travel speed, bead overlap, layer height, gas and interpass temperature affect geometry/metallurgy.</li><li>Robot path, heat input and restraint affect residual stress/distortion; settings require qualification, not classroom guesswork.</li></ul><h4>Applications / advantages</h4><p>Large near-net metal structures/repair/build-up where deposition productivity and machining allowance suit the part.</p><h4>Limitations / safety</h4><p>Coarser beads/surface, thermal distortion, metallurgical defects, welding radiation/fumes and subsequent machining; not a finished-precision surface by default.</p>",
+            "gu": "<h4>Definition / Principle</h4><p>Electric arc wire melt કરી beads deposit કરે, near-net component બનાવે.</p><h4>Classification / Representative Type</h4><ul><li>Family wire/arc DED; GMAW/GTAW/plasma-based variants,એક universal torch નહિ.</li></ul><h4>Construction — ભાગ અને કામ</h4><ol><li>Compatible metal wire spool/feeder deposition માટે જરૂરી wireને નિયંત્રિત રીતે પહોંચાડે છે.</li><li>Arc power source અને torch wireને નિયંત્રિત રીતે melt કરવા energy આપે છે.</li><li>Robot/gantry planned paths મુજબ torch અને/અથવા substrateનું relative motion ચલાવે છે.</li><li>Substrate/build fixture શરૂઆતનો આધાર આપે છે અને processના thermal loads સહન કરે છે.</li><li>Shielding તથા interpass thermal management oxidation અને overheating ઘટાડવામાં મદદ કરે છે.</li><li>Monitoring,enclosure/extraction તથા finishing/inspection facilities મળીને સંપૂર્ણ cell બનાવે છે.</li></ol><h4>Working — ક્રમ અને કારણ</h4><ol><li>Geometryને suitable bead/layer pathsમાં ફેરવાય છે અને પછીની finishing માટે જરૂરી allowance રાખવામાં આવે છે.</li><li>Wire arcના વિસ્તારમાં પહોંચે છે અને arcની ગરમીથી પીગળે છે.</li><li>Molten metal substrate અથવા previous layer પર bead તરીકે જમા થાય છે.</li><li>Controlled travel તથા wire delivery beadનું size અને overlap નક્કી કરે છે.</li><li>Layer changes તથા interpass thermal controlથી uncontrolled heat build-up ઘટાડીને shape એકત્ર કરવામાં આવે છે.</li><li>Cooling પછી જરૂરી heat treatment,machining અને inspection દ્વારા final properties તથા dimensions સ્થાપિત થાય છે.</li></ol><h4>Working Parameters / Controls</h4><ul><li>Current/voltage, wire feed, travel, overlap, height, gas, interpass geometry/metallurgy બદલે.</li><li>Path, heat input, restraint stress/distortion બદલે; qualified settings જોઈએ.</li></ul><h4>Applications / લાભ</h4><p>Suitable large near-net structures/repair/build-up.</p><h4>મર્યાદાઓ / Safety</h4><p>Coarse beads/surface, distortion, defects, radiation/fumes, machining; default precision finish નહિ.</p>"
+          },
+          "syllabus_item": "5.4",
+          "classification_first": true,
+          "construction_point_count": 6,
+          "working_point_count": 6,
+          "diagram": "u5_waam"
+        },
+        {
+          "h": {
+            "en": "5.4.4 Selecting FDM, SLA, powder-bed or WAAM",
+            "gu": "5.4.4 FDM, SLA, Powder-bed, WAAM Selection"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>Start with part requirements, material and inspection responsibility before choosing a familiar machine.</p><h4>Understand the syllabus demand</h4><ul><li>Low-cost polymer fit prototype: FDM may suit; fine resin detail/pattern: SLA may suit, subject to resin properties.</li><li>Complex qualified metal channels: metal powder-bed route may suit; large near-net metal form: WAAM may suit if finishing/heat control are acceptable.</li><li>Compare required accuracy, load/environment, build size, orientation, supports, post-processing, lead time, total cost and safety.</li><li>Neither an STL nor nominal material datasheet proves a printed part is structurally or medically qualified.</li></ul>",
+            "gu": "<h4>Definition / Principle</h4><p>Part requirements, material, inspection responsibilityથી શરૂઆત.</p><h4>Syllabusની માંગ સમજીએ</h4><ul><li>Low-cost polymer fit prototype FDM; fine resin detail/pattern SLA, properties મુજબ.</li><li>Complex metal channels powder-bed; large near-net form WAAM જો finishing/heat control acceptable.</li><li>Accuracy, load/environment, size, orientation, supports, post-process, time, total cost, safety compare.</li><li>STL/nominal datasheetથી printed part structural/medical qualification prove નહિ.</li></ul>"
+          },
+          "syllabus_item": "5.4",
+          "diagram": "u5_select"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "5.5 Industry4.0 and smart manufacturing",
+        "gu": "5.5 Industry4.0 અને Smart Manufacturing"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "5.5.1 Industry4.0: definition and manufacturing meaning",
+            "gu": "5.5.1 Industry4.0: Definition, Manufacturing Meaning"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>Industry4.0 is connected, data-driven production in which physical equipment and digital systems exchange information for coordinated monitoring and decisions.</p><h4>Understand the syllabus demand</h4><ul><li>Cyber-physical integration links measured physical state with computational models, control and people; it is more than installing a computer beside a machine.</li><li>Example: machine condition and quality records inform maintenance and scheduling through validated data links; local safeguards remain responsible for safe machine behaviour.</li><li>Choose technologies for a defined quality, delivery, flexibility or resource-use problem; measure benefit, security and reliability rather than treating connectivity as an end in itself.</li></ul>",
+            "gu": "<h4>Definition / Principle</h4><p>Industry4.0માં physical equipment અને digital systems data exchange કરે છે,જેથી productionનું monitoring તથા decisions coordinated અને data-driven બને છે.</p><h4>Syllabusની માંગ સમજીએ</h4><ul><li>Cyber-physical integration measured physical stateને models, control અને લોકો સાથે જોડે છે; machine પાસે computer મુકવો એટલું જ નહિ.</li><li>Exampleમાં machine condition તથા quality recordsના validated links maintenance/schedulingને માહિતી આપે છે; safe machine behaviour માટે local safeguards રહે છે.</li><li>Quality, delivery, flexibility અથવા resource-use problem માટે technology પસંદ કરો; benefit, security, reliability માપો,ફક્ત connectivityને goal ન માનો.</li></ul>"
+          },
+          "syllabus_item": "5.5",
+          "diagram": "u5_iot"
+        },
+        {
+          "h": {
+            "en": "5.5.2 Four industrial revolutions",
+            "gu": "5.5.2 ચાર Industrial Revolutions"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>The stages describe broad changes in production capability, not exact universal transition dates for every factory.</p><h4>Understand the syllabus demand</h4><ul><li>First: mechanisation with water/steam power.</li><li>Second: electrical power, mass production and division of labour.</li><li>Third: electronics, computers and programmable automation.</li><li>Fourth: connected cyber-physical systems, data-driven coordination and intelligent manufacturing; older/newer systems often coexist.</li></ul>",
+            "gu": "<h4>Definition / Principle</h4><p>Stages broad production changes છે,દરેક factoryની exact dates નહિ.</p><h4>Syllabusની માંગ સમજીએ</h4><ul><li>First water/steamથી mechanisation.</li><li>Second electrical power, mass production, labour division.</li><li>Third electronics, computers, programmable automation.</li><li>Fourth connected cyber-physical, data-driven coordination, intelligent manufacturing;જૂનું-નવું coexist કરે.</li></ul>"
+          },
+          "syllabus_item": "5.5",
+          "diagram": "u5_revolutions"
+        },
+        {
+          "h": {
+            "en": "5.5.3 Nine pillars: awareness with examples",
+            "gu": "5.5.3 Nine Pillars: Examples સાથે Awareness"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>A commonly taught nine-pillar framework groups enabling technologies; it is not a claim that every factory must buy all nine immediately.</p><h4>Understand the syllabus demand</h4><ul><li>Big data/analytics: find patterns in process/quality records; autonomous robots: adaptable automated handling/processing.</li><li>Simulation: test plans virtually; horizontal/vertical integration: link suppliers, production functions and business levels.</li><li>Industrial IoT: connected sensing/devices; cybersecurity: protect data, access and operational continuity.</li><li>Cloud: scalable computing/data services; additive manufacturing: digital material addition; augmented reality: contextual digital information over a real task.</li><li>AI is introduced separately in this syllabus and can support several pillars; do not silently replace one of the named nine with AI.</li></ul>",
+            "gu": "<h4>Definition / Principle</h4><p>Common nine-pillar framework enabling technologies group કરે;દરેક factoryએ તરત બધી ખરીદવી જરૂરી નહિ.</p><h4>Syllabusની માંગ સમજીએ</h4><ul><li>Big data/analytics process/quality patterns; autonomous robots adaptable handling/processing.</li><li>Simulation virtual tests; horizontal/vertical integration suppliers, functions, business levels જોડે.</li><li>Industrial IoT connected sensing/devices; cybersecurity data, access, continuity protect.</li><li>Cloud scalable compute/data; AM digital material addition; AR real task પર contextual digital info.</li><li>AI syllabusમાં અલગ intro,અનેક pillars support કરે; named nineમાં કોઈને silently replace નહિ.</li></ul>"
+          },
+          "syllabus_item": "5.5",
+          "diagram": "u5_pillars"
+        },
+        {
+          "h": {
+            "en": "5.5.4 IoT in manufacturing: signal and decision chain",
+            "gu": "5.5.4 Manufacturing IoT: Signal, Decision Chain"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>Industrial IoT connects physical measurements and machine status to meaningful monitoring and decisions.</p><h4>Understand the syllabus demand</h4><ul><li>Smart sensor measures a quantity and may condition/digitise it; calibration, units, sampling and uncertainty still matter.</li><li>Connectivity/gateway transfers identified, time-stamped data using suitable protocols; networking alone does not create useful information.</li><li>Data platform/dashboard contextualises machine, job and operating mode; real-time means meeting the application latency, not zero delay.</li><li>Example: vibration/temperature trends flag abnormal machine behaviour; maintenance decisions need validated limits and investigation.</li><li>Access control, segmentation, updates, data quality and safe response to lost connectivity protect production; remote data must not bypass local safeguards.</li></ul>",
+            "gu": "<h4>Definition / Principle</h4><p>Industrial IoT physical measurements, machine statusને monitoring, decisions સાથે જોડે.</p><h4>Syllabusની માંગ સમજીએ</h4><ul><li>Smart sensor quantity measure, condition/digitise કરી શકે; calibration, units, sampling, uncertainty જરૂરી.</li><li>Connectivity/gateway identified, time-stamped data આપે;ફક્ત networking useful info નહિ.</li><li>Platform/dashboard machine, job, mode context આપે; real-time required latency, zero delay નહિ.</li><li>Vibration/temp trends abnormal behaviour બતાવે; decisions માટે validated limits, investigation.</li><li>Access, segmentation, updates, data quality, connectivity-loss response production protect; remote data local safeguards bypass નહિ.</li></ul>"
+          },
+          "syllabus_item": "5.5",
+          "diagram": "u5_iot"
+        },
+        {
+          "h": {
+            "en": "5.5.5 Digital twin versus physical system and digital model",
+            "gu": "5.5.5 Digital Twin સામે Physical System, Digital Model"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>A digital twin is a purpose-specific digital representation linked to physical-system data and maintained for its intended decisions.</p><h4>Understand the syllabus demand</h4><ul><li>Physical system is the actual machine/line/part with real loads, wear and uncertainty.</li><li>A standalone CAD/simulation model can exist without ongoing physical data; not every3Dmodel is a twin.</li><li>Twin combines model, data links, state updates and validation; automatic bidirectional control is optional and must be specifically engineered.</li><li>Applications: virtual commissioning, maintenance diagnosis, capacity experiments, process optimisation and traceability where supported by reliable data.</li><li>Limitations: model mismatch, sensor errors, latency, cost and cybersecurity; always compare predictions with evidence for the intended use.</li></ul>",
+            "gu": "<h4>Definition / Principle</h4><p>Digital twin physical-system data સાથે linked, purpose-specific maintained digital representation.</p><h4>Syllabusની માંગ સમજીએ</h4><ul><li>Physical system actual machine/line/part, real loads, wear, uncertainty.</li><li>Standalone CAD/simulation ongoing data વગર;દરેક3Dmodel twin નહિ.</li><li>Twin model, data links, state updates, validation જોડે; automatic bidirectional control optional, engineered.</li><li>Applications virtual commissioning, diagnosis, capacity experiments, optimisation, traceability.</li><li>Limits model mismatch, sensor error, latency, cost, cybersecurity; predictions evidence સાથે compare.</li></ul>"
+          },
+          "syllabus_item": "5.5",
+          "diagram": "u5_twin"
+        },
+        {
+          "h": {
+            "en": "5.5.6 AI: defect detection, predictive maintenance, optimisation",
+            "gu": "5.5.6 AI: Defects, Maintenance, Optimisation"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>AI models learn/use patterns to assist manufacturing decisions; performance must be validated for the actual operating domain.</p><h4>Understand the syllabus demand</h4><ul><li>Defect detection: images/sensor data classify anomalies; false accepts/false rejects, label quality, lighting and product changes affect reliability.</li><li>Predictive maintenance: condition trends estimate failure risk or remaining service; it differs from merely alarming on a current high temperature.</li><li>Process optimisation: models suggest settings/schedules within material, machine, quality and safety constraints; objective functions can conflict.</li><li>Workflow: data collection→clean/label→train/validate→deploy with monitoring→review drift and retrain as justified.</li><li>Human oversight, traceability and safe fallback remain essential; AI is not proof of zero defects or permission to override interlocks.</li></ul><details class=\"self-check\"><summary>Is every standalone3Dmodel a digital twin?</summary><p>No. A twin needs purpose-specific linkage to physical data, state updates and validation; automatic closed-loop control is not assumed.</p></details>",
+            "gu": "<h4>Definition / Principle</h4><p>AI patternsથી decisions assist કરે; actual domainમાં validation જોઈએ.</p><h4>Syllabusની માંગ સમજીએ</h4><ul><li>Defect detection images/sensorsથી; false accept/reject, labels, lighting, product changes reliability બદલે.</li><li>Predictive maintenance trendsથી failure risk/remaining service; current high-temp alarmથી જુદું.</li><li>Optimisation constraintsમાં settings/schedules suggest કરે; objectives conflict થઈ શકે.</li><li>Workflow data→clean/label→train/validate→monitored deploy→drift/retrain.</li><li>Human oversight, traceability, safe fallback જરૂરી; AI zero-defects proof/interlock override permission નહિ.</li></ul><details class=\"self-check\"><summary>દરેક Standalone3Dmodel Digital Twin છે?</summary><p>ના.Twin માટે purpose-specific physical data linkage, state updates, validation જોઈએ; automatic closed-loop control માની લેવાતું નથી.</p></details>"
+          },
+          "syllabus_item": "5.5",
+          "diagram": "u5_ai"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Practical guide — planning,not fabricated observations",
+        "gu": "Practical Guide — Planning,ખોટી Observations નહિ"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "5.6.1 CAD, slicing and AM job —6hours",
+            "gu": "5.6.1 CAD, Slicing, AM Job —6Hours"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>Plan a simple approved AM job and record only genuine execution/inspection evidence. No printed product is claimed by these notes.</p><h4>Understand the syllabus demand</h4><ul><li>Define application, dimensions, fit/load/environment and acceptance needs; select suitable process/material with reasons.</li><li>Create CAD using software or validated3Dscanner reconstruction; check scale, missing surfaces and geometry before export.</li><li>Export/check STL or supported format; verify units, watertightness, orientation and tessellation rather than assuming the file is valid.</li><li>In slicer choose supported machine/material profile, orientation, layer plan, infill/shells and supports; preview paths and predicted time/material.</li><li>State why material suits the application; compare required performance with orientation, moisture, thermal history and post-processing limits.</li><li>Produce only through supervised approved printer procedures, ventilation and safe hot/moving-part controls; record actual machine/profile, job status and deviations.</li><li>After approved removal/finishing, inspect actual dimensions, surface, bonding and defects; compare prediction with observation without inventing print time or strength.</li><li>Report CAD/version, export/slicer settings basis, material justification, actual build evidence, inspection and limitations; if not executed, mark planned—not completed.</li></ul>",
+            "gu": "<h4>Definition / Principle</h4><p>Simple approved AM job plan કરો;ફક્ત actual execution/inspection evidence લખો.આ notes કોઈ product print થયાનો દાવો કરતી નથી.</p><h4>Syllabusની માંગ સમજીએ</h4><ul><li>Application, dimensions, fit/load/environment, acceptance નક્કી; reasoned process/material select.</li><li>Software CAD/validated3Dscanner reconstruction; export પહેલાં scale, missing surfaces, geometry check.</li><li>Export પછી units, watertightness, orientation, tessellation verify; file automatically valid નહિ.</li><li>Slicerમાં supported machine/material profile, orientation, layers, infill/shells, supports; paths, predicted time/material preview.</li><li>Material કેમ યોગ્ય સમજાવો; orientation, moisture, thermal history, post-process limits સાથે performance compare.</li><li>Approved supervised procedures, ventilation, hot/moving-part safetyથી produce; actual machine/profile, status, deviations record.</li><li>Approved removal/finish પછી dimensions, surface, bonding, defects inspect; predicted/observed compare, time/strength invent નહિ.</li><li>CAD/version, export/slicer basis, material reason, build evidence, inspection, limitations report; execute ન થયું હોય તો planned લખો.</li></ul>"
+          },
+          "syllabus_item": "PrO.5"
+        },
+        {
+          "h": {
+            "en": "5.6.2 Portfolio activities and evidence",
+            "gu": "5.6.2 Portfolio Activities, Evidence"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>The source suggests group activity reports of about5pages; attach only genuine work/source evidence.</p><h4>Understand the syllabus demand</h4><ul><li>Design a simple CAD model and use supervised3Dprinting when available; otherwise mark the exercise planned.</li><li>Prepare an Industry4.0/smart-manufacturing chart/model showing the data and decision chain.</li><li>Compare conventional and additive manufacture for the same defined part and requirements.</li><li>Prepare a sourced report/presentation on current WAAM/metal-AM trends; date sources and distinguish commercial claims from measured results.</li></ul>",
+            "gu": "<h4>Definition / Principle</h4><p>Source group reports આશરે5pages સૂચવે છે;ફક્ત genuine work/source evidence જોડો.</p><h4>Syllabusની માંગ સમજીએ</h4><ul><li>Simple CAD model, supported supervised3Dprinting કરો;ઉપલબ્ધ ન હોય તો planned લખો.</li><li>Industry4.0/smart-manufacturing chart/modelમાં data/decision chain બતાવો.</li><li>Same defined part/requirements માટે conventional, AM compare કરો.</li><li>WAAM/metal-AM trends પર sourced report/presentation; source dates, claims/measured results અલગ રાખો.</li></ul>"
+          },
+          "syllabus_item": "Student activities"
+        }
+      ]
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "u5_class",
+      "title": {
+        "en": "AM classification:map the syllabus processes",
+        "gu": "AM Definition, Classification"
+      },
+      "file": "diagrams/u5_class.svg"
+    },
+    {
+      "id": "u5_chain",
+      "title": {
+        "en": "AM process chain:requirements through verification",
+        "gu": "AM Process Chain: Needથી Inspection"
+      },
+      "file": "diagrams/u5_chain.svg"
+    },
+    {
+      "id": "u5_stl",
+      "title": {
+        "en": "STL:triangulated boundary approximation",
+        "gu": "STL File Format: Concept, Limits"
+      },
+      "file": "diagrams/u5_stl.svg"
+    },
+    {
+      "id": "u5_materials",
+      "title": {
+        "en": "AM material/feedstock overview",
+        "gu": "AM Materials Overview, Selection"
+      },
+      "file": "diagrams/u5_materials.svg"
+    },
+    {
+      "id": "u5_fdm",
+      "title": {
+        "en": "FDM:feed,hot end,nozzle,motion and layered roads",
+        "gu": "Fused Deposition Modelling (FDM)"
+      },
+      "file": "diagrams/u5_fdm.svg"
+    },
+    {
+      "id": "u5_sla",
+      "title": {
+        "en": "SLA:selective photopolymer curing in a resin vat",
+        "gu": "Stereolithography (SLA)"
+      },
+      "file": "diagrams/u5_sla.svg"
+    },
+    {
+      "id": "u5_slsnote",
+      "title": {
+        "en": "SLS wording:keep material/mechanism distinctions explicit",
+        "gu": "SLS Naming: Materials ન ભેળવો"
+      },
+      "file": "diagrams/u5_slsnote.svg"
+    },
+    {
+      "id": "u5_sls",
+      "title": {
+        "en": "Qualified metal laser powder-bed route:source metal SLS context",
+        "gu": "Metal Laser Powder-bed Route (Source Metal SLS Context)"
+      },
+      "file": "diagrams/u5_sls.svg"
+    },
+    {
+      "id": "u5_waam",
+      "title": {
+        "en": "WAAM:wire/arc beads,substrate and motion control",
+        "gu": "Wire Arc Additive Manufacturing (WAAM)"
+      },
+      "file": "diagrams/u5_waam.svg"
+    },
+    {
+      "id": "u5_select",
+      "title": {
+        "en": "AM selection:requirements before machine preference",
+        "gu": "FDM, SLA, Powder-bed, WAAM Selection"
+      },
+      "file": "diagrams/u5_select.svg"
+    },
+    {
+      "id": "u5_iot",
+      "title": {
+        "en": "Manufacturing IoT:measurement to useful decision",
+        "gu": "Industry4.0: Definition, Manufacturing Meaning"
+      },
+      "file": "diagrams/u5_iot.svg"
+    },
+    {
+      "id": "u5_revolutions",
+      "title": {
+        "en": "Four industrial revolutions:capability changes",
+        "gu": "ચાર Industrial Revolutions"
+      },
+      "file": "diagrams/u5_revolutions.svg"
+    },
+    {
+      "id": "u5_pillars",
+      "title": {
+        "en": "Common nine-pillar Industry4.0 framework",
+        "gu": "Nine Pillars: Examples સાથે Awareness"
+      },
+      "file": "diagrams/u5_pillars.svg"
+    },
+    {
+      "id": "u5_twin",
+      "title": {
+        "en": "Digital twin:linked representation,not merely a CAD picture",
+        "gu": "Digital Twin સામે Physical System, Digital Model"
+      },
+      "file": "diagrams/u5_twin.svg"
+    },
+    {
+      "id": "u5_ai",
+      "title": {
+        "en": "AI in manufacturing:task,output and validation",
+        "gu": "AI: Defects, Maintenance, Optimisation"
+      },
+      "file": "diagrams/u5_ai.svg"
+    }
+  ],
+  "programs": [],
+  "syntax": [
+    {
+      "title": {
+        "en": "Quick reference",
+        "gu": "Quick Reference"
+      },
+      "items": [
+        {
+          "name": {
+            "en": "AM and smart-manufacturing map",
+            "gu": "AM, Smart-manufacturing Map"
+          },
+          "f": "FDM:material extrusion;SLA:vat photopolymerisation\nMetal laser route:qualified powder-bed fusion\nWAAM:wire/arc DED\nIoT:data link;Twin:validated linked representation",
+          "terms": {
+            "en": "Terminology and process qualification matter; no universal settings or strength guarantees.",
+            "gu": "Terminology, qualification મહત્વનાં; universal settings/strength guarantee નહિ."
+          }
+        }
+      ]
+    }
+  ],
+  "viva": [
+    {
+      "title": {
+        "en": "Viva with answers",
+        "gu": "Viva:Answers સાથે"
+      },
+      "items": [
+        {
+          "q": {
+            "en": "FDM family?",
+            "gu": "FDM Family?"
+          },
+          "a": {
+            "en": "Material extrusion.",
+            "gu": "Material extrusion."
+          }
+        },
+        {
+          "q": {
+            "en": "SLA material?",
+            "gu": "SLA Material?"
+          },
+          "a": {
+            "en": "Compatible photopolymer resin.",
+            "gu": "Compatible photopolymer resin."
+          }
+        },
+        {
+          "q": {
+            "en": "STL is toolpath?",
+            "gu": "STL Toolpath છે?"
+          },
+          "a": {
+            "en": "No. Triangulated boundary; toolpath follows slicing.",
+            "gu": "ના.Triangulated boundary;પછી slicingથી toolpath."
+          }
+        },
+        {
+          "q": {
+            "en": "Ordinary polymer SLS is metal AM?",
+            "gu": "Ordinary Polymer SLS Metal AM?"
+          },
+          "a": {
+            "en": "No. Source metal-SLS heading requires qualified metal-route context.",
+            "gu": "ના.Source headingમાં metal-route context જોઈએ."
+          }
+        },
+        {
+          "q": {
+            "en": "WAAM family?",
+            "gu": "WAAM Family?"
+          },
+          "a": {
+            "en": "Wire/arc directed energy deposition.",
+            "gu": "Wire/arc DED."
+          }
+        },
+        {
+          "q": {
+            "en": "Every CAD model is a twin?",
+            "gu": "દરેક CAD Model Twin?"
+          },
+          "a": {
+            "en": "No. Data linkage, updates and purpose validation distinguish a twin.",
+            "gu": "ના.Data linkage, updates, validation જરૂરી."
+          }
+        },
+        {
+          "q": {
+            "en": "Real-time means no delay?",
+            "gu": "Real-time એટલે No Delay?"
+          },
+          "a": {
+            "en": "No. Required latency for the application.",
+            "gu": "ના.Application required latency."
+          }
+        },
+        {
+          "q": {
+            "en": "AI guarantees zero defects?",
+            "gu": "AI Zero Defects Guarantee?"
+          },
+          "a": {
+            "en": "No. Validate errors, domain and drift.",
+            "gu": "ના.Errors, domain, drift validate."
+          }
+        },
+        {
+          "q": {
+            "en": "Why post-process?",
+            "gu": "Post-process કેમ?"
+          },
+          "a": {
+            "en": "Supports, cure, heat treatment, surface and final qualification may require it.",
+            "gu": "Supports, cure, treatment, surface, qualification માટે."
+          }
+        }
+      ]
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Define/classify AM and compare it with subtractive manufacturing.",
+        "gu": "AM define/classify કરી Subtractive સાથે compare કરો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain AM process chain, STL concept and material selection.",
+        "gu": "Process Chain, STL, Material Selection સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Draw/explain FDM and SLA construction, working, parameters and limits.",
+        "gu": "FDM, SLAનાં required aspects diagramsથી સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain source metal-SLS terminology and representative metal powder-bed process; compare WAAM.",
+        "gu": "Metal-SLS context, Powder-bed, WAAM compare કરો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Select suitable process/material for prototype, detailed resin pattern, complex metal channel and large near-net metal component.",
+        "gu": "ચાર applications માટે reasoned process/material select કરો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Describe four industrial revolutions and nine pillars with examples.",
+        "gu": "Four Revolutions, Nine Pillars examplesથી સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain manufacturing IoT signal chain and digital twin versus physical/model systems.",
+        "gu": "IoT Chain, Digital Twin comparison સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain AI defect detection, predictive maintenance and process optimisation with limitations.",
+        "gu": "AIની ત્રણ applications, limitations સમજાવો."
+      },
+      "marks": 7
+    }
+  ],
+  "exam_policy": "Questions and suggested marks only;answers in Notes/Viva.",
+  "question_provenance": "Original practice,not official past-paper predictions.",
+  "question_marks_are_suggested": true,
+  "translation_policy": "Equivalent explanations,parameters,examples and cautions in English/Gujarati;standard technical diagram labels shared.",
+  "runtime_evidence": {
+    "physical_practicals_performed": false,
+    "android_runtime_tested": false
+  },
+  "sources": [
+    {
+      "title": "Owner GTU DI05019011,2026–27",
+      "reference": "Content pp2–5;scheme p2;practical pp7–8."
+    }
+  ],
+  "diagram_note": "Original conceptual labelled schematics,not equipment setup/fabrication instructions.",
+  "practical_hours": 6,
+  "practical_performed": false
+}

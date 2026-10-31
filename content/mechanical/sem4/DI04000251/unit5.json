@@ -1,0 +1,283 @@
+{
+  "subject": "DI04000251",
+  "unit": 5,
+  "title": {
+    "en": "Direct and Bending Stresses",
+    "gu": "Direct અને Bending Stresses"
+  },
+  "format": "notes",
+  "languages": [
+    "en",
+    "gu"
+  ],
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "hours": 4,
+  "weightage": 10,
+  "notes": [
+    {
+      "title": {
+        "en": "5.1 Learn the process,then solve",
+        "gu": "5.1 Process સમજો,પછી Solve કરો"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "5.1.1 Eccentricity changes the stress picture",
+            "gu": "5.1.1 Eccentricityથી Stress Picture બદલાય"
+          },
+          "body": {
+            "en": "<h4>Start with the situation</h4><p>A load at the centre of a bar gives direct stress; the same load offset from the centroid also bends it.</p><h4>Definition / principle</h4><p>An eccentric axial loadP at perpendicular offsete is equivalent to a centric forceP plus momentM=Pe at the section.</p><h4>Understand why</h4><p>Under a linear-elastic straight-beam model, the normal stresses superpose as sigma=P/A±M/Z at extreme faces.</p><h4>Application / illustration</h4><p>The near face may see increased compression while the far face unloads or enters tension.</p><h4>Common mistake / conditions</h4><p>Do not apply axialP/A to a transverse bracket load; its direct stress is shear. The FBD decides.</p><details class=\"self-check\"><summary>Can one face be tensile under compressive eccentric load?</summary><p>Yes, when bending overcomes direct compression on that face.</p></details>",
+            "gu": "<h4>પરિસ્થિતિથી શરૂઆત</h4><p>Barના centre પર load direct stress આપે;same load centroidથી offset હોય તો bending પણ આપે.</p><h4>Definition / Principle</h4><p>Perpendicular offset e પર axial load P sectionમાં centric P અને moment M=Pe equivalent છે.</p><h4>કારણ સાથે સમજીએ</h4><p>Linear-elastic straight-beam modelમાં extreme faces પર sigma=P/A±M/Z થાય.</p><h4>Application / ઉદાહરણ</h4><p>Near faceનું compression વધે,far face unload કે tensionમાં જાય.</p><h4>Common Mistake / શરતો</h4><p>Transverse bracket loadમાં axial P/A ન લગાવો;direct stress shear છે.FBDથી નક્કી કરો.</p><details class=\"self-check\"><summary>Compressive Eccentric Loadમાં એક Face Tensile થાય?</summary><p>હા,તે face પર bending direct compressionથી વધે તો.</p></details>"
+          },
+          "diagram": "d5_eccentric"
+        },
+        {
+          "h": {
+            "en": "5.1.2 Sign convention and stress distribution",
+            "gu": "5.1.2 Sign Convention અને Stress Distribution"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>Choose tension-positive or compression-positive and retain it consistently.</p><h4>Understand why</h4><p>Compute areaA, centroid, I andZ about the actual bending axis.</p><p>Find the signed direct force and bending moment at the chosen cut, not just a load drawn elsewhere.</p><p>Add algebraically at each face; check tension and compression against their respective allowables.</p><p>For asymmetrical sections, use different extreme distances and section moduli for the two faces.</p>",
+            "gu": "<h4>Definition / Principle</h4><p>Tension-positive કે compression-positive પસંદ કરીને consistently વાપરો.</p><h4>કારણ સાથે સમજીએ</h4><p>Actual bending axis માટે area A,centroid,I,Z ગણો.</p><p>Chosen cut પર signed direct force,moment શોધો,ફક્ત elsewhere drawn load નહિ.</p><p>દરેક face પર algebraically ઉમેરો;tension/compressionના respective allowablesથી જુઓ.</p><p>Asymmetrical sectionમાં બે facesના extreme distances,section moduli જુદાં લો.</p>"
+          },
+          "diagram": "d5_eccentric"
+        },
+        {
+          "h": {
+            "en": "5.1.3 Direct-plus-bending numerical",
+            "gu": "5.1.3 Direct-plus-bending Numerical"
+          },
+          "body": {
+            "en": "<h4>Given and model</h4><p>Axial tensile P10kN, e100mm, rectangle b30, h60mm; nominal straight-section model, allowable tension/compression80MPa.</p><h4>Step-by-step solution</h4><ol><li>A=30×60=1800mm²; Z=30×60²/6=18000mm³</li><li>M=10000×100=1000000Nmm</li><li>Direct stress=10000/1800=5.5556MPa</li><li>Bending extreme=1000000/18000=55.5556MPa</li><li>Face1=5.5556+55.5556=61.1111MPa tension</li><li>Face2=5.5556−55.5556=−50MPa(compression)</li></ol><h4>Common mistake / conditions</h4><p>Both listed extreme magnitudes are below80MPa in this model; do not claim a strongly curved C-frame is verified by this arithmetic alone.</p>",
+            "gu": "<h4>આપેલી માહિતી અને Model</h4><p>Axial tensile P10kN,e100mm,rectangle b30,h60mm;nominal straight-section model,tension/compression allowable80MPa.</p><h4>Step-by-step ઉકેલ</h4><ol><li>A=30×60=1800mm²;Z=30×60²/6=18000mm³</li><li>M=10000×100=1000000Nmm</li><li>Direct stress=10000/1800=5.5556MPa</li><li>Bending extreme=1000000/18000=55.5556MPa</li><li>Face1=5.5556+55.5556=61.1111MPa tension</li><li>Face2=5.5556−55.5556=−50MPa(compression)</li></ol><h4>Common Mistake / શરતો</h4><p>આ modelમાં બન્ને magnitudes80MPaથી નીચે;strongly curved C-frame ફક્ત આ ગણતરીથી verified નથી.</p>"
+          },
+          "diagram": "d5_clamp"
+        },
+        {
+          "h": {
+            "en": "5.1.4 C-clamp/frame design procedure",
+            "gu": "5.1.4 C-clamp/Frame Design Procedure"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>Resolve the clamp force through the frame and cut at the likely critical section.</p><h4>Understand why</h4><p>Identify the load line, centroid and actual eccentricity; outside dimensions are not automatically the moment arm.</p><p>Select a trial section and calculate direct stress plus bending in the appropriate model.</p><p>Check screw/thread loads, jaw contact, fillets, deflection and manufacturing constraints, not only frame stress.</p><p>For strongly curved geometry, neutral-axis shift and curved-beam stress can invalidate straight-beamP/A±M/Z; use suitable analysis/standards.</p>",
+            "gu": "<h4>Definition / Principle</h4><p>Clamp forceનો frameમાં path શોધી likely critical section પર cut કરો.</p><h4>કારણ સાથે સમજીએ</h4><p>Load line,centroid,actual eccentricity શોધો;outside dimension આપમેળે moment arm નહિ.</p><p>Trial section લો,appropriate modelમાં direct,bending stress ગણો.</p><p>Screw/thread loads,jaw contact,fillets,deflection,manufacture જુઓ,ફક્ત frame stress નહિ.</p><p>Strong curvatureમાં neutral-axis shift,curved-beam stressથી straight formula ખોટું પડે;suitable analysis/standards લો.</p>"
+          },
+          "diagram": "d5_clamp"
+        },
+        {
+          "h": {
+            "en": "5.1.5 Size an eccentric rectangular member by trial",
+            "gu": "5.1.5 Trialથી Eccentric Rectangular Memberનું Size"
+          },
+          "body": {
+            "en": "<h4>Given and model</h4><p>P5000N, e60mm, h=2b, allowable maximum tension80MPa; straight-section model.</p><h4>Step-by-step solution</h4><ol><li>sigma max=P/(2b²)+3Pe/(2b³)</li><li>At b18, h36:sigma max=5000/(2×18²)+3×5000×60/(2×18³)=84.8765MPa(fails)</li><li>Select b20, h40:sigma max=5000/800+300000/(20×40²/6)=62.5MPa</li><li>Opposite face=6.25−56.25=−50MPa</li></ol><h4>Common mistake / conditions</h4><p>The selected section passes the stated nominal tension limit; also verify compression, stability, geometry and stiffness for actual service.</p>",
+            "gu": "<h4>આપેલી માહિતી અને Model</h4><p>P5000N,e60mm,h=2b,maximum tension allowable80MPa;straight-section model.</p><h4>Step-by-step ઉકેલ</h4><ol><li>sigma max=P/(2b²)+3Pe/(2b³)</li><li>At b18,h36:sigma max=5000/(2×18²)+3×5000×60/(2×18³)=84.8765MPa(fails)</li><li>Select b20,h40:sigma max=5000/800+300000/(20×40²/6)=62.5MPa</li><li>Opposite face=6.25−56.25=−50MPa</li></ol><h4>Common Mistake / શરતો</h4><p>Selected section stated tension limitમાં pass;actual serviceમાં compression,stability,geometry,stiffness પણ જુઓ.</p>"
+          },
+          "diagram": "d5_eccentric"
+        },
+        {
+          "h": {
+            "en": "5.1.6 Bracket design:axial eccentric vs transverse load",
+            "gu": "5.1.6 Bracket Design:Axial Eccentric સામે Transverse Load"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>Not every bracket is loaded in the same direction at its fixing section.</p><h4>Understand why</h4><p>An offset axial force gives axial direct stress plus bending; an ordinary horizontal cantilever with vertical end load gives shear plus bending.</p><p>At a rectangular section, average transverse shear=P/A and maximum elementary shear=3P/(2A).</p><p>Maximum bending normal stress occurs at extreme fibres; maximum transverse shear occurs near the neutral axis. They are not automatically at the same point.</p><p>Bolts/welds and base plates need their own group/contact analysis; member stress alone does not size the fixing.</p>",
+            "gu": "<h4>Definition / Principle</h4><p>દરેક bracketના fixing section પર load direction same નથી.</p><h4>કારણ સાથે સમજીએ</h4><p>Offset axial forceમાં axial stress+bending;horizontal cantilever પર vertical end loadમાં shear+bending.</p><p>Rectangular sectionમાં average transverse shear=P/A,maximum elementary shear=3P/(2A).</p><p>Maximum bending extreme fibres પર,maximum transverse shear neutral axis પાસે;બન્ને same point પર આપમેળે નથી.</p><p>Bolts/welds,base plates માટે group/contact analysis જોઈએ;member stressથી fixingનું size નક્કી નથી થતું.</p>"
+          },
+          "diagram": "d5_bracket"
+        },
+        {
+          "h": {
+            "en": "5.1.7 Transverse bracket example",
+            "gu": "5.1.7 Transverse Bracket Example"
+          },
+          "body": {
+            "en": "<h4>Given and model</h4><p>End load2kN at150mm; section b30, h60mm; ignore local concentration for this elementary check.</p><h4>Step-by-step solution</h4><ol><li>A=1800mm²; Z=18000mm³; M=2000×150=300000Nmm</li><li>Bending extreme=300000/18000=16.6667MPa</li><li>Average shear=2000/1800=1.1111MPa</li><li>Maximum rectangular shear=1.5×1.1111=1.6667MPa</li></ol><h4>Common mistake / conditions</h4><p>There is no axial directP/A normal stress for this FBD; report stresses at their proper locations and use supplied allowables.</p>",
+            "gu": "<h4>આપેલી માહિતી અને Model</h4><p>End load2kN,arm150mm;section b30,h60mm;elementary checkમાં local concentration અવગણો.</p><h4>Step-by-step ઉકેલ</h4><ol><li>A=1800mm²;Z=18000mm³;M=2000×150=300000Nmm</li><li>Bending extreme=300000/18000=16.6667MPa</li><li>Average shear=2000/1800=1.1111MPa</li><li>Maximum rectangular shear=1.5×1.1111=1.6667MPa</li></ol><h4>Common Mistake / શરતો</h4><p>આ FBDમાં axial direct P/A normal stress નથી;proper locationsના stresses,supplied allowables લો.</p>"
+          },
+          "diagram": "d5_bracket"
+        },
+        {
+          "h": {
+            "en": "5.1.8 Drilling-machine column design",
+            "gu": "5.1.8 Drilling-machine Columnનું Design"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>A thrust load offset from a column axis creates direct compression and bending in the simplified column model.</p><h4>Understand why</h4><p>Draw machine/head/base reactions; determine the actual section force, offset and unsupported length.</p><p>For a hollow round column:A=pi(Do²−Di²)/4, Z=pi(Do⁴−Di⁴)/(32Do).</p><p>Compute compressionP/A and bendingPe/Z at opposite extreme fibres; one side can become tensile.</p><p>Check buckling/effective length, lateral deflection, base fixity and local stress; the stress formula alone is not a stability assessment.</p>",
+            "gu": "<h4>Definition / Principle</h4><p>Column axisથી offset thrust simplified modelમાં direct compression,bending આપે.</p><h4>કારણ સાથે સમજીએ</h4><p>Machine/head/base reactions દોરો;actual section force,offset,unsupported length શોધો.</p><p>Hollow round columnમાં A=pi(Do²−Di²)/4,Z=pi(Do⁴−Di⁴)/(32Do).</p><p>Opposite extreme fibres પર compression P/A,bending Pe/Z ગણો;એક side tensile થઈ શકે.</p><p>Buckling/effective length,lateral deflection,base fixity,local stress જુઓ;stress formula એકલું stability assessment નથી.</p>"
+          },
+          "diagram": "d5_column"
+        },
+        {
+          "h": {
+            "en": "5.1.9 Hollow column numerical",
+            "gu": "5.1.9 Hollow Column Numerical"
+          },
+          "body": {
+            "en": "<h4>Given and model</h4><p>Compressive P20kN, e100mm, Do80, Di60mm; allowable compression80, tension60MPa.</p><h4>Step-by-step solution</h4><ol><li>A=pi(80²−60²)/4=2199.1149mm²</li><li>Z=pi(80⁴−60⁴)/(32×80)=34361.1696mm³</li><li>Direct compression=20000/2199.1149=9.0946MPa</li><li>Bending=2000000/34361.1696=58.2052MPa</li><li>Near-face compression=67.2998MPa; far-face stress=9.0946−58.2052=−49.1107MPa(tension)</li></ol><h4>Common mistake / conditions</h4><p>Nominal normal stresses pass the separate80/60MPa limits; stability and deflection still need the actual length/support conditions.</p><details class=\"self-check\"><summary>Can the far side of an eccentrically compressed column be in tension?</summary><p>Yes, if bending exceeds the direct compression there.</p></details><details class=\"self-check\"><summary>Is e always the outside arm length?</summary><p>No. Measure perpendicular offset from centroid to the actual load line.</p></details>",
+            "gu": "<h4>આપેલી માહિતી અને Model</h4><p>Compressive P20kN,e100mm,Do80,Di60mm;allowable compression80,tension60MPa.</p><h4>Step-by-step ઉકેલ</h4><ol><li>A=pi(80²−60²)/4=2199.1149mm²</li><li>Z=pi(80⁴−60⁴)/(32×80)=34361.1696mm³</li><li>Direct compression=20000/2199.1149=9.0946MPa</li><li>Bending=2000000/34361.1696=58.2052MPa</li><li>Near-face compression=67.2998MPa;far-face stress=9.0946−58.2052=−49.1107MPa(tension)</li></ol><h4>Common Mistake / શરતો</h4><p>Nominal stresses80/60MPa limitsમાં pass;stability,deflection માટે actual length/support conditions હજી જોઈએ.</p><details class=\"self-check\"><summary>Eccentrically Compressed Columnની Far Side Tensionમાં હોઈ શકે?</summary><p>હા,ત્યાં bending direct compression કરતાં વધારે હોય તો.</p></details><details class=\"self-check\"><summary>e હંમેશાં Outside Arm Length છે?</summary><p>ના.Centroidથી actual load lineનું perpendicular offset લો.</p></details>"
+          },
+          "diagram": "d5_column"
+        }
+      ]
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "d5_eccentric",
+      "title": {
+        "en": "Eccentric axial load = direct force plus bending moment",
+        "gu": "5.1.1 Eccentricityથી Stress Picture બદલાય"
+      },
+      "file": "diagrams/d5_eccentric.svg"
+    },
+    {
+      "id": "d5_clamp",
+      "title": {
+        "en": "C-clamp: cut through the frame to identify P and M",
+        "gu": "5.1.3 Direct-plus-bending Numerical"
+      },
+      "file": "diagrams/d5_clamp.svg"
+    },
+    {
+      "id": "d5_bracket",
+      "title": {
+        "en": "Bracket at a fixed section: direct force plus moment",
+        "gu": "5.1.6 Bracket Design:Axial Eccentric સામે Transverse Load"
+      },
+      "file": "diagrams/d5_bracket.svg"
+    },
+    {
+      "id": "d5_column",
+      "title": {
+        "en": "Drilling-machine column: thrust eccentricity bends the column",
+        "gu": "5.1.8 Drilling-machine Columnનું Design"
+      },
+      "file": "diagrams/d5_column.svg"
+    }
+  ],
+  "programs": [],
+  "syntax": [
+    {
+      "title": {
+        "en": "Quick reference",
+        "gu": "Quick Reference"
+      },
+      "items": [
+        {
+          "name": {
+            "en": "Eccentric-load reference",
+            "gu": "Eccentric-loadનાં સૂત્રો"
+          },
+          "f": "M=Pe;sigma=P/A±M/Z\nRectangle Z=bh²/6\nHollow Z=pi(Do⁴−Di⁴)/(32Do)",
+          "terms": {
+            "en": "Classify axial force vs transverse shear first; check both faces, stability and curved-beam limits.",
+            "gu": "પહેલાં axial force,transverse shear જુદાં કરો;બન્ને faces,stability,curved-beam limits જુઓ."
+          }
+        }
+      ]
+    }
+  ],
+  "viva": [
+    {
+      "title": {
+        "en": "Viva with answers",
+        "gu": "Viva:Answers સાથે"
+      },
+      "items": [
+        {
+          "q": {
+            "en": "Eccentric moment?",
+            "gu": "Eccentric Moment?"
+          },
+          "a": {
+            "en": "M=Pe",
+            "gu": "M=Pe"
+          }
+        },
+        {
+          "q": {
+            "en": "Extreme normal stress?",
+            "gu": "Extreme Normal Stress?"
+          },
+          "a": {
+            "en": "sigma=P/A±M/Z",
+            "gu": "sigma=P/A±M/Z"
+          }
+        },
+        {
+          "q": {
+            "en": "Transverse bracket direct stress?",
+            "gu": "Transverse Bracketનો Direct Stress?"
+          },
+          "a": {
+            "en": "Shear, not axial normal stress for the stated cut.",
+            "gu": "Stated cutમાં shear,axial normal stress નહિ."
+          }
+        },
+        {
+          "q": {
+            "en": "Why curved-frame caution?",
+            "gu": "Curved-frameમાં Caution કેમ?"
+          },
+          "a": {
+            "en": "Neutral axis/stress distribution can differ from straight-beam assumptions.",
+            "gu": "Neutral axis/stress distribution straight-beam assumptionsથી જુદાં હોઈ શકે."
+          }
+        }
+      ]
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Explain eccentric loading and direct-plus-bending stress with illustrations.",
+        "gu": "Illustrations સાથે Eccentric Loading,Direct-plus-bending સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "P10kN, e100, b30, h60:find both extreme stresses in the straight-section model.",
+        "gu": "Given straight-section modelમાં બન્ને Extreme Stresses ગણો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Explain C-clamp and bracket design procedures and their modelling limits.",
+        "gu": "C-clamp,Bracket Design Procedures,Modelling Limits સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "P20kN, e100, Do80, Di60:check column stress against compression80, tension60MPa.",
+        "gu": "Given dataથી Column Stress Check કરો."
+      },
+      "marks": 7
+    }
+  ],
+  "exam_policy": "Questions and suggested marks only. Answers in Notes/Viva.",
+  "question_provenance": "Original practice,not official past-paper questions or predictions.",
+  "question_marks_are_suggested": true,
+  "translation_policy": "Equivalent English/Gujarati explanations,steps,examples,assumptions and cautions.",
+  "runtime_evidence": {
+    "physical_practicals_performed": false,
+    "android_runtime_tested": false
+  },
+  "sources": [
+    {
+      "title": "Owner-supplied GTU DI04000251,2025–26",
+      "reference": "Contents pp2–3;scheme p1;practicals pp5–6."
+    }
+  ],
+  "diagram_note": "Original labelled conceptual teaching diagrams,not operation/fabrication instructions."
+}

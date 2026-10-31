@@ -1,0 +1,333 @@
+{
+  "subject": "DI03000151",
+  "unit": 9,
+  "format": "notes",
+  "title": {
+    "en": "Quality Control and Industry 4.0",
+    "gu": "Quality Control અને Industry 4.0"
+  },
+  "hours": 4,
+  "weightage": 9,
+  "languages": [
+    "en",
+    "gu"
+  ],
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "intro_text": {
+    "en": "Follow a workshop case,understand one idea at a time,and practise turning understanding into exam answers.",
+    "gu": "Workshopના એક કિસ્સાથી શરૂઆત કરીએ;એક-એક ખ્યાલ સમજીએ અને તેને પરીક્ષાના જવાબમાં ગોઠવતાં શીખીએ."
+  },
+  "programs": [],
+  "exam_policy": "Original questions and suggested marks only;answers,worked examples and answer-writing frameworks appear in Notes/Viva.",
+  "question_provenance": "Original practice,not claimed GTU past-paper questions or guaranteed predictions.",
+  "question_marks_are_suggested": true,
+  "sources": [
+    {
+      "title": "Owner-supplied GTU DI03000151 Measurements and Metrology,2024–25",
+      "reference": "Course contents pp2–3,suggested specification table p3,practicals/activities pp5–9."
+    }
+  ],
+  "translation_policy": "English/Gujarati are paired with matching explanation,steps,examples,checks and numerical values.",
+  "runtime_evidence": {
+    "physical_practicals_performed": false,
+    "android_runtime_tested": false
+  },
+  "diagram_note": "Original English-labelled conceptual teaching diagrams with Gujarati explanations;not calibration certificates or fabrication instructions.",
+  "notes": [
+    {
+      "title": {
+        "en": "9.1 Understand,then measure",
+        "gu": "9.1 પહેલાં સમજો,પછી માપો"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "9.1.1 A connected factory still needs trustworthy measurements",
+            "gu": "9.1.1 Connected Factoryમાં પણ વિશ્વસનીય Measurement જોઈએ"
+          },
+          "body": {
+            "en": "<h4>Start with a situation</h4><p>A dashboard receives readings every second,but the gauge has drifted.Will a faster network improve product quality?</p><h4>Definition</h4><p>Quality control uses planned operational checks and actions to meet requirements.Industry4.0 links digital systems,automation and data to support production decisions.</p><h4>Understand the reason</h4><p>Metrology supplies credible measurement evidence;connectivity transports it.A bad measurement sent instantly is still bad evidence.</p><h4>Example / application</h4><p>A smart inspection station identifies the part,measures,checks validity,applies a decision rule and stores a traceable result.</p><h4>Remember / avoid this mistake</h4><p>IoT connectivity does not create calibration or metrological traceability by itself.</p>",
+            "gu": "<h4>એક પરિસ્થિતિથી શરૂઆત કરીએ</h4><p>Dashboard દર second readings લે,પણ gauge drift થયો છે.વધુ ઝડપી networkથી product quality સુધરે?</p><h4>ચોક્કસ વ્યાખ્યા</h4><p>Quality control planned operational checks/actionsથી requirements પૂરી કરાવે.Industry4.0 production decisions માટે digital systems,automation,data જોડે.</p><h4>હવે કારણ સાથે સમજીએ</h4><p>Metrology વિશ્વસનીય measurement evidence આપે;connectivity તેને પહોંચાડે.ખરાબ measurement તરત મોકલીએ તો પણ ખરાબ evidence જ રહે.</p><h4>ઉદાહરણ / ઉપયોગ</h4><p>Smart inspection station part ઓળખે,માપે,validity તપાસે,decision rule લગાવે અને traceable result સાચવે.</p><h4>યાદ રાખો / આ ભૂલ ટાળો</h4><p>ફક્ત IoT connectivityથી calibration કે metrological traceability બનતી નથી.</p>"
+          },
+          "diagram": "mt9_smart"
+        },
+        {
+          "h": {
+            "en": "9.1.2 Digital measurement chain",
+            "gu": "9.1.2 Digital Measurement Chain"
+          },
+          "body": {
+            "en": "<h4>Stepwise solution</h4><ol><li>Sense:choose the correct quantity,reference and calibrated range.</li><li>Condition:apply appropriate excitation,amplification,isolation and anti-alias filtering.</li><li>Convert:sample with sufficient rate and ADC resolution for the bandwidth/uncertainty target.</li><li>Process:apply validated corrections,units,feature algorithms and status checks.</li><li>Record:store part ID,time,instrument ID,method/version,conditions,uncertainty and decision.</li></ol><h4>Remember / avoid this mistake</h4><p>ADC resolution describes quantisation,not the accuracy of the entire chain.Sampling too slowly can alias a changing signal.</p>",
+            "gu": "<h4>એક-એક પગલે ઉકેલ</h4><ol><li>Sense:યોગ્ય quantity,reference,calibrated range લો.</li><li>Condition:યોગ્ય excitation,amplification,isolation,anti-alias filtering લો.</li><li>Convert:bandwidth/uncertainty target માટે પૂરતી sampling rate,ADC resolution લો.</li><li>Process:validated corrections,units,feature algorithms,status checks લો.</li><li>Record:part ID,time,instrument ID,method/version,conditions,uncertainty,decision સાચવો.</li></ol><h4>યાદ રાખો / આ ભૂલ ટાળો</h4><p>ADC resolution quantisation બતાવે,આખી chainની accuracy નહિ.ધીમું sampling changing signalને alias કરી શકે.</p>"
+          },
+          "diagram": "mt7_chain"
+        },
+        {
+          "h": {
+            "en": "9.1.3 Digital resolution and signal meaning",
+            "gu": "9.1.3 Digital Resolution અને Signalનો અર્થ"
+          },
+          "body": {
+            "en": "<h4>Given</h4><p>An ideal12-bit ADC spans0–10V using the specified bin-width conventionFS/2^N;a calibrated sensor gives.5V/mm.</p><h4>Stepwise solution</h4><ol><li>Codes=2^12=4096;ideal bin width=10/4096=.00244140625V</li><li>Equivalent displacement increment=.00244140625/.5=.0048828125mm</li></ol><h4>Remember / avoid this mistake</h4><p>Some endpoint transfer conventions useFS/(2^N−1);state the model.This increment is not a complete uncertainty or accuracy statement.</p>",
+            "gu": "<h4>આપેલી માહિતી</h4><p>Ideal12-bit ADC0–10V span ધરાવે;આપેલી bin-width convention FS/2^N લો;calibrated sensor.5V/mm આપે.</p><h4>એક-એક પગલે ઉકેલ</h4><ol><li>Codes=2^12=4096;ideal bin width=10/4096=.00244140625V</li><li>Equivalent displacement increment=.00244140625/.5=.0048828125mm</li></ol><h4>યાદ રાખો / આ ભૂલ ટાળો</h4><p>કેટલીક endpoint transfer conventionsમાં FS/(2^N−1) આવે;model કહો.આ increment complete uncertainty કે accuracy statement નથી.</p>"
+          },
+          "diagram": "mt9_smart"
+        },
+        {
+          "h": {
+            "en": "9.1.4 IoT architecture with useful metadata",
+            "gu": "9.1.4 ઉપયોગી Metadataવાળું IoT Architecture"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>Industrial IoT links measurement devices/edge systems to data services for monitoring,analysis and controlled actions.</p><h4>Understand the reason</h4><p>Device/edge:collect measurements,check range/status and retain local records during network loss.Gateway:validate protocol,time,units and device identity.</p><p>Data service/dashboard:store versioned records,show trends and route alerts with defined responsibility.Integrate with production/quality systems only through validated mappings.</p><p>Metadata should include part/batch,feature,unit,timestamp,instrument/calibration status,method/software version,environment and result-validity flags.</p><h4>Remember / avoid this mistake</h4><p>A database history provides record traceability;metrological traceability additionally needs a documented unbroken calibration chain with uncertainties.</p>",
+            "gu": "<h4>ચોક્કસ વ્યાખ્યા</h4><p>Industrial IoT measurement devices/edge systemsને monitoring,analysis,controlled actions માટે data services સાથે જોડે.</p><h4>હવે કારણ સાથે સમજીએ</h4><p>Device/edge:measurements લો,range/status જુઓ અને network lossમાં local records રાખો.Gateway:protocol,time,units,device identity validate કરો.</p><p>Data service/dashboard:versioned records રાખો,trends બતાવો,નક્કી જવાબદારી સાથે alerts મોકલો.Production/quality systems સાથે ફક્ત validated mappingsથી જોડો.</p><p>Metadataમાં part/batch,feature,unit,timestamp,instrument/calibration status,method/software version,environment,result-validity flags રાખો.</p><h4>યાદ રાખો / આ ભૂલ ટાળો</h4><p>Database history record traceability આપે;metrological traceability માટે uncertaintiesવાળી documented unbroken calibration chain પણ જોઈએ.</p>"
+          },
+          "diagram": "mt9_smart"
+        },
+        {
+          "h": {
+            "en": "9.1.5 Automated smart inspection station",
+            "gu": "9.1.5 Automated Smart Inspection Station"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>An automated station executes a validated inspection plan and routes decisions while preserving measurement and safety controls.</p><h4>Construction:parts and purpose</h4><p>A fixture/handling system locates and identifies the part.</p><p>Qualified probes,vision or CMM hardware measure specified features.</p><p>A controller coordinates safe motion,measurement and interlocks.</p><p>Validated software evaluates features with defined datum/decision rules.</p><p>Data storage and reject/hold routing retain result identity.</p><h4>Working:sequence and reason</h4><p>Confirm part ID,correct program,reference checks and calibration status.</p><p>Load/locate with verified fixtures and safety interlocks.</p><p>Acquire the required features and run plausibility/validity checks.</p><p>Apply tolerances,uncertainty and agreed decision rules.</p><p>Route accept/reject/hold and retain auditable records with human escalation for exceptions.</p><h4>Remember / avoid this mistake</h4><p>Automation repeats a method;it does not make a poor method correct.Never bypass guards or let an unvalidated model drive unsafe machine changes.</p>",
+            "gu": "<h4>ચોક્કસ વ્યાખ્યા</h4><p>Automated station validated inspection plan ચલાવી measurement/safety controls જાળવી decisions route કરે.</p><h4>Construction:ભાગ અને તેનું કામ</h4><p>Fixture/handling system part locate અને identify કરે.</p><p>Qualified probes,vision કે CMM hardware specified features માપે.</p><p>Controller safe motion,measurement,interlocks સંકલિત કરે.</p><p>Validated software defined datum/decision rulesથી features evaluate કરે.</p><p>Data storage,reject/hold routing result identity જાળવે.</p><h4>Working:ક્રમ અને કારણ</h4><p>Part ID,correct program,reference checks,calibration status જુઓ.</p><p>Verified fixtures,safety interlocksથી load/locate કરો.</p><p>જરૂરી features લઈને plausibility/validity checks કરો.</p><p>Tolerances,uncertainty,agreed decision rules લો.</p><p>Accept/reject/hold route કરી exceptionsમાં human escalation સાથે auditable records રાખો.</p><h4>યાદ રાખો / આ ભૂલ ટાળો</h4><p>Automation method repeat કરે;ખરાબ methodને સાચી નથી બનાવતું.Guards bypass ન કરો અને unvalidated modelથી unsafe machine changes ન કરાવો.</p>"
+          },
+          "construction_point_count": 5,
+          "working_point_count": 5,
+          "diagram": "mt9_smart"
+        },
+        {
+          "h": {
+            "en": "9.1.6 Vision inspection and model limits",
+            "gu": "9.1.6 Vision Inspection અને Modelની Limits"
+          },
+          "body": {
+            "en": "<h4>Understand the reason</h4><p>Vision uses camera,optics,lighting,calibration and software to locate edges/features.A qualified scale and geometry correction relate pixels to physical dimensions.</p><p>Control lens distortion,perspective,focus,contrast,part pose and edge algorithm.Non-contact measurement avoids contact force but not these errors.</p><p>AI defect classification needs representative labelled validation data,known error rates,version control and monitoring for process drift;uncertain cases need a hold/review path.</p><h4>Remember / avoid this mistake</h4><p>A high classification score is not automatically a dimensional measurement with traceable uncertainty.Never relabel failed parts merely to improve a dashboard score.</p>",
+            "gu": "<h4>હવે કારણ સાથે સમજીએ</h4><p>Visionમાં camera,optics,lighting,calibration,software edges/features શોધે.Qualified scale,geometry correction pixelsને physical dimensions સાથે જોડે.</p><p>Lens distortion,perspective,focus,contrast,part pose,edge algorithm નિયંત્રિત કરો.Non-contactમાં contact force ટળે,આ errors નહિ.</p><p>AI defect classificationમાં representative labelled validation data,known error rates,version control,process-drift monitoring જોઈએ;uncertain cases માટે hold/review path રાખો.</p><h4>યાદ રાખો / આ ભૂલ ટાળો</h4><p>High classification score આપમેળે traceable uncertaintyવાળું dimensional measurement નથી.Dashboard score વધારવા failed partsનું label ન બદલો.</p>"
+          },
+          "diagram": "mt3_cmm"
+        },
+        {
+          "h": {
+            "en": "9.1.7 Control limits are not specification limits",
+            "gu": "9.1.7 Control Limits અને Specification Limits જુદાં છે"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>Specification limits come from design/customer requirements.Control limits come from process data under a stated control-chart model to detect unusual variation.</p><p>A statistically stable process may still make out-of-specification parts;an in-specification reading may occur during an unstable process.</p><h4>Example / application</h4><p>Suppose specification is19.950–20.050mm and an appropriate individual-value chart has illustrative control limits19.980–20.020mm.A20.030mm point is inside specification but above the control limit:investigate the process signal.</p><h4>Remember / avoid this mistake</h4><p>Control limits must be estimated by the chosen chart method and suitable baseline;do not set every chart by arbitrarily copying tolerance limits.</p><details class=\"self-check\"><summary>Quick check: Can a stable process be unacceptable?</summary><p>Yes.Stability concerns variation over time;capability/conformity concern requirements.</p></details>",
+            "gu": "<h4>ચોક્કસ વ્યાખ્યા</h4><p>Specification limits design/customer requirementsમાંથી આવે.Control limits stated control-chart modelમાં process dataથી unusual variation શોધવા આવે.</p><p>Statistically stable process પણ out-of-spec parts બનાવી શકે;unstable processમાં પણ કોઈ reading in-spec હોઈ શકે.</p><h4>ઉદાહરણ / ઉપયોગ</h4><p>Specification19.950–20.050mm અને યોગ્ય individual-value chartની illustrative control limits19.980–20.020mm માનો.20.030mm point specificationમાં છે પણ control limitથી ઉપર છે:process signal તપાસો.</p><h4>યાદ રાખો / આ ભૂલ ટાળો</h4><p>Control limits chosen chart method અને suitable baselineથી કાઢો;બધા chartsમાં tolerance limits copy ન કરો.</p><details class=\"self-check\"><summary>જાતે વિચારો: Stable Process અસ્વીકાર્ય હોઈ શકે?</summary><p>હા.Stability સમય સાથે variation વિશે છે;capability/conformity requirements વિશે.</p></details>"
+          },
+          "diagram": "mt9_limits"
+        },
+        {
+          "h": {
+            "en": "9.1.8 Capability and measurement-system checks",
+            "gu": "9.1.8 Capability અને Measurement-system Checks"
+          },
+          "body": {
+            "en": "<h4>Understand the reason</h4><p>For a stable process with appropriate distribution assumptions,Cp=(USL−LSL)/(6sigma),Cpk=min[(USL−mu)/(3sigma),(mu−LSL)/(3sigma)].Use a justified sigma estimate and enough data.</p><p>Illustration:USL20.050,LSL19.950,mu20.010,sigma.010mm giveCp1.667 andCpk1.333.The difference indicates off-centring;neither alone proves every part conforms.</p><p>Before interpreting process spread,evaluate measurement bias,stability,repeatability and reproducibility with a suitable MSA/Gauge R&amp;R plan.Multiple repeated readings from one operator do not establish full reproducibility.</p><h4>Remember / avoid this mistake</h4><p>These capability relations are supporting enrichment,not a replacement for the syllabus focus on digital measurement,IoT and smart inspection.</p>",
+            "gu": "<h4>હવે કારણ સાથે સમજીએ</h4><p>યોગ્ય distribution assumptionsવાળા stable process માટે Cp=(USL−LSL)/(6sigma),Cpk=min[(USL−mu)/(3sigma),(mu−LSL)/(3sigma)].યોગ્ય sigma estimate અને પૂરતો data લો.</p><p>Illustration:USL20.050,LSL19.950,mu20.010,sigma.010mm માટે Cp1.667,Cpk1.333.તફાવત off-centring બતાવે;એકલું કોઈ દરેક part conform છે તે સાબિત નથી કરતું.</p><p>Process spreadનો અર્થ કરતાં પહેલાં યોગ્ય MSA/Gauge R&amp;R planથી measurement bias,stability,repeatability,reproducibility જુઓ.એક operatorના repeatsથી full reproducibility સ્થાપાતી નથી.</p><h4>યાદ રાખો / આ ભૂલ ટાળો</h4><p>આ capability relations supporting enrichment છે;syllabusના digital measurement,IoT,smart inspection focusનો વિકલ્પ નહિ.</p>"
+          },
+          "diagram": "mt9_limits"
+        },
+        {
+          "h": {
+            "en": "9.1.9 Closed-loop quality,security and failure handling",
+            "gu": "9.1.9 Closed-loop Quality,Security અને Failure Handling"
+          },
+          "body": {
+            "en": "<h4>Stepwise solution</h4><ol><li>Detect:verify the signal and part identity before treating an alert as a real defect.</li><li>Contain:hold affected parts and retain evidence;do not silently delete failures.</li><li>Diagnose:check calibration,fixture,temperature,software version and process condition.</li><li>Act:use authorised validated compensation/corrective action with limits and human oversight.</li><li>Verify:recheck a reference and affected parts,then document release and prevention.</li></ol><h4>Understand the reason</h4><p>Use access control,authenticated devices,secure communication,backups,change logs and recovery plans.A network outage or missing calibration flag should trigger a defined safe/hold state,not an automatic pass.</p>",
+            "gu": "<h4>એક-એક પગલે ઉકેલ</h4><ol><li>Detect:alertને real defect માનતાં signal,part identity verify કરો.</li><li>Contain:affected parts hold કરી evidence રાખો;failures ચૂપચાપ delete ન કરો.</li><li>Diagnose:calibration,fixture,temperature,software version,process condition જુઓ.</li><li>Act:limits,human oversight સાથે authorised validated compensation/corrective action લો.</li><li>Verify:reference,affected parts ફરી તપાસી release,prevention નોંધો.</li></ol><h4>હવે કારણ સાથે સમજીએ</h4><p>Access control,authenticated devices,secure communication,backups,change logs,recovery plans લો.Network outage કે missing calibration flagમાં defined safe/hold state આવે,automatic pass નહિ.</p>"
+          },
+          "diagram": "mt9_smart"
+        },
+        {
+          "h": {
+            "en": "9.1.10 Exam case:design a trustworthy system",
+            "gu": "9.1.10 Exam Case:વિશ્વસનીય System ગોઠવો"
+          },
+          "body": {
+            "en": "<h4>Build an exam answer</h4><ol><li>Draw device→conditioning/ADC→edge/gateway→database/dashboard→quality action.</li><li>For each block state its purpose,one error/failure risk and a control;add calibration,metadata,decision rule,security and human review.</li><li>Compare manual and automated inspection fairly:speed/consistency/data capture improve,but fixture/software/systematic errors can repeat at scale.</li></ol><details class=\"self-check\"><summary>Quick check: If the network fails,should a part automatically pass?</summary><p>No.Use the validated local/hold/recovery procedure and retain identity and evidence.</p></details>",
+            "gu": "<h4>પરીક્ષામાં જવાબ ગોઠવીએ</h4><ol><li>Device→conditioning/ADC→edge/gateway→database/dashboard→quality action દોરો.</li><li>દરેક blockનું કામ,એક error/failure risk અને control લખો;calibration,metadata,decision rule,security,human review ઉમેરો.</li><li>Manual,automated inspection ન્યાયથી સરખાવો:speed/consistency/data capture સુધરે,પણ fixture/software/systematic errors મોટા પાયે repeat થાય.</li></ol><details class=\"self-check\"><summary>જાતે વિચારો: Network Fail થાય તો Part Automatic Pass?</summary><p>ના.Validated local/hold/recovery procedure લો;identity,evidence જાળવો.</p></details>"
+          }
+        }
+      ]
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "mt9_smart",
+      "title": {
+        "en": "Digital Metrology and IoT",
+        "gu": "Digital Metrology and IoT"
+      },
+      "file": "diagrams/mt9_smart.svg"
+    },
+    {
+      "id": "mt7_chain",
+      "title": {
+        "en": "Sensor and Transducer Chain",
+        "gu": "Sensor and Transducer Chain"
+      },
+      "file": "diagrams/mt7_chain.svg"
+    },
+    {
+      "id": "mt3_cmm",
+      "title": {
+        "en": "Coordinate Measuring Machine",
+        "gu": "Coordinate Measuring Machine"
+      },
+      "file": "diagrams/mt3_cmm.svg"
+    },
+    {
+      "id": "mt9_limits",
+      "title": {
+        "en": "Process Monitoring versus Product Conformity",
+        "gu": "Process Monitoring versus Product Conformity"
+      },
+      "file": "diagrams/mt9_limits.svg"
+    }
+  ],
+  "syntax": [
+    {
+      "title": {
+        "en": "Quick Reference",
+        "gu": "ઝડપી પુનરાવર્તન"
+      },
+      "items": [
+        {
+          "name": {
+            "en": "Digital and quality reference",
+            "gu": "Digital અને Quality Reference"
+          },
+          "f": "ADC bin width≈FS/2^N (declared convention)\nCp=(USL−LSL)/(6sigma)\nCpk=min[(USL−mu)/(3sigma),(mu−LSL)/(3sigma)]",
+          "terms": {
+            "en": "Resolution≠accuracy;capability needs a stable process and justified assumptions;control limits≠specification limits.",
+            "gu": "Resolution≠accuracy;capabilityમાં stable process,યોગ્ય assumptions જોઈએ;control limits≠specification limits."
+          }
+        }
+      ]
+    }
+  ],
+  "viva": [
+    {
+      "title": {
+        "en": "Viva with answers",
+        "gu": "Viva:જવાબો સાથે"
+      },
+      "items": [
+        {
+          "q": {
+            "en": "IoT role?",
+            "gu": "IoTનું કામ?"
+          },
+          "a": {
+            "en": "Connect measurement data and support monitoring/actions.",
+            "gu": "Measurement data જોડવા અને monitoring/actionsને ટેકો આપવા."
+          }
+        },
+        {
+          "q": {
+            "en": "Does IoT ensure traceability?",
+            "gu": "IoTથી Traceability પાકી?"
+          },
+          "a": {
+            "en": "No.Calibration chain and uncertainty evidence are still needed.",
+            "gu": "ના.Calibration chain,uncertainty evidence જોઈએ."
+          }
+        },
+        {
+          "q": {
+            "en": "ADC bits mean accuracy?",
+            "gu": "ADC Bits એટલે Accuracy?"
+          },
+          "a": {
+            "en": "No.They describe coding resolution in a model.",
+            "gu": "ના.Modelમાં coding resolution બતાવે."
+          }
+        },
+        {
+          "q": {
+            "en": "Control vs specification limits?",
+            "gu": "Control અને Specification Limits?"
+          },
+          "a": {
+            "en": "Process signals vs requirement boundaries.",
+            "gu": "Process signals સામે requirement boundaries."
+          }
+        },
+        {
+          "q": {
+            "en": "Automated inspection prerequisite?",
+            "gu": "Automated Inspectionની પૂર્વશરત?"
+          },
+          "a": {
+            "en": "Validated method,fixtures,software and measurement system.",
+            "gu": "Validated method,fixtures,software,measurement system."
+          }
+        },
+        {
+          "q": {
+            "en": "Why hold state?",
+            "gu": "Hold State શા માટે?"
+          },
+          "a": {
+            "en": "To prevent unsupported acceptance when validity is uncertain.",
+            "gu": "Validity uncertain હોય ત્યારે આધાર વગર acceptance અટકાવવા."
+          }
+        }
+      ]
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Explain digital measurement techniques and the complete signal-to-record chain.",
+        "gu": "Digital Measurement Techniques અને complete Signal-to-record Chain સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Describe IoT in quality control with architecture,metadata and calibration traceability.",
+        "gu": "Architecture,Metadata,Calibration Traceability સાથે Quality Controlમાં IoT સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Design an automated smart inspection system,including validation,decision rules and failure handling.",
+        "gu": "Validation,Decision Rules,Failure Handling સાથે Automated Smart Inspection System ગોઠવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Compare control limits with specification limits using a suitable quality-control example.",
+        "gu": "યોગ્ય Quality-control exampleથી Control,Specification Limits સરખાવો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "For ideal12-bit0–10V ADC usingFS/2^N and sensor.5V/mm,find voltage and displacement increments.",
+        "gu": "Ideal12-bit0–10V ADCમાં FS/2^N અને sensor.5V/mm માટે voltage,displacement increments શોધો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Evaluate benefits and risks of vision/AI inspection,including error validation and human oversight.",
+        "gu": "Error Validation,Human Oversight સાથે Vision/AI Inspectionના ફાયદા,જોખમ evaluate કરો."
+      },
+      "marks": 7
+    }
+  ]
+}
