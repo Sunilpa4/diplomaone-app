@@ -1,0 +1,480 @@
+{
+  "subject": "DI04000251",
+  "unit": 2,
+  "title": {
+    "en": "Design for Direct Stresses",
+    "gu": "Direct Stresses માટે Design"
+  },
+  "format": "notes",
+  "languages": [
+    "en",
+    "gu"
+  ],
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "hours": 10,
+  "weightage": 20,
+  "notes": [
+    {
+      "title": {
+        "en": "2.1 Learn the process,then solve",
+        "gu": "2.1 Process સમજો,પછી Solve કરો"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "2.1.1 First find the section that can fail",
+            "gu": "2.1.1 પહેલાં Failure Section શોધો"
+          },
+          "body": {
+            "en": "<h4>Start with the situation</h4><p>A pin may shear, a thin eye may tear, and a contact surface may crush even when the rod itself is strong.</p><h4>Definition / principle</h4><p>Direct-stress design compares load with the correctly identified resisting area and allowable stress.</p><h4>Understand why</h4><p>Capacity is area×allowable stress for the stated failure; the smallest relevant capacity governs.</p><h4>Application / illustration</h4><p>A joint is a chain of components, not just one diameter calculation.</p><h4>Common mistake / conditions</h4><p>Projected bearing area is not the curved contact surface area; single and double shear count actual interfaces.</p><details class=\"self-check\"><summary>Does double shear mean double load?</summary><p>No. The same transmitted load is resisted at two shear planes.</p></details>",
+            "gu": "<h4>પરિસ્થિતિથી શરૂઆત</h4><p>Rod મજબૂત હોવા છતાં pin shear,thin eye tear,contact surface crush થઈ શકે.</p><h4>Definition / Principle</h4><p>Direct-stress designમાં loadને correct resisting area,allowable stress સાથે compare કરીએ.</p><h4>કારણ સાથે સમજીએ</h4><p>Stated failure માટે capacity=area×allowable stress;relevant capacitiesમાંથી સૌથી નાની governing બને.</p><h4>Application / ઉદાહરણ</h4><p>Joint અનેક componentsની chain છે,ફક્ત એક diameterની ગણતરી નહિ.</p><h4>Common Mistake / શરતો</h4><p>Projected bearing area curved surface area નથી;single/double shearમાં actual interfaces ગણો.</p><details class=\"self-check\"><summary>Double Shear એટલે Double Load?</summary><p>ના.Same transmitted loadને બે shear planes resist કરે.</p></details>"
+          },
+          "diagram": "d2_area"
+        },
+        {
+          "h": {
+            "en": "2.1.2 Resisting-area toolbox",
+            "gu": "2.1.2 Resisting-area માટેનું Toolbox"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>Label the plane and force direction before selecting an equation.</p><h4>Understand why</h4><p>Round rod in axial tension:A=pi d²/4.Plate with one transverse hole:Anet=(w−dh)t.</p><p>Pin in single shear:A=pi dp²/4; double shear:A=2pi dp²/4 when both planes carry the total load.</p><p>Pin/plate bearing uses projected area dp t; two identical fork lugs use2dp tf.</p><p>Edge shear-out uses the actual ligament length from hole edge, not blindly the hole-centre edge distance.</p>",
+            "gu": "<h4>Definition / Principle</h4><p>Equation પહેલાં plane,force direction label કરો.</p><h4>કારણ સાથે સમજીએ</h4><p>Axial round rod A=pi d²/4;એક transverse holeવાળી plate Anet=(w−dh)t.</p><p>Single-shear pin A=pi dp²/4;double shear A=2pi dp²/4 જ્યારે બન્ને planes total load લે.</p><p>Pin/plate bearing projected area dp t;બે identical fork lugsમાં2dp tf.</p><p>Edge shear-outમાં hole edgeથી actual ligament લો;hole-centre edge distance અંધપણે નહિ.</p>"
+          },
+          "diagram": "d2_area"
+        },
+        {
+          "h": {
+            "en": "2.1.3 Net plate and double-shear pin",
+            "gu": "2.1.3 Net Plate અને Double-shear Pin"
+          },
+          "body": {
+            "en": "<h4>Given and model</h4><p>P24kN, plate w50mm, t8mm, hole dh18mm, pin dp16mm; allowables tension100, shear70, bearing160MPa.</p><h4>Step-by-step solution</h4><ol><li>Net tensile stress=24000/[(50−18)×8]=93.75MPa</li><li>Double-shear pin stress=24000/[2pi×16²/4]=59.6831MPa</li><li>Single plate bearing=24000/(16×8)=187.5MPa</li></ol><h4>Common mistake / conditions</h4><p>Tension and pin shear pass, but bearing fails. This trial must be revised; passing two checks does not approve the joint.</p>",
+            "gu": "<h4>આપેલી માહિતી અને Model</h4><p>P24kN,plate w50mm,t8mm,hole dh18mm,pin dp16mm;allowables tension100,shear70,bearing160MPa.</p><h4>Step-by-step ઉકેલ</h4><ol><li>Net tensile stress=24000/[(50−18)×8]=93.75MPa</li><li>Double-shear pin stress=24000/[2pi×16²/4]=59.6831MPa</li><li>Single plate bearing=24000/(16×8)=187.5MPa</li></ol><h4>Common Mistake / શરતો</h4><p>Tension,pin shear pass થાય,પણ bearing fail થાય.Trial સુધારવો પડે;બે checks pass એટલે joint approved નહિ.</p>"
+          },
+          "diagram": "d2_area"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.2 Knuckle joint:design each load-path element",
+        "gu": "2.2 Knuckle Joint:Load-pathના દરેક Elementનું Design"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "2.2.1 Knuckle joint:function, parts and force path",
+            "gu": "2.2.1 Knuckle Joint:Function,Parts અને Force Path"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>An eye fits between fork lugs and a transverse pin allows limited angular motion while transferring axial load.</p><h4>Understand why</h4><p>The two rods, one single eye, one fork, pin, pin head and approved retention form the joint.</p><p>Rod force enters one member, passes by bearing into the pin, and leaves through the other member.</p><p>Applications include suitable tension links and tie connections; compressive use needs buckling and alignment checks.</p><p>Allowable stresses for rod, pin and lug may differ; state them rather than assuming one material value for all.</p>",
+            "gu": "<h4>Definition / Principle</h4><p>Eye fork lugs વચ્ચે fit થાય;transverse pin limited angular motion સાથે axial load transfer કરે.</p><h4>કારણ સાથે સમજીએ</h4><p>બે rods,single eye,fork,pin,pin head,approved retention joint બનાવે.</p><p>Rod force એક memberથી bearing દ્વારા pinમાં,પછી બીજા memberમાં જાય.</p><p>Suitable tension links,tie connectionsમાં ઉપયોગ;compressionમાં buckling,alignment જુઓ.</p><p>Rod,pin,lugના allowables જુદાં હોઈ શકે;એક value બધાં માટે ન માનો.</p>"
+          },
+          "diagram": "d2_knuckle"
+        },
+        {
+          "h": {
+            "en": "2.2.2 Knuckle rod and pin sizing",
+            "gu": "2.2.2 Knuckle Rod અને Pin Sizing"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>Begin with rod tension and pin double shear, then check pin bending using a defined contact model.</p><h4>Understand why</h4><p>Rod:d≥sqrt(4P/(pi sigma t)).Pin shear:dp≥sqrt(2P/(pi tau)).</p><p>For eye thicknesst and each fork thicknesst1, a common model uses uniform eye loading and triangular fork reactions.</p><p>In that model Mmax=(P/2)(t/4+t1/3); pin bending stress=32Mmax/(pi dp³).</p><p>Size from all criteria; changing t or t1 changes the pin bending check as well as bearing area.</p>",
+            "gu": "<h4>Definition / Principle</h4><p>પહેલાં rod tension,pin double shear;પછી defined contact modelથી pin bending જુઓ.</p><h4>કારણ સાથે સમજીએ</h4><p>Rod d≥sqrt(4P/(pi sigma t));pin shear dp≥sqrt(2P/(pi tau)).</p><p>Eye thickness t,દરેક fork thickness t1 માટે common modelમાં uniform eye load,triangular fork reaction લો.</p><p>આ modelમાં Mmax=(P/2)(t/4+t1/3);pin bending stress=32Mmax/(pi dp³).</p><p>બધા criteriaથી size લો;t,t1 બદલાય તો bearing area સાથે pin bending પણ બદલાય.</p>"
+          },
+          "diagram": "d2_pin"
+        },
+        {
+          "h": {
+            "en": "2.2.3 Knuckle eye/fork checks",
+            "gu": "2.2.3 Knuckle Eye/Forkના Checks"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>LetDe be the outside width across the pin hole; use actual chosen dimensions.</p><h4>Understand why</h4><p>Eye bearing:P/(dp t); two-fork bearing:P/(2dp t1).</p><p>Eye net tension:P/[(De−dp)t]; fork net tension:P/[2(De−dp)t1] for the stated simplified profile.</p><p>For end ligamenta from hole edge, eye shear-out area2at; two forks give4at1.</p><p>Head/retainer, clearance, wear and articulation are separate details; an empirical head size is not proof against every service load.</p>",
+            "gu": "<h4>Definition / Principle</h4><p>Pin holeની બહારની width De લો;actual selected dimensions વાપરો.</p><h4>કારણ સાથે સમજીએ</h4><p>Eye bearing P/(dp t);two-fork bearing P/(2dp t1).</p><p>Stated simplified profileમાં eye net tension P/[(De−dp)t];fork P/[2(De−dp)t1].</p><p>Hole edgeથી end ligament a હોય તો eye shear-out area2at;બે forksમાં4at1.</p><p>Head/retainer,clearance,wear,articulation અલગ details;empirical head size દરેક service loadનો proof નથી.</p>"
+          },
+          "diagram": "d2_knuckle_checks"
+        },
+        {
+          "h": {
+            "en": "2.2.4 Knuckle numerical:select a trial layout",
+            "gu": "2.2.4 Knuckle Numerical:Trial Layout પસંદ કરો"
+          },
+          "body": {
+            "en": "<h4>Given and model</h4><p>P40kN; allowable tension/bending80, shear50, bearing120MPa. Steady-load teaching model.</p><h4>Step-by-step solution</h4><ol><li>Rod dmin=sqrt(4×40000/(pi×80))=25.2313mm; select30mm</li><li>Pin shear dpmin=sqrt(2×40000/(pi×50))=22.5676mm</li><li>Choose eye t25mm, each fork t1=15mm, trial pin32mm, outside width De70mm</li><li>Mmax=(40000/2)(25/4+15/3)=225000Nmm</li><li>Pin bending stress=32×225000/(pi×32³)=69.9411MPa</li></ol><h4>Common mistake / conditions</h4><p>32mm pin is governed more strongly by bending than its simple double-shear minimum; complete the remaining checks.</p>",
+            "gu": "<h4>આપેલી માહિતી અને Model</h4><p>P40kN;allowable tension/bending80,shear50,bearing120MPa.Steady-load teaching model.</p><h4>Step-by-step ઉકેલ</h4><ol><li>Rod dmin=sqrt(4×40000/(pi×80))=25.2313mm;select30mm</li><li>Pin shear dpmin=sqrt(2×40000/(pi×50))=22.5676mm</li><li>Choose eye t25mm,each fork t1=15mm,trial pin32mm,outside width De70mm</li><li>Mmax=(40000/2)(25/4+15/3)=225000Nmm</li><li>Pin bending stress=32×225000/(pi×32³)=69.9411MPa</li></ol><h4>Common Mistake / શરતો</h4><p>32mm pin માટે simple double-shear કરતાં bending વધુ governing છે;બાકીના checks પૂર્ણ કરો.</p>"
+          },
+          "diagram": "d2_pin"
+        },
+        {
+          "h": {
+            "en": "2.2.5 Knuckle numerical:verify the selected dimensions",
+            "gu": "2.2.5 Knuckle Numerical:Selected Dimensions Verify કરો"
+          },
+          "body": {
+            "en": "<h4>Given and model</h4><p>Use P40kN, d30, dp32, t25, t1=15, De70mm; round profile end ligamenta=(70−32)/2=19mm.</p><h4>Step-by-step solution</h4><ol><li>Rod tension=40000/(pi×30²/4)=56.5884MPa</li><li>Pin double shear=40000/(2pi×32²/4)=24.8680MPa</li><li>Eye bearing=40000/(32×25)=50MPa; fork bearing=40000/(2×32×15)=41.6667MPa</li><li>Eye net tension=40000/[(70−32)×25]=42.1053MPa</li><li>Fork net tension=40000/[2(70−32)×15]=35.0877MPa</li><li>Eye shear-out=40000/(2×19×25)=42.1053MPa; fork shear-out=40000/(4×19×15)=35.0877MPa</li></ol><h4>Common mistake / conditions</h4><p>These nominal checks and the preceding pin-bending check pass their supplied allowables; retention, wear, fatigue and detailed geometry remain outside this simplified verification.</p>",
+            "gu": "<h4>આપેલી માહિતી અને Model</h4><p>P40kN,d30,dp32,t25,t1=15,De70mm;round profileમાં a=(70−32)/2=19mm.</p><h4>Step-by-step ઉકેલ</h4><ol><li>Rod tension=40000/(pi×30²/4)=56.5884MPa</li><li>Pin double shear=40000/(2pi×32²/4)=24.8680MPa</li><li>Eye bearing=40000/(32×25)=50MPa;fork bearing=40000/(2×32×15)=41.6667MPa</li><li>Eye net tension=40000/[(70−32)×25]=42.1053MPa</li><li>Fork net tension=40000/[2(70−32)×15]=35.0877MPa</li><li>Eye shear-out=40000/(2×19×25)=42.1053MPa;fork shear-out=40000/(4×19×15)=35.0877MPa</li></ol><h4>Common Mistake / શરતો</h4><p>આ nominal checks,અગાઉનું pin bending given allowablesમાં pass થાય;retention,wear,fatigue,detailed geometry simplified verification બહાર છે.</p>"
+          },
+          "diagram": "d2_knuckle_checks"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.3 Cotter joint:slots and shoulders matter",
+        "gu": "2.3 Cotter Joint:Slots અને Shoulders મહત્વનાં"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "2.3.1 Cotter joint:function, construction and working",
+            "gu": "2.3.1 Cotter Joint:Function,Construction અને Working"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>A shallow transverse wedge secures a spigot inside a socket to connect coaxial rods under axial load.</p><h4>Understand why</h4><p>Parts include rod ends, socket, spigot, matching slots, cotter and appropriate collars/shoulders.</p><p>The axial force transfers through shoulder/contact and cotter-bearing paths according to load direction and construction.</p><p>The taper facilitates assembly/tightening; friction, retention and service vibration must be reviewed, not assumed from taper alone.</p><p>A cotter connects axial-force members; keys and couplings normally transmit shaft torque. Do not interchange their design equations.</p>",
+            "gu": "<h4>Definition / Principle</h4><p>Shallow transverse wedge socketમાં spigot secure કરીને coaxial rodsને axial load માટે જોડે.</p><h4>કારણ સાથે સમજીએ</h4><p>Rod ends,socket,spigot,matching slots,cotter,appropriate collars/shoulders parts છે.</p><p>Load direction,construction મુજબ axial force shoulder/contact,cotter-bearing pathsથી transfer થાય.</p><p>Taper assembly/tighteningમાં મદદ કરે;friction,retention,vibration તપાસો,ફક્ત taperથી safe ન માનો.</p><p>Cotter axial-force members જોડે;keys,couplings shaft torque આપે.Equations interchange ન કરો.</p>"
+          },
+          "diagram": "d2_cotter"
+        },
+        {
+          "h": {
+            "en": "2.3.2 Cotter failure areas and design sequence",
+            "gu": "2.3.2 Cotter Failure Areas અને Design Sequence"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>Use d for rod, ds for spigot diameter, D for socket outside diameter, t for cotter thickness andb for its breadth.</p><h4>Understand why</h4><p>Rod tension usespi d²/4; spigot across slot usespi ds²/4−ds t.</p><p>Socket net tension usespi(D²−ds²)/4−(D−ds)t in the stated projected-slot approximation.</p><p>Cotter double shear area2bt; spigot bearing area ds t; socket bearing area(D−ds)t.</p><p>Check cotter bending, collar bearing/shear and end shear-out too; enlarging one part may change another failure mode.</p>",
+            "gu": "<h4>Definition / Principle</h4><p>Rod d,spigot diameter ds,socket outside diameter D,cotter thickness t,breadth b લો.</p><h4>કારણ સાથે સમજીએ</h4><p>Rod tensionમાં pi d²/4;slot સામે spigotમાં pi ds²/4−ds t.</p><p>Projected-slot approximationમાં socket net area pi(D²−ds²)/4−(D−ds)t.</p><p>Cotter double shear area2bt;spigot bearing ds t;socket bearing(D−ds)t.</p><p>Cotter bending,collar bearing/shear,end shear-out પણ જુઓ;એક part મોટો કરતાં બીજો failure બદલાય.</p>"
+          },
+          "diagram": "d2_slot"
+        },
+        {
+          "h": {
+            "en": "2.3.3 Cotter numerical:rod, slots, shear and bearing",
+            "gu": "2.3.3 Cotter Numerical:Rod,Slots,Shear અને Bearing"
+          },
+          "body": {
+            "en": "<h4>Given and model</h4><p>P30kN; allowable tension/bending80, shear50, bearing120MPa. Trial d25, ds36, D70, t10, b50mm.</p><h4>Step-by-step solution</h4><ol><li>Rod stress=30000/(pi×25²/4)=61.1155MPa</li><li>Spigot net area=pi×36²/4−36×10=657.8760mm²; stress=45.6013MPa</li><li>Socket net area=pi(70²−36²)/4−(70−36)10=2490.5750mm²; stress=12.0454MPa</li><li>Cotter shear=30000/(2×50×10)=30MPa</li><li>Spigot bearing=30000/(36×10)=83.3333MPa; socket bearing=30000/[(70−36)10]=88.2353MPa</li></ol><h4>Common mistake / conditions</h4><p>All listed checks pass supplied allowables; the next card checks bending and collars rather than treating this as complete.</p>",
+            "gu": "<h4>આપેલી માહિતી અને Model</h4><p>P30kN;allowable tension/bending80,shear50,bearing120MPa.Trial d25,ds36,D70,t10,b50mm.</p><h4>Step-by-step ઉકેલ</h4><ol><li>Rod stress=30000/(pi×25²/4)=61.1155MPa</li><li>Spigot net area=pi×36²/4−36×10=657.8760mm²;stress=45.6013MPa</li><li>Socket net area=pi(70²−36²)/4−(70−36)10=2490.5750mm²;stress=12.0454MPa</li><li>Cotter shear=30000/(2×50×10)=30MPa</li><li>Spigot bearing=30000/(36×10)=83.3333MPa;socket bearing=30000/[(70−36)10]=88.2353MPa</li></ol><h4>Common Mistake / શરતો</h4><p>Listed checks pass થાય;આગળ bending,collars check કરીશું,અહીં complete નહિ.</p>"
+          },
+          "diagram": "d2_cotter_checks"
+        },
+        {
+          "h": {
+            "en": "2.3.4 Cotter bending, collars and end ligaments",
+            "gu": "2.3.4 Cotter Bending,Collars અને End Ligaments"
+          },
+          "body": {
+            "en": "<h4>Given and model</h4><p>Use preceding layout. Assume symmetric uniform socket bearing over outer segments and uniform spigot load over the centre; cotter spanD70mm. Z=t b²/6.</p><h4>Step-by-step solution</h4><ol><li>For this model Mmax=PD/8=30000×70/8=262500Nmm</li><li>Cotter bending stress=6M/(t b²)=6×262500/(10×50²)=63MPa</li><li>Spigot collar OD50, thickness8mm:annular bearing stress=30000/[pi(50²−36²)/4]=31.7252MPa</li><li>Collar shear=30000/(pi×36×8)=33.1573MPa</li><li>For end ligament18mm:spigot shear-out=30000/(2×36×18)=23.1481MPa</li><li>Socket end shear-out=30000/[2(70−36)18]=24.5098MPa</li></ol><h4>Common mistake / conditions</h4><p>The bending formula follows the specified distribution; other pressure models give different moments. Socket shoulder/collar geometry, retention, fillets and fit require a finished drawing and additional checks.</p>",
+            "gu": "<h4>આપેલી માહિતી અને Model</h4><p>અગાઉનું layout લો.Outer segments પર symmetric uniform socket bearing,centre પર uniform spigot load;span D70mm,Z=t b²/6.</p><h4>Step-by-step ઉકેલ</h4><ol><li>For this model Mmax=PD/8=30000×70/8=262500Nmm</li><li>Cotter bending stress=6M/(t b²)=6×262500/(10×50²)=63MPa</li><li>Spigot collar OD50,thickness8mm:annular bearing stress=30000/[pi(50²−36²)/4]=31.7252MPa</li><li>Collar shear=30000/(pi×36×8)=33.1573MPa</li><li>For end ligament18mm:spigot shear-out=30000/(2×36×18)=23.1481MPa</li><li>Socket end shear-out=30000/[2(70−36)18]=24.5098MPa</li></ol><h4>Common Mistake / શરતો</h4><p>Bending formula specified distribution માટે છે;બીજા modelsમાં moment જુદું.Socket shoulder/collar,retention,fillets,fit માટે final drawing,additional checks જોઈએ.</p>"
+          },
+          "diagram": "d2_cotter"
+        },
+        {
+          "h": {
+            "en": "2.3.5 Socket collar:finish the axial-load checks",
+            "gu": "2.3.5 Socket Collar:Axial-load Checks પૂર્ણ કરો"
+          },
+          "body": {
+            "en": "<h4>Given and model</h4><p>For the precedingP30kN joint, provide a socket collarOD90mm at socketOD70mm, collar thickness10mm; allowable bearing120, shear50MPa.</p><h4>Step-by-step solution</h4><ol><li>Collar annular area=pi(90²−70²)/4=2513.2741mm²</li><li>Collar bearing=30000/2513.2741=11.9366MPa</li><li>Collar cylindrical shear=30000/(pi×70×10)=13.6419MPa</li></ol><h4>Common mistake / conditions</h4><p>The specified collar checks pass. The shoulder must actually contact the mating member in the chosen load direction; an unused collar is not an alternative load path.</p>",
+            "gu": "<h4>આપેલી માહિતી અને Model</h4><p>અગાઉના P30kN jointમાં socket OD70mm પર collar OD90mm,thickness10mm લો;bearing allowable120,shear50MPa.</p><h4>Step-by-step ઉકેલ</h4><ol><li>Collar annular area=pi(90²−70²)/4=2513.2741mm²</li><li>Collar bearing=30000/2513.2741=11.9366MPa</li><li>Collar cylindrical shear=30000/(pi×70×10)=13.6419MPa</li></ol><h4>Common Mistake / શરતો</h4><p>Specified collar checks pass.Chosen load directionમાં shoulder mating memberને ખરેખર contact કરતો હોવો જોઈએ;unused collar alternative load path નથી.</p>"
+          },
+          "diagram": "d2_cotter_checks"
+        },
+        {
+          "h": {
+            "en": "2.3.6 Why empirical proportions are only a starting point",
+            "gu": "2.3.6 Empirical Proportions ફક્ત શરૂઆત કેમ?"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>A memorised ratio is not a failure calculation.</p><h4>Understand why</h4><p>Use proportions to propose compatible pin, eye, fork, socket or cotter dimensions.</p><p>Calculate actual areas and stresses after rounding; do not present an unchecked copied proportion as a designed joint.</p><p>Check geometric consistency:hole edge ligament, outside width, slot extent and collar contact must fit the same drawing.</p><p>Identify incomplete checks honestly; fatigue, wear, buckling and assembly need suitable additional analysis when applicable.</p><details class=\"self-check\"><summary>Can knuckle pin double shear alone prove the joint safe?</summary><p>No. Check bending, bearing, net tension, shear-out and service details.</p></details>",
+            "gu": "<h4>Definition / Principle</h4><p>યાદ કરેલો ratio failure calculation નથી.</p><h4>કારણ સાથે સમજીએ</h4><p>Proportionsથી compatible pin,eye,fork,socket,cotter dimensions propose કરો.</p><p>Rounding પછી actual areas,stresses ગણો;unchecked copied proportionને designed joint ન કહો.</p><p>Hole-edge ligament,outside width,slot extent,collar contact એક જ drawingમાં fit થાય તે જુઓ.</p><p>Incomplete checks સ્પષ્ટ લખો;applicable fatigue,wear,buckling,assembly માટે additional analysis જોઈએ.</p><details class=\"self-check\"><summary>ફક્ત Knuckle Pin Double Shearથી Joint Safe સાબિત?</summary><p>ના.Bending,bearing,net tension,shear-out,service details પણ જુઓ.</p></details>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.4 Riveted joints:capacity per pitch",
+        "gu": "2.4 Riveted Joints:Pitchદીઠ Capacity"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "2.4.1 Rivet joint types and terminology",
+            "gu": "2.4.1 Rivet Joint Types અને Terms"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>Rivets permanently clamp plates; lap and butt arrangements have different load paths.</p><h4>Understand why</h4><p>Lap joints overlap plates; butt joints meet main plate edges and use single/double cover straps.</p><p>Single, double, triple riveting describe rows; chain/staggered describe row arrangement.</p><p>Pitchp is centre distance along a row; transverse pitch separates rows; edge distance is from hole centre to plate edge.</p><p>Use hole diameterdh for net plate area and actual design rivet diameterdr for shear/bearing per the stated convention.</p>",
+            "gu": "<h4>Definition / Principle</h4><p>Rivets platesને permanently જોડે;lap,buttમાં load paths જુદાં.</p><h4>કારણ સાથે સમજીએ</h4><p>Lapમાં plates overlap;buttમાં main edges મળે,single/double cover straps હોય.</p><p>Single,double,triple riveting rows બતાવે;chain/staggered row arrangement બતાવે.</p><p>Pitch p rowમાં centre distance;transverse pitch rows વચ્ચે;edge distance hole centreથી plate edge.</p><p>Net plateમાં hole diameter dh,shear/bearingમાં stated convention મુજબ design rivet diameter dr લો.</p>"
+          },
+          "diagram": "d2_lap"
+        },
+        {
+          "h": {
+            "en": "2.4.2 Rivet failure modes and efficiency",
+            "gu": "2.4.2 Rivet Failure Modes અને Efficiency"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>Elementary joint strength is the least of tearing, shear and bearing capacities on a consistent pitch basis.</p><h4>Understand why</h4><p>One-hole net plate tearing:Pt=(p−dh)t sigma t. Solid plate strength per pitch=p t sigma t.</p><p>Rivet shear:Ps=n z(pi dr²/4)tau, wherez counts effective shear planes andn counts load-sharing rivets on the selected load-transfer side.</p><p>Bearing:Pc=n dr tgoverning sigma c; cover/main thicknesses must be checked separately.</p><p>Efficiency=minimum relevant joint capacity/(solid plate capacity); also check edge shear-out and any diagonal tearing paths.</p>",
+            "gu": "<h4>Definition / Principle</h4><p>Same pitch basisમાં tearing,shear,bearing capacitiesમાંથી least elementary strength છે.</p><h4>કારણ સાથે સમજીએ</h4><p>One-hole net tearing Pt=(p−dh)t sigma t;solid plate strength p t sigma t.</p><p>Ps=n z(pi dr²/4)tau;z effective shear planes,n selected sideના load-sharing rivets.</p><p>Bearing Pc=n dr tgoverning sigma c;cover/main thickness અલગ તપાસો.</p><p>Efficiency=minimum relevant joint capacity/solid plate capacity;edge shear-out,diagonal tearing paths પણ જુઓ.</p>"
+          },
+          "diagram": "d2_rivetfail"
+        },
+        {
+          "h": {
+            "en": "2.4.3 Single-riveted lap joint numerical",
+            "gu": "2.4.3 Single-riveted Lap Joint Numerical"
+          },
+          "body": {
+            "en": "<h4>Given and model</h4><p>One rivet per pitch:p60, t8, dr16, dh18mm; allowables sigma t100, tau70, sigma c140MPa.</p><h4>Step-by-step solution</h4><ol><li>Plate tearing=(60−18)×8×100=33600N</li><li>Single shear=pi×16²/4×70=14074.335N</li><li>Bearing=16×8×140=17920N</li><li>Joint strength=14074.335N; solid plate=60×8×100=48000N</li><li>Efficiency=14074.335/48000×100=29.3215%</li></ol><h4>Common mistake / conditions</h4><p>With edge-centre distance24mm, the net ligament is24−18/2=15mm; edge shear-out capacity2×15×8×70=16800N, so rivet shear still governs.</p>",
+            "gu": "<h4>આપેલી માહિતી અને Model</h4><p>Pitchદીઠ એક rivet:p60,t8,dr16,dh18mm;allowables sigma t100,tau70,sigma c140MPa.</p><h4>Step-by-step ઉકેલ</h4><ol><li>Plate tearing=(60−18)×8×100=33600N</li><li>Single shear=pi×16²/4×70=14074.335N</li><li>Bearing=16×8×140=17920N</li><li>Joint strength=14074.335N;solid plate=60×8×100=48000N</li><li>Efficiency=14074.335/48000×100=29.3215%</li></ol><h4>Common Mistake / શરતો</h4><p>Edge-centre distance24mmમાં net ligament24−18/2=15mm;edge shear-out2×15×8×70=16800N,એટલે rivet shear governing.</p>"
+          },
+          "diagram": "d2_lap"
+        },
+        {
+          "h": {
+            "en": "2.4.4 Double-cover butt joint:avoid double-counting",
+            "gu": "2.4.4 Double-cover Butt Joint:Double-counting ટાળો"
+          },
+          "body": {
+            "en": "<h4>Given and model</h4><p>Use same main plate, pitch and rivet data; one rivet per pitch on EACH side of butt, two covers6mm each, ideal double shear.</p><h4>Step-by-step solution</h4><ol><li>Shear capacity on one load-transfer side=2×pi×16²/4×70=28148.670N</li><li>Main-plate bearing=16×8×140=17920N</li><li>Combined cover bearing=2×16×6×140=26880N</li><li>Main net tearing=33600N; combined cover net tearing=2(60−18)×6×100=50400N</li><li>Governing listed capacity=17920N; efficiency=17920/48000×100=37.3333%</li></ol><h4>Common mistake / conditions</h4><p>Both sides transmit the same force in series; do not add their capacities. Edge/stagger paths, cover bending and real double-shear factors require the specified design method.</p><details class=\"self-check\"><summary>Is contact curved area the bearing area here?</summary><p>No. The elementary bearing check uses projected area.</p></details>",
+            "gu": "<h4>આપેલી માહિતી અને Model</h4><p>Same main plate,pitch,rivet data;buttની દરેક side પર pitchદીઠ એક rivet,બે covers6mmદરેક,ideal double shear.</p><h4>Step-by-step ઉકેલ</h4><ol><li>Shear capacity on one load-transfer side=2×pi×16²/4×70=28148.670N</li><li>Main-plate bearing=16×8×140=17920N</li><li>Combined cover bearing=2×16×6×140=26880N</li><li>Main net tearing=33600N;combined cover net tearing=2(60−18)×6×100=50400N</li><li>Governing listed capacity=17920N;efficiency=17920/48000×100=37.3333%</li></ol><h4>Common Mistake / શરતો</h4><p>બન્ને sides same force seriesમાં transfer કરે;capacities ઉમેરશો નહિ.Edge/stagger paths,cover bending,real double-shear factors specified methodથી જુઓ.</p><details class=\"self-check\"><summary>અહીં Curved Contact Area Bearing Area છે?</summary><p>ના.Elementary bearing check projected area વાપરે.</p></details>"
+          },
+          "diagram": "d2_butt"
+        }
+      ]
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "d2_area",
+      "title": {
+        "en": "Resisting area: normal stress versus pin shear",
+        "gu": "2.1.1 પહેલાં Failure Section શોધો"
+      },
+      "file": "diagrams/d2_area.svg"
+    },
+    {
+      "id": "d2_knuckle",
+      "title": {
+        "en": "Knuckle joint: connected fork,central eye and transverse pin",
+        "gu": "2.2.1 Knuckle Joint:Function,Parts અને Force Path"
+      },
+      "file": "diagrams/d2_knuckle.svg"
+    },
+    {
+      "id": "d2_pin",
+      "title": {
+        "en": "Knuckle pin bending: load spread across eye and fork",
+        "gu": "2.2.2 Knuckle Rod અને Pin Sizing"
+      },
+      "file": "diagrams/d2_pin.svg"
+    },
+    {
+      "id": "d2_knuckle_checks",
+      "title": {
+        "en": "Knuckle checks: do not stop at pin double shear",
+        "gu": "2.2.3 Knuckle Eye/Forkના Checks"
+      },
+      "file": "diagrams/d2_knuckle_checks.svg"
+    },
+    {
+      "id": "d2_cotter",
+      "title": {
+        "en": "Socket-and-spigot cotter joint: axial load,transverse wedge",
+        "gu": "2.3.1 Cotter Joint:Function,Construction અને Working"
+      },
+      "file": "diagrams/d2_cotter.svg"
+    },
+    {
+      "id": "d2_slot",
+      "title": {
+        "en": "Cotter-slot net sections: the slot removes tensile area",
+        "gu": "2.3.2 Cotter Failure Areas અને Design Sequence"
+      },
+      "file": "diagrams/d2_slot.svg"
+    },
+    {
+      "id": "d2_cotter_checks",
+      "title": {
+        "en": "Cotter load path and possible failures",
+        "gu": "2.3.3 Cotter Numerical:Rod,Slots,Shear અને Bearing"
+      },
+      "file": "diagrams/d2_cotter_checks.svg"
+    },
+    {
+      "id": "d2_lap",
+      "title": {
+        "en": "Lap joint: plate overlap and one rivet shear plane",
+        "gu": "2.4.1 Rivet Joint Types અને Terms"
+      },
+      "file": "diagrams/d2_lap.svg"
+    },
+    {
+      "id": "d2_rivetfail",
+      "title": {
+        "en": "Riveted plate: pitch ligament and edge shear-out paths",
+        "gu": "2.4.2 Rivet Failure Modes અને Efficiency"
+      },
+      "file": "diagrams/d2_rivetfail.svg"
+    },
+    {
+      "id": "d2_butt",
+      "title": {
+        "en": "Double-cover butt joint: main plates meet,cover straps bridge",
+        "gu": "2.4.4 Double-cover Butt Joint:Double-counting ટાળો"
+      },
+      "file": "diagrams/d2_butt.svg"
+    }
+  ],
+  "programs": [],
+  "syntax": [
+    {
+      "title": {
+        "en": "Quick reference",
+        "gu": "Quick Reference"
+      },
+      "items": [
+        {
+          "name": {
+            "en": "Direct-stress design",
+            "gu": "Direct-stress Designનાં સૂત્રો"
+          },
+          "f": "sigma=P/Anet;tau=P/Ashear\nBearing=P/Aprojected\nRivet efficiency=Pjoint/Psolid",
+          "terms": {
+            "en": "Define each dimension, force path, shear-plane count and allowable separately.",
+            "gu": "દરેક dimension,force path,shear-plane count,allowable અલગ જણાવો."
+          }
+        }
+      ]
+    }
+  ],
+  "viva": [
+    {
+      "title": {
+        "en": "Viva with answers",
+        "gu": "Viva:Answers સાથે"
+      },
+      "items": [
+        {
+          "q": {
+            "en": "Net area vs gross?",
+            "gu": "Net સામે Gross Area?"
+          },
+          "a": {
+            "en": "Net subtracts material absent at the critical section.",
+            "gu": "Critical sectionનું ગાયબ material netમાં બાદ થાય."
+          }
+        },
+        {
+          "q": {
+            "en": "Bearing area for a pin?",
+            "gu": "Pin Bearing Area?"
+          },
+          "a": {
+            "en": "Aprojected=dp t",
+            "gu": "Aprojected=dp t"
+          }
+        },
+        {
+          "q": {
+            "en": "Knuckle pin shear planes?",
+            "gu": "Knuckle Pin Shear Planes?"
+          },
+          "a": {
+            "en": "2",
+            "gu": "2"
+          }
+        },
+        {
+          "q": {
+            "en": "Cotter vs key?",
+            "gu": "Cotter સામે Key?"
+          },
+          "a": {
+            "en": "Axial rod connection versus shaft-hub torque transmission.",
+            "gu": "Axial rod connection સામે shaft-hub torque transmission."
+          }
+        },
+        {
+          "q": {
+            "en": "Rivet efficiency?",
+            "gu": "Rivet Efficiency?"
+          },
+          "a": {
+            "en": "Joint capacity/solid plate capacity on the same basis.",
+            "gu": "Same basisમાં joint capacity/solid plate capacity."
+          }
+        },
+        {
+          "q": {
+            "en": "Butt-side capacities add?",
+            "gu": "Buttની બન્ને Side Capacities ઉમેરાય?"
+          },
+          "a": {
+            "en": "No. They are series load-transfer paths.",
+            "gu": "ના.Series load-transfer paths છે."
+          }
+        }
+      ]
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Explain resisting areas for rod, pin, plate and bearing with sketches.",
+        "gu": "Rod,Pin,Plate,Bearing Resisting Areas sketchથી સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Design and verify knuckle joint forP40kN, allowable tension/bending80, shear50, bearing120MPa using stated contact model.",
+        "gu": "Stated contact modelથી P40kN,tension/bending80,shear50,bearing120MPa માટે Knuckle Joint design/verify કરો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain cotter-joint failure modes and verify the supplied d25, ds36, D70, t10, b50mm forP30kN.",
+        "gu": "P30kN માટે d25,ds36,D70,t10,b50mm Cotter Jointના Failure Modes,Checks સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "p60, t8, dr16, dh18, sigma t100, tau70, sigma c140:find single-lap strength/efficiency.",
+        "gu": "Given dataથી Single-lap Strength/Efficiency ગણો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain double-cover butt-joint load path and compare with lap-joint shear planes.",
+        "gu": "Double-cover Butt-joint Load Path,Lap-joint Shear Planes compare કરો."
+      },
+      "marks": 4
+    }
+  ],
+  "exam_policy": "Questions and suggested marks only. Answers in Notes/Viva.",
+  "question_provenance": "Original practice,not official past-paper questions or predictions.",
+  "question_marks_are_suggested": true,
+  "translation_policy": "Equivalent English/Gujarati explanations,steps,examples,assumptions and cautions.",
+  "runtime_evidence": {
+    "physical_practicals_performed": false,
+    "android_runtime_tested": false
+  },
+  "sources": [
+    {
+      "title": "Owner-supplied GTU DI04000251,2025–26",
+      "reference": "Contents pp2–3;scheme p1;practicals pp5–6."
+    }
+  ],
+  "diagram_note": "Original labelled conceptual teaching diagrams,not operation/fabrication instructions."
+}

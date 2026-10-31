@@ -1,0 +1,349 @@
+{
+  "subject": "DI04000251",
+  "unit": 3,
+  "title": {
+    "en": "Design for Bending Stresses",
+    "gu": "Bending Stresses માટે Design"
+  },
+  "format": "notes",
+  "languages": [
+    "en",
+    "gu"
+  ],
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "hours": 6,
+  "weightage": 10,
+  "notes": [
+    {
+      "title": {
+        "en": "3.1 Learn the process,then solve",
+        "gu": "3.1 Process સમજો,પછી Solve કરો"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "3.1.1 Bending is a stress gradient",
+            "gu": "3.1.1 Bendingમાં Stress બદલાય છે"
+          },
+          "body": {
+            "en": "<h4>Start with the situation</h4><p>A lever arm may look thick but still fail at the boss fillet where moment and local stress are high.</p><h4>Definition / principle</h4><p>A bending moment produces tensile stress on one side and compressive stress on the opposite side of a section.</p><h4>Understand why</h4><p>In elementary elastic bending, stress varies linearly with distance from the neutral axis.</p><h4>Application / illustration</h4><p>Section orientation matters:turning a rectangular flat through90degrees changes its bending section modulus.</p><h4>Common mistake / conditions</h4><p>A shear force and local contact may accompany bending; pure-bending equations do not erase those checks.</p><details class=\"self-check\"><summary>Does a larger I always prove a safer lever?</summary><p>No. Use Z about the correct axis and also check pin, boss, load path and service conditions.</p></details>",
+            "gu": "<h4>પરિસ્થિતિથી શરૂઆત</h4><p>Lever arm જાડો લાગે,પણ boss fillet પાસે moment,local stressથી fail થઈ શકે.</p><h4>Definition / Principle</h4><p>Bending moment sectionની એક બાજુ tensile,વિરુદ્ધ બાજુ compressive stress આપે.</p><h4>કારણ સાથે સમજીએ</h4><p>Elementary elastic bendingમાં stress neutral axisથી distance પ્રમાણે linearly બદલાય.</p><h4>Application / ઉદાહરણ</h4><p>Section orientation મહત્વની:rectangular flat90degrees ફેરવતાં bending section modulus બદલાય.</p><h4>Common Mistake / શરતો</h4><p>Bending સાથે shear,local contact હોઈ શકે;pure-bending equationથી એ checks દૂર થતાં નથી.</p><details class=\"self-check\"><summary>વધુ Iથી Lever Safe સાબિત?</summary><p>ના.Correct axisનો Z,pin,boss,load path,service conditions પણ જુઓ.</p></details>"
+          },
+          "diagram": "d3_bend"
+        },
+        {
+          "h": {
+            "en": "3.1.2 Fundamental bending equation and assumptions",
+            "gu": "3.1.2 Fundamental Bending Equation અને Assumptions"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>Use M/I=sigma/y=E/R for a suitable slender, linear-elastic beam model.</p><h4>Understand why</h4><p>M is moment at the section, I second moment of area about the bending axis, y distance from neutral axis, E elastic modulus, R curvature radius.</p><p>Plane sections remain plane; material behaviour is elastic and the section/geometry assumptions must be appropriate.</p><p>Maximum bending stress=M/Z, whereZ=I/c andc is the extreme-fibre distance.</p><p>Use normal-stress allowable for bending under the chosen criterion; check shear, deflection, notches and stability separately.</p>",
+            "gu": "<h4>Definition / Principle</h4><p>Suitable slender,linear-elastic beam modelમાં M/I=sigma/y=E/R લો.</p><h4>કારણ સાથે સમજીએ</h4><p>M sectionનું moment,I bending axis સામે second moment,y neutral axisથી distance,E elastic modulus,R curvature radius.</p><p>Plane sections plane રહે;material elastic હોય,section/geometry assumptions યોગ્ય હોવાં જોઈએ.</p><p>Maximum bending stress=M/Z;Z=I/c,c extreme-fibre distance.</p><p>Chosen criterion મુજબ normal-stress allowable લો;shear,deflection,notches,stability અલગ જુઓ.</p>"
+          },
+          "diagram": "d3_bend"
+        },
+        {
+          "h": {
+            "en": "3.1.3 Section modulus of common sections",
+            "gu": "3.1.3 Common Sectionsનો Section Modulus"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>Section modulus measures bending resistance geometrically; units aremm³, notmm⁴.</p><h4>Understand why</h4><p>Rectangle about centroid axis parallel to widthb:I=bh³/12, Z=bh²/6.</p><p>Square sidea:Z=a³/6.Solid circular diameterd:Z=pi d³/32.</p><p>Hollow circular section:Z=pi(Do⁴−Di⁴)/(32Do).</p><p>I, T, L, C sections need the correct centroid, I and extreme distances; unsymmetrical sections may have different tensile/compressive extreme stresses.</p>",
+            "gu": "<h4>Definition / Principle</h4><p>Section modulus geometryથી bending resistance બતાવે;unit mm³ છે,mm⁴ નહિ.</p><h4>કારણ સાથે સમજીએ</h4><p>Width bને parallel centroid axis માટે rectangle I=bh³/12,Z=bh²/6.</p><p>Square side a માટે Z=a³/6;solid circular d માટે Z=pi d³/32.</p><p>Hollow circular Z=pi(Do⁴−Di⁴)/(32Do).</p><p>I,T,L,C sectionsમાં correct centroid,I,extreme distances જોઈએ;unsymmetricalમાં tensile/compressive extremes જુદાં હોઈ શકે.</p>"
+          },
+          "diagram": "d3_sections"
+        },
+        {
+          "h": {
+            "en": "3.1.4 Size a rectangular bending section",
+            "gu": "3.1.4 Rectangular Bending Sectionનું Size"
+          },
+          "body": {
+            "en": "<h4>Given and model</h4><p>M1kNm=1000000Nmm, allowable80MPa, height h=2b.</p><h4>Step-by-step solution</h4><ol><li>Zrequired=M/sigma=1000000/80=12500mm³</li><li>Since b=h/2, Z=h³/12; hmin=(12×12500)^(1/3)=53.1329mm</li><li>Select b30, h60mm:Z=30×60²/6=18000mm³</li><li>Bending stress=1000000/18000=55.5556MPa</li></ol><h4>Common mistake / conditions</h4><p>If the30×60mm section is turned to h30, b60, Z drops to9000mm³ and stress becomes111.111MPa:orientation can change a pass to failure.</p>",
+            "gu": "<h4>આપેલી માહિતી અને Model</h4><p>M1kNm=1000000Nmm,allowable80MPa,height h=2b.</p><h4>Step-by-step ઉકેલ</h4><ol><li>Zrequired=M/sigma=1000000/80=12500mm³</li><li>Since b=h/2,Z=h³/12;hmin=(12×12500)^(1/3)=53.1329mm</li><li>Select b30,h60mm:Z=30×60²/6=18000mm³</li><li>Bending stress=1000000/18000=55.5556MPa</li></ol><h4>Common Mistake / શરતો</h4><p>30×60mmને h30,b60 ફેરવીએ તો Z9000mm³,stress111.111MPa થાય;orientationથી pass fail બની શકે.</p>"
+          },
+          "diagram": "d3_sections"
+        },
+        {
+          "h": {
+            "en": "3.1.5 Levers:classes, applications and force balance",
+            "gu": "3.1.5 Levers:Classes,Applications અને Force Balance"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>A lever rotates about a fulcrum; use perpendicular moment arms.</p><h4>Understand why</h4><p>ClassI:fulcrum between effort and load, as in suitable rocker/crowbar arrangements.</p><p>ClassII:load between fulcrum and effort, as in a wheelbarrow idealisation. ClassIII:effort between, as in many forceps-like mechanisms.</p><p>Equilibrium gives effort×effort arm=load×load arm for the appropriate force directions.</p><p>The pin reaction is the vector sum needed for force equilibrium; it is not automatically equal to the output load alone.</p>",
+            "gu": "<h4>Definition / Principle</h4><p>Lever fulcrum આસપાસ ફરે;perpendicular moment arms લો.</p><h4>કારણ સાથે સમજીએ</h4><p>Class Iમાં fulcrum effort,load વચ્ચે;suitable rocker/crowbarમાં.</p><p>Class IIમાં load વચ્ચે,wheelbarrow idealisation;Class IIIમાં effort વચ્ચે,ઘણા forceps-like mechanismsમાં.</p><p>Appropriate directionsમાં effort×effort arm=load×load arm.</p><p>Pin reaction force equilibrium માટે vector sum છે;ફક્ત output load જેટલું આપમેળે નહિ.</p>"
+          },
+          "diagram": "d3_levers"
+        },
+        {
+          "h": {
+            "en": "3.1.6 Lever design:arm, boss and pin",
+            "gu": "3.1.6 Lever Design:Arm,Boss અને Pin"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>Solve the FBD before choosing arm thickness or pin diameter.</p><h4>Understand why</h4><p>Find forces and the bending-moment distribution along each arm; identify the critical section near the boss.</p><p>Select arm section fromZ≥M/sigma allowable; allow for holes, fillets and manufacture.</p><p>Size the pin for actual shear planes, bearing contact and pin bending; choose boss length from allowable projected bearing stress.</p><p>Check boss net section, retention, clearance, wear and the arm-to-boss transition; proportions alone are insufficient.</p>",
+            "gu": "<h4>Definition / Principle</h4><p>Arm thickness,pin diameter પહેલાં FBD solve કરો.</p><h4>કારણ સાથે સમજીએ</h4><p>Forces,દરેક armનું moment distribution શોધો;boss પાસે critical section ઓળખો.</p><p>Z≥M/sigma allowableથી arm section લો;holes,fillets,manufacture જુઓ.</p><p>Pinને actual shear planes,bearing,pin bendingથી size કરો;boss length projected bearing stressથી લો.</p><p>Boss net section,retention,clearance,wear,arm-boss transition જુઓ;proportions પૂરતાં નથી.</p>"
+          },
+          "diagram": "d3_lever"
+        },
+        {
+          "h": {
+            "en": "3.1.7 Lever numerical:forces and arm",
+            "gu": "3.1.7 Lever Numerical:Forces અને Arm"
+          },
+          "body": {
+            "en": "<h4>Given and model</h4><p>ClassI pose shown:W5kN at100mm left, F at500mm right, both downward; allowable bending80MPa, arm h=2b.</p><h4>Step-by-step solution</h4><ol><li>F×500=5000×100; F=1000N</li><li>Fulcrum reaction=5000+1000=6000N upward</li><li>Maximum arm moment=5000×100=500000Nmm</li><li>Zrequired=500000/80=6250mm³</li><li>For h=2b:bmin=(3M/(2sigma))^(1/3)=21.0858mm</li><li>Select b25, h50mm:Z=10416.6667mm³; stress=48MPa</li></ol><h4>Common mistake / conditions</h4><p>This uses nominal beam bending; the real boss fillet may require a concentration/fatigue check.</p>",
+            "gu": "<h4>આપેલી માહિતી અને Model</h4><p>Shown Class I poseમાં W5kN100mm left,F500mm right,બન્ને downward;bending allowable80MPa,arm h=2b.</p><h4>Step-by-step ઉકેલ</h4><ol><li>F×500=5000×100;F=1000N</li><li>Fulcrum reaction=5000+1000=6000N upward</li><li>Maximum arm moment=5000×100=500000Nmm</li><li>Zrequired=500000/80=6250mm³</li><li>For h=2b:bmin=(3M/(2sigma))^(1/3)=21.0858mm</li><li>Select b25,h50mm:Z=10416.6667mm³;stress=48MPa</li></ol><h4>Common Mistake / શરતો</h4><p>આ nominal beam bending છે;real boss filletમાં concentration/fatigue check જોઈએ.</p>"
+          },
+          "diagram": "d3_lever"
+        },
+        {
+          "h": {
+            "en": "3.1.8 Lever numerical:boss and pin",
+            "gu": "3.1.8 Lever Numerical:Boss અને Pin"
+          },
+          "body": {
+            "en": "<h4>Given and model</h4><p>Reaction6kN; boss length40mm, each supporting fork15mm, pin20mm, boss outside50mm; allowables bearing50, shear40, bending80MPa.</p><h4>Step-by-step solution</h4><ol><li>Boss bearing=6000/(20×40)=7.5MPa</li><li>Two-fork bearing=6000/(2×20×15)=10MPa</li><li>Pin double shear=6000/(2pi×20²/4)=9.5493MPa</li><li>Using uniform boss/triangular fork model:Mpin=(6000/2)(40/4+15/3)=45000Nmm</li><li>Pin bending=32×45000/(pi×20³)=57.2958MPa</li><li>Simplified boss net tension=6000/[(50−20)×40]=5MPa</li></ol><h4>Common mistake / conditions</h4><p>The listed idealised pin/boss checks pass; verify retaining details, actual support geometry and transition stresses before any real design approval.</p>",
+            "gu": "<h4>આપેલી માહિતી અને Model</h4><p>Reaction6kN;boss length40mm,each fork15mm,pin20mm,boss outside50mm;allowables bearing50,shear40,bending80MPa.</p><h4>Step-by-step ઉકેલ</h4><ol><li>Boss bearing=6000/(20×40)=7.5MPa</li><li>Two-fork bearing=6000/(2×20×15)=10MPa</li><li>Pin double shear=6000/(2pi×20²/4)=9.5493MPa</li><li>Using uniform boss/triangular fork model:Mpin=(6000/2)(40/4+15/3)=45000Nmm</li><li>Pin bending=32×45000/(pi×20³)=57.2958MPa</li><li>Simplified boss net tension=6000/[(50−20)×40]=5MPa</li></ol><h4>Common Mistake / શરતો</h4><p>Listed idealised checks pass;real approval પહેલાં retaining details,actual support geometry,transition stresses જુઓ.</p>"
+          },
+          "diagram": "d2_pin"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "3.2 Leaf spring:define span before using a formula",
+        "gu": "3.2 Leaf Spring:Formula પહેલાં Spanની વ્યાખ્યા"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "3.2.1 Leaf-spring construction, action and applications",
+            "gu": "3.2.1 Leaf Spring:Construction,Action અને Applications"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>A leaf spring stores strain energy primarily by bending flat strips.</p><h4>Understand why</h4><p>A semi-elliptic assembly has a master leaf with eyes, full-length/graduated leaves, a centre bolt and suitable rebound clips/supports.</p><p>A central load bends the stack between end supports; shackles can accommodate length change in the actual mounting.</p><p>Applications include vehicle suspensions and selected load-support mechanisms.</p><p>Contact friction, nipping, eye stress, load sharing and fatigue affect real springs; simple beam formulas are idealisations.</p>",
+            "gu": "<h4>Definition / Principle</h4><p>Leaf spring flat stripsના bendingથી strain energy store કરે.</p><h4>કારણ સાથે સમજીએ</h4><p>Semi-elliptic assemblyમાં eyesવાળી master leaf,full-length/graduated leaves,centre bolt,rebound clips/supports હોય.</p><p>Central load end supports વચ્ચે stack bend કરે;actual mountingમાં shackles length change accommodate કરે.</p><p>Vehicle suspension,selected load-support mechanismsમાં ઉપયોગ.</p><p>Contact friction,nipping,eye stress,load sharing,fatigue real springમાં મહત્વનાં;simple formulas idealisations છે.</p>"
+          },
+          "diagram": "d3_leaf"
+        },
+        {
+          "h": {
+            "en": "3.2.2 Semi-elliptic leaf-spring formulas and limits",
+            "gu": "3.2.2 Semi-elliptic Leaf-spring Formulas અને Limits"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>LetS be FULL support span, W total central load, n effective leaves, b width, t thickness, E modulus.</p><h4>Understand why</h4><p>For the usual idealised uniform-strength/graded-leaf model:sigma=3WS/(2nbt²), deflection=3WS³/(8Enbt³).</p><p>IfL=S/2 is half-span, the same formulas become sigma=3WL/(nbt²), deflection=3WL³/(Enbt³).</p><p>A stack of identical full-span strips with uniformI has a different deflection coefficient:delta=WS³/(4Enbt³).Do not mix that model with the graded-leaf coefficient.</p><p>Design for both allowable stress and required deflection; check actual leaf arrangement, eyes, clamps and fatigue separately.</p><details class=\"self-check\"><summary>Can you use half-span in a full-span formula unchanged?</summary><p>No. Stress and deflection coefficients must transform consistently.</p></details>",
+            "gu": "<h4>Definition / Principle</h4><p>S FULL support span,W total central load,n effective leaves,b width,t thickness,E modulus લો.</p><h4>કારણ સાથે સમજીએ</h4><p>Usual idealised uniform-strength/graded-leaf modelમાં sigma=3WS/(2nbt²),deflection=3WS³/(8Enbt³).</p><p>L=S/2 half-span હોય તો same formulas sigma=3WL/(nbt²),deflection=3WL³/(Enbt³).</p><p>Identical full-span stripsના uniform I stackમાં delta=WS³/(4Enbt³) જુદું coefficient;graded-leaf coefficient સાથે ન ભેળવો.</p><p>Allowable stress,required deflection બન્નેથી design કરો;actual arrangement,eyes,clamps,fatigue અલગ જુઓ.</p><details class=\"self-check\"><summary>Full-span Formulaમાં Half-span સીધું મૂકી શકાય?</summary><p>ના.Stress,deflection coefficients consistently બદલવા પડે.</p></details>"
+          },
+          "diagram": "d3_leaf"
+        },
+        {
+          "h": {
+            "en": "3.2.3 Leaf spring:stress and deflection design",
+            "gu": "3.2.3 Leaf Spring:Stress અને Deflection Design"
+          },
+          "body": {
+            "en": "<h4>Given and model</h4><p>Idealised graded-leaf model:W3000N, S1000mm, n6, b50mm, E200000MPa; stress limit250MPa, deflection limit40mm.</p><h4>Step-by-step solution</h4><ol><li>From stress:t≥sqrt[3×3000×1000/(2×6×50×250)]=7.7460mm</li><li>From deflection:t≥[3×3000×1000³/(8×200000×6×50×40)]^(1/3)=7.7681mm</li><li>Select t8mm:stress=3×3000×1000/(2×6×50×8²)=234.375MPa</li><li>Deflection=3×3000×1000³/(8×200000×6×50×8³)=36.6211mm</li></ol><h4>Common mistake / conditions</h4><p>Both stated limits pass in this model. This is not fatigue, road-load, clamp or eye certification.</p>",
+            "gu": "<h4>આપેલી માહિતી અને Model</h4><p>Idealised graded-leaf modelમાં W3000N,S1000mm,n6,b50mm,E200000MPa;stress limit250MPa,deflection limit40mm.</p><h4>Step-by-step ઉકેલ</h4><ol><li>From stress:t≥sqrt[3×3000×1000/(2×6×50×250)]=7.7460mm</li><li>From deflection:t≥[3×3000×1000³/(8×200000×6×50×40)]^(1/3)=7.7681mm</li><li>Select t8mm:stress=3×3000×1000/(2×6×50×8²)=234.375MPa</li><li>Deflection=3×3000×1000³/(8×200000×6×50×8³)=36.6211mm</li></ol><h4>Common Mistake / શરતો</h4><p>આ modelમાં બન્ને limits pass;fatigue,road-load,clamp,eye certification નથી.</p>"
+          },
+          "diagram": "d3_leaf"
+        },
+        {
+          "h": {
+            "en": "3.2.4 Bending design mistakes to avoid",
+            "gu": "3.2.4 Bending Designમાં થતી ભૂલો"
+          },
+          "body": {
+            "en": "<h4>Definition / principle</h4><p>Choose the correct axis, load and span before substituting numbers.</p><h4>Understand why</h4><p>UsingI instead ofZ in sigma=M/Z gives wrong dimensions.</p><p>Using a lever input force as the pin load without force balance can under-size the pin.</p><p>Counting geometric leaves as equally effective despite different lengths/constraints can invalidate the spring model.</p><p>Report selected dimensions and actual verification, not only the theoretical minimum.</p><details class=\"self-check\"><summary>Can leaf count alone determine spring rate?</summary><p>No. Width, thickness, span, modulus and leaf model also enter.</p></details>",
+            "gu": "<h4>Definition / Principle</h4><p>Numbers મૂકતાં પહેલાં correct axis,load,span લો.</p><h4>કારણ સાથે સમજીએ</h4><p>sigma=M/Zમાં Zની જગ્યાએ I લેવાથી dimensions ખોટાં થાય.</p><p>Force balance વગર input forceને pin load માનવાથી pin undersize થાય.</p><p>જુદી lengths/constraints છતાં બધી leaves equally effective માનવાથી spring model ખોટું થાય.</p><p>ફક્ત theoretical minimum નહિ,selected dimensions,actual verification લખો.</p><details class=\"self-check\"><summary>ફક્ત Leaf Countથી Rate નક્કી?</summary><p>ના.Width,thickness,span,modulus,leaf model પણ જોઈએ.</p></details>"
+          }
+        }
+      ]
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "d3_bend",
+      "title": {
+        "en": "Bending: linear normal stress about the neutral axis",
+        "gu": "3.1.1 Bendingમાં Stress બદલાય છે"
+      },
+      "file": "diagrams/d3_bend.svg"
+    },
+    {
+      "id": "d3_sections",
+      "title": {
+        "en": "Section modulus: the bending axis matters",
+        "gu": "3.1.3 Common Sectionsનો Section Modulus"
+      },
+      "file": "diagrams/d3_sections.svg"
+    },
+    {
+      "id": "d3_levers",
+      "title": {
+        "en": "Lever classes: order of effort,fulcrum and load",
+        "gu": "3.1.5 Levers:Classes,Applications અને Force Balance"
+      },
+      "file": "diagrams/d3_levers.svg"
+    },
+    {
+      "id": "d3_lever",
+      "title": {
+        "en": "Lever FBD: calculate forces before sizing arm,boss and pin",
+        "gu": "3.1.6 Lever Design:Arm,Boss અને Pin"
+      },
+      "file": "diagrams/d3_lever.svg"
+    },
+    {
+      "id": "d2_pin",
+      "title": {
+        "en": "Knuckle pin bending: load spread across eye and fork",
+        "gu": "3.1.8 Lever Numerical:Boss અને Pin"
+      },
+      "file": "diagrams/d2_pin.svg"
+    },
+    {
+      "id": "d3_leaf",
+      "title": {
+        "en": "Semi-elliptic leaf spring:full span2L,central loadW",
+        "gu": "3.2.1 Leaf Spring:Construction,Action અને Applications"
+      },
+      "file": "diagrams/d3_leaf.svg"
+    }
+  ],
+  "programs": [],
+  "syntax": [
+    {
+      "title": {
+        "en": "Quick reference",
+        "gu": "Quick Reference"
+      },
+      "items": [
+        {
+          "name": {
+            "en": "Bending / spring reference",
+            "gu": "Bending/Springનાં સૂત્રો"
+          },
+          "f": "sigma=M/Z;Z=I/c\nLeaf graded model,full span S:\nsigma=3WS/(2nbt²);delta=3WS³/(8Enbt³)",
+          "terms": {
+            "en": "Specify the section axis, load definition, leaf model and full/half-span convention.",
+            "gu": "Section axis,load definition,leaf model,full/half-span convention જણાવો."
+          }
+        }
+      ]
+    }
+  ],
+  "viva": [
+    {
+      "title": {
+        "en": "Viva with answers",
+        "gu": "Viva:Answers સાથે"
+      },
+      "items": [
+        {
+          "q": {
+            "en": "Z unit?",
+            "gu": "Zનો Unit?"
+          },
+          "a": {
+            "en": "mm³",
+            "gu": "mm³"
+          }
+        },
+        {
+          "q": {
+            "en": "Circular Z?",
+            "gu": "Circular Z?"
+          },
+          "a": {
+            "en": "pi d³/32",
+            "gu": "pi d³/32"
+          }
+        },
+        {
+          "q": {
+            "en": "Pin reaction equals effort alone?",
+            "gu": "Pin Reaction ફક્ત Effort જેટલું?"
+          },
+          "a": {
+            "en": "Not generally; use vector force balance.",
+            "gu": "સામાન્ય રીતે નહિ;vector force balance લો."
+          }
+        },
+        {
+          "q": {
+            "en": "Leaf spring primarily stressed how?",
+            "gu": "Leaf Springમાં મુખ્ય Stress?"
+          },
+          "a": {
+            "en": "Bending normal stress.",
+            "gu": "Bending normal stress."
+          }
+        },
+        {
+          "q": {
+            "en": "Why specify span convention?",
+            "gu": "Span Convention કેમ?"
+          },
+          "a": {
+            "en": "Half/full-span substitutions change coefficients strongly.",
+            "gu": "Half/full-spanથી coefficients ઘણાં બદલાય."
+          }
+        }
+      ]
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Explain bending equation, assumptions and section moduli.",
+        "gu": "Bending Equation,Assumptions,Section Moduli સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "M1kNm, allowable80MPa, h=2b:design a rectangular section and verify selected30×60mm.",
+        "gu": "Given dataથી Rectangular Section design,30×60mm verify કરો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Design lever arms, boss and pin for the stated5kN/100mm,500mm-arm example.",
+        "gu": "Stated5kN/100mm,500mm-arm example માટે Lever Arm,Boss,Pin design કરો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "W3000N, S1000mm, n6, b50, E200000:design leaf thickness for250MPa and40mm deflection in the stated model.",
+        "gu": "Given modelમાં250MPa,40mm limits માટે Leaf Thickness design કરો."
+      },
+      "marks": 7
+    }
+  ],
+  "exam_policy": "Questions and suggested marks only. Answers in Notes/Viva.",
+  "question_provenance": "Original practice,not official past-paper questions or predictions.",
+  "question_marks_are_suggested": true,
+  "translation_policy": "Equivalent English/Gujarati explanations,steps,examples,assumptions and cautions.",
+  "runtime_evidence": {
+    "physical_practicals_performed": false,
+    "android_runtime_tested": false
+  },
+  "sources": [
+    {
+      "title": "Owner-supplied GTU DI04000251,2025–26",
+      "reference": "Contents pp2–3;scheme p1;practicals pp5–6."
+    }
+  ],
+  "diagram_note": "Original labelled conceptual teaching diagrams,not operation/fabrication instructions."
+}

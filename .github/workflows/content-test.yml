@@ -3,6 +3,11 @@ name: Test content
 
 on:
   workflow_dispatch:
+  pull_request:
+    paths:
+      - "content/**"
+      - "tools/**"
+      - ".github/workflows/content-test.yml"
   push:
     branches: [main]
     paths:
