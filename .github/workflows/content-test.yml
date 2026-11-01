@@ -28,6 +28,7 @@ jobs:
           cache: true
       - name: Export content and render every part
         run: |
+          python3 tools/test_export_compatibility.py
           python3 tools/export_app_content.py
           cd app
           flutter pub get

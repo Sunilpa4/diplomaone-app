@@ -297,6 +297,39 @@ def clean_svg(svg):
     return svg
 
 
+def normalize_for_app(unit):
+    """Adapt newer rich-card layouts to the existing app without altering sources.
+
+    Rich practical cards and reference text can be shown as note sections, which
+    also preserves their inline diagrams in older versions of the app. Flat viva
+    questions are wrapped in the grouped format understood by the app.
+    """
+    programs = unit.get("programs")
+    if isinstance(programs, list):
+        rich = [p for p in programs if isinstance(p, dict) and p.get("format") == "rich_cards" and isinstance(p.get("items"), list)]
+        if rich:
+            unit.setdefault("notes", []).extend({"title": p["title"], "items": p["items"]} for p in rich)
+            remaining = [p for p in programs if p not in rich]
+            if remaining:
+                unit["programs"] = remaining
+            else:
+                unit.pop("programs", None)
+                unit["tabs"] = [tab for tab in unit.get("tabs", []) if tab != "programs"]
+
+    syntax = unit.get("syntax")
+    if isinstance(syntax, list) and syntax and all(isinstance(e, dict) and "title" in e and "body" in e and "items" not in e for e in syntax):
+        unit.setdefault("notes", []).append({
+            "title": {"en": "Reference and formulas", "gu": "સંદર્ભ અને સૂત્રો"},
+            "items": [{"h": e["title"], "body": e["body"]} for e in syntax],
+        })
+        unit.pop("syntax")
+        unit["tabs"] = [tab for tab in unit.get("tabs", []) if tab != "syntax"]
+
+    viva = unit.get("viva")
+    if isinstance(viva, list) and viva and all(isinstance(e, dict) and "q" in e and "a" in e and "items" not in e for e in viva):
+        unit["viva"] = [{"title": {"en": "Viva questions", "gu": "વાઇવા પ્રશ્નો"}, "items": viva}]
+
+
 def main():
     global OUT
     if "--out" in sys.argv:
@@ -320,6 +353,7 @@ def main():
             if not os.path.exists(fp):
                 continue
             unit = json.load(open(fp, encoding="utf-8"))
+            normalize_for_app(unit)
             svgs = {}
             for dg in unit.get("diagrams", []):
                 with open(os.path.join(d, "diagrams", dg["id"] + ".svg"), encoding="utf-8") as f:
