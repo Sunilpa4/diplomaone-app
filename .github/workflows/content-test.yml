@@ -31,4 +31,11 @@ jobs:
           python3 tools/export_app_content.py
           cd app
           flutter pub get
-          flutter test test/all_content_test.dart
+          set +e
+          flutter test test/all_content_test.dart --reporter json > "$RUNNER_TEMP/content-test.jsonl"
+          status=$?
+          set -e
+          if [ "$status" -ne 0 ]; then
+            python3 ../tools/report_flutter_test_failures.py "$RUNNER_TEMP/content-test.jsonl"
+          fi
+          exit "$status"
