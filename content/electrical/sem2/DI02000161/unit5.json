@@ -1,0 +1,689 @@
+{
+  "subject": "DI02000161",
+  "unit": 5,
+  "title": {
+    "en": "Basics of Sequential Circuits",
+    "gu": "Sequential Circuitsના પાયા"
+  },
+  "format": "notes",
+  "languages": [
+    "en",
+    "gu"
+  ],
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "tab_labels": {
+    "programs": {
+      "en": "Practical",
+      "gu": "પ્રયોગ અને ચકાસણી"
+    }
+  },
+  "hours": 5,
+  "weightage": 15,
+  "notes": [
+    {
+      "title": {
+        "en": "5.1 Combinational versus sequential logic",
+        "gu": "5.1 Combinational સામે Sequential Logic"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Combinational versus sequential logic",
+            "gu": "Combinational સામે Sequential Logic"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Combinational output depends on present inputs;sequential output also depends on stored state.</p><h4>Explanation and application</h4><ul><li>A combinational adder has no intended memory.A flip-flop stores one bit;its next state is Qnext=f(inputs,Q).Power-up state is not guaranteed unless the device specifies it.</li><li>A latch is level-sensitive;an edge-triggered flip-flop samples near an active clock transition.They share state tables but differ in when updates are permitted.</li><li>Setup time is required before the active edge;hold time after it.Propagation delay occurs before outputs settle.Violating timing can cause metastability,not a predictable third logic digit.</li><li>Asynchronous preset/clear override the clock according to device priority.When inactive,the normal clocked state table applies;simultaneous assertion may be forbidden.</li></ul><details class=\"self-check\"><summary>Latch versus flip-flop?</summary><p>Alevel-sensitive latch follows during enable;an edge-triggered flip-flop samples near the active transition.</p></details>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Combinational output present inputsપર dependકરે;sequential outputમાં stored stateપણ અસરકરે છે.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Combinational adderમાં intended memoryનથી.Flip-flop એક bit storeકરે;Qnext=f(inputs,Q)છે.Device specify ન કરે ત્યાં power-up state guaranteedનથી.</li><li>Latch level-sensitive છે;edge-triggered flip-flop active clock transitionનજીક sampleકરે.State tables સમાન હોઈ શકે,પણ update timing જુદું છે.</li><li>Active edgeપહેલાં setup time તથા પછી hold timeજોઈએ.Output settleથતાં propagation delayથાય.Timing violationથી metastability થઈ શકે;predictable ત્રીજો logic digit નહિ.</li><li>Asynchronous preset/clear device priority પ્રમાણે clockને overrideકરે.Inactiveહોય ત્યારે normal clocked tableલાગે;બંને એકસાથે assert કરવું forbiddenહોઈ શકે.</li></ul><details class=\"self-check\"><summary>Latch સામે Flip-flop?</summary><p>Latchenableદરમિયાનfollowકરે;edge-triggeredflip-flopactivetransitionનજીકsampleકરે.</p></details>"
+          },
+          "syllabus_item": "5.1",
+          "diagram": "timing"
+        },
+        {
+          "h": {
+            "en": "SR storage:active-high NOR latch",
+            "gu": "SR Storage:Active-high NOR Latch"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Two cross-coupled NOR gates create feedback that retains a bit after the command is removed.</p><h4>Explanation and application</h4><ul><li>Connect Q=NOR(R,Qnot)and Qnot=NOR(S,Q).Each output drives the opposite gate input;feedback is the memory mechanism.</li><li>S=1,R=0forces Q=1(set);S=0,R=1forces Q=0(reset).After returning to00the feedback holds the selected state.</li><li>S=R=1forces both NOR outputs0,so they are no longer complements.Releasing both together has an indeterminate final state;never use that state as normal operation.</li><li>A NAND SR latch instead uses active-low commands:11holds and00is forbidden.Do not copy the NOR truth table to a NAND latch.</li></ul><h4>Truth / reference table</h4><div style=\"overflow:auto\"><table><thead><tr><th>S</th><th>R</th><th>Qnext</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>Q (hold)</td></tr><tr><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>Forbidden;Q=Qnot=0while asserted</td></tr></tbody></table></div><p>Expected mathematical values;not measured observations.</p>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>બે cross-coupled NOR gatesનું feedback command દૂર થયા પછી bitજાળવે છે.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Q=NOR(R,Qnot)તથા Qnot=NOR(S,Q)જોડો.દરેક output opposite gate inputને driveકરે;feedbackએ memory mechanismછે.</li><li>S=1,R=0થી Q=1(set);S=0,R=1થી Q=0(reset).પાછા00કર્યા પછી feedback પસંદ stateજાળવે છે.</li><li>S=R=1થી બંને NOR outputs0થાય,તેથી complementaryનથી.બંને એકસાથે releaseકરતાં final state indeterminateછે;normal operationમાં વાપરશો નહિ.</li><li>NAND SRlatchમાં active-low commandsછે:11holdઅને00forbidden.NORtable NANDlatchમાટે ન વાપરો.</li></ul><h4>Truth / Reference Table</h4><div style=\"overflow:auto\"><table><thead><tr><th>S</th><th>R</th><th>Qnext</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>Q (hold)</td></tr><tr><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>Forbidden;Q=Qnot=0while asserted</td></tr></tbody></table></div><p>Expected mathematical values;measured observations નથી.</p>"
+          },
+          "syllabus_item": "5.1",
+          "diagram": "SR"
+        },
+        {
+          "h": {
+            "en": "Clocked SR and SR flip-flop interpretation",
+            "gu": "Clocked SR તથા SR Flip-flop Interpretation"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>The syllabus calls this SR flip-flop;always identify whether the actual circuit is a latch,gated latch or edge-triggered device.</p><h4>Explanation and application</h4><ul><li>For a clock-enable SR latch,AND S,R with enable before the active-high NOR latch.Enable0forces internal00and holds the state;enable1makes it responsive to S,Rlevels.</li><li>For an ideal edge-triggered SR model,the same command table is evaluated only at the active edge,not throughout HIGH.Characteristic equation is Qnext=S+R′Q for valid S,R.</li><li>No active edge means hold,except asynchronous controls.A switch contact bounce can create several edges;use a debounced trainer clock.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Syllabusમાં SRflip-flopશબ્દ છે;actual circuit latch,gated latchકે edge-triggered છે તે સ્પષ્ટ ઓળખો.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Clock-enable SRlatchમાં S,Rને enableસાથે ANDકરી NORlatchમાં આપો.Enable0માં internal00અને hold;enable1માં S,Rlevelsપ્રતિ responsiveછે.</li><li>Ideal edge-triggered SRmodelમાં command table active edgeપર જ evaluateથાય,આખા HIGH દરમિયાન નહિ.Valid S,Rમાટે Qnext=S+R′Qછે.</li><li>Active edge ન હોય તો hold,સિવાય asynchronous controls.Switch contact bounceથી અનેક edgesથઈ શકે;debounced trainer clockલો.</li></ul>"
+          },
+          "syllabus_item": "5.1",
+          "diagram": "SR"
+        },
+        {
+          "h": {
+            "en": "SR latch logic connections",
+            "gu": "SR Latch Logic Connections"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Feedback is a real connection between two gate outputs and opposite gate inputs,not merely a descriptive block label.</p><h4>Explanation and application</h4><ul><li>The crossing feedback wires are not joined at their crossing;each labelled output remains a separate net.</li><li>Apply a valid set/reset command to establish a known state before testing hold;power-up alone is not a defined reset procedure.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Feedbackબેgateoutputsઅનેoppositegateinputsવચ્ચેactualconnectionછે;ફક્તblocklabelનહિ.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Crossingfeedbackwirescrossingપરjoinedનથી;દરેકlabelledoutputઅલગnetછે.</li><li>Holdtestપહેલાંvalidset/resetથીknownstateસ્થાપોકરો.Power-upએકલોdefinedresetprocedureનથી.</li></ul>"
+          },
+          "syllabus_item": "5.1",
+          "diagram": "SRlogic"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "5.2 D flip-flop",
+        "gu": "5.2 D Flip-flop"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "D flip-flop",
+            "gu": "D Flip-flop"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Transfers D to Q at the active edge,then holds it between active edges.</p><h4>Explanation and application</h4><ul><li>An ideal D storage model avoids the SR forbidden input by driving complementary set/reset requests internally.Do not assume this simple latch model is the transistor circuit of every D IC.</li><li>At the active edge,read D after meeting setup/hold;Qnext=D regardless of previous Q.A Dchange away from the edge does not immediately propagate to Q.</li><li>74LS74A is positive-edge triggered;PRE/CLR are active-low asynchronous controls.Both low is not an ordinary stored complementary state.</li><li>Qnext=D</li></ul><h4>Truth / reference table</h4><div style=\"overflow:auto\"><table><thead><tr><th>D</th><th>Q</th><th>Qnext</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td></tr></tbody></table></div><p>Expected mathematical values;not measured observations.</p>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Active edgeપર Dને Qમાં transferકરી edgesવચ્ચે holdકરે છે.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Ideal Dmodelમાં internal complementary set/reset requestsથી SRforbidden inputટળે છે.Simple latch modelને દરેક DICનું transistor circuit ન માનો.</li><li>Setup/holdજાળવી active edgeપર Dવાંચો;previous Qથી નિરપેક્ષ Qnext=Dછે.Edgeથી દૂર Dબદલવાથી Qતરત બદલાતો નથી.</li><li>74LS74Apositive-edge triggeredછે;PRE/CLRactive-low asynchronous controlsછે.બંને lowએ ordinary complementary stored stateનથી.</li><li>Qnext=D</li></ul><h4>Truth / Reference Table</h4><div style=\"overflow:auto\"><table><thead><tr><th>D</th><th>Q</th><th>Qnext</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td></tr></tbody></table></div><p>Expected mathematical values;measured observations નથી.</p>"
+          },
+          "syllabus_item": "5.2",
+          "diagram": "D"
+        },
+        {
+          "h": {
+            "en": "T flip-flop",
+            "gu": "T Flip-flop"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>T=0holds;T=1toggles on each active edge.</p><h4>Explanation and application</h4><ul><li>An ideal Tflip-flop can be formed from JK with J=K=T,or from D with D=T⊕Q.Feedback Qis a stored state,not a new independent input.</li><li>With T=1and initial Q=0,successive active edges give1,0,1,0.The output frequency is half the clock only under continuous valid toggling.</li><li>Qnext=T⊕Q</li></ul><h4>Truth / reference table</h4><div style=\"overflow:auto\"><table><thead><tr><th>T</th><th>Q</th><th>Qnext</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td></tr><tr><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>0</td></tr></tbody></table></div><p>Expected mathematical values;not measured observations.</p>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>T=0holdકરે;T=1દરેક active edgeપર toggleકરે છે.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Ideal Tflip-flopમાં JKના J=K=Tકરી શકાય અથવા Dમાં D=T⊕Qલો.Feedback Qstored stateછે,new independent inputનહિ.</li><li>T=1અને initial Q=0હોય ત્યારે successive active edges1,0,1,0આપે.Valid continuous togglingમાં જ output frequency clockની અડધી છે.</li><li>Qnext=T⊕Q</li></ul><h4>Truth / Reference Table</h4><div style=\"overflow:auto\"><table><thead><tr><th>T</th><th>Q</th><th>Qnext</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td></tr><tr><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>0</td></tr></tbody></table></div><p>Expected mathematical values;measured observations નથી.</p>"
+          },
+          "syllabus_item": "5.2",
+          "diagram": "T"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "5.3 JK flip-flop",
+        "gu": "5.3 JK Flip-flop"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "JK flip-flop",
+            "gu": "JK Flip-flop"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>JK provides hold,reset,set and toggle without the normal SR forbidden command.</p><h4>Explanation and application</h4><ul><li>Feedback qualifies Jwith Q′and Kwith Q;the characteristic relation is Qnext=JQ′+K′Q.The timing architecture still matters.</li><li>J,K=00hold,01reset,10set,11toggle at the permitted update instant.For toggle,the new state is the complement of the current state.</li><li>A level-sensitive JK feedback implementation can race around when J=K=1and the enabling pulse permits repeated internal changes.Edge triggering or properly separated master/slave phases avoids repeated output toggling in one clock cycle.</li><li>Qnext=JQ′+K′Q</li></ul><h4>Truth / reference table</h4><div style=\"overflow:auto\"><table><thead><tr><th>J</th><th>K</th><th>Q</th><th>Qnext</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>0</td><td>1</td><td>1</td></tr><tr><td>0</td><td>1</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>0</td><td>1</td></tr><tr><td>1</td><td>0</td><td>1</td><td>1</td></tr><tr><td>1</td><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td><td>0</td></tr></tbody></table></div><p>Expected mathematical values;not measured observations.</p>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>JKમાં normal SRforbidden commandવગર hold,reset,set,toggle મળે છે.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Feedbackમાં Jસાથે Q′અને Kસાથે Qqualifyથાય;Qnext=JQ′+K′Qછે.Timing architectureપણ મહત્વનું છે.</li><li>J,K=00hold,01reset,10set,11permitted update instantપર toggleકરે.Toggleમાં new state current stateનું complementછે.</li><li>Level-sensitive JKમાં J=K=1અને લાંબી enabling pulseથી repeated changesથતાં race-aroundથઈ શકે.Edge triggering અથવા separated master/slave phasesથી એક cycleમાં repeated output togglesટળે છે.</li><li>Qnext=JQ′+K′Q</li></ul><h4>Truth / Reference Table</h4><div style=\"overflow:auto\"><table><thead><tr><th>J</th><th>K</th><th>Q</th><th>Qnext</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>0</td><td>1</td><td>1</td></tr><tr><td>0</td><td>1</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>0</td><td>1</td></tr><tr><td>1</td><td>0</td><td>1</td><td>1</td></tr><tr><td>1</td><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td><td>0</td></tr></tbody></table></div><p>Expected mathematical values;measured observations નથી.</p>"
+          },
+          "syllabus_item": "5.3",
+          "diagram": "JK"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "5.4 Master–slave JK:two-phase working",
+        "gu": "5.4 Master–slave JK:Two-phase Working"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Master–slave JK:two-phase working",
+            "gu": "Master–slave JK:Two-phase Working"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Two cascaded storage sections respond on opposite clock phases;the output does not feed through both at once.</p><h4>Explanation and application</h4><ul><li>In the illustrated teaching model,the master is enabled at CLK=1and the slave at CLK=0;an inverter creates the opposite phase.Nonoverlap is needed in a real implementation.</li><li>During HIGH,the master resolves the J,Krequest using the stable slave output while the slave holds Q.On HIGH→LOW,the master closes and the slave transfers its stored result.</li><li>With J=K=1and valid stable inputs,the output toggles once per complete clock cycle rather than racing repeatedly during HIGH.</li><li>This falling-transfer teaching model is not a promise about every7476variant.Check actual clock/preset/clear timing and input-stability requirements;some master stages can catch input pulses during their open phase.</li><li>Applications:single-bit registers,event storage,divide-by-two and counters.Flip-flops alone do not debounce a mechanical switch or make asynchronous signals safe without a designed interface.</li></ul><h4>Truth / reference table</h4><div style=\"overflow:auto\"><table><thead><tr><th>J</th><th>K</th><th>Initial Q</th><th>Next Q after transfer</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>0</td><td>1</td><td>1</td></tr><tr><td>0</td><td>1</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>0</td><td>1</td></tr><tr><td>1</td><td>0</td><td>1</td><td>1</td></tr><tr><td>1</td><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td><td>0</td></tr></tbody></table></div><p>Expected mathematical values;not measured observations.</p>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Cascaded બે storage sections opposite clock phasesમાં respondકરે છે;બંનેમાં એકસાથે feed-throughથતું નથી.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Illustrated teaching modelમાં master CLK=1અને slave CLK=0માં enabledછે;inverter opposite phaseબનાવે.Real implementationમાં nonoverlapજોઈએ.</li><li>HIGH દરમિયાન slave Qholdકરે અને master stable slave outputથી J,Krequest resolveકરે.HIGH→LOWપર master બંધ તથા slavestored result transferકરે.</li><li>J=K=1અને valid stable inputsમાં HIGH દરમિયાન repeated racingને બદલે complete clock cycleમાં outputએક વાર toggleકરે છે.</li><li>Falling-transfer teaching modelદરેક7476variantમાટે promiseનથી.Actual clock/preset/clear timing અને input stabilityજુઓ;કેટલાક master stages open phaseમાં input pulsescatchકરી શકે.</li><li>ઉપયોગ:single-bit registers,event storage,divide-by-two/counters.Flip-flopએકલો mechanical switchdebounceકે asynchronous signalssafeકરતો નથી;designed interfaceજોઈએ.</li></ul><h4>Truth / Reference Table</h4><div style=\"overflow:auto\"><table><thead><tr><th>J</th><th>K</th><th>Initial Q</th><th>Next Q after transfer</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>0</td><td>1</td><td>1</td></tr><tr><td>0</td><td>1</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>0</td><td>1</td></tr><tr><td>1</td><td>0</td><td>1</td><td>1</td></tr><tr><td>1</td><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td><td>0</td></tr></tbody></table></div><p>Expected mathematical values;measured observations નથી.</p>"
+          },
+          "syllabus_item": "5.4",
+          "diagram": "MSJK"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Practical.19 Build and test SRstorage",
+        "gu": "Practical.19 SRStorageબનાવી Test કરો"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Build and test SRstorage",
+            "gu": "SRStorageબનાવી Test કરો"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Verify present/next state and the permitted update timing,not only the static input table.</p><h4>Instruments and preparation</h4><ul><li>Use the approved low-voltage current-limited trainer,verified logic ICs/breadboard,defined input switches,logic probe or high-impedance meter,and exact device datasheet.A simulated/numerical practical needs its stated tools instead.</li><li>Check package orientation and recommended VCCbefore connecting.Power OFFfor wiring;do not apply a9Vbattery directly to74LSlogic;trainer0–30Vcapability is not an IC operating rating.</li></ul><h4>Circuit connections / setup</h4><p>Build the active-high cross-coupled NORlatch;record explicitly if the assigned hardware instead uses a clocked or active-low NANDSRvariant.</p><h4>Procedure</h4><ol><li>Derive the expected table first;declare bit order,active polarity and any enable/clock assumptions.</li><li>Inspect the unpowered connections against the labelled logic diagram and approved pin map;verify common ground and a suitable local decoupling capacitor.</li><li>Test set,hold,reset,hold in that order.Avoid simultaneous forbidden commands;explain their predicted behaviour analytically.</li><li>Read each output after settling;for sequential circuits record current state,command,clock event and next state separately.</li><li>On a mismatch,stop and trace supply,input definition,polarity and intermediate nodes;power OFFbefore changing wiring.</li><li>Save genuine results and explain each discrepancy;power down safely.Do not fill actual observations with expected numbers or claim an unperformed experiment.</li></ol><h4>Expected calculations and interpretation</h4><p>SRactive-high:00hold,01reset,10set,11forbidden.</p><h4>Fault finding</h4><p>Unexpected repeated toggles suggest clock bounce or wrong triggering assumptions;stuck outputs suggest asserted preset/clear or missing supply.Verify before rewiring.</p><h4>Precautions</h4><ul><li>Never short outputs or exceed ratings;unused inputs must be defined.Output LEDloads need a checked driver/current limiter;an LEDwired to VCCmay indicate logicLOWwhen lit.</li><li>Use only isolated approved low-voltage apparatus;do not connect mains to logic circuits.A safe trainer is not a guarantee against reversed supply or incorrect pinout.</li></ul><h4>Actual observations:blank learner evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ</h4><p>Present/nextstateતથા permittedupdatetimingverifyકરો;ફક્ત staticinputtableનહિ.</p><h4>સાધનો તથા તૈયારી</h4><ul><li>Approvedlow-voltagecurrent-limitedtrainer,verifiedICs/breadboard,definedswitches,logicprobe/high-impedancemeterતથા exactdatasheetલો.Simulation/numericalpracticalમાં એનાં statedtoolsલો.</li><li>Connectપહેલાં orientation/recommendedVCCજુઓ.Wiringમાં powerOFFરાખો.74LSને સીધી9Vbatteryનઆપો;trainerની0–30VcapabilityICratingનથી.</li></ul><h4>Circuit Connections / Setup</h4><p>Active-highcross-coupledNORlatchબનાવો.Assignedhardwareclockedકેactive-lowNANDSRહોય તો સ્પષ્ટનોંધો.</p><h4>પ્રક્રિયા</h4><ol><li>પહેલાં expectedtablederiveકરો.Bitorder,activepolarityતથા enable/clockassumptionsલખો.</li><li>Unpoweredconnectionsને logicdiagram/approvedpinmapસાથે તપાસો.Common ground તથા યોગ્ય localdecouplingcapacitorજુઓ.</li><li>Set,hold,reset,holdક્રમલો.Simultaneousforbiddencommandsટાળો;predictedbehaviouranalyticallyસમજાવો.</li><li>Settleથયા પછી દરેકoutputવાંચો.Sequentialમાં currentstate,command,clockevent/nextstateઅલગલખો.</li><li>Mismatchમાં રોકાઈ supply,inputdefinition,polarity/intermediatenodestraceકરો.Wiringબદલતાંપહેલાં powerOFFકરો.</li><li>Genuine resultsસાચવો,discrepancyસમજાવો અને safelypowerdownકરો.Expectednumbersactualobservationsમાં નભરો;નકરેલ experimentનો દાવો નકરો.</li></ol><h4>Expected ગણતરી તથા અર્થ</h4><p>SRactive-highમાં00hold,01reset,10set,11forbidden.</p><h4>Fault Finding</h4><p>Unexpectedrepeatedtogglesમાં clockbounce/triggeringassumptionતપાસો.Stuckoutputમાં preset/clearકેsupplyતપાસો;પછીજrewireકરો.</p><h4>સાવચેતી</h4><ul><li>Outputs shortકેratings exceedનકરો.Unusedinputsdefinedરાખો.LEDloadમાટે checkeddriver/currentlimiterલો.VCCથીજોડાયેલ LEDજલતાં logicLOWદર્શાવી શકે.</li><li>Isolatedapprovedlow-voltageapparatusજલો.Logiccircuitને mainsનજોડો.Safe trainerપણ reversed supply/wrongpinoutથીરક્ષણનીguaranteeનથી.</li></ul><h4>Actual Observations:ખાલી Learner Evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "syllabus_item": "Practical.19",
+          "suggested_duration": 2,
+          "practical_number": 19,
+          "diagram": "SR"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Practical.20 Build and test Dstorage",
+        "gu": "Practical.20 DStorageબનાવી Test કરો"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Build and test Dstorage",
+            "gu": "DStorageબનાવી Test કરો"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Verify present/next state and the permitted update timing,not only the static input table.</p><h4>Instruments and preparation</h4><ul><li>Use the approved low-voltage current-limited trainer,verified logic ICs/breadboard,defined input switches,logic probe or high-impedance meter,and exact device datasheet.A simulated/numerical practical needs its stated tools instead.</li><li>Check package orientation and recommended VCCbefore connecting.Power OFFfor wiring;do not apply a9Vbattery directly to74LSlogic;trainer0–30Vcapability is not an IC operating rating.</li></ul><h4>Circuit connections / setup</h4><p>Use the specified flip-flop/trainer model;connect a debounced clock,defined data inputs and inactive asynchronous controls before enabling power.</p><h4>Procedure</h4><ol><li>Derive the expected table first;declare bit order,active polarity and any enable/clock assumptions.</li><li>Inspect the unpowered connections against the labelled logic diagram and approved pin map;verify common ground and a suitable local decoupling capacitor.</li><li>Test every command for both initial Qstates;record the selected clock edge/phase and hold inputs stable across required intervals.</li><li>Read each output after settling;for sequential circuits record current state,command,clock event and next state separately.</li><li>On a mismatch,stop and trace supply,input definition,polarity and intermediate nodes;power OFFbefore changing wiring.</li><li>Save genuine results and explain each discrepancy;power down safely.Do not fill actual observations with expected numbers or claim an unperformed experiment.</li></ol><h4>Expected calculations and interpretation</h4><p>D:Qnext=D;JK:00hold,01reset,10set,11toggle;master–slave teaching model transfers on the falling phase transition.</p><h4>Fault finding</h4><p>Unexpected repeated toggles suggest clock bounce or wrong triggering assumptions;stuck outputs suggest asserted preset/clear or missing supply.Verify before rewiring.</p><h4>Precautions</h4><ul><li>Never short outputs or exceed ratings;unused inputs must be defined.Output LEDloads need a checked driver/current limiter;an LEDwired to VCCmay indicate logicLOWwhen lit.</li><li>Use only isolated approved low-voltage apparatus;do not connect mains to logic circuits.A safe trainer is not a guarantee against reversed supply or incorrect pinout.</li></ul><h4>Actual observations:blank learner evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ</h4><p>Present/nextstateતથા permittedupdatetimingverifyકરો;ફક્ત staticinputtableનહિ.</p><h4>સાધનો તથા તૈયારી</h4><ul><li>Approvedlow-voltagecurrent-limitedtrainer,verifiedICs/breadboard,definedswitches,logicprobe/high-impedancemeterતથા exactdatasheetલો.Simulation/numericalpracticalમાં એનાં statedtoolsલો.</li><li>Connectપહેલાં orientation/recommendedVCCજુઓ.Wiringમાં powerOFFરાખો.74LSને સીધી9Vbatteryનઆપો;trainerની0–30VcapabilityICratingનથી.</li></ul><h4>Circuit Connections / Setup</h4><p>Specifiedflip-flop/trainermodelમાં debouncedclock,defineddatainputs/inactiveasynchronouscontrolsપહેલાંજોડો.</p><h4>પ્રક્રિયા</h4><ol><li>પહેલાં expectedtablederiveકરો.Bitorder,activepolarityતથા enable/clockassumptionsલખો.</li><li>Unpoweredconnectionsને logicdiagram/approvedpinmapસાથે તપાસો.Common ground તથા યોગ્ય localdecouplingcapacitorજુઓ.</li><li>બંને initialQstatesમાટે દરેકcommandtestકરો.Selectedclockedge/phaseનોંધો તથા requiredintervalsમાં inputsstableરાખો.</li><li>Settleથયા પછી દરેકoutputવાંચો.Sequentialમાં currentstate,command,clockevent/nextstateઅલગલખો.</li><li>Mismatchમાં રોકાઈ supply,inputdefinition,polarity/intermediatenodestraceકરો.Wiringબદલતાંપહેલાં powerOFFકરો.</li><li>Genuine resultsસાચવો,discrepancyસમજાવો અને safelypowerdownકરો.Expectednumbersactualobservationsમાં નભરો;નકરેલ experimentનો દાવો નકરો.</li></ol><h4>Expected ગણતરી તથા અર્થ</h4><p>Dમાં Qnext=D;JKમાં00hold,01reset,10set,11toggle;master–slaveteachingmodelfallingphasetransitionપર transferકરે.</p><h4>Fault Finding</h4><p>Unexpectedrepeatedtogglesમાં clockbounce/triggeringassumptionતપાસો.Stuckoutputમાં preset/clearકેsupplyતપાસો;પછીજrewireકરો.</p><h4>સાવચેતી</h4><ul><li>Outputs shortકેratings exceedનકરો.Unusedinputsdefinedરાખો.LEDloadમાટે checkeddriver/currentlimiterલો.VCCથીજોડાયેલ LEDજલતાં logicLOWદર્શાવી શકે.</li><li>Isolatedapprovedlow-voltageapparatusજલો.Logiccircuitને mainsનજોડો.Safe trainerપણ reversed supply/wrongpinoutથીરક્ષણનીguaranteeનથી.</li></ul><h4>Actual Observations:ખાલી Learner Evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "syllabus_item": "Practical.20",
+          "suggested_duration": 2,
+          "practical_number": 20,
+          "diagram": "D"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Practical.21 Build and test JKstorage",
+        "gu": "Practical.21 JKStorageબનાવી Test કરો"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Build and test JKstorage",
+            "gu": "JKStorageબનાવી Test કરો"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Verify present/next state and the permitted update timing,not only the static input table.</p><h4>Instruments and preparation</h4><ul><li>Use the approved low-voltage current-limited trainer,verified logic ICs/breadboard,defined input switches,logic probe or high-impedance meter,and exact device datasheet.A simulated/numerical practical needs its stated tools instead.</li><li>Check package orientation and recommended VCCbefore connecting.Power OFFfor wiring;do not apply a9Vbattery directly to74LSlogic;trainer0–30Vcapability is not an IC operating rating.</li></ul><h4>Circuit connections / setup</h4><p>Use the specified flip-flop/trainer model;connect a debounced clock,defined data inputs and inactive asynchronous controls before enabling power.</p><h4>Procedure</h4><ol><li>Derive the expected table first;declare bit order,active polarity and any enable/clock assumptions.</li><li>Inspect the unpowered connections against the labelled logic diagram and approved pin map;verify common ground and a suitable local decoupling capacitor.</li><li>Test every command for both initial Qstates;record the selected clock edge/phase and hold inputs stable across required intervals.</li><li>Read each output after settling;for sequential circuits record current state,command,clock event and next state separately.</li><li>On a mismatch,stop and trace supply,input definition,polarity and intermediate nodes;power OFFbefore changing wiring.</li><li>Save genuine results and explain each discrepancy;power down safely.Do not fill actual observations with expected numbers or claim an unperformed experiment.</li></ol><h4>Expected calculations and interpretation</h4><p>D:Qnext=D;JK:00hold,01reset,10set,11toggle;master–slave teaching model transfers on the falling phase transition.</p><h4>Fault finding</h4><p>Unexpected repeated toggles suggest clock bounce or wrong triggering assumptions;stuck outputs suggest asserted preset/clear or missing supply.Verify before rewiring.</p><h4>Precautions</h4><ul><li>Never short outputs or exceed ratings;unused inputs must be defined.Output LEDloads need a checked driver/current limiter;an LEDwired to VCCmay indicate logicLOWwhen lit.</li><li>Use only isolated approved low-voltage apparatus;do not connect mains to logic circuits.A safe trainer is not a guarantee against reversed supply or incorrect pinout.</li></ul><h4>Actual observations:blank learner evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ</h4><p>Present/nextstateતથા permittedupdatetimingverifyકરો;ફક્ત staticinputtableનહિ.</p><h4>સાધનો તથા તૈયારી</h4><ul><li>Approvedlow-voltagecurrent-limitedtrainer,verifiedICs/breadboard,definedswitches,logicprobe/high-impedancemeterતથા exactdatasheetલો.Simulation/numericalpracticalમાં એનાં statedtoolsલો.</li><li>Connectપહેલાં orientation/recommendedVCCજુઓ.Wiringમાં powerOFFરાખો.74LSને સીધી9Vbatteryનઆપો;trainerની0–30VcapabilityICratingનથી.</li></ul><h4>Circuit Connections / Setup</h4><p>Specifiedflip-flop/trainermodelમાં debouncedclock,defineddatainputs/inactiveasynchronouscontrolsપહેલાંજોડો.</p><h4>પ્રક્રિયા</h4><ol><li>પહેલાં expectedtablederiveકરો.Bitorder,activepolarityતથા enable/clockassumptionsલખો.</li><li>Unpoweredconnectionsને logicdiagram/approvedpinmapસાથે તપાસો.Common ground તથા યોગ્ય localdecouplingcapacitorજુઓ.</li><li>બંને initialQstatesમાટે દરેકcommandtestકરો.Selectedclockedge/phaseનોંધો તથા requiredintervalsમાં inputsstableરાખો.</li><li>Settleથયા પછી દરેકoutputવાંચો.Sequentialમાં currentstate,command,clockevent/nextstateઅલગલખો.</li><li>Mismatchમાં રોકાઈ supply,inputdefinition,polarity/intermediatenodestraceકરો.Wiringબદલતાંપહેલાં powerOFFકરો.</li><li>Genuine resultsસાચવો,discrepancyસમજાવો અને safelypowerdownકરો.Expectednumbersactualobservationsમાં નભરો;નકરેલ experimentનો દાવો નકરો.</li></ol><h4>Expected ગણતરી તથા અર્થ</h4><p>Dમાં Qnext=D;JKમાં00hold,01reset,10set,11toggle;master–slaveteachingmodelfallingphasetransitionપર transferકરે.</p><h4>Fault Finding</h4><p>Unexpectedrepeatedtogglesમાં clockbounce/triggeringassumptionતપાસો.Stuckoutputમાં preset/clearકેsupplyતપાસો;પછીજrewireકરો.</p><h4>સાવચેતી</h4><ul><li>Outputs shortકેratings exceedનકરો.Unusedinputsdefinedરાખો.LEDloadમાટે checkeddriver/currentlimiterલો.VCCથીજોડાયેલ LEDજલતાં logicLOWદર્શાવી શકે.</li><li>Isolatedapprovedlow-voltageapparatusજલો.Logiccircuitને mainsનજોડો.Safe trainerપણ reversed supply/wrongpinoutથીરક્ષણનીguaranteeનથી.</li></ul><h4>Actual Observations:ખાલી Learner Evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "syllabus_item": "Practical.21",
+          "suggested_duration": 2,
+          "practical_number": 21,
+          "diagram": "JK"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Practical.22 Build and test MSJKstorage",
+        "gu": "Practical.22 MSJKStorageબનાવી Test કરો"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Build and test MSJKstorage",
+            "gu": "MSJKStorageબનાવી Test કરો"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Verify present/next state and the permitted update timing,not only the static input table.</p><h4>Instruments and preparation</h4><ul><li>Use the approved low-voltage current-limited trainer,verified logic ICs/breadboard,defined input switches,logic probe or high-impedance meter,and exact device datasheet.A simulated/numerical practical needs its stated tools instead.</li><li>Check package orientation and recommended VCCbefore connecting.Power OFFfor wiring;do not apply a9Vbattery directly to74LSlogic;trainer0–30Vcapability is not an IC operating rating.</li></ul><h4>Circuit connections / setup</h4><p>Use the specified flip-flop/trainer model;connect a debounced clock,defined data inputs and inactive asynchronous controls before enabling power.</p><h4>Procedure</h4><ol><li>Derive the expected table first;declare bit order,active polarity and any enable/clock assumptions.</li><li>Inspect the unpowered connections against the labelled logic diagram and approved pin map;verify common ground and a suitable local decoupling capacitor.</li><li>Test every command for both initial Qstates;record the selected clock edge/phase and hold inputs stable across required intervals.</li><li>Read each output after settling;for sequential circuits record current state,command,clock event and next state separately.</li><li>On a mismatch,stop and trace supply,input definition,polarity and intermediate nodes;power OFFbefore changing wiring.</li><li>Save genuine results and explain each discrepancy;power down safely.Do not fill actual observations with expected numbers or claim an unperformed experiment.</li></ol><h4>Expected calculations and interpretation</h4><p>D:Qnext=D;JK:00hold,01reset,10set,11toggle;master–slave teaching model transfers on the falling phase transition.</p><h4>Fault finding</h4><p>Unexpected repeated toggles suggest clock bounce or wrong triggering assumptions;stuck outputs suggest asserted preset/clear or missing supply.Verify before rewiring.</p><h4>Precautions</h4><ul><li>Never short outputs or exceed ratings;unused inputs must be defined.Output LEDloads need a checked driver/current limiter;an LEDwired to VCCmay indicate logicLOWwhen lit.</li><li>Use only isolated approved low-voltage apparatus;do not connect mains to logic circuits.A safe trainer is not a guarantee against reversed supply or incorrect pinout.</li></ul><h4>Actual observations:blank learner evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ</h4><p>Present/nextstateતથા permittedupdatetimingverifyકરો;ફક્ત staticinputtableનહિ.</p><h4>સાધનો તથા તૈયારી</h4><ul><li>Approvedlow-voltagecurrent-limitedtrainer,verifiedICs/breadboard,definedswitches,logicprobe/high-impedancemeterતથા exactdatasheetલો.Simulation/numericalpracticalમાં એનાં statedtoolsલો.</li><li>Connectપહેલાં orientation/recommendedVCCજુઓ.Wiringમાં powerOFFરાખો.74LSને સીધી9Vbatteryનઆપો;trainerની0–30VcapabilityICratingનથી.</li></ul><h4>Circuit Connections / Setup</h4><p>Specifiedflip-flop/trainermodelમાં debouncedclock,defineddatainputs/inactiveasynchronouscontrolsપહેલાંજોડો.</p><h4>પ્રક્રિયા</h4><ol><li>પહેલાં expectedtablederiveકરો.Bitorder,activepolarityતથા enable/clockassumptionsલખો.</li><li>Unpoweredconnectionsને logicdiagram/approvedpinmapસાથે તપાસો.Common ground તથા યોગ્ય localdecouplingcapacitorજુઓ.</li><li>બંને initialQstatesમાટે દરેકcommandtestકરો.Selectedclockedge/phaseનોંધો તથા requiredintervalsમાં inputsstableરાખો.</li><li>Settleથયા પછી દરેકoutputવાંચો.Sequentialમાં currentstate,command,clockevent/nextstateઅલગલખો.</li><li>Mismatchમાં રોકાઈ supply,inputdefinition,polarity/intermediatenodestraceકરો.Wiringબદલતાંપહેલાં powerOFFકરો.</li><li>Genuine resultsસાચવો,discrepancyસમજાવો અને safelypowerdownકરો.Expectednumbersactualobservationsમાં નભરો;નકરેલ experimentનો દાવો નકરો.</li></ol><h4>Expected ગણતરી તથા અર્થ</h4><p>Dમાં Qnext=D;JKમાં00hold,01reset,10set,11toggle;master–slaveteachingmodelfallingphasetransitionપર transferકરે.</p><h4>Fault Finding</h4><p>Unexpectedrepeatedtogglesમાં clockbounce/triggeringassumptionતપાસો.Stuckoutputમાં preset/clearકેsupplyતપાસો;પછીજrewireકરો.</p><h4>સાવચેતી</h4><ul><li>Outputs shortકેratings exceedનકરો.Unusedinputsdefinedરાખો.LEDloadમાટે checkeddriver/currentlimiterલો.VCCથીજોડાયેલ LEDજલતાં logicLOWદર્શાવી શકે.</li><li>Isolatedapprovedlow-voltageapparatusજલો.Logiccircuitને mainsનજોડો.Safe trainerપણ reversed supply/wrongpinoutથીરક્ષણનીguaranteeનથી.</li></ul><h4>Actual Observations:ખાલી Learner Evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "syllabus_item": "Practical.22",
+          "suggested_duration": 2,
+          "practical_number": 22,
+          "diagram": "MSJK"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Project.12 Flip-flop comparison chart",
+        "gu": "Project.12 Flip-flop Comparison Chart"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Flip-flop comparison chart",
+            "gu": "Flip-flop Comparison Chart"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Suggested project plan,not completed experiment evidence.</p><h4>Explanation and application</h4><ul><li>Compare SR,D,T,JKandmaster–slaveJKby inputs,hold/set/reset/toggle behaviour,clock sensitivity,forbidden conditions and a real application.</li><li>Add characteristic equations with validity conditions;distinguish a level-sensitive latch from an edge-triggered flip-flop.</li><li>Deliver problem analysis,logic expression/simplification,block and logic diagrams,full expected truth/state table,components,pin references and blank genuine-result section;report only work actually performed.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Suggested project planછે;completed experiment evidenceનહિ.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>SR,D,T,JK/master–slaveJKમાં inputs,hold/set/reset/toggle,clocksensitivity,forbiddenconditions/applicationcompareકરો.</li><li>Validityconditionsસાથે characteristicequationsલો.Level-sensitivelatchઅનેedge-triggeredflip-flopઅલગદર્શાવો.</li><li>Problem analysis,expression/simplification,block/logicdiagrams,fullexpectedtruth/state-table,components,pinreferences તથા blankgenuine-resultsectionલો.ખરેખરકરેલુંકામજreportકરો.</li></ul>"
+          },
+          "syllabus_item": "Project.12"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Project.13 Present/next-state operation chart",
+        "gu": "Project.13 Present/Next-state Operation Chart"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Present/next-state operation chart",
+            "gu": "Present/Next-state Operation Chart"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Suggested project plan,not completed experiment evidence.</p><h4>Explanation and application</h4><ul><li>For every command show both Q=0andQ=1cases,and compute Qnext;add the no-active-clock-event hold condition separately.</li><li>Plot a clock/input/output sequence from a declared initial state;label asynchronous controls and setup/hold windows.</li><li>Deliver problem analysis,logic expression/simplification,block and logic diagrams,full expected truth/state table,components,pin references and blank genuine-result section;report only work actually performed.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Suggested project planછે;completed experiment evidenceનહિ.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>દરેકcommandમાટે Q=0/Q=1બંનેcasesદેખાડી Qnextગણો.No-active-clock-eventholdconditionઅલગલો.</li><li>Declaredinitialstateથીclock/input/outputsequenceદોરો.Asynchronouscontrols/setup/holdwindowslabelકરો.</li><li>Problem analysis,expression/simplification,block/logicdiagrams,fullexpectedtruth/state-table,components,pinreferences તથા blankgenuine-resultsectionલો.ખરેખરકરેલુંકામજreportકરો.</li></ul>"
+          },
+          "syllabus_item": "Project.13"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Project.14 Sequential extensions:registers/counters",
+        "gu": "Project.14 Sequential Extensions:Registers/Counters"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Sequential extensions:registers/counters",
+            "gu": "Sequential Extensions:Registers/Counters"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Suggested project plan,not completed experiment evidence.</p><h4>Explanation and application</h4><ul><li>These are enrichment beyond the five core units:shift registers,up/down counters and IC7490decade counting.Start with four Dstages or an approved counter model and derive its state sequence.</li><li>A decade counter cycles0through9then0;binary four-bit counting instead cycles0through15.Reset wiring,clock edge and asynchronous ripple delay must match the selected ICdatasheet.</li><li>Deliver problem analysis,logic expression/simplification,block and logic diagrams,full expected truth/state table,components,pin references and blank genuine-result section;report only work actually performed.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Suggested project planછે;completed experiment evidenceનહિ.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>આ coreunitsનીબહારનું enrichmentછે:shiftregisters,up/downcounters/IC7490decadecounting.FourD-stagesકેapprovedcountermodelથીstate-sequencederiveકરો.</li><li>Decadecounter0થી9પછી0;four-bitbinarycounter0થી15ચાલે.Resetwiring,clockedge/asynchronousrippledelayselecteddatasheetસાથેmatchકરો.</li><li>Problem analysis,expression/simplification,block/logicdiagrams,fullexpectedtruth/state-table,components,pinreferences તથા blankgenuine-resultsectionલો.ખરેખરકરેલુંકામજreportકરો.</li></ul>"
+          },
+          "syllabus_item": "Project.14"
+        }
+      ]
+    }
+  ],
+  "programs": [
+    {
+      "title": {
+        "en": "Practical and testing",
+        "gu": "પ્રયોગ અને ચકાસણી"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Build and test SRstorage",
+            "gu": "SRStorageબનાવી Test કરો"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Verify present/next state and the permitted update timing,not only the static input table.</p><h4>Instruments and preparation</h4><ul><li>Use the approved low-voltage current-limited trainer,verified logic ICs/breadboard,defined input switches,logic probe or high-impedance meter,and exact device datasheet.A simulated/numerical practical needs its stated tools instead.</li><li>Check package orientation and recommended VCCbefore connecting.Power OFFfor wiring;do not apply a9Vbattery directly to74LSlogic;trainer0–30Vcapability is not an IC operating rating.</li></ul><h4>Circuit connections / setup</h4><p>Build the active-high cross-coupled NORlatch;record explicitly if the assigned hardware instead uses a clocked or active-low NANDSRvariant.</p><h4>Procedure</h4><ol><li>Derive the expected table first;declare bit order,active polarity and any enable/clock assumptions.</li><li>Inspect the unpowered connections against the labelled logic diagram and approved pin map;verify common ground and a suitable local decoupling capacitor.</li><li>Test set,hold,reset,hold in that order.Avoid simultaneous forbidden commands;explain their predicted behaviour analytically.</li><li>Read each output after settling;for sequential circuits record current state,command,clock event and next state separately.</li><li>On a mismatch,stop and trace supply,input definition,polarity and intermediate nodes;power OFFbefore changing wiring.</li><li>Save genuine results and explain each discrepancy;power down safely.Do not fill actual observations with expected numbers or claim an unperformed experiment.</li></ol><h4>Expected calculations and interpretation</h4><p>SRactive-high:00hold,01reset,10set,11forbidden.</p><h4>Fault finding</h4><p>Unexpected repeated toggles suggest clock bounce or wrong triggering assumptions;stuck outputs suggest asserted preset/clear or missing supply.Verify before rewiring.</p><h4>Precautions</h4><ul><li>Never short outputs or exceed ratings;unused inputs must be defined.Output LEDloads need a checked driver/current limiter;an LEDwired to VCCmay indicate logicLOWwhen lit.</li><li>Use only isolated approved low-voltage apparatus;do not connect mains to logic circuits.A safe trainer is not a guarantee against reversed supply or incorrect pinout.</li></ul><h4>Actual observations:blank learner evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ</h4><p>Present/nextstateતથા permittedupdatetimingverifyકરો;ફક્ત staticinputtableનહિ.</p><h4>સાધનો તથા તૈયારી</h4><ul><li>Approvedlow-voltagecurrent-limitedtrainer,verifiedICs/breadboard,definedswitches,logicprobe/high-impedancemeterતથા exactdatasheetલો.Simulation/numericalpracticalમાં એનાં statedtoolsલો.</li><li>Connectપહેલાં orientation/recommendedVCCજુઓ.Wiringમાં powerOFFરાખો.74LSને સીધી9Vbatteryનઆપો;trainerની0–30VcapabilityICratingનથી.</li></ul><h4>Circuit Connections / Setup</h4><p>Active-highcross-coupledNORlatchબનાવો.Assignedhardwareclockedકેactive-lowNANDSRહોય તો સ્પષ્ટનોંધો.</p><h4>પ્રક્રિયા</h4><ol><li>પહેલાં expectedtablederiveકરો.Bitorder,activepolarityતથા enable/clockassumptionsલખો.</li><li>Unpoweredconnectionsને logicdiagram/approvedpinmapસાથે તપાસો.Common ground તથા યોગ્ય localdecouplingcapacitorજુઓ.</li><li>Set,hold,reset,holdક્રમલો.Simultaneousforbiddencommandsટાળો;predictedbehaviouranalyticallyસમજાવો.</li><li>Settleથયા પછી દરેકoutputવાંચો.Sequentialમાં currentstate,command,clockevent/nextstateઅલગલખો.</li><li>Mismatchમાં રોકાઈ supply,inputdefinition,polarity/intermediatenodestraceકરો.Wiringબદલતાંપહેલાં powerOFFકરો.</li><li>Genuine resultsસાચવો,discrepancyસમજાવો અને safelypowerdownકરો.Expectednumbersactualobservationsમાં નભરો;નકરેલ experimentનો દાવો નકરો.</li></ol><h4>Expected ગણતરી તથા અર્થ</h4><p>SRactive-highમાં00hold,01reset,10set,11forbidden.</p><h4>Fault Finding</h4><p>Unexpectedrepeatedtogglesમાં clockbounce/triggeringassumptionતપાસો.Stuckoutputમાં preset/clearકેsupplyતપાસો;પછીજrewireકરો.</p><h4>સાવચેતી</h4><ul><li>Outputs shortકેratings exceedનકરો.Unusedinputsdefinedરાખો.LEDloadમાટે checkeddriver/currentlimiterલો.VCCથીજોડાયેલ LEDજલતાં logicLOWદર્શાવી શકે.</li><li>Isolatedapprovedlow-voltageapparatusજલો.Logiccircuitને mainsનજોડો.Safe trainerપણ reversed supply/wrongpinoutથીરક્ષણનીguaranteeનથી.</li></ul><h4>Actual Observations:ખાલી Learner Evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "diagram": "SR"
+        },
+        {
+          "h": {
+            "en": "Build and test Dstorage",
+            "gu": "DStorageબનાવી Test કરો"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Verify present/next state and the permitted update timing,not only the static input table.</p><h4>Instruments and preparation</h4><ul><li>Use the approved low-voltage current-limited trainer,verified logic ICs/breadboard,defined input switches,logic probe or high-impedance meter,and exact device datasheet.A simulated/numerical practical needs its stated tools instead.</li><li>Check package orientation and recommended VCCbefore connecting.Power OFFfor wiring;do not apply a9Vbattery directly to74LSlogic;trainer0–30Vcapability is not an IC operating rating.</li></ul><h4>Circuit connections / setup</h4><p>Use the specified flip-flop/trainer model;connect a debounced clock,defined data inputs and inactive asynchronous controls before enabling power.</p><h4>Procedure</h4><ol><li>Derive the expected table first;declare bit order,active polarity and any enable/clock assumptions.</li><li>Inspect the unpowered connections against the labelled logic diagram and approved pin map;verify common ground and a suitable local decoupling capacitor.</li><li>Test every command for both initial Qstates;record the selected clock edge/phase and hold inputs stable across required intervals.</li><li>Read each output after settling;for sequential circuits record current state,command,clock event and next state separately.</li><li>On a mismatch,stop and trace supply,input definition,polarity and intermediate nodes;power OFFbefore changing wiring.</li><li>Save genuine results and explain each discrepancy;power down safely.Do not fill actual observations with expected numbers or claim an unperformed experiment.</li></ol><h4>Expected calculations and interpretation</h4><p>D:Qnext=D;JK:00hold,01reset,10set,11toggle;master–slave teaching model transfers on the falling phase transition.</p><h4>Fault finding</h4><p>Unexpected repeated toggles suggest clock bounce or wrong triggering assumptions;stuck outputs suggest asserted preset/clear or missing supply.Verify before rewiring.</p><h4>Precautions</h4><ul><li>Never short outputs or exceed ratings;unused inputs must be defined.Output LEDloads need a checked driver/current limiter;an LEDwired to VCCmay indicate logicLOWwhen lit.</li><li>Use only isolated approved low-voltage apparatus;do not connect mains to logic circuits.A safe trainer is not a guarantee against reversed supply or incorrect pinout.</li></ul><h4>Actual observations:blank learner evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ</h4><p>Present/nextstateતથા permittedupdatetimingverifyકરો;ફક્ત staticinputtableનહિ.</p><h4>સાધનો તથા તૈયારી</h4><ul><li>Approvedlow-voltagecurrent-limitedtrainer,verifiedICs/breadboard,definedswitches,logicprobe/high-impedancemeterતથા exactdatasheetલો.Simulation/numericalpracticalમાં એનાં statedtoolsલો.</li><li>Connectપહેલાં orientation/recommendedVCCજુઓ.Wiringમાં powerOFFરાખો.74LSને સીધી9Vbatteryનઆપો;trainerની0–30VcapabilityICratingનથી.</li></ul><h4>Circuit Connections / Setup</h4><p>Specifiedflip-flop/trainermodelમાં debouncedclock,defineddatainputs/inactiveasynchronouscontrolsપહેલાંજોડો.</p><h4>પ્રક્રિયા</h4><ol><li>પહેલાં expectedtablederiveકરો.Bitorder,activepolarityતથા enable/clockassumptionsલખો.</li><li>Unpoweredconnectionsને logicdiagram/approvedpinmapસાથે તપાસો.Common ground તથા યોગ્ય localdecouplingcapacitorજુઓ.</li><li>બંને initialQstatesમાટે દરેકcommandtestકરો.Selectedclockedge/phaseનોંધો તથા requiredintervalsમાં inputsstableરાખો.</li><li>Settleથયા પછી દરેકoutputવાંચો.Sequentialમાં currentstate,command,clockevent/nextstateઅલગલખો.</li><li>Mismatchમાં રોકાઈ supply,inputdefinition,polarity/intermediatenodestraceકરો.Wiringબદલતાંપહેલાં powerOFFકરો.</li><li>Genuine resultsસાચવો,discrepancyસમજાવો અને safelypowerdownકરો.Expectednumbersactualobservationsમાં નભરો;નકરેલ experimentનો દાવો નકરો.</li></ol><h4>Expected ગણતરી તથા અર્થ</h4><p>Dમાં Qnext=D;JKમાં00hold,01reset,10set,11toggle;master–slaveteachingmodelfallingphasetransitionપર transferકરે.</p><h4>Fault Finding</h4><p>Unexpectedrepeatedtogglesમાં clockbounce/triggeringassumptionતપાસો.Stuckoutputમાં preset/clearકેsupplyતપાસો;પછીજrewireકરો.</p><h4>સાવચેતી</h4><ul><li>Outputs shortકેratings exceedનકરો.Unusedinputsdefinedરાખો.LEDloadમાટે checkeddriver/currentlimiterલો.VCCથીજોડાયેલ LEDજલતાં logicLOWદર્શાવી શકે.</li><li>Isolatedapprovedlow-voltageapparatusજલો.Logiccircuitને mainsનજોડો.Safe trainerપણ reversed supply/wrongpinoutથીરક્ષણનીguaranteeનથી.</li></ul><h4>Actual Observations:ખાલી Learner Evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "diagram": "D"
+        },
+        {
+          "h": {
+            "en": "Build and test JKstorage",
+            "gu": "JKStorageબનાવી Test કરો"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Verify present/next state and the permitted update timing,not only the static input table.</p><h4>Instruments and preparation</h4><ul><li>Use the approved low-voltage current-limited trainer,verified logic ICs/breadboard,defined input switches,logic probe or high-impedance meter,and exact device datasheet.A simulated/numerical practical needs its stated tools instead.</li><li>Check package orientation and recommended VCCbefore connecting.Power OFFfor wiring;do not apply a9Vbattery directly to74LSlogic;trainer0–30Vcapability is not an IC operating rating.</li></ul><h4>Circuit connections / setup</h4><p>Use the specified flip-flop/trainer model;connect a debounced clock,defined data inputs and inactive asynchronous controls before enabling power.</p><h4>Procedure</h4><ol><li>Derive the expected table first;declare bit order,active polarity and any enable/clock assumptions.</li><li>Inspect the unpowered connections against the labelled logic diagram and approved pin map;verify common ground and a suitable local decoupling capacitor.</li><li>Test every command for both initial Qstates;record the selected clock edge/phase and hold inputs stable across required intervals.</li><li>Read each output after settling;for sequential circuits record current state,command,clock event and next state separately.</li><li>On a mismatch,stop and trace supply,input definition,polarity and intermediate nodes;power OFFbefore changing wiring.</li><li>Save genuine results and explain each discrepancy;power down safely.Do not fill actual observations with expected numbers or claim an unperformed experiment.</li></ol><h4>Expected calculations and interpretation</h4><p>D:Qnext=D;JK:00hold,01reset,10set,11toggle;master–slave teaching model transfers on the falling phase transition.</p><h4>Fault finding</h4><p>Unexpected repeated toggles suggest clock bounce or wrong triggering assumptions;stuck outputs suggest asserted preset/clear or missing supply.Verify before rewiring.</p><h4>Precautions</h4><ul><li>Never short outputs or exceed ratings;unused inputs must be defined.Output LEDloads need a checked driver/current limiter;an LEDwired to VCCmay indicate logicLOWwhen lit.</li><li>Use only isolated approved low-voltage apparatus;do not connect mains to logic circuits.A safe trainer is not a guarantee against reversed supply or incorrect pinout.</li></ul><h4>Actual observations:blank learner evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ</h4><p>Present/nextstateતથા permittedupdatetimingverifyકરો;ફક્ત staticinputtableનહિ.</p><h4>સાધનો તથા તૈયારી</h4><ul><li>Approvedlow-voltagecurrent-limitedtrainer,verifiedICs/breadboard,definedswitches,logicprobe/high-impedancemeterતથા exactdatasheetલો.Simulation/numericalpracticalમાં એનાં statedtoolsલો.</li><li>Connectપહેલાં orientation/recommendedVCCજુઓ.Wiringમાં powerOFFરાખો.74LSને સીધી9Vbatteryનઆપો;trainerની0–30VcapabilityICratingનથી.</li></ul><h4>Circuit Connections / Setup</h4><p>Specifiedflip-flop/trainermodelમાં debouncedclock,defineddatainputs/inactiveasynchronouscontrolsપહેલાંજોડો.</p><h4>પ્રક્રિયા</h4><ol><li>પહેલાં expectedtablederiveકરો.Bitorder,activepolarityતથા enable/clockassumptionsલખો.</li><li>Unpoweredconnectionsને logicdiagram/approvedpinmapસાથે તપાસો.Common ground તથા યોગ્ય localdecouplingcapacitorજુઓ.</li><li>બંને initialQstatesમાટે દરેકcommandtestકરો.Selectedclockedge/phaseનોંધો તથા requiredintervalsમાં inputsstableરાખો.</li><li>Settleથયા પછી દરેકoutputવાંચો.Sequentialમાં currentstate,command,clockevent/nextstateઅલગલખો.</li><li>Mismatchમાં રોકાઈ supply,inputdefinition,polarity/intermediatenodestraceકરો.Wiringબદલતાંપહેલાં powerOFFકરો.</li><li>Genuine resultsસાચવો,discrepancyસમજાવો અને safelypowerdownકરો.Expectednumbersactualobservationsમાં નભરો;નકરેલ experimentનો દાવો નકરો.</li></ol><h4>Expected ગણતરી તથા અર્થ</h4><p>Dમાં Qnext=D;JKમાં00hold,01reset,10set,11toggle;master–slaveteachingmodelfallingphasetransitionપર transferકરે.</p><h4>Fault Finding</h4><p>Unexpectedrepeatedtogglesમાં clockbounce/triggeringassumptionતપાસો.Stuckoutputમાં preset/clearકેsupplyતપાસો;પછીજrewireકરો.</p><h4>સાવચેતી</h4><ul><li>Outputs shortકેratings exceedનકરો.Unusedinputsdefinedરાખો.LEDloadમાટે checkeddriver/currentlimiterલો.VCCથીજોડાયેલ LEDજલતાં logicLOWદર્શાવી શકે.</li><li>Isolatedapprovedlow-voltageapparatusજલો.Logiccircuitને mainsનજોડો.Safe trainerપણ reversed supply/wrongpinoutથીરક્ષણનીguaranteeનથી.</li></ul><h4>Actual Observations:ખાલી Learner Evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "diagram": "JK"
+        },
+        {
+          "h": {
+            "en": "Build and test MSJKstorage",
+            "gu": "MSJKStorageબનાવી Test કરો"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Verify present/next state and the permitted update timing,not only the static input table.</p><h4>Instruments and preparation</h4><ul><li>Use the approved low-voltage current-limited trainer,verified logic ICs/breadboard,defined input switches,logic probe or high-impedance meter,and exact device datasheet.A simulated/numerical practical needs its stated tools instead.</li><li>Check package orientation and recommended VCCbefore connecting.Power OFFfor wiring;do not apply a9Vbattery directly to74LSlogic;trainer0–30Vcapability is not an IC operating rating.</li></ul><h4>Circuit connections / setup</h4><p>Use the specified flip-flop/trainer model;connect a debounced clock,defined data inputs and inactive asynchronous controls before enabling power.</p><h4>Procedure</h4><ol><li>Derive the expected table first;declare bit order,active polarity and any enable/clock assumptions.</li><li>Inspect the unpowered connections against the labelled logic diagram and approved pin map;verify common ground and a suitable local decoupling capacitor.</li><li>Test every command for both initial Qstates;record the selected clock edge/phase and hold inputs stable across required intervals.</li><li>Read each output after settling;for sequential circuits record current state,command,clock event and next state separately.</li><li>On a mismatch,stop and trace supply,input definition,polarity and intermediate nodes;power OFFbefore changing wiring.</li><li>Save genuine results and explain each discrepancy;power down safely.Do not fill actual observations with expected numbers or claim an unperformed experiment.</li></ol><h4>Expected calculations and interpretation</h4><p>D:Qnext=D;JK:00hold,01reset,10set,11toggle;master–slave teaching model transfers on the falling phase transition.</p><h4>Fault finding</h4><p>Unexpected repeated toggles suggest clock bounce or wrong triggering assumptions;stuck outputs suggest asserted preset/clear or missing supply.Verify before rewiring.</p><h4>Precautions</h4><ul><li>Never short outputs or exceed ratings;unused inputs must be defined.Output LEDloads need a checked driver/current limiter;an LEDwired to VCCmay indicate logicLOWwhen lit.</li><li>Use only isolated approved low-voltage apparatus;do not connect mains to logic circuits.A safe trainer is not a guarantee against reversed supply or incorrect pinout.</li></ul><h4>Actual observations:blank learner evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ</h4><p>Present/nextstateતથા permittedupdatetimingverifyકરો;ફક્ત staticinputtableનહિ.</p><h4>સાધનો તથા તૈયારી</h4><ul><li>Approvedlow-voltagecurrent-limitedtrainer,verifiedICs/breadboard,definedswitches,logicprobe/high-impedancemeterતથા exactdatasheetલો.Simulation/numericalpracticalમાં એનાં statedtoolsલો.</li><li>Connectપહેલાં orientation/recommendedVCCજુઓ.Wiringમાં powerOFFરાખો.74LSને સીધી9Vbatteryનઆપો;trainerની0–30VcapabilityICratingનથી.</li></ul><h4>Circuit Connections / Setup</h4><p>Specifiedflip-flop/trainermodelમાં debouncedclock,defineddatainputs/inactiveasynchronouscontrolsપહેલાંજોડો.</p><h4>પ્રક્રિયા</h4><ol><li>પહેલાં expectedtablederiveકરો.Bitorder,activepolarityતથા enable/clockassumptionsલખો.</li><li>Unpoweredconnectionsને logicdiagram/approvedpinmapસાથે તપાસો.Common ground તથા યોગ્ય localdecouplingcapacitorજુઓ.</li><li>બંને initialQstatesમાટે દરેકcommandtestકરો.Selectedclockedge/phaseનોંધો તથા requiredintervalsમાં inputsstableરાખો.</li><li>Settleથયા પછી દરેકoutputવાંચો.Sequentialમાં currentstate,command,clockevent/nextstateઅલગલખો.</li><li>Mismatchમાં રોકાઈ supply,inputdefinition,polarity/intermediatenodestraceકરો.Wiringબદલતાંપહેલાં powerOFFકરો.</li><li>Genuine resultsસાચવો,discrepancyસમજાવો અને safelypowerdownકરો.Expectednumbersactualobservationsમાં નભરો;નકરેલ experimentનો દાવો નકરો.</li></ol><h4>Expected ગણતરી તથા અર્થ</h4><p>Dમાં Qnext=D;JKમાં00hold,01reset,10set,11toggle;master–slaveteachingmodelfallingphasetransitionપર transferકરે.</p><h4>Fault Finding</h4><p>Unexpectedrepeatedtogglesમાં clockbounce/triggeringassumptionતપાસો.Stuckoutputમાં preset/clearકેsupplyતપાસો;પછીજrewireકરો.</p><h4>સાવચેતી</h4><ul><li>Outputs shortકેratings exceedનકરો.Unusedinputsdefinedરાખો.LEDloadમાટે checkeddriver/currentlimiterલો.VCCથીજોડાયેલ LEDજલતાં logicLOWદર્શાવી શકે.</li><li>Isolatedapprovedlow-voltageapparatusજલો.Logiccircuitને mainsનજોડો.Safe trainerપણ reversed supply/wrongpinoutથીરક્ષણનીguaranteeનથી.</li></ul><h4>Actual Observations:ખાલી Learner Evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "diagram": "MSJK"
+        }
+      ]
+    }
+  ],
+  "practicals": [
+    {
+      "number": 19,
+      "unit": 5,
+      "suggested_duration": 2,
+      "title": {
+        "en": "Build and test SRstorage",
+        "gu": "SRStorageબનાવી Test કરો"
+      },
+      "aim": {
+        "en": "Verify present/next state and the permitted update timing,not only the static input table.",
+        "gu": "Present/nextstateતથા permittedupdatetimingverifyકરો;ફક્ત staticinputtableનહિ."
+      },
+      "diagram": "SR",
+      "body": {
+        "en": "<h4>Aim</h4><p>Verify present/next state and the permitted update timing,not only the static input table.</p><h4>Instruments and preparation</h4><ul><li>Use the approved low-voltage current-limited trainer,verified logic ICs/breadboard,defined input switches,logic probe or high-impedance meter,and exact device datasheet.A simulated/numerical practical needs its stated tools instead.</li><li>Check package orientation and recommended VCCbefore connecting.Power OFFfor wiring;do not apply a9Vbattery directly to74LSlogic;trainer0–30Vcapability is not an IC operating rating.</li></ul><h4>Circuit connections / setup</h4><p>Build the active-high cross-coupled NORlatch;record explicitly if the assigned hardware instead uses a clocked or active-low NANDSRvariant.</p><h4>Procedure</h4><ol><li>Derive the expected table first;declare bit order,active polarity and any enable/clock assumptions.</li><li>Inspect the unpowered connections against the labelled logic diagram and approved pin map;verify common ground and a suitable local decoupling capacitor.</li><li>Test set,hold,reset,hold in that order.Avoid simultaneous forbidden commands;explain their predicted behaviour analytically.</li><li>Read each output after settling;for sequential circuits record current state,command,clock event and next state separately.</li><li>On a mismatch,stop and trace supply,input definition,polarity and intermediate nodes;power OFFbefore changing wiring.</li><li>Save genuine results and explain each discrepancy;power down safely.Do not fill actual observations with expected numbers or claim an unperformed experiment.</li></ol><h4>Expected calculations and interpretation</h4><p>SRactive-high:00hold,01reset,10set,11forbidden.</p><h4>Fault finding</h4><p>Unexpected repeated toggles suggest clock bounce or wrong triggering assumptions;stuck outputs suggest asserted preset/clear or missing supply.Verify before rewiring.</p><h4>Precautions</h4><ul><li>Never short outputs or exceed ratings;unused inputs must be defined.Output LEDloads need a checked driver/current limiter;an LEDwired to VCCmay indicate logicLOWwhen lit.</li><li>Use only isolated approved low-voltage apparatus;do not connect mains to logic circuits.A safe trainer is not a guarantee against reversed supply or incorrect pinout.</li></ul><h4>Actual observations:blank learner evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+        "gu": "<h4>હેતુ</h4><p>Present/nextstateતથા permittedupdatetimingverifyકરો;ફક્ત staticinputtableનહિ.</p><h4>સાધનો તથા તૈયારી</h4><ul><li>Approvedlow-voltagecurrent-limitedtrainer,verifiedICs/breadboard,definedswitches,logicprobe/high-impedancemeterતથા exactdatasheetલો.Simulation/numericalpracticalમાં એનાં statedtoolsલો.</li><li>Connectપહેલાં orientation/recommendedVCCજુઓ.Wiringમાં powerOFFરાખો.74LSને સીધી9Vbatteryનઆપો;trainerની0–30VcapabilityICratingનથી.</li></ul><h4>Circuit Connections / Setup</h4><p>Active-highcross-coupledNORlatchબનાવો.Assignedhardwareclockedકેactive-lowNANDSRહોય તો સ્પષ્ટનોંધો.</p><h4>પ્રક્રિયા</h4><ol><li>પહેલાં expectedtablederiveકરો.Bitorder,activepolarityતથા enable/clockassumptionsલખો.</li><li>Unpoweredconnectionsને logicdiagram/approvedpinmapસાથે તપાસો.Common ground તથા યોગ્ય localdecouplingcapacitorજુઓ.</li><li>Set,hold,reset,holdક્રમલો.Simultaneousforbiddencommandsટાળો;predictedbehaviouranalyticallyસમજાવો.</li><li>Settleથયા પછી દરેકoutputવાંચો.Sequentialમાં currentstate,command,clockevent/nextstateઅલગલખો.</li><li>Mismatchમાં રોકાઈ supply,inputdefinition,polarity/intermediatenodestraceકરો.Wiringબદલતાંપહેલાં powerOFFકરો.</li><li>Genuine resultsસાચવો,discrepancyસમજાવો અને safelypowerdownકરો.Expectednumbersactualobservationsમાં નભરો;નકરેલ experimentનો દાવો નકરો.</li></ol><h4>Expected ગણતરી તથા અર્થ</h4><p>SRactive-highમાં00hold,01reset,10set,11forbidden.</p><h4>Fault Finding</h4><p>Unexpectedrepeatedtogglesમાં clockbounce/triggeringassumptionતપાસો.Stuckoutputમાં preset/clearકેsupplyતપાસો;પછીજrewireકરો.</p><h4>સાવચેતી</h4><ul><li>Outputs shortકેratings exceedનકરો.Unusedinputsdefinedરાખો.LEDloadમાટે checkeddriver/currentlimiterલો.VCCથીજોડાયેલ LEDજલતાં logicLOWદર્શાવી શકે.</li><li>Isolatedapprovedlow-voltageapparatusજલો.Logiccircuitને mainsનજોડો.Safe trainerપણ reversed supply/wrongpinoutથીરક્ષણનીguaranteeનથી.</li></ul><h4>Actual Observations:ખાલી Learner Evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+      },
+      "actual_observations_blank": true,
+      "performed": false
+    },
+    {
+      "number": 20,
+      "unit": 5,
+      "suggested_duration": 2,
+      "title": {
+        "en": "Build and test Dstorage",
+        "gu": "DStorageબનાવી Test કરો"
+      },
+      "aim": {
+        "en": "Verify present/next state and the permitted update timing,not only the static input table.",
+        "gu": "Present/nextstateતથા permittedupdatetimingverifyકરો;ફક્ત staticinputtableનહિ."
+      },
+      "diagram": "D",
+      "body": {
+        "en": "<h4>Aim</h4><p>Verify present/next state and the permitted update timing,not only the static input table.</p><h4>Instruments and preparation</h4><ul><li>Use the approved low-voltage current-limited trainer,verified logic ICs/breadboard,defined input switches,logic probe or high-impedance meter,and exact device datasheet.A simulated/numerical practical needs its stated tools instead.</li><li>Check package orientation and recommended VCCbefore connecting.Power OFFfor wiring;do not apply a9Vbattery directly to74LSlogic;trainer0–30Vcapability is not an IC operating rating.</li></ul><h4>Circuit connections / setup</h4><p>Use the specified flip-flop/trainer model;connect a debounced clock,defined data inputs and inactive asynchronous controls before enabling power.</p><h4>Procedure</h4><ol><li>Derive the expected table first;declare bit order,active polarity and any enable/clock assumptions.</li><li>Inspect the unpowered connections against the labelled logic diagram and approved pin map;verify common ground and a suitable local decoupling capacitor.</li><li>Test every command for both initial Qstates;record the selected clock edge/phase and hold inputs stable across required intervals.</li><li>Read each output after settling;for sequential circuits record current state,command,clock event and next state separately.</li><li>On a mismatch,stop and trace supply,input definition,polarity and intermediate nodes;power OFFbefore changing wiring.</li><li>Save genuine results and explain each discrepancy;power down safely.Do not fill actual observations with expected numbers or claim an unperformed experiment.</li></ol><h4>Expected calculations and interpretation</h4><p>D:Qnext=D;JK:00hold,01reset,10set,11toggle;master–slave teaching model transfers on the falling phase transition.</p><h4>Fault finding</h4><p>Unexpected repeated toggles suggest clock bounce or wrong triggering assumptions;stuck outputs suggest asserted preset/clear or missing supply.Verify before rewiring.</p><h4>Precautions</h4><ul><li>Never short outputs or exceed ratings;unused inputs must be defined.Output LEDloads need a checked driver/current limiter;an LEDwired to VCCmay indicate logicLOWwhen lit.</li><li>Use only isolated approved low-voltage apparatus;do not connect mains to logic circuits.A safe trainer is not a guarantee against reversed supply or incorrect pinout.</li></ul><h4>Actual observations:blank learner evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+        "gu": "<h4>હેતુ</h4><p>Present/nextstateતથા permittedupdatetimingverifyકરો;ફક્ત staticinputtableનહિ.</p><h4>સાધનો તથા તૈયારી</h4><ul><li>Approvedlow-voltagecurrent-limitedtrainer,verifiedICs/breadboard,definedswitches,logicprobe/high-impedancemeterતથા exactdatasheetલો.Simulation/numericalpracticalમાં એનાં statedtoolsલો.</li><li>Connectપહેલાં orientation/recommendedVCCજુઓ.Wiringમાં powerOFFરાખો.74LSને સીધી9Vbatteryનઆપો;trainerની0–30VcapabilityICratingનથી.</li></ul><h4>Circuit Connections / Setup</h4><p>Specifiedflip-flop/trainermodelમાં debouncedclock,defineddatainputs/inactiveasynchronouscontrolsપહેલાંજોડો.</p><h4>પ્રક્રિયા</h4><ol><li>પહેલાં expectedtablederiveકરો.Bitorder,activepolarityતથા enable/clockassumptionsલખો.</li><li>Unpoweredconnectionsને logicdiagram/approvedpinmapસાથે તપાસો.Common ground તથા યોગ્ય localdecouplingcapacitorજુઓ.</li><li>બંને initialQstatesમાટે દરેકcommandtestકરો.Selectedclockedge/phaseનોંધો તથા requiredintervalsમાં inputsstableરાખો.</li><li>Settleથયા પછી દરેકoutputવાંચો.Sequentialમાં currentstate,command,clockevent/nextstateઅલગલખો.</li><li>Mismatchમાં રોકાઈ supply,inputdefinition,polarity/intermediatenodestraceકરો.Wiringબદલતાંપહેલાં powerOFFકરો.</li><li>Genuine resultsસાચવો,discrepancyસમજાવો અને safelypowerdownકરો.Expectednumbersactualobservationsમાં નભરો;નકરેલ experimentનો દાવો નકરો.</li></ol><h4>Expected ગણતરી તથા અર્થ</h4><p>Dમાં Qnext=D;JKમાં00hold,01reset,10set,11toggle;master–slaveteachingmodelfallingphasetransitionપર transferકરે.</p><h4>Fault Finding</h4><p>Unexpectedrepeatedtogglesમાં clockbounce/triggeringassumptionતપાસો.Stuckoutputમાં preset/clearકેsupplyતપાસો;પછીજrewireકરો.</p><h4>સાવચેતી</h4><ul><li>Outputs shortકેratings exceedનકરો.Unusedinputsdefinedરાખો.LEDloadમાટે checkeddriver/currentlimiterલો.VCCથીજોડાયેલ LEDજલતાં logicLOWદર્શાવી શકે.</li><li>Isolatedapprovedlow-voltageapparatusજલો.Logiccircuitને mainsનજોડો.Safe trainerપણ reversed supply/wrongpinoutથીરક્ષણનીguaranteeનથી.</li></ul><h4>Actual Observations:ખાલી Learner Evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+      },
+      "actual_observations_blank": true,
+      "performed": false
+    },
+    {
+      "number": 21,
+      "unit": 5,
+      "suggested_duration": 2,
+      "title": {
+        "en": "Build and test JKstorage",
+        "gu": "JKStorageબનાવી Test કરો"
+      },
+      "aim": {
+        "en": "Verify present/next state and the permitted update timing,not only the static input table.",
+        "gu": "Present/nextstateતથા permittedupdatetimingverifyકરો;ફક્ત staticinputtableનહિ."
+      },
+      "diagram": "JK",
+      "body": {
+        "en": "<h4>Aim</h4><p>Verify present/next state and the permitted update timing,not only the static input table.</p><h4>Instruments and preparation</h4><ul><li>Use the approved low-voltage current-limited trainer,verified logic ICs/breadboard,defined input switches,logic probe or high-impedance meter,and exact device datasheet.A simulated/numerical practical needs its stated tools instead.</li><li>Check package orientation and recommended VCCbefore connecting.Power OFFfor wiring;do not apply a9Vbattery directly to74LSlogic;trainer0–30Vcapability is not an IC operating rating.</li></ul><h4>Circuit connections / setup</h4><p>Use the specified flip-flop/trainer model;connect a debounced clock,defined data inputs and inactive asynchronous controls before enabling power.</p><h4>Procedure</h4><ol><li>Derive the expected table first;declare bit order,active polarity and any enable/clock assumptions.</li><li>Inspect the unpowered connections against the labelled logic diagram and approved pin map;verify common ground and a suitable local decoupling capacitor.</li><li>Test every command for both initial Qstates;record the selected clock edge/phase and hold inputs stable across required intervals.</li><li>Read each output after settling;for sequential circuits record current state,command,clock event and next state separately.</li><li>On a mismatch,stop and trace supply,input definition,polarity and intermediate nodes;power OFFbefore changing wiring.</li><li>Save genuine results and explain each discrepancy;power down safely.Do not fill actual observations with expected numbers or claim an unperformed experiment.</li></ol><h4>Expected calculations and interpretation</h4><p>D:Qnext=D;JK:00hold,01reset,10set,11toggle;master–slave teaching model transfers on the falling phase transition.</p><h4>Fault finding</h4><p>Unexpected repeated toggles suggest clock bounce or wrong triggering assumptions;stuck outputs suggest asserted preset/clear or missing supply.Verify before rewiring.</p><h4>Precautions</h4><ul><li>Never short outputs or exceed ratings;unused inputs must be defined.Output LEDloads need a checked driver/current limiter;an LEDwired to VCCmay indicate logicLOWwhen lit.</li><li>Use only isolated approved low-voltage apparatus;do not connect mains to logic circuits.A safe trainer is not a guarantee against reversed supply or incorrect pinout.</li></ul><h4>Actual observations:blank learner evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+        "gu": "<h4>હેતુ</h4><p>Present/nextstateતથા permittedupdatetimingverifyકરો;ફક્ત staticinputtableનહિ.</p><h4>સાધનો તથા તૈયારી</h4><ul><li>Approvedlow-voltagecurrent-limitedtrainer,verifiedICs/breadboard,definedswitches,logicprobe/high-impedancemeterતથા exactdatasheetલો.Simulation/numericalpracticalમાં એનાં statedtoolsલો.</li><li>Connectપહેલાં orientation/recommendedVCCજુઓ.Wiringમાં powerOFFરાખો.74LSને સીધી9Vbatteryનઆપો;trainerની0–30VcapabilityICratingનથી.</li></ul><h4>Circuit Connections / Setup</h4><p>Specifiedflip-flop/trainermodelમાં debouncedclock,defineddatainputs/inactiveasynchronouscontrolsપહેલાંજોડો.</p><h4>પ્રક્રિયા</h4><ol><li>પહેલાં expectedtablederiveકરો.Bitorder,activepolarityતથા enable/clockassumptionsલખો.</li><li>Unpoweredconnectionsને logicdiagram/approvedpinmapસાથે તપાસો.Common ground તથા યોગ્ય localdecouplingcapacitorજુઓ.</li><li>બંને initialQstatesમાટે દરેકcommandtestકરો.Selectedclockedge/phaseનોંધો તથા requiredintervalsમાં inputsstableરાખો.</li><li>Settleથયા પછી દરેકoutputવાંચો.Sequentialમાં currentstate,command,clockevent/nextstateઅલગલખો.</li><li>Mismatchમાં રોકાઈ supply,inputdefinition,polarity/intermediatenodestraceકરો.Wiringબદલતાંપહેલાં powerOFFકરો.</li><li>Genuine resultsસાચવો,discrepancyસમજાવો અને safelypowerdownકરો.Expectednumbersactualobservationsમાં નભરો;નકરેલ experimentનો દાવો નકરો.</li></ol><h4>Expected ગણતરી તથા અર્થ</h4><p>Dમાં Qnext=D;JKમાં00hold,01reset,10set,11toggle;master–slaveteachingmodelfallingphasetransitionપર transferકરે.</p><h4>Fault Finding</h4><p>Unexpectedrepeatedtogglesમાં clockbounce/triggeringassumptionતપાસો.Stuckoutputમાં preset/clearકેsupplyતપાસો;પછીજrewireકરો.</p><h4>સાવચેતી</h4><ul><li>Outputs shortકેratings exceedનકરો.Unusedinputsdefinedરાખો.LEDloadમાટે checkeddriver/currentlimiterલો.VCCથીજોડાયેલ LEDજલતાં logicLOWદર્શાવી શકે.</li><li>Isolatedapprovedlow-voltageapparatusજલો.Logiccircuitને mainsનજોડો.Safe trainerપણ reversed supply/wrongpinoutથીરક્ષણનીguaranteeનથી.</li></ul><h4>Actual Observations:ખાલી Learner Evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+      },
+      "actual_observations_blank": true,
+      "performed": false
+    },
+    {
+      "number": 22,
+      "unit": 5,
+      "suggested_duration": 2,
+      "title": {
+        "en": "Build and test MSJKstorage",
+        "gu": "MSJKStorageબનાવી Test કરો"
+      },
+      "aim": {
+        "en": "Verify present/next state and the permitted update timing,not only the static input table.",
+        "gu": "Present/nextstateતથા permittedupdatetimingverifyકરો;ફક્ત staticinputtableનહિ."
+      },
+      "diagram": "MSJK",
+      "body": {
+        "en": "<h4>Aim</h4><p>Verify present/next state and the permitted update timing,not only the static input table.</p><h4>Instruments and preparation</h4><ul><li>Use the approved low-voltage current-limited trainer,verified logic ICs/breadboard,defined input switches,logic probe or high-impedance meter,and exact device datasheet.A simulated/numerical practical needs its stated tools instead.</li><li>Check package orientation and recommended VCCbefore connecting.Power OFFfor wiring;do not apply a9Vbattery directly to74LSlogic;trainer0–30Vcapability is not an IC operating rating.</li></ul><h4>Circuit connections / setup</h4><p>Use the specified flip-flop/trainer model;connect a debounced clock,defined data inputs and inactive asynchronous controls before enabling power.</p><h4>Procedure</h4><ol><li>Derive the expected table first;declare bit order,active polarity and any enable/clock assumptions.</li><li>Inspect the unpowered connections against the labelled logic diagram and approved pin map;verify common ground and a suitable local decoupling capacitor.</li><li>Test every command for both initial Qstates;record the selected clock edge/phase and hold inputs stable across required intervals.</li><li>Read each output after settling;for sequential circuits record current state,command,clock event and next state separately.</li><li>On a mismatch,stop and trace supply,input definition,polarity and intermediate nodes;power OFFbefore changing wiring.</li><li>Save genuine results and explain each discrepancy;power down safely.Do not fill actual observations with expected numbers or claim an unperformed experiment.</li></ol><h4>Expected calculations and interpretation</h4><p>D:Qnext=D;JK:00hold,01reset,10set,11toggle;master–slave teaching model transfers on the falling phase transition.</p><h4>Fault finding</h4><p>Unexpected repeated toggles suggest clock bounce or wrong triggering assumptions;stuck outputs suggest asserted preset/clear or missing supply.Verify before rewiring.</p><h4>Precautions</h4><ul><li>Never short outputs or exceed ratings;unused inputs must be defined.Output LEDloads need a checked driver/current limiter;an LEDwired to VCCmay indicate logicLOWwhen lit.</li><li>Use only isolated approved low-voltage apparatus;do not connect mains to logic circuits.A safe trainer is not a guarantee against reversed supply or incorrect pinout.</li></ul><h4>Actual observations:blank learner evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+        "gu": "<h4>હેતુ</h4><p>Present/nextstateતથા permittedupdatetimingverifyકરો;ફક્ત staticinputtableનહિ.</p><h4>સાધનો તથા તૈયારી</h4><ul><li>Approvedlow-voltagecurrent-limitedtrainer,verifiedICs/breadboard,definedswitches,logicprobe/high-impedancemeterતથા exactdatasheetલો.Simulation/numericalpracticalમાં એનાં statedtoolsલો.</li><li>Connectપહેલાં orientation/recommendedVCCજુઓ.Wiringમાં powerOFFરાખો.74LSને સીધી9Vbatteryનઆપો;trainerની0–30VcapabilityICratingનથી.</li></ul><h4>Circuit Connections / Setup</h4><p>Specifiedflip-flop/trainermodelમાં debouncedclock,defineddatainputs/inactiveasynchronouscontrolsપહેલાંજોડો.</p><h4>પ્રક્રિયા</h4><ol><li>પહેલાં expectedtablederiveકરો.Bitorder,activepolarityતથા enable/clockassumptionsલખો.</li><li>Unpoweredconnectionsને logicdiagram/approvedpinmapસાથે તપાસો.Common ground તથા યોગ્ય localdecouplingcapacitorજુઓ.</li><li>બંને initialQstatesમાટે દરેકcommandtestકરો.Selectedclockedge/phaseનોંધો તથા requiredintervalsમાં inputsstableરાખો.</li><li>Settleથયા પછી દરેકoutputવાંચો.Sequentialમાં currentstate,command,clockevent/nextstateઅલગલખો.</li><li>Mismatchમાં રોકાઈ supply,inputdefinition,polarity/intermediatenodestraceકરો.Wiringબદલતાંપહેલાં powerOFFકરો.</li><li>Genuine resultsસાચવો,discrepancyસમજાવો અને safelypowerdownકરો.Expectednumbersactualobservationsમાં નભરો;નકરેલ experimentનો દાવો નકરો.</li></ol><h4>Expected ગણતરી તથા અર્થ</h4><p>Dમાં Qnext=D;JKમાં00hold,01reset,10set,11toggle;master–slaveteachingmodelfallingphasetransitionપર transferકરે.</p><h4>Fault Finding</h4><p>Unexpectedrepeatedtogglesમાં clockbounce/triggeringassumptionતપાસો.Stuckoutputમાં preset/clearકેsupplyતપાસો;પછીજrewireકરો.</p><h4>સાવચેતી</h4><ul><li>Outputs shortકેratings exceedનકરો.Unusedinputsdefinedરાખો.LEDloadમાટે checkeddriver/currentlimiterલો.VCCથીજોડાયેલ LEDજલતાં logicLOWદર્શાવી શકે.</li><li>Isolatedapprovedlow-voltageapparatusજલો.Logiccircuitને mainsનજોડો.Safe trainerપણ reversed supply/wrongpinoutથીરક્ષણનીguaranteeનથી.</li></ul><h4>Actual Observations:ખાલી Learner Evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+      },
+      "actual_observations_blank": true,
+      "performed": false
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "timing",
+      "title": {
+        "en": "D flip-flop timing example",
+        "gu": "Combinational સામે Sequential Logic"
+      },
+      "file": "diagrams/timing.svg"
+    },
+    {
+      "id": "SR",
+      "title": {
+        "en": "SR state/block diagram",
+        "gu": "SR Storage:Active-high NOR Latch"
+      },
+      "file": "diagrams/SR.svg"
+    },
+    {
+      "id": "D",
+      "title": {
+        "en": "D state/block diagram",
+        "gu": "D Flip-flop"
+      },
+      "file": "diagrams/D.svg"
+    },
+    {
+      "id": "T",
+      "title": {
+        "en": "T state/block diagram",
+        "gu": "T Flip-flop"
+      },
+      "file": "diagrams/T.svg"
+    },
+    {
+      "id": "JK",
+      "title": {
+        "en": "JK state/block diagram",
+        "gu": "JK Flip-flop"
+      },
+      "file": "diagrams/JK.svg"
+    },
+    {
+      "id": "MSJK",
+      "title": {
+        "en": "MSJK state/block diagram",
+        "gu": "Master–slave JK:Two-phase Working"
+      },
+      "file": "diagrams/MSJK.svg"
+    },
+    {
+      "id": "SRlogic",
+      "title": {
+        "en": "Cross-coupled NOR SR latch",
+        "gu": "SR Latch Logic Connections"
+      },
+      "file": "diagrams/SRlogic.svg"
+    }
+  ],
+  "syntax": [
+    {
+      "title": {
+        "en": "Formula and conditions",
+        "gu": "સૂત્રો અને શરતો"
+      },
+      "items": [
+        {
+          "name": {
+            "en": "Characteristic equations",
+            "gu": "Characteristic Equations"
+          },
+          "f": "D:Qnext=D;T:Qnext=T⊕Q;JK:Qnext=JQ′+K′Q",
+          "terms": {
+            "en": "At permitted update events;asynchronous controls inactive.",
+            "gu": "Permittedupdateeventsમાં;asynchronouscontrolsinactive."
+          }
+        },
+        {
+          "name": {
+            "en": "SR",
+            "gu": "SR"
+          },
+          "f": "Qnext=S+R′Q",
+          "terms": {
+            "en": "Valid active-high SRcommands only;not S=R=1.",
+            "gu": "ફક્તvalidactive-highcommands;S=R=1નહિ."
+          }
+        },
+        {
+          "name": {
+            "en": "Timing",
+            "gu": "Timing"
+          },
+          "f": "data stable for setup before and hold after active edge",
+          "terms": {
+            "en": "Read timing conditions for the actual device.",
+            "gu": "Actualdeviceનીtimingconditionsવાંચો."
+          }
+        }
+      ]
+    }
+  ],
+  "viva": [
+    {
+      "title": {
+        "en": "Viva with answers",
+        "gu": "જવાબ સાથે Viva"
+      },
+      "items": [
+        {
+          "q": {
+            "en": "Latch versus flip-flop?",
+            "gu": "Latch સામે Flip-flop?"
+          },
+          "a": {
+            "en": "Alevel-sensitive latch follows during enable;an edge-triggered flip-flop samples near the active transition.",
+            "gu": "Latchenableદરમિયાનfollowકરે;edge-triggeredflip-flopactivetransitionનજીકsampleકરે."
+          }
+        },
+        {
+          "q": {
+            "en": "SRforbidden condition?",
+            "gu": "SR Forbidden Condition?"
+          },
+          "a": {
+            "en": "For active-high NORlatch,S=R=1;for active-low NANDlatch,both inputs0.Do not interchange these tables.",
+            "gu": "Active-highNORમાંS=R=1;active-lowNANDમાંબંનેinputs0.બંનેtablesભેળવશોનહિ."
+          }
+        },
+        {
+          "q": {
+            "en": "What does JK=11do?",
+            "gu": "JK=11 શું કરે?"
+          },
+          "a": {
+            "en": "It toggles the stored state at the permitted update event;timing architecture determines race-around risk.",
+            "gu": "Permittedupdateeventપરstoredstatetoggleથાય.Timingarchitectureથીrace-aroundriskનક્કીથાય."
+          }
+        },
+        {
+          "q": {
+            "en": "What is setup/hold?",
+            "gu": "Setup/Hold શું?"
+          },
+          "a": {
+            "en": "Minimum input-stability intervals before/after the active clock event;violations may cause metastability or wrong capture.",
+            "gu": "Activeclockeventપહેલાં/પછીનાminimuminput-stabilityintervalsછે;violationથીmetastability/wrongcaptureથઈશકે."
+          }
+        },
+        {
+          "q": {
+            "en": "Why master/slave stages?",
+            "gu": "Master/Slave Stages કેમ?"
+          },
+          "a": {
+            "en": "Opposite phases separate acquisition and output transfer,preventing repeated output toggles in a properly designed single cycle.",
+            "gu": "Oppositephasesacquisition/outputtransferઅલગકરે;properdesignમાંએકcycleમાંrepeatedoutputtogglesટાળે."
+          }
+        }
+      ]
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Compare combinational and sequential circuits.",
+        "gu": "Combinational/Sequential Circuits Compare કરો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Explain active-high SRlatch and its forbidden state;distinguish a clocked SRmodel.",
+        "gu": "Active-high SRlatch/Forbidden State સમજાવી Clocked SRmodelથી અલગ કરો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain DandTflip-flops with present/next-state tables.",
+        "gu": "D/TFlip-flops Present/Next-state Tablesથી સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain JKflip-flop and race-around.",
+        "gu": "JKFlip-flop તથા Race-around સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain the illustrated master–slave JKoperation with timing assumptions.",
+        "gu": "Timing Assumptions સાથે Master–slave JK Working સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain setup,hold,asynchronous preset/clear and useful flip-flop applications.",
+        "gu": "Setup,Hold,Asynchronous Preset/Clear તથા ઉપયોગ સમજાવો."
+      },
+      "marks": 4
+    }
+  ],
+  "exam_policy": "Questions and suggested practice marks only;no answers in Exam;not an official paper or unit mark allocation.",
+  "physical_practicals_performed": false,
+  "sources": [
+    {
+      "title": "Owner GTU Fundamental of Digital Electronics DI02000161,w.e.f.2024-25",
+      "reference": "Content pp2–3;practicals p6;projects pp7–9;activities pp9–10."
+    }
+  ],
+  "diagram_note": "Original digital-logic diagrams,truth tables,K-maps and timing sketches.Shared English symbols;Gujarati explanation has equivalent meaning.",
+  "project_plans": [
+    {
+      "number": 12,
+      "title": {
+        "en": "Flip-flop comparison chart",
+        "gu": "Flip-flop Comparison Chart"
+      },
+      "body": {
+        "en": "Compare SR,D,T,JKandmaster–slaveJKby inputs,hold/set/reset/toggle behaviour,clock sensitivity,forbidden conditions and a real application. Add characteristic equations with validity conditions;distinguish a level-sensitive latch from an edge-triggered flip-flop. Deliver problem analysis,logic expression/simplification,block and logic diagrams,full expected truth/state table,components,pin references and blank genuine-result section;report only work actually performed.",
+        "gu": "SR,D,T,JK/master–slaveJKમાં inputs,hold/set/reset/toggle,clocksensitivity,forbiddenconditions/applicationcompareકરો. Validityconditionsસાથે characteristicequationsલો.Level-sensitivelatchઅનેedge-triggeredflip-flopઅલગદર્શાવો. Problem analysis,expression/simplification,block/logicdiagrams,fullexpectedtruth/state-table,components,pinreferences તથા blankgenuine-resultsectionલો.ખરેખરકરેલુંકામજreportકરો."
+      }
+    },
+    {
+      "number": 13,
+      "title": {
+        "en": "Present/next-state operation chart",
+        "gu": "Present/Next-state Operation Chart"
+      },
+      "body": {
+        "en": "For every command show both Q=0andQ=1cases,and compute Qnext;add the no-active-clock-event hold condition separately. Plot a clock/input/output sequence from a declared initial state;label asynchronous controls and setup/hold windows. Deliver problem analysis,logic expression/simplification,block and logic diagrams,full expected truth/state table,components,pin references and blank genuine-result section;report only work actually performed.",
+        "gu": "દરેકcommandમાટે Q=0/Q=1બંનેcasesદેખાડી Qnextગણો.No-active-clock-eventholdconditionઅલગલો. Declaredinitialstateથીclock/input/outputsequenceદોરો.Asynchronouscontrols/setup/holdwindowslabelકરો. Problem analysis,expression/simplification,block/logicdiagrams,fullexpectedtruth/state-table,components,pinreferences તથા blankgenuine-resultsectionલો.ખરેખરકરેલુંકામજreportકરો."
+      }
+    },
+    {
+      "number": 14,
+      "title": {
+        "en": "Sequential extensions:registers/counters",
+        "gu": "Sequential Extensions:Registers/Counters"
+      },
+      "body": {
+        "en": "These are enrichment beyond the five core units:shift registers,up/down counters and IC7490decade counting.Start with four Dstages or an approved counter model and derive its state sequence. A decade counter cycles0through9then0;binary four-bit counting instead cycles0through15.Reset wiring,clock edge and asynchronous ripple delay must match the selected ICdatasheet. Deliver problem analysis,logic expression/simplification,block and logic diagrams,full expected truth/state table,components,pin references and blank genuine-result section;report only work actually performed.",
+        "gu": "આ coreunitsનીબહારનું enrichmentછે:shiftregisters,up/downcounters/IC7490decadecounting.FourD-stagesકેapprovedcountermodelથીstate-sequencederiveકરો. Decadecounter0થી9પછી0;four-bitbinarycounter0થી15ચાલે.Resetwiring,clockedge/asynchronousrippledelayselecteddatasheetસાથેmatchકરો. Problem analysis,expression/simplification,block/logicdiagrams,fullexpectedtruth/state-table,components,pinreferences તથા blankgenuine-resultsectionલો.ખરેખરકરેલુંકામજreportકરો."
+      }
+    }
+  ]
+}

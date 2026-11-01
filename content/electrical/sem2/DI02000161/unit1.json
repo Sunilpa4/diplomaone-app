@@ -1,0 +1,641 @@
+{
+  "subject": "DI02000161",
+  "unit": 1,
+  "title": {
+    "en": "Number Systems",
+    "gu": "સંખ્યા પદ્ધતિઓ"
+  },
+  "format": "notes",
+  "languages": [
+    "en",
+    "gu"
+  ],
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "tab_labels": {
+    "programs": {
+      "en": "Practical",
+      "gu": "પ્રયોગ અને ચકાસણી"
+    }
+  },
+  "hours": 6,
+  "weightage": 21,
+  "notes": [
+    {
+      "title": {
+        "en": "1.1 Analog versus digital and positional numbers",
+        "gu": "1.1 Analog સામે Digital તથા Positional Numbers"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Analog versus digital and positional numbers",
+            "gu": "Analog સામે Digital તથા Positional Numbers"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Analog varies continuously;digital information uses discrete symbols.A binary digit has two logical values,not necessarily exactly0V and5V.</p><h4>Explanation and application</h4><ul><li>A thermometer voltage can change smoothly;a binary word encodes a quantised measurement.Digital circuits still use real analog voltages and finite thresholds.</li><li>Radix r uses digits0to r−1.Decimal uses10digits,binary2,octal8 and hexadecimal16;hex A,B,C,D,E,F mean10,11,12,13,14,15.</li><li>Each place has weight r^i to the left and r^−i to the right of the radix point.Write the base to prevent ambiguity:10₂ is2₁₀,not ten.</li><li>A bit is one binary digit;a nibble has4bits and a byte8bits.Leading zeroes do not change an unsigned value but do define word width.</li></ul><details class=\"self-check\"><summary>Why state the base?</summary><p>10₂means2₁₀;the same digit string has different place weights in another base.</p></details>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Analog continuously બદલાય છે;digital માહિતી discrete symbolsથી દર્શાવાય છે.Binary digitના બે logical values હોય છે;તે હંમેશાં exactly0V/5V હોતા નથી.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Thermometer voltage smoothly બદલાય;binary word quantised measurement encode કરે.Digital circuitમાં પણ actual analog voltages અને finite thresholds હોય છે.</li><li>Radix rમાં0થી r−1digits છે.Decimalમાં10,binaryમાં2,octalમાં8 તથા hexમાં16digits છે.Hex A,B,C,D,E,Fનો અર્થ10,11,12,13,14,15છે.</li><li>Radix pointની ડાબે weight r^i અને જમણે r^−i છે.Base લખો:10₂નો અર્થ2₁₀છે,દસ નહિ.</li><li>Bit એક binary digit છે;નિબલ4bits અને byte8bits છે.Leading zeros unsigned value બદલતાં નથી,પણ word width નક્કી કરે છે.</li></ul><details class=\"self-check\"><summary>Base શા માટે લખવું?</summary><p>10₂એ2₁₀છે;બીજાbaseમાં એજdigitstringનાplaceweightsજુદાછે.</p></details>"
+          },
+          "syllabus_item": "1.1",
+          "diagram": "safe"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "1.2 Decimal conversions in both directions",
+        "gu": "1.2 Decimal Conversion બંને દિશામાં"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Decimal conversions in both directions",
+            "gu": "Decimal Conversion બંને દિશામાં"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Conversion changes representation,not the represented quantity.</p><h4>Explanation and application</h4><ul><li>To convert an integer to base r,repeatedly divide by r and collect remainders from last to first.Validate that every remainder is a legal digit.</li><li>For a fraction,repeatedly multiply by r and read integer parts in forward order.Some decimal fractions repeat in binary;state precision rather than silently truncating.</li><li>For base r to decimal,sum digit×place weight.Separate integer and fraction calculations,then add and reverse-check the answer.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Conversionમાં representation બદલાય છે,quantity નહિ.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Integerને base rમાં ફેરવવા વારંવાર rથી divide કરો;remainders છેલ્લાથી પહેલાં વાંચો.દરેક remainder legal digit હોવો જોઈએ.</li><li>Fractionને વારંવાર rથી multiply કરીને integer parts આગળના ક્રમે વાંચો.કેટલાક decimal fractions binaryમાં repeating હોય છે;precision લખો.</li><li>Base rથી decimal માટે digit×place-weightનો sum લો.Integer/fraction અલગ ગણો,પછી ઉમેરો તથા reverse-check કરો.</li></ul>"
+          },
+          "syllabus_item": "1.2"
+        },
+        {
+          "h": {
+            "en": "Example:45.625decimal",
+            "gu": "Example:45.625Decimal"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>N=45.625₁₀</p><h4>Step-by-step solution</h4><ol><li>45÷2=22 r1;22÷2=11 r0;11÷2=5 r1;5÷2=2 r1;2÷2=1 r0;1÷2=0 r1 →101101₂.</li><li>0.625×2=1.25 →1;0.25×2=0.5 →0;0.5×2=1 →1;fraction=.101₂.</li><li>45.625₁₀=101101.101₂=55.5₈=2D.A₁₆.</li></ol><h4>Interpretation and check</h4><p>Check:32+8+4+1+1/2+1/8=45.625.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>N=45.625₁₀</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>45÷2=22 r1;22÷2=11 r0;11÷2=5 r1;5÷2=2 r1;2÷2=1 r0;1÷2=0 r1 →101101₂.</li><li>0.625×2=1.25 →1;0.25×2=0.5 →0;0.5×2=1 →1;fraction=.101₂.</li><li>45.625₁₀=101101.101₂=55.5₈=2D.A₁₆.</li></ol><h4>અર્થ અને ચકાસણી</h4><p>Check:32+8+4+1+1/2+1/8=45.625.</p>"
+          },
+          "syllabus_item": "1.2"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "1.3 Binary–octal–hex grouping",
+        "gu": "1.3 Binary–Octal–Hex Grouping"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Binary–octal–hex grouping",
+            "gu": "Binary–Octal–Hex Grouping"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Because8=2³ and16=2⁴,grouping replaces lengthy division.</p><h4>Explanation and application</h4><ul><li>For octal,group3bits outward from the radix point;for hex,group4bits.Pad the outer ends only:integer side on the left,fraction side on the right.</li><li>110101.11₂ →110 101.110₂=65.6₈;0011 0101.1100₂=35.C₁₆.Padding across the radix point changes value.</li><li>Octal↔hex is easiest through binary:7A₁₆=0111 1010₂=001 111 010₂=172₈.Each octal digit expands to3bits;each hex digit to4.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>8=2³ તથા16=2⁴હોવાથી groupingથી lengthy division ટળે છે.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Octal માટે radix pointથી બહારની તરફ3bits તથા hex માટે4bitsના groups લો.Integerની ડાબે અને fractionની જમણે જ padding કરો.</li><li>110101.11₂ →110 101.110₂=65.6₈;0011 0101.1100₂=35.C₁₆.Radix pointની પાર padding કરવાથી value બદલાય.</li><li>Octal↔hex binary મારફતે સરળ છે:7A₁₆=0111 1010₂=001 111 010₂=172₈.Octal digitના3 તથા hex digitના4bits લો.</li></ul>"
+          },
+          "syllabus_item": "1.3"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "1.4 Binary arithmetic with carries and borrows",
+        "gu": "1.4 Carry/Borrow સાથે Binary Arithmetic"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Binary arithmetic with carries and borrows",
+            "gu": "Carry/Borrow સાથે Binary Arithmetic"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Use the same positional method as decimal,but carry at2 rather than10.</p><h4>Explanation and application</h4><ul><li>Addition rules:0+0=0,0+1=1,1+1=10,1+1+1=11.1011+0110=10001;four-bit storage would retain0001with an unsigned carry.</li><li>Subtraction:borrow1from the next position gives10₂ in the current position.10110−01101=01001.</li><li>Multiplication uses shifted partial products:101×11=101+1010=1111.Division uses compare,subtract and shift:1101÷11=100remainder1.</li><li>State unsigned or signed interpretation.Word truncation,unsigned carry and signed overflow are different;do not infer all from the same carry bit.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Decimal જેવી positional method લો,પણ10ને બદલે2પર carry થાય છે.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Addition rules:0+0=0,0+1=1,1+1=10,1+1+1=11.1011+0110=10001;four-bit storageમાં0001અને unsigned carry રહે.</li><li>Subtractionમાં આગળની positionમાંથી1borrow કરતાં હાલની positionમાં10₂મળે.10110−01101=01001.</li><li>Multiplicationમાં shifted partial products લો:101×11=101+1010=1111.Divisionમાં compare/subtract/shift:1101÷11=100remainder1.</li><li>Unsigned/signed interpretation લખો.Word truncation,unsigned carry તથા signed overflow અલગ છે;એક carry bitથી બધું ન નક્કી કરો.</li></ul>"
+          },
+          "syllabus_item": "1.4"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "1.5 Complements and fixed-width subtraction",
+        "gu": "1.5 Complements તથા Fixed-width Subtraction"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Complements and fixed-width subtraction",
+            "gu": "Complements તથા Fixed-width Subtraction"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Choose width before complementing;otherwise the representation and sign range change.</p><h4>Explanation and application</h4><ul><li>For n bits,one’s complement inverts every bit;two’s complement inverts and adds1,keeping n bits.One’s complement has positive and negative zero;two’s complement has one zero.</li><li>One’s-complement subtraction adds complement of the subtrahend.If carry occurs,add it back as end-around carry;without carry,complement the sum and prefix a minus sign.</li><li>Two’s-complement subtraction adds the two’s complement of the subtrahend.Discard carry beyond the selected width;interpret the result consistently.</li><li>4-bit signed two’s-complement range is−8 to +7. 0111+0001=1000is signed overflow,although the four-bit result is the correct modulo16sum.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Complement પહેલાં width પસંદ કરો;નહિ તો representation/sign range બદલાય.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>n bitsમાં one’s complement બધા bits invert કરે;two’s complementમાં invert પછી1ઉમેરી n bits રાખો.One’s complementમાં બે zero representations છે;two’sમાં એક.</li><li>One’s subtractionમાં subtrahendનું complement ઉમેરો.Carry આવે તો end-around carry ઉમેરો;carry ન આવે તો sumનું complement લઈને minus sign લગાવો.</li><li>Two’s subtractionમાં subtrahendનું two’s complement ઉમેરો.Selected widthની બહારનો carry discard કરીને resultનું consistent interpretation કરો.</li><li>4-bit signed two’s range−8થી+7છે.0111+0001=1000માં signed overflow છે,ભલે modulo16sum સાચો હોય.</li></ul>"
+          },
+          "syllabus_item": "1.5"
+        },
+        {
+          "h": {
+            "en": "Two subtraction directions,4-bit magnitude arithmetic",
+            "gu": "Subtractionની બંને દિશા,4-bit Magnitude"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>Compute7−3and3−7;bits are fixed at4.</p><h4>Step-by-step solution</h4><ol><li>7−3:0111+1100=1 0011;end-around1→0100(one’s method).Two’s:0111+1101=1 0100→0100.</li><li>3−7:0011+1000=1011;no end carry;one’s complement0100→−4.Two’s:0011+1001=1100→−4.</li><li>Magnitude check:7−3=4and3−7=−4.1100means12unsigned but−4signed two’s complement.</li></ol><h4>Interpretation and check</h4><p>Carry handling differs between the methods;never combine both rules.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>Compute7−3and3−7;bits are fixed at4.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>7−3:0111+1100=1 0011;end-around1→0100(one’s method).Two’s:0111+1101=1 0100→0100.</li><li>3−7:0011+1000=1011;no end carry;one’s complement0100→−4.Two’s:0011+1001=1100→−4.</li><li>Magnitude check:7−3=4and3−7=−4.1100means12unsigned but−4signed two’s complement.</li></ol><h4>અર્થ અને ચકાસણી</h4><p>બંને methodsમાં carry handling અલગ છે;બંને rules ભેગાં ન કરો.</p>"
+          },
+          "syllabus_item": "1.5"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "1.6 Weighted and nonweighted codes",
+        "gu": "1.6 Weighted તથા Nonweighted Codes"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Weighted and nonweighted codes",
+            "gu": "Weighted તથા Nonweighted Codes"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>A code represents symbols;it need not represent the whole quantity as a straight binary integer.</p><h4>Explanation and application</h4><ul><li>8421BCD is weighted and encodes each decimal digit separately.59₁₀ becomes0101 1001BCD,not00111011binary;1010through1111are invalid BCD digit codes.</li><li>Excess-3 encodes each decimal digit after adding3:decimal59 →1000 1100.It is nonweighted and self-complementing digitwise.</li><li>Gray is nonweighted;adjacent codewords in the standard reflected sequence differ in one bit.Binary→Gray:copy MSB,then XOR adjacent binary bits.Gray→binary:copy MSB,then cumulative XOR.</li><li>Binary1011→Gray1110;Gray1110→binary1011.Gray reduces transition ambiguity in position encoding,but is not an ordinary arithmetic code.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Code symbolsનું representation છે;તે આખી quantityનો straight binary integer હોવો જરૂરી નથી.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>8421BCD weighted છે અને દરેક decimal digit અલગ encode કરે.59₁₀નું BCD0101 1001છે,00111011binary નહિ;1010થી1111invalid BCD digit codes છે.</li><li>Excess-3માં દરેક decimal digitમાં3ઉમેરી encode કરો:decimal59 →1000 1100.તે nonweighted તથા digitwise self-complementing છે.</li><li>Gray nonweighted છે;standard reflected sequenceમાં પડોશી codewords એક bitથી જુદા પડે.Binary→Grayમાં MSB copy અને adjacent binary bits XOR કરો.Gray→binaryમાં MSB copy પછી cumulative XOR કરો.</li><li>Binary1011→Gray1110;Gray1110→binary1011.Position encodingમાં Gray transition ambiguity ઘટાડે છે,પણ ordinary arithmetic code નથી.</li></ul>"
+          },
+          "syllabus_item": "1.6",
+          "diagram": "gray"
+        },
+        {
+          "h": {
+            "en": "Decimal-digit code reference",
+            "gu": "Decimal-digit Code Reference"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Read each row as one decimal digit.</p><h4>Explanation and application</h4><ul><li>Do not call a4-bit Gray code BCD merely because the width is the same.</li></ul><h4>Truth / reference table</h4><div style=\"overflow:auto\"><table><thead><tr><th>Decimal</th><th>8421BCD</th><th>Excess-3</th><th>Reflected Gray of digit</th></tr></thead><tbody><tr><td>0</td><td>0000</td><td>0011</td><td>0000</td></tr><tr><td>1</td><td>0001</td><td>0100</td><td>0001</td></tr><tr><td>2</td><td>0010</td><td>0101</td><td>0011</td></tr><tr><td>3</td><td>0011</td><td>0110</td><td>0010</td></tr><tr><td>4</td><td>0100</td><td>0111</td><td>0110</td></tr><tr><td>5</td><td>0101</td><td>1000</td><td>0111</td></tr><tr><td>6</td><td>0110</td><td>1001</td><td>0101</td></tr><tr><td>7</td><td>0111</td><td>1010</td><td>0100</td></tr><tr><td>8</td><td>1000</td><td>1011</td><td>1100</td></tr><tr><td>9</td><td>1001</td><td>1100</td><td>1101</td></tr></tbody></table></div><p>Expected mathematical values;not measured observations.</p>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>દરેક rowને એક decimal digit તરીકે વાંચો.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Width એકસરખી હોવાને લીધે4-bit Grayને BCD ન કહો.</li></ul><h4>Truth / Reference Table</h4><div style=\"overflow:auto\"><table><thead><tr><th>Decimal</th><th>8421BCD</th><th>Excess-3</th><th>Reflected Gray of digit</th></tr></thead><tbody><tr><td>0</td><td>0000</td><td>0011</td><td>0000</td></tr><tr><td>1</td><td>0001</td><td>0100</td><td>0001</td></tr><tr><td>2</td><td>0010</td><td>0101</td><td>0011</td></tr><tr><td>3</td><td>0011</td><td>0110</td><td>0010</td></tr><tr><td>4</td><td>0100</td><td>0111</td><td>0110</td></tr><tr><td>5</td><td>0101</td><td>1000</td><td>0111</td></tr><tr><td>6</td><td>0110</td><td>1001</td><td>0101</td></tr><tr><td>7</td><td>0111</td><td>1010</td><td>0100</td></tr><tr><td>8</td><td>1000</td><td>1011</td><td>1100</td></tr><tr><td>9</td><td>1001</td><td>1100</td><td>1101</td></tr></tbody></table></div><p>Expected mathematical values;measured observations નથી.</p>"
+          },
+          "syllabus_item": "1.6"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Practical.1 Number conversion and arithmetic",
+        "gu": "Practical.1 Number Conversion તથા Arithmetic"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Number conversion and arithmetic",
+            "gu": "Number Conversion તથા Arithmetic"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Convert across bases and verify arithmetic with declared word width.</p><h4>Instruments and preparation</h4><ul><li>Use the approved low-voltage current-limited trainer,verified logic ICs/breadboard,defined input switches,logic probe or high-impedance meter,and exact device datasheet.A simulated/numerical practical needs its stated tools instead.</li><li>Check package orientation and recommended VCCbefore connecting.Power OFFfor wiring;do not apply a9Vbattery directly to74LSlogic;trainer0–30Vcapability is not an IC operating rating.</li></ul><h4>Circuit connections / setup</h4><p>Use written place-value columns or an offline calculation worksheet;there is no breadboard requirement.</p><h4>Procedure</h4><ol><li>Derive the expected table first;declare bit order,active polarity and any enable/clock assumptions.</li><li>Inspect the unpowered connections against the labelled logic diagram and approved pin map;verify common ground and a suitable local decoupling capacitor.</li><li>Test45.625decimal,7Ahex,13÷3binary and both7−3/3−7complement subtraction.</li><li>Read each output after settling;for sequential circuits record current state,command,clock event and next state separately.</li><li>On a mismatch,stop and trace supply,input definition,polarity and intermediate nodes;power OFFbefore changing wiring.</li><li>Save genuine results and explain each discrepancy;power down safely.Do not fill actual observations with expected numbers or claim an unperformed experiment.</li></ol><h4>Expected calculations and interpretation</h4><p>Expected:45.625=101101.101₂;7Ahex=172octal;1101÷11=100remainder1.</p><h4>Fault finding</h4><p>A sign/width mismatch can mimic an arithmetic error;reverse-convert to decimal before changing the method.</p><h4>Precautions</h4><ul><li>Never short outputs or exceed ratings;unused inputs must be defined.Output LEDloads need a checked driver/current limiter;an LEDwired to VCCmay indicate logicLOWwhen lit.</li><li>Use only isolated approved low-voltage apparatus;do not connect mains to logic circuits.A safe trainer is not a guarantee against reversed supply or incorrect pinout.</li></ul><h4>Actual observations:blank learner evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ</h4><p>Basesવચ્ચે conversion તથા declared word widthથી arithmetic verify કરો.</p><h4>સાધનો તથા તૈયારી</h4><ul><li>Approvedlow-voltagecurrent-limitedtrainer,verifiedICs/breadboard,definedswitches,logicprobe/high-impedancemeterતથા exactdatasheetલો.Simulation/numericalpracticalમાં એનાં statedtoolsલો.</li><li>Connectપહેલાં orientation/recommendedVCCજુઓ.Wiringમાં powerOFFરાખો.74LSને સીધી9Vbatteryનઆપો;trainerની0–30VcapabilityICratingનથી.</li></ul><h4>Circuit Connections / Setup</h4><p>Written place-value columns અથવા offline worksheetલો;breadboardજરૂરી નથી.</p><h4>પ્રક્રિયા</h4><ol><li>પહેલાં expectedtablederiveકરો.Bitorder,activepolarityતથા enable/clockassumptionsલખો.</li><li>Unpoweredconnectionsને logicdiagram/approvedpinmapસાથે તપાસો.Common ground તથા યોગ્ય localdecouplingcapacitorજુઓ.</li><li>45.625decimal,7Ahex,13÷3binary તથા7−3/3−7complement subtractionલો.</li><li>Settleથયા પછી દરેકoutputવાંચો.Sequentialમાં currentstate,command,clockevent/nextstateઅલગલખો.</li><li>Mismatchમાં રોકાઈ supply,inputdefinition,polarity/intermediatenodestraceકરો.Wiringબદલતાંપહેલાં powerOFFકરો.</li><li>Genuine resultsસાચવો,discrepancyસમજાવો અને safelypowerdownકરો.Expectednumbersactualobservationsમાં નભરો;નકરેલ experimentનો દાવો નકરો.</li></ol><h4>Expected ગણતરી તથા અર્થ</h4><p>Expected:45.625=101101.101₂;7Ahex=172octal;1101÷11=100remainder1.</p><h4>Fault Finding</h4><p>Sign/width mismatch arithmeticerrorજેવો લાગે;method બદલતાં પહેલાં decimalમાં reverse-convert કરો.</p><h4>સાવચેતી</h4><ul><li>Outputs shortકેratings exceedનકરો.Unusedinputsdefinedરાખો.LEDloadમાટે checkeddriver/currentlimiterલો.VCCથીજોડાયેલ LEDજલતાં logicLOWદર્શાવી શકે.</li><li>Isolatedapprovedlow-voltageapparatusજલો.Logiccircuitને mainsનજોડો.Safe trainerપણ reversed supply/wrongpinoutથીરક્ષણનીguaranteeનથી.</li></ul><h4>Actual Observations:ખાલી Learner Evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "syllabus_item": "Practical.1",
+          "suggested_duration": 4,
+          "practical_number": 1,
+          "diagram": "number"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Practical.2 4-bit binary to Gray converter",
+        "gu": "Practical.2 4-bit Binaryથી Gray Converter"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "4-bit binary to Gray converter",
+            "gu": "4-bit Binaryથી Gray Converter"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Build a binary-to-Gray network with logic gates.</p><h4>Instruments and preparation</h4><ul><li>Use the approved low-voltage current-limited trainer,verified logic ICs/breadboard,defined input switches,logic probe or high-impedance meter,and exact device datasheet.A simulated/numerical practical needs its stated tools instead.</li><li>Check package orientation and recommended VCCbefore connecting.Power OFFfor wiring;do not apply a9Vbattery directly to74LSlogic;trainer0–30Vcapability is not an IC operating rating.</li></ul><h4>Circuit connections / setup</h4><p>Connect B3directly to G3;XOR B3/B2→G2,B2/B1→G1,B1/B0→G0.Use three XOR channels with common supply/ground.</p><h4>Procedure</h4><ol><li>Derive the expected table first;declare bit order,active polarity and any enable/clock assumptions.</li><li>Inspect the unpowered connections against the labelled logic diagram and approved pin map;verify common ground and a suitable local decoupling capacitor.</li><li>Sweep all16binary words;also check adjacent Gray words differ by one bit.</li><li>Read each output after settling;for sequential circuits record current state,command,clock event and next state separately.</li><li>On a mismatch,stop and trace supply,input definition,polarity and intermediate nodes;power OFFbefore changing wiring.</li><li>Save genuine results and explain each discrepancy;power down safely.Do not fill actual observations with expected numbers or claim an unperformed experiment.</li></ol><h4>Expected calculations and interpretation</h4><p>1011binary must give1110Gray;decode that Gray word back to1011.</p><h4>Fault finding</h4><p>Wrong bit ordering often gives a plausible but incorrect Gray code.Label MSB/LSB on the panel.</p><h4>Precautions</h4><ul><li>Never short outputs or exceed ratings;unused inputs must be defined.Output LEDloads need a checked driver/current limiter;an LEDwired to VCCmay indicate logicLOWwhen lit.</li><li>Use only isolated approved low-voltage apparatus;do not connect mains to logic circuits.A safe trainer is not a guarantee against reversed supply or incorrect pinout.</li></ul><h4>Actual observations:blank learner evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ</h4><p>Logic gatesથી binary-to-Gray network બનાવો.</p><h4>સાધનો તથા તૈયારી</h4><ul><li>Approvedlow-voltagecurrent-limitedtrainer,verifiedICs/breadboard,definedswitches,logicprobe/high-impedancemeterતથા exactdatasheetલો.Simulation/numericalpracticalમાં એનાં statedtoolsલો.</li><li>Connectપહેલાં orientation/recommendedVCCજુઓ.Wiringમાં powerOFFરાખો.74LSને સીધી9Vbatteryનઆપો;trainerની0–30VcapabilityICratingનથી.</li></ul><h4>Circuit Connections / Setup</h4><p>B3થી G3direct;XOR B3/B2→G2,B2/B1→G1,B1/B0→G0લો.ત્રણ XOR channelsનું common supply/groundરાખો.</p><h4>પ્રક્રિયા</h4><ol><li>પહેલાં expectedtablederiveકરો.Bitorder,activepolarityતથા enable/clockassumptionsલખો.</li><li>Unpoweredconnectionsને logicdiagram/approvedpinmapસાથે તપાસો.Common ground તથા યોગ્ય localdecouplingcapacitorજુઓ.</li><li>બધા16binary wordsલો;adjacent Gray wordsએક bitથી બદલાય તેપણ તપાસો.</li><li>Settleથયા પછી દરેકoutputવાંચો.Sequentialમાં currentstate,command,clockevent/nextstateઅલગલખો.</li><li>Mismatchમાં રોકાઈ supply,inputdefinition,polarity/intermediatenodestraceકરો.Wiringબદલતાંપહેલાં powerOFFકરો.</li><li>Genuine resultsસાચવો,discrepancyસમજાવો અને safelypowerdownકરો.Expectednumbersactualobservationsમાં નભરો;નકરેલ experimentનો દાવો નકરો.</li></ol><h4>Expected ગણતરી તથા અર્થ</h4><p>1011binaryનું1110Grayથવું જોઈએ;તેને decodeકરતાં1011મળે.</p><h4>Fault Finding</h4><p>Wrong bit orderingથી plausibleપણખોટો Grayમળે.Panelપર MSB/LSBlabelકરો.</p><h4>સાવચેતી</h4><ul><li>Outputs shortકેratings exceedનકરો.Unusedinputsdefinedરાખો.LEDloadમાટે checkeddriver/currentlimiterલો.VCCથીજોડાયેલ LEDજલતાં logicLOWદર્શાવી શકે.</li><li>Isolatedapprovedlow-voltageapparatusજલો.Logiccircuitને mainsનજોડો.Safe trainerપણ reversed supply/wrongpinoutથીરક્ષણનીguaranteeનથી.</li></ul><h4>Actual Observations:ખાલી Learner Evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "syllabus_item": "Practical.2",
+          "suggested_duration": 2,
+          "practical_number": 2,
+          "diagram": "gray"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Project.1 Number conversion comparison chart",
+        "gu": "Project.1 Number Conversion Comparison Chart"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Number conversion comparison chart",
+            "gu": "Number Conversion Comparison Chart"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Suggested project plan,not completed experiment evidence.</p><h4>Explanation and application</h4><ul><li>Use one consistent value45.625decimal;show binary101101.101,octal55.5and hex2D.Awith place-value and grouping checks.</li><li>Include radix,allowed digits,conversion direction and one worked example per route;label fraction precision.</li><li>Deliver problem analysis,logic expression/simplification,block and logic diagrams,full expected truth/state table,components,pin references and blank genuine-result section;report only work actually performed.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Suggested project planછે;completed experiment evidenceનહિ.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Consistent45.625decimalથી binary101101.101,octal55.5/hex2D.Aદર્શાવો.Place-value/groupingchecksઉમેરો.</li><li>Radix,alloweddigits,conversiondirection તથા દરેકrouteનું exampleલો.Fractionprecisionલખો.</li><li>Problem analysis,expression/simplification,block/logicdiagrams,fullexpectedtruth/state-table,components,pinreferences તથા blankgenuine-resultsectionલો.ખરેખરકરેલુંકામજreportકરો.</li></ul>"
+          },
+          "syllabus_item": "Project.1"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Project.2 Conversion solution bank",
+        "gu": "Project.2 Conversion Solution Bank"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Conversion solution bank",
+            "gu": "Conversion Solution Bank"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Suggested project plan,not completed experiment evidence.</p><h4>Explanation and application</h4><ul><li>Choose an instructor-approved book/problem set and cite edition/page/problem numbers.Do not claim every problem from an unspecified book has been solved.</li><li>Group integer/fraction conversions,binary arithmetic and complements;for every answer show method,base,width and independent reverse-check.</li><li>Deliver problem analysis,logic expression/simplification,block and logic diagrams,full expected truth/state table,components,pin references and blank genuine-result section;report only work actually performed.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Suggested project planછે;completed experiment evidenceનહિ.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Instructor-approvedbook/problemsetનો edition/page/problemnumberલખો.Unspecifiedbookનાબધાપ્રશ્નઉકેલ્યાનો દાવો નકરો.</li><li>Integer/fractionconversions,binaryarithmetic/complementsgroupકરો.દરેકanswerમાં method,base,width/reverse-checkલો.</li><li>Problem analysis,expression/simplification,block/logicdiagrams,fullexpectedtruth/state-table,components,pinreferences તથા blankgenuine-resultsectionલો.ખરેખરકરેલુંકામજreportકરો.</li></ul>"
+          },
+          "syllabus_item": "Project.2"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Project.3 Binary↔Gray converter circuits",
+        "gu": "Project.3 Binary↔Gray Converter Circuits"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Binary↔Gray converter circuits",
+            "gu": "Binary↔Gray Converter Circuits"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Suggested project plan,not completed experiment evidence.</p><h4>Explanation and application</h4><ul><li>Binary→Gray uses adjacent XOR;Gray→binary uses cumulative XOR:B3=G3,B2=B3⊕G2,B1=B2⊕G1,B0=B1⊕G0.</li><li>Test all16words through a converter pair and require exact round-trip identity.Include bit-order labels and both logic diagrams.</li><li>Deliver problem analysis,logic expression/simplification,block and logic diagrams,full expected truth/state table,components,pin references and blank genuine-result section;report only work actually performed.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Suggested project planછે;completed experiment evidenceનહિ.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Binary→Grayમાં adjacentXOR;Gray→binaryમાં cumulativeXOR:B3=G3,B2=B3⊕G2,B1=B2⊕G1,B0=B1⊕G0.</li><li>બધા16wordsને converterpairમારફતે ફેરવી exactround-tripidentityચકાસો.Bit-orderlabels/bothlogicdiagramsલો.</li><li>Problem analysis,expression/simplification,block/logicdiagrams,fullexpectedtruth/state-table,components,pinreferences તથા blankgenuine-resultsectionલો.ખરેખરકરેલુંકામજreportકરો.</li></ul>"
+          },
+          "syllabus_item": "Project.3"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Project.5 Code-conversion,ASCII and EBCDIC chart",
+        "gu": "Project.5 Code-conversion,ASCII તથા EBCDIC Chart"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Code-conversion,ASCII and EBCDIC chart",
+            "gu": "Code-conversion,ASCII તથા EBCDIC Chart"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Suggested project plan,not completed experiment evidence.</p><h4>Explanation and application</h4><ul><li>Compare BCD,Gray and Excess-3with symbol meaning and valid code range.ASCII is a7-bit character code;storage may use8bits.</li><li>ASCII A=0x41,0=0x30;for EBCDIC explicitly choose a code page,such as IBM037where A=0xC1and0=0xF0.ASCII and EBCDIC are not interchangeable encodings.</li><li>Deliver problem analysis,logic expression/simplification,block and logic diagrams,full expected truth/state table,components,pin references and blank genuine-result section;report only work actually performed.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Suggested project planછે;completed experiment evidenceનહિ.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>BCD,Gray/Excess-3માં symbolmeaning/validrangecompareકરો.ASCII7-bitcharactercodeછે;storage8bitsહોઈશકે.</li><li>ASCIIમાં A=0x41,0=0x30;EBCDICમાં codepageસ્પષ્ટલો:IBM037માં A=0xC1,0=0xF0.બંનેencodingsinterchangeableનથી.</li><li>Problem analysis,expression/simplification,block/logicdiagrams,fullexpectedtruth/state-table,components,pinreferences તથા blankgenuine-resultsectionલો.ખરેખરકરેલુંકામજreportકરો.</li></ul>"
+          },
+          "syllabus_item": "Project.5"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Activities Five suggested learning activities",
+        "gu": "Activities પાંચ Suggested Learning Activities"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Activities and genuine portfolio evidence",
+            "gu": "Activities તથા Genuine Portfolio Evidence"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>The source suggests approximately five pages for each activity;use actual evidence and instructor approval.</p><h4>Explanation and application</h4><ul><li>Make an approved safe practical kit and undertake individual/team microprojects;the source9Vbattery needs a suitable regulator before5Vlogic,not direct connection.</li><li>Present charts/models or a seminar with an original circuit explanation and test limitations.</li><li>Solve faculty-assigned numerical problems and compile a checked solution book,with assumptions and reverse-checks.</li><li>Model a real-life logical problem safely,derive a truth table and demonstrate a low-voltage learning implementation.</li><li>List ICs for gates,flip-flops,registers and counters with actual manufacturer/package pin diagrams.Counters,shift registers,A/Dandmemory are guided extensions,not invented additional core units.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Sourceદરેક activityમાટે આશરે પાંચpagesસૂચવે છે.Actualevidence/instructorapprovalલો.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Approvedsafepracticalkitથીindividual/teammicroprojectsકરો.Source9Vbatteryને5Vlogicપહેલાંયોગ્યregulatorજોઈએ,directconnectionનહિ.</li><li>Originalcircuitexplanation/testlimitationsસાથે charts/modelsકેseminarરજૂકરો.</li><li>Faculty-assignednumericalsના assumptions/reverse-checkસાથે checkedsolutionbookબનાવો.</li><li>Real-lifeproblemને safelymodelકરી truth-table/low-voltagelearningimplementationદેખાડો.</li><li>Gates,flip-flops,registers/countersના actualmanufacturer/packagepindiagramsસાથે IClistબનાવો.Counters,shiftregisters,A/D/memoryguidedextensionsછે,વધારાનાcoreunitsનહિ.</li></ul>"
+          },
+          "syllabus_item": "Activities",
+          "diagram": "safe"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Source.Note Official scheme and source ambiguities",
+        "gu": "Source.Note Official Scheme તથા Source Ambiguities"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Scheme,practice marks and hours",
+            "gu": "Scheme,Practice Marks તથા Hours"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>L2T0PR2,credits3;theory ESE70+PA30,practical PA20+ESE30,total150.</p><h4>Explanation and application</h4><ul><li>Theory unit hours6,6,5,8,5sum30and weights21,21,15,28,15sum100%.R/U/Adistribution25/40/35%is not an exact unit-wise question-mark table.</li><li>The22practical rows sum52hours,but the PDFprints30Hrs.Keep individual approximate durations and seek clarification rather than silently changing them.</li><li>Practical16/17four-bit wording and project4byte wording are retained with explicit alternative interpretations.Suggested exam-question marks are revision aids,not official question predictions.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>L2T0PR2,credits3;theoryESE70+PA30,practicalPA20+ESE30,total150છે.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Theoryhours6,6,5,8,5નોsum30અનેweights21,21,15,28,15નોsum100%છે.R/U/A25/40/35%એexactunit-wisequestionmarksનથી.</li><li>22practicalrowsનોsum52hoursછે,PDF30Hrsછાપેછે.Individualdurationsજાળવો;ચુપચાપબદલવાનેબદલેclarificationલો.</li><li>Practical16/17નાfour-bitતથાproject4નાbytewordingસાથેalternativeinterpretationsસ્પષ્ટછે.Examquestionsનાંsuggestedmarksrevisionaidછે,officialpredictionનહિ.</li></ul>"
+          },
+          "syllabus_item": "Source.Note"
+        }
+      ]
+    }
+  ],
+  "programs": [
+    {
+      "title": {
+        "en": "Practical and testing",
+        "gu": "પ્રયોગ અને ચકાસણી"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Number conversion and arithmetic",
+            "gu": "Number Conversion તથા Arithmetic"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Convert across bases and verify arithmetic with declared word width.</p><h4>Instruments and preparation</h4><ul><li>Use the approved low-voltage current-limited trainer,verified logic ICs/breadboard,defined input switches,logic probe or high-impedance meter,and exact device datasheet.A simulated/numerical practical needs its stated tools instead.</li><li>Check package orientation and recommended VCCbefore connecting.Power OFFfor wiring;do not apply a9Vbattery directly to74LSlogic;trainer0–30Vcapability is not an IC operating rating.</li></ul><h4>Circuit connections / setup</h4><p>Use written place-value columns or an offline calculation worksheet;there is no breadboard requirement.</p><h4>Procedure</h4><ol><li>Derive the expected table first;declare bit order,active polarity and any enable/clock assumptions.</li><li>Inspect the unpowered connections against the labelled logic diagram and approved pin map;verify common ground and a suitable local decoupling capacitor.</li><li>Test45.625decimal,7Ahex,13÷3binary and both7−3/3−7complement subtraction.</li><li>Read each output after settling;for sequential circuits record current state,command,clock event and next state separately.</li><li>On a mismatch,stop and trace supply,input definition,polarity and intermediate nodes;power OFFbefore changing wiring.</li><li>Save genuine results and explain each discrepancy;power down safely.Do not fill actual observations with expected numbers or claim an unperformed experiment.</li></ol><h4>Expected calculations and interpretation</h4><p>Expected:45.625=101101.101₂;7Ahex=172octal;1101÷11=100remainder1.</p><h4>Fault finding</h4><p>A sign/width mismatch can mimic an arithmetic error;reverse-convert to decimal before changing the method.</p><h4>Precautions</h4><ul><li>Never short outputs or exceed ratings;unused inputs must be defined.Output LEDloads need a checked driver/current limiter;an LEDwired to VCCmay indicate logicLOWwhen lit.</li><li>Use only isolated approved low-voltage apparatus;do not connect mains to logic circuits.A safe trainer is not a guarantee against reversed supply or incorrect pinout.</li></ul><h4>Actual observations:blank learner evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ</h4><p>Basesવચ્ચે conversion તથા declared word widthથી arithmetic verify કરો.</p><h4>સાધનો તથા તૈયારી</h4><ul><li>Approvedlow-voltagecurrent-limitedtrainer,verifiedICs/breadboard,definedswitches,logicprobe/high-impedancemeterતથા exactdatasheetલો.Simulation/numericalpracticalમાં એનાં statedtoolsલો.</li><li>Connectપહેલાં orientation/recommendedVCCજુઓ.Wiringમાં powerOFFરાખો.74LSને સીધી9Vbatteryનઆપો;trainerની0–30VcapabilityICratingનથી.</li></ul><h4>Circuit Connections / Setup</h4><p>Written place-value columns અથવા offline worksheetલો;breadboardજરૂરી નથી.</p><h4>પ્રક્રિયા</h4><ol><li>પહેલાં expectedtablederiveકરો.Bitorder,activepolarityતથા enable/clockassumptionsલખો.</li><li>Unpoweredconnectionsને logicdiagram/approvedpinmapસાથે તપાસો.Common ground તથા યોગ્ય localdecouplingcapacitorજુઓ.</li><li>45.625decimal,7Ahex,13÷3binary તથા7−3/3−7complement subtractionલો.</li><li>Settleથયા પછી દરેકoutputવાંચો.Sequentialમાં currentstate,command,clockevent/nextstateઅલગલખો.</li><li>Mismatchમાં રોકાઈ supply,inputdefinition,polarity/intermediatenodestraceકરો.Wiringબદલતાંપહેલાં powerOFFકરો.</li><li>Genuine resultsસાચવો,discrepancyસમજાવો અને safelypowerdownકરો.Expectednumbersactualobservationsમાં નભરો;નકરેલ experimentનો દાવો નકરો.</li></ol><h4>Expected ગણતરી તથા અર્થ</h4><p>Expected:45.625=101101.101₂;7Ahex=172octal;1101÷11=100remainder1.</p><h4>Fault Finding</h4><p>Sign/width mismatch arithmeticerrorજેવો લાગે;method બદલતાં પહેલાં decimalમાં reverse-convert કરો.</p><h4>સાવચેતી</h4><ul><li>Outputs shortકેratings exceedનકરો.Unusedinputsdefinedરાખો.LEDloadમાટે checkeddriver/currentlimiterલો.VCCથીજોડાયેલ LEDજલતાં logicLOWદર્શાવી શકે.</li><li>Isolatedapprovedlow-voltageapparatusજલો.Logiccircuitને mainsનજોડો.Safe trainerપણ reversed supply/wrongpinoutથીરક્ષણનીguaranteeનથી.</li></ul><h4>Actual Observations:ખાલી Learner Evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "diagram": "number"
+        },
+        {
+          "h": {
+            "en": "4-bit binary to Gray converter",
+            "gu": "4-bit Binaryથી Gray Converter"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Build a binary-to-Gray network with logic gates.</p><h4>Instruments and preparation</h4><ul><li>Use the approved low-voltage current-limited trainer,verified logic ICs/breadboard,defined input switches,logic probe or high-impedance meter,and exact device datasheet.A simulated/numerical practical needs its stated tools instead.</li><li>Check package orientation and recommended VCCbefore connecting.Power OFFfor wiring;do not apply a9Vbattery directly to74LSlogic;trainer0–30Vcapability is not an IC operating rating.</li></ul><h4>Circuit connections / setup</h4><p>Connect B3directly to G3;XOR B3/B2→G2,B2/B1→G1,B1/B0→G0.Use three XOR channels with common supply/ground.</p><h4>Procedure</h4><ol><li>Derive the expected table first;declare bit order,active polarity and any enable/clock assumptions.</li><li>Inspect the unpowered connections against the labelled logic diagram and approved pin map;verify common ground and a suitable local decoupling capacitor.</li><li>Sweep all16binary words;also check adjacent Gray words differ by one bit.</li><li>Read each output after settling;for sequential circuits record current state,command,clock event and next state separately.</li><li>On a mismatch,stop and trace supply,input definition,polarity and intermediate nodes;power OFFbefore changing wiring.</li><li>Save genuine results and explain each discrepancy;power down safely.Do not fill actual observations with expected numbers or claim an unperformed experiment.</li></ol><h4>Expected calculations and interpretation</h4><p>1011binary must give1110Gray;decode that Gray word back to1011.</p><h4>Fault finding</h4><p>Wrong bit ordering often gives a plausible but incorrect Gray code.Label MSB/LSB on the panel.</p><h4>Precautions</h4><ul><li>Never short outputs or exceed ratings;unused inputs must be defined.Output LEDloads need a checked driver/current limiter;an LEDwired to VCCmay indicate logicLOWwhen lit.</li><li>Use only isolated approved low-voltage apparatus;do not connect mains to logic circuits.A safe trainer is not a guarantee against reversed supply or incorrect pinout.</li></ul><h4>Actual observations:blank learner evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ</h4><p>Logic gatesથી binary-to-Gray network બનાવો.</p><h4>સાધનો તથા તૈયારી</h4><ul><li>Approvedlow-voltagecurrent-limitedtrainer,verifiedICs/breadboard,definedswitches,logicprobe/high-impedancemeterતથા exactdatasheetલો.Simulation/numericalpracticalમાં એનાં statedtoolsલો.</li><li>Connectપહેલાં orientation/recommendedVCCજુઓ.Wiringમાં powerOFFરાખો.74LSને સીધી9Vbatteryનઆપો;trainerની0–30VcapabilityICratingનથી.</li></ul><h4>Circuit Connections / Setup</h4><p>B3થી G3direct;XOR B3/B2→G2,B2/B1→G1,B1/B0→G0લો.ત્રણ XOR channelsનું common supply/groundરાખો.</p><h4>પ્રક્રિયા</h4><ol><li>પહેલાં expectedtablederiveકરો.Bitorder,activepolarityતથા enable/clockassumptionsલખો.</li><li>Unpoweredconnectionsને logicdiagram/approvedpinmapસાથે તપાસો.Common ground તથા યોગ્ય localdecouplingcapacitorજુઓ.</li><li>બધા16binary wordsલો;adjacent Gray wordsએક bitથી બદલાય તેપણ તપાસો.</li><li>Settleથયા પછી દરેકoutputવાંચો.Sequentialમાં currentstate,command,clockevent/nextstateઅલગલખો.</li><li>Mismatchમાં રોકાઈ supply,inputdefinition,polarity/intermediatenodestraceકરો.Wiringબદલતાંપહેલાં powerOFFકરો.</li><li>Genuine resultsસાચવો,discrepancyસમજાવો અને safelypowerdownકરો.Expectednumbersactualobservationsમાં નભરો;નકરેલ experimentનો દાવો નકરો.</li></ol><h4>Expected ગણતરી તથા અર્થ</h4><p>1011binaryનું1110Grayથવું જોઈએ;તેને decodeકરતાં1011મળે.</p><h4>Fault Finding</h4><p>Wrong bit orderingથી plausibleપણખોટો Grayમળે.Panelપર MSB/LSBlabelકરો.</p><h4>સાવચેતી</h4><ul><li>Outputs shortકેratings exceedનકરો.Unusedinputsdefinedરાખો.LEDloadમાટે checkeddriver/currentlimiterલો.VCCથીજોડાયેલ LEDજલતાં logicLOWદર્શાવી શકે.</li><li>Isolatedapprovedlow-voltageapparatusજલો.Logiccircuitને mainsનજોડો.Safe trainerપણ reversed supply/wrongpinoutથીરક્ષણનીguaranteeનથી.</li></ul><h4>Actual Observations:ખાલી Learner Evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "diagram": "gray"
+        }
+      ]
+    }
+  ],
+  "practicals": [
+    {
+      "number": 1,
+      "unit": 1,
+      "suggested_duration": 4,
+      "title": {
+        "en": "Number conversion and arithmetic",
+        "gu": "Number Conversion તથા Arithmetic"
+      },
+      "aim": {
+        "en": "Convert across bases and verify arithmetic with declared word width.",
+        "gu": "Basesવચ્ચે conversion તથા declared word widthથી arithmetic verify કરો."
+      },
+      "diagram": "number",
+      "body": {
+        "en": "<h4>Aim</h4><p>Convert across bases and verify arithmetic with declared word width.</p><h4>Instruments and preparation</h4><ul><li>Use the approved low-voltage current-limited trainer,verified logic ICs/breadboard,defined input switches,logic probe or high-impedance meter,and exact device datasheet.A simulated/numerical practical needs its stated tools instead.</li><li>Check package orientation and recommended VCCbefore connecting.Power OFFfor wiring;do not apply a9Vbattery directly to74LSlogic;trainer0–30Vcapability is not an IC operating rating.</li></ul><h4>Circuit connections / setup</h4><p>Use written place-value columns or an offline calculation worksheet;there is no breadboard requirement.</p><h4>Procedure</h4><ol><li>Derive the expected table first;declare bit order,active polarity and any enable/clock assumptions.</li><li>Inspect the unpowered connections against the labelled logic diagram and approved pin map;verify common ground and a suitable local decoupling capacitor.</li><li>Test45.625decimal,7Ahex,13÷3binary and both7−3/3−7complement subtraction.</li><li>Read each output after settling;for sequential circuits record current state,command,clock event and next state separately.</li><li>On a mismatch,stop and trace supply,input definition,polarity and intermediate nodes;power OFFbefore changing wiring.</li><li>Save genuine results and explain each discrepancy;power down safely.Do not fill actual observations with expected numbers or claim an unperformed experiment.</li></ol><h4>Expected calculations and interpretation</h4><p>Expected:45.625=101101.101₂;7Ahex=172octal;1101÷11=100remainder1.</p><h4>Fault finding</h4><p>A sign/width mismatch can mimic an arithmetic error;reverse-convert to decimal before changing the method.</p><h4>Precautions</h4><ul><li>Never short outputs or exceed ratings;unused inputs must be defined.Output LEDloads need a checked driver/current limiter;an LEDwired to VCCmay indicate logicLOWwhen lit.</li><li>Use only isolated approved low-voltage apparatus;do not connect mains to logic circuits.A safe trainer is not a guarantee against reversed supply or incorrect pinout.</li></ul><h4>Actual observations:blank learner evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+        "gu": "<h4>હેતુ</h4><p>Basesવચ્ચે conversion તથા declared word widthથી arithmetic verify કરો.</p><h4>સાધનો તથા તૈયારી</h4><ul><li>Approvedlow-voltagecurrent-limitedtrainer,verifiedICs/breadboard,definedswitches,logicprobe/high-impedancemeterતથા exactdatasheetલો.Simulation/numericalpracticalમાં એનાં statedtoolsલો.</li><li>Connectપહેલાં orientation/recommendedVCCજુઓ.Wiringમાં powerOFFરાખો.74LSને સીધી9Vbatteryનઆપો;trainerની0–30VcapabilityICratingનથી.</li></ul><h4>Circuit Connections / Setup</h4><p>Written place-value columns અથવા offline worksheetલો;breadboardજરૂરી નથી.</p><h4>પ્રક્રિયા</h4><ol><li>પહેલાં expectedtablederiveકરો.Bitorder,activepolarityતથા enable/clockassumptionsલખો.</li><li>Unpoweredconnectionsને logicdiagram/approvedpinmapસાથે તપાસો.Common ground તથા યોગ્ય localdecouplingcapacitorજુઓ.</li><li>45.625decimal,7Ahex,13÷3binary તથા7−3/3−7complement subtractionલો.</li><li>Settleથયા પછી દરેકoutputવાંચો.Sequentialમાં currentstate,command,clockevent/nextstateઅલગલખો.</li><li>Mismatchમાં રોકાઈ supply,inputdefinition,polarity/intermediatenodestraceકરો.Wiringબદલતાંપહેલાં powerOFFકરો.</li><li>Genuine resultsસાચવો,discrepancyસમજાવો અને safelypowerdownકરો.Expectednumbersactualobservationsમાં નભરો;નકરેલ experimentનો દાવો નકરો.</li></ol><h4>Expected ગણતરી તથા અર્થ</h4><p>Expected:45.625=101101.101₂;7Ahex=172octal;1101÷11=100remainder1.</p><h4>Fault Finding</h4><p>Sign/width mismatch arithmeticerrorજેવો લાગે;method બદલતાં પહેલાં decimalમાં reverse-convert કરો.</p><h4>સાવચેતી</h4><ul><li>Outputs shortકેratings exceedનકરો.Unusedinputsdefinedરાખો.LEDloadમાટે checkeddriver/currentlimiterલો.VCCથીજોડાયેલ LEDજલતાં logicLOWદર્શાવી શકે.</li><li>Isolatedapprovedlow-voltageapparatusજલો.Logiccircuitને mainsનજોડો.Safe trainerપણ reversed supply/wrongpinoutથીરક્ષણનીguaranteeનથી.</li></ul><h4>Actual Observations:ખાલી Learner Evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+      },
+      "actual_observations_blank": true,
+      "performed": false
+    },
+    {
+      "number": 2,
+      "unit": 1,
+      "suggested_duration": 2,
+      "title": {
+        "en": "4-bit binary to Gray converter",
+        "gu": "4-bit Binaryથી Gray Converter"
+      },
+      "aim": {
+        "en": "Build a binary-to-Gray network with logic gates.",
+        "gu": "Logic gatesથી binary-to-Gray network બનાવો."
+      },
+      "diagram": "gray",
+      "body": {
+        "en": "<h4>Aim</h4><p>Build a binary-to-Gray network with logic gates.</p><h4>Instruments and preparation</h4><ul><li>Use the approved low-voltage current-limited trainer,verified logic ICs/breadboard,defined input switches,logic probe or high-impedance meter,and exact device datasheet.A simulated/numerical practical needs its stated tools instead.</li><li>Check package orientation and recommended VCCbefore connecting.Power OFFfor wiring;do not apply a9Vbattery directly to74LSlogic;trainer0–30Vcapability is not an IC operating rating.</li></ul><h4>Circuit connections / setup</h4><p>Connect B3directly to G3;XOR B3/B2→G2,B2/B1→G1,B1/B0→G0.Use three XOR channels with common supply/ground.</p><h4>Procedure</h4><ol><li>Derive the expected table first;declare bit order,active polarity and any enable/clock assumptions.</li><li>Inspect the unpowered connections against the labelled logic diagram and approved pin map;verify common ground and a suitable local decoupling capacitor.</li><li>Sweep all16binary words;also check adjacent Gray words differ by one bit.</li><li>Read each output after settling;for sequential circuits record current state,command,clock event and next state separately.</li><li>On a mismatch,stop and trace supply,input definition,polarity and intermediate nodes;power OFFbefore changing wiring.</li><li>Save genuine results and explain each discrepancy;power down safely.Do not fill actual observations with expected numbers or claim an unperformed experiment.</li></ol><h4>Expected calculations and interpretation</h4><p>1011binary must give1110Gray;decode that Gray word back to1011.</p><h4>Fault finding</h4><p>Wrong bit ordering often gives a plausible but incorrect Gray code.Label MSB/LSB on the panel.</p><h4>Precautions</h4><ul><li>Never short outputs or exceed ratings;unused inputs must be defined.Output LEDloads need a checked driver/current limiter;an LEDwired to VCCmay indicate logicLOWwhen lit.</li><li>Use only isolated approved low-voltage apparatus;do not connect mains to logic circuits.A safe trainer is not a guarantee against reversed supply or incorrect pinout.</li></ul><h4>Actual observations:blank learner evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+        "gu": "<h4>હેતુ</h4><p>Logic gatesથી binary-to-Gray network બનાવો.</p><h4>સાધનો તથા તૈયારી</h4><ul><li>Approvedlow-voltagecurrent-limitedtrainer,verifiedICs/breadboard,definedswitches,logicprobe/high-impedancemeterતથા exactdatasheetલો.Simulation/numericalpracticalમાં એનાં statedtoolsલો.</li><li>Connectપહેલાં orientation/recommendedVCCજુઓ.Wiringમાં powerOFFરાખો.74LSને સીધી9Vbatteryનઆપો;trainerની0–30VcapabilityICratingનથી.</li></ul><h4>Circuit Connections / Setup</h4><p>B3થી G3direct;XOR B3/B2→G2,B2/B1→G1,B1/B0→G0લો.ત્રણ XOR channelsનું common supply/groundરાખો.</p><h4>પ્રક્રિયા</h4><ol><li>પહેલાં expectedtablederiveકરો.Bitorder,activepolarityતથા enable/clockassumptionsલખો.</li><li>Unpoweredconnectionsને logicdiagram/approvedpinmapસાથે તપાસો.Common ground તથા યોગ્ય localdecouplingcapacitorજુઓ.</li><li>બધા16binary wordsલો;adjacent Gray wordsએક bitથી બદલાય તેપણ તપાસો.</li><li>Settleથયા પછી દરેકoutputવાંચો.Sequentialમાં currentstate,command,clockevent/nextstateઅલગલખો.</li><li>Mismatchમાં રોકાઈ supply,inputdefinition,polarity/intermediatenodestraceકરો.Wiringબદલતાંપહેલાં powerOFFકરો.</li><li>Genuine resultsસાચવો,discrepancyસમજાવો અને safelypowerdownકરો.Expectednumbersactualobservationsમાં નભરો;નકરેલ experimentનો દાવો નકરો.</li></ol><h4>Expected ગણતરી તથા અર્થ</h4><p>1011binaryનું1110Grayથવું જોઈએ;તેને decodeકરતાં1011મળે.</p><h4>Fault Finding</h4><p>Wrong bit orderingથી plausibleપણખોટો Grayમળે.Panelપર MSB/LSBlabelકરો.</p><h4>સાવચેતી</h4><ul><li>Outputs shortકેratings exceedનકરો.Unusedinputsdefinedરાખો.LEDloadમાટે checkeddriver/currentlimiterલો.VCCથીજોડાયેલ LEDજલતાં logicLOWદર્શાવી શકે.</li><li>Isolatedapprovedlow-voltageapparatusજલો.Logiccircuitને mainsનજોડો.Safe trainerપણ reversed supply/wrongpinoutથીરક્ષણનીguaranteeનથી.</li></ul><h4>Actual Observations:ખાલી Learner Evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+      },
+      "actual_observations_blank": true,
+      "performed": false
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "safe",
+      "title": {
+        "en": "Safe digital trainer connection",
+        "gu": "Analog સામે Digital તથા Positional Numbers"
+      },
+      "file": "diagrams/safe.svg"
+    },
+    {
+      "id": "gray",
+      "title": {
+        "en": "4-bit Binary to Gray net-labelled logic schematic",
+        "gu": "Weighted તથા Nonweighted Codes"
+      },
+      "file": "diagrams/gray.svg"
+    },
+    {
+      "id": "number",
+      "title": {
+        "en": "Positional binary weights and base conversion",
+        "gu": "Number Conversion તથા Arithmetic"
+      },
+      "file": "diagrams/number.svg"
+    }
+  ],
+  "syntax": [
+    {
+      "title": {
+        "en": "Formula and conditions",
+        "gu": "સૂત્રો અને શરતો"
+      },
+      "items": [
+        {
+          "name": {
+            "en": "Place value",
+            "gu": "Place Value"
+          },
+          "f": "N=Σdᵢrⁱ",
+          "terms": {
+            "en": "Use legal digits and a stated radix.",
+            "gu": "Legal digits તથા stated radixલો."
+          }
+        },
+        {
+          "name": {
+            "en": "Complements",
+            "gu": "Complements"
+          },
+          "f": "1C=(2ⁿ−1)−N;2C=(−N)mod2ⁿ",
+          "terms": {
+            "en": "Fix nbits first.",
+            "gu": "પહેલાં nbitsfixકરો."
+          }
+        },
+        {
+          "name": {
+            "en": "Gray converter",
+            "gu": "Gray Converter"
+          },
+          "f": "Gmsb=Bmsb;Gᵢ=Bᵢ₊₁⊕Bᵢ",
+          "terms": {
+            "en": "Binary recovered by cumulative XOR.",
+            "gu": "CumulativeXORથીbinaryમેળવો."
+          }
+        }
+      ]
+    }
+  ],
+  "viva": [
+    {
+      "title": {
+        "en": "Viva with answers",
+        "gu": "જવાબ સાથે Viva"
+      },
+      "items": [
+        {
+          "q": {
+            "en": "Why state the base?",
+            "gu": "Base શા માટે લખવું?"
+          },
+          "a": {
+            "en": "10₂means2₁₀;the same digit string has different place weights in another base.",
+            "gu": "10₂એ2₁₀છે;બીજાbaseમાં એજdigitstringનાplaceweightsજુદાછે."
+          }
+        },
+        {
+          "q": {
+            "en": "How many bits per octal/hex digit?",
+            "gu": "Octal/Hex Digitદીઠ કેટલા Bits?"
+          },
+          "a": {
+            "en": "3per octal and4per hex;group outward from the radix point.",
+            "gu": "Octalદીઠ3અનેhexદીઠ4;radixpointથી બહારનીતરફgroupકરો."
+          }
+        },
+        {
+          "q": {
+            "en": "Why is BCDnot straight binary?",
+            "gu": "BCD Straight Binary કેમ નહિ?"
+          },
+          "a": {
+            "en": "BCDencodes each decimal digit separately;59uses0101 1001rather than00111011.",
+            "gu": "BCDદરેકdecimaldigitઅલગencodeકરે;59નું0101 1001છે,00111011નહિ."
+          }
+        },
+        {
+          "q": {
+            "en": "What changes in Gray code?",
+            "gu": "Gray Codeમાં શું બદલાય?"
+          },
+          "a": {
+            "en": "Adjacent reflected codewords differ in one bit;binary→Gray uses adjacent-bit XOR.",
+            "gu": "Adjacentreflectedcodewordsએકbitથીજુદાછે;binary→Grayમાંadjacent-bitXORલો."
+          }
+        },
+        {
+          "q": {
+            "en": "Carry versus signed overflow?",
+            "gu": "Carry સામે Signed Overflow?"
+          },
+          "a": {
+            "en": "Carry concerns unsigned width;signed overflow concerns the representable signed range.They are different tests.",
+            "gu": "Carryunsignedwidthસંબંધિતછે;signedoverflowrepresentablesignedrangeસંબંધિતછે.બંનેtestજુદાછે."
+          }
+        }
+      ]
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Compare analog and digital quantities with examples.",
+        "gu": "Examplesથી Analog/Digital Compare કરો."
+      },
+      "marks": 3
+    },
+    {
+      "q": {
+        "en": "Convert45.625decimal into binary,octal and hexadecimal with checks.",
+        "gu": "45.625Decimalને Binary,Octal/Hexમાં Checks સાથે ફેરવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Perform binary addition,subtraction,multiplication and division with one example each.",
+        "gu": "Binaryના ચાર Arithmetic Operations Examplesથી કરો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Subtract3−7and7−3using4-bit one’s and two’s complement methods.",
+        "gu": "4-bit One’s/Two’s Complementથી3−7તથા7−3કરો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Compare BCD,Gray and Excess-3codes with examples.",
+        "gu": "BCD,Gray/Excess-3 Examplesથી Compare કરો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Design a4-bit binary-to-Gray converter and give its truth table.",
+        "gu": "4-bit Binaryથી Gray Converter Truth Table સાથે Design કરો."
+      },
+      "marks": 7
+    }
+  ],
+  "exam_policy": "Questions and suggested practice marks only;no answers in Exam;not an official paper or unit mark allocation.",
+  "physical_practicals_performed": false,
+  "sources": [
+    {
+      "title": "Owner GTU Fundamental of Digital Electronics DI02000161,w.e.f.2024-25",
+      "reference": "Content pp2–3;practicals p6;projects pp7–9;activities pp9–10."
+    }
+  ],
+  "diagram_note": "Original digital-logic diagrams,truth tables,K-maps and timing sketches.Shared English symbols;Gujarati explanation has equivalent meaning.",
+  "project_plans": [
+    {
+      "number": 1,
+      "title": {
+        "en": "Number conversion comparison chart",
+        "gu": "Number Conversion Comparison Chart"
+      },
+      "body": {
+        "en": "Use one consistent value45.625decimal;show binary101101.101,octal55.5and hex2D.Awith place-value and grouping checks. Include radix,allowed digits,conversion direction and one worked example per route;label fraction precision. Deliver problem analysis,logic expression/simplification,block and logic diagrams,full expected truth/state table,components,pin references and blank genuine-result section;report only work actually performed.",
+        "gu": "Consistent45.625decimalથી binary101101.101,octal55.5/hex2D.Aદર્શાવો.Place-value/groupingchecksઉમેરો. Radix,alloweddigits,conversiondirection તથા દરેકrouteનું exampleલો.Fractionprecisionલખો. Problem analysis,expression/simplification,block/logicdiagrams,fullexpectedtruth/state-table,components,pinreferences તથા blankgenuine-resultsectionલો.ખરેખરકરેલુંકામજreportકરો."
+      }
+    },
+    {
+      "number": 2,
+      "title": {
+        "en": "Conversion solution bank",
+        "gu": "Conversion Solution Bank"
+      },
+      "body": {
+        "en": "Choose an instructor-approved book/problem set and cite edition/page/problem numbers.Do not claim every problem from an unspecified book has been solved. Group integer/fraction conversions,binary arithmetic and complements;for every answer show method,base,width and independent reverse-check. Deliver problem analysis,logic expression/simplification,block and logic diagrams,full expected truth/state table,components,pin references and blank genuine-result section;report only work actually performed.",
+        "gu": "Instructor-approvedbook/problemsetનો edition/page/problemnumberલખો.Unspecifiedbookનાબધાપ્રશ્નઉકેલ્યાનો દાવો નકરો. Integer/fractionconversions,binaryarithmetic/complementsgroupકરો.દરેકanswerમાં method,base,width/reverse-checkલો. Problem analysis,expression/simplification,block/logicdiagrams,fullexpectedtruth/state-table,components,pinreferences તથા blankgenuine-resultsectionલો.ખરેખરકરેલુંકામજreportકરો."
+      }
+    },
+    {
+      "number": 3,
+      "title": {
+        "en": "Binary↔Gray converter circuits",
+        "gu": "Binary↔Gray Converter Circuits"
+      },
+      "body": {
+        "en": "Binary→Gray uses adjacent XOR;Gray→binary uses cumulative XOR:B3=G3,B2=B3⊕G2,B1=B2⊕G1,B0=B1⊕G0. Test all16words through a converter pair and require exact round-trip identity.Include bit-order labels and both logic diagrams. Deliver problem analysis,logic expression/simplification,block and logic diagrams,full expected truth/state table,components,pin references and blank genuine-result section;report only work actually performed.",
+        "gu": "Binary→Grayમાં adjacentXOR;Gray→binaryમાં cumulativeXOR:B3=G3,B2=B3⊕G2,B1=B2⊕G1,B0=B1⊕G0. બધા16wordsને converterpairમારફતે ફેરવી exactround-tripidentityચકાસો.Bit-orderlabels/bothlogicdiagramsલો. Problem analysis,expression/simplification,block/logicdiagrams,fullexpectedtruth/state-table,components,pinreferences તથા blankgenuine-resultsectionલો.ખરેખરકરેલુંકામજreportકરો."
+      }
+    },
+    {
+      "number": 5,
+      "title": {
+        "en": "Code-conversion,ASCII and EBCDIC chart",
+        "gu": "Code-conversion,ASCII તથા EBCDIC Chart"
+      },
+      "body": {
+        "en": "Compare BCD,Gray and Excess-3with symbol meaning and valid code range.ASCII is a7-bit character code;storage may use8bits. ASCII A=0x41,0=0x30;for EBCDIC explicitly choose a code page,such as IBM037where A=0xC1and0=0xF0.ASCII and EBCDIC are not interchangeable encodings. Deliver problem analysis,logic expression/simplification,block and logic diagrams,full expected truth/state table,components,pin references and blank genuine-result section;report only work actually performed.",
+        "gu": "BCD,Gray/Excess-3માં symbolmeaning/validrangecompareકરો.ASCII7-bitcharactercodeછે;storage8bitsહોઈશકે. ASCIIમાં A=0x41,0=0x30;EBCDICમાં codepageસ્પષ્ટલો:IBM037માં A=0xC1,0=0xF0.બંનેencodingsinterchangeableનથી. Problem analysis,expression/simplification,block/logicdiagrams,fullexpectedtruth/state-table,components,pinreferences તથા blankgenuine-resultsectionલો.ખરેખરકરેલુંકામજreportકરો."
+      }
+    }
+  ]
+}

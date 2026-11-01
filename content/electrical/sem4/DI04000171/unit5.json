@@ -1,0 +1,696 @@
+{
+  "subject": "DI04000171",
+  "unit": 5,
+  "title": {
+    "en": "8051 Applications",
+    "gu": "8051 એપ્લિકેશન્સ"
+  },
+  "format": "notes",
+  "languages": [
+    "en",
+    "gu"
+  ],
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "tab_labels": {
+    "programs": {
+      "en": "Practical",
+      "gu": "પ્રયોગ તથા પ્રોગ્રામ"
+    }
+  },
+  "hours": 8,
+  "weightage": 20,
+  "notes": [
+    {
+      "ref": "5.1",
+      "title": {
+        "en": "5.1 Need for external ADC in an 8051 system",
+        "gu": "5.1 8051 Systemમાં External ADCની જરૂર"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Need for external ADC in an 8051 system",
+            "gu": "8051 Systemમાં External ADCની જરૂર"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p><p>Analog-to-digital conversion maps a continuous input quantity into finite digital codes so software can process a conditioned sensor signal.</p></p><h4>Explanation,application and checks</h4><ul><li>Classic 8051 has digital I/O,no internal ADC;reading a pin only yields a logic state,not an8-bit measurement.Add sensor conditioning,range protection/reference,ADC clock and interface control.</li><li>Successive approximation resolves bits by comparing a trial DAC level with input;ADC0804 exposes the result on a parallel bus.Amultiplexer shares one ADC among channels but does not perform conversion itself.</li><li>After changing a multiplexer,allow settling and maintain source stability during conversion;channel order,calibration and timestamps matter in a real acquisition system.</li></ul><details class=\"self-check\"><summary>Hysteresis purpose?</summary><p>Separate ON/OFFthresholds reduce chatter around a single boundary.</p></details>",
+            "gu": "<h4>વ્યાખ્યા</h4><p><p>Analog-to-digital conversion continuous inputને finite digital codesમાં ફેરવે,જેથી software conditioned sensor signal process કરી શકે.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Classic 8051માં digital I/O છે,internal ADC નથી.Pin read માત્ર logic state આપે,8-bit measurement નહીં.Sensor conditioning,range protection/reference,clock/interface ઉમેરો.</li><li>Successive approximation trial DAC level/input compare કરીને bits નક્કી કરે;ADC0804 parallel bus પર result આપે.Multiplexer એક ADC channels વચ્ચે share કરે,પોતે conversion નથી કરતું.</li><li>Multiplexer બદલ્યા બાદ settling આપો/conversionમાં source stable રાખો.Real acquisitionમાં channel order,calibration/timestamps મહત્વનાં છે.</li></ul><details class=\"self-check\"><summary>Hysteresis શા માટે?</summary><p>અલગ ON/OFF thresholds single boundary પાસે chatter ઘટાડે.</p></details>"
+          },
+          "syllabus_item": "5.1",
+          "diagram": "adc"
+        }
+      ]
+    },
+    {
+      "ref": "5.2",
+      "title": {
+        "en": "5.2 Temperature control:construction,state and working",
+        "gu": "5.2 Temperature control:Construction,State તથા Working"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Temperature control:construction,state and working",
+            "gu": "Temperature control:Construction,State તથા Working"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p><p>A temperature-control system compares a measured temperature with defined limits and commands an actuator to maintain a desired operating band with safe fault behaviour.</p></p><h4>Explanation,application and checks</h4><ul><li>Assumed demonstration is cooling-only:fan ONat35°C,OFFat33°C,retain previous state between thresholds.This hysteresis prevents chatter around one boundary;it is not a complete PIDcontroller.</li><li>Construction:LM35→conditioned ADC0804→8051 decision→rated low-voltage driver/fan;LCD shows valid reading/state.ADC span2.56Vmakes nominal code≈°C.</li><li>Working:initialise safe output,acquire with timeout,validate range,apply hysteresis,update actuator,show status and repeat.On ADC failure this demo forces fan ONand displays a fault;this chosen safe action is not universal for all processes.</li><li>Independent overtemperature protection and sensor open/short detection may be required in real equipment;software range checks alone cannot prove a sensor is healthy.</li></ul><h4>Complete standalone Keil C51 example</h4><p>12 MHz classic12T</p><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit ADC_RD=P3^7;\nsbit ADC_WR=P3^6;\nsbit ADC_INTR=P3^2;\n/* ADC data=P1; CS tied LOW; stable conditioned input and valid clock/reference. */\nu8 adc_read(u8 *value) {\n    u16 timeout=60000u;\n    P1=0xFF; ADC_INTR=1; ADC_RD=1;\n    ADC_WR=0; wait_ms(1); ADC_WR=1;\n    while (ADC_INTR &amp;&amp; timeout) { --timeout; }\n    if (!timeout) return 0;\n    ADC_RD=0; wait_ms(1); *value=P1; ADC_RD=1;\n    return 1;\n}\nsbit LCD_RS=P3^0;\nsbit LCD_E=P3^1;\n/* HD44780-compatible 8-bit write-only module: D0..7=P2, RW=GND. */\nvoid lcd_send(u8 x,u8 is_data) {\n    LCD_RS=is_data; P2=x; LCD_E=0; wait_ms(1);\n    LCD_E=1; wait_ms(1); LCD_E=0; wait_ms(2);\n}\nvoid lcd_cmd(u8 x) { lcd_send(x,0); }\nvoid lcd_data(u8 x) { lcd_send(x,1); }\nvoid lcd_text(char *s) { while (*s) lcd_data((u8)*s++); }\nvoid lcd_init(void) {\n    LCD_E=0; wait_ms(40);\n    lcd_cmd(0x30); wait_ms(5); lcd_cmd(0x30); lcd_cmd(0x30);\n    lcd_cmd(0x38); lcd_cmd(0x08); lcd_cmd(0x01);\n    lcd_cmd(0x06); lcd_cmd(0x0C);\n}\nvoid lcd_u8(u8 x) {\n    lcd_data((u8)(&#x27;0&#x27;+x/100)); lcd_data((u8)(&#x27;0&#x27;+(x/10)%10));\n    lcd_data((u8)(&#x27;0&#x27;+x%10));\n}\nsbit FAN=P3^3;\nvoid main(void) { u8 sample,on=1; FAN=1; lcd_init();\n for(;;) { lcd_cmd(0x80);\n if(!adc_read(&amp;sample) || sample&gt;100) {on=1;lcd_text(&quot;SENSOR FAULT    &quot;);}\n else {if(sample&gt;=35)on=1;else if(sample&lt;=33)on=0;\n lcd_text(&quot;T=&quot;);lcd_u8(sample);lcd_text(&quot; C       &quot;);}\n FAN=on; wait_ms(200);\n } }\n</code></pre><p>Range/timeout tests do not diagnose every sensor fault:an open or short can still look plausible.A real safety function needs independent diagnostics/protection.</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p><p>Temperature-control system measured temperatureને limits સાથે compare કરી desired band જાળવવા actuator ચલાવે અને faultમાં safe વર્તે છે.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Demo cooling-only છે:fan35°C પર ON/33°C પર OFF,વચ્ચે state જાળવે.Hysteresis boundary chatter રોકે;complete PID નથી.</li><li>Construction:LM35→conditioned ADC0804→8051 decision→rated low-voltage driver/fan;LCD valid reading/state બતાવે.2.56V spanથી nominal code≈°C.</li><li>Working:safe output initialisation,timeoutથી sample,range validation,hysteresis,actuator/display update/repeat.Failureમાં આ demo fan ON/fault બતાવે;દરેક process માટે આ universal safe action નથી.</li><li>Real equipmentમાં independent overtemperature protection/sensor open-short detection જોઈએ;માત્ર software rangeથી sensor healthy સાબિત નથી થતો.</li></ul><h4>સંપૂર્ણ Standalone Keil C51 ઉદાહરણ</h4><p>12 MHz classic12T</p><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit ADC_RD=P3^7;\nsbit ADC_WR=P3^6;\nsbit ADC_INTR=P3^2;\n/* ADC data=P1; CS tied LOW; stable conditioned input and valid clock/reference. */\nu8 adc_read(u8 *value) {\n    u16 timeout=60000u;\n    P1=0xFF; ADC_INTR=1; ADC_RD=1;\n    ADC_WR=0; wait_ms(1); ADC_WR=1;\n    while (ADC_INTR &amp;&amp; timeout) { --timeout; }\n    if (!timeout) return 0;\n    ADC_RD=0; wait_ms(1); *value=P1; ADC_RD=1;\n    return 1;\n}\nsbit LCD_RS=P3^0;\nsbit LCD_E=P3^1;\n/* HD44780-compatible 8-bit write-only module: D0..7=P2, RW=GND. */\nvoid lcd_send(u8 x,u8 is_data) {\n    LCD_RS=is_data; P2=x; LCD_E=0; wait_ms(1);\n    LCD_E=1; wait_ms(1); LCD_E=0; wait_ms(2);\n}\nvoid lcd_cmd(u8 x) { lcd_send(x,0); }\nvoid lcd_data(u8 x) { lcd_send(x,1); }\nvoid lcd_text(char *s) { while (*s) lcd_data((u8)*s++); }\nvoid lcd_init(void) {\n    LCD_E=0; wait_ms(40);\n    lcd_cmd(0x30); wait_ms(5); lcd_cmd(0x30); lcd_cmd(0x30);\n    lcd_cmd(0x38); lcd_cmd(0x08); lcd_cmd(0x01);\n    lcd_cmd(0x06); lcd_cmd(0x0C);\n}\nvoid lcd_u8(u8 x) {\n    lcd_data((u8)(&#x27;0&#x27;+x/100)); lcd_data((u8)(&#x27;0&#x27;+(x/10)%10));\n    lcd_data((u8)(&#x27;0&#x27;+x%10));\n}\nsbit FAN=P3^3;\nvoid main(void) { u8 sample,on=1; FAN=1; lcd_init();\n for(;;) { lcd_cmd(0x80);\n if(!adc_read(&amp;sample) || sample&gt;100) {on=1;lcd_text(&quot;SENSOR FAULT    &quot;);}\n else {if(sample&gt;=35)on=1;else if(sample&lt;=33)on=0;\n lcd_text(&quot;T=&quot;);lcd_u8(sample);lcd_text(&quot; C       &quot;);}\n FAN=on; wait_ms(200);\n } }\n</code></pre><p>Range/timeout દરેક sensor fault શોધતા નથી:open/short પણ plausible value આપી શકે.Real safety માટે independent diagnostics/protection જોઈએ.</p>"
+          },
+          "syllabus_item": "5.2",
+          "diagram": "temperature"
+        }
+      ]
+    },
+    {
+      "ref": "5.3",
+      "title": {
+        "en": "5.3 BMSusing4051,ADC0804,7segment and MAX232",
+        "gu": "5.3 4051,ADC0804,7-segment તથા MAX232વાળું BMS"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "BMSusing4051,ADC0804,7segment and MAX232",
+            "gu": "4051,ADC0804,7-segment તથા MAX232વાળું BMS"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p><p>A battery-management system supervises battery conditions and coordinates protective/control functions;the course demonstration is only a multichannel low-voltage monitoring model,not a complete safe battery-pack BMS.</p></p><h4>Explanation,application and checks</h4><ul><li>Construction:eight current-limited test channels0..2.56V→CD4051 common output→ADC0804→8051→buffered7segment and UART/MAX232 to a true RS-232terminal.4051address A/B/Cselect one channel,INHcontrols enable.</li><li>Trainer map:ADC data P1;MUXselect P2.0..2;ADC RD/WR/INTR=P3.7/3.6/3.2;UART P3.0/3.1;7segment P0 through pullups/buffer.Do not also connect the LCD to this conflicting map.</li><li>Working:select channel,settle,convert/read or flag timeout,show channel IDand transmit scaled/raw data;repeat all channels.Displayed channel number is not a cell-voltage measurement by itself.</li><li>4051cannot directly select arbitrary series-cell tap voltages outside its supply rails.Real packs require rated differential/scaling/isolation frontends,independent overcurrent/over-under-voltage/temperature protection and appropriate balancing/charge controls.No live lithium pack connection.</li></ul><h4>Complete standalone Keil C51 example</h4><p>11.0592 MHz classic12T;Timer0 waits conservative,not calibrated</p><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Timer0 uses 12MHz-example preloads; at11.0592MHz these are longer conservative waits,not calibrated timing. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit ADC_RD=P3^7;\nsbit ADC_WR=P3^6;\nsbit ADC_INTR=P3^2;\n/* ADC data=P1; CS tied LOW; stable conditioned input and valid clock/reference. */\nu8 adc_read(u8 *value) {\n    u16 timeout=60000u;\n    P1=0xFF; ADC_INTR=1; ADC_RD=1;\n    ADC_WR=0; wait_ms(1); ADC_WR=1;\n    while (ADC_INTR &amp;&amp; timeout) { --timeout; }\n    if (!timeout) return 0;\n    ADC_RD=0; wait_ms(1); *value=P1; ADC_RD=1;\n    return 1;\n}\nconst u8 code digits[10]={0x3F,0x06,0x5B,0x4F,0x66,0x6D,0x7D,0x07,0x7F,0x6F};\n/* UART programs below require 11.0592 MHz classic12T, not the 12 MHz delay assumption. */\nvoid uart_init(void) {\n    TR1=0; PCON &amp;= 0x7F; TMOD=(TMOD&amp;0x0F)|0x20;\n    TH1=0xFD; TL1=0xFD; SCON=0x50; TI=0; RI=0; TR1=1;\n}\nu8 uart_put(u8 x) {\n    u16 timeout=60000u; TI=0; SBUF=x;\n    while (!TI &amp;&amp; timeout) --timeout;\n    if (!timeout) return 0; TI=0; return 1;\n}\nu8 uart_text(char *s) { while (*s) if (!uart_put((u8)*s++)) return 0; return 1; }\nvoid uart_hex(u8 x) {\n    u8 h=x&gt;&gt;4,l=x&amp;15;\n    uart_put((u8)(h&lt;10?&#x27;0&#x27;+h:&#x27;A&#x27;+h-10));\n    uart_put((u8)(l&lt;10?&#x27;0&#x27;+l:&#x27;A&#x27;+l-10));\n}\nsbit MA=P2^0;\nsbit MB=P2^1;\nsbit MC=P2^2;\nvoid main(void) {u8 ch,sample; P0=0; uart_init();\n for(;;) for(ch=0;ch&lt;8;ch++) {\n MA=ch&amp;1; MB=(ch&gt;&gt;1)&amp;1; MC=(ch&gt;&gt;2)&amp;1; wait_ms(2);\n P0=digits[ch]; uart_put((u8)(&#x27;0&#x27;+ch)); uart_put(&#x27;:&#x27;);\n if(adc_read(&amp;sample)) uart_hex(sample); else uart_text(&quot;ERR&quot;);\n uart_text(&quot;\\r\\n&quot;); wait_ms(100);\n } }\n</code></pre>",
+            "gu": "<h4>વ્યાખ્યા</h4><p><p>BMS battery conditions supervise કરી protective/control functions સંભાળે;આ course demo માત્ર multichannel low-voltage monitoring model છે,complete safe pack BMS નહીં.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Construction:આઠ current-limited0..2.56V test channels→CD4051 common→ADC0804→8051→buffered7segment/UART-MAX232થી true RS-232 terminal.4051 A/B/C channel પસંદ કરે/INH enable સંભાળે.</li><li>Trainer map:ADC data P1;MUX select P2.0..2;ADC RD/WR/INTR=P3.7/3.6/3.2;UART P3.0/3.1;7segment P0 સાથે pullups/buffer.આ mapમાં conflicting LCD નજોડો.</li><li>Working:channel select,settle,convert/read/timeout flag,channel ID display તથા raw/scaled data transmit કરો;બધા channels repeat કરો.Channel number પોતે cell-voltage reading નથી.</li><li>4051 supply rails બહારનાં arbitrary series-cell taps સીધાં select નકરી શકે.Real packમાં rated differential/scaling/isolation frontend,independent current/voltage/temperature protection તથા balancing/charge control જોઈએ.Live lithium pack નહીં.</li></ul><h4>સંપૂર્ણ Standalone Keil C51 ઉદાહરણ</h4><p>11.0592 MHz classic12T;Timer0 waits conservative,not calibrated</p><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Timer0 uses 12MHz-example preloads; at11.0592MHz these are longer conservative waits,not calibrated timing. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit ADC_RD=P3^7;\nsbit ADC_WR=P3^6;\nsbit ADC_INTR=P3^2;\n/* ADC data=P1; CS tied LOW; stable conditioned input and valid clock/reference. */\nu8 adc_read(u8 *value) {\n    u16 timeout=60000u;\n    P1=0xFF; ADC_INTR=1; ADC_RD=1;\n    ADC_WR=0; wait_ms(1); ADC_WR=1;\n    while (ADC_INTR &amp;&amp; timeout) { --timeout; }\n    if (!timeout) return 0;\n    ADC_RD=0; wait_ms(1); *value=P1; ADC_RD=1;\n    return 1;\n}\nconst u8 code digits[10]={0x3F,0x06,0x5B,0x4F,0x66,0x6D,0x7D,0x07,0x7F,0x6F};\n/* UART programs below require 11.0592 MHz classic12T, not the 12 MHz delay assumption. */\nvoid uart_init(void) {\n    TR1=0; PCON &amp;= 0x7F; TMOD=(TMOD&amp;0x0F)|0x20;\n    TH1=0xFD; TL1=0xFD; SCON=0x50; TI=0; RI=0; TR1=1;\n}\nu8 uart_put(u8 x) {\n    u16 timeout=60000u; TI=0; SBUF=x;\n    while (!TI &amp;&amp; timeout) --timeout;\n    if (!timeout) return 0; TI=0; return 1;\n}\nu8 uart_text(char *s) { while (*s) if (!uart_put((u8)*s++)) return 0; return 1; }\nvoid uart_hex(u8 x) {\n    u8 h=x&gt;&gt;4,l=x&amp;15;\n    uart_put((u8)(h&lt;10?&#x27;0&#x27;+h:&#x27;A&#x27;+h-10));\n    uart_put((u8)(l&lt;10?&#x27;0&#x27;+l:&#x27;A&#x27;+l-10));\n}\nsbit MA=P2^0;\nsbit MB=P2^1;\nsbit MC=P2^2;\nvoid main(void) {u8 ch,sample; P0=0; uart_init();\n for(;;) for(ch=0;ch&lt;8;ch++) {\n MA=ch&amp;1; MB=(ch&gt;&gt;1)&amp;1; MC=(ch&gt;&gt;2)&amp;1; wait_ms(2);\n P0=digits[ch]; uart_put((u8)(&#x27;0&#x27;+ch)); uart_put(&#x27;:&#x27;);\n if(adc_read(&amp;sample)) uart_hex(sample); else uart_text(&quot;ERR&quot;);\n uart_text(&quot;\\r\\n&quot;); wait_ms(100);\n } }\n</code></pre>"
+          },
+          "syllabus_item": "5.3",
+          "diagram": "bms"
+        },
+        {
+          "h": {
+            "en": "UART baud generation and MAX232 level conversion",
+            "gu": "UART Baud generation તથા MAX232 Level conversion"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p><p>UART transmits asynchronous serial frames at an agreed baud rate;MAX232 converts compatible logic-level signals to/from true RS-232electrical levels and does not perform ADC conversion.</p></p><h4>Assumptions,ordered derivation and checks</h4><ol><li>With11.0592MHzclassic12T,Timer1  Mode2,SMOD=0:baud=fosc/[384(256−TH1)].For9600baud,256−TH1=3,so TH1=FDH.Set SCON=50Hfor Mode1  UART with receive enabled.</li><li>Derivation:timer overflow=fosc/[12(256−TH1)];UART  Mode1 divides it by32when SMOD=0,so baud=fosc/[384(256−TH1)].Do not reuse the12MHztimer assumption without calculating baud error.</li><li>Write SBUFthen wait/handle TIand clear it;read received SBUFwhen RIis set and clear RI.Serial interrupt shares RI/TI,so service both causes.Terminal uses matched baud,data/parity/stop settings.</li><li>An ordinary MAX232 uses5Vsupply and its specified charge-pump capacitors,not an external±12Vrequirement.Capacitor values differ for MAX232/MAX232 Avariants;USB-to-TTLand USB-to-RS-232cables are not interchangeable.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p><p>UART agreed baud પર asynchronous frames મોકલે;MAX232 logic/true RS-232 levels ફેરવે,ADC conversion નથી કરતું.</p></p><h4>ધારણાઓ,ક્રમબદ્ધ Derivation તથા ચકાસણી</h4><ol><li>11.0592MHz12T,Timer1  Mode2/SMOD=0માં baud=fosc/[384(256−TH1)].9600 માટે256−TH1=3/TH1=FDH.SCON=50Hથી Mode1 receive-enabled UART મળે.</li><li>Derivation:timer overflow=fosc/[12(256−TH1)];SMOD=0માં UART  Mode1 તેને32થી ભાગે,તેથી baud=fosc/[384(256−TH1)].Baud error ગણ્યા વિના12MHz assumption નલો.</li><li>SBUF write પછી TI handle/clear;RI set હોય ત્યારે SBUF read/RI clear કરો.Serial ISRમાં બંને causes handle કરો.Terminal baud,data/parity/stop match રાખો.</li><li>Ordinary MAX232 5V/ specified charge-pump capacitors વાપરે,external±12V જરૂર નથી.MAX232/MAX232 A caps અલગ;USB-to-TTL/USB-to-RS-232 interchangeable નથી.</li></ol>"
+          },
+          "syllabus_item": "5.3",
+          "diagram": "max232",
+          "derivation": true
+        }
+      ]
+    },
+    {
+      "ref": "5.4",
+      "title": {
+        "en": "5.4 GSM odem security system:construction and working",
+        "gu": "5.4 GSM Security system:Construction તથા Working"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "GSM odem security system:construction and working",
+            "gu": "GSM Security system:Construction તથા Working"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p><p>A GSM security application detects a defined event and requests a notification through a compatible modem;successful detection and successful message delivery are separate states.</p></p><h4>Explanation,application and checks</h4><ul><li>Construction:debounced switch/supervised input,8051 controller,compatible UART level interface,properly powered GSM odem and low-voltage alarm/relay driver.SIM/network/module commands must match the hardware.</li><li>Working:initialise alarm OFF,check modem response,detect/debounce an authorised test event,request text mode/wait prompt,send test message,check response and flag success/failure with bounded timeouts.</li><li>Raw modem UART may be2.8Vor3.3Vand require suitable level translation;MAX232 is only for an actual RS-232interface.Modem transmit bursts require the manufacturer-rated separate supply/decoupling,not a GPIO power pin.</li><li>SMSis not a guaranteed real-time or life-safety path.Handle no network,wrong SIM,reset,timeout and repeated events;use authorised test numbers only.No mains relay load or real security certification is implied.</li></ul><h4>Complete standalone Keil C51 example</h4><p>11.0592 MHz classic12T;Timer0 network waits nominal1/5/30s plus overhead;debounce loop not calibrated</p><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* UART programs below require 11.0592 MHz classic12T, not the 12 MHz delay assumption. */\nvoid uart_init(void) {\n    TR1=0; PCON &amp;= 0x7F; TMOD=(TMOD&amp;0x0F)|0x20;\n    TH1=0xFD; TL1=0xFD; SCON=0x50; TI=0; RI=0; TR1=1;\n}\nu8 uart_put(u8 x) {\n    u16 timeout=60000u; TI=0; SBUF=x;\n    while (!TI &amp;&amp; timeout) --timeout;\n    if (!timeout) return 0; TI=0; return 1;\n}\nu8 uart_text(char *s) { while (*s) if (!uart_put((u8)*s++)) return 0; return 1; }\nvoid uart_hex(u8 x) {\n    u8 h=x&gt;&gt;4,l=x&amp;15;\n    uart_put((u8)(h&lt;10?&#x27;0&#x27;+h:&#x27;A&#x27;+h-10));\n    uart_put((u8)(l&lt;10?&#x27;0&#x27;+l:&#x27;A&#x27;+l-10));\n}\nsbit EVENT=P3^2;\nsbit ALARM=P1^2;\n/* Replace only with an authorised test number;not a real destination. */\n#define DEST_NUMBER &quot;REPLACE_WITH_AUTHORISED_NUMBER&quot;\n/* Timer0Mode1:9216ticks at11.0592MHz12T = nominal10ms,plus reload overhead. */\nu8 wait_token(char *token,u16 ticks) {\n u8 pos=0,c;\n TR0=0;TMOD=(TMOD&amp;0xF0)|0x01;TH0=0xDC;TL0=0;TF0=0;TR0=1;\n while(ticks) {\n  if(TF0) {TR0=0;TH0=0xDC;TL0=0;TF0=0;TR0=1;--ticks;}\n  if(RI) {c=SBUF;RI=0;\n   if(c==(u8)token[pos]) {++pos;if(!token[pos]){TR0=0;return 1;}}\n   else pos=(c==(u8)token[0])?1:0;\n  }\n }\n TR0=0;return 0;\n}\nvolatile u8 message_status=0;\nvoid main(void) {u8 old=1,now,stable;volatile u16 k;\n ALARM=0; EVENT=1;uart_init();\n if(!uart_text(&quot;AT\\r&quot;) || !wait_token(&quot;OK&quot;,100))message_status=3;\n for(;;) {\n now=EVENT;for(k=0;k&lt;20000;k++) { } stable=EVENT;\n if(now==stable) {\n  if(old &amp;&amp; !stable) {\n   ALARM=1;message_status=1;RI=0;\n   if(uart_text(&quot;AT+CMGF=1\\r&quot;) &amp;&amp; wait_token(&quot;OK&quot;,100) &amp;&amp;\n      uart_text(&quot;AT+CMGS=\\&quot;&quot; DEST_NUMBER &quot;\\&quot;\\r&quot;) &amp;&amp; wait_token(&quot;&gt;&quot;,500) &amp;&amp;\n      uart_text(&quot;Authorised classroom test&quot;) &amp;&amp; uart_put(26) &amp;&amp; wait_token(&quot;OK&quot;,3000))\n        message_status=2;\n   else message_status=3;\n  }\n  if(stable)ALARM=0;old=stable;\n }\n } }\n</code></pre><p>This complete example reserves Timer1 for9600baud and Timer0 for nominal10msnetwork timeout ticks at11.0592MHz;AT/CMGFwait1s,prompt5s,finalOK30s plus reload overhead.The simple token parser is classroom-only and is not a robust production modem driver.</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p><p>GSM security application defined event શોધી compatible modemથી notification માંગે;detection તથા successful delivery અલગ states છે.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Construction:debounced/supervised switch,8051,compatible UART level interface,proper GSM supply/low-voltage alarm-relay driver.SIM/network/commands hardware મુજબ હોય.</li><li>Working:alarm OFF initialise,modem response તપાસો,authorised event debounce,text mode/prompt રાહ પછી test message મોકલો,response/timeoutથી success-failure બતાવો.</li><li>Raw modem UART 2.8V/3.3V હોઈ શકે/level translation જોઈએ;MAX232 actual RS-232 માટે જ.Modem bursts માટે manufacturer-rated separate supply/decoupling જોઈએ,GPIO power નહીં.</li><li>SMS guaranteed real-time/life-safety નથી.No network,wrong SIM,reset,timeout/repeat events handle કરો.Authorised test numbers જ;મેઇન્સ relay કે real-security certificationનો દાવો નહીં.</li></ul><h4>સંપૂર્ણ Standalone Keil C51 ઉદાહરણ</h4><p>11.0592 MHz classic12T;Timer0 network waits nominal1/5/30s plus overhead;debounce loop not calibrated</p><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* UART programs below require 11.0592 MHz classic12T, not the 12 MHz delay assumption. */\nvoid uart_init(void) {\n    TR1=0; PCON &amp;= 0x7F; TMOD=(TMOD&amp;0x0F)|0x20;\n    TH1=0xFD; TL1=0xFD; SCON=0x50; TI=0; RI=0; TR1=1;\n}\nu8 uart_put(u8 x) {\n    u16 timeout=60000u; TI=0; SBUF=x;\n    while (!TI &amp;&amp; timeout) --timeout;\n    if (!timeout) return 0; TI=0; return 1;\n}\nu8 uart_text(char *s) { while (*s) if (!uart_put((u8)*s++)) return 0; return 1; }\nvoid uart_hex(u8 x) {\n    u8 h=x&gt;&gt;4,l=x&amp;15;\n    uart_put((u8)(h&lt;10?&#x27;0&#x27;+h:&#x27;A&#x27;+h-10));\n    uart_put((u8)(l&lt;10?&#x27;0&#x27;+l:&#x27;A&#x27;+l-10));\n}\nsbit EVENT=P3^2;\nsbit ALARM=P1^2;\n/* Replace only with an authorised test number;not a real destination. */\n#define DEST_NUMBER &quot;REPLACE_WITH_AUTHORISED_NUMBER&quot;\n/* Timer0Mode1:9216ticks at11.0592MHz12T = nominal10ms,plus reload overhead. */\nu8 wait_token(char *token,u16 ticks) {\n u8 pos=0,c;\n TR0=0;TMOD=(TMOD&amp;0xF0)|0x01;TH0=0xDC;TL0=0;TF0=0;TR0=1;\n while(ticks) {\n  if(TF0) {TR0=0;TH0=0xDC;TL0=0;TF0=0;TR0=1;--ticks;}\n  if(RI) {c=SBUF;RI=0;\n   if(c==(u8)token[pos]) {++pos;if(!token[pos]){TR0=0;return 1;}}\n   else pos=(c==(u8)token[0])?1:0;\n  }\n }\n TR0=0;return 0;\n}\nvolatile u8 message_status=0;\nvoid main(void) {u8 old=1,now,stable;volatile u16 k;\n ALARM=0; EVENT=1;uart_init();\n if(!uart_text(&quot;AT\\r&quot;) || !wait_token(&quot;OK&quot;,100))message_status=3;\n for(;;) {\n now=EVENT;for(k=0;k&lt;20000;k++) { } stable=EVENT;\n if(now==stable) {\n  if(old &amp;&amp; !stable) {\n   ALARM=1;message_status=1;RI=0;\n   if(uart_text(&quot;AT+CMGF=1\\r&quot;) &amp;&amp; wait_token(&quot;OK&quot;,100) &amp;&amp;\n      uart_text(&quot;AT+CMGS=\\&quot;&quot; DEST_NUMBER &quot;\\&quot;\\r&quot;) &amp;&amp; wait_token(&quot;&gt;&quot;,500) &amp;&amp;\n      uart_text(&quot;Authorised classroom test&quot;) &amp;&amp; uart_put(26) &amp;&amp; wait_token(&quot;OK&quot;,3000))\n        message_status=2;\n   else message_status=3;\n  }\n  if(stable)ALARM=0;old=stable;\n }\n } }\n</code></pre><p>આ full exampleમાં11.0592MHz પર Timer1 9600baud માટે/Timer0 nominal10ms network ticks માટે છે.AT/CMGF wait1s,prompt5s,final OK30s સાથે reload overhead;simple token parser classroom-only છે,production driver નથી.</p>"
+          },
+          "syllabus_item": "5.4",
+          "diagram": "gsm"
+        }
+      ]
+    },
+    {
+      "ref": "5.5",
+      "title": {
+        "en": "5.5 LDR solar tracker with stepper and7segment",
+        "gu": "5.5 LDR Solar tracker:Stepper તથા7-segment"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "LDR solar tracker with stepper and7segment",
+            "gu": "LDR Solar tracker:Stepper તથા7-segment"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p><p>A light-seeking tracker compares directional light signals and moves a mechanism to reduce their imbalance within travel and safety limits.</p></p><h4>Explanation,application and checks</h4><ul><li>Construction:two LDR divider/conditioning channels with a shade separator,approved MUX/ADC,8051,buffered stepper driver,low-voltage motor,limit switches and buffered7segment count display.</li><li>Working:sample left/right after settling,compute signed error,left−right;inside a deadband hold position,otherwise request one bounded step in the direction defined by calibration.Check end limits before every step and update a bounded software count.</li><li>Use signed16-bit error to avoid unsigned wrap when left&lt;right;low-light logic can park/hold according to the approved design.Noise filtering/deadband reduce hunting;stall/missed steps require homing or feedback for known position.</li><li>The sample display shows step-count modulo10,not absolute angle or measured energy gain.This low-voltage model does not justify rooftop mechanical installation or handling a full solar panel.</li></ul><h4>Complete standalone Keil C51 example</h4><p>12 MHz classic12T</p><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit ADC_RD=P3^7;\nsbit ADC_WR=P3^6;\nsbit ADC_INTR=P3^2;\n/* ADC data=P1; CS tied LOW; stable conditioned input and valid clock/reference. */\nu8 adc_read(u8 *value) {\n    u16 timeout=60000u;\n    P1=0xFF; ADC_INTR=1; ADC_RD=1;\n    ADC_WR=0; wait_ms(1); ADC_WR=1;\n    while (ADC_INTR &amp;&amp; timeout) { --timeout; }\n    if (!timeout) return 0;\n    ADC_RD=0; wait_ms(1); *value=P1; ADC_RD=1;\n    return 1;\n}\nconst u8 code digits[10]={0x3F,0x06,0x5B,0x4F,0x66,0x6D,0x7D,0x07,0x7F,0x6F};\nsbit MXA=P3^0;\nsbit MXB=P3^1;\nsbit LIMIT_LEFT=P3^3;\nsbit LIMIT_RIGHT=P3^4;\nconst u8 code phase_table[4]={3,6,12,9};\nvolatile u16 position=100;\nvoid main(void) {u8 l,r,phase=0;int error;\n LIMIT_LEFT=1;LIMIT_RIGHT=1;P2=0;P0=0;\n for(;;) {\n  MXB=0;MXA=0;wait_ms(2);if(!adc_read(&amp;l)) {P2=0;continue;}\n  MXA=1;wait_ms(2);if(!adc_read(&amp;r)) {P2=0;continue;}\n  error=(int)l-(int)r;\n  if(l&lt;10 &amp;&amp; r&lt;10) P2=0;\n  else if(error&gt;3 &amp;&amp; LIMIT_RIGHT &amp;&amp; position&lt;200) {\n    phase=(phase+1)&amp;3;P2=phase_table[phase];++position;wait_ms(20);\n  } else if(error&lt; -3 &amp;&amp; LIMIT_LEFT &amp;&amp; position&gt;0) {\n    phase=(phase+3)&amp;3;P2=phase_table[phase];--position;wait_ms(20);\n  } else P2=0;\n  P0=digits[position%10];wait_ms(50);\n } }\n</code></pre>",
+            "gu": "<h4>વ્યાખ્યા</h4><p><p>Light-seeking tracker directional light signals compare કરી imbalance ઘટાડવા travel/safety limitsમાં mechanism ફેરવે છે.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Constructionમાં shade separatorવાળા બે LDR divider/conditioning channels,approved MUX/ADC,8051,buffered stepper/low-voltage motor,limit switches તથા buffered7segment count છે.</li><li>Working:left/right settle કરીને sample લો;error=left−right ગણો.Deadbandમાં hold/બહાર calibration મુજબ bounded step લો.દરેક step પહેલાં limits તપાસો/bounded count update કરો.</li><li>left&lt;rightમાં unsigned wrap ટાળવા signed16-bit error લો.Low-lightમાં approved park/hold કરો.Filter/deadband hunting ઘટાડે;known position માટે homing/feedback જોઈએ.</li><li>Display step-count modulo10 બતાવે,absolute angle/measured energy gain નહીં.આ model rooftop installation કે full panel handling માટે મંજૂરી નથી.</li></ul><h4>સંપૂર્ણ Standalone Keil C51 ઉદાહરણ</h4><p>12 MHz classic12T</p><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit ADC_RD=P3^7;\nsbit ADC_WR=P3^6;\nsbit ADC_INTR=P3^2;\n/* ADC data=P1; CS tied LOW; stable conditioned input and valid clock/reference. */\nu8 adc_read(u8 *value) {\n    u16 timeout=60000u;\n    P1=0xFF; ADC_INTR=1; ADC_RD=1;\n    ADC_WR=0; wait_ms(1); ADC_WR=1;\n    while (ADC_INTR &amp;&amp; timeout) { --timeout; }\n    if (!timeout) return 0;\n    ADC_RD=0; wait_ms(1); *value=P1; ADC_RD=1;\n    return 1;\n}\nconst u8 code digits[10]={0x3F,0x06,0x5B,0x4F,0x66,0x6D,0x7D,0x07,0x7F,0x6F};\nsbit MXA=P3^0;\nsbit MXB=P3^1;\nsbit LIMIT_LEFT=P3^3;\nsbit LIMIT_RIGHT=P3^4;\nconst u8 code phase_table[4]={3,6,12,9};\nvolatile u16 position=100;\nvoid main(void) {u8 l,r,phase=0;int error;\n LIMIT_LEFT=1;LIMIT_RIGHT=1;P2=0;P0=0;\n for(;;) {\n  MXB=0;MXA=0;wait_ms(2);if(!adc_read(&amp;l)) {P2=0;continue;}\n  MXA=1;wait_ms(2);if(!adc_read(&amp;r)) {P2=0;continue;}\n  error=(int)l-(int)r;\n  if(l&lt;10 &amp;&amp; r&lt;10) P2=0;\n  else if(error&gt;3 &amp;&amp; LIMIT_RIGHT &amp;&amp; position&lt;200) {\n    phase=(phase+1)&amp;3;P2=phase_table[phase];++position;wait_ms(20);\n  } else if(error&lt; -3 &amp;&amp; LIMIT_LEFT &amp;&amp; position&gt;0) {\n    phase=(phase+3)&amp;3;P2=phase_table[phase];--position;wait_ms(20);\n  } else P2=0;\n  P0=digits[position%10];wait_ms(50);\n } }\n</code></pre>"
+          },
+          "syllabus_item": "5.5",
+          "diagram": "tracker"
+        }
+      ]
+    },
+    {
+      "ref": "Practical.14",
+      "title": {
+        "en": "Practical.14 14. DCmotor forward/reverse via L293D",
+        "gu": "Practical.14 14. L293Dથી DC Motor Forward/Reverse"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "14. DCmotor forward/reverse via L293D",
+            "gu": "14. L293Dથી DC Motor Forward/Reverse"
+          },
+          "body": {
+            "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryyes.Source Unit/COentry5is retained even if theory placement differs.</li><li>P1.0→1A,P1.1→2A,P1.2→1,2ENvia approved logic driver;motor between1Y/2Y;rated supplies and common GND.</li><li>Forward nominal1s,disable500ms,reverse1s,disable500ms;physical direction depends on motor lead orientation.Observe current/temperature safely.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit EN=P1^2;\nsbit AIN=P1^0;\nsbit BIN=P1^1;\nvoid main(void) { EN=0; AIN=0; BIN=0;\n for(;;) { AIN=1; BIN=0; EN=1; wait_ms(1000);\n EN=0; wait_ms(500); AIN=0; BIN=1; EN=1; wait_ms(1000);\n EN=0; wait_ms(500); } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryyes.Source Unit/COentry5 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>P1.0→1A,P1.1→2A,P1.2→1,2EN approved logicથી;motor1Y/2Y વચ્ચે;rated supplies/common GND.</li><li>Forward nominal1s,disable500ms,reverse1s,disable500ms;physical direction motor leads મુજબ છે.Current/temperature safely observe કરો.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit EN=P1^2;\nsbit AIN=P1^0;\nsbit BIN=P1^1;\nvoid main(void) { EN=0; AIN=0; BIN=0;\n for(;;) { AIN=1; BIN=0; EN=1; wait_ms(1000);\n EN=0; wait_ms(500); AIN=0; BIN=1; EN=1; wait_ms(1000);\n EN=0; wait_ms(500); } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "syllabus_item": "Practical.14",
+          "diagram": "dcdriver"
+        }
+      ]
+    },
+    {
+      "ref": "Practical.15",
+      "title": {
+        "en": "Practical.15 15. Stepper motor interfacing",
+        "gu": "Practical.15 15. Stepper Motor Interfacing"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "15. Stepper motor interfacing",
+            "gu": "15. Stepper Motor Interfacing"
+          },
+          "body": {
+            "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry5is retained even if theory placement differs.</li><li>P2 low nibble to approved buffer/ULN2003 unipolar driver;correct coil order,clamp/common and rated isolated low-voltage supply.</li><li>Command200full steps with20msnominal dwell,then de-energise;one revolution only if actual step angle=1.8°and all steps occur without gearing effects.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nconst u8 code steps[4]={0x03,0x06,0x0C,0x09};\nvoid main(void) { u8 i; u16 n; P2=0;\n for(n=0;n&lt;200;n++) { i=(u8)(n&amp;3); P2=steps[i]; wait_ms(20); }\n P2=0; for(;;) { } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry5 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>P2 low nibbleથી approved buffer/ULN2003 unipolar driver;correct coil order,clamp/common/rated isolated supply.</li><li>200full steps/nominal20ms dwell પછી de-energise;actual1.8° અને missed-step/gearing effect ન હોય ત્યારે જ એક revolution.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nconst u8 code steps[4]={0x03,0x06,0x0C,0x09};\nvoid main(void) { u8 i; u16 n; P2=0;\n for(n=0;n&lt;200;n++) { i=(u8)(n&amp;3); P2=steps[i]; wait_ms(20); }\n P2=0; for(;;) { } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "syllabus_item": "Practical.15",
+          "diagram": "stepper"
+        }
+      ]
+    },
+    {
+      "ref": "Practical.16",
+      "title": {
+        "en": "Practical.16 16. Software PWM using loops",
+        "gu": "Practical.16 16. Loopsથી Software PWM"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "16. Software PWM using loops",
+            "gu": "16. Loopsથી Software PWM"
+          },
+          "body": {
+            "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry5is retained even if theory placement differs.</li><li>P1.0to high-impedance approved analyser input only;no motor/heater load.The volatileloop is deliberately uncalibrated.</li><li>HIGH 25units/LOW 75units gives ideal25%duty;actual duty/frequency differ due to code overhead and compiler settings.Measure th,tl,Tand compute duty=100th/T.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nsbit PWM=P1^0;\nvoid crude_units(u16 n) { volatile u16 k; while(n--) for(k=0;k&lt;100;k++) { } }\nvoid main(void) { PWM=0; for(;;) { PWM=1; crude_units(25); PWM=0; crude_units(75); } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry5 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>P1.0 માત્ર approved high-impedance analyserને;motor/heater નહીં.Volatile loop ઇરાદાપૂર્વક uncalibrated છે.</li><li>HIGH 25units/LOW 75unitsથી ideal25%duty;code overhead/compilerથી actual duty/frequency બદલાય.th,tl,T માપી duty=100th/T ગણો.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nsbit PWM=P1^0;\nvoid crude_units(u16 n) { volatile u16 k; while(n--) for(k=0;k&lt;100;k++) { } }\nvoid main(void) { PWM=0; for(;;) { PWM=1; crude_units(25); PWM=0; crude_units(75); } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "syllabus_item": "Practical.16",
+          "diagram": "timer"
+        }
+      ]
+    },
+    {
+      "ref": "Practical.17",
+      "title": {
+        "en": "Practical.17 17. 8-bit DAC interfacing",
+        "gu": "Practical.17 17. 8-bit DAC Interfacing"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "17. 8-bit DAC interfacing",
+            "gu": "17. 8-bit DAC Interfacing"
+          },
+          "body": {
+            "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry5is retained even if theory placement differs.</li><li>P1 to approved buffered8-bit DAC trainer with verified reference/polarity and common ground;no direct DAC 0808current-output-to-voltmeter assumption.</li><li>Codes0..255repeat;16-bit loop index avoids8-bit wrap trap.With ideal5Vreference,128→2.5Vand255→4.98046875V,not full5V.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nvoid main(void) { u16 code_value; P1=0;\n for(;;) for(code_value=0;code_value&lt;256u;code_value++) {\n P1=(u8)code_value; wait_ms(5); } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry5 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>P1 approved buffered8-bit DAC trainerને;reference/polarity/common ground verify કરો.DAC 0808 current-outputને સીધું voltage-source નમાનો.</li><li>Codes0..255 repeat;16-bit index8-bit wrap trap ટાળે.Ideal5V referenceમાં128→2.5V/255→4.98046875V,પૂર્ણ5V નહીં.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nvoid main(void) { u16 code_value; P1=0;\n for(;;) for(code_value=0;code_value&lt;256u;code_value++) {\n P1=(u8)code_value; wait_ms(5); } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "syllabus_item": "Practical.17",
+          "diagram": "dac"
+        }
+      ]
+    },
+    {
+      "ref": "Activity.4",
+      "title": {
+        "en": "Activity.4 Activity d: Industrial case study and emerging-controller seminar",
+        "gu": "Activity.4 પ્રવૃત્તિ d: Industrial Case study તથા Emerging-controller Seminar"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Activity d: Industrial case study and emerging-controller seminar",
+            "gu": "પ્રવૃત્તિ d: Industrial Case study તથા Emerging-controller Seminar"
+          },
+          "body": {
+            "en": "<h4>Aim and status</h4><p><p>A source-suggested learning/report plan,not an already completed workshop,visit or project.</p></p><h4>Explanation,application and checks</h4><ul><li>Select a referenced BMS,solar tracker or automation case;separate block-level learning from production protection,certification and performance claims.</li><li>Compare 8051 with a selected modern IoT/wireless controller in ADC,memory,connectivity,power and security;do not call a demonstration network-safe or battery-safe without evidence.</li><li>Prepare about five pages:aim/scope;verified component/software background;diagram/code/method;actual evidence and test interpretation;conclusion,limitations and references.</li><li>Keep name/date,device/clock,firmware revision,expected versus actual results,source URLs,evidence filenames and teacher feedback blank until collected.Never invent readings or signatures.</li></ul><h4>Datasheet references / Datasheet સંદર્ભ</h4><p><a href=\"https://ww1.microchip.com/downloads/en/DeviceDoc/doc0265.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Microchip/Atmel AT89C51 official legacy datasheet:classic40pinbaseline,ports/reset/five vectors and six flags</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/adc0804-n.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TI ADC0804-N:input/reference/clock/conversion timing</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/l293.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TIL293/L293D:logic/load supply and current/clamps</a></p><p><a href=\"https://www.ti.com/product/CD4051B\" target=\"_blank\" rel=\"noopener noreferrer\">TI CD4051 B:analog switch limits</a></p><p><a href=\"https://www.keil.com/appnotes/files/apnt_103.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Keil interrupt function/vector rules</a></p>",
+            "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-suggested learning/report plan છે,completed workshop,visit/project નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Referenced BMS,solar tracker/automation case લો;block-level learning તથા production protection,certification/performance claims અલગ રાખો.</li><li>8051/selected modern IoT-wireless controllerનાં ADC,memory,connectivity,power/security compare કરો.Evidence વિના network-safe/battery-safe નકહો.</li><li>આશરે પાંચ pages:aim/scope;verified background;diagram/code/method;actual evidence/test interpretation;conclusion,limitations/references.</li><li>Name/date,device/clock,firmware revision,expected/actual results,source URLs,evidence files/teacher feedback data મળે ત્યાં સુધી blank રાખો.Readings/signatures નબનાવો.</li></ul><h4>Datasheet references / Datasheet સંદર્ભ</h4><p><a href=\"https://ww1.microchip.com/downloads/en/DeviceDoc/doc0265.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Microchip/Atmel AT89C51 official legacy datasheet:classic40pinbaseline,ports/reset/five vectors and six flags</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/adc0804-n.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TI ADC0804-N:input/reference/clock/conversion timing</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/l293.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TIL293/L293D:logic/load supply and current/clamps</a></p><p><a href=\"https://www.ti.com/product/CD4051B\" target=\"_blank\" rel=\"noopener noreferrer\">TI CD4051 B:analog switch limits</a></p><p><a href=\"https://www.keil.com/appnotes/files/apnt_103.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Keil interrupt function/vector rules</a></p>"
+          },
+          "syllabus_item": "Activity.4"
+        }
+      ]
+    }
+  ],
+  "programs": [
+    {
+      "title": {
+        "en": "Practical and complete programs",
+        "gu": "પ્રયોગ તથા સંપૂર્ણ Programs"
+      },
+      "format": "rich_cards",
+      "items": [
+        {
+          "h": {
+            "en": "14. DCmotor forward/reverse via L293D",
+            "gu": "14. L293Dથી DC Motor Forward/Reverse"
+          },
+          "body": {
+            "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryyes.Source Unit/COentry5is retained even if theory placement differs.</li><li>P1.0→1A,P1.1→2A,P1.2→1,2ENvia approved logic driver;motor between1Y/2Y;rated supplies and common GND.</li><li>Forward nominal1s,disable500ms,reverse1s,disable500ms;physical direction depends on motor lead orientation.Observe current/temperature safely.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit EN=P1^2;\nsbit AIN=P1^0;\nsbit BIN=P1^1;\nvoid main(void) { EN=0; AIN=0; BIN=0;\n for(;;) { AIN=1; BIN=0; EN=1; wait_ms(1000);\n EN=0; wait_ms(500); AIN=0; BIN=1; EN=1; wait_ms(1000);\n EN=0; wait_ms(500); } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryyes.Source Unit/COentry5 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>P1.0→1A,P1.1→2A,P1.2→1,2EN approved logicથી;motor1Y/2Y વચ્ચે;rated supplies/common GND.</li><li>Forward nominal1s,disable500ms,reverse1s,disable500ms;physical direction motor leads મુજબ છે.Current/temperature safely observe કરો.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit EN=P1^2;\nsbit AIN=P1^0;\nsbit BIN=P1^1;\nvoid main(void) { EN=0; AIN=0; BIN=0;\n for(;;) { AIN=1; BIN=0; EN=1; wait_ms(1000);\n EN=0; wait_ms(500); AIN=0; BIN=1; EN=1; wait_ms(1000);\n EN=0; wait_ms(500); } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "diagram": "dcdriver"
+        },
+        {
+          "h": {
+            "en": "15. Stepper motor interfacing",
+            "gu": "15. Stepper Motor Interfacing"
+          },
+          "body": {
+            "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry5is retained even if theory placement differs.</li><li>P2 low nibble to approved buffer/ULN2003 unipolar driver;correct coil order,clamp/common and rated isolated low-voltage supply.</li><li>Command200full steps with20msnominal dwell,then de-energise;one revolution only if actual step angle=1.8°and all steps occur without gearing effects.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nconst u8 code steps[4]={0x03,0x06,0x0C,0x09};\nvoid main(void) { u8 i; u16 n; P2=0;\n for(n=0;n&lt;200;n++) { i=(u8)(n&amp;3); P2=steps[i]; wait_ms(20); }\n P2=0; for(;;) { } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry5 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>P2 low nibbleથી approved buffer/ULN2003 unipolar driver;correct coil order,clamp/common/rated isolated supply.</li><li>200full steps/nominal20ms dwell પછી de-energise;actual1.8° અને missed-step/gearing effect ન હોય ત્યારે જ એક revolution.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nconst u8 code steps[4]={0x03,0x06,0x0C,0x09};\nvoid main(void) { u8 i; u16 n; P2=0;\n for(n=0;n&lt;200;n++) { i=(u8)(n&amp;3); P2=steps[i]; wait_ms(20); }\n P2=0; for(;;) { } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "diagram": "stepper"
+        },
+        {
+          "h": {
+            "en": "16. Software PWM using loops",
+            "gu": "16. Loopsથી Software PWM"
+          },
+          "body": {
+            "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry5is retained even if theory placement differs.</li><li>P1.0to high-impedance approved analyser input only;no motor/heater load.The volatileloop is deliberately uncalibrated.</li><li>HIGH 25units/LOW 75units gives ideal25%duty;actual duty/frequency differ due to code overhead and compiler settings.Measure th,tl,Tand compute duty=100th/T.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nsbit PWM=P1^0;\nvoid crude_units(u16 n) { volatile u16 k; while(n--) for(k=0;k&lt;100;k++) { } }\nvoid main(void) { PWM=0; for(;;) { PWM=1; crude_units(25); PWM=0; crude_units(75); } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry5 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>P1.0 માત્ર approved high-impedance analyserને;motor/heater નહીં.Volatile loop ઇરાદાપૂર્વક uncalibrated છે.</li><li>HIGH 25units/LOW 75unitsથી ideal25%duty;code overhead/compilerથી actual duty/frequency બદલાય.th,tl,T માપી duty=100th/T ગણો.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nsbit PWM=P1^0;\nvoid crude_units(u16 n) { volatile u16 k; while(n--) for(k=0;k&lt;100;k++) { } }\nvoid main(void) { PWM=0; for(;;) { PWM=1; crude_units(25); PWM=0; crude_units(75); } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "diagram": "timer"
+        },
+        {
+          "h": {
+            "en": "17. 8-bit DAC interfacing",
+            "gu": "17. 8-bit DAC Interfacing"
+          },
+          "body": {
+            "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry5is retained even if theory placement differs.</li><li>P1 to approved buffered8-bit DAC trainer with verified reference/polarity and common ground;no direct DAC 0808current-output-to-voltmeter assumption.</li><li>Codes0..255repeat;16-bit loop index avoids8-bit wrap trap.With ideal5Vreference,128→2.5Vand255→4.98046875V,not full5V.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nvoid main(void) { u16 code_value; P1=0;\n for(;;) for(code_value=0;code_value&lt;256u;code_value++) {\n P1=(u8)code_value; wait_ms(5); } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry5 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>P1 approved buffered8-bit DAC trainerને;reference/polarity/common ground verify કરો.DAC 0808 current-outputને સીધું voltage-source નમાનો.</li><li>Codes0..255 repeat;16-bit index8-bit wrap trap ટાળે.Ideal5V referenceમાં128→2.5V/255→4.98046875V,પૂર્ણ5V નહીં.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nvoid main(void) { u16 code_value; P1=0;\n for(;;) for(code_value=0;code_value&lt;256u;code_value++) {\n P1=(u8)code_value; wait_ms(5); } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "diagram": "dac"
+        }
+      ]
+    }
+  ],
+  "practicals": [
+    {
+      "number": 14,
+      "title": {
+        "en": "14. DCmotor forward/reverse via L293D",
+        "gu": "14. L293Dથી DC Motor Forward/Reverse"
+      },
+      "body": {
+        "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryyes.Source Unit/COentry5is retained even if theory placement differs.</li><li>P1.0→1A,P1.1→2A,P1.2→1,2ENvia approved logic driver;motor between1Y/2Y;rated supplies and common GND.</li><li>Forward nominal1s,disable500ms,reverse1s,disable500ms;physical direction depends on motor lead orientation.Observe current/temperature safely.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit EN=P1^2;\nsbit AIN=P1^0;\nsbit BIN=P1^1;\nvoid main(void) { EN=0; AIN=0; BIN=0;\n for(;;) { AIN=1; BIN=0; EN=1; wait_ms(1000);\n EN=0; wait_ms(500); AIN=0; BIN=1; EN=1; wait_ms(1000);\n EN=0; wait_ms(500); } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+        "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryyes.Source Unit/COentry5 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>P1.0→1A,P1.1→2A,P1.2→1,2EN approved logicથી;motor1Y/2Y વચ્ચે;rated supplies/common GND.</li><li>Forward nominal1s,disable500ms,reverse1s,disable500ms;physical direction motor leads મુજબ છે.Current/temperature safely observe કરો.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit EN=P1^2;\nsbit AIN=P1^0;\nsbit BIN=P1^1;\nvoid main(void) { EN=0; AIN=0; BIN=0;\n for(;;) { AIN=1; BIN=0; EN=1; wait_ms(1000);\n EN=0; wait_ms(500); AIN=0; BIN=1; EN=1; wait_ms(1000);\n EN=0; wait_ms(500); } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+      },
+      "source_unit_or_CO": 5,
+      "suggested_duration_hours": 2,
+      "compulsory": true,
+      "performed": false,
+      "program_file": "firmware/keil/p14_motor.c",
+      "clock": "12 MHz classic12T"
+    },
+    {
+      "number": 15,
+      "title": {
+        "en": "15. Stepper motor interfacing",
+        "gu": "15. Stepper Motor Interfacing"
+      },
+      "body": {
+        "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry5is retained even if theory placement differs.</li><li>P2 low nibble to approved buffer/ULN2003 unipolar driver;correct coil order,clamp/common and rated isolated low-voltage supply.</li><li>Command200full steps with20msnominal dwell,then de-energise;one revolution only if actual step angle=1.8°and all steps occur without gearing effects.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nconst u8 code steps[4]={0x03,0x06,0x0C,0x09};\nvoid main(void) { u8 i; u16 n; P2=0;\n for(n=0;n&lt;200;n++) { i=(u8)(n&amp;3); P2=steps[i]; wait_ms(20); }\n P2=0; for(;;) { } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+        "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry5 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>P2 low nibbleથી approved buffer/ULN2003 unipolar driver;correct coil order,clamp/common/rated isolated supply.</li><li>200full steps/nominal20ms dwell પછી de-energise;actual1.8° અને missed-step/gearing effect ન હોય ત્યારે જ એક revolution.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nconst u8 code steps[4]={0x03,0x06,0x0C,0x09};\nvoid main(void) { u8 i; u16 n; P2=0;\n for(n=0;n&lt;200;n++) { i=(u8)(n&amp;3); P2=steps[i]; wait_ms(20); }\n P2=0; for(;;) { } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+      },
+      "source_unit_or_CO": 5,
+      "suggested_duration_hours": 2,
+      "compulsory": false,
+      "performed": false,
+      "program_file": "firmware/keil/p15_stepper.c",
+      "clock": "12 MHz classic12T"
+    },
+    {
+      "number": 16,
+      "title": {
+        "en": "16. Software PWM using loops",
+        "gu": "16. Loopsથી Software PWM"
+      },
+      "body": {
+        "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry5is retained even if theory placement differs.</li><li>P1.0to high-impedance approved analyser input only;no motor/heater load.The volatileloop is deliberately uncalibrated.</li><li>HIGH 25units/LOW 75units gives ideal25%duty;actual duty/frequency differ due to code overhead and compiler settings.Measure th,tl,Tand compute duty=100th/T.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nsbit PWM=P1^0;\nvoid crude_units(u16 n) { volatile u16 k; while(n--) for(k=0;k&lt;100;k++) { } }\nvoid main(void) { PWM=0; for(;;) { PWM=1; crude_units(25); PWM=0; crude_units(75); } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+        "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry5 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>P1.0 માત્ર approved high-impedance analyserને;motor/heater નહીં.Volatile loop ઇરાદાપૂર્વક uncalibrated છે.</li><li>HIGH 25units/LOW 75unitsથી ideal25%duty;code overhead/compilerથી actual duty/frequency બદલાય.th,tl,T માપી duty=100th/T ગણો.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nsbit PWM=P1^0;\nvoid crude_units(u16 n) { volatile u16 k; while(n--) for(k=0;k&lt;100;k++) { } }\nvoid main(void) { PWM=0; for(;;) { PWM=1; crude_units(25); PWM=0; crude_units(75); } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+      },
+      "source_unit_or_CO": 5,
+      "suggested_duration_hours": 2,
+      "compulsory": false,
+      "performed": false,
+      "program_file": "firmware/keil/p16_pwm.c",
+      "clock": "12 MHz classic12T"
+    },
+    {
+      "number": 17,
+      "title": {
+        "en": "17. 8-bit DAC interfacing",
+        "gu": "17. 8-bit DAC Interfacing"
+      },
+      "body": {
+        "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry5is retained even if theory placement differs.</li><li>P1 to approved buffered8-bit DAC trainer with verified reference/polarity and common ground;no direct DAC 0808current-output-to-voltmeter assumption.</li><li>Codes0..255repeat;16-bit loop index avoids8-bit wrap trap.With ideal5Vreference,128→2.5Vand255→4.98046875V,not full5V.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nvoid main(void) { u16 code_value; P1=0;\n for(;;) for(code_value=0;code_value&lt;256u;code_value++) {\n P1=(u8)code_value; wait_ms(5); } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+        "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry5 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>P1 approved buffered8-bit DAC trainerને;reference/polarity/common ground verify કરો.DAC 0808 current-outputને સીધું voltage-source નમાનો.</li><li>Codes0..255 repeat;16-bit index8-bit wrap trap ટાળે.Ideal5V referenceમાં128→2.5V/255→4.98046875V,પૂર્ણ5V નહીં.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nvoid main(void) { u16 code_value; P1=0;\n for(;;) for(code_value=0;code_value&lt;256u;code_value++) {\n P1=(u8)code_value; wait_ms(5); } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+      },
+      "source_unit_or_CO": 5,
+      "suggested_duration_hours": 2,
+      "compulsory": false,
+      "performed": false,
+      "program_file": "firmware/keil/p17_dac.c",
+      "clock": "12 MHz classic12T"
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "adc",
+      "title": {
+        "en": "ADC0804connection map:analog/reference,clock,data and handshake",
+        "gu": "8051 Systemમાં External ADCની જરૂર"
+      },
+      "file": "diagrams/adc.svg"
+    },
+    {
+      "id": "temperature",
+      "title": {
+        "en": "Temperature control:fail-safe state machine",
+        "gu": "Temperature control:Construction,State તથા Working"
+      },
+      "file": "diagrams/temperature.svg"
+    },
+    {
+      "id": "bms",
+      "title": {
+        "en": "Specified BMSblocks:SAFEtest channels,MUX,ADC,display and RS-232",
+        "gu": "4051,ADC0804,7-segment તથા MAX232વાળું BMS"
+      },
+      "file": "diagrams/bms.svg"
+    },
+    {
+      "id": "max232",
+      "title": {
+        "en": "UARTlogic is not RS-232voltage",
+        "gu": "UART Baud generation તથા MAX232 Level conversion"
+      },
+      "file": "diagrams/max232.svg"
+    },
+    {
+      "id": "gsm",
+      "title": {
+        "en": "GSMsecurity:input,event,modem acknowledgement",
+        "gu": "GSM Security system:Construction તથા Working"
+      },
+      "file": "diagrams/gsm.svg"
+    },
+    {
+      "id": "tracker",
+      "title": {
+        "en": "Solar tracker:two inputs,validation,limits,stepper and count display",
+        "gu": "LDR Solar tracker:Stepper તથા7-segment"
+      },
+      "file": "diagrams/tracker.svg"
+    },
+    {
+      "id": "dcdriver",
+      "title": {
+        "en": "L293D:separate logic/motor rails,enable and H-bridge load",
+        "gu": "14. L293Dથી DC Motor Forward/Reverse"
+      },
+      "file": "diagrams/dcdriver.svg"
+    },
+    {
+      "id": "stepper",
+      "title": {
+        "en": "Unipolar stepper:four low-side winding drivers and clamp common",
+        "gu": "15. Stepper Motor Interfacing"
+      },
+      "file": "diagrams/stepper.svg"
+    },
+    {
+      "id": "timer",
+      "title": {
+        "en": "Classic12Ttimer:internal time base",
+        "gu": "16. Loopsથી Software PWM"
+      },
+      "file": "diagrams/timer.svg"
+    },
+    {
+      "id": "dac",
+      "title": {
+        "en": "8-bit DACtrainer:analog output is not a GPIOload",
+        "gu": "17. 8-bit DAC Interfacing"
+      },
+      "file": "diagrams/dac.svg"
+    }
+  ],
+  "syntax": [
+    {
+      "title": {
+        "en": "Formula / syntax and conditions",
+        "gu": "સૂત્ર / Syntax તથા શરતો"
+      },
+      "items": [
+        {
+          "name": {
+            "en": "UARTbaud",
+            "gu": "UART baud"
+          },
+          "f": "baud=2^SMOD fosc/[384(256−TH1)]",
+          "terms": {
+            "en": "Classic12T,UARTMode1/Timer1Mode2.",
+            "gu": "Classic12T,UARTMode1/Timer1Mode2."
+          }
+        },
+        {
+          "name": {
+            "en": "Hysteresis",
+            "gu": "Hysteresis"
+          },
+          "f": "ON≥35°C;OFF≤33°C",
+          "terms": {
+            "en": "Assumed cooling-only demo.",
+            "gu": "Assumed cooling-only demo."
+          }
+        },
+        {
+          "name": {
+            "en": "Tracker error",
+            "gu": "Tracker error"
+          },
+          "f": "e=(signed)left−right",
+          "terms": {
+            "en": "Deadband and travel limits required.",
+            "gu": "Deadband/travel limits જોઈએ."
+          }
+        },
+        {
+          "name": {
+            "en": "PWMduty",
+            "gu": "PWM duty"
+          },
+          "f": "duty%=100tHIGH/(tHIGH+tLOW)",
+          "terms": {
+            "en": "Measured time,not loop ratio alone.",
+            "gu": "Measured time,માત્ર loop ratio નહીં."
+          }
+        }
+      ]
+    }
+  ],
+  "viva": [
+    {
+      "title": {
+        "en": "Viva with answers",
+        "gu": "જવાબ સાથે Viva"
+      },
+      "items": [
+        {
+          "q": {
+            "en": "Hysteresis purpose?",
+            "gu": "Hysteresis શા માટે?"
+          },
+          "a": {
+            "en": "Separate ON/OFFthresholds reduce chatter around a single boundary.",
+            "gu": "અલગ ON/OFF thresholds single boundary પાસે chatter ઘટાડે."
+          }
+        },
+        {
+          "q": {
+            "en": "Can4051read raw series cells directly?",
+            "gu": "4051થી Raw series cells સીધાં?"
+          },
+          "a": {
+            "en": "Not outside its supply/input limits;real packs need proper frontend and protection.",
+            "gu": "Supply/input limits બહાર નહીં;real packને frontend/protection જોઈએ."
+          }
+        },
+        {
+          "q": {
+            "en": "MAX232 needs external±12V?",
+            "gu": "MAX232ને External±12V જોઈએ?"
+          },
+          "a": {
+            "en": "Astandard MAX232 uses5Vand a charge pump with specified capacitors.",
+            "gu": "Standard MAX232 5V/charge pump તથા specified capacitors વાપરે."
+          }
+        },
+        {
+          "q": {
+            "en": "SMSdelivery guaranteed?",
+            "gu": "SMS Delivery guaranteed?"
+          },
+          "a": {
+            "en": "No;registration,response,network and timeout must be handled.",
+            "gu": "નહીં;registration,response,network/timeout handle કરવાના છે."
+          }
+        },
+        {
+          "q": {
+            "en": "Tracker step count equals measured angle?",
+            "gu": "Tracker count એટલે Measured angle?"
+          },
+          "a": {
+            "en": "No;missed steps,gearing,backlash and homing affect actual position.",
+            "gu": "નહીં;missed steps,gearing,backlash/homing actual position બદલે."
+          }
+        }
+      ]
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Explain the need/interfacing of an external ADC with classic 8051.",
+        "gu": "Classic 8051 સાથે External ADC need/interface સમજાવો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Draw and explain temperature control with hysteresis and fault response.",
+        "gu": "Temperature control દોરી Hysteresis/fault response સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Draw the specified BMSblocks and explain channel scanning,display/serial and real-pack safety limits.",
+        "gu": "BMS blocks,Channel scan,Display/serial તથા Real-pack limits સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Derive UART baud setting and explain MAX232 versus logic-level UART.",
+        "gu": "UART baud derive કરી MAX232/Logic-level UART ભેદ સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain GSM security construction,working,state transitions and timeouts.",
+        "gu": "GSM security Construction,Working,States/timeouts સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Draw LDR/stepper solar tracker and explain deadband,limits and display.",
+        "gu": "LDR/Stepper tracker દોરી Deadband,Limits/display સમજાવો."
+      },
+      "marks": 7
+    }
+  ],
+  "exam_policy": "Questions and suggested marks only;no answers or official predictions.",
+  "physical_practicals_performed": false,
+  "sources": [
+    {
+      "title": "Owner GTU DI04000171,2025-26",
+      "reference": "8pagePDF;content pp2–3;practicals p6;activities p8."
+    },
+    {
+      "title": "Microchip/Atmel AT89C51official legacy datasheet:classic40pinbaseline,ports/reset/five vectors and six flags",
+      "url": "https://ww1.microchip.com/downloads/en/DeviceDoc/doc0265.pdf"
+    },
+    {
+      "title": "TIADC0804-N:input/reference/clock/conversion timing",
+      "url": "https://www.ti.com/lit/ds/symlink/adc0804-n.pdf"
+    },
+    {
+      "title": "TIL293/L293D:logic/load supply and current/clamps",
+      "url": "https://www.ti.com/lit/ds/symlink/l293.pdf"
+    },
+    {
+      "title": "TICD4051B:analog switch limits",
+      "url": "https://www.ti.com/product/CD4051B"
+    },
+    {
+      "title": "Keil interrupt function/vector rules",
+      "url": "https://www.keil.com/appnotes/files/apnt_103.pdf"
+    }
+  ],
+  "activity_plans": [
+    {
+      "number": 4,
+      "source_letter": "d",
+      "title": {
+        "en": "Activity d: Industrial case study and emerging-controller seminar",
+        "gu": "પ્રવૃત્તિ d: Industrial Case study તથા Emerging-controller Seminar"
+      },
+      "body": {
+        "en": "<h4>Aim and status</h4><p><p>A source-suggested learning/report plan,not an already completed workshop,visit or project.</p></p><h4>Explanation,application and checks</h4><ul><li>Select a referenced BMS,solar tracker or automation case;separate block-level learning from production protection,certification and performance claims.</li><li>Compare 8051 with a selected modern IoT/wireless controller in ADC,memory,connectivity,power and security;do not call a demonstration network-safe or battery-safe without evidence.</li><li>Prepare about five pages:aim/scope;verified component/software background;diagram/code/method;actual evidence and test interpretation;conclusion,limitations and references.</li><li>Keep name/date,device/clock,firmware revision,expected versus actual results,source URLs,evidence filenames and teacher feedback blank until collected.Never invent readings or signatures.</li></ul><h4>Datasheet references / Datasheet સંદર્ભ</h4><p><a href=\"https://ww1.microchip.com/downloads/en/DeviceDoc/doc0265.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Microchip/Atmel AT89C51 official legacy datasheet:classic40pinbaseline,ports/reset/five vectors and six flags</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/adc0804-n.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TI ADC0804-N:input/reference/clock/conversion timing</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/l293.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TIL293/L293D:logic/load supply and current/clamps</a></p><p><a href=\"https://www.ti.com/product/CD4051B\" target=\"_blank\" rel=\"noopener noreferrer\">TI CD4051 B:analog switch limits</a></p><p><a href=\"https://www.keil.com/appnotes/files/apnt_103.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Keil interrupt function/vector rules</a></p>",
+        "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-suggested learning/report plan છે,completed workshop,visit/project નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Referenced BMS,solar tracker/automation case લો;block-level learning તથા production protection,certification/performance claims અલગ રાખો.</li><li>8051/selected modern IoT-wireless controllerનાં ADC,memory,connectivity,power/security compare કરો.Evidence વિના network-safe/battery-safe નકહો.</li><li>આશરે પાંચ pages:aim/scope;verified background;diagram/code/method;actual evidence/test interpretation;conclusion,limitations/references.</li><li>Name/date,device/clock,firmware revision,expected/actual results,source URLs,evidence files/teacher feedback data મળે ત્યાં સુધી blank રાખો.Readings/signatures નબનાવો.</li></ul><h4>Datasheet references / Datasheet સંદર્ભ</h4><p><a href=\"https://ww1.microchip.com/downloads/en/DeviceDoc/doc0265.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Microchip/Atmel AT89C51 official legacy datasheet:classic40pinbaseline,ports/reset/five vectors and six flags</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/adc0804-n.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TI ADC0804-N:input/reference/clock/conversion timing</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/l293.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TIL293/L293D:logic/load supply and current/clamps</a></p><p><a href=\"https://www.ti.com/product/CD4051B\" target=\"_blank\" rel=\"noopener noreferrer\">TI CD4051 B:analog switch limits</a></p><p><a href=\"https://www.keil.com/appnotes/files/apnt_103.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Keil interrupt function/vector rules</a></p>"
+      },
+      "completed": false,
+      "suggested_report_pages": 5
+    }
+  ],
+  "firmware_examples": [
+    {
+      "title": {
+        "en": "14. DCmotor forward/reverse via L293D",
+        "gu": "14. L293Dથી DC Motor Forward/Reverse"
+      },
+      "code": "#include <reg51.h>\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD & 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit EN=P1^2;\nsbit AIN=P1^0;\nsbit BIN=P1^1;\nvoid main(void) { EN=0; AIN=0; BIN=0;\n for(;;) { AIN=1; BIN=0; EN=1; wait_ms(1000);\n EN=0; wait_ms(500); AIN=0; BIN=1; EN=1; wait_ms(1000);\n EN=0; wait_ms(500); } }\n",
+      "language": "Keil C51"
+    },
+    {
+      "title": {
+        "en": "15. Stepper motor interfacing",
+        "gu": "15. Stepper Motor Interfacing"
+      },
+      "code": "#include <reg51.h>\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD & 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nconst u8 code steps[4]={0x03,0x06,0x0C,0x09};\nvoid main(void) { u8 i; u16 n; P2=0;\n for(n=0;n<200;n++) { i=(u8)(n&3); P2=steps[i]; wait_ms(20); }\n P2=0; for(;;) { } }\n",
+      "language": "Keil C51"
+    },
+    {
+      "title": {
+        "en": "16. Software PWM using loops",
+        "gu": "16. Loopsથી Software PWM"
+      },
+      "code": "#include <reg51.h>\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nsbit PWM=P1^0;\nvoid crude_units(u16 n) { volatile u16 k; while(n--) for(k=0;k<100;k++) { } }\nvoid main(void) { PWM=0; for(;;) { PWM=1; crude_units(25); PWM=0; crude_units(75); } }\n",
+      "language": "Keil C51"
+    },
+    {
+      "title": {
+        "en": "17. 8-bit DAC interfacing",
+        "gu": "17. 8-bit DAC Interfacing"
+      },
+      "code": "#include <reg51.h>\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD & 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nvoid main(void) { u16 code_value; P1=0;\n for(;;) for(code_value=0;code_value<256u;code_value++) {\n P1=(u8)code_value; wait_ms(5); } }\n",
+      "language": "Keil C51"
+    }
+  ]
+}

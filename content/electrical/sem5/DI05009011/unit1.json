@@ -1,0 +1,998 @@
+{
+  "subject": "DI05009011",
+  "unit": 1,
+  "title": {
+    "en": "Protective Systems and Relay Technology",
+    "gu": "પ્રોટેક્ટિવ સિસ્ટમ તથા રિલે ટેકનોલોજી"
+  },
+  "format": "notes",
+  "languages": [
+    "en",
+    "gu"
+  ],
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "tab_labels": {
+    "programs": {
+      "en": "Practical",
+      "gu": "પ્રયોગ તથા ચકાસણી"
+    }
+  },
+  "hours": 8,
+  "weightage": 18,
+  "notes": [
+    {
+      "ref": "1.1",
+      "title": {
+        "en": "1.1 Faults, abnormalities and the purpose of protection",
+        "gu": "1.1 Faults, Abnormalities તથા Protection નો હેતુ"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Faults, abnormalities and the purpose of protection",
+            "gu": "Faults, Abnormalities તથા Protection નો હેતુ"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A power-system fault is an unintended electrical connection or interruption that creates an abnormal circuit condition; protection detects defined hazardous conditions and isolates the appropriate part to limit damage and disturbance.</p><h4>Classification / scope</h4><ul><li>Fault topology: symmetrical/un symmetrical; duration: transient/permanent; condition: short circuit/open conductor/nonfault abnormality.</li></ul><h4>Detailed explanation and interpretation</h4><ul><li>Shunt faults include LG, LL, LLG and three-phase faults; series faults include one/two open conductors.Three-phase balanced fault is symmetrical; most other faults are un symmetrical.</li><li>Insulation ageing, lightning, contamination, mechanical damage, animals and human error can cause faults.Overload, underfrequency, overfluxing and unbalance may be abnormalities without an initial short circuit.</li><li>Consequences include thermal I²t, electro dynamic forces, arc/fire, voltage depression and instability.Protection limits consequences; it does not prevent every initiating fault.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Power-system fault અનિચ્છિત connection અથવા interruption થી abnormal condition ઊભી કરે છે; protection તેને શોધી યોગ્ય ભાગ isolate કરીને damage/disturbance મર્યાદિત કરે છે.</p><h4>વર્ગીકરણ / વ્યાપ</h4><ul><li>Topology: symmetrical/un symmetrical; duration: transient/permanent; condition: short/open/nonfault abnormality.</li></ul><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Shunt faults LG, LL, LLG/three-phase; series માં one/two open conductor.Three-phase balanced symmetrical છે; બીજાં મોટા ભાગે un symmetrical.</li><li>Ageing, lightning, pollution, damage, animals/human error causes છે.Overload, underfrequency, overfluxing/unbalance શરૂઆતમાં short વિના પણ થાય.</li><li>I²t heat, forces, arc/fire, voltage dip/instability થાય.Protection consequences ઘટાડે, દરેક fault અટકાવતું નથી.</li></ul>"
+          },
+          "syllabus_item": "1.1",
+          "classification_first": true,
+          "derivation": false,
+          "diagram": "faults"
+        }
+      ]
+    },
+    {
+      "ref": "1.2",
+      "title": {
+        "en": "1.2 Protection zones, main/backup and essential requirements",
+        "gu": "1.2 Protection Zones, Main/Backup તથા Requirements"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Protection zones, main/backup and essential requirements",
+            "gu": "Protection Zones, Main/Backup તથા Requirements"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A protection zone is the defined primary-system region supervised by a scheme, usually bounded by instrument-transformer locations and associated interrupting devices.</p><h4>Detailed explanation and interpretation</h4><ul><li>Adjacent zones overlap around breakers to avoid unprotected blind spots; the CT position determines which fault lies inside which zone.</li><li>Main protection clears its intended fault rapidly/selectively; local breaker failure and independent remote backup address failure of relay, trip circuit or breaker, usually with different scope/delay.</li><li>Dependability means operating when required; security means not operating un desirably.Reliability needs both, plus selectivity, sensitivity, speed, stability, simplicity and maintainability.</li><li>Stability includes restraint during external faults or permitted transients.Afast but non selective trip can worsen an otherwise local fault.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Protection zone scheme દ્વારા supervised primary region છે જે સામાન્ય CT locations/associated breakers થી bounded હોય છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Breaker આસપાસ zones overlap કરીને blind spots ઘટાડે; CT position થી internal/external fault નક્કી થાય.</li><li>Main selective ઝડપી clear કરે; local breaker failure/remote backup relay, trip/CB failure ને જુદા scope-delay થી cover કરે.</li><li>Dependability જરૂરી વખતે operate/security અનિચ્છિત operation અટકાવે; selectivity, sensitivity, speed, stability/simplicity પણ જોઈએ.</li><li>Stability માં external fault/permitted transients વખતે restraint; fast non selective trip local fault વધારે ફેલાવી શકે.</li></ul>"
+          },
+          "syllabus_item": "1.2",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "zones"
+        }
+      ]
+    },
+    {
+      "ref": "1.3",
+      "title": {
+        "en": "1.3 Protective CT: ratios, burden and selection",
+        "gu": "1.3 Protective CT: Ratio, Burden તથા Selection"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Protective CT: ratios, burden and selection",
+            "gu": "Protective CT: Ratio, Burden તથા Selection"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A protective current transformer reproduces primary current at a reduced secondary scale with specified accuracy and saturation performance so the protection receives usable fault-current information.</p><h4>Detailed explanation and interpretation</h4><ul><li>Common rated secondaries are 1 Aor 5A; primary ratio, frequency, continuous current, short-time/peak withstand, insulation, burden and protection class must all match service.</li><li>For class 5P 20, the composite error limit is 5%at accuracy-limit factor 20 and rated burden under the stated standard conditions; this is not guaranteed transient accuracy for every DC offset.</li><li>PX-type selection uses excitation/knee-point, winding resistance and other specified data; metering class alone does not establish protective saturation performance.</li><li>CT lead resistance and relay burden consume voltage capability.Saturation during through faults can create false differential current; use matching, correct polarity and scheme-specific checks.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>For ideal CT, KCT=Ip, rated/Is, rated and Is=Ip/KCT.Burden VA≈Is, rated²Zburden.</li><li>For 400/1A, KCT=400; 1200 Aprimary gives 3 Asecondary.A 1Ωexternal burden at 1 Arating is 1 VA; at 5 Ait would be 25 VA.</li></ol><h4>Reliability and safety checks</h4><ul><li>Never open a CT s econdary while primary current flows.Use approved shorting/test blocks and authorised isolation, not improvised loose wires.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Protective CT primary current નું reduced secondary replica specified accuracy/saturation સાથે આપે જેથી fault-current માહિતી ઉપયોગી રહે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Common secondary 1A/5A; primary ratio, f, current withstand, insulation, burden/class બધું service મુજબ.</li><li>Class 5P 20 માં rated burden/conditions પર ALF 20 એ composite error limit 5%; દરેક DC offset માં transient guarantee નહીં.</li><li>PX માં excitation/knee-point, Rct/બીજા data; metering class થી protective saturation જાણી નશકાય.</li><li>Lead/relay burden voltage capability વાપરે; through fault saturation false differential આપે; matching/polarity/checks જરૂરી.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>Ideal KCT=Ip, rated/Is, rated; Is=Ip/KCT; burden VA≈Is, rated²Zburden.</li><li>400/1A માં KCT 400; 1200A થી 3A; 1Ωburden 1A એ 1 VA/5A એ 25 VA.</li></ol><h4>વિશ્વસનીયતા તથા સલામતી</h4><ul><li>Primary current માં CT s econdary open નહીં; approved shorting/test blocks/authorised isolation જ.</li></ul>"
+          },
+          "syllabus_item": "1.3",
+          "classification_first": false,
+          "derivation": true,
+          "diagram": "ct"
+        },
+        {
+          "h": {
+            "en": "PT/VT and CVT: voltage information and limitations",
+            "gu": "PT/VT તથા CVT: Voltage માહિતી તથા Limits"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A protective voltage transformer supplies a reduced, isolated representation of primary voltage for metering, direction, distance and other protection functions.</p><h4>Detailed explanation and interpretation</h4><ul><li>Inductive VT uses electromagnetic transformation; CVT uses a capacitor divider plus an electromagnetic/intermediate-voltage stage and compensation.CVT is not simply a low-voltage capacitor connected to a relay.</li><li>Common secondary conventions include 110 Vor 110/√3 Vdepending on line/phase connection; always specify the actual ratio, burden, accuracy, frequency, voltage factor and insulation.</li><li>VT fuse/MCB failure can make a distance relay appear to see low impedance; supervision must distinguish lost voltage from a fault.CVT transients can affect fast distance reach.</li><li>An open VT s econdary differs from an open CT s econdary hazard; never short a VT s econdary and respect its protection/earthing scheme.</li></ul><h4>Worked example / setting interpretation</h4><ol><li>For 11k V/110 Vline-line ratio, KVT=100.A 6.6k V primary line-line voltage ideally appears as 66 Vsecondary.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Protective VT primary voltage નું reduced isolated representation direction, distance/protection ને આપે છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>VT electromagnetic છે; CVT capacitor divider/intermediate transformer/compensation વાપરે; relay ને સીધો capacitor નહીં.</li><li>Common 110V/110/√3V line/phase પ્રમાણે; actual ratio, burden, accuracy, f, voltage factor/insulation લખો.</li><li>VT fuse failure low apparent Z આપી શકે; supervision જરૂરી.CVT transients fast distance reach બદલે.</li><li>VT open/CT open hazards જુદા; VT s econdary short નહીં/approved earthing-protection અનુસરો.</li></ul><h4>ઉકેલેલું ઉદાહરણ / Settingનું અર્થઘટન</h4><ol><li>11k V/110 Vline-line માં KVT 100; 6.6k V primary થી 66 Vsecondary.</li></ol>"
+          },
+          "syllabus_item": "1.3",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "vt"
+        }
+      ]
+    },
+    {
+      "ref": "1.4",
+      "title": {
+        "en": "1.4 Basic DC tripping circuit and supervision",
+        "gu": "1.4 Basic DC Tripping Circuit તથા Supervision"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Basic DC tripping circuit and supervision",
+            "gu": "Basic DC Tripping Circuit તથા Supervision"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A tripping circuit converts a protection decision into en erg is ation of a breaker trip coil using a dependable auxiliary supply and supervised wiring/conta cts.</p><h4>Detailed explanation and interpretation</h4><ul><li>The power system CT/VT s up plies information, not necessarily the energy to move the breaker.Station DC battery/charger supplies trip energy in the chosen scheme.</li><li>Atypical path is DC+→fuse/MCB→relay trip contact→52a→trip coil→DC−.52a changes with closed breaker state; actual anti-pumping, lockout and supervision diagrams are manufacturer-specific.</li><li>Trip-circuit supervision checks DC/wiring/coil continuity using designed small currents and auxiliary conta cts; it must not accidentally pick up the trip coil.</li><li>Fault clearing chain: measure→decide→trip circuit→mechanism→arc interruption.Verify feedback/current extinction rather than assuming a relay LED means the fault is cleared.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Tripping circuit dependable auxiliary supply/conta cts થી protection decision ને CB trip-coil en erg is ation માં ફેરવે છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>CT/VT માહિતી આપે, breaker move કરવાની energy જરૂરી નથી; આ scheme માં station DC energy આપે.</li><li>Typical path DC+→fuse/MCB→relay trip contact→52a→trip coil→DC−; 52a closed state મુજબ; actual lockout/supervision OEM મુજબ.</li><li>Supervision designed small current/conta cts થી continuity જુએ; અણધાર્યું coil pickup નથવું જોઈએ.</li><li>Measure→decision→coil→mechanism→arc interruption; LED થી clearance assume નહીં, feedback/current verify કરો.</li></ul>"
+          },
+          "syllabus_item": "1.4",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "trip"
+        }
+      ]
+    },
+    {
+      "ref": "1.5",
+      "title": {
+        "en": "1.5 Relay terminology and classification",
+        "gu": "1.5 Relay Terminology તથા Classification"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Relay terminology and classification",
+            "gu": "Relay Terminology તથા Classification"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A protective relay is a measuring/decision device that identifies a specified condition and initiates an assigned alarm, trip or control output.</p><h4>Classification / scope</h4><ul><li>Technology: electromechanical/static/numerical; quantity: current, voltage, power, impedance, frequency; function: unit/non-unit; timing: instantaneous/definite/inverse.</li></ul><h4>Detailed explanation and interpretation</h4><ul><li>Pickup is the operating threshold; dropout/reset returns the operated element; reset ratio is commonly dropout/pickup for an overcurrent element, with the manufacturer’s definition stated.</li><li>Operating time is pickup-to-output under stated test conditions; relay reset time, overshoot and breaker time are separate contributors.</li><li>PSM=measured operating current/pickup on the same CT side.TMS scales the chosen time curve; it is not a universal delay in seconds.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Protective relay specified condition identify કરી assigned alarm, trip/control output આપતું measuring/decision device છે.</p><h4>વર્ગીકરણ / વ્યાપ</h4><ul><li>Technology: electromechanical/static/numerical; quantity: I, V, P, Z, f; function: unit/non-unit; timing: instantaneous/definite/inverse.</li></ul><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Pickup operating threshold/dropout reset છે; OC માં reset ratio સામાન્ય dropout/pickup, definition verify કરો.</li><li>Operating time stated pickup-to-output; reset, overshoot/CB time જુદાં છે.</li><li>Same CT side પર PSM=I/Ipickup; TMS chosen curve scale કરે, universal seconds નહીં.</li></ul>"
+          },
+          "syllabus_item": "1.5",
+          "classification_first": true,
+          "derivation": false,
+          "diagram": "relayclass"
+        }
+      ]
+    },
+    {
+      "ref": "1.6",
+      "title": {
+        "en": "1.6 Static relay: elements, merits and limits",
+        "gu": "1.6 Static Relay: Elements, Merits તથા Limits"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Static relay: elements, merits and limits",
+            "gu": "Static Relay: Elements, Merits તથા Limits"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A static relay performs its principal measurement/comparison using electronic circuits without a moving measuring element, although its output may still use moving conta cts.</p><h4>Construction / parts and connections</h4><ol><li>Conditioning→level/phase comparator→time circuit→output; auxiliary supply and isolation support all stages.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Input isolation/scaling and rectification/filtering feed a comparator/level detector; time-delay circuit and output amplifier/relay create the selected trip action.</li><li>Level detector compares a signal to a reference; comparator compares amplitudes/phases; time-delay circuit integrates/times the condition; auxiliary supply powers the electronics.</li><li>Merits: low moving inertia, fast response, low instrument burden and configurable functions.Limits: supply dependence, surge/EMI sensitivity, component drift and diagnostics/repair complexity.</li><li>Astatic relay is not automatically a numerical relay; analogue signal processing can implement the complete measuring function.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Static relay નું મુખ્ય measurement/comparison electronic છે, measuring element moving નથી; output માં conta cts moving હોઈ શકે છે.</p><h4>Construction / ભાગો તથા જોડાણ</h4><ol><li>Conditioning→level/phase comparator→time→output; auxiliary/isolation support.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Input scaling/filter→comparator/level detector→time delay→output amplifier/contact trip આપે.</li><li>Level detector signal-reference, comparator amplitude/phase compare; delay condition time કરે; auxiliary supply power આપે.</li><li>Merits: low inertia, fast, low burden/configuration; limits: supply, EMI, drift/repair complexity.</li><li>Static એટલે numerical જરૂરી નહીં; analogue processing થી measuring function બની શકે.</li></ul>"
+          },
+          "syllabus_item": "1.6",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "static"
+        },
+        {
+          "h": {
+            "en": "Numerical relay architecture and facilities",
+            "gu": "Numerical Relay Architecture તથા Facilities"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A numerical relay samples conditioned electrical signals and executes protection algorithms on digital processing hardware to make time-qualified decisions.</p><h4>Detailed explanation and interpretation</h4><ul><li>CT/VT input→isolation/scaling→anti-alias filter→sample/hold and ADC→processor/memory→binary output/trip; binary inputs, time source and self-supervision complete the architecture.</li><li>Facilities may include multiple elements, setting groups, event/SOE logs, disturbance records, metering, self-test, communications and logic; availability varies by model/licence.</li><li>Compared with static relays, numerical units provide flexible algorithms/records but add firmware, configuration, sampling, cyber security and time-synchronisation risks.</li><li>Backup settings, control access and test the entire trip chain.Aself-test OK flag does not prove CT polarity, correct settings or breaker operation.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Numerical relay conditioned signals sample કરીને digital processor માં algorithms ચલાવી time-qualified decisions લે છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Input→scaling→anti-alias→sample/ADC→processor/memory→trip; binary inputs, time/self-supervision પણ છે.</li><li>Multiple elements, groups, SOE/disturbance, metering, self-test/comms model/licence પ્રમાણે મળે.</li><li>Static સામે flexibility/records મળે પણ firmware, configuration, sampling/cyber/time risks વધે.</li><li>Settings backup/access/full chain test; self-test OK થી CT polarity/settings/CB proof નહીં.</li></ul>"
+          },
+          "syllabus_item": "1.6",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "numerical"
+        }
+      ]
+    },
+    {
+      "ref": "1.7",
+      "title": {
+        "en": "1.7 Thermal overload relay and thermal memory",
+        "gu": "1.7 Thermal Overload Relay તથા Thermal Memory"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Thermal overload relay and thermal memory",
+            "gu": "Thermal Overload Relay તથા Thermal Memory"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A thermal relay responds to a model or measurement of heating rather than to instantaneous current alone, allowing permissible short-duration overload while preventing sustained thermal damage.</p><h4>Detailed explanation and interpretation</h4><ul><li>Bi metallic relays use thermal deflection; electronic/numerical relays model heating and may combine RTD s, unbalance and ambient compensation.</li><li>Thermal overload is not a substitute for fast short-circuit protection.Cooling history/hot restart and actual motor/generator thermal limits affect allowed time.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>A simple first-order model is dθ/dt=(θ∞−θ)/τ, where θis normal is ed temperature rise and θ∞≈(I/In)²under fixed cooling.</li><li>For constant current, θ(t)=θ∞+(θ0−θ∞)e^(−t/τ).Trip occurs at a declared model threshold, not a universal machine temperature.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Thermal relay instantaneous current કરતાં heating measurement/model પર કામ કરે; permitted short overload આપે પણ sustained damage અટકાવે છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Bimetal deflection વાપરે; electronic/numerical heating model/RTD, unbalance/ambient લે.</li><li>Thermal relay fast short protection નો વિકલ્પ નહીં; cooling/hot restart/actual thermal limits જોઈએ.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>Simple dθ/dt=(θ∞−θ)/τ; θ normal is ed rise/θ∞≈(I/In)²fixed cooling માં.</li><li>Constant I માં θ(t)=θ∞+(θ0−θ∞)e^(−t/τ); declared threshold પર trip, universal T નહીં.</li></ol>"
+          },
+          "syllabus_item": "1.7",
+          "classification_first": false,
+          "derivation": true,
+          "diagram": "thermal"
+        },
+        {
+          "h": {
+            "en": "Instantaneous, definite-time and inverse overcurrent",
+            "gu": "Instantaneous, Definite-time તથા Inverse Overcurrent"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>An overcurrent relay operates when a measured current exceeds its set threshold with the timing characteristic assigned to that element.</p><h4>Classification / scope</h4><ul><li>Timing: instantaneous; definite-time(DMT); inverse/ID MT with specified standard-inverse, very-inverse or extremely-inverse curve.</li></ul><h4>Detailed explanation and interpretation</h4><ul><li>Instantaneous has no intentional coordination delay but still finite measuring/output time; definite-time waits a set delay essentially independent of current above pickup.</li><li>Inverse-time operates faster as current increases; IDMT is inverse over a range and approaches a minimum/limiting behaviour according to the specific curve/relay.</li><li>“Time delayed” is a broad category including definite and inverse behaviour; it is not a separate universally identical curve.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>For the declared IEC standard-inverse model, t=0.14 TMS/(PSM^0.02−1), PSM&gt;1; below/equal pickup this model has no trip time.</li><li>At PSM 10, TMS 0.1, t≈0.2971s.At PSM 5, same TMS, t≈0.4280s.TMS scales time only within the chosen curve.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Overcurrent relay measured I threshold થી વધે ત્યારે assigned timing characteristic પ્રમાણે operate કરે છે.</p><h4>વર્ગીકરણ / વ્યાપ</h4><ul><li>Timing: instantaneous, DMT, inverse/IDMT સાથે stated SI/VI/EI curve.</li></ul><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Instantaneous માં intentional delay નહીં પણ finite time; definite-time pickup ઉપર set delay આપે.</li><li>Inverse માં I વધે ત્યારે time ઘટે; IDMT chosen curve/relay પ્રમાણે lower-time behaviour ધરાવે.</li><li>Time-delayed broad category છે, definite/inverse બંને સમાવી શકે; એક universal curve નહીં.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>Declared IEC standard-inverse t=0.14 TMS/(PSM^0.02−1), PSM&gt;1; pickup નીનીચે/બરાબર trip time નથી.</li><li>PSM 10/TMS 0.1 માં≈0.2971s; PSM 5/same TMS માં≈0.4280s; TMS chosen curve માં જ scale કરે.</li></ol>"
+          },
+          "syllabus_item": "1.7",
+          "classification_first": true,
+          "derivation": true,
+          "diagram": "occurves"
+        },
+        {
+          "h": {
+            "en": "Differential and percentage-biased protection",
+            "gu": "Differential તથા Percentage-biased Protection"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>Differential protection compares correctly referenced currents entering and leaving a defined zone and operates for sufficient internal imbalance while restraining permitted through current/errors.</p><h4>Detailed explanation and interpretation</h4><ul><li>For two terminals with currents defined into the zone, Idiff=|I1+I2|and the declared restraint Irest=(|I1|+|I2|)/2.An external fault ideally has opposite phasors and zero difference.</li><li>Percentage bias raises the operating threshold with through current, improving stability for CT mismatch/saturation.Adual-slope characteristic may increase restraint at high current.</li><li>Actual restraint definitions, slopes, breakpoints and high-set unrestrained stages vary; do not copy one vendor setting into another relay.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>For the declared one-slope classroom model, operate if Idiff&gt;max(Imin, s Irest), with slope sfractional.</li><li>Example: I1=5A, I2=−4.8A gives Idiff 0.2A, Irest 4.9A.With Im in 0.3A, s 0.2, the threshold 0.98 Are strains.</li><li>Internal I1=5A, I2=3A gives Idiff 8A, Irest 4A, threshold 0.8 Aand operates in this model.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Differential protection zone માં entering/leaving currents ને proper reference માં compare કરી internal imbalance પર operate/through-current errors સામે restrain કરે છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Into-zone references માં Idiff=|I1+I2|/Irest=(|I1|+|I2|)/2; external માં phasors opposite/Idiffzero.</li><li>Percentage bias through I સાથે threshold વધારે; CT mismatch/saturation stability સુધારે; dual-slope high I માં વધુ restraint.</li><li>Restraint/slopes/breakpoints/high-set vendor-specific; settings blindly copy નહીં.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>Declared model માં Idiff&gt;max(Imin, s Irest), s fraction હોય ત્યારે operate.</li><li>I1=5A/I2=−4.8A થી Idiff 0.2A/Irest 4.9A; Imin 0.3A/s 0.2 થી threshold 0.98A/restraint.</li><li>Internal I1=5A/I2=3A થી Idiff 8A/Irest 4A/threshold 0.8A/operate.</li></ol>"
+          },
+          "syllabus_item": "1.7",
+          "classification_first": false,
+          "derivation": true,
+          "diagram": "differential"
+        },
+        {
+          "h": {
+            "en": "Directional current and power elements",
+            "gu": "Directional Current તથા Power Elements"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A directional element identifies the permitted fault/power direction from current and a suitable polarising reference rather than current magnitude alone.</p><h4>Detailed explanation and interpretation</h4><ul><li>Atypical comparator uses a torque-like quantity proportional to VI cos(θ−MTA), whereθ=arg V−arg Iand MTA is the declared maximum-torque angle.</li><li>Fault-direction and real-power direction are not interchangeable; fault loop, polarisation, negative/zero sequence and earthing affect directional EF schemes.</li><li>Directional supervision is combined with pickup/timing; weak/lost polarising voltage or inverter-controlled sequences can invalidate simple angle assumptions.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Directional element current magnitude ઉપરાંત polarising reference થી fault/power ની allowed direction ઓળખે છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Typical comparator VI cos(θ−MTA), θ=arg V−arg I/MTA declared angle.</li><li>Fault direction/real P direction સમાન નહીં; loop, polarisation, sequences/earthing થી EF direction બદલાય.</li><li>Direction pickup/time સાથે; weak voltage/inverter sequence થી simple angle assumptions ખોટાં થઈ શકે.</li></ul>"
+          },
+          "syllabus_item": "1.7",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "direction"
+        },
+        {
+          "h": {
+            "en": "Distance elements: impedance, react ance and ohm",
+            "gu": "Distance Elements: Impedance, React ance તથા Ohm"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A distance element measures an appropriate fault-loop impedance from local voltage/current and compares it to a declared reach characteristic on the R–X plane.</p><h4>Classification / scope</h4><ul><li>Impedance: origin circle; react ance: constant Xline; ohm: general projection line; mho: directional origin-passing circle.</li></ul><h4>Detailed explanation and interpretation</h4><ul><li>Impedance element |Z|&lt;Zset has a circle centred at origin and is non directional by itself.React ance element X&lt;Xset has a horizontal boundary parallel to the Raxis and needs appropriate supervision.</li><li>Classical ohm element measures a projection Rcosψ+Xsinψ&lt;K; a straight line forms its boundary.React ance is the ψ90°special case, not a second name for the impedance circle.</li><li>Distance is inferred from line impedance, not measured as geographical kilometres without line/CT/VT data.Aground loop needs the correct residual compensation.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Distance element local V/I થી proper fault-loop impedance મેળવી R–Xplane માં declared reach સાથે compare કરે છે.</p><h4>વર્ગીકરણ / વ્યાપ</h4><ul><li>Impedance: origin circle; react ance: constant X; ohm: projection line; mho: origin-passing circle.</li></ul><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Impedance|Z|&lt;Zset origin-centred circle/non-directional; react ance X&lt;Xset horizontal Raxisparallel/સુપરવિઝન જરૂરી.</li><li>Classical ohm projection Rcosψ+Xsinψ&lt;K/straight line; ψ90°react ance special case, impedance circle નુંબીજુંનામનહીં.</li><li>Distance line impedance પરથી છે; line/CT/VT data વિના km નહીં; ground loop residual compensation જોઈએ.</li></ul>"
+          },
+          "syllabus_item": "1.7",
+          "classification_first": true,
+          "derivation": false,
+          "diagram": "distance"
+        },
+        {
+          "h": {
+            "en": "Mho relay characteristic and reach",
+            "gu": "Mho Relay Characteristic તથા Reach"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A simple self-polarised mho element has a circular operating characteristic passing through the R–X origin and its forward reach point, with direction inherent in its ideal comparator.</p><h4>Detailed explanation and interpretation</h4><ul><li>For reach vector Zr, the ideal circle centre is Zr/2 and radius|Zr|/2; operation lies inside with the selected supervision.Boundary behaviour/tolerances must be declared in tests.</li><li>It is not an origin-centred circle—that is the plain impedance element.Memory/cross-polarisation and modern quadrilateral schemes change practical behaviour.</li><li>Load encroachment, power swings, arc resistance, CVT transients and weak infeed must be checked before applying reach settings.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>For Zr=6+j 8Ω, centre=3+j 4Ωand radius 5Ω.Z=3+j 4Ωis inside; Z=−3−j 4Ωis outside.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Simple self-polarised mho માં R–Xorigin તથા forward reach માંથી પસાર થતું circle હોય; ideal comparator માં direction inherent છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Zr માટે centre Zr/2/radius|Zr|/2; supervision સાથે inside operate; boundary/tolerance declare કરો.</li><li>Origin-centredcirclemho નહીં, plain impedance છે; memory/cross-polarisation/modern schemes થી actual behaviour બદલે.</li><li>Load encroachment, power swing, arc R, CVT/weak in feed setting પહેલાંજોઓ.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>Zr 6+j 8Ωમાં centre 3+j 4Ω/radius 5Ω; Z 3+j 4 inside/Z−3−j 4 outside.</li></ol>"
+          },
+          "syllabus_item": "1.7",
+          "classification_first": false,
+          "derivation": true,
+          "diagram": "mho"
+        }
+      ]
+    },
+    {
+      "ref": "1.8",
+      "title": {
+        "en": "1.8 Auxiliary, lockout and interposing relays",
+        "gu": "1.8 Auxiliary, Lockout તથા Interposing Relays"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Auxiliary, lockout and interposing relays",
+            "gu": "Auxiliary, Lockout તથા Interposing Relays"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>An auxiliary relay extends, isolates, latches or repeats a protection/control decision without necessarily measuring the original fault quantity.</p><h4>Detailed explanation and interpretation</h4><ul><li>Interposing relays match contact duties/isolation; lockout 86 latches a serious trip until authorised reset; trip multiplication can operate several breaker coils.</li><li>Check DC coil voltage, contact making/breaking rating, inductive load suppression, dropout time and separate circuits.Conta cts may weld even if the measuring relay is healthy.</li><li>An alarm relay informs an operator; its label does not establish a trip command.Indication, trip, circuit supervision and breaker failure logic must be kept distinct.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Auxiliary relay મૂળ fault quantity માપ્યા વિના decision ને repeat, isolate, latch/extend કરે છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Interposing contact duty/isolation match; lockout 86 serious trip latch/authorised reset; trip multiplication multiple coils.</li><li>DC coil V, contact make-break, inductive suppression/dropout check; measuring healthy છતાં contact weld થઈશકે.</li><li>Alarm operator નેજણાવે; label trip command નથી; indication/trip/supervision/BF અલગ.</li></ul>"
+          },
+          "syllabus_item": "1.8",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "aux"
+        }
+      ]
+    },
+    {
+      "ref": "Resources",
+      "title": {
+        "en": "Resources Source-listed laboratory ratings and reading resources",
+        "gu": "Resources Source-listed Laboratory Ratings તથા Reading Resources"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Source-listed laboratory ratings and reading resources",
+            "gu": "Source-listed Laboratory Ratings તથા Reading Resources"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>Laboratory ratings describe equipment capability/range, not safe student DIY voltages, currents or an instruction to connect that equipment to a live system.</p><h4>Detailed explanation and interpretation</h4><ul><li>AC/DC ammeters 0–1A, 0–5A, 0–10A; voltmeters 0–75V, 0–300V, 0–600V; DMM and clamp meter source ratings 0–600 VAC/DC, 10A; wattmeter 0–1k W; stopwatch 0–60s.</li><li>Source CT notation“50-25-10-5/1-5A”and PT“440-230/110V”are retained verbatim; actual tap connections and permitted excitation follow the nameplate/manual, not a guessed interpretation.</li><li>Variac: single-phase 0–300V, 0–15A; AC source 230 Vsingle/415 Vthree-phase; regulated DC 0–230V, 15A.These are hazardous source capabilities.Avariac is an autotransformer, not isolation.</li><li>ACB demo 400–1600A, 415V; secondary-injection kit 0–50A/0–300V.These are equipment specifications and require qualified limited-energy procedures and real trip isolation.</li><li>Electromechanical OC plug 50–200%, TMS 0.1–1; parallel trainer directional/non directional 0.5–2A, 50 Hz, CT s econdary 1A; numerical OC/EF 1 Aand 5A, 50 Hz IDMT; distance 1A/5A, 110 VAC, 50 Hz.</li><li>Buchholz contact rating 5 Aat 230 VAC/110 VDC; motor trainer 415V, 50 Hz, three-phase, motor 0.5–3 HP; loading rheostat 0–10A/0–500W.Buchholz contact duty is not a student test-supply recommendation.</li><li>Source recommends MATPOWER, Open DSS, Open Modelica, Electrical Engineering Portal, NPTEL 108105167, Sandia protection resources, @edupmelectures and VL ablinks.Listing a resource is not a claim of running it or verifying current availability.</li></ul><h4>Reading references</h4><ul><li><a href=\"https://matpower.org/\">MATPOWER</a></li><li><a href=\"https://sourceforge.net/projects/electricdss/\">OpenDSS</a></li><li><a href=\"https://openmodelica.org/\">OpenModelica</a></li><li><a href=\"https://electrical-engineering-portal.com/\">Electrical Engineering Portal</a></li><li><a href=\"https://nptel.ac.in/courses/108105167\">NPTELsource-listed course</a></li><li><a href=\"https://energy.sandia.gov/programs/electric-grid/advanced-grid-modeling/power-system-protection/\">Sandia power-system protection</a></li><li><a href=\"https://www.youtube.com/@edupme/playlists\">Source-listed lectures</a></li><li><a href=\"https://sa-nitk.vlabs.ac.in/\">Substation automation VLab</a></li><li><a href=\"https://vp-dei.vlabs.ac.in/Dreamweaver/\">Power VLab</a></li><li><a href=\"https://selinc.com/api/download/136299/\">SELunconventional-source line-protection paper</a></li><li><a href=\"https://www.eeeguide.com/distance-relays-types/\">Classical distance-relay geometry reference</a></li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Laboratory ratings માત્ર equipment ની range/capability દર્શાવે છે; તે student DIY માટે safe voltage/current કે live-system connection ની permission નથી.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>AC/DC ammeters 0–1/5/10A; voltmeters 0–75/300/600V; source DMM/clamp 0–600V/10A; wattmeter 0–1k W; stopwatch 0–60s.</li><li>Source CT“50-25-10-5/1-5A” તથા PT“440-230/110V” મૂળ notation જ છે; actual taps/connection OEM nameplate/manual થી ઓળખો, અંદાજ નહીં.</li><li>Variac 1-phase 0–300V/0–15A; AC 230/415V; DC 0–230V/15A hazardous capabilities છે.Variac autotransformer છે, isolation નથી.</li><li>ACB demo 400–1600A/415V; injection 0–50A/0–300V equipment specs છે; qualified procedure/real-trip isolation જોઈએ.</li><li>Electromechanical plug 50–200%/TMS 0.1–1; parallel directional/non directional 0.5–2A/50 Hz/CT 1A; numerical OC-EF 1/5A/50 Hz IDMT; distance 1/5A/110V/50 Hz.</li><li>Buchholz contact 5A at 230 VAC/110 VDC; motor trainer 415V/50 Hz/3-phase, motor 0.5–3 HP; rheostat 0–10A/0–500W.Contact rating student test-supply recommendation નથી.</li><li>Source MATPOWER/Open DSS/Open Modelica, EEP, NPTEL 108105167, Sandia, @edupme તથા VL ab સૂચવે છે; આ resources ચલાવ્યા/હાલ available હોવાનો દાવો નથી.</li></ul><h4>વાંચન માટે References</h4><ul><li><a href=\"https://matpower.org/\">MATPOWER</a></li><li><a href=\"https://sourceforge.net/projects/electricdss/\">OpenDSS</a></li><li><a href=\"https://openmodelica.org/\">OpenModelica</a></li><li><a href=\"https://electrical-engineering-portal.com/\">Electrical Engineering Portal</a></li><li><a href=\"https://nptel.ac.in/courses/108105167\">NPTELsource-listed course</a></li><li><a href=\"https://energy.sandia.gov/programs/electric-grid/advanced-grid-modeling/power-system-protection/\">Sandia power-system protection</a></li><li><a href=\"https://www.youtube.com/@edupme/playlists\">Source-listed lectures</a></li><li><a href=\"https://sa-nitk.vlabs.ac.in/\">Substation automation VLab</a></li><li><a href=\"https://vp-dei.vlabs.ac.in/Dreamweaver/\">Power VLab</a></li><li><a href=\"https://selinc.com/api/download/136299/\">SELunconventional-source line-protection paper</a></li><li><a href=\"https://www.eeeguide.com/distance-relays-types/\">Classical distance-relay geometry reference</a></li></ul>"
+          },
+          "syllabus_item": "Resources",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "inventory"
+        }
+      ]
+    }
+  ],
+  "programs": [
+    {
+      "title": {
+        "en": "Official practical guides",
+        "gu": "Official પ્રયોગ માર્ગદર્શિકા"
+      },
+      "format": "rich_cards",
+      "items": [
+        {
+          "h": {
+            "en": "1. Protective CT/PT polarity and ratio",
+            "gu": "Protective CT/PT Polarity તથા Ratio"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A source-listed supervised performance guide, not a claim that a test, reading, date or instructor signature has been completed.</p><h4>Construction / parts and connections</h4><ol><li>Approved standalone instrument-transformer trainer, isolated limited AC test supply, phase-comparison instrument, meters and actual terminal diagram.</li><li>CT primary source must be isolated and CT s econdary connected to an approved burden/test block; VT uses voltage measurement, not a short circuit.</li></ol><h4>Working / operating sequence</h4><ol><li>Read the actual device manual, ratings, settings and approved safe plan; identify energy sources, trip destinations and all blocked/isolation boundaries.</li><li>Power OFF: check instrument ranges, polarity, burdens, CT test blocks, grounding and output isolation; no interlock/protection bypass.</li><li>Identify P 1/P 2, S 1/S 2 or corresponding terminal marks; verify actual ratio and test connections with the instructor before any source is enabled.</li><li>Apply the approved isolated test stimulus, compare magnitude/phase and record polarity relationship; repeat only within instrument/transformer ratings.</li><li>Write actual readings with units, test conditions, quality and evidence only after genuine performance; computed traces stay in separate labelled columns.</li><li>Return settings/links to the documented authorised state, isolate/discharge, and close the instructor checklist without inventing observations.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Official practical 1; source Unit/CO 1; 2 suggested hours.No individual compulsory star is marked.</li><li>Use offline models or approved isolated secondary injection under qualified supervision; 24 VDC mock construction does not authorise high-energy relay/CT/VT tests.Source variac is not isolation.</li></ul><h4>Worked example / setting interpretation</h4><ol><li>For 400/1 CT, an ideal 40 Atest primary would give 0.1 Asecondary; this is computed only, not permission to create 40 Awithout a rated test set.</li></ol><h4>Reliability and safety checks</h4><ul><li>Wrong ratio may be tap selection, burden, meter range or phasing; stop/isolate before moving leads.Never open a live CT s econdary.</li><li>Never open a live CT s econdary, short a VT s econdary, lift protective earth or attach unsafe scope grounds.Actual switchyard operations require site authority/permit.</li></ul><h4>Blank actual observation record</h4><div style=\"overflow:auto\"><table><tr><th>Test point / settings</th><th>Injected V / I / angle</th><th>Pickup / time / output</th><th>Evidence / interpretation</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Source-listed supervised પ્રયોગમાર્ગદર્શિકા છે; test/readings/date/signature પૂર્ણથયાનો દાવો નથી.</p><h4>Construction / ભાગો તથા જોડાણ</h4><ol><li>Approved standalone CT/PT trainer, isolated limited AC, phase comparison/meters/terminal diagram.</li><li>CT primary source isolate/secondary approved burden-block; VT voltage measurement છે, short નહીં.</li></ol><h4>Working / કાર્યનો ક્રમ</h4><ol><li>Actual manual, ratings/settings/safe plan વાંચો; sources/trip destinations/isolation ઓળખો.</li><li>OFF માં ranges, polarity, burden, CT blocks, earth/output isolation check; protection bypass નહીં.</li><li>P 1/P 2, S 1/S 2 marks/ratio/trainer connections instructor સાથે verify.</li><li>Approved isolated stimulus થી magnitude/phase/polarity record; ratings નીઅંદરજ repeat.</li><li>ખરેખરપ્રયોગપછી actual readings units/conditions/evidence સાથેલખો; computed trace અલગ label માં.</li><li>Settings/links authorised state માંપરત/isolate-discharge/checklist close; readings invent નહીં.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Official પ્રયોગ 1; source Unit/CO 1; 2 suggested hours; individual compulsory star નથી.</li><li>Offline model/qualified supervised isolated injection જ; 24 Vmock થી high-energy CT-VT test permission નહીં; variacisolation નથી.</li></ul><h4>ઉકેલેલું ઉદાહરણ / Settingનું અર્થઘટન</h4><ol><li>400/1 માં ideal 40A થી 0.1A; computed જ, unrated 40 Atestpermission નહીં.</li></ol><h4>વિશ્વસનીયતા તથા સલામતી</h4><ul><li>Wrong ratio માં tap/burden/range/phasing; leads પહેલાં isolate; live CT open નહીં.</li><li>Live CT open/VT short/protective earth remove/unsafe scope ground નહીં; actual switchyard authority-permit થી.</li></ul><h4>Actual Observation માટે ખાલી Record</h4><div style=\"overflow:auto\"><table><tr><th>Test Point / Settings</th><th>Injected V / I / Angle</th><th>Pickup / Time / Output</th><th>Evidence / અર્થઘટન</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>"
+          },
+          "syllabus_item": "P1",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "ct"
+        },
+        {
+          "h": {
+            "en": "2. CT magnetisation curve",
+            "gu": "CT Magnetisation Curve"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A source-listed supervised performance guide, not a claim that a test, reading, date or instructor signature has been completed.</p><h4>Construction / parts and connections</h4><ol><li>Qualified instructor’s excitation test kit, isolated adjustable source, voltage/current instruments and CT demagnetisation facility.</li><li>With primary positively isolated from all energy, standalone CT s econdary excitation follows its approved procedure; normal live-primary CT test-block rules are not reversed.</li></ol><h4>Working / operating sequence</h4><ol><li>Read the actual device manual, ratings, settings and approved safe plan; identify energy sources, trip destinations and all blocked/isolation boundaries.</li><li>Power OFF: check instrument ranges, polarity, burdens, CT test blocks, grounding and output isolation; no interlock/protection bypass.</li><li>Review voltage hazard, grounding, other secondary winding states, limits and safe stop; students do not improvise a mains/variac connection.</li><li>Instructor varies excitation within approved limits; record Vexc/Iexcand identify the method-defined knee, then controlled reduction/demagnetisation and discharge.</li><li>Write actual readings with units, test conditions, quality and evidence only after genuine performance; computed traces stay in separate labelled columns.</li><li>Return settings/links to the documented authorised state, isolate/discharge, and close the instructor checklist without inventing observations.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Official practical 2; source Unit/CO 1; 2 suggested hours.No individual compulsory star is marked.</li><li>Use offline models or approved isolated secondary injection under qualified supervision; 24 VDC mock construction does not authorise high-energy relay/CT/VT tests.Source variac is not isolation.</li></ul><h4>Worked example / setting interpretation</h4><ol><li>For applicable knee-point convention, a 10%voltage increase causing 50%excitation-current increase identifies the specified knee; verify the actual standard/CT class.</li></ol><h4>Reliability and safety checks</h4><ul><li>Curve distortion can reflect residual magnetism, frequency, wiring or instrument limits; do not exceed insulation limits to force a knee.</li><li>Never open a live CT s econdary, short a VT s econdary, lift protective earth or attach unsafe scope grounds.Actual switchyard operations require site authority/permit.</li></ul><h4>Blank actual observation record</h4><div style=\"overflow:auto\"><table><tr><th>Test point / settings</th><th>Injected V / I / angle</th><th>Pickup / time / output</th><th>Evidence / interpretation</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Source-listed supervised પ્રયોગમાર્ગદર્શિકા છે; test/readings/date/signature પૂર્ણથયાનો દાવો નથી.</p><h4>Construction / ભાગો તથા જોડાણ</h4><ol><li>Qualified instructor નું excitation kit, isolated source, V-I/ demagnetisation.</li><li>Primary all energy થી isolated હોયત્યારે standalone CT s econdaryexcitationapprovedprocedure થી; live CT નિયમબદલાતો નથી.</li></ol><h4>Working / કાર્યનો ક્રમ</h4><ol><li>Actual manual, ratings/settings/safe plan વાંચો; sources/trip destinations/isolation ઓળખો.</li><li>OFF માં ranges, polarity, burden, CT blocks, earth/output isolation check; protection bypass નહીં.</li><li>Voltage hazard, earth, other windings/limits/stop; studentmains-variacimprovise નહીં.</li><li>Instructorapproved Vvary/Vexc-Ie xc record/method knee; પછી controlled reduction-demagnetise/discharge.</li><li>ખરેખરપ્રયોગપછી actual readings units/conditions/evidence સાથેલખો; computed trace અલગ label માં.</li><li>Settings/links authorised state માંપરત/isolate-discharge/checklist close; readings invent નહીં.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Official પ્રયોગ 2; source Unit/CO 1; 2 suggested hours; individual compulsory star નથી.</li><li>Offline model/qualified supervised isolated injection જ; 24 Vmock થી high-energy CT-VT test permission નહીં; variacisolation નથી.</li></ul><h4>ઉકેલેલું ઉદાહરણ / Settingનું અર્થઘટન</h4><ol><li>Applicable convention માં V 10%increase થી Iexc 50%increase knee; actual standard/class verify.</li></ol><h4>વિશ્વસનીયતા તથા સલામતી</h4><ul><li>Distortion residual flux/f/wiring/range થી; force knee માટે voltage limit exceed નહીં.</li><li>Live CT open/VT short/protective earth remove/unsafe scope ground નહીં; actual switchyard authority-permit થી.</li></ul><h4>Actual Observation માટે ખાલી Record</h4><div style=\"overflow:auto\"><table><tr><th>Test Point / Settings</th><th>Injected V / I / Angle</th><th>Pickup / Time / Output</th><th>Evidence / અર્થઘટન</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>"
+          },
+          "syllabus_item": "P2",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "ctcurve"
+        },
+        {
+          "h": {
+            "en": "3. Electromechanical DMT/ID MT relay: PSM/TMS",
+            "gu": "Electromechanical DMT/IDMT: PSM/TMS"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A source-listed supervised performance guide, not a claim that a test, reading, date or instructor signature has been completed.</p><h4>Construction / parts and connections</h4><ol><li>Approved isolated secondary-injection set, time measurement, relay manual and isolated output contact monitor.</li><li>Disconnect/block real trip outputs under authority; inject only rated current inputs with the declared 1 Aor 5 Abase.</li></ol><h4>Working / operating sequence</h4><ol><li>Read the actual device manual, ratings, settings and approved safe plan; identify energy sources, trip destinations and all blocked/isolation boundaries.</li><li>Power OFF: check instrument ranges, polarity, burdens, CT test blocks, grounding and output isolation; no interlock/protection bypass.</li><li>Check pickup/dropout at bounded ramp and repeat at selected PSM values with reset/cooling between tests.</li><li>For DMT compare times above pickup; for ID MT vary PSM at fixed TMS then TMS at fixed PSM and plot measured curves.</li><li>Write actual readings with units, test conditions, quality and evidence only after genuine performance; computed traces stay in separate labelled columns.</li><li>Return settings/links to the documented authorised state, isolate/discharge, and close the instructor checklist without inventing observations.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Official practical 3; source Unit/CO 1; 4 suggested hours.No individual compulsory star is marked.</li><li>Use offline models or approved isolated secondary injection under qualified supervision; 24 VDC mock construction does not authorise high-energy relay/CT/VT tests.Source variac is not isolation.</li></ul><h4>Worked example / setting interpretation</h4><ol><li>IEC standard-inverse classroom reference at PSM 10/TMS 0.1 is 0.2971s; an electromechanical relay may use a different specified curve/tolerance.</li></ol><h4>Reliability and safety checks</h4><ul><li>Wrong timing: check timer start/stop conta cts, actual pickup, curve family, disc reset/overshoot and instrument burden.</li><li>Never open a live CT s econdary, short a VT s econdary, lift protective earth or attach unsafe scope grounds.Actual switchyard operations require site authority/permit.</li></ul><h4>Blank actual observation record</h4><div style=\"overflow:auto\"><table><tr><th>Test point / settings</th><th>Injected V / I / angle</th><th>Pickup / time / output</th><th>Evidence / interpretation</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Source-listed supervised પ્રયોગમાર્ગદર્શિકા છે; test/readings/date/signature પૂર્ણથયાનો દાવો નથી.</p><h4>Construction / ભાગો તથા જોડાણ</h4><ol><li>Approved isolated injection/timer/manual/isolated contact monitor.</li><li>Authority થી real trip block/isolate; declared 1A/5 Abase પર rated inputs જ.</li></ol><h4>Working / કાર્યનો ક્રમ</h4><ol><li>Actual manual, ratings/settings/safe plan વાંચો; sources/trip destinations/isolation ઓળખો.</li><li>OFF માં ranges, polarity, burden, CT blocks, earth/output isolation check; protection bypass નહીં.</li><li>Bounded ramp થી pickup/dropout/PSM test; વચ્ચે reset/cooling.</li><li>DMT pickup ઉપર time compare; ID MT fixed TMS માં PSM/પછી fixed PSM માં TMS vary/plot.</li><li>ખરેખરપ્રયોગપછી actual readings units/conditions/evidence સાથેલખો; computed trace અલગ label માં.</li><li>Settings/links authorised state માંપરત/isolate-discharge/checklist close; readings invent નહીં.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Official પ્રયોગ 3; source Unit/CO 1; 4 suggested hours; individual compulsory star નથી.</li><li>Offline model/qualified supervised isolated injection જ; 24 Vmock થી high-energy CT-VT test permission નહીં; variacisolation નથી.</li></ul><h4>ઉકેલેલું ઉદાહરણ / Settingનું અર્થઘટન</h4><ol><li>IEC example PSM 10/TMS 0.1 એ 0.2971s; actual elect rome ch curve/tolerance જુદુંહોઈશકે.</li></ol><h4>વિશ્વસનીયતા તથા સલામતી</h4><ul><li>Timing માં start-stop, pickup, curve/disc reset-overshoot/burden જોવો.</li><li>Live CT open/VT short/protective earth remove/unsafe scope ground નહીં; actual switchyard authority-permit થી.</li></ul><h4>Actual Observation માટે ખાલી Record</h4><div style=\"overflow:auto\"><table><tr><th>Test Point / Settings</th><th>Injected V / I / Angle</th><th>Pickup / Time / Output</th><th>Evidence / અર્થઘટન</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>"
+          },
+          "syllabus_item": "P3",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "occurves"
+        },
+        {
+          "h": {
+            "en": "4. Numerical OC/EF relay",
+            "gu": "Numerical OC/EF Relay"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A source-listed supervised performance guide, not a claim that a test, reading, date or instructor signature has been completed.</p><h4>Construction / parts and connections</h4><ol><li>Numerical relay, approved isolated test set, configuration backup, contact monitor and event-record tool.</li><li>Use actual phase/residual input mapping, auxiliary supply and isolated binary output; no connection to a live station CT circuit.</li></ol><h4>Working / operating sequence</h4><ol><li>Read the actual device manual, ratings, settings and approved safe plan; identify energy sources, trip destinations and all blocked/isolation boundaries.</li><li>Power OFF: check instrument ranges, polarity, burdens, CT test blocks, grounding and output isolation; no interlock/protection bypass.</li><li>Record firmware, CT base, curve, setting group, pickup and delay; read settings back before testing.</li><li>Inject below/above pickup and phase/EF cases; measure timing, reset, event record and output assignment including loss of auxiliary/communication tests only as approved.</li><li>Write actual readings with units, test conditions, quality and evidence only after genuine performance; computed traces stay in separate labelled columns.</li><li>Return settings/links to the documented authorised state, isolate/discharge, and close the instructor checklist without inventing observations.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Official practical 4; source Unit/CO 1; 2 suggested hours.No individual compulsory star is marked.</li><li>Use offline models or approved isolated secondary injection under qualified supervision; 24 VDC mock construction does not authorise high-energy relay/CT/VT tests.Source variac is not isolation.</li></ul><h4>Worked example / setting interpretation</h4><ol><li>PSM=Isec/Ipickup; EF residual input scale must match the device’s dedicated or derived input convention.</li></ol><h4>Reliability and safety checks</h4><ul><li>Trip LED without output: check output matrix, block/test mode, binary wiring and DC supply; do not clear a real lockout casually.</li><li>Never open a live CT s econdary, short a VT s econdary, lift protective earth or attach unsafe scope grounds.Actual switchyard operations require site authority/permit.</li></ul><h4>Blank actual observation record</h4><div style=\"overflow:auto\"><table><tr><th>Test point / settings</th><th>Injected V / I / angle</th><th>Pickup / time / output</th><th>Evidence / interpretation</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Source-listed supervised પ્રયોગમાર્ગદર્શિકા છે; test/readings/date/signature પૂર્ણથયાનો દાવો નથી.</p><h4>Construction / ભાગો તથા જોડાણ</h4><ol><li>Numerical relay/isolated test set/config backup/conta cts/event tool.</li><li>Actual phase/residual mapping/aux supply/isolated output; live station CT નહીં.</li></ol><h4>Working / કાર્યનો ક્રમ</h4><ol><li>Actual manual, ratings/settings/safe plan વાંચો; sources/trip destinations/isolation ઓળખો.</li><li>OFF માં ranges, polarity, burden, CT blocks, earth/output isolation check; protection bypass નહીં.</li><li>Firmware, CT base, curve/group, pickup/delay record/read back.</li><li>Below-above pickup/phase-EF, time/reset/events/output; approved aux-comms loss tests.</li><li>ખરેખરપ્રયોગપછી actual readings units/conditions/evidence સાથેલખો; computed trace અલગ label માં.</li><li>Settings/links authorised state માંપરત/isolate-discharge/checklist close; readings invent નહીં.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Official પ્રયોગ 4; source Unit/CO 1; 2 suggested hours; individual compulsory star નથી.</li><li>Offline model/qualified supervised isolated injection જ; 24 Vmock થી high-energy CT-VT test permission નહીં; variacisolation નથી.</li></ul><h4>ઉકેલેલું ઉદાહરણ / Settingનું અર્થઘટન</h4><ol><li>PSM=Isec/Ipickup; EF dedicated/derived scale vendor મુજબ.</li></ol><h4>વિશ્વસનીયતા તથા સલામતી</h4><ul><li>LED/no output માં matrix/block-test/wiring/DC; real lockout casually reset નહીં.</li><li>Live CT open/VT short/protective earth remove/unsafe scope ground નહીં; actual switchyard authority-permit થી.</li></ul><h4>Actual Observation માટે ખાલી Record</h4><div style=\"overflow:auto\"><table><tr><th>Test Point / Settings</th><th>Injected V / I / Angle</th><th>Pickup / Time / Output</th><th>Evidence / અર્થઘટન</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>"
+          },
+          "syllabus_item": "P4",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "numerical"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Project1",
+        "gu": "Project 1"
+      },
+      "format": "rich_cards",
+      "items": [
+        {
+          "h": {
+            "en": "Project 1 · Individual: Switchgear inventory, specifications and symbols",
+            "gu": "Switchgear Inventory, Specifications તથા Symbols"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>An individual survey identifies real switchgear functions, verified ratings and standard drawing symbols without unsafe access.</p><h4>Classification / scope</h4><ul><li>Source individual project.</li></ul><h4>Working / operating sequence</h4><ol><li>Plan safe scope and cite the source/materials; prepare SLD or logic before any approved isolated mock assembly.</li><li>Review the result against function, selectivity, safety, evidence and stated limitations; submit only genuine completed work.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>List CB, disconnector, earth switch, fuse, CT, VT/CVT, relay and arrest er; distinguish interruption, isolation, measurement and surge functions.</li><li>For each capture nominal/rated voltage, current, frequency, fault duty, insulation level, CT class/burden or relay inputs where relevant; write “not available”rather than inventing a nameplate.</li><li>Draw the symbol and an example SLD location; cite permitted source/manual and explain one selection issue and one maintenance/safety concern per equipment family.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Individual survey માં switchgear નાંકાર્યો, ચકાસેલ ratings અને drawing symbols નોંધાય છે; unsafe access કરવાનો નથી.</p><h4>વર્ગીકરણ / વ્યાપ</h4><ul><li>Source નો individual project.</li></ul><h4>Working / કાર્યનો ક્રમ</h4><ol><li>Safe scope/source/materials નક્કી કરો; SLD/logic તૈયાર કર્યા પછી જ approved isolated mock બનાવો.</li><li>Function, selectivity, safety, evidence/limitations સામે review કરો; ખરેખર કરેલું કામ જ submit કરો.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>CB, DS, ES, fuse, CT, VT/CVT, relay/LA યાદીકરી interruption/isolation/measurement/surge કાર્યજુદાંકરો.</li><li>દર item માં voltage/current/f/fault/insulation/CT class-burden/relay input લખો; નમળેત્યારે“available નથી”લખો.</li><li>Symbol/SLD location દોરો; allowed source/manual અને selection/safety issue સમજાવો.</li></ul>"
+          },
+          "syllabus_item": "Project1",
+          "classification_first": true,
+          "derivation": false,
+          "diagram": "inventory"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Project4",
+        "gu": "Project 4"
+      },
+      "format": "rich_cards",
+      "items": [
+        {
+          "h": {
+            "en": "Project 4 · Group: Basic tripping circuit mock model",
+            "gu": "Basic Tripping Circuit Mock Model"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A basic trip-circuit project is a group-built isolated low-energy logic model that replaces a power breaker/trip coil with indicators and a simulated state.</p><h4>Classification / scope</h4><ul><li>Source group project; mock-only construction.</li></ul><h4>Working / operating sequence</h4><ol><li>Plan safe scope and cite the source/materials; prepare SLD or logic before any approved isolated mock assembly.</li><li>Review the result against function, selectivity, safety, evidence and stated limitations; submit only genuine completed work.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Use an isolated current-limited supply not exceeding 24 VDC, fuse/limited indicator load and approved instructor layout.No station battery, actual HV breaker or mains-powered exposed wiring.</li><li>Draw source→fuse→trip contact→simulated 52a→lamp/logic load→return; use separate reset/close permission and latch the simulated open state.</li><li>Create a truth table for healthy, trip, open-fuse, loss-supply and stuck-command cases; record actual low-energy measurements only if built, otherwise label all results simulated.</li><li>Check that lamp going dark can mean loss of supply rather than successful isolation.Amock contact indication is not proof of an actual circuit being dead.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Basic trip project group નું isolated low-energy logic model છે; power CB/coil નીજગ્યાએ indicator/simulated state છે.</p><h4>વર્ગીકરણ / વ્યાપ</h4><ul><li>Source નો group project; construction માત્ર mock model માં.</li></ul><h4>Working / કાર્યનો ક્રમ</h4><ol><li>Safe scope/source/materials નક્કી કરો; SLD/logic તૈયાર કર્યા પછી જ approved isolated mock બનાવો.</li><li>Function, selectivity, safety, evidence/limitations સામે review કરો; ખરેખર કરેલું કામ જ submit કરો.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>≤24 VDC isolatedcurrent-limited supply/fused indicator/instructor layout; station battery/actual HV/mains નહીં.</li><li>Source→fuse→trip contact→sim 52a→lamp/logic load→return દોરો; reset-close permission અલગ/open state latch.</li><li>Healthy/trip/fuse open/supply loss/stuck command truth-table; build થયોજહોય actual measurements, નહીતર simulated.</li><li>Lampoff નોઅર્થ supply loss પણહોઈશકે; actual isolation proof નથી.</li></ul>"
+          },
+          "syllabus_item": "Project4",
+          "classification_first": true,
+          "derivation": false,
+          "diagram": "trip"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Activity1",
+        "gu": "Activity 1"
+      },
+      "format": "rich_cards",
+      "items": [
+        {
+          "h": {
+            "en": "Activity 1: Recent protection technology seminar",
+            "gu": "Recent Protection Technology Seminar"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A source-listed learning activity with a structured evidence guide; completion is not pre-certified.</p><h4>Working / operating sequence</h4><ol><li>Select an authorised safe topic/source and define questions.</li><li>Collect verifiable evidence, prepare an original diagram, and distinguish source facts from your interpretation.</li><li>Conclude with protection lessons, limitations and viva discussion; use the length needed, no invented mandatory page count.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Choose one recent numerical relay, process bus, communications-assisted or adaptive protection topic; date the information and identify primary manufacturer/standards sources.</li><li>Explain the old problem, new operating principle, construction/block diagram, benefits, limitations and one failure/security case; separate marketing claims from tested facts.</li><li>Submit a short bilingual presentation with original diagram, source list and questions; no fixed page count is imposed by the source bullet.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Source-listed શૈક્ષણિક પ્રવૃત્તિ માટે evidence-based માર્ગદર્શન છે; પૂર્ણ થયાનું પ્રમાણપત્ર નથી.</p><h4>Working / કાર્યનો ક્રમ</h4><ol><li>Authorised safe topic/source પસંદ કરી પ્રશ્નો નક્કી કરો.</li><li>ચકાસી શકાય તેવા evidence મેળવો, original diagram બનાવો અને source facts/પોતાનું અર્થઘટન અલગ રાખો.</li><li>Protection lessons, limitations તથા viva ચર્ચા સાથે પૂર્ણ કરો; જરૂર મુજબ length રાખો, બનાવટી compulsory pages નહીં.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Recent numerical/process bus/comms/adaptive topic પસંદકરી date/primary sources નોંધો.</li><li>Problem, new principle, block, benefit/limits/failure case સમજાવો; marketing/tested fa cts અલગ.</li><li>Bilingual presentation/original diagram/sources/questions આપો; source fixed pages નક્કી નથીકરતું.</li></ul>"
+          },
+          "syllabus_item": "Activity1",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "numerical"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Offline model",
+        "gu": "Offline મોડેલ"
+      },
+      "format": "rich_cards",
+      "items": [
+        {
+          "h": {
+            "en": "IEC standard-inverse timing",
+            "gu": "IEC Standard-inverse Timing"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>An offline calculation/logic exercise with declared assumptions; it does not connect to hardware, issue real trip commands or approve settings.</p><h4>Detailed explanation and interpretation</h4><ul><li>Use the worked examples and formulas in the corresponding Notes/Practical guide.Keep calculated output separate from actual measured readings.</li><li>The self-contained HTML preview has optional interactive controls; the source card retains this explanation for content readers without script execution.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>આ declared assumptions વાળું offline calculation/logic exercise છે; hardware connection, real trip command અથવા setting approval આપતું નથી.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>સંબંધિત Notes/Practical માં આપેલ formula તથા worked example વાપરો; calculated output actual reading થી અલગ રાખો.</li><li>Self-contained HTML preview માં optional interactive controls છે; script ન ચાલે તેવા content readers માટે આ સમજણ source card માં યથાવત્ રહે છે.</li></ul>"
+          },
+          "syllabus_item": "Model-idmt",
+          "classification_first": false,
+          "derivation": false,
+          "model_id": "idmt"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Offline model",
+        "gu": "Offline મોડેલ"
+      },
+      "format": "rich_cards",
+      "items": [
+        {
+          "h": {
+            "en": "One-slope differential",
+            "gu": "One-slope Differential"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>An offline calculation/logic exercise with declared assumptions; it does not connect to hardware, issue real trip commands or approve settings.</p><h4>Detailed explanation and interpretation</h4><ul><li>Use the worked examples and formulas in the corresponding Notes/Practical guide.Keep calculated output separate from actual measured readings.</li><li>The self-contained HTML preview has optional interactive controls; the source card retains this explanation for content readers without script execution.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>આ declared assumptions વાળું offline calculation/logic exercise છે; hardware connection, real trip command અથવા setting approval આપતું નથી.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>સંબંધિત Notes/Practical માં આપેલ formula તથા worked example વાપરો; calculated output actual reading થી અલગ રાખો.</li><li>Self-contained HTML preview માં optional interactive controls છે; script ન ચાલે તેવા content readers માટે આ સમજણ source card માં યથાવત્ રહે છે.</li></ul>"
+          },
+          "syllabus_item": "Model-diff",
+          "classification_first": false,
+          "derivation": false,
+          "model_id": "diff"
+        }
+      ]
+    }
+  ],
+  "practicals": [
+    {
+      "number": 1,
+      "source_unit_co": 1,
+      "hours": 2,
+      "title": {
+        "en": "Protective CT/PT polarity and ratio",
+        "gu": "Protective CT/PT Polarity તથા Ratio"
+      },
+      "compulsory_marked": false,
+      "performed": false,
+      "observations": "blank"
+    },
+    {
+      "number": 2,
+      "source_unit_co": 1,
+      "hours": 2,
+      "title": {
+        "en": "CT magnetisation curve",
+        "gu": "CT Magnetisation Curve"
+      },
+      "compulsory_marked": false,
+      "performed": false,
+      "observations": "blank"
+    },
+    {
+      "number": 3,
+      "source_unit_co": 1,
+      "hours": 4,
+      "title": {
+        "en": "Electromechanical DMT/ID MT relay: PSM/TMS",
+        "gu": "Electromechanical DMT/IDMT: PSM/TMS"
+      },
+      "compulsory_marked": false,
+      "performed": false,
+      "observations": "blank"
+    },
+    {
+      "number": 4,
+      "source_unit_co": 1,
+      "hours": 2,
+      "title": {
+        "en": "Numerical OC/EF relay",
+        "gu": "Numerical OC/EF Relay"
+      },
+      "compulsory_marked": false,
+      "performed": false,
+      "observations": "blank"
+    }
+  ],
+  "project_plans": [
+    {
+      "number": 1,
+      "mode": "Individual",
+      "editorial_unit": 1,
+      "source_mapping": "Source project bullet;unit placement editorial.",
+      "title": {
+        "en": "Project 1 · Individual: Switchgear inventory, specifications and symbols",
+        "gu": "Switchgear Inventory, Specifications તથા Symbols"
+      },
+      "completed": false
+    },
+    {
+      "number": 4,
+      "mode": "Group",
+      "editorial_unit": 1,
+      "source_mapping": "Source project bullet;unit placement editorial.",
+      "title": {
+        "en": "Project 4 · Group: Basic tripping circuit mock model",
+        "gu": "Basic Tripping Circuit Mock Model"
+      },
+      "completed": false
+    }
+  ],
+  "activity_plans": [
+    {
+      "number": 1,
+      "editorial_unit": 1,
+      "source_mapping": "Source activity bullet;unit placement editorial.",
+      "title": {
+        "en": "Activity 1: Recent protection technology seminar",
+        "gu": "Recent Protection Technology Seminar"
+      },
+      "completed": false,
+      "fixed_pages_required": false
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "faults",
+      "title": {
+        "en": "Fault and abnormal-condition classification",
+        "gu": "Faults, Abnormalities તથા Protection નો હેતુ"
+      },
+      "file": "diagrams/faults.svg"
+    },
+    {
+      "id": "zones",
+      "title": {
+        "en": "Protection zones: overlap and actual CT boundaries matter",
+        "gu": "Protection Zones, Main/Backup તથા Requirements"
+      },
+      "file": "diagrams/zones.svg"
+    },
+    {
+      "id": "ct",
+      "title": {
+        "en": "Protective CT: closed secondary circuit is essential",
+        "gu": "Protective CT: Ratio, Burden તથા Selection"
+      },
+      "file": "diagrams/ct.svg"
+    },
+    {
+      "id": "vt",
+      "title": {
+        "en": "Voltage input: VT and CVT are different constructions",
+        "gu": "PT/VT તથા CVT: Voltage માહિતી તથા Limits"
+      },
+      "file": "diagrams/vt.svg"
+    },
+    {
+      "id": "trip",
+      "title": {
+        "en": "Basic trip path: information, decision and DC energy are distinct",
+        "gu": "Basic DC Tripping Circuit તથા Supervision"
+      },
+      "file": "diagrams/trip.svg"
+    },
+    {
+      "id": "relayclass",
+      "title": {
+        "en": "Relay classification uses independent axes",
+        "gu": "Relay Terminology તથા Classification"
+      },
+      "file": "diagrams/relayclass.svg"
+    },
+    {
+      "id": "static",
+      "title": {
+        "en": "Static relay functional chain",
+        "gu": "Static Relay: Elements, Merits તથા Limits"
+      },
+      "file": "diagrams/static.svg"
+    },
+    {
+      "id": "numerical",
+      "title": {
+        "en": "Numerical relay signal processing",
+        "gu": "Numerical Relay Architecture તથા Facilities"
+      },
+      "file": "diagrams/numerical.svg"
+    },
+    {
+      "id": "thermal",
+      "title": {
+        "en": "Thermal protection tracks stored heat",
+        "gu": "Thermal Overload Relay તથા Thermal Memory"
+      },
+      "file": "diagrams/thermal.svg"
+    },
+    {
+      "id": "occurves",
+      "title": {
+        "en": "Definite and inverse overcurrent characteristics",
+        "gu": "Instantaneous, Definite-time તથા Inverse Overcurrent"
+      },
+      "file": "diagrams/occurves.svg"
+    },
+    {
+      "id": "differential",
+      "title": {
+        "en": "Percentage bias raises threshold with through current",
+        "gu": "Differential તથા Percentage-biased Protection"
+      },
+      "file": "diagrams/differential.svg"
+    },
+    {
+      "id": "direction",
+      "title": {
+        "en": "Directional element requires a polarising reference",
+        "gu": "Directional Current તથા Power Elements"
+      },
+      "file": "diagrams/direction.svg"
+    },
+    {
+      "id": "distance",
+      "title": {
+        "en": "R–X characteristics: impedance, reactance and classical ohm",
+        "gu": "Distance Elements: Impedance, React ance તથા Ohm"
+      },
+      "file": "diagrams/distance.svg"
+    },
+    {
+      "id": "mho",
+      "title": {
+        "en": "Mho reach circle: origin to forward reach",
+        "gu": "Mho Relay Characteristic તથા Reach"
+      },
+      "file": "diagrams/mho.svg"
+    },
+    {
+      "id": "aux",
+      "title": {
+        "en": "Auxiliary relay functions",
+        "gu": "Auxiliary, Lockout તથા Interposing Relays"
+      },
+      "file": "diagrams/aux.svg"
+    },
+    {
+      "id": "ctcurve",
+      "title": {
+        "en": "CT excitation: current rises steeply after magnetic saturation",
+        "gu": "CT Magnetisation Curve"
+      },
+      "file": "diagrams/ctcurve.svg"
+    },
+    {
+      "id": "inventory",
+      "title": {
+        "en": "Project equipment survey record",
+        "gu": "Switchgear Inventory, Specifications તથા Symbols"
+      },
+      "file": "diagrams/inventory.svg"
+    }
+  ],
+  "syntax": [
+    {
+      "title": {
+        "en": "Source and assessment policy",
+        "gu": "Source તથા Assessment Policy"
+      },
+      "body": {
+        "en": "Original practice questions;marks are suggested study allocations,not an official past paper.Exam contains questions and marks only.",
+        "gu": "આ original practice questions છે;marks study માટે સૂચિત છે,official past paper નથી.Examમાં માત્ર પ્રશ્નો તથા marks છે."
+      }
+    },
+    {
+      "title": {
+        "en": "CTreferred current",
+        "gu": "CTreferred current"
+      },
+      "body": {
+        "en": "Is=Ip/KCT; CT s econdary must remain safely closed with primary current.",
+        "gu": "Is=Ip/KCT; CT s econdary must remain safely closed with primary current. · ધારણાઓ તથા ઉદાહરણ માટે સંબંધિત Notes વાંચો."
+      }
+    },
+    {
+      "title": {
+        "en": "Biased differential",
+        "gu": "Biased differential"
+      },
+      "body": {
+        "en": "Idiff=|I1+I2|; Irest=(|I1|+|I2|)/2; trip if Idiff>max(Imin, s×Irest), declared one-slope model.",
+        "gu": "Idiff=|I1+I2|; Irest=(|I1|+|I2|)/2; trip if Idiff>max(Imin, s×Irest), declared one-slope model. · ધારણાઓ તથા ઉદાહરણ માટે સંબંધિત Notes વાંચો."
+      }
+    },
+    {
+      "title": {
+        "en": "IECstandard inverse",
+        "gu": "IECstandard inverse"
+      },
+      "body": {
+        "en": "t=0.14 TMS/(PSM^0.02−1), PSM>1; no finite model trip time at/below pickup.",
+        "gu": "t=0.14 TMS/(PSM^0.02−1), PSM>1; no finite model trip time at/below pickup. · ધારણાઓ તથા ઉદાહરણ માટે સંબંધિત Notes વાંચો."
+      }
+    },
+    {
+      "title": {
+        "en": "Mho",
+        "gu": "Mho"
+      },
+      "body": {
+        "en": "Centre=Zr/2, radius=|Zr|/2; circle passes through origin.",
+        "gu": "Centre=Zr/2, radius=|Zr|/2; circle passes through origin. · ધારણાઓ તથા ઉદાહરણ માટે સંબંધિત Notes વાંચો."
+      }
+    }
+  ],
+  "viva": [
+    {
+      "q": {
+        "en": "Why must a live CT s econdary never be opened?",
+        "gu": "Live CT secondary કેમ open ન કરવી?"
+      },
+      "a": {
+        "en": "Primary current can sustain core flux while the secondary loses its counter-magnetising current, creating dangerously high secondary voltage, heating and residual magnetism.Use approved make-before-break shorting/test blocks under authority.",
+        "gu": "Primary current ચાલુ હોય ત્યારે secondary counter-flux ઘટવાથી dangerous voltage, heat અને residual magnetism થઈ શકે.Approved make-before-break test block જ વાપરો."
+      }
+    },
+    {
+      "q": {
+        "en": "What does 5P 20 mean?",
+        "gu": "5P 20 નો અર્થ શું?"
+      },
+      "a": {
+        "en": "For the stated standard and rated burden, it denotes a protection CT with 5%composite error limit at accuracy-limit factor 20.It does not guarantee transient accuracy for every asymmetric fault.",
+        "gu": "Stated standard/rated burden પર ALF 20 ખાતે 5%composite-error limit છે; દર asymmetric transient માં accuracy guarantee નથી."
+      }
+    },
+    {
+      "q": {
+        "en": "Main versus backup protection?",
+        "gu": "Main તથા backup protection માં તફાવત?"
+      },
+      "a": {
+        "en": "Main protection clears faults in its assigned zone first.Backup operates if the main/associated breaker path fails and may be slower or less selective; local and remote backup have different dependencies.",
+        "gu": "Main પોતાના zone માં પહેલાં fault clear કરે.Backup main/breaker path નિષ્ફળ જાય ત્યારે કાર્ય કરે; local/remote dependencies જુદાં છે."
+      }
+    },
+    {
+      "q": {
+        "en": "Is a numerical relay just a static relay?",
+        "gu": "Numerical relay માત્ર static relay છે?"
+      },
+      "a": {
+        "en": "Both use electronics, but a numerical relay samples inputs and executes configurable algorithms in a processor.Static relays mainly use analogue/electronic comparator and timing circuits; either still needs reliable inputs, power and output logic.",
+        "gu": "બંને electronic છે, પણ numerical ADC/processor algorithms વાપરે છે; static મુખ્યત્વે analogue comparator/timer વાપરે છે.બંનેને reliable inputs, aux power/output જોઈએ."
+      }
+    },
+    {
+      "q": {
+        "en": "Why use percentage bias?",
+        "gu": "Percentage bias શા માટે?"
+      },
+      "a": {
+        "en": "It raises required differential current with restraint current to improve security against ratio errors and external-fault CT mismatch.CT s atu ration and inrush may still require additional scheme-specific measures.",
+        "gu": "Through/restraint current વધતાં operating threshold વધે એટલે ratio/CT mismatch સામે stability સુધરે; inrush/saturation માટે અલગ measures જોઈએ."
+      }
+    },
+    {
+      "q": {
+        "en": "Difference between impedance and mho characteristics?",
+        "gu": "Impedance તથા mho characteristic નો તફાવત?"
+      },
+      "a": {
+        "en": "Ideal impedance is a circle centred at the origin and is not inherently directional.Ideal mho passes through the origin with centre at half the reach vector; actual relay polarisation/supervision affects behaviour.",
+        "gu": "Impedance origin-centred/non-directional circle છે; mho origin માંથી પસાર થાય અને centre reach-vector ના અડધે છે; actual polarisation મહત્વનું છે."
+      }
+    },
+    {
+      "q": {
+        "en": "Does instantaneous mean zero time?",
+        "gu": "Instantaneous એટલે zero time?"
+      },
+      "a": {
+        "en": "It means no intentional time delay.The measuring element, output contact, trip circuit and breaker still require finite time.",
+        "gu": "Intentional delay નથી એવો અર્થ છે; measurement, output/trip/CB ને ખરેખર finite સમય લાગે છે."
+      }
+    },
+    {
+      "q": {
+        "en": "What does an auxiliary relay add?",
+        "gu": "Auxiliary relay શું ઉમેરે છે?"
+      },
+      "a": {
+        "en": "Contact multiplication, interposing, seal-in, lockout or supervision according to design.It is not necessarily an independent measuring protective element and contact duty/reset rules must match the application.",
+        "gu": "Design મુજબ contact multiplication, interposing, latch/lockout/supervision આપે છે; તે હંમેશા અલગ measuring element નથી; contact duty/reset યોગ્ય જોઈએ."
+      }
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Classify faults and abnormalities; explain causes, consequences and protection requirements.",
+        "gu": "Faults/abnormalities નું વર્ગીકરણ કરી કારણો, પરિણામો તથા protection requirements સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Draw overlapping zones and compare main, local backup and remote backup protection.",
+        "gu": "Overlapping zones દોરી main/local backup/remote backup સરખાવો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Explain protective CT/PT/CVT features, ratings and CT s election with precautions.",
+        "gu": "Protective CT/PT/CVT features/ratings તથા CT s election precautions સાથે સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Draw basic trip circuit and explain each element.",
+        "gu": "Basic trip circuit દોરી દરેક element સમજાવો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Classify relays; compare static and numerical relay architecture/facilities.",
+        "gu": "Relays classify કરી static/numerical architecture/facilities સરખાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain thermal, instantaneous, DMT and ID MT operating characteristics.",
+        "gu": "Thermal/instantaneous/DMT/IDMT characteristics સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Derive the declared biased-differential decision rule and solve a referred-current example.",
+        "gu": "Declared biased-differential rule ક્રમથી મેળવી referred-current example ઉકેલો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Draw and distinguish impedance, react ance, ohm and mho R–Xcharacteristics with directional supervision.",
+        "gu": "Impedance/react ance/ohm/mho R–X દોરી directional supervision સાથે તફાવત સમજાવો."
+      },
+      "marks": 7
+    }
+  ],
+  "exam_policy": "Questions and suggested marks only.",
+  "physical_practicals_performed": false,
+  "sources": [
+    {
+      "title": "Owner8-page GTU DI05009011,2026–27",
+      "reference": "5units,11practicals,5project bullets,5activity bullets."
+    },
+    {
+      "title": "MATPOWER",
+      "url": "https://matpower.org/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "OpenDSS",
+      "url": "https://sourceforge.net/projects/electricdss/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "OpenModelica",
+      "url": "https://openmodelica.org/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "Electrical Engineering Portal",
+      "url": "https://electrical-engineering-portal.com/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "NPTELsource-listed course",
+      "url": "https://nptel.ac.in/courses/108105167",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "Sandia power-system protection",
+      "url": "https://energy.sandia.gov/programs/electric-grid/advanced-grid-modeling/power-system-protection/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "Source-listed lectures",
+      "url": "https://www.youtube.com/@edupme/playlists",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "Substation automation VLab",
+      "url": "https://sa-nitk.vlabs.ac.in/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "Power VLab",
+      "url": "https://vp-dei.vlabs.ac.in/Dreamweaver/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "SELunconventional-source line-protection paper",
+      "url": "https://selinc.com/api/download/136299/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "Classical distance-relay geometry reference",
+      "url": "https://www.eeeguide.com/distance-relays-types/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    }
+  ]
+}

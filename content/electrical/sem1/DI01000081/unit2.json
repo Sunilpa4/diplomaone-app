@@ -1,0 +1,619 @@
+{
+  "subject": "DI01000081",
+  "unit": 2,
+  "title": {
+    "en": "Electrical Circuit Laws and Techniques",
+    "gu": "પરિપથનાં નિયમો અને ઉકેલની પદ્ધતિઓ"
+  },
+  "format": "notes",
+  "languages": [
+    "en",
+    "gu"
+  ],
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "tab_labels": {
+    "programs": {
+      "en": "Practical",
+      "gu": "પ્રયોગ અને ચકાસણી"
+    }
+  },
+  "hours": 8,
+  "weightage": 17,
+  "notes": [
+    {
+      "title": {
+        "en": "2.1 Foundation",
+        "gu": "2.1 પાયો"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Kirchhoff current law (KCL)",
+            "gu": "Kirchhoffનો Current Law (KCL)"
+          },
+          "body": {
+            "en": "<h4>Statement and physical meaning</h4><p>The algebraic sum of currents at a lumped-circuit node is zero when no net charge accumulates there.</p><h4>How to apply it</h4><ol><li>Mark assumed current arrows and choose incoming positive or outgoing positive consistently.</li><li>Write sum of incoming currents=sum of outgoing currents;keep unknown current signs.</li><li>A negative solution reverses the assumed arrow;it is not a physically negative amount of charge flow.</li></ol><h4>Validity and common mistakes</h4><ul><li>KCL expresses charge conservation.Use all branches connected to the same node,including sources.</li></ul><details class=\"self-check\"><summary>Does a negative solved branch current break KCL?</summary><p>No.The actual direction opposes the assumed arrow.</p></details>",
+            "gu": "<h4>વિધાન અને ભૌતિક અર્થ</h4><p>Lumped-circuit node પર net charge એકત્ર ન થતો હોય ત્યારે currentsનો algebraic sum zero થાય છે.</p><h4>લાગુ પાડવાનો ક્રમ</h4><ol><li>Assumed current arrows બતાવો અને incoming અથવા outgoing માટે consistent positive convention લો.</li><li>Incoming currentsનો sum=outgoing currentsનો sum લખો અને unknownના signs જાળવો.</li><li>Negative solutionનો અર્થ assumed arrowની વિરુદ્ધ actual flow છે;તે calculation ખોટી છે એવો અર્થ નથી.</li></ol><h4>શરતો અને સામાન્ય ભૂલો</h4><ul><li>KCL charge conservation છે.Same node સાથે જોડાયેલી sources સહિત બધી branches લો.</li></ul><details class=\"self-check\"><summary>Negative Current આવે તો KCL તૂટે?</summary><p>ના.Actual direction assumed arrowની વિરુદ્ધ છે.</p></details>"
+          },
+          "syllabus_item": "2.1",
+          "diagram": "kcl"
+        },
+        {
+          "h": {
+            "en": "KCL junction example",
+            "gu": "KCL Junctionનું ઉદાહરણ"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>Incoming currents2A and3A;one outgoing branch is1A and the other is Ix.</p><h4>Step-by-step solution</h4><ol><li>2+3=1+Ix</li><li>Ix=4A</li></ol><h4>Interpretation and check</h4><p>Check total entering5A equals total leaving5A.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>Incoming currents2A અને3A છે;outgoing એક branch1A અને બીજી Ix છે.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>2+3=1+Ix</li><li>Ix=4A</li></ol><h4>અર્થ અને ચકાસણી</h4><p>Total entering5A અને leaving5A સમાન છે.</p>"
+          },
+          "syllabus_item": "2.1",
+          "diagram": "kcl"
+        },
+        {
+          "h": {
+            "en": "Kirchhoff voltage law (KVL)",
+            "gu": "Kirchhoffનો Voltage Law (KVL)"
+          },
+          "body": {
+            "en": "<h4>Statement and physical meaning</h4><p>The algebraic sum of voltage rises/drops around a closed lumped DC loop is zero.</p><h4>How to apply it</h4><ol><li>Choose loop direction;crossing a source from−to+is a rise in that traversal.</li><li>Across a resistor along its assumed current direction,use a drop IR;opposite traversal gives the opposite sign.</li><li>Write the signed equation,solve,and substitute back to check the loop balance.</li></ol><h4>Validity and common mistakes</h4><ul><li>Do not change the loop direction halfway.Linked time-varying magnetic flux requires its induced emf in the circuit model;the elementary DC form assumes the appropriate lumped representation.</li></ul>",
+            "gu": "<h4>વિધાન અને ભૌતિક અર્થ</h4><p>બંધ lumped DC loopમાં voltage rises/dropsનો algebraic sum zero થાય છે.</p><h4>લાગુ પાડવાનો ક્રમ</h4><ol><li>Loop direction પસંદ કરો;sourceને−થી+cross કરતાં rise લો.</li><li>Resistorને assumed currentની દિશામાં cross કરતાં IR drop લો;વિરુદ્ધ traversalમાં sign બદલાય છે.</li><li>Signed equation લખો,solve કરો અને પાછું substitute કરીને loop balance તપાસો.</li></ol><h4>શરતો અને સામાન્ય ભૂલો</h4><ul><li>વચ્ચે loop direction ન બદલો.Linked changing magnetic flux હોય તો induced emfનો modelમાં સમાવેશ કરો;elementary DC form યોગ્ય lumped model માટે છે.</li></ul>"
+          },
+          "syllabus_item": "2.1",
+          "diagram": "kvl"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.2 Resistor networks",
+        "gu": "2.2 Resistor Networks"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Series/parallel:connectivity decides",
+            "gu": "Series/Parallel:જોડાણથી નિર્ણય"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Series elements carry the same branch current with no intervening branching;parallel elements share the same two terminal nodes and voltage.</p><h4>Explanation and application</h4><ul><li>Series:Req=R1+R2+…;voltage drops add and the largest resistance has the largest drop for the same current.</li><li>Parallel:1/Req=1/R1+1/R2+…;for two resistors Req=R1R2/(R1+R2).Branch currents add by KCL.</li><li>For positive resistances,the series equivalent exceeds each member and the parallel equivalent is below the smallest member.A shorted branch is not an open branch.</li><li>Reduce only genuine series/parallel groups.Redraw and relabel nodes after each reduction instead of grouping elements by visual proximity.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>વચ્ચે branching વગરનાં series elementsમાં same current હોય છે.Parallel elements same બે nodes વચ્ચે હોવાથી તેમનો voltage સમાન હોય છે.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Seriesમાં Req=R1+R2+…;voltage drops add થાય છે અને same currentમાં મોટા R ઉપર મોટો drop પડે છે.</li><li>Parallelમાં1/Req=1/R1+1/R2+…;બે R માટે Req=R1R2/(R1+R2).Branch currents KCLથી add થાય છે.</li><li>Positive Rમાં series equivalent દરેક કરતાં મોટું અને parallel equivalent નાના R કરતાં પણ ઓછું છે.Shorted branch અને open branch સમાન નથી.</li><li>ફક્ત સાચાં series/parallel groups reduce કરો.દરેક step પછી nodes relabel કરો;ફક્ત નજીક દોરાયેલા Rને group ન કરો.</li></ul>"
+          },
+          "syllabus_item": "2.2",
+          "diagram": "resistors"
+        },
+        {
+          "h": {
+            "en": "Mixed resistor network",
+            "gu": "Mixed Resistor Network"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>12V across4ohm in series with a6ohm||3ohm group;ideal constant resistors.</p><h4>Step-by-step solution</h4><ol><li>Rp=(6×3)/(6+3)=2ohm;Req=4+2=6ohm</li><li>Is=12/6=2A;V4=2×4=8V;Vp=12−8=4V</li><li>I6=4/6=2/3A;I3=4/3A;I6+I3=2A</li></ol><h4>Interpretation and check</h4><p>KVL gives8+4=12V;KCL gives branch sum2A.This is an analysis example,not a component-rating selection.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>4ohm સાથે seriesમાં6ohm||3ohm group પર12V છે;ideal constant R માનીએ.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>Rp=(6×3)/(6+3)=2ohm;Req=4+2=6ohm</li><li>Is=12/6=2A;V4=2×4=8V;Vp=12−8=4V</li><li>I6=4/6=2/3A;I3=4/3A;I6+I3=2A</li></ol><h4>અર્થ અને ચકાસણી</h4><p>KVLથી8+4=12V અને KCLથી branch sum2A મળે છે.આ analysis છે,component-rating selection નથી.</p>"
+          },
+          "syllabus_item": "2.2",
+          "diagram": "resistors"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.3 Sources and cells",
+        "gu": "2.3 Sources અને Cells"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Source transformation",
+            "gu": "Source Transformation"
+          },
+          "body": {
+            "en": "<h4>Statement and physical meaning</h4><p>A finite voltage source Vs in series with R has the same terminal V-I relation as current source Is=Vs/R in parallel with the same R.</p><h4>How to apply it</h4><ol><li>Keep the same external terminal pair and source polarity reference.</li><li>Move R from series to parallel or vice versa;the current arrow feeds the terminal that was positive on the voltage-source model.</li><li>Analyse the unchanged external load using the equivalent;transform back only if an original internal quantity is needed.</li></ol><h4>Validity and common mistakes</h4><ul><li>Terminal equivalence does not imply equal current or power in internal resistors.An ideal zero-series-resistance voltage source has no finite ordinary Norton transformation.</li></ul>",
+            "gu": "<h4>વિધાન અને ભૌતિક અર્થ</h4><p>Finite R સાથે series voltage source Vs અને same R સાથે parallel current source Is=Vs/Rનો terminal V-I relation સમાન હોય છે.</p><h4>લાગુ પાડવાનો ક્રમ</h4><ol><li>External terminal pair તથા source polarity reference same રાખો.</li><li>Rને seriesમાંથી parallel અથવા વિરુદ્ધ ફેરવો;current arrow voltage modelના positive terminal તરફ feed કરે છે.</li><li>Unchanged external loadને equivalentથી solve કરો;original internal quantity જોઈએ તો original modelનો ઉપયોગ કરો.</li></ol><h4>શરતો અને સામાન્ય ભૂલો</h4><ul><li>Terminal equivalenceનો અર્થ internal Rમાં same current/power નથી.Zero-series-R ideal voltage sourceનું finite ordinary Norton equivalent બનતું નથી.</li></ul>"
+          },
+          "syllabus_item": "2.3",
+          "diagram": "source"
+        },
+        {
+          "h": {
+            "en": "Source-transform example",
+            "gu": "Source Transformationનું ઉદાહરણ"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>Vs=24V,R=6ohm,load RL=6ohm.</p><h4>Step-by-step solution</h4><ol><li>Is=24/6=4A;parallel resistance=6ohm</li><li>Original load current=24/(6+6)=2A</li><li>Equivalent load current=4×6/(6+6)=2A;VL=12V</li></ol><h4>Interpretation and check</h4><p>The load result matches although internal resistor currents differ between models.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>Vs=24V,R=6ohm,load RL=6ohm લો.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>Is=24/6=4A;parallel resistance=6ohm</li><li>Original load current=24/(6+6)=2A</li><li>Equivalent load current=4×6/(6+6)=2A;VL=12V</li></ol><h4>અર્થ અને ચકાસણી</h4><p>બન્ને modelsમાં load result સમાન છે,પણ internal resistor currents જુદા હોઈ શકે છે.</p>"
+          },
+          "syllabus_item": "2.3",
+          "diagram": "source"
+        },
+        {
+          "h": {
+            "en": "Battery cells:series,parallel and mixed groups",
+            "gu": "Battery Cells:Series,Parallel અને Mixed Groups"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>For identical idealised cells of emf E and internal resistance r,the arrangement changes source voltage and effective internal resistance.</p><h4>Explanation and application</h4><ul><li>Series aiding,ncells:Es=nE,rs=nr.Reversed polarity subtracts emf;it does not subtract internal resistance.</li><li>Parallel,nmatched identical cells:Es=E,rs=r/n,with equal sharing only under the matching assumptions.</li><li>For nsseries cells per group and npmatched parallel groups,Es=nsE and rs=nsr/np.</li><li>Illustrative4identical1.5Vcells:all-series gives6V;all-parallel gives1.5V;two-series/two-parallel gives3V in the ideal model.</li><li>Do not physically parallel unequal cells,mix chemistries or charge nonrechargeable cells.Real battery packs need manufacturer-approved protection and assembly.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Emf E અને internal R rવાળા identical idealised cellsની arrangementથી source voltage તથા effective internal resistance બદલાય છે.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>n aiding series cellsમાં Es=nE,rs=nr.Reversed polarityથી emf subtract થાય છે,internal resistance નહિ.</li><li>n matched identical parallel cellsમાં Es=E,rs=r/n;equal sharing matching assumptions હેઠળ જ મળે છે.</li><li>દરેક groupમાં nsseries cells અને npmatched parallel groups હોય તો Es=nsE,rs=nsr/np.</li><li>Illustrative4identical1.5Vcellsમાં all-series6V,all-parallel1.5V અને two-series/two-parallel3V ideal modelમાં મળે છે.</li><li>Unequal cells parallel ન કરો,chemistries mix ન કરો અને nonrechargeable cells charge ન કરો.Real pack માટે manufacturer-approved protection/assembly જરૂરી છે.</li></ul>"
+          },
+          "syllabus_item": "2.3",
+          "diagram": "cells"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.4 Divider rules",
+        "gu": "2.4 Divider Rules"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Voltage and current divider rules",
+            "gu": "Voltage અને Current Divider Rules"
+          },
+          "body": {
+            "en": "<h4>Statement and physical meaning</h4><p>A voltage divider follows the common current in series;current division follows the common voltage in parallel.</p><h4>How to apply it</h4><ol><li>Unloaded series divider:Vk=Vs Rk/(sum R).Identify which resistance the output spans.</li><li>For a load across R2,use R2||RL first,then divide across that equivalent,not the original R2.</li><li>Two-branch current divider:I1=It R2/(R1+R2),I2=It R1/(R1+R2).For many branches use conductance fraction.</li></ol><h4>Validity and common mistakes</h4><ul><li>Current through a parallel branch uses the OTHER resistance in the two-branch numerator;current prefers the lower-resistance branch,not the higher one.</li></ul>",
+            "gu": "<h4>વિધાન અને ભૌતિક અર્થ</h4><p>Voltage division seriesના common current પરથી અને current division parallelના common voltage પરથી મળે છે.</p><h4>લાગુ પાડવાનો ક્રમ</h4><ol><li>Unloaded series dividerમાં Vk=Vs Rk/(sum R).Output કયા R ઉપર છે તે ઓળખો.</li><li>R2 ઉપર load હોય તો પહેલાં R2||RL કાઢો;પછી તે equivalent ઉપર divider લાગુ કરો,original R2 ઉપર નહિ.</li><li>બે branchesમાં I1=It R2/(R1+R2),I2=It R1/(R1+R2).વધુ branches માટે conductance fraction લો.</li></ol><h4>શરતો અને સામાન્ય ભૂલો</h4><ul><li>Two-branch current dividerમાં numeratorમાં બીજો R આવે છે.ઓછા Rવાળી branchમાં વધારે current વહે છે.</li></ul>"
+          },
+          "syllabus_item": "2.4",
+          "diagram": "divider"
+        },
+        {
+          "h": {
+            "en": "Loaded voltage divider",
+            "gu": "Loaded Voltage Divider"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>Vs=12V,R1=R2=1kohm,RL=1kohm across R2.</p><h4>Step-by-step solution</h4><ol><li>Unloaded Vout=12×1/(1+1)=6V</li><li>Rlower=1kohm||1kohm=0.5kohm</li><li>Loaded Vout=12×0.5/(1+0.5)=4V</li></ol><h4>Interpretation and check</h4><p>A divider is not automatically a regulated power supply;loading changes its voltage.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>Vs=12V,R1=R2=1kohm અને R2 ઉપર RL=1kohm છે.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>Unloaded Vout=12×1/(1+1)=6V</li><li>Rlower=1kohm||1kohm=0.5kohm</li><li>Loaded Vout=12×0.5/(1+0.5)=4V</li></ol><h4>અર્થ અને ચકાસણી</h4><p>Divider regulated power supply જ છે એવું નથી;loadingથી voltage બદલાય છે.</p>"
+          },
+          "syllabus_item": "2.4",
+          "diagram": "divider"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.5 Star/delta transformation",
+        "gu": "2.5 Star/Delta Transformation"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Star ↔ delta with labelled terminals",
+            "gu": "Labelled Terminals સાથે Star ↔ Delta"
+          },
+          "body": {
+            "en": "<h4>Statement and physical meaning</h4><p>Replace a three-terminal resistor network by an equivalent with the same resistance behaviour viewed from external A,B,C.</p><h4>How to apply it</h4><ol><li>For delta sum S=RAB+RBC+RCA:RA=RAB RCA/S;RB=RAB RBC/S;RC=RBC RCA/S.Each star arm uses the adjacent delta pair.</li><li>For star sum of products P=RA RB+RB RC+RC RA: RAB=P/RC,RBC=P/RA,RCA=P/RB.Each delta branch divides by the opposite star arm.</li><li>Preserve the external labels,redraw,and then look again for genuine series/parallel reductions.</li></ol><h4>Validity and common mistakes</h4><ul><li>These formulas apply to the resistor network as defined;do not confuse phase labels or divide by the adjacent rather than opposite arm in star→delta.</li></ul>",
+            "gu": "<h4>વિધાન અને ભૌતિક અર્થ</h4><p>External A,B,C પરથી same resistance behaviour રહે તે રીતે three-terminal resistor networkનું equivalent બનાવાય છે.</p><h4>લાગુ પાડવાનો ક્રમ</h4><ol><li>Delta sum S=RAB+RBC+RCA માટે RA=RAB RCA/S;RB=RAB RBC/S;RC=RBC RCA/S.દરેક star armમાં તેની બાજુના delta Rનો product આવે છે.</li><li>Star products sum P=RA RB+RB RC+RC RA માટે RAB=P/RC,RBC=P/RA,RCA=P/RB.દરેક delta branchમાં opposite star arm denominator છે.</li><li>External labels જાળવી redraw કરો;પછી ફરી genuine series/parallel reductions શોધો.</li></ol><h4>શરતો અને સામાન્ય ભૂલો</h4><ul><li>Defined resistor network માટે સૂત્રો વાપરો;star→deltaમાં oppositeના બદલે adjacent armથી divide ન કરો.</li></ul>"
+          },
+          "syllabus_item": "2.5",
+          "diagram": "star"
+        },
+        {
+          "h": {
+            "en": "Delta-star conversion check",
+            "gu": "Delta-Star Conversionની ચકાસણી"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>Delta RAB=6ohm,RBC=9ohm,RCA=3ohm.</p><h4>Step-by-step solution</h4><ol><li>S=6+9+3=18ohm</li><li>RA=6×3/18=1ohm;RB=6×9/18=3ohm;RC=9×3/18=1.5ohm</li><li>Between A,B with C externally open:delta=6||(3+9)=4ohm;star=1+3=4ohm</li></ol><h4>Interpretation and check</h4><p>Opening terminal C does not remove the internal delta path through its node.</p><details class=\"self-check\"><summary>Does externally open terminal C remove its internal delta path?</summary><p>No.External disconnection is not deletion of the internal node and its resistors.</p></details>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>Deltaમાં RAB=6ohm,RBC=9ohm,RCA=3ohm છે.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>S=6+9+3=18ohm</li><li>RA=6×3/18=1ohm;RB=6×9/18=3ohm;RC=9×3/18=1.5ohm</li><li>Between A,B with C externally open:delta=6||(3+9)=4ohm;star=1+3=4ohm</li></ol><h4>અર્થ અને ચકાસણી</h4><p>Terminal C external open હોય તો પણ તેના nodeમાંથી પસાર થતો internal delta path દૂર થતો નથી.</p><details class=\"self-check\"><summary>Terminal C External Open હોય તો Internal Delta Path દૂર થાય?</summary><p>ના.External disconnection એટલે internal node/R delete થવા નહિ.</p></details>"
+          },
+          "syllabus_item": "2.5",
+          "diagram": "star"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Practical & Testing — supervised guides",
+        "gu": "Practical & Testing — પ્રયોગ અને ચકાસણી"
+      },
+      "practical_section": true,
+      "items": [
+        {
+          "h": {
+            "en": "Practical 3: Verify KCL",
+            "gu": "Practical 3: KCL Verify કરો"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Compare signed branch currents at a chosen junction.</p><h4>Instruments and selection</h4><ul><li>DMM with intact leads,fuse and correct V/ohm/current sockets;range chosen above the expected value within the manual ratings.</li><li>Approved low-voltage source and rated resistors/leads;estimate current and resistor power before energising.</li></ul><h4>Connections and terminal roles</h4><p>Use a low-voltage parallel-resistor network;each measured branch current needs series insertion of the current meter with power isolated.</p><h4>Supervised procedure</h4><ol><li>Label junction and all current arrows on the drawing.</li><li>Estimate total/branch current and resistor power from the selected safe source.</li><li>Assemble the approved circuit de-energised and verify actual common nodes.</li><li>Measure total and each branch using the authorised method;isolate before every reconnection.</li><li>Keep source conditions stable and record signs/ranges rather than forcing equality.</li><li>Compare signed current sum with zero and explain residual using uncertainty.</li></ol><h4>Observation table — blank</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Trial</th><th style=\"border:1px solid #cbbadf;padding:6px\">source V</th><th style=\"border:1px solid #cbbadf;padding:6px\">Iin A</th><th style=\"border:1px solid #cbbadf;padding:6px\">Iout1 A</th><th style=\"border:1px solid #cbbadf;padding:6px\">Iout2 A</th><th style=\"border:1px solid #cbbadf;padding:6px\">residual A</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>Record only actual readings,units,instrument range and uncertainty.Computed examples in Notes are not observations.</p><h4>Calculation and conclusion</h4><p>Residual=Iin−sum Iout.Use absolute residual near zero;percentage errors need a nonzero stated reference.</p><h4>Fault finding</h4><ul><li>Mismatch:check omitted branches,meter burden,source drift and sign convention before concluding law failure.</li></ul><h4>Safety</h4><p>Use approved isolated,current-limited low-voltage equipment under supervision.Power OFF before connections/range/socket changes;never place a current-mode meter across a source.</p>",
+            "gu": "<h4>હેતુ</h4><p>Chosen junction પર signed branch currents compare કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact leads,fuse તથા correct V/ohm/current socketsવાળું DMM લો.Manual limitsમાં expected value કરતાં યોગ્ય મોટી range પસંદ કરો.</li><li>Approved low-voltage source તથા rated resistors/leads લો.Energise પહેલાં current/resistor power estimate કરો.</li></ul><h4>Connections અને Terminals</h4><p>Low-voltage parallel-resistor network લો.દરેક branch current માટે power isolated રાખીને meter seriesમાં insert કરો.</p><h4>Supervised ક્રમ</h4><ol><li>Drawingમાં junction તથા current arrows label કરો.</li><li>Selected safe source પરથી total/branch current તથા resistor power estimate કરો.</li><li>Approved circuit de-energised assemble કરીને common nodes verify કરો.</li><li>Authorised methodથી total તથા branch currents માપો;દર reconnection પહેલાં isolate કરો.</li><li>Source conditions stable રાખો અને signs/ranges નોંધો;જબરદસ્તી equality ન બતાવો.</li><li>Signed sumને zero સાથે compare કરીને residualને uncertaintyથી સમજાવો.</li></ol><h4>Observation Table — ખાલી</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Trial</th><th style=\"border:1px solid #cbbadf;padding:6px\">source V</th><th style=\"border:1px solid #cbbadf;padding:6px\">Iin A</th><th style=\"border:1px solid #cbbadf;padding:6px\">Iout1 A</th><th style=\"border:1px solid #cbbadf;padding:6px\">Iout2 A</th><th style=\"border:1px solid #cbbadf;padding:6px\">residual A</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>ફક્ત actual readings,units,instrument range તથા uncertainty નોંધો.Notesનાં computed examples observations નથી.</p><h4>Calculation અને Conclusion</h4><p>Residual=Iin−sum Iout.Zeroની નજીક absolute residual લો;percentage માટે nonzero stated reference જોઈએ.</p><h4>ખામીની તપાસ</h4><ul><li>Mismatchમાં omitted branches,meter burden,source drift,signs તપાસો;નિયમ ખોટો છે એવું તરત ન કહો.</li></ul><h4>સલામતી</h4><p>Supervisionમાં approved isolated,current-limited low-voltage equipment વાપરો.Connections/range/socket બદલતાં power OFF રાખો.Current-mode meter source ઉપર parallel ન મૂકો.</p>"
+          },
+          "diagram": "kcl",
+          "syllabus_item": "Practical.3"
+        },
+        {
+          "h": {
+            "en": "Practical 5: Verify KVL",
+            "gu": "Practical 5: KVL Verify કરો"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Compare measured rises/drops around a defined DC loop.</p><h4>Instruments and selection</h4><ul><li>DMM with intact leads,fuse and correct V/ohm/current sockets;range chosen above the expected value within the manual ratings.</li><li>Approved low-voltage source and rated resistors/leads;estimate current and resistor power before energising.</li></ul><h4>Connections and terminal roles</h4><p>Use a low-voltage series-resistor loop;voltage measurements are across each element with the same declared traversal.</p><h4>Supervised procedure</h4><ol><li>Draw the loop,source polarity,current reference and traversal.</li><li>Estimate drops/current and check component power limits.</li><li>Assemble de-energised and have connections approved.</li><li>Measure source terminal voltage and signed resistor drops with a high-input-resistance meter.</li><li>Record actual simultaneous-condition values and range/polarity;do not substitute nominal source voltage.</li><li>Isolate and sum the signed loop values;assess nonzero residual realistically.</li></ol><h4>Observation table — blank</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Trial</th><th style=\"border:1px solid #cbbadf;padding:6px\">Vs V</th><th style=\"border:1px solid #cbbadf;padding:6px\">V1 V</th><th style=\"border:1px solid #cbbadf;padding:6px\">V2 V</th><th style=\"border:1px solid #cbbadf;padding:6px\">signed residual V</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>Record only actual readings,units,instrument range and uncertainty.Computed examples in Notes are not observations.</p><h4>Calculation and conclusion</h4><p>For the chosen traversal,Vs−V1−V2 should be near zero within measurement effects.</p><h4>Fault finding</h4><ul><li>Wrong sign or excess residual:check probe polarity,wrong nodes,loose contacts and meter loading with power off.</li></ul><h4>Safety</h4><p>Use approved isolated,current-limited low-voltage equipment under supervision.Power OFF before connections/range/socket changes;never place a current-mode meter across a source.</p>",
+            "gu": "<h4>હેતુ</h4><p>Defined DC loopમાં measured rises/drops compare કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact leads,fuse તથા correct V/ohm/current socketsવાળું DMM લો.Manual limitsમાં expected value કરતાં યોગ્ય મોટી range પસંદ કરો.</li><li>Approved low-voltage source તથા rated resistors/leads લો.Energise પહેલાં current/resistor power estimate કરો.</li></ul><h4>Connections અને Terminals</h4><p>Low-voltage series-resistor loopમાં same traversal મુજબ દરેક element ઉપર voltage માપો.</p><h4>Supervised ક્રમ</h4><ol><li>Loop,source polarity,current reference તથા traversal દોરો.</li><li>Drops/current estimate કરીને power limits ચકાસો.</li><li>De-energised assemble કરીને connections approve કરાવો.</li><li>High-input-R meterથી source terminal voltage તથા signed drops માપો.</li><li>Actual same-condition values,range,polarity નોંધો;nominal source V ન મૂકો.</li><li>Isolate કર્યા પછી signed loop sum લો અને residualનું યોગ્ય assessment કરો.</li></ol><h4>Observation Table — ખાલી</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Trial</th><th style=\"border:1px solid #cbbadf;padding:6px\">Vs V</th><th style=\"border:1px solid #cbbadf;padding:6px\">V1 V</th><th style=\"border:1px solid #cbbadf;padding:6px\">V2 V</th><th style=\"border:1px solid #cbbadf;padding:6px\">signed residual V</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>ફક્ત actual readings,units,instrument range તથા uncertainty નોંધો.Notesનાં computed examples observations નથી.</p><h4>Calculation અને Conclusion</h4><p>Chosen traversalમાં Vs−V1−V2 measurement effectsની મર્યાદામાં zeroની નજીક હોવું જોઈએ.</p><h4>ખામીની તપાસ</h4><ul><li>Wrong sign/residualમાં power off કરીને polarity,nodes,contacts,meter loading તપાસો.</li></ul><h4>સલામતી</h4><p>Supervisionમાં approved isolated,current-limited low-voltage equipment વાપરો.Connections/range/socket બદલતાં power OFF રાખો.Current-mode meter source ઉપર parallel ન મૂકો.</p>"
+          },
+          "diagram": "kvl",
+          "syllabus_item": "Practical.5"
+        },
+        {
+          "h": {
+            "en": "Practical 6: Equivalent resistance:series",
+            "gu": "Practical 6: Seriesનું Equivalent Resistance"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Measure individual and equivalent resistance and compare with the network formula.</p><h4>Instruments and selection</h4><ul><li>DMM with intact leads,fuse and correct V/ohm/current sockets;range chosen above the expected value within the manual ratings.</li></ul><h4>Connections and terminal roles</h4><p>Join resistors end-to-end with no intermediate branch;measure across the outer ends.</p><h4>Supervised procedure</h4><ol><li>Isolate sources and verify no stored/applied voltage.</li><li>Measure individual resistance values outside other paths.</li><li>Draw and label the intended connection.</li><li>Assemble de-energised and inspect common nodes/contacts.</li><li>Measure equivalent resistance with an appropriate ohm range.</li><li>Calculate the predicted value from measured component values and compare with actual equivalent.</li></ol><h4>Observation table — blank</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Sample</th><th style=\"border:1px solid #cbbadf;padding:6px\">R1 ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">R2 ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">predicted Req ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured Req ohm</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>Record only actual readings,units,instrument range and uncertainty.Computed examples in Notes are not observations.</p><h4>Calculation and conclusion</h4><p>Req=R1+R2;lead/contact resistance may add to the reading.</p><h4>Fault finding</h4><ul><li>Unexpected result:inspect hidden breadboard rail breaks,wrong node links and in-circuit bypass paths.</li></ul><h4>Safety</h4><p>Use approved isolated,current-limited low-voltage equipment under supervision.Power OFF before connections/range/socket changes;never place a current-mode meter across a source.</p>",
+            "gu": "<h4>હેતુ</h4><p>Individual તથા equivalent R માપીને network formula સાથે compare કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact leads,fuse તથા correct V/ohm/current socketsવાળું DMM લો.Manual limitsમાં expected value કરતાં યોગ્ય મોટી range પસંદ કરો.</li></ul><h4>Connections અને Terminals</h4><p>વચ્ચે branch વગર resistors end-to-end જોડીને outer ends પર માપો.</p><h4>Supervised ક્રમ</h4><ol><li>Sources isolate કરીને stored/applied voltage નથી તે તપાસો.</li><li>Other pathsથી અલગ individual R માપો.</li><li>Intended connection દોરી label કરો.</li><li>De-energised assemble કરીને nodes/contacts તપાસો.</li><li>Appropriate ohm rangeથી equivalent R માપો.</li><li>Measured component valuesથી predicted equivalent ગણી actual સાથે compare કરો.</li></ol><h4>Observation Table — ખાલી</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Sample</th><th style=\"border:1px solid #cbbadf;padding:6px\">R1 ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">R2 ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">predicted Req ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured Req ohm</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>ફક્ત actual readings,units,instrument range તથા uncertainty નોંધો.Notesનાં computed examples observations નથી.</p><h4>Calculation અને Conclusion</h4><p>Req=R1+R2;lead/contact R readingમાં add થઈ શકે છે.</p><h4>ખામીની તપાસ</h4><ul><li>Unexpected resultમાં breadboard rail breaks,wrong links,bypass paths તપાસો.</li></ul><h4>સલામતી</h4><p>Supervisionમાં approved isolated,current-limited low-voltage equipment વાપરો.Connections/range/socket બદલતાં power OFF રાખો.Current-mode meter source ઉપર parallel ન મૂકો.</p>"
+          },
+          "diagram": "resistors",
+          "syllabus_item": "Practical.6"
+        },
+        {
+          "h": {
+            "en": "Practical 7: Equivalent resistance:parallel",
+            "gu": "Practical 7: Parallelનું Equivalent Resistance"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Measure individual and equivalent resistance and compare with the network formula.</p><h4>Instruments and selection</h4><ul><li>DMM with intact leads,fuse and correct V/ohm/current sockets;range chosen above the expected value within the manual ratings.</li></ul><h4>Connections and terminal roles</h4><p>Join corresponding ends to exactly the same two nodes for parallel measurement.</p><h4>Supervised procedure</h4><ol><li>Isolate sources and verify no stored/applied voltage.</li><li>Measure individual resistance values outside other paths.</li><li>Draw and label the intended connection.</li><li>Assemble de-energised and inspect common nodes/contacts.</li><li>Measure equivalent resistance with an appropriate ohm range.</li><li>Calculate the predicted value from measured component values and compare with actual equivalent.</li></ol><h4>Observation table — blank</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Sample</th><th style=\"border:1px solid #cbbadf;padding:6px\">R1 ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">R2 ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">predicted Req ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured Req ohm</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>Record only actual readings,units,instrument range and uncertainty.Computed examples in Notes are not observations.</p><h4>Calculation and conclusion</h4><p>Req=R1R2/(R1+R2),less than the smallest positive branch R.</p><h4>Fault finding</h4><ul><li>Unexpected result:inspect hidden breadboard rail breaks,wrong node links and in-circuit bypass paths.</li></ul><h4>Safety</h4><p>Use approved isolated,current-limited low-voltage equipment under supervision.Power OFF before connections/range/socket changes;never place a current-mode meter across a source.</p>",
+            "gu": "<h4>હેતુ</h4><p>Individual તથા equivalent R માપીને network formula સાથે compare કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact leads,fuse તથા correct V/ohm/current socketsવાળું DMM લો.Manual limitsમાં expected value કરતાં યોગ્ય મોટી range પસંદ કરો.</li></ul><h4>Connections અને Terminals</h4><p>Parallel માટે corresponding endsને same બે nodes પર જોડો.</p><h4>Supervised ક્રમ</h4><ol><li>Sources isolate કરીને stored/applied voltage નથી તે તપાસો.</li><li>Other pathsથી અલગ individual R માપો.</li><li>Intended connection દોરી label કરો.</li><li>De-energised assemble કરીને nodes/contacts તપાસો.</li><li>Appropriate ohm rangeથી equivalent R માપો.</li><li>Measured component valuesથી predicted equivalent ગણી actual સાથે compare કરો.</li></ol><h4>Observation Table — ખાલી</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Sample</th><th style=\"border:1px solid #cbbadf;padding:6px\">R1 ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">R2 ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">predicted Req ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured Req ohm</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>ફક્ત actual readings,units,instrument range તથા uncertainty નોંધો.Notesનાં computed examples observations નથી.</p><h4>Calculation અને Conclusion</h4><p>Req=R1R2/(R1+R2),smallest positive branch R કરતાં ઓછું.</p><h4>ખામીની તપાસ</h4><ul><li>Unexpected resultમાં breadboard rail breaks,wrong links,bypass paths તપાસો.</li></ul><h4>સલામતી</h4><p>Supervisionમાં approved isolated,current-limited low-voltage equipment વાપરો.Connections/range/socket બદલતાં power OFF રાખો.Current-mode meter source ઉપર parallel ન મૂકો.</p>"
+          },
+          "diagram": "resistors",
+          "syllabus_item": "Practical.7"
+        }
+      ]
+    }
+  ],
+  "programs": [
+    {
+      "title": {
+        "en": "Practical & Testing",
+        "gu": "પ્રયોગ અને ચકાસણી"
+      },
+      "format": "rich_cards",
+      "items": [
+        {
+          "h": {
+            "en": "Verify KCL",
+            "gu": "KCL Verify કરો"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Compare signed branch currents at a chosen junction.</p><h4>Instruments and selection</h4><ul><li>DMM with intact leads,fuse and correct V/ohm/current sockets;range chosen above the expected value within the manual ratings.</li><li>Approved low-voltage source and rated resistors/leads;estimate current and resistor power before energising.</li></ul><h4>Connections and terminal roles</h4><p>Use a low-voltage parallel-resistor network;each measured branch current needs series insertion of the current meter with power isolated.</p><h4>Supervised procedure</h4><ol><li>Label junction and all current arrows on the drawing.</li><li>Estimate total/branch current and resistor power from the selected safe source.</li><li>Assemble the approved circuit de-energised and verify actual common nodes.</li><li>Measure total and each branch using the authorised method;isolate before every reconnection.</li><li>Keep source conditions stable and record signs/ranges rather than forcing equality.</li><li>Compare signed current sum with zero and explain residual using uncertainty.</li></ol><h4>Observation table — blank</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Trial</th><th style=\"border:1px solid #cbbadf;padding:6px\">source V</th><th style=\"border:1px solid #cbbadf;padding:6px\">Iin A</th><th style=\"border:1px solid #cbbadf;padding:6px\">Iout1 A</th><th style=\"border:1px solid #cbbadf;padding:6px\">Iout2 A</th><th style=\"border:1px solid #cbbadf;padding:6px\">residual A</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>Record only actual readings,units,instrument range and uncertainty.Computed examples in Notes are not observations.</p><h4>Calculation and conclusion</h4><p>Residual=Iin−sum Iout.Use absolute residual near zero;percentage errors need a nonzero stated reference.</p><h4>Fault finding</h4><ul><li>Mismatch:check omitted branches,meter burden,source drift and sign convention before concluding law failure.</li></ul><h4>Safety</h4><p>Use approved isolated,current-limited low-voltage equipment under supervision.Power OFF before connections/range/socket changes;never place a current-mode meter across a source.</p>",
+            "gu": "<h4>હેતુ</h4><p>Chosen junction પર signed branch currents compare કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact leads,fuse તથા correct V/ohm/current socketsવાળું DMM લો.Manual limitsમાં expected value કરતાં યોગ્ય મોટી range પસંદ કરો.</li><li>Approved low-voltage source તથા rated resistors/leads લો.Energise પહેલાં current/resistor power estimate કરો.</li></ul><h4>Connections અને Terminals</h4><p>Low-voltage parallel-resistor network લો.દરેક branch current માટે power isolated રાખીને meter seriesમાં insert કરો.</p><h4>Supervised ક્રમ</h4><ol><li>Drawingમાં junction તથા current arrows label કરો.</li><li>Selected safe source પરથી total/branch current તથા resistor power estimate કરો.</li><li>Approved circuit de-energised assemble કરીને common nodes verify કરો.</li><li>Authorised methodથી total તથા branch currents માપો;દર reconnection પહેલાં isolate કરો.</li><li>Source conditions stable રાખો અને signs/ranges નોંધો;જબરદસ્તી equality ન બતાવો.</li><li>Signed sumને zero સાથે compare કરીને residualને uncertaintyથી સમજાવો.</li></ol><h4>Observation Table — ખાલી</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Trial</th><th style=\"border:1px solid #cbbadf;padding:6px\">source V</th><th style=\"border:1px solid #cbbadf;padding:6px\">Iin A</th><th style=\"border:1px solid #cbbadf;padding:6px\">Iout1 A</th><th style=\"border:1px solid #cbbadf;padding:6px\">Iout2 A</th><th style=\"border:1px solid #cbbadf;padding:6px\">residual A</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>ફક્ત actual readings,units,instrument range તથા uncertainty નોંધો.Notesનાં computed examples observations નથી.</p><h4>Calculation અને Conclusion</h4><p>Residual=Iin−sum Iout.Zeroની નજીક absolute residual લો;percentage માટે nonzero stated reference જોઈએ.</p><h4>ખામીની તપાસ</h4><ul><li>Mismatchમાં omitted branches,meter burden,source drift,signs તપાસો;નિયમ ખોટો છે એવું તરત ન કહો.</li></ul><h4>સલામતી</h4><p>Supervisionમાં approved isolated,current-limited low-voltage equipment વાપરો.Connections/range/socket બદલતાં power OFF રાખો.Current-mode meter source ઉપર parallel ન મૂકો.</p>"
+          },
+          "diagram": "kcl",
+          "practical_number": 3
+        },
+        {
+          "h": {
+            "en": "Verify KVL",
+            "gu": "KVL Verify કરો"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Compare measured rises/drops around a defined DC loop.</p><h4>Instruments and selection</h4><ul><li>DMM with intact leads,fuse and correct V/ohm/current sockets;range chosen above the expected value within the manual ratings.</li><li>Approved low-voltage source and rated resistors/leads;estimate current and resistor power before energising.</li></ul><h4>Connections and terminal roles</h4><p>Use a low-voltage series-resistor loop;voltage measurements are across each element with the same declared traversal.</p><h4>Supervised procedure</h4><ol><li>Draw the loop,source polarity,current reference and traversal.</li><li>Estimate drops/current and check component power limits.</li><li>Assemble de-energised and have connections approved.</li><li>Measure source terminal voltage and signed resistor drops with a high-input-resistance meter.</li><li>Record actual simultaneous-condition values and range/polarity;do not substitute nominal source voltage.</li><li>Isolate and sum the signed loop values;assess nonzero residual realistically.</li></ol><h4>Observation table — blank</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Trial</th><th style=\"border:1px solid #cbbadf;padding:6px\">Vs V</th><th style=\"border:1px solid #cbbadf;padding:6px\">V1 V</th><th style=\"border:1px solid #cbbadf;padding:6px\">V2 V</th><th style=\"border:1px solid #cbbadf;padding:6px\">signed residual V</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>Record only actual readings,units,instrument range and uncertainty.Computed examples in Notes are not observations.</p><h4>Calculation and conclusion</h4><p>For the chosen traversal,Vs−V1−V2 should be near zero within measurement effects.</p><h4>Fault finding</h4><ul><li>Wrong sign or excess residual:check probe polarity,wrong nodes,loose contacts and meter loading with power off.</li></ul><h4>Safety</h4><p>Use approved isolated,current-limited low-voltage equipment under supervision.Power OFF before connections/range/socket changes;never place a current-mode meter across a source.</p>",
+            "gu": "<h4>હેતુ</h4><p>Defined DC loopમાં measured rises/drops compare કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact leads,fuse તથા correct V/ohm/current socketsવાળું DMM લો.Manual limitsમાં expected value કરતાં યોગ્ય મોટી range પસંદ કરો.</li><li>Approved low-voltage source તથા rated resistors/leads લો.Energise પહેલાં current/resistor power estimate કરો.</li></ul><h4>Connections અને Terminals</h4><p>Low-voltage series-resistor loopમાં same traversal મુજબ દરેક element ઉપર voltage માપો.</p><h4>Supervised ક્રમ</h4><ol><li>Loop,source polarity,current reference તથા traversal દોરો.</li><li>Drops/current estimate કરીને power limits ચકાસો.</li><li>De-energised assemble કરીને connections approve કરાવો.</li><li>High-input-R meterથી source terminal voltage તથા signed drops માપો.</li><li>Actual same-condition values,range,polarity નોંધો;nominal source V ન મૂકો.</li><li>Isolate કર્યા પછી signed loop sum લો અને residualનું યોગ્ય assessment કરો.</li></ol><h4>Observation Table — ખાલી</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Trial</th><th style=\"border:1px solid #cbbadf;padding:6px\">Vs V</th><th style=\"border:1px solid #cbbadf;padding:6px\">V1 V</th><th style=\"border:1px solid #cbbadf;padding:6px\">V2 V</th><th style=\"border:1px solid #cbbadf;padding:6px\">signed residual V</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>ફક્ત actual readings,units,instrument range તથા uncertainty નોંધો.Notesનાં computed examples observations નથી.</p><h4>Calculation અને Conclusion</h4><p>Chosen traversalમાં Vs−V1−V2 measurement effectsની મર્યાદામાં zeroની નજીક હોવું જોઈએ.</p><h4>ખામીની તપાસ</h4><ul><li>Wrong sign/residualમાં power off કરીને polarity,nodes,contacts,meter loading તપાસો.</li></ul><h4>સલામતી</h4><p>Supervisionમાં approved isolated,current-limited low-voltage equipment વાપરો.Connections/range/socket બદલતાં power OFF રાખો.Current-mode meter source ઉપર parallel ન મૂકો.</p>"
+          },
+          "diagram": "kvl",
+          "practical_number": 5
+        },
+        {
+          "h": {
+            "en": "Equivalent resistance:series",
+            "gu": "Seriesનું Equivalent Resistance"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Measure individual and equivalent resistance and compare with the network formula.</p><h4>Instruments and selection</h4><ul><li>DMM with intact leads,fuse and correct V/ohm/current sockets;range chosen above the expected value within the manual ratings.</li></ul><h4>Connections and terminal roles</h4><p>Join resistors end-to-end with no intermediate branch;measure across the outer ends.</p><h4>Supervised procedure</h4><ol><li>Isolate sources and verify no stored/applied voltage.</li><li>Measure individual resistance values outside other paths.</li><li>Draw and label the intended connection.</li><li>Assemble de-energised and inspect common nodes/contacts.</li><li>Measure equivalent resistance with an appropriate ohm range.</li><li>Calculate the predicted value from measured component values and compare with actual equivalent.</li></ol><h4>Observation table — blank</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Sample</th><th style=\"border:1px solid #cbbadf;padding:6px\">R1 ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">R2 ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">predicted Req ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured Req ohm</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>Record only actual readings,units,instrument range and uncertainty.Computed examples in Notes are not observations.</p><h4>Calculation and conclusion</h4><p>Req=R1+R2;lead/contact resistance may add to the reading.</p><h4>Fault finding</h4><ul><li>Unexpected result:inspect hidden breadboard rail breaks,wrong node links and in-circuit bypass paths.</li></ul><h4>Safety</h4><p>Use approved isolated,current-limited low-voltage equipment under supervision.Power OFF before connections/range/socket changes;never place a current-mode meter across a source.</p>",
+            "gu": "<h4>હેતુ</h4><p>Individual તથા equivalent R માપીને network formula સાથે compare કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact leads,fuse તથા correct V/ohm/current socketsવાળું DMM લો.Manual limitsમાં expected value કરતાં યોગ્ય મોટી range પસંદ કરો.</li></ul><h4>Connections અને Terminals</h4><p>વચ્ચે branch વગર resistors end-to-end જોડીને outer ends પર માપો.</p><h4>Supervised ક્રમ</h4><ol><li>Sources isolate કરીને stored/applied voltage નથી તે તપાસો.</li><li>Other pathsથી અલગ individual R માપો.</li><li>Intended connection દોરી label કરો.</li><li>De-energised assemble કરીને nodes/contacts તપાસો.</li><li>Appropriate ohm rangeથી equivalent R માપો.</li><li>Measured component valuesથી predicted equivalent ગણી actual સાથે compare કરો.</li></ol><h4>Observation Table — ખાલી</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Sample</th><th style=\"border:1px solid #cbbadf;padding:6px\">R1 ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">R2 ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">predicted Req ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured Req ohm</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>ફક્ત actual readings,units,instrument range તથા uncertainty નોંધો.Notesનાં computed examples observations નથી.</p><h4>Calculation અને Conclusion</h4><p>Req=R1+R2;lead/contact R readingમાં add થઈ શકે છે.</p><h4>ખામીની તપાસ</h4><ul><li>Unexpected resultમાં breadboard rail breaks,wrong links,bypass paths તપાસો.</li></ul><h4>સલામતી</h4><p>Supervisionમાં approved isolated,current-limited low-voltage equipment વાપરો.Connections/range/socket બદલતાં power OFF રાખો.Current-mode meter source ઉપર parallel ન મૂકો.</p>"
+          },
+          "diagram": "resistors",
+          "practical_number": 6
+        },
+        {
+          "h": {
+            "en": "Equivalent resistance:parallel",
+            "gu": "Parallelનું Equivalent Resistance"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Measure individual and equivalent resistance and compare with the network formula.</p><h4>Instruments and selection</h4><ul><li>DMM with intact leads,fuse and correct V/ohm/current sockets;range chosen above the expected value within the manual ratings.</li></ul><h4>Connections and terminal roles</h4><p>Join corresponding ends to exactly the same two nodes for parallel measurement.</p><h4>Supervised procedure</h4><ol><li>Isolate sources and verify no stored/applied voltage.</li><li>Measure individual resistance values outside other paths.</li><li>Draw and label the intended connection.</li><li>Assemble de-energised and inspect common nodes/contacts.</li><li>Measure equivalent resistance with an appropriate ohm range.</li><li>Calculate the predicted value from measured component values and compare with actual equivalent.</li></ol><h4>Observation table — blank</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Sample</th><th style=\"border:1px solid #cbbadf;padding:6px\">R1 ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">R2 ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">predicted Req ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured Req ohm</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>Record only actual readings,units,instrument range and uncertainty.Computed examples in Notes are not observations.</p><h4>Calculation and conclusion</h4><p>Req=R1R2/(R1+R2),less than the smallest positive branch R.</p><h4>Fault finding</h4><ul><li>Unexpected result:inspect hidden breadboard rail breaks,wrong node links and in-circuit bypass paths.</li></ul><h4>Safety</h4><p>Use approved isolated,current-limited low-voltage equipment under supervision.Power OFF before connections/range/socket changes;never place a current-mode meter across a source.</p>",
+            "gu": "<h4>હેતુ</h4><p>Individual તથા equivalent R માપીને network formula સાથે compare કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact leads,fuse તથા correct V/ohm/current socketsવાળું DMM લો.Manual limitsમાં expected value કરતાં યોગ્ય મોટી range પસંદ કરો.</li></ul><h4>Connections અને Terminals</h4><p>Parallel માટે corresponding endsને same બે nodes પર જોડો.</p><h4>Supervised ક્રમ</h4><ol><li>Sources isolate કરીને stored/applied voltage નથી તે તપાસો.</li><li>Other pathsથી અલગ individual R માપો.</li><li>Intended connection દોરી label કરો.</li><li>De-energised assemble કરીને nodes/contacts તપાસો.</li><li>Appropriate ohm rangeથી equivalent R માપો.</li><li>Measured component valuesથી predicted equivalent ગણી actual સાથે compare કરો.</li></ol><h4>Observation Table — ખાલી</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Sample</th><th style=\"border:1px solid #cbbadf;padding:6px\">R1 ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">R2 ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">predicted Req ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured Req ohm</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>ફક્ત actual readings,units,instrument range તથા uncertainty નોંધો.Notesનાં computed examples observations નથી.</p><h4>Calculation અને Conclusion</h4><p>Req=R1R2/(R1+R2),smallest positive branch R કરતાં ઓછું.</p><h4>ખામીની તપાસ</h4><ul><li>Unexpected resultમાં breadboard rail breaks,wrong links,bypass paths તપાસો.</li></ul><h4>સલામતી</h4><p>Supervisionમાં approved isolated,current-limited low-voltage equipment વાપરો.Connections/range/socket બદલતાં power OFF રાખો.Current-mode meter source ઉપર parallel ન મૂકો.</p>"
+          },
+          "diagram": "resistors",
+          "practical_number": 7
+        }
+      ]
+    }
+  ],
+  "practicals": [
+    {
+      "number": 3,
+      "unit": 2,
+      "title": {
+        "en": "Verify KCL",
+        "gu": "KCL Verify કરો"
+      },
+      "aim": {
+        "en": "Compare signed branch currents at a chosen junction.",
+        "gu": "Chosen junction પર signed branch currents compare કરો."
+      },
+      "diagram": "kcl",
+      "performed": false,
+      "source_reference": "GTU practical 3,pp5–6",
+      "observation_status": "Blank template;no measured readings",
+      "suggested_duration": null,
+      "body": {
+        "en": "<h4>Aim</h4><p>Compare signed branch currents at a chosen junction.</p><h4>Instruments and selection</h4><ul><li>DMM with intact leads,fuse and correct V/ohm/current sockets;range chosen above the expected value within the manual ratings.</li><li>Approved low-voltage source and rated resistors/leads;estimate current and resistor power before energising.</li></ul><h4>Connections and terminal roles</h4><p>Use a low-voltage parallel-resistor network;each measured branch current needs series insertion of the current meter with power isolated.</p><h4>Supervised procedure</h4><ol><li>Label junction and all current arrows on the drawing.</li><li>Estimate total/branch current and resistor power from the selected safe source.</li><li>Assemble the approved circuit de-energised and verify actual common nodes.</li><li>Measure total and each branch using the authorised method;isolate before every reconnection.</li><li>Keep source conditions stable and record signs/ranges rather than forcing equality.</li><li>Compare signed current sum with zero and explain residual using uncertainty.</li></ol><h4>Observation table — blank</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Trial</th><th style=\"border:1px solid #cbbadf;padding:6px\">source V</th><th style=\"border:1px solid #cbbadf;padding:6px\">Iin A</th><th style=\"border:1px solid #cbbadf;padding:6px\">Iout1 A</th><th style=\"border:1px solid #cbbadf;padding:6px\">Iout2 A</th><th style=\"border:1px solid #cbbadf;padding:6px\">residual A</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>Record only actual readings,units,instrument range and uncertainty.Computed examples in Notes are not observations.</p><h4>Calculation and conclusion</h4><p>Residual=Iin−sum Iout.Use absolute residual near zero;percentage errors need a nonzero stated reference.</p><h4>Fault finding</h4><ul><li>Mismatch:check omitted branches,meter burden,source drift and sign convention before concluding law failure.</li></ul><h4>Safety</h4><p>Use approved isolated,current-limited low-voltage equipment under supervision.Power OFF before connections/range/socket changes;never place a current-mode meter across a source.</p>",
+        "gu": "<h4>હેતુ</h4><p>Chosen junction પર signed branch currents compare કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact leads,fuse તથા correct V/ohm/current socketsવાળું DMM લો.Manual limitsમાં expected value કરતાં યોગ્ય મોટી range પસંદ કરો.</li><li>Approved low-voltage source તથા rated resistors/leads લો.Energise પહેલાં current/resistor power estimate કરો.</li></ul><h4>Connections અને Terminals</h4><p>Low-voltage parallel-resistor network લો.દરેક branch current માટે power isolated રાખીને meter seriesમાં insert કરો.</p><h4>Supervised ક્રમ</h4><ol><li>Drawingમાં junction તથા current arrows label કરો.</li><li>Selected safe source પરથી total/branch current તથા resistor power estimate કરો.</li><li>Approved circuit de-energised assemble કરીને common nodes verify કરો.</li><li>Authorised methodથી total તથા branch currents માપો;દર reconnection પહેલાં isolate કરો.</li><li>Source conditions stable રાખો અને signs/ranges નોંધો;જબરદસ્તી equality ન બતાવો.</li><li>Signed sumને zero સાથે compare કરીને residualને uncertaintyથી સમજાવો.</li></ol><h4>Observation Table — ખાલી</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Trial</th><th style=\"border:1px solid #cbbadf;padding:6px\">source V</th><th style=\"border:1px solid #cbbadf;padding:6px\">Iin A</th><th style=\"border:1px solid #cbbadf;padding:6px\">Iout1 A</th><th style=\"border:1px solid #cbbadf;padding:6px\">Iout2 A</th><th style=\"border:1px solid #cbbadf;padding:6px\">residual A</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>ફક્ત actual readings,units,instrument range તથા uncertainty નોંધો.Notesનાં computed examples observations નથી.</p><h4>Calculation અને Conclusion</h4><p>Residual=Iin−sum Iout.Zeroની નજીક absolute residual લો;percentage માટે nonzero stated reference જોઈએ.</p><h4>ખામીની તપાસ</h4><ul><li>Mismatchમાં omitted branches,meter burden,source drift,signs તપાસો;નિયમ ખોટો છે એવું તરત ન કહો.</li></ul><h4>સલામતી</h4><p>Supervisionમાં approved isolated,current-limited low-voltage equipment વાપરો.Connections/range/socket બદલતાં power OFF રાખો.Current-mode meter source ઉપર parallel ન મૂકો.</p>"
+      }
+    },
+    {
+      "number": 5,
+      "unit": 2,
+      "title": {
+        "en": "Verify KVL",
+        "gu": "KVL Verify કરો"
+      },
+      "aim": {
+        "en": "Compare measured rises/drops around a defined DC loop.",
+        "gu": "Defined DC loopમાં measured rises/drops compare કરો."
+      },
+      "diagram": "kvl",
+      "performed": false,
+      "source_reference": "GTU practical 5,pp5–6",
+      "observation_status": "Blank template;no measured readings",
+      "suggested_duration": null,
+      "body": {
+        "en": "<h4>Aim</h4><p>Compare measured rises/drops around a defined DC loop.</p><h4>Instruments and selection</h4><ul><li>DMM with intact leads,fuse and correct V/ohm/current sockets;range chosen above the expected value within the manual ratings.</li><li>Approved low-voltage source and rated resistors/leads;estimate current and resistor power before energising.</li></ul><h4>Connections and terminal roles</h4><p>Use a low-voltage series-resistor loop;voltage measurements are across each element with the same declared traversal.</p><h4>Supervised procedure</h4><ol><li>Draw the loop,source polarity,current reference and traversal.</li><li>Estimate drops/current and check component power limits.</li><li>Assemble de-energised and have connections approved.</li><li>Measure source terminal voltage and signed resistor drops with a high-input-resistance meter.</li><li>Record actual simultaneous-condition values and range/polarity;do not substitute nominal source voltage.</li><li>Isolate and sum the signed loop values;assess nonzero residual realistically.</li></ol><h4>Observation table — blank</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Trial</th><th style=\"border:1px solid #cbbadf;padding:6px\">Vs V</th><th style=\"border:1px solid #cbbadf;padding:6px\">V1 V</th><th style=\"border:1px solid #cbbadf;padding:6px\">V2 V</th><th style=\"border:1px solid #cbbadf;padding:6px\">signed residual V</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>Record only actual readings,units,instrument range and uncertainty.Computed examples in Notes are not observations.</p><h4>Calculation and conclusion</h4><p>For the chosen traversal,Vs−V1−V2 should be near zero within measurement effects.</p><h4>Fault finding</h4><ul><li>Wrong sign or excess residual:check probe polarity,wrong nodes,loose contacts and meter loading with power off.</li></ul><h4>Safety</h4><p>Use approved isolated,current-limited low-voltage equipment under supervision.Power OFF before connections/range/socket changes;never place a current-mode meter across a source.</p>",
+        "gu": "<h4>હેતુ</h4><p>Defined DC loopમાં measured rises/drops compare કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact leads,fuse તથા correct V/ohm/current socketsવાળું DMM લો.Manual limitsમાં expected value કરતાં યોગ્ય મોટી range પસંદ કરો.</li><li>Approved low-voltage source તથા rated resistors/leads લો.Energise પહેલાં current/resistor power estimate કરો.</li></ul><h4>Connections અને Terminals</h4><p>Low-voltage series-resistor loopમાં same traversal મુજબ દરેક element ઉપર voltage માપો.</p><h4>Supervised ક્રમ</h4><ol><li>Loop,source polarity,current reference તથા traversal દોરો.</li><li>Drops/current estimate કરીને power limits ચકાસો.</li><li>De-energised assemble કરીને connections approve કરાવો.</li><li>High-input-R meterથી source terminal voltage તથા signed drops માપો.</li><li>Actual same-condition values,range,polarity નોંધો;nominal source V ન મૂકો.</li><li>Isolate કર્યા પછી signed loop sum લો અને residualનું યોગ્ય assessment કરો.</li></ol><h4>Observation Table — ખાલી</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Trial</th><th style=\"border:1px solid #cbbadf;padding:6px\">Vs V</th><th style=\"border:1px solid #cbbadf;padding:6px\">V1 V</th><th style=\"border:1px solid #cbbadf;padding:6px\">V2 V</th><th style=\"border:1px solid #cbbadf;padding:6px\">signed residual V</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>ફક્ત actual readings,units,instrument range તથા uncertainty નોંધો.Notesનાં computed examples observations નથી.</p><h4>Calculation અને Conclusion</h4><p>Chosen traversalમાં Vs−V1−V2 measurement effectsની મર્યાદામાં zeroની નજીક હોવું જોઈએ.</p><h4>ખામીની તપાસ</h4><ul><li>Wrong sign/residualમાં power off કરીને polarity,nodes,contacts,meter loading તપાસો.</li></ul><h4>સલામતી</h4><p>Supervisionમાં approved isolated,current-limited low-voltage equipment વાપરો.Connections/range/socket બદલતાં power OFF રાખો.Current-mode meter source ઉપર parallel ન મૂકો.</p>"
+      }
+    },
+    {
+      "number": 6,
+      "unit": 2,
+      "title": {
+        "en": "Equivalent resistance:series",
+        "gu": "Seriesનું Equivalent Resistance"
+      },
+      "aim": {
+        "en": "Measure individual and equivalent resistance and compare with the network formula.",
+        "gu": "Individual તથા equivalent R માપીને network formula સાથે compare કરો."
+      },
+      "diagram": "resistors",
+      "performed": false,
+      "source_reference": "GTU practical 6,pp5–6",
+      "observation_status": "Blank template;no measured readings",
+      "suggested_duration": null,
+      "body": {
+        "en": "<h4>Aim</h4><p>Measure individual and equivalent resistance and compare with the network formula.</p><h4>Instruments and selection</h4><ul><li>DMM with intact leads,fuse and correct V/ohm/current sockets;range chosen above the expected value within the manual ratings.</li></ul><h4>Connections and terminal roles</h4><p>Join resistors end-to-end with no intermediate branch;measure across the outer ends.</p><h4>Supervised procedure</h4><ol><li>Isolate sources and verify no stored/applied voltage.</li><li>Measure individual resistance values outside other paths.</li><li>Draw and label the intended connection.</li><li>Assemble de-energised and inspect common nodes/contacts.</li><li>Measure equivalent resistance with an appropriate ohm range.</li><li>Calculate the predicted value from measured component values and compare with actual equivalent.</li></ol><h4>Observation table — blank</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Sample</th><th style=\"border:1px solid #cbbadf;padding:6px\">R1 ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">R2 ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">predicted Req ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured Req ohm</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>Record only actual readings,units,instrument range and uncertainty.Computed examples in Notes are not observations.</p><h4>Calculation and conclusion</h4><p>Req=R1+R2;lead/contact resistance may add to the reading.</p><h4>Fault finding</h4><ul><li>Unexpected result:inspect hidden breadboard rail breaks,wrong node links and in-circuit bypass paths.</li></ul><h4>Safety</h4><p>Use approved isolated,current-limited low-voltage equipment under supervision.Power OFF before connections/range/socket changes;never place a current-mode meter across a source.</p>",
+        "gu": "<h4>હેતુ</h4><p>Individual તથા equivalent R માપીને network formula સાથે compare કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact leads,fuse તથા correct V/ohm/current socketsવાળું DMM લો.Manual limitsમાં expected value કરતાં યોગ્ય મોટી range પસંદ કરો.</li></ul><h4>Connections અને Terminals</h4><p>વચ્ચે branch વગર resistors end-to-end જોડીને outer ends પર માપો.</p><h4>Supervised ક્રમ</h4><ol><li>Sources isolate કરીને stored/applied voltage નથી તે તપાસો.</li><li>Other pathsથી અલગ individual R માપો.</li><li>Intended connection દોરી label કરો.</li><li>De-energised assemble કરીને nodes/contacts તપાસો.</li><li>Appropriate ohm rangeથી equivalent R માપો.</li><li>Measured component valuesથી predicted equivalent ગણી actual સાથે compare કરો.</li></ol><h4>Observation Table — ખાલી</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Sample</th><th style=\"border:1px solid #cbbadf;padding:6px\">R1 ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">R2 ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">predicted Req ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured Req ohm</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>ફક્ત actual readings,units,instrument range તથા uncertainty નોંધો.Notesનાં computed examples observations નથી.</p><h4>Calculation અને Conclusion</h4><p>Req=R1+R2;lead/contact R readingમાં add થઈ શકે છે.</p><h4>ખામીની તપાસ</h4><ul><li>Unexpected resultમાં breadboard rail breaks,wrong links,bypass paths તપાસો.</li></ul><h4>સલામતી</h4><p>Supervisionમાં approved isolated,current-limited low-voltage equipment વાપરો.Connections/range/socket બદલતાં power OFF રાખો.Current-mode meter source ઉપર parallel ન મૂકો.</p>"
+      }
+    },
+    {
+      "number": 7,
+      "unit": 2,
+      "title": {
+        "en": "Equivalent resistance:parallel",
+        "gu": "Parallelનું Equivalent Resistance"
+      },
+      "aim": {
+        "en": "Measure individual and equivalent resistance and compare with the network formula.",
+        "gu": "Individual તથા equivalent R માપીને network formula સાથે compare કરો."
+      },
+      "diagram": "resistors",
+      "performed": false,
+      "source_reference": "GTU practical 7,pp5–6",
+      "observation_status": "Blank template;no measured readings",
+      "suggested_duration": null,
+      "body": {
+        "en": "<h4>Aim</h4><p>Measure individual and equivalent resistance and compare with the network formula.</p><h4>Instruments and selection</h4><ul><li>DMM with intact leads,fuse and correct V/ohm/current sockets;range chosen above the expected value within the manual ratings.</li></ul><h4>Connections and terminal roles</h4><p>Join corresponding ends to exactly the same two nodes for parallel measurement.</p><h4>Supervised procedure</h4><ol><li>Isolate sources and verify no stored/applied voltage.</li><li>Measure individual resistance values outside other paths.</li><li>Draw and label the intended connection.</li><li>Assemble de-energised and inspect common nodes/contacts.</li><li>Measure equivalent resistance with an appropriate ohm range.</li><li>Calculate the predicted value from measured component values and compare with actual equivalent.</li></ol><h4>Observation table — blank</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Sample</th><th style=\"border:1px solid #cbbadf;padding:6px\">R1 ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">R2 ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">predicted Req ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured Req ohm</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>Record only actual readings,units,instrument range and uncertainty.Computed examples in Notes are not observations.</p><h4>Calculation and conclusion</h4><p>Req=R1R2/(R1+R2),less than the smallest positive branch R.</p><h4>Fault finding</h4><ul><li>Unexpected result:inspect hidden breadboard rail breaks,wrong node links and in-circuit bypass paths.</li></ul><h4>Safety</h4><p>Use approved isolated,current-limited low-voltage equipment under supervision.Power OFF before connections/range/socket changes;never place a current-mode meter across a source.</p>",
+        "gu": "<h4>હેતુ</h4><p>Individual તથા equivalent R માપીને network formula સાથે compare કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact leads,fuse તથા correct V/ohm/current socketsવાળું DMM લો.Manual limitsમાં expected value કરતાં યોગ્ય મોટી range પસંદ કરો.</li></ul><h4>Connections અને Terminals</h4><p>Parallel માટે corresponding endsને same બે nodes પર જોડો.</p><h4>Supervised ક્રમ</h4><ol><li>Sources isolate કરીને stored/applied voltage નથી તે તપાસો.</li><li>Other pathsથી અલગ individual R માપો.</li><li>Intended connection દોરી label કરો.</li><li>De-energised assemble કરીને nodes/contacts તપાસો.</li><li>Appropriate ohm rangeથી equivalent R માપો.</li><li>Measured component valuesથી predicted equivalent ગણી actual સાથે compare કરો.</li></ol><h4>Observation Table — ખાલી</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Sample</th><th style=\"border:1px solid #cbbadf;padding:6px\">R1 ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">R2 ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">predicted Req ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured Req ohm</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>ફક્ત actual readings,units,instrument range તથા uncertainty નોંધો.Notesનાં computed examples observations નથી.</p><h4>Calculation અને Conclusion</h4><p>Req=R1R2/(R1+R2),smallest positive branch R કરતાં ઓછું.</p><h4>ખામીની તપાસ</h4><ul><li>Unexpected resultમાં breadboard rail breaks,wrong links,bypass paths તપાસો.</li></ul><h4>સલામતી</h4><p>Supervisionમાં approved isolated,current-limited low-voltage equipment વાપરો.Connections/range/socket બદલતાં power OFF રાખો.Current-mode meter source ઉપર parallel ન મૂકો.</p>"
+      }
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "kcl",
+      "title": {
+        "en": "KCL at a junction:charge conservation",
+        "gu": "Kirchhoffનો Current Law (KCL)"
+      },
+      "file": "diagrams/kcl.svg"
+    },
+    {
+      "id": "kvl",
+      "title": {
+        "en": "KVL around a closed DC loop",
+        "gu": "Kirchhoffનો Voltage Law (KVL)"
+      },
+      "file": "diagrams/kvl.svg"
+    },
+    {
+      "id": "resistors",
+      "title": {
+        "en": "Series versus parallel:identify nodes,not drawing shape",
+        "gu": "Series/Parallel:જોડાણથી નિર્ણય"
+      },
+      "file": "diagrams/resistors.svg"
+    },
+    {
+      "id": "source",
+      "title": {
+        "en": "Source transformation:series R ↔ parallel R",
+        "gu": "Source Transformation"
+      },
+      "file": "diagrams/source.svg"
+    },
+    {
+      "id": "cells",
+      "title": {
+        "en": "Cell arrangements:electrical model,not battery-pack instructions",
+        "gu": "Battery Cells:Series,Parallel અને Mixed Groups"
+      },
+      "file": "diagrams/cells.svg"
+    },
+    {
+      "id": "divider",
+      "title": {
+        "en": "Voltage divider:unloaded and loaded output",
+        "gu": "Voltage અને Current Divider Rules"
+      },
+      "file": "diagrams/divider.svg"
+    },
+    {
+      "id": "star",
+      "title": {
+        "en": "Star and delta:three resistors,same external A,B,C",
+        "gu": "Labelled Terminals સાથે Star ↔ Delta"
+      },
+      "file": "diagrams/star.svg"
+    }
+  ],
+  "syntax": [
+    {
+      "title": {
+        "en": "Formula and conditions",
+        "gu": "સૂત્રો અને શરતો"
+      },
+      "items": [
+        {
+          "name": {
+            "en": "Network relations",
+            "gu": "Network સૂત્રો"
+          },
+          "f": "KCL:sum I=0;KVL:sum V=0\nRs=sum R;1/Rp=sum(1/R)\nIs=Vs/R;Vout=Vin Rlower/(Rupper+Rlower)",
+          "terms": {
+            "en": "Label nodes,signs,load and internal resistance before substituting.",
+            "gu": "Substitute કરતાં પહેલાં nodes,signs,load,internal resistance ઓળખો."
+          }
+        }
+      ]
+    }
+  ],
+  "viva": [
+    {
+      "title": {
+        "en": "Viva with answers",
+        "gu": "જવાબ સાથે Viva"
+      },
+      "items": [
+        {
+          "q": {
+            "en": "KCL conserves what?",
+            "gu": "KCL શું જાળવે છે?"
+          },
+          "a": {
+            "en": "Charge.",
+            "gu": "Charge."
+          }
+        },
+        {
+          "q": {
+            "en": "KVL sum is signed?",
+            "gu": "KVLમાં Signed Sum?"
+          },
+          "a": {
+            "en": "Yes.Rises/drops follow traversal and polarity.",
+            "gu": "હા.Traversal અને polarity મુજબ."
+          }
+        },
+        {
+          "q": {
+            "en": "Parallel resistors share what?",
+            "gu": "Parallel Rમાં શું સમાન?"
+          },
+          "a": {
+            "en": "Terminal voltage.",
+            "gu": "Terminal voltage."
+          }
+        },
+        {
+          "q": {
+            "en": "Why divider voltage falls under load?",
+            "gu": "Loadથી Divider Voltage કેમ ઘટે?"
+          },
+          "a": {
+            "en": "The lower-arm equivalent resistance decreases.",
+            "gu": "Lower-arm equivalent resistance ઘટે છે."
+          }
+        },
+        {
+          "q": {
+            "en": "Source transformation preserves internal power?",
+            "gu": "Source Transformation Internal Power જાળવે?"
+          },
+          "a": {
+            "en": "Not necessarily;it preserves terminal behaviour.",
+            "gu": "જરૂરી નથી;terminal behaviour જાળવે છે."
+          }
+        },
+        {
+          "q": {
+            "en": "Reversed series cell subtracts r?",
+            "gu": "Reversed Series Cellમાં r Subtract થાય?"
+          },
+          "a": {
+            "en": "No.Resistances still add.",
+            "gu": "ના.Resistances add જ થાય છે."
+          }
+        }
+      ]
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "State/apply KCL and KVL with signs and a labelled circuit.",
+        "gu": "KCL,KVL signs અને circuitથી સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Solve a mixed series-parallel resistor network and verify KCL/KVL.",
+        "gu": "Mixed network solve કરીને KCL/KVL verify કરો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain source transformation with terminal-equivalence example and limits.",
+        "gu": "Source Transformation example,limits સાથે સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain series,parallel and mixed identical-cell equivalents.",
+        "gu": "Identical Cellsના ત્રણ equivalent સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Derive voltage/current division and explain loaded-divider error.",
+        "gu": "Divider Rules derive કરી loading error સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Convert delta6,9,3ohm to star and verify one terminal-pair resistance.",
+        "gu": "આપેલા Deltaનું Star conversion અને check કરો."
+      },
+      "marks": 7
+    }
+  ],
+  "exam_policy": "Questions and suggested marks only;original practice,not past-paper claims.",
+  "physical_practicals_performed": false,
+  "sources": [
+    {
+      "title": "Owner GTU DC Circuit DI01000081,w.e.f.2024-25",
+      "reference": "Theory pp2–3;practicals pp5–6;projects p7."
+    }
+  ],
+  "diagram_note": "Original conceptual circuits and magnetic sketches.Shared standard symbol/English labels;equivalent Gujarati explanations in cards."
+}

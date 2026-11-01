@@ -1,0 +1,796 @@
+{
+  "subject": "DI03000101",
+  "unit": 2,
+  "title": {
+    "en": "Performance of Transmission Lines",
+    "gu": "Transmission Linesનું Performance"
+  },
+  "format": "notes",
+  "languages": [
+    "en",
+    "gu"
+  ],
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "tab_labels": {
+    "programs": {
+      "en": "Practical",
+      "gu": "પ્રયોગ અને ચકાસણી"
+    }
+  },
+  "hours": 12,
+  "weightage": 28,
+  "notes": [
+    {
+      "title": {
+        "en": "2.1 Line parameters and units",
+        "gu": "2.1 Line Parameters તથા Units"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Line parameters and units",
+            "gu": "Line Parameters તથા Units"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Distributed resistance/inductance are series effects;capacitance/leakage are shunt effects.</p><h4>Explanation and application</h4><ul><li>Per-length z=r+jωLand y=g+jωC;for uniform length ℓ,Z=zℓ,Y=yℓ.Here L/Cinside per-length expressions are per-length quantities;do not mix Hwith H/km or Fwith µF.</li><li>Rcauses heating/real-power loss,Lproduces reactive drop,Cdraws charging current and Gmodels insulation leakage.Gis often neglected in elementary overhead models,not assumed zero in every cable.</li><li>Use measured/manufacturer ACresistance at operating temperature.GMRr′for inductance differs from physical/equivalent capacitive radius r.</li></ul><details class=\"self-check\"><summary>Receiving voltage at no load?</summary><p>At fixed Vs,Vr0=Vs/A.</p></details>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Distributed R-L series effects અને C-leakage shunt effects છે.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Per-length z=r+jωL/y=g+jωC છે.Length ℓ માટે Z=zℓ/Y=yℓ લો.Per-length L-Cને total H-F સાથે mix નકરો.</li><li>R heating-loss,L reactive drop,C charging I/G insulation leakage દર્શાવે.G elementary overheadમાં ignore થાય;દરેક cableમાં zero એવું નથી.</li><li>Operating-T AC R અને manufacturer data લો.Inductance GMRr′ તથા capacitive physical/equivalent r અલગ છે.</li></ul><details class=\"self-check\"><summary>No-load Receiving Voltage?</summary><p>Fixed Vsમાં Vr0=Vs/A છે.</p></details>"
+          },
+          "syllabus_item": "2.1",
+          "diagram": "parameters"
+        },
+        {
+          "h": {
+            "en": "Inductance and capacitance:geometry relations",
+            "gu": "L તથા C:Geometry Relations"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>Balanced transposed three-phase overhead line,negligible earth influence,round nonmagnetic solid conductor for r′≈0.7788r;use actual GMRfor stranded/bundled conductors.</p><h4>Step-by-step solution</h4><ol><li>Average geometry uses Dm=(DabDbcDca)^(1/3);for equilateral spacing Dm=D.</li><li>Integrating external magnetic flux linkage proportional to dr/r gives a logarithmic term;including internal linkage through GMRgives Lphase=2×10^−7ln(Dm/r′)H/m.</li><li>From electric field E=λ/(2πεr),integrate radial potential:V=λln(Dm/r)/(2πε).Thus Cphase=λ/V=2πε/ln(Dm/r)F/m.</li><li>Example D4m,r0.01m,air ε≈8.854×10^−12F/m gives L≈1.248mH/km,C≈0.00929µF/km;at50Hz XL≈0.392Ω/km.</li></ol><h4>Interpretation and check</h4><p>These are idealised geometry equations,not cable design formulas;earth,sheath,bundling and actual strand data change the model.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>Balanced transposed overhead line/earth effect ignore કરો.Solid nonmagnetic round wireમાં r′≈0.7788r છે.Stranded-bundledમાં actual GMR લો.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>Average geometryમાં Dm=(DabDbcDca)^(1/3) છે.Equilateralમાં Dm=D છે.</li><li>External magnetic flux linkageના dr/r integrationથી log term મળે.Internal linkage GMRમાં લેતાં Lphase=2×10^−7ln(Dm/r′)H/m છે.</li><li>E=λ/(2πεr)થી radial integration કરતાં V=λln(Dm/r)/(2πε) છે.તેથી Cphase=2πε/ln(Dm/r)F/m છે.</li><li>D4m,r0.01m/air ε≈8.854×10^−12F/mમાં L≈1.248mH/km,C≈0.00929µF/km અને50Hzએ XL≈0.392Ω/km છે.</li></ol><h4>અર્થ અને ચકાસણી</h4><p>આ ideal geometry equations છે,cable design formulas નથી.Earth,sheath,bundle/strand data model બદલે છે.</p>"
+          },
+          "syllabus_item": "2.1",
+          "diagram": "parameters"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.2 Short,medium and long line features",
+        "gu": "2.2 Short,Medium તથા Long Line Features"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Short,medium and long line features",
+            "gu": "Short,Medium તથા Long Line Features"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Use the simplest equivalent circuit that keeps the required accuracy for the actual electrical length.</p><h4>Explanation and application</h4><ul><li>Short line:series R/Xwith charging neglected.Medium:series impedance plus lumped shunt admittance using end-condenser,nominal Tor nominal π.</li><li>Long line:parameters are distributed and exact propagation/ABCDrelations are needed;do not present the medium approximation as exact long-line performance.</li><li>Underground cables can have important capacitance at shorter lengths than overhead conductors;length alone does not settle model choice.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Actual electrical length/accuracy માટે યોગ્ય સૌથી સરળ equivalent model લો.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Shortમાં series R-X/charging ignore થાય.Mediumમાં series Z સાથે lumped Y માટે end-condenser,T/π વપરાય.</li><li>Longમાં distributed parameters/exact propagation-ABCD જોઈએ.Medium approximationને exact long-line result નકહો.</li><li>Cableમાં ઓછી lengthએ પણ C મહત્વનું હોઈ શકે.ફક્ત length પરથી model નક્કી નકરો.</li></ul>"
+          },
+          "syllabus_item": "2.2",
+          "diagram": "short"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.3 Transposition and its necessity",
+        "gu": "2.3 Transposition તથા તેની જરૂરિયાત"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Transposition and its necessity",
+            "gu": "Transposition તથા તેની જરૂરિયાત"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Each phase occupies each geometric position for equal total distance to balance average coupling.</p><h4>Explanation and application</h4><ul><li>Unsymmetrical spacing gives unequal average L/Ccoupling and can cause unbalance or interference;systematic position exchange makes the ideal averaged parameters more nearly equal.</li><li>Three sections use a cyclic phase-position sequence;electrical phase identity is preserved from source to load.Phases are not electrically joined at crossing points.</li><li>Transposition does not remove all unbalance,mutual coupling or zero-sequence effects;actual double circuits/earth geometry need their full model.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>દરેક phase દરેક geometric positionમાં equal કુલ distance રહે જેથી average coupling balance થાય.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Unsymmetrical spacingથી unequal L-C/unbalance-interference થઈ શકે.Systematic position exchangeથી average parameters લગભગ સમાન બને.</li><li>ત્રણ sectionsમાં cyclic position sequence લો.Source-load phase identity જાળવો.Crossings પર phases electrically જોડાતા નથી.</li><li>Transposition બધું unbalance,mutual/zero-sequence effect દૂર નથી કરતું.Double-circuit/earth માટે full model જોઈએ.</li></ul>"
+          },
+          "syllabus_item": "2.3",
+          "diagram": "transpose"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.4 Short and medium line models:end-condenser,Tand π",
+        "gu": "2.4 Short/Medium Models:End-condenser,T તથા π"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Short-line equations and performance",
+            "gu": "Short-line Equations તથા Performance"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>Balanced per-phase RMSphasors:receiving Vr,load Ir,series Z=R+jX;neglect shunt charging.</p><h4>Step-by-step solution</h4><ol><li>No shunt branch means Is=Ir.The series drop is ZIr,so Vs=Vr+ZIr.</li><li>Two-port convention Vs=AVr+BIr,Is=CVr+DIr gives A=D=1,B=Z,C=0.</li><li>At fixed Vs,the no-load receiving voltage Vr0=Vs/A=Vs.Regulation=(|Vr0|−|Vr|)/|Vr|×100.</li><li>Pout=3Re(VrIr*)=3|Vr||Ir|cosφ;Pin=Pout+3|Ir|²R;η=Pout/Pin×100.</li></ol><h4>Interpretation and check</h4><p>Regulation uses magnitudes and fixed sending conditions;do not subtract complex phasors and call that scalar regulation.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>Balanced per-phase RMSમાં Vr,Ir/Z=R+jX લો.Shunt charging ignore કરો.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>Shunt branch ન હોવાથી Is=Ir અને Vs=Vr+ZIr છે.</li><li>Two-port conventionથી A=D=1,B=Z/C=0 મળે.</li><li>Fixed Vsમાં no-load Vr0=Vs/A=Vs છે.Regulation=(|Vr0|−|Vr|)/|Vr|×100 લો.</li><li>Pout=3Re(VrIr*)=3|Vr||Ir|cosφ છે.Pin=Pout+3|Ir|²R અને η=Pout/Pin×100 છે.</li></ol><h4>અર્થ અને ચકાસણી</h4><p>Regulationમાં magnitudes/fixed sending conditions લો.Complex subtractionને scalar regulation નકહો.</p>"
+          },
+          "syllabus_item": "2.4",
+          "diagram": "short"
+        },
+        {
+          "h": {
+            "en": "End-condenser model derivation",
+            "gu": "End-condenser Model Derivation"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>All total shunt admittance Yis lumped at the receiving end;series line Zcarries load plus charging current.</p><h4>Step-by-step solution</h4><ol><li>Ic=YVr;Is=Ir+YVr.</li><li>Vs=Vr+ZIs=(1+ZY)Vr+ZIr.</li><li>Therefore A=1+ZY,B=Z,C=Y,D=1;AD−BC=1but A≠Din general because the circuit is asymmetric.</li></ol><h4>Interpretation and check</h4><p>This is a coarse lumped model;large receiving-end charging concentration can reduce accuracy compared with Tor π.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>Total Y receiving end પર lump કરો.Series Zમાં load+charging I વહે છે.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>Ic=YVr/Is=Ir+YVr છે.</li><li>Vs=Vr+ZIs=(1+ZY)Vr+ZIr છે.</li><li>તેથી A=1+ZY,B=Z,C=Y/D=1 છે.AD−BC=1 છે,પણ asymmetric circuitથી સામાન્ય રીતે A≠D છે.</li></ol><h4>અર્થ અને ચકાસણી</h4><p>આ coarse model છે.End પર બધું charging lump કરતાં T-π કરતાં accuracy ઓછી થઈ શકે.</p>"
+          },
+          "syllabus_item": "2.4",
+          "diagram": "end"
+        },
+        {
+          "h": {
+            "en": "Nominal Tderivation",
+            "gu": "Nominal T Derivation"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>Put Z/2on each side of one central shunt Y;define midpoint Vm.</p><h4>Step-by-step solution</h4><ol><li>From the receiving side,Vm=Vr+(Z/2)Ir.</li><li>Shunt current YVmadds to load current:Is=Ir+YVm=YVr+(1+YZ/2)Ir.</li><li>Vs=Vm+(Z/2)Is.Substitute both expressions and collect Vr/Irterms.</li><li>A=D=1+YZ/2;B=Z(1+YZ/4);C=Y.Check AD−BC=1.</li></ol><h4>Interpretation and check</h4><p>Yis total admittance,not Y/2in the central branch;all Z/Yvalues refer to the same phase and line length.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>Middle shunt Yની બંને બાજુ Z/2 લો.Midpoint Vm કહો.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>Receiving sideથી Vm=Vr+(Z/2)Ir છે.</li><li>Shunt current ઉમેરતાં Is=Ir+YVm=YVr+(1+YZ/2)Ir છે.</li><li>Vs=Vm+(Z/2)Isમાં expressions substitute કરી Vr-Ir terms ભેગાં કરો.</li><li>A=D=1+YZ/2,B=Z(1+YZ/4)/C=Y છે.AD−BC=1 ચકાસો.</li></ol><h4>અર્થ અને ચકાસણી</h4><p>Middle branchમાં total Y છે,Y/2 નથી.બધા Z-Y same phase/lengthના હોવા જોઈએ.</p>"
+          },
+          "syllabus_item": "2.4",
+          "diagram": "T"
+        },
+        {
+          "h": {
+            "en": "Nominal πderivation",
+            "gu": "Nominal π Derivation"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>Place Y/2at each end and total Zin the series path;let I1flow in Z.</p><h4>Step-by-step solution</h4><ol><li>Receiving shunt adds I1=Ir+(Y/2)Vr.</li><li>Vs=Vr+ZI1=(1+ZY/2)Vr+ZIr.</li><li>Sending shunt adds Is=I1+(Y/2)Vs;substitute and collect terms.</li><li>A=D=1+YZ/2;B=Z;C=Y(1+YZ/4).Check AD−BC=1.</li></ol><h4>Interpretation and check</h4><p>Tand πare different approximations with matching A/Dbut different B/C;do not mix their constants in one calculation.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>બંને ends પર Y/2 અને seriesમાં total Z લો.Z currentને I1 કહો.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>Receiving shuntથી I1=Ir+(Y/2)Vr છે.</li><li>Vs=Vr+ZI1=(1+ZY/2)Vr+ZIr છે.</li><li>Sending shuntથી Is=I1+(Y/2)Vs છે.Substitute કરી terms ભેગાં કરો.</li><li>A=D=1+YZ/2,B=Z/C=Y(1+YZ/4) છે.AD−BC=1 ચકાસો.</li></ol><h4>અર્થ અને ચકાસણી</h4><p>T-πમાં A-D સરખાં પણ B-C જુદાં છે.એક calculationમાં constants mix નકરો.</p>"
+          },
+          "syllabus_item": "2.4",
+          "diagram": "pi"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.5 Load power factor and voltage profile",
+        "gu": "2.5 Load Power Factor તથા Voltage Profile"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Load power factor and voltage profile",
+            "gu": "Load Power Factor તથા Voltage Profile"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>The phase of current determines which part of ZIcontributes to the receiving-reference voltage drop.</p><h4>Explanation and application</h4><ul><li>For lagging load,approximate phase drop ΔV≈I(Rcosφ+Xsinφ).For leading load the reactive term reverses:ΔV≈I(Rcosφ−Xsinφ).</li><li>At a fixed delivered real power and voltage,poor power factor raises current and I²Rloss;for a fixed current,loss is unchanged by pfitself.The comparison assumption matters.</li><li>Medium-line charging can offset some lagging reactive current or raise voltage at light load;leading loads can cause negative regulation.Use full phasors when the approximation is inadequate.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Current phase પ્રમાણે ZIનો receiving-reference voltage drop નક્કી થાય છે.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Laggingમાં ΔV≈I(Rcosφ+Xsinφ),leadingમાં ΔV≈I(Rcosφ−Xsinφ) છે.</li><li>Fixed delivered P-Vમાં poor pfથી I/loss વધે.Fixed Iમાં pf બદલાય એટલે જ I²R બદલાતું નથી.Comparison assumption મહત્વનું છે.</li><li>Medium charging lagging reactive Iનો ભાગ compensate કરે કે light loadમાં V વધારે શકે.Leading loadમાં negative regulation થઈ શકે.જરૂરે full phasors લો.</li></ul>"
+          },
+          "syllabus_item": "2.5",
+          "diagram": "short"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.6 Line-parameter and performance numericals",
+        "gu": "2.6 Line Parameters તથા Performance Numericals"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Short-line worked example",
+            "gu": "Short-line Worked Example"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>Per phase Vr230V,Ir10Aat0.8lagging,Z=0.1+j0.2Ω;balanced three-phase computed case,not lab readings.</p><h4>Step-by-step solution</h4><ol><li>Ir=10(0.8−j0.6)=8−j6A;ZIr=2+j1V.</li><li>Vs=232+j1V,|Vs|≈232.0022V;regulation≈0.8705%.</li><li>Pout=3×230×10×0.8=5520W;loss=3×10²×0.1=30W.</li><li>η=5520/(5520+30)×100≈99.4595%.</li></ol><h4>Interpretation and check</h4><p>The reference230Vis phase voltage;line-line quantities require √3conversion consistently.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>Per phase Vr230V,Ir10A/0.8lagging,Z=0.1+j0.2Ω લો.Balanced computed case છે,lab readings નથી.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>Ir=10(0.8−j0.6)=8−j6A/ZIr=2+j1V છે.</li><li>Vs=232+j1V,|Vs|≈232.0022V/regulation≈0.8705% છે.</li><li>Pout=3×230×10×0.8=5520W/loss=3×10²×0.1=30W છે.</li><li>η=5520/(5520+30)×100≈99.4595% છે.</li></ol><h4>અર્થ અને ચકાસણી</h4><p>230V phase reference છે.Line-line માટે √3 conversion consistent રાખો.</p>"
+          },
+          "syllabus_item": "2.6",
+          "diagram": "short"
+        },
+        {
+          "h": {
+            "en": "Medium-line T worked example",
+            "gu": "Medium-line T Worked Example"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>Per phase Z=10+j20Ω,Y=j0.001S,Vr10000V,Ir=80−j60A;nominal T model.</p><h4>Step-by-step solution</h4><ol><li>A=D=0.99+0.005j,B=9.9+19.925jΩ,C=0+0.001jS.</li><li>Vs=AVr+BIr=11887.5+1050jV;Is=CVr+DIr=79.5-49jA.</li><li>Pout=2400000W;Pin=3Re(VsIs*)=2680818.7500W;η=89.5249%.</li><li>At fixed Vs,Vr0=Vs/A;regulation=20.5417%.</li></ol><h4>Interpretation and check</h4><p>Use charging current in sending power;3Ir²Ris not the complete medium-model loss expression when currents differ between series sections.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>Per phase Z=10+j20Ω,Y=j0.001S,Vr10000V/Ir=80−j60A લો.Nominal T model છે.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>A=D=0.99+0.005j,B=9.9+19.925jΩ,C=0+0.001jS છે.</li><li>Vs=11887.5+1050jV/Is=79.5-49jA છે.</li><li>Pout=2400000W,Pin=3Re(VsIs*)=2680818.7500W/η=89.5249% છે.</li><li>Fixed Vsમાં Vr0=Vs/A/regulation=20.5417% છે.</li></ol><h4>અર્થ અને ચકાસણી</h4><p>Sending powerમાં charging I લો.Series sectionsમાં I અલગ હોય ત્યારે ફક્ત3Ir²R complete medium loss નથી.</p>"
+          },
+          "syllabus_item": "2.6",
+          "diagram": "T"
+        },
+        {
+          "h": {
+            "en": "Medium-line π worked example",
+            "gu": "Medium-line π Worked Example"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>Per phase Z=10+j20Ω,Y=j0.001S,Vr10000V,Ir=80−j60A;nominal π model.</p><h4>Step-by-step solution</h4><ol><li>A=D=0.99+0.005j,B=10+20jΩ,C=-2.5e-06+0.000995jS.</li><li>Vs=AVr+BIr=11900+1050jV;Is=CVr+DIr=79.475-49.05jA.</li><li>Pout=2400000W;Pin=3Re(VsIs*)=2682750.0000W;η=89.4604%.</li><li>At fixed Vs,Vr0=Vs/A;regulation=20.6675%.</li></ol><h4>Interpretation and check</h4><p>Use charging current in sending power;3Ir²Ris not the complete medium-model loss expression when currents differ between series sections.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>Per phase Z=10+j20Ω,Y=j0.001S,Vr10000V/Ir=80−j60A લો.Nominal π model છે.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>A=D=0.99+0.005j,B=10+20jΩ,C=-2.5e-06+0.000995jS છે.</li><li>Vs=11900+1050jV/Is=79.475-49.05jA છે.</li><li>Pout=2400000W,Pin=3Re(VsIs*)=2682750.0000W/η=89.4604% છે.</li><li>Fixed Vsમાં Vr0=Vs/A/regulation=20.6675% છે.</li></ol><h4>અર્થ અને ચકાસણી</h4><p>Sending powerમાં charging I લો.Series sectionsમાં I અલગ હોય ત્યારે ફક્ત3Ir²R complete medium loss નથી.</p>"
+          },
+          "syllabus_item": "2.6",
+          "diagram": "pi"
+        },
+        {
+          "h": {
+            "en": "R,L,Xand total line impedance",
+            "gu": "R,L,X તથા Total Line Impedance"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>Illustrative aluminium model:ρ20=0.028Ω·mm²/m,A100mm²,α0.004/°C,T70°C;L1mH/km,f50Hz,length50km.Ignore skin/proximity correction for this DCresistance illustration.</p><h4>Step-by-step solution</h4><ol><li>R20per km=ρℓ/A=0.028×1000/100=0.28Ω/km.</li><li>R70=R20[1+α(70−20)]=0.336Ω/km.</li><li>XL=2πfL=2π×50×0.001≈0.31416Ω/km.</li><li>Total Z=50(0.336+j0.31416)≈16.8+j15.708Ωper phase.</li></ol><h4>Interpretation and check</h4><p>Actual ACresistance requires the conductor construction,operating temperature and frequency;the declared αis illustrative.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>Illustrative ρ20=0.028Ω·mm²/m,A100mm²,α0.004/°C/T70°C લો.L1mH/km,f50Hz/length50km છે.DCRexampleમાં skin-proximity ignore કરો.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>R20=0.028×1000/100=0.28Ω/km છે.</li><li>R70=R20[1+α(70−20)]=0.336Ω/km છે.</li><li>XL=2πfL=2π×50×0.001≈0.31416Ω/km છે.</li><li>Total per-phase Z=50(0.336+j0.31416)≈16.8+j15.708Ω છે.</li></ol><h4>અર્થ અને ચકાસણી</h4><p>Actual AC R માટે conductor construction,T/f જોઈએ.Declared α illustrative છે.</p>"
+          },
+          "syllabus_item": "2.6",
+          "diagram": "parameters"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.7 Ferranti effect",
+        "gu": "2.7 Ferranti Effect"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Ferranti effect",
+            "gu": "Ferranti Effect"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>At light/no load a sufficiently capacitive ACline can have receiving voltage greater than sending voltage.</p><h4>Explanation and application</h4><ul><li>Charging current flows even when Ir=0;its interaction with series inductance can produce a voltage rise.For a nominal model,Vr0=Vs/Aand |A|may be below one.</li><li>It is more important with long lines/high capacitance and cables;load,pf,loss and compensation modify it.It does not mean a line creates energy.</li><li>Use approved shunt reactors,voltage control,switching and operating limits;the correct remedy follows a system study.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Light-no loadમાં capacitive AClineનું receiving V sending કરતાં વધી શકે છે.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Ir=0 છતાં charging I વહે છે.Series L સાથે V rise થઈ શકે.Nominal modelમાં Vr0=Vs/A અને |A| એકથી ઓછું હોઈ શકે.</li><li>Long/high-C/cableમાં અસર વધુ છે.Load,pf,loss/compensation અસર બદલે.Line ઊર્જા બનાવે છે એવું નથી.</li><li>Approved shunt reactor,V control/switching-limits લો.Remedy system studyથી નક્કી થાય.</li></ul>"
+          },
+          "syllabus_item": "2.7",
+          "diagram": "ferranti"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.8 Indian grid and hierarchy",
+        "gu": "2.8 Indian Grid તથા Hierarchy"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Indian grid and hierarchy",
+            "gu": "Indian Grid તથા Hierarchy"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>A synchronous grid coordinates ACfrequency and power balance over interconnected regions.</p><h4>Explanation and application</h4><ul><li>India has Northern,Western,Eastern,North-Eastern and Southern operational regions in one synchronous national system;separate regional coordination does not mean separate normal frequencies.</li><li>SLDCcoordinates state operation;five RLDCs coordinate regions;NLDCcoordinates the national system.GRID-INDIAoperates the national/regional centres.Network ownership and regulatory authority are different roles.</li><li>Transmission constraints,reserves,protection and stability still limit transfers;one grid does not guarantee unlimited interchange or identical retail tariffs.</li></ul><p>Reference: [3](https://www.pib.gov.in/PressReleasePage.aspx?PRID=1992887) — PIB GRID-INDIA release.</p>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Synchronous grid interlinked regionsમાં ACfrequency/power balance coordinate કરે છે.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Indiaમાં Northern,Western,Eastern,North-Eastern/Southern operational regions છે;regional coordination અલગ એટલે normal frequency અલગ નથી.</li><li>SLDC state,પાંચ RLDC regions/NLDC national operation coordinate કરે.GRID-INDIA national-regional centres ચલાવે.Network ownership/regulation અલગ roles છે.</li><li>Constraints,reserves,protection/stability transfer મર્યાદિત કરે.One grid એટલે unlimited interchange કે same retail tariff નથી.</li></ul><p>Reference: [3](https://www.pib.gov.in/PressReleasePage.aspx?PRID=1992887) — PIB GRID-INDIA release.</p>"
+          },
+          "syllabus_item": "2.8",
+          "diagram": "grid"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.9 One Sun One World One Grid",
+        "gu": "2.9 One Sun One World One Grid"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "One Sun One World One Grid",
+            "gu": "One Sun One World One Grid"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>OSOWOGis a vision for wider renewable-energy interconnection,not a claim that a single worldwide grid is already complete.</p><h4>Explanation and application</h4><ul><li>Daylight and renewable-resource diversity across regions can complement supply through interconnections,time-zone diversity and storage/flexible resources.</li><li>Benefits depend on transmission capacity,losses,availability and economic exchange;nighttime imports still require generation or stored energy elsewhere.</li><li>Cross-border security,commercial agreements,dispatch rules,regulation and protection compatibility are essential;distinguish vision,proposals and commissioned links in reports.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>OSOWOG wider renewable interconnectionની vision છે;worldwide grid પૂર્ણ થઈ ગઈ છે એવો દાવો નથી.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Daylight/resource/time-zone diversity interconnection તથા storage-flexible resourcesથી supply complement કરી શકે.</li><li>Benefits capacity,loss,availability/economics પર આધારિત છે.Night imports માટે બીજી જગ્યાએ generation/storage જરૂરી છે.</li><li>Security,commercial agreement,dispatch/regulation/protection compatibility જરૂરી છે.Reportમાં vision,proposal/commissioned link અલગ રાખો.</li></ul>"
+          },
+          "syllabus_item": "2.9",
+          "diagram": "osowog"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.10 Load dispatch centre:functions and importance",
+        "gu": "2.10 Load Dispatch Centre:Functions તથા Importance"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Load dispatch centre:functions and importance",
+            "gu": "Load Dispatch Centre:Functions તથા Importance"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Dispatch centres maintain secure coordinated operation,not merely display energy statistics.</p><h4>Explanation and application</h4><ul><li>Monitor SCADA/telemetry,state estimates,frequency,voltage and loading;validate data and detect constraint violations.</li><li>Coordinate schedules,real-time balancing,reserve use,congestion management and renewable variation under the applicable grid code.</li><li>Coordinate outages,emergency instructions,islanding/restoration plans and post-event analysis with authorised utilities;operators do not bypass protection for economic dispatch.</li><li>GRID-INDIAnational/regional coordination and SLDCstate coordination differ from the CERC/SERCregulatory role and the asset-owner maintenance role.</li></ul><p>Reference: [3](https://www.pib.gov.in/PressReleasePage.aspx?PRID=1992887) — PIB GRID-INDIA release.</p>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Dispatch centres secure coordinated operation કરે છે;ફક્ત statistics display નથી.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>SCADA/telemetry,state estimate,frequency,V/loading monitor કરી data/violations validate કરે.</li><li>Grid code પ્રમાણે schedules,real-time balance,reserves,congestion/renewable variation coordinate કરે.</li><li>Authorised utilities સાથે outages,emergency,islanding-restoration/post-event analysis કરે.Economic dispatch માટે protection bypass નકરે.</li><li>GRID-INDIA national-regional/SLDC state role,CERC-SERC regulation અને owner maintenance role અલગ છે.</li></ul><p>Reference: [3](https://www.pib.gov.in/PressReleasePage.aspx?PRID=1992887) — PIB GRID-INDIA release.</p>"
+          },
+          "syllabus_item": "2.10",
+          "diagram": "grid"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Practical.6 Short-line regulation and efficiency",
+        "gu": "Practical.6 Short-line Regulation તથા Efficiency"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Short-line regulation and efficiency",
+            "gu": "Short-line Regulation તથા Efficiency"
+          },
+          "body": {
+            "en": "<h4>Aim,apparatus and evidence</h4><p>Short-line regulation and efficiency</p><p>Use approved isolated current-limited line trainer/reference instruments or a clearly labelled calculation/simulation dataset.</p><h4>Connections / study setup</h4><p>Use approved isolated current-limited line trainer/reference instruments or a clearly labelled calculation/simulation dataset.</p><h4>Ordered procedure</h4><ol><li>Identify the data/sample/source,ratings,units,scope and authorised supervisor;prepare a labelled diagram and record template.</li><li>For any trainer,isolate and verify dead before setup;use approved limited low-voltage supply,guards,protection and rated instruments.Reports/calculations need no live field access.</li><li>Use approved isolated current-limited line trainer/reference instruments or a clearly labelled calculation/simulation dataset.</li><li>Record actual phase/line voltages,current,pfand series R/Xwhen performed;apply Vs=Vr+ZIr,regulation at fixed Vs,and η=Pout/Pin.</li><li>Write only genuine observations/source dates;keep supplied or simulated results labelled and actual unperformed records blank.</li><li>Never substitute VIfor real power at unknown pf;keep simulated/computed values separate from blank actual readings.</li><li>Complete the authorised shutdown/discharge and dead verification before rewiring;preserve references,limitations and permitted evidence.</li></ol><h4>Calculations,interpretation and safe fault-finding</h4><p>Record actual phase/line voltages,current,pfand series R/Xwhen performed;apply Vs=Vr+ZIr,regulation at fixed Vs,and η=Pout/Pin.</p><p>Never substitute VIfor real power at unknown pf;keep simulated/computed values separate from blank actual readings.</p><h4>Precautions</h4><p>Never approach or climb live lines,switch utility ties,open customer panels or infer safe clearances from these teaching diagrams.Cables/capacitors can retain charge;approved isolation,discharge,earthing and permits are mandatory for authorised work.</p><h4>Actual record — blank</h4><div class=\"table-wrap\"><table><thead><tr><th>Data/sample/source</th><th>Condition/rating</th><th>Observation/result</th><th>Units/base</th><th>Evidence/uncertainty</th><th>Actual only</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div>",
+            "gu": "<h4>હેતુ,Apparatus તથા Evidence</h4><p>Short-line Regulation તથા Efficiency</p><p>Approved isolated limited-I trainer/reference instruments કે labelled calculation-simulation data લો.</p><h4>Connections / Study Setup</h4><p>Approved isolated limited-I trainer/reference instruments કે labelled calculation-simulation data લો.</p><h4>ક્રમબદ્ધ Procedure</h4><ol><li>Data-sample-source,ratings,units,scope/supervisor ઓળખી labelled diagram/record બનાવો.</li><li>Trainer setup પહેલાં isolate-dead verify કરો.Approved limited low-V supply,guards/protection/instruments લો.Report-calculation માટે live field access નથી.</li><li>Approved isolated limited-I trainer/reference instruments કે labelled calculation-simulation data લો.</li><li>Perform હોય તો actual V,I,pf/R-X લખો.Vs=Vr+ZIr,fixed-Vs regulation/η=Pout/Pin લો.</li><li>Genuine observations/source dates જ લખો.Supplied-simulated results label/actual unperformed records blank રાખો.</li><li>Unknown pfમાં VIને real P નલો.Simulated-computed values actual blank recordsથી અલગ રાખો.</li><li>Rewiring પહેલાં authorised shutdown-discharge/dead verify કરો.References,limits/allowed evidence સાચવો.</li></ol><h4>ગણતરી,અર્થ તથા Safe Fault-finding</h4><p>Perform હોય તો actual V,I,pf/R-X લખો.Vs=Vr+ZIr,fixed-Vs regulation/η=Pout/Pin લો.</p><p>Unknown pfમાં VIને real P નલો.Simulated-computed values actual blank recordsથી અલગ રાખો.</p><h4>Precautions</h4><p>Live line approach-climb,utility tie switching/customer panel access નકરો.Teaching diagramથી safe clearance નધારો.Cable-capacitor charge રાખે છે.Authorised workમાં approved isolation,discharge,earthing/permit જરૂરી છે.</p><h4>Actual Record — Blank</h4><div class=\"table-wrap\"><table><thead><tr><th>Data/sample/source</th><th>Condition/rating</th><th>Observation/result</th><th>Units/base</th><th>Evidence/uncertainty</th><th>Actual only</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div>"
+          },
+          "syllabus_item": "Practical.6",
+          "practical_number": 6,
+          "diagram": "short"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Practical.7 Medium-line regulation and efficiency",
+        "gu": "Practical.7 Medium-line Regulation તથા Efficiency"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Medium-line regulation and efficiency",
+            "gu": "Medium-line Regulation તથા Efficiency"
+          },
+          "body": {
+            "en": "<h4>Aim,apparatus and evidence</h4><p>Medium-line regulation and efficiency</p><p>Use an approved isolated medium-line trainer with declared Tor πnetwork and rated shunt capacitors,or a labelled simulation.</p><h4>Connections / study setup</h4><p>Use an approved isolated medium-line trainer with declared Tor πnetwork and rated shunt capacitors,or a labelled simulation.</p><h4>Ordered procedure</h4><ol><li>Identify the data/sample/source,ratings,units,scope and authorised supervisor;prepare a labelled diagram and record template.</li><li>For any trainer,isolate and verify dead before setup;use approved limited low-voltage supply,guards,protection and rated instruments.Reports/calculations need no live field access.</li><li>Use an approved isolated medium-line trainer with declared Tor πnetwork and rated shunt capacitors,or a labelled simulation.</li><li>Check total versus half Z/Y,record charging/load currents where available,and use matching ABCDconstants for Vs,Is,Vr0=Vs/Aand real input/output powers.</li><li>Write only genuine observations/source dates;keep supplied or simulated results labelled and actual unperformed records blank.</li><li>Discharge capacitors and verify dead before changes;do not mix T/πconstants or use3Ir²Ras a universal medium-line loss.</li><li>Complete the authorised shutdown/discharge and dead verification before rewiring;preserve references,limitations and permitted evidence.</li></ol><h4>Calculations,interpretation and safe fault-finding</h4><p>Check total versus half Z/Y,record charging/load currents where available,and use matching ABCDconstants for Vs,Is,Vr0=Vs/Aand real input/output powers.</p><p>Discharge capacitors and verify dead before changes;do not mix T/πconstants or use3Ir²Ras a universal medium-line loss.</p><h4>Precautions</h4><p>Never approach or climb live lines,switch utility ties,open customer panels or infer safe clearances from these teaching diagrams.Cables/capacitors can retain charge;approved isolation,discharge,earthing and permits are mandatory for authorised work.</p><h4>Actual record — blank</h4><div class=\"table-wrap\"><table><thead><tr><th>Data/sample/source</th><th>Condition/rating</th><th>Observation/result</th><th>Units/base</th><th>Evidence/uncertainty</th><th>Actual only</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div>",
+            "gu": "<h4>હેતુ,Apparatus તથા Evidence</h4><p>Medium-line Regulation તથા Efficiency</p><p>Declared T-π/rated Cવાળું approved isolated trainer કે labelled simulation લો.</p><h4>Connections / Study Setup</h4><p>Declared T-π/rated Cવાળું approved isolated trainer કે labelled simulation લો.</p><h4>ક્રમબદ્ધ Procedure</h4><ol><li>Data-sample-source,ratings,units,scope/supervisor ઓળખી labelled diagram/record બનાવો.</li><li>Trainer setup પહેલાં isolate-dead verify કરો.Approved limited low-V supply,guards/protection/instruments લો.Report-calculation માટે live field access નથી.</li><li>Declared T-π/rated Cવાળું approved isolated trainer કે labelled simulation લો.</li><li>Total-half Z-Y તપાસો.Available charging-load I લો.Matching ABCDથી Vs,Is,Vr0=Vs/A/real powers ગણો.</li><li>Genuine observations/source dates જ લખો.Supplied-simulated results label/actual unperformed records blank રાખો.</li><li>Change પહેલાં Cdischarge/dead verify કરો.T-π constants mix કે3Ir²R universal loss નલો.</li><li>Rewiring પહેલાં authorised shutdown-discharge/dead verify કરો.References,limits/allowed evidence સાચવો.</li></ol><h4>ગણતરી,અર્થ તથા Safe Fault-finding</h4><p>Total-half Z-Y તપાસો.Available charging-load I લો.Matching ABCDથી Vs,Is,Vr0=Vs/A/real powers ગણો.</p><p>Change પહેલાં Cdischarge/dead verify કરો.T-π constants mix કે3Ir²R universal loss નલો.</p><h4>Precautions</h4><p>Live line approach-climb,utility tie switching/customer panel access નકરો.Teaching diagramથી safe clearance નધારો.Cable-capacitor charge રાખે છે.Authorised workમાં approved isolation,discharge,earthing/permit જરૂરી છે.</p><h4>Actual Record — Blank</h4><div class=\"table-wrap\"><table><thead><tr><th>Data/sample/source</th><th>Condition/rating</th><th>Observation/result</th><th>Units/base</th><th>Evidence/uncertainty</th><th>Actual only</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div>"
+          },
+          "syllabus_item": "Practical.7",
+          "practical_number": 7,
+          "diagram": "pi"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Practical.8 Load dispatch centre technical report",
+        "gu": "Practical.8 Load Dispatch Centre Technical Report"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Load dispatch centre technical report",
+            "gu": "Load Dispatch Centre Technical Report"
+          },
+          "body": {
+            "en": "<h4>Aim,apparatus and evidence</h4><p>Load dispatch centre technical report</p><p>Use authorised public GRID-INDIA/SLDCdocuments or approved visit material;do not access operational screens without permission.</p><h4>Connections / study setup</h4><p>Use authorised public GRID-INDIA/SLDCdocuments or approved visit material;do not access operational screens without permission.</p><h4>Ordered procedure</h4><ol><li>Identify the data/sample/source,ratings,units,scope and authorised supervisor;prepare a labelled diagram and record template.</li><li>For any trainer,isolate and verify dead before setup;use approved limited low-voltage supply,guards,protection and rated instruments.Reports/calculations need no live field access.</li><li>Use authorised public GRID-INDIA/SLDCdocuments or approved visit material;do not access operational screens without permission.</li><li>Explain hierarchy,SCADA,scheduling,balancing,security,outages and restoration;distinguish operator,network owner and regulator.</li><li>Write only genuine observations/source dates;keep supplied or simulated results labelled and actual unperformed records blank.</li><li>Record sources/dates and genuine permitted evidence;do not fabricate a visit,event log or dispatch instruction.</li><li>Complete the authorised shutdown/discharge and dead verification before rewiring;preserve references,limitations and permitted evidence.</li></ol><h4>Calculations,interpretation and safe fault-finding</h4><p>Explain hierarchy,SCADA,scheduling,balancing,security,outages and restoration;distinguish operator,network owner and regulator.</p><p>Record sources/dates and genuine permitted evidence;do not fabricate a visit,event log or dispatch instruction.</p><h4>Precautions</h4><p>Never approach or climb live lines,switch utility ties,open customer panels or infer safe clearances from these teaching diagrams.Cables/capacitors can retain charge;approved isolation,discharge,earthing and permits are mandatory for authorised work.</p><h4>Actual record — blank</h4><div class=\"table-wrap\"><table><thead><tr><th>Data/sample/source</th><th>Condition/rating</th><th>Observation/result</th><th>Units/base</th><th>Evidence/uncertainty</th><th>Actual only</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div>",
+            "gu": "<h4>હેતુ,Apparatus તથા Evidence</h4><p>Load Dispatch Centre Technical Report</p><p>Authorised public GRID-INDIA-SLDC documents/approved visit material લો.Permission વિના operational screens નલો.</p><h4>Connections / Study Setup</h4><p>Authorised public GRID-INDIA-SLDC documents/approved visit material લો.Permission વિના operational screens નલો.</p><h4>ક્રમબદ્ધ Procedure</h4><ol><li>Data-sample-source,ratings,units,scope/supervisor ઓળખી labelled diagram/record બનાવો.</li><li>Trainer setup પહેલાં isolate-dead verify કરો.Approved limited low-V supply,guards/protection/instruments લો.Report-calculation માટે live field access નથી.</li><li>Authorised public GRID-INDIA-SLDC documents/approved visit material લો.Permission વિના operational screens નલો.</li><li>Hierarchy,SCADA,scheduling,balance,security,outages/restoration સમજાવો.Operator-owner-regulator અલગ કરો.</li><li>Genuine observations/source dates જ લખો.Supplied-simulated results label/actual unperformed records blank રાખો.</li><li>Sources-dates/allowed genuine evidence લખો.Visit,event log/dispatch instruction કલ્પિત નકરો.</li><li>Rewiring પહેલાં authorised shutdown-discharge/dead verify કરો.References,limits/allowed evidence સાચવો.</li></ol><h4>ગણતરી,અર્થ તથા Safe Fault-finding</h4><p>Hierarchy,SCADA,scheduling,balance,security,outages/restoration સમજાવો.Operator-owner-regulator અલગ કરો.</p><p>Sources-dates/allowed genuine evidence લખો.Visit,event log/dispatch instruction કલ્પિત નકરો.</p><h4>Precautions</h4><p>Live line approach-climb,utility tie switching/customer panel access નકરો.Teaching diagramથી safe clearance નધારો.Cable-capacitor charge રાખે છે.Authorised workમાં approved isolation,discharge,earthing/permit જરૂરી છે.</p><h4>Actual Record — Blank</h4><div class=\"table-wrap\"><table><thead><tr><th>Data/sample/source</th><th>Condition/rating</th><th>Observation/result</th><th>Units/base</th><th>Evidence/uncertainty</th><th>Actual only</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div>"
+          },
+          "syllabus_item": "Practical.8",
+          "practical_number": 8,
+          "diagram": "grid"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Activity.3 Unit-wise numerical portfolio",
+        "gu": "Activity.3 Unit-wise Numerical Portfolio"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Unit-wise numerical portfolio",
+            "gu": "Unit-wise Numerical Portfolio"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Source suggests approximately five pages per activity with genuine portfolio evidence;this is a plan,not a completed visit/project.</p><h4>Explanation and application</h4><ul><li>Solve string,sag,line-performance,economic-area and ACdistributor problems with assumptions,steps,units and independent checks;seek progressive facilitator assessment.</li><li>Suggested structure:aim,source/date,principle/classification,labelled diagram,analysis,actual evidence if available,limitations/safety and references.Submit the term portfolio to the course facilitator.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Source દરેક activity માટે લગભગ પાંચ pages/genuine portfolio evidence સૂચવે છે.આ plan છે,completed visit-project નહીં.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>String,sag,line performance,economic area/distributor problems assumptions,steps,units/checksથી ઉકેલો.Progressive facilitator assessment લો.</li><li>Aim,source-date,principle-classification,diagram,analysis,available genuine evidence,limits-safety/references લો.Term portfolio facilitatorને આપો.</li></ul>"
+          },
+          "syllabus_item": "Activity.3",
+          "diagram": "short"
+        }
+      ]
+    }
+  ],
+  "programs": [
+    {
+      "title": {
+        "en": "Short-line regulation and efficiency",
+        "gu": "Short-line Regulation તથા Efficiency"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Short-line regulation and efficiency",
+            "gu": "Short-line Regulation તથા Efficiency"
+          },
+          "body": {
+            "en": "<h4>Aim,apparatus and evidence</h4><p>Short-line regulation and efficiency</p><p>Use approved isolated current-limited line trainer/reference instruments or a clearly labelled calculation/simulation dataset.</p><h4>Connections / study setup</h4><p>Use approved isolated current-limited line trainer/reference instruments or a clearly labelled calculation/simulation dataset.</p><h4>Ordered procedure</h4><ol><li>Identify the data/sample/source,ratings,units,scope and authorised supervisor;prepare a labelled diagram and record template.</li><li>For any trainer,isolate and verify dead before setup;use approved limited low-voltage supply,guards,protection and rated instruments.Reports/calculations need no live field access.</li><li>Use approved isolated current-limited line trainer/reference instruments or a clearly labelled calculation/simulation dataset.</li><li>Record actual phase/line voltages,current,pfand series R/Xwhen performed;apply Vs=Vr+ZIr,regulation at fixed Vs,and η=Pout/Pin.</li><li>Write only genuine observations/source dates;keep supplied or simulated results labelled and actual unperformed records blank.</li><li>Never substitute VIfor real power at unknown pf;keep simulated/computed values separate from blank actual readings.</li><li>Complete the authorised shutdown/discharge and dead verification before rewiring;preserve references,limitations and permitted evidence.</li></ol><h4>Calculations,interpretation and safe fault-finding</h4><p>Record actual phase/line voltages,current,pfand series R/Xwhen performed;apply Vs=Vr+ZIr,regulation at fixed Vs,and η=Pout/Pin.</p><p>Never substitute VIfor real power at unknown pf;keep simulated/computed values separate from blank actual readings.</p><h4>Precautions</h4><p>Never approach or climb live lines,switch utility ties,open customer panels or infer safe clearances from these teaching diagrams.Cables/capacitors can retain charge;approved isolation,discharge,earthing and permits are mandatory for authorised work.</p><h4>Actual record — blank</h4><div class=\"table-wrap\"><table><thead><tr><th>Data/sample/source</th><th>Condition/rating</th><th>Observation/result</th><th>Units/base</th><th>Evidence/uncertainty</th><th>Actual only</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div>",
+            "gu": "<h4>હેતુ,Apparatus તથા Evidence</h4><p>Short-line Regulation તથા Efficiency</p><p>Approved isolated limited-I trainer/reference instruments કે labelled calculation-simulation data લો.</p><h4>Connections / Study Setup</h4><p>Approved isolated limited-I trainer/reference instruments કે labelled calculation-simulation data લો.</p><h4>ક્રમબદ્ધ Procedure</h4><ol><li>Data-sample-source,ratings,units,scope/supervisor ઓળખી labelled diagram/record બનાવો.</li><li>Trainer setup પહેલાં isolate-dead verify કરો.Approved limited low-V supply,guards/protection/instruments લો.Report-calculation માટે live field access નથી.</li><li>Approved isolated limited-I trainer/reference instruments કે labelled calculation-simulation data લો.</li><li>Perform હોય તો actual V,I,pf/R-X લખો.Vs=Vr+ZIr,fixed-Vs regulation/η=Pout/Pin લો.</li><li>Genuine observations/source dates જ લખો.Supplied-simulated results label/actual unperformed records blank રાખો.</li><li>Unknown pfમાં VIને real P નલો.Simulated-computed values actual blank recordsથી અલગ રાખો.</li><li>Rewiring પહેલાં authorised shutdown-discharge/dead verify કરો.References,limits/allowed evidence સાચવો.</li></ol><h4>ગણતરી,અર્થ તથા Safe Fault-finding</h4><p>Perform હોય તો actual V,I,pf/R-X લખો.Vs=Vr+ZIr,fixed-Vs regulation/η=Pout/Pin લો.</p><p>Unknown pfમાં VIને real P નલો.Simulated-computed values actual blank recordsથી અલગ રાખો.</p><h4>Precautions</h4><p>Live line approach-climb,utility tie switching/customer panel access નકરો.Teaching diagramથી safe clearance નધારો.Cable-capacitor charge રાખે છે.Authorised workમાં approved isolation,discharge,earthing/permit જરૂરી છે.</p><h4>Actual Record — Blank</h4><div class=\"table-wrap\"><table><thead><tr><th>Data/sample/source</th><th>Condition/rating</th><th>Observation/result</th><th>Units/base</th><th>Evidence/uncertainty</th><th>Actual only</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div>"
+          },
+          "diagram": "short"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Medium-line regulation and efficiency",
+        "gu": "Medium-line Regulation તથા Efficiency"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Medium-line regulation and efficiency",
+            "gu": "Medium-line Regulation તથા Efficiency"
+          },
+          "body": {
+            "en": "<h4>Aim,apparatus and evidence</h4><p>Medium-line regulation and efficiency</p><p>Use an approved isolated medium-line trainer with declared Tor πnetwork and rated shunt capacitors,or a labelled simulation.</p><h4>Connections / study setup</h4><p>Use an approved isolated medium-line trainer with declared Tor πnetwork and rated shunt capacitors,or a labelled simulation.</p><h4>Ordered procedure</h4><ol><li>Identify the data/sample/source,ratings,units,scope and authorised supervisor;prepare a labelled diagram and record template.</li><li>For any trainer,isolate and verify dead before setup;use approved limited low-voltage supply,guards,protection and rated instruments.Reports/calculations need no live field access.</li><li>Use an approved isolated medium-line trainer with declared Tor πnetwork and rated shunt capacitors,or a labelled simulation.</li><li>Check total versus half Z/Y,record charging/load currents where available,and use matching ABCDconstants for Vs,Is,Vr0=Vs/Aand real input/output powers.</li><li>Write only genuine observations/source dates;keep supplied or simulated results labelled and actual unperformed records blank.</li><li>Discharge capacitors and verify dead before changes;do not mix T/πconstants or use3Ir²Ras a universal medium-line loss.</li><li>Complete the authorised shutdown/discharge and dead verification before rewiring;preserve references,limitations and permitted evidence.</li></ol><h4>Calculations,interpretation and safe fault-finding</h4><p>Check total versus half Z/Y,record charging/load currents where available,and use matching ABCDconstants for Vs,Is,Vr0=Vs/Aand real input/output powers.</p><p>Discharge capacitors and verify dead before changes;do not mix T/πconstants or use3Ir²Ras a universal medium-line loss.</p><h4>Precautions</h4><p>Never approach or climb live lines,switch utility ties,open customer panels or infer safe clearances from these teaching diagrams.Cables/capacitors can retain charge;approved isolation,discharge,earthing and permits are mandatory for authorised work.</p><h4>Actual record — blank</h4><div class=\"table-wrap\"><table><thead><tr><th>Data/sample/source</th><th>Condition/rating</th><th>Observation/result</th><th>Units/base</th><th>Evidence/uncertainty</th><th>Actual only</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div>",
+            "gu": "<h4>હેતુ,Apparatus તથા Evidence</h4><p>Medium-line Regulation તથા Efficiency</p><p>Declared T-π/rated Cવાળું approved isolated trainer કે labelled simulation લો.</p><h4>Connections / Study Setup</h4><p>Declared T-π/rated Cવાળું approved isolated trainer કે labelled simulation લો.</p><h4>ક્રમબદ્ધ Procedure</h4><ol><li>Data-sample-source,ratings,units,scope/supervisor ઓળખી labelled diagram/record બનાવો.</li><li>Trainer setup પહેલાં isolate-dead verify કરો.Approved limited low-V supply,guards/protection/instruments લો.Report-calculation માટે live field access નથી.</li><li>Declared T-π/rated Cવાળું approved isolated trainer કે labelled simulation લો.</li><li>Total-half Z-Y તપાસો.Available charging-load I લો.Matching ABCDથી Vs,Is,Vr0=Vs/A/real powers ગણો.</li><li>Genuine observations/source dates જ લખો.Supplied-simulated results label/actual unperformed records blank રાખો.</li><li>Change પહેલાં Cdischarge/dead verify કરો.T-π constants mix કે3Ir²R universal loss નલો.</li><li>Rewiring પહેલાં authorised shutdown-discharge/dead verify કરો.References,limits/allowed evidence સાચવો.</li></ol><h4>ગણતરી,અર્થ તથા Safe Fault-finding</h4><p>Total-half Z-Y તપાસો.Available charging-load I લો.Matching ABCDથી Vs,Is,Vr0=Vs/A/real powers ગણો.</p><p>Change પહેલાં Cdischarge/dead verify કરો.T-π constants mix કે3Ir²R universal loss નલો.</p><h4>Precautions</h4><p>Live line approach-climb,utility tie switching/customer panel access નકરો.Teaching diagramથી safe clearance નધારો.Cable-capacitor charge રાખે છે.Authorised workમાં approved isolation,discharge,earthing/permit જરૂરી છે.</p><h4>Actual Record — Blank</h4><div class=\"table-wrap\"><table><thead><tr><th>Data/sample/source</th><th>Condition/rating</th><th>Observation/result</th><th>Units/base</th><th>Evidence/uncertainty</th><th>Actual only</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div>"
+          },
+          "diagram": "pi"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Load dispatch centre technical report",
+        "gu": "Load Dispatch Centre Technical Report"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Load dispatch centre technical report",
+            "gu": "Load Dispatch Centre Technical Report"
+          },
+          "body": {
+            "en": "<h4>Aim,apparatus and evidence</h4><p>Load dispatch centre technical report</p><p>Use authorised public GRID-INDIA/SLDCdocuments or approved visit material;do not access operational screens without permission.</p><h4>Connections / study setup</h4><p>Use authorised public GRID-INDIA/SLDCdocuments or approved visit material;do not access operational screens without permission.</p><h4>Ordered procedure</h4><ol><li>Identify the data/sample/source,ratings,units,scope and authorised supervisor;prepare a labelled diagram and record template.</li><li>For any trainer,isolate and verify dead before setup;use approved limited low-voltage supply,guards,protection and rated instruments.Reports/calculations need no live field access.</li><li>Use authorised public GRID-INDIA/SLDCdocuments or approved visit material;do not access operational screens without permission.</li><li>Explain hierarchy,SCADA,scheduling,balancing,security,outages and restoration;distinguish operator,network owner and regulator.</li><li>Write only genuine observations/source dates;keep supplied or simulated results labelled and actual unperformed records blank.</li><li>Record sources/dates and genuine permitted evidence;do not fabricate a visit,event log or dispatch instruction.</li><li>Complete the authorised shutdown/discharge and dead verification before rewiring;preserve references,limitations and permitted evidence.</li></ol><h4>Calculations,interpretation and safe fault-finding</h4><p>Explain hierarchy,SCADA,scheduling,balancing,security,outages and restoration;distinguish operator,network owner and regulator.</p><p>Record sources/dates and genuine permitted evidence;do not fabricate a visit,event log or dispatch instruction.</p><h4>Precautions</h4><p>Never approach or climb live lines,switch utility ties,open customer panels or infer safe clearances from these teaching diagrams.Cables/capacitors can retain charge;approved isolation,discharge,earthing and permits are mandatory for authorised work.</p><h4>Actual record — blank</h4><div class=\"table-wrap\"><table><thead><tr><th>Data/sample/source</th><th>Condition/rating</th><th>Observation/result</th><th>Units/base</th><th>Evidence/uncertainty</th><th>Actual only</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div>",
+            "gu": "<h4>હેતુ,Apparatus તથા Evidence</h4><p>Load Dispatch Centre Technical Report</p><p>Authorised public GRID-INDIA-SLDC documents/approved visit material લો.Permission વિના operational screens નલો.</p><h4>Connections / Study Setup</h4><p>Authorised public GRID-INDIA-SLDC documents/approved visit material લો.Permission વિના operational screens નલો.</p><h4>ક્રમબદ્ધ Procedure</h4><ol><li>Data-sample-source,ratings,units,scope/supervisor ઓળખી labelled diagram/record બનાવો.</li><li>Trainer setup પહેલાં isolate-dead verify કરો.Approved limited low-V supply,guards/protection/instruments લો.Report-calculation માટે live field access નથી.</li><li>Authorised public GRID-INDIA-SLDC documents/approved visit material લો.Permission વિના operational screens નલો.</li><li>Hierarchy,SCADA,scheduling,balance,security,outages/restoration સમજાવો.Operator-owner-regulator અલગ કરો.</li><li>Genuine observations/source dates જ લખો.Supplied-simulated results label/actual unperformed records blank રાખો.</li><li>Sources-dates/allowed genuine evidence લખો.Visit,event log/dispatch instruction કલ્પિત નકરો.</li><li>Rewiring પહેલાં authorised shutdown-discharge/dead verify કરો.References,limits/allowed evidence સાચવો.</li></ol><h4>ગણતરી,અર્થ તથા Safe Fault-finding</h4><p>Hierarchy,SCADA,scheduling,balance,security,outages/restoration સમજાવો.Operator-owner-regulator અલગ કરો.</p><p>Sources-dates/allowed genuine evidence લખો.Visit,event log/dispatch instruction કલ્પિત નકરો.</p><h4>Precautions</h4><p>Live line approach-climb,utility tie switching/customer panel access નકરો.Teaching diagramથી safe clearance નધારો.Cable-capacitor charge રાખે છે.Authorised workમાં approved isolation,discharge,earthing/permit જરૂરી છે.</p><h4>Actual Record — Blank</h4><div class=\"table-wrap\"><table><thead><tr><th>Data/sample/source</th><th>Condition/rating</th><th>Observation/result</th><th>Units/base</th><th>Evidence/uncertainty</th><th>Actual only</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div>"
+          },
+          "diagram": "grid"
+        }
+      ]
+    }
+  ],
+  "practicals": [
+    {
+      "number": 6,
+      "title": {
+        "en": "Short-line regulation and efficiency",
+        "gu": "Short-line Regulation તથા Efficiency"
+      },
+      "body": {
+        "en": "<h4>Aim,apparatus and evidence</h4><p>Short-line regulation and efficiency</p><p>Use approved isolated current-limited line trainer/reference instruments or a clearly labelled calculation/simulation dataset.</p><h4>Connections / study setup</h4><p>Use approved isolated current-limited line trainer/reference instruments or a clearly labelled calculation/simulation dataset.</p><h4>Ordered procedure</h4><ol><li>Identify the data/sample/source,ratings,units,scope and authorised supervisor;prepare a labelled diagram and record template.</li><li>For any trainer,isolate and verify dead before setup;use approved limited low-voltage supply,guards,protection and rated instruments.Reports/calculations need no live field access.</li><li>Use approved isolated current-limited line trainer/reference instruments or a clearly labelled calculation/simulation dataset.</li><li>Record actual phase/line voltages,current,pfand series R/Xwhen performed;apply Vs=Vr+ZIr,regulation at fixed Vs,and η=Pout/Pin.</li><li>Write only genuine observations/source dates;keep supplied or simulated results labelled and actual unperformed records blank.</li><li>Never substitute VIfor real power at unknown pf;keep simulated/computed values separate from blank actual readings.</li><li>Complete the authorised shutdown/discharge and dead verification before rewiring;preserve references,limitations and permitted evidence.</li></ol><h4>Calculations,interpretation and safe fault-finding</h4><p>Record actual phase/line voltages,current,pfand series R/Xwhen performed;apply Vs=Vr+ZIr,regulation at fixed Vs,and η=Pout/Pin.</p><p>Never substitute VIfor real power at unknown pf;keep simulated/computed values separate from blank actual readings.</p><h4>Precautions</h4><p>Never approach or climb live lines,switch utility ties,open customer panels or infer safe clearances from these teaching diagrams.Cables/capacitors can retain charge;approved isolation,discharge,earthing and permits are mandatory for authorised work.</p><h4>Actual record — blank</h4><div class=\"table-wrap\"><table><thead><tr><th>Data/sample/source</th><th>Condition/rating</th><th>Observation/result</th><th>Units/base</th><th>Evidence/uncertainty</th><th>Actual only</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div>",
+        "gu": "<h4>હેતુ,Apparatus તથા Evidence</h4><p>Short-line Regulation તથા Efficiency</p><p>Approved isolated limited-I trainer/reference instruments કે labelled calculation-simulation data લો.</p><h4>Connections / Study Setup</h4><p>Approved isolated limited-I trainer/reference instruments કે labelled calculation-simulation data લો.</p><h4>ક્રમબદ્ધ Procedure</h4><ol><li>Data-sample-source,ratings,units,scope/supervisor ઓળખી labelled diagram/record બનાવો.</li><li>Trainer setup પહેલાં isolate-dead verify કરો.Approved limited low-V supply,guards/protection/instruments લો.Report-calculation માટે live field access નથી.</li><li>Approved isolated limited-I trainer/reference instruments કે labelled calculation-simulation data લો.</li><li>Perform હોય તો actual V,I,pf/R-X લખો.Vs=Vr+ZIr,fixed-Vs regulation/η=Pout/Pin લો.</li><li>Genuine observations/source dates જ લખો.Supplied-simulated results label/actual unperformed records blank રાખો.</li><li>Unknown pfમાં VIને real P નલો.Simulated-computed values actual blank recordsથી અલગ રાખો.</li><li>Rewiring પહેલાં authorised shutdown-discharge/dead verify કરો.References,limits/allowed evidence સાચવો.</li></ol><h4>ગણતરી,અર્થ તથા Safe Fault-finding</h4><p>Perform હોય તો actual V,I,pf/R-X લખો.Vs=Vr+ZIr,fixed-Vs regulation/η=Pout/Pin લો.</p><p>Unknown pfમાં VIને real P નલો.Simulated-computed values actual blank recordsથી અલગ રાખો.</p><h4>Precautions</h4><p>Live line approach-climb,utility tie switching/customer panel access નકરો.Teaching diagramથી safe clearance નધારો.Cable-capacitor charge રાખે છે.Authorised workમાં approved isolation,discharge,earthing/permit જરૂરી છે.</p><h4>Actual Record — Blank</h4><div class=\"table-wrap\"><table><thead><tr><th>Data/sample/source</th><th>Condition/rating</th><th>Observation/result</th><th>Units/base</th><th>Evidence/uncertainty</th><th>Actual only</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div>"
+      },
+      "performed": false,
+      "suggested_duration": null
+    },
+    {
+      "number": 7,
+      "title": {
+        "en": "Medium-line regulation and efficiency",
+        "gu": "Medium-line Regulation તથા Efficiency"
+      },
+      "body": {
+        "en": "<h4>Aim,apparatus and evidence</h4><p>Medium-line regulation and efficiency</p><p>Use an approved isolated medium-line trainer with declared Tor πnetwork and rated shunt capacitors,or a labelled simulation.</p><h4>Connections / study setup</h4><p>Use an approved isolated medium-line trainer with declared Tor πnetwork and rated shunt capacitors,or a labelled simulation.</p><h4>Ordered procedure</h4><ol><li>Identify the data/sample/source,ratings,units,scope and authorised supervisor;prepare a labelled diagram and record template.</li><li>For any trainer,isolate and verify dead before setup;use approved limited low-voltage supply,guards,protection and rated instruments.Reports/calculations need no live field access.</li><li>Use an approved isolated medium-line trainer with declared Tor πnetwork and rated shunt capacitors,or a labelled simulation.</li><li>Check total versus half Z/Y,record charging/load currents where available,and use matching ABCDconstants for Vs,Is,Vr0=Vs/Aand real input/output powers.</li><li>Write only genuine observations/source dates;keep supplied or simulated results labelled and actual unperformed records blank.</li><li>Discharge capacitors and verify dead before changes;do not mix T/πconstants or use3Ir²Ras a universal medium-line loss.</li><li>Complete the authorised shutdown/discharge and dead verification before rewiring;preserve references,limitations and permitted evidence.</li></ol><h4>Calculations,interpretation and safe fault-finding</h4><p>Check total versus half Z/Y,record charging/load currents where available,and use matching ABCDconstants for Vs,Is,Vr0=Vs/Aand real input/output powers.</p><p>Discharge capacitors and verify dead before changes;do not mix T/πconstants or use3Ir²Ras a universal medium-line loss.</p><h4>Precautions</h4><p>Never approach or climb live lines,switch utility ties,open customer panels or infer safe clearances from these teaching diagrams.Cables/capacitors can retain charge;approved isolation,discharge,earthing and permits are mandatory for authorised work.</p><h4>Actual record — blank</h4><div class=\"table-wrap\"><table><thead><tr><th>Data/sample/source</th><th>Condition/rating</th><th>Observation/result</th><th>Units/base</th><th>Evidence/uncertainty</th><th>Actual only</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div>",
+        "gu": "<h4>હેતુ,Apparatus તથા Evidence</h4><p>Medium-line Regulation તથા Efficiency</p><p>Declared T-π/rated Cવાળું approved isolated trainer કે labelled simulation લો.</p><h4>Connections / Study Setup</h4><p>Declared T-π/rated Cવાળું approved isolated trainer કે labelled simulation લો.</p><h4>ક્રમબદ્ધ Procedure</h4><ol><li>Data-sample-source,ratings,units,scope/supervisor ઓળખી labelled diagram/record બનાવો.</li><li>Trainer setup પહેલાં isolate-dead verify કરો.Approved limited low-V supply,guards/protection/instruments લો.Report-calculation માટે live field access નથી.</li><li>Declared T-π/rated Cવાળું approved isolated trainer કે labelled simulation લો.</li><li>Total-half Z-Y તપાસો.Available charging-load I લો.Matching ABCDથી Vs,Is,Vr0=Vs/A/real powers ગણો.</li><li>Genuine observations/source dates જ લખો.Supplied-simulated results label/actual unperformed records blank રાખો.</li><li>Change પહેલાં Cdischarge/dead verify કરો.T-π constants mix કે3Ir²R universal loss નલો.</li><li>Rewiring પહેલાં authorised shutdown-discharge/dead verify કરો.References,limits/allowed evidence સાચવો.</li></ol><h4>ગણતરી,અર્થ તથા Safe Fault-finding</h4><p>Total-half Z-Y તપાસો.Available charging-load I લો.Matching ABCDથી Vs,Is,Vr0=Vs/A/real powers ગણો.</p><p>Change પહેલાં Cdischarge/dead verify કરો.T-π constants mix કે3Ir²R universal loss નલો.</p><h4>Precautions</h4><p>Live line approach-climb,utility tie switching/customer panel access નકરો.Teaching diagramથી safe clearance નધારો.Cable-capacitor charge રાખે છે.Authorised workમાં approved isolation,discharge,earthing/permit જરૂરી છે.</p><h4>Actual Record — Blank</h4><div class=\"table-wrap\"><table><thead><tr><th>Data/sample/source</th><th>Condition/rating</th><th>Observation/result</th><th>Units/base</th><th>Evidence/uncertainty</th><th>Actual only</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div>"
+      },
+      "performed": false,
+      "suggested_duration": null
+    },
+    {
+      "number": 8,
+      "title": {
+        "en": "Load dispatch centre technical report",
+        "gu": "Load Dispatch Centre Technical Report"
+      },
+      "body": {
+        "en": "<h4>Aim,apparatus and evidence</h4><p>Load dispatch centre technical report</p><p>Use authorised public GRID-INDIA/SLDCdocuments or approved visit material;do not access operational screens without permission.</p><h4>Connections / study setup</h4><p>Use authorised public GRID-INDIA/SLDCdocuments or approved visit material;do not access operational screens without permission.</p><h4>Ordered procedure</h4><ol><li>Identify the data/sample/source,ratings,units,scope and authorised supervisor;prepare a labelled diagram and record template.</li><li>For any trainer,isolate and verify dead before setup;use approved limited low-voltage supply,guards,protection and rated instruments.Reports/calculations need no live field access.</li><li>Use authorised public GRID-INDIA/SLDCdocuments or approved visit material;do not access operational screens without permission.</li><li>Explain hierarchy,SCADA,scheduling,balancing,security,outages and restoration;distinguish operator,network owner and regulator.</li><li>Write only genuine observations/source dates;keep supplied or simulated results labelled and actual unperformed records blank.</li><li>Record sources/dates and genuine permitted evidence;do not fabricate a visit,event log or dispatch instruction.</li><li>Complete the authorised shutdown/discharge and dead verification before rewiring;preserve references,limitations and permitted evidence.</li></ol><h4>Calculations,interpretation and safe fault-finding</h4><p>Explain hierarchy,SCADA,scheduling,balancing,security,outages and restoration;distinguish operator,network owner and regulator.</p><p>Record sources/dates and genuine permitted evidence;do not fabricate a visit,event log or dispatch instruction.</p><h4>Precautions</h4><p>Never approach or climb live lines,switch utility ties,open customer panels or infer safe clearances from these teaching diagrams.Cables/capacitors can retain charge;approved isolation,discharge,earthing and permits are mandatory for authorised work.</p><h4>Actual record — blank</h4><div class=\"table-wrap\"><table><thead><tr><th>Data/sample/source</th><th>Condition/rating</th><th>Observation/result</th><th>Units/base</th><th>Evidence/uncertainty</th><th>Actual only</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div>",
+        "gu": "<h4>હેતુ,Apparatus તથા Evidence</h4><p>Load Dispatch Centre Technical Report</p><p>Authorised public GRID-INDIA-SLDC documents/approved visit material લો.Permission વિના operational screens નલો.</p><h4>Connections / Study Setup</h4><p>Authorised public GRID-INDIA-SLDC documents/approved visit material લો.Permission વિના operational screens નલો.</p><h4>ક્રમબદ્ધ Procedure</h4><ol><li>Data-sample-source,ratings,units,scope/supervisor ઓળખી labelled diagram/record બનાવો.</li><li>Trainer setup પહેલાં isolate-dead verify કરો.Approved limited low-V supply,guards/protection/instruments લો.Report-calculation માટે live field access નથી.</li><li>Authorised public GRID-INDIA-SLDC documents/approved visit material લો.Permission વિના operational screens નલો.</li><li>Hierarchy,SCADA,scheduling,balance,security,outages/restoration સમજાવો.Operator-owner-regulator અલગ કરો.</li><li>Genuine observations/source dates જ લખો.Supplied-simulated results label/actual unperformed records blank રાખો.</li><li>Sources-dates/allowed genuine evidence લખો.Visit,event log/dispatch instruction કલ્પિત નકરો.</li><li>Rewiring પહેલાં authorised shutdown-discharge/dead verify કરો.References,limits/allowed evidence સાચવો.</li></ol><h4>ગણતરી,અર્થ તથા Safe Fault-finding</h4><p>Hierarchy,SCADA,scheduling,balance,security,outages/restoration સમજાવો.Operator-owner-regulator અલગ કરો.</p><p>Sources-dates/allowed genuine evidence લખો.Visit,event log/dispatch instruction કલ્પિત નકરો.</p><h4>Precautions</h4><p>Live line approach-climb,utility tie switching/customer panel access નકરો.Teaching diagramથી safe clearance નધારો.Cable-capacitor charge રાખે છે.Authorised workમાં approved isolation,discharge,earthing/permit જરૂરી છે.</p><h4>Actual Record — Blank</h4><div class=\"table-wrap\"><table><thead><tr><th>Data/sample/source</th><th>Condition/rating</th><th>Observation/result</th><th>Units/base</th><th>Evidence/uncertainty</th><th>Actual only</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div>"
+      },
+      "performed": false,
+      "suggested_duration": null
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "parameters",
+      "title": {
+        "en": "Line constants:per length versus total",
+        "gu": "Line Parameters તથા Units"
+      },
+      "file": "diagrams/parameters.svg"
+    },
+    {
+      "id": "short",
+      "title": {
+        "en": "Short line:series impedance and negligible shunt charging",
+        "gu": "Short,Medium તથા Long Line Features"
+      },
+      "file": "diagrams/short.svg"
+    },
+    {
+      "id": "transpose",
+      "title": {
+        "en": "Transposition:each phase occupies each position for equal length",
+        "gu": "Transposition તથા તેની જરૂરિયાત"
+      },
+      "file": "diagrams/transpose.svg"
+    },
+    {
+      "id": "end",
+      "title": {
+        "en": "End-condenser:all charging at receiving end",
+        "gu": "End-condenser Model Derivation"
+      },
+      "file": "diagrams/end.svg"
+    },
+    {
+      "id": "T",
+      "title": {
+        "en": "Nominal T:half series impedance each side",
+        "gu": "Nominal T Derivation"
+      },
+      "file": "diagrams/T.svg"
+    },
+    {
+      "id": "pi",
+      "title": {
+        "en": "Nominal π:half shunt admittance each end",
+        "gu": "Nominal π Derivation"
+      },
+      "file": "diagrams/pi.svg"
+    },
+    {
+      "id": "ferranti",
+      "title": {
+        "en": "Ferranti effect at light/no load",
+        "gu": "Ferranti Effect"
+      },
+      "file": "diagrams/ferranti.svg"
+    },
+    {
+      "id": "grid",
+      "title": {
+        "en": "Indian grid:operational coordination",
+        "gu": "Indian Grid તથા Hierarchy"
+      },
+      "file": "diagrams/grid.svg"
+    },
+    {
+      "id": "osowog",
+      "title": {
+        "en": "One Sun One World One Grid:concept",
+        "gu": "One Sun One World One Grid"
+      },
+      "file": "diagrams/osowog.svg"
+    }
+  ],
+  "syntax": [
+    {
+      "title": {
+        "en": "Formula and conditions",
+        "gu": "સૂત્રો અને શરતો"
+      },
+      "items": [
+        {
+          "name": {
+            "en": "Series/shunt",
+            "gu": "Series/Shunt"
+          },
+          "f": "Z=zℓ;Y=yℓ",
+          "terms": {
+            "en": "Per-phase units.",
+            "gu": "Per-phase units."
+          }
+        },
+        {
+          "name": {
+            "en": "Two-port",
+            "gu": "Two-port"
+          },
+          "f": "Vs=AVr+BIr;Is=CVr+DIr",
+          "terms": {
+            "en": "RMSphasors.",
+            "gu": "RMS phasors."
+          }
+        },
+        {
+          "name": {
+            "en": "Regulation",
+            "gu": "Regulation"
+          },
+          "f": "(|Vs/A|−|Vr|)/|Vr|×100",
+          "terms": {
+            "en": "Fixed Vs,stated model.",
+            "gu": "Fixed Vs/model."
+          }
+        },
+        {
+          "name": {
+            "en": "Nominal T",
+            "gu": "Nominal T"
+          },
+          "f": "A=D=1+YZ/2;B=Z(1+YZ/4);C=Y",
+          "terms": {
+            "en": "Total Z/Y.",
+            "gu": "Total Z-Y."
+          }
+        },
+        {
+          "name": {
+            "en": "Nominal π",
+            "gu": "Nominal π"
+          },
+          "f": "A=D=1+YZ/2;B=Z;C=Y(1+YZ/4)",
+          "terms": {
+            "en": "Total Z/Y.",
+            "gu": "Total Z-Y."
+          }
+        }
+      ]
+    }
+  ],
+  "viva": [
+    {
+      "title": {
+        "en": "Viva with answers",
+        "gu": "જવાબ સાથે Viva"
+      },
+      "items": [
+        {
+          "q": {
+            "en": "Receiving voltage at no load?",
+            "gu": "No-load Receiving Voltage?"
+          },
+          "a": {
+            "en": "At fixed Vs,Vr0=Vs/A.",
+            "gu": "Fixed Vsમાં Vr0=Vs/A છે."
+          }
+        },
+        {
+          "q": {
+            "en": "Why transposition?",
+            "gu": "Transposition કેમ?"
+          },
+          "a": {
+            "en": "To balance average coupling by equal phase-position occupation.",
+            "gu": "Equal position occupationથી average coupling balance કરવા."
+          }
+        },
+        {
+          "q": {
+            "en": "Tand πhave identical ABCD?",
+            "gu": "T/πના ABCD Same?"
+          },
+          "a": {
+            "en": "A/Dmatch in these nominal models;B/Cdiffer.",
+            "gu": "Nominal modelsમાં A-D મળે,B-C જુદાં છે."
+          }
+        },
+        {
+          "q": {
+            "en": "Ferranti creates energy?",
+            "gu": "Ferranti Energy બનાવે?"
+          },
+          "a": {
+            "en": "No;charging current and reactive voltage interaction cause voltage rise.",
+            "gu": "નહિ.Charging I/reactive interactionથી V rise થાય."
+          }
+        },
+        {
+          "q": {
+            "en": "GMRsame as radius?",
+            "gu": "GMR એટલે Radius?"
+          },
+          "a": {
+            "en": "Not generally;GMRincludes inductive internal/geometry effects.",
+            "gu": "સામાન્ય રીતે નહીં.GMRમાં inductive internal-geometry effects આવે."
+          }
+        },
+        {
+          "q": {
+            "en": "GRID-INDIAis the regulator?",
+            "gu": "GRID-INDIA Regulator છે?"
+          },
+          "a": {
+            "en": "No;dispatch/operation and CERC/SERCregulation are different functions.",
+            "gu": "નહિ.Dispatch-operation/CERC-SERC regulation અલગ functions છે."
+          }
+        }
+      ]
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Explain R,L,C,Gwith units and ideal transposed-line geometry relations.",
+        "gu": "R,L,C,G/Units તથા Transposed Geometry Relations સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Differentiate short,medium,long models and explain transposition.",
+        "gu": "Short,Medium,Long Models/Transposition સમજાવો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Derive short/end-condenser ABCDrelations and performance equations.",
+        "gu": "Short/End-condenser ABCD/Performance Derive કરો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Derive nominal Tand πconstants and verify reciprocity.",
+        "gu": "Nominal T/π Derive કરી Reciprocity ચકાસો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Calculate short-line performance for Vr230Vphase,I10A,pf0.8lag,Z0.1+j0.2Ωand discuss pfeffects.",
+        "gu": "Vr230Vphase,I10A,pf0.8lag/Z0.1+j0.2Ωથી Performance ગણી Pf Effect સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain Ferranti effect and use Vr0=Vs/Ain a medium-line numerical.",
+        "gu": "Ferranti સમજાવી Vr0=Vs/Aથી Medium Numerical કરો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain Indian grid hierarchy,OSOWOGand load-dispatch functions.",
+        "gu": "Indian Grid Hierarchy,OSOWOG/Load-dispatch Functions સમજાવો."
+      },
+      "marks": 7
+    }
+  ],
+  "exam_policy": "Questions and suggested practice marks only;no answers in Exam;not an official paper or unit mark allocation.",
+  "physical_practicals_performed": false,
+  "sources": [
+    {
+      "title": "Owner GTU Electrical Power Transmission & Distribution DI03000101,w.e.f.2024-25",
+      "reference": "Content pp2–4;16practicals pp6–7;4activities p8."
+    },
+    {
+      "title": "GRID-INDIA2024official release:NLDC/five RLDCs and independent operation.",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1992887",
+      "review_status": "Web-search excerpts,not exhaustive current asset or legal review."
+    },
+    {
+      "title": "POWERGRIDmilestones:dated Indian HVDCexamples.",
+      "url": "https://www.powergrid.in/en/milestones",
+      "review_status": "Web-search excerpts,not exhaustive current asset or legal review."
+    },
+    {
+      "title": "IBEF2021documented Pugalur–Thrissur ratings/technology.",
+      "url": "https://www.ibef.org/news/powergrid-fully-commissions-indias-first-vsc-based-hvdc-system",
+      "review_status": "Web-search excerpts,not exhaustive current asset or legal review."
+    }
+  ],
+  "diagram_note": "Original line components,equivalent circuits,sag curves,HVDC and distribution schematics;shared English symbols with equivalent Gujarati explanation.",
+  "activity_plans": [
+    {
+      "number": 3,
+      "title": {
+        "en": "Unit-wise numerical portfolio",
+        "gu": "Unit-wise Numerical Portfolio"
+      },
+      "body": {
+        "en": "<h4>Understand the idea</h4><p>Source suggests approximately five pages per activity with genuine portfolio evidence;this is a plan,not a completed visit/project.</p><h4>Explanation and application</h4><ul><li>Solve string,sag,line-performance,economic-area and ACdistributor problems with assumptions,steps,units and independent checks;seek progressive facilitator assessment.</li><li>Suggested structure:aim,source/date,principle/classification,labelled diagram,analysis,actual evidence if available,limitations/safety and references.Submit the term portfolio to the course facilitator.</li></ul>",
+        "gu": "<h4>વિચાર સમજીએ</h4><p>Source દરેક activity માટે લગભગ પાંચ pages/genuine portfolio evidence સૂચવે છે.આ plan છે,completed visit-project નહીં.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>String,sag,line performance,economic area/distributor problems assumptions,steps,units/checksથી ઉકેલો.Progressive facilitator assessment લો.</li><li>Aim,source-date,principle-classification,diagram,analysis,available genuine evidence,limits-safety/references લો.Term portfolio facilitatorને આપો.</li></ul>"
+      },
+      "completed": false
+    }
+  ]
+}

@@ -1,0 +1,760 @@
+{
+  "subject": "DI01009011",
+  "unit": 2,
+  "title": {
+    "en": "Transistor and Amplifiers",
+    "gu": "ટ્રાન્ઝિસ્ટર અને એમ્પ્લિફાયર"
+  },
+  "format": "notes",
+  "languages": [
+    "en",
+    "gu"
+  ],
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "tab_labels": {
+    "programs": {
+      "en": "Practical",
+      "gu": "પ્રયોગ અને ચકાસણી"
+    }
+  },
+  "hours": 10,
+  "weightage": 35,
+  "notes": [
+    {
+      "title": {
+        "en": "2.1 Transistor structure,conduction and current relations",
+        "gu": "2.1 રચના,Conduction અને Current Relations"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "BJT:PNP and NPN construction and action",
+            "gu": "BJT:PNP,NPNની Construction અને Working"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A bipolar junction transistor uses electron and hole transport through adjoining semiconductor regions to control collector current.</p><h4>Classification / representative type</h4><ul><li>NPN and PNP are complementary structures;they are not interchangeable without reversing relevant polarities and drive.</li></ul><h4>Construction — part and purpose</h4><ol><li>Emitter is heavily doped for efficient carrier injection.</li><li>Base is thin and relatively lightly doped to limit recombination.</li><li>Collector geometry supports carrier collection,voltage and heat dissipation.</li><li>BE and BC junctions share the base;the device is not equivalent to two independent back-to-back diodes.</li><li>NPN has an N emitter,P base and N collector;PNP reverses these regions.</li><li>Lead order depends on the package/part;the emitter arrow specifies conventional direction,not a universal pin order.</li></ol><h4>Working — sequence and reason</h4><ol><li>In forward active,BE is forward biased and BC is reverse biased.</li><li>For NPN,emitter electrons enter the base;some recombine and contribute to base current.</li><li>Most injected carriers cross the thin base and are swept into the collector.</li><li>Terminal current continuity gives IE=IC+IB for magnitudes in the usual active convention.</li><li>PNP uses hole injection with opposite voltage/current polarities;its emitter arrow points toward the base.</li><li>Bias and temperature set the operating point;excess junction heat or voltage can destroy the transistor.</li></ol><h4>Applications</h4><p>Amplification,low-voltage switching and electronic control.</p><h4>Limitations and safety</h4><p>NPN arrow points out;PNP points in.Do not assume beta is fixed or that swapping collector/emitter preserves rated performance.</p><details class=\"self-check\"><summary>Is beta the voltage gain of a CE stage?</summary><p>No.Stage voltage gain also depends on bias,load and feedback.</p></details>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Bipolar junction transistor adjoining semiconductor regionsમાં electron/hole transportથી collector current નિયંત્રિત કરે છે.</p><h4>વર્ગીકરણ / દર્શાવેલો પ્રકાર</h4><ul><li>NPN તથા PNP complementary structures છે;relevant polarities/drive બદલ્યા વગર interchange ન થાય.</li></ul><h4>Construction — ભાગ અને તેનું કામ</h4><ol><li>Emitter efficient carrier injection માટે heavily doped છે.</li><li>Base recombination ઘટાડવા thin તથા relatively lightly doped છે.</li><li>Collector geometry carrier collection,voltage તથા heat dissipationમાં મદદ કરે છે.</li><li>BE તથા BC junctions base share કરે છે;device બે independent back-to-back diodes સમાન નથી.</li><li>NPNમાં N emitter,P base,N collector છે;PNPમાં regions reverse થાય છે.</li><li>Lead order package/part મુજબ બદલાય છે;emitter arrow conventional direction બતાવે છે,universal pin order નહિ.</li></ol><h4>Working — ક્રમ અને કારણ</h4><ol><li>Forward activeમાં BE forward અને BC reverse biased છે.</li><li>NPNમાં emitter electrons baseમાં આવે છે;થોડા recombine થઈ base currentમાં ફાળો આપે છે.</li><li>મોટાભાગના injected carriers thin base પાર કરીને collectorમાં swept થાય છે.</li><li>Usual active magnitude conventionમાં terminal continuityથી IE=IC+IB મળે છે.</li><li>PNPમાં hole injection તથા opposite voltage/current polarities છે;emitter arrow base તરફ છે.</li><li>Bias તથા temperature operating point નક્કી કરે છે;વધુ junction heat/voltage transistorને નષ્ટ કરી શકે છે.</li></ol><h4>ઉપયોગ</h4><p>Amplification,low-voltage switching તથા electronic control.</p><h4>મર્યાદા અને સલામતી</h4><p>NPN arrow બહાર,PNP અંદર છે.Beta fixed છે અથવા collector/emitter swapથી rated performance same રહે એવું ન માનો.</p><details class=\"self-check\"><summary>Beta CE Stageનો Voltage Gain છે?</summary><p>ના.Stage voltage gain bias,load તથા feedback પર પણ આધારિત છે.</p></details>"
+          },
+          "syllabus_item": "2.1",
+          "classification_first": true,
+          "construction_point_count": 6,
+          "working_point_count": 6,
+          "diagram": "bjtlayers"
+        },
+        {
+          "h": {
+            "en": "PNP conduction:do not reuse NPN polarities",
+            "gu": "PNP Conduction:NPN Polarities ફરી ન લો"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>In a PNP active example,the emitter is more positive than the base and the collector-base junction is reverse biased.</p><h4>Explanation and application</h4><ul><li>A hypothetical VE=5V,VB=4.3V,VC=2V gives VEB=0.7V and VCB=−2.3V;these are example node potentials,not readings.</li><li>Holes injected from the emitter cross the thin base;most are collected by the collector.Conventional emitter current enters the device.</li><li>For magnitude calculations,IE=IC+IB still applies,but signed terminal-current conventions must be stated consistently.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>PNP active exampleમાં emitter base કરતાં વધુ positive તથા collector-base junction reverse biased છે.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Hypothetical VE=5V,VB=4.3V,VC=2Vથી VEB=0.7V તથા VCB=−2.3V મળે છે.આ example node potentials છે,readings નહિ.</li><li>Emitterથી injected holes thin base પાર કરે છે;મોટાભાગના collector collect કરે છે.Conventional emitter current deviceમાં પ્રવેશે છે.</li><li>Magnitude calculationsમાં IE=IC+IB હજી લાગુ પડે છે,પણ signed terminal-current conventions consistent કહો.</li></ul>"
+          },
+          "syllabus_item": "2.1",
+          "diagram": "pnplayers"
+        },
+        {
+          "h": {
+            "en": "Current gains alpha,beta and leakage",
+            "gu": "Current Gains Alpha,Beta અને Leakage"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>For the usual forward-active low-leakage model,alpha=IC/IE and beta=IC/IB describe DC current ratios.</p><h4>Explanation and application</h4><ul><li>Using IE=IC+IB gives beta=alpha/(1−alpha) and alpha=beta/(beta+1);alpha lies below unity in this model.</li><li>ICBO is collector-base reverse leakage with emitter open.ICEO is collector-emitter leakage with base open;measurement conditions matter.</li><li>With transport factor alpha_F,the simplified relation is IC=alpha_F IE+ICBO.In the corresponding constant-parameter model,ICEO≈(beta+1)ICBO.</li><li>The transport factor and measured total-current ratio are not exactly identical when leakage is significant.Do not use leakage formulas beyond their model.</li><li>Leakage rises strongly with junction temperature;bias stability and thermal design help prevent current/temperature positive feedback.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Usual forward-active low-leakage modelમાં alpha=IC/IE તથા beta=IC/IB DC current ratios બતાવે છે.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>IE=IC+IBથી beta=alpha/(1−alpha) તથા alpha=beta/(beta+1) મળે છે;આ modelમાં alpha unityથી ઓછો છે.</li><li>ICBO emitter open હોય ત્યારે collector-base reverse leakage છે.ICEO base open હોય ત્યારે collector-emitter leakage છે;measurement conditions મહત્વની છે.</li><li>Transport factor alpha_Fથી simplified relation IC=alpha_F IE+ICBO છે.Corresponding constant-parameter modelમાં ICEO≈(beta+1)ICBO.</li><li>Leakage significant હોય ત્યારે transport factor તથા measured total-current ratio exact same નથી.Leakage formulasને modelની બહાર ન વાપરો.</li><li>Junction temperatureથી leakage ખૂબ વધે છે.Bias stability તથા thermal design current/temperature positive feedback અટકાવવામાં મદદ કરે છે.</li></ul>"
+          },
+          "syllabus_item": "2.1",
+          "diagram": "bjt"
+        },
+        {
+          "h": {
+            "en": "Current gain and leakage examples",
+            "gu": "Current Gain અને Leakage Examples"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>First ignore leakage:alpha=0.98,IE=5mA.Then independently consider beta=100,ICBO=20nA in the simplified leakage model.</p><h4>Step-by-step solution</h4><ol><li>IC=0.98×5=4.9mA;IB=5−4.9=0.1mA;beta=4.9/0.1=49</li><li>alpha=49/(49+1)=0.98</li><li>ICEO≈(100+1)×20nA=2020nA=2.02microA</li></ol><h4>Interpretation and check</h4><p>The two examples use different operating assumptions;do not combine their parameters as one measured transistor.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>પહેલાં leakage અવગણો:alpha=0.98,IE=5mA.પછી અલગથી simplified leakage modelમાં beta=100,ICBO=20nA લો.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>IC=0.98×5=4.9mA;IB=5−4.9=0.1mA;beta=4.9/0.1=49</li><li>alpha=49/(49+1)=0.98</li><li>ICEO≈(100+1)×20nA=2020nA=2.02microA</li></ol><h4>અર્થ અને ચકાસણી</h4><p>બે examplesની operating assumptions જુદી છે;તેના parametersને એક measured transistor તરીકે ન ભેળવો.</p>"
+          },
+          "syllabus_item": "2.1",
+          "diagram": "bjt"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.2 CE configuration,characteristics and amplification",
+        "gu": "2.2 CE Configuration,Characteristics અને Amplification"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "What common emitter means",
+            "gu": "Common Emitterનો અર્થ"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>The emitter is the reference common to the input base-emitter and output collector-emitter circuits;common does not necessarily mean protective earth.</p><h4>Explanation and application</h4><ul><li>Input characteristic:IB versus VBE with VCE held fixed;it resembles a forward junction curve but depends on transistor conditions.</li><li>Output characteristic:IC versus VCE for several fixed IB values.Mark cutoff,saturation,active and breakdown boundaries qualitatively.</li><li>In active operation,the curves are not perfectly flat.Early effect and device limits make an ideal current-source model approximate.</li><li>Cutoff has negligible drive and leakage-level current.Saturation normally has both junctions forward biased and low VCE.</li><li>For small increments at a specified bias,input resistance≈Delta VBE/Delta IB and output resistance≈Delta VCE/Delta IC under their respective held-variable conditions.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Emitter input BE તથા output CE circuits માટે common reference છે;common એટલે protective earth જરૂરી નથી.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Input characteristic:VCE fixed રાખીને IB versus VBE;forward-junction curve જેવી છે,પણ transistor conditions પર આધારિત છે.</li><li>Output characteristic:જુદા fixed IB માટે IC versus VCE.Cutoff,saturation,active તથા breakdown boundaries qualitatively ઓળખો.</li><li>Active operationમાં curves perfect flat નથી.Early effect તથા limitsથી ideal current-source model approximate બને છે.</li><li>Cutoffમાં drive negligible તથા leakage-level current છે.Saturationમાં સામાન્ય રીતે બંને junctions forward અને VCE low છે.</li><li>Specified bias નજીક input resistance≈Delta VBE/Delta IB તથા output resistance≈Delta VCE/Delta IC respective held-variable conditions સાથે મળે છે.</li></ul>"
+          },
+          "syllabus_item": "2.2",
+          "diagram": "cecurves"
+        },
+        {
+          "h": {
+            "en": "CE input curve:controlled test conditions",
+            "gu": "CE Input Curve:Controlled Test Conditions"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Sweep VBE with current limiting while maintaining the assigned VCE;record IB at each actual point.</p><h4>Explanation and application</h4><ul><li>The base supply must not become an uncontrolled forward-junction current source.</li><li>Use sufficiently small steps near the steep part of the characteristic and remain within ratings.</li><li>For a local slope,use neighbouring points around the stated Q point;do not label VBE/IB as the incremental slope.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Assigned VCE જાળવી current limiting સાથે VBE sweep કરીને દરેક actual pointએ IB નોંધો.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Base supply uncontrolled forward-junction current source ન બને.</li><li>Steep part નજીક sufficiently small steps લો અને ratingsમાં રહો.</li><li>Local slope માટે stated Q point નજીકના points લો;VBE/IBને incremental slope ન કહો.</li></ul>"
+          },
+          "syllabus_item": "2.2",
+          "diagram": "ceinput"
+        },
+        {
+          "h": {
+            "en": "DC load line and Q point",
+            "gu": "DC Load Line અને Q Point"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>The quiescent point is the transistor DC operating condition with the input signal set to zero,not necessarily with supply disconnected.</p><h4>Explanation and application</h4><ul><li>For a grounded emitter with RC,VCE=VCC−IC RC.The cutoff intercept is VCC and the ideal saturation-axis intercept is VCC/RC.</li><li>With an emitter resistor,include IE RE in the loop;do not blindly reuse the grounded-emitter intercept relation.</li><li>A useful amplifier Q point lies in the active region with enough excursion before cutoff/saturation;midpoint is a design approximation,not a universal rule.</li><li>The DC load line and AC signal load line can differ because coupling/bypass capacitors alter AC paths.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Quiescent point input signal zero હોય ત્યારે DC operating condition છે;supply disconnected હોવું જરૂરી નથી.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Grounded emitter તથા RC માટે VCE=VCC−IC RC.Cutoff intercept VCC અને ideal saturation-axis intercept VCC/RC છે.</li><li>Emitter resistor હોય તો loopમાં IE RE ઉમેરો;grounded-emitter relation blindly ન વાપરો.</li><li>Useful amplifier Q point active regionમાં હોય તથા cutoff/saturation પહેલાં પૂરતો excursion આપે;midpoint design approximation છે,universal rule નહિ.</li><li>Coupling/bypass capacitors AC paths બદલતાં DC તથા AC signal load lines જુદી હોઈ શકે છે.</li></ul>"
+          },
+          "syllabus_item": "2.2",
+          "diagram": "loadline"
+        },
+        {
+          "h": {
+            "en": "CE voltage amplifier:DC stability and AC signal",
+            "gu": "CE Voltage Amplifier:DC Stability અને AC Signal"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A biased CE stage converts a small base-emitter signal into a larger collector voltage variation using power from the DC supply.</p><h4>Classification / representative type</h4><ul><li>This is a small-signal resistively loaded CE stage,not every possible amplifier class or power-amplifier design.</li></ul><h4>Construction — part and purpose</h4><ol><li>BJT operates at a chosen active DC Q point.</li><li>R1,R2 form the base-bias divider;its loading must be considered.</li><li>RE provides DC negative feedback against emitter-current changes.</li><li>RC converts collector-current variation to a collector-voltage variation.</li><li>Input/output coupling capacitors block DC between stages while passing an intended AC band.</li><li>An optional emitter bypass capacitor changes AC degeneration;RL and source resistance also influence gain.</li></ol><h4>Working — sequence and reason</h4><ol><li>Find the DC Q point with coupling/bypass capacitors treated as open in steady DC.</li><li>A small positive input change raises VBE in the NPN example.</li><li>Collector current rises within the small-signal active range.</li><li>The increased RC drop lowers collector voltage,producing inversion.</li><li>Output coupling removes the collector DC level from the following load.</li><li>Excess input or poor bias causes clipping;check both waveform shape and DC conditions.</li></ol><h4>Applications</h4><p>Sensor and audio-frequency voltage amplification within the designed band.</p><h4>Limitations and safety</h4><p>Gain depends on Q point,load,frequency and degeneration.Beta is current gain,not the stage voltage gain.</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Biased CE stage DC supplyની powerથી small base-emitter signalને મોટા collector-voltage variationમાં ફેરવે છે.</p><h4>વર્ગીકરણ / દર્શાવેલો પ્રકાર</h4><ul><li>આ small-signal resistively loaded CE stage છે;દરેક amplifier class/power-amplifier design નહિ.</li></ul><h4>Construction — ભાગ અને તેનું કામ</h4><ol><li>BJT selected active DC Q point પર કામ કરે છે.</li><li>R1,R2 base-bias divider બનાવે છે;loading ધ્યાનમાં લેવું પડે છે.</li><li>RE emitter-current changes સામે DC negative feedback આપે છે.</li><li>RC collector-current variationને collector-voltage variationમાં ફેરવે છે.</li><li>Input/output coupling capacitors stages વચ્ચે DC block કરીને intended AC band pass કરે છે.</li><li>Optional emitter bypass capacitor AC degeneration બદલે છે;RL/source R પણ gain બદલે છે.</li></ol><h4>Working — ક્રમ અને કારણ</h4><ol><li>Steady DCમાં coupling/bypass capacitors open માની Q point શોધો.</li><li>NPN exampleમાં small positive input change VBE વધારે છે.</li><li>Small-signal active rangeમાં collector current વધે છે.</li><li>વધેલો RC drop collector voltage ઘટાડે છે;આથી inversion મળે છે.</li><li>Output coupling પછીના loadમાંથી collector DC level દૂર રાખે છે.</li><li>Excess input/poor bias clipping કરે છે;waveform shape તથા DC conditions બંને તપાસો.</li></ol><h4>ઉપયોગ</h4><p>Designed bandમાં sensor/audio-frequency voltage amplification.</p><h4>મર્યાદા અને સલામતી</h4><p>Gain Q point,load,frequency તથા degeneration પર આધારિત છે.Beta current gain છે,stage voltage gain નહિ.</p>"
+          },
+          "syllabus_item": "2.2",
+          "classification_first": true,
+          "construction_point_count": 6,
+          "working_point_count": 6,
+          "diagram": "ceamp"
+        },
+        {
+          "h": {
+            "en": "Measured-amplitude interpretation—not fabricated readings",
+            "gu": "Amplitude Interpretation:બનાવટી Readings નહિ"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>A hypothetical midband CE stage has Vin=20mVrms and Vout=0.80Vrms with an inverted waveform.</p><h4>Step-by-step solution</h4><ol><li>Av≈−0.80/0.020=−40;magnitude=40</li><li>Voltage gain in dB=20log10(40)=32.04dB</li></ol><h4>Interpretation and check</h4><p>Do not mix peak,peak-to-peak and RMS values.The minus sign expresses phase inversion,not negative RMS magnitude.These are supplied example values,not observations.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>Hypothetical midband CE stageમાં Vin=20mVrms તથા inverted Vout=0.80Vrms છે.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>Av≈−0.80/0.020=−40;magnitude=40</li><li>Voltage gain in dB=20log10(40)=32.04dB</li></ol><h4>અર્થ અને ચકાસણી</h4><p>Peak,peak-to-peak તથા RMS ભેળવશો નહિ.Minus sign phase inversion બતાવે છે,negative RMS નહિ.આ supplied example values છે,observations નહિ.</p>"
+          },
+          "syllabus_item": "2.2",
+          "diagram": "ceamp"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.3 Biasing methods and stability",
+        "gu": "2.3 Biasing Methods અને Stability"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Fixed bias:useful simplicity,limited stability",
+            "gu": "Fixed Bias:સરળતા અને Stabilityની મર્યાદા"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>In a simple grounded-emitter NPN stage,RB feeds the base from VCC and RC is in the collector path.</p><h4>Explanation and application</h4><ul><li>Assuming active operation,IB≈(VCC−VBE)/RB,IC≈beta IB,VCE≈VCC−IC RC.</li><li>After calculating,verify the active-region assumption.The collector resistor can limit IC so that beta IB is no longer attainable.</li><li>Changes in beta,VBE and leakage move the Q point;the simplest fixed bias has weak thermal/device interchange stability.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Simple grounded-emitter NPN stageમાં RB baseને VCCથી feed કરે છે તથા RC collector pathમાં છે.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Active operation માની IB≈(VCC−VBE)/RB,IC≈beta IB,VCE≈VCC−IC RC.</li><li>Calculation પછી active-region assumption verify કરો.RC current limit કરતાં beta IB પ્રાપ્ત ન થઈ શકે.</li><li>Beta,VBE તથા leakage changes Q point બદલે છે;simple fixed biasની thermal/device interchange stability નબળી છે.</li></ul>"
+          },
+          "syllabus_item": "2.3",
+          "diagram": "fixedbias"
+        },
+        {
+          "h": {
+            "en": "Collector-to-base feedback bias",
+            "gu": "Collector-to-base Feedback Bias"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>The base resistor is fed from the collector rather than directly from a stiff VCC node.</p><h4>Explanation and application</h4><ul><li>If collector current rises,the collector voltage falls;this reduces base drive and opposes the original rise.</li><li>RC may carry IC+IB in this topology,so keep the actual current path in KVL.</li><li>Feedback improves stability over simple fixed bias,but it does not eliminate parameter,temperature or load dependence.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Base resistor stiff VCC nodeના બદલે collectorથી feed થાય છે.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Collector current વધતાં collector voltage ઘટે છે;આથી base drive ઘટીને original riseનો વિરોધ થાય છે.</li><li>આ topologyમાં RCમાં IC+IB હોઈ શકે છે;KVLમાં actual current path જ લો.</li><li>Simple fixed bias કરતાં stability સુધરે છે,પણ parameter,temperature/load dependence સંપૂર્ણ દૂર નથી થતી.</li></ul>"
+          },
+          "syllabus_item": "2.3",
+          "diagram": "feedbackbias"
+        },
+        {
+          "h": {
+            "en": "Emitter feedback and voltage-divider bias",
+            "gu": "Emitter Feedback અને Voltage-divider Bias"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>A rise in IE increases VE across RE;with a sufficiently stable base reference,this reduces VBE and opposes the current rise.This is DC negative feedback.</p><h4>Explanation and application</h4><ul><li>Divider unloaded voltage:VTH=VCC R2/(R1+R2),RTH=R1||R2.</li><li>For the active constant-beta model,IB=(VTH−VBE)/[RTH+(beta+1)RE].Then IE=(beta+1)IB.</li><li>VB≈VTH is valid only when base loading is small relative to divider current.Use the loaded equation when necessary.</li><li>RE improves DC stability but reduces AC gain unless an appropriate bypass is provided;gain/stability are design tradeoffs.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>IE વધતાં RE ઉપર VE વધે છે;stable base reference હોય તો VBE ઘટીને current riseનો વિરોધ થાય છે.આ DC negative feedback છે.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Divider unloaded voltage:VTH=VCC R2/(R1+R2),RTH=R1||R2.</li><li>Active constant-beta modelમાં IB=(VTH−VBE)/[RTH+(beta+1)RE].પછી IE=(beta+1)IB.</li><li>Base loading divider current કરતાં નાનું હોય ત્યારે જ VB≈VTH યોગ્ય છે.જરૂર પડે loaded equation લો.</li><li>RE DC stability સુધારે છે,પણ યોગ્ય bypass વિના AC gain ઘટાડે છે;gain/stability design tradeoffs છે.</li></ul>"
+          },
+          "syllabus_item": "2.3",
+          "diagram": "bias"
+        },
+        {
+          "h": {
+            "en": "Single-RB bias with emitter stabilisation",
+            "gu": "Single-RB Bias સાથે Emitter Stabilisation"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Adding RE to a fixed-base-resistor circuit provides local DC negative feedback without creating a two-resistor base divider.</p><h4>Explanation and application</h4><ul><li>In the active constant-beta model,IB≈(VCC−VBE)/[RB+(beta+1)RE].</li><li>Use IE=(beta+1)IB and include both IC RC and IE RE when finding VCE.</li><li>RE reduces sensitivity but does not make beta,temperature or leakage irrelevant;validate the active-region assumption.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Fixed-base-resistor circuitમાં RE ઉમેરવાથી two-resistor base divider બનાવ્યા વિના local DC negative feedback મળે છે.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Active constant-beta modelમાં IB≈(VCC−VBE)/[RB+(beta+1)RE].</li><li>VCE શોધતાં IE=(beta+1)IB લઈને IC RC તથા IE RE બંને ઉમેરો.</li><li>RE sensitivity ઘટાડે છે,પણ beta,temperature/leakage irrelevant નથી થતા;active-region assumption validate કરો.</li></ul>"
+          },
+          "syllabus_item": "2.3",
+          "diagram": "emitterbias"
+        },
+        {
+          "h": {
+            "en": "Loaded-divider Q-point calculation",
+            "gu": "Loaded-divider Q-point Calculation"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>VCC=12V,R1=47kohm,R2=10kohm,RE=1kohm,RC=2kohm,beta=100,VBE=0.7V.Assume forward active and neglect leakage.</p><h4>Step-by-step solution</h4><ol><li>VTH=12×10/57=2.10526V;RTH=47×10/57=8.24561kohm</li><li>IB=(2.10526−0.7)/(8.24561+101×1)=0.0128633mA</li><li>IC=1.28633mA;IE=1.29920mA;VE=1.29920V</li><li>VC=12−1.28633×2=9.42733V;VCE=8.12814V</li></ol><h4>Interpretation and check</h4><p>VC exceeds VB≈1.99920V,so BC remains reverse biased in the assumed NPN active case.Check transistor dissipation and actual component tolerances before building.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>VCC=12V,R1=47kohm,R2=10kohm,RE=1kohm,RC=2kohm,beta=100,VBE=0.7V.Forward active માનો તથા leakage અવગણો.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>VTH=12×10/57=2.10526V;RTH=47×10/57=8.24561kohm</li><li>IB=(2.10526−0.7)/(8.24561+101×1)=0.0128633mA</li><li>IC=1.28633mA;IE=1.29920mA;VE=1.29920V</li><li>VC=12−1.28633×2=9.42733V;VCE=8.12814V</li></ol><h4>અર્થ અને ચકાસણી</h4><p>VC,VB≈1.99920V કરતાં મોટું હોવાથી assumed NPN active caseમાં BC reverse રહે છે.Build પહેલાં transistor dissipation તથા actual tolerances તપાસો.</p>"
+          },
+          "syllabus_item": "2.3",
+          "diagram": "bias"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "2.4 Transistor as a switch",
+        "gu": "2.4 Transistor તરીકે Switch"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "NPN low-side switching",
+            "gu": "NPN Low-side Switching"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A switching transistor is deliberately driven between cutoff and a suitable low-voltage ON state rather than kept linear for amplification.</p><h4>Classification / representative type</h4><ul><li>Low-side NPN switching is shown.PNP high-side arrangements require different polarity and drive references.</li></ul><h4>Construction — part and purpose</h4><ol><li>Emitter is connected to the circuit common.</li><li>Load connects from the positive supply to the collector.</li><li>RB limits base input current from the controller or signal source.</li><li>A base-emitter pull-down can prevent unintended turn-on from a floating drive.</li><li>An inductive load needs correctly polarised,rated transient suppression.</li><li>Choose collector current,voltage,thermal and base-drive ratings for the actual load.</li></ol><h4>Working — sequence and reason</h4><ol><li>With insufficient forward base drive,the transistor is OFF except leakage.</li><li>The collector output is pulled toward supply through a valid load path.</li><li>Applied drive sends base current through RB.</li><li>Sufficient drive brings the BJT into saturation for the intended load;VCE stays small but nonzero.</li><li>Removing drive ends conduction after stored charge is removed;switching is not infinitely fast.</li><li>Inductive turn-off energy follows the suppression path,not an uncontrolled collector-voltage spike.</li></ol><h4>Applications</h4><p>LED/relay-driver stages and digital interfacing within component and source limits.</p><h4>Limitations and safety</h4><p>Use forced beta for design,not optimistic small-signal beta.Never assume an arbitrary GPIO can supply the chosen current or tolerate the supply voltage.</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Switching transistorને linear amplificationમાં રાખવાને બદલે cutoff તથા suitable low-voltage ON state વચ્ચે drive કરાય છે.</p><h4>વર્ગીકરણ / દર્શાવેલો પ્રકાર</h4><ul><li>Low-side NPN દર્શાવ્યું છે.PNP high-sideમાં polarity તથા drive references જુદા જોઈએ.</li></ul><h4>Construction — ભાગ અને તેનું કામ</h4><ol><li>Emitter circuit common સાથે જોડાય છે.</li><li>Load positive supplyથી collector સાથે જોડાય છે.</li><li>RB controller/signal sourceથી base current limit કરે છે.</li><li>Base-emitter pull-down floating driveથી unintended turn-on અટકાવી શકે છે.</li><li>Inductive load માટે correct polarity તથા rated transient suppression જોઈએ.</li><li>Actual load માટે collector current,voltage,thermal/base-drive ratings પસંદ કરો.</li></ol><h4>Working — ક્રમ અને કારણ</h4><ol><li>પૂરતી forward base drive ન હોય ત્યારે leakage સિવાય transistor OFF છે.</li><li>Valid load path મારફતે collector output supply તરફ pull થાય છે.</li><li>Applied drive RB મારફતે base current આપે છે.</li><li>પૂરતી drive intended load માટે saturation લાવે છે;VCE નાનું પણ nonzero છે.</li><li>Drive દૂર થતાં stored charge દૂર થયા પછી conduction બંધ થાય છે;switching infinitely fast નથી.</li><li>Inductive turn-off energy suppression pathમાં જાય,uncontrolled collector spikeમાં નહિ.</li></ol><h4>ઉપયોગ</h4><p>Component/source limitsમાં LED/relay-driver તથા digital interfacing.</p><h4>મર્યાદા અને સલામતી</h4><p>Designમાં forced beta લો,optimistic small-signal beta નહિ.Arbitrary GPIO chosen current/voltage સહન કરે એવું ન માનો.</p>"
+          },
+          "syllabus_item": "2.4",
+          "classification_first": true,
+          "construction_point_count": 6,
+          "working_point_count": 6,
+          "diagram": "switch"
+        },
+        {
+          "h": {
+            "en": "Switch base resistor and load power",
+            "gu": "Switch Base Resistor અને Load Power"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>An approved5V resistive-load trainer uses RL=100ohm,VCEsat=0.2V,VBEon=0.8V and a5V driver able to source the required current.Target forced beta10.</p><h4>Step-by-step solution</h4><ol><li>IC=(5−0.2)/100=48mA;IB,target=48/10=4.8mA</li><li>RB,max=(5−0.8)/0.0048=875ohm;choose820ohm within source ratings</li><li>IB≈4.2/820=5.122mA;forced beta≈9.37</li><li>PL=0.048²×100=0.2304W;PRB=4.2²/820=0.02151W</li></ol><h4>Interpretation and check</h4><p>Use a load resistor with suitable power margin;check total transistor heating and actual saturation data.This example is not a direct prescription for any microcontroller pin.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>Approved5V resistive-load trainerમાં RL=100ohm,VCEsat=0.2V,VBEon=0.8V તથા required current આપી શકતો5V driver છે.Target forced beta10.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>IC=(5−0.2)/100=48mA;IB,target=48/10=4.8mA</li><li>RB,max=(5−0.8)/0.0048=875ohm;choose820ohm within source ratings</li><li>IB≈4.2/820=5.122mA;forced beta≈9.37</li><li>PL=0.048²×100=0.2304W;PRB=4.2²/820=0.02151W</li></ol><h4>અર્થ અને ચકાસણી</h4><p>યોગ્ય power marginવાળો load resistor લો;transistor heating તથા actual saturation data તપાસો.આ example કોઈપણ microcontroller pin માટે direct prescription નથી.</p>"
+          },
+          "syllabus_item": "2.4",
+          "diagram": "switch"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Practical & Testing",
+        "gu": "પ્રયોગ અને ચકાસણી"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Practical 7: CE transistor amplifier performance",
+            "gu": "Practical 7: CE Transistor Amplifier Performance"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Trace assigned CE characteristics and evaluate low-amplitude amplification.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li><li>Approved CE trainer with controlled base/collector supplies,meters,function generator,CRO/DSO and rated loads.</li></ul><h4>Circuit connections</h4><p>Input is base-emitter,output collector-emitter.Common-emitter return and scope reference must be verified before testing;use the trainer modes for curve tracing versus amplification.</p><h4>Supervised procedure</h4><ol><li>Identify NPN/PNP,pinout,ratings and the assigned DC bias arrangement.</li><li>In the characteristic mode,hold VCE fixed and collect assigned actual IB versus VBE points with current limiting.</li><li>For output families,hold each assigned IB and vary VCE within ratings while recording IC.</li><li>Power OFF,select amplifier mode and verify the no-signal Q point before applying AC.</li><li>Apply a small assigned sine input,record both amplitudes with the same convention and check inversion.</li><li>Increase signal only as allowed to observe clipping onset;return to the undistorted range.</li><li>Plot characteristics,calculate gain and relate distortion to Q-point limits.</li></ol><h4>Calculations and interpretation</h4><p>beta≈IC/IB only where active/low-leakage assumptions fit;Av=Vout/Vin with phase stated.Record curve held variables and amplitude convention.</p><h4>Fault finding</h4><ul><li>No gain/clipping:check Q point,pinout,coupling capacitors,ground and excessive input;do not repair while powered.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth. Check CRO/DSO earth-referenced clips,probe attenuation and permitted common point before power ON.A bridge output may require an approved differential/isolated measurement method;never float an ordinary scope by removing earth. Verify controlled capacitor discharge before touching/changing connections.Do not short terminals with metal;protect against inductive turn-off transients.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Mode</th><th>VBE V</th><th>IB microA</th><th>VCE V</th><th>IC mA</th><th>Vin</th><th>Vout</th><th>frequency Hz</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+            "gu": "<h4>હેતુ</h4><p>Assigned CE characteristics તથા low-amplitude amplification તપાસો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li><li>Controlled base/collector supplies,meters,function generator,CRO/DSO તથા rated loadsવાળું approved CE trainer.</li></ul><h4>Circuit Connections</h4><p>Input BE,output CE છે.Test પહેલાં common-emitter return/scope reference verify કરો;curve tracing તથા amplification માટે trainer modes લો.</p><h4>Supervised Procedure</h4><ol><li>NPN/PNP,pinout,ratings તથા assigned DC bias ઓળખો.</li><li>Characteristic modeમાં VCE fixed રાખી current limiting સાથે actual IB versus VBE points લો.</li><li>Output familiesમાં દરેક assigned IB fixed રાખી rated rangeમાં VCE બદલી IC નોંધો.</li><li>Power OFF કરીને amplifier mode લો;AC પહેલાં no-signal Q point verify કરો.</li><li>Small assigned sine input આપો;બંને amplitudes same conventionમાં નોંધો અને inversion તપાસો.</li><li>મંજૂરી મુજબ જ signal વધારી clipping onset જુઓ;પછી undistorted rangeમાં પાછા આવો.</li><li>Characteristics plot કરો,gain ગણો તથા distortionને Q-point limits સાથે જોડો.</li></ol><h4>Calculations અને અર્થ</h4><p>Active/low-leakage યોગ્ય હોય ત્યાં beta≈IC/IB;Av=Vout/Vin સાથે phase કહો.Curve held variables તથા amplitude convention નોંધો.</p><h4>Fault Finding</h4><ul><li>Gain ન મળે/clipping હોય તો Q point,pinout,coupling C,ground તથા excess input જુઓ;powered repair ન કરો.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો. Power ON પહેલાં CRO/DSO earth-referenced clips,probe attenuation તથા permitted common point તપાસો.Bridge output માટે approved differential/isolated method જોઈએ;earth કાઢીને ordinary scope float ન કરો. Connections બદલતાં/સ્પર્શ કરતાં પહેલાં controlled capacitor discharge verify કરો.Metalથી terminals short ન કરો;inductive turn-off transients સામે protection રાખો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Mode</th><th>VBE V</th><th>IB microA</th><th>VCE V</th><th>IC mA</th><th>Vin</th><th>Vout</th><th>frequency Hz</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+          },
+          "diagram": "ceamp",
+          "syllabus_item": "Practical.7"
+        },
+        {
+          "h": {
+            "en": "Practical 8: Transistor testing with multimeter",
+            "gu": "Practical 8: Multimeterથી Transistor Test"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Screen junction polarity and obvious faults without claiming complete transistor qualification.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li></ul><h4>Circuit connections</h4><p>Use a de-energised,isolated transistor and the approved diode-test mode.Verify the meter polarity and safe test conditions from the manuals.</p><h4>Supervised procedure</h4><ol><li>Identify the exact part and data-sheet pinout before assuming lead order.</li><li>Remove external/residual voltage and isolate the part from parallel paths.</li><li>Check BE and BC forward junction behaviour using the stated NPN/PNP polarity.</li><li>Reverse the probes and record reverse indications without applying excessive BE reverse voltage.</li><li>Check for collector-emitter shorts/open damage using the permitted method.</li><li>Compare patterns with the data sheet and label uncertain results for a proper functional test.</li></ol><h4>Calculations and interpretation</h4><p>Junction checks do not establish beta,high-voltage withstand,speed or rated load performance.They may not reliably distinguish collector from emitter alone.</p><h4>Fault finding</h4><ul><li>Both directions low:possible short or in-circuit path;both open:possible fault,wrong pins or unsuitable test mode.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Part</th><th>verified pinout</th><th>BE forward</th><th>BE reverse</th><th>BC forward</th><th>BC reverse</th><th>CE check</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+            "gu": "<h4>હેતુ</h4><p>Complete qualificationનો દાવો કર્યા વગર junction polarity તથા obvious faults screen કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li></ul><h4>Circuit Connections</h4><p>De-energised isolated transistor તથા approved diode-test mode લો.Meter polarity/safe test conditions manualsથી verify કરો.</p><h4>Supervised Procedure</h4><ol><li>Lead order માનતાં પહેલાં exact part/data-sheet pinout ઓળખો.</li><li>External/residual voltage દૂર કરીને parallel pathsથી part isolate કરો.</li><li>Stated NPN/PNP polarityથી BE તથા BC forward behaviour તપાસો.</li><li>Excess BE reverse voltage વિના probes reverse કરીને indications નોંધો.</li><li>Permitted methodથી collector-emitter short/open damage તપાસો.</li><li>Patterns data sheet સાથે compare કરીને uncertain resultsને proper functional test માટે mark કરો.</li></ol><h4>Calculations અને અર્થ</h4><p>Junction checks beta,high-voltage withstand,speed/rated load performance સાબિત કરતા નથી.તે એકલા collector/emitter reliably જુદા ન પાડે.</p><h4>Fault Finding</h4><ul><li>બંને દિશામાં low એટલે short/in-circuit path શક્ય;બંને open એટલે fault,wrong pins/unsuitable mode શક્ય.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Part</th><th>verified pinout</th><th>BE forward</th><th>BE reverse</th><th>BC forward</th><th>BC reverse</th><th>CE check</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+          },
+          "diagram": "bjt",
+          "syllabus_item": "Practical.8"
+        },
+        {
+          "h": {
+            "en": "Practical 9: Transistor switch waveforms using CRO",
+            "gu": "Practical 9: CROથી Transistor Switch Waveforms"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Observe input drive and collector output in cutoff/ON operation.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li><li>Approved NPN switch trainer,resistive/approved protected load,limited source,pulse generator and CRO/DSO.</li></ul><h4>Circuit connections</h4><p>Load from VCC to collector,emitter to common,input through RB.Never use an unprotected inductive load or assume GPIO drive capability.</p><h4>Supervised procedure</h4><ol><li>Calculate load current,base current and power before energising.</li><li>Confirm pinout,limiting RB and permitted pulse amplitude/reference.</li><li>Set generator minimum output and complete the scope-ground check.</li><li>Apply the assigned slow pulse and observe input/collector output together.</li><li>Record OFF/ON collector levels,drive levels and timing with scales.</li><li>Explain inversion,finite saturation voltage and any delay without attributing all distortion to beta.</li></ol><h4>Calculations and interpretation</h4><p>Use actual measured ON/OFF levels and load current.Check forced beta and source limits rather than assuming ideal zero-voltage switching.</p><h4>Fault finding</h4><ul><li>Collector never low:check base drive/current and emitter reference.Collector always low:inspect short,pinout or stuck drive after power OFF.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth. Check CRO/DSO earth-referenced clips,probe attenuation and permitted common point before power ON.A bridge output may require an approved differential/isolated measurement method;never float an ordinary scope by removing earth.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Vdrive low/high V</th><th>collector OFF/ON V</th><th>load mA</th><th>period ms</th><th>probe settings</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+            "gu": "<h4>હેતુ</h4><p>Cutoff/ONમાં input drive તથા collector output જુઓ.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li><li>Approved NPN switch trainer,resistive/approved protected load,limited source,pulse generator તથા CRO/DSO.</li></ul><h4>Circuit Connections</h4><p>VCCથી collectorમાં load,emitter common,input RBથી.Unprotected inductive load ન લો તથા GPIO drive capability assume ન કરો.</p><h4>Supervised Procedure</h4><ol><li>Energise પહેલાં load/base current તથા power ગણો.</li><li>Pinout,RB તથા permitted pulse amplitude/reference confirm કરો.</li><li>Generator minimum રાખી scope-ground check કરો.</li><li>Assigned slow pulse આપીને input/collector output સાથે જુઓ.</li><li>Scales સાથે OFF/ON collector levels,drive levels/timing નોંધો.</li><li>Inversion,finite saturation voltage તથા delay સમજાવો;બધું distortion betaને ન આપો.</li></ol><h4>Calculations અને અર્થ</h4><p>Actual ON/OFF levels તથા load current લો.Ideal zero-voltage switching માનવાને બદલે forced beta/source limits તપાસો.</p><h4>Fault Finding</h4><ul><li>Collector low ન થાય તો base drive/current/emitter reference તપાસો;હંમેશાં low હોય તો power OFF પછી short,pinout/stuck drive જુઓ.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો. Power ON પહેલાં CRO/DSO earth-referenced clips,probe attenuation તથા permitted common point તપાસો.Bridge output માટે approved differential/isolated method જોઈએ;earth કાઢીને ordinary scope float ન કરો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Vdrive low/high V</th><th>collector OFF/ON V</th><th>load mA</th><th>period ms</th><th>probe settings</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+          },
+          "diagram": "switch",
+          "syllabus_item": "Practical.9"
+        }
+      ],
+      "practical_section": true
+    },
+    {
+      "title": {
+        "en": "Activity Related transistor-configuration chart",
+        "gu": "Activity Related Transistor-configuration Chart"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "CE versus CB and CC:activity support",
+            "gu": "CE,CB,CC:Activity Support"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>The theory emphasis is CE;the suggested chart activity can compare configurations qualitatively under appropriate active-region conditions.</p><h4>Explanation and application</h4><ul><li>CE:emitter common,current gain approximately beta and normally inverted collector voltage signal;impedances depend on bias/load.</li><li>CB:base common,current gain approximately alpha below unity and typically low input resistance;voltage gain can exceed unity.</li><li>CC:collector common,emitter-follower voltage gain usually below unity and noninverting,current gain approximately beta+1.</li><li>Present a labelled comparison chart rather than treating these qualitative properties as identical numerical specifications for every circuit.</li></ul><details class=\"self-check\"><summary>Can a negative calculated VCE still justify the assumed active model?</summary><p>No.Recheck regions and circuit constraints instead of blindly using beta IB.</p></details>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Theoryનો ભાર CE પર છે;suggested chart activityમાં suitable active-region conditions માટે qualitative comparison કરી શકાય.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>CEમાં emitter common,current gain આશરે beta તથા સામાન્ય રીતે inverted collector signal છે;impedances bias/load પર આધારિત છે.</li><li>CBમાં base common,current gain આશરે alpha unityથી ઓછો તથા typical low input resistance છે;voltage gain unityથી વધી શકે છે.</li><li>CCમાં collector common,emitter-follower voltage gain સામાન્ય રીતે unityથી ઓછો/noninverting તથા current gain આશરે beta+1 છે.</li><li>દરેક circuit માટે same numerical specifications માનવાને બદલે labelled qualitative comparison chart બનાવો.</li></ul><details class=\"self-check\"><summary>Negative VCE Calculation પછી Active Model માન્ય?</summary><p>ના.Blindly beta IB લેવાને બદલે regions તથા circuit constraints ફરી તપાસો.</p></details>"
+          },
+          "syllabus_item": "Activity",
+          "diagram": "bjt"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Suggested projects and evidence",
+        "gu": "Suggested Projects અને Evidence"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Project 6: CE amplifier board",
+            "gu": "Project 6: CE Amplifier Board"
+          },
+          "body": {
+            "en": "<p>Document actual pinout,divider/RC/RE and coupling parts.Verify Q point before small AC input;show actual gain/inversion evidence and avoid clipping.</p>",
+            "gu": "<p>Actual pinout,divider/RC/RE તથા coupling parts લખો.Small AC પહેલાં Q point verify કરો;actual gain/inversion evidence લો અને clipping ટાળો.</p>"
+          },
+          "syllabus_item": "Project.6"
+        },
+        {
+          "h": {
+            "en": "Project 7: CE characteristics chart",
+            "gu": "Project 7: CE Characteristics Chart"
+          },
+          "body": {
+            "en": "<p>Separate input and output families,axes,held variables and operating regions.Label illustrative plots as illustrative and measured plots as measured.</p>",
+            "gu": "<p>Input/output families,axes,held variables તથા regions જુદાં બતાવો.Illustrative plotsને illustrative તથા actual plotsને measured label આપો.</p>"
+          },
+          "syllabus_item": "Project.7"
+        }
+      ],
+      "project_section": true
+    }
+  ],
+  "programs": [
+    {
+      "title": {
+        "en": "Practical & Testing",
+        "gu": "પ્રયોગ અને ચકાસણી"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "CE transistor amplifier performance",
+            "gu": "CE Transistor Amplifier Performance"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Trace assigned CE characteristics and evaluate low-amplitude amplification.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li><li>Approved CE trainer with controlled base/collector supplies,meters,function generator,CRO/DSO and rated loads.</li></ul><h4>Circuit connections</h4><p>Input is base-emitter,output collector-emitter.Common-emitter return and scope reference must be verified before testing;use the trainer modes for curve tracing versus amplification.</p><h4>Supervised procedure</h4><ol><li>Identify NPN/PNP,pinout,ratings and the assigned DC bias arrangement.</li><li>In the characteristic mode,hold VCE fixed and collect assigned actual IB versus VBE points with current limiting.</li><li>For output families,hold each assigned IB and vary VCE within ratings while recording IC.</li><li>Power OFF,select amplifier mode and verify the no-signal Q point before applying AC.</li><li>Apply a small assigned sine input,record both amplitudes with the same convention and check inversion.</li><li>Increase signal only as allowed to observe clipping onset;return to the undistorted range.</li><li>Plot characteristics,calculate gain and relate distortion to Q-point limits.</li></ol><h4>Calculations and interpretation</h4><p>beta≈IC/IB only where active/low-leakage assumptions fit;Av=Vout/Vin with phase stated.Record curve held variables and amplitude convention.</p><h4>Fault finding</h4><ul><li>No gain/clipping:check Q point,pinout,coupling capacitors,ground and excessive input;do not repair while powered.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth. Check CRO/DSO earth-referenced clips,probe attenuation and permitted common point before power ON.A bridge output may require an approved differential/isolated measurement method;never float an ordinary scope by removing earth. Verify controlled capacitor discharge before touching/changing connections.Do not short terminals with metal;protect against inductive turn-off transients.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Mode</th><th>VBE V</th><th>IB microA</th><th>VCE V</th><th>IC mA</th><th>Vin</th><th>Vout</th><th>frequency Hz</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+            "gu": "<h4>હેતુ</h4><p>Assigned CE characteristics તથા low-amplitude amplification તપાસો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li><li>Controlled base/collector supplies,meters,function generator,CRO/DSO તથા rated loadsવાળું approved CE trainer.</li></ul><h4>Circuit Connections</h4><p>Input BE,output CE છે.Test પહેલાં common-emitter return/scope reference verify કરો;curve tracing તથા amplification માટે trainer modes લો.</p><h4>Supervised Procedure</h4><ol><li>NPN/PNP,pinout,ratings તથા assigned DC bias ઓળખો.</li><li>Characteristic modeમાં VCE fixed રાખી current limiting સાથે actual IB versus VBE points લો.</li><li>Output familiesમાં દરેક assigned IB fixed રાખી rated rangeમાં VCE બદલી IC નોંધો.</li><li>Power OFF કરીને amplifier mode લો;AC પહેલાં no-signal Q point verify કરો.</li><li>Small assigned sine input આપો;બંને amplitudes same conventionમાં નોંધો અને inversion તપાસો.</li><li>મંજૂરી મુજબ જ signal વધારી clipping onset જુઓ;પછી undistorted rangeમાં પાછા આવો.</li><li>Characteristics plot કરો,gain ગણો તથા distortionને Q-point limits સાથે જોડો.</li></ol><h4>Calculations અને અર્થ</h4><p>Active/low-leakage યોગ્ય હોય ત્યાં beta≈IC/IB;Av=Vout/Vin સાથે phase કહો.Curve held variables તથા amplitude convention નોંધો.</p><h4>Fault Finding</h4><ul><li>Gain ન મળે/clipping હોય તો Q point,pinout,coupling C,ground તથા excess input જુઓ;powered repair ન કરો.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો. Power ON પહેલાં CRO/DSO earth-referenced clips,probe attenuation તથા permitted common point તપાસો.Bridge output માટે approved differential/isolated method જોઈએ;earth કાઢીને ordinary scope float ન કરો. Connections બદલતાં/સ્પર્શ કરતાં પહેલાં controlled capacitor discharge verify કરો.Metalથી terminals short ન કરો;inductive turn-off transients સામે protection રાખો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Mode</th><th>VBE V</th><th>IB microA</th><th>VCE V</th><th>IC mA</th><th>Vin</th><th>Vout</th><th>frequency Hz</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+          },
+          "diagram": "ceamp",
+          "practical_number": 7
+        },
+        {
+          "h": {
+            "en": "Transistor testing with multimeter",
+            "gu": "Multimeterથી Transistor Test"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Screen junction polarity and obvious faults without claiming complete transistor qualification.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li></ul><h4>Circuit connections</h4><p>Use a de-energised,isolated transistor and the approved diode-test mode.Verify the meter polarity and safe test conditions from the manuals.</p><h4>Supervised procedure</h4><ol><li>Identify the exact part and data-sheet pinout before assuming lead order.</li><li>Remove external/residual voltage and isolate the part from parallel paths.</li><li>Check BE and BC forward junction behaviour using the stated NPN/PNP polarity.</li><li>Reverse the probes and record reverse indications without applying excessive BE reverse voltage.</li><li>Check for collector-emitter shorts/open damage using the permitted method.</li><li>Compare patterns with the data sheet and label uncertain results for a proper functional test.</li></ol><h4>Calculations and interpretation</h4><p>Junction checks do not establish beta,high-voltage withstand,speed or rated load performance.They may not reliably distinguish collector from emitter alone.</p><h4>Fault finding</h4><ul><li>Both directions low:possible short or in-circuit path;both open:possible fault,wrong pins or unsuitable test mode.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Part</th><th>verified pinout</th><th>BE forward</th><th>BE reverse</th><th>BC forward</th><th>BC reverse</th><th>CE check</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+            "gu": "<h4>હેતુ</h4><p>Complete qualificationનો દાવો કર્યા વગર junction polarity તથા obvious faults screen કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li></ul><h4>Circuit Connections</h4><p>De-energised isolated transistor તથા approved diode-test mode લો.Meter polarity/safe test conditions manualsથી verify કરો.</p><h4>Supervised Procedure</h4><ol><li>Lead order માનતાં પહેલાં exact part/data-sheet pinout ઓળખો.</li><li>External/residual voltage દૂર કરીને parallel pathsથી part isolate કરો.</li><li>Stated NPN/PNP polarityથી BE તથા BC forward behaviour તપાસો.</li><li>Excess BE reverse voltage વિના probes reverse કરીને indications નોંધો.</li><li>Permitted methodથી collector-emitter short/open damage તપાસો.</li><li>Patterns data sheet સાથે compare કરીને uncertain resultsને proper functional test માટે mark કરો.</li></ol><h4>Calculations અને અર્થ</h4><p>Junction checks beta,high-voltage withstand,speed/rated load performance સાબિત કરતા નથી.તે એકલા collector/emitter reliably જુદા ન પાડે.</p><h4>Fault Finding</h4><ul><li>બંને દિશામાં low એટલે short/in-circuit path શક્ય;બંને open એટલે fault,wrong pins/unsuitable mode શક્ય.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Part</th><th>verified pinout</th><th>BE forward</th><th>BE reverse</th><th>BC forward</th><th>BC reverse</th><th>CE check</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+          },
+          "diagram": "bjt",
+          "practical_number": 8
+        },
+        {
+          "h": {
+            "en": "Transistor switch waveforms using CRO",
+            "gu": "CROથી Transistor Switch Waveforms"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Observe input drive and collector output in cutoff/ON operation.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li><li>Approved NPN switch trainer,resistive/approved protected load,limited source,pulse generator and CRO/DSO.</li></ul><h4>Circuit connections</h4><p>Load from VCC to collector,emitter to common,input through RB.Never use an unprotected inductive load or assume GPIO drive capability.</p><h4>Supervised procedure</h4><ol><li>Calculate load current,base current and power before energising.</li><li>Confirm pinout,limiting RB and permitted pulse amplitude/reference.</li><li>Set generator minimum output and complete the scope-ground check.</li><li>Apply the assigned slow pulse and observe input/collector output together.</li><li>Record OFF/ON collector levels,drive levels and timing with scales.</li><li>Explain inversion,finite saturation voltage and any delay without attributing all distortion to beta.</li></ol><h4>Calculations and interpretation</h4><p>Use actual measured ON/OFF levels and load current.Check forced beta and source limits rather than assuming ideal zero-voltage switching.</p><h4>Fault finding</h4><ul><li>Collector never low:check base drive/current and emitter reference.Collector always low:inspect short,pinout or stuck drive after power OFF.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth. Check CRO/DSO earth-referenced clips,probe attenuation and permitted common point before power ON.A bridge output may require an approved differential/isolated measurement method;never float an ordinary scope by removing earth.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Vdrive low/high V</th><th>collector OFF/ON V</th><th>load mA</th><th>period ms</th><th>probe settings</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+            "gu": "<h4>હેતુ</h4><p>Cutoff/ONમાં input drive તથા collector output જુઓ.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li><li>Approved NPN switch trainer,resistive/approved protected load,limited source,pulse generator તથા CRO/DSO.</li></ul><h4>Circuit Connections</h4><p>VCCથી collectorમાં load,emitter common,input RBથી.Unprotected inductive load ન લો તથા GPIO drive capability assume ન કરો.</p><h4>Supervised Procedure</h4><ol><li>Energise પહેલાં load/base current તથા power ગણો.</li><li>Pinout,RB તથા permitted pulse amplitude/reference confirm કરો.</li><li>Generator minimum રાખી scope-ground check કરો.</li><li>Assigned slow pulse આપીને input/collector output સાથે જુઓ.</li><li>Scales સાથે OFF/ON collector levels,drive levels/timing નોંધો.</li><li>Inversion,finite saturation voltage તથા delay સમજાવો;બધું distortion betaને ન આપો.</li></ol><h4>Calculations અને અર્થ</h4><p>Actual ON/OFF levels તથા load current લો.Ideal zero-voltage switching માનવાને બદલે forced beta/source limits તપાસો.</p><h4>Fault Finding</h4><ul><li>Collector low ન થાય તો base drive/current/emitter reference તપાસો;હંમેશાં low હોય તો power OFF પછી short,pinout/stuck drive જુઓ.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો. Power ON પહેલાં CRO/DSO earth-referenced clips,probe attenuation તથા permitted common point તપાસો.Bridge output માટે approved differential/isolated method જોઈએ;earth કાઢીને ordinary scope float ન કરો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Vdrive low/high V</th><th>collector OFF/ON V</th><th>load mA</th><th>period ms</th><th>probe settings</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+          },
+          "diagram": "switch",
+          "practical_number": 9
+        }
+      ]
+    }
+  ],
+  "practicals": [
+    {
+      "number": 7,
+      "unit": 2,
+      "title": {
+        "en": "CE transistor amplifier performance",
+        "gu": "CE Transistor Amplifier Performance"
+      },
+      "aim": {
+        "en": "Trace assigned CE characteristics and evaluate low-amplitude amplification.",
+        "gu": "Assigned CE characteristics તથા low-amplitude amplification તપાસો."
+      },
+      "diagram": "ceamp",
+      "body": {
+        "en": "<h4>Aim</h4><p>Trace assigned CE characteristics and evaluate low-amplitude amplification.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li><li>Approved CE trainer with controlled base/collector supplies,meters,function generator,CRO/DSO and rated loads.</li></ul><h4>Circuit connections</h4><p>Input is base-emitter,output collector-emitter.Common-emitter return and scope reference must be verified before testing;use the trainer modes for curve tracing versus amplification.</p><h4>Supervised procedure</h4><ol><li>Identify NPN/PNP,pinout,ratings and the assigned DC bias arrangement.</li><li>In the characteristic mode,hold VCE fixed and collect assigned actual IB versus VBE points with current limiting.</li><li>For output families,hold each assigned IB and vary VCE within ratings while recording IC.</li><li>Power OFF,select amplifier mode and verify the no-signal Q point before applying AC.</li><li>Apply a small assigned sine input,record both amplitudes with the same convention and check inversion.</li><li>Increase signal only as allowed to observe clipping onset;return to the undistorted range.</li><li>Plot characteristics,calculate gain and relate distortion to Q-point limits.</li></ol><h4>Calculations and interpretation</h4><p>beta≈IC/IB only where active/low-leakage assumptions fit;Av=Vout/Vin with phase stated.Record curve held variables and amplitude convention.</p><h4>Fault finding</h4><ul><li>No gain/clipping:check Q point,pinout,coupling capacitors,ground and excessive input;do not repair while powered.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth. Check CRO/DSO earth-referenced clips,probe attenuation and permitted common point before power ON.A bridge output may require an approved differential/isolated measurement method;never float an ordinary scope by removing earth. Verify controlled capacitor discharge before touching/changing connections.Do not short terminals with metal;protect against inductive turn-off transients.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Mode</th><th>VBE V</th><th>IB microA</th><th>VCE V</th><th>IC mA</th><th>Vin</th><th>Vout</th><th>frequency Hz</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+        "gu": "<h4>હેતુ</h4><p>Assigned CE characteristics તથા low-amplitude amplification તપાસો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li><li>Controlled base/collector supplies,meters,function generator,CRO/DSO તથા rated loadsવાળું approved CE trainer.</li></ul><h4>Circuit Connections</h4><p>Input BE,output CE છે.Test પહેલાં common-emitter return/scope reference verify કરો;curve tracing તથા amplification માટે trainer modes લો.</p><h4>Supervised Procedure</h4><ol><li>NPN/PNP,pinout,ratings તથા assigned DC bias ઓળખો.</li><li>Characteristic modeમાં VCE fixed રાખી current limiting સાથે actual IB versus VBE points લો.</li><li>Output familiesમાં દરેક assigned IB fixed રાખી rated rangeમાં VCE બદલી IC નોંધો.</li><li>Power OFF કરીને amplifier mode લો;AC પહેલાં no-signal Q point verify કરો.</li><li>Small assigned sine input આપો;બંને amplitudes same conventionમાં નોંધો અને inversion તપાસો.</li><li>મંજૂરી મુજબ જ signal વધારી clipping onset જુઓ;પછી undistorted rangeમાં પાછા આવો.</li><li>Characteristics plot કરો,gain ગણો તથા distortionને Q-point limits સાથે જોડો.</li></ol><h4>Calculations અને અર્થ</h4><p>Active/low-leakage યોગ્ય હોય ત્યાં beta≈IC/IB;Av=Vout/Vin સાથે phase કહો.Curve held variables તથા amplitude convention નોંધો.</p><h4>Fault Finding</h4><ul><li>Gain ન મળે/clipping હોય તો Q point,pinout,coupling C,ground તથા excess input જુઓ;powered repair ન કરો.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો. Power ON પહેલાં CRO/DSO earth-referenced clips,probe attenuation તથા permitted common point તપાસો.Bridge output માટે approved differential/isolated method જોઈએ;earth કાઢીને ordinary scope float ન કરો. Connections બદલતાં/સ્પર્શ કરતાં પહેલાં controlled capacitor discharge verify કરો.Metalથી terminals short ન કરો;inductive turn-off transients સામે protection રાખો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Mode</th><th>VBE V</th><th>IB microA</th><th>VCE V</th><th>IC mA</th><th>Vin</th><th>Vout</th><th>frequency Hz</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+      },
+      "performed": false,
+      "suggested_duration": null,
+      "source_reference": "Owner GTU practical 7,pp3–4",
+      "observation_status": "Blank;no fabricated readings"
+    },
+    {
+      "number": 8,
+      "unit": 2,
+      "title": {
+        "en": "Transistor testing with multimeter",
+        "gu": "Multimeterથી Transistor Test"
+      },
+      "aim": {
+        "en": "Screen junction polarity and obvious faults without claiming complete transistor qualification.",
+        "gu": "Complete qualificationનો દાવો કર્યા વગર junction polarity તથા obvious faults screen કરો."
+      },
+      "diagram": "bjt",
+      "body": {
+        "en": "<h4>Aim</h4><p>Screen junction polarity and obvious faults without claiming complete transistor qualification.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li></ul><h4>Circuit connections</h4><p>Use a de-energised,isolated transistor and the approved diode-test mode.Verify the meter polarity and safe test conditions from the manuals.</p><h4>Supervised procedure</h4><ol><li>Identify the exact part and data-sheet pinout before assuming lead order.</li><li>Remove external/residual voltage and isolate the part from parallel paths.</li><li>Check BE and BC forward junction behaviour using the stated NPN/PNP polarity.</li><li>Reverse the probes and record reverse indications without applying excessive BE reverse voltage.</li><li>Check for collector-emitter shorts/open damage using the permitted method.</li><li>Compare patterns with the data sheet and label uncertain results for a proper functional test.</li></ol><h4>Calculations and interpretation</h4><p>Junction checks do not establish beta,high-voltage withstand,speed or rated load performance.They may not reliably distinguish collector from emitter alone.</p><h4>Fault finding</h4><ul><li>Both directions low:possible short or in-circuit path;both open:possible fault,wrong pins or unsuitable test mode.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Part</th><th>verified pinout</th><th>BE forward</th><th>BE reverse</th><th>BC forward</th><th>BC reverse</th><th>CE check</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+        "gu": "<h4>હેતુ</h4><p>Complete qualificationનો દાવો કર્યા વગર junction polarity તથા obvious faults screen કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li></ul><h4>Circuit Connections</h4><p>De-energised isolated transistor તથા approved diode-test mode લો.Meter polarity/safe test conditions manualsથી verify કરો.</p><h4>Supervised Procedure</h4><ol><li>Lead order માનતાં પહેલાં exact part/data-sheet pinout ઓળખો.</li><li>External/residual voltage દૂર કરીને parallel pathsથી part isolate કરો.</li><li>Stated NPN/PNP polarityથી BE તથા BC forward behaviour તપાસો.</li><li>Excess BE reverse voltage વિના probes reverse કરીને indications નોંધો.</li><li>Permitted methodથી collector-emitter short/open damage તપાસો.</li><li>Patterns data sheet સાથે compare કરીને uncertain resultsને proper functional test માટે mark કરો.</li></ol><h4>Calculations અને અર્થ</h4><p>Junction checks beta,high-voltage withstand,speed/rated load performance સાબિત કરતા નથી.તે એકલા collector/emitter reliably જુદા ન પાડે.</p><h4>Fault Finding</h4><ul><li>બંને દિશામાં low એટલે short/in-circuit path શક્ય;બંને open એટલે fault,wrong pins/unsuitable mode શક્ય.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Part</th><th>verified pinout</th><th>BE forward</th><th>BE reverse</th><th>BC forward</th><th>BC reverse</th><th>CE check</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+      },
+      "performed": false,
+      "suggested_duration": null,
+      "source_reference": "Owner GTU practical 8,pp3–4",
+      "observation_status": "Blank;no fabricated readings"
+    },
+    {
+      "number": 9,
+      "unit": 2,
+      "title": {
+        "en": "Transistor switch waveforms using CRO",
+        "gu": "CROથી Transistor Switch Waveforms"
+      },
+      "aim": {
+        "en": "Observe input drive and collector output in cutoff/ON operation.",
+        "gu": "Cutoff/ONમાં input drive તથા collector output જુઓ."
+      },
+      "diagram": "switch",
+      "body": {
+        "en": "<h4>Aim</h4><p>Observe input drive and collector output in cutoff/ON operation.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li><li>Approved NPN switch trainer,resistive/approved protected load,limited source,pulse generator and CRO/DSO.</li></ul><h4>Circuit connections</h4><p>Load from VCC to collector,emitter to common,input through RB.Never use an unprotected inductive load or assume GPIO drive capability.</p><h4>Supervised procedure</h4><ol><li>Calculate load current,base current and power before energising.</li><li>Confirm pinout,limiting RB and permitted pulse amplitude/reference.</li><li>Set generator minimum output and complete the scope-ground check.</li><li>Apply the assigned slow pulse and observe input/collector output together.</li><li>Record OFF/ON collector levels,drive levels and timing with scales.</li><li>Explain inversion,finite saturation voltage and any delay without attributing all distortion to beta.</li></ol><h4>Calculations and interpretation</h4><p>Use actual measured ON/OFF levels and load current.Check forced beta and source limits rather than assuming ideal zero-voltage switching.</p><h4>Fault finding</h4><ul><li>Collector never low:check base drive/current and emitter reference.Collector always low:inspect short,pinout or stuck drive after power OFF.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth. Check CRO/DSO earth-referenced clips,probe attenuation and permitted common point before power ON.A bridge output may require an approved differential/isolated measurement method;never float an ordinary scope by removing earth.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Vdrive low/high V</th><th>collector OFF/ON V</th><th>load mA</th><th>period ms</th><th>probe settings</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+        "gu": "<h4>હેતુ</h4><p>Cutoff/ONમાં input drive તથા collector output જુઓ.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li><li>Approved NPN switch trainer,resistive/approved protected load,limited source,pulse generator તથા CRO/DSO.</li></ul><h4>Circuit Connections</h4><p>VCCથી collectorમાં load,emitter common,input RBથી.Unprotected inductive load ન લો તથા GPIO drive capability assume ન કરો.</p><h4>Supervised Procedure</h4><ol><li>Energise પહેલાં load/base current તથા power ગણો.</li><li>Pinout,RB તથા permitted pulse amplitude/reference confirm કરો.</li><li>Generator minimum રાખી scope-ground check કરો.</li><li>Assigned slow pulse આપીને input/collector output સાથે જુઓ.</li><li>Scales સાથે OFF/ON collector levels,drive levels/timing નોંધો.</li><li>Inversion,finite saturation voltage તથા delay સમજાવો;બધું distortion betaને ન આપો.</li></ol><h4>Calculations અને અર્થ</h4><p>Actual ON/OFF levels તથા load current લો.Ideal zero-voltage switching માનવાને બદલે forced beta/source limits તપાસો.</p><h4>Fault Finding</h4><ul><li>Collector low ન થાય તો base drive/current/emitter reference તપાસો;હંમેશાં low હોય તો power OFF પછી short,pinout/stuck drive જુઓ.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો. Power ON પહેલાં CRO/DSO earth-referenced clips,probe attenuation તથા permitted common point તપાસો.Bridge output માટે approved differential/isolated method જોઈએ;earth કાઢીને ordinary scope float ન કરો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Vdrive low/high V</th><th>collector OFF/ON V</th><th>load mA</th><th>period ms</th><th>probe settings</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+      },
+      "performed": false,
+      "suggested_duration": null,
+      "source_reference": "Owner GTU practical 9,pp3–4",
+      "observation_status": "Blank;no fabricated readings"
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "bjtlayers",
+      "title": {
+        "en": "NPN physical structure:emitter,thin base and collector",
+        "gu": "BJT:PNP,NPNની Construction અને Working"
+      },
+      "file": "diagrams/bjtlayers.svg"
+    },
+    {
+      "id": "pnplayers",
+      "title": {
+        "en": "PNP physical structure:hole injection and reversed polarities",
+        "gu": "PNP Conduction:NPN Polarities ફરી ન લો"
+      },
+      "file": "diagrams/pnplayers.svg"
+    },
+    {
+      "id": "bjt",
+      "title": {
+        "en": "BJT fundamentals:current relations and regions",
+        "gu": "Current Gains Alpha,Beta અને Leakage"
+      },
+      "file": "diagrams/bjt.svg"
+    },
+    {
+      "id": "cecurves",
+      "title": {
+        "en": "CE output characteristics:IC versus VCE at fixed IB",
+        "gu": "Common Emitterનો અર્થ"
+      },
+      "file": "diagrams/cecurves.svg"
+    },
+    {
+      "id": "ceinput",
+      "title": {
+        "en": "CE input characteristic:IB versus VBE at fixed VCE",
+        "gu": "CE Input Curve:Controlled Test Conditions"
+      },
+      "file": "diagrams/ceinput.svg"
+    },
+    {
+      "id": "loadline",
+      "title": {
+        "en": "DC load line and Q point:intersection with the device family",
+        "gu": "DC Load Line અને Q Point"
+      },
+      "file": "diagrams/loadline.svg"
+    },
+    {
+      "id": "ceamp",
+      "title": {
+        "en": "CE amplifier:divider bias,RC,RE and coupling capacitors",
+        "gu": "CE Voltage Amplifier:DC Stability અને AC Signal"
+      },
+      "file": "diagrams/ceamp.svg"
+    },
+    {
+      "id": "fixedbias",
+      "title": {
+        "en": "Fixed base bias:RB from VCC",
+        "gu": "Fixed Bias:સરળતા અને Stabilityની મર્યાદા"
+      },
+      "file": "diagrams/fixedbias.svg"
+    },
+    {
+      "id": "feedbackbias",
+      "title": {
+        "en": "Collector-feedback bias:RB from collector",
+        "gu": "Collector-to-base Feedback Bias"
+      },
+      "file": "diagrams/feedbackbias.svg"
+    },
+    {
+      "id": "bias",
+      "title": {
+        "en": "Biasing methods:DC operating point before signal",
+        "gu": "Emitter Feedback અને Voltage-divider Bias"
+      },
+      "file": "diagrams/bias.svg"
+    },
+    {
+      "id": "emitterbias",
+      "title": {
+        "en": "Emitter-stabilised base bias:RB plus RE",
+        "gu": "Single-RB Bias સાથે Emitter Stabilisation"
+      },
+      "file": "diagrams/emitterbias.svg"
+    },
+    {
+      "id": "switch",
+      "title": {
+        "en": "NPN resistive-load switch:series RB and low-side collector",
+        "gu": "NPN Low-side Switching"
+      },
+      "file": "diagrams/switch.svg"
+    }
+  ],
+  "syntax": [
+    {
+      "title": {
+        "en": "Formula and conditions",
+        "gu": "સૂત્રો અને શરતો"
+      },
+      "items": [
+        {
+          "name": {
+            "en": "Current gains",
+            "gu": "Current Gains"
+          },
+          "f": "beta=alpha/(1−alpha);alpha=beta/(beta+1)",
+          "terms": {
+            "en": "Usual low-leakage active model.",
+            "gu": "Usual low-leakage active model."
+          }
+        },
+        {
+          "name": {
+            "en": "Loaded bias",
+            "gu": "Loaded Bias"
+          },
+          "f": "IB=(VTH−VBE)/(RTH+(beta+1)RE)",
+          "terms": {
+            "en": "Verify active region after calculation.",
+            "gu": "Calculation પછી active region verify કરો."
+          }
+        },
+        {
+          "name": {
+            "en": "Amplifier gain",
+            "gu": "Amplifier Gain"
+          },
+          "f": "Av=vo/vi;GdB=20log10|Av|",
+          "terms": {
+            "en": "Same amplitude convention at the same frequency.",
+            "gu": "Same frequencyએ same amplitude convention."
+          }
+        },
+        {
+          "name": {
+            "en": "Switch resistor",
+            "gu": "Switch Resistor"
+          },
+          "f": "RB=(Vdrive−VBEon)/IB",
+          "terms": {
+            "en": "Verify forced beta,driver limits and ratings.",
+            "gu": "Forced beta,driver limits તથા ratings verify કરો."
+          }
+        }
+      ]
+    }
+  ],
+  "viva": [
+    {
+      "title": {
+        "en": "Viva with answers",
+        "gu": "જવાબ સાથે Viva"
+      },
+      "items": [
+        {
+          "q": {
+            "en": "Why is the base thin?",
+            "gu": "Base Thin કેમ?"
+          },
+          "a": {
+            "en": "To reduce recombination so most injected carriers reach the collector.",
+            "gu": "Recombination ઘટાડવા જેથી મોટાભાગના injected carriers collector સુધી પહોંચે."
+          }
+        },
+        {
+          "q": {
+            "en": "What is the CE output-curve held variable?",
+            "gu": "CE Output Curveમાં શું Fixed હોય?"
+          },
+          "a": {
+            "en": "Base current is held fixed while IC versus VCE is traced.",
+            "gu": "IC versus VCE લેતાં base current fixed હોય છે."
+          }
+        },
+        {
+          "q": {
+            "en": "Why is voltage-divider bias more stable?",
+            "gu": "Voltage-divider Bias વધુ Stable કેમ?"
+          },
+          "a": {
+            "en": "A suitably stiff base reference and emitter negative feedback reduce Q-point variation.",
+            "gu": "યોગ્ય stiff base reference તથા emitter negative feedback Q-point variation ઘટાડે છે."
+          }
+        },
+        {
+          "q": {
+            "en": "Is amplifier voltage gain equal to beta?",
+            "gu": "Amplifier Voltage Gain Beta સમાન છે?"
+          },
+          "a": {
+            "en": "No.Voltage gain depends on transconductance,loads and feedback.",
+            "gu": "ના.Voltage gain transconductance,loads તથા feedback પર આધારિત છે."
+          }
+        },
+        {
+          "q": {
+            "en": "Why does a relay driver need suppression?",
+            "gu": "Relay Driverમાં Suppression કેમ?"
+          },
+          "a": {
+            "en": "Stored inductive energy can otherwise create a damaging turn-off voltage.",
+            "gu": "Stored inductive energy turn-off સમયે damaging voltage બનાવી શકે છે."
+          }
+        }
+      ]
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Explain NPN/PNP construction,conduction and current relations.",
+        "gu": "NPN/PNP construction,conduction તથા current relations સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Derive alpha-beta relations and explain ICBO and ICEO with conditions.",
+        "gu": "Conditions સાથે alpha-beta relations derive કરો તથા ICBO,ICEO સમજાવો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Explain CE input/output characteristics and operating regions.",
+        "gu": "CE input/output characteristics તથા operating regions સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Compare fixed,collector-feedback and voltage-divider bias.",
+        "gu": "Fixed,collector-feedback તથા voltage-divider bias compare કરો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain a CE voltage amplifier and waveform inversion.",
+        "gu": "CE voltage amplifier તથા waveform inversion સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Design a base resistor for a specified NPN switch and check power/drive limits.",
+        "gu": "Specified NPN switch માટે base resistor design કરીને power/drive limits તપાસો."
+      },
+      "marks": 7
+    }
+  ],
+  "exam_policy": "Questions and suggested marks only;original practice,not past-paper claims.",
+  "physical_practicals_performed": false,
+  "sources": [
+    {
+      "title": "Owner GTU Electronics Devices & Circuits DI01009011,w.e.f.2024-25",
+      "reference": "Theory p2;practicals pp3–4;projects p5."
+    }
+  ],
+  "diagram_note": "Original conceptual circuits and magnetic sketches.Shared standard symbol/English labels;equivalent Gujarati explanations in cards.",
+  "project_plans": [
+    {
+      "number": 6,
+      "title": {
+        "en": "Project 6: CE amplifier board",
+        "gu": "Project 6: CE Amplifier Board"
+      },
+      "body": {
+        "en": "Document actual pinout,divider/RC/RE and coupling parts.Verify Q point before small AC input;show actual gain/inversion evidence and avoid clipping.",
+        "gu": "Actual pinout,divider/RC/RE તથા coupling parts લખો.Small AC પહેલાં Q point verify કરો;actual gain/inversion evidence લો અને clipping ટાળો."
+      }
+    },
+    {
+      "number": 7,
+      "title": {
+        "en": "Project 7: CE characteristics chart",
+        "gu": "Project 7: CE Characteristics Chart"
+      },
+      "body": {
+        "en": "Separate input and output families,axes,held variables and operating regions.Label illustrative plots as illustrative and measured plots as measured.",
+        "gu": "Input/output families,axes,held variables તથા regions જુદાં બતાવો.Illustrative plotsને illustrative તથા actual plotsને measured label આપો."
+      }
+    }
+  ]
+}

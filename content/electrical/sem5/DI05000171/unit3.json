@@ -1,0 +1,711 @@
+{
+  "subject": "DI05000171",
+  "unit": 3,
+  "title": {
+    "en": "DC–DC Switched Mode Converters",
+    "gu": "DC–DC સ્વિચ્ડ મોડ કન્વર્ટર્સ"
+  },
+  "format": "notes",
+  "languages": [
+    "en",
+    "gu"
+  ],
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "tab_labels": {
+    "programs": {
+      "en": "Practical",
+      "gu": "પ્રયોગ તથા ચકાસણી"
+    }
+  },
+  "hours": 8,
+  "weightage": 18,
+  "notes": [
+    {
+      "ref": "3.1",
+      "title": {
+        "en": "3.1 Chopper: SPDT equivalent and switching realisation",
+        "gu": "3.1 Chopper: SPDT Equivalent તથા Switching Realisation"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Chopper: SPDT equivalent and switching realisation",
+            "gu": "Chopper: SPDT Equivalent તથા Switching Realisation"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A DCchopper controls the energy transferred from a DC source by repeated switching, with the output determined by topology, duty ratio and energy-storage dynamics.</p><h4>Classification / scope</h4><ul><li>Step-down buck; step-up boost; inverting buck-boost; isolated forward/flyback are distinct topologies.</li></ul><h4>Detailed explanation and interpretation</h4><ul><li>Duty D=ton/Ts and fs=1/Ts; PWMchanges duty while a typical fixed-frequency controller keeps fs approximately constant.</li><li>A buck SPDT model connects the switch node alternately to Vin and ground; in a nonsynchronous implementation, transistor and freewheel diode realise the two paths.</li><li>Synchronous conversion replaces the diode with a controlled switch and needs nonoverlap; shoot-through shorts the input and is not a valid switching state.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>DC chopper repeated switchingથી DC sourceની energy transfer control કરે; output topology, duty/storage dynamicsથી નક્કી થાય છે.</p><h4>વર્ગીકરણ / વ્યાપ</h4><ul><li>Buck step-down, boost step-up, inverting buck-boost, isolated forward/flyback જુદી topologies.</li></ul><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>D=ton/Ts/fs=1/Ts; PWM duty બદલે, typical fixed-frequencyમાં fs આશરે constant.</li><li>Buck SPDT nodeને Vin/ground સાથે alternate જોડે; nonsynchronousમાં transistor/diode paths બનાવે.</li><li>Synchronousમાં diode બદલે controlled switch/nonoverlap; shoot-through input short છે, valid state નહીં.</li></ul>"
+          },
+          "syllabus_item": "3.1",
+          "derivation": false,
+          "classification_first": true,
+          "diagram": "spdt"
+        }
+      ]
+    },
+    {
+      "ref": "3.2",
+      "title": {
+        "en": "3.2 Steady-state volt-second and ampere-second balance",
+        "gu": "3.2 Steady-state Volt-second તથા Ampere-second Balance"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Steady-state volt-second and ampere-second balance",
+            "gu": "Steady-state Volt-second તથા Ampere-second Balance"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>Periodic steady state means stored energy states repeat every switching period; the net inductor flux-linkage change and capacitor charge change over one period are zero.</p><h4>Detailed explanation and interpretation</h4><ul><li>These balances describe periodic operation, not startup, faults or saturation; large ripple and DCMmust be modelled with the actual intervals.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>For constant L, vL=LdiL/dt. Integrate over Ts: L[iL(Ts)−iL(0)]=∫vLdt=0, so average vL=0.</li><li>For constant C, iC=CdvC/dt; C[vC(Ts)−vC(0)]=∫iCdt=0, so average iC=0.</li><li>For a two-interval CCM model, DvL, on+(1−D)vL, off=0.Similarly average capacitor input current equals output load current.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Periodic steady stateમાં storage states દર period repeat થાય; inductor flux-linkage/capacitor chargeનો net change zero છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Balances periodic operation માટે, startup/fault/saturation માટે નહીં; large ripple/DCMના actual intervals લો.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>Constant Lમાં vL=LdiL/dt; period integral L[iL(Ts)−iL(0)]=∫vLdt=0થી average vL=0.</li><li>Constant Cમાં iC=CdvC/dt; C[vC(Ts)−vC(0)]=∫iCdt=0થી average iC=0.</li><li>Two-interval CCMમાં DvL, on+(1−D)vL, off=0; average capacitor input=load current.</li></ol>"
+          },
+          "syllabus_item": "3.2",
+          "derivation": true,
+          "classification_first": false,
+          "diagram": "balances"
+        }
+      ]
+    },
+    {
+      "ref": "3.3",
+      "title": {
+        "en": "3.3 Buck converter: construction and current paths",
+        "gu": "3.3 Buck Converter: Construction તથા Current Paths"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Buck converter: construction and current paths",
+            "gu": "Buck Converter: Construction તથા Current Paths"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A buck converter is a DC–DCtopology whose ideal positive output voltage is below its positive input in continuous-conduction step-down operation.</p><h4>Construction / circuit connections</h4><ol><li>Vin→high-side switch→switch node→L→output; C and R connect from output to ground.</li><li>Freewheel diode anode at ground, cathode at switch node; feedback senses output with proper compensation/current protection.</li></ol><h4>Working / conduction intervals</h4><ol><li>ON: source feeds L/load, vL=Vin−Vo and iL rises; diode is reverse biased.</li><li>OFF: diode carries iL from ground through L/load, vL=−Vo and iL falls.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>The output inductor current is load current plus ripple; CCMhas positive current throughout, DCMhas an additional zero-current interval.</li><li>Ideal Vo=DVin is a CCMsmall-ripple result; losses, minimum on-time, dropout and control limits restrict real operation.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>Volt-second balance: (Vin−Vo)D−Vo(1−D)=0, hence Vo=DVin.</li><li>ΔIL=(Vin−Vo)D/(Lfs), so L=(Vin−Vo)D/(fsΔIL).</li><li>With triangular capacitor current and negligible ESR, ΔVo≈ΔIL/(8fsC); C≥ΔIL/(8fsΔVo).Add ESRripple and transient requirements separately.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Buck DC–DC topologyમાં ideal positive output CCM step-downમાં input કરતાં ઓછું હોય છે.</p><h4>Construction / સર્કિટનાં જોડાણ</h4><ol><li>Vin→high-side switch→node→L→output; C/R output-ground.</li><li>Diode anode ground/cathode switch node; feedback compensation/current protection સાથે.</li></ol><h4>Working / Conductionનો ક્રમ</h4><ol><li>ONમાં source L/loadને આપે, vL=Vin−Vo/I વધે; diode reverse.</li><li>OFFમાં groundથી diode/L/load circulation, vL=−Vo/I ઘટે.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Output inductorમાં load current+ripple; CCMસતત positive/DCMમાં extra zero interval.</li><li>Vo=DVin ideal CCM/small-ripple result; losses, min-on/dropout/control limits actual operation મર્યાદિત કરે.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>(Vin−Vo)D−Vo(1−D)=0થી Vo=DVin.</li><li>ΔIL=(Vin−Vo)D/(Lfs)થી L=(Vin−Vo)D/(fsΔIL).</li><li>Triangular current/negligible ESRમાં ΔVo≈ΔIL/(8fsC); C≥ΔIL/(8fsΔVo); ESR/transient અલગ ઉમેરો.</li></ol>"
+          },
+          "syllabus_item": "3.3",
+          "derivation": true,
+          "classification_first": false,
+          "diagram": "buck"
+        },
+        {
+          "h": {
+            "en": "Buck design example and CCM boundary",
+            "gu": "Buck Design Example તથા CCM Boundary"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A preliminary buck design selects duty, L, C and stress ratings under declared input, load, frequency and allowable ripple assumptions before practical stability/thermal validation.</p><h4>Detailed explanation and interpretation</h4><ul><li>Choose rated inductance at peak current, not only zero-bias value; check saturation, copper/core loss, capacitor DCbias/ESR, ripple-current rating and switch thermal limits.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>For24V→12V, Io=2A, fs=20kHz, ΔIL=0.4A andΔVo=0.1V: D=0.5, L=750µH, Cideal≥25µF.</li><li>IL, min=Io−ΔIL/2=1.8A; IL, peak=2.2A, so this example is CCM. Sizing from2Aaverage alone misses peak stress.</li><li>At boundary IL, min=0, so Iob=ΔIL/2.For ideal buck, Rcrit=2Lfs/(1−D); this example gives60Ωor0.2Aat12V.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Preliminary buck design declared Vin, load, frequency/rippleથી duty, L, C/stress પસંદ કરે; પછી stability/thermal validation જરૂરી છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Peak currentમાં L/saturation, loss, C DCbias/ESR/ripple rating/switch thermal જુઓ.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>24V→12V/Io2A/fs20kHz/ΔIL0.4A/ΔVo0.1Vમાં D0.5, L750µH/Cideal≥25µF.</li><li>IL, min=Io−ΔIL/2=1.8A/peak2.2Aથી CCM; માત્ર2Aaverageથી peak stress ચૂકી જાય.</li><li>Boundary IL, min0થી Iob=ΔIL/2; Rcrit=2Lfs/(1−D)=60Ωઅથવા12Vમાં0.2A.</li></ol>"
+          },
+          "syllabus_item": "3.3",
+          "derivation": true,
+          "classification_first": false,
+          "diagram": "buckwave"
+        }
+      ]
+    },
+    {
+      "ref": "3.4",
+      "title": {
+        "en": "3.4 Boost converter: working and L/C derivation",
+        "gu": "3.4 Boost Converter: Working તથા L/C Derivation"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Boost converter: working and L/C derivation",
+            "gu": "Boost Converter: Working તથા L/C Derivation"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A boost converter stores energy in its input inductor while its switch is ON and transfers source-plus-inductor energy to a higher positive output during the OFFinterval.</p><h4>Construction / circuit connections</h4><ol><li>Vin→L→node; switch connects node to ground; diode anode=node, cathode=Vo; C/R connect Vo to ground.</li></ol><h4>Working / conduction intervals</h4><ol><li>ON: switch grounds node, vL=Vin; diode blocks and Cout supplies the load.</li><li>OFF: inductor drives diode/output, vL=Vin−Vo&lt;0; current falls while supplying output.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Input current is inductor current; output diode current is pulsed. CCMconversion ratio does not describe startup, DCMor uncontrolled input-to-output diode feedthrough.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>VinD+(Vin−Vo)(1−D)=0 gives Vo=Vin/(1−D).</li><li>ΔIL=VinD/(Lfs), so L=VinD/(fsΔIL).Charge balance gives IL, avg=Io/(1−D) ideal.</li><li>During ON, C supplies Io for DTs; ΔVo≈IoD/(Cfs), so C≥IoD/(fsΔVo), ignoring ESR/small-ripple corrections.</li></ol><h4>Worked example</h4><ol><li>For12V→24V, Io=1A, 20kHz, ΔIL=0.4A, ΔVo=0.2V: D=0.5, L=750µH, Cideal≥125µF, IL, avg=2A, IL, peak=2.2A.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Boost ONમાં input inductorમાં energy store કરે/OFFમાં source+inductorથી higher positive output આપે છે.</p><h4>Construction / સર્કિટનાં જોડાણ</h4><ol><li>Vin→L→node; switch node-ground; diode anode node/cathode Vo; C/R Vo-ground.</li></ol><h4>Working / Conductionનો ક્રમ</h4><ol><li>ON node ground/vL=Vin; diode block/C load આપે.</li><li>OFFમાં L diode/outputને આપે, vL=Vin−Vo&lt;0/current ઘટે.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Input I=inductor I/output diode pulsed; CCMratio startup, DCM/input-output diode feedthrough સમજાવતું નથી.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>VinD+(Vin−Vo)(1−D)=0થી Vo=Vin/(1−D).</li><li>ΔIL=VinD/(Lfs)થી L=VinD/(fsΔIL); IL, avg=Io/(1−D).</li><li>ONમાં C Ioને DTs આપે; ΔVo≈IoD/(Cfs)થી C≥IoD/(fsΔVo), ESR neglected.</li></ol><h4>ઉકેલેલું ઉદાહરણ</h4><ol><li>12→24V/1A/20kHz/0.4A/0.2Vમાં D0.5, L750µH, C≥125µF, ILavg2A/peak2.2A.</li></ol>"
+          },
+          "syllabus_item": "3.4",
+          "derivation": true,
+          "classification_first": false,
+          "diagram": "boost"
+        }
+      ]
+    },
+    {
+      "ref": "3.5",
+      "title": {
+        "en": "3.5 Inverting buck-boost: negative output and stresses",
+        "gu": "3.5 Inverting Buck-boost: Negative Output તથા Stresses"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Inverting buck-boost: negative output and stresses",
+            "gu": "Inverting Buck-boost: Negative Output તથા Stresses"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>The conventional inverting buck-boost converter produces an output polarity opposite to the input reference, with magnitude controlled above or below input by its duty ratio.</p><h4>Construction / circuit connections</h4><ol><li>Switch connects Vin to the inductor node; L connects node to ground. Diode anode connects negative output, cathode to the inductor node; Cpositive terminal is grounded.</li></ol><h4>Working / conduction intervals</h4><ol><li>ON: Vin energises L, the output diode blocks and C supplies load.</li><li>OFF: node swings negative; L returns energy via the diode into the negative output network.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>This is not a noninverting four-switch buck-boost. Negative output polarity must be shown on capacitor, load and instruments.</li><li>In CCM, both source and output transfer currents are pulsed; switch/diode blocking stress is approximately Vin+|Vo|before spikes, not only|Vo|.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>Using Vo as negative, VinD+Vo(1−D)=0; Vo=−VinD/(1−D).</li><li>L=VinD/(fsΔIL); IL, avg=Io/(1−D), where Io is positive output-current magnitude.</li><li>C≥IoD/(fsΔ|Vo|)from ONinterval discharge, neglecting ESR.</li></ol><h4>Worked example</h4><ol><li>For12V→−18V, Io=1A, 20kHz, ΔIL=0.5A, Δ|Vo|=0.2V: D=0.6, L=720µH, Cideal≥150µF, IL, avg=2.5A, peak2.75A; ideal blocking30Vbefore margin.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Conventional inverting buck-boost input reference સામે opposite output આપે; dutyથી magnitude input કરતાં ઓછી/વધુ થઈ શકે છે.</p><h4>Construction / સર્કિટનાં જોડાણ</h4><ol><li>Switch Vin→inductor node; L node-ground; diode anode negative output/cathode node; Cpositive ground.</li></ol><h4>Working / Conductionનો ક્રમ</h4><ol><li>ONમાં Vin L energise/diode block/C load આપે.</li><li>OFFમાં node negative/L diodeથી negative outputમાં energy આપે.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>આ noninverting four-switch topology નથી; C, load/metersમાં negative polarity બતાવો.</li><li>CCMમાં input/output pulsed; blocking Vin+|Vo|plus spikes, માત્ર|Vo|નહીં.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>Negative Vo લેતાં VinD+Vo(1−D)=0થી Vo=−VinD/(1−D).</li><li>L=VinD/(fsΔIL); ILavg=Io/(1−D), Io magnitude છે.</li><li>ON dischargeથી C≥IoD/(fsΔ|Vo|), ESR neglected.</li></ol><h4>ઉકેલેલું ઉદાહરણ</h4><ol><li>12→−18V/1A/20kHz/0.5A/0.2Vમાં D0.6, L720µH, C≥150µF, ILavg2.5A/peak2.75A; blocking30Vmargin પહેલાં.</li></ol>"
+          },
+          "syllabus_item": "3.5",
+          "derivation": true,
+          "classification_first": false,
+          "diagram": "buckboost"
+        }
+      ]
+    },
+    {
+      "ref": "3.6",
+      "title": {
+        "en": "3.6 CCM/DCM and electrical/thermal device selection",
+        "gu": "3.6 CCM/DCM તથા Electrical/Thermal Device Selection"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "CCM/DCM and electrical/thermal device selection",
+            "gu": "CCM/DCM તથા Electrical/Thermal Device Selection"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>Converter device selection matches actual peak, RMS, average, blocking and transient duties to a device whose thermal and safe-operating limits remain satisfied.</p><h4>Detailed explanation and interpretation</h4><ul><li>For a small triangular ripple, IL, rms≈√(IL, avg²+ΔIL²/12).Switch RMS is approximately this value times√D and diode RMS times√(1−D) for the relevant single-inductor intervals.</li><li>Buck switch/diode block about Vin; boost about Vo; inverting buck-boost about Vin+|Vo|.Add measured transients and temperature-dependent loss margins, not a universal percentage.</li><li>CCMminimum current is positive; boundary reaches zero; DCMhas a third interval and conversion ratio becomes load-dependent. Negative-current synchronous operation is a separate control possibility.</li><li>Power balance Pin≈Pout/η estimates input load; thermal design includes switch, diode, inductor, capacitor and PCBheat. Layout/control-loop stability are not verified by an L/Ccalculation alone.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Selectionમાં actual peak, RMS, average, blocking/transient duties સાથે deviceના thermal/SOA limits match કરવાં પડે છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Small rippleમાં ILrms≈√(ILavg²+ΔIL²/12); relevant switch RMS×√D/diode RMS×√(1−D).</li><li>Buck blocking Vin/boost Vo/inverting Vin+|Vo|; actual transients/T lossesથી margin લો, universal percent નહીં.</li><li>CCMmin positive/boundaryzero/DCMthird interval/load-dependent ratio; negative synchronous current અલગ possibility.</li><li>Pin≈Pout/ηથી input estimate; thermalમાં બધાં components/PCB; L/Cથી layout/stability verify નથી થતી.</li></ul>"
+          },
+          "syllabus_item": "3.6",
+          "derivation": false,
+          "classification_first": false,
+          "diagram": "modes"
+        }
+      ]
+    },
+    {
+      "ref": "3.7",
+      "title": {
+        "en": "3.7 Isolated forward converter",
+        "gu": "3.7 Isolated Forward Converter"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Isolated forward converter",
+            "gu": "Isolated Forward Converter"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A forward converter transfers energy through its transformer to the output while the main switch is ON, with a separate output inductor supporting the load during OFFtime.</p><h4>Construction / circuit connections</h4><ol><li>Primary switch and reset path; transformer turns Np/Ns; secondary forward diode, freewheel diode, Lout, Cout and load.</li></ol><h4>Working / conduction intervals</h4><ol><li>ON: secondary diode transfers power to output L/load; OFF: output freewheel diode carries Lcurrent and transformer reset restores flux.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>A conventional transformer must have reset volt-seconds; the reset-winding/clamp arrangement determines the maximum allowed duty. Auniversal50%limit must not be imposed on every forward variant.</li><li>Isolation needs rated transformer construction, spacing and feedback isolation; turns ratio alone is not an insulation rating.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>Ideal CCMsecondary input during ON is nVin, where n=Ns/Np; output-inductor balance gives Vo≈nDVin.</li><li>Example Vin=24V, n=0.5, D=0.4 gives Vo≈4.8V before drops; reset and device stress must still be checked.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Forward converter ON વખતે transformerથી output energy આપે/OFFમાં separate output inductor load support કરે છે.</p><h4>Construction / સર્કિટનાં જોડાણ</h4><ol><li>Primary switch/reset, transformer Np/Ns, secondary diode/freewheel/Lout/Cout/load.</li></ol><h4>Working / Conductionનો ક્રમ</h4><ol><li>ON secondaryથી L/load power; OFF freewheel Lcurrent/reset flux restore કરે.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Transformer reset volt-seconds જોઈએ; reset/clampથી Dmax નક્કી થાય; દરેક forward variantને universal50% નહીં.</li><li>Isolationમાં rated transformer/spacing/feedback જોઈએ; turns ratio insulation rating નથી.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>ONમાં secondary nVin, n=Ns/Np; output Lbalanceથી Vo≈nDVin.</li><li>24V/n0.5/D0.4થી Vo≈4.8V; reset/stress હજી check કરો.</li></ol>"
+          },
+          "syllabus_item": "3.7",
+          "derivation": true,
+          "classification_first": false,
+          "diagram": "forward"
+        },
+        {
+          "h": {
+            "en": "Flyback converter: coupled energy storage",
+            "gu": "Flyback Converter: Coupled Energy Storage"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A flyback converter stores energy in magnetising inductance while the primary switch is ON and delivers it through the secondary during OFFtime.</p><h4>Construction / circuit connections</h4><ol><li>Primary magnetising inductance/switch, oppositely phased secondary rectifier, Cout, load and isolated regulation form the power stage.</li></ol><h4>Working / conduction intervals</h4><ol><li>ON: primary current rises and secondary diode blocks; Cout supports load.</li><li>OFF: polarity reverses, secondary conducts and stored energy feeds Cout/load; DCM current reaches zero before next ON.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>The flyback magnetic component acts as coupled energy storage, commonly with a designed gap; it is not operated like a forward transformer with simultaneous primary-to-secondary load transfer.</li><li>Secondary diode polarity/dot convention blocks it during primary ON; leakage energy requires a suitable clamp/snub. Semiconductor stress includes reflected output voltage and spikes.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>With n=Ns/Np and ideal CCM, primary volt-second balance VinD−(Vo/n)(1−D)=0; Vo=nVinD/(1−D).</li><li>Example24V, n=0.5, D=0.4 gives8Videal. CCMformula does not determine a DCMflyback without load/energy analysis.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Flyback primary ONમાં magnetising inductanceમાં energy store/OFFમાં secondaryથી loadને આપે છે.</p><h4>Construction / સર્કિટનાં જોડાણ</h4><ol><li>Primary Lm/switch, oppositely phased secondary diode, Cout/load/isolated regulation power stage બનાવે.</li></ol><h4>Working / Conductionનો ક્રમ</h4><ol><li>ON primary I વધે/secondary block/Cout load આપે.</li><li>OFF polarity reverse/secondary energy આપે; DCMમાં next ON પહેલાં Izero.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Flyback coupled storage છે, સામાન્ય designed gap સાથે; forward જેવી simultaneous load transfer નહીં.</li><li>Dot/diodeથી ONમાં secondary block; leakage clamp/snubber જોઈએ; stressમાં reflected V/spikes છે.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>n=Ns/Np/ideal CCMમાં VinD−(Vo/n)(1−D)=0થી Vo=nVinD/(1−D).</li><li>24V/n0.5/D0.4થી8Videal; DCMમાં load/energy analysis વિના આ formula નહીં.</li></ol>"
+          },
+          "syllabus_item": "3.7",
+          "derivation": true,
+          "classification_first": false,
+          "diagram": "flyback"
+        }
+      ]
+    },
+    {
+      "ref": "J4",
+      "title": {
+        "en": "J4 Project 4. Regulated buck converter",
+        "gu": "J4 Regulated Buck Converter"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Project 4. Regulated buck converter",
+            "gu": "Regulated Buck Converter"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A source-suggested learning plan, not a claim that fabrication, testing or a visit has occurred.</p><h4>Working / conduction intervals</h4><ol><li>Write objective, ratings, assumptions, roles, resources and approved safe work boundary before starting.</li><li>Set Vin/load/ripple limits, derive D/L/Cand device stress, then implement the approved low-energy board with feedback/current limit.</li><li>Check expected results independently and obtain instructor approval before any permitted low-energy demonstration.</li><li>Submit schematic, BOM, ripple/thermal evidence and load-step limits; an open-loop DVinexample is not proof of closed-loop stability.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Set Vin/load/ripple limits, derive D/L/Cand device stress, then implement the approved low-energy board with feedback/current limit.</li><li>Submit schematic, BOM, ripple/thermal evidence and load-step limits; an open-loop DVinexample is not proof of closed-loop stability.</li></ul><h4>Reliability and precautions</h4><ul><li>Keep actual date, measurements, teacher sign and portfolio evidence blank until genuine; no exposed mains, battery abuse or unqualified high-energy switching.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Source-suggested learning plan છે, fabrication/test/visit થઈ ગયાનો claim નહીં.</p><h4>Working / Conductionનો ક્રમ</h4><ol><li>પહેલાં objective, ratings, assumptions, roles, resources/safeboundaryલખો.</li><li>Vin/load/ripple, D/L/C/stress પછી approvedboard/feedback-currentlimit.</li><li>Expectedresultsindependentlycheck/lowenergydemoપહેલાં approval.</li><li>Schematic, BOM/ripple-T/load-step; open-loopDVin stabilityproofનથી.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Vin/load/ripple, D/L/C/stress પછી approvedboard/feedback-currentlimit.</li><li>Schematic, BOM/ripple-T/load-step; open-loopDVin stabilityproofનથી.</li></ul><h4>વિશ્વસનીયતા તથા સાવચેતી</h4><ul><li>Actualdate/readings/sign/evidencegenuineમળેત્યાંસુધી blank; exposedmains, batteryabuse/highenergyનહીં.</li></ul>"
+          },
+          "syllabus_item": "J4",
+          "derivation": false,
+          "classification_first": false,
+          "diagram": "buck"
+        }
+      ]
+    },
+    {
+      "ref": "J5",
+      "title": {
+        "en": "J5 Project 5. Boost step-up application",
+        "gu": "J5 Boost Step-up Application"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Project 5. Boost step-up application",
+            "gu": "Boost Step-up Application"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A source-suggested learning plan, not a claim that fabrication, testing or a visit has occurred.</p><h4>Working / conduction intervals</h4><ol><li>Write objective, ratings, assumptions, roles, resources and approved safe work boundary before starting.</li><li>Choose bounded output/current, duty ceiling, inductor saturation/diode ratings, output clamp and safe discharge path.</li><li>Check expected results independently and obtain instructor approval before any permitted low-energy demonstration.</li><li>Submit CCMchecks, generated-voltage risk and true observations; no unsafe high-voltage boost build.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Choose bounded output/current, duty ceiling, inductor saturation/diode ratings, output clamp and safe discharge path.</li><li>Submit CCMchecks, generated-voltage risk and true observations; no unsafe high-voltage boost build.</li></ul><h4>Reliability and precautions</h4><ul><li>Keep actual date, measurements, teacher sign and portfolio evidence blank until genuine; no exposed mains, battery abuse or unqualified high-energy switching.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Source-suggested learning plan છે, fabrication/test/visit થઈ ગયાનો claim નહીં.</p><h4>Working / Conductionનો ક્રમ</h4><ol><li>પહેલાં objective, ratings, assumptions, roles, resources/safeboundaryલખો.</li><li>Boundedoutput/current, Dceiling, Lsaturation/D/clamp/dischargeપસંદ કરો.</li><li>Expectedresultsindependentlycheck/lowenergydemoપહેલાં approval.</li><li>CCM/generatedV-risk/actualobservations; unsafeHVboostનહીં.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Boundedoutput/current, Dceiling, Lsaturation/D/clamp/dischargeપસંદ કરો.</li><li>CCM/generatedV-risk/actualobservations; unsafeHVboostનહીં.</li></ul><h4>વિશ્વસનીયતા તથા સાવચેતી</h4><ul><li>Actualdate/readings/sign/evidencegenuineમળેત્યાંસુધી blank; exposedmains, batteryabuse/highenergyનહીં.</li></ul>"
+          },
+          "syllabus_item": "J5",
+          "derivation": false,
+          "classification_first": false,
+          "diagram": "boost"
+        }
+      ]
+    },
+    {
+      "ref": "A3",
+      "title": {
+        "en": "A3 Activity 3. Rectifier, chopper and inverter simulation",
+        "gu": "A3 Rectifier, Chopper તથા Inverter Simulation"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Activity 3. Rectifier, chopper and inverter simulation",
+            "gu": "Rectifier, Chopper તથા Inverter Simulation"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A source-suggested learning plan, not a claim that fabrication, testing or a visit has occurred.</p><h4>Working / conduction intervals</h4><ol><li>Write objective, ratings, assumptions, roles, resources and approved safe work boundary before starting.</li><li>Use available LTspice/Scilabor the included offline ideal models; state software licence/version and numerical assumptions.</li><li>Check expected results independently and obtain instructor approval before any permitted low-energy demonstration.</li><li>Submit circuits, waveforms, timestep-convergence and model limitations; no claim that LTspiceis open source or a real lab was performed.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Use available LTspice/Scilabor the included offline ideal models; state software licence/version and numerical assumptions.</li><li>Submit circuits, waveforms, timestep-convergence and model limitations; no claim that LTspiceis open source or a real lab was performed.</li></ul><h4>Reliability and precautions</h4><ul><li>Keep actual date, measurements, teacher sign and portfolio evidence blank until genuine; no exposed mains, battery abuse or unqualified high-energy switching.</li></ul><p>Source report requirement:about5pages per activity,with genuine physical/digital evidence for the student portfolio.</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Source-suggested learning plan છે, fabrication/test/visit થઈ ગયાનો claim નહીં.</p><h4>Working / Conductionનો ક્રમ</h4><ol><li>પહેલાં objective, ratings, assumptions, roles, resources/safeboundaryલખો.</li><li>AvailableLTspice/Scilab/offlinemodel; licence/version/assumptionsલખો.</li><li>Expectedresultsindependentlycheck/lowenergydemoપહેલાં approval.</li><li>Circuits, waveforms, stepconvergence/limits; LTspiceopensource/reallabclaimનહીં.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>AvailableLTspice/Scilab/offlinemodel; licence/version/assumptionsલખો.</li><li>Circuits, waveforms, stepconvergence/limits; LTspiceopensource/reallabclaimનહીં.</li></ul><h4>વિશ્વસનીયતા તથા સાવચેતી</h4><ul><li>Actualdate/readings/sign/evidencegenuineમળેત્યાંસુધી blank; exposedmains, batteryabuse/highenergyનહીં.</li></ul><p>Source પ્રમાણે દરેક Activityનો આશરે5પાનાનો report તથા student portfolio માટે genuine physical/digital evidence તૈયાર કરવો.</p>"
+          },
+          "syllabus_item": "A3",
+          "derivation": false,
+          "classification_first": false,
+          "diagram": "balances"
+        }
+      ]
+    }
+  ],
+  "programs": [
+    {
+      "title": {
+        "en": "Official practical guides",
+        "gu": "Official પ્રયોગ માર્ગદર્શિકા"
+      },
+      "format": "rich_cards",
+      "items": [
+        {
+          "h": {
+            "en": "8. Buck converter breadboard/PCB test",
+            "gu": "Buck Converter Breadboard/PCB Test"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A source-listed performance guide; actual execution, date, readings and signatures are not claimed.</p><h4>Construction / circuit connections</h4><ol><li>Isolated limited DC source, low-energy buck board, L, C, Q, D, gate driver, DSO/current sensor and dummy load.</li><li>Use source-listed breadboard/PCB only at approved low energy; short commutation loops, diode anode ground/cathode switch node, Cpolarity correct.</li></ol><h4>Working / conduction intervals</h4><ol><li>Review actual circuit/device data, instrument/probe ratings, safe stop/isolation and stored-energy discharge before work.</li><li>Power OFF: verify polarity, earth/return, gate mapping, load rating and current limit; never defeat a protection/interlock.</li><li>Calculate duty, L/Cand current limit before assembly; check no input short with power OFF.</li><li>Begin low duty/current limit; measure switch node, vo/iL, ripple and heating; verify CCMbefore comparing DVin.</li><li>Record only genuinely measured/simulated results with units, conditions and evidence; leave actual columns blank until performed.</li><li>Return to safe state, isolate, verify stored energy discharged and compare result with assumptions/losses rather than fabricating expected readings.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Source number8, internal identifier8; CO3.Individual suggested hours/compulsory stars are not provided.</li><li>Student construction is isolated, current-limited≤24Vonly with every generated output/stored energy assessed; higher-energy tests use approved guarded trainers and qualified supervision.</li></ul><h4>Worked example</h4><ol><li>24→12V, 2A, 20kHz, 0.4Aripple gives750µH/25µFideal and2.2Apeak before margins.</li></ol><h4>Reliability and precautions</h4><ul><li>High ripple: check probe loop, ESR, inductor saturation, layout and operating mode before enlarging C.</li><li>Never lift oscilloscope protective earth or attach an earth-referenced ground clip across a floating bridge. Use correctly rated differential/isolated measurement; an isolation transformer is not blanket probe safety.</li></ul><h4>Blank actual observation record</h4><div style=\"overflow:auto\"><table><tr><th>Setting / α / D / f</th><th>V / I / waveform</th><th>RMS / average / ripple / T</th><th>Actual evidence / remarks</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>આ sourceમાં સૂચવેલ પ્રયોગની માર્ગદર્શિકા છે; પ્રયોગ ખરેખર કર્યાનો, તારીખ, readings કે સહીનો દાવો નથી.</p><h4>Construction / સર્કિટનાં જોડાણ</h4><ol><li>Isolated limitedDC/low-energy buck, L, C, Q, D, driver/DSO/load.</li><li>Breadboard/PCBમાત્ર approved low-energy; short loops/Danodeground-cathodenode/Cpolarity.</li></ol><h4>Working / Conductionનો ક્રમ</h4><ol><li>કામ પહેલાં actual circuit, device data તથા probe ratings વાંચો.Safe stop, isolation અને stored-energy dischargeની પદ્ધતિ સમજો.</li><li>Power OFF રાખીને polarity, return, gate mapping, load rating અને current limit તપાસો.Protection કે interlock bypass નકરો.</li><li>Assembly પહેલાં D/L/C/limit; OFFમાં input short check.</li><li>LowD/limitથી switch node/vo/iL/ripple/heat; DVinપહેલાં CCMverify.</li><li>ખરેખર માપેલા કે simulate કરેલા results જ units, conditions તથા evidence સાથે લખો.પ્રયોગ પહેલાં actual readingsનાં ખાના ખાલી રાખો.</li><li>Setupને safe stateમાં લાવો, isolate કરો અને discharge verify કરો.Assumptions તથા lossesથી તફાવત સમજાવો; expected readingsને actual તરીકે નલખો.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Source number8, internalID8; CO3; individual hours/compulsory stars આપેલ નથી.</li><li>વિદ્યાર્થીનું construction માત્ર isolated, current-limited≤24Vમાં કરવું; generated output અને stored energyનું પણ assessment કરવું.Higher-energy test approved guarded trainer પર qualified supervisionથી જ કરવો.</li></ul><h4>ઉકેલેલું ઉદાહરણ</h4><ol><li>24→12V/2A/20kHz/0.4Aથી750µH/25µFideal/peak2.2A.</li></ol><h4>વિશ્વસનીયતા તથા સાવચેતી</h4><ul><li>Highrippleમાં probe/ESR/saturation/layout/mode; પછી C.</li><li>Oscilloscopeનું protective earth ક્યારેય દૂર નકરો.Floating bridge પર earth-referenced ground clip નજોડો; યોગ્ય rated differential/isolated measurement વાપરો.Isolation transformerથી દરેક probing method safe થઈ જતી નથી.</li></ul><h4>Actual Observation માટે ખાલી Record</h4><div style=\"overflow:auto\"><table><tr><th>Setting / α / D / f</th><th>V / I / Waveform</th><th>RMS / Average / Ripple / T</th><th>Actual Evidence / નોંધ</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>"
+          },
+          "syllabus_item": "P8",
+          "derivation": false,
+          "classification_first": false,
+          "diagram": "buck"
+        },
+        {
+          "h": {
+            "en": "9. Boost converter breadboard/PCB test",
+            "gu": "Boost Converter Breadboard/PCB Test"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A source-listed performance guide; actual execution, date, readings and signatures are not claimed.</p><h4>Construction / circuit connections</h4><ol><li>Low-energy boost board, current-limited isolated source, output overvoltage protection, load, DSO and discharge provision.</li><li>Vin→L→node, Qto ground, Dnode→output; Cpositive output. Take account of input-to-output diode feedthrough.</li></ol><h4>Working / conduction intervals</h4><ol><li>Review actual circuit/device data, instrument/probe ratings, safe stop/isolation and stored-energy discharge before work.</li><li>Power OFF: verify polarity, earth/return, gate mapping, load rating and current limit; never defeat a protection/interlock.</li><li>Compute output/peak stress and a duty ceiling so output stays within approved limits; connect a safe load before starting.</li><li>Measure vo, iL, switch stress/ripple at bounded duties; stop if output rises uncontrollably or load disconnects.</li><li>Record only genuinely measured/simulated results with units, conditions and evidence; leave actual columns blank until performed.</li><li>Return to safe state, isolate, verify stored energy discharged and compare result with assumptions/losses rather than fabricating expected readings.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Source number9, internal identifier9; CO3.Individual suggested hours/compulsory stars are not provided.</li><li>Student construction is isolated, current-limited≤24Vonly with every generated output/stored energy assessed; higher-energy tests use approved guarded trainers and qualified supervision.</li></ul><h4>Worked example</h4><ol><li>12→24V, 1A, 20kHz, ΔIL0.4A givesL750µH, C125µFideal, ILavg2A.</li></ol><h4>Reliability and precautions</h4><ul><li>Switch OFFdoes not guarantee output isolated from input; verify discharge/voltage before touch.</li><li>Never lift oscilloscope protective earth or attach an earth-referenced ground clip across a floating bridge. Use correctly rated differential/isolated measurement; an isolation transformer is not blanket probe safety.</li></ul><h4>Blank actual observation record</h4><div style=\"overflow:auto\"><table><tr><th>Setting / α / D / f</th><th>V / I / waveform</th><th>RMS / average / ripple / T</th><th>Actual evidence / remarks</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>આ sourceમાં સૂચવેલ પ્રયોગની માર્ગદર્શિકા છે; પ્રયોગ ખરેખર કર્યાનો, તારીખ, readings કે સહીનો દાવો નથી.</p><h4>Construction / સર્કિટનાં જોડાણ</h4><ol><li>Low-energy boost/current-limit source/OVprotection/load/DSO/discharge.</li><li>Vin→L→node/Qground/Dnode→output/Cpositive; diode feedthrough ધ્યાનમાં.</li></ol><h4>Working / Conductionનો ક્રમ</h4><ol><li>કામ પહેલાં actual circuit, device data તથા probe ratings વાંચો.Safe stop, isolation અને stored-energy dischargeની પદ્ધતિ સમજો.</li><li>Power OFF રાખીને polarity, return, gate mapping, load rating અને current limit તપાસો.Protection કે interlock bypass નકરો.</li><li>Output/peak stress/Dceilingથી approved limits; safe load પહેલાં.</li><li>BoundedDમાં vo/iL/stress/ripple; uncontrolled rise/load lossમાં stop.</li><li>ખરેખર માપેલા કે simulate કરેલા results જ units, conditions તથા evidence સાથે લખો.પ્રયોગ પહેલાં actual readingsનાં ખાના ખાલી રાખો.</li><li>Setupને safe stateમાં લાવો, isolate કરો અને discharge verify કરો.Assumptions તથા lossesથી તફાવત સમજાવો; expected readingsને actual તરીકે નલખો.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Source number9, internalID9; CO3; individual hours/compulsory stars આપેલ નથી.</li><li>વિદ્યાર્થીનું construction માત્ર isolated, current-limited≤24Vમાં કરવું; generated output અને stored energyનું પણ assessment કરવું.Higher-energy test approved guarded trainer પર qualified supervisionથી જ કરવો.</li></ul><h4>ઉકેલેલું ઉદાહરણ</h4><ol><li>12→24V/1A/20kHz/0.4Aથી L750µH/C125µF/ILavg2A.</li></ol><h4>વિશ્વસનીયતા તથા સાવચેતી</h4><ul><li>QOFFએટલે output inputથી isolatedનહીં; touch પહેલાં discharge/voltageverify.</li><li>Oscilloscopeનું protective earth ક્યારેય દૂર નકરો.Floating bridge પર earth-referenced ground clip નજોડો; યોગ્ય rated differential/isolated measurement વાપરો.Isolation transformerથી દરેક probing method safe થઈ જતી નથી.</li></ul><h4>Actual Observation માટે ખાલી Record</h4><div style=\"overflow:auto\"><table><tr><th>Setting / α / D / f</th><th>V / I / Waveform</th><th>RMS / Average / Ripple / T</th><th>Actual Evidence / નોંધ</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>"
+          },
+          "syllabus_item": "P9",
+          "derivation": false,
+          "classification_first": false,
+          "diagram": "boost"
+        },
+        {
+          "h": {
+            "en": "10. Inverting buck-boost breadboard/PCB test",
+            "gu": "Inverting Buck-boost Breadboard/PCB Test"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A source-listed performance guide; actual execution, date, readings and signatures are not claimed.</p><h4>Construction / circuit connections</h4><ol><li>Approved inverting board, limited source, correctly rated bipolar/differential probes, negative-output load/capacitor.</li><li>Identify negative output and grounded capacitor positive; diode anode=negative output, cathode=inductor node; do not short output through scope earth.</li></ol><h4>Working / conduction intervals</h4><ol><li>Review actual circuit/device data, instrument/probe ratings, safe stop/isolation and stored-energy discharge before work.</li><li>Power OFF: verify polarity, earth/return, gate mapping, load rating and current limit; never defeat a protection/interlock.</li><li>Check polarity and Vin+|Vo|device stress before assembly; power up at bounded duty with safe load.</li><li>Record negative vo, iLpeak, ripple and temperature; compare CCMgain only after continuity verification.</li><li>Record only genuinely measured/simulated results with units, conditions and evidence; leave actual columns blank until performed.</li><li>Return to safe state, isolate, verify stored energy discharged and compare result with assumptions/losses rather than fabricating expected readings.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Source number10, internal identifier10; CO3.Individual suggested hours/compulsory stars are not provided.</li><li>Student construction is isolated, current-limited≤24Vonly with every generated output/stored energy assessed; higher-energy tests use approved guarded trainers and qualified supervision.</li></ul><h4>Worked example</h4><ol><li>12→−18V, 1A, 20kHz: idealD0.6, L720µH, C150µF, peak2.75A, blocking30Vbefore margin.</li></ol><h4>Reliability and precautions</h4><ul><li>Reversed electrolytic or wrong diode can fail rapidly; stop/isolate on current limit, heat or incorrect polarity.</li><li>Never lift oscilloscope protective earth or attach an earth-referenced ground clip across a floating bridge. Use correctly rated differential/isolated measurement; an isolation transformer is not blanket probe safety.</li></ul><h4>Blank actual observation record</h4><div style=\"overflow:auto\"><table><tr><th>Setting / α / D / f</th><th>V / I / waveform</th><th>RMS / average / ripple / T</th><th>Actual evidence / remarks</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>આ sourceમાં સૂચવેલ પ્રયોગની માર્ગદર્શિકા છે; પ્રયોગ ખરેખર કર્યાનો, તારીખ, readings કે સહીનો દાવો નથી.</p><h4>Construction / સર્કિટનાં જોડાણ</h4><ol><li>Approved inverting board/limitedsource/probes/negative-outputload-C.</li><li>Negative output/Cpositiveground/Danodenegative-cathodenode; scopeearthથી shortનહીં.</li></ol><h4>Working / Conductionનો ક્રમ</h4><ol><li>કામ પહેલાં actual circuit, device data તથા probe ratings વાંચો.Safe stop, isolation અને stored-energy dischargeની પદ્ધતિ સમજો.</li><li>Power OFF રાખીને polarity, return, gate mapping, load rating અને current limit તપાસો.Protection કે interlock bypass નકરો.</li><li>Polarity/Vin+|Vo|stresscheck; boundedD/loadથી start.</li><li>Negativevo/iLpeak/ripple/T; continuityપછી CCMgaincompare.</li><li>ખરેખર માપેલા કે simulate કરેલા results જ units, conditions તથા evidence સાથે લખો.પ્રયોગ પહેલાં actual readingsનાં ખાના ખાલી રાખો.</li><li>Setupને safe stateમાં લાવો, isolate કરો અને discharge verify કરો.Assumptions તથા lossesથી તફાવત સમજાવો; expected readingsને actual તરીકે નલખો.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Source number10, internalID10; CO3; individual hours/compulsory stars આપેલ નથી.</li><li>વિદ્યાર્થીનું construction માત્ર isolated, current-limited≤24Vમાં કરવું; generated output અને stored energyનું પણ assessment કરવું.Higher-energy test approved guarded trainer પર qualified supervisionથી જ કરવો.</li></ul><h4>ઉકેલેલું ઉદાહરણ</h4><ol><li>12→−18V/1A/20kHzમાં D0.6/L720µH/C150µF/peak2.75A/blocking30Vbeforemargin.</li></ol><h4>વિશ્વસનીયતા તથા સાવચેતી</h4><ul><li>ReversedC/wrongDઝડપી fail; limit/heat/wrongpolarityમાં stop-isolate.</li><li>Oscilloscopeનું protective earth ક્યારેય દૂર નકરો.Floating bridge પર earth-referenced ground clip નજોડો; યોગ્ય rated differential/isolated measurement વાપરો.Isolation transformerથી દરેક probing method safe થઈ જતી નથી.</li></ul><h4>Actual Observation માટે ખાલી Record</h4><div style=\"overflow:auto\"><table><tr><th>Setting / α / D / f</th><th>V / I / Waveform</th><th>RMS / Average / Ripple / T</th><th>Actual Evidence / નોંધ</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>"
+          },
+          "syllabus_item": "P10",
+          "derivation": false,
+          "classification_first": false,
+          "diagram": "buckboost"
+        }
+      ]
+    }
+  ],
+  "practicals": [
+    {
+      "number": "8",
+      "source_number": 8,
+      "co": [
+        3
+      ],
+      "hours": null,
+      "compulsory_marked": false,
+      "performed": false,
+      "observations": "blank",
+      "title": {
+        "en": "Buck converter breadboard/PCB test",
+        "gu": "Buck Converter Breadboard/PCB Test"
+      }
+    },
+    {
+      "number": "9",
+      "source_number": 9,
+      "co": [
+        3
+      ],
+      "hours": null,
+      "compulsory_marked": false,
+      "performed": false,
+      "observations": "blank",
+      "title": {
+        "en": "Boost converter breadboard/PCB test",
+        "gu": "Boost Converter Breadboard/PCB Test"
+      }
+    },
+    {
+      "number": "10",
+      "source_number": 10,
+      "co": [
+        3
+      ],
+      "hours": null,
+      "compulsory_marked": false,
+      "performed": false,
+      "observations": "blank",
+      "title": {
+        "en": "Inverting buck-boost breadboard/PCB test",
+        "gu": "Inverting Buck-boost Breadboard/PCB Test"
+      }
+    }
+  ],
+  "project_plans": [
+    {
+      "number": 4,
+      "title": {
+        "en": "Regulated buck converter",
+        "gu": "Regulated Buck Converter"
+      },
+      "performed": false,
+      "report_pages": null
+    },
+    {
+      "number": 5,
+      "title": {
+        "en": "Boost step-up application",
+        "gu": "Boost Step-up Application"
+      },
+      "performed": false,
+      "report_pages": null
+    }
+  ],
+  "activity_plans": [
+    {
+      "number": 3,
+      "title": {
+        "en": "Rectifier, chopper and inverter simulation",
+        "gu": "Rectifier, Chopper તથા Inverter Simulation"
+      },
+      "performed": false,
+      "report_pages": 5
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "spdt",
+      "title": {
+        "en": "Buck SPDT model: never connect both throws",
+        "gu": "Chopper: SPDT Equivalent તથા Switching Realisation"
+      },
+      "file": "diagrams/spdt.svg"
+    },
+    {
+      "id": "balances",
+      "title": {
+        "en": "Periodic stored-energy states repeat",
+        "gu": "Steady-state Volt-second તથા Ampere-second Balance"
+      },
+      "file": "diagrams/balances.svg"
+    },
+    {
+      "id": "buck",
+      "title": {
+        "en": "Buck topology and freewheel connection",
+        "gu": "Buck Converter: Construction તથા Current Paths"
+      },
+      "file": "diagrams/buck.svg"
+    },
+    {
+      "id": "buckwave",
+      "title": {
+        "en": "Buck: inductor current normalised to 2 A",
+        "gu": "Buck Design Example તથા CCM Boundary"
+      },
+      "file": "diagrams/buckwave.svg"
+    },
+    {
+      "id": "boost",
+      "title": {
+        "en": "Boost topology and output diode",
+        "gu": "Boost Converter: Working તથા L/C Derivation"
+      },
+      "file": "diagrams/boost.svg"
+    },
+    {
+      "id": "buckboost",
+      "title": {
+        "en": "Inverting buck-boost: output is negative to ground",
+        "gu": "Inverting Buck-boost: Negative Output તથા Stresses"
+      },
+      "file": "diagrams/buckboost.svg"
+    },
+    {
+      "id": "modes",
+      "title": {
+        "en": "Conduction mode determines conversion ratio",
+        "gu": "CCM/DCM તથા Electrical/Thermal Device Selection"
+      },
+      "file": "diagrams/modes.svg"
+    },
+    {
+      "id": "forward",
+      "title": {
+        "en": "Forward energy transfer and transformer reset",
+        "gu": "Isolated Forward Converter"
+      },
+      "file": "diagrams/forward.svg"
+    },
+    {
+      "id": "flyback",
+      "title": {
+        "en": "Flyback stores first, then transfers",
+        "gu": "Flyback Converter: Coupled Energy Storage"
+      },
+      "file": "diagrams/flyback.svg"
+    }
+  ],
+  "syntax": [
+    {
+      "title": {
+        "en": "Revision and assumptions",
+        "gu": "Revision તથા ધારણાઓ"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Formula map and limitations",
+            "gu": "Formula Map તથા Limitations"
+          },
+          "body": {
+            "en": "<ul><li>Buck: Vo=DVin; boost: Vo=Vin/(1−D); inverting: Vo=−VinD/(1−D), all ideal CCM.</li><li>Small-ripple L/Cdesign is not a stability, saturation or transient validation.</li></ul>",
+            "gu": "<ul><li>BuckVo=DVin/boostVo=Vin/(1−D)/invertingVo=−VinD/(1−D), idealCCM.</li><li>SmallrippleL/Cdesignstability/saturation/transientvalidationનથી.</li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Runnable offline educational models",
+        "gu": "ચાલતા Offline Educational Models"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Python 3 source:equations,waveforms,gate tables and permissions",
+            "gu": "Python3 Source:Equations,Waveforms,Gate Tables તથા Permissions"
+          },
+          "body": {
+            "en": "<p>Python standard library only. Save as models.py.No equipment I/O,SPICE session,official VLab or physical test is claimed.</p><pre>&quot;&quot;&quot;Offline ideal teaching models. No device I/O, SPICE claim, hardware or real battery control.&quot;&quot;&quot;\nimport math\n\ndef dc_design(kind,vin,vo,io,fs,di,dv):\n    if min(vin,io,fs,di,dv)&lt;=0:raise ValueError(&#x27;Positive Vin,Io,fs,ΔI,ΔV required&#x27;)\n    v=abs(vo)\n    if kind==&#x27;buck&#x27;:\n        if not 0&lt;vo&lt;vin:raise ValueError(&#x27;Buck requires 0&lt;Vo&lt;Vin&#x27;)\n        d=vo/vin;l=(vin-vo)*d/(fs*di);c=di/(8*fs*dv);i=io;block=vin\n    elif kind==&#x27;boost&#x27;:\n        if vo&lt;=vin:raise ValueError(&#x27;Boost requires Vo&gt;Vin&#x27;)\n        d=1-vin/vo;l=vin*d/(fs*di);c=io*d/(fs*dv);i=io/(1-d);block=vo\n    elif kind==&#x27;inverting&#x27;:\n        if vo&gt;=0:raise ValueError(&#x27;Inverting output must be negative&#x27;)\n        d=v/(vin+v);l=vin*d/(fs*di);c=io*d/(fs*dv);i=io/(1-d);block=vin+v\n    else:raise ValueError(&#x27;Unknown topology&#x27;)\n    return dict(duty=d,L_H=l,C_F=c,Iavg_A=i,Imin_A=i-di/2,Ipeak_A=i+di/2,blocking_V=block,CCM=i&gt;di/2,assumptions=&#x27;Ideal CCM,small ripple,zero ESR;not a BOM or stability validation&#x27;)\n\ndef controlled_average(vrms,alpha_deg,mode=&#x27;R&#x27;,active_dc_source=False):\n    if vrms&lt;=0 or not 0&lt;=alpha_deg&lt;=180:raise ValueError(&#x27;Invalid voltage/angle&#x27;)\n    if mode not in (&#x27;R&#x27;,&#x27;RL_CCM_NO_FWD&#x27;,&#x27;RL_CCM_FWD&#x27;):raise ValueError(&#x27;Unknown load/current model&#x27;)\n    a=math.radians(alpha_deg);vm=math.sqrt(2)*vrms\n    if mode==&#x27;RL_CCM_NO_FWD&#x27;:\n        if alpha_deg&gt;90 and not active_dc_source:raise ValueError(&#x27;Passive RL cannot sustain assumed inversion/positive CCM&#x27;)\n        return 2*vm*math.cos(a)/math.pi\n    return vm*(1+math.cos(a))/math.pi\n\ndef rectifier_samples(vll=24,f=50,samples=12000):\n    if vll&lt;=0 or f&lt;=0 or samples&lt;60:raise ValueError(&#x27;Invalid source/resolution&#x27;)\n    peak=vll*math.sqrt(2/3);half=[];full=[]\n    for j in range(samples):\n        t=2*math.pi*(j+.5)/samples;v=[peak*math.sin(t+k*2*math.pi/3)for k in range(3)]\n        half.append(max(v));full.append(max(v)-min(v))\n    return dict(half_avg=sum(half)/samples,bridge_avg=sum(full)/samples,half_ripple_Hz=3*f,bridge_ripple_Hz=6*f)\n\ndef gate_pair(top,bottom):\n    if top and bottom:raise ValueError(&#x27;Forbidden same-leg shoot-through command&#x27;)\n    return {&#x27;top&#x27;:bool(top),&#x27;bottom&#x27;:bool(bottom),&#x27;state&#x27;:&#x27;HIGH&#x27;if top else&#x27;LOW&#x27;if bottom else&#x27;DEAD_TIME&#x27;}\n\ndef three_phase(mode,sector,vdc=24):\n    if mode not in(120,180)or sector not in range(6)or vdc&lt;=0:raise ValueError(&#x27;Invalid mode/sector/bus&#x27;)\n    # A Q1/Q4, B Q3/Q6, C Q5/Q2. Isolated-star balanced R load only for 120° voltages.\n    if mode==180:\n        s=[(1,0,0),(1,1,0),(0,1,0),(0,1,1),(0,0,1),(1,0,1)][sector];neutral=sum(s)/3\n        phase=[vdc*(x-neutral)for x in s];on=[q for state,upper,lower in zip(s,[1,3,5],[4,6,2])for q in[upper if state else lower]]\n    else:\n        on=list([(1,6),(1,2),(3,2),(3,4),(5,4),(5,6)][sector]);phase=[0.,0.,0.]\n        upper=on[0];lower=on[1];phase[{1:0,3:1,5:2}[upper]]=vdc/2;phase[{4:0,6:1,2:2}[lower]]=-vdc/2\n    return dict(on=on,phase=phase,line=[phase[0]-phase[1],phase[1]-phase[2],phase[2]-phase[0]],load=&#x27;balanced isolated-star R;RL diode dynamics excluded&#x27;)\n\ndef pwm_samples(ma=.8,mf=40,n=16000,unipolar=False):\n    if not 0&lt;=ma&lt;=1 or mf&lt;1 or n&lt;100*mf:raise ValueError(&#x27;Need linear ma and sufficient samples&#x27;)\n    values=[]\n    for j in range(n):\n        cycles=(j+.5)/n;ref=ma*math.sin(2*math.pi*cycles);carrier=4*abs((cycles*mf)%1-.5)-1\n        a=int(ref&gt;=carrier);b=int(-ref&gt;=carrier)\n        values.append(a-b if unipolar else 2*a-1)\n    sine=2*sum(v*math.sin(2*math.pi*(j+.5)/n)for j,v in enumerate(values))/n\n    cosine=2*sum(v*math.cos(2*math.pi*(j+.5)/n)for j,v in enumerate(values))/n\n    return {&#x27;fundamental_peak_per_bus&#x27;:math.hypot(sine,cosine),&#x27;total_rms_per_bus&#x27;:math.sqrt(sum(v*v for v in values)/n),&#x27;levels&#x27;:sorted(set(values))}\n\ndef charger_permission(chemistry=&#x27;DEFINED&#x27;,bms_ok=True,temperature_ok=True,polarity_ok=True,overvoltage=False,start=False):\n    # Only a permission/state teaching model; no chemistry-specific power regulation or real cell control.\n    reasons=[]\n    if chemistry!=&#x27;DEFINED&#x27;:reasons.append(&#x27;UNDEFINED_PROFILE&#x27;)\n    if not bms_ok:reasons.append(&#x27;BMS_BLOCK&#x27;)\n    if not temperature_ok:reasons.append(&#x27;TEMPERATURE_BLOCK&#x27;)\n    if not polarity_ok:reasons.append(&#x27;POLARITY_FAULT&#x27;)\n    if overvoltage:reasons.append(&#x27;OVERVOLTAGE&#x27;)\n    return {&#x27;enable&#x27;:bool(start and not reasons),&#x27;state&#x27;:&#x27;FAULT_BLOCK&#x27;if reasons else&#x27;PERMITTED&#x27;if start else&#x27;IDLE&#x27;,&#x27;reasons&#x27;:reasons}\n\ndef switched_model(kind,vin,d,l,c,r,cycles=600,steps_per_cycle=200,fs=20000):\n    &quot;&quot;&quot;First-order time-step ideal interval model with diode current projection;output magnitude for inverting.&quot;&quot;&quot;\n    if kind not in(&#x27;buck&#x27;,&#x27;boost&#x27;,&#x27;inverting&#x27;)or min(vin,l,c,r,fs)&lt;=0 or not 0&lt;d&lt;1:raise ValueError(&#x27;Invalid interval model&#x27;)\n    dt=1/(fs*steps_per_cycle);i=0.;v=0.;trace=[]\n    for k in range(cycles*steps_per_cycle):\n        on=k%steps_per_cycle&lt;d*steps_per_cycle\n        if kind==&#x27;buck&#x27;:vl=(vin if on else 0)-v;ic=i-v/r\n        else:vl=vin if on else(vin-v if kind==&#x27;boost&#x27;else-v);ic=-v/r if on else i-v/r\n        if not on and i&lt;=0 and vl&lt;0:vl=0\n        i=max(0,i+vl/l*dt);v=max(0,v+ic/c*dt)\n        if k&gt;=(cycles-20)*steps_per_cycle:trace.append((i,v))\n    return {&#x27;i_avg&#x27;:sum(t[0]for t in trace)/len(trace),&#x27;v_avg&#x27;:sum(t[1]for t in trace)/len(trace),&#x27;i_min&#x27;:min(t[0]for t in trace),&#x27;i_max&#x27;:max(t[0]for t in trace),&#x27;v_pp&#x27;:max(t[1]for t in trace)-min(t[1]for t in trace),&#x27;model&#x27;:&#x27;ideal finite-step interval model,not SPICE or hardware&#x27;}\n</pre>",
+            "gu": "<p>Python standard library જ.models.py તરીકે save કરો.Equipment I/O,SPICE session,official VLab/physical test claim નથી.</p><pre>&quot;&quot;&quot;Offline ideal teaching models. No device I/O, SPICE claim, hardware or real battery control.&quot;&quot;&quot;\nimport math\n\ndef dc_design(kind,vin,vo,io,fs,di,dv):\n    if min(vin,io,fs,di,dv)&lt;=0:raise ValueError(&#x27;Positive Vin,Io,fs,ΔI,ΔV required&#x27;)\n    v=abs(vo)\n    if kind==&#x27;buck&#x27;:\n        if not 0&lt;vo&lt;vin:raise ValueError(&#x27;Buck requires 0&lt;Vo&lt;Vin&#x27;)\n        d=vo/vin;l=(vin-vo)*d/(fs*di);c=di/(8*fs*dv);i=io;block=vin\n    elif kind==&#x27;boost&#x27;:\n        if vo&lt;=vin:raise ValueError(&#x27;Boost requires Vo&gt;Vin&#x27;)\n        d=1-vin/vo;l=vin*d/(fs*di);c=io*d/(fs*dv);i=io/(1-d);block=vo\n    elif kind==&#x27;inverting&#x27;:\n        if vo&gt;=0:raise ValueError(&#x27;Inverting output must be negative&#x27;)\n        d=v/(vin+v);l=vin*d/(fs*di);c=io*d/(fs*dv);i=io/(1-d);block=vin+v\n    else:raise ValueError(&#x27;Unknown topology&#x27;)\n    return dict(duty=d,L_H=l,C_F=c,Iavg_A=i,Imin_A=i-di/2,Ipeak_A=i+di/2,blocking_V=block,CCM=i&gt;di/2,assumptions=&#x27;Ideal CCM,small ripple,zero ESR;not a BOM or stability validation&#x27;)\n\ndef controlled_average(vrms,alpha_deg,mode=&#x27;R&#x27;,active_dc_source=False):\n    if vrms&lt;=0 or not 0&lt;=alpha_deg&lt;=180:raise ValueError(&#x27;Invalid voltage/angle&#x27;)\n    if mode not in (&#x27;R&#x27;,&#x27;RL_CCM_NO_FWD&#x27;,&#x27;RL_CCM_FWD&#x27;):raise ValueError(&#x27;Unknown load/current model&#x27;)\n    a=math.radians(alpha_deg);vm=math.sqrt(2)*vrms\n    if mode==&#x27;RL_CCM_NO_FWD&#x27;:\n        if alpha_deg&gt;90 and not active_dc_source:raise ValueError(&#x27;Passive RL cannot sustain assumed inversion/positive CCM&#x27;)\n        return 2*vm*math.cos(a)/math.pi\n    return vm*(1+math.cos(a))/math.pi\n\ndef rectifier_samples(vll=24,f=50,samples=12000):\n    if vll&lt;=0 or f&lt;=0 or samples&lt;60:raise ValueError(&#x27;Invalid source/resolution&#x27;)\n    peak=vll*math.sqrt(2/3);half=[];full=[]\n    for j in range(samples):\n        t=2*math.pi*(j+.5)/samples;v=[peak*math.sin(t+k*2*math.pi/3)for k in range(3)]\n        half.append(max(v));full.append(max(v)-min(v))\n    return dict(half_avg=sum(half)/samples,bridge_avg=sum(full)/samples,half_ripple_Hz=3*f,bridge_ripple_Hz=6*f)\n\ndef gate_pair(top,bottom):\n    if top and bottom:raise ValueError(&#x27;Forbidden same-leg shoot-through command&#x27;)\n    return {&#x27;top&#x27;:bool(top),&#x27;bottom&#x27;:bool(bottom),&#x27;state&#x27;:&#x27;HIGH&#x27;if top else&#x27;LOW&#x27;if bottom else&#x27;DEAD_TIME&#x27;}\n\ndef three_phase(mode,sector,vdc=24):\n    if mode not in(120,180)or sector not in range(6)or vdc&lt;=0:raise ValueError(&#x27;Invalid mode/sector/bus&#x27;)\n    # A Q1/Q4, B Q3/Q6, C Q5/Q2. Isolated-star balanced R load only for 120° voltages.\n    if mode==180:\n        s=[(1,0,0),(1,1,0),(0,1,0),(0,1,1),(0,0,1),(1,0,1)][sector];neutral=sum(s)/3\n        phase=[vdc*(x-neutral)for x in s];on=[q for state,upper,lower in zip(s,[1,3,5],[4,6,2])for q in[upper if state else lower]]\n    else:\n        on=list([(1,6),(1,2),(3,2),(3,4),(5,4),(5,6)][sector]);phase=[0.,0.,0.]\n        upper=on[0];lower=on[1];phase[{1:0,3:1,5:2}[upper]]=vdc/2;phase[{4:0,6:1,2:2}[lower]]=-vdc/2\n    return dict(on=on,phase=phase,line=[phase[0]-phase[1],phase[1]-phase[2],phase[2]-phase[0]],load=&#x27;balanced isolated-star R;RL diode dynamics excluded&#x27;)\n\ndef pwm_samples(ma=.8,mf=40,n=16000,unipolar=False):\n    if not 0&lt;=ma&lt;=1 or mf&lt;1 or n&lt;100*mf:raise ValueError(&#x27;Need linear ma and sufficient samples&#x27;)\n    values=[]\n    for j in range(n):\n        cycles=(j+.5)/n;ref=ma*math.sin(2*math.pi*cycles);carrier=4*abs((cycles*mf)%1-.5)-1\n        a=int(ref&gt;=carrier);b=int(-ref&gt;=carrier)\n        values.append(a-b if unipolar else 2*a-1)\n    sine=2*sum(v*math.sin(2*math.pi*(j+.5)/n)for j,v in enumerate(values))/n\n    cosine=2*sum(v*math.cos(2*math.pi*(j+.5)/n)for j,v in enumerate(values))/n\n    return {&#x27;fundamental_peak_per_bus&#x27;:math.hypot(sine,cosine),&#x27;total_rms_per_bus&#x27;:math.sqrt(sum(v*v for v in values)/n),&#x27;levels&#x27;:sorted(set(values))}\n\ndef charger_permission(chemistry=&#x27;DEFINED&#x27;,bms_ok=True,temperature_ok=True,polarity_ok=True,overvoltage=False,start=False):\n    # Only a permission/state teaching model; no chemistry-specific power regulation or real cell control.\n    reasons=[]\n    if chemistry!=&#x27;DEFINED&#x27;:reasons.append(&#x27;UNDEFINED_PROFILE&#x27;)\n    if not bms_ok:reasons.append(&#x27;BMS_BLOCK&#x27;)\n    if not temperature_ok:reasons.append(&#x27;TEMPERATURE_BLOCK&#x27;)\n    if not polarity_ok:reasons.append(&#x27;POLARITY_FAULT&#x27;)\n    if overvoltage:reasons.append(&#x27;OVERVOLTAGE&#x27;)\n    return {&#x27;enable&#x27;:bool(start and not reasons),&#x27;state&#x27;:&#x27;FAULT_BLOCK&#x27;if reasons else&#x27;PERMITTED&#x27;if start else&#x27;IDLE&#x27;,&#x27;reasons&#x27;:reasons}\n\ndef switched_model(kind,vin,d,l,c,r,cycles=600,steps_per_cycle=200,fs=20000):\n    &quot;&quot;&quot;First-order time-step ideal interval model with diode current projection;output magnitude for inverting.&quot;&quot;&quot;\n    if kind not in(&#x27;buck&#x27;,&#x27;boost&#x27;,&#x27;inverting&#x27;)or min(vin,l,c,r,fs)&lt;=0 or not 0&lt;d&lt;1:raise ValueError(&#x27;Invalid interval model&#x27;)\n    dt=1/(fs*steps_per_cycle);i=0.;v=0.;trace=[]\n    for k in range(cycles*steps_per_cycle):\n        on=k%steps_per_cycle&lt;d*steps_per_cycle\n        if kind==&#x27;buck&#x27;:vl=(vin if on else 0)-v;ic=i-v/r\n        else:vl=vin if on else(vin-v if kind==&#x27;boost&#x27;else-v);ic=-v/r if on else i-v/r\n        if not on and i&lt;=0 and vl&lt;0:vl=0\n        i=max(0,i+vl/l*dt);v=max(0,v+ic/c*dt)\n        if k&gt;=(cycles-20)*steps_per_cycle:trace.append((i,v))\n    return {&#x27;i_avg&#x27;:sum(t[0]for t in trace)/len(trace),&#x27;v_avg&#x27;:sum(t[1]for t in trace)/len(trace),&#x27;i_min&#x27;:min(t[0]for t in trace),&#x27;i_max&#x27;:max(t[0]for t in trace),&#x27;v_pp&#x27;:max(t[1]for t in trace)-min(t[1]for t in trace),&#x27;model&#x27;:&#x27;ideal finite-step interval model,not SPICE or hardware&#x27;}\n</pre>"
+          }
+        }
+      ]
+    }
+  ],
+  "viva": [
+    {
+      "title": {
+        "en": "Viva with reliable answers",
+        "gu": "વિશ્વસનીય જવાબો સાથે Viva"
+      },
+      "items": [
+        {
+          "q": {
+            "en": "Why average vLis zero?",
+            "gu": "Average vL Zero કેમ?"
+          },
+          "a": {
+            "en": "Periodic current repeats, so LΔi=∫vLdt=0over a period.",
+            "gu": "PeriodicIrepeatથી LΔi=∫vLdt=0."
+          }
+        },
+        {
+          "q": {
+            "en": "Why average iCis zero?",
+            "gu": "Average iC Zero કેમ?"
+          },
+          "a": {
+            "en": "Periodic capacitor voltage repeats, so CΔv=∫iCdt=0.",
+            "gu": "PeriodicVrepeatથી CΔv=∫iCdt=0."
+          }
+        },
+        {
+          "q": {
+            "en": "Buck CCMgain?",
+            "gu": "Buck CCM Gain?"
+          },
+          "a": {
+            "en": "Vo/Vin=Dunder ideal small-ripple CCMassumptions.",
+            "gu": "Idealsmall-rippleCCMમાં Vo/Vin=D."
+          }
+        },
+        {
+          "q": {
+            "en": "Boost inductor current equals Io?",
+            "gu": "Boost Inductor Current=Io?"
+          },
+          "a": {
+            "en": "No. IL, avg=Io/(1−D)ideal; input current exceeds output current in step-up service.",
+            "gu": "નહીં.ILavg=Io/(1−D); step-upમાં inputIવધુ."
+          }
+        },
+        {
+          "q": {
+            "en": "Inverting buck-boost switch voltage stress?",
+            "gu": "Inverting Buck-boost Q Stress?"
+          },
+          "a": {
+            "en": "Approximately Vin+|Vo|before transients/margins.",
+            "gu": "Transients/marginsપહેલાં Vin+|Vo|."
+          }
+        },
+        {
+          "q": {
+            "en": "CCMformula valid in DCM?",
+            "gu": "CCM Formula DCMમાં ચાલે?"
+          },
+          "a": {
+            "en": "Not generally; the zero-current interval makes gain depend on load and circuit parameters.",
+            "gu": "સામાન્યનહીં; zerointervalથી gainload/parametersપર."
+          }
+        },
+        {
+          "q": {
+            "en": "Forward transfers when?",
+            "gu": "Forward Energy ક્યારે આપે?"
+          },
+          "a": {
+            "en": "During primary ON, with output Lfreewheeling during OFF and transformer reset.",
+            "gu": "PrimaryONમાં; OFFમાં outputLfreewheel/transformerreset."
+          }
+        },
+        {
+          "q": {
+            "en": "Flyback is ordinary simultaneous transformer transfer?",
+            "gu": "Flyback Ordinary Simultaneous Transfer?"
+          },
+          "a": {
+            "en": "No. Primary ONstores magnetising energy; OFFdelivers it through the secondary.",
+            "gu": "નહીં.ONમાં magnetisingenergy/OFFમાં secondarytransfer."
+          }
+        }
+      ]
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Explain chopper SPDTrealisation and shoot-through constraint.",
+        "gu": "Chopper SPDT Realisation/Shoot-through સમજાવો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Derive volt-second and ampere-second balance and state assumptions.",
+        "gu": "Volt-second/Ampere-second Balance assumptions સાથે derive કરો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Draw buck topology, explain ON/OFF and derive CCMgain, L, C.",
+        "gu": "Buck Topology/ON–OFF તથા CCM Gain, L, C derive કરો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Design ideal24→12V, 2Abuck at20kHz, ΔIL0.4A, ΔVo0.1V; check CCM/stress.",
+        "gu": "24→12V, 2A, 20kHz, 0.4A/0.1V Buck Design/CCM–Stress ગણો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain boost and derive ratio, L/Cwith a worked design specification.",
+        "gu": "Boost Ratio/L/C specified design સાથે derive કરો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain inverting buck-boost and design12→−18V, 1A, 20kHz, ΔIL0.5A, ΔVo0.2V.",
+        "gu": "Inverting Buck-boost સમજાવી12→−18V, 1A, 20kHz, 0.5A/0.2V Design કરો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Compare CCM/DCM and select devices by electrical/thermal stress.",
+        "gu": "CCM/DCM compare તથા Electrical/Thermal Stress Selection સમજાવો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Compare isolated forward/flyback construction, energy transfer, reset and ideal CCMgain.",
+        "gu": "Forward/Flyback Construction, Energy, Reset/CCM Gain compare કરો."
+      },
+      "marks": 7
+    }
+  ],
+  "exam_policy": "Questions and suggested marks only;no answers.",
+  "physical_practicals_performed": false,
+  "sources": [
+    {
+      "title": "Owner GTU7-page syllabus DI05000171,2026–27",
+      "reference": "All5units,17practical rows,8projects,7activities."
+    },
+    {
+      "title": "TI:Basic Calculation of an Inverting Buck-Boost Power Stage",
+      "url": "https://www.ti.com/lit/an/slva721a/slva721a.pdf",
+      "use": "Manufacturer equations cross-check;ideal CCMpolarity/stress assumptions retained."
+    },
+    {
+      "title": "Infineon isolated driver product documentation",
+      "url": "https://www.infineon.com/cms/en/product/power/gate-driver-ics/1ed3461mc12m/",
+      "use": "DESAT,Miller clamp,soft-off demonstrate functions;no device-specific ratings copied as universal."
+    },
+    {
+      "title": "Hitachi Energy thyristor-switched capacitor banks",
+      "url": "https://www.hitachienergy.com/ca/en/products-and-solutions/capacitors-and-filters/low-voltage-capacitors-and-filters/power-factor-correction-solutions/thyristor-switched-capacitor-banks",
+      "use": "TSCis reactive compensation,not a boost-input-current shaping PFC."
+    }
+  ],
+  "reliability_policy": {
+    "models": "offline ideal/conceptual only",
+    "actual_readings": "blank",
+    "source_duplicate4": "both rows retained as4A/4B",
+    "DF": "definition declared because conventions differ",
+    "native_app_tested": false,
+    "published": false
+  }
+}
