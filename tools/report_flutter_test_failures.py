@@ -9,25 +9,27 @@ def escape(message):
 
 
 def main(path):
-    tests = {}
-    errors = []
-    bad_parts = []
+    tests, output, errors, failed = {}, {}, {}, set()
     for line in Path(path).read_text(encoding='utf-8').splitlines():
         try:
             event = json.loads(line)
         except json.JSONDecodeError:
             continue
-        kind = event.get('type')
+        kind, test_id = event.get('type'), event.get('testID')
         if kind == 'testStart':
             test = event.get('test', {})
             tests[test.get('id')] = test.get('name', 'Unknown test')
         elif kind == 'error':
-            errors.append((event.get('testID'), event.get('error', 'Unknown error')))
-        elif kind == 'print' and 'BAD ' in event.get('message', ''):
-            bad_parts.append((event.get('testID'), event['message']))
-    for test_id, message in errors + bad_parts:
-        print(f"::error::{escape(tests.get(test_id, 'Unknown test'))}: {escape(message)}")
-    if not errors and not bad_parts:
+            errors.setdefault(test_id, []).append(event.get('error', 'Unknown error'))
+        elif kind == 'print':
+            output.setdefault(test_id, []).append(event.get('message', ''))
+        elif kind == 'testDone' and event.get('result') in ('failure', 'error'):
+            failed.add(test_id)
+    for test_id in failed | set(errors):
+        name = tests.get(test_id, 'Unknown test')
+        details = '\n'.join(output.get(test_id, []) + errors.get(test_id, []))
+        print(f"::error::{escape(name)}: {escape(details[:6000])}")
+    if not failed and not errors:
         print('No detailed test failure events were reported; see the workflow log.')
 
 
