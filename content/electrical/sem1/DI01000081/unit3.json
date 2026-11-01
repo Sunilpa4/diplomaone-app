@@ -1,0 +1,613 @@
+{
+  "subject": "DI01000081",
+  "unit": 3,
+  "title": {
+    "en": "Electrical Network Theorems",
+    "gu": "વિદ્યુત નેટવર્કનાં પ્રમેયો"
+  },
+  "format": "notes",
+  "languages": [
+    "en",
+    "gu"
+  ],
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "tab_labels": {
+    "programs": {
+      "en": "Practical",
+      "gu": "પ્રયોગ અને ચકાસણી"
+    }
+  },
+  "hours": 9,
+  "weightage": 17,
+  "notes": [
+    {
+      "title": {
+        "en": "3.1 Foundation",
+        "gu": "3.1 પાયો"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Circuit topology:read connectivity first",
+            "gu": "Circuit Topology:પહેલાં જોડાણ સમજો"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Topology studies how circuit elements connect,independent of their numerical values or the physical drawing shape.</p><h4>Explanation and application</h4><ul><li>A node joins connected ideal conductors at one potential.An essential node joins at least3branches;two crossing wires are connected only when the schematic indicates a junction.</li><li>Here a branch means one defined two-terminal element between nodes.A path is a connected sequence;an open path need not return to its start.</li><li>A loop is a closed path without repeatedly visiting intermediate nodes.A mesh contains no other loop inside it in the chosen planar drawing;not every loop is a mesh.</li><li>A connected graph tree spans all nodes without a loop;its branches are twigs and omitted branches are links.For Nnodes and Bbranches:twigs=N−1;independent loops/links=B−N+1.</li></ul><details class=\"self-check\"><summary>Is every loop a mesh?</summary><p>No.A mesh has no smaller loop inside in the planar graph.</p></details>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Topologyમાં elements કેવી રીતે જોડાય છે તે અભ્યાસ થાય છે;તેમની numerical value અથવા drawingના આકારથી તે નક્કી થતું નથી.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Connected ideal conductorsનો same-potential ભાગ node છે.Essential nodeમાં ઓછામાં ઓછી3branches મળે છે.Crossing wiresને junction દર્શાવેલું હોય ત્યારે જ connected માનો.</li><li>અહીં branchનો અર્થ બે nodes વચ્ચેનું એક defined two-terminal element છે.Path connected sequence છે;open path શરૂઆત સુધી પાછો આવવો જરૂરી નથી.</li><li>Loop intermediate nodes repeat કર્યા વગરનો closed path છે.Planar drawingમાં અંદર બીજો loop ન ધરાવતો loop mesh છે;દરેક loop mesh નથી.</li><li>Connected graphનું tree બધા nodesને loop વગર જોડે છે.Tree branches twigs અને બાકીની links કહેવાય છે.Nnodes,Bbranches માટે twigs=N−1 અને independent loops/links=B−N+1.</li></ul><details class=\"self-check\"><summary>દરેક Loop Mesh છે?</summary><p>ના.Planar graphમાં meshની અંદર નાનો loop નથી.</p></details>"
+          },
+          "syllabus_item": "3.1",
+          "diagram": "topology"
+        },
+        {
+          "h": {
+            "en": "Tree/loop count",
+            "gu": "Tree અને Loop Count"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>For the drawn connected graph,N=4nodes and B=6defined branches.</p><h4>Step-by-step solution</h4><ol><li>Twigs=N−1=4−1=3</li><li>Links/independent loops=B−N+1=6−4+1=3</li></ol><h4>Interpretation and check</h4><p>The formula assumes one connected graph and consistent branch definition.A different valid tree gives the same counts.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>દોરેલા connected graphમાં N=4nodes અને B=6defined branches છે.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>Twigs=N−1=4−1=3</li><li>Links/independent loops=B−N+1=6−4+1=3</li></ol><h4>અર્થ અને ચકાસણી</h4><p>સૂત્ર one connected graph તથા consistent branch definition માટે છે.અન્ય valid tree પસંદ કરતાં counts same રહે છે.</p>"
+          },
+          "syllabus_item": "3.1",
+          "diagram": "topologygraph"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "3.2 Superposition",
+        "gu": "3.2 Superposition"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Superposition theorem:statement and procedure",
+            "gu": "Superposition:વિધાન અને પદ્ધતિ"
+          },
+          "body": {
+            "en": "<h4>Statement and physical meaning</h4><p>In a linear network,the response voltage/current is the algebraic sum of responses from each independent source acting alone,with other independent sources deactivated.</p><h4>How to apply it</h4><ol><li>Choose the required branch voltage/current and fix its reference sign throughout.</li><li>Keep one independent source active.Replace other ideal voltage sources by shorts and ideal current sources by opens.</li><li>Keep source internal resistances and all dependent sources;deactivation is a model operation,not live wiring.</li><li>Solve the selected response in that subcircuit,including a negative sign if it opposes the reference.</li><li>Repeat for every independent source and sum the signed responses.</li><li>Calculate power only after summing the actual voltage/current;check the complete network with KCL/KVL.</li></ol><h4>Validity and common mistakes</h4><ul><li>Applies to linear networks.Power does not superpose because P contains products/squares.Do not switch off dependent sources.</li></ul>",
+            "gu": "<h4>વિધાન અને ભૌતિક અર્થ</h4><p>Linear networkમાં response voltage/current દરેક independent source એકલો કાર્ય કરે ત્યારે મળતા responsesનો algebraic sum છે;બીજા independent sources deactivate થાય છે.</p><h4>લાગુ પાડવાનો ક્રમ</h4><ol><li>Required branch voltage/current પસંદ કરીને આખા ઉકેલમાં reference sign same રાખો.</li><li>એક independent source active રાખો.બીજા ideal voltage sourcesને short અને ideal current sourcesને openથી replace કરો.</li><li>Source internal resistances તથા બધા dependent sources રાખો.Deactivation model operation છે,live wiring નથી.</li><li>તે subcircuitમાં response solve કરો;referenceની વિરુદ્ધ હોય તો negative sign રાખો.</li><li>દરેક independent source માટે repeat કરીને signed responses add કરો.</li><li>Actual voltage/current add કર્યા પછી જ power ગણો;complete networkને KCL/KVLથી check કરો.</li></ol><h4>શરતો અને સામાન્ય ભૂલો</h4><ul><li>Linear networks માટે લાગુ પડે છે.Powerમાં products/squares હોવાથી power superpose થતું નથી.Dependent sources બંધ ન કરો.</li></ul>"
+          },
+          "syllabus_item": "3.2",
+          "diagram": "super"
+        },
+        {
+          "h": {
+            "en": "Two-source superposition with a power check",
+            "gu": "Two-source Superposition અને Power Check"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>Use the drawn circuit:12V through6ohm and6V through3ohm feed node V;6ohm load connects V to0V.Both sources have positive tops.</p><h4>Step-by-step solution</h4><ol><li>12V alone:deactivate6V source to a short.The other paths from V to0V are3ohm||6ohm=2ohm,so V1=12×2/(6+2)=3V.</li><li>6V alone:deactivate12V source.The other paths are6ohm||6ohm=3ohm,so V2=6×3/(3+3)=3V.</li><li>V=V1+V2=6V;IL=6/6=1A</li><li>PL=V²/R=36/6=6W;separate-load powers=3²/6+3²/6=3W,NOT6W</li></ol><h4>Interpretation and check</h4><p>Full-network check:(V−12)/6+(V−6)/3+V/6=0 gives V=6V.Power must use the combined response.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>Drawn circuitમાં12Vથી6ohm તથા6Vથી3ohm મારફતે node V feed થાય છે;Vથી0V સુધી6ohm load છે.Both sourcesના tops positive છે.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>ફક્ત12V active રાખતાં6V source short થાય છે.Vથી0Vના3ohm||6ohm=2ohm થાય છે;તેથી V1=12×2/(6+2)=3V.</li><li>ફક્ત6V active રાખતાં12V source short થાય છે.Other paths6ohm||6ohm=3ohm છે;તેથી V2=6×3/(3+3)=3V.</li><li>V=V1+V2=6V;IL=6/6=1A</li><li>PL=V²/R=36/6=6W;separate-load powers=3²/6+3²/6=3W,NOT6W</li></ol><h4>અર્થ અને ચકાસણી</h4><p>Full-network checkમાં (V−12)/6+(V−6)/3+V/6=0થી V=6V મળે છે.Power માટે combined response જ લો.</p>"
+          },
+          "syllabus_item": "3.2",
+          "diagram": "superexample"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "3.3 Thevenin theorem",
+        "gu": "3.3 Thevenin પ્રમેય"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Thevenin theorem and a safe analysis workflow",
+            "gu": "Thevenin પ્રમેય અને Analysisનો ક્રમ"
+          },
+          "body": {
+            "en": "<h4>Statement and physical meaning</h4><p>A linear two-terminal network can be replaced at a chosen port by Vth in series with Rth for the resistive DC model when that equivalent is well-defined.</p><h4>How to apply it</h4><ol><li>Choose and label load terminals a,b;remove only the load RL from the model.</li><li>Find the open-circuit terminal voltage with original sources active:Vth=Voc,with the stated polarity.</li><li>Find Rth looking into a,b:deactivate independent sources and retain their resistances.</li><li>If dependent sources exist,retain them and use an appropriate test source:Rth=Vtest/Itest with a consistent input reference.</li><li>Reconnect RL to the equivalent and compute IL=Vth/(Rth+RL),VL=ILRL.</li><li>Check port polarity,units,and result against the original network;do not treat open-circuit voltage as loaded voltage.</li></ol><h4>Validity and common mistakes</h4><ul><li>The load may be nonlinear but then solve it with the linear source equivalent rather than blindly using a fixed RL formula.Not every active network has positive Rth.</li></ul>",
+            "gu": "<h4>વિધાન અને ભૌતિક અર્થ</h4><p>Resistive DC modelમાં well-defined equivalent મળે ત્યારે chosen port પરથી linear two-terminal networkને series Vth અને Rthથી replace કરી શકાય છે.</p><h4>લાગુ પાડવાનો ક્રમ</h4><ol><li>Load terminals a,b ઓળખો અને modelમાંથી ફક્ત load RL દૂર કરો.</li><li>Original sources active રાખીને open-circuit voltage શોધો:stated polarity મુજબ Vth=Voc.</li><li>a,bની અંદર જોતાં Rth શોધો;independent sources deactivate કરો અને તેમની resistances રાખો.</li><li>Dependent sources હોય તો રાખો અને suitable test sourceથી consistent input reference મુજબ Rth=Vtest/Itest શોધો.</li><li>Equivalentમાં RL પાછો જોડીને IL=Vth/(Rth+RL),VL=ILRL ગણો.</li><li>Port polarity,units અને original network સામે result check કરો;Vocને loaded voltage ન માનો.</li></ol><h4>શરતો અને સામાન્ય ભૂલો</h4><ul><li>Load nonlinear હોય તો linear source equivalent સાથે તેનું યોગ્ય equation solve કરો;fixed RL formula અંધપણે નહિ.દરેક active networkમાં Rth positive જ હોય એવું નથી.</li></ul>"
+          },
+          "syllabus_item": "3.3",
+          "diagram": "thevenin"
+        },
+        {
+          "h": {
+            "en": "Thevenin equivalent of a divider",
+            "gu": "Dividerનું Thevenin Equivalent"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>12V across4ohm and8ohm in series.Load terminals span8ohm;RL=16/3ohm connects across those terminals.</p><h4>Step-by-step solution</h4><ol><li>Vth=12×8/(4+8)=8V</li><li>Rth=4||8=32/12=8/3ohm</li><li>IL=8/[(8/3)+(16/3)]=1A;VL=16/3V</li></ol><h4>Interpretation and check</h4><p>Removing RL does not remove the original8ohm divider arm.This distinction determines both Vth and Rth.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>12V ઉપર4ohm અને8ohm series છે.Load terminals8ohmની બન્ને બાજુ છે;ત્યાં RL=16/3ohm જોડાય છે.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>Vth=12×8/(4+8)=8V</li><li>Rth=4||8=32/12=8/3ohm</li><li>IL=8/[(8/3)+(16/3)]=1A;VL=16/3V</li></ol><h4>અર્થ અને ચકાસણી</h4><p>RL દૂર કરતાં original8ohm divider arm દૂર થતો નથી.Vth તથા Rth માટે આ ભેદ મહત્વનો છે.</p>"
+          },
+          "syllabus_item": "3.3",
+          "diagram": "thevexample"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "3.4 Norton theorem",
+        "gu": "3.4 Norton પ્રમેય"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Norton theorem",
+            "gu": "Norton પ્રમેય"
+          },
+          "body": {
+            "en": "<h4>Statement and physical meaning</h4><p>The same linear port can be represented by IN in parallel with RN;RN=Rth and IN=Vth/Rth when finite and defined.</p><h4>How to apply it</h4><ol><li>Identify the same load port and reference direction as the original circuit.</li><li>Find RN by the Thevenin resistance method,retaining dependent sources.</li><li>Find IN from a valid Vth/Rth transformation or analyse the theoretical short-circuit port current in the circuit model.</li><li>Place IN and RN in parallel with the correct source arrow feeding the positive terminal.</li><li>Reconnect RL.Use IL=IN RN/(RN+RL) and VL=ILRL for a positive resistive load.</li><li>Cross-check Norton and Thevenin terminal results;internal element powers of equivalents need not match the original network.</li></ol><h4>Validity and common mistakes</h4><ul><li>Never interpret short-circuit current as permission to short a battery or supply.Use supervised current-limited educational setups or analysis/simulation.</li></ul>",
+            "gu": "<h4>વિધાન અને ભૌતિક અર્થ</h4><p>Same linear portને parallel IN તથા RNથી દર્શાવી શકાય છે.Finite અને defined હોય ત્યારે RN=Rth તથા IN=Vth/Rth.</p><h4>લાગુ પાડવાનો ક્રમ</h4><ol><li>Original circuitના same load port અને reference direction લો.</li><li>Dependent sources રાખીને Thevenin resistance methodથી RN શોધો.</li><li>Valid Vth/Rth transformationથી IN મેળવો અથવા circuit modelમાં theoretical short-circuit port current solve કરો.</li><li>Positive terminalને feed કરે તેવી source arrow સાથે IN અને RN parallel મૂકો.</li><li>RL જોડો અને positive resistive load માટે IL=IN RN/(RN+RL),VL=ILRL લો.</li><li>Norton તથા Theveninના terminal results compare કરો;equivalentની internal powers original જેવી હોવી જરૂરી નથી.</li></ol><h4>શરતો અને સામાન્ય ભૂલો</h4><ul><li>Short-circuit currentનો અર્થ battery/supplyને short કરવાની પરવાનગી નથી.Supervised current-limited setup અથવા analysis/simulation વાપરો.</li></ul>"
+          },
+          "syllabus_item": "3.4",
+          "diagram": "norton"
+        },
+        {
+          "h": {
+            "en": "Norton check of the same divider",
+            "gu": "Same Dividerનું Norton Check"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>Use Vth=8V,RN=8/3ohm and RL=16/3ohm.</p><h4>Step-by-step solution</h4><ol><li>IN=8/(8/3)=3A</li><li>IL=3×(8/3)/[(8/3)+(16/3)]=1A</li><li>VL=1×16/3=16/3V</li></ol><h4>Interpretation and check</h4><p>Matches the Thevenin result;3A is a model source current,not a prescribed physical short test.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>Vth=8V,RN=8/3ohm,RL=16/3ohm લો.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>IN=8/(8/3)=3A</li><li>IL=3×(8/3)/[(8/3)+(16/3)]=1A</li><li>VL=1×16/3=16/3V</li></ol><h4>અર્થ અને ચકાસણી</h4><p>Thevenin result મળે છે.3A model source current છે,physical short testની સૂચના નથી.</p>"
+          },
+          "syllabus_item": "3.4",
+          "diagram": "norton"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "3.5 Maximum power transfer",
+        "gu": "3.5 Maximum Power Transfer"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Maximum power transfer theorem",
+            "gu": "Maximum Power Transfer પ્રમેય"
+          },
+          "body": {
+            "en": "<h4>Statement and physical meaning</h4><p>For a fixed resistive DC Thevenin source with Rth&gt;0,the load power is maximum at RL=Rth.</p><h4>How to apply it</h4><ol><li>Find the source-side Vth and positive Rth seen by the adjustable load.</li><li>IL=Vth/(Rth+RL);PL=IL²RL=Vth²RL/(Rth+RL)²</li><li>Differentiating with respect to RL gives a stationary point at RL=Rth;power rises then falls for positive RL.</li><li>PL,max=Vth²/(4Rth);IL,match=Vth/(2Rth)</li><li>At matching,the internal Rth and RL dissipate equal power;the simple equivalent-source efficiency is50%.</li><li>Apply voltage,current and thermal ratings before any practical load change;the theorem alone does not select safe components.</li></ol><h4>Validity and common mistakes</h4><ul><li>Maximum power is not maximum efficiency.Power-distribution systems normally avoid wasting half their equivalent input in source resistance.This formula does not cover arbitrary negative-R active sources.</li></ul>",
+            "gu": "<h4>વિધાન અને ભૌતિક અર્થ</h4><p>Fixed resistive DC Thevenin sourceમાં Rth&gt;0 હોય ત્યારે RL=Rth પર load power maximum મળે છે.</p><h4>લાગુ પાડવાનો ક્રમ</h4><ol><li>Adjustable load પરથી source-side Vth અને positive Rth શોધો.</li><li>IL=Vth/(Rth+RL);PL=IL²RL=Vth²RL/(Rth+RL)²</li><li>RL પ્રમાણે differentiate કરતાં RL=Rth મળે છે.Positive RL માટે power પહેલાં વધે અને પછી ઘટે છે.</li><li>PL,max=Vth²/(4Rth);IL,match=Vth/(2Rth)</li><li>Matching પર internal Rth અને RLમાં equal power dissipate થાય છે;simple equivalent-source efficiency50% છે.</li><li>Practical load બદલતાં પહેલાં voltage,current,thermal ratings ચકાસો;ફક્ત theoremથી safe components પસંદ થતા નથી.</li></ol><h4>શરતો અને સામાન્ય ભૂલો</h4><ul><li>Maximum power અને maximum efficiency સમાન નથી.Power distributionમાં અડધી equivalent input source Rમાં વેડફવી ઇચ્છિત નથી.Arbitrary negative-R active source માટે આ formula નથી.</li></ul>"
+          },
+          "syllabus_item": "3.5",
+          "diagram": "mpt"
+        },
+        {
+          "h": {
+            "en": "Power-transfer comparison",
+            "gu": "Power Transferની સરખામણી"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>Vth=12V,Rth=6ohm;compare RL=3,6,12ohm.</p><h4>Step-by-step solution</h4><ol><li>RL=3ohm:PL=144×3/9²=16/3W≈5.333W</li><li>RL=6ohm:PL=144×6/12²=6W</li><li>RL=12ohm:PL=144×12/18²=16/3W≈5.333W</li></ol><h4>Interpretation and check</h4><p>Maximum6W occurs at6ohm;efficiency increases as RL grows,but absolute load power eventually falls.</p><details class=\"self-check\"><summary>Is maximum load power maximum source efficiency?</summary><p>No.Positive-Rth matching gives50%in the simple source equivalent.</p></details>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>Vth=12V,Rth=6ohm;RL=3,6,12ohm compare કરો.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>RL=3ohm:PL=144×3/9²=16/3W≈5.333W</li><li>RL=6ohm:PL=144×6/12²=6W</li><li>RL=12ohm:PL=144×12/18²=16/3W≈5.333W</li></ol><h4>અર્થ અને ચકાસણી</h4><p>Maximum6W,6ohm પર મળે છે.RL વધતાં efficiency વધે છે,પણ અંતે absolute load power ઘટે છે.</p><details class=\"self-check\"><summary>Maximum Load Power એટલે Maximum Efficiency?</summary><p>ના.Simple positive-Rth equivalentમાં matching પર50%થાય છે.</p></details>"
+          },
+          "syllabus_item": "3.5",
+          "diagram": "mpt"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Practical & Testing — supervised guides",
+        "gu": "Practical & Testing — પ્રયોગ અને ચકાસણી"
+      },
+      "practical_section": true,
+      "items": [
+        {
+          "h": {
+            "en": "Practical 8: Verify superposition",
+            "gu": "Practical 8: Superposition Verify કરો"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Compare a measured total branch response with signed individual-source responses in an approved linear network.</p><h4>Instruments and selection</h4><ul><li>DMM with intact leads,fuse and correct V/ohm/current sockets;range chosen above the expected value within the manual ratings.</li><li>Approved low-voltage source and rated resistors/leads;estimate current and resistor power before energising.</li><li>Independent sources approved for the intended interaction;simulation is preferred when bench sources cannot safely absorb reverse current.</li></ul><h4>Connections and terminal roles</h4><p>Use the labelled two-source circuit or a supervisor-approved equivalent.Deactivation is designed into the isolated setup,not performed by shorting an energised supply.</p><h4>Supervised procedure</h4><ol><li>Confirm network linearity,source roles and one fixed branch-current/voltage reference.</li><li>Calculate expected total and each subcircuit response before any connection.</li><li>Measure the total response with all sources active under approved conditions.</li><li>Isolate every source before applying the approved inactive-source equivalent;retain internal resistances.</li><li>Repeat for each source using the same measurement reference,then isolate the setup.</li><li>Compare algebraic response sum with measured total;compute power only from combined response.</li></ol><h4>Observation table — blank</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Trial</th><th style=\"border:1px solid #cbbadf;padding:6px\">total V/A</th><th style=\"border:1px solid #cbbadf;padding:6px\">source1 response V/A</th><th style=\"border:1px solid #cbbadf;padding:6px\">source2 response V/A</th><th style=\"border:1px solid #cbbadf;padding:6px\">signed sum</th><th style=\"border:1px solid #cbbadf;padding:6px\">residual</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>Record only actual readings,units,instrument range and uncertainty.Computed examples in Notes are not observations.</p><h4>Calculation and conclusion</h4><p>Agreement within uncertainty supports the linear model over the tested conditions.Separate source powers must not be added as the load power.</p><h4>Fault finding</h4><ul><li>Mismatch:check polarity,inactive-source modelling,dependent sources,source regulation and nonlinearity.</li></ul><h4>Safety</h4><p>Use approved isolated,current-limited low-voltage equipment under supervision.Power OFF before connections/range/socket changes;never place a current-mode meter across a source.</p>",
+            "gu": "<h4>હેતુ</h4><p>Approved linear networkમાં actual total branch responseને signed individual-source responses સાથે compare કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact leads,fuse તથા correct V/ohm/current socketsવાળું DMM લો.Manual limitsમાં expected value કરતાં યોગ્ય મોટી range પસંદ કરો.</li><li>Approved low-voltage source તથા rated resistors/leads લો.Energise પહેલાં current/resistor power estimate કરો.</li><li>Sourcesની interaction મંજૂર હોવી જોઈએ.Bench source reverse current safely absorb ન કરે તો simulation વધુ યોગ્ય છે.</li></ul><h4>Connections અને Terminals</h4><p>Labelled two-source circuit અથવા approved equivalent લો.Deactivation isolated setupમાં design મુજબ થાય છે,energised supply short કરીને નહિ.</p><h4>Supervised ક્રમ</h4><ol><li>Linearity,source roles તથા એક fixed branch reference નક્કી કરો.</li><li>Connection પહેલાં total તથા individual subcircuit responses ગણો.</li><li>Approved conditionsમાં બધા sources active રાખીને total response માપો.</li><li>Approved inactive-source equivalent ગોઠવતાં પહેલાં બધા sources isolate કરો.Internal R રાખો.</li><li>Same referenceથી દરેક source માટે repeat કરીને setup isolate કરો.</li><li>Algebraic sumને measured total સાથે compare કરો.Power combined response પરથી જ ગણો.</li></ol><h4>Observation Table — ખાલી</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Trial</th><th style=\"border:1px solid #cbbadf;padding:6px\">total V/A</th><th style=\"border:1px solid #cbbadf;padding:6px\">source1 response V/A</th><th style=\"border:1px solid #cbbadf;padding:6px\">source2 response V/A</th><th style=\"border:1px solid #cbbadf;padding:6px\">signed sum</th><th style=\"border:1px solid #cbbadf;padding:6px\">residual</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>ફક્ત actual readings,units,instrument range તથા uncertainty નોંધો.Notesનાં computed examples observations નથી.</p><h4>Calculation અને Conclusion</h4><p>Uncertaintyમાં agreement tested conditionsના linear modelને support કરે છે.Individual-source powersને load power તરીકે add ન કરો.</p><h4>ખામીની તપાસ</h4><ul><li>Mismatchમાં polarity,inactive-source model,dependent sources,regulation,nonlinearity તપાસો.</li></ul><h4>સલામતી</h4><p>Supervisionમાં approved isolated,current-limited low-voltage equipment વાપરો.Connections/range/socket બદલતાં power OFF રાખો.Current-mode meter source ઉપર parallel ન મૂકો.</p>"
+          },
+          "diagram": "superexample",
+          "syllabus_item": "Practical.8"
+        },
+        {
+          "h": {
+            "en": "Practical 9: Verify Thevenin theorem",
+            "gu": "Practical 9: Thevenin પ્રમેય Verify કરો"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Compare original-network load response with its source equivalent.</p><h4>Instruments and selection</h4><ul><li>DMM with intact leads,fuse and correct V/ohm/current sockets;range chosen above the expected value within the manual ratings.</li><li>Approved low-voltage source and rated resistors/leads;estimate current and resistor power before energising.</li></ul><h4>Connections and terminal roles</h4><p>Choose the load port only.Remove RL from the isolated model/approved setup;do not remove an original internal resistor that happens to share the port.</p><h4>Supervised procedure</h4><ol><li>Label a,b,load and voltage/current references.</li><li>Predict Vth,Rth and loaded response analytically.</li><li>Measure original loaded V/I using authorised meter connections.</li><li>With approved isolation/reconnection,measure open-circuit port voltage.Do not place an ohmmeter across an active circuit.</li><li>Find Rth by the analytical deactivated-source/test-source method or an approved de-energised resistance method where applicable.</li><li>Compare predicted/equivalent loaded response with actual readings and document source/meter limits.</li></ol><h4>Observation table — blank</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">RL ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">Voc V</th><th style=\"border:1px solid #cbbadf;padding:6px\">Rth ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">predicted IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured VL V</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>Record only actual readings,units,instrument range and uncertainty.Computed examples in Notes are not observations.</p><h4>Calculation and conclusion</h4><p>Use IL=Vth/(Rth+RL).For each branch requested by the assigned problem,use the relevant original circuit/equivalent port,not one port equivalent for all internal currents.</p><h4>Fault finding</h4><ul><li>Wrong Rth:check which resistor is the load and whether independent/dependent sources were handled correctly.</li></ul><h4>Safety</h4><p>Use approved isolated,current-limited low-voltage equipment under supervision.Power OFF before connections/range/socket changes;never place a current-mode meter across a source.</p>",
+            "gu": "<h4>હેતુ</h4><p>Original networkના load responseને source equivalent સાથે compare કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact leads,fuse તથા correct V/ohm/current socketsવાળું DMM લો.Manual limitsમાં expected value કરતાં યોગ્ય મોટી range પસંદ કરો.</li><li>Approved low-voltage source તથા rated resistors/leads લો.Energise પહેલાં current/resistor power estimate કરો.</li></ul><h4>Connections અને Terminals</h4><p>ફક્ત load port ઓળખો.Isolated model/approved setupમાંથી RL દૂર કરો;port પર રહેલો original internal R નહિ.</p><h4>Supervised ક્રમ</h4><ol><li>a,b,load તથા references label કરો.</li><li>Vth,Rth તથા loaded response analytically ગણો.</li><li>Authorised connectionsથી original loaded V/I માપો.</li><li>Approved isolation/reconnectionથી open-circuit voltage માપો.Active circuit ઉપર ohmmeter ન મૂકો.</li><li>Analytical deactivated-source/test-source અથવા applicable approved de-energised methodથી Rth મેળવો.</li><li>Predicted/equivalent loaded responseને actual readings સાથે compare કરીને limits લખો.</li></ol><h4>Observation Table — ખાલી</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">RL ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">Voc V</th><th style=\"border:1px solid #cbbadf;padding:6px\">Rth ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">predicted IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured VL V</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>ફક્ત actual readings,units,instrument range તથા uncertainty નોંધો.Notesનાં computed examples observations નથી.</p><h4>Calculation અને Conclusion</h4><p>IL=Vth/(Rth+RL) લો.Assigned problemની internal branches માટે relevant original circuit/port વાપરો;એક equivalentથી બધા internal currents સીધા મળતા નથી.</p><h4>ખામીની તપાસ</h4><ul><li>Wrong Rthમાં load resistorની ઓળખ તથા source handling તપાસો.</li></ul><h4>સલામતી</h4><p>Supervisionમાં approved isolated,current-limited low-voltage equipment વાપરો.Connections/range/socket બદલતાં power OFF રાખો.Current-mode meter source ઉપર parallel ન મૂકો.</p>"
+          },
+          "diagram": "thevenin",
+          "syllabus_item": "Practical.9"
+        },
+        {
+          "h": {
+            "en": "Practical 10: Verify Norton theorem",
+            "gu": "Practical 10: Norton પ્રમેય Verify કરો"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Establish RN and IN without an uncontrolled supply short,then compare load results.</p><h4>Instruments and selection</h4><ul><li>DMM with intact leads,fuse and correct V/ohm/current sockets;range chosen above the expected value within the manual ratings.</li><li>Approved low-voltage source and rated resistors/leads;estimate current and resistor power before energising.</li></ul><h4>Connections and terminal roles</h4><p>Use the same port as the Thevenin exercise.Find IN=Vth/Rth when valid;physical short-current measurement is not required by this guide.</p><h4>Supervised procedure</h4><ol><li>Draw the original network and Norton port with references.</li><li>Find RN using the valid source-deactivation/test-source method.</li><li>Determine IN analytically or by a specifically approved protected trainer,not by shorting a free supply.</li><li>Calculate original/equivalent load voltage/current for the assigned load.</li><li>Collect actual approved load measurements,isolating before all reconnections.</li><li>Compare Thevenin,Norton and measured results at the same port.</li></ol><h4>Observation table — blank</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">RN ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">analytical IN A</th><th style=\"border:1px solid #cbbadf;padding:6px\">RL ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">predicted IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured VL V</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>Record only actual readings,units,instrument range and uncertainty.Computed examples in Notes are not observations.</p><h4>Calculation and conclusion</h4><p>For two positive resistive branches,IL=IN RN/(RN+RL).Keep analytical IN clearly separate from measured data.</p><h4>Fault finding</h4><ul><li>Arrow/sign mismatch:recheck terminal polarity and direction before comparing magnitudes.</li></ul><h4>Safety</h4><p>Use approved isolated,current-limited low-voltage equipment under supervision.Power OFF before connections/range/socket changes;never place a current-mode meter across a source.</p>",
+            "gu": "<h4>હેતુ</h4><p>Uncontrolled supply short વગર RN/IN મેળવી load results compare કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact leads,fuse તથા correct V/ohm/current socketsવાળું DMM લો.Manual limitsમાં expected value કરતાં યોગ્ય મોટી range પસંદ કરો.</li><li>Approved low-voltage source તથા rated resistors/leads લો.Energise પહેલાં current/resistor power estimate કરો.</li></ul><h4>Connections અને Terminals</h4><p>Thevenin exerciseનો same port લો.Valid હોય ત્યારે IN=Vth/Rth લો.આ guide physical short-current measurement કરાવતી નથી.</p><h4>Supervised ક્રમ</h4><ol><li>Original network તથા Norton port references સાથે દોરો.</li><li>Valid source-deactivation/test-source methodથી RN શોધો.</li><li>IN analytically અથવા specifically approved protected trainerથી મેળવો;free supply short કરીને નહિ.</li><li>Assigned load માટે original/equivalent V/I ગણો.</li><li>Reconnection પહેલાં isolate કરીને actual approved load readings લો.</li><li>Same port પર Thevenin,Norton તથા measured results compare કરો.</li></ol><h4>Observation Table — ખાલી</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">RN ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">analytical IN A</th><th style=\"border:1px solid #cbbadf;padding:6px\">RL ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">predicted IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured VL V</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>ફક્ત actual readings,units,instrument range તથા uncertainty નોંધો.Notesનાં computed examples observations નથી.</p><h4>Calculation અને Conclusion</h4><p>બે positive resistive branchesમાં IL=IN RN/(RN+RL).Analytical INને measured dataથી અલગ લખો.</p><h4>ખામીની તપાસ</h4><ul><li>Arrow/sign mismatchમાં પહેલાં terminal polarity/direction ફરી તપાસો.</li></ul><h4>સલામતી</h4><p>Supervisionમાં approved isolated,current-limited low-voltage equipment વાપરો.Connections/range/socket બદલતાં power OFF રાખો.Current-mode meter source ઉપર parallel ન મૂકો.</p>"
+          },
+          "diagram": "norton",
+          "syllabus_item": "Practical.10"
+        },
+        {
+          "h": {
+            "en": "Practical 11: Verify maximum power transfer",
+            "gu": "Practical 11: Maximum Power Transfer Verify કરો"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Measure load power over a safe range and compare the peak location with positive source resistance.</p><h4>Instruments and selection</h4><ul><li>DMM with intact leads,fuse and correct V/ohm/current sockets;range chosen above the expected value within the manual ratings.</li><li>Approved low-voltage source and rated resistors/leads;estimate current and resistor power before energising.</li><li>Adjustable resistive load rated for worst-case power;changing it requires isolation unless a purpose-built trainer permits otherwise.</li></ul><h4>Connections and terminal roles</h4><p>Use a fixed approved source with known series resistance;measure the load voltage/current,not total input power as load power.</p><h4>Supervised procedure</h4><ol><li>Find Vth,Rth and expected safe power range.</li><li>Select load settings below,near and above Rth within all ratings.</li><li>Build de-energised and verify meter/load ratings.</li><li>Collect actual VL,IL for each approved setting with isolation between changes.</li><li>Compute PL=VLIL and plot PL versus measured RL.</li><li>Compare observed peak with Rth,noting discrete steps,tolerance and heating.</li></ol><h4>Observation table — blank</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">RL ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">VL V</th><th style=\"border:1px solid #cbbadf;padding:6px\">IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">PL W</th><th style=\"border:1px solid #cbbadf;padding:6px\">setting/rating note</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>Record only actual readings,units,instrument range and uncertainty.Computed examples in Notes are not observations.</p><h4>Calculation and conclusion</h4><p>Matching maximises load power,not efficiency.Do not claim an exact peak from a few noisy data points.</p><h4>Fault finding</h4><ul><li>Apparent shifted peak:check source drift,actual R,load heating and whether measured power belongs to RL only.</li></ul><h4>Safety</h4><p>Use approved isolated,current-limited low-voltage equipment under supervision.Power OFF before connections/range/socket changes;never place a current-mode meter across a source.</p>",
+            "gu": "<h4>હેતુ</h4><p>Safe rangeમાં load power માપીને peak locationને positive source R સામે compare કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact leads,fuse તથા correct V/ohm/current socketsવાળું DMM લો.Manual limitsમાં expected value કરતાં યોગ્ય મોટી range પસંદ કરો.</li><li>Approved low-voltage source તથા rated resistors/leads લો.Energise પહેલાં current/resistor power estimate કરો.</li><li>Worst-case power માટે rated adjustable load લો.Purpose-built trainer સિવાય load change પહેલાં isolation જરૂરી છે.</li></ul><h4>Connections અને Terminals</h4><p>Known series Rવાળો fixed approved source લો.Load V/I માપો;total input powerને load power ન માનો.</p><h4>Supervised ક્રમ</h4><ol><li>Vth,Rth તથા expected safe power range શોધો.</li><li>Ratingsની અંદર Rthથી નીચે,નજીક અને ઉપરનાં load settings પસંદ કરો.</li><li>De-energised build કરીને meter/load ratings verify કરો.</li><li>દરેક change વચ્ચે isolation રાખીને actual VL,IL લો.</li><li>PL=VLIL ગણી measured RL સામે plot કરો.</li><li>Observed peakને Rth સાથે compare કરીને step size,tolerance,heating નોંધો.</li></ol><h4>Observation Table — ખાલી</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">RL ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">VL V</th><th style=\"border:1px solid #cbbadf;padding:6px\">IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">PL W</th><th style=\"border:1px solid #cbbadf;padding:6px\">setting/rating note</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>ફક્ત actual readings,units,instrument range તથા uncertainty નોંધો.Notesનાં computed examples observations નથી.</p><h4>Calculation અને Conclusion</h4><p>Matching maximum power આપે છે,maximum efficiency નહિ.ઓછા noisy points પરથી exact peak claim ન કરો.</p><h4>ખામીની તપાસ</h4><ul><li>Shifted peakમાં source drift,actual R,heating તથા RL-only power તપાસો.</li></ul><h4>સલામતી</h4><p>Supervisionમાં approved isolated,current-limited low-voltage equipment વાપરો.Connections/range/socket બદલતાં power OFF રાખો.Current-mode meter source ઉપર parallel ન મૂકો.</p>"
+          },
+          "diagram": "mpt",
+          "syllabus_item": "Practical.11"
+        }
+      ]
+    }
+  ],
+  "programs": [
+    {
+      "title": {
+        "en": "Practical & Testing",
+        "gu": "પ્રયોગ અને ચકાસણી"
+      },
+      "format": "rich_cards",
+      "items": [
+        {
+          "h": {
+            "en": "Verify superposition",
+            "gu": "Superposition Verify કરો"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Compare a measured total branch response with signed individual-source responses in an approved linear network.</p><h4>Instruments and selection</h4><ul><li>DMM with intact leads,fuse and correct V/ohm/current sockets;range chosen above the expected value within the manual ratings.</li><li>Approved low-voltage source and rated resistors/leads;estimate current and resistor power before energising.</li><li>Independent sources approved for the intended interaction;simulation is preferred when bench sources cannot safely absorb reverse current.</li></ul><h4>Connections and terminal roles</h4><p>Use the labelled two-source circuit or a supervisor-approved equivalent.Deactivation is designed into the isolated setup,not performed by shorting an energised supply.</p><h4>Supervised procedure</h4><ol><li>Confirm network linearity,source roles and one fixed branch-current/voltage reference.</li><li>Calculate expected total and each subcircuit response before any connection.</li><li>Measure the total response with all sources active under approved conditions.</li><li>Isolate every source before applying the approved inactive-source equivalent;retain internal resistances.</li><li>Repeat for each source using the same measurement reference,then isolate the setup.</li><li>Compare algebraic response sum with measured total;compute power only from combined response.</li></ol><h4>Observation table — blank</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Trial</th><th style=\"border:1px solid #cbbadf;padding:6px\">total V/A</th><th style=\"border:1px solid #cbbadf;padding:6px\">source1 response V/A</th><th style=\"border:1px solid #cbbadf;padding:6px\">source2 response V/A</th><th style=\"border:1px solid #cbbadf;padding:6px\">signed sum</th><th style=\"border:1px solid #cbbadf;padding:6px\">residual</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>Record only actual readings,units,instrument range and uncertainty.Computed examples in Notes are not observations.</p><h4>Calculation and conclusion</h4><p>Agreement within uncertainty supports the linear model over the tested conditions.Separate source powers must not be added as the load power.</p><h4>Fault finding</h4><ul><li>Mismatch:check polarity,inactive-source modelling,dependent sources,source regulation and nonlinearity.</li></ul><h4>Safety</h4><p>Use approved isolated,current-limited low-voltage equipment under supervision.Power OFF before connections/range/socket changes;never place a current-mode meter across a source.</p>",
+            "gu": "<h4>હેતુ</h4><p>Approved linear networkમાં actual total branch responseને signed individual-source responses સાથે compare કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact leads,fuse તથા correct V/ohm/current socketsવાળું DMM લો.Manual limitsમાં expected value કરતાં યોગ્ય મોટી range પસંદ કરો.</li><li>Approved low-voltage source તથા rated resistors/leads લો.Energise પહેલાં current/resistor power estimate કરો.</li><li>Sourcesની interaction મંજૂર હોવી જોઈએ.Bench source reverse current safely absorb ન કરે તો simulation વધુ યોગ્ય છે.</li></ul><h4>Connections અને Terminals</h4><p>Labelled two-source circuit અથવા approved equivalent લો.Deactivation isolated setupમાં design મુજબ થાય છે,energised supply short કરીને નહિ.</p><h4>Supervised ક્રમ</h4><ol><li>Linearity,source roles તથા એક fixed branch reference નક્કી કરો.</li><li>Connection પહેલાં total તથા individual subcircuit responses ગણો.</li><li>Approved conditionsમાં બધા sources active રાખીને total response માપો.</li><li>Approved inactive-source equivalent ગોઠવતાં પહેલાં બધા sources isolate કરો.Internal R રાખો.</li><li>Same referenceથી દરેક source માટે repeat કરીને setup isolate કરો.</li><li>Algebraic sumને measured total સાથે compare કરો.Power combined response પરથી જ ગણો.</li></ol><h4>Observation Table — ખાલી</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Trial</th><th style=\"border:1px solid #cbbadf;padding:6px\">total V/A</th><th style=\"border:1px solid #cbbadf;padding:6px\">source1 response V/A</th><th style=\"border:1px solid #cbbadf;padding:6px\">source2 response V/A</th><th style=\"border:1px solid #cbbadf;padding:6px\">signed sum</th><th style=\"border:1px solid #cbbadf;padding:6px\">residual</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>ફક્ત actual readings,units,instrument range તથા uncertainty નોંધો.Notesનાં computed examples observations નથી.</p><h4>Calculation અને Conclusion</h4><p>Uncertaintyમાં agreement tested conditionsના linear modelને support કરે છે.Individual-source powersને load power તરીકે add ન કરો.</p><h4>ખામીની તપાસ</h4><ul><li>Mismatchમાં polarity,inactive-source model,dependent sources,regulation,nonlinearity તપાસો.</li></ul><h4>સલામતી</h4><p>Supervisionમાં approved isolated,current-limited low-voltage equipment વાપરો.Connections/range/socket બદલતાં power OFF રાખો.Current-mode meter source ઉપર parallel ન મૂકો.</p>"
+          },
+          "diagram": "superexample",
+          "practical_number": 8
+        },
+        {
+          "h": {
+            "en": "Verify Thevenin theorem",
+            "gu": "Thevenin પ્રમેય Verify કરો"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Compare original-network load response with its source equivalent.</p><h4>Instruments and selection</h4><ul><li>DMM with intact leads,fuse and correct V/ohm/current sockets;range chosen above the expected value within the manual ratings.</li><li>Approved low-voltage source and rated resistors/leads;estimate current and resistor power before energising.</li></ul><h4>Connections and terminal roles</h4><p>Choose the load port only.Remove RL from the isolated model/approved setup;do not remove an original internal resistor that happens to share the port.</p><h4>Supervised procedure</h4><ol><li>Label a,b,load and voltage/current references.</li><li>Predict Vth,Rth and loaded response analytically.</li><li>Measure original loaded V/I using authorised meter connections.</li><li>With approved isolation/reconnection,measure open-circuit port voltage.Do not place an ohmmeter across an active circuit.</li><li>Find Rth by the analytical deactivated-source/test-source method or an approved de-energised resistance method where applicable.</li><li>Compare predicted/equivalent loaded response with actual readings and document source/meter limits.</li></ol><h4>Observation table — blank</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">RL ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">Voc V</th><th style=\"border:1px solid #cbbadf;padding:6px\">Rth ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">predicted IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured VL V</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>Record only actual readings,units,instrument range and uncertainty.Computed examples in Notes are not observations.</p><h4>Calculation and conclusion</h4><p>Use IL=Vth/(Rth+RL).For each branch requested by the assigned problem,use the relevant original circuit/equivalent port,not one port equivalent for all internal currents.</p><h4>Fault finding</h4><ul><li>Wrong Rth:check which resistor is the load and whether independent/dependent sources were handled correctly.</li></ul><h4>Safety</h4><p>Use approved isolated,current-limited low-voltage equipment under supervision.Power OFF before connections/range/socket changes;never place a current-mode meter across a source.</p>",
+            "gu": "<h4>હેતુ</h4><p>Original networkના load responseને source equivalent સાથે compare કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact leads,fuse તથા correct V/ohm/current socketsવાળું DMM લો.Manual limitsમાં expected value કરતાં યોગ્ય મોટી range પસંદ કરો.</li><li>Approved low-voltage source તથા rated resistors/leads લો.Energise પહેલાં current/resistor power estimate કરો.</li></ul><h4>Connections અને Terminals</h4><p>ફક્ત load port ઓળખો.Isolated model/approved setupમાંથી RL દૂર કરો;port પર રહેલો original internal R નહિ.</p><h4>Supervised ક્રમ</h4><ol><li>a,b,load તથા references label કરો.</li><li>Vth,Rth તથા loaded response analytically ગણો.</li><li>Authorised connectionsથી original loaded V/I માપો.</li><li>Approved isolation/reconnectionથી open-circuit voltage માપો.Active circuit ઉપર ohmmeter ન મૂકો.</li><li>Analytical deactivated-source/test-source અથવા applicable approved de-energised methodથી Rth મેળવો.</li><li>Predicted/equivalent loaded responseને actual readings સાથે compare કરીને limits લખો.</li></ol><h4>Observation Table — ખાલી</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">RL ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">Voc V</th><th style=\"border:1px solid #cbbadf;padding:6px\">Rth ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">predicted IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured VL V</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>ફક્ત actual readings,units,instrument range તથા uncertainty નોંધો.Notesનાં computed examples observations નથી.</p><h4>Calculation અને Conclusion</h4><p>IL=Vth/(Rth+RL) લો.Assigned problemની internal branches માટે relevant original circuit/port વાપરો;એક equivalentથી બધા internal currents સીધા મળતા નથી.</p><h4>ખામીની તપાસ</h4><ul><li>Wrong Rthમાં load resistorની ઓળખ તથા source handling તપાસો.</li></ul><h4>સલામતી</h4><p>Supervisionમાં approved isolated,current-limited low-voltage equipment વાપરો.Connections/range/socket બદલતાં power OFF રાખો.Current-mode meter source ઉપર parallel ન મૂકો.</p>"
+          },
+          "diagram": "thevenin",
+          "practical_number": 9
+        },
+        {
+          "h": {
+            "en": "Verify Norton theorem",
+            "gu": "Norton પ્રમેય Verify કરો"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Establish RN and IN without an uncontrolled supply short,then compare load results.</p><h4>Instruments and selection</h4><ul><li>DMM with intact leads,fuse and correct V/ohm/current sockets;range chosen above the expected value within the manual ratings.</li><li>Approved low-voltage source and rated resistors/leads;estimate current and resistor power before energising.</li></ul><h4>Connections and terminal roles</h4><p>Use the same port as the Thevenin exercise.Find IN=Vth/Rth when valid;physical short-current measurement is not required by this guide.</p><h4>Supervised procedure</h4><ol><li>Draw the original network and Norton port with references.</li><li>Find RN using the valid source-deactivation/test-source method.</li><li>Determine IN analytically or by a specifically approved protected trainer,not by shorting a free supply.</li><li>Calculate original/equivalent load voltage/current for the assigned load.</li><li>Collect actual approved load measurements,isolating before all reconnections.</li><li>Compare Thevenin,Norton and measured results at the same port.</li></ol><h4>Observation table — blank</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">RN ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">analytical IN A</th><th style=\"border:1px solid #cbbadf;padding:6px\">RL ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">predicted IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured VL V</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>Record only actual readings,units,instrument range and uncertainty.Computed examples in Notes are not observations.</p><h4>Calculation and conclusion</h4><p>For two positive resistive branches,IL=IN RN/(RN+RL).Keep analytical IN clearly separate from measured data.</p><h4>Fault finding</h4><ul><li>Arrow/sign mismatch:recheck terminal polarity and direction before comparing magnitudes.</li></ul><h4>Safety</h4><p>Use approved isolated,current-limited low-voltage equipment under supervision.Power OFF before connections/range/socket changes;never place a current-mode meter across a source.</p>",
+            "gu": "<h4>હેતુ</h4><p>Uncontrolled supply short વગર RN/IN મેળવી load results compare કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact leads,fuse તથા correct V/ohm/current socketsવાળું DMM લો.Manual limitsમાં expected value કરતાં યોગ્ય મોટી range પસંદ કરો.</li><li>Approved low-voltage source તથા rated resistors/leads લો.Energise પહેલાં current/resistor power estimate કરો.</li></ul><h4>Connections અને Terminals</h4><p>Thevenin exerciseનો same port લો.Valid હોય ત્યારે IN=Vth/Rth લો.આ guide physical short-current measurement કરાવતી નથી.</p><h4>Supervised ક્રમ</h4><ol><li>Original network તથા Norton port references સાથે દોરો.</li><li>Valid source-deactivation/test-source methodથી RN શોધો.</li><li>IN analytically અથવા specifically approved protected trainerથી મેળવો;free supply short કરીને નહિ.</li><li>Assigned load માટે original/equivalent V/I ગણો.</li><li>Reconnection પહેલાં isolate કરીને actual approved load readings લો.</li><li>Same port પર Thevenin,Norton તથા measured results compare કરો.</li></ol><h4>Observation Table — ખાલી</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">RN ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">analytical IN A</th><th style=\"border:1px solid #cbbadf;padding:6px\">RL ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">predicted IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured VL V</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>ફક્ત actual readings,units,instrument range તથા uncertainty નોંધો.Notesનાં computed examples observations નથી.</p><h4>Calculation અને Conclusion</h4><p>બે positive resistive branchesમાં IL=IN RN/(RN+RL).Analytical INને measured dataથી અલગ લખો.</p><h4>ખામીની તપાસ</h4><ul><li>Arrow/sign mismatchમાં પહેલાં terminal polarity/direction ફરી તપાસો.</li></ul><h4>સલામતી</h4><p>Supervisionમાં approved isolated,current-limited low-voltage equipment વાપરો.Connections/range/socket બદલતાં power OFF રાખો.Current-mode meter source ઉપર parallel ન મૂકો.</p>"
+          },
+          "diagram": "norton",
+          "practical_number": 10
+        },
+        {
+          "h": {
+            "en": "Verify maximum power transfer",
+            "gu": "Maximum Power Transfer Verify કરો"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Measure load power over a safe range and compare the peak location with positive source resistance.</p><h4>Instruments and selection</h4><ul><li>DMM with intact leads,fuse and correct V/ohm/current sockets;range chosen above the expected value within the manual ratings.</li><li>Approved low-voltage source and rated resistors/leads;estimate current and resistor power before energising.</li><li>Adjustable resistive load rated for worst-case power;changing it requires isolation unless a purpose-built trainer permits otherwise.</li></ul><h4>Connections and terminal roles</h4><p>Use a fixed approved source with known series resistance;measure the load voltage/current,not total input power as load power.</p><h4>Supervised procedure</h4><ol><li>Find Vth,Rth and expected safe power range.</li><li>Select load settings below,near and above Rth within all ratings.</li><li>Build de-energised and verify meter/load ratings.</li><li>Collect actual VL,IL for each approved setting with isolation between changes.</li><li>Compute PL=VLIL and plot PL versus measured RL.</li><li>Compare observed peak with Rth,noting discrete steps,tolerance and heating.</li></ol><h4>Observation table — blank</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">RL ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">VL V</th><th style=\"border:1px solid #cbbadf;padding:6px\">IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">PL W</th><th style=\"border:1px solid #cbbadf;padding:6px\">setting/rating note</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>Record only actual readings,units,instrument range and uncertainty.Computed examples in Notes are not observations.</p><h4>Calculation and conclusion</h4><p>Matching maximises load power,not efficiency.Do not claim an exact peak from a few noisy data points.</p><h4>Fault finding</h4><ul><li>Apparent shifted peak:check source drift,actual R,load heating and whether measured power belongs to RL only.</li></ul><h4>Safety</h4><p>Use approved isolated,current-limited low-voltage equipment under supervision.Power OFF before connections/range/socket changes;never place a current-mode meter across a source.</p>",
+            "gu": "<h4>હેતુ</h4><p>Safe rangeમાં load power માપીને peak locationને positive source R સામે compare કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact leads,fuse તથા correct V/ohm/current socketsવાળું DMM લો.Manual limitsમાં expected value કરતાં યોગ્ય મોટી range પસંદ કરો.</li><li>Approved low-voltage source તથા rated resistors/leads લો.Energise પહેલાં current/resistor power estimate કરો.</li><li>Worst-case power માટે rated adjustable load લો.Purpose-built trainer સિવાય load change પહેલાં isolation જરૂરી છે.</li></ul><h4>Connections અને Terminals</h4><p>Known series Rવાળો fixed approved source લો.Load V/I માપો;total input powerને load power ન માનો.</p><h4>Supervised ક્રમ</h4><ol><li>Vth,Rth તથા expected safe power range શોધો.</li><li>Ratingsની અંદર Rthથી નીચે,નજીક અને ઉપરનાં load settings પસંદ કરો.</li><li>De-energised build કરીને meter/load ratings verify કરો.</li><li>દરેક change વચ્ચે isolation રાખીને actual VL,IL લો.</li><li>PL=VLIL ગણી measured RL સામે plot કરો.</li><li>Observed peakને Rth સાથે compare કરીને step size,tolerance,heating નોંધો.</li></ol><h4>Observation Table — ખાલી</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">RL ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">VL V</th><th style=\"border:1px solid #cbbadf;padding:6px\">IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">PL W</th><th style=\"border:1px solid #cbbadf;padding:6px\">setting/rating note</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>ફક્ત actual readings,units,instrument range તથા uncertainty નોંધો.Notesનાં computed examples observations નથી.</p><h4>Calculation અને Conclusion</h4><p>Matching maximum power આપે છે,maximum efficiency નહિ.ઓછા noisy points પરથી exact peak claim ન કરો.</p><h4>ખામીની તપાસ</h4><ul><li>Shifted peakમાં source drift,actual R,heating તથા RL-only power તપાસો.</li></ul><h4>સલામતી</h4><p>Supervisionમાં approved isolated,current-limited low-voltage equipment વાપરો.Connections/range/socket બદલતાં power OFF રાખો.Current-mode meter source ઉપર parallel ન મૂકો.</p>"
+          },
+          "diagram": "mpt",
+          "practical_number": 11
+        }
+      ]
+    }
+  ],
+  "practicals": [
+    {
+      "number": 8,
+      "unit": 3,
+      "title": {
+        "en": "Verify superposition",
+        "gu": "Superposition Verify કરો"
+      },
+      "aim": {
+        "en": "Compare a measured total branch response with signed individual-source responses in an approved linear network.",
+        "gu": "Approved linear networkમાં actual total branch responseને signed individual-source responses સાથે compare કરો."
+      },
+      "diagram": "superexample",
+      "performed": false,
+      "source_reference": "GTU practical 8,pp5–6",
+      "observation_status": "Blank template;no measured readings",
+      "suggested_duration": null,
+      "body": {
+        "en": "<h4>Aim</h4><p>Compare a measured total branch response with signed individual-source responses in an approved linear network.</p><h4>Instruments and selection</h4><ul><li>DMM with intact leads,fuse and correct V/ohm/current sockets;range chosen above the expected value within the manual ratings.</li><li>Approved low-voltage source and rated resistors/leads;estimate current and resistor power before energising.</li><li>Independent sources approved for the intended interaction;simulation is preferred when bench sources cannot safely absorb reverse current.</li></ul><h4>Connections and terminal roles</h4><p>Use the labelled two-source circuit or a supervisor-approved equivalent.Deactivation is designed into the isolated setup,not performed by shorting an energised supply.</p><h4>Supervised procedure</h4><ol><li>Confirm network linearity,source roles and one fixed branch-current/voltage reference.</li><li>Calculate expected total and each subcircuit response before any connection.</li><li>Measure the total response with all sources active under approved conditions.</li><li>Isolate every source before applying the approved inactive-source equivalent;retain internal resistances.</li><li>Repeat for each source using the same measurement reference,then isolate the setup.</li><li>Compare algebraic response sum with measured total;compute power only from combined response.</li></ol><h4>Observation table — blank</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Trial</th><th style=\"border:1px solid #cbbadf;padding:6px\">total V/A</th><th style=\"border:1px solid #cbbadf;padding:6px\">source1 response V/A</th><th style=\"border:1px solid #cbbadf;padding:6px\">source2 response V/A</th><th style=\"border:1px solid #cbbadf;padding:6px\">signed sum</th><th style=\"border:1px solid #cbbadf;padding:6px\">residual</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>Record only actual readings,units,instrument range and uncertainty.Computed examples in Notes are not observations.</p><h4>Calculation and conclusion</h4><p>Agreement within uncertainty supports the linear model over the tested conditions.Separate source powers must not be added as the load power.</p><h4>Fault finding</h4><ul><li>Mismatch:check polarity,inactive-source modelling,dependent sources,source regulation and nonlinearity.</li></ul><h4>Safety</h4><p>Use approved isolated,current-limited low-voltage equipment under supervision.Power OFF before connections/range/socket changes;never place a current-mode meter across a source.</p>",
+        "gu": "<h4>હેતુ</h4><p>Approved linear networkમાં actual total branch responseને signed individual-source responses સાથે compare કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact leads,fuse તથા correct V/ohm/current socketsવાળું DMM લો.Manual limitsમાં expected value કરતાં યોગ્ય મોટી range પસંદ કરો.</li><li>Approved low-voltage source તથા rated resistors/leads લો.Energise પહેલાં current/resistor power estimate કરો.</li><li>Sourcesની interaction મંજૂર હોવી જોઈએ.Bench source reverse current safely absorb ન કરે તો simulation વધુ યોગ્ય છે.</li></ul><h4>Connections અને Terminals</h4><p>Labelled two-source circuit અથવા approved equivalent લો.Deactivation isolated setupમાં design મુજબ થાય છે,energised supply short કરીને નહિ.</p><h4>Supervised ક્રમ</h4><ol><li>Linearity,source roles તથા એક fixed branch reference નક્કી કરો.</li><li>Connection પહેલાં total તથા individual subcircuit responses ગણો.</li><li>Approved conditionsમાં બધા sources active રાખીને total response માપો.</li><li>Approved inactive-source equivalent ગોઠવતાં પહેલાં બધા sources isolate કરો.Internal R રાખો.</li><li>Same referenceથી દરેક source માટે repeat કરીને setup isolate કરો.</li><li>Algebraic sumને measured total સાથે compare કરો.Power combined response પરથી જ ગણો.</li></ol><h4>Observation Table — ખાલી</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">Trial</th><th style=\"border:1px solid #cbbadf;padding:6px\">total V/A</th><th style=\"border:1px solid #cbbadf;padding:6px\">source1 response V/A</th><th style=\"border:1px solid #cbbadf;padding:6px\">source2 response V/A</th><th style=\"border:1px solid #cbbadf;padding:6px\">signed sum</th><th style=\"border:1px solid #cbbadf;padding:6px\">residual</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>ફક્ત actual readings,units,instrument range તથા uncertainty નોંધો.Notesનાં computed examples observations નથી.</p><h4>Calculation અને Conclusion</h4><p>Uncertaintyમાં agreement tested conditionsના linear modelને support કરે છે.Individual-source powersને load power તરીકે add ન કરો.</p><h4>ખામીની તપાસ</h4><ul><li>Mismatchમાં polarity,inactive-source model,dependent sources,regulation,nonlinearity તપાસો.</li></ul><h4>સલામતી</h4><p>Supervisionમાં approved isolated,current-limited low-voltage equipment વાપરો.Connections/range/socket બદલતાં power OFF રાખો.Current-mode meter source ઉપર parallel ન મૂકો.</p>"
+      }
+    },
+    {
+      "number": 9,
+      "unit": 3,
+      "title": {
+        "en": "Verify Thevenin theorem",
+        "gu": "Thevenin પ્રમેય Verify કરો"
+      },
+      "aim": {
+        "en": "Compare original-network load response with its source equivalent.",
+        "gu": "Original networkના load responseને source equivalent સાથે compare કરો."
+      },
+      "diagram": "thevenin",
+      "performed": false,
+      "source_reference": "GTU practical 9,pp5–6",
+      "observation_status": "Blank template;no measured readings",
+      "suggested_duration": null,
+      "body": {
+        "en": "<h4>Aim</h4><p>Compare original-network load response with its source equivalent.</p><h4>Instruments and selection</h4><ul><li>DMM with intact leads,fuse and correct V/ohm/current sockets;range chosen above the expected value within the manual ratings.</li><li>Approved low-voltage source and rated resistors/leads;estimate current and resistor power before energising.</li></ul><h4>Connections and terminal roles</h4><p>Choose the load port only.Remove RL from the isolated model/approved setup;do not remove an original internal resistor that happens to share the port.</p><h4>Supervised procedure</h4><ol><li>Label a,b,load and voltage/current references.</li><li>Predict Vth,Rth and loaded response analytically.</li><li>Measure original loaded V/I using authorised meter connections.</li><li>With approved isolation/reconnection,measure open-circuit port voltage.Do not place an ohmmeter across an active circuit.</li><li>Find Rth by the analytical deactivated-source/test-source method or an approved de-energised resistance method where applicable.</li><li>Compare predicted/equivalent loaded response with actual readings and document source/meter limits.</li></ol><h4>Observation table — blank</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">RL ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">Voc V</th><th style=\"border:1px solid #cbbadf;padding:6px\">Rth ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">predicted IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured VL V</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>Record only actual readings,units,instrument range and uncertainty.Computed examples in Notes are not observations.</p><h4>Calculation and conclusion</h4><p>Use IL=Vth/(Rth+RL).For each branch requested by the assigned problem,use the relevant original circuit/equivalent port,not one port equivalent for all internal currents.</p><h4>Fault finding</h4><ul><li>Wrong Rth:check which resistor is the load and whether independent/dependent sources were handled correctly.</li></ul><h4>Safety</h4><p>Use approved isolated,current-limited low-voltage equipment under supervision.Power OFF before connections/range/socket changes;never place a current-mode meter across a source.</p>",
+        "gu": "<h4>હેતુ</h4><p>Original networkના load responseને source equivalent સાથે compare કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact leads,fuse તથા correct V/ohm/current socketsવાળું DMM લો.Manual limitsમાં expected value કરતાં યોગ્ય મોટી range પસંદ કરો.</li><li>Approved low-voltage source તથા rated resistors/leads લો.Energise પહેલાં current/resistor power estimate કરો.</li></ul><h4>Connections અને Terminals</h4><p>ફક્ત load port ઓળખો.Isolated model/approved setupમાંથી RL દૂર કરો;port પર રહેલો original internal R નહિ.</p><h4>Supervised ક્રમ</h4><ol><li>a,b,load તથા references label કરો.</li><li>Vth,Rth તથા loaded response analytically ગણો.</li><li>Authorised connectionsથી original loaded V/I માપો.</li><li>Approved isolation/reconnectionથી open-circuit voltage માપો.Active circuit ઉપર ohmmeter ન મૂકો.</li><li>Analytical deactivated-source/test-source અથવા applicable approved de-energised methodથી Rth મેળવો.</li><li>Predicted/equivalent loaded responseને actual readings સાથે compare કરીને limits લખો.</li></ol><h4>Observation Table — ખાલી</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">RL ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">Voc V</th><th style=\"border:1px solid #cbbadf;padding:6px\">Rth ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">predicted IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured VL V</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>ફક્ત actual readings,units,instrument range તથા uncertainty નોંધો.Notesનાં computed examples observations નથી.</p><h4>Calculation અને Conclusion</h4><p>IL=Vth/(Rth+RL) લો.Assigned problemની internal branches માટે relevant original circuit/port વાપરો;એક equivalentથી બધા internal currents સીધા મળતા નથી.</p><h4>ખામીની તપાસ</h4><ul><li>Wrong Rthમાં load resistorની ઓળખ તથા source handling તપાસો.</li></ul><h4>સલામતી</h4><p>Supervisionમાં approved isolated,current-limited low-voltage equipment વાપરો.Connections/range/socket બદલતાં power OFF રાખો.Current-mode meter source ઉપર parallel ન મૂકો.</p>"
+      }
+    },
+    {
+      "number": 10,
+      "unit": 3,
+      "title": {
+        "en": "Verify Norton theorem",
+        "gu": "Norton પ્રમેય Verify કરો"
+      },
+      "aim": {
+        "en": "Establish RN and IN without an uncontrolled supply short,then compare load results.",
+        "gu": "Uncontrolled supply short વગર RN/IN મેળવી load results compare કરો."
+      },
+      "diagram": "norton",
+      "performed": false,
+      "source_reference": "GTU practical 10,pp5–6",
+      "observation_status": "Blank template;no measured readings",
+      "suggested_duration": null,
+      "body": {
+        "en": "<h4>Aim</h4><p>Establish RN and IN without an uncontrolled supply short,then compare load results.</p><h4>Instruments and selection</h4><ul><li>DMM with intact leads,fuse and correct V/ohm/current sockets;range chosen above the expected value within the manual ratings.</li><li>Approved low-voltage source and rated resistors/leads;estimate current and resistor power before energising.</li></ul><h4>Connections and terminal roles</h4><p>Use the same port as the Thevenin exercise.Find IN=Vth/Rth when valid;physical short-current measurement is not required by this guide.</p><h4>Supervised procedure</h4><ol><li>Draw the original network and Norton port with references.</li><li>Find RN using the valid source-deactivation/test-source method.</li><li>Determine IN analytically or by a specifically approved protected trainer,not by shorting a free supply.</li><li>Calculate original/equivalent load voltage/current for the assigned load.</li><li>Collect actual approved load measurements,isolating before all reconnections.</li><li>Compare Thevenin,Norton and measured results at the same port.</li></ol><h4>Observation table — blank</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">RN ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">analytical IN A</th><th style=\"border:1px solid #cbbadf;padding:6px\">RL ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">predicted IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured VL V</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>Record only actual readings,units,instrument range and uncertainty.Computed examples in Notes are not observations.</p><h4>Calculation and conclusion</h4><p>For two positive resistive branches,IL=IN RN/(RN+RL).Keep analytical IN clearly separate from measured data.</p><h4>Fault finding</h4><ul><li>Arrow/sign mismatch:recheck terminal polarity and direction before comparing magnitudes.</li></ul><h4>Safety</h4><p>Use approved isolated,current-limited low-voltage equipment under supervision.Power OFF before connections/range/socket changes;never place a current-mode meter across a source.</p>",
+        "gu": "<h4>હેતુ</h4><p>Uncontrolled supply short વગર RN/IN મેળવી load results compare કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact leads,fuse તથા correct V/ohm/current socketsવાળું DMM લો.Manual limitsમાં expected value કરતાં યોગ્ય મોટી range પસંદ કરો.</li><li>Approved low-voltage source તથા rated resistors/leads લો.Energise પહેલાં current/resistor power estimate કરો.</li></ul><h4>Connections અને Terminals</h4><p>Thevenin exerciseનો same port લો.Valid હોય ત્યારે IN=Vth/Rth લો.આ guide physical short-current measurement કરાવતી નથી.</p><h4>Supervised ક્રમ</h4><ol><li>Original network તથા Norton port references સાથે દોરો.</li><li>Valid source-deactivation/test-source methodથી RN શોધો.</li><li>IN analytically અથવા specifically approved protected trainerથી મેળવો;free supply short કરીને નહિ.</li><li>Assigned load માટે original/equivalent V/I ગણો.</li><li>Reconnection પહેલાં isolate કરીને actual approved load readings લો.</li><li>Same port પર Thevenin,Norton તથા measured results compare કરો.</li></ol><h4>Observation Table — ખાલી</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">RN ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">analytical IN A</th><th style=\"border:1px solid #cbbadf;padding:6px\">RL ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">predicted IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">measured VL V</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>ફક્ત actual readings,units,instrument range તથા uncertainty નોંધો.Notesનાં computed examples observations નથી.</p><h4>Calculation અને Conclusion</h4><p>બે positive resistive branchesમાં IL=IN RN/(RN+RL).Analytical INને measured dataથી અલગ લખો.</p><h4>ખામીની તપાસ</h4><ul><li>Arrow/sign mismatchમાં પહેલાં terminal polarity/direction ફરી તપાસો.</li></ul><h4>સલામતી</h4><p>Supervisionમાં approved isolated,current-limited low-voltage equipment વાપરો.Connections/range/socket બદલતાં power OFF રાખો.Current-mode meter source ઉપર parallel ન મૂકો.</p>"
+      }
+    },
+    {
+      "number": 11,
+      "unit": 3,
+      "title": {
+        "en": "Verify maximum power transfer",
+        "gu": "Maximum Power Transfer Verify કરો"
+      },
+      "aim": {
+        "en": "Measure load power over a safe range and compare the peak location with positive source resistance.",
+        "gu": "Safe rangeમાં load power માપીને peak locationને positive source R સામે compare કરો."
+      },
+      "diagram": "mpt",
+      "performed": false,
+      "source_reference": "GTU practical 11,pp5–6",
+      "observation_status": "Blank template;no measured readings",
+      "suggested_duration": null,
+      "body": {
+        "en": "<h4>Aim</h4><p>Measure load power over a safe range and compare the peak location with positive source resistance.</p><h4>Instruments and selection</h4><ul><li>DMM with intact leads,fuse and correct V/ohm/current sockets;range chosen above the expected value within the manual ratings.</li><li>Approved low-voltage source and rated resistors/leads;estimate current and resistor power before energising.</li><li>Adjustable resistive load rated for worst-case power;changing it requires isolation unless a purpose-built trainer permits otherwise.</li></ul><h4>Connections and terminal roles</h4><p>Use a fixed approved source with known series resistance;measure the load voltage/current,not total input power as load power.</p><h4>Supervised procedure</h4><ol><li>Find Vth,Rth and expected safe power range.</li><li>Select load settings below,near and above Rth within all ratings.</li><li>Build de-energised and verify meter/load ratings.</li><li>Collect actual VL,IL for each approved setting with isolation between changes.</li><li>Compute PL=VLIL and plot PL versus measured RL.</li><li>Compare observed peak with Rth,noting discrete steps,tolerance and heating.</li></ol><h4>Observation table — blank</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">RL ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">VL V</th><th style=\"border:1px solid #cbbadf;padding:6px\">IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">PL W</th><th style=\"border:1px solid #cbbadf;padding:6px\">setting/rating note</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>Record only actual readings,units,instrument range and uncertainty.Computed examples in Notes are not observations.</p><h4>Calculation and conclusion</h4><p>Matching maximises load power,not efficiency.Do not claim an exact peak from a few noisy data points.</p><h4>Fault finding</h4><ul><li>Apparent shifted peak:check source drift,actual R,load heating and whether measured power belongs to RL only.</li></ul><h4>Safety</h4><p>Use approved isolated,current-limited low-voltage equipment under supervision.Power OFF before connections/range/socket changes;never place a current-mode meter across a source.</p>",
+        "gu": "<h4>હેતુ</h4><p>Safe rangeમાં load power માપીને peak locationને positive source R સામે compare કરો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact leads,fuse તથા correct V/ohm/current socketsવાળું DMM લો.Manual limitsમાં expected value કરતાં યોગ્ય મોટી range પસંદ કરો.</li><li>Approved low-voltage source તથા rated resistors/leads લો.Energise પહેલાં current/resistor power estimate કરો.</li><li>Worst-case power માટે rated adjustable load લો.Purpose-built trainer સિવાય load change પહેલાં isolation જરૂરી છે.</li></ul><h4>Connections અને Terminals</h4><p>Known series Rવાળો fixed approved source લો.Load V/I માપો;total input powerને load power ન માનો.</p><h4>Supervised ક્રમ</h4><ol><li>Vth,Rth તથા expected safe power range શોધો.</li><li>Ratingsની અંદર Rthથી નીચે,નજીક અને ઉપરનાં load settings પસંદ કરો.</li><li>De-energised build કરીને meter/load ratings verify કરો.</li><li>દરેક change વચ્ચે isolation રાખીને actual VL,IL લો.</li><li>PL=VLIL ગણી measured RL સામે plot કરો.</li><li>Observed peakને Rth સાથે compare કરીને step size,tolerance,heating નોંધો.</li></ol><h4>Observation Table — ખાલી</h4><div style=\"overflow-x:auto\"><table style=\"border-collapse:collapse;min-width:420px;width:100%\"><thead><tr><th style=\"border:1px solid #cbbadf;padding:6px\">RL ohm</th><th style=\"border:1px solid #cbbadf;padding:6px\">VL V</th><th style=\"border:1px solid #cbbadf;padding:6px\">IL A</th><th style=\"border:1px solid #cbbadf;padding:6px\">PL W</th><th style=\"border:1px solid #cbbadf;padding:6px\">setting/rating note</th></tr></thead><tbody><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr><tr><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td><td style=\"border:1px solid #cbbadf;padding:8px\">—</td></tr></tbody></table></div><p>ફક્ત actual readings,units,instrument range તથા uncertainty નોંધો.Notesનાં computed examples observations નથી.</p><h4>Calculation અને Conclusion</h4><p>Matching maximum power આપે છે,maximum efficiency નહિ.ઓછા noisy points પરથી exact peak claim ન કરો.</p><h4>ખામીની તપાસ</h4><ul><li>Shifted peakમાં source drift,actual R,heating તથા RL-only power તપાસો.</li></ul><h4>સલામતી</h4><p>Supervisionમાં approved isolated,current-limited low-voltage equipment વાપરો.Connections/range/socket બદલતાં power OFF રાખો.Current-mode meter source ઉપર parallel ન મૂકો.</p>"
+      }
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "topology",
+      "title": {
+        "en": "Circuit topology:connectivity before algebra",
+        "gu": "Circuit Topology:પહેલાં જોડાણ સમજો"
+      },
+      "file": "diagrams/topology.svg"
+    },
+    {
+      "id": "topologygraph",
+      "title": {
+        "en": "Connected graph example:tree and independent loops",
+        "gu": "Tree અને Loop Count"
+      },
+      "file": "diagrams/topologygraph.svg"
+    },
+    {
+      "id": "super",
+      "title": {
+        "en": "Superposition:one independent source at a time",
+        "gu": "Superposition:વિધાન અને પદ્ધતિ"
+      },
+      "file": "diagrams/super.svg"
+    },
+    {
+      "id": "superexample",
+      "title": {
+        "en": "Two-source linear network for superposition example",
+        "gu": "Two-source Superposition અને Power Check"
+      },
+      "file": "diagrams/superexample.svg"
+    },
+    {
+      "id": "thevenin",
+      "title": {
+        "en": "Thevenin equivalent viewed from load terminals a,b",
+        "gu": "Thevenin પ્રમેય અને Analysisનો ક્રમ"
+      },
+      "file": "diagrams/thevenin.svg"
+    },
+    {
+      "id": "thevexample",
+      "title": {
+        "en": "Original divider network:RL across the8ohm arm",
+        "gu": "Dividerનું Thevenin Equivalent"
+      },
+      "file": "diagrams/thevexample.svg"
+    },
+    {
+      "id": "norton",
+      "title": {
+        "en": "Norton equivalent:IN in parallel with RN",
+        "gu": "Norton પ્રમેય"
+      },
+      "file": "diagrams/norton.svg"
+    },
+    {
+      "id": "mpt",
+      "title": {
+        "en": "Maximum power transfer:resistive DC Thevenin model",
+        "gu": "Maximum Power Transfer પ્રમેય"
+      },
+      "file": "diagrams/mpt.svg"
+    }
+  ],
+  "syntax": [
+    {
+      "title": {
+        "en": "Formula and conditions",
+        "gu": "સૂત્રો અને શરતો"
+      },
+      "items": [
+        {
+          "name": {
+            "en": "Theorem toolbox",
+            "gu": "પ્રમેયનાં સૂત્રો"
+          },
+          "f": "Vth=Voc;RN=Rth;IN=Vth/Rth\nIL=Vth/(Rth+RL)\nPL=Vth²RL/(Rth+RL)²;RL,match=Rth>0",
+          "terms": {
+            "en": "Deactivate only independent sources;keep references consistent;superpose V/I,not power.",
+            "gu": "ફક્ત independent sources deactivate કરો;references same રાખો;V/I superpose કરો,power નહિ."
+          }
+        }
+      ]
+    }
+  ],
+  "viva": [
+    {
+      "title": {
+        "en": "Viva with answers",
+        "gu": "જવાબ સાથે Viva"
+      },
+      "items": [
+        {
+          "q": {
+            "en": "Loop versus mesh?",
+            "gu": "Loop અને Meshમાં ફરક?"
+          },
+          "a": {
+            "en": "A mesh encloses no other loop in a planar graph;not every loop is a mesh.",
+            "gu": "Planar graphમાં meshની અંદર બીજો loop નથી;દરેક loop mesh નથી."
+          }
+        },
+        {
+          "q": {
+            "en": "Deactivate ideal current source?",
+            "gu": "Ideal Current Source Deactivate કેવી રીતે?"
+          },
+          "a": {
+            "en": "Open circuit in the model.",
+            "gu": "Modelમાં open circuit."
+          }
+        },
+        {
+          "q": {
+            "en": "Deactivate dependent sources?",
+            "gu": "Dependent Sources Deactivate કરીએ?"
+          },
+          "a": {
+            "en": "No.Retain them.",
+            "gu": "ના.રાખવા જરૂરી છે."
+          }
+        },
+        {
+          "q": {
+            "en": "Vth equals what voltage?",
+            "gu": "Vth કયો Voltage?"
+          },
+          "a": {
+            "en": "Open-circuit port voltage with original sources active.",
+            "gu": "Original sources active હોય ત્યારે open-circuit port voltage."
+          }
+        },
+        {
+          "q": {
+            "en": "RN and Rth?",
+            "gu": "RN અને Rth?"
+          },
+          "a": {
+            "en": "Equal for the same port.",
+            "gu": "Same port માટે સમાન."
+          }
+        },
+        {
+          "q": {
+            "en": "Can powers be superposed?",
+            "gu": "Powers Superpose થાય?"
+          },
+          "a": {
+            "en": "No.Sum voltage/current first.",
+            "gu": "ના.પહેલાં voltage/current add કરો."
+          }
+        },
+        {
+          "q": {
+            "en": "Matched DC source efficiency?",
+            "gu": "Matched DC Sourceની Efficiency?"
+          },
+          "a": {
+            "en": "50%for the simple positive-Rth equivalent.",
+            "gu": "Simple positive-Rth equivalent માટે50%."
+          }
+        }
+      ]
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Define node,branch,path,loop,mesh,tree,twig and link with a graph.",
+        "gu": "Topology terms graph સાથે સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "State superposition and solve a two-source network;explain why power does not superpose.",
+        "gu": "Superposition,example અને powerની મર્યાદા સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "State/apply Thevenin theorem including dependent-source resistance method.",
+        "gu": "Thevenin તથા dependent-source method સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "State Norton theorem and show equivalence with Thevenin.",
+        "gu": "Norton સમજાવી Thevenin સાથે equivalent બતાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Derive maximum-power-transfer condition and distinguish efficiency.",
+        "gu": "Maximum Power Transfer condition derive કરી efficiencyથી અલગ પાડો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "For Vth12V,Rth6ohm find matched load,current,power and efficiency.",
+        "gu": "આપેલા source માટે matching quantities ગણો."
+      },
+      "marks": 4
+    }
+  ],
+  "exam_policy": "Questions and suggested marks only;original practice,not past-paper claims.",
+  "physical_practicals_performed": false,
+  "sources": [
+    {
+      "title": "Owner GTU DC Circuit DI01000081,w.e.f.2024-25",
+      "reference": "Theory pp2–3;practicals pp5–6;projects p7."
+    }
+  ],
+  "diagram_note": "Original conceptual circuits and magnetic sketches.Shared standard symbol/English labels;equivalent Gujarati explanations in cards."
+}

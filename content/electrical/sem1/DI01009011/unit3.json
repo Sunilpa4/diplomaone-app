@@ -1,0 +1,944 @@
+{
+  "subject": "DI01009011",
+  "unit": 3,
+  "title": {
+    "en": "Semiconductor and Optoelectronic Devices",
+    "gu": "સેમિકન્ડક્ટર અને ઑપ્ટોઇલેક્ટ્રોનિક Devices"
+  },
+  "format": "notes",
+  "languages": [
+    "en",
+    "gu"
+  ],
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "tab_labels": {
+    "programs": {
+      "en": "Practical",
+      "gu": "પ્રયોગ અને ચકાસણી"
+    }
+  },
+  "hours": 10,
+  "weightage": 35,
+  "notes": [
+    {
+      "title": {
+        "en": "3.1 Semiconductor and optoelectronic devices",
+        "gu": "3.1 Semiconductor તથા Optoelectronic Devices"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Choose the device by function,not by lead count",
+            "gu": "Lead Count નહિ,Functionથી Device પસંદ કરો"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Different semiconductor devices control current,trigger conduction,sense light or emit light;similar packages do not imply similar terminal behaviour.</p><h4>Explanation and application</h4><ul><li>MOSFETs have enhancement/depletion and N-channel/P-channel families;the representative example below is enhancement NMOS.</li><li>SCR is usually a unidirectional latching controller.TRIAC is bidirectional;DIAC is a two-terminal bidirectional breakover trigger.</li><li>UJT is a single-junction trigger/oscillator device,not a bipolar amplifying transistor.</li><li>Photodiode,phototransistor and LDR sense light by different mechanisms.Seven-segment LEDs emit light.</li><li>Always verify pinout,voltage/current/power limits and the manufacturer operating/test conditions.</li></ul><details class=\"self-check\"><summary>Does VGS(th) promise low RDS(on)?</summary><p>No.It is a specified small-current onset condition.</p></details>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>જુદા devices current control,triggering,light sensing/emission કરે છે.Same package એટલે same terminal behaviour નહિ.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>MOSFETમાં enhancement/depletion તથા N-channel/P-channel families છે;નીચે representative enhancement NMOS છે.</li><li>SCR સામાન્ય રીતે unidirectional latching controller છે.TRIAC bidirectional તથા DIAC two-terminal bidirectional breakover trigger છે.</li><li>UJT single-junction trigger/oscillator device છે,bipolar amplifying transistor નહિ.</li><li>Photodiode,phototransistor તથા LDR જુદા mechanismsથી light sense કરે છે.Seven-segment LEDs light emit કરે છે.</li><li>હંમેશાં pinout,voltage/current/power limits તથા manufacturer operating/test conditions verify કરો.</li></ul><details class=\"self-check\"><summary>VGS(th)થી Low RDS(on)ની ખાતરી?</summary><p>ના.તે specified small-current onset condition છે.</p></details>"
+          },
+          "syllabus_item": "3.1",
+          "diagram": "thyristors"
+        },
+        {
+          "h": {
+            "en": "Enhancement NMOS:construction and field control",
+            "gu": "Enhancement NMOS:Construction અને Field Control"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A MOSFET uses an insulated gate electric field to control a conducting channel between source and drain.</p><h4>Classification / representative type</h4><ul><li>Enhancement/depletion specify channel behaviour at zero gate bias;N/P specify channel carrier polarity.Do not mix the two classification bases.</li></ul><h4>Construction — part and purpose</h4><ol><li>A P-type body contains two heavily doped N-type source/drain regions in this NMOS illustration.</li><li>A thin insulating oxide separates gate electrode from semiconductor.</li><li>The gate electrode establishes an electric field without a normal DC junction-current path through the oxide.</li><li>Source and drain contacts connect the controlled current path.</li><li>Body connection and parasitic body diode matter;many discrete parts internally tie body to source.</li><li>Gate capacitances and ESD protection requirements remain even though steady gate current is small.</li></ol><h4>Working — sequence and reason</h4><ol><li>At VGS=0,an enhancement NMOS lacks the intended inversion channel,apart from leakage/body-diode paths.</li><li>Positive VGS attracts electrons under the oxide and can create an inversion channel.</li><li>VGS(th) marks a specified small-current onset,not guaranteed full-load ON resistance.</li><li>With suitable VDS,the channel carries drain current;the operating region depends on both VGS and VDS.</li><li>An amplifier biases the device for small variations in its current-source-like region.</li><li>A switch needs an adequate rated gate drive for low RDS(on),plus charge/discharge of the gate capacitance.</li></ol><h4>Applications</h4><p>Voltage amplification and low-voltage power switching when suitably rated.</p><h4>Limitations and safety</h4><p>MOSFET saturation is not BJT saturation.Protect the oxide and check VGS absolute limits,SOA,body-diode behaviour and heat.</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>MOSFET insulated gateના electric fieldથી source/drain વચ્ચે conducting channel control કરે છે.</p><h4>વર્ગીકરણ / દર્શાવેલો પ્રકાર</h4><ul><li>Enhancement/depletion zero-gate-bias channel behaviour બતાવે છે;N/P channel carrier polarity બતાવે છે.બંને classification bases ભેળવશો નહિ.</li></ul><h4>Construction — ભાગ અને તેનું કામ</h4><ol><li>આ NMOS illustrationમાં P-type bodyમાં બે heavily doped N source/drain regions છે.</li><li>Thin insulating oxide gate electrodeને semiconductorથી અલગ રાખે છે.</li><li>Gate electrode oxideમાંથી normal DC junction-current path વિના electric field બનાવે છે.</li><li>Source/drain contacts controlled current path જોડે છે.</li><li>Body connection તથા parasitic body diode મહત્વનાં છે;ઘણા discrete parts bodyને source સાથે internally tie કરે છે.</li><li>Steady gate current નાનો હોવા છતાં gate capacitances તથા ESD protection જરૂરી છે.</li></ol><h4>Working — ક્રમ અને કારણ</h4><ol><li>VGS=0એ enhancement NMOSમાં intended inversion channel નથી;leakage/body-diode paths અલગ છે.</li><li>Positive VGS oxide નીચે electrons ખેંચીને inversion channel બનાવે છે.</li><li>VGS(th) specified small-current onset બતાવે છે;full-load ON resistanceની ખાતરી નહિ.</li><li>યોગ્ય VDSથી channel drain current આપે છે;region VGS તથા VDS બંને પર આધારિત છે.</li><li>Amplifier small variations માટે current-source-like regionમાં bias કરે છે.</li><li>Switch માટે low RDS(on) આપતી adequate rated gate drive તથા gate capacitance charge/discharge જરૂરી છે.</li></ol><h4>ઉપયોગ</h4><p>યોગ્ય ratings સાથે voltage amplification તથા low-voltage power switching.</p><h4>મર્યાદા અને સલામતી</h4><p>MOSFET saturation BJT saturation નથી.Oxide protect કરીને VGS absolute limits,SOA,body diode તથા heat તપાસો.</p>"
+          },
+          "syllabus_item": "3.1",
+          "classification_first": true,
+          "construction_point_count": 6,
+          "working_point_count": 6,
+          "diagram": "mosfetstructure"
+        },
+        {
+          "h": {
+            "en": "MOSFET common-source amplifier:practical interpretation",
+            "gu": "MOSFET Common-source Amplifier:Practical અર્થ"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>A correctly biased common-source stage turns a small gate-source signal into an inverted drain voltage variation.</p><h4>Explanation and application</h4><ul><li>Gate bias sets the DC point;RD converts drain-current variation into drain-voltage variation.RS may provide stabilising feedback.</li><li>Coupling capacitors separate stage DC levels.The instrument probe/source capacitance can still load a high-impedance gate input.</li><li>Increasing VGS increases ID around a valid bias point,so the RD drop rises and drain voltage falls;too much signal causes clipping.</li><li>Confirm bias and low-amplitude waveform before increasing signal.Record amplitude convention,frequency,load and gain;do not substitute data-sheet threshold for measured bias design.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Correctly biased common-source stage small gate-source signalને inverted drain-voltage variationમાં ફેરવે છે.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Gate bias DC point સેટ કરે છે;RD drain-current variationને drain-voltageમાં ફેરવે છે.RS stabilising feedback આપી શકે છે.</li><li>Coupling capacitors stage DC levels જુદા રાખે છે.Probe/source capacitance high-impedance gate inputને હજી load કરી શકે છે.</li><li>Valid bias નજીક VGS વધતાં ID તથા RD drop વધે છે,તેથી drain voltage ઘટે છે;વધુ signal clipping કરે છે.</li><li>Signal વધારતાં પહેલાં bias તથા low-amplitude waveform confirm કરો.Amplitude convention,frequency,load/gain નોંધો;bias designમાં threshold blindly ન લો.</li></ul>"
+          },
+          "syllabus_item": "3.1",
+          "diagram": "mosamp"
+        },
+        {
+          "h": {
+            "en": "DIAC:bidirectional breakover trigger",
+            "gu": "DIAC:Bidirectional Breakover Trigger"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A DIAC switches into conduction after the voltage magnitude reaches its specified breakover behaviour in either polarity.</p><h4>Classification / representative type</h4><ul><li>A two-terminal trigger component;there is no independent gate terminal.</li></ul><h4>Construction — part and purpose</h4><ol><li>A symmetrical multilayer semiconductor structure supports bidirectional blocking/conduction.</li><li>Two main terminals are identified according to the device data sheet.</li><li>No gate lead is available to command ordinary turn-on.</li><li>Junction geometry and doping set breakover and switching behaviour.</li><li>A surrounding resistor-capacitor circuit can accumulate trigger energy.</li><li>The package must withstand specified repetitive current,pulse energy and voltage.</li></ol><h4>Working — sequence and reason</h4><ol><li>Below breakover,only a small leakage flows in the intended blocking state.</li><li>As voltage magnitude reaches breakover,the internal structure switches strongly into conduction.</li><li>Terminal voltage drops while current rises through a limited external path.</li><li>The resulting pulse can trigger a compatible TRIAC gate circuit.</li><li>As current falls below the sustaining requirement,the device returns to blocking.</li><li>The opposite polarity gives broadly analogous behaviour,but exact symmetry is a data-sheet matter.</li></ol><h4>Applications</h4><p>Symmetrical triggering and relaxation/phase-control concepts on approved trainers.</p><h4>Limitations and safety</h4><p>Breakover can exceed safe breadboard supply levels.Use a purpose-built isolated trainer or simulation;no mains flasher recipe is provided.</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>DIACમાં બંને polaritiesમાં voltage magnitude specified breakover behaviour સુધી પહોંચતાં conduction થાય છે.</p><h4>વર્ગીકરણ / દર્શાવેલો પ્રકાર</h4><ul><li>Two-terminal trigger component છે;independent gate terminal નથી.</li></ul><h4>Construction — ભાગ અને તેનું કામ</h4><ol><li>Symmetrical multilayer structure bidirectional blocking/conduction આપે છે.</li><li>બે main terminals data sheet મુજબ ઓળખાય છે.</li><li>Ordinary turn-on command માટે gate lead નથી.</li><li>Junction geometry/doping breakover તથા switching behaviour નક્કી કરે છે.</li><li>Surrounding resistor-capacitor circuit trigger energy accumulate કરી શકે છે.</li><li>Package specified repetitive current,pulse energy તથા voltage સહન કરતું હોવું જોઈએ.</li></ol><h4>Working — ક્રમ અને કારણ</h4><ol><li>Breakover પહેલાં intended blockingમાં નાનો leakage થાય છે.</li><li>Voltage magnitude breakoverએ પહોંચતાં internal structure strongly conduct કરે છે.</li><li>Limited external pathમાં current વધતાં terminal voltage ઘટે છે.</li><li>મળેલો pulse compatible TRIAC gate circuit trigger કરી શકે છે.</li><li>Current sustaining requirementથી નીચે જાય ત્યારે device blockingમાં પાછો આવે છે.</li><li>Opposite polarityમાં broadly analogous behaviour મળે છે;exact symmetry data sheet મુજબ છે.</li></ol><h4>ઉપયોગ</h4><p>Approved trainersમાં symmetrical triggering તથા relaxation/phase-control concepts.</p><h4>મર્યાદા અને સલામતી</h4><p>Breakover safe breadboard supplyથી વધુ હોઈ શકે છે.Purpose-built isolated trainer/simulation લો;mains flasher recipe આપેલી નથી.</p>"
+          },
+          "syllabus_item": "3.1",
+          "classification_first": true,
+          "construction_point_count": 6,
+          "working_point_count": 6,
+          "diagram": "diac"
+        },
+        {
+          "h": {
+            "en": "TRIAC:bidirectional controlled conduction",
+            "gu": "TRIAC:Bidirectional Controlled Conduction"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A TRIAC controls current in either direction between its main terminals when appropriately triggered.</p><h4>Classification / representative type</h4><ul><li>A bidirectional thyristor device with MT1,MT2 and gate;it is not simply a DIAC with an extra arbitrary wire.</li></ul><h4>Construction — part and purpose</h4><ol><li>An integrated semiconductor structure supports conduction for both main-terminal polarities.</li><li>MT1 is the reference for gate-trigger specifications.</li><li>MT2 is the other main-current terminal;verify actual package pinout.</li><li>Gate connects to a current-limited trigger circuit.</li><li>The main load circuit and heat path require current/thermal ratings.</li><li>Protection may include a suitable snubber and surge suppression where the design requires them.</li></ol><h4>Working — sequence and reason</h4><ol><li>Before trigger,the device blocks within its rated off-state voltage in either polarity.</li><li>A valid gate pulse relative to MT1 initiates conduction in a supported triggering quadrant.</li><li>Main current must satisfy latching requirements before the gate pulse is removed.</li><li>Once latched,the ordinary device remains ON without continuing gate drive while current is sufficient.</li><li>Turn-off occurs when current falls below holding/commutation requirements,not merely when voltage crosses zero.</li><li>Inductive loads can delay current zero and complicate commutation;rapid voltage rise may cause unwanted triggering.</li></ol><h4>Applications</h4><p>AC load control concepts and isolated educational demonstrations.</p><h4>Limitations and safety</h4><p>Do not assume all trigger quadrants have equal sensitivity.Check gate pulse,current zero,dv/dt,di/dt and temperature limits.</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>TRIAC યોગ્ય triggeringથી main terminals વચ્ચે બંને દિશામાં current control કરે છે.</p><h4>વર્ગીકરણ / દર્શાવેલો પ્રકાર</h4><ul><li>MT1,MT2 તથા gateવાળો bidirectional thyristor છે;DIACમાં arbitrary wire ઉમેરેલો device નહિ.</li></ul><h4>Construction — ભાગ અને તેનું કામ</h4><ol><li>Integrated structure બંને main-terminal polaritiesમાં conduction આપે છે.</li><li>Gate-trigger specifications માટે MT1 reference છે.</li><li>MT2 બીજું main-current terminal છે;actual package pinout verify કરો.</li><li>Gate current-limited trigger circuit સાથે જોડાય છે.</li><li>Main load circuit તથા heat path માટે current/thermal ratings જોઈએ.</li><li>Design મુજબ suitable snubber તથા surge suppressionની જરૂર હોઈ શકે છે.</li></ol><h4>Working — ક્રમ અને કારણ</h4><ol><li>Trigger પહેલાં બંને polaritiesમાં rated off-state voltage block કરે છે.</li><li>MT1ની સામે valid gate pulse supported quadrantમાં conduction શરૂ કરે છે.</li><li>Gate pulse દૂર કરતાં પહેલાં main current latching requirement સંતોષે તે જરૂરી છે.</li><li>Latched થયા પછી current પૂરતો હોય ત્યાં ordinary device સતત gate drive વિના ON રહે છે.</li><li>Current holding/commutation requirementથી નીચે જતાં turn-off થાય છે;ફક્ત voltage zeroએ નહિ.</li><li>Inductive load current zero મોડો કરે અને commutation મુશ્કેલ બનાવે;ઝડપી voltage rise unwanted trigger આપી શકે છે.</li></ol><h4>ઉપયોગ</h4><p>AC load-control concepts તથા isolated educational demonstrations.</p><h4>મર્યાદા અને સલામતી</h4><p>બધા quadrantsની sensitivity equal ન માનો.Gate pulse,current zero,dv/dt,di/dt તથા temperature limits તપાસો.</p>"
+          },
+          "syllabus_item": "3.1",
+          "classification_first": true,
+          "construction_point_count": 6,
+          "working_point_count": 6,
+          "diagram": "triac"
+        },
+        {
+          "h": {
+            "en": "SCR:PNPN latching device",
+            "gu": "SCR:PNPN Latching Device"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A conventional SCR is a gate-triggered unidirectional thyristor with anode,cathode and gate terminals.</p><h4>Classification / representative type</h4><ul><li>This explanation concerns an ordinary SCR,not a gate-turn-off thyristor.</li></ul><h4>Construction — part and purpose</h4><ol><li>Four alternating regions form a PNPN structure.</li><li>The anode contacts the outer P region.</li><li>The cathode contacts the outer N region.</li><li>The gate contacts the P region adjacent to the cathode in the basic model.</li><li>A series load limits anode current;gate resistance limits trigger current.</li><li>Package isolation,voltage rating and heat sinking depend on the exact part.</li></ol><h4>Working — sequence and reason</h4><ol><li>With anode positive and no trigger,the intended state is forward blocking below breakover.</li><li>A suitable positive gate-to-cathode current starts regenerative internal conduction.</li><li>Anode current must reach latching current IL before trigger removal for reliable latching.</li><li>Once ON,the main current can continue after gate removal.</li><li>Current must fall below holding current IH with adequate recovery conditions to turn OFF.</li><li>Do not use an uncontrolled voltage breakover or gate overdrive as the normal safe triggering method.</li></ol><h4>Applications</h4><p>Controlled rectification and latching-control demonstrations using approved circuits.</p><h4>Limitations and safety</h4><p>IL and IH are different specifications;often IL exceeds IH.A negative gate command does not turn off an ordinary SCR.</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Conventional SCR anode,cathode તથા gateવાળો gate-triggered unidirectional thyristor છે.</p><h4>વર્ગીકરણ / દર્શાવેલો પ્રકાર</h4><ul><li>આ સમજણ ordinary SCR માટે છે,gate-turn-off thyristor માટે નહિ.</li></ul><h4>Construction — ભાગ અને તેનું કામ</h4><ol><li>ચાર alternating regionsથી PNPN structure બને છે.</li><li>Anode outer P region સાથે જોડાય છે.</li><li>Cathode outer N region સાથે જોડાય છે.</li><li>Basic modelમાં gate cathodeની નજીકના P region સાથે જોડાય છે.</li><li>Series load anode current તથા gate resistance trigger current limit કરે છે.</li><li>Package isolation,voltage rating તથા heat sinking exact part મુજબ હોય છે.</li></ol><h4>Working — ક્રમ અને કારણ</h4><ol><li>Anode positive તથા trigger વિના breakoverની નીચે intended state forward blocking છે.</li><li>Suitable positive gate-to-cathode current internal regenerative conduction શરૂ કરે છે.</li><li>Reliable latch માટે trigger removal પહેલાં anode current IL સુધી પહોંચવો પડે છે.</li><li>ON થયા પછી gate દૂર કરતાં પણ main current ચાલુ રહી શકે છે.</li><li>Turn OFF માટે adequate recovery conditions સાથે current IHથી નીચે જવો પડે છે.</li><li>Normal safe triggering માટે uncontrolled voltage breakover/gate overdrive ન વાપરો.</li></ol><h4>ઉપયોગ</h4><p>Approved circuitsમાં controlled rectification તથા latching-control demonstrations.</p><h4>મર્યાદા અને સલામતી</h4><p>IL તથા IH જુદી specifications છે;ઘણીવાર IL,IH કરતાં મોટું છે.Negative gate command ordinary SCRને OFF કરતું નથી.</p>"
+          },
+          "syllabus_item": "3.1",
+          "classification_first": true,
+          "construction_point_count": 6,
+          "working_point_count": 6,
+          "diagram": "scrstructure"
+        },
+        {
+          "h": {
+            "en": "UJT:structure and relaxation action",
+            "gu": "UJT:Structure અને Relaxation Action"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A unijunction transistor uses one PN junction coupled to a resistive bar to create useful triggering and negative-resistance behaviour.</p><h4>Classification / representative type</h4><ul><li>Its terminals are emitter E and bases B1,B2.The device is not an NPN/PNP BJT.</li></ul><h4>Construction — part and purpose</h4><ol><li>A lightly doped N-type bar forms the interbase resistive path.</li><li>Ohmic base contacts are provided at B1 and B2.</li><li>A P-type emitter makes one junction to the bar.</li><li>With the emitter not injecting,the bar is modelled as RB1 and RB2.</li><li>Intrinsic stand-off ratio eta=RB1/(RB1+RB2) describes the unloaded internal division.</li><li>A timing resistor/capacitor and rated base supply form an external relaxation circuit.</li></ol><h4>Working — sequence and reason</h4><ol><li>With B2 positive relative to B1,the internal emitter region sits near eta VBB in the basic model.</li><li>The external timing capacitor charges through its resistor.</li><li>When VE reaches approximately VP=eta VBB+VD,the emitter junction starts strong injection.</li><li>Carrier injection reduces RB1,so emitter voltage can fall while emitter current rises:negative differential resistance.</li><li>The capacitor discharges rapidly through the appropriate base path.</li><li>At the valley/reset condition,conduction falls and charging restarts if the external circuit meets oscillation conditions.</li></ol><h4>Applications</h4><p>Pulse generation,timing and thyristor triggering concepts.</p><h4>Limitations and safety</h4><p>Negative differential resistance is not a negative ordinary resistor for all voltages.Threshold/reset and timing depend on device and load.</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Unijunction transistor એક PN junction તથા resistive barથી useful triggering/negative-resistance behaviour આપે છે.</p><h4>વર્ગીકરણ / દર્શાવેલો પ્રકાર</h4><ul><li>Terminals E,B1,B2 છે.Device NPN/PNP BJT નથી.</li></ul><h4>Construction — ભાગ અને તેનું કામ</h4><ol><li>Lightly doped N-type bar interbase resistive path બનાવે છે.</li><li>B1 તથા B2 ઉપર ohmic contacts હોય છે.</li><li>P-type emitter bar સાથે એક junction બનાવે છે.</li><li>Emitter injection વિના barને RB1 તથા RB2થી model કરાય છે.</li><li>Intrinsic stand-off ratio eta=RB1/(RB1+RB2) unloaded internal division બતાવે છે.</li><li>Timing R/C તથા rated base supplyથી external relaxation circuit બને છે.</li></ol><h4>Working — ક્રમ અને કારણ</h4><ol><li>B1ની સામે B2 positive હોય ત્યારે basic modelમાં emitter નજીક internal potential આશરે eta VBB છે.</li><li>External timing capacitor પોતાના resistorથી charge થાય છે.</li><li>VE આશરે VP=eta VBB+VD થાય ત્યારે emitter junction strong injection શરૂ કરે છે.</li><li>Carrier injectionથી RB1 ઘટે છે;emitter current વધતાં voltage ઘટી શકે છે:negative differential resistance.</li><li>Capacitor appropriate base pathમાંથી ઝડપથી discharge થાય છે.</li><li>Valley/reset conditionમાં conduction ઘટે છે;external oscillation conditions યોગ્ય હોય તો charging ફરી શરૂ થાય છે.</li></ol><h4>ઉપયોગ</h4><p>Pulse generation,timing તથા thyristor triggering concepts.</p><h4>મર્યાદા અને સલામતી</h4><p>Negative differential resistance દરેક voltage માટે negative ordinary resistor નથી.Threshold/reset તથા timing device/load પર આધારિત છે.</p>"
+          },
+          "syllabus_item": "3.1",
+          "classification_first": true,
+          "construction_point_count": 6,
+          "working_point_count": 6,
+          "diagram": "ujtstructure"
+        },
+        {
+          "h": {
+            "en": "UJT peak-point estimate",
+            "gu": "UJT Peak-point Estimate"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>Assume eta=0.60,VBB=10V,VD=0.7V in the simple noninjecting-bar model.</p><h4>Step-by-step solution</h4><ol><li>VP≈0.60×10+0.7=6.7V</li></ol><h4>Interpretation and check</h4><p>A measured trigger point can differ with temperature,loading and actual stand-off ratio.This does not determine oscillation frequency by itself.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>Simple noninjecting-bar modelમાં eta=0.60,VBB=10V,VD=0.7V માનો.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>VP≈0.60×10+0.7=6.7V</li></ol><h4>અર્થ અને ચકાસણી</h4><p>Temperature,loading તથા actual ratioથી measured trigger જુદો હોઈ શકે છે.આથી એકલાથી oscillation frequency નક્કી થતી નથી.</p>"
+          },
+          "syllabus_item": "3.1",
+          "diagram": "ujtcurve"
+        },
+        {
+          "h": {
+            "en": "Photodiode:light-generated junction current",
+            "gu": "Photodiode:Light-generated Junction Current"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A photodiode converts absorbed optical energy into an electrical current response at a suitable junction.</p><h4>Classification / representative type</h4><ul><li>Reverse-biased photoconductive and zero-bias photovoltaic modes are possible;choose the circuit deliberately.</li></ul><h4>Construction — part and purpose</h4><ol><li>A light-sensitive PN or PIN junction collects photogenerated carriers.</li><li>An optical window exposes the intended active area.</li><li>Anode/cathode terminals have specified polarity and leakage ratings.</li><li>A bias/load or amplifier circuit converts small current to a measurable signal.</li><li>Shielding and layout reduce unwanted ambient light and electrical leakage.</li><li>The package specifies wavelength response,speed,area and maximum optical/electrical conditions.</li></ol><h4>Working — sequence and reason</h4><ol><li>Incident photons with sufficient absorbed energy generate electron-hole pairs.</li><li>The junction field separates carriers in the collection region.</li><li>Photocurrent changes with received light under stated linear conditions.</li><li>In reverse bias,the measured reverse current includes both dark current and photocurrent.</li><li>A load/transimpedance stage produces the output voltage;polarity follows the actual circuit.</li><li>Saturation,noise,temperature and bandwidth limit useful sensing;dark subtraction must use comparable conditions.</li></ol><h4>Applications</h4><p>Optical receivers,light measurement and interruption sensing.</p><h4>Limitations and safety</h4><p>It is not an LDR and need not emit visible light.Do not infer a safe laser source from a sensor demonstration.</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Photodiode suitable junctionમાં absorbed optical energyને electrical-current responseમાં ફેરવે છે.</p><h4>વર્ગીકરણ / દર્શાવેલો પ્રકાર</h4><ul><li>Reverse-biased photoconductive તથા zero-bias photovoltaic modes શક્ય છે;circuit વિચારીને પસંદ કરો.</li></ul><h4>Construction — ભાગ અને તેનું કામ</h4><ol><li>Light-sensitive PN/PIN junction photogenerated carriers collect કરે છે.</li><li>Optical window intended active area expose કરે છે.</li><li>Anode/cathode terminalsની specified polarity/leakage ratings છે.</li><li>Bias/load અથવા amplifier small currentને measurable signalમાં ફેરવે છે.</li><li>Shielding/layout unwanted ambient light તથા electrical leakage ઘટાડે છે.</li><li>Package wavelength response,speed,area તથા maximum optical/electrical conditions specify કરે છે.</li></ol><h4>Working — ક્રમ અને કારણ</h4><ol><li>પૂરતી absorbed energyવાળા photons electron-hole pairs બનાવે છે.</li><li>Junction field collection regionમાં carriers અલગ કરે છે.</li><li>Stated linear conditionsમાં received lightથી photocurrent બદલાય છે.</li><li>Reverse biasમાં measured currentમાં dark current તથા photocurrent બંને છે.</li><li>Load/transimpedance stage output voltage આપે છે;polarity actual circuit મુજબ છે.</li><li>Saturation,noise,temperature/bandwidth sensing મર્યાદિત કરે છે;dark subtraction comparable conditionsમાં જ કરો.</li></ol><h4>ઉપયોગ</h4><p>Optical receivers,light measurement તથા interruption sensing.</p><h4>મર્યાદા અને સલામતી</h4><p>તે LDR નથી અને visible light emit કરે તે જરૂરી નથી.Sensor demonstrationથી laser source safe છે એવું ન માનો.</p>"
+          },
+          "syllabus_item": "3.1",
+          "classification_first": true,
+          "construction_point_count": 6,
+          "working_point_count": 6,
+          "diagram": "photo"
+        },
+        {
+          "h": {
+            "en": "Phototransistor:optical input with transistor gain",
+            "gu": "Phototransistor:Optical Input સાથે Transistor Gain"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A phototransistor uses light-generated junction current to control a larger transistor collector current.</p><h4>Classification / representative type</h4><ul><li>Two-lead and base-access versions exist;verify the exact part.</li></ul><h4>Construction — part and purpose</h4><ol><li>A transistor structure contains a light-accessible collector-base region.</li><li>A window/lens admits light onto the active region.</li><li>Collector and emitter leads connect to a rated bias/load circuit.</li><li>The base may be internal or externally accessible depending on package.</li><li>A load resistor translates collector-current variation to voltage.</li><li>Geometry,materials and package define spectral response,gain and response time.</li></ol><h4>Working — sequence and reason</h4><ol><li>Light generates carriers near the photosensitive junction.</li><li>This optical current acts like a drive signal for internal transistor action.</li><li>Collector current increases with illumination over a useful operating range.</li><li>The load voltage changes according to connection and bias.</li><li>Strong light can force saturation,limiting linearity and slowing recovery.</li><li>After light removal,stored charge and circuit capacitances affect the response.</li></ol><h4>Applications</h4><p>Object detection,opto-interruption and simple light-controlled circuits.</p><h4>Limitations and safety</h4><p>More sensitivity does not guarantee better speed or precision.Gain,dark current and temperature require consideration.</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Phototransistor light-generated junction currentથી મોટો collector current control કરે છે.</p><h4>વર્ગીકરણ / દર્શાવેલો પ્રકાર</h4><ul><li>Two-lead તથા base-access versions છે;exact part verify કરો.</li></ul><h4>Construction — ભાગ અને તેનું કામ</h4><ol><li>Transistor structureમાં light-accessible collector-base region છે.</li><li>Window/lens active region સુધી light પહોંચાડે છે.</li><li>Collector/emitter leads rated bias/load circuit સાથે જોડાય છે.</li><li>Package મુજબ base internal અથવા externally accessible હોય છે.</li><li>Load resistor collector-current variationને voltageમાં ફેરવે છે.</li><li>Geometry,materials/package spectral response,gain તથા response time નક્કી કરે છે.</li></ol><h4>Working — ક્રમ અને કારણ</h4><ol><li>Photosensitive junction નજીક light carriers બનાવે છે.</li><li>Optical current internal transistor action માટે drive signalની જેમ કામ કરે છે.</li><li>Useful rangeમાં illumination વધતાં collector current વધે છે.</li><li>Connection/bias મુજબ load voltage બદલાય છે.</li><li>Strong light saturation લાવી linearity ઘટાડે અને recovery ધીમી કરી શકે છે.</li><li>Light દૂર થયા પછી stored charge તથા circuit capacitances responseને અસર કરે છે.</li></ol><h4>ઉપયોગ</h4><p>Object detection,opto-interruption તથા simple light-controlled circuits.</p><h4>મર્યાદા અને સલામતી</h4><p>વધુ sensitivity એટલે better speed/precisionની ખાતરી નહિ.Gain,dark current તથા temperature ધ્યાનમાં લો.</p>"
+          },
+          "syllabus_item": "3.1",
+          "classification_first": true,
+          "construction_point_count": 6,
+          "working_point_count": 6,
+          "diagram": "phototransistor"
+        },
+        {
+          "h": {
+            "en": "LDR:photoconductive resistance",
+            "gu": "LDR:Photoconductive Resistance"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>An LDR changes resistance with illumination through photoconductivity.</p><h4>Classification / representative type</h4><ul><li>A nonpolar resistive light sensor,not a PN diode.Some materials have environmental handling restrictions.</li></ul><h4>Construction — part and purpose</h4><ol><li>A light-sensitive resistive material forms the sensing path.</li><li>A patterned track increases useful path length and area.</li><li>Two electrodes contact the resistive film.</li><li>An exposed window admits light while the package supports the material.</li><li>An external divider with a fixed resistor converts resistance change to voltage.</li><li>Rated voltage,power,response time and spectral sensitivity restrict the circuit conditions.</li></ol><h4>Working — sequence and reason</h4><ol><li>In darkness,fewer light-generated carriers are available and resistance is generally high.</li><li>Light absorption increases mobile carrier availability.</li><li>For a typical LDR,resistance falls with increasing illumination.</li><li>The divider voltage rises or falls depending on which divider arm contains the LDR.</li><li>After a light change,the reading may take time to settle and can depend on history.</li><li>Controlled light conditions and repeat measurements distinguish useful trends from uncontrolled ambient variation.</li></ol><h4>Applications</h4><p>Street-light concepts,light/dark sensing and supervised alarm demonstrators.</p><h4>Limitations and safety</h4><p>Lamp distance alone is not a calibrated lux scale.Never measure resistance on an energised divider.</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>LDR photoconductivityથી illumination મુજબ resistance બદલે છે.</p><h4>વર્ગીકરણ / દર્શાવેલો પ્રકાર</h4><ul><li>Nonpolar resistive light sensor છે,PN diode નહિ.અમુક materials માટે environmental handling restrictions છે.</li></ul><h4>Construction — ભાગ અને તેનું કામ</h4><ol><li>Light-sensitive resistive material sensing path બનાવે છે.</li><li>Patterned track useful path length તથા area વધારે છે.</li><li>બે electrodes resistive film સાથે contact કરે છે.</li><li>Exposed window light આપે છે;package materialને support કરે છે.</li><li>Fixed resistorવાળો external divider resistance changeને voltageમાં ફેરવે છે.</li><li>Rated voltage,power,response time તથા spectral sensitivity circuit conditions મર્યાદિત કરે છે.</li></ol><h4>Working — ક્રમ અને કારણ</h4><ol><li>Darknessમાં light-generated carriers ઓછા હોવાથી R સામાન્ય રીતે high છે.</li><li>Light absorption mobile carriersની availability વધારે છે.</li><li>Typical LDRમાં illumination વધતાં R ઘટે છે.</li><li>LDR કયા divider armમાં છે તે પ્રમાણે output voltage વધે/ઘટે છે.</li><li>Light change પછી reading settle થવામાં સમય તથા history dependence હોઈ શકે છે.</li><li>Controlled light conditions/repeat readingsથી useful trend તથા ambient variation જુદા પડે છે.</li></ol><h4>ઉપયોગ</h4><p>Street-light concepts,light/dark sensing તથા supervised alarm demonstrators.</p><h4>મર્યાદા અને સલામતી</h4><p>Lamp distance calibrated lux scale નથી.Energised divider ઉપર resistance ન માપો.</p>"
+          },
+          "syllabus_item": "3.1",
+          "classification_first": true,
+          "construction_point_count": 6,
+          "working_point_count": 6,
+          "diagram": "ldr"
+        },
+        {
+          "h": {
+            "en": "Seven-segment LED display:construction and decoding",
+            "gu": "Seven-segment LED Display:Construction અને Decoding"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A seven-segment display forms a limited set of characters by lighting selected LED segments.</p><h4>Classification / representative type</h4><ul><li>Common cathode ties LED cathodes together;common anode ties anodes together.Pinouts and allowable currents are part-specific.</li></ul><h4>Construction — part and purpose</h4><ol><li>Seven bar-shaped LED segments are named a through g.</li><li>An optional decimal-point LED is a separate segment.</li><li>A common internal connection follows the anode/cathode variant.</li><li>Each lit segment needs its own current-limiting path unless a rated constant-current driver supplies it.</li><li>A decoder/driver or supervised individual connections selects the intended pattern.</li><li>Package segment-current,total-current and multiplex duty-cycle ratings must all be respected.</li></ol><h4>Working — sequence and reason</h4><ol><li>Identify the common terminal and polarity with the data sheet and a safe limited-current test.</li><li>Forward-biasing a selected segment produces light through carrier recombination.</li><li>Common-cathode segments usually need positive current drive;common-anode segments need current sinking.</li><li>Combine segments to form digits or supported letter approximations.</li><li>Use per-segment limiting so brightness/current do not depend unsafely on how many segments are lit.</li><li>Turn power off before rewiring patterns and check driver total current when many segments are ON.</li></ol><h4>Applications</h4><p>Numerical indicators and a limited set of alphanumeric symbols.</p><h4>Limitations and safety</h4><p>Not every alphabetic character is legible.A single resistor in the common lead is not equivalent to individual segment current control.</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Seven-segment display selected LED segments ચાલુ કરીને મર્યાદિત characters બનાવે છે.</p><h4>વર્ગીકરણ / દર્શાવેલો પ્રકાર</h4><ul><li>Common cathodeમાં cathodes તથા common anodeમાં anodes જોડાયેલા હોય છે.Pinout/allowable current part-specific છે.</li></ul><h4>Construction — ભાગ અને તેનું કામ</h4><ol><li>સાત bar-shaped LED segmentsને aથી g નામ અપાય છે.</li><li>Optional decimal-point LED અલગ segment છે.</li><li>Anode/cathode variant મુજબ common internal connection હોય છે.</li><li>Rated constant-current driver ન હોય તો દરેક lit segment માટે પોતાનો current-limiting path જોઈએ.</li><li>Decoder/driver અથવા supervised individual connections intended pattern પસંદ કરે છે.</li><li>Package segment-current,total-current તથા multiplex duty-cycle ratings બધાં જાળવો.</li></ol><h4>Working — ક્રમ અને કારણ</h4><ol><li>Data sheet તથા safe limited-current testથી common terminal/polarity ઓળખો.</li><li>Selected segment forward-bias કરતાં carrier recombinationથી light મળે છે.</li><li>Common-cathode segmentsને સામાન્ય રીતે positive drive તથા common-anodeને current sinking જોઈએ.</li><li>Segments combine કરીને digits/supported letter approximations બનાવો.</li><li>Per-segment limitingથી lit segmentsની સંખ્યાથી unsafe current/brightness dependence ટાળો.</li><li>Pattern rewiring પહેલાં power OFF કરો;ઘણા segments ON હોય ત્યારે driver total current તપાસો.</li></ol><h4>ઉપયોગ</h4><p>Numerical indicators તથા મર્યાદિત alphanumeric symbols.</p><h4>મર્યાદા અને સલામતી</h4><p>દરેક alphabetic character legible નથી.Common leadનો એક resistor individual segment current control સમાન નથી.</p>"
+          },
+          "syllabus_item": "3.1",
+          "classification_first": true,
+          "construction_point_count": 6,
+          "working_point_count": 6,
+          "diagram": "seven"
+        },
+        {
+          "h": {
+            "en": "Segment pattern reference",
+            "gu": "Segment Pattern Reference"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>The named-segment map applies independent of pin numbers;active-high/active-low drive depends on the display and driver.</p><h4>Explanation and application</h4><ul><li>0:abcdef;1:bc;2:abdeg;3:abcdg;4:bcfg</li><li>5:acdfg;6:acdefg;7:abc;8:abcdefg;9:abcdfg</li><li>A:abcefg;b:cdefg;C:adef;d:bcdeg;E:adefg;F:aefg</li><li>Lower-case b and d reduce ambiguity with digits;this is not a full alphabet display.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Named-segment map pin numbersથી independent છે;active-high/low drive display/driver પર આધારિત છે.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>0:abcdef;1:bc;2:abdeg;3:abcdg;4:bcfg</li><li>5:acdfg;6:acdefg;7:abc;8:abcdefg;9:abcdfg</li><li>A:abcefg;b:cdefg;C:adef;d:bcdeg;E:adefg;F:aefg</li><li>Lower-case b તથા dથી digits સાથે ambiguity ઘટે છે;આ full alphabet display નથી.</li></ul>"
+          },
+          "syllabus_item": "3.1",
+          "diagram": "seven"
+        },
+        {
+          "h": {
+            "en": "LED segment limiting resistor",
+            "gu": "LED Segment Limiting Resistor"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>A5V approved source drives one red LED segment.Assume VF=2V and target I=5mA;driver drop is neglected only for this estimate.</p><h4>Step-by-step solution</h4><ol><li>R=(5−2)/0.005=600ohm;choosing620ohm gives I≈4.839mA</li><li>PR≈(5−2)²/620=0.01452W</li></ol><h4>Interpretation and check</h4><p>Apply limiting per segment and include real driver drops,VF variation and total display current in a design.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>Approved5V source એક red segment drive કરે છે.VF=2V,target I=5mA માનો;ફક્ત આ estimateમાં driver drop અવગણો.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>R=(5−2)/0.005=600ohm;choosing620ohm gives I≈4.839mA</li><li>PR≈(5−2)²/620=0.01452W</li></ol><h4>અર્થ અને ચકાસણી</h4><p>દરેક segment માટે limiting રાખો;real driver drops,VF variation તથા total display current designમાં ઉમેરો.</p>"
+          },
+          "syllabus_item": "3.1",
+          "diagram": "seven"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "3.2 Optical fibre:construction and working only",
+        "gu": "3.2 Optical Fibre:Construction અને Working જ"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Optical fibre:guided light through core and cladding",
+            "gu": "Optical Fibre:Core અને Claddingમાં Guided Light"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>An optical fibre guides light using a suitably structured transparent core and surrounding cladding.Refractive index n=c/v relates vacuum light speed c to speed v in the material.</p><h4>Classification / representative type</h4><ul><li>A step-index cross-section is used only to explain construction/working;detailed communication-system design is outside the stated syllabus scope.</li></ul><h4>Construction — part and purpose</h4><ol><li>The transparent core is the principal guided-light region.</li><li>Cladding surrounds the core and has a lower refractive index in the illustrated guide:n1&gt;n2.</li><li>The core-cladding interface establishes the optical guiding boundary.</li><li>Buffer/coating mechanically protects the glass or polymer;it is not a substitute for the optical cladding.</li><li>Outer jacket/strength members protect the assembled cable against handling stresses.</li><li>Clean aligned end faces and connectors couple light into/out of the guide.</li></ol><h4>Working — sequence and reason</h4><ol><li>A suitable light source launches light into the core within the accepted directions.</li><li>Light in the higher-index core meets the lower-index cladding boundary.</li><li>Total internal reflection occurs for the appropriate incidence angle above the critical angle,measured from the normal.</li><li>Repeated guiding keeps suitable rays/modes confined over the fibre length in the ideal model.</li><li>Bending,imperfect surfaces,absorption and scattering can cause losses;guiding is not loss-free.</li><li>A receiver at the far end detects transmitted light;source modulation can be demonstrated only with an approved enclosed trainer.</li></ol><h4>Applications</h4><p>The syllabus requests construction and working only;applications are incidental context.</p><h4>Limitations and safety</h4><p>Never look into an energised fibre or source,including invisible output.Handle fibre fragments as sharps;respect bend radius and connector instructions.</p><details class=\"self-check\"><summary>Does a fibre need a metal mirror coating for total internal reflection?</summary><p>No.The appropriate dielectric index interface and incidence conditions provide guiding.</p></details>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Optical fibre suitably structured transparent core તથા surrounding claddingથી light guide કરે છે.Refractive index n=c/vમાં c vacuumની light speed તથા v materialની speed છે.</p><h4>વર્ગીકરણ / દર્શાવેલો પ્રકાર</h4><ul><li>Construction/working સમજાવવા step-index cross-section છે;detailed communication-system design stated scope બહાર છે.</li></ul><h4>Construction — ભાગ અને તેનું કામ</h4><ol><li>Transparent core મુખ્ય guided-light region છે.</li><li>Illustrated guideમાં cladding coreની આસપાસ lower refractive index ધરાવે છે:n1&gt;n2.</li><li>Core-cladding interface optical guiding boundary બનાવે છે.</li><li>Buffer/coating glass/polymerને mechanical protection આપે છે;optical claddingનો વિકલ્પ નથી.</li><li>Outer jacket/strength members assembled cableને handling stressથી બચાવે છે.</li><li>Clean aligned end faces/connectors guideમાં/બહાર light couple કરે છે.</li></ol><h4>Working — ક્રમ અને કારણ</h4><ol><li>Suitable light source accepted directionsમાં coreમાં light launch કરે છે.</li><li>Higher-index coreનું light lower-index cladding boundaryને મળે છે.</li><li>Normalથી માપેલા critical angle કરતાં યોગ્ય વધારે incidence angleએ total internal reflection થાય છે.</li><li>Ideal modelમાં repeated guiding suitable rays/modesને fibre lengthમાં confined રાખે છે.</li><li>Bending,imperfect surfaces,absorption/scattering losses કરી શકે છે;guiding loss-free નથી.</li><li>Far-end receiver transmitted light detect કરે છે;source modulation ફક્ત approved enclosed trainerથી દર્શાવો.</li></ol><h4>ઉપયોગ</h4><p>Syllabus construction તથા working જ માંગે છે;applications incidental context છે.</p><h4>મર્યાદા અને સલામતી</h4><p>Invisible output સહિત energised fibre/sourceમાં ન જુઓ.Fibre fragmentsને sharps સમજો;bend radius/connector instructions જાળવો.</p><details class=\"self-check\"><summary>Total Internal Reflection માટે Metal Mirror જોઈએ?</summary><p>ના.Appropriate dielectric index interface તથા incidenceથી guiding થાય છે.</p></details>"
+          },
+          "syllabus_item": "3.2",
+          "classification_first": true,
+          "construction_point_count": 6,
+          "working_point_count": 6,
+          "diagram": "fiber"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Practical & Testing",
+        "gu": "પ્રયોગ અને ચકાસણી"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Practical 10: MOSFET amplifier demonstration",
+            "gu": "Practical 10: MOSFET Amplifier Demonstration"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Demonstrate valid common-source bias and small-signal inversion.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li><li>Approved MOSFET amplifier trainer,ESD-safe handling,function generator,CRO/DSO and limited DC source.</li></ul><h4>Circuit connections</h4><p>Use the assigned gate-bias,RD/RS and coupling network;verify G,D,S and body connection.Gate drive is relative to source.</p><h4>Supervised procedure</h4><ol><li>Identify enhancement/depletion type and exact gate-voltage ratings.</li><li>Handle with approved ESD precautions and connect the circuit with source disabled.</li><li>Power ON slowly and record DC VG,VS,VD;confirm the assigned amplifier region.</li><li>Apply a small sine input after scope-reference checks.</li><li>Record equal-convention input/output amplitudes,frequency and inversion without clipping.</li><li>Reduce signal,power OFF and return the trainer to its safe state.</li></ol><h4>Calculations and interpretation</h4><p>VGS=VG−VS,VDS=VD−VS;Av=Vout/Vin with phase stated.Threshold alone does not certify the chosen bias or full ON operation.</p><h4>Fault finding</h4><ul><li>No amplification:check floating gate,wrong type/pins,bias region,source reference and instrument loading.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth. Check CRO/DSO earth-referenced clips,probe attenuation and permitted common point before power ON.A bridge output may require an approved differential/isolated measurement method;never float an ordinary scope by removing earth. Verify controlled capacitor discharge before touching/changing connections.Do not short terminals with metal;protect against inductive turn-off transients.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>VG V</th><th>VS V</th><th>VD V</th><th>Vin</th><th>Vout</th><th>frequency Hz</th><th>probe factor</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+            "gu": "<h4>હેતુ</h4><p>Valid common-source bias તથા small-signal inversion દર્શાવો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li><li>Approved MOSFET amplifier trainer,ESD-safe handling,function generator,CRO/DSO તથા limited DC source.</li></ul><h4>Circuit Connections</h4><p>Assigned gate-bias,RD/RS તથા coupling network લો;G,D,S/body connection verify કરો.Gate drive sourceની સામે છે.</p><h4>Supervised Procedure</h4><ol><li>Enhancement/depletion type તથા exact gate-voltage ratings ઓળખો.</li><li>Approved ESD precautionsથી source disabled રાખી circuit જોડો.</li><li>Slowly power ON કરીને DC VG,VS,VD નોંધો;assigned amplifier region confirm કરો.</li><li>Scope-reference checks પછી small sine input આપો.</li><li>Clipping વિના equal-convention input/output amplitudes,frequency/inversion નોંધો.</li><li>Signal ઘટાડીને power OFF કરો અને trainer safe stateમાં મૂકો.</li></ol><h4>Calculations અને અર્થ</h4><p>VGS=VG−VS,VDS=VD−VS;phase સાથે Av=Vout/Vin.Threshold એકલું chosen bias/full ON certify નથી કરતું.</p><h4>Fault Finding</h4><ul><li>Amplification ન મળે તો floating gate,wrong type/pins,bias region,source reference/instrument loading તપાસો.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો. Power ON પહેલાં CRO/DSO earth-referenced clips,probe attenuation તથા permitted common point તપાસો.Bridge output માટે approved differential/isolated method જોઈએ;earth કાઢીને ordinary scope float ન કરો. Connections બદલતાં/સ્પર્શ કરતાં પહેલાં controlled capacitor discharge verify કરો.Metalથી terminals short ન કરો;inductive turn-off transients સામે protection રાખો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>VG V</th><th>VS V</th><th>VD V</th><th>Vin</th><th>Vout</th><th>frequency Hz</th><th>probe factor</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+          },
+          "diagram": "mosamp",
+          "syllabus_item": "Practical.10"
+        },
+        {
+          "h": {
+            "en": "Practical 11: SCR demonstration",
+            "gu": "Practical 11: SCR Demonstration"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Observe triggering,latching and current-controlled turn-off.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li><li>Approved low-voltage SCR trainer with resistive load,gate limiter,main-current meter and reset control.</li></ul><h4>Circuit connections</h4><p>Anode-load-supply loop and gate-cathode trigger loop use the trainer-approved common.Gate current and main current are separately limited.</p><h4>Supervised procedure</h4><ol><li>Identify A,K,G and actual trigger,latching/holding specifications.</li><li>Connect with power OFF and set the gate command OFF.</li><li>Apply allowed main supply and confirm the intended forward-blocking state.</li><li>Apply the approved limited gate pulse and observe main-current turn-on.</li><li>Remove the pulse after latching and observe whether conduction persists.</li><li>Use the approved main-current reset to stop conduction;record turn-off and distinguish IL from IH.</li></ol><h4>Calculations and interpretation</h4><p>Gate removal is not a normal OFF command for an ordinary latched SCR.Report actual conditions,not a guessed holding current.</p><h4>Fault finding</h4><ul><li>Fails to latch:check main current,trigger polarity and pulse duration;always ON:power OFF and inspect pinout/shorts.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Gate state</th><th>VAK V</th><th>gate mA</th><th>anode mA</th><th>latched?</th><th>reset condition</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+            "gu": "<h4>હેતુ</h4><p>Triggering,latching તથા current-controlled turn-off જુઓ.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li><li>Resistive load,gate limiter,main-current meter તથા reset controlવાળું approved low-voltage SCR trainer.</li></ul><h4>Circuit Connections</h4><p>Anode-load-supply તથા gate-cathode trigger loops trainer-approved common વાપરે છે.Gate/main currents અલગ limit થાય છે.</p><h4>Supervised Procedure</h4><ol><li>A,K,G તથા actual trigger,latching/holding specifications ઓળખો.</li><li>Power OFFમાં connect કરીને gate command OFF રાખો.</li><li>Allowed main supply આપીને intended forward-blocking state confirm કરો.</li><li>Approved limited gate pulse આપી main-current turn-on જુઓ.</li><li>Latching પછી pulse દૂર કરીને conduction રહે છે કે નહિ જુઓ.</li><li>Approved main-current resetથી conduction બંધ કરો;turn-off નોંધો તથા IL/IH જુદા સમજો.</li></ol><h4>Calculations અને અર્થ</h4><p>Ordinary latched SCR માટે gate removal normal OFF command નથી.Guessed holding current નહિ,actual conditions લખો.</p><h4>Fault Finding</h4><ul><li>Latch ન થાય તો main current,trigger polarity/pulse duration જુઓ;હંમેશાં ON હોય તો power OFFમાં pinout/short તપાસો.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Gate state</th><th>VAK V</th><th>gate mA</th><th>anode mA</th><th>latched?</th><th>reset condition</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+          },
+          "diagram": "scrstructure",
+          "syllabus_item": "Practical.11"
+        },
+        {
+          "h": {
+            "en": "Practical 12: UJT demonstration",
+            "gu": "Practical 12: UJT Demonstration"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Observe capacitor charging,triggering and reset in an approved relaxation trainer.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li><li>Approved UJT timing trainer,rated R/C,limited supply,CRO/DSO and DMM.</li></ul><h4>Circuit connections</h4><p>Verify E,B1,B2 and the assigned timing/measurement points;do not substitute BJT pin assumptions.</p><h4>Supervised procedure</h4><ol><li>Identify the part,stand-off ratio range and safe interbase/emitter conditions.</li><li>Connect the timing circuit with power OFF and capacitor safely discharged.</li><li>Check scope reference and assigned supply setting.</li><li>Power ON and observe emitter capacitor voltage and the approved pulse point.</li><li>Record peak/reset voltages,time period and component values from actual observations.</li><li>Change only assigned timing settings after safe power-down and compare trends,not invented frequencies.</li></ol><h4>Calculations and interpretation</h4><p>f=1/T;compare peak with VP≈eta VBB+VD only as a model-dependent estimate.</p><h4>Fault finding</h4><ul><li>No oscillation:check pinout,charging path,trigger threshold,reset conditions and probe loading.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth. Check CRO/DSO earth-referenced clips,probe attenuation and permitted common point before power ON.A bridge output may require an approved differential/isolated measurement method;never float an ordinary scope by removing earth. Verify controlled capacitor discharge before touching/changing connections.Do not short terminals with metal;protect against inductive turn-off transients.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>VBB V</th><th>R ohm</th><th>C microF</th><th>peak V</th><th>valley V</th><th>period ms</th><th>frequency Hz</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+            "gu": "<h4>હેતુ</h4><p>Approved relaxation trainerમાં capacitor charging,triggering/reset જુઓ.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li><li>Approved UJT timing trainer,rated R/C,limited supply,CRO/DSO તથા DMM.</li></ul><h4>Circuit Connections</h4><p>E,B1,B2 તથા assigned timing/measurement points verify કરો;BJT pin assumptions ન લો.</p><h4>Supervised Procedure</h4><ol><li>Part,stand-off ratio range તથા safe interbase/emitter conditions ઓળખો.</li><li>Power OFF તથા capacitor safely discharged રાખી timing circuit જોડો.</li><li>Scope reference તથા assigned supply setting તપાસો.</li><li>Power ON કરીને emitter capacitor voltage તથા approved pulse point જુઓ.</li><li>Actual observationsથી peak/reset voltages,time period તથા component values નોંધો.</li><li>Safe power-down પછી ફક્ત assigned timing settings બદલો;invented frequencies નહિ,trends compare કરો.</li></ol><h4>Calculations અને અર્થ</h4><p>f=1/T;peakને VP≈eta VBB+VD સાથે model-dependent estimate તરીકે જ compare કરો.</p><h4>Fault Finding</h4><ul><li>Oscillation ન મળે તો pinout,charging path,threshold,reset conditions તથા probe loading જુઓ.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો. Power ON પહેલાં CRO/DSO earth-referenced clips,probe attenuation તથા permitted common point તપાસો.Bridge output માટે approved differential/isolated method જોઈએ;earth કાઢીને ordinary scope float ન કરો. Connections બદલતાં/સ્પર્શ કરતાં પહેલાં controlled capacitor discharge verify કરો.Metalથી terminals short ન કરો;inductive turn-off transients સામે protection રાખો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>VBB V</th><th>R ohm</th><th>C microF</th><th>peak V</th><th>valley V</th><th>period ms</th><th>frequency Hz</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+          },
+          "diagram": "ujtstructure",
+          "syllabus_item": "Practical.12"
+        },
+        {
+          "h": {
+            "en": "Practical 13: Seven-segment alphanumeric display",
+            "gu": "Practical 13: Seven-segment Alphanumeric Display"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Display digits and supported letter approximations with safe segment currents.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li><li>Known common-anode/cathode display,data sheet,individual resistors,rated driver or switches and limited low-voltage supply.</li></ul><h4>Circuit connections</h4><p>Connect the verified common and each chosen segment through its own limiting path;never share one arbitrary common-lead resistor as a substitute.</p><h4>Supervised procedure</h4><ol><li>Identify display type,pinout,segment limits and a through g labels.</li><li>Calculate each resistor using the assigned drive voltage,LED drop and driver allowance.</li><li>With power OFF,wire one segment and verify its limited-current operation.</li><li>Add the remaining segments using separate current control.</li><li>Display assigned digits and A,b,C,d,E,F approximations,checking the Notes segment map.</li><li>Record segment sets,current and total-driver limit;power OFF before changing physical jumpers.</li></ol><h4>Calculations and interpretation</h4><p>I≈(Vs−VF−Vdriver)/R.Compare total current when many segments are ON;do not claim a complete alphabet is legible.</p><h4>Fault finding</h4><ul><li>Wrong character:check segment labels/pinout;uneven brightness:check individual current paths and driver capability.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Character</th><th>lit segments</th><th>polarity/type</th><th>resistor ohm</th><th>segment mA</th><th>total mA</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+            "gu": "<h4>હેતુ</h4><p>Safe segment currentsથી digits તથા supported letter approximations દર્શાવો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li><li>Known common-anode/cathode display,data sheet,individual resistors,rated driver/switches તથા limited low-voltage supply.</li></ul><h4>Circuit Connections</h4><p>Verified common તથા દરેક chosen segment પોતાના limiting pathથી જોડો;એક arbitrary common-lead resistorને substitute ન માનો.</p><h4>Supervised Procedure</h4><ol><li>Display type,pinout,segment limits તથા aથી g labels ઓળખો.</li><li>Assigned drive voltage,LED drop/driver allowanceથી દરેક resistor ગણો.</li><li>Power OFFમાં એક segment જોડીને limited-current operation verify કરો.</li><li>Separate current controlથી બાકી segments ઉમેરો.</li><li>Notes map તપાસીને assigned digits તથા A,b,C,d,E,F approximations બતાવો.</li><li>Segment sets,current તથા total-driver limit નોંધો;physical jumpers બદલતાં power OFF કરો.</li></ol><h4>Calculations અને અર્થ</h4><p>I≈(Vs−VF−Vdriver)/R.ઘણા segments ONએ total current compare કરો;complete alphabet legible છે એવો દાવો ન કરો.</p><h4>Fault Finding</h4><ul><li>Wrong characterમાં labels/pinout જુઓ;uneven brightnessમાં individual current paths/driver capability તપાસો.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Character</th><th>lit segments</th><th>polarity/type</th><th>resistor ohm</th><th>segment mA</th><th>total mA</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+          },
+          "diagram": "seven",
+          "syllabus_item": "Practical.13"
+        },
+        {
+          "h": {
+            "en": "Practical 14: LDR characteristics",
+            "gu": "Practical 14: LDR Characteristics"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Measure resistance changes under controlled light conditions.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li><li>LDR,safe LED lamp,repeatable holder/dark cover and DMM resistance mode;lux meter only if actually available.</li></ul><h4>Circuit connections</h4><p>Measure an isolated,unpowered LDR;or use an assigned powered divider with voltage mode,never resistance mode on a powered circuit.</p><h4>Supervised procedure</h4><ol><li>Identify the sample and ensure no external/residual voltage.</li><li>Fix lamp,sensor geometry and ambient shielding without overheating the LDR.</li><li>Allow settling in the defined dark condition and record actual resistance.</li><li>Apply repeatable light settings and wait for stable readings at each setting.</li><li>Repeat a setting to check history/ambient variation and note temperature conditions.</li><li>Plot measured R against the recorded light-setting variable;use lux only with genuine calibrated measurement.</li></ol><h4>Calculations and interpretation</h4><p>Describe the observed nonlinear trend.Do not convert distance to lux without an appropriate calibrated model/measurement.</p><h4>Fault finding</h4><ul><li>Unstable R:check ambient leakage,contacts,meter range,settling and lamp heating before blaming the sensor.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Light setting</th><th>distance/geometry</th><th>actual lux if measured</th><th>R ohm</th><th>settling note</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+            "gu": "<h4>હેતુ</h4><p>Controlled light conditionsમાં resistance changes માપો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li><li>LDR,safe LED lamp,repeatable holder/dark cover તથા DMM resistance mode;actual available હોય તો જ lux meter.</li></ul><h4>Circuit Connections</h4><p>Isolated unpowered LDR માપો;અથવા assigned powered dividerમાં voltage mode લો,powered circuitમાં resistance mode નહિ.</p><h4>Supervised Procedure</h4><ol><li>Sample ઓળખીને external/residual voltage નથી તે ખાતરી કરો.</li><li>LDR overheat ન થાય તે રીતે lamp/sensor geometry તથા shielding fixed રાખો.</li><li>Defined dark conditionમાં settle થયા પછી actual R નોંધો.</li><li>Repeatable light settings આપીને દરેક વખતે stable reading સુધી રાહ જુઓ.</li><li>History/ambient variation જોવા setting repeat કરો અને temperature conditions લખો.</li><li>Recorded light-setting variable સામે R plot કરો;genuine calibrated measurement હોય તો જ lux વાપરો.</li></ol><h4>Calculations અને અર્થ</h4><p>Observed nonlinear trend લખો.Appropriate calibrated model/measurement વિના distanceને luxમાં ન ફેરવો.</p><h4>Fault Finding</h4><ul><li>Unstable Rમાં sensorને દોષ આપતાં પહેલાં ambient leakage,contacts,range,settling તથા lamp heating જુઓ.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Light setting</th><th>distance/geometry</th><th>actual lux if measured</th><th>R ohm</th><th>settling note</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+          },
+          "diagram": "ldr",
+          "syllabus_item": "Practical.14"
+        },
+        {
+          "h": {
+            "en": "Practical 15: Optical-fibre working demonstration",
+            "gu": "Practical 15: Optical-fibre Working Demonstration"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Demonstrate guided light and received-signal change on an approved enclosed trainer.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li><li>Enclosed LED/fibre educational trainer,compatible receiver and its specified indicator/meter.</li></ul><h4>Circuit connections</h4><p>Use the approved transmitter-fibre-receiver connection;keep ends enclosed and switch source OFF before handling connectors.</p><h4>Supervised procedure</h4><ol><li>Inspect fibre,jacket and connectors with the optical source OFF;do not view the end face directly.</li><li>Connect the intended transmitter/receiver ports without exceeding bend radius.</li><li>Enable only the approved low-power enclosed source and observe the receiver indication.</li><li>Use trainer controls to compare source OFF/ON or assigned modulation without exposing the beam.</li><li>If permitted,compare a gentle allowed routing change;never kink,cut or stress the fibre to force loss.</li><li>Record actual receiver observations and explain core/cladding guidance;turn source OFF before disconnecting.</li></ol><h4>Calculations and interpretation</h4><p>Explain guiding with ncore&gt;ncladding and suitable incidence.Not every injected ray is guided;do not invent attenuation or bandwidth measurements.</p><h4>Fault finding</h4><ul><li>No reception:power OFF and check correct ports,alignment,connector cleanliness,source setting and receiver supply.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Source state</th><th>fibre route</th><th>receiver indication/value</th><th>setting</th><th>observation</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+            "gu": "<h4>હેતુ</h4><p>Approved enclosed trainerમાં guided light તથા received-signal change દર્શાવો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li><li>Enclosed LED/fibre educational trainer,compatible receiver તથા specified indicator/meter.</li></ul><h4>Circuit Connections</h4><p>Approved transmitter-fibre-receiver connection લો;ends enclosed રાખો તથા connectors handle કરતાં source OFF કરો.</p><h4>Supervised Procedure</h4><ol><li>Optical source OFFમાં fibre,jacket/connectors તપાસો;end faceમાં direct ન જુઓ.</li><li>Bend radius વટાવ્યા વિના intended transmitter/receiver ports જોડો.</li><li>ફક્ત approved low-power enclosed source ON કરીને receiver indication જુઓ.</li><li>Beam expose કર્યા વગર trainer controlsથી OFF/ON અથવા assigned modulation compare કરો.</li><li>મંજૂરી હોય તો gentle allowed routing change compare કરો;loss force કરવા kink/cut/stress ન કરો.</li><li>Actual receiver observations નોંધો તથા core/cladding guidance સમજાવો;disconnect પહેલાં source OFF કરો.</li></ol><h4>Calculations અને અર્થ</h4><p>ncore&gt;ncladding તથા suitable incidenceથી guiding સમજાવો.દરેક injected ray guided નથી;attenuation/bandwidth readings ન બનાવો.</p><h4>Fault Finding</h4><ul><li>Reception ન મળે તો power OFFમાં ports,alignment,cleanliness,source setting/receiver supply જુઓ.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Source state</th><th>fibre route</th><th>receiver indication/value</th><th>setting</th><th>observation</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+          },
+          "diagram": "fiber",
+          "syllabus_item": "Practical.15"
+        }
+      ],
+      "practical_section": true
+    },
+    {
+      "title": {
+        "en": "Suggested projects and evidence",
+        "gu": "Suggested Projects અને Evidence"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Project 8: DIAC-TRIAC flasher:restricted safe plan",
+            "gu": "Project 8: DIAC-TRIAC Flasher:મર્યાદિત Safe Plan"
+          },
+          "body": {
+            "en": "<p>Use simulation or a purpose-built enclosed isolated trainer only.DIAC breakover may exceed ordinary low-voltage supply limits;do not improvise mains/boost wiring to reach it.Explain charge,breakover,trigger,latch and reset.</p>",
+            "gu": "<p>ફક્ત simulation અથવા purpose-built enclosed isolated trainer લો.DIAC breakover ordinary low-voltage supplyથી મોટું હોઈ શકે;તે માટે mains/boost wiring improvise ન કરો.Charge,breakover,trigger,latch/reset સમજાવો.</p>"
+          },
+          "syllabus_item": "Project.8"
+        },
+        {
+          "h": {
+            "en": "Project 9: Seven-segment display",
+            "gu": "Project 9: Seven-segment Display"
+          },
+          "body": {
+            "en": "<p>Prepare a verified segment/pin map and per-segment limiting,then demonstrate supported characters within display/driver total-current limits.</p>",
+            "gu": "<p>Verified segment/pin map તથા per-segment limiting તૈયાર કરીને display/driver total-current limitsમાં supported characters બતાવો.</p>"
+          },
+          "syllabus_item": "Project.9"
+        },
+        {
+          "h": {
+            "en": "Project 10: LDR alarm demonstrator",
+            "gu": "Project 10: LDR Alarm Demonstrator"
+          },
+          "body": {
+            "en": "<p>Use an approved low-voltage LDR divider and threshold/driver trainer;document light/dark trigger direction,hysteresis if present and false-trigger sensitivity.This is not a certified security system.</p>",
+            "gu": "<p>Approved low-voltage LDR divider તથા threshold/driver trainer લો.Light/dark trigger direction,hysteresis હોય તો તથા false-trigger sensitivity લખો.આ certified security system નથી.</p>"
+          },
+          "syllabus_item": "Project.10"
+        }
+      ],
+      "project_section": true
+    },
+    {
+      "title": {
+        "en": "Activities Seminar,device tests and team portfolio",
+        "gu": "Activities Seminar,Device Tests તથા Team Portfolio"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Suggested student activities",
+            "gu": "Suggested Student Activities"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Maintain a genuine learning portfolio rather than prefilled experiment claims.</p><h4>Explanation and application</h4><ul><li>Prepare a seminar from a course topic with labelled diagrams and a clear principle/limitation explanation.</li><li>Test assigned semiconductor samples with the correct multimeter mode after isolation;document actual results and limits of the test.</li><li>Use the Unit2 CE/CB/CC chart support and explain which quantities/conditions are compared.</li><li>Work in teams on an approved micro-project;record role allocation,safety review,design checks and authentic observations.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Prefilled experiment claimsના બદલે genuine learning portfolio રાખો.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Course topicનું seminar labelled diagrams તથા clear principle/limitation સાથે બનાવો.</li><li>Isolation પછી યોગ્ય multimeter modeથી assigned samples test કરો;actual results તથા test limits લખો.</li><li>Unit2 CE/CB/CC chart supportથી કયા quantities/conditions compare થાય છે તે સમજાવો.</li><li>Approved micro-projectમાં team સાથે કામ કરો;roles,safety review,design checks તથા authentic observations નોંધો.</li></ul>"
+          },
+          "syllabus_item": "Activities"
+        }
+      ]
+    }
+  ],
+  "programs": [
+    {
+      "title": {
+        "en": "Practical & Testing",
+        "gu": "પ્રયોગ અને ચકાસણી"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "MOSFET amplifier demonstration",
+            "gu": "MOSFET Amplifier Demonstration"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Demonstrate valid common-source bias and small-signal inversion.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li><li>Approved MOSFET amplifier trainer,ESD-safe handling,function generator,CRO/DSO and limited DC source.</li></ul><h4>Circuit connections</h4><p>Use the assigned gate-bias,RD/RS and coupling network;verify G,D,S and body connection.Gate drive is relative to source.</p><h4>Supervised procedure</h4><ol><li>Identify enhancement/depletion type and exact gate-voltage ratings.</li><li>Handle with approved ESD precautions and connect the circuit with source disabled.</li><li>Power ON slowly and record DC VG,VS,VD;confirm the assigned amplifier region.</li><li>Apply a small sine input after scope-reference checks.</li><li>Record equal-convention input/output amplitudes,frequency and inversion without clipping.</li><li>Reduce signal,power OFF and return the trainer to its safe state.</li></ol><h4>Calculations and interpretation</h4><p>VGS=VG−VS,VDS=VD−VS;Av=Vout/Vin with phase stated.Threshold alone does not certify the chosen bias or full ON operation.</p><h4>Fault finding</h4><ul><li>No amplification:check floating gate,wrong type/pins,bias region,source reference and instrument loading.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth. Check CRO/DSO earth-referenced clips,probe attenuation and permitted common point before power ON.A bridge output may require an approved differential/isolated measurement method;never float an ordinary scope by removing earth. Verify controlled capacitor discharge before touching/changing connections.Do not short terminals with metal;protect against inductive turn-off transients.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>VG V</th><th>VS V</th><th>VD V</th><th>Vin</th><th>Vout</th><th>frequency Hz</th><th>probe factor</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+            "gu": "<h4>હેતુ</h4><p>Valid common-source bias તથા small-signal inversion દર્શાવો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li><li>Approved MOSFET amplifier trainer,ESD-safe handling,function generator,CRO/DSO તથા limited DC source.</li></ul><h4>Circuit Connections</h4><p>Assigned gate-bias,RD/RS તથા coupling network લો;G,D,S/body connection verify કરો.Gate drive sourceની સામે છે.</p><h4>Supervised Procedure</h4><ol><li>Enhancement/depletion type તથા exact gate-voltage ratings ઓળખો.</li><li>Approved ESD precautionsથી source disabled રાખી circuit જોડો.</li><li>Slowly power ON કરીને DC VG,VS,VD નોંધો;assigned amplifier region confirm કરો.</li><li>Scope-reference checks પછી small sine input આપો.</li><li>Clipping વિના equal-convention input/output amplitudes,frequency/inversion નોંધો.</li><li>Signal ઘટાડીને power OFF કરો અને trainer safe stateમાં મૂકો.</li></ol><h4>Calculations અને અર્થ</h4><p>VGS=VG−VS,VDS=VD−VS;phase સાથે Av=Vout/Vin.Threshold એકલું chosen bias/full ON certify નથી કરતું.</p><h4>Fault Finding</h4><ul><li>Amplification ન મળે તો floating gate,wrong type/pins,bias region,source reference/instrument loading તપાસો.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો. Power ON પહેલાં CRO/DSO earth-referenced clips,probe attenuation તથા permitted common point તપાસો.Bridge output માટે approved differential/isolated method જોઈએ;earth કાઢીને ordinary scope float ન કરો. Connections બદલતાં/સ્પર્શ કરતાં પહેલાં controlled capacitor discharge verify કરો.Metalથી terminals short ન કરો;inductive turn-off transients સામે protection રાખો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>VG V</th><th>VS V</th><th>VD V</th><th>Vin</th><th>Vout</th><th>frequency Hz</th><th>probe factor</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+          },
+          "diagram": "mosamp",
+          "practical_number": 10
+        },
+        {
+          "h": {
+            "en": "SCR demonstration",
+            "gu": "SCR Demonstration"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Observe triggering,latching and current-controlled turn-off.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li><li>Approved low-voltage SCR trainer with resistive load,gate limiter,main-current meter and reset control.</li></ul><h4>Circuit connections</h4><p>Anode-load-supply loop and gate-cathode trigger loop use the trainer-approved common.Gate current and main current are separately limited.</p><h4>Supervised procedure</h4><ol><li>Identify A,K,G and actual trigger,latching/holding specifications.</li><li>Connect with power OFF and set the gate command OFF.</li><li>Apply allowed main supply and confirm the intended forward-blocking state.</li><li>Apply the approved limited gate pulse and observe main-current turn-on.</li><li>Remove the pulse after latching and observe whether conduction persists.</li><li>Use the approved main-current reset to stop conduction;record turn-off and distinguish IL from IH.</li></ol><h4>Calculations and interpretation</h4><p>Gate removal is not a normal OFF command for an ordinary latched SCR.Report actual conditions,not a guessed holding current.</p><h4>Fault finding</h4><ul><li>Fails to latch:check main current,trigger polarity and pulse duration;always ON:power OFF and inspect pinout/shorts.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Gate state</th><th>VAK V</th><th>gate mA</th><th>anode mA</th><th>latched?</th><th>reset condition</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+            "gu": "<h4>હેતુ</h4><p>Triggering,latching તથા current-controlled turn-off જુઓ.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li><li>Resistive load,gate limiter,main-current meter તથા reset controlવાળું approved low-voltage SCR trainer.</li></ul><h4>Circuit Connections</h4><p>Anode-load-supply તથા gate-cathode trigger loops trainer-approved common વાપરે છે.Gate/main currents અલગ limit થાય છે.</p><h4>Supervised Procedure</h4><ol><li>A,K,G તથા actual trigger,latching/holding specifications ઓળખો.</li><li>Power OFFમાં connect કરીને gate command OFF રાખો.</li><li>Allowed main supply આપીને intended forward-blocking state confirm કરો.</li><li>Approved limited gate pulse આપી main-current turn-on જુઓ.</li><li>Latching પછી pulse દૂર કરીને conduction રહે છે કે નહિ જુઓ.</li><li>Approved main-current resetથી conduction બંધ કરો;turn-off નોંધો તથા IL/IH જુદા સમજો.</li></ol><h4>Calculations અને અર્થ</h4><p>Ordinary latched SCR માટે gate removal normal OFF command નથી.Guessed holding current નહિ,actual conditions લખો.</p><h4>Fault Finding</h4><ul><li>Latch ન થાય તો main current,trigger polarity/pulse duration જુઓ;હંમેશાં ON હોય તો power OFFમાં pinout/short તપાસો.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Gate state</th><th>VAK V</th><th>gate mA</th><th>anode mA</th><th>latched?</th><th>reset condition</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+          },
+          "diagram": "scrstructure",
+          "practical_number": 11
+        },
+        {
+          "h": {
+            "en": "UJT demonstration",
+            "gu": "UJT Demonstration"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Observe capacitor charging,triggering and reset in an approved relaxation trainer.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li><li>Approved UJT timing trainer,rated R/C,limited supply,CRO/DSO and DMM.</li></ul><h4>Circuit connections</h4><p>Verify E,B1,B2 and the assigned timing/measurement points;do not substitute BJT pin assumptions.</p><h4>Supervised procedure</h4><ol><li>Identify the part,stand-off ratio range and safe interbase/emitter conditions.</li><li>Connect the timing circuit with power OFF and capacitor safely discharged.</li><li>Check scope reference and assigned supply setting.</li><li>Power ON and observe emitter capacitor voltage and the approved pulse point.</li><li>Record peak/reset voltages,time period and component values from actual observations.</li><li>Change only assigned timing settings after safe power-down and compare trends,not invented frequencies.</li></ol><h4>Calculations and interpretation</h4><p>f=1/T;compare peak with VP≈eta VBB+VD only as a model-dependent estimate.</p><h4>Fault finding</h4><ul><li>No oscillation:check pinout,charging path,trigger threshold,reset conditions and probe loading.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth. Check CRO/DSO earth-referenced clips,probe attenuation and permitted common point before power ON.A bridge output may require an approved differential/isolated measurement method;never float an ordinary scope by removing earth. Verify controlled capacitor discharge before touching/changing connections.Do not short terminals with metal;protect against inductive turn-off transients.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>VBB V</th><th>R ohm</th><th>C microF</th><th>peak V</th><th>valley V</th><th>period ms</th><th>frequency Hz</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+            "gu": "<h4>હેતુ</h4><p>Approved relaxation trainerમાં capacitor charging,triggering/reset જુઓ.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li><li>Approved UJT timing trainer,rated R/C,limited supply,CRO/DSO તથા DMM.</li></ul><h4>Circuit Connections</h4><p>E,B1,B2 તથા assigned timing/measurement points verify કરો;BJT pin assumptions ન લો.</p><h4>Supervised Procedure</h4><ol><li>Part,stand-off ratio range તથા safe interbase/emitter conditions ઓળખો.</li><li>Power OFF તથા capacitor safely discharged રાખી timing circuit જોડો.</li><li>Scope reference તથા assigned supply setting તપાસો.</li><li>Power ON કરીને emitter capacitor voltage તથા approved pulse point જુઓ.</li><li>Actual observationsથી peak/reset voltages,time period તથા component values નોંધો.</li><li>Safe power-down પછી ફક્ત assigned timing settings બદલો;invented frequencies નહિ,trends compare કરો.</li></ol><h4>Calculations અને અર્થ</h4><p>f=1/T;peakને VP≈eta VBB+VD સાથે model-dependent estimate તરીકે જ compare કરો.</p><h4>Fault Finding</h4><ul><li>Oscillation ન મળે તો pinout,charging path,threshold,reset conditions તથા probe loading જુઓ.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો. Power ON પહેલાં CRO/DSO earth-referenced clips,probe attenuation તથા permitted common point તપાસો.Bridge output માટે approved differential/isolated method જોઈએ;earth કાઢીને ordinary scope float ન કરો. Connections બદલતાં/સ્પર્શ કરતાં પહેલાં controlled capacitor discharge verify કરો.Metalથી terminals short ન કરો;inductive turn-off transients સામે protection રાખો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>VBB V</th><th>R ohm</th><th>C microF</th><th>peak V</th><th>valley V</th><th>period ms</th><th>frequency Hz</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+          },
+          "diagram": "ujtstructure",
+          "practical_number": 12
+        },
+        {
+          "h": {
+            "en": "Seven-segment alphanumeric display",
+            "gu": "Seven-segment Alphanumeric Display"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Display digits and supported letter approximations with safe segment currents.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li><li>Known common-anode/cathode display,data sheet,individual resistors,rated driver or switches and limited low-voltage supply.</li></ul><h4>Circuit connections</h4><p>Connect the verified common and each chosen segment through its own limiting path;never share one arbitrary common-lead resistor as a substitute.</p><h4>Supervised procedure</h4><ol><li>Identify display type,pinout,segment limits and a through g labels.</li><li>Calculate each resistor using the assigned drive voltage,LED drop and driver allowance.</li><li>With power OFF,wire one segment and verify its limited-current operation.</li><li>Add the remaining segments using separate current control.</li><li>Display assigned digits and A,b,C,d,E,F approximations,checking the Notes segment map.</li><li>Record segment sets,current and total-driver limit;power OFF before changing physical jumpers.</li></ol><h4>Calculations and interpretation</h4><p>I≈(Vs−VF−Vdriver)/R.Compare total current when many segments are ON;do not claim a complete alphabet is legible.</p><h4>Fault finding</h4><ul><li>Wrong character:check segment labels/pinout;uneven brightness:check individual current paths and driver capability.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Character</th><th>lit segments</th><th>polarity/type</th><th>resistor ohm</th><th>segment mA</th><th>total mA</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+            "gu": "<h4>હેતુ</h4><p>Safe segment currentsથી digits તથા supported letter approximations દર્શાવો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li><li>Known common-anode/cathode display,data sheet,individual resistors,rated driver/switches તથા limited low-voltage supply.</li></ul><h4>Circuit Connections</h4><p>Verified common તથા દરેક chosen segment પોતાના limiting pathથી જોડો;એક arbitrary common-lead resistorને substitute ન માનો.</p><h4>Supervised Procedure</h4><ol><li>Display type,pinout,segment limits તથા aથી g labels ઓળખો.</li><li>Assigned drive voltage,LED drop/driver allowanceથી દરેક resistor ગણો.</li><li>Power OFFમાં એક segment જોડીને limited-current operation verify કરો.</li><li>Separate current controlથી બાકી segments ઉમેરો.</li><li>Notes map તપાસીને assigned digits તથા A,b,C,d,E,F approximations બતાવો.</li><li>Segment sets,current તથા total-driver limit નોંધો;physical jumpers બદલતાં power OFF કરો.</li></ol><h4>Calculations અને અર્થ</h4><p>I≈(Vs−VF−Vdriver)/R.ઘણા segments ONએ total current compare કરો;complete alphabet legible છે એવો દાવો ન કરો.</p><h4>Fault Finding</h4><ul><li>Wrong characterમાં labels/pinout જુઓ;uneven brightnessમાં individual current paths/driver capability તપાસો.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Character</th><th>lit segments</th><th>polarity/type</th><th>resistor ohm</th><th>segment mA</th><th>total mA</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+          },
+          "diagram": "seven",
+          "practical_number": 13
+        },
+        {
+          "h": {
+            "en": "LDR characteristics",
+            "gu": "LDR Characteristics"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Measure resistance changes under controlled light conditions.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li><li>LDR,safe LED lamp,repeatable holder/dark cover and DMM resistance mode;lux meter only if actually available.</li></ul><h4>Circuit connections</h4><p>Measure an isolated,unpowered LDR;or use an assigned powered divider with voltage mode,never resistance mode on a powered circuit.</p><h4>Supervised procedure</h4><ol><li>Identify the sample and ensure no external/residual voltage.</li><li>Fix lamp,sensor geometry and ambient shielding without overheating the LDR.</li><li>Allow settling in the defined dark condition and record actual resistance.</li><li>Apply repeatable light settings and wait for stable readings at each setting.</li><li>Repeat a setting to check history/ambient variation and note temperature conditions.</li><li>Plot measured R against the recorded light-setting variable;use lux only with genuine calibrated measurement.</li></ol><h4>Calculations and interpretation</h4><p>Describe the observed nonlinear trend.Do not convert distance to lux without an appropriate calibrated model/measurement.</p><h4>Fault finding</h4><ul><li>Unstable R:check ambient leakage,contacts,meter range,settling and lamp heating before blaming the sensor.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Light setting</th><th>distance/geometry</th><th>actual lux if measured</th><th>R ohm</th><th>settling note</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+            "gu": "<h4>હેતુ</h4><p>Controlled light conditionsમાં resistance changes માપો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li><li>LDR,safe LED lamp,repeatable holder/dark cover તથા DMM resistance mode;actual available હોય તો જ lux meter.</li></ul><h4>Circuit Connections</h4><p>Isolated unpowered LDR માપો;અથવા assigned powered dividerમાં voltage mode લો,powered circuitમાં resistance mode નહિ.</p><h4>Supervised Procedure</h4><ol><li>Sample ઓળખીને external/residual voltage નથી તે ખાતરી કરો.</li><li>LDR overheat ન થાય તે રીતે lamp/sensor geometry તથા shielding fixed રાખો.</li><li>Defined dark conditionમાં settle થયા પછી actual R નોંધો.</li><li>Repeatable light settings આપીને દરેક વખતે stable reading સુધી રાહ જુઓ.</li><li>History/ambient variation જોવા setting repeat કરો અને temperature conditions લખો.</li><li>Recorded light-setting variable સામે R plot કરો;genuine calibrated measurement હોય તો જ lux વાપરો.</li></ol><h4>Calculations અને અર્થ</h4><p>Observed nonlinear trend લખો.Appropriate calibrated model/measurement વિના distanceને luxમાં ન ફેરવો.</p><h4>Fault Finding</h4><ul><li>Unstable Rમાં sensorને દોષ આપતાં પહેલાં ambient leakage,contacts,range,settling તથા lamp heating જુઓ.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Light setting</th><th>distance/geometry</th><th>actual lux if measured</th><th>R ohm</th><th>settling note</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+          },
+          "diagram": "ldr",
+          "practical_number": 14
+        },
+        {
+          "h": {
+            "en": "Optical-fibre working demonstration",
+            "gu": "Optical-fibre Working Demonstration"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Demonstrate guided light and received-signal change on an approved enclosed trainer.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li><li>Enclosed LED/fibre educational trainer,compatible receiver and its specified indicator/meter.</li></ul><h4>Circuit connections</h4><p>Use the approved transmitter-fibre-receiver connection;keep ends enclosed and switch source OFF before handling connectors.</p><h4>Supervised procedure</h4><ol><li>Inspect fibre,jacket and connectors with the optical source OFF;do not view the end face directly.</li><li>Connect the intended transmitter/receiver ports without exceeding bend radius.</li><li>Enable only the approved low-power enclosed source and observe the receiver indication.</li><li>Use trainer controls to compare source OFF/ON or assigned modulation without exposing the beam.</li><li>If permitted,compare a gentle allowed routing change;never kink,cut or stress the fibre to force loss.</li><li>Record actual receiver observations and explain core/cladding guidance;turn source OFF before disconnecting.</li></ol><h4>Calculations and interpretation</h4><p>Explain guiding with ncore&gt;ncladding and suitable incidence.Not every injected ray is guided;do not invent attenuation or bandwidth measurements.</p><h4>Fault finding</h4><ul><li>No reception:power OFF and check correct ports,alignment,connector cleanliness,source setting and receiver supply.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Source state</th><th>fibre route</th><th>receiver indication/value</th><th>setting</th><th>observation</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+            "gu": "<h4>હેતુ</h4><p>Approved enclosed trainerમાં guided light તથા received-signal change દર્શાવો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li><li>Enclosed LED/fibre educational trainer,compatible receiver તથા specified indicator/meter.</li></ul><h4>Circuit Connections</h4><p>Approved transmitter-fibre-receiver connection લો;ends enclosed રાખો તથા connectors handle કરતાં source OFF કરો.</p><h4>Supervised Procedure</h4><ol><li>Optical source OFFમાં fibre,jacket/connectors તપાસો;end faceમાં direct ન જુઓ.</li><li>Bend radius વટાવ્યા વિના intended transmitter/receiver ports જોડો.</li><li>ફક્ત approved low-power enclosed source ON કરીને receiver indication જુઓ.</li><li>Beam expose કર્યા વગર trainer controlsથી OFF/ON અથવા assigned modulation compare કરો.</li><li>મંજૂરી હોય તો gentle allowed routing change compare કરો;loss force કરવા kink/cut/stress ન કરો.</li><li>Actual receiver observations નોંધો તથા core/cladding guidance સમજાવો;disconnect પહેલાં source OFF કરો.</li></ol><h4>Calculations અને અર્થ</h4><p>ncore&gt;ncladding તથા suitable incidenceથી guiding સમજાવો.દરેક injected ray guided નથી;attenuation/bandwidth readings ન બનાવો.</p><h4>Fault Finding</h4><ul><li>Reception ન મળે તો power OFFમાં ports,alignment,cleanliness,source setting/receiver supply જુઓ.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Source state</th><th>fibre route</th><th>receiver indication/value</th><th>setting</th><th>observation</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+          },
+          "diagram": "fiber",
+          "practical_number": 15
+        }
+      ]
+    }
+  ],
+  "practicals": [
+    {
+      "number": 10,
+      "unit": 3,
+      "title": {
+        "en": "MOSFET amplifier demonstration",
+        "gu": "MOSFET Amplifier Demonstration"
+      },
+      "aim": {
+        "en": "Demonstrate valid common-source bias and small-signal inversion.",
+        "gu": "Valid common-source bias તથા small-signal inversion દર્શાવો."
+      },
+      "diagram": "mosamp",
+      "body": {
+        "en": "<h4>Aim</h4><p>Demonstrate valid common-source bias and small-signal inversion.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li><li>Approved MOSFET amplifier trainer,ESD-safe handling,function generator,CRO/DSO and limited DC source.</li></ul><h4>Circuit connections</h4><p>Use the assigned gate-bias,RD/RS and coupling network;verify G,D,S and body connection.Gate drive is relative to source.</p><h4>Supervised procedure</h4><ol><li>Identify enhancement/depletion type and exact gate-voltage ratings.</li><li>Handle with approved ESD precautions and connect the circuit with source disabled.</li><li>Power ON slowly and record DC VG,VS,VD;confirm the assigned amplifier region.</li><li>Apply a small sine input after scope-reference checks.</li><li>Record equal-convention input/output amplitudes,frequency and inversion without clipping.</li><li>Reduce signal,power OFF and return the trainer to its safe state.</li></ol><h4>Calculations and interpretation</h4><p>VGS=VG−VS,VDS=VD−VS;Av=Vout/Vin with phase stated.Threshold alone does not certify the chosen bias or full ON operation.</p><h4>Fault finding</h4><ul><li>No amplification:check floating gate,wrong type/pins,bias region,source reference and instrument loading.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth. Check CRO/DSO earth-referenced clips,probe attenuation and permitted common point before power ON.A bridge output may require an approved differential/isolated measurement method;never float an ordinary scope by removing earth. Verify controlled capacitor discharge before touching/changing connections.Do not short terminals with metal;protect against inductive turn-off transients.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>VG V</th><th>VS V</th><th>VD V</th><th>Vin</th><th>Vout</th><th>frequency Hz</th><th>probe factor</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+        "gu": "<h4>હેતુ</h4><p>Valid common-source bias તથા small-signal inversion દર્શાવો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li><li>Approved MOSFET amplifier trainer,ESD-safe handling,function generator,CRO/DSO તથા limited DC source.</li></ul><h4>Circuit Connections</h4><p>Assigned gate-bias,RD/RS તથા coupling network લો;G,D,S/body connection verify કરો.Gate drive sourceની સામે છે.</p><h4>Supervised Procedure</h4><ol><li>Enhancement/depletion type તથા exact gate-voltage ratings ઓળખો.</li><li>Approved ESD precautionsથી source disabled રાખી circuit જોડો.</li><li>Slowly power ON કરીને DC VG,VS,VD નોંધો;assigned amplifier region confirm કરો.</li><li>Scope-reference checks પછી small sine input આપો.</li><li>Clipping વિના equal-convention input/output amplitudes,frequency/inversion નોંધો.</li><li>Signal ઘટાડીને power OFF કરો અને trainer safe stateમાં મૂકો.</li></ol><h4>Calculations અને અર્થ</h4><p>VGS=VG−VS,VDS=VD−VS;phase સાથે Av=Vout/Vin.Threshold એકલું chosen bias/full ON certify નથી કરતું.</p><h4>Fault Finding</h4><ul><li>Amplification ન મળે તો floating gate,wrong type/pins,bias region,source reference/instrument loading તપાસો.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો. Power ON પહેલાં CRO/DSO earth-referenced clips,probe attenuation તથા permitted common point તપાસો.Bridge output માટે approved differential/isolated method જોઈએ;earth કાઢીને ordinary scope float ન કરો. Connections બદલતાં/સ્પર્શ કરતાં પહેલાં controlled capacitor discharge verify કરો.Metalથી terminals short ન કરો;inductive turn-off transients સામે protection રાખો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>VG V</th><th>VS V</th><th>VD V</th><th>Vin</th><th>Vout</th><th>frequency Hz</th><th>probe factor</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+      },
+      "performed": false,
+      "suggested_duration": null,
+      "source_reference": "Owner GTU practical 10,pp3–4",
+      "observation_status": "Blank;no fabricated readings"
+    },
+    {
+      "number": 11,
+      "unit": 3,
+      "title": {
+        "en": "SCR demonstration",
+        "gu": "SCR Demonstration"
+      },
+      "aim": {
+        "en": "Observe triggering,latching and current-controlled turn-off.",
+        "gu": "Triggering,latching તથા current-controlled turn-off જુઓ."
+      },
+      "diagram": "scrstructure",
+      "body": {
+        "en": "<h4>Aim</h4><p>Observe triggering,latching and current-controlled turn-off.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li><li>Approved low-voltage SCR trainer with resistive load,gate limiter,main-current meter and reset control.</li></ul><h4>Circuit connections</h4><p>Anode-load-supply loop and gate-cathode trigger loop use the trainer-approved common.Gate current and main current are separately limited.</p><h4>Supervised procedure</h4><ol><li>Identify A,K,G and actual trigger,latching/holding specifications.</li><li>Connect with power OFF and set the gate command OFF.</li><li>Apply allowed main supply and confirm the intended forward-blocking state.</li><li>Apply the approved limited gate pulse and observe main-current turn-on.</li><li>Remove the pulse after latching and observe whether conduction persists.</li><li>Use the approved main-current reset to stop conduction;record turn-off and distinguish IL from IH.</li></ol><h4>Calculations and interpretation</h4><p>Gate removal is not a normal OFF command for an ordinary latched SCR.Report actual conditions,not a guessed holding current.</p><h4>Fault finding</h4><ul><li>Fails to latch:check main current,trigger polarity and pulse duration;always ON:power OFF and inspect pinout/shorts.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Gate state</th><th>VAK V</th><th>gate mA</th><th>anode mA</th><th>latched?</th><th>reset condition</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+        "gu": "<h4>હેતુ</h4><p>Triggering,latching તથા current-controlled turn-off જુઓ.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li><li>Resistive load,gate limiter,main-current meter તથા reset controlવાળું approved low-voltage SCR trainer.</li></ul><h4>Circuit Connections</h4><p>Anode-load-supply તથા gate-cathode trigger loops trainer-approved common વાપરે છે.Gate/main currents અલગ limit થાય છે.</p><h4>Supervised Procedure</h4><ol><li>A,K,G તથા actual trigger,latching/holding specifications ઓળખો.</li><li>Power OFFમાં connect કરીને gate command OFF રાખો.</li><li>Allowed main supply આપીને intended forward-blocking state confirm કરો.</li><li>Approved limited gate pulse આપી main-current turn-on જુઓ.</li><li>Latching પછી pulse દૂર કરીને conduction રહે છે કે નહિ જુઓ.</li><li>Approved main-current resetથી conduction બંધ કરો;turn-off નોંધો તથા IL/IH જુદા સમજો.</li></ol><h4>Calculations અને અર્થ</h4><p>Ordinary latched SCR માટે gate removal normal OFF command નથી.Guessed holding current નહિ,actual conditions લખો.</p><h4>Fault Finding</h4><ul><li>Latch ન થાય તો main current,trigger polarity/pulse duration જુઓ;હંમેશાં ON હોય તો power OFFમાં pinout/short તપાસો.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Gate state</th><th>VAK V</th><th>gate mA</th><th>anode mA</th><th>latched?</th><th>reset condition</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+      },
+      "performed": false,
+      "suggested_duration": null,
+      "source_reference": "Owner GTU practical 11,pp3–4",
+      "observation_status": "Blank;no fabricated readings"
+    },
+    {
+      "number": 12,
+      "unit": 3,
+      "title": {
+        "en": "UJT demonstration",
+        "gu": "UJT Demonstration"
+      },
+      "aim": {
+        "en": "Observe capacitor charging,triggering and reset in an approved relaxation trainer.",
+        "gu": "Approved relaxation trainerમાં capacitor charging,triggering/reset જુઓ."
+      },
+      "diagram": "ujtstructure",
+      "body": {
+        "en": "<h4>Aim</h4><p>Observe capacitor charging,triggering and reset in an approved relaxation trainer.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li><li>Approved UJT timing trainer,rated R/C,limited supply,CRO/DSO and DMM.</li></ul><h4>Circuit connections</h4><p>Verify E,B1,B2 and the assigned timing/measurement points;do not substitute BJT pin assumptions.</p><h4>Supervised procedure</h4><ol><li>Identify the part,stand-off ratio range and safe interbase/emitter conditions.</li><li>Connect the timing circuit with power OFF and capacitor safely discharged.</li><li>Check scope reference and assigned supply setting.</li><li>Power ON and observe emitter capacitor voltage and the approved pulse point.</li><li>Record peak/reset voltages,time period and component values from actual observations.</li><li>Change only assigned timing settings after safe power-down and compare trends,not invented frequencies.</li></ol><h4>Calculations and interpretation</h4><p>f=1/T;compare peak with VP≈eta VBB+VD only as a model-dependent estimate.</p><h4>Fault finding</h4><ul><li>No oscillation:check pinout,charging path,trigger threshold,reset conditions and probe loading.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth. Check CRO/DSO earth-referenced clips,probe attenuation and permitted common point before power ON.A bridge output may require an approved differential/isolated measurement method;never float an ordinary scope by removing earth. Verify controlled capacitor discharge before touching/changing connections.Do not short terminals with metal;protect against inductive turn-off transients.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>VBB V</th><th>R ohm</th><th>C microF</th><th>peak V</th><th>valley V</th><th>period ms</th><th>frequency Hz</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+        "gu": "<h4>હેતુ</h4><p>Approved relaxation trainerમાં capacitor charging,triggering/reset જુઓ.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li><li>Approved UJT timing trainer,rated R/C,limited supply,CRO/DSO તથા DMM.</li></ul><h4>Circuit Connections</h4><p>E,B1,B2 તથા assigned timing/measurement points verify કરો;BJT pin assumptions ન લો.</p><h4>Supervised Procedure</h4><ol><li>Part,stand-off ratio range તથા safe interbase/emitter conditions ઓળખો.</li><li>Power OFF તથા capacitor safely discharged રાખી timing circuit જોડો.</li><li>Scope reference તથા assigned supply setting તપાસો.</li><li>Power ON કરીને emitter capacitor voltage તથા approved pulse point જુઓ.</li><li>Actual observationsથી peak/reset voltages,time period તથા component values નોંધો.</li><li>Safe power-down પછી ફક્ત assigned timing settings બદલો;invented frequencies નહિ,trends compare કરો.</li></ol><h4>Calculations અને અર્થ</h4><p>f=1/T;peakને VP≈eta VBB+VD સાથે model-dependent estimate તરીકે જ compare કરો.</p><h4>Fault Finding</h4><ul><li>Oscillation ન મળે તો pinout,charging path,threshold,reset conditions તથા probe loading જુઓ.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો. Power ON પહેલાં CRO/DSO earth-referenced clips,probe attenuation તથા permitted common point તપાસો.Bridge output માટે approved differential/isolated method જોઈએ;earth કાઢીને ordinary scope float ન કરો. Connections બદલતાં/સ્પર્શ કરતાં પહેલાં controlled capacitor discharge verify કરો.Metalથી terminals short ન કરો;inductive turn-off transients સામે protection રાખો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>VBB V</th><th>R ohm</th><th>C microF</th><th>peak V</th><th>valley V</th><th>period ms</th><th>frequency Hz</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+      },
+      "performed": false,
+      "suggested_duration": null,
+      "source_reference": "Owner GTU practical 12,pp3–4",
+      "observation_status": "Blank;no fabricated readings"
+    },
+    {
+      "number": 13,
+      "unit": 3,
+      "title": {
+        "en": "Seven-segment alphanumeric display",
+        "gu": "Seven-segment Alphanumeric Display"
+      },
+      "aim": {
+        "en": "Display digits and supported letter approximations with safe segment currents.",
+        "gu": "Safe segment currentsથી digits તથા supported letter approximations દર્શાવો."
+      },
+      "diagram": "seven",
+      "body": {
+        "en": "<h4>Aim</h4><p>Display digits and supported letter approximations with safe segment currents.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li><li>Known common-anode/cathode display,data sheet,individual resistors,rated driver or switches and limited low-voltage supply.</li></ul><h4>Circuit connections</h4><p>Connect the verified common and each chosen segment through its own limiting path;never share one arbitrary common-lead resistor as a substitute.</p><h4>Supervised procedure</h4><ol><li>Identify display type,pinout,segment limits and a through g labels.</li><li>Calculate each resistor using the assigned drive voltage,LED drop and driver allowance.</li><li>With power OFF,wire one segment and verify its limited-current operation.</li><li>Add the remaining segments using separate current control.</li><li>Display assigned digits and A,b,C,d,E,F approximations,checking the Notes segment map.</li><li>Record segment sets,current and total-driver limit;power OFF before changing physical jumpers.</li></ol><h4>Calculations and interpretation</h4><p>I≈(Vs−VF−Vdriver)/R.Compare total current when many segments are ON;do not claim a complete alphabet is legible.</p><h4>Fault finding</h4><ul><li>Wrong character:check segment labels/pinout;uneven brightness:check individual current paths and driver capability.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Character</th><th>lit segments</th><th>polarity/type</th><th>resistor ohm</th><th>segment mA</th><th>total mA</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+        "gu": "<h4>હેતુ</h4><p>Safe segment currentsથી digits તથા supported letter approximations દર્શાવો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li><li>Known common-anode/cathode display,data sheet,individual resistors,rated driver/switches તથા limited low-voltage supply.</li></ul><h4>Circuit Connections</h4><p>Verified common તથા દરેક chosen segment પોતાના limiting pathથી જોડો;એક arbitrary common-lead resistorને substitute ન માનો.</p><h4>Supervised Procedure</h4><ol><li>Display type,pinout,segment limits તથા aથી g labels ઓળખો.</li><li>Assigned drive voltage,LED drop/driver allowanceથી દરેક resistor ગણો.</li><li>Power OFFમાં એક segment જોડીને limited-current operation verify કરો.</li><li>Separate current controlથી બાકી segments ઉમેરો.</li><li>Notes map તપાસીને assigned digits તથા A,b,C,d,E,F approximations બતાવો.</li><li>Segment sets,current તથા total-driver limit નોંધો;physical jumpers બદલતાં power OFF કરો.</li></ol><h4>Calculations અને અર્થ</h4><p>I≈(Vs−VF−Vdriver)/R.ઘણા segments ONએ total current compare કરો;complete alphabet legible છે એવો દાવો ન કરો.</p><h4>Fault Finding</h4><ul><li>Wrong characterમાં labels/pinout જુઓ;uneven brightnessમાં individual current paths/driver capability તપાસો.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Character</th><th>lit segments</th><th>polarity/type</th><th>resistor ohm</th><th>segment mA</th><th>total mA</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+      },
+      "performed": false,
+      "suggested_duration": null,
+      "source_reference": "Owner GTU practical 13,pp3–4",
+      "observation_status": "Blank;no fabricated readings"
+    },
+    {
+      "number": 14,
+      "unit": 3,
+      "title": {
+        "en": "LDR characteristics",
+        "gu": "LDR Characteristics"
+      },
+      "aim": {
+        "en": "Measure resistance changes under controlled light conditions.",
+        "gu": "Controlled light conditionsમાં resistance changes માપો."
+      },
+      "diagram": "ldr",
+      "body": {
+        "en": "<h4>Aim</h4><p>Measure resistance changes under controlled light conditions.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li><li>LDR,safe LED lamp,repeatable holder/dark cover and DMM resistance mode;lux meter only if actually available.</li></ul><h4>Circuit connections</h4><p>Measure an isolated,unpowered LDR;or use an assigned powered divider with voltage mode,never resistance mode on a powered circuit.</p><h4>Supervised procedure</h4><ol><li>Identify the sample and ensure no external/residual voltage.</li><li>Fix lamp,sensor geometry and ambient shielding without overheating the LDR.</li><li>Allow settling in the defined dark condition and record actual resistance.</li><li>Apply repeatable light settings and wait for stable readings at each setting.</li><li>Repeat a setting to check history/ambient variation and note temperature conditions.</li><li>Plot measured R against the recorded light-setting variable;use lux only with genuine calibrated measurement.</li></ol><h4>Calculations and interpretation</h4><p>Describe the observed nonlinear trend.Do not convert distance to lux without an appropriate calibrated model/measurement.</p><h4>Fault finding</h4><ul><li>Unstable R:check ambient leakage,contacts,meter range,settling and lamp heating before blaming the sensor.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Light setting</th><th>distance/geometry</th><th>actual lux if measured</th><th>R ohm</th><th>settling note</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+        "gu": "<h4>હેતુ</h4><p>Controlled light conditionsમાં resistance changes માપો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li><li>LDR,safe LED lamp,repeatable holder/dark cover તથા DMM resistance mode;actual available હોય તો જ lux meter.</li></ul><h4>Circuit Connections</h4><p>Isolated unpowered LDR માપો;અથવા assigned powered dividerમાં voltage mode લો,powered circuitમાં resistance mode નહિ.</p><h4>Supervised Procedure</h4><ol><li>Sample ઓળખીને external/residual voltage નથી તે ખાતરી કરો.</li><li>LDR overheat ન થાય તે રીતે lamp/sensor geometry તથા shielding fixed રાખો.</li><li>Defined dark conditionમાં settle થયા પછી actual R નોંધો.</li><li>Repeatable light settings આપીને દરેક વખતે stable reading સુધી રાહ જુઓ.</li><li>History/ambient variation જોવા setting repeat કરો અને temperature conditions લખો.</li><li>Recorded light-setting variable સામે R plot કરો;genuine calibrated measurement હોય તો જ lux વાપરો.</li></ol><h4>Calculations અને અર્થ</h4><p>Observed nonlinear trend લખો.Appropriate calibrated model/measurement વિના distanceને luxમાં ન ફેરવો.</p><h4>Fault Finding</h4><ul><li>Unstable Rમાં sensorને દોષ આપતાં પહેલાં ambient leakage,contacts,range,settling તથા lamp heating જુઓ.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Light setting</th><th>distance/geometry</th><th>actual lux if measured</th><th>R ohm</th><th>settling note</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+      },
+      "performed": false,
+      "suggested_duration": null,
+      "source_reference": "Owner GTU practical 14,pp3–4",
+      "observation_status": "Blank;no fabricated readings"
+    },
+    {
+      "number": 15,
+      "unit": 3,
+      "title": {
+        "en": "Optical-fibre working demonstration",
+        "gu": "Optical-fibre Working Demonstration"
+      },
+      "aim": {
+        "en": "Demonstrate guided light and received-signal change on an approved enclosed trainer.",
+        "gu": "Approved enclosed trainerમાં guided light તથા received-signal change દર્શાવો."
+      },
+      "diagram": "fiber",
+      "body": {
+        "en": "<h4>Aim</h4><p>Demonstrate guided light and received-signal change on an approved enclosed trainer.</p><h4>Instruments and selection</h4><ul><li>DMM with intact fused leads,correct sockets and suitable ranges;verify the device data sheet and the actual trainer/manual.</li><li>Enclosed LED/fibre educational trainer,compatible receiver and its specified indicator/meter.</li></ul><h4>Circuit connections</h4><p>Use the approved transmitter-fibre-receiver connection;keep ends enclosed and switch source OFF before handling connectors.</p><h4>Supervised procedure</h4><ol><li>Inspect fibre,jacket and connectors with the optical source OFF;do not view the end face directly.</li><li>Connect the intended transmitter/receiver ports without exceeding bend radius.</li><li>Enable only the approved low-power enclosed source and observe the receiver indication.</li><li>Use trainer controls to compare source OFF/ON or assigned modulation without exposing the beam.</li><li>If permitted,compare a gentle allowed routing change;never kink,cut or stress the fibre to force loss.</li><li>Record actual receiver observations and explain core/cladding guidance;turn source OFF before disconnecting.</li></ol><h4>Calculations and interpretation</h4><p>Explain guiding with ncore&gt;ncladding and suitable incidence.Not every injected ray is guided;do not invent attenuation or bandwidth measurements.</p><h4>Fault finding</h4><ul><li>No reception:power OFF and check correct ports,alignment,connector cleanliness,source setting and receiver supply.</li></ul><h4>Safety</h4><p>Use an approved isolated,current-limited low-voltage trainer under supervision.Power OFF before rewiring;verify pinout and ratings.Never defeat protective earth.</p><h4>Blank actual-observation table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Source state</th><th>fibre route</th><th>receiver indication/value</th><th>setting</th><th>observation</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Enter actual readings only,with units,ranges and conditions.Theory examples are not laboratory results.</p>",
+        "gu": "<h4>હેતુ</h4><p>Approved enclosed trainerમાં guided light તથા received-signal change દર્શાવો.</p><h4>Instruments અને પસંદગી</h4><ul><li>Intact fused leads,correct sockets તથા suitable rangesવાળું DMM લો.Device data sheet તથા actual trainer/manual verify કરો.</li><li>Enclosed LED/fibre educational trainer,compatible receiver તથા specified indicator/meter.</li></ul><h4>Circuit Connections</h4><p>Approved transmitter-fibre-receiver connection લો;ends enclosed રાખો તથા connectors handle કરતાં source OFF કરો.</p><h4>Supervised Procedure</h4><ol><li>Optical source OFFમાં fibre,jacket/connectors તપાસો;end faceમાં direct ન જુઓ.</li><li>Bend radius વટાવ્યા વિના intended transmitter/receiver ports જોડો.</li><li>ફક્ત approved low-power enclosed source ON કરીને receiver indication જુઓ.</li><li>Beam expose કર્યા વગર trainer controlsથી OFF/ON અથવા assigned modulation compare કરો.</li><li>મંજૂરી હોય તો gentle allowed routing change compare કરો;loss force કરવા kink/cut/stress ન કરો.</li><li>Actual receiver observations નોંધો તથા core/cladding guidance સમજાવો;disconnect પહેલાં source OFF કરો.</li></ol><h4>Calculations અને અર્થ</h4><p>ncore&gt;ncladding તથા suitable incidenceથી guiding સમજાવો.દરેક injected ray guided નથી;attenuation/bandwidth readings ન બનાવો.</p><h4>Fault Finding</h4><ul><li>Reception ન મળે તો power OFFમાં ports,alignment,cleanliness,source setting/receiver supply જુઓ.</li></ul><h4>Safety</h4><p>Supervisionમાં approved isolated,current-limited low-voltage trainer લો.Rewiring પહેલાં power OFF કરો;pinout/ratings verify કરો.Protective earth દૂર ન કરો.</p><h4>ખાલી Actual-observation Table</h4><div style=\"overflow-x:auto\"><table><thead><tr><th>Source state</th><th>fibre route</th><th>receiver indication/value</th><th>setting</th><th>observation</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div><p>Units,ranges તથા conditions સાથે ફક્ત actual readings લખો.Theory examples laboratory results નથી.</p>"
+      },
+      "performed": false,
+      "suggested_duration": null,
+      "source_reference": "Owner GTU practical 15,pp3–4",
+      "observation_status": "Blank;no fabricated readings"
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "thyristors",
+      "title": {
+        "en": "SCR,DIAC and TRIAC:do not interchange terminals",
+        "gu": "Lead Count નહિ,Functionથી Device પસંદ કરો"
+      },
+      "file": "diagrams/thyristors.svg"
+    },
+    {
+      "id": "mosfetstructure",
+      "title": {
+        "en": "Enhancement NMOS:cross-section,not a package pinout",
+        "gu": "Enhancement NMOS:Construction અને Field Control"
+      },
+      "file": "diagrams/mosfetstructure.svg"
+    },
+    {
+      "id": "mosamp",
+      "title": {
+        "en": "Common-source NMOS amplifier:gate bias,RD,RS and coupling",
+        "gu": "MOSFET Common-source Amplifier:Practical અર્થ"
+      },
+      "file": "diagrams/mosamp.svg"
+    },
+    {
+      "id": "diac",
+      "title": {
+        "en": "DIAC qualitative bidirectional breakover characteristic",
+        "gu": "DIAC:Bidirectional Breakover Trigger"
+      },
+      "file": "diagrams/diac.svg"
+    },
+    {
+      "id": "triac",
+      "title": {
+        "en": "TRIAC functional view:bidirectional main path and gate",
+        "gu": "TRIAC:Bidirectional Controlled Conduction"
+      },
+      "file": "diagrams/triac.svg"
+    },
+    {
+      "id": "scrstructure",
+      "title": {
+        "en": "SCR simplified PNPN structure:gate adjacent to cathode",
+        "gu": "SCR:PNPN Latching Device"
+      },
+      "file": "diagrams/scrstructure.svg"
+    },
+    {
+      "id": "ujtstructure",
+      "title": {
+        "en": "UJT:one emitter junction to a resistive N bar",
+        "gu": "UJT:Structure અને Relaxation Action"
+      },
+      "file": "diagrams/ujtstructure.svg"
+    },
+    {
+      "id": "ujtcurve",
+      "title": {
+        "en": "UJT qualitative emitter characteristic:peak and valley",
+        "gu": "UJT Peak-point Estimate"
+      },
+      "file": "diagrams/ujtcurve.svg"
+    },
+    {
+      "id": "photo",
+      "title": {
+        "en": "Photoelectric sensing:incident light creates carriers",
+        "gu": "Photodiode:Light-generated Junction Current"
+      },
+      "file": "diagrams/photo.svg"
+    },
+    {
+      "id": "phototransistor",
+      "title": {
+        "en": "Phototransistor:light input and collector/emitter terminals",
+        "gu": "Phototransistor:Optical Input સાથે Transistor Gain"
+      },
+      "file": "diagrams/phototransistor.svg"
+    },
+    {
+      "id": "ldr",
+      "title": {
+        "en": "LDR divider:light lowers upper-arm R,raising Vout",
+        "gu": "LDR:Photoconductive Resistance"
+      },
+      "file": "diagrams/ldr.svg"
+    },
+    {
+      "id": "seven",
+      "title": {
+        "en": "Seven-segment LED:segment names a through g",
+        "gu": "Seven-segment LED Display:Construction અને Decoding"
+      },
+      "file": "diagrams/seven.svg"
+    },
+    {
+      "id": "fiber",
+      "title": {
+        "en": "Optical fibre:core,cladding and total internal reflection",
+        "gu": "Optical Fibre:Core અને Claddingમાં Guided Light"
+      },
+      "file": "diagrams/fiber.svg"
+    }
+  ],
+  "syntax": [
+    {
+      "title": {
+        "en": "Formula and conditions",
+        "gu": "સૂત્રો અને શરતો"
+      },
+      "items": [
+        {
+          "name": {
+            "en": "MOSFET drive",
+            "gu": "MOSFET Drive"
+          },
+          "f": "VGS=VG−VS",
+          "terms": {
+            "en": "Threshold is not a full-ON gate-drive specification.",
+            "gu": "Threshold full-ON drive specification નથી."
+          }
+        },
+        {
+          "name": {
+            "en": "UJT peak voltage",
+            "gu": "UJT Peak Voltage"
+          },
+          "f": "VP≈eta VBB+VD",
+          "terms": {
+            "en": "Simple noninjecting-bar approximation.",
+            "gu": "Simple noninjecting-bar approximation."
+          }
+        },
+        {
+          "name": {
+            "en": "LED resistor",
+            "gu": "LED Resistor"
+          },
+          "f": "R≈(Vs−VF−Vdriver)/I",
+          "terms": {
+            "en": "Check per-segment and total current ratings.",
+            "gu": "Per-segment/total current ratings તપાસો."
+          }
+        },
+        {
+          "name": {
+            "en": "Optical guide",
+            "gu": "Optical Guide"
+          },
+          "f": "ncore>ncladding",
+          "terms": {
+            "en": "Suitable incidence is also required;angle is measured from normal.",
+            "gu": "Suitable incidence પણ જોઈએ;angle normalથી માપાય છે."
+          }
+        }
+      ]
+    }
+  ],
+  "viva": [
+    {
+      "title": {
+        "en": "Viva with answers",
+        "gu": "જવાબ સાથે Viva"
+      },
+      "items": [
+        {
+          "q": {
+            "en": "Does MOSFET threshold guarantee full ON?",
+            "gu": "MOSFET Threshold એટલે Full ON?"
+          },
+          "a": {
+            "en": "No.It marks a specified small-current condition;use RDS(on) at the actual drive voltage.",
+            "gu": "ના.તે specified small-current condition છે;actual drive voltageનું RDS(on) જુઓ."
+          }
+        },
+        {
+          "q": {
+            "en": "Can removing an SCR gate pulse turn it OFF?",
+            "gu": "SCR Gate Pulse દૂર કરવાથી OFF થાય?"
+          },
+          "a": {
+            "en": "Not after ordinary SCR latching;main current must fall below the turn-off conditions.",
+            "gu": "Ordinary SCR latch પછી નહિ;main current turn-off conditionsથી નીચે જવો જોઈએ."
+          }
+        },
+        {
+          "q": {
+            "en": "Why are IL and IH different?",
+            "gu": "IL તથા IH જુદાં કેમ?"
+          },
+          "a": {
+            "en": "Latching concerns establishing conduction;holding concerns maintaining it after conduction is established.",
+            "gu": "Latching conduction સ્થાપવાનું તથા holding established conduction જાળવવાનું છે."
+          }
+        },
+        {
+          "q": {
+            "en": "Why can a phototransistor be slower than a photodiode?",
+            "gu": "Phototransistor Photodiode કરતાં Slow કેમ હોઈ શકે?"
+          },
+          "a": {
+            "en": "Gain and stored charge can increase response/recovery time.",
+            "gu": "Gain તથા stored charge response/recovery time વધારી શકે છે."
+          }
+        },
+        {
+          "q": {
+            "en": "Is LDR resistance proportional to lux in all cases?",
+            "gu": "LDR Resistance હંમેશાં Luxની Proportional છે?"
+          },
+          "a": {
+            "en": "No.It is nonlinear and condition-dependent;calibration is required.",
+            "gu": "ના.તે nonlinear તથા condition-dependent છે;calibration જોઈએ."
+          }
+        },
+        {
+          "q": {
+            "en": "Why one resistor per LED segment?",
+            "gu": "દરેક LED Segmentને Resistor કેમ?"
+          },
+          "a": {
+            "en": "To control individual segment current independently of the displayed pattern.",
+            "gu": "Displayed patternથી independent individual segment current control માટે."
+          }
+        },
+        {
+          "q": {
+            "en": "What enables fibre guiding?",
+            "gu": "Fibre Guiding શાથી થાય?"
+          },
+          "a": {
+            "en": "The core-cladding index relationship and suitable optical incidence/mode conditions.",
+            "gu": "Core-cladding index relationship તથા suitable incidence/mode conditionsથી."
+          }
+        }
+      ]
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Explain MOSFET construction and working;distinguish threshold from full-drive operation.",
+        "gu": "MOSFET construction/working સમજાવી threshold તથા full-driveમાં ભેદ આપો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Compare the working and terminals of SCR,DIAC and TRIAC.",
+        "gu": "SCR,DIAC તથા TRIACના terminals/working compare કરો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain SCR latching,holding and gate-trigger conditions.",
+        "gu": "SCR latching,holding તથા gate-trigger conditions સમજાવો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Explain UJT structure and relaxation-oscillator working.",
+        "gu": "UJT structure તથા relaxation-oscillator working સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain photodiode,phototransistor and LDR working with differences.",
+        "gu": "Photodiode,phototransistor તથા LDR working અને differences સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain common-anode/common-cathode seven-segment operation and current limiting.",
+        "gu": "Common-anode/common-cathode seven-segment operation/current limiting સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Draw optical-fibre construction and explain its working principle.",
+        "gu": "Optical-fibre construction દોરી working principle સમજાવો."
+      },
+      "marks": 7
+    }
+  ],
+  "exam_policy": "Questions and suggested marks only;original practice,not past-paper claims.",
+  "physical_practicals_performed": false,
+  "sources": [
+    {
+      "title": "Owner GTU Electronics Devices & Circuits DI01009011,w.e.f.2024-25",
+      "reference": "Theory p2;practicals pp3–4;projects p5."
+    }
+  ],
+  "diagram_note": "Original conceptual circuits and magnetic sketches.Shared standard symbol/English labels;equivalent Gujarati explanations in cards.",
+  "project_plans": [
+    {
+      "number": 8,
+      "title": {
+        "en": "Project 8: DIAC-TRIAC flasher:restricted safe plan",
+        "gu": "Project 8: DIAC-TRIAC Flasher:મર્યાદિત Safe Plan"
+      },
+      "body": {
+        "en": "Use simulation or a purpose-built enclosed isolated trainer only.DIAC breakover may exceed ordinary low-voltage supply limits;do not improvise mains/boost wiring to reach it.Explain charge,breakover,trigger,latch and reset.",
+        "gu": "ફક્ત simulation અથવા purpose-built enclosed isolated trainer લો.DIAC breakover ordinary low-voltage supplyથી મોટું હોઈ શકે;તે માટે mains/boost wiring improvise ન કરો.Charge,breakover,trigger,latch/reset સમજાવો."
+      }
+    },
+    {
+      "number": 9,
+      "title": {
+        "en": "Project 9: Seven-segment display",
+        "gu": "Project 9: Seven-segment Display"
+      },
+      "body": {
+        "en": "Prepare a verified segment/pin map and per-segment limiting,then demonstrate supported characters within display/driver total-current limits.",
+        "gu": "Verified segment/pin map તથા per-segment limiting તૈયાર કરીને display/driver total-current limitsમાં supported characters બતાવો."
+      }
+    },
+    {
+      "number": 10,
+      "title": {
+        "en": "Project 10: LDR alarm demonstrator",
+        "gu": "Project 10: LDR Alarm Demonstrator"
+      },
+      "body": {
+        "en": "Use an approved low-voltage LDR divider and threshold/driver trainer;document light/dark trigger direction,hysteresis if present and false-trigger sensitivity.This is not a certified security system.",
+        "gu": "Approved low-voltage LDR divider તથા threshold/driver trainer લો.Light/dark trigger direction,hysteresis હોય તો તથા false-trigger sensitivity લખો.આ certified security system નથી."
+      }
+    }
+  ]
+}

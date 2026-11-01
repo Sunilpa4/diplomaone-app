@@ -1,0 +1,638 @@
+{
+  "subject": "DI05009011",
+  "unit": 2,
+  "title": {
+    "en": "Circuit Breakers",
+    "gu": "સર્કિટ બ્રેકર્સ"
+  },
+  "format": "notes",
+  "languages": [
+    "en",
+    "gu"
+  ],
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "tab_labels": {
+    "programs": {
+      "en": "Practical",
+      "gu": "પ્રયોગ તથા ચકાસણી"
+    }
+  },
+  "hours": 8,
+  "weightage": 18,
+  "notes": [
+    {
+      "ref": "2.1",
+      "title": {
+        "en": "2.1 Circuit breaker: function, parts and mechanism",
+        "gu": "2.1 Circuit Breaker: Function, Parts તથા Mechanism"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Circuit breaker: function, parts and mechanism",
+            "gu": "Circuit Breaker: Function, Parts તથા Mechanism"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A circuit breaker is a rated switching device able to make, carry and interrupt normal and specified abnormal currents, including short-circuit duty under stated conditions.</p><h4>Classification / scope</h4><ul><li>By interrupting medium: oil, air, SF6, vacuum; HVDC is a system-duty class realised by special mechanical, semiconductor or hybrid designs.</li></ul><h4>Detailed explanation and interpretation</h4><ul><li>It is not merely an isola tor.Abreaker interrupts current; safe maintenance isolation/earthing still needs the approved disconnector/permit process.</li><li>Fixed/moving conta cts, arc-control chamber, insulation, terminals, drive linkage, trip/close coils, energy-storage mechanism and auxiliary conta cts form a practical breaker.</li><li>Spring, pneumatic or hydraulic drives store operating energy; trip-free and anti-pumping functions prevent unsafe sustained closing commands from defeating a trip.</li><li>Breaker status indication is distinct from all-pole current extinction; pole discrepancy, mechanism alarms and trip-circuit health require checks.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Circuit breaker normal તથા specified abnormal/short-circuit currents ને rated conditions માં make, carry/interrupt કરી શકે છે.</p><h4>વર્ગીકરણ / વ્યાપ</h4><ul><li>Medium: oil, air, SF6, vacuum; HV DC system-duty class છે, special mechanical/semiconductor/hybrid design થી.</li></ul><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>CB માત્ર isola tor નથી; current interrupt કરે, maintenance માટે approved isolation/earth/permit હજી જોઈએ.</li><li>Fixed/movingconta cts, arc chamber, insulation, terminals, linkage, trip-close coils, energy mechanism/auxconta cts parts છે.</li><li>Spring/pneumatic/hydraulic energy; trip-free/anti-pumping થી sustained close command trip ને defeat નકરે.</li><li>Status/all-pole current extinction જુદાં; pole discrepancy/mechanism/trip health જુઓ.</li></ul>"
+          },
+          "syllabus_item": "2.1",
+          "classification_first": true,
+          "derivation": false,
+          "diagram": "cbparts"
+        },
+        {
+          "h": {
+            "en": "Arc voltage, interruption and fault-clearing time",
+            "gu": "Arc Voltage, Interruption તથા Fault-clearing Time"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>An arc is a conducting ionised path that can sustain current after conta cts separate; successful interruption extinguishes it and prevents re-establishment under the recovering voltage.</p><h4>Detailed explanation and interpretation</h4><ul><li>Arc voltage depends on medium, length, cooling, pressure and current; energy∫varci dt heats conta cts/medium.Ahigh arc voltage is not automatically harmless.</li><li>High-resistance interruption raises arc resistance/voltage; current-zero methods exploit AC current zero plus rapid dielectric recovery.Modern applications use medium-specific designs.</li><li>System total clearing time includes relay decision, trip-circuit delay, mechanical opening and final arcing time.Breaker interrupting time alone excludes preceding relay time.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>For an illustrative nonoverlapping timing budget, tclear=trelay+ttrip+topen+tarc.</li><li>With 25 ms, 5 ms, 35 ms, 10 ms respectively, total=75 ms; the breaker-only opening-plus-arcing portion is 45 ms.Actual specifications may group timing boundaries differently.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Arc conta cts epa ration પછી current વહનકરતો ionised path છે; successful interruption તેને extinguish/voltage પાછુંઆવેત્યારે re strike અટકાવે છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Arc Vmedium, length, cooling, pressure/I પર; ∫varci dt energy heat આપે; high Vautomatic harmless નહીં.</li><li>Highresistancearc R/V વધારે; current-zero AC zero/fast dielectric recovery વાપરે; design medium-specific.</li><li>System time માં relay, trip delay, opening/final arc; CB interrupting time પહેલાનો relay time સમાવતું નથી.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>Illustrative nonoverlapping budget માં tclear=trelay+ttrip+topen+tarc.</li><li>25 ms/5 ms/35 ms/10 ms થી total 75 ms/CB opening+arc 45 ms; actual specification માં boundaries જુદાંહોઈશકે.</li></ol>"
+          },
+          "syllabus_item": "2.1",
+          "classification_first": false,
+          "derivation": true,
+          "diagram": "clearing"
+        }
+      ]
+    },
+    {
+      "ref": "2.2",
+      "title": {
+        "en": "2.2 Restriking/recovery voltage, TRV and resistance switching",
+        "gu": "2.2 Restriking/Recovery Voltage, TRV તથા Resistance Switching"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Restriking/recovery voltage, TRV and resistance switching",
+            "gu": "Restriking/Recovery Voltage, TRV તથા Resistance Switching"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>Transient recovery voltage is the time-varying voltage appearing across interrupting conta cts immediately after current interruption; dielectric recovery must withstand it without renewed conduction.</p><h4>Detailed explanation and interpretation</h4><ul><li>Legacy “restriking voltage” commonly refers to the fast initial transient; “recovery voltage” may describe the later power-frequency value.State the convention rather than treating all terms as identical.</li><li>Peak TRV and rate of rise(RRRV)depend on system L/C, fault type and source conditions; breaker suitability needs the specified TRV envelope, not only RMS fault current.</li><li>Aproperly designed resistance-switching path damps the L/Ctransient and lowers voltage stress during interruption; the resistor then needs its own switching/energy rating.This differs from closing pre-insertion resistors.</li><li>Re strikes, capacitive current switching and inductive current chopping are application-specific stresses; never estimate a complete TRV duty from one linear slope.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>A simple LC natural frequency is f 0=1/(2π√LC), not a complete breaker TRV specification.</li><li>For L=1m H, C=0.1µF, f 0≈15.92k Hz; an illustrative 100k Vrise in 50µs has average slope 2k V/µs, not necessarily peak RRRV.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>TRV currentinterrupt પછી conta cts across નું time-varying voltage છે; dielectric recovery તેને re strike વિનાસહેવી જોઈએ.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Legacy restriking fast initial transient/recovery later power-frequency માટેવપરાય; convention સ્પષ્ટરાખો.</li><li>Peak TRV/RRRV system L-C, fault/source પર; RMSI એકલુંસૂટેબિલિટી proof નથી.</li><li>Designedresistancepath L-Ctransientdamp કરે; resistor energy/switching rating જોઈએ; closing pre-insertion થીજુદું.</li><li>Re strike, capacitive/current chopping application-specific; એક slope થી complete TRV duty નહીં.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>Simple LC frequencyf 0=1/(2π√LC), complete TRV spec નહીં.</li><li>L 1m H/C 0.1µF માં f 0≈15.92k Hz; 100k V/50µsaverageslope 2k V/µs, peak RRRV જરૂરીનહીં.</li></ol>"
+          },
+          "syllabus_item": "2.2",
+          "classification_first": false,
+          "derivation": true,
+          "diagram": "trv"
+        },
+        {
+          "h": {
+            "en": "Resistance-switching path and sequence",
+            "gu": "Resistance-switching Path તથા Sequence"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>Interruption resistance switching temporarily provides a designed damping path across the interrupting gap so network transient energy is controlled during the switching sequence.</p><h4>Construction / parts and connections</h4><ol><li>Main interrupting conta cts are shunted by a resistor plus controlled auxiliary switching path; both paths require insulation/sequence coordination.</li></ol><h4>Working / operating sequence</h4><ol><li>During main interruption, the resistor path damps the network L/Ctransient and reduces the intended recovery-voltage stress.</li><li>The resistor still carries current/absorbs energy; the auxiliary path must then interrupt/remove it in the designed sequence.</li><li>Failure to remove the path or incorrect timing can overheat the resistor or defeat isolation; never improvise it across a real breaker.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>This conceptual shunt path is not the same duty as a resistor inserted during line closing; actual resistance, insulation, energy and auxiliary interruption ratings are engineered.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Interruption resistance switching માં gap ની across temporary designed damping path આપીને switching transient energy નિયંત્રિત કરાય છે.</p><h4>Construction / ભાગો તથા જોડાણ</h4><ol><li>Main conta cts ની across resistor તથા controlled auxiliary path હોય; બંને paths નું insulation/sequence coordinate કરવું પડે.</li></ol><h4>Working / કાર્યનો ક્રમ</h4><ol><li>Main interruption વખતે resistor network L/C transient damp કરીને intended recovery-voltage stress ઘટાડે છે.</li><li>Resistor current વહન/energy absorb કરે છે; પછી auxiliary path designed sequence થી દૂર કરવો પડે.</li><li>Path દૂર ન થાય/ખોટી timing થી resistor overheat/isolation fail થઈ શકે; real breaker પર improvisation નહીં.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>આ shunt path line-closing pre-insertion resistor થી જુદું duty ધરાવે છે; R/insulation/energy/auxiliary interruption engineered હોય છે.</li></ul>"
+          },
+          "syllabus_item": "2.2",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "resistance"
+        }
+      ]
+    },
+    {
+      "ref": "2.3",
+      "title": {
+        "en": "2.3 Oil circuit breakers: bulk and minimum oil",
+        "gu": "2.3 Oil Circuit Breakers: Bulk તથા Minimum Oil"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Oil circuit breakers: bulk and minimum oil",
+            "gu": "Oil Circuit Breakers: Bulk તથા Minimum Oil"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>An oil circuit breaker uses insulating oil within its designed interrupting system to cool/deionise the arc and recover insulation after interruption.</p><h4>Classification / scope</h4><ul><li>Bulk-oil and minimum-oil; construction and rated duty determine the actual arc-control method.</li></ul><h4>Construction / parts and connections</h4><ol><li>Conta cts inside an oil-filled interrupting chamber with arc-control passages, insulating supports, tank/seals and operating linkage.</li><li>Fixed contact is anchored to the terminal/support; moving contact conne cts to a rod driven by stored-energy mechanism, with main/arcing duty arranged by the design.</li><li>Insulating clearances, bushings and tank earthing control the electric field; the oil level must maintain intended insulation and arc-chamber conditions.</li><li>Arc-control pot/passages confine and direct the gas/oil flow; pressure relief prevents the chamber being treated as an unlimited pressure vessel.</li><li>Seals, oil sampling/drain facilities and inspection provisions support maintenance only after approved isolation, discharge and fire precautions.</li></ol><h4>Working / operating sequence</h4><ol><li>Trip separates conta cts, creating an arc; oil decomposition/gas and chamber flow cool the arc.</li><li>Near AC current zero, the gap de ionises; recovered dielectric withstand must exceed recovery voltage before successful isolation.</li><li>Trip coil releases the stored mechanism; main conta cts transfer current to the intended arcing path before final separation where the design provides it.</li><li>Arc heat decomposes nearby oil, producing gas pressure and directed cooling that depends on chamber geometry and current.</li><li>After current extinction, the gap must remain nonconducting while the system recovery voltage returns; contaminated oil can reduce this margin.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Bulk-oil designs use substantial oil for interruption and insulation; minimum-oil designs confine the interrupting oil with separate external insulation.</li><li>Oil condition, carbon deposits, moisture, conta cts, seals and mechanism health require maintenance.Fire/explosion risk and oil handling are important limitations.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Oil CB designed oil interrupting system થી arc cool/deionise કરીને insulation recover કરે છે.</p><h4>વર્ગીકરણ / વ્યાપ</h4><ul><li>Bulk/minimum oil; actual arc control construction/duty મુજબ.</li></ul><h4>Construction / ભાગો તથા જોડાણ</h4><ol><li>Oilchamberconta cts, arc passages, insulators, tank/seals/linkage.</li><li>Fixed contact terminal/support સાથે સ્થિર રહે છે; moving contact stored-energy mechanism ના rod થી ચાલે છે; main/arcing duty design પ્રમાણે જુદી હોય છે.</li><li>Bushings, clearances તથા tank earthing electric field નિયંત્રિત કરે છે; oil level યોગ્ય insulation તથા chamber condition જાળવે છે.</li><li>Arc-control pot/passages gas/oil નો પ્રવાહ યોગ્ય દિશામાં રાખે છે; pressure relief જરૂરી છે, chamber unlimited-pressure vessel નથી.</li><li>Seals, sampling/drain તથા inspection maintenance માં મદદ કરે; પહેલાં approved isolation/discharge/fire precautions જોઈએ.</li></ol><h4>Working / કાર્યનો ક્રમ</h4><ol><li>Tripconta cts separate/arc; decomposition gas/flow cool કરે.</li><li>AC zero એ deionise; dielectric withstand recovery V કરતાંપૂરતુંથાયતો interrupt થાય.</li><li>Trip coil stored mechanism છોડે છે; design મુજબ main થી arcing path માં current transfer થાય છે.</li><li>Arc heat થી oil decomposition/gas pressure થાય; chamber/current મુજબ directed cooling મળે છે.</li><li>Current બંધ થયા પછી returning recovery voltage સામે gap nonconducting રહેવું જોઈએ; contaminated oil margin ઘટાડે છે.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Bulkoil માં interruption/insulation માટેમોટો oil volume; minimum oil માં arc chamber oil/અલગ external insulation.</li><li>Oil carbon, moisture, conta cts, seals/mechanism maintain; fire/explosion/oil handling limitations.</li></ul>"
+          },
+          "syllabus_item": "2.3",
+          "classification_first": true,
+          "derivation": false,
+          "diagram": "oil"
+        },
+        {
+          "h": {
+            "en": "Air breakers: air-break and air-blast",
+            "gu": "Air Breakers: Air-break તથા Air-blast"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>An air circuit breaker interrupts using air-based arc control; air-break and compressed-air-blast designs use different construction and operating resources.</p><h4>Classification / scope</h4><ul><li>Air-break: arc chute in ambient-air system; air-blast: compressed-air interruption.</li></ul><h4>Construction / parts and connections</h4><ol><li>Air-break uses conta cts, runners, chute/splitter plates and mechanism; air-blast adds compressor/reservoir, valves, nozzles and pressure supervision.</li><li>Main conta cts carry normal current; arcing conta cts/runners guide the arc away from the normal contact surfaces in an appropriate air-break design.</li><li>An arc chute has heat-resistant walls and splitters; magnetic/electro dynamic action and geometry move and divide the arc.</li><li>Air-blast nozzles, valves, reservoir and interlocks control the direction and availability of high-pressure air; low-pressure alarms/blocks follow the actual design.</li></ol><h4>Working / operating sequence</h4><ol><li>Conta cts part and arc is driven into the designed chute or blast path.</li><li>Cooling, lengthening/splitting and deionisation extinguish the arc; verify rated fault/TRV duty and mechanism pressure/energy.</li><li>The mechanism rapidly separates conta cts; the arc follows the runners into the chute or the designed blast nozzle region.</li><li>Arc lengthening, splitting and cooling raise resistance or assist current-zero deionisation according to the design; these are not identical methods for every voltage class.</li><li>After the gap recovers, auxiliary status and mechanism readiness are checked before any permitted next operation; anti-pumping is not automatic fault-reclose permission.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>LV air-break ACB s commonly use arc runners, chutes and splitter plates; historical HV air-blast breakers use compressed air to sweep/deionise the arc.</li><li>Do not confuse compressed-air mechanism supply with the interrupting medium of every breaker.Maintain chute/conta cts or air-pressure system according to design.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Air CB air-based arc control વાપરે; air-break/compressed air-blast ની construction/resources જુદી છે.</p><h4>વર્ગીકરણ / વ્યાપ</h4><ul><li>Air-break: ambient arc chute; air-blast: compressed air interruption.</li></ul><h4>Construction / ભાગો તથા જોડાણ</h4><ol><li>Air-breakconta cts/runners/chute/mechanism; air-blast compressor/reservoir/valves/nozzles/pressure.</li><li>Main conta cts normal current વહન કરે; arcing conta cts/runners arc ને normal surfaces થી દૂર લઈ જાય છે.</li><li>Arc chute માં heat-resistant walls/splitters હોય છે; magnetic action તથા geometry થી arc આગળ વધે અને વહેંચાય છે.</li><li>Air-blast માં nozzle/valves/reservoir/interlocks high-pressure air નિયંત્રિત કરે; low-pressure action actual design પ્રમાણે હોય છે.</li></ol><h4>Working / કાર્યનો ક્રમ</h4><ol><li>Conta cts separate/arc designed chute/blast માંજાય.</li><li>Cooling, lengthening/splitting/deionisation થી arc બંધ; fault/TRV/energy verify.</li><li>Mechanism conta cts ને ઝડપથી જુદાં પાડે; arc runner દ્વારા chute અથવા blast nozzle માં જાય છે.</li><li>Design મુજબ lengthening/splitting/cooling resistance વધારે અથવા current-zero deionisation માં મદદ કરે; દર voltage class માં method સમાન નથી.</li><li>Gap recovery પછી auxiliary status/mechanism readiness ચકાસાય; anti-pumping એટલે automatic fault-reclose permission નહીં.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>LVACB માં runners, chutes/splitters; historical HV air-blast માં compressed air.</li><li>Drive માટે air હોયએટલેઆ rc medium air જહોયએવુંનહીં; design મુજબ chute/pressure maintain.</li></ul>"
+          },
+          "syllabus_item": "2.3",
+          "classification_first": true,
+          "derivation": false,
+          "diagram": "air"
+        },
+        {
+          "h": {
+            "en": "SF6 breaker: gas system and environmental duties",
+            "gu": "SF6 Breaker: Gas System તથા Environmental Duties"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>An SF6 circuit breaker uses a designed gas-flow interruption system and the medium’s dielectric properties to extinguish the arc and withstand recovered voltage.</p><h4>Construction / parts and connections</h4><ol><li>Sealed pole/enclosure, main/arcing conta cts, nozzle, puffer/self-blast chamber, drive, gas seals, density monitoring and pressure-relief provisions.</li><li>Fixed/moving main and arcing conta cts separate normal-current and arc duty in designs that use both; the nozzle directs gas through the hot arc region.</li><li>A puffer cylinder mechanically compresses gas; self-blast variants also exploit arc energy, so their pressure generation is not identical.</li><li>Insulating enclosure, seals, gas-density monitor and relief arrangements maintain dielectric conditions; monitoring conta cts must be mapped to OEM alarm/block actions.</li></ol><h4>Working / operating sequence</h4><ol><li>Main current transfers to arcing conta cts as the mechanism opens; gas flow cools the arc in the designed chamber.</li><li>At current zero, the gas gap recovers insulation; low-density block/alarm/trip behaviour follows OEM limits, not a universal pressure number.</li><li>As the mechanism travels, the nozzle/gas chamber establishes flow; arc energy and mechanical compression interact according to breaker variant.</li><li>The cooled gap must recover quickly enough for the specified TRV; gas density, purity and contact wear affect performance.</li><li>Following interruption, assess gas/drive alarms and operation count; gas handling and decomposition-product maintenance remain specialist work.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Puffer/self-blast variants establish gas flow differently; temperature-compensated density monitoring matters more than raw pressure alone.</li><li>SF6 is a potent greenhouse gas; leak detection, recovery and decomposition-product handling require trained specialists.No student gas release experiment is proposed.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>SF6 CB designed gas-flow/dielectric properties થી arc interrupt/recovery V withstand કરે છે.</p><h4>Construction / ભાગો તથા જોડાણ</h4><ol><li>Sealed pole, main/arcing conta cts, nozzle, chamber, drive, seals, density/relief parts.</li><li>બંને પ્રકાર હોય તે design માં main/arcing conta cts normal/arc duty જુદી રાખે છે; nozzle gas ને hot arc પર લઈ જાય છે.</li><li>Puffer cylinder mechanically gas compress કરે; self-blast arc energy પણ વાપરે એટલે pressure generation જુદું છે.</li><li>Enclosure, seals, density monitor/relief dielectric condition જાળવે; monitor conta cts OEM alarm/block action સાથે મેળવો.</li></ol><h4>Working / કાર્યનો ક્રમ</h4><ol><li>Open માં main થી arcing contact transfer/gas flow cool કરે.</li><li>Zero એ gap recover; low density action OEM મુજબ, universal pressure નહીં.</li><li>Mechanism ચાલતાં nozzle/chamber flow બનાવે; variant પ્રમાણે arc energy/mechanical compression કામ કરે.</li><li>Cooled gap એ specified TRV માટે ઝડપથી recover થવું જોઈએ; density, purity/contact wear અસર કરે છે.</li><li>Operation પછી gas/drive alarm/count જુઓ; gas/decomposition-product maintenance specialist નું કામ છે.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Puffer/self-blast flow જુદીરીતે; density compensation raw pressure કરતાંયોગ્ય.</li><li>SF6 potent greenhouse gas; leak/recovery/decomposition trained specialists થી; student gas release નહીં.</li></ul>"
+          },
+          "syllabus_item": "2.3",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "sf6"
+        },
+        {
+          "h": {
+            "en": "Vacuum circuit breaker",
+            "gu": "Vacuum Circuit Breaker"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A vacuum circuit breaker interrupts current in a sealed high-vacuum interrupt er where contact metal-vapour arcing extinguishes and dielectric strength recovers rapidly near current zero.</p><h4>Construction / parts and connections</h4><ol><li>Fixed/moving conta cts, metal bellows, sealed ceramic/metal envelope, vapour shield, external insulation and drive linkage.</li><li>A hermetically sealed ceramic/metal envelope surrounds the contact gap; the bellows permits contact movement without intentionally admitting air.</li><li>A vapour shield limits deposition on insulation surfaces; contact material/shape influences arc distribution and current chopping behaviour.</li><li>External insulation, supports and mechanism remain necessary even when the internal gap is vacuum; sealed integrity and contact travel are verified by approved methods.</li></ol><h4>Working / operating sequence</h4><ol><li>Separation forms a metal-vapour arc; around AC zero, vapour condenses and plasma disappears.</li><li>Rapid dielectric recovery withstand s the specified recovery voltage; inspect wear/timing using approved OEM methods, not improvised high-voltage tests.</li><li>The mechanism pulls the moving contact through the bellows; metal vapour sustains the arc rather than an ordinary air arc.</li><li>At AC current zero, the metal vapour rapidly condenses onto conta cts/shields; the gap recovers a high dielectric strength.</li><li>Inductive load switching may involve chopping/re ignition overvoltage; application-specific surge protection and ratings cannot be inferred from “vacuum”alone.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Vacuum does not mean “no arc”.Metal-vapour arc still exists during conduction; contact design controls arc distribution.</li><li>Common MV applications benefit from low medium maintenance, but contact wear, bellows integrity, mechanism timing, chopping/re ignition and applicable switching duty still matter.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Vacuum CB sealed high-vacuum interrupt er માં metal-vapour arc ને current zero નજીકબંધકરી rapid insulation recover કરે છે.</p><h4>Construction / ભાગો તથા જોડાણ</h4><ol><li>Fixed/movingconta cts, bellows, sealed envelope, vapour shield/drive.</li><li>Hermetically sealed ceramic/metal envelope gap ને ઘેરે છે; bellows air પ્રવેશાવ્યા વિના movement આપે છે.</li><li>Vapour shield insulation પર metal deposition ઘટાડે છે; contact material/shape arc distribution/chopping ને અસર કરે છે.</li><li>અંદર vacuum હોવા છતાં external insulation/support/mechanism જોઈએ; sealed integrity/travel approved method થી verify કરાય છે.</li></ol><h4>Working / કાર્યનો ક્રમ</h4><ol><li>Separation metal-vapour arc/AC zero એ vapour condense/plasma disappear.</li><li>Rapidrecoveryrated V withstand; wear/timing OEM test થી, DIYHV નહીં.</li><li>Mechanism bellows મારફતે moving contact ખેંચે; arc metal vapour થી ટકે છે, ordinary air arc નથી.</li><li>AC current-zero પર vapour conta cts/shields પર ઝડપથી condense થઈ gap ની dielectric strength વધે છે.</li><li>Inductive switching માં chopping/re ignition overvoltage થઈ શકે; માત્ર“vacuum”નામથી surge protection/rating નક્કી નથી.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Vacuum એટલે arc નથીએવુંનહીં; metal-vapour arc/contact design જરૂરી.</li><li>Common MV માં medium maintenance ઓછી; contact wear, bellows, timing/chopping/re ignition દ uty મહત્વનાં.</li></ul>"
+          },
+          "syllabus_item": "2.3",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "vacuum"
+        },
+        {
+          "h": {
+            "en": "HVDC breaker: no natural periodic current zero",
+            "gu": "HVDC Breaker: Natural Periodic Current Zero નથી"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>An HV DC breaker is a DC fault-interrupting system that forces current interruption and absorbs/diverts network energy without relying on the periodic AC current zero.</p><h4>Construction / parts and connections</h4><ol><li>Ahybrid concept has a low-loss normal-current path, commutation/semiconductor interruption path, fast isolating element and energy absorber such as a rated MOV bank.</li></ol><h4>Working / operating sequence</h4><ol><li>Detect fault, com mutate current away from the normal path, establish sufficient opposing voltage and absorb stored/network-fed energy.</li><li>Isolate the interrupted circuit and supervise voltage/current; detailed order/times depend on the chosen design.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Mechanical resonant-commutation, solid-state and hybrid designs have different speed, loss and cost; an ordinary AC breaker rating does not automatically apply to HVDC.</li><li>Fault current rises rapidly in low-inductance DC networks; detection, current limitation, commutation path, disconnecting element and absorber must coordinate.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>Before effective interruption, an ideal inductive path gives di/dt≈V/L.With 100k Vand 50m H, slope≈2k A/ms.</li><li>At 5k A, the same 50m H stores½LI²≈0.625 MJ; the absorber may additionally receive energy from sources, so this is not its final rating.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>HVDC breaker periodic AC zero વિના DC fault current interrupt/energy absorb-divert કરતી system છે.</p><h4>Construction / ભાગો તથા જોડાણ</h4><ol><li>Hybrid concept માં normal path, commutation/semiconductors, fast isola tor/energy MOV bank.</li></ol><h4>Working / કાર્યનો ક્રમ</h4><ol><li>Fault detect/normal path થી com mutate/opposing V/energy store-network absorb.</li><li>Interrupted circuit isolate/supervise; order/times design-specific.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Mechanical resonant, solid-state/hybrid ની speed-loss-cost જુદી; AC ratingautomatic HVDC માંનહીં.</li><li>Low LDC માં I ઝડપથીવધે; detection, limit, commutation, disconnect/absorber coordinate જોઈએ.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>Ideal path માં di/dt≈V/L; 100k V/50m H થી≈2k A/ms.</li><li>5k A/50m H માં½LI²≈0.625 MJ; source energy પણઆવે, final rating નહીં.</li></ol>"
+          },
+          "syllabus_item": "2.3",
+          "classification_first": false,
+          "derivation": true,
+          "diagram": "hvdc"
+        }
+      ]
+    },
+    {
+      "ref": "2.4",
+      "title": {
+        "en": "2.4 Breaker ratings and application selection",
+        "gu": "2.4 Breaker Ratings તથા Application Selection"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Breaker ratings and application selection",
+            "gu": "Breaker Ratings તથા Application Selection"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>Breaker selection matches insulation, continuous current, making/breaking, short-time withstand, operating sequence and recovery-voltage duties to the actual network and switching application.</p><h4>Detailed explanation and interpretation</h4><ul><li>Specify rated/highest voltage, frequency, insulation level, continuous current, RMS symmetrical breaking current, peak making current, short-time current/duration and operating duty.</li><li>DC offset depends on X/Rand contact-parting time; do not use one fixed peak multiplier for all networks.Cable/capacitor/reactor/transformer switching has special duties.</li><li>MV vacuum, LV air-break and HVSF 6/alternative-medium arrangements are common examples, not mandatory voltage rules.Check environmental, maintenance and available alternatives.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>Illustrative three-phase interrupting apparent power Ssc=√3 VLLI sc.With 11k Vand 25k Arms, Ssc≈476.3 MVA.</li><li>This legacy MVA expression does not replace k A, TRV, peak making, duration and sequence specifications.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Breakers election insulation, continuous I, make-break, short time, sequence/TRV દ uty ને actual network/application સાથે match કરે છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Rated/highest V, f, insulation, continuous I, RMS breaking, peak making, short time/duration/sequence લખો.</li><li>DC offset X/R/contact time પર; universal peak multiplier નહીં; cable/capacitor/reactor/transformer duty અલગ.</li><li>MV vacuum/LV air/HVSF 6 common examples છે, mandatory rule નહીં; environment/maintenance/alternatives જુઓ.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>Illustrative Ssc=√3 VLLI sc; 11k V/25k Arms થી≈476.3 MVA.</li><li>Legacy MVA થી k A/TRV/peak/duration/sequence સ્પેસિફિકેશન replace નથીથતાં.</li></ol>"
+          },
+          "syllabus_item": "2.4",
+          "classification_first": false,
+          "derivation": true,
+          "diagram": "ratings"
+        }
+      ]
+    }
+  ],
+  "programs": [
+    {
+      "title": {
+        "en": "Project5",
+        "gu": "Project 5"
+      },
+      "format": "rich_cards",
+      "items": [
+        {
+          "h": {
+            "en": "Project 5 · Group: Isola tor–CB–earth-switch interlock mock",
+            "gu": "Isola tor–CB–Earth-switch Interlock Mock"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>An interlock mock demonstrates permitted and blocked device-state transitions without operating any real switchgear or proving absence of voltage.</p><h4>Classification / scope</h4><ul><li>Source group project; mock-only construction.</li></ul><h4>Working / operating sequence</h4><ol><li>Plan safe scope and cite the source/materials; prepare SLD or logic before any approved isolated mock assembly.</li><li>Review the result against function, selectivity, safety, evidence and stated limitations; submit only genuine completed work.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Build only isolated≤24 VDC current-limited indicators/buttons or offline logic; no relay output may connect to real plant controls.</li><li>Define valid CB, DS and ES states plus good/unknown status and a supervised “dead proved”mock input; unknown/bad input blocks transitions.</li><li>Disconnector moves only under the permitted no-load condition; ES close needs the approved isolation/dead conditions; CB close is blocked with ES closed or invalid DS state.</li><li>Test every illegal request, simultaneous commands, stale states, supply loss and reset; never teach automatic reclose onto a closed ES or a software-only substitute for prove-dead/earthing procedures.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Interlock mock actual switchgear ચાલાવ્યા/voltage absence prove કર્યાવિન apermitted/blocked transitions બતાવે છે.</p><h4>વર્ગીકરણ / વ્યાપ</h4><ul><li>Source નો group project; construction માત્ર mock model માં.</li></ul><h4>Working / કાર્યનો ક્રમ</h4><ol><li>Safe scope/source/materials નક્કી કરો; SLD/logic તૈયાર કર્યા પછી જ approved isolated mock બનાવો.</li><li>Function, selectivity, safety, evidence/limitations સામે review કરો; ખરેખર કરેલું કામ જ submit કરો.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Isolated≤24 VDC indicators/buttons/offline logic જ; real plant controls સાથે output connect નહીં.</li><li>CB/DS/ES states+good/unknown+mock dead proved input define; bad/unknown માં block.</li><li>DS approved no-load માંજ; ES close માટે isolation/dead; ES closed/invalid DS માં CB close block.</li><li>Illegal/simultaneous/stale/supply loss/reset test; close d ES પર auto reclose/software થી prove-dead substitute ક્યારેયનહીં.</li></ul>"
+          },
+          "syllabus_item": "Project5",
+          "classification_first": true,
+          "derivation": false,
+          "diagram": "interlock"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Offline model",
+        "gu": "Offline મોડેલ"
+      },
+      "format": "rich_cards",
+      "items": [
+        {
+          "h": {
+            "en": "Breaker timing and legacy MVA",
+            "gu": "Breaker Timing તથા Legacy MVA"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>An offline calculation/logic exercise with declared assumptions; it does not connect to hardware, issue real trip commands or approve settings.</p><h4>Detailed explanation and interpretation</h4><ul><li>Use the worked examples and formulas in the corresponding Notes/Practical guide.Keep calculated output separate from actual measured readings.</li><li>The self-contained HTML preview has optional interactive controls; the source card retains this explanation for content readers without script execution.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>આ declared assumptions વાળું offline calculation/logic exercise છે; hardware connection, real trip command અથવા setting approval આપતું નથી.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>સંબંધિત Notes/Practical માં આપેલ formula તથા worked example વાપરો; calculated output actual reading થી અલગ રાખો.</li><li>Self-contained HTML preview માં optional interactive controls છે; script ન ચાલે તેવા content readers માટે આ સમજણ source card માં યથાવત્ રહે છે.</li></ul>"
+          },
+          "syllabus_item": "Model-breaker",
+          "classification_first": false,
+          "derivation": false,
+          "model_id": "breaker"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Offline model",
+        "gu": "Offline મોડેલ"
+      },
+      "format": "rich_cards",
+      "items": [
+        {
+          "h": {
+            "en": "Mock interlock checker",
+            "gu": "Mock Interlock Checker"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>An offline calculation/logic exercise with declared assumptions; it does not connect to hardware, issue real trip commands or approve settings.</p><h4>Detailed explanation and interpretation</h4><ul><li>Use the worked examples and formulas in the corresponding Notes/Practical guide.Keep calculated output separate from actual measured readings.</li><li>The self-contained HTML preview has optional interactive controls; the source card retains this explanation for content readers without script execution.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>આ declared assumptions વાળું offline calculation/logic exercise છે; hardware connection, real trip command અથવા setting approval આપતું નથી.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>સંબંધિત Notes/Practical માં આપેલ formula તથા worked example વાપરો; calculated output actual reading થી અલગ રાખો.</li><li>Self-contained HTML preview માં optional interactive controls છે; script ન ચાલે તેવા content readers માટે આ સમજણ source card માં યથાવત્ રહે છે.</li></ul>"
+          },
+          "syllabus_item": "Model-interlock",
+          "classification_first": false,
+          "derivation": false,
+          "model_id": "interlock"
+        }
+      ]
+    }
+  ],
+  "practicals": [],
+  "project_plans": [
+    {
+      "number": 5,
+      "mode": "Group",
+      "editorial_unit": 2,
+      "source_mapping": "Source project bullet;unit placement editorial.",
+      "title": {
+        "en": "Project 5 · Group: Isola tor–CB–earth-switch interlock mock",
+        "gu": "Isola tor–CB–Earth-switch Interlock Mock"
+      },
+      "completed": false
+    }
+  ],
+  "activity_plans": [],
+  "diagrams": [
+    {
+      "id": "cbparts",
+      "title": {
+        "en": "Breaker parts and operating-energy chain",
+        "gu": "Circuit Breaker: Function, Parts તથા Mechanism"
+      },
+      "file": "diagrams/cbparts.svg"
+    },
+    {
+      "id": "clearing",
+      "title": {
+        "en": "Total fault-clearance budget",
+        "gu": "Arc Voltage, Interruption તથા Fault-clearing Time"
+      },
+      "file": "diagrams/clearing.svg"
+    },
+    {
+      "id": "trv",
+      "title": {
+        "en": "Transient recovery voltage and dielectric recovery",
+        "gu": "Restriking/Recovery Voltage, TRV તથા Resistance Switching"
+      },
+      "file": "diagrams/trv.svg"
+    },
+    {
+      "id": "oil",
+      "title": {
+        "en": "Oil breaker conceptual chamber",
+        "gu": "Oil Circuit Breakers: Bulk તથા Minimum Oil"
+      },
+      "file": "diagrams/oil.svg"
+    },
+    {
+      "id": "air",
+      "title": {
+        "en": "Air-break arc-chute conceptual construction",
+        "gu": "Air Breakers: Air-break તથા Air-blast"
+      },
+      "file": "diagrams/air.svg"
+    },
+    {
+      "id": "sf6",
+      "title": {
+        "en": "SF6 breaker conceptual interrupter",
+        "gu": "SF6 Breaker: Gas System તથા Environmental Duties"
+      },
+      "file": "diagrams/sf6.svg"
+    },
+    {
+      "id": "vacuum",
+      "title": {
+        "en": "Vacuum interrupter conceptual envelope",
+        "gu": "Vacuum Circuit Breaker"
+      },
+      "file": "diagrams/vacuum.svg"
+    },
+    {
+      "id": "hvdc",
+      "title": {
+        "en": "Hybrid HVDC conceptual interruption",
+        "gu": "HVDC Breaker: Natural Periodic Current Zero નથી"
+      },
+      "file": "diagrams/hvdc.svg"
+    },
+    {
+      "id": "ratings",
+      "title": {
+        "en": "Breaker rating is a coordinated set",
+        "gu": "Breaker Ratings તથા Application Selection"
+      },
+      "file": "diagrams/ratings.svg"
+    },
+    {
+      "id": "interlock",
+      "title": {
+        "en": "Mock-only disconnector / breaker / earth-switch logic",
+        "gu": "Isola tor–CB–Earth-switch Interlock Mock"
+      },
+      "file": "diagrams/interlock.svg"
+    },
+    {
+      "id": "resistance",
+      "title": {
+        "en": "Resistance switching: controlled temporary shunt path",
+        "gu": "Resistance-switching Path તથા Sequence"
+      },
+      "file": "diagrams/resistance.svg"
+    }
+  ],
+  "syntax": [
+    {
+      "title": {
+        "en": "Source and assessment policy",
+        "gu": "Source તથા Assessment Policy"
+      },
+      "body": {
+        "en": "Original practice questions;marks are suggested study allocations,not an official past paper.Exam contains questions and marks only.",
+        "gu": "આ original practice questions છે;marks study માટે સૂચિત છે,official past paper નથી.Examમાં માત્ર પ્રશ્નો તથા marks છે."
+      }
+    },
+    {
+      "title": {
+        "en": "Fault clearance",
+        "gu": "Fault clearance"
+      },
+      "body": {
+        "en": "tclear=trelay+ttrip+topen+tarc; timing boundaries must match the actual specification.",
+        "gu": "tclear=trelay+ttrip+topen+tarc; timing boundaries must match the actual specification. · ધારણાઓ તથા ઉદાહરણ માટે સંબંધિત Notes વાંચો."
+      }
+    },
+    {
+      "title": {
+        "en": "LCfrequency",
+        "gu": "LCfrequency"
+      },
+      "body": {
+        "en": "f 0=1/(2π√LC); not a complete TRV model.",
+        "gu": "f 0=1/(2π√LC); not a complete TRV model. · ધારણાઓ તથા ઉદાહરણ માટે સંબંધિત Notes વાંચો."
+      }
+    },
+    {
+      "title": {
+        "en": "HVDCenergy",
+        "gu": "HVDCenergy"
+      },
+      "body": {
+        "en": "EL=½LI²; V≈Ldi/dt; continuing source energy also matters.",
+        "gu": "EL=½LI²; V≈Ldi/dt; continuing source energy also matters. · ધારણાઓ તથા ઉદાહરણ માટે સંબંધિત Notes વાંચો."
+      }
+    },
+    {
+      "title": {
+        "en": "Legacy breaker MVA",
+        "gu": "Legacy breaker MVA"
+      },
+      "body": {
+        "en": "S=√3 VLL(k V)I(k A); not a substitute for peak making/TRV/sequence duties.",
+        "gu": "S=√3 VLL(k V)I(k A); not a substitute for peak making/TRV/sequence duties. · ધારણાઓ તથા ઉદાહરણ માટે સંબંધિત Notes વાંચો."
+      }
+    }
+  ],
+  "viva": [
+    {
+      "q": {
+        "en": "Circuit breaker versus disconnector?",
+        "gu": "CB અને disconnector માં તફાવત?"
+      },
+      "a": {
+        "en": "A properly rated CB interrupts specified load/fault currents.A disconnector provides isolation under permitted conditions and is not a substitute fault interrupt er; an open indicator alone is not proof of dead.",
+        "gu": "Rated CB load/fault interrupt કરે; disconnector allowed condition માં isolation આપે, fault-breaker નથી; indicator થી prove-dead થતું નથી."
+      }
+    },
+    {
+      "q": {
+        "en": "Why does an arc form?",
+        "gu": "Arc કેમ બને?"
+      },
+      "a": {
+        "en": "Contact separation under current ionises the medium and sustains a conducting path.Interruption requires current extinction plus sufficient dielectric recovery against the recovering voltage.",
+        "gu": "Current વખતે conta cts જુદા પડતાં medium ionise થઈ conducting arc બને; current extinction સાથે dielectric recovery પૂરતી જોઈએ."
+      }
+    },
+    {
+      "q": {
+        "en": "TRV versus power-frequency recovery voltage?",
+        "gu": "TRV તથા power-frequency recovery voltage?"
+      },
+      "a": {
+        "en": "TRV is the early transient across conta cts after current interruption.Power-frequency recovery is the later system-frequency voltage; the rated system voltage alone does not define the TRV duty.",
+        "gu": "TRV current interruption પછીનું શરૂઆતનું transient છે; later recovery system-frequency voltage છે; nominal voltage એકલું TRV duty નક્કી કરતું નથી."
+      }
+    },
+    {
+      "q": {
+        "en": "Why distinguish air-break and air-blast?",
+        "gu": "Air-break/air-blast કેમ જુદાં?"
+      },
+      "a": {
+        "en": "An air-break design can use arc runners and splitter chutes in air.An air-blast design uses stored compressed air through a designed nozzle and therefore has different construction, pressure systems and maintenance.",
+        "gu": "Air-break arc runners/splitter chute વાપરે; air-blast compressed-air nozzle/pressure system વાપરે એટલે construction/maintenance જુદાં."
+      }
+    },
+    {
+      "q": {
+        "en": "Does a vacuum breaker have no arc?",
+        "gu": "Vacuum CB માં arc બનતો નથી?"
+      },
+      "a": {
+        "en": "Metal vapour from conta cts sustains an arc in the vacuum envelope.Near current zero it condenses rapidly and dielectric strength recovers, subject to the interrupt er’s voltage/current/TRV capability.",
+        "gu": "Contact metal-vapour arc બને છે; current-zero નજીક vapour condense થઈ dielectric strength પાછી આવે; rating/TRV limits યથાવત્ છે."
+      }
+    },
+    {
+      "q": {
+        "en": "Key SF6 environmental point?",
+        "gu": "SF6 નો environmental મુદ્દો?"
+      },
+      "a": {
+        "en": "It is an effective interrupting/insulating gas but a strong greenhouse gas.Leak control, recovery, density supervision and safe treatment of decomposition pro du cts require trained approved procedures.",
+        "gu": "Insulation/interruption સારું આપે પણ strong greenhouse gas છે; leak/recovery/density તથા decomposition pro du cts માટે trained procedure જોઈએ."
+      }
+    },
+    {
+      "q": {
+        "en": "Why is HV DC interruption different?",
+        "gu": "HVDC interruption કેમ અલગ?"
+      },
+      "a": {
+        "en": "DC does not provide a periodic natural current zero.ADC breaker must create suitable interruption/commutation conditions and manage inductive and continuing source energy; AC ratings cannot simply be reused.",
+        "gu": "DC માં natural periodic current-zero નથી; commutation/forced interruption અને stored/source energy manage કરવી પડે; AC rating સીધી લાગુ નહીં."
+      }
+    },
+    {
+      "q": {
+        "en": "Is breaking MVA a complete rating?",
+        "gu": "Breaking MVA complete rating છે?"
+      },
+      "a": {
+        "en": "No.Individual RMS breaking current, peak making current, short-time withstand, insulation, TRV, sequence and control/mechanical duties are required.Legacy √3 VI converts one three-phase current/voltage pair only.",
+        "gu": "નહીં.RMS break, peak make, short-time, insulation, TRV/sequence/control duty જોઈએ; √3 VI માત્ર legacy expression છે."
+      }
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Classify circuit breakers and explain common parts, mechanism and fault-clearing sequence.",
+        "gu": "CB classify કરી parts/mechanism/fault-clearing sequence સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain arc voltage, current zero and dielectric recovery.",
+        "gu": "Arc voltage, current zero તથા dielectric recovery સમજાવો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Differentiate restriking, transient recovery and power-frequency recovery voltage; interpret RRRV.",
+        "gu": "Restriking/TRV/power-frequency recovery જુદાં પાડી RRRV સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain resistance switching with a conceptual circuit and limitations.",
+        "gu": "Resistance switching conceptual circuit/limitations સાથે સમજાવો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Compare oil, air-break and air-blast construction/working.",
+        "gu": "Oil/air-break/air-blast construction/working સરખાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain SF6 and vacuum construction/working and environmental/maintenance concerns.",
+        "gu": "SF6/vacuum construction-working તથા environment/maintenance સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain why HV DC needs a distinct interruption strategy and energy absorber.",
+        "gu": "HVDC ને જુદી interruption strategy/energy absorber કેમ જોઈએ સમજાવો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Select breaker rating categories for a declared duty; calculate legacy three-phase breaking MVA for 11k V, 25k A.",
+        "gu": "Declared duty માટે rating categories આપો; 11k V/25k A માટે legacy breaking MVA ગણો."
+      },
+      "marks": 7
+    }
+  ],
+  "exam_policy": "Questions and suggested marks only.",
+  "physical_practicals_performed": false,
+  "sources": [
+    {
+      "title": "Owner8-page GTU DI05009011,2026–27",
+      "reference": "5units,11practicals,5project bullets,5activity bullets."
+    },
+    {
+      "title": "MATPOWER",
+      "url": "https://matpower.org/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "OpenDSS",
+      "url": "https://sourceforge.net/projects/electricdss/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "OpenModelica",
+      "url": "https://openmodelica.org/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "Electrical Engineering Portal",
+      "url": "https://electrical-engineering-portal.com/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "NPTELsource-listed course",
+      "url": "https://nptel.ac.in/courses/108105167",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "Sandia power-system protection",
+      "url": "https://energy.sandia.gov/programs/electric-grid/advanced-grid-modeling/power-system-protection/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "Source-listed lectures",
+      "url": "https://www.youtube.com/@edupme/playlists",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "Substation automation VLab",
+      "url": "https://sa-nitk.vlabs.ac.in/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "Power VLab",
+      "url": "https://vp-dei.vlabs.ac.in/Dreamweaver/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "SELunconventional-source line-protection paper",
+      "url": "https://selinc.com/api/download/136299/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "Classical distance-relay geometry reference",
+      "url": "https://www.eeeguide.com/distance-relays-types/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    }
+  ]
+}

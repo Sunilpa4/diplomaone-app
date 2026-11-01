@@ -1,0 +1,539 @@
+{
+  "subject": "DI02000161",
+  "unit": 3,
+  "title": {
+    "en": "Boolean Function Implementation",
+    "gu": "Boolean Function Implementation"
+  },
+  "format": "notes",
+  "languages": [
+    "en",
+    "gu"
+  ],
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "tab_labels": {
+    "programs": {
+      "en": "Practical",
+      "gu": "પ્રયોગ અને ચકાસણી"
+    }
+  },
+  "hours": 5,
+  "weightage": 15,
+  "notes": [
+    {
+      "title": {
+        "en": "3.1 Why simplify a Boolean function?",
+        "gu": "3.1 Boolean Function શા માટે Simplify કરવું?"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Why simplify a Boolean function?",
+            "gu": "Boolean Function શા માટે Simplify કરવું?"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Equivalent logic can use fewer gates,literals and levels while preserving the required truth table.</p><h4>Explanation and application</h4><ul><li>F=AB+AB′=A(B+B′)=A:the output does not depend on B.A direct wire replaces two AND gates,one OR and an inverter in this expression-level model.</li><li>Compare literal count,gate count and logic depth under the available gate library;the shortest SOP is not always the lowest-cost physical circuit.</li><li>Simplification is not permission to change specified rows.Hazards,fan-out and propagation delays need separate checks;minimum Boolean expression alone does not guarantee glitch-free switching.</li></ul><details class=\"self-check\"><summary>Why Gray order in a K-map?</summary><p>Adjacent cells must differ in exactly one variable to eliminate that variable by grouping.</p></details>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Required truth table જાળવીને equivalent logicમાં gates,literals તથા levels ઘટાડી શકાય.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>F=AB+AB′=A(B+B′)=Aહોવાથી output Bપર depend કરતું નથી.Expression-level modelમાં બે AND,એક OR તથા inverterને બદલે direct wire પૂરતો છે.</li><li>Available gate library પ્રમાણે literal count,gate count અને logic depth compare કરો.Shortest SOP હંમેશાં lowest-cost physical circuit નથી.</li><li>Simplificationથી specified rows બદલી શકાતાં નથી.Hazards,fan-out/delay અલગ તપાસવાના છે;minimum expressionથી glitch-free switchingની guarantee નથી.</li></ul><details class=\"self-check\"><summary>K-mapમાં Gray Order કેમ?</summary><p>Groupingથીvariableદૂરકરવામાટેadjacentcellsએકજvariableથીજુદાહોવાજોઈએ.</p></details>"
+          },
+          "syllabus_item": "3.1"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "3.2 SOP,POS,minterms and maxterms",
+        "gu": "3.2 SOP,POS,Minterms તથા Maxterms"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "SOP,POS,minterms and maxterms",
+            "gu": "SOP,POS,Minterms તથા Maxterms"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>SOP is an OR of AND terms;POS is an AND of OR terms.Canonical forms contain every variable in each term.</p><h4>Explanation and application</h4><ul><li>With A as MSB and B as LSB,row01has minterm A′B and maxterm(A+B′).A minterm is1only on its indexed row;a maxterm is0only on its indexed row.</li><li>For XOR:F=Σm(1,2)=A′B+AB′=ΠM(0,3)=(A+B)(A′+B′).List all remaining rows as zeroes when converting Σm to ΠM.</li><li>Noncanonical SOP A+BC is valid SOP but not canonical in three variables.Expand a missing variable using X+X′=1,or build a truth table first.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>SOP એ AND termsનું OR અને POS એ OR termsનું AND છે.Canonical formના દરેક termમાં બધા variables આવે છે.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>A=MSB,B=LSBલઈ row01નો minterm A′B તથા maxterm(A+B′)છે.Minterm indexed row પર જ1અને maxterm indexed row પર જ0હોય છે.</li><li>XOR માટે F=Σm(1,2)=A′B+AB′=ΠM(0,3)=(A+B)(A′+B′)છે.Σmથી ΠMમાં બાકીના બધા rows zero લો.</li><li>Three variablesમાં A+BC valid SOP છે પણ canonical નથી.Missing variable માટે X+X′=1થી expand કરો અથવા પહેલાં truth table બનાવો.</li></ul>"
+          },
+          "syllabus_item": "3.2"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "3.3 K-map rules before grouping",
+        "gu": "3.3 Grouping પહેલાં K-map Rules"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "K-map rules before grouping",
+            "gu": "Grouping પહેલાં K-map Rules"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>A K-map rearranges the truth table into Gray order so adjacent cells differ in one variable.</p><h4>Explanation and application</h4><ul><li>For2variables use row A=0,1 and column B=0,1.For3variables use row A=0,1 and column BC=00,01,11,10;ordinary binary order00,01,10,11is wrong.</li><li>For SOP group1cells in rectangles of1,2,4,8…cells.Use the largest useful groups,cover every required1and avoid0cells.Overlap is allowed;diagonal grouping is not.</li><li>Top/bottom and left/right edges wrap.A variable that changes within a group disappears;retain only literals fixed across every cell.</li><li>For POS group0cells.Fixed0gives an uncomplemented literal in the sum term;fixed1gives a complemented literal.This polarity reverses the SOP rule.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>K-mapમાં truth table Gray orderમાં ગોઠવાય છે,જેથી adjacent cells એક variableમાં જુદા પડે.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>2variablesમાં row A=0,1,column B=0,1લો.3variablesમાં row A=0,1,column BC=00,01,11,10લો;ordinary binary order00,01,10,11ખોટો છે.</li><li>SOPમાં1cellsના1,2,4,8…sizeના rectangles લો.Largest useful groupsથી દરેક required1cover કરો;0cell ન લો.Overlap allowed છે,diagonal grouping નહિ.</li><li>Top/bottom તથા left/right edges adjacent છે.Groupમાં બદલાતો variable દૂર થાય છે;બધા cellsમાં fixed literals જ રાખો.</li><li>POSમાં0cells group કરો.Fixed0એ sum termમાં uncomplemented literal અને fixed1એ complemented literal આપે.આ polarity SOPથી ઊલટી છે.</li></ul>"
+          },
+          "syllabus_item": "3.3",
+          "diagram": "km2"
+        },
+        {
+          "h": {
+            "en": "2-variable and3-variable solved maps",
+            "gu": "2-variable તથા3-variable Solved Maps"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>F(A,B)=Σm(1,3);G(A,B,C)=Σm(1,3,5,7).</p><h4>Step-by-step solution</h4><ol><li>F has1at01and11;pair across A,retain B=1→F=B.</li><li>G has the four C=1cells:columns BC01and11across both A rows.The four-cell group removes A,B→G=C.</li><li>For F zeros at00and10give one POS group with B=0,so F=(B).Verify all rows,not just one selected case.</li></ol><h4>Interpretation and check</h4><p>The map labels are minterm indices,not decimal values to add.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>F(A,B)=Σm(1,3);G(A,B,C)=Σm(1,3,5,7).</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>Fમાં01અને11પર1છે.Aની બંને rows pair કરતાં B=1રહે;F=B.</li><li>Gમાં C=1ના ચાર cells છે:બંને A rowsમાં BC01/11columns.Four-cell groupથી A,Bદૂર થાય;G=C.</li><li>Fના00/10zero cellsનું POS group B=0આપે,તેથી F=(B).એક case નહિ,બધા rows verify કરો.</li></ol><h4>અર્થ અને ચકાસણી</h4><p>Mapના labels minterm indices છે;ઉમેરવાના decimal values નથી.</p>"
+          },
+          "syllabus_item": "3.3",
+          "diagram": "km3"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "3.4 Four-variable maps and edge adjacency",
+        "gu": "3.4 Four-variable Maps તથા Edge Adjacency"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Four-variable maps and edge adjacency",
+            "gu": "Four-variable Maps તથા Edge Adjacency"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Rows AB and columns CD both use00,01,11,10;there are16cells.</p><h4>Explanation and application</h4><ul><li>F=Σm(1,3,9,11):rows AB00and10wrap;columns CD01and11are adjacent.The four-cell group holds B=0,D=1,so F=B′D.</li><li>Group size2^k eliminates k varying variables.Only a legal rectangle in the wrapped map counts;four isolated1cells are not automatically a group of4.</li><li>Choose essential prime implicants first,then cover remaining required1cells economically.Recheck each minterm against the resulting expression.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Rows ABઅને columns CDબંને00,01,11,10ક્રમમાં છે;કુલ16cells છે.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>F=Σm(1,3,9,11)માં AB00/10rows edge-wrap કરે અને CD01/11columns adjacent છે.Groupમાં B=0,D=1રહે;F=B′D.</li><li>2^ksizeનું group kબદલાતા variables દૂર કરે.Wrapped mapમાં legal rectangle જ ગણાય;ચાર અલગ1cells આપમેળે4નું group નથી.</li><li>પહેલાં essential prime implicants લો,પછી બાકી required1cellsને economical groupsથી cover કરો.Resulting expressionના દરેક mintermને recheck કરો.</li></ul>"
+          },
+          "syllabus_item": "3.4",
+          "diagram": "km4"
+        },
+        {
+          "h": {
+            "en": "Don’t-care example and its limits",
+            "gu": "Don’t-care Example તથા મર્યાદા"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>F=Σm(1,3,7,11,15)+d(5,9,13),variables A,B,C,D.</p><h4>Step-by-step solution</h4><ol><li>The required1cells and optional Xcells together occupy all eight D=1positions.Group them as8→F=D.</li><li>Xmay be used as0or1if useful;it need not be covered.Every required0must remain0and every required1must remain1.</li><li>An invalid BCD input is not automatically safe to treat as Xif hardware can actually receive it.Specify handling or guarantee it cannot occur.</li></ol><h4>Interpretation and check</h4><p>Do not compare implementations on Xrows as if an unspecified output had a required value.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>F=Σm(1,3,7,11,15)+d(5,9,13),variables A,B,C,D.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>Required1અને optional Xcells મળીને D=1ના આઠ positions બને છે.8નું group લો;F=D.</li><li>Useful હોય ત્યારે Xને0અથવા1લો;Xcover કરવું ફરજિયાત નથી.દરેક required0એ0અને required1એ1જ રહેવું જોઈએ.</li><li>Hardwareને invalid BCD input મળી શકે તો તેને આપમેળે Xમાનવું safe નથી.Handling specify કરો અથવા તે ક્યારેય ન આવવાની guarantee આપો.</li></ol><h4>અર્થ અને ચકાસણી</h4><p>Xrowsના unspecified outputને required value માની implementations compare ન કરો.</p>"
+          },
+          "syllabus_item": "3.4",
+          "diagram": "kmdc"
+        },
+        {
+          "h": {
+            "en": "Four-variable POS worked example",
+            "gu": "Four-variable POS Worked Example"
+          },
+          "body": {
+            "en": "<h4>Given and assumptions</h4><p>F=ΠM(0,1,2,3,4,8,12),variable order A,B,C,D.</p><h4>Step-by-step solution</h4><ol><li>Group the four zeroes0,1,2,3in row AB=00.The fixed zeros A=0,B=0give maxterm(A+B).</li><li>Group zeroes0,4,8,12in column CD=00.Fixed C=0,D=0give maxterm(C+D);zero0can be shared.</li><li>F=(A+B)(C+D)=AC+AD+BC+BD.The two ORoutputs feed an AND;check all16rows against the original zero index list.</li></ol><h4>Interpretation and check</h4><p>For POS,retain fixed0as uncomplemented and fixed1as complemented:the reverse of SOP grouping.</p>",
+            "gu": "<h4>આપેલી માહિતી અને ધારણાઓ</h4><p>F=ΠM(0,1,2,3,4,8,12),variable order A,B,C,D.</p><h4>ક્રમબદ્ધ ઉકેલ</h4><ol><li>AB=00rowના0,1,2,3ચારzeroesgroupકરો.FixedA=0,B=0થીmaxterm(A+B)મળે.</li><li>CD=00columnના0,4,8,12zeroesgroupકરો.FixedC=0,D=0થીmaxterm(C+D)મળે;zero0shareકરીશકાય.</li><li>F=(A+B)(C+D)=AC+AD+BC+BDછે.બેORoutputsANDમાંઆપો;originalzeroindexlistસામે16rowsતપાસો.</li></ol><h4>અર્થ અને ચકાસણી</h4><p>POSમાંfixed0uncomplemented તથાfixed1complementedરાખો;SOPથીઊલટોruleછે.</p>"
+          },
+          "syllabus_item": "3.4",
+          "diagram": "kmpos"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Practical.9 K-map and basic gates",
+        "gu": "Practical.9 K-map તથા Basic Gates"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "K-map and basic gates",
+            "gu": "K-map તથા Basic Gates"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Simplify a specified truth table and verify basic-gate realisation.</p><h4>Instruments and preparation</h4><ul><li>Use the approved low-voltage current-limited trainer,verified logic ICs/breadboard,defined input switches,logic probe or high-impedance meter,and exact device datasheet.A simulated/numerical practical needs its stated tools instead.</li><li>Check package orientation and recommended VCCbefore connecting.Power OFFfor wiring;do not apply a9Vbattery directly to74LSlogic;trainer0–30Vcapability is not an IC operating rating.</li></ul><h4>Circuit connections / setup</h4><p>Use F(A,B,C)=Σm(3,5,7).Group3/7→BCand5/7→AC;build F=AC+BC.</p><h4>Procedure</h4><ol><li>Derive the expected table first;declare bit order,active polarity and any enable/clock assumptions.</li><li>Inspect the unpowered connections against the labelled logic diagram and approved pin map;verify common ground and a suitable local decoupling capacitor.</li><li>Compare all8rows of the original truth table and simplified network;minterm7is legally shared.</li><li>Read each output after settling;for sequential circuits record current state,command,clock event and next state separately.</li><li>On a mismatch,stop and trace supply,input definition,polarity and intermediate nodes;power OFFbefore changing wiring.</li><li>Save genuine results and explain each discrepancy;power down safely.Do not fill actual observations with expected numbers or claim an unperformed experiment.</li></ol><h4>Expected calculations and interpretation</h4><p>F=1at3,5,7and0elsewhere;equivalent factored form is C(A+B).</p><h4>Fault finding</h4><p>A diagonal pair is illegal;check Gray order before suspecting a damaged IC.</p><h4>Precautions</h4><ul><li>Never short outputs or exceed ratings;unused inputs must be defined.Output LEDloads need a checked driver/current limiter;an LEDwired to VCCmay indicate logicLOWwhen lit.</li><li>Use only isolated approved low-voltage apparatus;do not connect mains to logic circuits.A safe trainer is not a guarantee against reversed supply or incorrect pinout.</li></ul><h4>Actual observations:blank learner evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ</h4><p>Specified truth tableને simplifyકરી basic-gate realisationverifyકરો.</p><h4>સાધનો તથા તૈયારી</h4><ul><li>Approvedlow-voltagecurrent-limitedtrainer,verifiedICs/breadboard,definedswitches,logicprobe/high-impedancemeterતથા exactdatasheetલો.Simulation/numericalpracticalમાં એનાં statedtoolsલો.</li><li>Connectપહેલાં orientation/recommendedVCCજુઓ.Wiringમાં powerOFFરાખો.74LSને સીધી9Vbatteryનઆપો;trainerની0–30VcapabilityICratingનથી.</li></ul><h4>Circuit Connections / Setup</h4><p>F(A,B,C)=Σm(3,5,7)લો.3/7→BCઅને5/7→ACgroupsથી F=AC+BCબનાવો.</p><h4>પ્રક્રિયા</h4><ol><li>પહેલાં expectedtablederiveકરો.Bitorder,activepolarityતથા enable/clockassumptionsલખો.</li><li>Unpoweredconnectionsને logicdiagram/approvedpinmapસાથે તપાસો.Common ground તથા યોગ્ય localdecouplingcapacitorજુઓ.</li><li>Original/simplifiedબંનેના8rowscompareકરો;minterm7shareકરવું legalછે.</li><li>Settleથયા પછી દરેકoutputવાંચો.Sequentialમાં currentstate,command,clockevent/nextstateઅલગલખો.</li><li>Mismatchમાં રોકાઈ supply,inputdefinition,polarity/intermediatenodestraceકરો.Wiringબદલતાંપહેલાં powerOFFકરો.</li><li>Genuine resultsસાચવો,discrepancyસમજાવો અને safelypowerdownકરો.Expectednumbersactualobservationsમાં નભરો;નકરેલ experimentનો દાવો નકરો.</li></ol><h4>Expected ગણતરી તથા અર્થ</h4><p>Fના3,5,7પર1અનેબીજે0;equivalent factored form C(A+B)છે.</p><h4>Fault Finding</h4><p>Diagonal pairillegalછે.ICfaultમાનતાંપહેલાં Grayorderતપાસો.</p><h4>સાવચેતી</h4><ul><li>Outputs shortકેratings exceedનકરો.Unusedinputsdefinedરાખો.LEDloadમાટે checkeddriver/currentlimiterલો.VCCથીજોડાયેલ LEDજલતાં logicLOWદર્શાવી શકે.</li><li>Isolatedapprovedlow-voltageapparatusજલો.Logiccircuitને mainsનજોડો.Safe trainerપણ reversed supply/wrongpinoutથીરક્ષણનીguaranteeનથી.</li></ul><h4>Actual Observations:ખાલી Learner Evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "syllabus_item": "Practical.9",
+          "suggested_duration": 4,
+          "practical_number": 9,
+          "diagram": "k3"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Practical.10 K-map and universal gates",
+        "gu": "Practical.10 K-map તથા Universal Gates"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "K-map and universal gates",
+            "gu": "K-map તથા Universal Gates"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Realise the simplified function with an all-NAND or all-NOR network.</p><h4>Instruments and preparation</h4><ul><li>Use the approved low-voltage current-limited trainer,verified logic ICs/breadboard,defined input switches,logic probe or high-impedance meter,and exact device datasheet.A simulated/numerical practical needs its stated tools instead.</li><li>Check package orientation and recommended VCCbefore connecting.Power OFFfor wiring;do not apply a9Vbattery directly to74LSlogic;trainer0–30Vcapability is not an IC operating rating.</li></ul><h4>Circuit connections / setup</h4><p>For F=AC+BC,use NAND(A,C),NAND(B,C),then NAND of those outputs.All-NOR uses F=C(A+B),so NOR(C,C),NOR(A,B),then NOR of those nodes.</p><h4>Procedure</h4><ol><li>Derive the expected table first;declare bit order,active polarity and any enable/clock assumptions.</li><li>Inspect the unpowered connections against the labelled logic diagram and approved pin map;verify common ground and a suitable local decoupling capacitor.</li><li>Draw the3-gate network,verify internal polarities and test all8input combinations for both alternatives.</li><li>Read each output after settling;for sequential circuits record current state,command,clock event and next state separately.</li><li>On a mismatch,stop and trace supply,input definition,polarity and intermediate nodes;power OFFbefore changing wiring.</li><li>Save genuine results and explain each discrepancy;power down safely.Do not fill actual observations with expected numbers or claim an unperformed experiment.</li></ol><h4>Expected calculations and interpretation</h4><p>Both variants equal C(A+B);the last universal gate removes the internal complemented polarity.</p><h4>Fault finding</h4><p>Adding an extra output inverter reverses the intended function.Check the two-level bubble cancellation.</p><h4>Precautions</h4><ul><li>Never short outputs or exceed ratings;unused inputs must be defined.Output LEDloads need a checked driver/current limiter;an LEDwired to VCCmay indicate logicLOWwhen lit.</li><li>Use only isolated approved low-voltage apparatus;do not connect mains to logic circuits.A safe trainer is not a guarantee against reversed supply or incorrect pinout.</li></ul><h4>Actual observations:blank learner evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ</h4><p>Simplified functionને all-NANDઅથવા all-NORથી realiseકરો.</p><h4>સાધનો તથા તૈયારી</h4><ul><li>Approvedlow-voltagecurrent-limitedtrainer,verifiedICs/breadboard,definedswitches,logicprobe/high-impedancemeterતથા exactdatasheetલો.Simulation/numericalpracticalમાં એનાં statedtoolsલો.</li><li>Connectપહેલાં orientation/recommendedVCCજુઓ.Wiringમાં powerOFFરાખો.74LSને સીધી9Vbatteryનઆપો;trainerની0–30VcapabilityICratingનથી.</li></ul><h4>Circuit Connections / Setup</h4><p>F=AC+BCમાટે NAND(A,C),NAND(B,C)પછી બંનેનું NANDલો.All-NORમાં F=C(A+B)થી NOR(C,C),NOR(A,B)પછી બંનેનું NORલો.</p><h4>પ્રક્રિયા</h4><ol><li>પહેલાં expectedtablederiveકરો.Bitorder,activepolarityતથા enable/clockassumptionsલખો.</li><li>Unpoweredconnectionsને logicdiagram/approvedpinmapસાથે તપાસો.Common ground તથા યોગ્ય localdecouplingcapacitorજુઓ.</li><li>3-gatenetworkદોરો,internal polaritiesતપાસો અને બંને alternativesના8inputsલો.</li><li>Settleથયા પછી દરેકoutputવાંચો.Sequentialમાં currentstate,command,clockevent/nextstateઅલગલખો.</li><li>Mismatchમાં રોકાઈ supply,inputdefinition,polarity/intermediatenodestraceકરો.Wiringબદલતાંપહેલાં powerOFFકરો.</li><li>Genuine resultsસાચવો,discrepancyસમજાવો અને safelypowerdownકરો.Expectednumbersactualobservationsમાં નભરો;નકરેલ experimentનો દાવો નકરો.</li></ol><h4>Expected ગણતરી તથા અર્થ</h4><p>બંને variants C(A+B)સમાનછે;last universal gateinternal complemented polarityદૂરકરે.</p><h4>Fault Finding</h4><p>Extra outputinverterથી functionઉલટાય.Two-levelbubble cancellationતપાસો.</p><h4>સાવચેતી</h4><ul><li>Outputs shortકેratings exceedનકરો.Unusedinputsdefinedરાખો.LEDloadમાટે checkeddriver/currentlimiterલો.VCCથીજોડાયેલ LEDજલતાં logicLOWદર્શાવી શકે.</li><li>Isolatedapprovedlow-voltageapparatusજલો.Logiccircuitને mainsનજોડો.Safe trainerપણ reversed supply/wrongpinoutથીરક્ષણનીguaranteeનથી.</li></ul><h4>Actual Observations:ખાલી Learner Evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "syllabus_item": "Practical.10",
+          "suggested_duration": 4,
+          "practical_number": 10,
+          "diagram": "nandand"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Project.17 Staircase-light logic problem",
+        "gu": "Project.17 Staircase-light Logic Problem"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Staircase-light logic problem",
+            "gu": "Staircase-light Logic Problem"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Suggested project plan,not completed experiment evidence.</p><h4>Explanation and application</h4><ul><li>Choose convention00OFF,01ON,10ON,11OFF:changing either switch toggles the light.Model low-voltage indicator only,not actual mains staircase wiring.</li><li>F=A′B+AB′=A⊕B.AND/OR/inverter realisation uses two complemented literals,two products and an OR.K-map1cells are diagonal and cannot merge.</li><li>Two-input NAND-only XOR needs4gates:N=NAND(A,B);P=NAND(A,N);Q=NAND(B,N);F=NAND(P,Q).Two-input NOR-only XOR needs5gates:N=NOR(A,B);P=NOR(A,N);Q=NOR(B,N);X=NOR(P,Q)gives XNOR;F=NOR(X,X).</li><li>These minimum counts assume only two-input gates,no complemented inputs supplied,and the chosen XORpolarity;choosing the opposite light convention changes the function/counts.</li><li>Deliver problem analysis,logic expression/simplification,block and logic diagrams,full expected truth/state table,components,pin references and blank genuine-result section;report only work actually performed.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Suggested project planછે;completed experiment evidenceનહિ.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>Convention00OFF,01ON,10ON,11OFFલો.કોઈપણswitchબદલતાં lighttoggleથાય.ફક્તlow-voltageindicatorલો,actualmainswiringનહિ.</li><li>F=A′B+AB′=A⊕Bછે.AND/OR/inverterrealisationમાં બેcomplements,બેproducts/ORલો.K-mapના1cellsdiagonalછે;mergeનથાય.</li><li>Two-inputNAND-onlyXORમાં4gates:N=NAND(A,B);P=NAND(A,N);Q=NAND(B,N);F=NAND(P,Q).Two-inputNOR-onlyXORમાં5gates:N=NOR(A,B);P=NOR(A,N);Q=NOR(B,N);X=NOR(P,Q)થીXNORમળે;F=NOR(X,X).</li><li>Minimumcountsમાંtwo-inputgates,બહારથીcomplementedinputsનહિ અનેselectedXORpolarityમાન્યાંછે.Oppositelightconventionથીfunction/countsબદલાય.</li><li>Problem analysis,expression/simplification,block/logicdiagrams,fullexpectedtruth/state-table,components,pinreferences તથા blankgenuine-resultsectionલો.ખરેખરકરેલુંકામજreportકરો.</li></ul>"
+          },
+          "syllabus_item": "Project.17"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Project.18 Five-lock safe:complete logical analysis",
+        "gu": "Project.18 Five-lock Safe:સંપૂર્ણ Logical Analysis"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Five-lock safe:complete logical analysis",
+            "gu": "Five-lock Safe:સંપૂર્ણ Logical Analysis"
+          },
+          "body": {
+            "en": "<h4>Understand the idea</h4><p>Suggested project plan,not completed experiment evidence.</p><h4>Explanation and application</h4><ul><li>Let A…Emean executive present;each present executive can unlock every lock for which they hold a key.Key coverage gives F=(A+B+E)·C·(A+D)·(B+C)·(D+E).</li><li>Only Ccan open w,so C is essential.No pair covers all five locks.Minimum attendance is3;minimal successful triples are ACD,ACE,BCD,CDE.</li><li>F=C(AD+AE+BD+DE).All successful sets are ACD,ACE,BCD,CDE,ABCD,ABCE,ACDE,BCDE,ABCDE;supersets remain successful.</li><li>Verify all32attendance combinations independently against lock coverage.This five-variable project extends beyond the core four-variable K-map scope.</li><li>Deliver problem analysis,logic expression/simplification,block and logic diagrams,full expected truth/state table,components,pin references and blank genuine-result section;report only work actually performed.</li></ul>",
+            "gu": "<h4>વિચાર સમજીએ</h4><p>Suggested project planછે;completed experiment evidenceનહિ.</p><h4>સમજણ અને ઉપયોગ</h4><ul><li>A…Eexecutivepresentદર્શાવે.Presentexecutiveપોતાનીબધીkeysવાપરીશકે.Keycoverageથી F=(A+B+E)·C·(A+D)·(B+C)·(D+E).</li><li>wફક્ત Cખોલીશકે,તેથી Cessentialછે.કોઈpairપાંચેયlockscoverનકરે.Minimumattendance3છે;minimaltriplesACD,ACE,BCD,CDEછે.</li><li>F=C(AD+AE+BD+DE).બધાsuccessfulsetsACD,ACE,BCD,CDE,ABCD,ABCE,ACDE,BCDE,ABCDEછે.Supersetsપણsuccessfulરહે.</li><li>Lockcoverageસામે બધા32attendancecombinationsindependentlyverifyકરો.આfive-variableprojectcorefour-variableK-mapscopeનીબહારછે.</li><li>Problem analysis,expression/simplification,block/logicdiagrams,fullexpectedtruth/state-table,components,pinreferences તથા blankgenuine-resultsectionલો.ખરેખરકરેલુંકામજreportકરો.</li></ul>"
+          },
+          "syllabus_item": "Project.18"
+        }
+      ]
+    }
+  ],
+  "programs": [
+    {
+      "title": {
+        "en": "Practical and testing",
+        "gu": "પ્રયોગ અને ચકાસણી"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "K-map and basic gates",
+            "gu": "K-map તથા Basic Gates"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Simplify a specified truth table and verify basic-gate realisation.</p><h4>Instruments and preparation</h4><ul><li>Use the approved low-voltage current-limited trainer,verified logic ICs/breadboard,defined input switches,logic probe or high-impedance meter,and exact device datasheet.A simulated/numerical practical needs its stated tools instead.</li><li>Check package orientation and recommended VCCbefore connecting.Power OFFfor wiring;do not apply a9Vbattery directly to74LSlogic;trainer0–30Vcapability is not an IC operating rating.</li></ul><h4>Circuit connections / setup</h4><p>Use F(A,B,C)=Σm(3,5,7).Group3/7→BCand5/7→AC;build F=AC+BC.</p><h4>Procedure</h4><ol><li>Derive the expected table first;declare bit order,active polarity and any enable/clock assumptions.</li><li>Inspect the unpowered connections against the labelled logic diagram and approved pin map;verify common ground and a suitable local decoupling capacitor.</li><li>Compare all8rows of the original truth table and simplified network;minterm7is legally shared.</li><li>Read each output after settling;for sequential circuits record current state,command,clock event and next state separately.</li><li>On a mismatch,stop and trace supply,input definition,polarity and intermediate nodes;power OFFbefore changing wiring.</li><li>Save genuine results and explain each discrepancy;power down safely.Do not fill actual observations with expected numbers or claim an unperformed experiment.</li></ol><h4>Expected calculations and interpretation</h4><p>F=1at3,5,7and0elsewhere;equivalent factored form is C(A+B).</p><h4>Fault finding</h4><p>A diagonal pair is illegal;check Gray order before suspecting a damaged IC.</p><h4>Precautions</h4><ul><li>Never short outputs or exceed ratings;unused inputs must be defined.Output LEDloads need a checked driver/current limiter;an LEDwired to VCCmay indicate logicLOWwhen lit.</li><li>Use only isolated approved low-voltage apparatus;do not connect mains to logic circuits.A safe trainer is not a guarantee against reversed supply or incorrect pinout.</li></ul><h4>Actual observations:blank learner evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ</h4><p>Specified truth tableને simplifyકરી basic-gate realisationverifyકરો.</p><h4>સાધનો તથા તૈયારી</h4><ul><li>Approvedlow-voltagecurrent-limitedtrainer,verifiedICs/breadboard,definedswitches,logicprobe/high-impedancemeterતથા exactdatasheetલો.Simulation/numericalpracticalમાં એનાં statedtoolsલો.</li><li>Connectપહેલાં orientation/recommendedVCCજુઓ.Wiringમાં powerOFFરાખો.74LSને સીધી9Vbatteryનઆપો;trainerની0–30VcapabilityICratingનથી.</li></ul><h4>Circuit Connections / Setup</h4><p>F(A,B,C)=Σm(3,5,7)લો.3/7→BCઅને5/7→ACgroupsથી F=AC+BCબનાવો.</p><h4>પ્રક્રિયા</h4><ol><li>પહેલાં expectedtablederiveકરો.Bitorder,activepolarityતથા enable/clockassumptionsલખો.</li><li>Unpoweredconnectionsને logicdiagram/approvedpinmapસાથે તપાસો.Common ground તથા યોગ્ય localdecouplingcapacitorજુઓ.</li><li>Original/simplifiedબંનેના8rowscompareકરો;minterm7shareકરવું legalછે.</li><li>Settleથયા પછી દરેકoutputવાંચો.Sequentialમાં currentstate,command,clockevent/nextstateઅલગલખો.</li><li>Mismatchમાં રોકાઈ supply,inputdefinition,polarity/intermediatenodestraceકરો.Wiringબદલતાંપહેલાં powerOFFકરો.</li><li>Genuine resultsસાચવો,discrepancyસમજાવો અને safelypowerdownકરો.Expectednumbersactualobservationsમાં નભરો;નકરેલ experimentનો દાવો નકરો.</li></ol><h4>Expected ગણતરી તથા અર્થ</h4><p>Fના3,5,7પર1અનેબીજે0;equivalent factored form C(A+B)છે.</p><h4>Fault Finding</h4><p>Diagonal pairillegalછે.ICfaultમાનતાંપહેલાં Grayorderતપાસો.</p><h4>સાવચેતી</h4><ul><li>Outputs shortકેratings exceedનકરો.Unusedinputsdefinedરાખો.LEDloadમાટે checkeddriver/currentlimiterલો.VCCથીજોડાયેલ LEDજલતાં logicLOWદર્શાવી શકે.</li><li>Isolatedapprovedlow-voltageapparatusજલો.Logiccircuitને mainsનજોડો.Safe trainerપણ reversed supply/wrongpinoutથીરક્ષણનીguaranteeનથી.</li></ul><h4>Actual Observations:ખાલી Learner Evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "diagram": "k3"
+        },
+        {
+          "h": {
+            "en": "K-map and universal gates",
+            "gu": "K-map તથા Universal Gates"
+          },
+          "body": {
+            "en": "<h4>Aim</h4><p>Realise the simplified function with an all-NAND or all-NOR network.</p><h4>Instruments and preparation</h4><ul><li>Use the approved low-voltage current-limited trainer,verified logic ICs/breadboard,defined input switches,logic probe or high-impedance meter,and exact device datasheet.A simulated/numerical practical needs its stated tools instead.</li><li>Check package orientation and recommended VCCbefore connecting.Power OFFfor wiring;do not apply a9Vbattery directly to74LSlogic;trainer0–30Vcapability is not an IC operating rating.</li></ul><h4>Circuit connections / setup</h4><p>For F=AC+BC,use NAND(A,C),NAND(B,C),then NAND of those outputs.All-NOR uses F=C(A+B),so NOR(C,C),NOR(A,B),then NOR of those nodes.</p><h4>Procedure</h4><ol><li>Derive the expected table first;declare bit order,active polarity and any enable/clock assumptions.</li><li>Inspect the unpowered connections against the labelled logic diagram and approved pin map;verify common ground and a suitable local decoupling capacitor.</li><li>Draw the3-gate network,verify internal polarities and test all8input combinations for both alternatives.</li><li>Read each output after settling;for sequential circuits record current state,command,clock event and next state separately.</li><li>On a mismatch,stop and trace supply,input definition,polarity and intermediate nodes;power OFFbefore changing wiring.</li><li>Save genuine results and explain each discrepancy;power down safely.Do not fill actual observations with expected numbers or claim an unperformed experiment.</li></ol><h4>Expected calculations and interpretation</h4><p>Both variants equal C(A+B);the last universal gate removes the internal complemented polarity.</p><h4>Fault finding</h4><p>Adding an extra output inverter reverses the intended function.Check the two-level bubble cancellation.</p><h4>Precautions</h4><ul><li>Never short outputs or exceed ratings;unused inputs must be defined.Output LEDloads need a checked driver/current limiter;an LEDwired to VCCmay indicate logicLOWwhen lit.</li><li>Use only isolated approved low-voltage apparatus;do not connect mains to logic circuits.A safe trainer is not a guarantee against reversed supply or incorrect pinout.</li></ul><h4>Actual observations:blank learner evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ</h4><p>Simplified functionને all-NANDઅથવા all-NORથી realiseકરો.</p><h4>સાધનો તથા તૈયારી</h4><ul><li>Approvedlow-voltagecurrent-limitedtrainer,verifiedICs/breadboard,definedswitches,logicprobe/high-impedancemeterતથા exactdatasheetલો.Simulation/numericalpracticalમાં એનાં statedtoolsલો.</li><li>Connectપહેલાં orientation/recommendedVCCજુઓ.Wiringમાં powerOFFરાખો.74LSને સીધી9Vbatteryનઆપો;trainerની0–30VcapabilityICratingનથી.</li></ul><h4>Circuit Connections / Setup</h4><p>F=AC+BCમાટે NAND(A,C),NAND(B,C)પછી બંનેનું NANDલો.All-NORમાં F=C(A+B)થી NOR(C,C),NOR(A,B)પછી બંનેનું NORલો.</p><h4>પ્રક્રિયા</h4><ol><li>પહેલાં expectedtablederiveકરો.Bitorder,activepolarityતથા enable/clockassumptionsલખો.</li><li>Unpoweredconnectionsને logicdiagram/approvedpinmapસાથે તપાસો.Common ground તથા યોગ્ય localdecouplingcapacitorજુઓ.</li><li>3-gatenetworkદોરો,internal polaritiesતપાસો અને બંને alternativesના8inputsલો.</li><li>Settleથયા પછી દરેકoutputવાંચો.Sequentialમાં currentstate,command,clockevent/nextstateઅલગલખો.</li><li>Mismatchમાં રોકાઈ supply,inputdefinition,polarity/intermediatenodestraceકરો.Wiringબદલતાંપહેલાં powerOFFકરો.</li><li>Genuine resultsસાચવો,discrepancyસમજાવો અને safelypowerdownકરો.Expectednumbersactualobservationsમાં નભરો;નકરેલ experimentનો દાવો નકરો.</li></ol><h4>Expected ગણતરી તથા અર્થ</h4><p>બંને variants C(A+B)સમાનછે;last universal gateinternal complemented polarityદૂરકરે.</p><h4>Fault Finding</h4><p>Extra outputinverterથી functionઉલટાય.Two-levelbubble cancellationતપાસો.</p><h4>સાવચેતી</h4><ul><li>Outputs shortકેratings exceedનકરો.Unusedinputsdefinedરાખો.LEDloadમાટે checkeddriver/currentlimiterલો.VCCથીજોડાયેલ LEDજલતાં logicLOWદર્શાવી શકે.</li><li>Isolatedapprovedlow-voltageapparatusજલો.Logiccircuitને mainsનજોડો.Safe trainerપણ reversed supply/wrongpinoutથીરક્ષણનીguaranteeનથી.</li></ul><h4>Actual Observations:ખાલી Learner Evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "diagram": "nandand"
+        }
+      ]
+    }
+  ],
+  "practicals": [
+    {
+      "number": 9,
+      "unit": 3,
+      "suggested_duration": 4,
+      "title": {
+        "en": "K-map and basic gates",
+        "gu": "K-map તથા Basic Gates"
+      },
+      "aim": {
+        "en": "Simplify a specified truth table and verify basic-gate realisation.",
+        "gu": "Specified truth tableને simplifyકરી basic-gate realisationverifyકરો."
+      },
+      "diagram": "k3",
+      "body": {
+        "en": "<h4>Aim</h4><p>Simplify a specified truth table and verify basic-gate realisation.</p><h4>Instruments and preparation</h4><ul><li>Use the approved low-voltage current-limited trainer,verified logic ICs/breadboard,defined input switches,logic probe or high-impedance meter,and exact device datasheet.A simulated/numerical practical needs its stated tools instead.</li><li>Check package orientation and recommended VCCbefore connecting.Power OFFfor wiring;do not apply a9Vbattery directly to74LSlogic;trainer0–30Vcapability is not an IC operating rating.</li></ul><h4>Circuit connections / setup</h4><p>Use F(A,B,C)=Σm(3,5,7).Group3/7→BCand5/7→AC;build F=AC+BC.</p><h4>Procedure</h4><ol><li>Derive the expected table first;declare bit order,active polarity and any enable/clock assumptions.</li><li>Inspect the unpowered connections against the labelled logic diagram and approved pin map;verify common ground and a suitable local decoupling capacitor.</li><li>Compare all8rows of the original truth table and simplified network;minterm7is legally shared.</li><li>Read each output after settling;for sequential circuits record current state,command,clock event and next state separately.</li><li>On a mismatch,stop and trace supply,input definition,polarity and intermediate nodes;power OFFbefore changing wiring.</li><li>Save genuine results and explain each discrepancy;power down safely.Do not fill actual observations with expected numbers or claim an unperformed experiment.</li></ol><h4>Expected calculations and interpretation</h4><p>F=1at3,5,7and0elsewhere;equivalent factored form is C(A+B).</p><h4>Fault finding</h4><p>A diagonal pair is illegal;check Gray order before suspecting a damaged IC.</p><h4>Precautions</h4><ul><li>Never short outputs or exceed ratings;unused inputs must be defined.Output LEDloads need a checked driver/current limiter;an LEDwired to VCCmay indicate logicLOWwhen lit.</li><li>Use only isolated approved low-voltage apparatus;do not connect mains to logic circuits.A safe trainer is not a guarantee against reversed supply or incorrect pinout.</li></ul><h4>Actual observations:blank learner evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+        "gu": "<h4>હેતુ</h4><p>Specified truth tableને simplifyકરી basic-gate realisationverifyકરો.</p><h4>સાધનો તથા તૈયારી</h4><ul><li>Approvedlow-voltagecurrent-limitedtrainer,verifiedICs/breadboard,definedswitches,logicprobe/high-impedancemeterતથા exactdatasheetલો.Simulation/numericalpracticalમાં એનાં statedtoolsલો.</li><li>Connectપહેલાં orientation/recommendedVCCજુઓ.Wiringમાં powerOFFરાખો.74LSને સીધી9Vbatteryનઆપો;trainerની0–30VcapabilityICratingનથી.</li></ul><h4>Circuit Connections / Setup</h4><p>F(A,B,C)=Σm(3,5,7)લો.3/7→BCઅને5/7→ACgroupsથી F=AC+BCબનાવો.</p><h4>પ્રક્રિયા</h4><ol><li>પહેલાં expectedtablederiveકરો.Bitorder,activepolarityતથા enable/clockassumptionsલખો.</li><li>Unpoweredconnectionsને logicdiagram/approvedpinmapસાથે તપાસો.Common ground તથા યોગ્ય localdecouplingcapacitorજુઓ.</li><li>Original/simplifiedબંનેના8rowscompareકરો;minterm7shareકરવું legalછે.</li><li>Settleથયા પછી દરેકoutputવાંચો.Sequentialમાં currentstate,command,clockevent/nextstateઅલગલખો.</li><li>Mismatchમાં રોકાઈ supply,inputdefinition,polarity/intermediatenodestraceકરો.Wiringબદલતાંપહેલાં powerOFFકરો.</li><li>Genuine resultsસાચવો,discrepancyસમજાવો અને safelypowerdownકરો.Expectednumbersactualobservationsમાં નભરો;નકરેલ experimentનો દાવો નકરો.</li></ol><h4>Expected ગણતરી તથા અર્થ</h4><p>Fના3,5,7પર1અનેબીજે0;equivalent factored form C(A+B)છે.</p><h4>Fault Finding</h4><p>Diagonal pairillegalછે.ICfaultમાનતાંપહેલાં Grayorderતપાસો.</p><h4>સાવચેતી</h4><ul><li>Outputs shortકેratings exceedનકરો.Unusedinputsdefinedરાખો.LEDloadમાટે checkeddriver/currentlimiterલો.VCCથીજોડાયેલ LEDજલતાં logicLOWદર્શાવી શકે.</li><li>Isolatedapprovedlow-voltageapparatusજલો.Logiccircuitને mainsનજોડો.Safe trainerપણ reversed supply/wrongpinoutથીરક્ષણનીguaranteeનથી.</li></ul><h4>Actual Observations:ખાલી Learner Evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+      },
+      "actual_observations_blank": true,
+      "performed": false
+    },
+    {
+      "number": 10,
+      "unit": 3,
+      "suggested_duration": 4,
+      "title": {
+        "en": "K-map and universal gates",
+        "gu": "K-map તથા Universal Gates"
+      },
+      "aim": {
+        "en": "Realise the simplified function with an all-NAND or all-NOR network.",
+        "gu": "Simplified functionને all-NANDઅથવા all-NORથી realiseકરો."
+      },
+      "diagram": "nandand",
+      "body": {
+        "en": "<h4>Aim</h4><p>Realise the simplified function with an all-NAND or all-NOR network.</p><h4>Instruments and preparation</h4><ul><li>Use the approved low-voltage current-limited trainer,verified logic ICs/breadboard,defined input switches,logic probe or high-impedance meter,and exact device datasheet.A simulated/numerical practical needs its stated tools instead.</li><li>Check package orientation and recommended VCCbefore connecting.Power OFFfor wiring;do not apply a9Vbattery directly to74LSlogic;trainer0–30Vcapability is not an IC operating rating.</li></ul><h4>Circuit connections / setup</h4><p>For F=AC+BC,use NAND(A,C),NAND(B,C),then NAND of those outputs.All-NOR uses F=C(A+B),so NOR(C,C),NOR(A,B),then NOR of those nodes.</p><h4>Procedure</h4><ol><li>Derive the expected table first;declare bit order,active polarity and any enable/clock assumptions.</li><li>Inspect the unpowered connections against the labelled logic diagram and approved pin map;verify common ground and a suitable local decoupling capacitor.</li><li>Draw the3-gate network,verify internal polarities and test all8input combinations for both alternatives.</li><li>Read each output after settling;for sequential circuits record current state,command,clock event and next state separately.</li><li>On a mismatch,stop and trace supply,input definition,polarity and intermediate nodes;power OFFbefore changing wiring.</li><li>Save genuine results and explain each discrepancy;power down safely.Do not fill actual observations with expected numbers or claim an unperformed experiment.</li></ol><h4>Expected calculations and interpretation</h4><p>Both variants equal C(A+B);the last universal gate removes the internal complemented polarity.</p><h4>Fault finding</h4><p>Adding an extra output inverter reverses the intended function.Check the two-level bubble cancellation.</p><h4>Precautions</h4><ul><li>Never short outputs or exceed ratings;unused inputs must be defined.Output LEDloads need a checked driver/current limiter;an LEDwired to VCCmay indicate logicLOWwhen lit.</li><li>Use only isolated approved low-voltage apparatus;do not connect mains to logic circuits.A safe trainer is not a guarantee against reversed supply or incorrect pinout.</li></ul><h4>Actual observations:blank learner evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+        "gu": "<h4>હેતુ</h4><p>Simplified functionને all-NANDઅથવા all-NORથી realiseકરો.</p><h4>સાધનો તથા તૈયારી</h4><ul><li>Approvedlow-voltagecurrent-limitedtrainer,verifiedICs/breadboard,definedswitches,logicprobe/high-impedancemeterતથા exactdatasheetલો.Simulation/numericalpracticalમાં એનાં statedtoolsલો.</li><li>Connectપહેલાં orientation/recommendedVCCજુઓ.Wiringમાં powerOFFરાખો.74LSને સીધી9Vbatteryનઆપો;trainerની0–30VcapabilityICratingનથી.</li></ul><h4>Circuit Connections / Setup</h4><p>F=AC+BCમાટે NAND(A,C),NAND(B,C)પછી બંનેનું NANDલો.All-NORમાં F=C(A+B)થી NOR(C,C),NOR(A,B)પછી બંનેનું NORલો.</p><h4>પ્રક્રિયા</h4><ol><li>પહેલાં expectedtablederiveકરો.Bitorder,activepolarityતથા enable/clockassumptionsલખો.</li><li>Unpoweredconnectionsને logicdiagram/approvedpinmapસાથે તપાસો.Common ground તથા યોગ્ય localdecouplingcapacitorજુઓ.</li><li>3-gatenetworkદોરો,internal polaritiesતપાસો અને બંને alternativesના8inputsલો.</li><li>Settleથયા પછી દરેકoutputવાંચો.Sequentialમાં currentstate,command,clockevent/nextstateઅલગલખો.</li><li>Mismatchમાં રોકાઈ supply,inputdefinition,polarity/intermediatenodestraceકરો.Wiringબદલતાંપહેલાં powerOFFકરો.</li><li>Genuine resultsસાચવો,discrepancyસમજાવો અને safelypowerdownકરો.Expectednumbersactualobservationsમાં નભરો;નકરેલ experimentનો દાવો નકરો.</li></ol><h4>Expected ગણતરી તથા અર્થ</h4><p>બંને variants C(A+B)સમાનછે;last universal gateinternal complemented polarityદૂરકરે.</p><h4>Fault Finding</h4><p>Extra outputinverterથી functionઉલટાય.Two-levelbubble cancellationતપાસો.</p><h4>સાવચેતી</h4><ul><li>Outputs shortકેratings exceedનકરો.Unusedinputsdefinedરાખો.LEDloadમાટે checkeddriver/currentlimiterલો.VCCથીજોડાયેલ LEDજલતાં logicLOWદર્શાવી શકે.</li><li>Isolatedapprovedlow-voltageapparatusજલો.Logiccircuitને mainsનજોડો.Safe trainerપણ reversed supply/wrongpinoutથીરક્ષણનીguaranteeનથી.</li></ul><h4>Actual Observations:ખાલી Learner Evidence</h4><table><thead><tr><th>Inputs/state</th><th>Expected</th><th>Actual</th><th>Clock/enable</th><th>Discrepancy</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+      },
+      "actual_observations_blank": true,
+      "performed": false
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "km2",
+      "title": {
+        "en": "K-map 2 variables",
+        "gu": "Grouping પહેલાં K-map Rules"
+      },
+      "file": "diagrams/km2.svg"
+    },
+    {
+      "id": "km3",
+      "title": {
+        "en": "K-map 3 variables",
+        "gu": "2-variable તથા3-variable Solved Maps"
+      },
+      "file": "diagrams/km3.svg"
+    },
+    {
+      "id": "km4",
+      "title": {
+        "en": "K-map 4 variables",
+        "gu": "Four-variable Maps તથા Edge Adjacency"
+      },
+      "file": "diagrams/km4.svg"
+    },
+    {
+      "id": "kmdc",
+      "title": {
+        "en": "K-map 4 variables",
+        "gu": "Don’t-care Example તથા મર્યાદા"
+      },
+      "file": "diagrams/kmdc.svg"
+    },
+    {
+      "id": "kmpos",
+      "title": {
+        "en": "K-map 4 variables",
+        "gu": "Four-variable POS Worked Example"
+      },
+      "file": "diagrams/kmpos.svg"
+    },
+    {
+      "id": "k3",
+      "title": {
+        "en": "F = A.C + B.C net-labelled logic schematic",
+        "gu": "K-map તથા Basic Gates"
+      },
+      "file": "diagrams/k3.svg"
+    },
+    {
+      "id": "nandand",
+      "title": {
+        "en": "AND using NAND net-labelled logic schematic",
+        "gu": "K-map તથા Universal Gates"
+      },
+      "file": "diagrams/nandand.svg"
+    }
+  ],
+  "syntax": [
+    {
+      "title": {
+        "en": "Formula and conditions",
+        "gu": "સૂત્રો અને શરતો"
+      },
+      "items": [
+        {
+          "name": {
+            "en": "Canonical forms",
+            "gu": "Canonical Forms"
+          },
+          "f": "F=Σm(indices of1)=ΠM(indices of0)",
+          "terms": {
+            "en": "Use a consistent variable order.",
+            "gu": "Consistentvariableorderલો."
+          }
+        },
+        {
+          "name": {
+            "en": "Map order",
+            "gu": "Map Order"
+          },
+          "f": "00,01,11,10;groups1,2,4,8,16",
+          "terms": {
+            "en": "Rectangles may wrap;diagonals may not.",
+            "gu": "Rectangleswrapકરીશકે,diagonalનહિ."
+          }
+        },
+        {
+          "name": {
+            "en": "Don’t-care",
+            "gu": "Don’t-care"
+          },
+          "f": "X→0or1only where allowed",
+          "terms": {
+            "en": "Required rows remain unchanged.",
+            "gu": "Requiredrowsબદલાવાનહીં."
+          }
+        }
+      ]
+    }
+  ],
+  "viva": [
+    {
+      "title": {
+        "en": "Viva with answers",
+        "gu": "જવાબ સાથે Viva"
+      },
+      "items": [
+        {
+          "q": {
+            "en": "Why Gray order in a K-map?",
+            "gu": "K-mapમાં Gray Order કેમ?"
+          },
+          "a": {
+            "en": "Adjacent cells must differ in exactly one variable to eliminate that variable by grouping.",
+            "gu": "Groupingથીvariableદૂરકરવામાટેadjacentcellsએકજvariableથીજુદાહોવાજોઈએ."
+          }
+        },
+        {
+          "q": {
+            "en": "Can diagonal1cells pair?",
+            "gu": "Diagonal1Cells Pair થઈ શકે?"
+          },
+          "a": {
+            "en": "No;adjacency is horizontal/vertical with edge wrap,not diagonal.",
+            "gu": "નહિ;horizontal/verticalwithedgewrapadjacencyછે,diagonalનહિ."
+          }
+        },
+        {
+          "q": {
+            "en": "What is a don’t-care?",
+            "gu": "Don’t-care શું?"
+          },
+          "a": {
+            "en": "An unspecified output for a stated input condition;use0or1only where allowed to simplify specified behaviour.",
+            "gu": "Statedinputconditionનુંunspecifiedoutputછે;allowedહોયત્યાંજ0/1લઈspecifiedbehavioursimplifyકરો."
+          }
+        },
+        {
+          "q": {
+            "en": "SOPversus POS grouping?",
+            "gu": "SOP સામે POS Grouping?"
+          },
+          "a": {
+            "en": "SOPgroups1cells;POSgroups0cells.Fixed-variable literal polarity differs between the methods.",
+            "gu": "SOPમાં1cells;POSમાં0cellsgroupકરો.Fixed-variableliteralpolarityબંનેમાંજુદીછે."
+          }
+        },
+        {
+          "q": {
+            "en": "How is a simplification verified?",
+            "gu": "Simplification Verify કેવી રીતે?"
+          },
+          "a": {
+            "en": "Compare original and reduced outputs on every specified row;don’t-care rows are not required output matches.",
+            "gu": "દરેકspecifiedrowમાંoriginal/reducedcompareકરો.Don’t-carerowsમાંrequiredoutputmatchનથી."
+          }
+        }
+      ]
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Distinguish canonical/noncanonical SOPandPOSwith examples.",
+        "gu": "Canonical/Noncanonical SOP/POS Examplesથી અલગ સમજાવો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Explain2-variable and3-variable K-map grouping rules.",
+        "gu": "2-variable/3-variable K-map Grouping Rules સમજાવો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Simplify F(A,B,C)=Σm(3,5,7)and realise with basic gates.",
+        "gu": "F(A,B,C)=Σm(3,5,7) Simplify કરી Basic Gatesથી Realise કરો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Simplify F(A,B,C,D)=Σm(1,3,9,11)by a4-variable K-map.",
+        "gu": "F(A,B,C,D)=Σm(1,3,9,11)ને4-variable K-mapથી Simplify કરો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Simplify Σm(1,3,7,11,15)+d(5,9,13)and explain don’t-care limitations.",
+        "gu": "Σm(1,3,7,11,15)+d(5,9,13) Simplify કરીને Don’t-care મર્યાદા સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain why minimum Boolean form does not guarantee glitch-free output.",
+        "gu": "Minimum Boolean Formથી Glitch-free Output કેમ Guaranteed નથી?"
+      },
+      "marks": 3
+    }
+  ],
+  "exam_policy": "Questions and suggested practice marks only;no answers in Exam;not an official paper or unit mark allocation.",
+  "physical_practicals_performed": false,
+  "sources": [
+    {
+      "title": "Owner GTU Fundamental of Digital Electronics DI02000161,w.e.f.2024-25",
+      "reference": "Content pp2–3;practicals p6;projects pp7–9;activities pp9–10."
+    }
+  ],
+  "diagram_note": "Original digital-logic diagrams,truth tables,K-maps and timing sketches.Shared English symbols;Gujarati explanation has equivalent meaning.",
+  "project_plans": [
+    {
+      "number": 17,
+      "title": {
+        "en": "Staircase-light logic problem",
+        "gu": "Staircase-light Logic Problem"
+      },
+      "body": {
+        "en": "Choose convention00OFF,01ON,10ON,11OFF:changing either switch toggles the light.Model low-voltage indicator only,not actual mains staircase wiring. F=A′B+AB′=A⊕B.AND/OR/inverter realisation uses two complemented literals,two products and an OR.K-map1cells are diagonal and cannot merge. Two-input NAND-only XOR needs4gates:N=NAND(A,B);P=NAND(A,N);Q=NAND(B,N);F=NAND(P,Q).Two-input NOR-only XOR needs5gates:N=NOR(A,B);P=NOR(A,N);Q=NOR(B,N);X=NOR(P,Q)gives XNOR;F=NOR(X,X). These minimum counts assume only two-input gates,no complemented inputs supplied,and the chosen XORpolarity;choosing the opposite light convention changes the function/counts. Deliver problem analysis,logic expression/simplification,block and logic diagrams,full expected truth/state table,components,pin references and blank genuine-result section;report only work actually performed.",
+        "gu": "Convention00OFF,01ON,10ON,11OFFલો.કોઈપણswitchબદલતાં lighttoggleથાય.ફક્તlow-voltageindicatorલો,actualmainswiringનહિ. F=A′B+AB′=A⊕Bછે.AND/OR/inverterrealisationમાં બેcomplements,બેproducts/ORલો.K-mapના1cellsdiagonalછે;mergeનથાય. Two-inputNAND-onlyXORમાં4gates:N=NAND(A,B);P=NAND(A,N);Q=NAND(B,N);F=NAND(P,Q).Two-inputNOR-onlyXORમાં5gates:N=NOR(A,B);P=NOR(A,N);Q=NOR(B,N);X=NOR(P,Q)થીXNORમળે;F=NOR(X,X). Minimumcountsમાંtwo-inputgates,બહારથીcomplementedinputsનહિ અનેselectedXORpolarityમાન્યાંછે.Oppositelightconventionથીfunction/countsબદલાય. Problem analysis,expression/simplification,block/logicdiagrams,fullexpectedtruth/state-table,components,pinreferences તથા blankgenuine-resultsectionલો.ખરેખરકરેલુંકામજreportકરો."
+      }
+    },
+    {
+      "number": 18,
+      "title": {
+        "en": "Five-lock safe:complete logical analysis",
+        "gu": "Five-lock Safe:સંપૂર્ણ Logical Analysis"
+      },
+      "body": {
+        "en": "Let A…Emean executive present;each present executive can unlock every lock for which they hold a key.Key coverage gives F=(A+B+E)·C·(A+D)·(B+C)·(D+E). Only Ccan open w,so C is essential.No pair covers all five locks.Minimum attendance is3;minimal successful triples are ACD,ACE,BCD,CDE. F=C(AD+AE+BD+DE).All successful sets are ACD,ACE,BCD,CDE,ABCD,ABCE,ACDE,BCDE,ABCDE;supersets remain successful. Verify all32attendance combinations independently against lock coverage.This five-variable project extends beyond the core four-variable K-map scope. Deliver problem analysis,logic expression/simplification,block and logic diagrams,full expected truth/state table,components,pin references and blank genuine-result section;report only work actually performed.",
+        "gu": "A…Eexecutivepresentદર્શાવે.Presentexecutiveપોતાનીબધીkeysવાપરીશકે.Keycoverageથી F=(A+B+E)·C·(A+D)·(B+C)·(D+E). wફક્ત Cખોલીશકે,તેથી Cessentialછે.કોઈpairપાંચેયlockscoverનકરે.Minimumattendance3છે;minimaltriplesACD,ACE,BCD,CDEછે. F=C(AD+AE+BD+DE).બધાsuccessfulsetsACD,ACE,BCD,CDE,ABCD,ABCE,ACDE,BCDE,ABCDEછે.Supersetsપણsuccessfulરહે. Lockcoverageસામે બધા32attendancecombinationsindependentlyverifyકરો.આfive-variableprojectcorefour-variableK-mapscopeનીબહારછે. Problem analysis,expression/simplification,block/logicdiagrams,fullexpectedtruth/state-table,components,pinreferences તથા blankgenuine-resultsectionલો.ખરેખરકરેલુંકામજreportકરો."
+      }
+    }
+  ]
+}

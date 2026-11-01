@@ -1,0 +1,559 @@
+{
+  "subject": "DI04000171",
+  "unit": 3,
+  "title": {
+    "en": "Timers,Counters and Interrupts",
+    "gu": "ટાઇમર,કાઉન્ટર તથા ઇન્ટરપ્ટ"
+  },
+  "format": "notes",
+  "languages": [
+    "en",
+    "gu"
+  ],
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "tab_labels": {
+    "programs": {
+      "en": "Practical",
+      "gu": "પ્રયોગ તથા પ્રોગ્રામ"
+    }
+  },
+  "hours": 8,
+  "weightage": 18,
+  "notes": [
+    {
+      "ref": "3.1",
+      "title": {
+        "en": "3.1 Timer/counter configuration and register roles",
+        "gu": "3.1 Timer/Counter configuration તથા Registers"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Timer/counter configuration and register roles",
+            "gu": "Timer/Counter configuration તથા Registers"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p><p>A timer counts an internal clock to measure elapsed time;a counter counts qualifying external transitions to measure events.</p></p><h4>Explanation,application and checks</h4><ul><li>Each baseline timer has THx/TLxregisters.TMOD holds GATE,C/Tand M1/M0 for Timer1 in the upper nibble and Timer0 in the lower nibble.</li><li>TCON bits7..0are TF1,TR1,TF0,TR0,IE 1,IT1,IE 0,IT0.TRruns a timer and TFsignals overflow;external-interrupt control/status shares this SFR.</li><li>For Timer0  Mode1 internal timing with GATE=0,use TMOD=(TMOD&amp;0xF0)|0x01;this preserves the Timer1 nibble.Stop timer,configure/load,clear old flag,then start and test the correct overflow.</li><li>GATE=1 requires the associated INT pin high as well as TR=1;it does not select an interrupt mode.C/T=1 selects external counting,T0=P3.4,T1=P3.5.</li></ul><h4>Complete standalone Keil C51 example</h4><p>12 MHz classic12T</p><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nvolatile u16 count;\nvoid main(void) {TR0=0;P3|=0x10;TMOD=(TMOD&amp;0xF0)|0x05;TH0=0;TL0=0;TF0=0;TR0=1;\n for(;;) {TR0=0;count=((u16)TH0&lt;&lt;8)|TL0;TR0=1;} }\n</code></pre><details class=\"self-check\"><summary>Timer versus counter?</summary><p>Internal clock counts time;external transitions count events.</p></details>",
+            "gu": "<h4>વ્યાખ્યા</h4><p><p>Timer elapsed time માટે internal clock ગણે;counter events માટે qualifying external transitions ગણે.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>દરેક timerમાં THx/TLx છે.TMODના upper nibbleમાં Timer1/lowerમાં Timer0 માટે GATE,C/T,M1/M0 છે.</li><li>TCON bits7..0 TF1,TR1,TF0,TR0,IE 1,IT1,IE 0,IT0 છે.TR timer ચલાવે/TF overflow બતાવે;external-interrupt bits પણ આ SFRમાં છે.</li><li>Timer0 Mode1 internal/GATE=0 માટે TMOD=(TMOD&amp;0xF0)|0x01 લો;Timer1 nibble સાચવે.Timer stop કરી configure/load,old flag clear,પછી start/correct overflow test કરો.</li><li>GATE=1માં TR=1 ઉપરાંત associated INT pin high જોઈએ;તે interrupt mode પસંદ નથી કરતું.C/T=1 external counting:T0=P3.4,T1=P3.5.</li></ul><h4>સંપૂર્ણ Standalone Keil C51 ઉદાહરણ</h4><p>12 MHz classic12T</p><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nvolatile u16 count;\nvoid main(void) {TR0=0;P3|=0x10;TMOD=(TMOD&amp;0xF0)|0x05;TH0=0;TL0=0;TF0=0;TR0=1;\n for(;;) {TR0=0;count=((u16)TH0&lt;&lt;8)|TL0;TR0=1;} }\n</code></pre><details class=\"self-check\"><summary>Timer/Counter ભેદ?</summary><p>Internal clockથી time/external transitionsથી events ગણાય.</p></details>"
+          },
+          "syllabus_item": "3.1",
+          "diagram": "tmod"
+        },
+        {
+          "h": {
+            "en": "External event counting and capture discipline",
+            "gu": "External Event counting તથા Capture discipline"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p><p>An external counter increments on recognised transitions at its designated timer input,not once for every iteration of a Cloop.</p></p><h4>Explanation,application and checks</h4><ul><li>Classic 8051 recognises external falling edges using sampled input states;the input must satisfy high/low timing.For ideal classic sampling,the maximum count rate is limited to about fosc/24,not fosc.</li><li>Amechanical switch needs debouncing or a clean pulse source;use only approved5V-compatible isolated trainer pulses.No industrial voltage directly to T0/T1.</li><li>To read a coherent16-bit value,stop counting briefly when permitted or use a documented stable-read technique.Capture periods,overflow and input limits must be recorded.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p><p>External counter તેના designated input પર recognised transitionsથી વધે,C loopની દરેક iterationથી નહીં.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Classic 8051 sampled inputથી falling edges ઓળખે;high/low timing પૂરી થવી જોઈએ.Ideal classic samplingમાં maximum rate આશરે fosc/24 છે,fosc નહીં.</li><li>Mechanical switch માટે debounce/clean pulse source જોઈએ;approved5V-compatible isolated trainer pulses જ લો.Industrial voltage સીધું T0/T1 પર નહીં.</li><li>Coherent16-bit value માટે permitted હોય ત્યારે counting briefly stop કરો કે documented stable-read લો.Capture period,overflow/input limits લખો.</li></ul>"
+          },
+          "syllabus_item": "3.1",
+          "diagram": "timer"
+        }
+      ]
+    },
+    {
+      "ref": "3.2",
+      "title": {
+        "en": "3.2 Timer modes0,1,2and3",
+        "gu": "3.2 Timer Modes0,1,2 તથા3"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Timer modes0,1,2and3",
+            "gu": "Timer Modes0,1,2 તથા3"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p><p>A timer mode determines register width,reload behaviour and resource sharing;the mode number is not a time unit.</p></p><h4>Explanation,application and checks</h4><ul><li>Mode0:M1M0=00,13-bit count using THxand low5bits of TLx;capacity8192 counts.Mode1:01,16-bit count THx:TLx;capacity65536,no automatic reload.</li><li>Mode2:10,TLxcounts8-bits and reloads from THxon overflow;set both THxand initial TLxfor a consistent first interval.Capacity256 counts per full period.</li><li>Mode3:11 for Timer0 splits TL0 and TH0 into8-bit resources;TH0 uses TR1/TF1,so ordinary Timer1 control/interrupt assumptions no longer hold.Timer1  Mode3 stops its counting;special baud-rate use must follow the chip documentation.</li><li>Choose Mode1 for longer one-shot intervals,Mode2 for short repeated intervals/baud generation and Mode3 only with deliberate resource planning.Amode change may invalidate an existing UART or delay function.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p><p>Timer mode register width,reload/resource sharing નક્કી કરે;mode number time unit નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Mode0:M1M0=00માં THx/low5bits TLxથી13-bit,8192 counts.Mode1:01માં THx:TLx16-bit,65536 counts તથા automatic reload નહીં.</li><li>Mode2:10માં TLx8-bit count કરે/overflow પર THxથી reload થાય.Consistent first interval માટે THx તથા initial TLx બંને સેટ કરો.Full period256 counts છે.</li><li>Timer0 Mode3:11માં TL0/TH0 અલગ8-bit resources બને;TH0 TR1/TF1 વાપરે,એટલે ordinary Timer1 assumptions નહીં.Timer1  Mode3 counting stop કરે;special baud use datasheet મુજબ જ.</li><li>લાંબા one-shot માટે Mode1,short repeated/baud માટે Mode2 અને resource planning સાથે જ Mode3 લો.Mode changeથી existing UART/delay બગડી શકે.</li></ul>"
+          },
+          "syllabus_item": "3.2",
+          "diagram": "tmod"
+        }
+      ]
+    },
+    {
+      "ref": "3.3",
+      "title": {
+        "en": "3.3 Mode1 delay:derivation,preload and execution steps",
+        "gu": "3.3 Mode1 Delay:Derivation,Preload તથા Steps"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Mode1 delay:derivation,preload and execution steps",
+            "gu": "Mode1 Delay:Derivation,Preload તથા Steps"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p><p>Timer preload is the initial counter value chosen so that overflow occurs after a specified number of timer increments.</p></p><h4>Assumptions,ordered derivation and checks</h4><ol><li>Assume classic12T,C/T=0,GATE=0 and oscillator fosc;timer tick Ttick=12/fosc.Required counts N=t/Ttick=t fosc/12;choose an integer count and state rounding error.</li><li>Mode1 overflows at65536,so preload R=65536−N;THx=R&gt;&gt;8,TLx=R&amp;0xFF.For12MHzand1ms:N=1000,R=64536=FC18H,TH=FCH,TL=18H.</li><li>Execution:stop→set TMOD nibble→load TH/TL→clear TF→start TR→wait for TF→stop/clear as the chosen design requires.Then repeat/reload explicitly;Mode1 does not reload itself.</li><li>At12MHzone full16-bit interval is65.536ms;1sneeds multiple intervals or another scheduling method.1000nominal1msintervals give1splus software/reload overhead,not a certified exact1sdelay.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p><p>Timer preload એવો initial counter value છે,જેથી specified increments પછી overflow થાય.</p></p><h4>ધારણાઓ,ક્રમબદ્ધ Derivation તથા ચકાસણી</h4><ol><li>Classic12T,C/T=0,GATE=0 તથા fosc ધારો;Ttick=12/fosc.Counts N=t/Ttick=t fosc/12 છે.Integer count પસંદ કરી rounding error લખો.</li><li>Mode1 overflow65536 પર થાય,તેથી R=65536−N;THx=R&gt;&gt;8,TLx=R&amp;0xFF.12MHz/1ms માટે N=1000,R=64536=FC18H,TH=FCH,TL=18H.</li><li>Execution:stop→TMOD nibble→TH/TL load→TF clear→TR start→TF wait→design મુજબ stop/clear.પછી explicit reload કરો;Mode1 પોતે reload નથી થતું.</li><li>12MHz પર full16-bit interval65.536ms છે;1s માટે multiple intervals/scheduling જોઈએ.1000nominal1msથી1s સાથે software/reload overhead આવે,certified exact1s નહીં.</li></ol>"
+          },
+          "syllabus_item": "3.3",
+          "diagram": "timer",
+          "derivation": true
+        },
+        {
+          "h": {
+            "en": "Square-wave derivation and auto-reload choice",
+            "gu": "Square-wave Derivation તથા Auto-reload choice"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p><p>A square wave with equal HIGH/LOW durations has period T=2thalfand frequency f=1/(2thalf);one output toggle produces only a half cycle.</p></p><h4>Assumptions,ordered derivation and checks</h4><ol><li>For1kHz,T=1msand thalf=500µs.At12MHz12T,Mode1 would need500 counts,preload65536−500=65036=FE0CH;software reload/toggle time adds error.</li><li>A250µs Mode2 tick needs250 counts,TH1=TL1=256−250=06H.Toggle the output on every second Timer1 overflow;two overflows give500µsand a full output cycle needs four.</li><li>Auto-reload removes per-period software reload drift,but ISR synchronisation adds latency/jitter.If interrupts are blocked long enough to miss overflows,the software divider loses time.Measure rather than fabricate a1.000kHzscope reading.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p><p>Equal HIGH/LOWવાળા square waveમાં T=2thalf તથા f=1/(2thalf);એક output toggle માત્ર અડધું cycle બનાવે.</p></p><h4>ધારણાઓ,ક્રમબદ્ધ Derivation તથા ચકાસણી</h4><ol><li>1kHz માટે T=1ms/thalf=500µs.12MHz12T Mode1માં500 counts/preload65536−500=65036=FE0CH જોઈએ;software reload/toggleથી error ઉમેરાય.</li><li>250µs Mode2 tick માટે250 counts,TH1=TL1=256−250=06H.દરેક બીજા Timer1 overflow પર toggle કરો;બે overflow500µs/પૂર્ણ cycle ચાર overflow છે.</li><li>Auto-reload software reload drift ઘટાડે,પણ ISR latency/jitter રહે.Interrupt લાંબું block થતાં overflow ચૂકે તો divider time ગુમાવે.1.000kHz scope reading બનાવવાને બદલે માપો.</li></ol>"
+          },
+          "syllabus_item": "3.3",
+          "diagram": "timer",
+          "derivation": true
+        }
+      ]
+    },
+    {
+      "ref": "3.4",
+      "title": {
+        "en": "3.4 8051 interrupt sources,vectors and enable bits",
+        "gu": "3.4 8051 Interrupt sources,Vectors તથા Enable bits"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "8051 interrupt sources,vectors and enable bits",
+            "gu": "8051 Interrupt sources,Vectors તથા Enable bits"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p><p>An interrupt is a hardware-supported transfer to a service routine in response to an enabled request,with a defined return mechanism.</p></p><h4>Explanation,application and checks</h4><ul><li>Classic vectors:INT0=0003H,C51 interrupt0;Timer0=000BH,1;INT1=0013H,2;Timer1=001BH,3;serial=0023H,4.Reset starts0000Hbut is not an ordinary maskable interrupt.</li><li>There are five vector entries and six request flags when RI/TIare counted separately;both serial flags share one ISR.IE global EAand individual EX0,ET0,EX1,ET1,ESmust permit the request.</li><li>IT0/IT1select edge/level external requests;level must be released appropriately.Timer TFflags are cleared on accepted baseline interrupt vectoring;serial RI/TIneed explicit software handling.</li><li>Polling repeatedly checks a flag;interrupt service runs asynchronously between instructions and must preserve required context.Never call an ordinary return function as a substitute for correct ISR attribution/RETI.</li></ul><h4>Complete standalone Keil C51 example</h4><p>12 MHz classic12T</p><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nsbit IN=P3^2;\nsbit LED=P1^0;\nvolatile u8 event=0;\nvoid external0_service(void) interrupt 0 {event=1;}\nvoid main(void) {IN=1;LED=1;IT0=1;IE0=0;EX0=1;EA=1;\n for(;;) if(event) {EA=0;event=0;EA=1;LED=!LED;} }\n</code></pre>",
+            "gu": "<h4>વ્યાખ્યા</h4><p><p>Interrupt enabled requestના જવાબમાં defined return mechanism સાથે service routine તરફ hardware-supported control transfer છે.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Classic vectors:INT0=0003H,C51 interrupt0;Timer0=000BH,1;INT1=0013H,2;Timer1=001BH,3;serial=0023H,4.Reset0000Hથી શરૂ થાય,ordinary maskable interrupt નથી.</li><li>પાંચ vector entries/RI-TIને અલગ ગણતાં છ request flags છે;serial flags એક ISR share કરે.IEમાં EA તથા individual EX0,ET0,EX1,ET1,ES permit હોવા જોઈએ.</li><li>IT0/IT1 external edge/level પસંદ કરે;level યોગ્ય રીતે release થવો જોઈએ.Baseline timer TF accepted vectoringમાં clear થાય;serial RI/TI softwareથી handle કરો.</li><li>Polling flag વારંવાર જુએ;interrupt instructions વચ્ચે asynchronously ચાલે/required context સાચવે.Correct ISR attribute/RETIના બદલે ordinary function return નલો.</li></ul><h4>સંપૂર્ણ Standalone Keil C51 ઉદાહરણ</h4><p>12 MHz classic12T</p><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nsbit IN=P3^2;\nsbit LED=P1^0;\nvolatile u8 event=0;\nvoid external0_service(void) interrupt 0 {event=1;}\nvoid main(void) {IN=1;LED=1;IT0=1;IE0=0;EX0=1;EA=1;\n for(;;) if(event) {EA=0;event=0;EA=1;LED=!LED;} }\n</code></pre>"
+          },
+          "syllabus_item": "3.4",
+          "diagram": "interrupt"
+        },
+        {
+          "h": {
+            "en": "Priority,ISR discipline and shared state",
+            "gu": "Priority,ISR Discipline તથા Shared state"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p><p>Interrupt priority determines which pending service may preempt another;it differs from the software order of ordinary function calls.</p></p><h4>Explanation,application and checks</h4><ul><li>Baseline IP has high/low priorities.High-priority service can interrupt low-priority service,same-level requests do not normally nest;fixed polling order resolves simultaneously pending requests at one level.</li><li>Keep ISR sbrief:clear/handle source,update a flag/counter and return.Display writes,blocking delays and modem waits belong in the main loop unless a carefully analysed design says otherwise.</li><li>volatilepreserves accesses but does not prevent lost read-modify-write updates or torn16-bit reads.Save and restore the previous interrupt-enable state for brief critical sections rather than blindly enabling interrupts afterwards.</li><li>Keil C51 interrupt n generates vector/RETI and context handling;usingbank options require consistent bank use by called functions.Do not casually use the main register bank for an ISR with incompatible assumptions.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p><p>Interrupt priority pending service કઈ બીજીને preempt કરી શકે તે નક્કી કરે;ordinary function call orderથી અલગ છે.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Baseline IPમાં high/low priority છે.High lowને interrupt કરે;same-level સામાન્ય રીતે nest નથી થતા;એક levelના simultaneous requests fixed polling orderથી પસંદ થાય.</li><li>ISR ટૂંકી રાખો:source handle,flag/counter update,return.Display writes,blocking delay/modem wait સામાન્ય રીતે main loopમાં હોવા જોઈએ.</li><li>volatile access જાળવે,પણ lost update/torn16-bit read રોકતું નથી.Critical section પછી blindly enable કરવાને બદલે previous interrupt-enable state restore કરો.</li><li>Keil C51 interrupt n vector/RETI/context બનાવે;using bankમાં called functions consistent હોવી જોઈએ.Incompatible assumptions સાથે main bank ISRમાં નવાપરો.</li></ul>"
+          },
+          "syllabus_item": "3.4",
+          "diagram": "interrupt"
+        }
+      ]
+    },
+    {
+      "ref": "Practical.10",
+      "title": {
+        "en": "Practical.10 10. Timer0  Mode1 nominal1second delay",
+        "gu": "Practical.10 10. Timer0 Mode1થી Nominal1second Delay"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "10. Timer0  Mode1 nominal1second delay",
+            "gu": "10. Timer0 Mode1થી Nominal1second Delay"
+          },
+          "body": {
+            "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry3is retained even if theory placement differs.</li><li>P1.0active-low buffered LED;12MHzclassic12T;Timer0  Mode1,FC18Hreload repeated1000 times.</li><li>Nominal1sbetween toggles gives nominal2sfull period;polling/reload overhead makes real elapsed time longer.Measure error and report it.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit LED=P1^0;\nvoid main(void) { LED=1; for (;;) { wait_ms(1000); LED=!LED; } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry3 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>P1.0 active-low buffered LED;12MHz12T;Timer0  Mode1,FC18H reload1000વાર.</li><li>Toggles વચ્ચે nominal1sથી full period nominal2s થાય;polling/reload overheadથી actual time વધે.Error માપી report કરો.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit LED=P1^0;\nvoid main(void) { LED=1; for (;;) { wait_ms(1000); LED=!LED; } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "syllabus_item": "Practical.10",
+          "diagram": "timer"
+        }
+      ]
+    },
+    {
+      "ref": "Practical.11",
+      "title": {
+        "en": "Practical.11 11. Timer1 square wave of1kHz",
+        "gu": "Practical.11 11. Timer1થી1kHz Square wave"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "11. Timer1 square wave of1kHz",
+            "gu": "11. Timer1થી1kHz Square wave"
+          },
+          "body": {
+            "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryyes.Source Unit/COentry3is retained even if theory placement differs.</li><li>P1.0logic output to approved DSO/logic-analyser input;12MHz12T,Mode2  TH1=TL1=06H,toggle every second IRQ.</li><li>Nominal tick250µs,toggle500µs,period1msand frequency1kHz;capture duty,period,jitter and actual clock.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nsbit OUT=P1^0;\nvolatile u8 divider=0;\nvoid timer1_service(void) interrupt 3 {\n    ++divider; if(divider==2) { divider=0; OUT=!OUT; }\n}\nvoid main(void) {\n    OUT=0; TR1=0; TMOD=(TMOD&amp;0x0F)|0x20;\n    TH1=0x06; TL1=0x06; TF1=0; ET1=1; EA=1; TR1=1;\n    for(;;) { }\n}\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryyes.Source Unit/COentry3 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>P1.0 logic output approved DSO/logic-analyserને;12MHz12T,Mode2  TH1=TL1=06H,દરેક બીજા IRQએ toggle.</li><li>Nominal tick250µs,toggle500µs,period1ms/frequency1kHz;duty,period,jitter/actual clock capture કરો.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nsbit OUT=P1^0;\nvolatile u8 divider=0;\nvoid timer1_service(void) interrupt 3 {\n    ++divider; if(divider==2) { divider=0; OUT=!OUT; }\n}\nvoid main(void) {\n    OUT=0; TR1=0; TMOD=(TMOD&amp;0x0F)|0x20;\n    TH1=0x06; TL1=0x06; TF1=0; ET1=1; EA=1; TR1=1;\n    for(;;) { }\n}\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "syllabus_item": "Practical.11",
+          "diagram": "timer"
+        }
+      ]
+    },
+    {
+      "ref": "Practical.12",
+      "title": {
+        "en": "Practical.12 12. Conditional buzzer ON/OFF",
+        "gu": "Practical.12 12. Input conditionથી Buzzer ON/OFF"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "12. Conditional buzzer ON/OFF",
+            "gu": "12. Input conditionથી Buzzer ON/OFF"
+          },
+          "body": {
+            "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry3is retained even if theory placement differs.</li><li>Active-low P3.2switch;P1.1controls an approved active-HIGH driver/active buzzer,not the sounder current directly.</li><li>Stable press requests BUZZ=1;release requests0.Apassive buzzer would require different waveform driving.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit BUZZ=P1^1;\nsbit SW=P3^2;\nvoid main(void) { u8 a,b; BUZZ=0; SW=1;\n for(;;) { a=SW; wait_ms(20); b=SW; if(a==b) BUZZ=!b; } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table><h4>Datasheet references / Datasheet સંદર્ભ</h4><p><a href=\"https://ww1.microchip.com/downloads/en/DeviceDoc/doc0265.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Microchip/Atmel AT89C51 official legacy datasheet:classic40pinbaseline,ports/reset/five vectors and six flags</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/adc0804-n.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TI ADC0804-N:input/reference/clock/conversion timing</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/l293.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TIL293/L293D:logic/load supply and current/clamps</a></p><p><a href=\"https://www.ti.com/product/CD4051B\" target=\"_blank\" rel=\"noopener noreferrer\">TI CD4051 B:analog switch limits</a></p><p><a href=\"https://www.keil.com/appnotes/files/apnt_103.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Keil interrupt function/vector rules</a></p>",
+            "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry3 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>Active-low P3.2 switch;P1.1 approved active-HIGH driver/active buzzer ચલાવે,sounder current સીધો નહીં.</li><li>Stable pressમાં BUZZ=1/releaseમાં0.Passive buzzer માટે અલગ waveform drive જોઈએ.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit BUZZ=P1^1;\nsbit SW=P3^2;\nvoid main(void) { u8 a,b; BUZZ=0; SW=1;\n for(;;) { a=SW; wait_ms(20); b=SW; if(a==b) BUZZ=!b; } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table><h4>Datasheet references / Datasheet સંદર્ભ</h4><p><a href=\"https://ww1.microchip.com/downloads/en/DeviceDoc/doc0265.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Microchip/Atmel AT89C51 official legacy datasheet:classic40pinbaseline,ports/reset/five vectors and six flags</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/adc0804-n.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TI ADC0804-N:input/reference/clock/conversion timing</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/l293.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TIL293/L293D:logic/load supply and current/clamps</a></p><p><a href=\"https://www.ti.com/product/CD4051B\" target=\"_blank\" rel=\"noopener noreferrer\">TI CD4051 B:analog switch limits</a></p><p><a href=\"https://www.keil.com/appnotes/files/apnt_103.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Keil interrupt function/vector rules</a></p>"
+          },
+          "syllabus_item": "Practical.12",
+          "diagram": "ledrelay"
+        }
+      ]
+    }
+  ],
+  "programs": [
+    {
+      "title": {
+        "en": "Practical and complete programs",
+        "gu": "પ્રયોગ તથા સંપૂર્ણ Programs"
+      },
+      "format": "rich_cards",
+      "items": [
+        {
+          "h": {
+            "en": "10. Timer0  Mode1 nominal1second delay",
+            "gu": "10. Timer0 Mode1થી Nominal1second Delay"
+          },
+          "body": {
+            "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry3is retained even if theory placement differs.</li><li>P1.0active-low buffered LED;12MHzclassic12T;Timer0  Mode1,FC18Hreload repeated1000 times.</li><li>Nominal1sbetween toggles gives nominal2sfull period;polling/reload overhead makes real elapsed time longer.Measure error and report it.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit LED=P1^0;\nvoid main(void) { LED=1; for (;;) { wait_ms(1000); LED=!LED; } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry3 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>P1.0 active-low buffered LED;12MHz12T;Timer0  Mode1,FC18H reload1000વાર.</li><li>Toggles વચ્ચે nominal1sથી full period nominal2s થાય;polling/reload overheadથી actual time વધે.Error માપી report કરો.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit LED=P1^0;\nvoid main(void) { LED=1; for (;;) { wait_ms(1000); LED=!LED; } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "diagram": "timer"
+        },
+        {
+          "h": {
+            "en": "11. Timer1 square wave of1kHz",
+            "gu": "11. Timer1થી1kHz Square wave"
+          },
+          "body": {
+            "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryyes.Source Unit/COentry3is retained even if theory placement differs.</li><li>P1.0logic output to approved DSO/logic-analyser input;12MHz12T,Mode2  TH1=TL1=06H,toggle every second IRQ.</li><li>Nominal tick250µs,toggle500µs,period1msand frequency1kHz;capture duty,period,jitter and actual clock.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nsbit OUT=P1^0;\nvolatile u8 divider=0;\nvoid timer1_service(void) interrupt 3 {\n    ++divider; if(divider==2) { divider=0; OUT=!OUT; }\n}\nvoid main(void) {\n    OUT=0; TR1=0; TMOD=(TMOD&amp;0x0F)|0x20;\n    TH1=0x06; TL1=0x06; TF1=0; ET1=1; EA=1; TR1=1;\n    for(;;) { }\n}\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryyes.Source Unit/COentry3 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>P1.0 logic output approved DSO/logic-analyserને;12MHz12T,Mode2  TH1=TL1=06H,દરેક બીજા IRQએ toggle.</li><li>Nominal tick250µs,toggle500µs,period1ms/frequency1kHz;duty,period,jitter/actual clock capture કરો.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nsbit OUT=P1^0;\nvolatile u8 divider=0;\nvoid timer1_service(void) interrupt 3 {\n    ++divider; if(divider==2) { divider=0; OUT=!OUT; }\n}\nvoid main(void) {\n    OUT=0; TR1=0; TMOD=(TMOD&amp;0x0F)|0x20;\n    TH1=0x06; TL1=0x06; TF1=0; ET1=1; EA=1; TR1=1;\n    for(;;) { }\n}\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "diagram": "timer"
+        },
+        {
+          "h": {
+            "en": "12. Conditional buzzer ON/OFF",
+            "gu": "12. Input conditionથી Buzzer ON/OFF"
+          },
+          "body": {
+            "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry3is retained even if theory placement differs.</li><li>Active-low P3.2switch;P1.1controls an approved active-HIGH driver/active buzzer,not the sounder current directly.</li><li>Stable press requests BUZZ=1;release requests0.Apassive buzzer would require different waveform driving.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit BUZZ=P1^1;\nsbit SW=P3^2;\nvoid main(void) { u8 a,b; BUZZ=0; SW=1;\n for(;;) { a=SW; wait_ms(20); b=SW; if(a==b) BUZZ=!b; } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table><h4>Datasheet references / Datasheet સંદર્ભ</h4><p><a href=\"https://ww1.microchip.com/downloads/en/DeviceDoc/doc0265.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Microchip/Atmel AT89C51 official legacy datasheet:classic40pinbaseline,ports/reset/five vectors and six flags</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/adc0804-n.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TI ADC0804-N:input/reference/clock/conversion timing</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/l293.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TIL293/L293D:logic/load supply and current/clamps</a></p><p><a href=\"https://www.ti.com/product/CD4051B\" target=\"_blank\" rel=\"noopener noreferrer\">TI CD4051 B:analog switch limits</a></p><p><a href=\"https://www.keil.com/appnotes/files/apnt_103.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Keil interrupt function/vector rules</a></p>",
+            "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry3 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>Active-low P3.2 switch;P1.1 approved active-HIGH driver/active buzzer ચલાવે,sounder current સીધો નહીં.</li><li>Stable pressમાં BUZZ=1/releaseમાં0.Passive buzzer માટે અલગ waveform drive જોઈએ.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit BUZZ=P1^1;\nsbit SW=P3^2;\nvoid main(void) { u8 a,b; BUZZ=0; SW=1;\n for(;;) { a=SW; wait_ms(20); b=SW; if(a==b) BUZZ=!b; } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table><h4>Datasheet references / Datasheet સંદર્ભ</h4><p><a href=\"https://ww1.microchip.com/downloads/en/DeviceDoc/doc0265.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Microchip/Atmel AT89C51 official legacy datasheet:classic40pinbaseline,ports/reset/five vectors and six flags</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/adc0804-n.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TI ADC0804-N:input/reference/clock/conversion timing</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/l293.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TIL293/L293D:logic/load supply and current/clamps</a></p><p><a href=\"https://www.ti.com/product/CD4051B\" target=\"_blank\" rel=\"noopener noreferrer\">TI CD4051 B:analog switch limits</a></p><p><a href=\"https://www.keil.com/appnotes/files/apnt_103.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Keil interrupt function/vector rules</a></p>"
+          },
+          "diagram": "ledrelay"
+        }
+      ]
+    }
+  ],
+  "practicals": [
+    {
+      "number": 10,
+      "title": {
+        "en": "10. Timer0  Mode1 nominal1second delay",
+        "gu": "10. Timer0 Mode1થી Nominal1second Delay"
+      },
+      "body": {
+        "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry3is retained even if theory placement differs.</li><li>P1.0active-low buffered LED;12MHzclassic12T;Timer0  Mode1,FC18Hreload repeated1000 times.</li><li>Nominal1sbetween toggles gives nominal2sfull period;polling/reload overhead makes real elapsed time longer.Measure error and report it.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit LED=P1^0;\nvoid main(void) { LED=1; for (;;) { wait_ms(1000); LED=!LED; } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+        "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry3 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>P1.0 active-low buffered LED;12MHz12T;Timer0  Mode1,FC18H reload1000વાર.</li><li>Toggles વચ્ચે nominal1sથી full period nominal2s થાય;polling/reload overheadથી actual time વધે.Error માપી report કરો.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit LED=P1^0;\nvoid main(void) { LED=1; for (;;) { wait_ms(1000); LED=!LED; } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+      },
+      "source_unit_or_CO": 3,
+      "suggested_duration_hours": 2,
+      "compulsory": false,
+      "performed": false,
+      "program_file": "firmware/keil/p10_second.c",
+      "clock": "12 MHz classic12T"
+    },
+    {
+      "number": 11,
+      "title": {
+        "en": "11. Timer1 square wave of1kHz",
+        "gu": "11. Timer1થી1kHz Square wave"
+      },
+      "body": {
+        "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryyes.Source Unit/COentry3is retained even if theory placement differs.</li><li>P1.0logic output to approved DSO/logic-analyser input;12MHz12T,Mode2  TH1=TL1=06H,toggle every second IRQ.</li><li>Nominal tick250µs,toggle500µs,period1msand frequency1kHz;capture duty,period,jitter and actual clock.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nsbit OUT=P1^0;\nvolatile u8 divider=0;\nvoid timer1_service(void) interrupt 3 {\n    ++divider; if(divider==2) { divider=0; OUT=!OUT; }\n}\nvoid main(void) {\n    OUT=0; TR1=0; TMOD=(TMOD&amp;0x0F)|0x20;\n    TH1=0x06; TL1=0x06; TF1=0; ET1=1; EA=1; TR1=1;\n    for(;;) { }\n}\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+        "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryyes.Source Unit/COentry3 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>P1.0 logic output approved DSO/logic-analyserને;12MHz12T,Mode2  TH1=TL1=06H,દરેક બીજા IRQએ toggle.</li><li>Nominal tick250µs,toggle500µs,period1ms/frequency1kHz;duty,period,jitter/actual clock capture કરો.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nsbit OUT=P1^0;\nvolatile u8 divider=0;\nvoid timer1_service(void) interrupt 3 {\n    ++divider; if(divider==2) { divider=0; OUT=!OUT; }\n}\nvoid main(void) {\n    OUT=0; TR1=0; TMOD=(TMOD&amp;0x0F)|0x20;\n    TH1=0x06; TL1=0x06; TF1=0; ET1=1; EA=1; TR1=1;\n    for(;;) { }\n}\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+      },
+      "source_unit_or_CO": 3,
+      "suggested_duration_hours": 2,
+      "compulsory": true,
+      "performed": false,
+      "program_file": "firmware/keil/p11_1khz.c",
+      "clock": "12 MHz classic12T"
+    },
+    {
+      "number": 12,
+      "title": {
+        "en": "12. Conditional buzzer ON/OFF",
+        "gu": "12. Input conditionથી Buzzer ON/OFF"
+      },
+      "body": {
+        "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry3is retained even if theory placement differs.</li><li>Active-low P3.2switch;P1.1controls an approved active-HIGH driver/active buzzer,not the sounder current directly.</li><li>Stable press requests BUZZ=1;release requests0.Apassive buzzer would require different waveform driving.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit BUZZ=P1^1;\nsbit SW=P3^2;\nvoid main(void) { u8 a,b; BUZZ=0; SW=1;\n for(;;) { a=SW; wait_ms(20); b=SW; if(a==b) BUZZ=!b; } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table><h4>Datasheet references / Datasheet સંદર્ભ</h4><p><a href=\"https://ww1.microchip.com/downloads/en/DeviceDoc/doc0265.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Microchip/Atmel AT89C51 official legacy datasheet:classic40pinbaseline,ports/reset/five vectors and six flags</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/adc0804-n.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TI ADC0804-N:input/reference/clock/conversion timing</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/l293.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TIL293/L293D:logic/load supply and current/clamps</a></p><p><a href=\"https://www.ti.com/product/CD4051B\" target=\"_blank\" rel=\"noopener noreferrer\">TI CD4051 B:analog switch limits</a></p><p><a href=\"https://www.keil.com/appnotes/files/apnt_103.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Keil interrupt function/vector rules</a></p>",
+        "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry3 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>Active-low P3.2 switch;P1.1 approved active-HIGH driver/active buzzer ચલાવે,sounder current સીધો નહીં.</li><li>Stable pressમાં BUZZ=1/releaseમાં0.Passive buzzer માટે અલગ waveform drive જોઈએ.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD &amp; 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit BUZZ=P1^1;\nsbit SW=P3^2;\nvoid main(void) { u8 a,b; BUZZ=0; SW=1;\n for(;;) { a=SW; wait_ms(20); b=SW; if(a==b) BUZZ=!b; } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table><h4>Datasheet references / Datasheet સંદર્ભ</h4><p><a href=\"https://ww1.microchip.com/downloads/en/DeviceDoc/doc0265.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Microchip/Atmel AT89C51 official legacy datasheet:classic40pinbaseline,ports/reset/five vectors and six flags</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/adc0804-n.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TI ADC0804-N:input/reference/clock/conversion timing</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/l293.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TIL293/L293D:logic/load supply and current/clamps</a></p><p><a href=\"https://www.ti.com/product/CD4051B\" target=\"_blank\" rel=\"noopener noreferrer\">TI CD4051 B:analog switch limits</a></p><p><a href=\"https://www.keil.com/appnotes/files/apnt_103.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Keil interrupt function/vector rules</a></p>"
+      },
+      "source_unit_or_CO": 3,
+      "suggested_duration_hours": 2,
+      "compulsory": false,
+      "performed": false,
+      "program_file": "firmware/keil/p12_buzzer.c",
+      "clock": "12 MHz classic12T"
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "tmod",
+      "title": {
+        "en": "TMODone nibble per timer",
+        "gu": "Timer/Counter configuration તથા Registers"
+      },
+      "file": "diagrams/tmod.svg"
+    },
+    {
+      "id": "timer",
+      "title": {
+        "en": "Classic12Ttimer:internal time base",
+        "gu": "External Event counting તથા Capture discipline"
+      },
+      "file": "diagrams/timer.svg"
+    },
+    {
+      "id": "interrupt",
+      "title": {
+        "en": "Five vector entries,six classic request flags",
+        "gu": "8051 Interrupt sources,Vectors તથા Enable bits"
+      },
+      "file": "diagrams/interrupt.svg"
+    },
+    {
+      "id": "ledrelay",
+      "title": {
+        "en": "GPIOdoes not directly power a relay/motor",
+        "gu": "12. Input conditionથી Buzzer ON/OFF"
+      },
+      "file": "diagrams/ledrelay.svg"
+    }
+  ],
+  "syntax": [
+    {
+      "title": {
+        "en": "Formula / syntax and conditions",
+        "gu": "સૂત્ર / Syntax તથા શરતો"
+      },
+      "items": [
+        {
+          "name": {
+            "en": "Timer counts",
+            "gu": "Timer counts"
+          },
+          "f": "N=t fosc/12",
+          "terms": {
+            "en": "Internal classic12Ttimer.",
+            "gu": "Internal classic12T timer."
+          }
+        },
+        {
+          "name": {
+            "en": "Mode1reload",
+            "gu": "Mode1 reload"
+          },
+          "f": "R=65536−N;TH=R>>8;TL=R&255",
+          "terms": {
+            "en": "1≤N≤65536;state overhead.",
+            "gu": "1≤N≤65536;overhead લખો."
+          }
+        },
+        {
+          "name": {
+            "en": "Mode2reload",
+            "gu": "Mode2 reload"
+          },
+          "f": "TH=256−N",
+          "terms": {
+            "en": "1≤N≤256and initial TLtoo.",
+            "gu": "1≤N≤256 તથા initial TL પણ."
+          }
+        },
+        {
+          "name": {
+            "en": "Square wave",
+            "gu": "Square wave"
+          },
+          "f": "f=1/(2thalf)",
+          "terms": {
+            "en": "Toggle interval is half period.",
+            "gu": "Toggle interval half period છે."
+          }
+        }
+      ]
+    }
+  ],
+  "viva": [
+    {
+      "title": {
+        "en": "Viva with answers",
+        "gu": "જવાબ સાથે Viva"
+      },
+      "items": [
+        {
+          "q": {
+            "en": "Timer versus counter?",
+            "gu": "Timer/Counter ભેદ?"
+          },
+          "a": {
+            "en": "Internal clock counts time;external transitions count events.",
+            "gu": "Internal clockથી time/external transitionsથી events ગણાય."
+          }
+        },
+        {
+          "q": {
+            "en": "Mode1 automatic reload?",
+            "gu": "Mode1 Automatic reload?"
+          },
+          "a": {
+            "en": "No;Mode2 provides8-bitauto-reload.",
+            "gu": "નહીં;Mode2માં8-bit auto-reload છે."
+          }
+        },
+        {
+          "q": {
+            "en": "One toggle gives a full cycle?",
+            "gu": "એક Toggleથી Full cycle?"
+          },
+          "a": {
+            "en": "No;two toggles define a HIGH/LOW cycle.",
+            "gu": "નહીં;બે togglesથી HIGH/LOW cycle બને."
+          }
+        },
+        {
+          "q": {
+            "en": "Five vectors but six requests?",
+            "gu": "પાંચ Vectors પણ છ Requests?"
+          },
+          "a": {
+            "en": "RI/TIare separate requests sharing the serial vector.",
+            "gu": "RI/TI separate requests છે,serial vector share કરે."
+          }
+        },
+        {
+          "q": {
+            "en": "RETI versus RET?",
+            "gu": "RETI/RET ભેદ?"
+          },
+          "a": {
+            "en": "RETI also informs interrupt control of completion;RETis ordinary subroutine return.",
+            "gu": "RETI interrupt controlને completion જણાવે;RET ordinary subroutine return છે."
+          }
+        }
+      ]
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Explain timer/counter registers and TMOD/TCON fields.",
+        "gu": "Timer/Counter registers તથા TMOD/TCON fields સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Compare all timer modes and explain Mode3 resource conflicts.",
+        "gu": "તમામ Modes compare કરી Mode3 resource conflicts સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Derive Mode1 preload and implement a nominal1second delay using Timer0.",
+        "gu": "Mode1 preload derive કરી Timer0થી nominal1second delay બનાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Derive a1kHzsquare-wave scheme and state clock/latency assumptions.",
+        "gu": "1kHz square-wave scheme derive કરી Clock/latency assumptions લખો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain interrupt types,vectors,enabling,priority and ISR return.",
+        "gu": "Interrupt types,Vectors,Enable,Priority/ISR return સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Write a short interrupt/event-counter program and explain volatile/atomic-access precautions.",
+        "gu": "Interrupt/event-counter program તથા volatile/atomic precautions સમજાવો."
+      },
+      "marks": 7
+    }
+  ],
+  "exam_policy": "Questions and suggested marks only;no answers or official predictions.",
+  "physical_practicals_performed": false,
+  "sources": [
+    {
+      "title": "Owner GTU DI04000171,2025-26",
+      "reference": "8pagePDF;content pp2–3;practicals p6;activities p8."
+    },
+    {
+      "title": "Microchip/Atmel AT89C51official legacy datasheet:classic40pinbaseline,ports/reset/five vectors and six flags",
+      "url": "https://ww1.microchip.com/downloads/en/DeviceDoc/doc0265.pdf"
+    },
+    {
+      "title": "TIADC0804-N:input/reference/clock/conversion timing",
+      "url": "https://www.ti.com/lit/ds/symlink/adc0804-n.pdf"
+    },
+    {
+      "title": "TIL293/L293D:logic/load supply and current/clamps",
+      "url": "https://www.ti.com/lit/ds/symlink/l293.pdf"
+    },
+    {
+      "title": "TICD4051B:analog switch limits",
+      "url": "https://www.ti.com/product/CD4051B"
+    },
+    {
+      "title": "Keil interrupt function/vector rules",
+      "url": "https://www.keil.com/appnotes/files/apnt_103.pdf"
+    }
+  ],
+  "firmware_examples": [
+    {
+      "title": {
+        "en": "10. Timer0  Mode1 nominal1second delay",
+        "gu": "10. Timer0 Mode1થી Nominal1second Delay"
+      },
+      "code": "#include <reg51.h>\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD & 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit LED=P1^0;\nvoid main(void) { LED=1; for (;;) { wait_ms(1000); LED=!LED; } }\n",
+      "language": "Keil C51"
+    },
+    {
+      "title": {
+        "en": "11. Timer1 square wave of1kHz",
+        "gu": "11. Timer1થી1kHz Square wave"
+      },
+      "code": "#include <reg51.h>\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nsbit OUT=P1^0;\nvolatile u8 divider=0;\nvoid timer1_service(void) interrupt 3 {\n    ++divider; if(divider==2) { divider=0; OUT=!OUT; }\n}\nvoid main(void) {\n    OUT=0; TR1=0; TMOD=(TMOD&0x0F)|0x20;\n    TH1=0x06; TL1=0x06; TF1=0; ET1=1; EA=1; TR1=1;\n    for(;;) { }\n}\n",
+      "language": "Keil C51"
+    },
+    {
+      "title": {
+        "en": "12. Conditional buzzer ON/OFF",
+        "gu": "12. Input conditionથી Buzzer ON/OFF"
+      },
+      "code": "#include <reg51.h>\ntypedef unsigned char u8;\ntypedef unsigned int u16;\n/* Classic 12T, 12 MHz. Timer0 owned here; nominal timing plus software overhead. */\nvoid wait_ms(u16 n) {\n    TMOD = (TMOD & 0xF0) | 0x01;\n    while (n--) {\n        TR0=0; TH0=0xFC; TL0=0x18; TF0=0; TR0=1;\n        while (!TF0) { }\n        TR0=0; TF0=0;\n    }\n}\nsbit BUZZ=P1^1;\nsbit SW=P3^2;\nvoid main(void) { u8 a,b; BUZZ=0; SW=1;\n for(;;) { a=SW; wait_ms(20); b=SW; if(a==b) BUZZ=!b; } }\n",
+      "language": "Keil C51"
+    }
+  ]
+}

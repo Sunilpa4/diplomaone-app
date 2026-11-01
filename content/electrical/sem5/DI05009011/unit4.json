@@ -1,0 +1,740 @@
+{
+  "subject": "DI05009011",
+  "unit": 4,
+  "title": {
+    "en": "Generator and Induction Motor Protection",
+    "gu": "જનરેટર તથા ઇન્ડક્શન મોટર પ્રોટેક્શન"
+  },
+  "format": "notes",
+  "languages": [
+    "en",
+    "gu"
+  ],
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "tab_labels": {
+    "programs": {
+      "en": "Practical",
+      "gu": "પ્રયોગ તથા ચકાસણી"
+    }
+  },
+  "hours": 10,
+  "weightage": 22,
+  "notes": [
+    {
+      "ref": "4.1",
+      "title": {
+        "en": "4.1 Generator differential protection",
+        "gu": "4.1 Generator Differential Protection"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Generator differential protection",
+            "gu": "Generator Differential Protection"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>Generator differential protection compares corresponding stator terminal and neutral-end phase currents to detect internal faults within the CT bounded winding zone.</p><h4>Construction / parts and connections</h4><ol><li>Phase CT s at both stator ends feed differential relay; output goes through approved lockout/trip paths to generator breaker, field and prime-mover systems.</li></ol><h4>Working / operating sequence</h4><ol><li>Compare compensated phasors, apply pickup/bias and trip assigned outputs only for an asserted internal condition.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Use consistent into-zone polarities and phase matching.Through load/external fault ideally balance; internal fault produces operating current.</li><li>Bias improves stability for CT errors; winding interturn faults within one phase may not produce sufficient phase differential and can need specialised split-phase/interturn protection.</li><li>The trip matrix can de-excite, isolate source paths and trip prime mover as approved; relay 87 Gis not a universal wiring order.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Generator differential terminal/neutral-end phase currents compare કરી CT bounded winding માં internal fault શોધે છે.</p><h4>Construction / ભાગો તથા જોડાણ</h4><ol><li>બંને stator ends CT→diff relay→approved lockout/GCB/field/prime mover.</li></ol><h4>Working / કાર્યનો ક્રમ</h4><ol><li>Phasor compare/pickup-bias પછી internal condition માં assigned trip.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Into-zone polarity/phase match; load/external balance/internal માં difference.</li><li>Bias CT errorsrestrain; એક phase interturn માં phase-diff પૂરતુંનહોય, special scheme જોઈએ.</li><li>Approved matrix de-excite/source isolate/prime mover trip કરે; 87 Guniversalwiringorder નથી.</li></ul>"
+          },
+          "syllabus_item": "4.1",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "gendiff"
+        }
+      ]
+    },
+    {
+      "ref": "4.2",
+      "title": {
+        "en": "4.2 Stator earth fault: neutral displacement and coverage",
+        "gu": "4.2 Stator Earth Fault: Neutral Displacement તથા Coverage"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Stator earth fault: neutral displacement and coverage",
+            "gu": "Stator Earth Fault: Neutral Displacement તથા Coverage"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>Stator earth-fault protection detects insulation failure between the generator stator circuit and earth using quantities appropriate to its neutral-earthing arrangement.</p><h4>Detailed explanation and interpretation</h4><ul><li>Fundamental neutral voltage/current methods depend on fault location and grounding impedance; faults near neutral may produce a weak signal, so claimed coverage must be stated.</li><li>“95%”and“100%”are scheme objectives, not guarantees from a single neutral resistor.Third-harmonic or injection-based methods can extend coverage with application-specific checks.</li><li>Generator operating state, third-harmonic distribution and connected transformer capacitances affect performance; tests must include offline/startup conditions where required.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Stator earth protection neutral earthing મુજબ stator-earth insulation fault શોધે છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Fundamentalneutral V/Ilocation-grounding પર; near-neutral weak signal થી coverage સ્પષ્ટકરો.</li><li>95%/100%scheme objectives છે, single NER guarantee નહીં; third harmonic/injection extend કરી શકે.</li><li>Operating state/third harmonic/transformer C અસરકરે; required offline/startup checks કરો.</li></ul>"
+          },
+          "syllabus_item": "4.2",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "statorearth"
+        },
+        {
+          "h": {
+            "en": "Rotor earth fault and field failure",
+            "gu": "Rotor Earth Fault તથા Field Failure"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>Rotor earth-fault protection supervises insulation of the field circuit to earth; field-failure protection detects loss or severe inadequacy of excitation while the generator is connected.</p><h4>Detailed explanation and interpretation</h4><ul><li>Afirst field earth in an otherwise unearthed field circuit may cause little fault current but leaves a dangerous second-fault risk; alarm/trip stages follow plant policy.</li><li>Two earth points can short part of the field winding, create unbalance/heating and mechanical vibration.Rotor earth monitoring often uses injection/bridge techniques.</li><li>Loss of excitation can cause reactive-power absorption, rotor/stator heating and instability; impedance/reactive/capability-supervised methods distinguish it from permissible swings.</li><li>Rotor earth and field failure are different phenomena; one healthy monitor does not prove the other protection is unnecessary.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Rotor-earth field circuit-earth insulation જુએ; field failure connected generator નું excitation loss/inadequacy શોધે છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Unearthed field માં firstearthlow I હોઈશકેપણ second fault ખતરનાક; alarm/trip policy મુજબ.</li><li>Two earth points field short/unbalance/heat-vibration; monitoring injection/bridge થી.</li><li>Excitation los s Q absorption/heat/instability આપે; Z/Q/capability supervision permissible swing થીઅલગકરે.</li><li>Rotor earth/field failure જુદાં; એક healthy માટેબીજું unnecessary નહીં.</li></ul>"
+          },
+          "syllabus_item": "4.2",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "field"
+        }
+      ]
+    },
+    {
+      "ref": "4.3",
+      "title": {
+        "en": "4.3 Reverse power protection",
+        "gu": "4.3 Reverse Power Protection"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Reverse power protection",
+            "gu": "Reverse Power Protection"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>Reverse-power protection detects sustained real power flowing from the system into a generator that is expected to deliver power, indicating motoring when mechanical input is inadequate.</p><h4>Detailed explanation and interpretation</h4><ul><li>Turbine/diesel/hydro motoring limits differ; pickup and delay must follow prime-mover capability and synchronising/transient behaviour, not a universal percentage.</li><li>Balanced P=√3 VLLI cosφwith the declared export-positive sign.Low forward power is not identical to negative power; both can be used in a designed turbine-trip sequence.</li><li>CT/VT polarity and phase association are critical.Awrong sign can turn healthy export into a false motoring indication.</li></ul><h4>Worked example / setting interpretation</h4><ol><li>For a declared 100 MVA unit, a classroom threshold−2 MW is 2%of MVA expressed as MW base, not a recommended setting.Time qualification should reject brief transients.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Reverse power expected generating unit માં system થી sustained real power અંદરઆવેતે motoring શોધે છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Turbine/diesel/hydro limits જુદા; pickup/delay capability/transients મુજબ, universal percent નહીં.</li><li>Balanced P=√3 VLLI cosφ/export positive; low forward/negative P અલગ, sequence માંવપરાય.</li><li>CT/VT polarity/phasing critical; wrong sign healthy export ને false motoring બનાવે.</li></ul><h4>ઉકેલેલું ઉદાહરણ / Settingનું અર્થઘટન</h4><ol><li>Declared 100 MVA unit માં classroom−2 MW=2%MVA ના MW base; recommended setting નહીં; delay brief transient reject કરે.</li></ol>"
+          },
+          "syllabus_item": "4.3",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "reversepower"
+        },
+        {
+          "h": {
+            "en": "Pole slipping, out-of-step and power swings",
+            "gu": "Pole Slipping, Out-of-step તથા Power Swings"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>Pole slipping is loss of synchronism in which the generator rotor electrical angle moves through successive cycles relative to the system; out-of-step protection identifies an unstable trajectory for controlled separation.</p><h4>Detailed explanation and interpretation</h4><ul><li>Astable power swing is not automatically a fault or pole slip.R–Xtrajectory, rate of travers al and blocking/tripping logic discriminate conditions.</li><li>Separation location/time must consider transient torque, voltage and stability studies.The purpose is controlled damage limitation, not arbitrary fast disconnection on any oscillation.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Pole slipping માં rotor angle system નીસામેસતત cycles સરકે; out-of-step unstable trajectory ઓળખી controlled separation કરે છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Stable swing automatic fault/pole slip નહીં; R–Xpath/rate/logic discriminate કરે.</li><li>Separation time/location torque/V/stability study થી; દર oscillation પર arbitrary fast trip નહીં.</li></ul>"
+          },
+          "syllabus_item": "4.3",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "poleslip"
+        }
+      ]
+    },
+    {
+      "ref": "4.4",
+      "title": {
+        "en": "4.4 Overload, backup impedance and underfrequency",
+        "gu": "4.4 Overload, Backup Impedance તથા Underfrequency"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Overload, backup impedance and underfrequency",
+            "gu": "Overload, Backup Impedance તથા Underfrequency"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>Generator backup/abnormal-condition protection supervises conditions outside the main differential zone or beyond machine capability while coordinating with system recovery requirements.</p><h4>Detailed explanation and interpretation</h4><ul><li>Thermal overload uses current/temperature/time capability; RTD s, cooling state and negative-sequence heating may be separate inputs.</li><li>Backup impedance uses apparent impedance with time/swing/load supervision to clear external faults if primary protection fails; load must not be mistaken for a short.</li><li>Underfrequency stages coordinate turbine blade/time limits, system load shedding and is landing policy; an immediate trip on any frequency dip may worsen the grid disturbance.</li><li>Numerical relay block: CT/VT/RTD/binary inputs→conditioned ADC/logic→87G, 64, 40, 32, 78, 49, 21, 81 functions→approved trip/alarm matrix.The identifiers are functional labels, not proof of implemented coverage.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Generator backup/abnormal protection main zone બહાર/ capability બહારની conditions જુએ અને system recovery સાથે coordinate કરે છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Thermaloverload I/T/time capability; RTD/cooling/negative-sequence જુદાં inputs.</li><li>Backup Ztime/swing/load supervision થી external backup; load ને short નમાનો.</li><li>Underfrequency turbine/time, load shedding/is landing coordinate; દર dip પર instant trip grid ખરાબકરી શકે.</li><li>CT/VT/RTD/binary→ADC/logic→87G, 64, 40, 32, 78, 49, 21, 81→trip/alarm matrix; labels coverage proof નથી.</li></ul>"
+          },
+          "syllabus_item": "4.4",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "genblock"
+        }
+      ]
+    },
+    {
+      "ref": "4.5",
+      "title": {
+        "en": "4.5 Class A, B, C: declare the plant trip matrix",
+        "gu": "4.5 Class A, B, C: Plant Trip Matrix સ્પષ્ટ કરો"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Class A, B, C: declare the plant trip matrix",
+            "gu": "Class A, B, C: Plant Trip Matrix સ્પષ્ટ કરો"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A generator trip class is a plant-defined grouping of initiating conditions and required coordinated outputs; the letter alone is not a universal international cause-and-effect standard.</p><h4>Detailed explanation and interpretation</h4><ul><li>Illustrative teaching convention: Class Ainternal electrical severe fault→rapid generator/field isolation and prime-mover shutdown; actual boundaries include the plant’s approved transformer/unit logic.</li><li>Illustrative Class Bprime-mover/mechanical problem→turbine action first, then generator isolation through approved low-forward/reverse-power sequence where designed.Class Bdefinitions vary at other plants.</li><li>Illustrative Class Cexternal grid/switchyard condition→grid separation, with house-load/island operation only if plant design permits.Do not assume every hydro/thermal unit can survive is landing.</li><li>Alarm examples may include first rotor earth, first-stage high temperature, DC supervision or cooling warning; severity/stages and operator actions must come from the actual matrix.</li><li>Always record initiating relay, trip class, breaker/field/prime-mover outputs, latch/reset, breaker-failure initiation and alarm.Aclass list without outputs is incomplete.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Generator trip class plant-defined conditions/outputs નું group છે; letter પોતે universal standard નથી.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Illustrative A: severe internal electrical→generator/field isolate/prime mover shutdown; actual unit matrix મુજબ.</li><li>Illustrative B: mechanical/prime mover→turbine action પહેલાં/પછી approved low forward-reverse power sequence; બીજાં plant માં B જુદુંહોઈશકે.</li><li>Illustrative C: external grid→separation; house-load/island માત્ર design permit કરેતો; દર unit capable નમાનો.</li><li>Alarm examples first rotor earth, firststage T/DC/cooling warning; actual severity/action matrix થી.</li><li>Initiator, class, CB/field/prime outputs, latch/reset, BF/alarm લખો; outputs વિન aclasslist અપૂર્ણ.</li></ul>"
+          },
+          "syllabus_item": "4.5",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "tripclass"
+        }
+      ]
+    },
+    {
+      "ref": "4.6",
+      "title": {
+        "en": "4.6 Hydro and thermal utility generator schemes",
+        "gu": "4.6 Hydro તથા Thermal Utility Generator Schemes"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Hydro and thermal utility generator schemes",
+            "gu": "Hydro તથા Thermal Utility Generator Schemes"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A utility generator scheme coordinates electrical machine, step-up transformer, neutral, excitation and prime-mover protection through a documented power/control architecture.</p><h4>Detailed explanation and interpretation</h4><ul><li>Illustrative hydro: 100 MVA, 11k V, 50 Hz, CT 6000/1A, VT 11k V/110 Vline-line, 110 Vstation DC; neutral method/stator coverage and turbine/water-system trip matrix are study inputs.</li><li>Illustrative thermal: 250 MVA, 15.75k V, 50 Hz, CT 10000/1A, VT 15.75k V/110V, 220 VDC; coordinate steam/turbine, excitation and generator-transformer protection.</li><li>Primary: neutral/CT→stator→terminal CT/GCB where fitted→GT→grid.Control: numerical/static elements→lockout/sequence logic→GCB/HV breaker, field and authorised prime-mover interfaces.</li><li>Generator-breaker asymmetry/interrupting duty, insulation, earthing, DC redundancy, CT s atu ration and permitted house-load require actual specifications; these example ratings are not procurement approvals.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>Balanced rated current I=S/(√3 VLL).The illustrative 100 MVA 11k Vunit gives≈5248.6A; 250 MVA 15.75k Vgives≈9164.3A before overload/thermal allowance.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Utility generator scheme machine, transformer, neutral, excitation/prime mover ને documented power-control થી coordinate કરે છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Illustrative hydro 100 MVA/11k V/50 Hz/CT 6000/1A/VT 11k V/110 Vline-line/DC 110V; neutral/coverage/water trip study inputs.</li><li>Illustrative thermal 250 MVA/15.75k V/50 Hz/CT 10000/1A/VT 15.75k V/110V/DC 220V; steam/turbine/field-GT coordinate.</li><li>Primary neutral/CT→stator→terminal CT/fitted GCB→GT→grid; control relay→lockout/sequence→GCB-HV/field/prime mover.</li><li>GCB asymmetry, duty, insulation/earthing, DC redundancy, CT/house-load actual specs જોઈએ; examples procurement approval નથી.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>I=S/(√3 VLL); 100 MVA 11k V માં≈5248.6A/250 MVA 15.75k V માં≈9164.3A, before allowance.</li></ol>"
+          },
+          "syllabus_item": "4.6",
+          "classification_first": false,
+          "derivation": true,
+          "diagram": "genschemes"
+        }
+      ]
+    },
+    {
+      "ref": "4.7",
+      "title": {
+        "en": "4.7 Induction motor faults and protection layers",
+        "gu": "4.7 Induction Motor Faults તથા Protection Layers"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Induction motor faults and protection layers",
+            "gu": "Induction Motor Faults તથા Protection Layers"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>Motor protection detects electrical, thermal and mechanical abnormalities that can damage the motor or driven process while allowing the approved starting and running duty.</p><h4>Classification / scope</h4><ul><li>Internal fault; thermal abnormality; supply abnormality; starting/mechanical abnormality—select layers by motor/process criticality.</li></ul><h4>Detailed explanation and interpretation</h4><ul><li>Faults: phase/earth short, winding insulation failure.Abnormalities: overload, stall/locked rotor, phase loss/unbalance, low voltage, excess starts and cooling failure.</li><li>Short-circuit protection, overload model, earth-fault, negative-sequence, stall/start supervision and process interlocks serve different functions.Acontactor is not automatically a short-circuit breaker.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Motor protection approved start/run ને allow કરી electrical, thermal/mechanical damage conditions શોધે છે.</p><h4>વર્ગીકરણ / વ્યાપ</h4><ul><li>Internal/thermal/supply/start-mechanical classes; criticality મુજબ layers.</li></ul><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Faults phase-earth short/insulation; abnormal overload, stall, phase loss/unbalance, low V, start/cooling.</li><li>Short, thermal, EF, negative-sequence, stall/start/process જુદા; contact or automatic fault breaker નથી.</li></ul>"
+          },
+          "syllabus_item": "4.7",
+          "classification_first": true,
+          "derivation": false,
+          "diagram": "motorfaults"
+        },
+        {
+          "h": {
+            "en": "Motor thermal and negative-sequence protection",
+            "gu": "Motor Thermal તથા Negative-sequence Protection"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>Negative-sequence motor protection responds to unbalanced phase quantities that create a reverse rotating field and severe rotor heating; thermal protection tracks cumulative heating/cooling.</p><h4>Detailed explanation and interpretation</h4><ul><li>Negative-sequence rotor field has high relative frequency during normal forward running, so small voltage unbalance can produce disproportionate current/heating.</li><li>Use I2/I1 or I 2²tcapability as defined by motor/relay, with phase-loss and CT fault supervision.Thermal memory must not be reset simply to force a hot restart.</li><li>RTD/bearing temperature, cooling and start count supplement current models; one universal overload curve does not fit every motor.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>With a=e^(j 120°), one convention is I1=(Ia+a Ib+a²Ic)/3, I2=(Ia+a²Ib+a Ic)/3; phase order/polarity must be stated.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Negative-sequence motor protection unbalance થી reverse field/rotor heat શોધે; thermal cumulative heat-cooling જુએ છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Normal forward માં reversefieldhighrelativef આપે; small V unbalance થી large I/heat થઈશકે.</li><li>I2/I1/I 2²tactualcapability થી; phase loss/CT s upervision; hot restart માટે memory reset નહીં.</li><li>RTD, bearing, cooling/start count models ને supplement; universal curve નહીં.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>a=e^(j 120°)માં I1=(Ia+a Ib+a²Ic)/3/I2=(Ia+a²Ib+a Ic)/3; order/polarity declare.</li></ol>"
+          },
+          "syllabus_item": "4.7",
+          "classification_first": false,
+          "derivation": true,
+          "diagram": "motorheat"
+        },
+        {
+          "h": {
+            "en": "Motor OC, earth fault and stall/start supervision",
+            "gu": "Motor OC, Earth Fault તથા Stall/Start Supervision"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>Stall/start protection distinguishes permitted acceleration current from a failed or prolonged acceleration/locked-rotor condition using current, time and where available speed/process feedback.</p><h4>Detailed explanation and interpretation</h4><ul><li>Instantaneous OC must tolerate permitted start yet clear high short-circuit current; thermal/start-time elements protect the lower prolonged current region.</li><li>EF uses residual phase CT s or CBCT with grounding-compatible sensitivity; stall may use high current plus low speed/long start or a thermal model.</li><li>Loss of load, low voltage, reacceleration and multiple starts need process-specific logic.Do not suppress a real jam by increasing stall time without mechanical/thermal review.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Stall/start protection current, time/speed થી permitted acceleration ને failed/locked rotor થીઅલગકરે છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Instant OC start tolerate/high fault clear; thermal/start time prolonged current cover.</li><li>EF residual/CBCT/grounding સાથે; stallhigh I+low speed/long start/thermal થી.</li><li>Loss load, low V, reaccel/start process logic; jam છુપાવવાસમય blindly વધારવોનહીં.</li></ul>"
+          },
+          "syllabus_item": "4.7",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "motorstall"
+        }
+      ]
+    },
+    {
+      "ref": "4.8",
+      "title": {
+        "en": "4.8 415 Vand 6.6k Vmotor: power/control/specifications",
+        "gu": "4.8 415V તથા 6.6k V Motor: Power/Control/Specifications"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "415 Vand 6.6k Vmotor: power/control/specifications",
+            "gu": "415V તથા 6.6k V Motor: Power/Control/Specifications"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A motor protection scheme combines a rated switching/short-circuit device, measurement, thermal/fault functions and safe control interlocks for the actual motor duty.</p><h4>Detailed explanation and interpretation</h4><ul><li>Illustrative 415 Vmotor: 30k W, η0.90, PF 0.85, 50 Hz; I≈54.6A.Choose CT 100/1 Aonly as a study candidate; breaker/contact or/overload coordination and available fault duty remain mandatory.</li><li>Illustrative 6.6k Vmotor: 1 MW, η0.95, PF 0.9, 50 Hz; I≈102.3A, CT 150/1A, VT 6.6k V/110 Vand MV vacuum device as candidates; EF, thermal, negative-sequence, start/stall and possibly differential per risk.</li><li>Primary: source→short-circuit device→contact or/CB→CT→motor; EF sensor encloses the correct conductors.Control: stop/healthy permits→start/latch→coil; protection trip breaks the run path and records cause.</li><li>Numerical motor relay combines models/measurements but must retain independent suitable emergency-stop/safety design and anti-restart logic.Actual 400V/6.6k V equipment is not student DIY.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>For output-rated motor power, Pout=√3 VLLIηPF; I=Pout/(√3 VLLηPF).This differs from using electrical input power directly.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Motor scheme actual duty માટે rated switching, measurement, thermal/fault/safe interlocks જોડે છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Illustrative 415V 30k W/η0.90/PF 0.85/50 Hz માં I≈54.6A; CT 100/1 Acandidate જ; CB-contact or-overload/fault study જરૂરી.</li><li>Illustrative 6.6k V 1 MW/η0.95/PF 0.9/50 Hz માં I≈102.3A/CT 150/1A/VT 6.6k V/110V/MV vacuum candidate; EF, thermal, negative/start-stall/required diff.</li><li>Primary source→fault device→contact or-CB→CT→motor; EF proper conductors; control stop/healthy→start-latch→coil/trip run path break.</li><li>Numerical models સાથે independent safety stop/anti-restart જોઈએ; actual 400V/6.6k VDIY નહીં.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>Output rating માં Pout=√3 VLLIηPF થી I=Pout/(√3 VLLηPF); input power થીજુદું.</li></ol>"
+          },
+          "syllabus_item": "4.8",
+          "classification_first": false,
+          "derivation": true,
+          "diagram": "motorschemes"
+        }
+      ]
+    }
+  ],
+  "programs": [
+    {
+      "title": {
+        "en": "Official practical guides",
+        "gu": "Official પ્રયોગ માર્ગદર્શિકા"
+      },
+      "format": "rich_cards",
+      "items": [
+        {
+          "h": {
+            "en": "8. Generator reverse-power relay",
+            "gu": "Generator Reverse-power Relay"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A source-listed supervised performance guide, not a claim that a test, reading, date or instructor signature has been completed.</p><h4>Construction / parts and connections</h4><ol><li>Approved voltage/current phasor injection or protected generator trainer, relay, timer and isolated output monitor.</li><li>Declare export-positive real power; use correct phase associations and block mechanical/generator actual trip interfaces.</li></ol><h4>Working / operating sequence</h4><ol><li>Read the actual device manual, ratings, settings and approved safe plan; identify energy sources, trip destinations and all blocked/isolation boundaries.</li><li>Power OFF: check instrument ranges, polarity, burdens, CT test blocks, grounding and output isolation; no interlock/protection bypass.</li><li>Inject forward, near-zero and reverse power points at stated V/I; verify pickup/time with current/voltage limits.</li><li>Test brief reverse transient rejection and sustained reverse operation; capture actual sign, delay and output records.</li><li>Write actual readings with units, test conditions, quality and evidence only after genuine performance; computed traces stay in separate labelled columns.</li><li>Return settings/links to the documented authorised state, isolate/discharge, and close the instructor checklist without inventing observations.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Official practical 8; source Unit/CO 4; 2 suggested hours.No individual compulsory star is marked.</li><li>Use offline models or approved isolated secondary injection under qualified supervision; 24 VDC mock construction does not authorise high-energy relay/CT/VT tests.Source variac is not isolation.</li></ul><h4>Worked example / setting interpretation</h4><ol><li>For declared base 100 MVA, −2 MW threshold is an illustrative 2%base example only; prime-mover limits set actual values.</li></ol><h4>Reliability and safety checks</h4><ul><li>False reverse result may be voltage phase mismatch or polarity; never deliberately motor a real generator without the plant’s specialised approved procedure.</li><li>Never open a live CT s econdary, short a VT s econdary, lift protective earth or attach unsafe scope grounds.Actual switchyard operations require site authority/permit.</li></ul><h4>Blank actual observation record</h4><div style=\"overflow:auto\"><table><tr><th>Test point / settings</th><th>Injected V / I / angle</th><th>Pickup / time / output</th><th>Evidence / interpretation</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Source-listed supervised પ્રયોગમાર્ગદર્શિકા છે; test/readings/date/signature પૂર્ણથયાનો દાવો નથી.</p><h4>Construction / ભાગો તથા જોડાણ</h4><ol><li>Approved phasor injection/guarded trainer/relay-timer-monitor.</li><li>Export-positive/phase match; actual turbine-generator trip interfaces block.</li></ol><h4>Working / કાર્યનો ક્રમ</h4><ol><li>Actual manual, ratings/settings/safe plan વાંચો; sources/trip destinations/isolation ઓળખો.</li><li>OFF માં ranges, polarity, burden, CT blocks, earth/output isolation check; protection bypass નહીં.</li><li>Stated V-I માં forward/zero/reverse points/pickup-time verify.</li><li>Brief transient reject/sustained reverse operate/sign-delay-output record.</li><li>ખરેખરપ્રયોગપછી actual readings units/conditions/evidence સાથેલખો; computed trace અલગ label માં.</li><li>Settings/links authorised state માંપરત/isolate-discharge/checklist close; readings invent નહીં.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Official પ્રયોગ 8; source Unit/CO 4; 2 suggested hours; individual compulsory star નથી.</li><li>Offline model/qualified supervised isolated injection જ; 24 Vmock થી high-energy CT-VT test permission નહીં; variacisolation નથી.</li></ul><h4>ઉકેલેલું ઉદાહરણ / Settingનું અર્થઘટન</h4><ol><li>Base 100 MVA/−2 MW illustrative 2% જ; actual prime mover limit મુજબ.</li></ol><h4>વિશ્વસનીયતા તથા સલામતી</h4><ul><li>False માં phase/polarity જોવો; special approval વિન arealgeneratormotor નહીં.</li><li>Live CT open/VT short/protective earth remove/unsafe scope ground નહીં; actual switchyard authority-permit થી.</li></ul><h4>Actual Observation માટે ખાલી Record</h4><div style=\"overflow:auto\"><table><tr><th>Test Point / Settings</th><th>Injected V / I / Angle</th><th>Pickup / Time / Output</th><th>Evidence / અર્થઘટન</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>"
+          },
+          "syllabus_item": "P8",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "reversepower"
+        },
+        {
+          "h": {
+            "en": "9. Numerical motor protection",
+            "gu": "Numerical Motor Protection"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A source-listed supervised performance guide, not a claim that a test, reading, date or instructor signature has been completed.</p><h4>Construction / parts and connections</h4><ol><li>Approved isolated motor-relay test kit or guarded motor trainer, CT base/motor data, thermal/start settings and event capture.</li><li>Use input mappings and declared motor model; separate emergency-stop safety from normal protection logic.</li></ol><h4>Working / operating sequence</h4><ol><li>Read the actual device manual, ratings, settings and approved safe plan; identify energy sources, trip destinations and all blocked/isolation boundaries.</li><li>Power OFF: check instrument ranges, polarity, burdens, CT test blocks, grounding and output isolation; no interlock/protection bypass.</li><li>Test overload/time, phase loss/unbalance, EF and start/stall conditions by approved injection or simulation, not by jamming a live shaft.</li><li>Verify thermal memory, hot-start block and reset/anti-restart behaviour using simulated states; record model/relay differences.</li><li>Write actual readings with units, test conditions, quality and evidence only after genuine performance; computed traces stay in separate labelled columns.</li><li>Return settings/links to the documented authorised state, isolate/discharge, and close the instructor checklist without inventing observations.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Official practical 9; source Unit/CO 4; 2 suggested hours.No individual compulsory star is marked.</li><li>Use offline models or approved isolated secondary injection under qualified supervision; 24 VDC mock construction does not authorise high-energy relay/CT/VT tests.Source variac is not isolation.</li></ul><h4>Worked example / setting interpretation</h4><ol><li>Rated output power requires I=Pout/(√3VηPF); do not omitηwhen Poutis shaft rating.</li></ol><h4>Reliability and safety checks</h4><ul><li>No trip: check input scale, setting group, active/start state and output map; do not reset thermal memory to force a hot start.</li><li>Never open a live CT s econdary, short a VT s econdary, lift protective earth or attach unsafe scope grounds.Actual switchyard operations require site authority/permit.</li></ul><h4>Blank actual observation record</h4><div style=\"overflow:auto\"><table><tr><th>Test point / settings</th><th>Injected V / I / angle</th><th>Pickup / time / output</th><th>Evidence / interpretation</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Source-listed supervised પ્રયોગમાર્ગદર્શિકા છે; test/readings/date/signature પૂર્ણથયાનો દાવો નથી.</p><h4>Construction / ભાગો તથા જોડાણ</h4><ol><li>Approved isolated kit/guarded trainer/CT-motor data/settings/events.</li><li>Actual mapping/motor model; E-stop safety protection logic થીઅલગ.</li></ol><h4>Working / કાર્યનો ક્રમ</h4><ol><li>Actual manual, ratings/settings/safe plan વાંચો; sources/trip destinations/isolation ઓળખો.</li><li>OFF માં ranges, polarity, burden, CT blocks, earth/output isolation check; protection bypass નહીં.</li><li>Approved injection/simulation થી overload, unbalance, EF/start-stall; live shaft jam નહીં.</li><li>Thermal memory/hotstart/reset-anti restart sim states થી verify/differences record.</li><li>ખરેખરપ્રયોગપછી actual readings units/conditions/evidence સાથેલખો; computed trace અલગ label માં.</li><li>Settings/links authorised state માંપરત/isolate-discharge/checklist close; readings invent નહીં.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Official પ્રયોગ 9; source Unit/CO 4; 2 suggested hours; individual compulsory star નથી.</li><li>Offline model/qualified supervised isolated injection જ; 24 Vmock થી high-energy CT-VT test permission નહીં; variacisolation નથી.</li></ul><h4>ઉકેલેલું ઉદાહરણ / Settingનું અર્થઘટન</h4><ol><li>Shaft rating માં I=Pout/(√3VηPF); ηomit નહીં.</li></ol><h4>વિશ્વસનીયતા તથા સલામતી</h4><ul><li>No trip માં scale/group/start/output; hotstart માટે thermal reset નહીં.</li><li>Live CT open/VT short/protective earth remove/unsafe scope ground નહીં; actual switchyard authority-permit થી.</li></ul><h4>Actual Observation માટે ખાલી Record</h4><div style=\"overflow:auto\"><table><tr><th>Test Point / Settings</th><th>Injected V / I / Angle</th><th>Pickup / Time / Output</th><th>Evidence / અર્થઘટન</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>"
+          },
+          "syllabus_item": "P9",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "motorschemes"
+        },
+        {
+          "h": {
+            "en": "10. Static generator differential relay",
+            "gu": "Static Generator Differential Relay"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A source-listed supervised performance guide, not a claim that a test, reading, date or instructor signature has been completed.</p><h4>Construction / parts and connections</h4><ol><li>Static differential relay, approved isolated dual-current source, contact monitor and CT polarity sheet.</li><li>Into-zone phasors and matched phase circuits represent terminal/neutral currents; no connection to actual generator CT s econdaries.</li></ol><h4>Working / operating sequence</h4><ol><li>Read the actual device manual, ratings, settings and approved safe plan; identify energy sources, trip destinations and all blocked/isolation boundaries.</li><li>Power OFF: check instrument ranges, polarity, burdens, CT test blocks, grounding and output isolation; no interlock/protection bypass.</li><li>Inject through-load/opposite phasors and external mismatch to demonstrate stability limits.</li><li>Inject internal/additive phasors and determine pickup/time within the relay’s manual limits; compare to static architecture.</li><li>Write actual readings with units, test conditions, quality and evidence only after genuine performance; computed traces stay in separate labelled columns.</li><li>Return settings/links to the documented authorised state, isolate/discharge, and close the instructor checklist without inventing observations.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Official practical 10; source Unit/CO 4; 2 suggested hours.No individual compulsory star is marked.</li><li>Use offline models or approved isolated secondary injection under qualified supervision; 24 VDC mock construction does not authorise high-energy relay/CT/VT tests.Source variac is not isolation.</li></ul><h4>Worked example / setting interpretation</h4><ol><li>Equal opposite currents ideally cancel; equal additive into-zone currents double the operating magnitude.</li></ol><h4>Reliability and safety checks</h4><ul><li>Unexpected trip: check current phase, burden and auxiliary supply rather than assuming the stator has failed.</li><li>Never open a live CT s econdary, short a VT s econdary, lift protective earth or attach unsafe scope grounds.Actual switchyard operations require site authority/permit.</li></ul><h4>Blank actual observation record</h4><div style=\"overflow:auto\"><table><tr><th>Test point / settings</th><th>Injected V / I / angle</th><th>Pickup / time / output</th><th>Evidence / interpretation</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Source-listed supervised પ્રયોગમાર્ગદર્શિકા છે; test/readings/date/signature પૂર્ણથયાનો દાવો નથી.</p><h4>Construction / ભાગો તથા જોડાણ</h4><ol><li>Static diff/isolated dual current set/conta cts/CT polarity sheet.</li><li>Into-zone phasors/phase circuits; actual generator CT માં connection નહીં.</li></ol><h4>Working / કાર્યનો ક્રમ</h4><ol><li>Actual manual, ratings/settings/safe plan વાંચો; sources/trip destinations/isolation ઓળખો.</li><li>OFF માં ranges, polarity, burden, CT blocks, earth/output isolation check; protection bypass નહીં.</li><li>Through/opposite phasors/external mismatch થી stability test.</li><li>Internal additive phasors/pickup-time OEM limits માં/static architecture compare.</li><li>ખરેખરપ્રયોગપછી actual readings units/conditions/evidence સાથેલખો; computed trace અલગ label માં.</li><li>Settings/links authorised state માંપરત/isolate-discharge/checklist close; readings invent નહીં.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Official પ્રયોગ 10; source Unit/CO 4; 2 suggested hours; individual compulsory star નથી.</li><li>Offline model/qualified supervised isolated injection જ; 24 Vmock થી high-energy CT-VT test permission નહીં; variacisolation નથી.</li></ul><h4>ઉકેલેલું ઉદાહરણ / Settingનું અર્થઘટન</h4><ol><li>Equal opposite cancel/equal additive operating double.</li></ol><h4>વિશ્વસનીયતા તથા સલામતી</h4><ul><li>Unexpected માં phase/burden/aux supply જોવો, stator failed assume નહીં.</li><li>Live CT open/VT short/protective earth remove/unsafe scope ground નહીં; actual switchyard authority-permit થી.</li></ul><h4>Actual Observation માટે ખાલી Record</h4><div style=\"overflow:auto\"><table><tr><th>Test Point / Settings</th><th>Injected V / I / Angle</th><th>Pickup / Time / Output</th><th>Evidence / અર્થઘટન</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>"
+          },
+          "syllabus_item": "P10",
+          "classification_first": false,
+          "derivation": false,
+          "diagram": "gendiff"
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Offline model",
+        "gu": "Offline મોડેલ"
+      },
+      "format": "rich_cards",
+      "items": [
+        {
+          "h": {
+            "en": "Motor shaft-power current",
+            "gu": "Motor Shaft-power Current"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>An offline calculation/logic exercise with declared assumptions; it does not connect to hardware, issue real trip commands or approve settings.</p><h4>Detailed explanation and interpretation</h4><ul><li>Use the worked examples and formulas in the corresponding Notes/Practical guide.Keep calculated output separate from actual measured readings.</li><li>The self-contained HTML preview has optional interactive controls; the source card retains this explanation for content readers without script execution.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>આ declared assumptions વાળું offline calculation/logic exercise છે; hardware connection, real trip command અથવા setting approval આપતું નથી.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>સંબંધિત Notes/Practical માં આપેલ formula તથા worked example વાપરો; calculated output actual reading થી અલગ રાખો.</li><li>Self-contained HTML preview માં optional interactive controls છે; script ન ચાલે તેવા content readers માટે આ સમજણ source card માં યથાવત્ રહે છે.</li></ul>"
+          },
+          "syllabus_item": "Model-motor",
+          "classification_first": false,
+          "derivation": false,
+          "model_id": "motor"
+        }
+      ]
+    }
+  ],
+  "practicals": [
+    {
+      "number": 8,
+      "source_unit_co": 4,
+      "hours": 2,
+      "title": {
+        "en": "Generator reverse-power relay",
+        "gu": "Generator Reverse-power Relay"
+      },
+      "compulsory_marked": false,
+      "performed": false,
+      "observations": "blank"
+    },
+    {
+      "number": 9,
+      "source_unit_co": 4,
+      "hours": 2,
+      "title": {
+        "en": "Numerical motor protection",
+        "gu": "Numerical Motor Protection"
+      },
+      "compulsory_marked": false,
+      "performed": false,
+      "observations": "blank"
+    },
+    {
+      "number": 10,
+      "source_unit_co": 4,
+      "hours": 2,
+      "title": {
+        "en": "Static generator differential relay",
+        "gu": "Static Generator Differential Relay"
+      },
+      "compulsory_marked": false,
+      "performed": false,
+      "observations": "blank"
+    }
+  ],
+  "project_plans": [],
+  "activity_plans": [],
+  "diagrams": [
+    {
+      "id": "gendiff",
+      "title": {
+        "en": "Generator stator differential CTboundaries",
+        "gu": "Generator Differential Protection"
+      },
+      "file": "diagrams/gendiff.svg"
+    },
+    {
+      "id": "statorearth",
+      "title": {
+        "en": "Stator earth-fault coverage",
+        "gu": "Stator Earth Fault: Neutral Displacement તથા Coverage"
+      },
+      "file": "diagrams/statorearth.svg"
+    },
+    {
+      "id": "field",
+      "title": {
+        "en": "Rotor earth fault versus loss of excitation",
+        "gu": "Rotor Earth Fault તથા Field Failure"
+      },
+      "file": "diagrams/field.svg"
+    },
+    {
+      "id": "reversepower",
+      "title": {
+        "en": "Reverse power measures signed REALpower",
+        "gu": "Reverse Power Protection"
+      },
+      "file": "diagrams/reversepower.svg"
+    },
+    {
+      "id": "poleslip",
+      "title": {
+        "en": "Generator abnormal/system-condition elements",
+        "gu": "Pole Slipping, Out-of-step તથા Power Swings"
+      },
+      "file": "diagrams/poleslip.svg"
+    },
+    {
+      "id": "genblock",
+      "title": {
+        "en": "Numerical generator protection organisation",
+        "gu": "Overload, Backup Impedance તથા Underfrequency"
+      },
+      "file": "diagrams/genblock.svg"
+    },
+    {
+      "id": "tripclass",
+      "title": {
+        "en": "Illustrative plant-specific trip-class convention",
+        "gu": "Class A, B, C: Plant Trip Matrix સ્પષ્ટ કરો"
+      },
+      "file": "diagrams/tripclass.svg"
+    },
+    {
+      "id": "genschemes",
+      "title": {
+        "en": "Hydro/thermal generator power and control paths",
+        "gu": "Hydro તથા Thermal Utility Generator Schemes"
+      },
+      "file": "diagrams/genschemes.svg"
+    },
+    {
+      "id": "motorfaults",
+      "title": {
+        "en": "Induction motor fault/abnormal-condition layers",
+        "gu": "Induction Motor Faults તથા Protection Layers"
+      },
+      "file": "diagrams/motorfaults.svg"
+    },
+    {
+      "id": "motorheat",
+      "title": {
+        "en": "Negative sequence and thermal memory",
+        "gu": "Motor Thermal તથા Negative-sequence Protection"
+      },
+      "file": "diagrams/motorheat.svg"
+    },
+    {
+      "id": "motorstall",
+      "title": {
+        "en": "Start,stall and restart logic",
+        "gu": "Motor OC, Earth Fault તથા Stall/Start Supervision"
+      },
+      "file": "diagrams/motorstall.svg"
+    },
+    {
+      "id": "motorschemes",
+      "title": {
+        "en": "Motor feeder power and control",
+        "gu": "415V તથા 6.6k V Motor: Power/Control/Specifications"
+      },
+      "file": "diagrams/motorschemes.svg"
+    }
+  ],
+  "syntax": [
+    {
+      "title": {
+        "en": "Source and assessment policy",
+        "gu": "Source તથા Assessment Policy"
+      },
+      "body": {
+        "en": "Original practice questions;marks are suggested study allocations,not an official past paper.Exam contains questions and marks only.",
+        "gu": "આ original practice questions છે;marks study માટે સૂચિત છે,official past paper નથી.Examમાં માત્ર પ્રશ્નો તથા marks છે."
+      }
+    },
+    {
+      "title": {
+        "en": "Rated generator current",
+        "gu": "Rated generator current"
+      },
+      "body": {
+        "en": "I=S/(√3 VLL).",
+        "gu": "I=S/(√3 VLL). · ધારણાઓ તથા ઉદાહરણ માટે સંબંધિત Notes વાંચો."
+      }
+    },
+    {
+      "title": {
+        "en": "Motor shaft-power current",
+        "gu": "Motor shaft-power current"
+      },
+      "body": {
+        "en": "I=Pout/(√3 VLLηPF), balanced three-phase sinusoidal assumption.",
+        "gu": "I=Pout/(√3 VLLηPF), balanced three-phase sinusoidal assumption. · ધારણાઓ તથા ઉદાહરણ માટે સંબંધિત Notes વાંચો."
+      }
+    },
+    {
+      "title": {
+        "en": "Signed power",
+        "gu": "Signed power"
+      },
+      "body": {
+        "en": "P=3 Vphase Iphasecosφ for balanced conditions; use declared export sign.",
+        "gu": "P=3 Vphase Iphasecosφ for balanced conditions; use declared export sign. · ધારણાઓ તથા ઉદાહરણ માટે સંબંધિત Notes વાંચો."
+      }
+    },
+    {
+      "title": {
+        "en": "Sequence currents",
+        "gu": "Sequence currents"
+      },
+      "body": {
+        "en": "a=e^(j 120°); I1=(Ia+a Ib+a²Ic)/3; I2=(Ia+a²Ib+a Ic)/3, declared phase order.",
+        "gu": "a=e^(j 120°); I1=(Ia+a Ib+a²Ic)/3; I2=(Ia+a²Ib+a Ic)/3, declared phase order. · ધારણાઓ તથા ઉદાહરણ માટે સંબંધિત Notes વાંચો."
+      }
+    }
+  ],
+  "viva": [
+    {
+      "q": {
+        "en": "First and second rotor earth faults?",
+        "gu": "Rotor ના first તથા second earth fault?"
+      },
+      "a": {
+        "en": "Afirst earth on an otherwise isolated rotor circuit may not create a large fault current but removes isolation security.Asecond earth can short field turns, unbalance flux and cause severe damage; response follows the plant design.",
+        "gu": "Isolated rotor પર first earth માં મોટો I ન પણ થાય, પણ isolation security ખોવાય; second earth field turns short/flux imbalance કરી શકે; plant matrix અનુસરો."
+      }
+    },
+    {
+      "q": {
+        "en": "95%versus 100%stator earth coverage?",
+        "gu": "95% તથા 100% stator earth coverage?"
+      },
+      "a": {
+        "en": "Afundamental neutral/residual method can have a near-neutral blind region.A 100%scheme uses suitable additional principles such as third-harmonic or injection, with actual coverage verified for the generator/earthing.",
+        "gu": "Fundamental method માં near-neutral blind region હોઈ શકે; 100% scheme માં third-harmonic/injection વગેરે અને actual earthing-specific verification જોઈએ."
+      }
+    },
+    {
+      "q": {
+        "en": "Reverse power is reverse current?",
+        "gu": "Reverse power એટલે reverse current?"
+      },
+      "a": {
+        "en": "No.It measures signed real power relative to the export convention.Reactive power can change without motoring; correct V/Iphase association and time threshold are essential.",
+        "gu": "નહીં.Export-sign પ્રમાણે real power માપાય છે; VAR બદલાય એટલે motoring નહીં; સાચી V/I phase association/time જોઈએ."
+      }
+    },
+    {
+      "q": {
+        "en": "Loss of excitation versus pole slip?",
+        "gu": "Loss of excitation તથા pole slip?"
+      },
+      "a": {
+        "en": "Loss of field changes excitation/VAR and impedance behaviour.Pole slip is loss of synchronism; they can be related but are not identical and stable power swings must be distinguished.",
+        "gu": "Field loss excitation/VAR/impedance બદલે; pole slip synchronism loss છે; સંબંધ હોઈ શકે પણ એકજ નથી; stable swing જુદો ઓળખો."
+      }
+    },
+    {
+      "q": {
+        "en": "Are Class A/B/Cuniversal?",
+        "gu": "Class A/B/C universal છે?"
+      },
+      "a": {
+        "en": "No.The notes declare one illustrative plant convention; different plants use different labels and sequences.The approved cause-and-effect matrix, prime-mover limits and is landing capability govern actual outputs.",
+        "gu": "નહીં.Notes માં એક illustrative convention છે; plants માં labels/sequence જુદાં હોઈ શકે; approved matrix/prime-mover/is landing capability જ અનુસરો."
+      }
+    },
+    {
+      "q": {
+        "en": "Why is negative sequence harmful to motors?",
+        "gu": "Motor માટે negative sequence નુકસાનકારક કેમ?"
+      },
+      "a": {
+        "en": "It creates an opposing rotating field causing high relative-frequency rotor currents and heating.Small voltage unbalance can cause substantial current unbalance; I2/thermal limits need actual motor data.",
+        "gu": "Opposing field થી rotor માં high-relative-frequency current/heat થાય; થોડા voltage unbalance થી વધારે current unbalance થઈ શકે; actual motor limits જોઈએ."
+      }
+    },
+    {
+      "q": {
+        "en": "Start versus stall protection?",
+        "gu": "Start તથા stall protection?"
+      },
+      "a": {
+        "en": "High current is expected during valid acceleration.Stall logic uses allowed start/locked-rotor time, thermal state and optionally speed, so it must avoid rejecting a healthy start while preventing overheating.",
+        "gu": "Valid start માં high I normal છે; stall logic time/thermal/optional speed વાપરે; healthy start allow/overheat prevent બંને જોઈએ."
+      }
+    },
+    {
+      "q": {
+        "en": "Why include efficiency in motor current?",
+        "gu": "Motor current માં efficiency કેમ?"
+      },
+      "a": {
+        "en": "If rating is shaft output, electrical input is Pout/η, hence I=Pout/(√3VηPF).Omittingηunderestimates current; this calculation does not alone approve a CT, cable or protection setting.",
+        "gu": "Shaft Pout માટે input=Pout/η એટલે I=Pout/(√3VηPF); η કાઢવાથી I ઓછો આવે; આ ગણતરી એકલી CT/cable/setting approval નથી."
+      }
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Draw generator differential and stator earth-fault schemes; compare 95%/100%coverage.",
+        "gu": "Generator differential/stator EF દોરી 95%/100%coverage સરખાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain rotor earth fault, loss of excitation and reverse-power protection.",
+        "gu": "Rotor EF/loss of excitation/reverse power સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain pole slip, overload, backup impedance and underfrequency functions.",
+        "gu": "Pole slip/overload/backup impedance/underfrequency સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Draw numerical generator relay organisation and declare a plant-specific A/B/Ctrip matrix with alarms.",
+        "gu": "Numerical generator block દોરી plant-specific A/B/C matrix/alarms આપો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Compare hydro/thermal generator power/control schemes and illustrative specifications.",
+        "gu": "Hydro/thermal power-control schemes/illustrative specs સરખાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Classify IM faults/abnormalities and explain thermal/negative-sequence protection.",
+        "gu": "IM faults/abnormalities classify કરી thermal/negative-sequence સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain OC/EF, start/stall, thermal memory and numerical motor logic.",
+        "gu": "OC/EF/start-stall/thermal memory/numerical motor logic સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Calculate rated current of 30k W, 415V, η0.9, PF 0.85 motor and compare 415V/6.6k V protection schemes.",
+        "gu": "30k W/415V/η0.9/PF 0.85 motor નો I ગણી 415V/6.6k V schemes સરખાવો."
+      },
+      "marks": 7
+    }
+  ],
+  "exam_policy": "Questions and suggested marks only.",
+  "physical_practicals_performed": false,
+  "sources": [
+    {
+      "title": "Owner8-page GTU DI05009011,2026–27",
+      "reference": "5units,11practicals,5project bullets,5activity bullets."
+    },
+    {
+      "title": "MATPOWER",
+      "url": "https://matpower.org/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "OpenDSS",
+      "url": "https://sourceforge.net/projects/electricdss/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "OpenModelica",
+      "url": "https://openmodelica.org/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "Electrical Engineering Portal",
+      "url": "https://electrical-engineering-portal.com/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "NPTELsource-listed course",
+      "url": "https://nptel.ac.in/courses/108105167",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "Sandia power-system protection",
+      "url": "https://energy.sandia.gov/programs/electric-grid/advanced-grid-modeling/power-system-protection/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "Source-listed lectures",
+      "url": "https://www.youtube.com/@edupme/playlists",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "Substation automation VLab",
+      "url": "https://sa-nitk.vlabs.ac.in/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "Power VLab",
+      "url": "https://vp-dei.vlabs.ac.in/Dreamweaver/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "SELunconventional-source line-protection paper",
+      "url": "https://selinc.com/api/download/136299/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    },
+    {
+      "title": "Classical distance-relay geometry reference",
+      "url": "https://www.eeeguide.com/distance-relays-types/",
+      "status": "Source-listed or supplementary reference;no experiment or current web availability claimed."
+    }
+  ]
+}

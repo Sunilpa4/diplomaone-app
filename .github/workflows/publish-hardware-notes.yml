@@ -914,6 +914,891 @@ jobs:
           print('Manufacturing Engineering - III all five units and registration ready; existing source preserved.')
           PYCODE
 
+      - name: Install Semester 1 DC Circuit all five bilingual units and registration
+        shell: bash
+        run: |
+          python3 - <<'PYCODE'
+          from pathlib import Path
+          import base64,gzip,json,os,ast
+          payload = Path('tools/publisher_payloads/electrical-di01000081.b64').read_text(encoding='ascii').strip()
+          files=json.loads(gzip.decompress(base64.b64decode(payload)))
+          manifest_path=Path(os.environ['RUNNER_TEMP'])/'seeded_paths.json'
+          manifest=json.loads(manifest_path.read_text())
+          root=Path('content/electrical/sem1/DI01000081')
+          planned={}
+          subject_rel=str(root/'subject.json')
+          subject=json.loads(Path(subject_rel).read_text() if Path(subject_rel).exists() else files[subject_rel])
+          if subject.get('code')!='DI01000081' or subject.get('branch')!='electrical' or subject.get('semester')!=1:
+              raise SystemExit('Existing subject identity conflict; review without overwriting.')
+          if not Path(subject_rel).exists():planned[subject_rel]=files[subject_rel]
+          for n in range(1,6):
+              rel=str(root/f'unit{n}.json');p=Path(rel)
+              unit=json.loads(p.read_text() if p.exists() else files[rel])
+              if unit.get('subject')!='DI01000081' or unit.get('unit')!=n:raise SystemExit('Existing unit identity conflict: '+rel)
+              if any(set(q)!={'q','marks'} for q in unit.get('exam_questions',[])):raise SystemExit('Questions-only Exam policy conflict: '+rel)
+              if p.exists():print('Preserving existing '+rel)
+              else:
+                  planned[rel]=files[rel]
+                  for d in unit.get('diagrams',[]):
+                      svg=str(root/d['file'])
+                      if svg not in files:raise SystemExit('Missing diagram payload: '+svg)
+                      planned[svg]=files[svg]
+          exporter=Path('tools/export_app_content.py');text=exporter.read_text(encoding='utf-8')
+          marker='# DiplomaOne registration: DI01000081 electrical semester 1'
+          updated=text
+          if marker not in text:
+              block="\n".join([
+                  marker,
+                  "if 'DI01000081' not in SUBJECTS:",
+                  "    SUBJECTS['DI01000081'] = ('DC Circuit', 'ડી.સી. સર્કિટ', 'Professional Core', 4, 'theory', None)",
+                  "_electrical_sem1 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(1, [])",
+                  "if 'DI01000081' not in _electrical_sem1:",
+                  "    _electrical_sem1.append('DI01000081')",
+                  "",
+              ])
+              if 'FONT_MAP = [' not in text:raise SystemExit('Exporter layout changed; review registration manually.')
+              updated=text.replace('FONT_MAP = [',block+'\nFONT_MAP = [',1)
+              ast.parse(updated)
+          # All preflight checks occur before installing this subject.
+          for rel,value in planned.items():
+              p=Path(rel)
+              if p.is_absolute() or '..' in p.parts:raise SystemExit('Unsafe source path')
+              if p.exists() and p.read_text(encoding='utf-8')!=value:raise SystemExit('Source collision: '+rel)
+          for rel,value in planned.items():
+              p=Path(rel)
+              if not p.exists():
+                  p.parent.mkdir(parents=True,exist_ok=True);p.write_text(value,encoding='utf-8');manifest.append(rel)
+          if updated!=text:exporter.write_text(updated,encoding='utf-8');manifest.append(str(exporter))
+          manifest_path.write_text(json.dumps(sorted(set(manifest))),encoding='utf-8')
+          print('DC Circuit all five units and registration ready; existing source preserved.')
+          PYCODE
+
+      - name: Install Semester 1 Electronics Devices & Circuits all three bilingual units and registration
+        shell: bash
+        run: |
+          python3 - <<'PYCODE'
+          from pathlib import Path
+          import base64,gzip,json,os,ast
+          payload = Path('tools/publisher_payloads/electrical-di01009011.b64').read_text(encoding='ascii').strip()
+          files=json.loads(gzip.decompress(base64.b64decode(payload)))
+          manifest_path=Path(os.environ['RUNNER_TEMP'])/'seeded_paths.json'
+          manifest=json.loads(manifest_path.read_text())
+          root=Path('content/electrical/sem1/DI01009011')
+          planned={}
+          subject_rel=str(root/'subject.json')
+          subject=json.loads(Path(subject_rel).read_text() if Path(subject_rel).exists() else files[subject_rel])
+          if subject.get('code')!='DI01009011' or subject.get('branch')!='electrical' or subject.get('semester')!=1:
+              raise SystemExit('Existing subject identity conflict; review without overwriting.')
+          if not Path(subject_rel).exists():planned[subject_rel]=files[subject_rel]
+          for n in range(1,4):
+              rel=str(root/f'unit{n}.json');p=Path(rel)
+              unit=json.loads(p.read_text() if p.exists() else files[rel])
+              if unit.get('subject')!='DI01009011' or unit.get('unit')!=n:raise SystemExit('Existing unit identity conflict: '+rel)
+              if any(set(q)!={'q','marks'} for q in unit.get('exam_questions',[])):raise SystemExit('Questions-only Exam policy conflict: '+rel)
+              if p.exists():print('Preserving existing '+rel)
+              else:
+                  planned[rel]=files[rel]
+                  for d in unit.get('diagrams',[]):
+                      svg=str(root/d['file'])
+                      if svg not in files:raise SystemExit('Missing diagram payload: '+svg)
+                      planned[svg]=files[svg]
+          exporter=Path('tools/export_app_content.py');text=exporter.read_text(encoding='utf-8')
+          marker='# DiplomaOne registration: DI01009011 electrical semester 1'
+          updated=text
+          if marker not in text:
+              block="\n".join([
+                  marker,
+                  "if 'DI01009011' not in SUBJECTS:",
+                  "    SUBJECTS['DI01009011'] = ('Electronics Devices & Circuits', 'ઇલેક્ટ્રોનિક્સ Devices અને Circuits', 'Engineering Science', 3, 'theory', None)",
+                  "_electrical_sem1 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(1, [])",
+                  "if 'DI01009011' not in _electrical_sem1:",
+                  "    _electrical_sem1.append('DI01009011')",
+                  "",
+              ])
+              if 'FONT_MAP = [' not in text:raise SystemExit('Exporter layout changed; review registration manually.')
+              updated=text.replace('FONT_MAP = [',block+'\nFONT_MAP = [',1)
+              ast.parse(updated)
+          # All preflight checks occur before installing this subject.
+          for rel,value in planned.items():
+              p=Path(rel)
+              if p.is_absolute() or '..' in p.parts:raise SystemExit('Unsafe source path')
+              if p.exists() and p.read_text(encoding='utf-8')!=value:raise SystemExit('Source collision: '+rel)
+          for rel,value in planned.items():
+              p=Path(rel)
+              if not p.exists():
+                  p.parent.mkdir(parents=True,exist_ok=True);p.write_text(value,encoding='utf-8');manifest.append(rel)
+          if updated!=text:exporter.write_text(updated,encoding='utf-8');manifest.append(str(exporter))
+          manifest_path.write_text(json.dumps(sorted(set(manifest))),encoding='utf-8')
+          print('Electronics Devices & Circuits all three units and registration ready; existing source preserved.')
+          PYCODE
+
+      - name: Install Semester 1 Fundamentals of ICT all five bilingual units and registration
+        shell: bash
+        run: |
+          python3 - <<'PYCODE'
+          from pathlib import Path
+          import base64,gzip,json,os,ast
+          payload = Path('tools/publisher_payloads/electrical-di01000091.b64').read_text(encoding='ascii').strip()
+          files=json.loads(gzip.decompress(base64.b64decode(payload)))
+          manifest_path=Path(os.environ['RUNNER_TEMP'])/'seeded_paths.json'
+          manifest=json.loads(manifest_path.read_text())
+          root=Path('content/electrical/sem1/DI01000091')
+          planned={}
+          subject_rel=str(root/'subject.json')
+          subject=json.loads(Path(subject_rel).read_text() if Path(subject_rel).exists() else files[subject_rel])
+          if subject.get('code')!='DI01000091' or subject.get('branch')!='electrical' or subject.get('semester')!=1:
+              raise SystemExit('Existing subject identity conflict; review without overwriting.')
+          if not Path(subject_rel).exists():planned[subject_rel]=files[subject_rel]
+          for n in range(1,6):
+              rel=str(root/f'unit{n}.json');p=Path(rel)
+              unit=json.loads(p.read_text() if p.exists() else files[rel])
+              if unit.get('subject')!='DI01000091' or unit.get('unit')!=n:raise SystemExit('Existing unit identity conflict: '+rel)
+              if any(set(q)!={'q','marks'} for q in unit.get('exam_questions',[])):raise SystemExit('Questions-only Exam policy conflict: '+rel)
+              if p.exists():print('Preserving existing '+rel)
+              else:
+                  planned[rel]=files[rel]
+                  for d in unit.get('diagrams',[]):
+                      svg=str(root/d['file'])
+                      if svg not in files:raise SystemExit('Missing diagram payload: '+svg)
+                      planned[svg]=files[svg]
+          exporter=Path('tools/export_app_content.py');text=exporter.read_text(encoding='utf-8')
+          marker='# DiplomaOne registration: DI01000091 electrical semester 1'
+          updated=text
+          if marker not in text:
+              block="\n".join([
+                  marker,
+                  "if 'DI01000091' not in SUBJECTS:",
+                  "    SUBJECTS['DI01000091'] = ('Fundamentals of Information and Communication Technology (FICT)', 'ફંડામેન્ટલ્સ ઑફ ICT', 'Engineering Science', 3, 'practical', None)",
+                  "_electrical_sem1 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(1, [])",
+                  "if 'DI01000091' not in _electrical_sem1:",
+                  "    _electrical_sem1.append('DI01000091')",
+                  "",
+              ])
+              if 'FONT_MAP = [' not in text:raise SystemExit('Exporter layout changed; review registration manually.')
+              updated=text.replace('FONT_MAP = [',block+'\nFONT_MAP = [',1)
+              ast.parse(updated)
+          # All preflight checks occur before installing this subject.
+          for rel,value in planned.items():
+              p=Path(rel)
+              if p.is_absolute() or '..' in p.parts:raise SystemExit('Unsafe source path')
+              if p.exists() and p.read_text(encoding='utf-8')!=value:raise SystemExit('Source collision: '+rel)
+          for rel,value in planned.items():
+              p=Path(rel)
+              if not p.exists():
+                  p.parent.mkdir(parents=True,exist_ok=True);p.write_text(value,encoding='utf-8');manifest.append(rel)
+          if updated!=text:exporter.write_text(updated,encoding='utf-8');manifest.append(str(exporter))
+          manifest_path.write_text(json.dumps(sorted(set(manifest))),encoding='utf-8')
+          print('Fundamentals of Information and Communication Technology (FICT) all five units and registration ready; existing source preserved.')
+          PYCODE
+
+      - name: Install Semester 2 Fundamental of Digital Electronics all five bilingual units and registration
+        shell: bash
+        run: |
+          python3 - <<'PYCODE'
+          from pathlib import Path
+          import base64,gzip,json,os,ast
+          payload = Path('tools/publisher_payloads/electrical-di02000161.b64').read_text(encoding='ascii').strip()
+          files=json.loads(gzip.decompress(base64.b64decode(payload)))
+          manifest_path=Path(os.environ['RUNNER_TEMP'])/'seeded_paths.json'
+          manifest=json.loads(manifest_path.read_text())
+          root=Path('content/electrical/sem2/DI02000161')
+          planned={}
+          subject_rel=str(root/'subject.json')
+          subject=json.loads(Path(subject_rel).read_text() if Path(subject_rel).exists() else files[subject_rel])
+          if subject.get('code')!='DI02000161' or subject.get('branch')!='electrical' or subject.get('semester')!=2:
+              raise SystemExit('Existing subject identity conflict; review without overwriting.')
+          if not Path(subject_rel).exists():planned[subject_rel]=files[subject_rel]
+          for n in range(1,6):
+              rel=str(root/f'unit{n}.json');p=Path(rel)
+              unit=json.loads(p.read_text() if p.exists() else files[rel])
+              if unit.get('subject')!='DI02000161' or unit.get('unit')!=n:raise SystemExit('Existing unit identity conflict: '+rel)
+              if any(set(q)!={'q','marks'} for q in unit.get('exam_questions',[])):raise SystemExit('Questions-only Exam policy conflict: '+rel)
+              if p.exists():print('Preserving existing '+rel)
+              else:
+                  planned[rel]=files[rel]
+                  for d in unit.get('diagrams',[]):
+                      svg=str(root/d['file'])
+                      if svg not in files:raise SystemExit('Missing diagram payload: '+svg)
+                      planned[svg]=files[svg]
+          exporter=Path('tools/export_app_content.py');text=exporter.read_text(encoding='utf-8')
+          marker='# DiplomaOne registration: DI02000161 electrical semester 2'
+          updated=text
+          if marker not in text:
+              block="\n".join([
+                  marker,
+                  "if 'DI02000161' not in SUBJECTS:",
+                  "    SUBJECTS['DI02000161'] = ('Fundamental of Digital Electronics', 'ડિજિટલ ઇલેક્ટ્રોનિક્સના પાયા', 'Engineering Science', 3, 'theory', None)",
+                  "_electrical_sem2 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(2, [])",
+                  "if 'DI02000161' not in _electrical_sem2:",
+                  "    _electrical_sem2.append('DI02000161')",
+                  "",
+              ])
+              if 'FONT_MAP = [' not in text:raise SystemExit('Exporter layout changed; review registration manually.')
+              updated=text.replace('FONT_MAP = [',block+'\nFONT_MAP = [',1)
+              ast.parse(updated)
+          # All preflight checks occur before installing this subject.
+          for rel,value in planned.items():
+              p=Path(rel)
+              if p.is_absolute() or '..' in p.parts:raise SystemExit('Unsafe source path')
+              if p.exists() and p.read_text(encoding='utf-8')!=value:raise SystemExit('Source collision: '+rel)
+          for rel,value in planned.items():
+              p=Path(rel)
+              if not p.exists():
+                  p.parent.mkdir(parents=True,exist_ok=True);p.write_text(value,encoding='utf-8');manifest.append(rel)
+          if updated!=text:exporter.write_text(updated,encoding='utf-8');manifest.append(str(exporter))
+          manifest_path.write_text(json.dumps(sorted(set(manifest))),encoding='utf-8')
+          print('Fundamental of Digital Electronics all five units and registration ready; existing source preserved.')
+          PYCODE
+
+      - name: Install Semester 2 AC Fundamental all four bilingual units and registration
+        shell: bash
+        run: |
+          python3 - <<'PYCODE'
+          from pathlib import Path
+          import base64,gzip,json,os,ast
+          payload = Path('tools/publisher_payloads/electrical-di02000171.b64').read_text(encoding='ascii').strip()
+          files=json.loads(gzip.decompress(base64.b64decode(payload)))
+          manifest_path=Path(os.environ['RUNNER_TEMP'])/'seeded_paths.json'
+          manifest=json.loads(manifest_path.read_text())
+          root=Path('content/electrical/sem2/DI02000171')
+          planned={}
+          subject_rel=str(root/'subject.json')
+          subject=json.loads(Path(subject_rel).read_text() if Path(subject_rel).exists() else files[subject_rel])
+          if subject.get('code')!='DI02000171' or subject.get('branch')!='electrical' or subject.get('semester')!=2:
+              raise SystemExit('Existing subject identity conflict; review without overwriting.')
+          if not Path(subject_rel).exists():planned[subject_rel]=files[subject_rel]
+          for n in range(1,5):
+              rel=str(root/f'unit{n}.json');p=Path(rel)
+              unit=json.loads(p.read_text() if p.exists() else files[rel])
+              if unit.get('subject')!='DI02000171' or unit.get('unit')!=n:raise SystemExit('Existing unit identity conflict: '+rel)
+              if any(set(q)!={'q','marks'} for q in unit.get('exam_questions',[])):raise SystemExit('Questions-only Exam policy conflict: '+rel)
+              if p.exists():print('Preserving existing '+rel)
+              else:
+                  planned[rel]=files[rel]
+                  for d in unit.get('diagrams',[]):
+                      svg=str(root/d['file'])
+                      if svg not in files:raise SystemExit('Missing diagram payload: '+svg)
+                      planned[svg]=files[svg]
+          exporter=Path('tools/export_app_content.py');text=exporter.read_text(encoding='utf-8')
+          marker='# DiplomaOne registration: DI02000171 electrical semester 2'
+          updated=text
+          if marker not in text:
+              block="\n".join([
+                  marker,
+                  "if 'DI02000171' not in SUBJECTS:",
+                  "    SUBJECTS['DI02000171'] = ('AC Fundamental', 'એસી ફંડામેન્ટલ', 'Professional Core', 4, 'theory', None)",
+                  "_electrical_sem2 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(2, [])",
+                  "if 'DI02000171' not in _electrical_sem2:",
+                  "    _electrical_sem2.append('DI02000171')",
+                  "",
+              ])
+              if 'FONT_MAP = [' not in text:raise SystemExit('Exporter layout changed; review registration manually.')
+              updated=text.replace('FONT_MAP = [',block+'\nFONT_MAP = [',1)
+              ast.parse(updated)
+          # All preflight checks occur before installing this subject.
+          for rel,value in planned.items():
+              p=Path(rel)
+              if p.is_absolute() or '..' in p.parts:raise SystemExit('Unsafe source path')
+              if p.exists() and p.read_text(encoding='utf-8')!=value:raise SystemExit('Source collision: '+rel)
+          for rel,value in planned.items():
+              p=Path(rel)
+              if not p.exists():
+                  p.parent.mkdir(parents=True,exist_ok=True);p.write_text(value,encoding='utf-8');manifest.append(rel)
+          if updated!=text:exporter.write_text(updated,encoding='utf-8');manifest.append(str(exporter))
+          manifest_path.write_text(json.dumps(sorted(set(manifest))),encoding='utf-8')
+          print('AC Fundamental all four units and registration ready; existing source preserved.')
+          PYCODE
+
+      - name: Install Semester 3 Electrical Machines I all four bilingual units and registration
+        shell: bash
+        run: |
+          python3 - <<'PYCODE'
+          from pathlib import Path
+          import base64,gzip,json,os,ast
+          payload = Path('tools/publisher_payloads/electrical-di03000081.b64').read_text(encoding='ascii').strip()
+          files=json.loads(gzip.decompress(base64.b64decode(payload)))
+          manifest_path=Path(os.environ['RUNNER_TEMP'])/'seeded_paths.json'
+          manifest=json.loads(manifest_path.read_text())
+          root=Path('content/electrical/sem3/DI03000081')
+          planned={}
+          subject_rel=str(root/'subject.json')
+          subject=json.loads(Path(subject_rel).read_text() if Path(subject_rel).exists() else files[subject_rel])
+          if subject.get('code')!='DI03000081' or subject.get('branch')!='electrical' or subject.get('semester')!=3:
+              raise SystemExit('Existing subject identity conflict; review without overwriting.')
+          if not Path(subject_rel).exists():planned[subject_rel]=files[subject_rel]
+          for n in range(1,5):
+              rel=str(root/f'unit{n}.json');p=Path(rel)
+              unit=json.loads(p.read_text() if p.exists() else files[rel])
+              if unit.get('subject')!='DI03000081' or unit.get('unit')!=n:raise SystemExit('Existing unit identity conflict: '+rel)
+              if any(set(q)!={'q','marks'} for q in unit.get('exam_questions',[])):raise SystemExit('Questions-only Exam policy conflict: '+rel)
+              if p.exists():print('Preserving existing '+rel)
+              else:
+                  planned[rel]=files[rel]
+                  for d in unit.get('diagrams',[]):
+                      svg=str(root/d['file'])
+                      if svg not in files:raise SystemExit('Missing diagram payload: '+svg)
+                      planned[svg]=files[svg]
+          exporter=Path('tools/export_app_content.py');text=exporter.read_text(encoding='utf-8')
+          marker='# DiplomaOne registration: DI03000081 electrical semester 3'
+          updated=text
+          if marker not in text:
+              block="\n".join([
+                  marker,
+                  "if 'DI03000081' not in SUBJECTS:",
+                  "    SUBJECTS['DI03000081'] = ('Electrical Machines I', 'ઇલેક્ટ્રિકલ મશીન્સ – I', 'Professional Core', 4, 'theory', None)",
+                  "_electrical_sem3 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(3, [])",
+                  "if 'DI03000081' not in _electrical_sem3:",
+                  "    _electrical_sem3.append('DI03000081')",
+                  "",
+              ])
+              if 'FONT_MAP = [' not in text:raise SystemExit('Exporter layout changed; review registration manually.')
+              updated=text.replace('FONT_MAP = [',block+'\nFONT_MAP = [',1)
+              ast.parse(updated)
+          # All preflight checks occur before installing this subject.
+          for rel,value in planned.items():
+              p=Path(rel)
+              if p.is_absolute() or '..' in p.parts:raise SystemExit('Unsafe source path')
+              if p.exists() and p.read_text(encoding='utf-8')!=value:raise SystemExit('Source collision: '+rel)
+          for rel,value in planned.items():
+              p=Path(rel)
+              if not p.exists():
+                  p.parent.mkdir(parents=True,exist_ok=True);p.write_text(value,encoding='utf-8');manifest.append(rel)
+          if updated!=text:exporter.write_text(updated,encoding='utf-8');manifest.append(str(exporter))
+          manifest_path.write_text(json.dumps(sorted(set(manifest))),encoding='utf-8')
+          print('Electrical Machines I all four units and registration ready; existing source preserved.')
+          PYCODE
+
+      - name: Install Semester 3 Electrical Instrumentation all five bilingual units and registration
+        shell: bash
+        run: |
+          python3 - <<'PYCODE'
+          from pathlib import Path
+          import base64,gzip,json,os,ast
+          payload = Path('tools/publisher_payloads/electrical-di03000091.b64').read_text(encoding='ascii').strip()
+          files=json.loads(gzip.decompress(base64.b64decode(payload)))
+          manifest_path=Path(os.environ['RUNNER_TEMP'])/'seeded_paths.json'
+          manifest=json.loads(manifest_path.read_text())
+          root=Path('content/electrical/sem3/DI03000091')
+          planned={}
+          subject_rel=str(root/'subject.json')
+          subject=json.loads(Path(subject_rel).read_text() if Path(subject_rel).exists() else files[subject_rel])
+          if subject.get('code')!='DI03000091' or subject.get('branch')!='electrical' or subject.get('semester')!=3:
+              raise SystemExit('Existing subject identity conflict; review without overwriting.')
+          if not Path(subject_rel).exists():planned[subject_rel]=files[subject_rel]
+          for n in range(1,6):
+              rel=str(root/f'unit{n}.json');p=Path(rel)
+              unit=json.loads(p.read_text() if p.exists() else files[rel])
+              if unit.get('subject')!='DI03000091' or unit.get('unit')!=n:raise SystemExit('Existing unit identity conflict: '+rel)
+              if any(set(q)!={'q','marks'} for q in unit.get('exam_questions',[])):raise SystemExit('Questions-only Exam policy conflict: '+rel)
+              if p.exists():print('Preserving existing '+rel)
+              else:
+                  planned[rel]=files[rel]
+                  for d in unit.get('diagrams',[]):
+                      svg=str(root/d['file'])
+                      if svg not in files:raise SystemExit('Missing diagram payload: '+svg)
+                      planned[svg]=files[svg]
+          exporter=Path('tools/export_app_content.py');text=exporter.read_text(encoding='utf-8')
+          marker='# DiplomaOne registration: DI03000091 electrical semester 3'
+          updated=text
+          if marker not in text:
+              block="\n".join([
+                  marker,
+                  "if 'DI03000091' not in SUBJECTS:",
+                  "    SUBJECTS['DI03000091'] = ('Electrical Instrumentation', 'ઇલેક્ટ્રિકલ ઇન્સ્ટ્રુમેન્ટેશન', 'Professional Core', 4, 'theory', None)",
+                  "_electrical_sem3 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(3, [])",
+                  "if 'DI03000091' not in _electrical_sem3:",
+                  "    _electrical_sem3.append('DI03000091')",
+                  "",
+              ])
+              if 'FONT_MAP = [' not in text:raise SystemExit('Exporter layout changed; review registration manually.')
+              updated=text.replace('FONT_MAP = [',block+'\nFONT_MAP = [',1)
+              ast.parse(updated)
+          # All preflight checks occur before installing this subject.
+          for rel,value in planned.items():
+              p=Path(rel)
+              if p.is_absolute() or '..' in p.parts:raise SystemExit('Unsafe source path')
+              if p.exists() and p.read_text(encoding='utf-8')!=value:raise SystemExit('Source collision: '+rel)
+          for rel,value in planned.items():
+              p=Path(rel)
+              if not p.exists():
+                  p.parent.mkdir(parents=True,exist_ok=True);p.write_text(value,encoding='utf-8');manifest.append(rel)
+          if updated!=text:exporter.write_text(updated,encoding='utf-8');manifest.append(str(exporter))
+          manifest_path.write_text(json.dumps(sorted(set(manifest))),encoding='utf-8')
+          print('Electrical Instrumentation all five units and registration ready; existing source preserved.')
+          PYCODE
+
+      - name: Install Semester 3 Electrical Power Transmission & Distribution all four bilingual units and registration
+        shell: bash
+        run: |
+          python3 - <<'PYCODE'
+          from pathlib import Path
+          import base64,gzip,json,os,ast
+          payload = Path('tools/publisher_payloads/electrical-di03000101.b64').read_text(encoding='ascii').strip()
+          files=json.loads(gzip.decompress(base64.b64decode(payload)))
+          manifest_path=Path(os.environ['RUNNER_TEMP'])/'seeded_paths.json'
+          manifest=json.loads(manifest_path.read_text())
+          root=Path('content/electrical/sem3/DI03000101')
+          planned={}
+          subject_rel=str(root/'subject.json')
+          subject=json.loads(Path(subject_rel).read_text() if Path(subject_rel).exists() else files[subject_rel])
+          if subject.get('code')!='DI03000101' or subject.get('branch')!='electrical' or subject.get('semester')!=3:
+              raise SystemExit('Existing subject identity conflict; review without overwriting.')
+          if not Path(subject_rel).exists():planned[subject_rel]=files[subject_rel]
+          for n in range(1,5):
+              rel=str(root/f'unit{n}.json');p=Path(rel)
+              unit=json.loads(p.read_text() if p.exists() else files[rel])
+              if unit.get('subject')!='DI03000101' or unit.get('unit')!=n:raise SystemExit('Existing unit identity conflict: '+rel)
+              if any(set(q)!={'q','marks'} for q in unit.get('exam_questions',[])):raise SystemExit('Questions-only Exam policy conflict: '+rel)
+              if p.exists():print('Preserving existing '+rel)
+              else:
+                  planned[rel]=files[rel]
+                  for d in unit.get('diagrams',[]):
+                      svg=str(root/d['file'])
+                      if svg not in files:raise SystemExit('Missing diagram payload: '+svg)
+                      planned[svg]=files[svg]
+          exporter=Path('tools/export_app_content.py');text=exporter.read_text(encoding='utf-8')
+          marker='# DiplomaOne registration: DI03000101 electrical semester 3'
+          updated=text
+          if marker not in text:
+              block="\n".join([
+                  marker,
+                  "if 'DI03000101' not in SUBJECTS:",
+                  "    SUBJECTS['DI03000101'] = ('Electrical Power Transmission & Distribution', 'વિદ્યુત શક્તિ પ્રસારણ અને વિતરણ', 'Professional Core', 4, 'theory', None)",
+                  "_electrical_sem3 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(3, [])",
+                  "if 'DI03000101' not in _electrical_sem3:",
+                  "    _electrical_sem3.append('DI03000101')",
+                  "",
+              ])
+              if 'FONT_MAP = [' not in text:raise SystemExit('Exporter layout changed; review registration manually.')
+              updated=text.replace('FONT_MAP = [',block+'\nFONT_MAP = [',1)
+              ast.parse(updated)
+          # All preflight checks occur before installing this subject.
+          for rel,value in planned.items():
+              p=Path(rel)
+              if p.is_absolute() or '..' in p.parts:raise SystemExit('Unsafe source path')
+              if p.exists() and p.read_text(encoding='utf-8')!=value:raise SystemExit('Source collision: '+rel)
+          for rel,value in planned.items():
+              p=Path(rel)
+              if not p.exists():
+                  p.parent.mkdir(parents=True,exist_ok=True);p.write_text(value,encoding='utf-8');manifest.append(rel)
+          if updated!=text:exporter.write_text(updated,encoding='utf-8');manifest.append(str(exporter))
+          manifest_path.write_text(json.dumps(sorted(set(manifest))),encoding='utf-8')
+          print('Electrical Power Transmission & Distribution all four units and registration ready; existing source preserved.')
+          PYCODE
+
+      - name: Install Semester 3 Electrical Wiring Estimating & Contracting all five bilingual units and registration
+        shell: bash
+        run: |
+          python3 - <<'PYCODE'
+          from pathlib import Path
+          import base64,gzip,json,os,ast
+          payload = Path('tools/publisher_payloads/electrical-di03009011.b64').read_text(encoding='ascii').strip()
+          files=json.loads(gzip.decompress(base64.b64decode(payload)))
+          manifest_path=Path(os.environ['RUNNER_TEMP'])/'seeded_paths.json'
+          manifest=json.loads(manifest_path.read_text())
+          root=Path('content/electrical/sem3/DI03009011')
+          planned={}
+          subject_rel=str(root/'subject.json')
+          subject=json.loads(Path(subject_rel).read_text() if Path(subject_rel).exists() else files[subject_rel])
+          if subject.get('code')!='DI03009011' or subject.get('branch')!='electrical' or subject.get('semester')!=3:
+              raise SystemExit('Existing subject identity conflict; review without overwriting.')
+          if not Path(subject_rel).exists():planned[subject_rel]=files[subject_rel]
+          for n in range(1,6):
+              rel=str(root/f'unit{n}.json');p=Path(rel)
+              unit=json.loads(p.read_text() if p.exists() else files[rel])
+              if unit.get('subject')!='DI03009011' or unit.get('unit')!=n:raise SystemExit('Existing unit identity conflict: '+rel)
+              if any(set(q)!={'q','marks'} for q in unit.get('exam_questions',[])):raise SystemExit('Questions-only Exam policy conflict: '+rel)
+              if p.exists():print('Preserving existing '+rel)
+              else:
+                  planned[rel]=files[rel]
+                  for d in unit.get('diagrams',[]):
+                      svg=str(root/d['file'])
+                      if svg not in files:raise SystemExit('Missing diagram payload: '+svg)
+                      planned[svg]=files[svg]
+          exporter=Path('tools/export_app_content.py');text=exporter.read_text(encoding='utf-8')
+          marker='# DiplomaOne registration: DI03009011 electrical semester 3'
+          updated=text
+          if marker not in text:
+              block="\n".join([
+                  marker,
+                  "if 'DI03009011' not in SUBJECTS:",
+                  "    SUBJECTS['DI03009011'] = ('Electrical Wiring Estimating & Contracting', 'ઇલેક્ટ્રિકલ વાયરિંગ અંદાજ તથા કોન્ટ્રાક્ટિંગ', 'Professional Core', 4, 'theory', None)",
+                  "_electrical_sem3 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(3, [])",
+                  "if 'DI03009011' not in _electrical_sem3:",
+                  "    _electrical_sem3.append('DI03009011')",
+                  "",
+              ])
+              if 'FONT_MAP = [' not in text:raise SystemExit('Exporter layout changed; review registration manually.')
+              updated=text.replace('FONT_MAP = [',block+'\nFONT_MAP = [',1)
+              ast.parse(updated)
+          # All preflight checks occur before installing this subject.
+          for rel,value in planned.items():
+              p=Path(rel)
+              if p.is_absolute() or '..' in p.parts:raise SystemExit('Unsafe source path')
+              if p.exists() and p.read_text(encoding='utf-8')!=value:raise SystemExit('Source collision: '+rel)
+          for rel,value in planned.items():
+              p=Path(rel)
+              if not p.exists():
+                  p.parent.mkdir(parents=True,exist_ok=True);p.write_text(value,encoding='utf-8');manifest.append(rel)
+          if updated!=text:exporter.write_text(updated,encoding='utf-8');manifest.append(str(exporter))
+          manifest_path.write_text(json.dumps(sorted(set(manifest))),encoding='utf-8')
+          print('Electrical Wiring Estimating & Contracting all five units and registration ready; existing source preserved.')
+          PYCODE
+
+      - name: Install Semester 3 Electrical Power Generation all five bilingual units and registration
+        shell: bash
+        run: |
+          python3 - <<'PYCODE'
+          from pathlib import Path
+          import base64,gzip,json,os,ast
+          payload = Path('tools/publisher_payloads/electrical-di03009021.b64').read_text(encoding='ascii').strip()
+          files=json.loads(gzip.decompress(base64.b64decode(payload)))
+          manifest_path=Path(os.environ['RUNNER_TEMP'])/'seeded_paths.json'
+          manifest=json.loads(manifest_path.read_text())
+          root=Path('content/electrical/sem3/DI03009021')
+          planned={}
+          subject_rel=str(root/'subject.json')
+          subject=json.loads(Path(subject_rel).read_text() if Path(subject_rel).exists() else files[subject_rel])
+          if subject.get('code')!='DI03009021' or subject.get('branch')!='electrical' or subject.get('semester')!=3:
+              raise SystemExit('Existing subject identity conflict; review without overwriting.')
+          if not Path(subject_rel).exists():planned[subject_rel]=files[subject_rel]
+          for n in range(1,6):
+              rel=str(root/f'unit{n}.json');p=Path(rel)
+              unit=json.loads(p.read_text() if p.exists() else files[rel])
+              if unit.get('subject')!='DI03009021' or unit.get('unit')!=n:raise SystemExit('Existing unit identity conflict: '+rel)
+              if any(set(q)!={'q','marks'} for q in unit.get('exam_questions',[])):raise SystemExit('Questions-only Exam policy conflict: '+rel)
+              if p.exists():print('Preserving existing '+rel)
+              else:
+                  planned[rel]=files[rel]
+                  for d in unit.get('diagrams',[]):
+                      svg=str(root/d['file'])
+                      if svg not in files:raise SystemExit('Missing diagram payload: '+svg)
+                      planned[svg]=files[svg]
+          exporter=Path('tools/export_app_content.py');text=exporter.read_text(encoding='utf-8')
+          marker='# DiplomaOne registration: DI03009021 electrical semester 3'
+          updated=text
+          if marker not in text:
+              block="\n".join([
+                  marker,
+                  "if 'DI03009021' not in SUBJECTS:",
+                  "    SUBJECTS['DI03009021'] = ('Electrical Power Generation', 'વિદ્યુત શક્તિ ઉત્પાદન', 'Professional Core', 3, 'theory', None)",
+                  "_electrical_sem3 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(3, [])",
+                  "if 'DI03009021' not in _electrical_sem3:",
+                  "    _electrical_sem3.append('DI03009021')",
+                  "",
+              ])
+              if 'FONT_MAP = [' not in text:raise SystemExit('Exporter layout changed; review registration manually.')
+              updated=text.replace('FONT_MAP = [',block+'\nFONT_MAP = [',1)
+              ast.parse(updated)
+          # All preflight checks occur before installing this subject.
+          for rel,value in planned.items():
+              p=Path(rel)
+              if p.is_absolute() or '..' in p.parts:raise SystemExit('Unsafe source path')
+              if p.exists() and p.read_text(encoding='utf-8')!=value:raise SystemExit('Source collision: '+rel)
+          for rel,value in planned.items():
+              p=Path(rel)
+              if not p.exists():
+                  p.parent.mkdir(parents=True,exist_ok=True);p.write_text(value,encoding='utf-8');manifest.append(rel)
+          if updated!=text:exporter.write_text(updated,encoding='utf-8');manifest.append(str(exporter))
+          manifest_path.write_text(json.dumps(sorted(set(manifest))),encoding='utf-8')
+          print('Electrical Power Generation all five units and registration ready; existing source preserved.')
+          PYCODE
+
+      - name: Install Semester 4 Microcontroller and its Applications all five bilingual units and registration
+        shell: bash
+        run: |
+          python3 - <<'PYCODE'
+          from pathlib import Path
+          import base64,gzip,json,os,ast
+          payload = Path('tools/publisher_payloads/electrical-di04000171.b64').read_text(encoding='ascii').strip()
+          files=json.loads(gzip.decompress(base64.b64decode(payload)))
+          manifest_path=Path(os.environ['RUNNER_TEMP'])/'seeded_paths.json'
+          manifest=json.loads(manifest_path.read_text())
+          root=Path('content/electrical/sem4/DI04000171')
+          planned={}
+          subject_rel=str(root/'subject.json')
+          subject=json.loads(Path(subject_rel).read_text() if Path(subject_rel).exists() else files[subject_rel])
+          if subject.get('code')!='DI04000171' or subject.get('branch')!='electrical' or subject.get('semester')!=4:
+              raise SystemExit('Existing subject identity conflict; review without overwriting.')
+          if not Path(subject_rel).exists():planned[subject_rel]=files[subject_rel]
+          for n in range(1,6):
+              rel=str(root/f'unit{n}.json');p=Path(rel)
+              unit=json.loads(p.read_text() if p.exists() else files[rel])
+              if unit.get('subject')!='DI04000171' or unit.get('unit')!=n:raise SystemExit('Existing unit identity conflict: '+rel)
+              if any(set(q)!={'q','marks'} for q in unit.get('exam_questions',[])):raise SystemExit('Questions-only Exam policy conflict: '+rel)
+              if p.exists():print('Preserving existing '+rel)
+              else:
+                  planned[rel]=files[rel]
+                  for d in unit.get('diagrams',[]):
+                      svg=str(root/d['file'])
+                      if svg not in files:raise SystemExit('Missing diagram payload: '+svg)
+                      planned[svg]=files[svg]
+          exporter=Path('tools/export_app_content.py');text=exporter.read_text(encoding='utf-8')
+          marker='# DiplomaOne registration: DI04000171 electrical semester 4'
+          updated=text
+          if marker not in text:
+              block="\n".join([
+                  marker,
+                  "if 'DI04000171' not in SUBJECTS:",
+                  "    SUBJECTS['DI04000171'] = ('Microcontroller & its Applications', 'માઇક્રોકન્ટ્રોલર તથા તેની એપ્લિકેશન્સ', 'Professional Core', 4, 'theory', None)",
+                  "_electrical_sem4 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(4, [])",
+                  "if 'DI04000171' not in _electrical_sem4:",
+                  "    _electrical_sem4.append('DI04000171')",
+                  "",
+              ])
+              if 'FONT_MAP = [' not in text:raise SystemExit('Exporter layout changed; review registration manually.')
+              updated=text.replace('FONT_MAP = [',block+'\nFONT_MAP = [',1)
+              ast.parse(updated)
+          # All preflight checks occur before installing this subject.
+          for rel,value in planned.items():
+              p=Path(rel)
+              if p.is_absolute() or '..' in p.parts:raise SystemExit('Unsafe source path')
+              if p.exists() and p.read_text(encoding='utf-8')!=value:raise SystemExit('Source collision: '+rel)
+          for rel,value in planned.items():
+              p=Path(rel)
+              if not p.exists():
+                  p.parent.mkdir(parents=True,exist_ok=True);p.write_text(value,encoding='utf-8');manifest.append(rel)
+          if updated!=text:exporter.write_text(updated,encoding='utf-8');manifest.append(str(exporter))
+          manifest_path.write_text(json.dumps(sorted(set(manifest))),encoding='utf-8')
+          print('Microcontroller & its Applications all five units and registration ready; existing source preserved.')
+          PYCODE
+
+      - name: Install Semester 4 Electrical Machines II all three detailed bilingual units and registration
+        shell: bash
+        run: |
+          python3 - <<'PYCODE'
+          from pathlib import Path
+          import base64,gzip,json,os,ast
+          payload = Path('tools/publisher_payloads/electrical-di04000321.b64').read_text(encoding='ascii').strip()
+          files=json.loads(gzip.decompress(base64.b64decode(payload)))
+          manifest_path=Path(os.environ['RUNNER_TEMP'])/'seeded_paths.json'
+          manifest=json.loads(manifest_path.read_text())
+          root=Path('content/electrical/sem4/DI04000321')
+          planned={}
+          subject_rel=str(root/'subject.json')
+          subject=json.loads(Path(subject_rel).read_text() if Path(subject_rel).exists() else files[subject_rel])
+          if subject.get('code')!='DI04000321' or subject.get('branch')!='electrical' or subject.get('semester')!=4:
+              raise SystemExit('Existing subject identity conflict; review without overwriting.')
+          if not Path(subject_rel).exists():planned[subject_rel]=files[subject_rel]
+          for n in range(1,4):
+              rel=str(root/f'unit{n}.json');p=Path(rel)
+              unit=json.loads(p.read_text() if p.exists() else files[rel])
+              if unit.get('subject')!='DI04000321' or unit.get('unit')!=n:raise SystemExit('Existing unit identity conflict: '+rel)
+              if any(set(q)!={'q','marks'} for q in unit.get('exam_questions',[])):raise SystemExit('Questions-only Exam policy conflict: '+rel)
+              if p.exists():print('Preserving existing '+rel)
+              else:
+                  planned[rel]=files[rel]
+                  for d in unit.get('diagrams',[]):
+                      svg=str(root/d['file'])
+                      if svg not in files:raise SystemExit('Missing diagram payload: '+svg)
+                      planned[svg]=files[svg]
+          exporter=Path('tools/export_app_content.py');text=exporter.read_text(encoding='utf-8')
+          marker='# DiplomaOne registration: DI04000321 electrical semester 4'
+          updated=text
+          if marker not in text:
+              block="\n".join([
+                  marker,
+                  "if 'DI04000321' not in SUBJECTS:",
+                  "    SUBJECTS['DI04000321'] = ('Electrical Machines – II', 'ઇલેક્ટ્રિકલ મશીન્સ – II', 'Professional Core', 4, 'theory', None)",
+                  "_electrical_sem4 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(4, [])",
+                  "if 'DI04000321' not in _electrical_sem4:",
+                  "    _electrical_sem4.append('DI04000321')",
+                  "",
+              ])
+              if 'FONT_MAP = [' not in text:raise SystemExit('Exporter layout changed; review registration manually.')
+              updated=text.replace('FONT_MAP = [',block+'\nFONT_MAP = [',1)
+              ast.parse(updated)
+          # All preflight checks occur before installing this subject.
+          for rel,value in planned.items():
+              p=Path(rel)
+              if p.is_absolute() or '..' in p.parts:raise SystemExit('Unsafe source path')
+              if p.exists() and p.read_text(encoding='utf-8')!=value:raise SystemExit('Source collision: '+rel)
+          for rel,value in planned.items():
+              p=Path(rel)
+              if not p.exists():
+                  p.parent.mkdir(parents=True,exist_ok=True);p.write_text(value,encoding='utf-8');manifest.append(rel)
+          if updated!=text:exporter.write_text(updated,encoding='utf-8');manifest.append(str(exporter))
+          manifest_path.write_text(json.dumps(sorted(set(manifest))),encoding='utf-8')
+          print('Electrical Machines – II all three units and registration ready; existing source preserved.')
+          PYCODE
+
+      - name: Install Semester 4 Substation Engineering all four reliable bilingual units and registration
+        shell: bash
+        run: |
+          python3 - <<'PYCODE'
+          from pathlib import Path
+          import base64,gzip,json,os,ast
+          payload = Path('tools/publisher_payloads/electrical-di04009011.b64').read_text(encoding='ascii').strip()
+          files=json.loads(gzip.decompress(base64.b64decode(payload)))
+          manifest_path=Path(os.environ['RUNNER_TEMP'])/'seeded_paths.json'
+          manifest=json.loads(manifest_path.read_text())
+          root=Path('content/electrical/sem4/DI04009011')
+          planned={}
+          subject_rel=str(root/'subject.json')
+          subject=json.loads(Path(subject_rel).read_text() if Path(subject_rel).exists() else files[subject_rel])
+          if subject.get('code')!='DI04009011' or subject.get('branch')!='electrical' or subject.get('semester')!=4:
+              raise SystemExit('Existing subject identity conflict; review without overwriting.')
+          if not Path(subject_rel).exists():planned[subject_rel]=files[subject_rel]
+          for n in range(1,5):
+              rel=str(root/f'unit{n}.json');p=Path(rel)
+              unit=json.loads(p.read_text() if p.exists() else files[rel])
+              if unit.get('subject')!='DI04009011' or unit.get('unit')!=n:raise SystemExit('Existing unit identity conflict: '+rel)
+              if any(set(q)!={'q','marks'} for q in unit.get('exam_questions',[])):raise SystemExit('Questions-only Exam policy conflict: '+rel)
+              if p.exists():print('Preserving existing '+rel)
+              else:
+                  planned[rel]=files[rel]
+                  for d in unit.get('diagrams',[]):
+                      svg=str(root/d['file'])
+                      if svg not in files:raise SystemExit('Missing diagram payload: '+svg)
+                      planned[svg]=files[svg]
+          exporter=Path('tools/export_app_content.py');text=exporter.read_text(encoding='utf-8')
+          marker='# DiplomaOne registration: DI04009011 electrical semester 4'
+          updated=text
+          if marker not in text:
+              block="\n".join([
+                  marker,
+                  "if 'DI04009011' not in SUBJECTS:",
+                  "    SUBJECTS['DI04009011'] = ('Substation Engineering', 'સબસ્ટેશન એન્જિનિયરિંગ', 'Professional Core', 4, 'theory', None)",
+                  "_electrical_sem4 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(4, [])",
+                  "if 'DI04009011' not in _electrical_sem4:",
+                  "    _electrical_sem4.append('DI04009011')",
+                  "",
+              ])
+              if 'FONT_MAP = [' not in text:raise SystemExit('Exporter layout changed; review registration manually.')
+              updated=text.replace('FONT_MAP = [',block+'\nFONT_MAP = [',1)
+              ast.parse(updated)
+          # All preflight checks occur before installing this subject.
+          for rel,value in planned.items():
+              p=Path(rel)
+              if p.is_absolute() or '..' in p.parts:raise SystemExit('Unsafe source path')
+              if p.exists() and p.read_text(encoding='utf-8')!=value:raise SystemExit('Source collision: '+rel)
+          for rel,value in planned.items():
+              p=Path(rel)
+              if not p.exists():
+                  p.parent.mkdir(parents=True,exist_ok=True);p.write_text(value,encoding='utf-8');manifest.append(rel)
+          if updated!=text:exporter.write_text(updated,encoding='utf-8');manifest.append(str(exporter))
+          manifest_path.write_text(json.dumps(sorted(set(manifest))),encoding='utf-8')
+          print('Substation Engineering all four units and registration ready; existing source preserved.')
+          PYCODE
+
+      - name: Install Semester 5 Power Electronics Converters all five detailed bilingual units and registration
+        shell: bash
+        run: |
+          python3 - <<'PYCODE'
+          from pathlib import Path
+          import base64,gzip,json,os,ast
+          payload = Path('tools/publisher_payloads/electrical-di05000171.b64').read_text(encoding='ascii').strip()
+          files=json.loads(gzip.decompress(base64.b64decode(payload)))
+          manifest_path=Path(os.environ['RUNNER_TEMP'])/'seeded_paths.json'
+          manifest=json.loads(manifest_path.read_text())
+          root=Path('content/electrical/sem5/DI05000171')
+          planned={}
+          subject_rel=str(root/'subject.json')
+          subject=json.loads(Path(subject_rel).read_text() if Path(subject_rel).exists() else files[subject_rel])
+          if subject.get('code')!='DI05000171' or subject.get('branch')!='electrical' or subject.get('semester')!=5:
+              raise SystemExit('Existing subject identity conflict; review without overwriting.')
+          if not Path(subject_rel).exists():planned[subject_rel]=files[subject_rel]
+          for n in range(1,6):
+              rel=str(root/f'unit{n}.json');p=Path(rel)
+              unit=json.loads(p.read_text() if p.exists() else files[rel])
+              if unit.get('subject')!='DI05000171' or unit.get('unit')!=n:raise SystemExit('Existing unit identity conflict: '+rel)
+              if any(set(q)!={'q','marks'} for q in unit.get('exam_questions',[])):raise SystemExit('Questions-only Exam policy conflict: '+rel)
+              if p.exists():print('Preserving existing '+rel)
+              else:
+                  planned[rel]=files[rel]
+                  for d in unit.get('diagrams',[]):
+                      svg=str(root/d['file'])
+                      if svg not in files:raise SystemExit('Missing diagram payload: '+svg)
+                      planned[svg]=files[svg]
+          exporter=Path('tools/export_app_content.py');text=exporter.read_text(encoding='utf-8')
+          marker='# DiplomaOne registration: DI05000171 electrical semester 5'
+          updated=text
+          if marker not in text:
+              block="\n".join([
+                  marker,
+                  "if 'DI05000171' not in SUBJECTS:",
+                  "    SUBJECTS['DI05000171'] = ('Power Electronics Converters', 'પાવર ઇલેક્ટ્રોનિક્સ કન્વર્ટર્સ', 'Professional Core', 5, 'theory', None)",
+                  "_electrical_sem5 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(5, [])",
+                  "if 'DI05000171' not in _electrical_sem5:",
+                  "    _electrical_sem5.append('DI05000171')",
+                  "",
+              ])
+              if 'FONT_MAP = [' not in text:raise SystemExit('Exporter layout changed; review registration manually.')
+              updated=text.replace('FONT_MAP = [',block+'\nFONT_MAP = [',1)
+              ast.parse(updated)
+          # All preflight checks occur before installing this subject.
+          for rel,value in planned.items():
+              p=Path(rel)
+              if p.is_absolute() or '..' in p.parts:raise SystemExit('Unsafe source path')
+              if p.exists() and p.read_text(encoding='utf-8')!=value:raise SystemExit('Source collision: '+rel)
+          for rel,value in planned.items():
+              p=Path(rel)
+              if not p.exists():
+                  p.parent.mkdir(parents=True,exist_ok=True);p.write_text(value,encoding='utf-8');manifest.append(rel)
+          if updated!=text:exporter.write_text(updated,encoding='utf-8');manifest.append(str(exporter))
+          manifest_path.write_text(json.dumps(sorted(set(manifest))),encoding='utf-8')
+          print('Power Electronics Converters all five units and registration ready; existing source preserved.')
+          PYCODE
+
+      - name: Install Semester 5 Switchgear and Protection all five detailed bilingual units and registration
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import base64,gzip,json,os,ast
+          payload = Path('tools/publisher_payloads/electrical-di05009011.b64').read_text(encoding='ascii').strip()
+          files=json.loads(gzip.decompress(base64.b64decode(payload)))
+          manifest_path=Path(os.environ['RUNNER_TEMP'])/'seeded_paths.json'
+          manifest=json.loads(manifest_path.read_text())
+          root=Path('content/electrical/sem5/DI05009011')
+          planned={}
+          subject_rel=str(root/'subject.json')
+          subject=json.loads(Path(subject_rel).read_text() if Path(subject_rel).exists() else files[subject_rel])
+          if subject.get('code')!='DI05009011' or subject.get('branch')!='electrical' or subject.get('semester')!=5:
+              raise SystemExit('Existing subject identity conflict; review without overwriting.')
+          if not Path(subject_rel).exists():planned[subject_rel]=files[subject_rel]
+          for n in range(1,6):
+              rel=str(root/f'unit{n}.json');p=Path(rel)
+              unit=json.loads(p.read_text() if p.exists() else files[rel])
+              if unit.get('subject')!='DI05009011' or unit.get('unit')!=n:raise SystemExit('Existing unit identity conflict: '+rel)
+              if any(set(q)!={'q','marks'} for q in unit.get('exam_questions',[])):raise SystemExit('Questions-only Exam policy conflict: '+rel)
+              if p.exists():print('Preserving existing '+rel)
+              else:
+                  planned[rel]=files[rel]
+                  for d in unit.get('diagrams',[]):
+                      svg=str(root/d['file'])
+                      if svg not in files:raise SystemExit('Missing diagram payload: '+svg)
+                      planned[svg]=files[svg]
+          exporter=Path('tools/export_app_content.py');text=exporter.read_text(encoding='utf-8')
+          marker='# DiplomaOne registration: DI05009011 electrical semester 5'
+          updated=text
+          if marker not in text:
+              block="\n".join([
+                  marker,
+                  "if 'DI05009011' not in SUBJECTS:",
+                  "    SUBJECTS['DI05009011'] = ('Switchgear and Protection', 'સ્વિચગિયર અને પ્રોટેક્શન', 'Professional Core', 5, 'theory', None)",
+                  "_electrical_sem5 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(5, [])",
+                  "if 'DI05009011' not in _electrical_sem5:",
+                  "    _electrical_sem5.append('DI05009011')",
+                  "",
+              ])
+              if 'FONT_MAP = [' not in text:raise SystemExit('Exporter layout changed; review registration manually.')
+              updated=text.replace('FONT_MAP = [',block+'\nFONT_MAP = [',1)
+              ast.parse(updated)
+          # All preflight checks occur before installing this subject.
+          for rel,value in planned.items():
+              p=Path(rel)
+              if p.is_absolute() or '..' in p.parts:raise SystemExit('Unsafe source path')
+              if p.exists() and p.read_text(encoding='utf-8')!=value:raise SystemExit('Source collision: '+rel)
+          for rel,value in planned.items():
+              p=Path(rel)
+              if not p.exists():
+                  p.parent.mkdir(parents=True,exist_ok=True);p.write_text(value,encoding='utf-8');manifest.append(rel)
+          if updated!=text:exporter.write_text(updated,encoding='utf-8');manifest.append(str(exporter))
+          manifest_path.write_text(json.dumps(sorted(set(manifest))),encoding='utf-8')
+          print('Switchgear and Protection all five units and registration ready; existing source preserved.')
+          PY
+
       - name: Export source content into staging
         run: |
           python3 tools/export_app_content.py

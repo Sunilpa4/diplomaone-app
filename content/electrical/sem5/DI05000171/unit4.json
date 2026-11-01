@@ -1,0 +1,690 @@
+{
+  "subject": "DI05000171",
+  "unit": 4,
+  "title": {
+    "en": "Inverters",
+    "gu": "ઇન્વર્ટર્સ"
+  },
+  "format": "notes",
+  "languages": [
+    "en",
+    "gu"
+  ],
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "tab_labels": {
+    "programs": {
+      "en": "Practical",
+      "gu": "પ્રયોગ તથા ચકાસણી"
+    }
+  },
+  "hours": 10,
+  "weightage": 22,
+  "notes": [
+    {
+      "ref": "4.1",
+      "title": {
+        "en": "4.1 Inverter principle and classification",
+        "gu": "4.1 Inverter Principle તથા Classification"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Inverter principle and classification",
+            "gu": "Inverter Principle તથા Classification"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>An inverter converts a DC source into an alternating output by a controlled switching sequence; output frequency and waveform are set by control and topology.</p><h4>Classification / scope</h4><ul><li>Source: VSI/CSI; phase: single/three; bridge: half/full; control: square, quasi-square, PWM.</li></ul><h4>Detailed explanation and interpretation</h4><ul><li>A voltage-source inverter has a stiff DC voltage link, usually with a DCcapacitor; it must never short that link through one bridge leg. Current-source inverter constraints differ.</li><li>Single/three phase, half/full bridge, square/PWM, and voltage/current source are independent categories; output filtering and the load determine current quality.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Inverter controlled switchingથી DCને alternating outputમાં ફેરવે; frequency/waveform control/topology નક્કી કરે છે.</p><h4>વર્ગીકરણ / વ્યાપ</h4><ul><li>Source: VSI/CSI; phase: single/three; bridge: half/full; control: square/quasi-square/PWM.</li></ul><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>VSI stiff DC link/capacitor ધરાવે; legથી link short નથવો જોઈએ; CSI constraints જુદાં.</li><li>Single/three phase, half/full bridge, square/PWM, VSI/CSI અલગ axes; filter/loadથી current quality નક્કી થાય.</li></ul>"
+          },
+          "syllabus_item": "4.1",
+          "derivation": false,
+          "classification_first": true,
+          "diagram": "inverterclass"
+        }
+      ]
+    },
+    {
+      "ref": "4.2",
+      "title": {
+        "en": "4.2 HF, THD, DF and LOH: definitions with conventions",
+        "gu": "4.2 HF, THD, DF તથા LOH: Convention સાથે વ્યાખ્યા"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "HF, THD, DF and LOH: definitions with conventions",
+            "gu": "HF, THD, DF તથા LOH: Convention સાથે વ્યાખ્યા"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>Waveform quality measures quantify harmonic components relative to a declared fundamental and measurement bandwidth; their definitions must be stated before comparing values.</p><h4>Detailed explanation and interpretation</h4><ul><li>Harmonic factor HFn=Vn, rms/V1, rms; THD=√Σn&gt;1Vn, rms²/V1, rms. LOH is the lowest nonzero harmonic order above1, not the switching frequency by definition.</li><li>In classical inverter/filter texts, DF=(1/V1)√Σn&gt;1(Vn/n²)² is a frequency-weighted distortion factor. Other texts call V1/Vrms a distortion factor; these are different definitions, so declare which is used.</li><li>For ideal bipolar square output±Vdc, only odd harmonics appear, V1, rms=2√2Vdc/π, total Vrms=Vdc and voltage THD≈48.34%.RL current THD is not automatically48.34%.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>For odd n, the square-wave Fourier peak is Vn, pk=4Vdc/(nπ); even terms vanish by half-wave symmetry.</li><li>THD=√[(Vrms/V1, rms)²−1]=√(π²/8−1)≈0.4834; LOH=3and HF3=1/3.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Waveform quality measures declared fundamental/bandwidth સામે harmonics માપે; comparison પહેલાં definition જરૂરી છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>HFn=Vn, rms/V1, rms; THD=√Σn&gt;1Vn, rms²/V1, rms; LOH order1પછી lowest nonzero harmonic છે, switching frequencyની definition નહીં.</li><li>Classical inverter/filter DF=(1/V1)√Σn&gt;1(Vn/n²)²; બીજા textમાં V1/Vrmsને distortion factor કહે છે; બંને જુદાં હોવાથી convention લખો.</li><li>Ideal ±Vdc squareમાં odd harmonics, V1=2√2Vdc/π, totalV=Vdc/THD≈48.34%; RL currentTHD automatic48.34%નથી.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>Odd n માટે Vn, pk=4Vdc/(nπ); half-wave symmetryથી even terms zero.</li><li>THD=√[(Vrms/V1, rms)²−1]=√(π²/8−1)≈0.4834; LOH3/HF3=1/3.</li></ol>"
+          },
+          "syllabus_item": "4.2",
+          "derivation": true,
+          "classification_first": false,
+          "diagram": "spectrum"
+        }
+      ]
+    },
+    {
+      "ref": "4.3",
+      "title": {
+        "en": "4.3 Single-phase half bridge VSI: R and RL",
+        "gu": "4.3 Single-phase Half Bridge VSI: R તથા RL"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Single-phase half bridge VSI: R and RL",
+            "gu": "Single-phase Half Bridge VSI: R તથા RL"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A half bridge uses two controlled switches and a split DCbus to alternate the load terminal between positive and negative half-bus voltages relative to the midpoint.</p><h4>Construction / circuit connections</h4><ol><li>Two series switches form one leg across the DCbus; split capacitors form midpoint O; load connects leg node A to O; each switch has a reverse-current path.</li></ol><h4>Working / conduction intervals</h4><ol><li>Top switch commands+Vdc/2, bottom commands−Vdc/2 with nonoverlap; never command both ON.</li><li>During RLpolarity reversal, current initially keeps its sign through a diode before crossing zero; the DC source/link must handle returned energy.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Vdc here means total rail-to-rail DC voltage, so output levels are±Vdc/2.Capacitor midpoint balance and dead time are essential.</li><li>For R, current follows voltage. For RL, current lags and the appropriate antiparallel diode conducts when its sign is opposite the commanded voltage.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>For square switching, total Vrms=Vdc/2; fundamental V1, rms=√2Vdc/π.</li><li>At Vdc=24V, R=12Ω: output±12V, Irms=1A, P=12W, V1, rms≈10.80V.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Half bridge બે switches/split DC busથી midpoint સામે loadને positive/negative half-bus voltage આપે છે.</p><h4>Construction / સર્કિટનાં જોડાણ</h4><ol><li>DC across two series switches/split capacitors midpoint O/load A–O/reverse-current diode paths.</li></ol><h4>Working / Conductionનો ક્રમ</h4><ol><li>Top+Vdc/2/bottom−Vdc/2, nonoverlap; બંને ON નહીં.</li><li>RL reversalમાં I sign પહેલા diodeથી ચાલુ/પછી zero; DC link returned energy handle કરે.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Vdc total rail-to-rail છે, output±Vdc/2; midpoint balance/dead time જરૂરી.</li><li>Rમાં I followsV; RLમાં lag/voltage સામે I sign હોય ત્યારે diode path મળે.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>Squareમાં totalVrms=Vdc/2; V1, rms=√2Vdc/π.</li><li>Vdc24V/R12Ωમાં±12V/Irms1A/P12W/V1≈10.80V.</li></ol>"
+          },
+          "syllabus_item": "4.3",
+          "derivation": true,
+          "classification_first": false,
+          "diagram": "halfbridge"
+        },
+        {
+          "h": {
+            "en": "Single-phase full bridge VSI: R and RL",
+            "gu": "Single-phase Full Bridge VSI: R તથા RL"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A full bridge uses two switching legs to impose a positive, negative or zero differential voltage across a load without requiring a split-bus midpoint.</p><h4>Construction / circuit connections</h4><ol><li>Four switches with antiparallel diode paths form two legs across Vdc; load is between leg nodes Aand B.</li><li>DCdecoupling, precharge if required, current sensing, driver interlock and appropriate snubber/layout complete practical design.</li></ol><h4>Working / conduction intervals</h4><ol><li>Alternate diagonal pairs for square output±Vdc; insert a designed nonoverlap transition.</li><li>For RL, trace current sign independently of switch command; voltage can reverse while current remains in its old direction.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Label AupperQ1, AlowerQ2, BupperQ3, BlowerQ4.Positive output usesQ1+Q4; negative usesQ2+Q3; zero states use both uppers or both lowers with safe commutation.</li><li>R current=vo/R; RL current is continuous within ideal inductance and can flow through reverse diodes during regeneration/freewheel. Dead time prevents shoot-through but introduces waveform error.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>Square total Vrms=Vdc; V1, rms=2√2Vdc/π.At24V, R=12Ω, Irms=2A, P=48W, V1, rms≈21.61V.</li><li>For sinusoidal fundamental on RL, Z1=√(R²+(ωL)²), I1=V1/Z1 with lag atan(ωL/R); this is not total RMSwhen harmonics remain.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Full bridge બે legsથી split midpoint વિના load across positive, negative/zero differential V આપે છે.</p><h4>Construction / સર્કિટનાં જોડાણ</h4><ol><li>Four switches/diodes બે legs બનાવે; load A–Bવચ્ચે.</li><li>DC decoupling, required precharge, current sensing/interlock/snubber-layout practical design પૂરું કરે.</li></ol><h4>Working / Conductionનો ક્રમ</h4><ol><li>Diagonal pairs alternateથી±Vdc; designed nonoverlap ઉમેરો.</li><li>RLમાં I sign commandથી અલગ trace; Vreverse છતાં Iજૂની directionમાં રહે.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Labels: AupperQ1/AlowerQ2/BupperQ3/BlowerQ4; positiveQ1+Q4/negativeQ2+Q3; zero બંને upper/lower, safe commutation સાથે.</li><li>R I=vo/R; RLમાં continuity/reverse diodesથી energy paths; dead time short અટકાવે પણ waveform error આપે.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>Square totalV=Vdc/V1=2√2Vdc/π; 24V/R12Ωમાં Irms2A/P48W/V1≈21.61V.</li><li>RL fundamentalમાં Z1=√(R²+(ωL)²), I1=V1/Z1/lag atan(ωL/R); harmonics હોય તો totalRMS નહીં.</li></ol>"
+          },
+          "syllabus_item": "4.3",
+          "derivation": true,
+          "classification_first": false,
+          "diagram": "fullbridge"
+        }
+      ]
+    },
+    {
+      "ref": "4.4",
+      "title": {
+        "en": "4.4 Single-pulse and multiple-pulse modulation",
+        "gu": "4.4 Single-pulse તથા Multiple-pulse Modulation"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Single-pulse and multiple-pulse modulation",
+            "gu": "Single-pulse તથા Multiple-pulse Modulation"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>Pulse-width control changes the conducting duration of inverter output pulses to regulate its RMS/fundamental voltage and redistribute harmonics.</p><h4>Detailed explanation and interpretation</h4><ul><li>Single-pulse control uses one centred pulse per half-cycle; multiple-pulse control uses several pulses per half-cycle. Their fundamental and total RMSmust not be treated as equal.</li><li>With a pulse beginningδand endingπ−δin the positive half, and negative symmetry, the pulse widthγ=π−2δ.</li><li>Multiple pulses shift significant harmonics toward pulse repetition bands but require more switching events and loss; not every increase in pulse count improves every harmonic.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>For the centred single-pulse waveform, total Vrms=Vdc√(γ/π).</li><li>Fourier integration gives V1, pk=(4Vdc/π)cosδ=(4Vdc/π)sin(γ/2); V1, rms=V1, pk/√2.</li><li>At Vdc=24V, γ=120°, δ=30°: Vrms≈19.60V, V1, rms≈18.71V.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Pulse-width control output pulse duration બદલી RMS/fundamental regulate/harmonics redistribute કરે છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Single-pulse દર half એક centred pulse; multiple-pulse ઘણા pulses; fundamental/totalRMS સમાન નહીં.</li><li>Positive pulse δથીπ−δ/negative symmetryમાં widthγ=π−2δ.</li><li>Multiple pulses harmonics higher bandsમાં ખસેડે પણ switching/loss વધારે; દરેક harmonic સુધરે એવું નહીં.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>Centred single-pulseમાં totalVrms=Vdc√(γ/π).</li><li>Fourierથી V1, pk=(4Vdc/π)cosδ=(4Vdc/π)sin(γ/2); V1, rms=V1, pk/√2.</li><li>24V/γ120°/δ30°માં Vrms≈19.60V/V1≈18.71V.</li></ol>"
+          },
+          "syllabus_item": "4.4",
+          "derivation": true,
+          "classification_first": false,
+          "diagram": "pulse"
+        },
+        {
+          "h": {
+            "en": "Sinusoidal PWM: reference, carrier and linear range",
+            "gu": "Sinusoidal PWM: Reference, Carrier તથા Linear Range"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>SPWMcompares a sinusoidal reference with a high-frequency carrier to determine switching instants whose averaged fundamental follows the reference.</p><h4>Detailed explanation and interpretation</h4><ul><li>Amplitude ratio ma=Vref, pk/Vcarrier, pk; frequency ratio mf=fc/f1.In the linear region0≤ma≤1, fundamental output is approximately proportional to ma.</li><li>Overmodulation clips reference comparison and changes harmonics/linearity; sampling, dead time, DCripple and filter design affect actual output.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>For ideal full-bridge bipolar SPWM linear operation, V1, pk≈maVdc; V1, rms≈maVdc/√2.</li><li>For half bridge with total DCbus Vdc, V1, rms≈maVdc/(2√2).</li><li>With24Vbus, ma=0.8, fc=2kHz, f1=50Hz: mf=40and full-bridge fundamental≈13.58Vrms, not total unfiltered PWM RMS.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>SPWM sinusoidal referenceને high-frequency carrier સાથે compare કરીને switching instants નક્કી કરે છે જેથી averaged fundamental reference અનુસરે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>ma=Vref, pk/Vcarrier, pk/mf=fc/f1; linear0≤ma≤1માં fundamental ma પ્રમાણે.</li><li>Overmodulation clipping/harmonics-linearity બદલે; sampling, dead time, DCripple/filter actual output બદલે.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>Ideal full-bridge bipolar SPWM linearમાં V1, pk≈maVdc/V1, rms≈maVdc/√2.</li><li>Half bridge totalVdcમાં V1, rms≈maVdc/(2√2).</li><li>24V/ma0.8/fc2kHz/f1 50Hzમાં mf40/full-bridge fundamental≈13.58Vrms, total PWM RMS નહીં.</li></ol>"
+          },
+          "syllabus_item": "4.4",
+          "derivation": true,
+          "classification_first": false,
+          "diagram": "spwm"
+        },
+        {
+          "h": {
+            "en": "Bipolar versus unipolar full-bridge PWM",
+            "gu": "Bipolar સામે Unipolar Full-bridge PWM"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>Bipolar PWM switches the bridge differential output between+Vdc and−Vdc; unipolar PWMcommands its legs with opposite references to obtain+Vdc, zero and−Vdc levels.</p><h4>Detailed explanation and interpretation</h4><ul><li>In bipolar PWM, the diagonal pair changes together under safe dead time. In unipolar, leg Acompares+sinand leg Bcompares−sinto the same carrier.</li><li>Both give the same ideal linear fundamental maVdc peak for full bridge, but differential ripple spectra differ; unipolar often reduces low-band ripple and shifts prominent output ripple toward2fc.</li><li>Zero differential output does not mean both leg nodes are at earth potential. Common-mode voltage, device transitions and EMIstill matter.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Bipolar differential output+Vdc/−Vdc વચ્ચે; unipolar opposite referencesથી+Vdc, zero/−Vdc આપે છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Bipolarમાં diagonals safe dead timeથી બદલાય; unipolarમાં A+sin/B−sin same carrier સામે.</li><li>બંનેનો ideal fundamental peak maVdc; differential ripple જુદી/unipolar prominent ripple ઘણીવાર2fcતરફ.</li><li>Zero differential એટલે earth potential નહીં; common-mode/transitions/EMI મહત્વનાં.</li></ul>"
+          },
+          "syllabus_item": "4.4",
+          "derivation": false,
+          "classification_first": false,
+          "diagram": "pwmcompare"
+        }
+      ]
+    },
+    {
+      "ref": "4.5",
+      "title": {
+        "en": "4.5 Three-phase bridge: construction and180°mode",
+        "gu": "4.5 Three-phase Bridge: Construction તથા180°Mode"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Three-phase bridge: construction and180°mode",
+            "gu": "Three-phase Bridge: Construction તથા180°Mode"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A three-phase VSI uses three bridge legs to produce three phase-displaced pole voltages from a DCbus; load phase voltage depends on the load neutral connection.</p><h4>Construction / circuit connections</h4><ol><li>Six switches with reverse diodes, three gate-driver pairs, DCdecoupling, current protection and A/B/Cload terminals.</li></ol><h4>Working / conduction intervals</h4><ol><li>Apply the six-state sequence with proper dead time; use neutral displacement to calculate star phase voltage.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Use a consistent convention: AupperQ1/AlowerQ4, BupperQ3/BlowerQ6, CupperQ5/ClowerQ2.Each upper has a complementary lower; never mix this numbering with the single-phase bridge labels.</li><li>In180°mode each device is commanded for180°and three devices conduct ideally, one per leg, with states changing every60°.</li><li>One upper-state sequence abc is100, 110, 010, 011, 001, 101.For an isolated star neutral, van=Vdc[Sa−(Sa+Sb+Sc)/3]and vab=Vdc(Sa−Sb).</li><li>Phase steps are±Vdc/3or±2Vdc/3and line steps are0, ±Vdc; the pole-to-negative-rail voltage is not the load phase voltage.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>Ideal six-step180°fundamental line RMS=√6Vdc/π≈0.7797Vdc; total line RMS=√(2/3)Vdc.</li><li>At Vdc=24V: fundamental line≈18.71Vrms, total line≈19.60Vrms.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Three-phase VSI ત્રણ legsથી phase-displaced pole voltages બનાવે; phase voltage load-neutral connection પર આધારિત છે.</p><h4>Construction / સર્કિટનાં જોડાણ</h4><ol><li>Six switches/diodes, three driver pairs, DCdecoupling/current protection/A-B-Cload.</li></ol><h4>Working / Conductionનો ક્રમ</h4><ol><li>Six-state/dead time લાગુ કરી neutral displacementથી phaseV ગણો.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Convention: AupperQ1/AlowerQ4, BupperQ3/BlowerQ6, CupperQ5/ClowerQ2; single-phase labels સાથે mix નહીં.</li><li>180°modeમાં દરેક device180°/એક પ્રતિ leg ત્રણ devices/દર60°state બદલાય.</li><li>Upper state sequence100, 110, 010, 011, 001, 101; isolated starમાં van=Vdc[Sa−(Sa+Sb+Sc)/3]/vab=Vdc(Sa−Sb).</li><li>Phase steps±Vdc/3/±2Vdc/3, line0/±Vdc; pole-negative rail load phase નથી.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>Ideal six-step180°fundamental lineRMS=√6Vdc/π≈0.7797Vdc; total lineRMS=√(2/3)Vdc.</li><li>Vdc24Vમાં fundamental line≈18.71Vrms/total line≈19.60Vrms.</li></ol>"
+          },
+          "syllabus_item": "4.5",
+          "derivation": true,
+          "classification_first": false,
+          "diagram": "three180"
+        },
+        {
+          "h": {
+            "en": "Three-phase120°mode and conduction table",
+            "gu": "Three-phase120°Mode તથા Conduction Table"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>In120°conduction control, each device has a120°command interval and one upper plus one lower device connect two phases at each60°sector; the third phase is not actively connected.</p><h4>Detailed explanation and interpretation</h4><ul><li>With the declared numbering, use pairsQ1Q6, Q1Q2, Q3Q2, Q3Q4, Q5Q4, Q5Q6for successive60°sectors.</li><li>For a balanced isolated-star Rload, the two conducting phase voltages are±Vdc/2and the floating phase is0relative to the instantaneous neutral.</li><li>With RL load, the nominally uncommanded phase can carry diode current; do not apply the R-load floating-phase values blindly. For both modes, command timing and actual current conduction are different concepts.</li><li>Compared with180°, 120°has60°uncommanded interval per device and two commanded devices rather than three; waveforms and utilisation differ.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>120°modeમાં દરેક device120°command/દર60°એક upper-lowerથી બે phases જોડાય, ત્રીજી actively disconnected છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Declared numberingમાં successive60°pairs Q1Q6, Q1Q2, Q3Q2, Q3Q4, Q5Q4, Q5Q6.</li><li>Balanced isolated-star Rમાં connected phases±Vdc/2/floating0relative neutral.</li><li>RLમાં uncommanded phase diode current લઈ શકે; R floating values blindly નહીં.Command/current conduction જુદાં.</li><li>180°ની સામે120°માં device દીઠ60°uncommanded/two devices; waveform/utilisation જુદાં.</li></ul>"
+          },
+          "syllabus_item": "4.5",
+          "derivation": false,
+          "classification_first": false,
+          "diagram": "three120"
+        }
+      ]
+    },
+    {
+      "ref": "J6",
+      "title": {
+        "en": "J6 Project 6. MOSFET/IGBTsingle-phase inverter",
+        "gu": "J6 MOSFET/IGBT Single-phase Inverter"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Project 6. MOSFET/IGBTsingle-phase inverter",
+            "gu": "MOSFET/IGBT Single-phase Inverter"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A source-suggested learning plan, not a claim that fabrication, testing or a visit has occurred.</p><h4>Working / conduction intervals</h4><ol><li>Write objective, ratings, assumptions, roles, resources and approved safe work boundary before starting.</li><li>Choose an isolated low-energy bridge, consistent gate labels, nonoverlap and current protection; Rload first, RL only with approved energy paths.</li><li>Check expected results independently and obtain instructor approval before any permitted low-energy demonstration.</li><li>Submit gate/output traces, total versus fundamental RMS and diode-current explanation; do not connect to utility wiring.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Choose an isolated low-energy bridge, consistent gate labels, nonoverlap and current protection; Rload first, RL only with approved energy paths.</li><li>Submit gate/output traces, total versus fundamental RMS and diode-current explanation; do not connect to utility wiring.</li></ul><h4>Reliability and precautions</h4><ul><li>Keep actual date, measurements, teacher sign and portfolio evidence blank until genuine; no exposed mains, battery abuse or unqualified high-energy switching.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Source-suggested learning plan છે, fabrication/test/visit થઈ ગયાનો claim નહીં.</p><h4>Working / Conductionનો ક્રમ</h4><ol><li>પહેલાં objective, ratings, assumptions, roles, resources/safeboundaryલખો.</li><li>Lowenergybridge/labels/nonoverlap/currentprotection; Rપહેલાં/RLapprovedpathsથી.</li><li>Expectedresultsindependentlycheck/lowenergydemoપહેલાં approval.</li><li>Gate/output, total/fundamental/diodeexplanation; utilitywireનહીં.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Lowenergybridge/labels/nonoverlap/currentprotection; Rપહેલાં/RLapprovedpathsથી.</li><li>Gate/output, total/fundamental/diodeexplanation; utilitywireનહીં.</li></ul><h4>વિશ્વસનીયતા તથા સાવચેતી</h4><ul><li>Actualdate/readings/sign/evidencegenuineમળેત્યાંસુધી blank; exposedmains, batteryabuse/highenergyનહીં.</li></ul>"
+          },
+          "syllabus_item": "J6",
+          "derivation": false,
+          "classification_first": false,
+          "diagram": "fullbridge"
+        }
+      ]
+    },
+    {
+      "ref": "A7",
+      "title": {
+        "en": "A7 Activity 7. Compare inverter PWMtechniques",
+        "gu": "A7 Inverter PWM Techniques Compare"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Activity 7. Compare inverter PWMtechniques",
+            "gu": "Inverter PWM Techniques Compare"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A source-suggested learning plan, not a claim that fabrication, testing or a visit has occurred.</p><h4>Working / conduction intervals</h4><ol><li>Write objective, ratings, assumptions, roles, resources and approved safe work boundary before starting.</li><li>Compare centred single, multiple, SPWM, bipolar and unipolar schemes at declared bus/load/frequency.</li><li>Check expected results independently and obtain instructor approval before any permitted low-energy demonstration.</li><li>Report total RMS, fundamental, HF/THD/LOH and switching loss trade-off with the chosen DFdefinition.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Compare centred single, multiple, SPWM, bipolar and unipolar schemes at declared bus/load/frequency.</li><li>Report total RMS, fundamental, HF/THD/LOH and switching loss trade-off with the chosen DFdefinition.</li></ul><h4>Reliability and precautions</h4><ul><li>Keep actual date, measurements, teacher sign and portfolio evidence blank until genuine; no exposed mains, battery abuse or unqualified high-energy switching.</li></ul><p>Source report requirement:about5pages per activity,with genuine physical/digital evidence for the student portfolio.</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Source-suggested learning plan છે, fabrication/test/visit થઈ ગયાનો claim નહીં.</p><h4>Working / Conductionનો ક્રમ</h4><ol><li>પહેલાં objective, ratings, assumptions, roles, resources/safeboundaryલખો.</li><li>Declaredbus/load/fમાં single, multiple, SPWM, bipolar/unipolarcompare.</li><li>Expectedresultsindependentlycheck/lowenergydemoપહેલાં approval.</li><li>TotalRMS/fundamental/HF-THD-LOH/loss/DFdefinitionreport.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Declaredbus/load/fમાં single, multiple, SPWM, bipolar/unipolarcompare.</li><li>TotalRMS/fundamental/HF-THD-LOH/loss/DFdefinitionreport.</li></ul><h4>વિશ્વસનીયતા તથા સાવચેતી</h4><ul><li>Actualdate/readings/sign/evidencegenuineમળેત્યાંસુધી blank; exposedmains, batteryabuse/highenergyનહીં.</li></ul><p>Source પ્રમાણે દરેક Activityનો આશરે5પાનાનો report તથા student portfolio માટે genuine physical/digital evidence તૈયાર કરવો.</p>"
+          },
+          "syllabus_item": "A7",
+          "derivation": false,
+          "classification_first": false,
+          "diagram": "pwmcompare"
+        }
+      ]
+    }
+  ],
+  "programs": [
+    {
+      "title": {
+        "en": "Official practical guides",
+        "gu": "Official પ્રયોગ માર્ગદર્શિકા"
+      },
+      "format": "rich_cards",
+      "items": [
+        {
+          "h": {
+            "en": "11. Single-phase inverter board test",
+            "gu": "Single-phase Inverter Board Test"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A source-listed performance guide; actual execution, date, readings and signatures are not claimed.</p><h4>Construction / circuit connections</h4><ol><li>Isolated≤24VDClimited bridge board, nonoverlap drivers, R/RLdummy load, DSO/differential probe and current sensor.</li><li>Use declared Q1/Q2left and Q3/Q4right labels; load between A/B; never ground a scope clip to a switching leg without a safe measurement plan.</li></ol><h4>Working / conduction intervals</h4><ol><li>Review actual circuit/device data, instrument/probe ratings, safe stop/isolation and stored-energy discharge before work.</li><li>Power OFF: verify polarity, earth/return, gate mapping, load rating and current limit; never defeat a protection/interlock.</li><li>Verify gate nonoverlap with DC power disconnected and check each device off-state before enabling bus.</li><li>Apply square output at low current, then approved PWM; record output frequency, RMS/fundamental and RL current paths.</li><li>Record only genuinely measured/simulated results with units, conditions and evidence; leave actual columns blank until performed.</li><li>Return to safe state, isolate, verify stored energy discharged and compare result with assumptions/losses rather than fabricating expected readings.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Source number11, internal identifier11; CO4.Individual suggested hours/compulsory stars are not provided.</li><li>Student construction is isolated, current-limited≤24Vonly with every generated output/stored energy assessed; higher-energy tests use approved guarded trainers and qualified supervision.</li></ul><h4>Worked example</h4><ol><li>24Vfull-bridge square: total24Vrms, fundamental21.61Vrms; halfbridge values are half.</li></ol><h4>Reliability and precautions</h4><ul><li>Abnormal bus current/shoot-through requires immediate safe shutdown; do not increase dead time blindly without checking mapping/polarity.</li><li>Never lift oscilloscope protective earth or attach an earth-referenced ground clip across a floating bridge. Use correctly rated differential/isolated measurement; an isolation transformer is not blanket probe safety.</li></ul><h4>Blank actual observation record</h4><div style=\"overflow:auto\"><table><tr><th>Setting / α / D / f</th><th>V / I / waveform</th><th>RMS / average / ripple / T</th><th>Actual evidence / remarks</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>આ sourceમાં સૂચવેલ પ્રયોગની માર્ગદર્શિકા છે; પ્રયોગ ખરેખર કર્યાનો, તારીખ, readings કે સહીનો દાવો નથી.</p><h4>Construction / સર્કિટનાં જોડાણ</h4><ol><li>Isolated≤24VDClimitedbridge/driver/R-RL load/DSO-current.</li><li>DeclaredleftQ1/Q2rightQ3/Q4/loadA-B; switchinglegપર scopeclipblindlyનહીં.</li></ol><h4>Working / Conductionનો ક્રમ</h4><ol><li>કામ પહેલાં actual circuit, device data તથા probe ratings વાંચો.Safe stop, isolation અને stored-energy dischargeની પદ્ધતિ સમજો.</li><li>Power OFF રાખીને polarity, return, gate mapping, load rating અને current limit તપાસો.Protection કે interlock bypass નકરો.</li><li>BusOFFમાં nonoverlap/offstatesverify.</li><li>Lowcurrent square/approvedPWM; f, RMS/fundamental/RLpathsrecord.</li><li>ખરેખર માપેલા કે simulate કરેલા results જ units, conditions તથા evidence સાથે લખો.પ્રયોગ પહેલાં actual readingsનાં ખાના ખાલી રાખો.</li><li>Setupને safe stateમાં લાવો, isolate કરો અને discharge verify કરો.Assumptions તથા lossesથી તફાવત સમજાવો; expected readingsને actual તરીકે નલખો.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Source number11, internalID11; CO4; individual hours/compulsory stars આપેલ નથી.</li><li>વિદ્યાર્થીનું construction માત્ર isolated, current-limited≤24Vમાં કરવું; generated output અને stored energyનું પણ assessment કરવું.Higher-energy test approved guarded trainer પર qualified supervisionથી જ કરવો.</li></ul><h4>ઉકેલેલું ઉદાહરણ</h4><ol><li>24Vfullsquaretotal24Vrms/fundamental21.61Vrms; halfમાંઅડધાં.</li></ol><h4>વિશ્વસનીયતા તથા સાવચેતી</h4><ul><li>AbnormalbusIમાં safe shutdown; mapping/polarityવિનામાત્ર deadtimeવધારવુંનહીં.</li><li>Oscilloscopeનું protective earth ક્યારેય દૂર નકરો.Floating bridge પર earth-referenced ground clip નજોડો; યોગ્ય rated differential/isolated measurement વાપરો.Isolation transformerથી દરેક probing method safe થઈ જતી નથી.</li></ul><h4>Actual Observation માટે ખાલી Record</h4><div style=\"overflow:auto\"><table><tr><th>Setting / α / D / f</th><th>V / I / Waveform</th><th>RMS / Average / Ripple / T</th><th>Actual Evidence / નોંધ</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>"
+          },
+          "syllabus_item": "P11",
+          "derivation": false,
+          "classification_first": false,
+          "diagram": "fullbridge"
+        },
+        {
+          "h": {
+            "en": "12. Half/full bridge: performance or simulation",
+            "gu": "Half/Full Bridge: Performance અથવા Simulation"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A source-listed performance guide; actual execution, date, readings and signatures are not claimed.</p><h4>Construction / circuit connections</h4><ol><li>Approved inverter trainer or offline state model, split-bus reference where required, R/RL load and waveform tools.</li><li>Halfbridge load to midpoint; fullbridge load Ato B; use total DCbus definition consistently.</li></ol><h4>Working / conduction intervals</h4><ol><li>Review actual circuit/device data, instrument/probe ratings, safe stop/isolation and stored-energy discharge before work.</li><li>Power OFF: verify polarity, earth/return, gate mapping, load rating and current limit; never defeat a protection/interlock.</li><li>Compare equal total bus and equal load at the same frequency; plot voltage and current separately.</li><li>For RL, trace diodes during opposite-sign voltage/current; record neutral/midpoint assumptions and energy return.</li><li>Record only genuinely measured/simulated results with units, conditions and evidence; leave actual columns blank until performed.</li><li>Return to safe state, isolate, verify stored energy discharged and compare result with assumptions/losses rather than fabricating expected readings.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Source number12, internal identifier12; CO4.Individual suggested hours/compulsory stars are not provided.</li><li>Student construction is isolated, current-limited≤24Vonly with every generated output/stored energy assessed; higher-energy tests use approved guarded trainers and qualified supervision.</li></ul><h4>Worked example</h4><ol><li>For total24Vbus, R12Ω: half12Wand full48Wideal square; not the same output at equal bus.</li></ol><h4>Reliability and precautions</h4><ul><li>RMSmeter bandwidth and PWMresponse can mislead; compare integrated v²and fundamental extraction.</li><li>Never lift oscilloscope protective earth or attach an earth-referenced ground clip across a floating bridge. Use correctly rated differential/isolated measurement; an isolation transformer is not blanket probe safety.</li></ul><h4>Blank actual observation record</h4><div style=\"overflow:auto\"><table><tr><th>Setting / α / D / f</th><th>V / I / waveform</th><th>RMS / average / ripple / T</th><th>Actual evidence / remarks</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>આ sourceમાં સૂચવેલ પ્રયોગની માર્ગદર્શિકા છે; પ્રયોગ ખરેખર કર્યાનો, તારીખ, readings કે સહીનો દાવો નથી.</p><h4>Construction / સર્કિટનાં જોડાણ</h4><ol><li>Approvedtrainer/offlinemodel/splitreference/R-RL/waveformtools.</li><li>Halfloadmidpoint/fullA-B; totalVdcdefinitionconsistent.</li></ol><h4>Working / Conductionનો ક્રમ</h4><ol><li>કામ પહેલાં actual circuit, device data તથા probe ratings વાંચો.Safe stop, isolation અને stored-energy dischargeની પદ્ધતિ સમજો.</li><li>Power OFF રાખીને polarity, return, gate mapping, load rating અને current limit તપાસો.Protection કે interlock bypass નકરો.</li><li>Samebus/load/fમાં V/Iઅલગ plot.</li><li>RLમાં oppositeV/Iવખત diodes/neutral/energyreturnrecord.</li><li>ખરેખર માપેલા કે simulate કરેલા results જ units, conditions તથા evidence સાથે લખો.પ્રયોગ પહેલાં actual readingsનાં ખાના ખાલી રાખો.</li><li>Setupને safe stateમાં લાવો, isolate કરો અને discharge verify કરો.Assumptions તથા lossesથી તફાવત સમજાવો; expected readingsને actual તરીકે નલખો.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Source number12, internalID12; CO4; individual hours/compulsory stars આપેલ નથી.</li><li>વિદ્યાર્થીનું construction માત્ર isolated, current-limited≤24Vમાં કરવું; generated output અને stored energyનું પણ assessment કરવું.Higher-energy test approved guarded trainer પર qualified supervisionથી જ કરવો.</li></ul><h4>ઉકેલેલું ઉદાહરણ</h4><ol><li>Total24V/R12Ωમાં half12W/full48Wideal; equalbusમાં sameoutputનહીં.</li></ol><h4>વિશ્વસનીયતા તથા સાવચેતી</h4><ul><li>Meterbandwidth/PWMresponseભ્રમઆપે; v²integration/fundamentalcompare.</li><li>Oscilloscopeનું protective earth ક્યારેય દૂર નકરો.Floating bridge પર earth-referenced ground clip નજોડો; યોગ્ય rated differential/isolated measurement વાપરો.Isolation transformerથી દરેક probing method safe થઈ જતી નથી.</li></ul><h4>Actual Observation માટે ખાલી Record</h4><div style=\"overflow:auto\"><table><tr><th>Setting / α / D / f</th><th>V / I / Waveform</th><th>RMS / Average / Ripple / T</th><th>Actual Evidence / નોંધ</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>"
+          },
+          "syllabus_item": "P12",
+          "derivation": false,
+          "classification_first": false,
+          "diagram": "halfbridge"
+        },
+        {
+          "h": {
+            "en": "13. Single, multiple and sinusoidal PWMsimulation",
+            "gu": "Single, Multiple તથા Sinusoidal PWM Simulation"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A source-listed performance guide; actual execution, date, readings and signatures are not claimed.</p><h4>Construction / circuit connections</h4><ol><li>Offline pulse comparator/waveform generator, DCbus, reference/carrier parameters and Fourier calculator.</li><li>Use centred single-pulse definition; multiple pulses within each half; SPWM carrier comparison; declare unipolar/bipolar fullbridge mapping.</li></ol><h4>Working / conduction intervals</h4><ol><li>Review actual circuit/device data, instrument/probe ratings, safe stop/isolation and stored-energy discharge before work.</li><li>Power OFF: verify polarity, earth/return, gate mapping, load rating and current limit; never defeat a protection/interlock.</li><li>Hold bus/fundamental frequency f1 constant and vary pulse width, number or ma; report total RMS and fundamental separately.</li><li>Calculate HF/THD/LOH with stated sample count/bandwidth; halve timestep and check convergence/aliasing.</li><li>Record only genuinely measured/simulated results with units, conditions and evidence; leave actual columns blank until performed.</li><li>Return to safe state, isolate, verify stored energy discharged and compare result with assumptions/losses rather than fabricating expected readings.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Source number13, internal identifier13; CO4.Individual suggested hours/compulsory stars are not provided.</li><li>Student construction is isolated, current-limited≤24Vonly with every generated output/stored energy assessed; higher-energy tests use approved guarded trainers and qualified supervision.</li></ul><h4>Worked example</h4><ol><li>24V, ma0.8linear SPWMgives13.58Vrmsfundamental ideally; it is not total switched RMS.</li></ol><h4>Reliability and precautions</h4><ul><li>Source practical13maps toCO4(layout-preserved table checked); do not invent CO5or claim real hardware PWM test.</li><li>Never lift oscilloscope protective earth or attach an earth-referenced ground clip across a floating bridge. Use correctly rated differential/isolated measurement; an isolation transformer is not blanket probe safety.</li></ul><h4>Blank actual observation record</h4><div style=\"overflow:auto\"><table><tr><th>Setting / α / D / f</th><th>V / I / waveform</th><th>RMS / average / ripple / T</th><th>Actual evidence / remarks</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>આ sourceમાં સૂચવેલ પ્રયોગની માર્ગદર્શિકા છે; પ્રયોગ ખરેખર કર્યાનો, તારીખ, readings કે સહીનો દાવો નથી.</p><h4>Construction / સર્કિટનાં જોડાણ</h4><ol><li>Offlinepulse/comparator/Vdc/reference-carrier/Fourier.</li><li>Centredsingle/multipleperhalf/SPWMcomparison/unipolar-bipolarmappingdeclare.</li></ol><h4>Working / Conductionનો ક્રમ</h4><ol><li>કામ પહેલાં actual circuit, device data તથા probe ratings વાંચો.Safe stop, isolation અને stored-energy dischargeની પદ્ધતિ સમજો.</li><li>Power OFF રાખીને polarity, return, gate mapping, load rating અને current limit તપાસો.Protection કે interlock bypass નકરો.</li><li>Bus/f1same રાખી width/count/maવાળો; totalRMS/fundamentalઅલગ.</li><li>HF/THD/LOHમાં samplecount/bandwidth; stephalf/convergence-aliasingcheck.</li><li>ખરેખર માપેલા કે simulate કરેલા results જ units, conditions તથા evidence સાથે લખો.પ્રયોગ પહેલાં actual readingsનાં ખાના ખાલી રાખો.</li><li>Setupને safe stateમાં લાવો, isolate કરો અને discharge verify કરો.Assumptions તથા lossesથી તફાવત સમજાવો; expected readingsને actual તરીકે નલખો.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Source number13, internalID13; CO4; individual hours/compulsory stars આપેલ નથી.</li><li>વિદ્યાર્થીનું construction માત્ર isolated, current-limited≤24Vમાં કરવું; generated output અને stored energyનું પણ assessment કરવું.Higher-energy test approved guarded trainer પર qualified supervisionથી જ કરવો.</li></ul><h4>ઉકેલેલું ઉદાહરણ</h4><ol><li>24V/ma0.8માં13.58Vrmsfundamentalideal, totalRMSનહીં.</li></ol><h4>વિશ્વસનીયતા તથા સાવચેતી</h4><ul><li>Source13CO4છે(layoutchecked); CO5/realhardwaretestinventનહીં.</li><li>Oscilloscopeનું protective earth ક્યારેય દૂર નકરો.Floating bridge પર earth-referenced ground clip નજોડો; યોગ્ય rated differential/isolated measurement વાપરો.Isolation transformerથી દરેક probing method safe થઈ જતી નથી.</li></ul><h4>Actual Observation માટે ખાલી Record</h4><div style=\"overflow:auto\"><table><tr><th>Setting / α / D / f</th><th>V / I / Waveform</th><th>RMS / Average / Ripple / T</th><th>Actual Evidence / નોંધ</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>"
+          },
+          "syllabus_item": "P13",
+          "derivation": false,
+          "classification_first": false,
+          "diagram": "pwmcompare"
+        },
+        {
+          "h": {
+            "en": "14. Three-phase120°and180°inverter",
+            "gu": "Three-phase120°તથા180°Inverter"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A source-listed performance guide; actual execution, date, readings and signatures are not claimed.</p><h4>Construction / circuit connections</h4><ol><li>Offline conduction table model or approved guarded three-phase trainer, balanced R/RL load and correct probes.</li><li>Declare three-phase numbering: AQ1/Q4, BQ3/Q6, CQ5/Q2; isolated star neutral unless otherwise specified.</li></ol><h4>Working / conduction intervals</h4><ol><li>Review actual circuit/device data, instrument/probe ratings, safe stop/isolation and stored-energy discharge before work.</li><li>Power OFF: verify polarity, earth/return, gate mapping, load rating and current limit; never defeat a protection/interlock.</li><li>For180°record six upper states and calculate neutral displacement/line voltages.</li><li>For120°record the six commanded pairs and Rload floating phase; repeat RL only with the actual diode current model or approved trainer.</li><li>Record only genuinely measured/simulated results with units, conditions and evidence; leave actual columns blank until performed.</li><li>Return to safe state, isolate, verify stored energy discharged and compare result with assumptions/losses rather than fabricating expected readings.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Source number14, internal identifier14; CO4.Individual suggested hours/compulsory stars are not provided.</li><li>Student construction is isolated, current-limited≤24Vonly with every generated output/stored energy assessed; higher-energy tests use approved guarded trainers and qualified supervision.</li></ul><h4>Worked example</h4><ol><li>At24V, 180°six-step fundamental line18.71Vrms, total line19.60Vrms; pole voltage is not phase voltage.</li></ol><h4>Reliability and precautions</h4><ul><li>Never combine the1-ph and3-ph Qlabels; verify no same-leg simultaneous command.</li><li>Never lift oscilloscope protective earth or attach an earth-referenced ground clip across a floating bridge. Use correctly rated differential/isolated measurement; an isolation transformer is not blanket probe safety.</li></ul><h4>Blank actual observation record</h4><div style=\"overflow:auto\"><table><tr><th>Setting / α / D / f</th><th>V / I / waveform</th><th>RMS / average / ripple / T</th><th>Actual evidence / remarks</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>આ sourceમાં સૂચવેલ પ્રયોગની માર્ગદર્શિકા છે; પ્રયોગ ખરેખર કર્યાનો, તારીખ, readings કે સહીનો દાવો નથી.</p><h4>Construction / સર્કિટનાં જોડાણ</h4><ol><li>Offline tablemodel/approved guarded three-phase trainer/balancedR-RL/probes.</li><li>Numbering: AQ1/Q4, BQ3/Q6, CQ5/Q2; defaultisolatedstarneutral.</li></ol><h4>Working / Conductionનો ક્રમ</h4><ol><li>કામ પહેલાં actual circuit, device data તથા probe ratings વાંચો.Safe stop, isolation અને stored-energy dischargeની પદ્ધતિ સમજો.</li><li>Power OFF રાખીને polarity, return, gate mapping, load rating અને current limit તપાસો.Protection કે interlock bypass નકરો.</li><li>180°માં sixstates/neutraldisplacement/lineV.</li><li>120°માં sixpairs/Rfloatingphase; RLમાત્ર actualdiodemodel/trainerથી.</li><li>ખરેખર માપેલા કે simulate કરેલા results જ units, conditions તથા evidence સાથે લખો.પ્રયોગ પહેલાં actual readingsનાં ખાના ખાલી રાખો.</li><li>Setupને safe stateમાં લાવો, isolate કરો અને discharge verify કરો.Assumptions તથા lossesથી તફાવત સમજાવો; expected readingsને actual તરીકે નલખો.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Source number14, internalID14; CO4; individual hours/compulsory stars આપેલ નથી.</li><li>વિદ્યાર્થીનું construction માત્ર isolated, current-limited≤24Vમાં કરવું; generated output અને stored energyનું પણ assessment કરવું.Higher-energy test approved guarded trainer પર qualified supervisionથી જ કરવો.</li></ul><h4>ઉકેલેલું ઉદાહરણ</h4><ol><li>24V180°માં fundamentalline18.71Vrms/totalline19.60Vrms; polephaseનથી.</li></ol><h4>વિશ્વસનીયતા તથા સાવચેતી</h4><ul><li>1-ph/3-phQlabelsમિશ્રનહીં; samelegsimultaneousONનથીતે verify.</li><li>Oscilloscopeનું protective earth ક્યારેય દૂર નકરો.Floating bridge પર earth-referenced ground clip નજોડો; યોગ્ય rated differential/isolated measurement વાપરો.Isolation transformerથી દરેક probing method safe થઈ જતી નથી.</li></ul><h4>Actual Observation માટે ખાલી Record</h4><div style=\"overflow:auto\"><table><tr><th>Setting / α / D / f</th><th>V / I / Waveform</th><th>RMS / Average / Ripple / T</th><th>Actual Evidence / નોંધ</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>"
+          },
+          "syllabus_item": "P14",
+          "derivation": false,
+          "classification_first": false,
+          "diagram": "three120"
+        }
+      ]
+    }
+  ],
+  "practicals": [
+    {
+      "number": "11",
+      "source_number": 11,
+      "co": [
+        4
+      ],
+      "hours": null,
+      "compulsory_marked": false,
+      "performed": false,
+      "observations": "blank",
+      "title": {
+        "en": "Single-phase inverter board test",
+        "gu": "Single-phase Inverter Board Test"
+      }
+    },
+    {
+      "number": "12",
+      "source_number": 12,
+      "co": [
+        4
+      ],
+      "hours": null,
+      "compulsory_marked": false,
+      "performed": false,
+      "observations": "blank",
+      "title": {
+        "en": "Half/full bridge: performance or simulation",
+        "gu": "Half/Full Bridge: Performance અથવા Simulation"
+      }
+    },
+    {
+      "number": "13",
+      "source_number": 13,
+      "co": [
+        4
+      ],
+      "hours": null,
+      "compulsory_marked": false,
+      "performed": false,
+      "observations": "blank",
+      "title": {
+        "en": "Single, multiple and sinusoidal PWMsimulation",
+        "gu": "Single, Multiple તથા Sinusoidal PWM Simulation"
+      }
+    },
+    {
+      "number": "14",
+      "source_number": 14,
+      "co": [
+        4
+      ],
+      "hours": null,
+      "compulsory_marked": false,
+      "performed": false,
+      "observations": "blank",
+      "title": {
+        "en": "Three-phase120°and180°inverter",
+        "gu": "Three-phase120°તથા180°Inverter"
+      }
+    }
+  ],
+  "project_plans": [
+    {
+      "number": 6,
+      "title": {
+        "en": "MOSFET/IGBTsingle-phase inverter",
+        "gu": "MOSFET/IGBT Single-phase Inverter"
+      },
+      "performed": false,
+      "report_pages": null
+    }
+  ],
+  "activity_plans": [
+    {
+      "number": 7,
+      "title": {
+        "en": "Compare inverter PWMtechniques",
+        "gu": "Inverter PWM Techniques Compare"
+      },
+      "performed": false,
+      "report_pages": 5
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "inverterclass",
+      "title": {
+        "en": "Inverter categories and the DC-link constraint",
+        "gu": "Inverter Principle તથા Classification"
+      },
+      "file": "diagrams/inverterclass.svg"
+    },
+    {
+      "id": "spectrum",
+      "title": {
+        "en": "Ideal square wave: harmonic benchmark",
+        "gu": "HF, THD, DF તથા LOH: Convention સાથે વ્યાખ્યા"
+      },
+      "file": "diagrams/spectrum.svg"
+    },
+    {
+      "id": "halfbridge",
+      "title": {
+        "en": "Half bridge: load references the split-capacitor midpoint",
+        "gu": "Single-phase Half Bridge VSI: R તથા RL"
+      },
+      "file": "diagrams/halfbridge.svg"
+    },
+    {
+      "id": "fullbridge",
+      "title": {
+        "en": "Full bridge: explicit single-phase switch numbering",
+        "gu": "Single-phase Full Bridge VSI: R તથા RL"
+      },
+      "file": "diagrams/fullbridge.svg"
+    },
+    {
+      "id": "pulse",
+      "title": {
+        "en": "Single centred pulse per half: γ = 120°",
+        "gu": "Single-pulse તથા Multiple-pulse Modulation"
+      },
+      "file": "diagrams/pulse.svg"
+    },
+    {
+      "id": "spwm",
+      "title": {
+        "en": "SPWM reference and carrier comparison: bipolar output",
+        "gu": "Sinusoidal PWM: Reference, Carrier તથા Linear Range"
+      },
+      "file": "diagrams/spwm.svg"
+    },
+    {
+      "id": "pwmcompare",
+      "title": {
+        "en": "Unipolar full-bridge PWM: three output levels",
+        "gu": "Bipolar સામે Unipolar Full-bridge PWM"
+      },
+      "file": "diagrams/pwmcompare.svg"
+    },
+    {
+      "id": "three180",
+      "title": {
+        "en": "180°mode: upper-state table (lower complements upper)",
+        "gu": "Three-phase Bridge: Construction તથા180°Mode"
+      },
+      "file": "diagrams/three180.svg"
+    },
+    {
+      "id": "three120",
+      "title": {
+        "en": "120°mode: commanded pairs (declared three-phase labels)",
+        "gu": "Three-phase120°Mode તથા Conduction Table"
+      },
+      "file": "diagrams/three120.svg"
+    }
+  ],
+  "syntax": [
+    {
+      "title": {
+        "en": "Revision and assumptions",
+        "gu": "Revision તથા ધારણાઓ"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Formula map and limitations",
+            "gu": "Formula Map તથા Limitations"
+          },
+          "body": {
+            "en": "<ul><li>Full square: Vrms=Vdc, V1=2√2Vdc/π; half values are half for equal total bus.</li><li>SPWMfull linear V1≈maVdc/√2; fundamental RMS≠total PWM RMS.</li></ul>",
+            "gu": "<ul><li>FullsquareVrms=Vdc/V1=2√2Vdc/π; equaltotalbusમાં halfvaluesઅડધાં.</li><li>SPWMfull linearV1≈maVdc/√2; fundamentalRMS≠totalPWMRMS.</li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Runnable offline educational models",
+        "gu": "ચાલતા Offline Educational Models"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Python 3 source:equations,waveforms,gate tables and permissions",
+            "gu": "Python3 Source:Equations,Waveforms,Gate Tables તથા Permissions"
+          },
+          "body": {
+            "en": "<p>Python standard library only. Save as models.py.No equipment I/O,SPICE session,official VLab or physical test is claimed.</p><pre>&quot;&quot;&quot;Offline ideal teaching models. No device I/O, SPICE claim, hardware or real battery control.&quot;&quot;&quot;\nimport math\n\ndef dc_design(kind,vin,vo,io,fs,di,dv):\n    if min(vin,io,fs,di,dv)&lt;=0:raise ValueError(&#x27;Positive Vin,Io,fs,ΔI,ΔV required&#x27;)\n    v=abs(vo)\n    if kind==&#x27;buck&#x27;:\n        if not 0&lt;vo&lt;vin:raise ValueError(&#x27;Buck requires 0&lt;Vo&lt;Vin&#x27;)\n        d=vo/vin;l=(vin-vo)*d/(fs*di);c=di/(8*fs*dv);i=io;block=vin\n    elif kind==&#x27;boost&#x27;:\n        if vo&lt;=vin:raise ValueError(&#x27;Boost requires Vo&gt;Vin&#x27;)\n        d=1-vin/vo;l=vin*d/(fs*di);c=io*d/(fs*dv);i=io/(1-d);block=vo\n    elif kind==&#x27;inverting&#x27;:\n        if vo&gt;=0:raise ValueError(&#x27;Inverting output must be negative&#x27;)\n        d=v/(vin+v);l=vin*d/(fs*di);c=io*d/(fs*dv);i=io/(1-d);block=vin+v\n    else:raise ValueError(&#x27;Unknown topology&#x27;)\n    return dict(duty=d,L_H=l,C_F=c,Iavg_A=i,Imin_A=i-di/2,Ipeak_A=i+di/2,blocking_V=block,CCM=i&gt;di/2,assumptions=&#x27;Ideal CCM,small ripple,zero ESR;not a BOM or stability validation&#x27;)\n\ndef controlled_average(vrms,alpha_deg,mode=&#x27;R&#x27;,active_dc_source=False):\n    if vrms&lt;=0 or not 0&lt;=alpha_deg&lt;=180:raise ValueError(&#x27;Invalid voltage/angle&#x27;)\n    if mode not in (&#x27;R&#x27;,&#x27;RL_CCM_NO_FWD&#x27;,&#x27;RL_CCM_FWD&#x27;):raise ValueError(&#x27;Unknown load/current model&#x27;)\n    a=math.radians(alpha_deg);vm=math.sqrt(2)*vrms\n    if mode==&#x27;RL_CCM_NO_FWD&#x27;:\n        if alpha_deg&gt;90 and not active_dc_source:raise ValueError(&#x27;Passive RL cannot sustain assumed inversion/positive CCM&#x27;)\n        return 2*vm*math.cos(a)/math.pi\n    return vm*(1+math.cos(a))/math.pi\n\ndef rectifier_samples(vll=24,f=50,samples=12000):\n    if vll&lt;=0 or f&lt;=0 or samples&lt;60:raise ValueError(&#x27;Invalid source/resolution&#x27;)\n    peak=vll*math.sqrt(2/3);half=[];full=[]\n    for j in range(samples):\n        t=2*math.pi*(j+.5)/samples;v=[peak*math.sin(t+k*2*math.pi/3)for k in range(3)]\n        half.append(max(v));full.append(max(v)-min(v))\n    return dict(half_avg=sum(half)/samples,bridge_avg=sum(full)/samples,half_ripple_Hz=3*f,bridge_ripple_Hz=6*f)\n\ndef gate_pair(top,bottom):\n    if top and bottom:raise ValueError(&#x27;Forbidden same-leg shoot-through command&#x27;)\n    return {&#x27;top&#x27;:bool(top),&#x27;bottom&#x27;:bool(bottom),&#x27;state&#x27;:&#x27;HIGH&#x27;if top else&#x27;LOW&#x27;if bottom else&#x27;DEAD_TIME&#x27;}\n\ndef three_phase(mode,sector,vdc=24):\n    if mode not in(120,180)or sector not in range(6)or vdc&lt;=0:raise ValueError(&#x27;Invalid mode/sector/bus&#x27;)\n    # A Q1/Q4, B Q3/Q6, C Q5/Q2. Isolated-star balanced R load only for 120° voltages.\n    if mode==180:\n        s=[(1,0,0),(1,1,0),(0,1,0),(0,1,1),(0,0,1),(1,0,1)][sector];neutral=sum(s)/3\n        phase=[vdc*(x-neutral)for x in s];on=[q for state,upper,lower in zip(s,[1,3,5],[4,6,2])for q in[upper if state else lower]]\n    else:\n        on=list([(1,6),(1,2),(3,2),(3,4),(5,4),(5,6)][sector]);phase=[0.,0.,0.]\n        upper=on[0];lower=on[1];phase[{1:0,3:1,5:2}[upper]]=vdc/2;phase[{4:0,6:1,2:2}[lower]]=-vdc/2\n    return dict(on=on,phase=phase,line=[phase[0]-phase[1],phase[1]-phase[2],phase[2]-phase[0]],load=&#x27;balanced isolated-star R;RL diode dynamics excluded&#x27;)\n\ndef pwm_samples(ma=.8,mf=40,n=16000,unipolar=False):\n    if not 0&lt;=ma&lt;=1 or mf&lt;1 or n&lt;100*mf:raise ValueError(&#x27;Need linear ma and sufficient samples&#x27;)\n    values=[]\n    for j in range(n):\n        cycles=(j+.5)/n;ref=ma*math.sin(2*math.pi*cycles);carrier=4*abs((cycles*mf)%1-.5)-1\n        a=int(ref&gt;=carrier);b=int(-ref&gt;=carrier)\n        values.append(a-b if unipolar else 2*a-1)\n    sine=2*sum(v*math.sin(2*math.pi*(j+.5)/n)for j,v in enumerate(values))/n\n    cosine=2*sum(v*math.cos(2*math.pi*(j+.5)/n)for j,v in enumerate(values))/n\n    return {&#x27;fundamental_peak_per_bus&#x27;:math.hypot(sine,cosine),&#x27;total_rms_per_bus&#x27;:math.sqrt(sum(v*v for v in values)/n),&#x27;levels&#x27;:sorted(set(values))}\n\ndef charger_permission(chemistry=&#x27;DEFINED&#x27;,bms_ok=True,temperature_ok=True,polarity_ok=True,overvoltage=False,start=False):\n    # Only a permission/state teaching model; no chemistry-specific power regulation or real cell control.\n    reasons=[]\n    if chemistry!=&#x27;DEFINED&#x27;:reasons.append(&#x27;UNDEFINED_PROFILE&#x27;)\n    if not bms_ok:reasons.append(&#x27;BMS_BLOCK&#x27;)\n    if not temperature_ok:reasons.append(&#x27;TEMPERATURE_BLOCK&#x27;)\n    if not polarity_ok:reasons.append(&#x27;POLARITY_FAULT&#x27;)\n    if overvoltage:reasons.append(&#x27;OVERVOLTAGE&#x27;)\n    return {&#x27;enable&#x27;:bool(start and not reasons),&#x27;state&#x27;:&#x27;FAULT_BLOCK&#x27;if reasons else&#x27;PERMITTED&#x27;if start else&#x27;IDLE&#x27;,&#x27;reasons&#x27;:reasons}\n\ndef switched_model(kind,vin,d,l,c,r,cycles=600,steps_per_cycle=200,fs=20000):\n    &quot;&quot;&quot;First-order time-step ideal interval model with diode current projection;output magnitude for inverting.&quot;&quot;&quot;\n    if kind not in(&#x27;buck&#x27;,&#x27;boost&#x27;,&#x27;inverting&#x27;)or min(vin,l,c,r,fs)&lt;=0 or not 0&lt;d&lt;1:raise ValueError(&#x27;Invalid interval model&#x27;)\n    dt=1/(fs*steps_per_cycle);i=0.;v=0.;trace=[]\n    for k in range(cycles*steps_per_cycle):\n        on=k%steps_per_cycle&lt;d*steps_per_cycle\n        if kind==&#x27;buck&#x27;:vl=(vin if on else 0)-v;ic=i-v/r\n        else:vl=vin if on else(vin-v if kind==&#x27;boost&#x27;else-v);ic=-v/r if on else i-v/r\n        if not on and i&lt;=0 and vl&lt;0:vl=0\n        i=max(0,i+vl/l*dt);v=max(0,v+ic/c*dt)\n        if k&gt;=(cycles-20)*steps_per_cycle:trace.append((i,v))\n    return {&#x27;i_avg&#x27;:sum(t[0]for t in trace)/len(trace),&#x27;v_avg&#x27;:sum(t[1]for t in trace)/len(trace),&#x27;i_min&#x27;:min(t[0]for t in trace),&#x27;i_max&#x27;:max(t[0]for t in trace),&#x27;v_pp&#x27;:max(t[1]for t in trace)-min(t[1]for t in trace),&#x27;model&#x27;:&#x27;ideal finite-step interval model,not SPICE or hardware&#x27;}\n</pre>",
+            "gu": "<p>Python standard library જ.models.py તરીકે save કરો.Equipment I/O,SPICE session,official VLab/physical test claim નથી.</p><pre>&quot;&quot;&quot;Offline ideal teaching models. No device I/O, SPICE claim, hardware or real battery control.&quot;&quot;&quot;\nimport math\n\ndef dc_design(kind,vin,vo,io,fs,di,dv):\n    if min(vin,io,fs,di,dv)&lt;=0:raise ValueError(&#x27;Positive Vin,Io,fs,ΔI,ΔV required&#x27;)\n    v=abs(vo)\n    if kind==&#x27;buck&#x27;:\n        if not 0&lt;vo&lt;vin:raise ValueError(&#x27;Buck requires 0&lt;Vo&lt;Vin&#x27;)\n        d=vo/vin;l=(vin-vo)*d/(fs*di);c=di/(8*fs*dv);i=io;block=vin\n    elif kind==&#x27;boost&#x27;:\n        if vo&lt;=vin:raise ValueError(&#x27;Boost requires Vo&gt;Vin&#x27;)\n        d=1-vin/vo;l=vin*d/(fs*di);c=io*d/(fs*dv);i=io/(1-d);block=vo\n    elif kind==&#x27;inverting&#x27;:\n        if vo&gt;=0:raise ValueError(&#x27;Inverting output must be negative&#x27;)\n        d=v/(vin+v);l=vin*d/(fs*di);c=io*d/(fs*dv);i=io/(1-d);block=vin+v\n    else:raise ValueError(&#x27;Unknown topology&#x27;)\n    return dict(duty=d,L_H=l,C_F=c,Iavg_A=i,Imin_A=i-di/2,Ipeak_A=i+di/2,blocking_V=block,CCM=i&gt;di/2,assumptions=&#x27;Ideal CCM,small ripple,zero ESR;not a BOM or stability validation&#x27;)\n\ndef controlled_average(vrms,alpha_deg,mode=&#x27;R&#x27;,active_dc_source=False):\n    if vrms&lt;=0 or not 0&lt;=alpha_deg&lt;=180:raise ValueError(&#x27;Invalid voltage/angle&#x27;)\n    if mode not in (&#x27;R&#x27;,&#x27;RL_CCM_NO_FWD&#x27;,&#x27;RL_CCM_FWD&#x27;):raise ValueError(&#x27;Unknown load/current model&#x27;)\n    a=math.radians(alpha_deg);vm=math.sqrt(2)*vrms\n    if mode==&#x27;RL_CCM_NO_FWD&#x27;:\n        if alpha_deg&gt;90 and not active_dc_source:raise ValueError(&#x27;Passive RL cannot sustain assumed inversion/positive CCM&#x27;)\n        return 2*vm*math.cos(a)/math.pi\n    return vm*(1+math.cos(a))/math.pi\n\ndef rectifier_samples(vll=24,f=50,samples=12000):\n    if vll&lt;=0 or f&lt;=0 or samples&lt;60:raise ValueError(&#x27;Invalid source/resolution&#x27;)\n    peak=vll*math.sqrt(2/3);half=[];full=[]\n    for j in range(samples):\n        t=2*math.pi*(j+.5)/samples;v=[peak*math.sin(t+k*2*math.pi/3)for k in range(3)]\n        half.append(max(v));full.append(max(v)-min(v))\n    return dict(half_avg=sum(half)/samples,bridge_avg=sum(full)/samples,half_ripple_Hz=3*f,bridge_ripple_Hz=6*f)\n\ndef gate_pair(top,bottom):\n    if top and bottom:raise ValueError(&#x27;Forbidden same-leg shoot-through command&#x27;)\n    return {&#x27;top&#x27;:bool(top),&#x27;bottom&#x27;:bool(bottom),&#x27;state&#x27;:&#x27;HIGH&#x27;if top else&#x27;LOW&#x27;if bottom else&#x27;DEAD_TIME&#x27;}\n\ndef three_phase(mode,sector,vdc=24):\n    if mode not in(120,180)or sector not in range(6)or vdc&lt;=0:raise ValueError(&#x27;Invalid mode/sector/bus&#x27;)\n    # A Q1/Q4, B Q3/Q6, C Q5/Q2. Isolated-star balanced R load only for 120° voltages.\n    if mode==180:\n        s=[(1,0,0),(1,1,0),(0,1,0),(0,1,1),(0,0,1),(1,0,1)][sector];neutral=sum(s)/3\n        phase=[vdc*(x-neutral)for x in s];on=[q for state,upper,lower in zip(s,[1,3,5],[4,6,2])for q in[upper if state else lower]]\n    else:\n        on=list([(1,6),(1,2),(3,2),(3,4),(5,4),(5,6)][sector]);phase=[0.,0.,0.]\n        upper=on[0];lower=on[1];phase[{1:0,3:1,5:2}[upper]]=vdc/2;phase[{4:0,6:1,2:2}[lower]]=-vdc/2\n    return dict(on=on,phase=phase,line=[phase[0]-phase[1],phase[1]-phase[2],phase[2]-phase[0]],load=&#x27;balanced isolated-star R;RL diode dynamics excluded&#x27;)\n\ndef pwm_samples(ma=.8,mf=40,n=16000,unipolar=False):\n    if not 0&lt;=ma&lt;=1 or mf&lt;1 or n&lt;100*mf:raise ValueError(&#x27;Need linear ma and sufficient samples&#x27;)\n    values=[]\n    for j in range(n):\n        cycles=(j+.5)/n;ref=ma*math.sin(2*math.pi*cycles);carrier=4*abs((cycles*mf)%1-.5)-1\n        a=int(ref&gt;=carrier);b=int(-ref&gt;=carrier)\n        values.append(a-b if unipolar else 2*a-1)\n    sine=2*sum(v*math.sin(2*math.pi*(j+.5)/n)for j,v in enumerate(values))/n\n    cosine=2*sum(v*math.cos(2*math.pi*(j+.5)/n)for j,v in enumerate(values))/n\n    return {&#x27;fundamental_peak_per_bus&#x27;:math.hypot(sine,cosine),&#x27;total_rms_per_bus&#x27;:math.sqrt(sum(v*v for v in values)/n),&#x27;levels&#x27;:sorted(set(values))}\n\ndef charger_permission(chemistry=&#x27;DEFINED&#x27;,bms_ok=True,temperature_ok=True,polarity_ok=True,overvoltage=False,start=False):\n    # Only a permission/state teaching model; no chemistry-specific power regulation or real cell control.\n    reasons=[]\n    if chemistry!=&#x27;DEFINED&#x27;:reasons.append(&#x27;UNDEFINED_PROFILE&#x27;)\n    if not bms_ok:reasons.append(&#x27;BMS_BLOCK&#x27;)\n    if not temperature_ok:reasons.append(&#x27;TEMPERATURE_BLOCK&#x27;)\n    if not polarity_ok:reasons.append(&#x27;POLARITY_FAULT&#x27;)\n    if overvoltage:reasons.append(&#x27;OVERVOLTAGE&#x27;)\n    return {&#x27;enable&#x27;:bool(start and not reasons),&#x27;state&#x27;:&#x27;FAULT_BLOCK&#x27;if reasons else&#x27;PERMITTED&#x27;if start else&#x27;IDLE&#x27;,&#x27;reasons&#x27;:reasons}\n\ndef switched_model(kind,vin,d,l,c,r,cycles=600,steps_per_cycle=200,fs=20000):\n    &quot;&quot;&quot;First-order time-step ideal interval model with diode current projection;output magnitude for inverting.&quot;&quot;&quot;\n    if kind not in(&#x27;buck&#x27;,&#x27;boost&#x27;,&#x27;inverting&#x27;)or min(vin,l,c,r,fs)&lt;=0 or not 0&lt;d&lt;1:raise ValueError(&#x27;Invalid interval model&#x27;)\n    dt=1/(fs*steps_per_cycle);i=0.;v=0.;trace=[]\n    for k in range(cycles*steps_per_cycle):\n        on=k%steps_per_cycle&lt;d*steps_per_cycle\n        if kind==&#x27;buck&#x27;:vl=(vin if on else 0)-v;ic=i-v/r\n        else:vl=vin if on else(vin-v if kind==&#x27;boost&#x27;else-v);ic=-v/r if on else i-v/r\n        if not on and i&lt;=0 and vl&lt;0:vl=0\n        i=max(0,i+vl/l*dt);v=max(0,v+ic/c*dt)\n        if k&gt;=(cycles-20)*steps_per_cycle:trace.append((i,v))\n    return {&#x27;i_avg&#x27;:sum(t[0]for t in trace)/len(trace),&#x27;v_avg&#x27;:sum(t[1]for t in trace)/len(trace),&#x27;i_min&#x27;:min(t[0]for t in trace),&#x27;i_max&#x27;:max(t[0]for t in trace),&#x27;v_pp&#x27;:max(t[1]for t in trace)-min(t[1]for t in trace),&#x27;model&#x27;:&#x27;ideal finite-step interval model,not SPICE or hardware&#x27;}\n</pre>"
+          }
+        }
+      ]
+    }
+  ],
+  "viva": [
+    {
+      "title": {
+        "en": "Viva with reliable answers",
+        "gu": "વિશ્વસનીય જવાબો સાથે Viva"
+      },
+      "items": [
+        {
+          "q": {
+            "en": "What voltage does half-bridge load see?",
+            "gu": "Half Bridge Load V?"
+          },
+          "a": {
+            "en": "±Vdc/2when Vdcis total bus and load references its split midpoint.",
+            "gu": "TotalbusVdc/splitmidpointમાં±Vdc/2."
+          }
+        },
+        {
+          "q": {
+            "en": "Can both switches of a VSIleg be ON?",
+            "gu": "VSI Legનાં બંને ON?"
+          },
+          "a": {
+            "en": "No. This is DC-link shoot-through; interlock/dead time are required.",
+            "gu": "નહીં.DClinkshortછે; interlock/deadtimeજોઈએ."
+          }
+        },
+        {
+          "q": {
+            "en": "Square-wave voltage THD?",
+            "gu": "Square Voltage THD?"
+          },
+          "a": {
+            "en": "Ideal bipolar square voltage has about48.34%THD; load current THDdepends on impedance.",
+            "gu": "IdealbipolarsquareVTHD≈48.34%; currentTHD loadપર."
+          }
+        },
+        {
+          "q": {
+            "en": "DFhas one universal meaning?",
+            "gu": "DFનું Universal Meaning?"
+          },
+          "a": {
+            "en": "No. Declare weighted inverter DFversus fundamental/total RMSdistortion factor explicitly.",
+            "gu": "નહીં.WeightedDF/fundamental-totalfactorનો conventionલખો."
+          }
+        },
+        {
+          "q": {
+            "en": "SPWM linear full-bridge fundamental?",
+            "gu": "Linear SPWM Full-bridge Fundamental?"
+          },
+          "a": {
+            "en": "V1, rms≈maVdc/√2for the declared ideal full-bridge model.",
+            "gu": "Declaredidealmodelમાં V1, rms≈maVdc/√2."
+          }
+        },
+        {
+          "q": {
+            "en": "Bipolar/unipolar output levels?",
+            "gu": "Bipolar/Unipolar Levels?"
+          },
+          "a": {
+            "en": "Bipolar±Vdc; unipolar+Vdc, 0, −Vdcwith opposite leg references.",
+            "gu": "Bipolar±Vdc; unipolar+Vdc, 0, −Vdc/oppositereferences."
+          }
+        },
+        {
+          "q": {
+            "en": "180°mode number commanded simultaneously?",
+            "gu": "180°માં એકસાથે કેટલાં?"
+          },
+          "a": {
+            "en": "Three, one per leg in the ideal sequence; states change every60°.",
+            "gu": "Three/એકપ્રતિ leg; દર60°stateબદલે."
+          }
+        },
+        {
+          "q": {
+            "en": "120°Rfloating phase also valid for RL?",
+            "gu": "120°R Floating Result RLમાં પણ?"
+          },
+          "a": {
+            "en": "Not blindly. RLdiode currents may continue in the uncommanded phase.",
+            "gu": "Blindlyનહીં.RLdiodecurrentuncommandedphaseમાંરહીશકે."
+          }
+        }
+      ]
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Define inverter, HF, THD, DF and LOH with the adopted conventions.",
+        "gu": "Inverter, HF, THD, DF/LOH Convention સાથે define કરો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Explain half-bridge VSI with R/RL and derive square total/fundamental RMS.",
+        "gu": "Half-bridge VSI R/RL તથા Square Total/Fundamental derive કરો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Draw full bridge, explain R/RLconduction and safe gate-state mapping.",
+        "gu": "Full Bridge દોરી R/RL Conduction/Safe Gates સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Derive centred single-pulse RMS/fundamental and compare multiple-pulse control.",
+        "gu": "Centred Single-pulse RMS/Fundamental derive/Multiple compare કરો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain SPWM, ma, mf, linear range and half/full fundamental relations.",
+        "gu": "SPWM, ma, mf, Linear Range/Half–Full Relations સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Compare unipolar/bipolar full-bridge PWMwaveforms and trade-offs.",
+        "gu": "Unipolar/Bipolar PWM Waveforms/Trade-offs compare કરો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Construct the180°three-phase conduction table and derive pole, phase, line relations.",
+        "gu": "180°Table તથા Pole, Phase, Line Relations બનાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain120°three-phase conduction, compare180°and state RL load limitations.",
+        "gu": "120°Conduction, 180°Comparison/RL Limitations સમજાવો."
+      },
+      "marks": 7
+    }
+  ],
+  "exam_policy": "Questions and suggested marks only;no answers.",
+  "physical_practicals_performed": false,
+  "sources": [
+    {
+      "title": "Owner GTU7-page syllabus DI05000171,2026–27",
+      "reference": "All5units,17practical rows,8projects,7activities."
+    },
+    {
+      "title": "TI:Basic Calculation of an Inverting Buck-Boost Power Stage",
+      "url": "https://www.ti.com/lit/an/slva721a/slva721a.pdf",
+      "use": "Manufacturer equations cross-check;ideal CCMpolarity/stress assumptions retained."
+    },
+    {
+      "title": "Infineon isolated driver product documentation",
+      "url": "https://www.infineon.com/cms/en/product/power/gate-driver-ics/1ed3461mc12m/",
+      "use": "DESAT,Miller clamp,soft-off demonstrate functions;no device-specific ratings copied as universal."
+    },
+    {
+      "title": "Hitachi Energy thyristor-switched capacitor banks",
+      "url": "https://www.hitachienergy.com/ca/en/products-and-solutions/capacitors-and-filters/low-voltage-capacitors-and-filters/power-factor-correction-solutions/thyristor-switched-capacitor-banks",
+      "use": "TSCis reactive compensation,not a boost-input-current shaping PFC."
+    }
+  ],
+  "reliability_policy": {
+    "models": "offline ideal/conceptual only",
+    "actual_readings": "blank",
+    "source_duplicate4": "both rows retained as4A/4B",
+    "DF": "definition declared because conventions differ",
+    "native_app_tested": false,
+    "published": false
+  }
+}

@@ -1,0 +1,704 @@
+{
+  "subject": "DI05000171",
+  "unit": 5,
+  "title": {
+    "en": "Power Electronics Applications",
+    "gu": "પાવર ઇલેક્ટ્રોનિક્સનાં ઉપયોગો"
+  },
+  "format": "notes",
+  "languages": [
+    "en",
+    "gu"
+  ],
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "tab_labels": {
+    "programs": {
+      "en": "Practical",
+      "gu": "પ્રયોગ તથા ચકાસણી"
+    }
+  },
+  "hours": 5,
+  "weightage": 11,
+  "notes": [
+    {
+      "ref": "5.1",
+      "title": {
+        "en": "5.1 Soft starter for three-phase induction motors",
+        "gu": "5.1 Three-phase Induction Motor Soft Starter"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Soft starter for three-phase induction motors",
+            "gu": "Three-phase Induction Motor Soft Starter"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A soft starter gradually changes applied motor RMS voltage during starting/stopping using controlled ACswitches; it is not a variable-frequency drive.</p><h4>Construction / circuit connections</h4><ol><li>Antiparallel SCRpairs in the three phases, controller, current sensing, protection and often bypass contactor after acceleration.</li></ol><h4>Working / conduction intervals</h4><ol><li>Increase conduction angle under the approved ramp/current limit; after successful start, bypass if provided reduces running loss.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>At fixed frequency and comparable slip, torque is roughly proportional to voltage squared; reducing start voltage reduces current but also available starting torque.</li><li>Ramp/current-limit settings must suit load inertia and breakaway torque; prolonged undervoltage acceleration can overheat the motor.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Soft starter controlled ACswitchesથી starting/stoppingમાં motor RMS voltage ધીમે બદલે છે; તે variable-frequency drive નથી.</p><h4>Construction / સર્કિટનાં જોડાણ</h4><ol><li>Three phasesમાં antiparallel SCRpairs/controller, current protection/ક્યારેક bypass contactor.</li></ol><h4>Working / Conductionનો ક્રમ</h4><ol><li>Approved rampથી conduction વધારો; start પછી fitted bypass running loss ઘટાડે.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Fixed frequency/comparable slipમાં torque આશરે V²; V ઘટાડવાથી current સાથે torque પણ ઘટે.</li><li>Ramp/current limit load inertia/breakaway મુજબ; prolonged undervoltage acceleration heat વધારે.</li></ul>"
+          },
+          "syllabus_item": "5.1",
+          "derivation": false,
+          "classification_first": false,
+          "diagram": "softstarter"
+        }
+      ]
+    },
+    {
+      "ref": "5.2",
+      "title": {
+        "en": "5.2 Variable-voltage variable-frequency V/f drive",
+        "gu": "5.2 Variable-voltage Variable-frequency V/f Drive"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Variable-voltage variable-frequency V/f drive",
+            "gu": "Variable-voltage Variable-frequency V/f Drive"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>V/fcontrol changes induction-motor supply frequency and coordinates voltage to maintain approximately appropriate air-gap flux below base frequency.</p><h4>Detailed explanation and interpretation</h4><ul><li>From E≈4.44fNΦ, constant E/fapproximately maintains flux; at low frequency, stator resistance drop needs controlled voltage boost.</li><li>Above base frequency, the available voltage is limited, so flux weakens; torque capability falls. Speed is not exactly synchronous because induction slip remains.</li><li>Rectifier→DClink→PWMinverter→motor; acceleration, current/thermal limits and braking/DCbus energy must be coordinated.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>Synchronous speed Ns=120f/P. For4poles: 50Hz→1500rpm; 25Hz→750rpm.</li><li>For a nominal400V, 50Hzmotor, ideal line voltage at25Hzis200Vbefore low-speed boost/limits; actual rotor speed remains below Ns in motoring.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>V/f control frequency બદલે/voltage coordinate કરીને base frequencyની નીચે યોગ્ય air-gap flux રાખે છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>E≈4.44fNΦથી E/fconstant flux રાખે; low fમાં stator Rdrop માટે controlled boost.</li><li>Base ઉપર voltage limitથી flux weaken/torque ઘટે; slipથી actual speed synchronous નહીં.</li><li>Rectifier→DC link→PWM inverter→motor; acceleration, current/thermal/braking-energy coordinate કરો.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>Ns=120f/P; 4polesમાં50Hz→1500rpm/25Hz→750rpm.</li><li>400V50Hzmotor માટે25Hzમાં ideal200Vbefore boost/limits; motoring rotor Nsથી નીચે.</li></ol>"
+          },
+          "syllabus_item": "5.2",
+          "derivation": true,
+          "classification_first": false,
+          "diagram": "vf"
+        }
+      ]
+    },
+    {
+      "ref": "5.3",
+      "title": {
+        "en": "5.3 Electronic fan regulator",
+        "gu": "5.3 Electronic Fan Regulator"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Electronic fan regulator",
+            "gu": "Electronic Fan Regulator"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>An electronic fan regulator controls the power delivered to a compatible fan motor through a designed AC control circuit rather than dissipating the full adjustment in a series resistor.</p><h4>Construction / circuit connections</h4><ol><li>Phase reference/RCtrigger, DIACor isolated trigger, TRIAC, EMIfilter and protected enclosure as designed.</li></ol><h4>Working / conduction intervals</h4><ol><li>Delayed firing reduces conducted waveform; inductive current may persist past voltage zero until current extinction.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Conventional TRIACphase control changes RMS voltage at fixed line frequency; motor current is inductive and firing/commutation/EMIneed design.</li><li>Not every fan is phase-control compatible; BLDCfans normally use their own electronic drive and specified control input.</li><li>Use sealed approved mains products; classroom demonstration is simulation or isolated low-energy compatible trainer, not a mains RC–DIACbreadboard.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Electronic fan regulator compatible fan motorને designed AC controlથી power આપે છે, series resistorમાં આખી adjustment dissipate કર્યા વિના.</p><h4>Construction / સર્કિટનાં જોડાણ</h4><ol><li>Phase reference/RCtrigger, DIAC/isolated trigger, TRIAC, EMIfilter/protected enclosure.</li></ol><h4>Working / Conductionનો ક્રમ</h4><ol><li>Delayed firing waveform ઘટાડે; inductive I voltage zero પછી પણ extinction સુધી રહે.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Conventional TRIAC phase control RMSV બદલે/frequency fixed; inductive current/commutation/EMI design જોઈએ.</li><li>દરેક fan phase-compatible નહીં; BLDC પોતાના drive/specified control વાપરે.</li><li>Approved sealed mains product જ; classroom simulation/isolated trainer, mains RC–DIACbreadboard નહીં.</li></ul>"
+          },
+          "syllabus_item": "5.3",
+          "derivation": false,
+          "classification_first": false,
+          "diagram": "fan"
+        },
+        {
+          "h": {
+            "en": "Induction heating",
+            "gu": "Induction Heating"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>Induction heating raises the temperature of a conductive workpiece by electromagnetic induction, principally through induced eddy-current losses and, where applicable, magnetic losses.</p><h4>Working / conduction intervals</h4><ol><li>Inverter drives the coil, alternating flux induces workpiece currents and losses heat it; controller limits power/temperature.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>ACfrequency, material, geometry, coupling and skin depth set the heating distribution; the coil itself need not touch the workpiece electrically.</li><li>High-frequency inverter, resonant network/work coil, matching/cooling and protection form a system; empty-coil operation and magnetic objects/implants require manufacturer precautions.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>For a uniform conductor, skin depth δ≈√[2ρ/(ωµ)].Frequency increase reduces penetration approximately as1/√f when material properties are unchanged.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Induction heating conductive workpieceમાં electromagnetic inductionથી eddy-current તથા applicable magnetic losses દ્વારા heat પેદા કરે છે.</p><h4>Working / Conductionનો ક્રમ</h4><ol><li>Inverter coil drive/fluxથી eddy currents/heat; controller power-temperature limit કરે.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Frequency, material, geometry, coupling/skin depth heating નક્કી કરે; coil electrical touch જરૂરી નહીં.</li><li>HF inverter, resonant coil, matching/cooling/protection system છે; empty coil/metal-implant risks OEM મુજબ.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>Uniform conductorમાં δ≈√[2ρ/(ωµ)]; properties same હોય તો depth આશરે1/√fથી ઘટે.</li></ol>"
+          },
+          "syllabus_item": "5.3",
+          "derivation": true,
+          "classification_first": false,
+          "diagram": "heating"
+        },
+        {
+          "h": {
+            "en": "UPS: offline, line-interactive and online",
+            "gu": "UPS: Offline, Line-interactive તથા Online"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>An uninterruptible power supply supports a critical load from stored energy when normal input becomes unacceptable, within its rated transfer, autonomy and power limits.</p><h4>Detailed explanation and interpretation</h4><ul><li>Offline transfers to inverter on disturbance; line-interactive adds voltage support; online double conversion normally supplies load through rectifier/DC/inverter chain. Bypass and ECOmodes have different behaviour.</li><li>VA and Wlimits, battery chemistry, crest factor, earthing/neutral and approved changeover prevent overload/backfeed. No homemade utility-parallel output is proposed.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>A simple battery-energy estimate is Whneeded=Ploadtautonomy/η; Ah≈Wh/Vbattery before discharge-rate, temperature, ageing and voltage-cutoff margins.</li><li>At100Wfor0.5h, η=0.8and12Vnominal, energy≈62.5Whor5.21Ahbefore margins—not a final battery selection.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>UPS normal input unacceptable થાય ત્યારે stored energyથી critical loadને rated transfer/autonomy/power limitsમાં support કરે છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Offline disturbanceમાં inverter transfer; line-interactive voltage support; online normal rectifier/DC/inverter; Bypass/ECO જુદાં.</li><li>VA/W, battery, crest factor, neutral/changeoverથી overload/backfeed અટકે; homemade grid-parallel output નહીં.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>Simple Wh=Ploadtautonomy/η; Ah≈Wh/Vbattery, before rate, T, ageing/cutoff margins.</li><li>100W/0.5h/η0.8/12Vમાં≈62.5Wh/5.21Ahbefore margins, final selection નહીં.</li></ol>"
+          },
+          "syllabus_item": "5.3",
+          "derivation": true,
+          "classification_first": false,
+          "diagram": "ups"
+        },
+        {
+          "h": {
+            "en": "SMPS: regulated switching supply",
+            "gu": "SMPS: Regulated Switching Supply"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A switched-mode power supply regulates electrical output by high-frequency switching, energy storage and feedback rather than dissipating the entire voltage difference in a linear pass device.</p><h4>Detailed explanation and interpretation</h4><ul><li>Input protection/filter, rectifier/PFCif required, switching stage, isolation where specified, secondary rectifier/filter and feedback form typical blocks.</li><li>Buck/boost are often nonisolated; flyback/forward can provide designed isolation. Safety isolation is not guaranteed by merely drawing a transformer symbol.</li><li>Efficiency, power density, EMI, regulation, transient stability and protection must be evaluated together; unloaded output and stored primary capacitors can remain hazardous.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>SMPS high-frequency switching/storage/feedbackથી output regulate કરે છે, આખો voltage difference linear deviceમાં dissipate કર્યા વિના.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Input protection/filter, required rectifier/PFC, switching, specified isolation, secondary filter/feedback typical blocks.</li><li>Buck/boost ઘણીવાર nonisolated; flyback/forward designed isolation આપી શકે; symbolથી guarantee નહીં.</li><li>Efficiency, density, EMI, regulation/transient/protection સાથે જુઓ; unloaded output/stored capacitors hazardous હોઈ શકે.</li></ul>"
+          },
+          "syllabus_item": "5.3",
+          "derivation": false,
+          "classification_first": false,
+          "diagram": "smps"
+        }
+      ]
+    },
+    {
+      "ref": "5.4",
+      "title": {
+        "en": "5.4 Simple versus automatic battery charger",
+        "gu": "5.4 Simple સામે Automatic Battery Charger"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Simple versus automatic battery charger",
+            "gu": "Simple સામે Automatic Battery Charger"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A battery charger delivers a chemistry-compatible controlled charging profile with appropriate sensing, termination or maintenance behaviour and fault protection.</p><h4>Working / conduction intervals</h4><ol><li>Verify chemistry/cell count and BMS/temperature permission; apply approved current limit and voltage profile.</li><li>Monitor transitions/termination, stop on faults and prevent unintended restart or reverse discharge.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>A simple transformer/rectifier/current-limited charger may need supervision; automatic charging monitors defined conditions and transitions stages or terminates safely.</li><li>CC/CVmeans current-limited charging followed by voltage-limited charging under a suitable chemistry-specific profile. Float/equalisation rules for lead-acid must not be applied to lithium-ion.</li><li>Reverse polarity, overcurrent, temperature, overvoltage, isolation and BMSinterlocks matter; constant voltage alone is not sufficient proof of safe charging.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Charger chemistry-compatible current/voltage profile, sensing, termination/maintenance તથા fault protection આપે છે.</p><h4>Working / Conductionનો ક્રમ</h4><ol><li>Chemistry/cells/BMS/Tpermission verify; approved current/voltage profile.</li><li>Transitions/termination monitor; fault stop/reverse discharge/restart control.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Simple transformer/rectifier/current-limitને supervision જોઈએ; automatic conditionsથી stages/termination કરે.</li><li>CC/CV current પછી voltage-limit chemistry મુજબ; lead-acid float/equalisation lithium-ion પર નહીં.</li><li>Reverse polarity, I/T/V, isolation/BMS જરૂરી; constant Vએકલું safe charge proof નહીં.</li></ul>"
+          },
+          "syllabus_item": "5.4",
+          "derivation": false,
+          "classification_first": false,
+          "diagram": "charger"
+        },
+        {
+          "h": {
+            "en": "EVcharger: OBCversus DCcharging station",
+            "gu": "EV Charger: OBC સામે DC Charging Station"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>An EVcharging system transfers energy to the traction battery through controlled conversion and a coordinated vehicle/charger communication and safety process.</p><h4>Detailed explanation and interpretation</h4><ul><li>ACcharging EVSEsupplies/protects AC and communicates allowable conditions; the vehicle on-board charger converts it to battery DC. ADCfast charger performs off-board AC–DC/DC–DCconversion.</li><li>Isolation, PFC, contactors, precharge, insulation monitoring where required, earthing, cable limits, thermal management and BMSpermission are essential.</li><li>The source controlled-rectifier EVcharger project is a low-energy educational model, not a complete modern EVcharger or permission to connect a traction battery.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>Ideal charging time lower estimate t≈Eadded/Pbattery. With10kWhadded and3.3kWnet battery power, t≈3.03h; CVtaper, thermal limits and losses increase real duration.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>EVcharging controlled conversion તથા vehicle/charger communication-safetyથી traction batteryને energy આપે છે.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>AC EVSE protected AC/conditions આપે; OBC batteryDC બનાવે; DCfastcharger off-board conversion કરે.</li><li>Isolation, PFC, contactors, precharge, required insulation monitoring, earth, cable/T/BMS જરૂરી.</li><li>Source controlled-rectifier project low-energy model છે, complete EVcharger/traction-battery permission નહીં.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>Ideal lower t≈Eadded/Pbattery; 10kWh/3.3kWથી≈3.03h; CVtaper/T/losses actual time વધારે.</li></ol>"
+          },
+          "syllabus_item": "5.4",
+          "derivation": true,
+          "classification_first": false,
+          "diagram": "ev"
+        }
+      ]
+    },
+    {
+      "ref": "5.5",
+      "title": {
+        "en": "5.5 Source APFCusing TSC: correct scope and operation",
+        "gu": "5.5 Source APFC using TSC: સાચો વ્યાપ તથા કાર્ય"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Source APFCusing TSC: correct scope and operation",
+            "gu": "Source APFC using TSC: સાચો વ્યાપ તથા કાર્ય"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A thyristor-switched capacitor compensator switches shunt capacitor stages to supply capacitive reactive power as required by an inductive load; it is not a boost active-current-shaping PFCconverter.</p><h4>Detailed explanation and interpretation</h4><ul><li>The syllabus calls this “Active power factor correction using TSC”.Teach its intended automatic/dynamic reactive compensation while distinguishing an active harmonic filter and a boost-input-current PFCstage.</li><li>Antiparallel thyristors switch each capacitor branch, usually with limiting/detuning reactor, discharge/protection and a controller measuring suitable P/Q/PFconditions.</li><li>Switching is timed to minimise the difference between instantaneous source and residual capacitor voltage; do not arbitrarily phase-chop a capacitor branch or assume every zero crossing is safe.</li><li>Stages are blocked near current zero according to valve operation; hysteresis/reconnection rules avoid chatter, resonance and leading PF. No capacitor bank automatically eliminates all harmonics.</li></ul><h4>Assumptions and ordered derivation</h4><ol><li>For sinusoidal balanced demand, Qc=P(tanφ1−tanφ2).For10kWfrom0.8to0.95lag, Qc≈4.213kvar.</li><li>Select available stages under voltage/harmonic limits; the calculation is reactive compensation, not a proof of true PFunity under distorted current.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>TSC shunt capacitor stages switch કરીને inductive load માટે reactive power આપે છે; તે boost active-current-shaping PFC નથી.</p><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Source “Active power factor correction using TSC” કહે છે; intended automatic/dynamic compensation સમજાવો અને active harmonic filter/boost PFCથી ભેદ રાખો.</li><li>દરેક branchમાં antiparallel thyristors, limiting/detuning reactor, discharge/protection/P-Q-PF controller.</li><li>Source/residual capacitor Vdifference ઓછું થાય ત્યારે switch; capacitor branch arbitrary phase-chop/દર zero-cross safe નહીં.</li><li>Current zero/valve મુજબ block; hysteresis/reconnectionથી chatter, resonance/leading PF અટકે; બધા harmonics automatic નહીં.</li></ul><h4>ધારણાઓ તથા ક્રમબદ્ધ Derivation</h4><ol><li>Sinusoidal balancedમાં Qc=P(tanφ1−tanφ2); 10kW0.8→0.95lagમાં≈4.213kvar.</li><li>Stages V/harmonic limitsથી; આ reactive compensation છે, distorted Iમાં true PFunity proof નહીં.</li></ol>"
+          },
+          "syllabus_item": "5.5",
+          "derivation": true,
+          "classification_first": false,
+          "diagram": "tsc"
+        }
+      ]
+    },
+    {
+      "ref": "J7",
+      "title": {
+        "en": "J7 Project 7. Low-power UPS model",
+        "gu": "J7 Low-power UPS Model"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Project 7. Low-power UPS model",
+            "gu": "Low-power UPS Model"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A source-suggested learning plan, not a claim that fabrication, testing or a visit has occurred.</p><h4>Working / conduction intervals</h4><ol><li>Write objective, ratings, assumptions, roles, resources and approved safe work boundary before starting.</li><li>Use a low-voltage stored-energy emulator or instructor-approved battery trainer with fuse, charge protection and isolated lamp load.</li><li>Check expected results independently and obtain instructor approval before any permitted low-energy demonstration.</li><li>Submit energy/autonomy estimate, transfer truth table and no-backfeed demonstration at low energy; not an installed home UPS.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Use a low-voltage stored-energy emulator or instructor-approved battery trainer with fuse, charge protection and isolated lamp load.</li><li>Submit energy/autonomy estimate, transfer truth table and no-backfeed demonstration at low energy; not an installed home UPS.</li></ul><h4>Reliability and precautions</h4><ul><li>Keep actual date, measurements, teacher sign and portfolio evidence blank until genuine; no exposed mains, battery abuse or unqualified high-energy switching.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Source-suggested learning plan છે, fabrication/test/visit થઈ ગયાનો claim નહીં.</p><h4>Working / Conductionનો ક્રમ</h4><ol><li>પહેલાં objective, ratings, assumptions, roles, resources/safeboundaryલખો.</li><li>LowVemulator/approvedbatterytrainer, fuse-chargeprotection/isolatedlamp.</li><li>Expectedresultsindependentlycheck/lowenergydemoપહેલાં approval.</li><li>Energy/autonomy, transfertable/lowenergy no-backfeed; installedhomeUPSનહીં.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>LowVemulator/approvedbatterytrainer, fuse-chargeprotection/isolatedlamp.</li><li>Energy/autonomy, transfertable/lowenergy no-backfeed; installedhomeUPSનહીં.</li></ul><h4>વિશ્વસનીયતા તથા સાવચેતી</h4><ul><li>Actualdate/readings/sign/evidencegenuineમળેત્યાંસુધી blank; exposedmains, batteryabuse/highenergyનહીં.</li></ul>"
+          },
+          "syllabus_item": "J7",
+          "derivation": false,
+          "classification_first": false,
+          "diagram": "ups"
+        }
+      ]
+    },
+    {
+      "ref": "J8",
+      "title": {
+        "en": "J8 Project 8. EVbattery charger basic controlled-rectifier model",
+        "gu": "J8 EV Battery Chargerનું Basic Rectifier Model"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Project 8. EVbattery charger basic controlled-rectifier model",
+            "gu": "EV Battery Chargerનું Basic Rectifier Model"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A source-suggested learning plan, not a claim that fabrication, testing or a visit has occurred.</p><h4>Working / conduction intervals</h4><ol><li>Write objective, ratings, assumptions, roles, resources and approved safe work boundary before starting.</li><li>Retain the source controlled-rectifier project as an isolated low-energy charger emulator with current limit, voltage limit and fault/BMSpermission signals.</li><li>Check expected results independently and obtain instructor approval before any permitted low-energy demonstration.</li><li>Use a dummy load/battery emulator, not a real traction pack; submit chemistry-specific assumptions and explain missing production EVcharging functions.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Retain the source controlled-rectifier project as an isolated low-energy charger emulator with current limit, voltage limit and fault/BMSpermission signals.</li><li>Use a dummy load/battery emulator, not a real traction pack; submit chemistry-specific assumptions and explain missing production EVcharging functions.</li></ul><h4>Reliability and precautions</h4><ul><li>Keep actual date, measurements, teacher sign and portfolio evidence blank until genuine; no exposed mains, battery abuse or unqualified high-energy switching.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Source-suggested learning plan છે, fabrication/test/visit થઈ ગયાનો claim નહીં.</p><h4>Working / Conductionનો ક્રમ</h4><ol><li>પહેલાં objective, ratings, assumptions, roles, resources/safeboundaryલખો.</li><li>Sourcecontrolledrectifierprojectને lowenergychargeremulator/current-Vlimit/fault-BMSsignalsરૂપેરાખો.</li><li>Expectedresultsindependentlycheck/lowenergydemoપહેલાં approval.</li><li>Dummyload/emulator, tractionpackનહીં; chemistryassumptions/productionfunctionsની limitationsઆપો.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Sourcecontrolledrectifierprojectને lowenergychargeremulator/current-Vlimit/fault-BMSsignalsરૂપેરાખો.</li><li>Dummyload/emulator, tractionpackનહીં; chemistryassumptions/productionfunctionsની limitationsઆપો.</li></ul><h4>વિશ્વસનીયતા તથા સાવચેતી</h4><ul><li>Actualdate/readings/sign/evidencegenuineમળેત્યાંસુધી blank; exposedmains, batteryabuse/highenergyનહીં.</li></ul>"
+          },
+          "syllabus_item": "J8",
+          "derivation": false,
+          "classification_first": false,
+          "diagram": "ev"
+        }
+      ]
+    },
+    {
+      "ref": "A4",
+      "title": {
+        "en": "A4 Activity 4. Home and industry applications",
+        "gu": "A4 Home તથા Industry Applications"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Activity 4. Home and industry applications",
+            "gu": "Home તથા Industry Applications"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A source-suggested learning plan, not a claim that fabrication, testing or a visit has occurred.</p><h4>Working / conduction intervals</h4><ol><li>Write objective, ratings, assumptions, roles, resources and approved safe work boundary before starting.</li><li>Identify devices through labels/manuals or safe external observation: fan regulator, charger, UPS, drive and SMPS.</li><li>Check expected results independently and obtain instructor approval before any permitted low-energy demonstration.</li><li>Map input→conversion→output and explain one safety issue; do not open energised appliances.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Identify devices through labels/manuals or safe external observation: fan regulator, charger, UPS, drive and SMPS.</li><li>Map input→conversion→output and explain one safety issue; do not open energised appliances.</li></ul><h4>Reliability and precautions</h4><ul><li>Keep actual date, measurements, teacher sign and portfolio evidence blank until genuine; no exposed mains, battery abuse or unqualified high-energy switching.</li></ul><p>Source report requirement:about5pages per activity,with genuine physical/digital evidence for the student portfolio.</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Source-suggested learning plan છે, fabrication/test/visit થઈ ગયાનો claim નહીં.</p><h4>Working / Conductionનો ક્રમ</h4><ol><li>પહેલાં objective, ratings, assumptions, roles, resources/safeboundaryલખો.</li><li>Labels/manual/safeexternalથી fan, charger, UPS, drive/SMPSઓળખો.</li><li>Expectedresultsindependentlycheck/lowenergydemoપહેલાં approval.</li><li>Input→conversion→output/એક safetyissue; energisedapplianceખોલવુંનહીં.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Labels/manual/safeexternalથી fan, charger, UPS, drive/SMPSઓળખો.</li><li>Input→conversion→output/એક safetyissue; energisedapplianceખોલવુંનહીં.</li></ul><h4>વિશ્વસનીયતા તથા સાવચેતી</h4><ul><li>Actualdate/readings/sign/evidencegenuineમળેત્યાંસુધી blank; exposedmains, batteryabuse/highenergyનહીં.</li></ul><p>Source પ્રમાણે દરેક Activityનો આશરે5પાનાનો report તથા student portfolio માટે genuine physical/digital evidence તૈયાર કરવો.</p>"
+          },
+          "syllabus_item": "A4",
+          "derivation": false,
+          "classification_first": false,
+          "diagram": "smps"
+        }
+      ]
+    },
+    {
+      "ref": "A5",
+      "title": {
+        "en": "A5 Activity 5. Industry/workshop visit",
+        "gu": "A5 Industry/Workshop Visit"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Activity 5. Industry/workshop visit",
+            "gu": "Industry/Workshop Visit"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A source-suggested learning plan, not a claim that fabrication, testing or a visit has occurred.</p><h4>Working / conduction intervals</h4><ol><li>Write objective, ratings, assumptions, roles, resources and approved safe work boundary before starting.</li><li>Arrange written permission, escort, site induction and an observation-only route for drives, UPSor chargers.</li><li>Check expected results independently and obtain instructor approval before any permitted low-energy demonstration.</li><li>Record genuine visit date, equipment roles and permitted evidence; no operational intervention or invented signatures.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Arrange written permission, escort, site induction and an observation-only route for drives, UPSor chargers.</li><li>Record genuine visit date, equipment roles and permitted evidence; no operational intervention or invented signatures.</li></ul><h4>Reliability and precautions</h4><ul><li>Keep actual date, measurements, teacher sign and portfolio evidence blank until genuine; no exposed mains, battery abuse or unqualified high-energy switching.</li></ul><p>Source report requirement:about5pages per activity,with genuine physical/digital evidence for the student portfolio.</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>Source-suggested learning plan છે, fabrication/test/visit થઈ ગયાનો claim નહીં.</p><h4>Working / Conductionનો ક્રમ</h4><ol><li>પહેલાં objective, ratings, assumptions, roles, resources/safeboundaryલખો.</li><li>Permission/escort/induction/observation-onlyroute.</li><li>Expectedresultsindependentlycheck/lowenergydemoપહેલાં approval.</li><li>Genuinevisitdate/roles/allowedevidence; intervention/inventedsignatureનહીં.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Permission/escort/induction/observation-onlyroute.</li><li>Genuinevisitdate/roles/allowedevidence; intervention/inventedsignatureનહીં.</li></ul><h4>વિશ્વસનીયતા તથા સાવચેતી</h4><ul><li>Actualdate/readings/sign/evidencegenuineમળેત્યાંસુધી blank; exposedmains, batteryabuse/highenergyનહીં.</li></ul><p>Source પ્રમાણે દરેક Activityનો આશરે5પાનાનો report તથા student portfolio માટે genuine physical/digital evidence તૈયાર કરવો.</p>"
+          },
+          "syllabus_item": "A5",
+          "derivation": false,
+          "classification_first": false,
+          "diagram": "vf"
+        }
+      ]
+    }
+  ],
+  "programs": [
+    {
+      "title": {
+        "en": "Official practical guides",
+        "gu": "Official પ્રયોગ માર્ગદર્શિકા"
+      },
+      "format": "rich_cards",
+      "items": [
+        {
+          "h": {
+            "en": "15. DCmotor speed control by chopper",
+            "gu": "Chopperથી DC Motor Speed Control"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A source-listed performance guide; actual execution, date, readings and signatures are not claimed.</p><h4>Construction / circuit connections</h4><ol><li>Approved low-voltage guarded DCmotor trainer, chopper/freewheel, limited supply, tachometer, current sensor and stop control.</li><li>Constant-field armature chopper model; include freewheel/current protection and mechanical guarding; verify actual motor terminals.</li></ol><h4>Working / conduction intervals</h4><ol><li>Review actual circuit/device data, instrument/probe ratings, safe stop/isolation and stored-energy discharge before work.</li><li>Power OFF: verify polarity, earth/return, gate mapping, load rating and current limit; never defeat a protection/interlock.</li><li>Start unloaded or at approved safe load with current limit; increase duty in bounded steps and wait for steady speed.</li><li>Record duty, average armature V/I, speed and load; stop before changing mechanical/electrical connections.</li><li>Record only genuinely measured/simulated results with units, conditions and evidence; leave actual columns blank until performed.</li><li>Return to safe state, isolate, verify stored energy discharged and compare result with assumptions/losses rather than fabricating expected readings.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Source number15, internal identifier15; CO5.Individual suggested hours/compulsory stars are not provided.</li><li>Student construction is isolated, current-limited≤24Vonly with every generated output/stored energy assessed; higher-energy tests use approved guarded trainers and qualified supervision.</li></ul><h4>Worked example</h4><ol><li>Ideal Va≈DVdc; at constant flux, Nroughly follows(Va−IaRa), not duty alone during changing load.</li></ol><h4>Reliability and precautions</h4><ul><li>High starting current or stall requires shutdown/load investigation; never remove freewheel path under current.</li><li>Never lift oscilloscope protective earth or attach an earth-referenced ground clip across a floating bridge. Use correctly rated differential/isolated measurement; an isolation transformer is not blanket probe safety.</li></ul><h4>Blank actual observation record</h4><div style=\"overflow:auto\"><table><tr><th>Setting / α / D / f</th><th>V / I / waveform</th><th>RMS / average / ripple / T</th><th>Actual evidence / remarks</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>આ sourceમાં સૂચવેલ પ્રયોગની માર્ગદર્શિકા છે; પ્રયોગ ખરેખર કર્યાનો, તારીખ, readings કે સહીનો દાવો નથી.</p><h4>Construction / સર્કિટનાં જોડાણ</h4><ol><li>ApprovedlowVguardedDCmotor/chopper/FWD/limitedsource/tacho/current/stop.</li><li>Constantfieldarmaturemodel/FWD-currentprotection/guards/actualterminals.</li></ol><h4>Working / Conductionનો ક્રમ</h4><ol><li>કામ પહેલાં actual circuit, device data તથા probe ratings વાંચો.Safe stop, isolation અને stored-energy dischargeની પદ્ધતિ સમજો.</li><li>Power OFF રાખીને polarity, return, gate mapping, load rating અને current limit તપાસો.Protection કે interlock bypass નકરો.</li><li>Approvedload/currentlimitથી start; boundedDsteps/steadywait.</li><li>D, Va, Ia, speed/loadrecord; changesપહેલાં stop.</li><li>ખરેખર માપેલા કે simulate કરેલા results જ units, conditions તથા evidence સાથે લખો.પ્રયોગ પહેલાં actual readingsનાં ખાના ખાલી રાખો.</li><li>Setupને safe stateમાં લાવો, isolate કરો અને discharge verify કરો.Assumptions તથા lossesથી તફાવત સમજાવો; expected readingsને actual તરીકે નલખો.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Source number15, internalID15; CO5; individual hours/compulsory stars આપેલ નથી.</li><li>વિદ્યાર્થીનું construction માત્ર isolated, current-limited≤24Vમાં કરવું; generated output અને stored energyનું પણ assessment કરવું.Higher-energy test approved guarded trainer પર qualified supervisionથી જ કરવો.</li></ul><h4>ઉકેલેલું ઉદાહરણ</h4><ol><li>IdealVa≈DVdc; constantfluxમાં N≈(Va−IaRa), changingloadમાંમાત્ર Dનહીં.</li></ol><h4>વિશ્વસનીયતા તથા સાવચેતી</h4><ul><li>HighstartI/stallમાં shutdown/investigate; currentમાં FWDremoveનહીં.</li><li>Oscilloscopeનું protective earth ક્યારેય દૂર નકરો.Floating bridge પર earth-referenced ground clip નજોડો; યોગ્ય rated differential/isolated measurement વાપરો.Isolation transformerથી દરેક probing method safe થઈ જતી નથી.</li></ul><h4>Actual Observation માટે ખાલી Record</h4><div style=\"overflow:auto\"><table><tr><th>Setting / α / D / f</th><th>V / I / Waveform</th><th>RMS / Average / Ripple / T</th><th>Actual Evidence / નોંધ</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>"
+          },
+          "syllabus_item": "P15",
+          "derivation": false,
+          "classification_first": false,
+          "diagram": "buck"
+        },
+        {
+          "h": {
+            "en": "16. Three-phase induction-motor V/fcontrol",
+            "gu": "Three-phase Induction Motor V/f Control"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p>A source-listed performance guide; actual execution, date, readings and signatures are not claimed.</p><h4>Construction / circuit connections</h4><ol><li>Approved guarded VFDmotor trainer, tachometer, drive display, current/temperature observation and emergency stop.</li><li>Follow the drive manufacturer’s motor/earth/braking wiring; students do not wire exposed mains or live DCbus. Curriculum may use simulation instead of unsafe hands-on.</li></ol><h4>Working / conduction intervals</h4><ol><li>Review actual circuit/device data, instrument/probe ratings, safe stop/isolation and stored-energy discharge before work.</li><li>Power OFF: verify polarity, earth/return, gate mapping, load rating and current limit; never defeat a protection/interlock.</li><li>Enter actual nameplate/base frequency and motor data under instructor control; verify rotation/load/stop protections.</li><li>Compare bounded frequencies below base with coordinated V/f, then discuss field weakening without overspeeding the real motor.</li><li>Record only genuinely measured/simulated results with units, conditions and evidence; leave actual columns blank until performed.</li><li>Return to safe state, isolate, verify stored energy discharged and compare result with assumptions/losses rather than fabricating expected readings.</li></ol><h4>Detailed explanation and interpretation</h4><ul><li>Source number16, internal identifier16; CO5.Individual suggested hours/compulsory stars are not provided.</li><li>Student construction is isolated, current-limited≤24Vonly with every generated output/stored energy assessed; higher-energy tests use approved guarded trainers and qualified supervision.</li></ul><h4>Worked example</h4><ol><li>4poles: 25HzNs750rpm, 50HzNs1500rpm; motoring rotor speed is lower due to slip.</li></ol><h4>Reliability and precautions</h4><ul><li>Very low speed may reduce self-cooling; current/temperature and motor thermal limits override a desired speed point.</li><li>Never lift oscilloscope protective earth or attach an earth-referenced ground clip across a floating bridge. Use correctly rated differential/isolated measurement; an isolation transformer is not blanket probe safety.</li></ul><h4>Blank actual observation record</h4><div style=\"overflow:auto\"><table><tr><th>Setting / α / D / f</th><th>V / I / waveform</th><th>RMS / average / ripple / T</th><th>Actual evidence / remarks</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>",
+            "gu": "<h4>વ્યાખ્યા</h4><p>આ sourceમાં સૂચવેલ પ્રયોગની માર્ગદર્શિકા છે; પ્રયોગ ખરેખર કર્યાનો, તારીખ, readings કે સહીનો દાવો નથી.</p><h4>Construction / સર્કિટનાં જોડાણ</h4><ol><li>ApprovedguardedVFDmotor/tacho/display/I-T/stop.</li><li>OEMmotor/earth/brakingwiring; studentexposedmains/livebusનહીં; unsafeહોયતો simulation.</li></ol><h4>Working / Conductionનો ક્રમ</h4><ol><li>કામ પહેલાં actual circuit, device data તથા probe ratings વાંચો.Safe stop, isolation અને stored-energy dischargeની પદ્ધતિ સમજો.</li><li>Power OFF રાખીને polarity, return, gate mapping, load rating અને current limit તપાસો.Protection કે interlock bypass નકરો.</li><li>Actualnameplate/basef/data/instructor; rotation/load/stopverify.</li><li>Belowbaseboundedf/V-fcompare; realoverspeedવિનાફીલ્ડ weakeningસમજાવો.</li><li>ખરેખર માપેલા કે simulate કરેલા results જ units, conditions તથા evidence સાથે લખો.પ્રયોગ પહેલાં actual readingsનાં ખાના ખાલી રાખો.</li><li>Setupને safe stateમાં લાવો, isolate કરો અને discharge verify કરો.Assumptions તથા lossesથી તફાવત સમજાવો; expected readingsને actual તરીકે નલખો.</li></ol><h4>વિગતવાર સમજણ તથા અર્થઘટન</h4><ul><li>Source number16, internalID16; CO5; individual hours/compulsory stars આપેલ નથી.</li><li>વિદ્યાર્થીનું construction માત્ર isolated, current-limited≤24Vમાં કરવું; generated output અને stored energyનું પણ assessment કરવું.Higher-energy test approved guarded trainer પર qualified supervisionથી જ કરવો.</li></ul><h4>ઉકેલેલું ઉદાહરણ</h4><ol><li>4poles: 25HzNs750rpm/50HzNs1500rpm; slipથી rotorlower.</li></ol><h4>વિશ્વસનીયતા તથા સાવચેતી</h4><ul><li>Low-speedselfcoolingઘટે; I/T/thermallimitsdesiredspeedકરતાંપ્રાથમિક.</li><li>Oscilloscopeનું protective earth ક્યારેય દૂર નકરો.Floating bridge પર earth-referenced ground clip નજોડો; યોગ્ય rated differential/isolated measurement વાપરો.Isolation transformerથી દરેક probing method safe થઈ જતી નથી.</li></ul><h4>Actual Observation માટે ખાલી Record</h4><div style=\"overflow:auto\"><table><tr><th>Setting / α / D / f</th><th>V / I / Waveform</th><th>RMS / Average / Ripple / T</th><th>Actual Evidence / નોંધ</th></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></table></div><p>Date / તારીખ: ______ Instructor / સહી: ______</p>"
+          },
+          "syllabus_item": "P16",
+          "derivation": false,
+          "classification_first": false,
+          "diagram": "vf"
+        }
+      ]
+    }
+  ],
+  "practicals": [
+    {
+      "number": "15",
+      "source_number": 15,
+      "co": [
+        5
+      ],
+      "hours": null,
+      "compulsory_marked": false,
+      "performed": false,
+      "observations": "blank",
+      "title": {
+        "en": "DCmotor speed control by chopper",
+        "gu": "Chopperથી DC Motor Speed Control"
+      }
+    },
+    {
+      "number": "16",
+      "source_number": 16,
+      "co": [
+        5
+      ],
+      "hours": null,
+      "compulsory_marked": false,
+      "performed": false,
+      "observations": "blank",
+      "title": {
+        "en": "Three-phase induction-motor V/fcontrol",
+        "gu": "Three-phase Induction Motor V/f Control"
+      }
+    }
+  ],
+  "project_plans": [
+    {
+      "number": 7,
+      "title": {
+        "en": "Low-power UPS model",
+        "gu": "Low-power UPS Model"
+      },
+      "performed": false,
+      "report_pages": null
+    },
+    {
+      "number": 8,
+      "title": {
+        "en": "EVbattery charger basic controlled-rectifier model",
+        "gu": "EV Battery Chargerનું Basic Rectifier Model"
+      },
+      "performed": false,
+      "report_pages": null
+    }
+  ],
+  "activity_plans": [
+    {
+      "number": 4,
+      "title": {
+        "en": "Home and industry applications",
+        "gu": "Home તથા Industry Applications"
+      },
+      "performed": false,
+      "report_pages": 5
+    },
+    {
+      "number": 5,
+      "title": {
+        "en": "Industry/workshop visit",
+        "gu": "Industry/Workshop Visit"
+      },
+      "performed": false,
+      "report_pages": 5
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "softstarter",
+      "title": {
+        "en": "Soft starter: voltage ramp at fixed line frequency",
+        "gu": "Three-phase Induction Motor Soft Starter"
+      },
+      "file": "diagrams/softstarter.svg"
+    },
+    {
+      "id": "vf",
+      "title": {
+        "en": "V/f drive power path",
+        "gu": "Variable-voltage Variable-frequency V/f Drive"
+      },
+      "file": "diagrams/vf.svg"
+    },
+    {
+      "id": "fan",
+      "title": {
+        "en": "Compatible fan phase regulator",
+        "gu": "Electronic Fan Regulator"
+      },
+      "file": "diagrams/fan.svg"
+    },
+    {
+      "id": "heating",
+      "title": {
+        "en": "Induction heating chain",
+        "gu": "Induction Heating"
+      },
+      "file": "diagrams/heating.svg"
+    },
+    {
+      "id": "ups",
+      "title": {
+        "en": "Online UPS conceptual energy path",
+        "gu": "UPS: Offline, Line-interactive તથા Online"
+      },
+      "file": "diagrams/ups.svg"
+    },
+    {
+      "id": "smps",
+      "title": {
+        "en": "SMPS closed-loop conversion",
+        "gu": "SMPS: Regulated Switching Supply"
+      },
+      "file": "diagrams/smps.svg"
+    },
+    {
+      "id": "charger",
+      "title": {
+        "en": "Automatic charger: chemistry-specific profile",
+        "gu": "Simple સામે Automatic Battery Charger"
+      },
+      "file": "diagrams/charger.svg"
+    },
+    {
+      "id": "ev",
+      "title": {
+        "en": "AC EVSE and DC charger are different interfaces",
+        "gu": "EV Charger: OBC સામે DC Charging Station"
+      },
+      "file": "diagrams/ev.svg"
+    },
+    {
+      "id": "tsc",
+      "title": {
+        "en": "TSC dynamic shunt compensation",
+        "gu": "Source APFC using TSC: સાચો વ્યાપ તથા કાર્ય"
+      },
+      "file": "diagrams/tsc.svg"
+    },
+    {
+      "id": "buck",
+      "title": {
+        "en": "Buck topology and freewheel connection",
+        "gu": "Chopperથી DC Motor Speed Control"
+      },
+      "file": "diagrams/buck.svg"
+    }
+  ],
+  "syntax": [
+    {
+      "title": {
+        "en": "Revision and assumptions",
+        "gu": "Revision તથા ધારણાઓ"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Formula map and limitations",
+            "gu": "Formula Map તથા Limitations"
+          },
+          "body": {
+            "en": "<ul><li>V/fbelow base supports flux; above base voltage limit causes field weakening.</li><li>TSCswitches reactive stages; it is not boost PFCor an active harmonic filter.</li></ul>",
+            "gu": "<ul><li>BelowbaseV/ffluxsupport/abovebasevoltagelimitથી fieldweakening.</li><li>TSCreactivestagesછે, boostPFC/activefilterનહીં.</li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "en": "Runnable offline educational models",
+        "gu": "ચાલતા Offline Educational Models"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Python 3 source:equations,waveforms,gate tables and permissions",
+            "gu": "Python3 Source:Equations,Waveforms,Gate Tables તથા Permissions"
+          },
+          "body": {
+            "en": "<p>Python standard library only. Save as models.py.No equipment I/O,SPICE session,official VLab or physical test is claimed.</p><pre>&quot;&quot;&quot;Offline ideal teaching models. No device I/O, SPICE claim, hardware or real battery control.&quot;&quot;&quot;\nimport math\n\ndef dc_design(kind,vin,vo,io,fs,di,dv):\n    if min(vin,io,fs,di,dv)&lt;=0:raise ValueError(&#x27;Positive Vin,Io,fs,ΔI,ΔV required&#x27;)\n    v=abs(vo)\n    if kind==&#x27;buck&#x27;:\n        if not 0&lt;vo&lt;vin:raise ValueError(&#x27;Buck requires 0&lt;Vo&lt;Vin&#x27;)\n        d=vo/vin;l=(vin-vo)*d/(fs*di);c=di/(8*fs*dv);i=io;block=vin\n    elif kind==&#x27;boost&#x27;:\n        if vo&lt;=vin:raise ValueError(&#x27;Boost requires Vo&gt;Vin&#x27;)\n        d=1-vin/vo;l=vin*d/(fs*di);c=io*d/(fs*dv);i=io/(1-d);block=vo\n    elif kind==&#x27;inverting&#x27;:\n        if vo&gt;=0:raise ValueError(&#x27;Inverting output must be negative&#x27;)\n        d=v/(vin+v);l=vin*d/(fs*di);c=io*d/(fs*dv);i=io/(1-d);block=vin+v\n    else:raise ValueError(&#x27;Unknown topology&#x27;)\n    return dict(duty=d,L_H=l,C_F=c,Iavg_A=i,Imin_A=i-di/2,Ipeak_A=i+di/2,blocking_V=block,CCM=i&gt;di/2,assumptions=&#x27;Ideal CCM,small ripple,zero ESR;not a BOM or stability validation&#x27;)\n\ndef controlled_average(vrms,alpha_deg,mode=&#x27;R&#x27;,active_dc_source=False):\n    if vrms&lt;=0 or not 0&lt;=alpha_deg&lt;=180:raise ValueError(&#x27;Invalid voltage/angle&#x27;)\n    if mode not in (&#x27;R&#x27;,&#x27;RL_CCM_NO_FWD&#x27;,&#x27;RL_CCM_FWD&#x27;):raise ValueError(&#x27;Unknown load/current model&#x27;)\n    a=math.radians(alpha_deg);vm=math.sqrt(2)*vrms\n    if mode==&#x27;RL_CCM_NO_FWD&#x27;:\n        if alpha_deg&gt;90 and not active_dc_source:raise ValueError(&#x27;Passive RL cannot sustain assumed inversion/positive CCM&#x27;)\n        return 2*vm*math.cos(a)/math.pi\n    return vm*(1+math.cos(a))/math.pi\n\ndef rectifier_samples(vll=24,f=50,samples=12000):\n    if vll&lt;=0 or f&lt;=0 or samples&lt;60:raise ValueError(&#x27;Invalid source/resolution&#x27;)\n    peak=vll*math.sqrt(2/3);half=[];full=[]\n    for j in range(samples):\n        t=2*math.pi*(j+.5)/samples;v=[peak*math.sin(t+k*2*math.pi/3)for k in range(3)]\n        half.append(max(v));full.append(max(v)-min(v))\n    return dict(half_avg=sum(half)/samples,bridge_avg=sum(full)/samples,half_ripple_Hz=3*f,bridge_ripple_Hz=6*f)\n\ndef gate_pair(top,bottom):\n    if top and bottom:raise ValueError(&#x27;Forbidden same-leg shoot-through command&#x27;)\n    return {&#x27;top&#x27;:bool(top),&#x27;bottom&#x27;:bool(bottom),&#x27;state&#x27;:&#x27;HIGH&#x27;if top else&#x27;LOW&#x27;if bottom else&#x27;DEAD_TIME&#x27;}\n\ndef three_phase(mode,sector,vdc=24):\n    if mode not in(120,180)or sector not in range(6)or vdc&lt;=0:raise ValueError(&#x27;Invalid mode/sector/bus&#x27;)\n    # A Q1/Q4, B Q3/Q6, C Q5/Q2. Isolated-star balanced R load only for 120° voltages.\n    if mode==180:\n        s=[(1,0,0),(1,1,0),(0,1,0),(0,1,1),(0,0,1),(1,0,1)][sector];neutral=sum(s)/3\n        phase=[vdc*(x-neutral)for x in s];on=[q for state,upper,lower in zip(s,[1,3,5],[4,6,2])for q in[upper if state else lower]]\n    else:\n        on=list([(1,6),(1,2),(3,2),(3,4),(5,4),(5,6)][sector]);phase=[0.,0.,0.]\n        upper=on[0];lower=on[1];phase[{1:0,3:1,5:2}[upper]]=vdc/2;phase[{4:0,6:1,2:2}[lower]]=-vdc/2\n    return dict(on=on,phase=phase,line=[phase[0]-phase[1],phase[1]-phase[2],phase[2]-phase[0]],load=&#x27;balanced isolated-star R;RL diode dynamics excluded&#x27;)\n\ndef pwm_samples(ma=.8,mf=40,n=16000,unipolar=False):\n    if not 0&lt;=ma&lt;=1 or mf&lt;1 or n&lt;100*mf:raise ValueError(&#x27;Need linear ma and sufficient samples&#x27;)\n    values=[]\n    for j in range(n):\n        cycles=(j+.5)/n;ref=ma*math.sin(2*math.pi*cycles);carrier=4*abs((cycles*mf)%1-.5)-1\n        a=int(ref&gt;=carrier);b=int(-ref&gt;=carrier)\n        values.append(a-b if unipolar else 2*a-1)\n    sine=2*sum(v*math.sin(2*math.pi*(j+.5)/n)for j,v in enumerate(values))/n\n    cosine=2*sum(v*math.cos(2*math.pi*(j+.5)/n)for j,v in enumerate(values))/n\n    return {&#x27;fundamental_peak_per_bus&#x27;:math.hypot(sine,cosine),&#x27;total_rms_per_bus&#x27;:math.sqrt(sum(v*v for v in values)/n),&#x27;levels&#x27;:sorted(set(values))}\n\ndef charger_permission(chemistry=&#x27;DEFINED&#x27;,bms_ok=True,temperature_ok=True,polarity_ok=True,overvoltage=False,start=False):\n    # Only a permission/state teaching model; no chemistry-specific power regulation or real cell control.\n    reasons=[]\n    if chemistry!=&#x27;DEFINED&#x27;:reasons.append(&#x27;UNDEFINED_PROFILE&#x27;)\n    if not bms_ok:reasons.append(&#x27;BMS_BLOCK&#x27;)\n    if not temperature_ok:reasons.append(&#x27;TEMPERATURE_BLOCK&#x27;)\n    if not polarity_ok:reasons.append(&#x27;POLARITY_FAULT&#x27;)\n    if overvoltage:reasons.append(&#x27;OVERVOLTAGE&#x27;)\n    return {&#x27;enable&#x27;:bool(start and not reasons),&#x27;state&#x27;:&#x27;FAULT_BLOCK&#x27;if reasons else&#x27;PERMITTED&#x27;if start else&#x27;IDLE&#x27;,&#x27;reasons&#x27;:reasons}\n\ndef switched_model(kind,vin,d,l,c,r,cycles=600,steps_per_cycle=200,fs=20000):\n    &quot;&quot;&quot;First-order time-step ideal interval model with diode current projection;output magnitude for inverting.&quot;&quot;&quot;\n    if kind not in(&#x27;buck&#x27;,&#x27;boost&#x27;,&#x27;inverting&#x27;)or min(vin,l,c,r,fs)&lt;=0 or not 0&lt;d&lt;1:raise ValueError(&#x27;Invalid interval model&#x27;)\n    dt=1/(fs*steps_per_cycle);i=0.;v=0.;trace=[]\n    for k in range(cycles*steps_per_cycle):\n        on=k%steps_per_cycle&lt;d*steps_per_cycle\n        if kind==&#x27;buck&#x27;:vl=(vin if on else 0)-v;ic=i-v/r\n        else:vl=vin if on else(vin-v if kind==&#x27;boost&#x27;else-v);ic=-v/r if on else i-v/r\n        if not on and i&lt;=0 and vl&lt;0:vl=0\n        i=max(0,i+vl/l*dt);v=max(0,v+ic/c*dt)\n        if k&gt;=(cycles-20)*steps_per_cycle:trace.append((i,v))\n    return {&#x27;i_avg&#x27;:sum(t[0]for t in trace)/len(trace),&#x27;v_avg&#x27;:sum(t[1]for t in trace)/len(trace),&#x27;i_min&#x27;:min(t[0]for t in trace),&#x27;i_max&#x27;:max(t[0]for t in trace),&#x27;v_pp&#x27;:max(t[1]for t in trace)-min(t[1]for t in trace),&#x27;model&#x27;:&#x27;ideal finite-step interval model,not SPICE or hardware&#x27;}\n</pre>",
+            "gu": "<p>Python standard library જ.models.py તરીકે save કરો.Equipment I/O,SPICE session,official VLab/physical test claim નથી.</p><pre>&quot;&quot;&quot;Offline ideal teaching models. No device I/O, SPICE claim, hardware or real battery control.&quot;&quot;&quot;\nimport math\n\ndef dc_design(kind,vin,vo,io,fs,di,dv):\n    if min(vin,io,fs,di,dv)&lt;=0:raise ValueError(&#x27;Positive Vin,Io,fs,ΔI,ΔV required&#x27;)\n    v=abs(vo)\n    if kind==&#x27;buck&#x27;:\n        if not 0&lt;vo&lt;vin:raise ValueError(&#x27;Buck requires 0&lt;Vo&lt;Vin&#x27;)\n        d=vo/vin;l=(vin-vo)*d/(fs*di);c=di/(8*fs*dv);i=io;block=vin\n    elif kind==&#x27;boost&#x27;:\n        if vo&lt;=vin:raise ValueError(&#x27;Boost requires Vo&gt;Vin&#x27;)\n        d=1-vin/vo;l=vin*d/(fs*di);c=io*d/(fs*dv);i=io/(1-d);block=vo\n    elif kind==&#x27;inverting&#x27;:\n        if vo&gt;=0:raise ValueError(&#x27;Inverting output must be negative&#x27;)\n        d=v/(vin+v);l=vin*d/(fs*di);c=io*d/(fs*dv);i=io/(1-d);block=vin+v\n    else:raise ValueError(&#x27;Unknown topology&#x27;)\n    return dict(duty=d,L_H=l,C_F=c,Iavg_A=i,Imin_A=i-di/2,Ipeak_A=i+di/2,blocking_V=block,CCM=i&gt;di/2,assumptions=&#x27;Ideal CCM,small ripple,zero ESR;not a BOM or stability validation&#x27;)\n\ndef controlled_average(vrms,alpha_deg,mode=&#x27;R&#x27;,active_dc_source=False):\n    if vrms&lt;=0 or not 0&lt;=alpha_deg&lt;=180:raise ValueError(&#x27;Invalid voltage/angle&#x27;)\n    if mode not in (&#x27;R&#x27;,&#x27;RL_CCM_NO_FWD&#x27;,&#x27;RL_CCM_FWD&#x27;):raise ValueError(&#x27;Unknown load/current model&#x27;)\n    a=math.radians(alpha_deg);vm=math.sqrt(2)*vrms\n    if mode==&#x27;RL_CCM_NO_FWD&#x27;:\n        if alpha_deg&gt;90 and not active_dc_source:raise ValueError(&#x27;Passive RL cannot sustain assumed inversion/positive CCM&#x27;)\n        return 2*vm*math.cos(a)/math.pi\n    return vm*(1+math.cos(a))/math.pi\n\ndef rectifier_samples(vll=24,f=50,samples=12000):\n    if vll&lt;=0 or f&lt;=0 or samples&lt;60:raise ValueError(&#x27;Invalid source/resolution&#x27;)\n    peak=vll*math.sqrt(2/3);half=[];full=[]\n    for j in range(samples):\n        t=2*math.pi*(j+.5)/samples;v=[peak*math.sin(t+k*2*math.pi/3)for k in range(3)]\n        half.append(max(v));full.append(max(v)-min(v))\n    return dict(half_avg=sum(half)/samples,bridge_avg=sum(full)/samples,half_ripple_Hz=3*f,bridge_ripple_Hz=6*f)\n\ndef gate_pair(top,bottom):\n    if top and bottom:raise ValueError(&#x27;Forbidden same-leg shoot-through command&#x27;)\n    return {&#x27;top&#x27;:bool(top),&#x27;bottom&#x27;:bool(bottom),&#x27;state&#x27;:&#x27;HIGH&#x27;if top else&#x27;LOW&#x27;if bottom else&#x27;DEAD_TIME&#x27;}\n\ndef three_phase(mode,sector,vdc=24):\n    if mode not in(120,180)or sector not in range(6)or vdc&lt;=0:raise ValueError(&#x27;Invalid mode/sector/bus&#x27;)\n    # A Q1/Q4, B Q3/Q6, C Q5/Q2. Isolated-star balanced R load only for 120° voltages.\n    if mode==180:\n        s=[(1,0,0),(1,1,0),(0,1,0),(0,1,1),(0,0,1),(1,0,1)][sector];neutral=sum(s)/3\n        phase=[vdc*(x-neutral)for x in s];on=[q for state,upper,lower in zip(s,[1,3,5],[4,6,2])for q in[upper if state else lower]]\n    else:\n        on=list([(1,6),(1,2),(3,2),(3,4),(5,4),(5,6)][sector]);phase=[0.,0.,0.]\n        upper=on[0];lower=on[1];phase[{1:0,3:1,5:2}[upper]]=vdc/2;phase[{4:0,6:1,2:2}[lower]]=-vdc/2\n    return dict(on=on,phase=phase,line=[phase[0]-phase[1],phase[1]-phase[2],phase[2]-phase[0]],load=&#x27;balanced isolated-star R;RL diode dynamics excluded&#x27;)\n\ndef pwm_samples(ma=.8,mf=40,n=16000,unipolar=False):\n    if not 0&lt;=ma&lt;=1 or mf&lt;1 or n&lt;100*mf:raise ValueError(&#x27;Need linear ma and sufficient samples&#x27;)\n    values=[]\n    for j in range(n):\n        cycles=(j+.5)/n;ref=ma*math.sin(2*math.pi*cycles);carrier=4*abs((cycles*mf)%1-.5)-1\n        a=int(ref&gt;=carrier);b=int(-ref&gt;=carrier)\n        values.append(a-b if unipolar else 2*a-1)\n    sine=2*sum(v*math.sin(2*math.pi*(j+.5)/n)for j,v in enumerate(values))/n\n    cosine=2*sum(v*math.cos(2*math.pi*(j+.5)/n)for j,v in enumerate(values))/n\n    return {&#x27;fundamental_peak_per_bus&#x27;:math.hypot(sine,cosine),&#x27;total_rms_per_bus&#x27;:math.sqrt(sum(v*v for v in values)/n),&#x27;levels&#x27;:sorted(set(values))}\n\ndef charger_permission(chemistry=&#x27;DEFINED&#x27;,bms_ok=True,temperature_ok=True,polarity_ok=True,overvoltage=False,start=False):\n    # Only a permission/state teaching model; no chemistry-specific power regulation or real cell control.\n    reasons=[]\n    if chemistry!=&#x27;DEFINED&#x27;:reasons.append(&#x27;UNDEFINED_PROFILE&#x27;)\n    if not bms_ok:reasons.append(&#x27;BMS_BLOCK&#x27;)\n    if not temperature_ok:reasons.append(&#x27;TEMPERATURE_BLOCK&#x27;)\n    if not polarity_ok:reasons.append(&#x27;POLARITY_FAULT&#x27;)\n    if overvoltage:reasons.append(&#x27;OVERVOLTAGE&#x27;)\n    return {&#x27;enable&#x27;:bool(start and not reasons),&#x27;state&#x27;:&#x27;FAULT_BLOCK&#x27;if reasons else&#x27;PERMITTED&#x27;if start else&#x27;IDLE&#x27;,&#x27;reasons&#x27;:reasons}\n\ndef switched_model(kind,vin,d,l,c,r,cycles=600,steps_per_cycle=200,fs=20000):\n    &quot;&quot;&quot;First-order time-step ideal interval model with diode current projection;output magnitude for inverting.&quot;&quot;&quot;\n    if kind not in(&#x27;buck&#x27;,&#x27;boost&#x27;,&#x27;inverting&#x27;)or min(vin,l,c,r,fs)&lt;=0 or not 0&lt;d&lt;1:raise ValueError(&#x27;Invalid interval model&#x27;)\n    dt=1/(fs*steps_per_cycle);i=0.;v=0.;trace=[]\n    for k in range(cycles*steps_per_cycle):\n        on=k%steps_per_cycle&lt;d*steps_per_cycle\n        if kind==&#x27;buck&#x27;:vl=(vin if on else 0)-v;ic=i-v/r\n        else:vl=vin if on else(vin-v if kind==&#x27;boost&#x27;else-v);ic=-v/r if on else i-v/r\n        if not on and i&lt;=0 and vl&lt;0:vl=0\n        i=max(0,i+vl/l*dt);v=max(0,v+ic/c*dt)\n        if k&gt;=(cycles-20)*steps_per_cycle:trace.append((i,v))\n    return {&#x27;i_avg&#x27;:sum(t[0]for t in trace)/len(trace),&#x27;v_avg&#x27;:sum(t[1]for t in trace)/len(trace),&#x27;i_min&#x27;:min(t[0]for t in trace),&#x27;i_max&#x27;:max(t[0]for t in trace),&#x27;v_pp&#x27;:max(t[1]for t in trace)-min(t[1]for t in trace),&#x27;model&#x27;:&#x27;ideal finite-step interval model,not SPICE or hardware&#x27;}\n</pre>"
+          }
+        }
+      ]
+    }
+  ],
+  "viva": [
+    {
+      "title": {
+        "en": "Viva with reliable answers",
+        "gu": "વિશ્વસનીય જવાબો સાથે Viva"
+      },
+      "items": [
+        {
+          "q": {
+            "en": "Soft starter changes frequency?",
+            "gu": "Soft Starter Frequency બદલે?"
+          },
+          "a": {
+            "en": "No. It mainly ramps RMS voltage at line frequency; VFDchanges frequency.",
+            "gu": "નહીં.Linefમાં RMSVramp; VFDfબદલે."
+          }
+        },
+        {
+          "q": {
+            "en": "Why low-frequency voltage boost?",
+            "gu": "Low fમાં Voltage Boost કેમ?"
+          },
+          "a": {
+            "en": "Stator resistance drop becomes significant relative to induced EMF; controlled compensation supports flux.",
+            "gu": "StatorRdropEસામેમહત્વનો; controlledboostfluxsupport."
+          }
+        },
+        {
+          "q": {
+            "en": "BLDCfan uses any TRIACregulator?",
+            "gu": "BLDC માટે Any TRIAC Regulator?"
+          },
+          "a": {
+            "en": "No. Use the fan manufacturer’s compatible electronic control.",
+            "gu": "નહીં.OEMcompatibleelectroniccontrolજ."
+          }
+        },
+        {
+          "q": {
+            "en": "Induction heating requires electrical contact?",
+            "gu": "Induction Heatingમાં Electrical Contact?"
+          },
+          "a": {
+            "en": "No. Alternating magnetic flux induces workpiece currents.",
+            "gu": "નહીં.Alternatingfluxથી workpiececurrents."
+          }
+        },
+        {
+          "q": {
+            "en": "UPSVAequals W?",
+            "gu": "UPS VA=W?"
+          },
+          "a": {
+            "en": "Not generally. Both real/apparent power and load waveform limits must be checked.",
+            "gu": "સામાન્યનહીં.Real/apparent/waveformlimitsબંને."
+          }
+        },
+        {
+          "q": {
+            "en": "Lead-acid float rules valid for lithium?",
+            "gu": "Lead-acid Float Lithiumમાં?"
+          },
+          "a": {
+            "en": "No. Charging profile, termination and safety limits are chemistry-specific.",
+            "gu": "નહીં.Profile/termination/safetychemistry-specific."
+          }
+        },
+        {
+          "q": {
+            "en": "AC EVSE is the on-board charger?",
+            "gu": "AC EVSE એટલે OBC?"
+          },
+          "a": {
+            "en": "No. EVSEsupplies/protects AC and signalling; OBCconverts to battery DC.",
+            "gu": "નહીં.EVSEprotectedAC/signals; OBCbatteryDC."
+          }
+        },
+        {
+          "q": {
+            "en": "TSC is an active harmonic filter?",
+            "gu": "TSC એટલે Active Harmonic Filter?"
+          },
+          "a": {
+            "en": "No. It switches reactive capacitor stages; boost PFC and active harmonic filtering are different functions.",
+            "gu": "નહીં.Reactivecapacitorstages; boostPFC/activefilterજુદા."
+          }
+        }
+      ]
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Explain three-phase induction-motor soft starter and torque limitation.",
+        "gu": "Three-phase Soft Starter/Torque Limitation સમજાવો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Explain V/fcontrol, low-speed boost, base frequency, field weakening and slip.",
+        "gu": "V/f, Low-speed Boost, Base f, Field Weakening/Slip સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain compatible electronic fan regulator and inductive commutation.",
+        "gu": "Compatible Fan Regulator/Inductive Commutation સમજાવો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Explain induction heater blocks, working and skin-depth relation.",
+        "gu": "Induction Heater Blocks/Working/Skin Depth સમજાવો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Compare UPSclasses and estimate autonomy with assumptions.",
+        "gu": "UPS Classes/Autonomy assumptions સાથે સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Draw SMPSblocks and discuss regulation, isolation, EMI and protection.",
+        "gu": "SMPS Blocks/Regulation, Isolation, EMI/Protection સમજાવો."
+      },
+      "marks": 4
+    },
+    {
+      "q": {
+        "en": "Compare simple/automatic battery charger, AC EVSE, OBC and DCfast charger.",
+        "gu": "Simple/Automatic Charger, AC EVSE, OBC/DC Fast Charger compare કરો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain syllabus APFCusing TSC and distinguish reactive compensation from active harmonic/current-shaping PFC.",
+        "gu": "Source APFC using TSC સમજાવી Reactive Compensationને Active Harmonic/Current-shaping PFCથી અલગ કરો."
+      },
+      "marks": 7
+    }
+  ],
+  "exam_policy": "Questions and suggested marks only;no answers.",
+  "physical_practicals_performed": false,
+  "sources": [
+    {
+      "title": "Owner GTU7-page syllabus DI05000171,2026–27",
+      "reference": "All5units,17practical rows,8projects,7activities."
+    },
+    {
+      "title": "TI:Basic Calculation of an Inverting Buck-Boost Power Stage",
+      "url": "https://www.ti.com/lit/an/slva721a/slva721a.pdf",
+      "use": "Manufacturer equations cross-check;ideal CCMpolarity/stress assumptions retained."
+    },
+    {
+      "title": "Infineon isolated driver product documentation",
+      "url": "https://www.infineon.com/cms/en/product/power/gate-driver-ics/1ed3461mc12m/",
+      "use": "DESAT,Miller clamp,soft-off demonstrate functions;no device-specific ratings copied as universal."
+    },
+    {
+      "title": "Hitachi Energy thyristor-switched capacitor banks",
+      "url": "https://www.hitachienergy.com/ca/en/products-and-solutions/capacitors-and-filters/low-voltage-capacitors-and-filters/power-factor-correction-solutions/thyristor-switched-capacitor-banks",
+      "use": "TSCis reactive compensation,not a boost-input-current shaping PFC."
+    }
+  ],
+  "reliability_policy": {
+    "models": "offline ideal/conceptual only",
+    "actual_readings": "blank",
+    "source_duplicate4": "both rows retained as4A/4B",
+    "DF": "definition declared because conventions differ",
+    "native_app_tested": false,
+    "published": false
+  }
+}

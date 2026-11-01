@@ -180,6 +180,111 @@ _mechanical_sem5 = BRANCH_SEMS.setdefault('mechanical', {}).setdefault(5, [])
 if 'DI05019011' not in _mechanical_sem5:
     _mechanical_sem5.append('DI05019011')
 
+# DiplomaOne registration: DI01000081 electrical semester 1
+if 'DI01000081' not in SUBJECTS:
+    SUBJECTS['DI01000081'] = ('DC Circuit', 'ડી.સી. સર્કિટ', 'Professional Core', 4, 'theory', None)
+_electrical_sem1 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(1, [])
+if 'DI01000081' not in _electrical_sem1:
+    _electrical_sem1.append('DI01000081')
+
+# DiplomaOne registration: DI01009011 electrical semester 1
+if 'DI01009011' not in SUBJECTS:
+    SUBJECTS['DI01009011'] = ('Electronics Devices & Circuits', 'ઇલેક્ટ્રોનિક્સ Devices અને Circuits', 'Engineering Science', 3, 'theory', None)
+_electrical_sem1 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(1, [])
+if 'DI01009011' not in _electrical_sem1:
+    _electrical_sem1.append('DI01009011')
+
+# DiplomaOne registration: DI01000091 electrical semester 1
+if 'DI01000091' not in SUBJECTS:
+    SUBJECTS['DI01000091'] = ('Fundamentals of Information and Communication Technology (FICT)', 'ફંડામેન્ટલ્સ ઑફ ICT', 'Engineering Science', 3, 'practical', None)
+_electrical_sem1 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(1, [])
+if 'DI01000091' not in _electrical_sem1:
+    _electrical_sem1.append('DI01000091')
+
+# DiplomaOne registration: DI02000161 electrical semester 2
+if 'DI02000161' not in SUBJECTS:
+    SUBJECTS['DI02000161'] = ('Fundamental of Digital Electronics', 'ડિજિટલ ઇલેક્ટ્રોનિક્સના પાયા', 'Engineering Science', 3, 'theory', None)
+_electrical_sem2 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(2, [])
+if 'DI02000161' not in _electrical_sem2:
+    _electrical_sem2.append('DI02000161')
+
+# DiplomaOne registration: DI02000171 electrical semester 2
+if 'DI02000171' not in SUBJECTS:
+    SUBJECTS['DI02000171'] = ('AC Fundamental', 'એસી ફંડામેન્ટલ', 'Professional Core', 4, 'theory', None)
+_electrical_sem2 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(2, [])
+if 'DI02000171' not in _electrical_sem2:
+    _electrical_sem2.append('DI02000171')
+
+# DiplomaOne registration: DI03000081 electrical semester 3
+if 'DI03000081' not in SUBJECTS:
+    SUBJECTS['DI03000081'] = ('Electrical Machines I', 'ઇલેક્ટ્રિકલ મશીન્સ – I', 'Professional Core', 4, 'theory', None)
+_electrical_sem3 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(3, [])
+if 'DI03000081' not in _electrical_sem3:
+    _electrical_sem3.append('DI03000081')
+
+# DiplomaOne registration: DI03000091 electrical semester 3
+if 'DI03000091' not in SUBJECTS:
+    SUBJECTS['DI03000091'] = ('Electrical Instrumentation', 'ઇલેક્ટ્રિકલ ઇન્સ્ટ્રુમેન્ટેશન', 'Professional Core', 4, 'theory', None)
+_electrical_sem3 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(3, [])
+if 'DI03000091' not in _electrical_sem3:
+    _electrical_sem3.append('DI03000091')
+
+# DiplomaOne registration: DI03000101 electrical semester 3
+if 'DI03000101' not in SUBJECTS:
+    SUBJECTS['DI03000101'] = ('Electrical Power Transmission & Distribution', 'વિદ્યુત શક્તિ પ્રસારણ અને વિતરણ', 'Professional Core', 4, 'theory', None)
+_electrical_sem3 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(3, [])
+if 'DI03000101' not in _electrical_sem3:
+    _electrical_sem3.append('DI03000101')
+
+# DiplomaOne registration: DI03009011 electrical semester 3
+if 'DI03009011' not in SUBJECTS:
+    SUBJECTS['DI03009011'] = ('Electrical Wiring Estimating & Contracting', 'ઇલેક્ટ્રિકલ વાયરિંગ અંદાજ તથા કોન્ટ્રાક્ટિંગ', 'Professional Core', 4, 'theory', None)
+_electrical_sem3 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(3, [])
+if 'DI03009011' not in _electrical_sem3:
+    _electrical_sem3.append('DI03009011')
+
+# DiplomaOne registration: DI03009021 electrical semester 3
+if 'DI03009021' not in SUBJECTS:
+    SUBJECTS['DI03009021'] = ('Electrical Power Generation', 'વિદ્યુત શક્તિ ઉત્પાદન', 'Professional Core', 3, 'theory', None)
+_electrical_sem3 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(3, [])
+if 'DI03009021' not in _electrical_sem3:
+    _electrical_sem3.append('DI03009021')
+
+# DiplomaOne registration: DI04000171 electrical semester 4
+if 'DI04000171' not in SUBJECTS:
+    SUBJECTS['DI04000171'] = ('Microcontroller & its Applications', 'માઇક્રોકન્ટ્રોલર તથા તેની એપ્લિકેશન્સ', 'Professional Core', 4, 'theory', None)
+_electrical_sem4 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(4, [])
+if 'DI04000171' not in _electrical_sem4:
+    _electrical_sem4.append('DI04000171')
+
+# DiplomaOne registration: DI04000321 electrical semester 4
+if 'DI04000321' not in SUBJECTS:
+    SUBJECTS['DI04000321'] = ('Electrical Machines – II', 'ઇલેક્ટ્રિકલ મશીન્સ – II', 'Professional Core', 4, 'theory', None)
+_electrical_sem4 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(4, [])
+if 'DI04000321' not in _electrical_sem4:
+    _electrical_sem4.append('DI04000321')
+
+# DiplomaOne registration: DI04009011 electrical semester 4
+if 'DI04009011' not in SUBJECTS:
+    SUBJECTS['DI04009011'] = ('Substation Engineering', 'સબસ્ટેશન એન્જિનિયરિંગ', 'Professional Core', 4, 'theory', None)
+_electrical_sem4 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(4, [])
+if 'DI04009011' not in _electrical_sem4:
+    _electrical_sem4.append('DI04009011')
+
+# DiplomaOne registration: DI05000171 electrical semester 5
+if 'DI05000171' not in SUBJECTS:
+    SUBJECTS['DI05000171'] = ('Power Electronics Converters', 'પાવર ઇલેક્ટ્રોનિક્સ કન્વર્ટર્સ', 'Professional Core', 5, 'theory', None)
+_electrical_sem5 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(5, [])
+if 'DI05000171' not in _electrical_sem5:
+    _electrical_sem5.append('DI05000171')
+
+# DiplomaOne registration: DI05009011 electrical semester 5
+if 'DI05009011' not in SUBJECTS:
+    SUBJECTS['DI05009011'] = ('Switchgear and Protection', 'સ્વિચગિયર અને પ્રોટેક્શન', 'Professional Core', 5, 'theory', None)
+_electrical_sem5 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(5, [])
+if 'DI05009011' not in _electrical_sem5:
+    _electrical_sem5.append('DI05009011')
+
 FONT_MAP = [
     (re.compile(r'font-family="Arial, Helvetica, sans-serif"'), 'font-family="DejaVu Sans"'),
     (re.compile(r'font-family="DejaVu Sans Mono, Consolas, monospace"'), 'font-family="DejaVu Sans Mono"'),

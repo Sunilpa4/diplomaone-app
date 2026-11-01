@@ -1,0 +1,686 @@
+{
+  "subject": "DI04000171",
+  "unit": 1,
+  "title": {
+    "en": "8051 Introduction and Architecture",
+    "gu": "8051 પરિચય તથા આર્કિટેક્ચર"
+  },
+  "format": "notes",
+  "languages": [
+    "en",
+    "gu"
+  ],
+  "tabs": [
+    "notes",
+    "programs",
+    "diagrams",
+    "syntax",
+    "viva",
+    "exam"
+  ],
+  "tab_labels": {
+    "programs": {
+      "en": "Practical",
+      "gu": "પ્રયોગ તથા પ્રોગ્રામ"
+    }
+  },
+  "hours": 13,
+  "weightage": 28,
+  "notes": [
+    {
+      "ref": "1.1",
+      "title": {
+        "en": "1.1 Microcontroller versus microprocessor",
+        "gu": "1.1 Microcontroller તથા Microprocessorનો ભેદ"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Microcontroller versus microprocessor",
+            "gu": "Microcontroller તથા Microprocessorનો ભેદ"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p><p>A microcontroller integrates a CPU,memory and control-oriented peripherals on one chip for embedded tasks;a microprocessor is primarily a processing device whose complete system generally uses additional resources.</p></p><h4>Explanation,application and checks</h4><ul><li>Compare CPU,memory,I/O,timers,power,cost and intended workload rather than saying one is always faster.MCU smay also use external memory/sensors;modern MPU-based SoCsmay integrate many peripherals.</li><li>An 8051 can scan switches and control a display with little external logic;a desktop-class MPU typically runs a much larger software environment.Selection follows real-time needs,memory,power and interfaces.</li></ul><details class=\"self-check\"><summary>8051 has an internal ADC?</summary><p>Not in the classic baseline;use an external ADC such as ADC0804.</p></details>",
+            "gu": "<h4>વ્યાખ્યા</h4><p><p>Microcontrollerમાં embedded task માટે CPU,memory તથા control peripherals એક chip પર હોય;microprocessor મુખ્યત્વે processing device છે,જેની complete system સામાન્ય રીતે વધારાના resources વાપરે છે.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>CPU,memory,I/O,timers,power,cost તથા workloadથી સરખાવો;એક હંમેશાં faster નથી.MCU પણ external memory/sensors વાપરે;modern MPU-based SoCમાં પણ peripherals હોઈ શકે.</li><li>8051 ઓછી external logicથી switches/display સંભાળે;desktop-class MPU સામાન્ય રીતે મોટું software environment ચલાવે.Selection real-time need,memory,power/interface મુજબ થાય.</li></ul><details class=\"self-check\"><summary>8051માં Internal ADC છે?</summary><p>Classic baselineમાં નથી;ADC0804 જેવા external ADC લો.</p></details>"
+          },
+          "syllabus_item": "1.1",
+          "diagram": "compare"
+        }
+      ]
+    },
+    {
+      "ref": "1.2",
+      "title": {
+        "en": "1.2 Hierarchy and classification of microcontrollers",
+        "gu": "1.2 Microcontrollerની Hierarchy તથા Classification"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Hierarchy and classification of microcontrollers",
+            "gu": "Microcontrollerની Hierarchy તથા Classification"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p><p>Microcontroller hierarchy is a grouping by capability or architecture,such as data width,memory and peripheral integration;it is not a universal ranking in which every higher-bit chip is better.</p></p><h4>Explanation,application and checks</h4><ul><li>By datapath width:8-bit,16-bit and32-bit families.An8-bit 8051 still has16-bit PC and DPTR;CPU data width does not require all registers to be8-bit.</li><li>By program memory:mask-ROM,OTP,EP ROM and Flash variants.By architecture:separate code/data spaces versus unified-space designs;by use:general-purpose and application-specific controllers.</li><li>Classic 8051 baseline:4KBprogram memory,128B RAM,32I/Opins,two timer/counters and UART.8052 and modern derivatives add/change resources;do not silently give their extra RAM/Timer2to the baseline.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p><p>Microcontroller hierarchy data width,memory/peripheral integration જેવી capability/architecture મુજબ grouping છે;higher-bit chip હંમેશાં વધુ સારી એવો universal rank નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Datapath મુજબ8-bit,16-bit/32-bit families.8-bit 8051માં પણ16-bit PC/DPTR છે;CPU data widthથી બધા registers8-bit હોવા જરૂરી નથી.</li><li>Program memory મુજબ mask-ROM,OTP,EP ROM/Flash;architecture મુજબ separate code/data તથા unified spaces;use મુજબ general-purpose/application-specific.</li><li>Classic 8051માં4KB program memory,128B RAM,32I/O pins,બે timer/counters/UART છે.8052/modern derivativeના extra RAM/Timer2ને baselineમાં નમાનો.</li></ul>"
+          },
+          "syllabus_item": "1.2"
+        }
+      ]
+    },
+    {
+      "ref": "1.3",
+      "title": {
+        "en": "1.3 Microcontroller applications and selection",
+        "gu": "1.3 Microcontrollerના ઉપયોગ તથા Selection"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Microcontroller applications and selection",
+            "gu": "Microcontrollerના ઉપયોગ તથા Selection"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p><p>An embedded control application senses inputs,executes a defined algorithm and controls outputs within the electrical,time and safety limits of a larger product.</p></p><h4>Explanation,application and checks</h4><ul><li>Examples:metering,appliance sequencing,motor drive supervision,temperature indication,access alarms and solar tracking.Each requires suitable sensors,drivers,interfaces and protection,not a CPU alone.</li><li>Select memory,I/O,timing accuracy,ADC/UART requirements,operating temperature,power and support tools.The classic 8051 has no on-chip ADC;ADC0804 is an external conversion device.</li><li>Failure behaviour matters as much as normal operation:define reset outputs,timeout behaviour,watchdog strategy where supported and manual/emergency isolation.A classroom circuit is not an industrial safety controller.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p><p>Embedded control application inputs sense કરી algorithm ચલાવે અને મોટા productની electrical,time/safety limitsમાં outputs નિયંત્રિત કરે છે.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Metering,appliance sequencing,motor supervision,temperature indication,alarm/solar tracking ઉદાહરણ છે.દરેકમાં sensors,drivers,interfaces/protection જોઈએ,માત્ર CPU નહીં.</li><li>Memory,I/O,timing accuracy,ADC/UART,temperature,power/support tools પસંદ કરો.Classic 8051માં on-chip ADC નથી;ADC0804 external converter છે.</li><li>Normal operation જેટલું failure behaviour મહત્વનું:reset outputs,timeout,supported watchdog/manual-emergency isolation નક્કી કરો.Classroom circuit industrial safety controller નથી.</li></ul>"
+          },
+          "syllabus_item": "1.3"
+        }
+      ]
+    },
+    {
+      "ref": "1.4",
+      "title": {
+        "en": "1.4 Embedded system:definition and classification",
+        "gu": "1.4 Embedded system:વ્યાખ્યા તથા વર્ગીકરણ"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Embedded system:definition and classification",
+            "gu": "Embedded system:વ્યાખ્યા તથા વર્ગીકરણ"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p><p>An embedded system is a hardware-software system designed to perform specified functions within a larger device,often subject to resource and timing constraints.</p></p><h4>Explanation,application and checks</h4><ul><li>By service:standalone,networked,mobile and real-time systems.By scale:small,medium and complex designs,with boundaries chosen for the course rather than fixed universal chip counts.</li><li>Hard real-time:a missed deadline is unacceptable for the requirement;soft real-time:late results degrade service but may retain value.Real-time means meeting deadlines,not merely high clock speed.</li><li>Construction comprises sensors/input conditioning,controller memory/firmware,power/clock/reset,output drivers and user/communication interfaces.Working is repeated sense→validate→decide→act→monitor.</li><li>Polling is simple but may block;interrupt-driven designs respond to events while a main loop handles nonurgent work.No classification removes the need for electrical protection and fault handling.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p><p>Embedded system મોટા deviceમાં specified functions માટે રચાયેલી hardware-software system છે,જેમાં ઘણીવાર resources/timing constraints હોય છે.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Service મુજબ standalone,networked,mobile/real-time;scale મુજબ small,medium/complex designs;આ boundaries course convention છે,fixed universal chip counts નહીં.</li><li>Hard real-timeમાં requirement મુજબ deadline ચૂકી નશકાય;soft real-timeમાં delayથી service ઘટે છતાં result ઉપયોગી હોઈ શકે.Real-time એટલે deadline પૂરી કરવી,માત્ર high clock નહીં.</li><li>Constructionમાં sensors/conditioning,controller-memory/firmware,power-clock-reset,drivers/user-communication interface છે.Working sense→validate→decide→act→monitor છે.</li><li>Polling સરળ છે પણ block થઈ શકે;interrupt events સંભાળે અને main loop nonurgent work કરે.કોઈ classification electrical protection/fault handlingની જરૂર દૂર કરતી નથી.</li></ul>"
+          },
+          "syllabus_item": "1.4",
+          "diagram": "architecture"
+        }
+      ]
+    },
+    {
+      "ref": "1.5",
+      "title": {
+        "en": "1.5 8051 architecture:construction and instruction execution",
+        "gu": "1.5 8051 Architecture:Construction તથા Instruction execution"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "8051 architecture:construction and instruction execution",
+            "gu": "8051 Architecture:Construction તથા Instruction execution"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p><p>The 8051 is an8-bit control-oriented CPU architecture with separate code and data address spaces,bit operations and integrated control peripherals.</p></p><h4>Classification / principle</h4><ul><li>CPU/ALU and registers;code/data memory;I/O;timers;serial;interrupt;clock/reset are distinct functional groups.</li></ul><h4>Construction / registers / connections</h4><ol><li>ALUoperates on8-bit operands,mainly with accumulator A;Bsupports MUL/DIVand can store temporary data.</li><li>PC and instruction decoder fetch/decode opcodes;DPTR forms16-bit addresses for selected data/code accesses.</li><li>RAM holds working data,register banks and stack;SFR sconfigure ports,flags,timers and UART.</li><li>Ports connect logic-level signals;timers measure intervals/events and interrupt logic selects enabled requests.</li><li>Oscillator generates timing and reset places core/SFR sinto a defined state;external load safety still needs hardware design.</li></ol><h4>Working / execution sequence</h4><ol><li>PC identifies the next code byte;fetch reads the opcode from the selected internal/external code memory.</li><li>Decoder determines operand sources,addressing mode and instruction length.</li><li>Operands are read from registers,RAM,SFR sor immediate bytes using the permitted access form.</li><li>ALU/data-transfer logic performs the operation and writes the destination;relevant flags change as specified.</li><li>PC advances or changes for a branch/call/return;enabled interrupts can transfer control between instructions with the required return state preserved.</li></ol><h4>Explanation,application and checks</h4><ul><li>Classic code space can address up to64KBand external data space up to64KB;the4KBon-chip program size is not the same as total addressable code space.</li><li>Harvard-style separation describes logical spaces;external address/data pins can be multiplexed.An8-bit data bus does not imply an8-bit program address.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p><p>8051 એ8-bit control-oriented CPU architecture છે,જેમાં separate code/data spaces,bit operations તથા integrated peripherals છે.</p></p><h4>વર્ગીકરણ / સિદ્ધાંત</h4><ul><li>CPU/ALU-registers,code/data memory,I/O,timers,serial,interrupt તથા clock/reset અલગ groups છે.</li></ul><h4>Construction / Registers / જોડાણ</h4><ol><li>ALU8-bit operands પર મુખ્યત્વે A સાથે કામ કરે;B MUL/DIV તથા temporary data માટે છે.</li><li>PC/instruction decoder opcode fetch-decode કરે;DPTR selected data/code access માટે16-bit address આપે.</li><li>RAM working data,register banks/stack રાખે;SFR ports,flags,timers/UART configure કરે.</li><li>Ports logic-level signals જોડે;timers intervals/events માપે અને interrupt logic enabled requests પસંદ કરે.</li><li>Oscillator timing આપે/reset defined state બનાવે;external load safety માટે હજી hardware design જોઈએ.</li></ol><h4>Working / અમલનો ક્રમ</h4><ol><li>PC next code byte બતાવે;fetch selected internal/external code memoryમાંથી opcode વાંચે.</li><li>Decoder operand source,addressing mode/instruction length નક્કી કરે.</li><li>Permitted accessથી registers,RAM,SFR/immediate bytesમાંથી operands વાંચાય.</li><li>ALU/data-transfer logic operation કરી destination લખે;specified flags બદલાય.</li><li>PC advance થાય કે branch/call/returnથી બદલાય;enabled interrupt instructions વચ્ચે return state સાચવી control બદલે.</li></ol><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Classic code space64KB તથા external data space64KB સુધી address કરે;on-chip4KB program size/total addressable code space અલગ છે.</li><li>Harvard-style separation logical spaces બતાવે;external address/data pins multiplex થાય.8-bit data bus એટલે8-bit program address નહીં.</li></ul>"
+          },
+          "syllabus_item": "1.5",
+          "construction_point_count": 5,
+          "working_point_count": 5,
+          "classification_first": true,
+          "diagram": "architecture"
+        },
+        {
+          "h": {
+            "en": "PSW flags:carry,auxiliary carry and overflow",
+            "gu": "PSW flags:Carry,Auxiliary carry તથા Overflow"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p><p>A flag is a status bit indicating a specified condition of an operation;carry represents unsigned carry/borrow while overflow represents signed-range overflow for relevant arithmetic instructions.</p></p><h4>Explanation,application and checks</h4><ul><li>PSW bits7..0:CY,AC,F0,RS1,RS0,OV,reserved,P.RS1/RS0select the register bank;Pindicates odd parity of A.</li><li>FFH+01H→00Hwith CY=1;7FH+01H→80Hwith OV=1 and CY=0.These represent different unsigned/signed interpretations.</li><li>ACrecords carry from bit3to bit4in relevant operations;it supports decimal adjustment.INC/DECdo not set CYas a general carry/borrow indicator.SUBB subtracts both operand and incoming CY.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p><p>Flag operationની specified condition બતાવતો status bit છે;carry unsigned carry/borrow તથા overflow relevant arithmeticમાં signed-range overflow બતાવે.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>PSW bits7..0:CY,AC,F0,RS1,RS0,OV,reserved,P.RS1/RS0 register bank પસંદ કરે;P Aની odd parity બતાવે.</li><li>FFH+01H→00H સાથે CY=1;7FH+01H→80H સાથે OV=1/CY=0.આ unsigned/signed interpretationનો ભેદ છે.</li><li>Relevant operationમાં bit3થી bit4 carry ACમાં મળે;decimal adjustmentમાં ઉપયોગી છે.INC/DEC CYને general carry/borrow તરીકે સેટ નકરે.SUBB operand તથા incoming CY બંને બાદ કરે.</li></ul>"
+          },
+          "syllabus_item": "1.5",
+          "diagram": "registers"
+        },
+        {
+          "h": {
+            "en": "PC,DPTR and stack pointer",
+            "gu": "PC,DPTR તથા Stack pointer"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p><p>PC is the16-bit program counter;DPTR is the16-bit data pointer formed by DPHand DPL;SP is the8-bit pointer to the current internal stack top.</p></p><h4>Explanation,application and checks</h4><ul><li>PC changes through instruction sequencing and control transfer;it is not a normal directly addressable SFR.DPTR is used by MOVX and indexed MOVC,not automatically by every MOVinstruction.</li><li>DPL=82H,DPH=83H,SP=81Hare direct SFR addresses.A16-bit pointer can address more than256 bytes even though the ALUis8-bit.</li><li>For stack discipline,match PUSH/POPand CALL/RET;RETI is required for an interrupt return because it also informs interrupt control.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p><p>PC 16-bit program counter છે;DPH/DPLથી બનેલું DPTR 16-bit data pointer છે;SP current internal stack topનો8-bit pointer છે.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>PC instruction sequence/control transferથી બદલાય;normal directly addressable SFR નથી.DPTR MOVX/indexed MOVCમાં વપરાય,દરેક MOVમાં આપમેળે નહીં.</li><li>DPL=82H,DPH=83H,SP=81H direct SFR addresses છે.ALU8-bit હોવા છતાં16-bit pointer256 bytes કરતાં વધુ address કરે.</li><li>Stack discipline માટે PUSH/POP તથા CALL/RET match કરો;interrupt return માટે RETI જોઈએ,કારણકે તે interrupt controlને પણ જાણ કરે.</li></ul>"
+          },
+          "syllabus_item": "1.5",
+          "diagram": "registers"
+        }
+      ]
+    },
+    {
+      "ref": "1.6",
+      "title": {
+        "en": "1.6 Internal RAM,bit area and register banks",
+        "gu": "1.6 Internal RAM,Bit area તથા Register banks"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Internal RAM,bit area and register banks",
+            "gu": "Internal RAM,Bit area તથા Register banks"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p><p>The baseline 8051 internal RAM is128 bytes at00H–7FH;it holds four register banks,a bit-addressable area and general working data/stack.</p></p><h4>Explanation,application and checks</h4><ul><li>00H–1FH:four banks of eight registers R0–R7;bank0=00H–07H,bank1=08H–0FH,bank2=10H–17H,bank3=18H–1FH.</li><li>20H–2FHcontains16 bytes=128individually addressable bits;30H–7FHprovides80general RAM bytes if not allocated for other needs.Abit address is not a byte address.</li><li>RS1/RS0choose a bank without moving stored bytes.R0/R1may act as indirect pointers;R2–R7cannot replace them in classic MOV A,@Ri.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p><p>Baseline 8051 internal RAM 00H–7FH પર128 bytes છે;તેમાં ચાર register banks,bit-addressable area તથા general data/stack છે.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>00H–1FHમાં ચાર R0–R7 banks છે;bank0=00H–07H,bank1=08H–0FH,bank2=10H–17H,bank3=18H–1FH.</li><li>20H–2FHમાં16 bytes=128 individually addressable bits છે;30H–7FHમાં અન્ય allocation પહેલાં80general RAM bytes છે.Bit address/byte address અલગ છે.</li><li>RS1/RS0 stored bytes ખસેડ્યા વિના bank પસંદ કરે.R0/R1 indirect pointers બની શકે;classic MOV A,@Riમાં R2–R7 તેમને replace નકરી શકે.</li></ul>"
+          },
+          "syllabus_item": "1.6",
+          "diagram": "memory"
+        },
+        {
+          "h": {
+            "en": "Program ROM/Flash,SFR sand separate spaces",
+            "gu": "Program ROM/Flash,SFR તથા અલગ Spaces"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p><p>Program memory stores instructions/constants;SFR sare control/status registers reached by direct addressing in the80H–FFHrange,not the upper half of baseline RAM.</p></p><h4>Explanation,application and checks</h4><ul><li>Original 8051 has4KBmask ROM;AT89C51 has4KBFlash.Derivative memory size and erase/program method must be checked from its datasheet.</li><li>MOVaccesses internal data/SFR forms;MOVX accesses external data space;MOVC reads constants in code space.Code and data addresses of the same numeric value need not refer to the same storage.</li><li>Direct address90His P1;indirect@R0 with R0=90Hdoes not read P1.On a baseline 8051 that upper indirect RAM is not implemented;on 8052 derivatives it may address separate added RAM.</li><li>Only implemented SFR addresses/bits are valid;do not assume every address in80H–FFHis a usable register.P0=80H,P1=90H,P2=A0H,P3=B0H,IE=A8H,PSW=D0H.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p><p>Program memory instructions/constants રાખે;SFR 80H–FFH rangeમાં direct addressingથી મળતા control/status registers છે,baseline RAMનો upper half નહીં.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Original 8051માં4KB mask ROM,AT89C51માં4KB Flash છે.Derivative size તથા erase/program method datasheetથી તપાસો.</li><li>MOV internal data/SFR forms,MOVX external data અને MOVC code constants વાંચે.Same numeric code/data address એક જ storage હોય એવું નથી.</li><li>Direct90H P1 છે;R0=90H સાથે indirect@R0 P1 નથી વાંચતું.Baseline 8051માં upper indirect RAM નથી;8052 derivativeમાં separate added RAM હોઈ શકે.</li><li>Implemented SFR addresses/bits જ valid છે;80H–FFHના બધા addresses usable નથી.P0=80H,P1=90H,P2=A0H,P3=B0H,IE=A8H,PSW=D0H.</li></ul>"
+          },
+          "syllabus_item": "1.6",
+          "diagram": "memory"
+        },
+        {
+          "h": {
+            "en": "Stack growth and RAM allocation",
+            "gu": "Stack growth તથા RAM allocation"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p><p>A stack is a last-in-first-out storage area used for saved data and return addresses;the classic 8051 hardware stack resides in internal data RAM and grows upward.</p></p><h4>Explanation,application and checks</h4><ul><li>Reset SP=07H;PUSHfirst increments SP then stores,so first byte is at08H.POPreads current SP then decrements.This default overlaps bank1 and may collide with compiler allocations.</li><li>If approved assembly allocates stack above2FH,SP=2FHmakes the first push use30H.This is an example allocation,not a universal safe setting for every Cprogram.</li><li>CALLand interrupt entry save return address bytes;ISR and compiler-generated code can save more data.Plan worst-case nesting,local storage and stack depth with the linker map;never overwrite compiler SP setup casually.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p><p>Stack saved data/return addresses માટે last-in-first-out storage છે;classic 8051 hardware stack internal data RAMમાં હોય અને ઉપરના address તરફ વધે.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Reset SP=07H;PUSH પહેલાં SP વધારે પછી store કરે,એટલે first byte08H.POP current SP વાંચી પછી ઘટાડે.Default bank1/compiler allocations સાથે collide થઈ શકે.</li><li>Approved assemblyમાં stack2FH ઉપર allocate થાય તો SP=2FHથી first push30H વાપરે.આ example છે,દરેક C program માટે universal safe setting નહીં.</li><li>CALL/interrupt entry return-address bytes save કરે;ISR/compiler code વધુ data save કરી શકે.Linker mapથી nesting/local storage/stack depth જુઓ;compiler SP setup મનસ્વી નબદલો.</li></ul>"
+          },
+          "syllabus_item": "1.6",
+          "diagram": "stack"
+        }
+      ]
+    },
+    {
+      "ref": "1.7",
+      "title": {
+        "en": "1.7 40-pin map and alternate functions",
+        "gu": "1.7 40-pin map તથા Alternate functions"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "40-pin map and alternate functions",
+            "gu": "40-pin map તથા Alternate functions"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p><p>A pin function specifies the electrical role of a package terminal;an alternate function shares that terminal with another peripheral and must not be assigned conflicting uses simultaneously.</p></p><h4>Explanation,application and checks</h4><ul><li>For the40pinD IP:VCC 40,GND 20,RST9,XTAL1=19,XTAL2=18;EA31,ALE30,PSEN29.P1 pins1–8,P3 pins10–17,P2 pins21–28,P0 pins39–32.</li><li>P3.0RXD,P3.1TXD,P3.2 INT0,P3.3 INT1,P3.4T0,P3.5T1,P3.6 WR,P3.7 RD.External memory uses P0 multiplexed AD0–AD7 and P2 high address A8–A15.</li><li>EAselects internal/external program access according to the chip memory arrangement;PSENstrobes external code reads and ALElatches the low address.These are not general-purpose spare pins.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p><p>Pin function package terminalનો electrical role છે;alternate function એ terminal બીજા peripheral સાથે share કરે,એટલે conflicting uses એકસાથે નઆપવા.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>40pin D IPમાં VCC 40,GND 20,RST9,XTAL1=19,XTAL2=18;EA31,ALE30,PSEN29.P1 pins1–8,P3 pins10–17,P2 pins21–28,P0 pins39–32.</li><li>P3.0RXD,P3.1TXD,P3.2 INT0,P3.3 INT1,P3.4T0,P3.5T1,P3.6 WR,P3.7 RD.External memoryમાં P0 multiplexed AD0–AD7 તથા P2 high address A8–A15 છે.</li><li>EA chip memory arrangement મુજબ internal/external program access પસંદ કરે;PSEN external code read strobe તથા ALE low address latch માટે છે.આ general spare pins નથી.</li></ul>"
+          },
+          "syllabus_item": "1.7",
+          "diagram": "pinout"
+        },
+        {
+          "h": {
+            "en": "I/Oports:release inputs and drive loads safely",
+            "gu": "I/O ports:Inputs release તથા Safe load driving"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p><p>A quasi-bidirectional port uses its latch and pullup structure for input/output operation;writing1releases a pin for external input,while writing0actively drives low.</p></p><h4>Explanation,application and checks</h4><ul><li>P1/P2/P3 have internal pullups;P0  GPIO is open drain and needs external pullups to produce a defined HIGH.Aread-modify-write instruction may read the latch instead of the pin;use bit operations/port shadows deliberately.</li><li>Release a switch input before reading it;an active-low switch connects to ground under the approved trainer arrangement.Debounce prevents one press being counted many times.</li><li>Pin current,port total and device total all matter.Use resistors and compatible buffers/transistor drivers;do not power relay coils,DCmotors,stepper coils or large LED arrays directly from the MCU.</li></ul>",
+            "gu": "<h4>વ્યાખ્યા</h4><p><p>Quasi-bidirectional port latch/pullupથી input-output કરે;1 લખતાં external input માટે release થાય,0 લખતાં actively low drive થાય.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>P1/P2/P3માં internal pullups છે;P0 GPIO open-drain હોવાથી defined HIGH માટે external pullups જોઈએ.Read-modify-write latch વાંચી શકે;bit operations/port shadow સમજી વાપરો.</li><li>Switch input વાંચતાં પહેલાં release કરો;approved trainerમાં active-low switch ground તરફ જોડાય.Debounce એક pressને અનેક events થવાથી રોકે.</li><li>Pin current,port/device total બધાં limits જરૂરી.Resistors/compatible buffers-drivers લો;relay,DC motor,stepper કે large LED array સીધી MCUથી નચલાવો.</li></ul>"
+          },
+          "syllabus_item": "1.7",
+          "diagram": "ports"
+        }
+      ]
+    },
+    {
+      "ref": "1.8",
+      "title": {
+        "en": "1.8 Clocking,reset and minimum reset-time derivation",
+        "gu": "1.8 Clocking,Reset તથા Minimum reset-time derivation"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Clocking,reset and minimum reset-time derivation",
+            "gu": "Clocking,Reset તથા Minimum reset-time derivation"
+          },
+          "body": {
+            "en": "<h4>Definition</h4><p><p>Clocking supplies the timing reference for instruction/peripheral operation;reset establishes defined initial core/register states when its specified level and duration are satisfied.</p></p><h4>Assumptions,ordered derivation and checks</h4><ol><li>Classic12Tmachine cycle Tmc=12/fosc.At12MHz,Tmc=1µs;at11.0592MHz,Tmc≈1.085069µs.Modern1T/6Tderivatives require their own timing model.</li><li>Baseline active-HIGH RSTmust remain high for at least2machine cycles while the oscillator runs:treset≥2×12/fosc=24/fosc.At12MHzthis minimum is2µs;oscillator startup/power-ramp margin must also be provided.</li><li>Crystal/load capacitors follow the specific oscillator/load specification;do not use a random universal capacitor value.Areset supervisor is more dependable than assuming an RC network handles every brownout.</li><li>Check regulated supply,decoupling,ground,EA,reset waveform and oscillator before blaming firmware;programming method must match the exact chip,not just the 8051 family name.</li></ol>",
+            "gu": "<h4>વ્યાખ્યા</h4><p><p>Clocking instruction/peripheral timing આપે;specified level/duration પૂરી થાય ત્યારે reset defined initial core/register states બનાવે.</p></p><h4>ધારણાઓ,ક્રમબદ્ધ Derivation તથા ચકાસણી</h4><ol><li>Classic12T માટે Tmc=12/fosc.12MHz પર1µs;11.0592MHz પર≈1.085069µs.Modern1T/6T માટે અલગ model જોઈએ.</li><li>Active-HIGH RST oscillator ચાલતો હોય ત્યારે ઓછામાં ઓછા2machine cycles high રહે:treset≥2×12/fosc=24/fosc.12MHz પર minimum2µs છે;startup/power-ramp margin પણ જોઈએ.</li><li>Crystal/load capacitors oscillator/load specification મુજબ પસંદ કરો;random universal value નહીં.RC બધા brownouts સંભાળે એમ માનવા કરતાં reset supervisor વધુ dependable છે.</li><li>Firmwareને દોષ આપતાં પહેલાં supply,decoupling,ground,EA,reset/oscillator તપાસો.Programming method exact chip મુજબ હોય,માત્ર8051 family nameથી નહીં.</li></ol>"
+          },
+          "syllabus_item": "1.8",
+          "diagram": "clockreset",
+          "derivation": true
+        }
+      ]
+    },
+    {
+      "ref": "Practical.1",
+      "title": {
+        "en": "Practical.1 1. Addition of two numbers at Port1",
+        "gu": "Practical.1 1. બે સંખ્યાનો સરવાળો Port1 પર"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "1. Addition of two numbers at Port1",
+            "gu": "1. બે સંખ્યાનો સરવાળો Port1 પર"
+          },
+          "body": {
+            "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry1is retained even if theory placement differs.</li><li>Simulator/watch only:P1 low byte,sum/high_byte variables;no external load required.</li><li>250+10=260=0104H;P1=04H,high_byte=01H.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nvolatile u16 sum;\nvolatile u8 high_byte;\nvoid main(void) { u8 a=250,b=10; sum=(u16)a+b; P1=(u8)sum;\n high_byte=(u8)(sum&gt;&gt;8); for (;;) { } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry1 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>Simulator/watchમાં P1 low byte,sum/high_byte variables જુઓ;external load જરૂરી નથી.</li><li>250+10=260=0104H;P1=04H,high_byte=01H.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nvolatile u16 sum;\nvolatile u8 high_byte;\nvoid main(void) { u8 a=250,b=10; sum=(u16)a+b; P1=(u8)sum;\n high_byte=(u8)(sum&gt;&gt;8); for (;;) { } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "syllabus_item": "Practical.1",
+          "diagram": "cflow"
+        }
+      ]
+    },
+    {
+      "ref": "Practical.2",
+      "title": {
+        "en": "Practical.2 2. Subtraction of two numbers at Port0",
+        "gu": "Practical.2 2. બે સંખ્યાની બાદબાકી Port0 પર"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "2. Subtraction of two numbers at Port0",
+            "gu": "2. બે સંખ્યાની બાદબાકી Port0 પર"
+          },
+          "body": {
+            "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry1is retained even if theory placement differs.</li><li>Simulator/watch only:P0,low_byte and borrow;physical P0  HIGH would require external pullups.</li><li>10−25 gives low_byte=F1H,borrow=1;this is modulo8-bit−15,not a positive241signed answer.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nvolatile u8 low_byte,borrow;\nvoid main(void) { u8 a=10,b=25; borrow=(a&lt;b); low_byte=(u8)(a-b);\n P0=low_byte; for (;;) { } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry1 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>Simulator/watchમાં P0,low_byte/borrow જુઓ;physical P0 HIGH માટે external pullups જોઈએ.</li><li>10−25થી low_byte=F1H,borrow=1;આ modulo8-bit−15 છે,signed positive241 જવાબ નહીં.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nvolatile u8 low_byte,borrow;\nvoid main(void) { u8 a=10,b=25; borrow=(a&lt;b); low_byte=(u8)(a-b);\n P0=low_byte; for (;;) { } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "syllabus_item": "Practical.2",
+          "diagram": "cflow"
+        }
+      ]
+    },
+    {
+      "ref": "Activity.1",
+      "title": {
+        "en": "Activity.1 Activity a: Pin sheets,interface diagrams and specification tables",
+        "gu": "Activity.1 પ્રવૃત્તિ a: Pin sheets,Interface diagrams તથા Specification tables"
+      },
+      "items": [
+        {
+          "h": {
+            "en": "Activity a: Pin sheets,interface diagrams and specification tables",
+            "gu": "પ્રવૃત્તિ a: Pin sheets,Interface diagrams તથા Specification tables"
+          },
+          "body": {
+            "en": "<h4>Aim and status</h4><p><p>A source-suggested learning/report plan,not an already completed workshop,visit or project.</p></p><h4>Explanation,application and checks</h4><ul><li>Prepare verified 8051,ADC0804,LM35,CD4051,L293D,MAX232 and selected GSM module sheets;state package,supply,input range,pin functions,logic levels and source revision.</li><li>Compare alternate-function conflicts,current/voltage limits,driver requirements and reset polarity.Adiagram must distinguish signal,power,ground and protection paths.</li><li>Prepare about five pages:aim/scope;verified component/software background;diagram/code/method;actual evidence and test interpretation;conclusion,limitations and references.</li><li>Keep name/date,device/clock,firmware revision,expected versus actual results,source URLs,evidence filenames and teacher feedback blank until collected.Never invent readings or signatures.</li></ul><h4>Datasheet references / Datasheet સંદર્ભ</h4><p><a href=\"https://ww1.microchip.com/downloads/en/DeviceDoc/doc0265.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Microchip/Atmel AT89C51 official legacy datasheet:classic40pinbaseline,ports/reset/five vectors and six flags</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/adc0804-n.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TI ADC0804-N:input/reference/clock/conversion timing</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/l293.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TIL293/L293D:logic/load supply and current/clamps</a></p><p><a href=\"https://www.ti.com/product/CD4051B\" target=\"_blank\" rel=\"noopener noreferrer\">TI CD4051 B:analog switch limits</a></p><p><a href=\"https://www.keil.com/appnotes/files/apnt_103.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Keil interrupt function/vector rules</a></p>",
+            "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-suggested learning/report plan છે,completed workshop,visit/project નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Verified 8051,ADC0804,LM35,CD4051,L293D,MAX232 તથા selected GSM module sheets બનાવો;package,supply,input range,pin functions,logic level/source revision લખો.</li><li>Alternate-function conflict,current/voltage limits,driver/reset polarity compare કરો.Diagramમાં signal,power,ground/protection paths અલગ રાખો.</li><li>આશરે પાંચ pages:aim/scope;verified background;diagram/code/method;actual evidence/test interpretation;conclusion,limitations/references.</li><li>Name/date,device/clock,firmware revision,expected/actual results,source URLs,evidence files/teacher feedback data મળે ત્યાં સુધી blank રાખો.Readings/signatures નબનાવો.</li></ul><h4>Datasheet references / Datasheet સંદર્ભ</h4><p><a href=\"https://ww1.microchip.com/downloads/en/DeviceDoc/doc0265.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Microchip/Atmel AT89C51 official legacy datasheet:classic40pinbaseline,ports/reset/five vectors and six flags</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/adc0804-n.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TI ADC0804-N:input/reference/clock/conversion timing</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/l293.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TIL293/L293D:logic/load supply and current/clamps</a></p><p><a href=\"https://www.ti.com/product/CD4051B\" target=\"_blank\" rel=\"noopener noreferrer\">TI CD4051 B:analog switch limits</a></p><p><a href=\"https://www.keil.com/appnotes/files/apnt_103.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Keil interrupt function/vector rules</a></p>"
+          },
+          "syllabus_item": "Activity.1"
+        }
+      ]
+    }
+  ],
+  "programs": [
+    {
+      "title": {
+        "en": "Practical and complete programs",
+        "gu": "પ્રયોગ તથા સંપૂર્ણ Programs"
+      },
+      "format": "rich_cards",
+      "items": [
+        {
+          "h": {
+            "en": "1. Addition of two numbers at Port1",
+            "gu": "1. બે સંખ્યાનો સરવાળો Port1 પર"
+          },
+          "body": {
+            "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry1is retained even if theory placement differs.</li><li>Simulator/watch only:P1 low byte,sum/high_byte variables;no external load required.</li><li>250+10=260=0104H;P1=04H,high_byte=01H.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nvolatile u16 sum;\nvolatile u8 high_byte;\nvoid main(void) { u8 a=250,b=10; sum=(u16)a+b; P1=(u8)sum;\n high_byte=(u8)(sum&gt;&gt;8); for (;;) { } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry1 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>Simulator/watchમાં P1 low byte,sum/high_byte variables જુઓ;external load જરૂરી નથી.</li><li>250+10=260=0104H;P1=04H,high_byte=01H.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nvolatile u16 sum;\nvolatile u8 high_byte;\nvoid main(void) { u8 a=250,b=10; sum=(u16)a+b; P1=(u8)sum;\n high_byte=(u8)(sum&gt;&gt;8); for (;;) { } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "diagram": "cflow"
+        },
+        {
+          "h": {
+            "en": "2. Subtraction of two numbers at Port0",
+            "gu": "2. બે સંખ્યાની બાદબાકી Port0 પર"
+          },
+          "body": {
+            "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry1is retained even if theory placement differs.</li><li>Simulator/watch only:P0,low_byte and borrow;physical P0  HIGH would require external pullups.</li><li>10−25 gives low_byte=F1H,borrow=1;this is modulo8-bit−15,not a positive241signed answer.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nvolatile u8 low_byte,borrow;\nvoid main(void) { u8 a=10,b=25; borrow=(a&lt;b); low_byte=(u8)(a-b);\n P0=low_byte; for (;;) { } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+            "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry1 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>Simulator/watchમાં P0,low_byte/borrow જુઓ;physical P0 HIGH માટે external pullups જોઈએ.</li><li>10−25થી low_byte=F1H,borrow=1;આ modulo8-bit−15 છે,signed positive241 જવાબ નહીં.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nvolatile u8 low_byte,borrow;\nvoid main(void) { u8 a=10,b=25; borrow=(a&lt;b); low_byte=(u8)(a-b);\n P0=low_byte; for (;;) { } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+          },
+          "diagram": "cflow"
+        }
+      ]
+    }
+  ],
+  "practicals": [
+    {
+      "number": 1,
+      "title": {
+        "en": "1. Addition of two numbers at Port1",
+        "gu": "1. બે સંખ્યાનો સરવાળો Port1 પર"
+      },
+      "body": {
+        "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry1is retained even if theory placement differs.</li><li>Simulator/watch only:P1 low byte,sum/high_byte variables;no external load required.</li><li>250+10=260=0104H;P1=04H,high_byte=01H.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nvolatile u16 sum;\nvolatile u8 high_byte;\nvoid main(void) { u8 a=250,b=10; sum=(u16)a+b; P1=(u8)sum;\n high_byte=(u8)(sum&gt;&gt;8); for (;;) { } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+        "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry1 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>Simulator/watchમાં P1 low byte,sum/high_byte variables જુઓ;external load જરૂરી નથી.</li><li>250+10=260=0104H;P1=04H,high_byte=01H.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nvolatile u16 sum;\nvolatile u8 high_byte;\nvoid main(void) { u8 a=250,b=10; sum=(u16)a+b; P1=(u8)sum;\n high_byte=(u8)(sum&gt;&gt;8); for (;;) { } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+      },
+      "source_unit_or_CO": 1,
+      "suggested_duration_hours": 2,
+      "compulsory": false,
+      "performed": false,
+      "program_file": "firmware/keil/p01_add.c",
+      "clock": "12 MHz classic12T"
+    },
+    {
+      "number": 2,
+      "title": {
+        "en": "2. Subtraction of two numbers at Port0",
+        "gu": "2. બે સંખ્યાની બાદબાકી Port0 પર"
+      },
+      "body": {
+        "en": "<h4>Aim and status</h4><p><p>A source-listed laboratory guide for authorised simulation/trainer work;it is not a claim of performed measurements.</p></p><h4>Explanation,application and checks</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry1is retained even if theory placement differs.</li><li>Simulator/watch only:P0,low_byte and borrow;physical P0  HIGH would require external pullups.</li><li>10−25 gives low_byte=F1H,borrow=1;this is modulo8-bit−15,not a positive241signed answer.</li><li>Resources:exact 8051 trainer or target simulator,correct programmer/headers,isolated current-limited supply and required approved instruments/components;check datasheets and reset-safe driver gating before power.</li><li>Procedure:identify target/clock→review pin map with power OFF→build and inspect warnings→load into simulator→check logic/watch variables→with teacher approval test the isolated trainer→record actual evidence and power down safely.</li><li>Fault finding:check supply/clock/reset/EA,port release/polarity,shared-pin conflicts,ground/reference,driver enable and software assumptions one at a time.No live rewiring or arbitrary supply changes.</li><li>Expected values above are calculated/reference behaviour,not recorded observations.Leave actual results,status,signatures and measured waveforms blank until genuine work is performed.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nvolatile u8 low_byte,borrow;\nvoid main(void) { u8 a=10,b=25; borrow=(a&lt;b); low_byte=(u8)(a-b);\n P0=low_byte; for (;;) { } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>",
+        "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-listed laboratory guide authorised simulation/trainer માટે છે;performed measurementનો દાવો નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Suggested duration2h;source compulsoryno.Source Unit/COentry1 theoryથી અલગ હોય તોપણ રાખેલ છે.</li><li>Simulator/watchમાં P0,low_byte/borrow જુઓ;physical P0 HIGH માટે external pullups જોઈએ.</li><li>10−25થી low_byte=F1H,borrow=1;આ modulo8-bit−15 છે,signed positive241 જવાબ નહીં.</li><li>Resources:exact 8051 trainer/target simulator,correct programmer/headers,isolated current-limited supply તથા required approved instruments/components;power પહેલાં datasheet/reset-safe gating તપાસો.</li><li>Procedure:target/clock ઓળખો→power OFF pin map review→build/warnings→simulator load→logic/watch check→teacher approvalથી isolated trainer test→actual evidence/safe power down.</li><li>Fault findingમાં supply/clock/reset/EA,port release/polarity,pin conflict,ground/reference,driver enable/software assumptions ક્રમથી તપાસો.Live rewiring/random supply change નહીં.</li><li>ઉપર expected values calculated/reference behaviour છે,recorded observations નહીં.Genuine work પહેલાં actual results,status,signatures/waveforms blank રાખો.</li></ul><h4>Complete standalone Keil C51 source</h4><pre><code>#include &lt;reg51.h&gt;\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nvolatile u8 low_byte,borrow;\nvoid main(void) { u8 a=10,b=25; borrow=(a&lt;b); low_byte=(u8)(a-b);\n P0=low_byte; for (;;) { } }\n</code></pre><table><thead><tr><th>Test / input</th><th>Expected / calculated</th><th>Actual measured / simulated</th><th>Evidence / remarks</th></tr></thead><tbody><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody></table>"
+      },
+      "source_unit_or_CO": 1,
+      "suggested_duration_hours": 2,
+      "compulsory": false,
+      "performed": false,
+      "program_file": "firmware/keil/p02_sub.c",
+      "clock": "12 MHz classic12T"
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "compare",
+      "title": {
+        "en": "MCUversus MPU:integration and application",
+        "gu": "Microcontroller તથા Microprocessorનો ભેદ"
+      },
+      "file": "diagrams/compare.svg"
+    },
+    {
+      "id": "architecture",
+      "title": {
+        "en": "8051 architecture:CPU,memory,peripherals and control",
+        "gu": "Embedded system:વ્યાખ્યા તથા વર્ગીકરણ"
+      },
+      "file": "diagrams/architecture.svg"
+    },
+    {
+      "id": "registers",
+      "title": {
+        "en": "CPUregister roles and sizes",
+        "gu": "PSW flags:Carry,Auxiliary carry તથા Overflow"
+      },
+      "file": "diagrams/registers.svg"
+    },
+    {
+      "id": "memory",
+      "title": {
+        "en": "Internal data map:direct SFRspace differs from indirect RAM",
+        "gu": "Internal RAM,Bit area તથા Register banks"
+      },
+      "file": "diagrams/memory.svg"
+    },
+    {
+      "id": "stack",
+      "title": {
+        "en": "Stack grows toward higher internal RAM addresses",
+        "gu": "Stack growth તથા RAM allocation"
+      },
+      "file": "diagrams/stack.svg"
+    },
+    {
+      "id": "pinout",
+      "title": {
+        "en": "Classic8051:40-pin DIPpin map (not44pin variants)",
+        "gu": "40-pin map તથા Alternate functions"
+      },
+      "file": "diagrams/pinout.svg"
+    },
+    {
+      "id": "ports",
+      "title": {
+        "en": "Quasi-bidirectional input and open-drain Port0",
+        "gu": "I/O ports:Inputs release તથા Safe load driving"
+      },
+      "file": "diagrams/ports.svg"
+    },
+    {
+      "id": "clockreset",
+      "title": {
+        "en": "Clock and reset:XTAL1pin19,XTAL2pin18,RSTpin9",
+        "gu": "Clocking,Reset તથા Minimum reset-time derivation"
+      },
+      "file": "diagrams/clockreset.svg"
+    },
+    {
+      "id": "cflow",
+      "title": {
+        "en": "Structured control and modular code",
+        "gu": "1. બે સંખ્યાનો સરવાળો Port1 પર"
+      },
+      "file": "diagrams/cflow.svg"
+    }
+  ],
+  "syntax": [
+    {
+      "title": {
+        "en": "Formula / syntax and conditions",
+        "gu": "સૂત્ર / Syntax તથા શરતો"
+      },
+      "items": [
+        {
+          "name": {
+            "en": "Machine-cycle time",
+            "gu": "Machine-cycle time"
+          },
+          "f": "Tmc=12/fosc",
+          "terms": {
+            "en": "Classic12Tonly.",
+            "gu": "Classic12T જ."
+          }
+        },
+        {
+          "name": {
+            "en": "Reset minimum",
+            "gu": "Reset minimum"
+          },
+          "f": "tRST≥24/fosc",
+          "terms": {
+            "en": "Running oscillator plus practical startup margin.",
+            "gu": "Running oscillator/startup margin."
+          }
+        },
+        {
+          "name": {
+            "en": "Program/data addresses",
+            "gu": "Program/data addresses"
+          },
+          "f": "16bit→65536addresses",
+          "terms": {
+            "en": "Separate spaces,not all internal storage.",
+            "gu": "Separate spaces,બધું internal storage નહીં."
+          }
+        },
+        {
+          "name": {
+            "en": "RAMpartition",
+            "gu": "RAM partition"
+          },
+          "f": "32+16+80=128bytes",
+          "terms": {
+            "en": "Banks + bit area + general/stack.",
+            "gu": "Banks+bit area+general/stack."
+          }
+        }
+      ]
+    }
+  ],
+  "viva": [
+    {
+      "title": {
+        "en": "Viva with answers",
+        "gu": "જવાબ સાથે Viva"
+      },
+      "items": [
+        {
+          "q": {
+            "en": "8051 has an internal ADC?",
+            "gu": "8051માં Internal ADC છે?"
+          },
+          "a": {
+            "en": "Not in the classic baseline;use an external ADC such as ADC0804.",
+            "gu": "Classic baselineમાં નથી;ADC0804 જેવા external ADC લો."
+          }
+        },
+        {
+          "q": {
+            "en": "First stack byte after reset?",
+            "gu": "Reset પછી First stack byte?"
+          },
+          "a": {
+            "en": "SP starts07H;first PUSHincrements it to08H.",
+            "gu": "SP 07H છે;first PUSHથી08H થાય."
+          }
+        },
+        {
+          "q": {
+            "en": "Why release a port input?",
+            "gu": "Port input release કેમ?"
+          },
+          "a": {
+            "en": "Write1so the pin is not actively driven LOW;P0 needs external pullups for HIGH.",
+            "gu": "Pin actively LOW નથાય માટે1લખો;P0 HIGH માટે external pullups જોઈએ."
+          }
+        },
+        {
+          "q": {
+            "en": "PC and DPTR width?",
+            "gu": "PC/DPTRની Width?"
+          },
+          "a": {
+            "en": "Both16-bit;A,B,SP and PSW are8-bit.",
+            "gu": "બંને16-bit;A,B,SP/PSW 8-bit છે."
+          }
+        },
+        {
+          "q": {
+            "en": "Direct90Hversus indirect90H?",
+            "gu": "Direct90H/Indirect90H ભેદ?"
+          },
+          "a": {
+            "en": "Direct90His P1;indirect90His not P1 and is not baseline internal RAM.",
+            "gu": "Direct90H P1 છે;indirect90H P1/baseline internal RAM નથી."
+          }
+        }
+      ]
+    }
+  ],
+  "exam_questions": [
+    {
+      "q": {
+        "en": "Compare microcontroller/microprocessor and classify microcontrollers and embedded systems.",
+        "gu": "MCU/MPU compare કરી Microcontrollers/Embedded systems classify કરો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Draw 8051 architecture and explain component functions and execution flow.",
+        "gu": "8051 architecture દોરી Functions/execution સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain PSW flags,PC,DPTR and stack with examples.",
+        "gu": "PSW flags,PC,DPTR/stack ઉદાહરણથી સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Draw internal memory map and distinguish register banks,bit RAM and SFRs.",
+        "gu": "Internal memory mapથી Banks,Bit RAM/SFR અલગ સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Draw40pin 8051 diagram and explain ports/alternate functions.",
+        "gu": "40pin 8051 દોરી Ports/alternate functions સમજાવો."
+      },
+      "marks": 7
+    },
+    {
+      "q": {
+        "en": "Explain clock/reset and derive classic-machine-cycle/reset timing.",
+        "gu": "Clock/reset સમજાવી Machine-cycle/reset timing derive કરો."
+      },
+      "marks": 7
+    }
+  ],
+  "exam_policy": "Questions and suggested marks only;no answers or official predictions.",
+  "physical_practicals_performed": false,
+  "sources": [
+    {
+      "title": "Owner GTU DI04000171,2025-26",
+      "reference": "8pagePDF;content pp2–3;practicals p6;activities p8."
+    },
+    {
+      "title": "Microchip/Atmel AT89C51official legacy datasheet:classic40pinbaseline,ports/reset/five vectors and six flags",
+      "url": "https://ww1.microchip.com/downloads/en/DeviceDoc/doc0265.pdf"
+    },
+    {
+      "title": "TIADC0804-N:input/reference/clock/conversion timing",
+      "url": "https://www.ti.com/lit/ds/symlink/adc0804-n.pdf"
+    },
+    {
+      "title": "TIL293/L293D:logic/load supply and current/clamps",
+      "url": "https://www.ti.com/lit/ds/symlink/l293.pdf"
+    },
+    {
+      "title": "TICD4051B:analog switch limits",
+      "url": "https://www.ti.com/product/CD4051B"
+    },
+    {
+      "title": "Keil interrupt function/vector rules",
+      "url": "https://www.keil.com/appnotes/files/apnt_103.pdf"
+    }
+  ],
+  "activity_plans": [
+    {
+      "number": 1,
+      "source_letter": "a",
+      "title": {
+        "en": "Activity a: Pin sheets,interface diagrams and specification tables",
+        "gu": "પ્રવૃત્તિ a: Pin sheets,Interface diagrams તથા Specification tables"
+      },
+      "body": {
+        "en": "<h4>Aim and status</h4><p><p>A source-suggested learning/report plan,not an already completed workshop,visit or project.</p></p><h4>Explanation,application and checks</h4><ul><li>Prepare verified 8051,ADC0804,LM35,CD4051,L293D,MAX232 and selected GSM module sheets;state package,supply,input range,pin functions,logic levels and source revision.</li><li>Compare alternate-function conflicts,current/voltage limits,driver requirements and reset polarity.Adiagram must distinguish signal,power,ground and protection paths.</li><li>Prepare about five pages:aim/scope;verified component/software background;diagram/code/method;actual evidence and test interpretation;conclusion,limitations and references.</li><li>Keep name/date,device/clock,firmware revision,expected versus actual results,source URLs,evidence filenames and teacher feedback blank until collected.Never invent readings or signatures.</li></ul><h4>Datasheet references / Datasheet સંદર્ભ</h4><p><a href=\"https://ww1.microchip.com/downloads/en/DeviceDoc/doc0265.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Microchip/Atmel AT89C51 official legacy datasheet:classic40pinbaseline,ports/reset/five vectors and six flags</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/adc0804-n.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TI ADC0804-N:input/reference/clock/conversion timing</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/l293.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TIL293/L293D:logic/load supply and current/clamps</a></p><p><a href=\"https://www.ti.com/product/CD4051B\" target=\"_blank\" rel=\"noopener noreferrer\">TI CD4051 B:analog switch limits</a></p><p><a href=\"https://www.keil.com/appnotes/files/apnt_103.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Keil interrupt function/vector rules</a></p>",
+        "gu": "<h4>હેતુ તથા સ્થિતિ</h4><p><p>Source-suggested learning/report plan છે,completed workshop,visit/project નથી.</p></p><h4>સમજણ,ઉપયોગ તથા ચકાસણી</h4><ul><li>Verified 8051,ADC0804,LM35,CD4051,L293D,MAX232 તથા selected GSM module sheets બનાવો;package,supply,input range,pin functions,logic level/source revision લખો.</li><li>Alternate-function conflict,current/voltage limits,driver/reset polarity compare કરો.Diagramમાં signal,power,ground/protection paths અલગ રાખો.</li><li>આશરે પાંચ pages:aim/scope;verified background;diagram/code/method;actual evidence/test interpretation;conclusion,limitations/references.</li><li>Name/date,device/clock,firmware revision,expected/actual results,source URLs,evidence files/teacher feedback data મળે ત્યાં સુધી blank રાખો.Readings/signatures નબનાવો.</li></ul><h4>Datasheet references / Datasheet સંદર્ભ</h4><p><a href=\"https://ww1.microchip.com/downloads/en/DeviceDoc/doc0265.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Microchip/Atmel AT89C51 official legacy datasheet:classic40pinbaseline,ports/reset/five vectors and six flags</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/adc0804-n.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TI ADC0804-N:input/reference/clock/conversion timing</a></p><p><a href=\"https://www.ti.com/lit/ds/symlink/l293.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">TIL293/L293D:logic/load supply and current/clamps</a></p><p><a href=\"https://www.ti.com/product/CD4051B\" target=\"_blank\" rel=\"noopener noreferrer\">TI CD4051 B:analog switch limits</a></p><p><a href=\"https://www.keil.com/appnotes/files/apnt_103.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Keil interrupt function/vector rules</a></p>"
+      },
+      "completed": false,
+      "suggested_report_pages": 5
+    }
+  ],
+  "firmware_examples": [
+    {
+      "title": {
+        "en": "1. Addition of two numbers at Port1",
+        "gu": "1. બે સંખ્યાનો સરવાળો Port1 પર"
+      },
+      "code": "#include <reg51.h>\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nvolatile u16 sum;\nvolatile u8 high_byte;\nvoid main(void) { u8 a=250,b=10; sum=(u16)a+b; P1=(u8)sum;\n high_byte=(u8)(sum>>8); for (;;) { } }\n",
+      "language": "Keil C51"
+    },
+    {
+      "title": {
+        "en": "2. Subtraction of two numbers at Port0",
+        "gu": "2. બે સંખ્યાની બાદબાકી Port0 પર"
+      },
+      "code": "#include <reg51.h>\ntypedef unsigned char u8;\ntypedef unsigned int u16;\nvolatile u8 low_byte,borrow;\nvoid main(void) { u8 a=10,b=25; borrow=(a<b); low_byte=(u8)(a-b);\n P0=low_byte; for (;;) { } }\n",
+      "language": "Keil C51"
+    }
+  ]
+}
