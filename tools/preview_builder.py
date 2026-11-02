@@ -42,6 +42,7 @@ body{margin:0;background:#d8cce8;font-family:"Noto Sans Gujarati","Shruti","Nirm
 .a p{margin:0 0 10px}.a ul,.a ol{margin:0 0 10px;padding-left:20px}.a li{margin-bottom:4px}
 .a b{color:#111}
 .eq{background:#F5EEFD;border-left:4px solid var(--p);padding:8px 12px;border-radius:4px;font-weight:700;font-size:16.5px;color:var(--pd)}
+.math{background:#F5EEFD;border-left:4px solid var(--p);border-radius:6px;padding:10px 14px;margin:6px 0 12px;font-family:var(--mono,ui-monospace,monospace);font-size:15px;line-height:1.6;color:var(--pd);overflow-x:auto;white-space:pre-wrap}
 .tw{overflow-x:auto;margin:0 0 10px -36px;padding-left:0}
 table{border-collapse:collapse;font-size:13.5px;min-width:100%;line-height:1.4}
 th{background:var(--p);color:#fff;text-align:left;padding:7px 8px;font-weight:700}
@@ -169,7 +170,9 @@ function hl(src){
   }
   return o + esc(src.slice(last));
 }
-const progBody = p => `<div class="pl">${L('code')}</div><pre class="code">${hl(t(p.code))}</pre><div class="pl">${L('output')}</div><pre class="out">${esc(p.out)}</pre>${p.plot?`<div class="pl">${L('plot')}</div>`+dgInline(p.plot).replace('class="dg"','class="dg pg"'):''}${p.expl?`<div class="pl">${L('expl')}</div>${fixTables(t(p.expl))}`:''}`;
+const progBody = p => p.items
+  ? p.items.map(it => fixTables(t(it.body)) + (it.diagram?dgInline(it.diagram):'')).join('')
+  : `<div class="pl">${L('code')}</div><pre class="code">${hl(t(p.code))}</pre><div class="pl">${L('output')}</div><pre class="out">${esc(p.out)}</pre>${p.plot?`<div class="pl">${L('plot')}</div>`+dgInline(p.plot).replace('class="dg"','class="dg pg"'):''}${p.expl?`<div class="pl">${L('expl')}</div>${fixTables(t(p.expl))}`:''}`;
 const pBox = id => { const p=(U.programs||[]).find(x=>x.id===id); if(!p) return ''; return `<div class="pbox"><div class="et">${L('prog')}: ${t(p.title)}</div>${progBody(p)}</div>`; };
 const exBox = id => { const n=(U.numericals||[]).find(x=>x.id===id); if(!n) return ''; return `<div class="ex"><div class="et">${L('ex')}</div><div class="eq2">${t(n.q)}</div>${fixTables(t(n.a))}</div>`; };
 function notes(){
@@ -204,8 +207,13 @@ function equations(){
      <div class="a"><p>${t(e.terms)}</p></div></div>`).join('') + `</div>`).join('');
 }
 function viva(){
-  return U.viva.map(g=>`<div class="sec">${head(t(g.title))}` + g.items.map((v,i)=>
-    `<div class="card"><div class="q"><span class="n">${i+1}.</span><span class="t">${t(v.q)}</span>${chev}</div><div class="a"><p>${t(v.a)}</p></div></div>`).join('') + `</div>`).join('');
+  // two shapes exist in the corpus: flat [{q,a}] and grouped [{title, items:[{q,a}]}]
+  const groups = U.viva.every(v=>v && v.q) ? [{items: U.viva}] : U.viva;
+  return groups.map(g=>{
+    const items = g.items || [];
+    return `<div class="sec">${g.title?head(t(g.title)):''}` + items.map((v,i)=>
+      `<div class="card"><div class="q hd"><span class="n">${i+1}.</span><span class="t">${t(v.q)}</span>${chev}</div><div class="a"><p>${t(v.a)}</p></div></div>`).join('') + `</div>`;
+  }).join('');
 }
 function exam(){
   return `<div class="sec">${head(L('examhead'),false)}` + U.exam_questions.map((x,i)=>
