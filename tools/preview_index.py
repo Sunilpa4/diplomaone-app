@@ -13,6 +13,7 @@ import re
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PREVIEW = os.path.join(ROOT, "preview")
 NAME = re.compile(r"^([A-Z]{2}\d{8})_unit(\d+)_preview\.html$")
+SUBJECT = re.compile(r"^([A-Z]{2}\d{8})-complete\.html$")
 
 
 def _subject_name(code):
@@ -34,6 +35,22 @@ def _subject_name(code):
                 except Exception:
                     return code, sem.replace("sem", ""), branch
     return code, "", ""
+
+
+def collect_subjects():
+    rows = []
+    for fn in os.listdir(PREVIEW):
+        m = SUBJECT.match(fn)
+        if not m:
+            continue
+        code = m.group(1)
+        name, sem, branch = _subject_name(code)
+        rows.append({"file": fn, "code": code, "name": name, "sem": sem,
+                     "branch": branch,
+                     "kb": round(os.path.getsize(os.path.join(PREVIEW, fn)) / 1024),
+                     "mtime": os.path.getmtime(os.path.join(PREVIEW, fn))})
+    rows.sort(key=lambda r: (-r["mtime"], r["code"]))
+    return rows
 
 
 def collect():
@@ -100,6 +117,21 @@ def build():
 <p>Self-contained unit notes. Open one and use the EN ⇄ ગુ toggle at the top right.</p>
 <div class="count">{len(rows)} unit preview{'s' if len(rows) != 1 else ''} · {len(groups)} subject{'s' if len(groups) != 1 else ''}</div>
 </header>"""]
+
+    subs = collect_subjects()
+    if subs:
+        parts.append('<h2>Subjects — all units in one page</h2><div class="group">')
+        for r in subs:
+            meta = " • ".join(x for x in [r["branch"].title() if r["branch"] else "",
+                                          f"Semester {r['sem']}" if r["sem"] else ""] if x)
+            parts.append(
+                f'<a class="row" href="{r["file"]}">'
+                f'<span class="code">{r["code"]}</span>'
+                f'<span class="name">{r["name"]}<br>'
+                f'<small style="color:#6B6275">{meta} &nbsp;·&nbsp; every unit, EN + ગુજરાતી</small></span>'
+                f'<span class="unit">{r["kb"]} KB</span>'
+                f'<span class="go">open</span></a>')
+        parts.append("</div>")
 
     if not rows:
         parts.append('<div class="empty">No previews yet. Run '
