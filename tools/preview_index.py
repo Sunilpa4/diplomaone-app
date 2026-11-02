@@ -37,6 +37,28 @@ def _subject_name(code):
     return code, "", ""
 
 
+def _unit_state(code):
+    """How many syllabus units of this subject have authored content."""
+    base = os.path.join(ROOT, "content")
+    for branch in sorted(os.listdir(base)):
+        bdir = os.path.join(base, branch)
+        if not os.path.isdir(bdir):
+            continue
+        for sem in sorted(os.listdir(bdir)):
+            d = os.path.join(bdir, sem, code)
+            sj = os.path.join(d, "subject.json")
+            if not os.path.exists(sj):
+                continue
+            try:
+                with open(sj, encoding="utf-8") as f:
+                    total = len(json.load(f).get("units") or [])
+            except Exception:
+                total = 0
+            done = len([f for f in os.listdir(d) if re.match(r"^unit\d+\.json$", f)])
+            return done, total
+    return 0, 0
+
+
 def collect_subjects():
     rows = []
     for fn in os.listdir(PREVIEW):
@@ -45,8 +67,9 @@ def collect_subjects():
             continue
         code = m.group(1)
         name, sem, branch = _subject_name(code)
+        done, total = _unit_state(code)
         rows.append({"file": fn, "code": code, "name": name, "sem": sem,
-                     "branch": branch,
+                     "branch": branch, "done": done, "total": total,
                      "kb": round(os.path.getsize(os.path.join(PREVIEW, fn)) / 1024),
                      "mtime": os.path.getmtime(os.path.join(PREVIEW, fn))})
     rows.sort(key=lambda r: (-r["mtime"], r["code"]))
@@ -128,8 +151,10 @@ def build():
                 f'<a class="row" href="{r["file"]}">'
                 f'<span class="code">{r["code"]}</span>'
                 f'<span class="name">{r["name"]}<br>'
-                f'<small style="color:#6B6275">{meta} &nbsp;·&nbsp; every unit, EN + ગુજરાતી</small></span>'
-                f'<span class="unit">{r["kb"]} KB</span>'
+                f'<small style="color:#6B6275">{meta} &nbsp;·&nbsp; '
+                f'{r["done"]}/{r["total"]} units authored &nbsp;·&nbsp; EN + ગુજરાતી</small></span>'
+                f'<span class="done {"full" if r["done"] == r["total"] and r["total"] else "part"}">'
+                f'{r["done"]}/{r["total"]} units</span>'
                 f'<span class="go">open</span></a>')
         parts.append("</div>")
 

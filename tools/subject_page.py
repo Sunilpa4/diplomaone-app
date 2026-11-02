@@ -31,6 +31,7 @@ TAB_LABELS = {
     "syntax": ("Equations & Summary", "સમીકરણો તથા Summary"),
     "viva": ("Viva", "વાઇવા"),
     "exam": ("Exam", "પરીક્ષા"),
+    "coverage": ("Syllabus coverage", "Syllabus કવરેજ"),
 }
 
 
@@ -61,6 +62,57 @@ def _svg(svg_path):
     # make it behave inside the card
     s = s.replace("<svg ", '<svg class="diagram" preserveAspectRatio="xMidYMid meet" ', 1)
     return s
+
+
+STOP = set("""a an and are as at be by for from has have in into is it its of on or
+that the their then there these this to was were with within without which while
+also such only more most other than when where how why does do not no can may such""".split())
+
+
+def _plain(t):
+    return re.sub(r"<[^>]+>", " ", t or "")
+
+
+def _terms(text):
+    words = re.findall(r"[A-Za-z][A-Za-z\-]{3,}", _plain(text).lower())
+    return {w for w in words if w not in STOP}
+
+
+def _counts(u, lang="en"):
+    cards = [i for s in (u.get("notes") or []) for i in s["items"]]
+    body = " ".join(_bi(c.get("body"), lang) for c in cards)
+    words = len(_plain(body).split())
+    heads = " ".join(_plain(_bi(c.get("h"), lang)) for c in cards).lower()
+    prog = u.get("programs") or []
+    prog_text = " ".join(_bi(i.get("body"), lang) for p in prog for i in (p.get("items") or []))
+    return {
+        "cards": len(cards),
+        "words": words,
+        "derivations": heads.count("derivation"),
+        "equipment": sum(1 for c in cards if "construct" in _plain(_bi(c.get("body"), "en")).lower()),
+        "numericals": len(prog),
+        "diagrams": len(u.get("diagrams") or []),
+        "viva": len(u.get("viva") or []),
+        "exam": len(u.get("exam_questions") or []),
+        "formulae": sum(len(g.get("items") or []) for g in (u.get("syntax") or [])),
+        "_text": _terms(body + " " + prog_text + " " + heads),
+    }
+
+
+def _coverage(u, syllabus):
+    """Does each official syllabus clause have matching vocabulary in the unit?"""
+    have = _counts(u)["_text"]
+    rows = []
+    for clause in syllabus or []:
+        want = _terms(clause.get("topic", ""))
+        if not want:
+            continue
+        hit = want & have
+        ratio = len(hit) / len(want)
+        rows.append({"no": clause["no"], "topic": clause["topic"],
+                     "ratio": ratio, "hits": sorted(hit), "miss": sorted(want - hit),
+                     "ok": ratio >= 0.5})
+    return rows
 
 
 def _cards_html(items, lang, unit_no, diagrams, start=1):
@@ -138,6 +190,16 @@ def _diagram_html(diagrams, lang):
     return "".join(out)
 
 
+def _stats_line(c, lang):
+    if lang == "en":
+        return (f'{c["cards"]} notes cards · {c["words"]:,} words · {c["numericals"]} solved numericals · '
+                f'{c["diagrams"]} diagrams · {c["viva"]} viva · {c["exam"]} exam questions · '
+                f'{c["formulae"]} formulae')
+    return (f'{c["cards"]} નોટ્સ કાર્ડ · {c["words"]:,} શબ્દો · {c["numericals"]} ઉકેલેલા દાખલા · '
+            f'{c["diagrams"]} ડાયાગ્રામ · {c["viva"]} વાઇવા · {c["exam"]} પરીક્ષા પ્રશ્નો · '
+            f'{c["formulae"]} સૂત્રો')
+
+
 def build(code, out_path=None):
     sdir, branch, sem = _find_subject(code)
     with open(os.path.join(sdir, "subject.json"), encoding="utf-8") as f:
@@ -171,12 +233,18 @@ def build(code, out_path=None):
             dmap[d["id"]] = os.path.join(sdir, d["file"])
         diagram_titles = {d["id"]: _bi(d["title"], "gu") for d in u.get("diagrams") or []}
 
+        syl = u.get("syllabus") or (subject.get("units") or [{}])[no - 1].get("syllabus") or []
+        cov = _coverage(u, syl)
+        c = _counts(u)
+
         for lang in ("gu", "en"):
             uid = f"u{no}-{lang}"
             tabs = u.get("tabs") or ["notes", "programs", "diagrams", "syntax", "viva", "exam"]
             tabs = [t for t in tabs if t in TAB_LABELS]
             if (u.get("exam_questions")) and "exam" not in tabs:
                 tabs.append("exam")
+            if (u.get("syllabus") or syl) and "coverage" not in tabs:
+                tabs.insert(0, "coverage")
 
             tabbar, panels = [], []
             first = True
@@ -217,6 +285,24 @@ def build(code, out_path=None):
                             f'<div class="group">{_qa_html(u.get("viva") or [], lang)}</div>')
                 elif t == "exam":
                     body = _exam_html(u.get("exam_questions") or [], lang)
+                elif t == "coverage":
+                    if not cov:
+                        body = ('<p>No syllabus mapping recorded for this unit.</p>'
+                                if lang == "en" else '<p>આ યુનિટ માટે syllabus mapping નથી.</p>')
+                    else:
+                        done = sum(1 for r in cov if r["ok"])
+                        body = (f'<div class="section"><span>'
+                                f'{"Syllabus clauses" if lang == "en" else "Syllabus કલમો"} · '
+                                f'{done}/{len(cov)} '
+                                f'{"covered" if lang == "en" else "આવરી લીધી"}</span></div>'
+                                f'<table><tr><th>{"Clause" if lang == "en" else "કલમ"}</th>'
+                                f'<th>{"Official topic" if lang == "en" else "Syllabus topic"}</th>'
+                                f'<th>{"Status" if lang == "en" else "સ્થિતિ"}</th></tr>'
+                                + "".join(
+                                    f'<tr><td><code>{r["no"]}</code></td><td>{html.escape(r["topic"])}</td>'
+                                    f'<td>{"✔ covered" if r["ok"] else "— thin"}</td></tr>'
+                                    for r in cov)
+                                + '</table>')
                 else:
                     body = ""
                 panels.append(
@@ -234,7 +320,8 @@ def build(code, out_path=None):
                 f'<main class="app" data-unit="{no}" data-language="{lang}" hidden>'
                 f'<div class="bar"><strong>{no}. {html.escape(_bi(u["title"], lang))}</strong>'
                 f'<small>{html.escape(name_en)} • {code} • {branch.title()} Semester{sem} • '
-                f'{hours}h / {wt}% • GTU{year}</small></div>'
+                f'{hours}h / {wt}% • GTU{year}</small>'
+                f'<small class="stats">{_stats_line(c, lang)}</small></div>'
                 f'<nav class="tabs">{"".join(tabbar)}</nav>'
                 f'<div class="intro">{intro}</div>'
                 f'{"".join(panels)}</main>')
