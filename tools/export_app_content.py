@@ -369,6 +369,13 @@ _chemical_sem4 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(4,[])
 if 'DI04005021' not in _chemical_sem4:
     _chemical_sem4.append('DI04005021')
 
+# DiplomaOne registration: DI04005041 chemical semester 4
+if 'DI04005041' not in SUBJECTS:
+    SUBJECTS['DI04005041'] = ('Chemical Engineering Thermodynamics','કેમિકલ એન્જિનિયરિંગ થર્મોડાયનેમિક્સ','Core',4,'theory',None)
+_chemical_sem4 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(4,[])
+if 'DI04005041' not in _chemical_sem4:
+    _chemical_sem4.append('DI04005041')
+
 FONT_MAP = [
     (re.compile(r'font-family="Arial, Helvetica, sans-serif"'), 'font-family="DejaVu Sans"'),
     (re.compile(r'font-family="DejaVu Sans Mono, Consolas, monospace"'), 'font-family="DejaVu Sans Mono"'),
