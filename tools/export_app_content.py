@@ -285,6 +285,90 @@ _electrical_sem5 = BRANCH_SEMS.setdefault('electrical', {}).setdefault(5, [])
 if 'DI05009011' not in _electrical_sem5:
     _electrical_sem5.append('DI05009011')
 
+# DiplomaOne registration: DI01005011 chemical semester 1
+if 'DI01005011' not in SUBJECTS:
+    SUBJECTS['DI01005011'] = ('Plant Utilities', 'પ્લાન્ટ યુટિલિટીઝ', 'Professional Core', 1, 'theory', None)
+_chemical_sem1 = BRANCH_SEMS.setdefault('chemical', {}).setdefault(1, [])
+if 'DI01005011' not in _chemical_sem1:
+    _chemical_sem1.append('DI01005011')
+
+# DiplomaOne registration: DI01005021 chemical semester 1
+if 'DI01005021' not in SUBJECTS:
+    SUBJECTS['DI01005021'] = ('Material Science and Technology', 'મટીરિયલ સાયન્સ અને ટેક્નોલોજી', 'Engineering Science', 1, 'theory', None)
+_chemical_sem1 = BRANCH_SEMS.setdefault('chemical', {}).setdefault(1, [])
+if 'DI01005021' not in _chemical_sem1:
+    _chemical_sem1.append('DI01005021')
+
+# DiplomaOne registration: DI02005021 chemical semester 2
+if 'DI02005021' not in SUBJECTS:
+    SUBJECTS['DI02005021'] = ('Mechanical Operation','મેકેનિકલ ઓપરેશન','Chemical Engineering',2,'theory',None)
+_chemical_sem2 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(2,[])
+if 'DI02005021' not in _chemical_sem2:
+    _chemical_sem2.append('DI02005021')
+
+# DiplomaOne registration: DI02005011 chemical semester 2
+if 'DI02005011' not in SUBJECTS:
+    SUBJECTS['DI02005011'] = ('Basic Chemical Engineering Calculations','બેઝિક કેમિકલ એન્જિનિયરિંગ કેલ્ક્યુલેશન્સ','Engineering Science',2,'theory',None)
+_chemical_sem2 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(2,[])
+if 'DI02005011' not in _chemical_sem2:
+    _chemical_sem2.append('DI02005011')
+
+# DiplomaOne registration: DI03005041 chemical semester 3
+if 'DI03005041' not in SUBJECTS:
+    SUBJECTS['DI03005041'] = ('Chemical Process Technology – I','કેમિકલ પ્રોસેસ ટેક્નોલોજી – I','Professional Core',3,'theory',None)
+_chemical_sem3 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(3,[])
+if 'DI03005041' not in _chemical_sem3:
+    _chemical_sem3.append('DI03005041')
+
+# DiplomaOne registration: DI04005011 chemical semester 4
+if 'DI04005011' not in SUBJECTS:
+    SUBJECTS['DI04005011'] = ('Chemical Process Technology – II','કેમિકલ પ્રોસેસ ટેક્નોલોજી – II','Professional Core',4,'theory',None)
+_chemical_sem4 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(4,[])
+if 'DI04005011' not in _chemical_sem4:
+    _chemical_sem4.append('DI04005011')
+
+# DiplomaOne registration: DI05005051 chemical semester 5
+if 'DI05005051' not in SUBJECTS:
+    SUBJECTS['DI05005051'] = ('Fertilizer Technology','ફર્ટિલાઇઝર ટેક્નોલોજી','Professional Elective',5,'theory',None)
+_chemical_sem5 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(5,[])
+if 'DI05005051' not in _chemical_sem5:
+    _chemical_sem5.append('DI05005051')
+
+# DiplomaOne registration: DI03005031 chemical semester 3
+if 'DI03005031' not in SUBJECTS:
+    SUBJECTS['DI03005031'] = ('Process Heat Transfer','પ્રોસેસ હીટ ટ્રાન્સફર','Core',3,'theory',None)
+_chemical_sem3 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(3,[])
+if 'DI03005031' not in _chemical_sem3:
+    _chemical_sem3.append('DI03005031')
+
+# DiplomaOne registration: DI03005021 chemical semester 3
+if 'DI03005021' not in SUBJECTS:
+    SUBJECTS['DI03005021'] = ('Fluid Flow Operation','ફ્લુઇડ ફ્લો ઓપરેશન','Core',3,'theory',None)
+_chemical_sem3 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(3,[])
+if 'DI03005021' not in _chemical_sem3:
+    _chemical_sem3.append('DI03005021')
+
+# DiplomaOne registration: DI03005061 chemical semester 3
+if 'DI03005061' not in SUBJECTS:
+    SUBJECTS['DI03005061'] = ('Process Calculation','પ્રોસેસ કેલ્ક્યુલેશન','Core',3,'theory',None)
+_chemical_sem3 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(3,[])
+if 'DI03005061' not in _chemical_sem3:
+    _chemical_sem3.append('DI03005061')
+
+# DiplomaOne registration: DI03005011 chemical semester 3
+if 'DI03005011' not in SUBJECTS:
+    SUBJECTS['DI03005011'] = ('Basics of Process Instrumentations','બેઝિક્સ ઑફ પ્રોસેસ ઇન્સ્ટ્રુમેન્ટેશન્સ','Core',3,'theory',None)
+_chemical_sem3 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(3,[])
+if 'DI03005011' not in _chemical_sem3:
+    _chemical_sem3.append('DI03005011')
+
+# DiplomaOne registration: DI04005021 chemical semester 4
+if 'DI04005021' not in SUBJECTS:
+    SUBJECTS['DI04005021'] = ('Mass Transfer-I','માસ ટ્રાન્સફર–I','Core',4,'theory',None)
+_chemical_sem4 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(4,[])
+if 'DI04005021' not in _chemical_sem4:
+    _chemical_sem4.append('DI04005021')
+
 FONT_MAP = [
     (re.compile(r'font-family="Arial, Helvetica, sans-serif"'), 'font-family="DejaVu Sans"'),
     (re.compile(r'font-family="DejaVu Sans Mono, Consolas, monospace"'), 'font-family="DejaVu Sans Mono"'),
@@ -304,6 +388,11 @@ def normalize_for_app(unit):
     also preserves their inline diagrams in older versions of the app. Flat viva
     questions are wrapped in the grouped format understood by the app.
     """
+    # Some source files use the field name as a tab id; older apps use "exam".
+    if isinstance(unit.get("tabs"), list):
+        tabs = ["exam" if tab == "exam_questions" else tab for tab in unit["tabs"]]
+        unit["tabs"] = list(dict.fromkeys(tabs))
+
     programs = unit.get("programs")
     if isinstance(programs, list):
         rich = [p for p in programs if isinstance(p, dict) and p.get("format") == "rich_cards" and isinstance(p.get("items"), list)]

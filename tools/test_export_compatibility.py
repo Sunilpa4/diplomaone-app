@@ -24,6 +24,12 @@ class CompatibilityTest(unittest.TestCase):
         self.assertNotIn('programs', unit)
         self.assertNotIn('syntax', unit)
 
+    def test_exam_questions_tab_alias_is_visible_without_duplicates(self):
+        unit = {'tabs': ['notes', 'exam_questions', 'exam'], 'exam_questions': [{'q': 'Q', 'marks': 2}]}
+        normalize_for_app(unit)
+        self.assertEqual(unit['tabs'], ['notes', 'exam'])
+        self.assertEqual(unit['exam_questions'][0]['marks'], 2)
+
     def test_existing_formats_are_unchanged(self):
         unit = {'tabs': ['notes', 'programs', 'syntax', 'viva'], 'notes': [],
                 'programs': [{'id': 'p1', 'code': 'int main() {}'}],
