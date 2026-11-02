@@ -22,6 +22,8 @@ import os
 import re
 import sys
 
+from mathrender import CSS as MATH_CSS, latex_to_html
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 TAB_LABELS = {
@@ -32,6 +34,7 @@ TAB_LABELS = {
     "viva": ("Viva", "વાઇવા"),
     "exam": ("Exam", "પરીક્ષા"),
     "coverage": ("Syllabus coverage", "Syllabus કવરેજ"),
+    "equations": ("Equation sheet", "સમીકરણ શીટ"),
 }
 
 
@@ -115,6 +118,22 @@ def _coverage(u, syllabus):
     return rows
 
 
+MATH_RE = re.compile(r'<div class="math" data-tex="(.*?)" aria-label=".*?">(.*?)</div>', re.S)
+
+
+def typeset(body):
+    """Swap every stored equation for stacked, real-symbol maths."""
+    if not body:
+        return body
+
+    def repl(m):
+        tex = html.unescape(m.group(1))
+        tex = tex.replace('\\\\', '\\')
+        return f'<div class="eqn">{latex_to_html(tex)}</div>'
+
+    return MATH_RE.sub(repl, body)
+
+
 def _cards_html(items, lang, unit_no, diagrams, start=1):
     out = []
     n = start
@@ -133,7 +152,7 @@ def _cards_html(items, lang, unit_no, diagrams, start=1):
         open_attr = " open" if len(out) == 0 else ""
         out.append(
             f'<details class="card"{open_attr}><summary>{html.escape(label)}</summary>'
-            f'<div class="body">{body}{svg}</div></details>')
+            f'<div class="body">{typeset(body)}{svg}</div></details>')
     return "".join(out)
 
 
@@ -168,7 +187,7 @@ def _syntax_html(groups, lang):
         body = g.get("body")
         out.append(f"<h4>{html.escape(title)}</h4>")
         if body:
-            out.append(_bi(body, lang))
+            out.append(typeset(_bi(body, lang)))
             continue
         rows = []
         for it in g.get("items") or []:
@@ -188,6 +207,35 @@ def _diagram_html(diagrams, lang):
         title = diagrams.meta.get(did, "")
         out.append(f'<h4>{html.escape(title)}</h4>{_svg(path)}')
     return "".join(out)
+
+
+def _equations_sheet(u):
+    """Every equation in the unit, grouped, typeset — for checking typography."""
+    groups = []
+    for sec in u.get("notes") or []:
+        rows = []
+        for it in sec["items"]:
+            body = _bi(it.get("body"), "en")
+            for m in MATH_RE.finditer(body or ""):
+                tex = html.unescape(m.group(1)).replace("\\\\", "\\")
+                rows.append((_bi(it.get("h"), "en"), latex_to_html(tex)))
+        if rows:
+            groups.append((_bi(sec["title"], "en"), rows))
+    progs = []
+    for p in u.get("programs") or []:
+        for it in p.get("items") or []:
+            for m in MATH_RE.finditer(_bi(it.get("body"), "en") or ""):
+                tex = html.unescape(m.group(1)).replace("\\\\", "\\")
+                progs.append((_bi(p.get("title"), "en"), latex_to_html(tex)))
+    if progs:
+        groups.append(("Solved numericals", progs))
+    return "".join(
+        f'<div class="section"><span>{html.escape(t)}</span></div>'
+        f'<div class="group sheet">'
+        + "".join(f'<div class="eqrow"><span class="eqsrc">{html.escape(h)}</span>'
+                  f'<span class="eqbox">{eq}</span></div>' for h, eq in rows)
+        + '</div>'
+        for t, rows in groups)
 
 
 def _stats_line(c, lang):
@@ -245,6 +293,8 @@ def build(code, out_path=None):
                 tabs.append("exam")
             if (u.get("syllabus") or syl) and "coverage" not in tabs:
                 tabs.insert(0, "coverage")
+            if "equations" not in tabs:
+                tabs.append("equations")
 
             tabbar, panels = [], []
             first = True
@@ -265,7 +315,7 @@ def build(code, out_path=None):
                         body_p = "".join(_bi(i.get("body"), lang) for i in items)
                         progs.append(
                             f'<details class="card"><summary>{html.escape(_bi(p.get("title"), lang))}</summary>'
-                            f'<div class="body">{body_p}</div></details>')
+                            f'<div class="body">{typeset(body_p)}</div></details>')
                     body = (f'<div class="section"><span>'
                             f'{"Solved numericals and practicals" if lang == "en" else "ઉકેલેલા દાખલા તથા પ્રેક્ટિકલ"}'
                             f'</span><button class="toggle-group">'
@@ -285,6 +335,8 @@ def build(code, out_path=None):
                             f'<div class="group">{_qa_html(u.get("viva") or [], lang)}</div>')
                 elif t == "exam":
                     body = _exam_html(u.get("exam_questions") or [], lang)
+                elif t == "equations":
+                    body = _equations_sheet(u)
                 elif t == "coverage":
                     if not cov:
                         body = ('<p>No syllabus mapping recorded for this unit.</p>'
@@ -329,7 +381,7 @@ def build(code, out_path=None):
     doc = f"""<!doctype html><html lang="gu"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{html.escape(name_en)} • {code}</title>
-<style>{CSS}</style>
+<style>{CSS}{MATH_CSS}</style>
 <div class="controls">
   <select id="unit" aria-label="Select unit">{''.join(options_gu)}</select>
   <button id="language">English</button>
@@ -395,6 +447,13 @@ table{width:100%;border-collapse:collapse;margin-top:18px;font-size:14px}
 th,td{border:1px solid #dfd2e9;padding:9px;text-align:left}
 th{background:#f1e8f8}
 .pill{font-size:13px;color:#7330ab}
+.sheet{padding:6px 0}
+.eqrow{display:grid;grid-template-columns:minmax(120px,240px) 1fr;gap:14px;align-items:center;
+  padding:10px 18px;border-bottom:1px solid #f3eefb}
+.eqrow:last-child{border-bottom:none}
+.eqsrc{font-size:12.5px;color:#6b6275;line-height:1.4}
+.eqbox .mathx.block{text-align:left;padding:2px 0}
+@media(max-width:640px){.eqrow{grid-template-columns:1fr;gap:4px}}
 .footer{font-size:13px;color:#6b6275;text-align:center;padding:26px 16px 40px}
 @media print{.controls{display:none}.card{border:0}.card>summary{font-weight:700}}
 """
