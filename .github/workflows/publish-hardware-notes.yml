@@ -1799,6 +1799,11 @@ jobs:
           print('Switchgear and Protection all five units and registration ready; existing source preserved.')
           PY
 
+      # Chemical source from the uploaded publisher is checked in directly.
+      # This avoids an oversized embedded payload and preserves existing notes.
+      - name: Validate Chemical subjects and registration
+        run: python3 tools/validate_chemical_content.py
+
       - name: Export source content into staging
         run: |
           python3 tools/export_app_content.py
