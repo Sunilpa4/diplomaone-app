@@ -1,0 +1,1038 @@
+{
+ "subject": "DI01000021",
+ "unit": 5,
+ "format": "notes",
+ "title": {
+  "en": "Limit"
+ },
+ "hours": 7,
+ "weightage": 17,
+ "official": true,
+ "languages": [
+  "en"
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "equations",
+  "numericals",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "Unit 5 of Mathematics-I: what a limit means and how it is written; left-hand, right-hand and two-sided limits and the three ways a limit can fail; the algebra of limits and the indeterminate forms; the three working techniques - factorisation, rationalisation and dividing by the highest power for limits at infinity; the standard limits for sin x/x, tan x/x, (1 - cos x)/x squared, x to the n minus a to the n, the number e, and the exponential and logarithmic limits; and continuity at a point, covering syllabus items 5.1 and 5.2. Twenty-four fully solved numericals."
+ },
+ "notes": [
+  {
+   "title": {
+    "en": "1. What a Limit Means"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "1.1 The idea and the notation"
+     },
+     "body": {
+      "en": "<h4>Definition</h4><p>The <b>limit</b> of f(x) as x approaches a is the single value that f(x) closes in on when x gets arbitrarily close to a, <i>without</i> ever needing x to equal a. We write lim<sub>x→a</sub> f(x) = L.</p><h4>Read it as a question</h4><p>\"If x creeps up to <i>a</i>, where does the output go?\" The value f(a) itself is irrelevant: the function may be undefined at a, may have a different value there, or may be perfectly well behaved. A limit describes the <i>approach</i>, not the arrival.</p><h4>A hole in a graph</h4><p>Take f(x) = (x² − 1)/(x − 1). At x = 1 the formula gives 0/0, which means nothing. But for every x ≠ 1, (x² − 1)/(x − 1) = x + 1, so the graph is the line y = x + 1 with a single missing point at (1, 2). The limit exists and equals 2, even though f(1) does not.</p><h4>Why engineers care</h4><p>Velocity is a limit of an average speed as the time gap shrinks to zero, current is a limit of charge per unit time, and stress is a limit of force per unit area. Every derivative in the next semester is built from exactly this idea.</p><details class=\"self-check\"><summary>Is the limit the same as the value of the function?</summary><p>No. The limit is what the function approaches; the value is what it actually equals. They agree only when the function is continuous at that point.</p></details>"
+     },
+     "diagram": "l1_hole",
+     "examples": [
+      "lm1n1",
+      "lm1n2"
+     ],
+     "syllabus_item": "5.1"
+    },
+    {
+     "h": {
+      "en": "1.2 Left-hand, right-hand and two-sided limits"
+     },
+     "body": {
+      "en": "<h4>Two approaches</h4><p>The <b>left-hand limit</b> lim<sub>x→a⁻</sub> f(x) uses x &lt; a. The <b>right-hand limit</b> lim<sub>x→a⁺</sub> f(x) uses x &gt; a. Each one is a one-way approach.</p><h4>Existence rule</h4><p>The two-sided limit exists <b>only when both one-sided limits exist and are equal</b>: lim<sub>x→a⁻</sub> f = lim<sub>x→a⁺</sub> f = L. If they differ, the limit does not exist, however close the two values happen to be.</p><h4>Worked example</h4><p>For f(x) = x + 2 when x &lt; 1 and f(x) = 4x when x ≥ 1: the left limit is 1 + 2 = 3 and the right limit is 4(1) = 4. They differ, so lim<sub>x→1</sub> f(x) does not exist; the graph jumps.</p><h4>Modulus example</h4><p>f(x) = |x|/x gives −1 from the left and +1 from the right, so the limit at 0 fails even though the function is defined on both sides. Writing the two cases explicitly is the safe method.</p><details class=\"self-check\"><summary>Can a limit exist if the function is not defined at a?</summary><p>Yes. Both one-sided limits can agree without f(a) being defined at all.</p></details>"
+     },
+     "diagram": "l2_sided",
+     "examples": [
+      "lm1n21"
+     ],
+     "syllabus_item": "5.1"
+    },
+    {
+     "h": {
+      "en": "1.3 When a limit does not exist"
+     },
+     "body": {
+      "en": "<h4>Three standard reasons</h4><ol><li>The two one-sided limits disagree (a jump).</li><li>The values grow without bound, as in 1/x² near 0 (an infinite blow-up).</li><li>The values never settle, as in sin(1/x) near 0 (oscillation).</li></ol><h4>What to write in an answer</h4><p>Say \"does not exist\" and give the evidence: \"left limit = 3, right limit = 4, so the limit does not exist\". The reason earns the mark; the phrase alone does not.</p><h4>Infinite limits</h4><p>When a function tends to +∞ we sometimes write lim = ∞, but that is a description of the behaviour, not a real number, so the limit is still said not to exist.</p><h4>Common mistake</h4><p>Substituting x = a first and writing 0/0 as the answer. 0/0 is not a value - it is a signal that algebra is still needed.</p>"
+     },
+     "examples": [
+      "lm1n22"
+     ],
+     "syllabus_item": "5.1"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2. Algebra of Limits"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "2.1 The limit laws"
+     },
+     "body": {
+      "en": "<h4>Rules</h4><p>If lim f = L and lim g = M both exist, then lim (f ± g) = L ± M, lim (fg) = LM, lim (f/g) = L/M (provided M ≠ 0) and lim (k f) = kL. A constant has limit equal to itself, and lim x = a.</p><h4>Direct substitution</h4><p>For a polynomial, or a ratio of polynomials with a non-zero denominator, the limit is simply the value at the point: substitute and finish. The laws above are what make that legal.</p><h4>Worked example</h4><p>lim<sub>x→2</sub> (3x² − 5x + 1) = 3(4) − 5(2) + 1 = 12 − 10 + 1 = 3, by substitution and the sum and product rules. No algebra needed.</p><h4>Order matters</h4><p>Check the denominator first. If it is non-zero at the point, substitution ends the question. If it is zero, the algebra has not started yet.</p><details class=\"self-check\"><summary>Does the quotient law apply when the denominator limit is zero?</summary><p>No. That case is an indeterminate form and needs factorisation, rationalisation or a standard limit.</p></details>"
+     },
+     "diagram": "l3_table",
+     "examples": [
+      "lm1n1",
+      "lm1n7"
+     ],
+     "syllabus_item": "5.2"
+    },
+    {
+     "h": {
+      "en": "2.2 Indeterminate forms"
+     },
+     "body": {
+      "en": "<h4>What 0/0 means</h4><p>A form such as 0/0 or ∞/∞ is called <b>indeterminate</b>: it tells you the answer is not yet decided. Two different functions can both give 0/0 at the same point and still have limits 0, 5 or ∞.</p><h4>A numerical check</h4><p>For (x² − 1)/(x − 1), substituting x = 1.1, 1.01 and 1.001 gives 2.1, 2.01 and 2.001. The table points at 2. A table of values is the quickest way to guess a limit and a natural way to confirm an algebra answer.</p><h4>Forms that are not indeterminate</h4><p>3/0 is not 0/0 - it is an infinite blow-up. 0/5 is simply 0. 5/0 is unbounded. Only 0/0, ∞/∞, 0·∞, ∞ − ∞, 1<sup>∞</sup>, 0⁰ and ∞⁰ need work.</p><h4>The three workhorses</h4><p>Factorise and cancel (removes a common zero), rationalise (removes a root), or divide by the highest power (handles infinity). Almost every question in this unit is one of the three.</p><details class=\"self-check\"><summary>Is 0/0 equal to 1?</summary><p>No. 0/0 has no value. The phrase only says the numerator and the denominator both vanish at the point.</p></details>"
+     },
+     "examples": [
+      "lm1n3",
+      "lm1n8"
+     ],
+     "syllabus_item": "5.2"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3. Techniques that Remove the 0/0"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "3.1 Factorisation and cancellation"
+     },
+     "body": {
+      "en": "<h4>Method</h4><ol><li>Substitute; if you get a non-zero number, stop.</li><li>If you get 0/0, factorise the numerator and the denominator.</li><li>Cancel the common factor that caused the zero.</li><li>Substitute again into what is left.</li></ol><h4>Worked example</h4><p>lim<sub>x→3</sub> (x² − 9)/(x − 3) = lim (x − 3)(x + 3)/(x − 3) = lim (x + 3) = 6. The cancellation is legal because x ≠ 3 while the limit is being taken, so the factor is never actually zero.</p><h4>Extension to xⁿ − aⁿ</h4><p>x³ − 1 = (x − 1)(x² + x + 1), and in general xⁿ − aⁿ = (x − a)(xⁿ⁻¹ + xⁿ⁻²a + … + aⁿ⁻¹). That identity settles every (xⁿ − aⁿ)/(x − a) question at once.</p><h4>Common mistake</h4><p>Cancelling terms that are added rather than multiplied. Only factors cancel: (x² − 9)/(x − 3) is fine, but (x² − 9)/(x − 3) is not x² − 3.</p>"
+     },
+     "diagram": "l6_flow",
+     "examples": [
+      "lm1n2",
+      "lm1n3",
+      "lm1n4"
+     ],
+     "syllabus_item": "5.2"
+    },
+    {
+     "h": {
+      "en": "3.2 Rationalising a square root"
+     },
+     "body": {
+      "en": "<h4>Method</h4><p>When a square root causes the 0/0, multiply the numerator and the denominator by the <b>conjugate</b> of the root expression. This uses (A − B)(A + B) = A² − B² and turns the difference of roots into a plain expression.</p><h4>Worked example</h4><p>lim<sub>x→0</sub> (√(1 + x) − 1)/x, multiplied by (√(1 + x) + 1)/(√(1 + x) + 1), becomes lim x/(x(√(1 + x) + 1)) = lim 1/(√(1 + x) + 1) = 1/2.</p><h4>What to expect</h4><p>The answer is usually <i>not</i> zero, because the root grows more slowly than x. For √(1 + x) − 1 the linear behaviour is x/2, which is exactly why the limit is 1/2.</p><h4>Common mistake</h4><p>Multiplying only the numerator. The value of the fraction must not change, so both parts get the conjugate.</p>"
+     },
+     "examples": [
+      "lm1n5",
+      "lm1n6"
+     ],
+     "syllabus_item": "5.2"
+    },
+    {
+     "h": {
+      "en": "3.3 Limits at infinity"
+     },
+     "body": {
+      "en": "<h4>The degree rule</h4><p>For a ratio of polynomials as x → ∞, divide every term by the highest power of x in the denominator. Equivalent shortcut: compare degrees.</p><table><tr><th>Degrees</th><th>Limit as x → ∞</th><th>Example</th></tr><tr><td>numerator &lt; denominator</td><td>0</td><td>x/(x² + 1) → 0</td></tr><tr><td>equal</td><td>ratio of leading coefficients</td><td>(3x² + 2x)/(5x² − 1) → 3/5</td></tr><tr><td>numerator &gt; denominator</td><td>unbounded (±∞)</td><td>x³/(x + 1) → ∞</td></tr></table><h4>Roots at infinity</h4><p>For √(x² + 3x) − x, multiply by the conjugate: the numerator becomes 3x and the denominator √(x² + 3x) + x ≈ 2x, so the limit is 3/2.</p><h4>Useful fact</h4><p>As x → ∞, 1/x → 0, 1/x² → 0, and k/xⁿ → 0 for any positive power. Every finite limit at infinity comes from throwing away those vanishing terms.</p><details class=\"self-check\"><summary>What is lim x→∞ (5x + 3)/(2x − 7)?</summary><p>5/2 - equal degrees, so the ratio of the leading coefficients.</p></details>"
+     },
+     "examples": [
+      "lm1n8",
+      "lm1n9",
+      "lm1n10"
+     ],
+     "syllabus_item": "5.2"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "4. Standard Limits"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "4.1 The trigonometric limits"
+     },
+     "body": {
+      "en": "<h4>The key limit</h4><p><b>lim<sub>x→0</sub> (sin x)/x = 1</b> (x in radians). It is the reason the derivative of sin x comes out as cos x, and it is true only in radian measure.</p><h4>Companions</h4><p>lim (tan x)/x = 1, lim (1 − cos x)/x² = 1/2, and lim (sin ax)/(bx) = a/b. Each follows from the key limit by rewriting: tan x = (sin x)/x · 1/(cos x), and 1 − cos x = 2sin²(x/2).</p><h4>Worked example</h4><p>lim<sub>x→0</sub> (sin 3x)/(sin 7x) = (3/7) · [(sin 3x)/(3x)] · [(7x)/(sin 7x)] = 3/7, because both bracketed factors tend to 1.</p><h4>Common mistake</h4><p>Writing sin x ≈ x and then cancelling x in a sum such as (x − sin x)/x³. The first-order approximation is too coarse there; you need the next term (sin x = x − x³/6 + …).</p>"
+     },
+     "diagram": "l4_sinx",
+     "examples": [
+      "lm1n11",
+      "lm1n12",
+      "lm1n13",
+      "lm1n14"
+     ],
+     "syllabus_item": "5.2"
+    },
+    {
+     "h": {
+      "en": "4.2 The number e"
+     },
+     "body": {
+      "en": "<h4>Definition</h4><p><b>lim<sub>x→0</sub> (1 + x)<sup>1/x</sup> = e</b> and <b>lim<sub>n→∞</sub> (1 + 1/n)<sup>n</sup> = e</b>, where e ≈ 2.718281828. The number e is defined by this limit, not assumed.</p><h4>General form</h4><p>lim<sub>x→0</sub> (1 + ax)<sup>b/x</sup> = e<sup>ab</sup>, and lim<sub>x→∞</sub> (1 + a/x)<sup>bx</sup> = e<sup>ab</sup>. The exponent multiplies with the coefficient inside - that product is the exponent of e.</p><h4>Worked example</h4><p>lim<sub>x→0</sub> (1 + 3x)<sup>1/x</sup> = e³. Check with x = 0.001: (1.003)¹⁰⁰⁰ ≈ 20.0, and e³ ≈ 20.09 - a good match.</p><h4>Where it comes from</h4><p>Compounding interest n times a year at rate r gives (1 + r/n)<sup>n</sup>. As n → ∞ the growth factor becomes e<sup>r</sup>: continuous compounding is a limit, not a new rule.</p><details class=\"self-check\"><summary>Why is e important in engineering?</summary><p>Exponential growth, decay, RC circuits and cooling curves all have e as their natural base, so limits of this form appear everywhere.</p></details>"
+     },
+     "diagram": "l5_e",
+     "examples": [
+      "lm1n16",
+      "lm1n17"
+     ],
+     "syllabus_item": "5.2"
+    },
+    {
+     "h": {
+      "en": "4.3 Exponential, logarithmic and power limits"
+     },
+     "body": {
+      "en": "<h4>Three more standards</h4><p><b>lim<sub>x→0</sub> (e<sup>x</sup> − 1)/x = 1</b>, <b>lim<sub>x→0</sub> (a<sup>x</sup> − 1)/x = log a</b>, and <b>lim<sub>x→0</sub> log(1 + x)/x = 1</b>.</p><h4>Power form</h4><p>lim<sub>x→0</sub> ((1 + x)<sup>n</sup> − 1)/x = n for any constant n, and more generally lim<sub>x→a</sub> (x<sup>n</sup> − a<sup>n</sup>)/(x − a) = n a<sup>n−1</sup>.</p><h4>Worked example</h4><p>lim<sub>x→0</sub> (3<sup>x</sup> − 1)/x = log 3 ≈ 1.0986. If the base is e the answer is log e = 1, which is exactly the first formula in this card.</p><h4>Reading the log</h4><p>In this syllabus log means the natural logarithm (base e). With base 10 the same question would give log₁₀a, so state the convention whenever the base matters.</p><h4>Common mistake</h4><p>Forgetting that the denominator must be exactly x. For (e<sup>2x</sup> − 1)/x the answer is 2, not 1: substitute u = 2x and carry the factor.</p>"
+     },
+     "examples": [
+      "lm1n18",
+      "lm1n19",
+      "lm1n20",
+      "lm1n22"
+     ],
+     "syllabus_item": "5.2"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "5. Continuity and Exam Technique"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "5.1 Continuity at a point"
+     },
+     "body": {
+      "en": "<h4>Definition</h4><p>f is <b>continuous</b> at x = a when three things hold: f(a) is defined, lim<sub>x→a</sub> f(x) exists, and the two are equal. In one line: lim<sub>x→a</sub> f(x) = f(a).</p><h4>Types of discontinuity</h4><table><tr><th>Type</th><th>What happens</th><th>Example</th></tr><tr><td>Removable</td><td>the limit exists but f(a) is missing or wrong</td><td>(x² − 1)/(x − 1) at 1</td></tr><tr><td>Jump</td><td>the two one-sided limits differ</td><td>x + 2 for x &lt; 1, 4x for x ≥ 1</td></tr><tr><td>Infinite</td><td>values blow up</td><td>1/x² at 0</td></tr></table><h4>How to test a piecewise function</h4><ol><li>Find the left limit.</li><li>Find the right limit.</li><li>Compare both with f(a).</li><li>Conclude: equal to f(a) means continuous; equal to each other but not f(a) means removable; different means a jump.</li></ol><h4>Exam wording</h4><p>A continuity question almost always hides a limit question. Do the limits first, then quote the definition - never the other way round.</p>"
+     },
+     "diagram": "l2_sided",
+     "examples": [
+      "lm1n21"
+     ],
+     "syllabus_item": "5.1"
+    },
+    {
+     "h": {
+      "en": "5.2 A checking routine and common errors"
+     },
+     "body": {
+      "en": "<h4>Five-step routine</h4><ol><li>Substitute the point. A finite number is the answer.</li><li>If you get 0/0, factorise, rationalise or use a standard limit.</li><li>If the variable tends to infinity, divide by the highest power.</li><li>For a piecewise function, do both one-sided limits.</li><li>Check the sign and the size of the answer against a nearby value in a table.</li></ol><h4>Errors that cost marks</h4><ul><li>Writing 0/0 as the final answer.</li><li>Cancelling before factorising, or cancelling added terms.</li><li>Using degrees in sin x/x - the limit 1 needs radians.</li><li>Dropping the constant in (e<sup>2x</sup> − 1)/x, which is 2, not 1.</li><li>Forgetting that a one-sided limit is still a limit and must be labelled.</li></ul><h4>Answer format</h4><p>State the form you started with, show the algebra, then give the value: \"form 0/0; factorising gives (x + 3); limit = 6\". Two lines of reasoning is usually enough for full marks.</p><details class=\"self-check\"><summary>What is the first thing to try in any limit question?</summary><p>Direct substitution - it settles the easy cases instantly and tells you which of the three methods you need.</p></details>"
+     },
+     "examples": [
+      "lm1n15",
+      "lm1n23",
+      "lm1n24"
+     ],
+     "syllabus_item": "5.2"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "6. Answered Practice (Unit 5 level, suggested marks)"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Practice 1. Evaluate lim (x² + 3x − 4)/(x − 1) as x → 1."
+     },
+     "body": {
+      "en": "<h4>Working</h4><ol><li>Substitute: (1 + 3 − 4)/(1 − 1) = 0/0</li><li>Factorise: (x + 4)(x − 1)</li><li>Cancel (x − 1): lim (x + 4)</li><li>Substitute x = 1: 5</li></ol><h4>Answer</h4><p><b>5.</b> Check with x = 1.01: the expression is 5.01 ✓, so the value closes in on 5 from above.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 2. Evaluate lim (x³ − 8)/(x² − 4) as x → 2."
+     },
+     "body": {
+      "en": "<h4>Working</h4><ol><li>0/0 at x = 2</li><li>x³ − 8 = (x − 2)(x² + 2x + 4)</li><li>x² − 4 = (x − 2)(x + 2)</li><li>Cancel (x − 2): (x² + 2x + 4)/(x + 2)</li><li>Substitute x = 2: 12/4 = 3</li></ol><h4>Answer</h4><p><b>3.</b> Note that the cube factor leaves a quadratic while the square leaves a linear term, which is why the answer is finite and not zero ✓.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 3. Evaluate lim (√(4 + x) − 2)/x as x → 0."
+     },
+     "body": {
+      "en": "<h4>Working</h4><ol><li>0/0 at x = 0</li><li>Multiply by (√(4 + x) + 2)/(√(4 + x) + 2)</li><li>Numerator becomes (4 + x) − 4 = x</li><li>lim x/[x(√(4 + x) + 2)] = lim 1/(√(4 + x) + 2)</li><li>Substitute x = 0: 1/4</li></ol><h4>Answer</h4><p><b>1/4.</b> This is d(√x)/dx at x = 4, namely 1/(2√4) = 1/4 ✓, which is a useful independent check.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 4. Evaluate lim (5x³ − 2x + 1)/(2x³ + 7) as x → ∞."
+     },
+     "body": {
+      "en": "<h4>Working</h4><ol><li>Divide by x³</li><li>(5 − 2/x² + 1/x³)/(2 + 7/x³)</li><li>All the reciprocal terms tend to 0</li><li>Limit = 5/2</li></ol><h4>Answer</h4><p><b>5/2 = 2.5.</b> Equal degrees, so the ratio of leading coefficients decides ✓. At x = 1000 the value is 2.4997.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 5. Evaluate lim (sin 4x)/(sin 2x) as x → 0."
+     },
+     "body": {
+      "en": "<h4>Working</h4><ol><li>(sin 4x)/(sin 2x) = (4x/2x) · [(sin 4x)/(4x)] · [(2x)/(sin 2x)]</li><li>Both brackets tend to 1</li><li>Limit = 2</li></ol><h4>Answer</h4><p><b>2.</b> The a/b rule gives 4/2 = 2 ✓. At x = 0.001 the value is 2.0000, since the small-angle approximation is already accurate at that scale.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 6. Evaluate lim (1 − cos 4x)/x² as x → 0."
+     },
+     "body": {
+      "en": "<h4>Working</h4><ol><li>1 − cos 4x = 2 sin²(2x)</li><li>(1 − cos 4x)/x² = 2 · [sin(2x)/x]² = 8 · [sin(2x)/(2x)]²</li><li>The bracket tends to 1</li><li>Limit = 8</li></ol><h4>Answer</h4><p><b>8.</b> Scaling (1 − cos u)/u² → 1/2 by u = 4x multiplies by 16 and gives 16/2 = 8 ✓.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 7. Evaluate lim (1 + 5x)^(2/x) as x → 0."
+     },
+     "body": {
+      "en": "<h4>Working</h4><ol><li>Write [(1 + 5x)^(1/(5x))]^(10)</li><li>The bracket tends to e</li><li>Limit = e¹⁰</li></ol><h4>Answer</h4><p><b>e¹⁰ ≈ 22026.</b> The exponent is the product 5 × 2, so a large answer is expected. With x = 0.001, (1.005)²⁰⁰⁰ ≈ 21860, just below e¹⁰ ✓.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 8. Evaluate lim (2^x − 1)/x as x → 0."
+     },
+     "body": {
+      "en": "<h4>Working</h4><ol><li>2^x = e^(x log 2)</li><li>Put u = x log 2: the expression is log 2 · (eᵘ − 1)/u</li><li>(eᵘ − 1)/u → 1</li><li>Limit = log 2</li></ol><h4>Answer</h4><p><b>log 2 ≈ 0.6931.</b> The pattern (aˣ − 1)/x → log a fits with a = 2 ✓, and the value is below 1 because 2 &lt; e.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 9. Evaluate lim ((1 + x)^7 − 1)/x as x → 0."
+     },
+     "body": {
+      "en": "<h4>Working</h4><ol><li>Expand (1 + x)⁷ = 1 + 7x + 21x² + …</li><li>Subtract 1 and divide by x: 7 + 21x + …</li><li>Limit = 7</li></ol><h4>Answer</h4><p><b>7.</b> The power rule gives n a<sup>n−1</sup> = 7 · 1⁶ = 7 ✓. At x = 0.001 the value is 7.021, converging to 7.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 10. Evaluate lim (2x² − 7x + 3)/(x − 3) as x → 3."
+     },
+     "body": {
+      "en": "<h4>Working</h4><ol><li>0/0 at x = 3</li><li>Factorise: 2x² − 7x + 3 = (2x − 1)(x − 3)</li><li>Cancel (x − 3): lim (2x − 1)</li><li>Substitute x = 3: 5</li></ol><h4>Answer</h4><p><b>5.</b> Check by multiplying back: (2x − 1)(x − 3) = 2x² − 7x + 3 ✓. At x = 3.001 the value is 5.002.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 11. For f(x) = 2x + 1 when x &lt; 2 and f(x) = x² + 1 when x ≥ 2, find lim f(x) as x → 2 and test continuity."
+     },
+     "body": {
+      "en": "<h4>Working</h4><ol><li>Left limit: 2(2) + 1 = 5</li><li>Right limit: 2² + 1 = 5</li><li>f(2) = 5</li><li>Both limits equal f(2), so f is continuous at x = 2</li></ol><h4>Answer</h4><p><b>Limit = 5 and the function is continuous there.</b> The two branches join at the point (2, 5), so the graph has no hole and no jump ✓.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 12. Evaluate lim (√(x² + 5x) − x) as x → ∞."
+     },
+     "body": {
+      "en": "<h4>Working</h4><ol><li>Multiply by (√(x² + 5x) + x)/(√(x² + 5x) + x)</li><li>Numerator becomes 5x</li><li>Divide above and below by x: 5/(√(1 + 5/x) + 1)</li><li>Limit = 5/2</li></ol><h4>Answer</h4><p><b>5/2 = 2.5.</b> At x = 100 the expression is 2.469, and at 10 000 it is 2.4997 ✓ - a finite correction, not a blow-up.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 13. Evaluate lim (tan 3x)/(sin 5x) as x → 0."
+     },
+     "body": {
+      "en": "<h4>Working</h4><ol><li>tan 3x = (sin 3x)/(cos 3x)</li><li>Write (sin 3x)/(sin 5x) · 1/(cos 3x) = (3/5) · brackets that tend to 1</li><li>cos 3x → 1</li><li>Limit = 3/5</li></ol><h4>Answer</h4><p><b>3/5 = 0.6.</b> The ratio of the angles decides when both functions are sines or tangents of small angles ✓. At x = 0.001 the value is 0.6000.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 14. Evaluate lim (e^(3x) − 1)/x as x → 0."
+     },
+     "body": {
+      "en": "<h4>Working</h4><ol><li>Put u = 3x, so x = u/3</li><li>(e^(3x) − 1)/x = 3 · (eᵘ − 1)/u</li><li>(eᵘ − 1)/u → 1</li><li>Limit = 3</li></ol><h4>Answer</h4><p><b>3.</b> The standard limit (eᵘ − 1)/u → 1 picks up the inner coefficient, so the answer is 3 and not 1 ✓.</p>"
+     }
+    }
+   ]
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "l1_hole",
+   "title": {
+    "en": "A limit fills in the hole"
+   },
+   "file": "diagrams/l1_hole.svg"
+  },
+  {
+   "id": "l2_sided",
+   "title": {
+    "en": "Two one-sided limits must agree"
+   },
+   "file": "diagrams/l2_sided.svg"
+  },
+  {
+   "id": "l3_table",
+   "title": {
+    "en": "A table shows where the values go"
+   },
+   "file": "diagrams/l3_table.svg"
+  },
+  {
+   "id": "l4_sinx",
+   "title": {
+    "en": "Why sin x / x tends to 1"
+   },
+   "file": "diagrams/l4_sinx.svg"
+  },
+  {
+   "id": "l5_e",
+   "title": {
+    "en": "e as the end of (1 + 1/n)^n"
+   },
+   "file": "diagrams/l5_e.svg"
+  },
+  {
+   "id": "l6_flow",
+   "title": {
+    "en": "Which technique should I use?"
+   },
+   "file": "diagrams/l6_flow.svg"
+  }
+ ],
+ "equations": [
+  {
+   "title": {
+    "en": "Limit laws (a, b finite and the limits existing)"
+   },
+   "items": [
+    {
+     "terms": {
+      "en": "lim (f ± g) = lim f ± lim g"
+     },
+     "note": {
+      "en": "Sums and differences split"
+     }
+    },
+    {
+     "terms": {
+      "en": "lim (f · g) = lim f · lim g"
+     },
+     "note": {
+      "en": "Products split"
+     }
+    },
+    {
+     "terms": {
+      "en": "lim (f/g) = lim f / lim g, lim g ≠ 0"
+     },
+     "note": {
+      "en": "Quotients split only when the denominator is non-zero"
+     }
+    },
+    {
+     "terms": {
+      "en": "lim (k f) = k lim f, lim c = c, lim x = a"
+     },
+     "note": {
+      "en": "Constants and the identity"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Standard limits"
+   },
+   "items": [
+    {
+     "terms": {
+      "en": "lim (sin x)/x = 1  (x in radians)"
+     },
+     "note": {
+      "en": "The key trigonometric limit"
+     }
+    },
+    {
+     "terms": {
+      "en": "lim (tan x)/x = 1,  lim (sin ax)/(bx) = a/b"
+     },
+     "note": {
+      "en": "Companions of the key limit"
+     }
+    },
+    {
+     "terms": {
+      "en": "lim (1 − cos x)/x² = 1/2"
+     },
+     "note": {
+      "en": "Follows from 1 − cos x = 2sin²(x/2)"
+     }
+    },
+    {
+     "terms": {
+      "en": "lim (xⁿ − aⁿ)/(x − a) = n aⁿ⁻¹"
+     },
+     "note": {
+      "en": "Settles every power limit"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "The number e, exponentials and logarithms"
+   },
+   "items": [
+    {
+     "terms": {
+      "en": "lim (1 + 1/x)ˣ = e,  lim (1 + x)^(1/x) = e"
+     },
+     "note": {
+      "en": "The two definitions of e"
+     }
+    },
+    {
+     "terms": {
+      "en": "lim (1 + ax)^(b/x) = e^(ab)"
+     },
+     "note": {
+      "en": "Product of the two constants"
+     }
+    },
+    {
+     "terms": {
+      "en": "lim (eˣ − 1)/x = 1"
+     },
+     "note": {
+      "en": "Gradient of eˣ at 0"
+     }
+    },
+    {
+     "terms": {
+      "en": "lim (aˣ − 1)/x = log a"
+     },
+     "note": {
+      "en": "Natural log; base e gives 1"
+     }
+    },
+    {
+     "terms": {
+      "en": "lim log(1 + x)/x = 1"
+     },
+     "note": {
+      "en": "Series of log(1 + x)"
+     }
+    }
+   ]
+  }
+ ],
+ "numericals": [
+  {
+   "id": "lm1n1",
+   "q": {
+    "en": "Evaluate lim (3x² − 5x + 1) as x → 2."
+   },
+   "a": {
+    "en": "<h4>Given and assumptions</h4><p>A polynomial, so the limit laws allow direct substitution.</p><h4>Formula</h4><p>lim<sub>x→a</sub> f(x) = f(a) when f is a polynomial.</p><h4>Step-by-step solution</h4><p>3(2)² − 5(2) + 1 = 12 − 10 + 1 = 3</p><h4>Interpretation and check</h4><p><b>3.</b> A polynomial has no holes or jumps, so the limit equals the value: f(2) = 3 ✓. Substituting x = 2.001 gives 3.001, confirming the approach from the right.</p>"
+   }
+  },
+  {
+   "id": "lm1n2",
+   "q": {
+    "en": "Evaluate lim (x² − 9)/(x − 3) as x → 3."
+   },
+   "a": {
+    "en": "<h4>Given and assumptions</h4><p>Substituting x = 3 gives 0/0, an indeterminate form; the factor (x − 3) is common.</p><h4>Formula</h4><p>x² − a² = (x − a)(x + a).</p><h4>Step-by-step solution</h4><ol><li>Substitute: (9 − 9)/(3 − 3) = 0/0 - indeterminate.</li><li>Factorise: x² − 9 = (x − 3)(x + 3).</li><li>Cancel (x − 3), valid because x ≠ 3.</li><li>lim (x + 3) = 6.</li></ol><h4>Interpretation and check</h4><p><b>6.</b> The graph is the line y = x + 3 with a hole at (3, 6). A table gives x = 2.9 → 5.9 and x = 3.1 → 6.1, so both sides close in on 6 ✓.</p>"
+   }
+  },
+  {
+   "id": "lm1n3",
+   "q": {
+    "en": "Evaluate lim (x³ − 1)/(x − 1) as x → 1."
+   },
+   "a": {
+    "en": "<h4>Given and assumptions</h4><p>Substitution gives 0/0. The numerator is a difference of cubes with a = 1.</p><h4>Formula</h4><p>x³ − a³ = (x − a)(x² + ax + a²).</p><h4>Step-by-step solution</h4><ol><li>x³ − 1 = (x − 1)(x² + x + 1)</li><li>Cancel (x − 1)</li><li>lim (x² + x + 1) = 1 + 1 + 1 = 3</li></ol><h4>Interpretation and check</h4><p><b>3.</b> Using the standard form (xⁿ − aⁿ)/(x − a) → n a<sup>n−1</sup> with n = 3, a = 1 gives 3 ✓. At x = 1.01 the expression equals 3.0301, which is close to 3.</p>"
+   }
+  },
+  {
+   "id": "lm1n4",
+   "q": {
+    "en": "Evaluate lim (x² − 4)/(x² − 5x + 6) as x → 2."
+   },
+   "a": {
+    "en": "<h4>Given and assumptions</h4><p>0/0 at x = 2. Both quadratics factor with (x − 2).</p><h4>Formula</h4><p>Factorise numerator and denominator, cancel the common factor.</p><h4>Step-by-step solution</h4><ol><li>x² − 4 = (x − 2)(x + 2)</li><li>x² − 5x + 6 = (x − 2)(x − 3)</li><li>Cancel (x − 2): lim (x + 2)/(x − 3)</li><li>Substitute x = 2: 4/(−1) = −4</li></ol><h4>Interpretation and check</h4><p><b>−4.</b> The denominator is negative just above 2 (x − 3 &lt; 0) while the numerator is positive, so a negative limit is expected. At x = 2.01 the value is ≈ −4.01 ✓.</p>"
+   }
+  },
+  {
+   "id": "lm1n5",
+   "q": {
+    "en": "Evaluate lim (√(1 + x) − 1)/x as x → 0."
+   },
+   "a": {
+    "en": "<h4>Given and assumptions</h4><p>0/0 at x = 0, caused by the square root. Rationalise with the conjugate √(1 + x) + 1.</p><h4>Formula</h4><p>(A − B)(A + B) = A² − B².</p><h4>Step-by-step solution</h4><ol><li>Multiply above and below by (√(1 + x) + 1)</li><li>Numerator becomes (1 + x) − 1 = x</li><li>lim x/[x(√(1 + x) + 1)] = lim 1/(√(1 + x) + 1)</li><li>Substitute x = 0: 1/(1 + 1) = 1/2</li></ol><h4>Interpretation and check</h4><p><b>1/2.</b> This is the standard binomial result √(1 + x) ≈ 1 + x/2 for small x, so the limit 1/2 is exact. At x = 0.01 the expression is 0.4988 ✓.</p>"
+   }
+  },
+  {
+   "id": "lm1n6",
+   "q": {
+    "en": "Evaluate lim (√x − 2)/(x − 4) as x → 4."
+   },
+   "a": {
+    "en": "<h4>Given and assumptions</h4><p>0/0 at x = 4. The denominator is a difference of squares in √x.</p><h4>Formula</h4><p>x − 4 = (√x − 2)(√x + 2).</p><h4>Step-by-step solution</h4><ol><li>Factorise the denominator: x − 4 = (√x)² − 2² = (√x − 2)(√x + 2)</li><li>Cancel (√x − 2)</li><li>lim 1/(√x + 2)</li><li>Substitute x = 4: 1/(2 + 2) = 1/4</li></ol><h4>Interpretation and check</h4><p><b>1/4.</b> Since d(√x)/dx = 1/(2√x), at x = 4 the slope is 1/4 - the limit is that slope ✓. At x = 4.01 the value is 0.2498.</p>"
+   }
+  },
+  {
+   "id": "lm1n7",
+   "q": {
+    "en": "Evaluate lim (1/x − 1/3)/(x − 3) as x → 3."
+   },
+   "a": {
+    "en": "<h4>Given and assumptions</h4><p>0/0 at x = 3. Combine the fractions in the numerator first.</p><h4>Formula</h4><p>1/x − 1/3 = (3 − x)/(3x).</p><h4>Step-by-step solution</h4><ol><li>1/x − 1/3 = (3 − x)/(3x)</li><li>Divide by (x − 3): (3 − x)/(3x(x − 3)) = −1/(3x)</li><li>lim −1/(3x) = −1/9</li></ol><h4>Interpretation and check</h4><p><b>−1/9.</b> The slope of 1/x at x = 3 is −1/x² = −1/9, so the answer is the derivative there ✓. At x = 3.01 the expression ≈ −0.111, consistent with −1/9 ≈ −0.1111.</p>"
+   }
+  },
+  {
+   "id": "lm1n8",
+   "q": {
+    "en": "Evaluate lim (3x² + 2x − 1)/(5x² − x + 4) as x → ∞."
+   },
+   "a": {
+    "en": "<h4>Given and assumptions</h4><p>Both polynomials have degree 2, so the leading coefficients decide.</p><h4>Formula</h4><p>Divide every term by x², the highest power in the denominator.</p><h4>Step-by-step solution</h4><ol><li>(3 + 2/x − 1/x²)/(5 − 1/x + 4/x²)</li><li>As x → ∞ each term with 1/x or 1/x² tends to 0</li><li>Limit = 3/5</li></ol><h4>Interpretation and check</h4><p><b>3/5 = 0.6.</b> Equal degrees give the ratio of leading coefficients ✓. At x = 1000 the value is ≈ 0.599, converging to 0.6.</p>"
+   }
+  },
+  {
+   "id": "lm1n9",
+   "q": {
+    "en": "Evaluate lim (2x³ − x)/(x³ + 4x²) as x → ∞."
+   },
+   "a": {
+    "en": "<h4>Given and assumptions</h4><p>Both have degree 3. Divide by x³.</p><h4>Formula</h4><p>Term-by-term division by the highest power.</p><h4>Step-by-step solution</h4><ol><li>(2 − 1/x²)/(1 + 4/x)</li><li>1/x² → 0 and 4/x → 0</li><li>Limit = 2/1 = 2</li></ol><h4>Interpretation and check</h4><p><b>2.</b> The cubes dominate both the numerator and the denominator, and the ratio of the leading coefficients is 2 ✓. At x = 100 the value is 1.96.</p>"
+   }
+  },
+  {
+   "id": "lm1n10",
+   "q": {
+    "en": "Evaluate lim (√(x² + 3x) − x) as x → ∞."
+   },
+   "a": {
+    "en": "<h4>Given and assumptions</h4><p>∞ − ∞ is indeterminate, so multiply by the conjugate to turn it into a fraction.</p><h4>Formula</h4><p>(√(x² + 3x) − x)(√(x² + 3x) + x) = 3x.</p><h4>Step-by-step solution</h4><ol><li>Multiply and divide by (√(x² + 3x) + x)</li><li>Numerator becomes (x² + 3x) − x² = 3x</li><li>Expression = 3x/(√(x² + 3x) + x)</li><li>Divide above and below by x: 3/(√(1 + 3/x) + 1)</li><li>Limit = 3/(1 + 1) = 3/2</li></ol><h4>Interpretation and check</h4><p><b>3/2 = 1.5.</b> At x = 100 the expression is 1.488, and at x = 10 000 it is 1.4999 ✓. The answer is finite because the square root grows only like x plus a correction of 3/2.</p>"
+   }
+  },
+  {
+   "id": "lm1n11",
+   "q": {
+    "en": "Evaluate lim (sin 5x)/x as x → 0."
+   },
+   "a": {
+    "en": "<h4>Given and assumptions</h4><p>sin 5x → 0 and x → 0, so the form is 0/0. Build the standard limit by inserting 5.</p><h4>Formula</h4><p>lim<sub>u→0</sub> (sin u)/u = 1 with u = 5x (radians).</p><h4>Step-by-step solution</h4><ol><li>(sin 5x)/x = 5 · (sin 5x)/(5x)</li><li>(sin 5x)/(5x) → 1 as x → 0</li><li>Limit = 5 · 1 = 5</li></ol><h4>Interpretation and check</h4><p><b>5.</b> In general (sin ax)/(bx) → a/b, so a = 5, b = 1 gives 5 ✓. At x = 0.001 the value is 4.99999.</p>"
+   }
+  },
+  {
+   "id": "lm1n12",
+   "q": {
+    "en": "Evaluate lim (sin 3x)/(sin 7x) as x → 0."
+   },
+   "a": {
+    "en": "<h4>Given and assumptions</h4><p>0/0 form. Split each sine from its own angle.</p><h4>Formula</h4><p>(sin 3x)/(sin 7x) = (3x/7x) · [(sin 3x)/(3x)] · [(7x)/(sin 7x)].</p><h4>Step-by-step solution</h4><ol><li>Write the ratio with 3x and 7x in place</li><li>Each bracketed ratio tends to 1</li><li>Limit = 3/7</li></ol><h4>Interpretation and check</h4><p><b>3/7 ≈ 0.4286.</b> The ratio a/b rule gives 3/7 directly ✓. At x = 0.001 the value is 0.4286, so the approximation sin t ≈ t is already excellent.</p>"
+   }
+  },
+  {
+   "id": "lm1n13",
+   "q": {
+    "en": "Evaluate lim (1 − cos x)/x² as x → 0."
+   },
+   "a": {
+    "en": "<h4>Given and assumptions</h4><p>0/0 at x = 0. Use 1 − cos x = 2 sin²(x/2).</p><h4>Formula</h4><p>lim (sin u)/u = 1, so lim (sin²u)/u² = 1.</p><h4>Step-by-step solution</h4><ol><li>1 − cos x = 2 sin²(x/2)</li><li>(1 − cos x)/x² = 2 sin²(x/2)/x² = (1/2)[sin(x/2)/(x/2)]²</li><li>The bracket tends to 1</li><li>Limit = 1/2</li></ol><h4>Interpretation and check</h4><p><b>1/2.</b> Because cos x ≈ 1 − x²/2 near 0, the numerator is x²/2 and the limit is 1/2 ✓. At x = 0.01 the value is 0.49999.</p>"
+   }
+  },
+  {
+   "id": "lm1n14",
+   "q": {
+    "en": "Evaluate lim (tan x)/x as x → 0."
+   },
+   "a": {
+    "en": "<h4>Given and assumptions</h4><p>0/0 form. Write tan x = sin x/cos x.</p><h4>Formula</h4><p>(tan x)/x = [(sin x)/x] · (1/cos x).</p><h4>Step-by-step solution</h4><ol><li>(tan x)/x = (sin x)/(x cos x)</li><li>(sin x)/x → 1 and cos x → 1</li><li>Limit = 1/1 = 1</li></ol><h4>Interpretation and check</h4><p><b>1.</b> Near 0 the tangent and the angle agree to first order, which is the geometric meaning of the limit ✓. At x = 0.01 the value is 1.00003.</p>"
+   }
+  },
+  {
+   "id": "lm1n15",
+   "q": {
+    "en": "Evaluate lim (1 − cos 2x)/x² as x → 0."
+   },
+   "a": {
+    "en": "<h4>Given and assumptions</h4><p>0/0 form with a doubled angle. Either use 1 − cos 2x = 2 sin²x or scale the standard result.</p><h4>Formula</h4><p>1 − cos 2x = 2 sin²x, and (sin x)/x → 1.</p><h4>Step-by-step solution</h4><ol><li>1 − cos 2x = 2 sin²x</li><li>(1 − cos 2x)/x² = 2 (sin x/x)²</li><li>Limit = 2 · 1 = 2</li></ol><h4>Interpretation and check</h4><p><b>2.</b> Scaling the standard limit (1 − cos u)/u² → 1/2 with u = 2x multiplies by 4 and gives 4 · 1/2 = 2 ✓. At x = 0.001 the value is 1.9999.</p>"
+   }
+  },
+  {
+   "id": "lm1n16",
+   "q": {
+    "en": "Evaluate lim (1 + 3x)^(1/x) as x → 0."
+   },
+   "a": {
+    "en": "<h4>Given and assumptions</h4><p>The form is 1<sup>∞</sup>, which is indeterminate. Compare with the definition of e.</p><h4>Formula</h4><p>lim (1 + ax)^(b/x) = e<sup>ab</sup>.</p><h4>Step-by-step solution</h4><ol><li>Write (1 + 3x)^(1/x) = [(1 + 3x)^(1/(3x))]³</li><li>The bracket tends to e</li><li>Limit = e³</li></ol><h4>Interpretation and check</h4><p><b>e³ ≈ 20.09.</b> With x = 0.001 the expression is (1.003)¹⁰⁰⁰ ≈ 20.0 ✓, so the exact answer sits just above the numerical estimate.</p>"
+   }
+  },
+  {
+   "id": "lm1n17",
+   "q": {
+    "en": "Evaluate lim (1 + 2/x)^x as x → ∞."
+   },
+   "a": {
+    "en": "<h4>Given and assumptions</h4><p>1<sup>∞</sup> form as x → ∞; match it to lim (1 + 1/n)<sup>n</sup> = e.</p><h4>Formula</h4><p>lim (1 + a/x)<sup>bx</sup> = e<sup>ab</sup>.</p><h4>Step-by-step solution</h4><ol><li>(1 + 2/x)^x = [(1 + 2/x)^(x/2)]²</li><li>The bracket tends to e</li><li>Limit = e²</li></ol><h4>Interpretation and check</h4><p><b>e² ≈ 7.389.</b> At x = 1000 the value is ≈ 7.374, approaching e² from below ✓ - the same undershoot seen in the sequence (1 + 1/n)<sup>n</sup>.</p>"
+   }
+  },
+  {
+   "id": "lm1n18",
+   "q": {
+    "en": "Evaluate lim (e^x − 1)/x as x → 0."
+   },
+   "a": {
+    "en": "<h4>Given and assumptions</h4><p>0/0 form. This is a standard limit, not something to differentiate.</p><h4>Formula</h4><p>(e<sup>x</sup> − 1)/x → 1 as x → 0.</p><h4>Step-by-step solution</h4><ol><li>Substitute the series e<sup>x</sup> = 1 + x + x²/2 + …</li><li>e<sup>x</sup> − 1 = x + x²/2 + …</li><li>Divide by x: 1 + x/2 + … → 1</li></ol><h4>Interpretation and check</h4><p><b>1.</b> The gradient of e<sup>x</sup> at x = 0 is 1, and this limit <i>is</i> that gradient ✓. At x = 0.001 the value is 1.0005.</p>"
+   }
+  },
+  {
+   "id": "lm1n19",
+   "q": {
+    "en": "Evaluate lim log(1 + x)/x as x → 0."
+   },
+   "a": {
+    "en": "<h4>Given and assumptions</h4><p>0/0 form with the natural logarithm. Put 1 + x = e<sup>u</sup> or use the series.</p><h4>Formula</h4><p>log(1 + x) = x − x²/2 + x³/3 − …</p><h4>Step-by-step solution</h4><ol><li>Expand: log(1 + x) = x − x²/2 + …</li><li>Divide by x: 1 − x/2 + …</li><li>Limit = 1</li></ol><h4>Interpretation and check</h4><p><b>1.</b> Equivalently log(1 + x)/x = log[(1 + x)<sup>1/x</sup>] → log e = 1 ✓. At x = 0.001 the value is 0.9995.</p>"
+   }
+  },
+  {
+   "id": "lm1n20",
+   "q": {
+    "en": "Evaluate lim (3^x − 1)/x as x → 0."
+   },
+   "a": {
+    "en": "<h4>Given and assumptions</h4><p>0/0 form with an exponential of base 3. Use 3<sup>x</sup> = e<sup>x log 3</sup>.</p><h4>Formula</h4><p>(a<sup>x</sup> − 1)/x → log a.</p><h4>Step-by-step solution</h4><ol><li>3<sup>x</sup> = e<sup>x log 3</sup></li><li>Put u = x log 3, so (e<sup>u</sup> − 1)/x = log 3 · (e<sup>u</sup> − 1)/u</li><li>The bracket tends to 1, so the limit is log 3</li></ol><h4>Interpretation and check</h4><p><b>log 3 ≈ 1.0986.</b> The base-3 exponential grows faster than e<sup>x</sup> would at the same point only because 3 &gt; e, so a limit above 1 is expected ✓.</p>"
+   }
+  },
+  {
+   "id": "lm1n21",
+   "q": {
+    "en": "The function is f(x) = x + 2 for x &lt; 1 and f(x) = 4x for x ≥ 1. Find lim f(x) as x → 1."
+   },
+   "a": {
+    "en": "<h4>Given and assumptions</h4><p>A piecewise definition, so both one-sided limits are needed.</p><h4>Formula</h4><p>The limit exists only if the left and right limits agree.</p><h4>Step-by-step solution</h4><ol><li>Left limit: x → 1⁻ uses x + 2, giving 1 + 2 = 3</li><li>Right limit: x → 1⁺ uses 4x, giving 4</li><li>3 ≠ 4, so the limit does not exist</li></ol><h4>Interpretation and check</h4><p>The two branches meet the vertical line x = 1 at different heights, so the graph jumps from 3 to 4. Because the one-sided limits differ, no single L can be the answer ✓.</p>"
+   }
+  },
+  {
+   "id": "lm1n22",
+   "q": {
+    "en": "Evaluate lim ((1 + x)^5 − 1)/x as x → 0."
+   },
+   "a": {
+    "en": "<h4>Given and assumptions</h4><p>0/0 form. This is the power standard limit with n = 5.</p><h4>Formula</h4><p>((1 + x)<sup>n</sup> − 1)/x → n as x → 0.</p><h4>Step-by-step solution</h4><ol><li>Expand (1 + x)⁵ = 1 + 5x + 10x² + …</li><li>Subtract 1 and divide by x: 5 + 10x + …</li><li>Limit = 5</li></ol><h4>Interpretation and check</h4><p><b>5.</b> Equivalently (xⁿ − aⁿ)/(x − a) → n a<sup>n−1</sup> at a = 1 gives 5 · 1⁴ = 5 ✓. At x = 0.001 the value is 5.010.</p>"
+   }
+  },
+  {
+   "id": "lm1n23",
+   "q": {
+    "en": "Evaluate lim (x^5 − 32)/(x − 2) as x → 2."
+   },
+   "a": {
+    "en": "<h4>Given and assumptions</h4><p>0/0 at x = 2 with a fifth power; use the standard power limit with a = 2.</p><h4>Formula</h4><p>(x<sup>n</sup> − a<sup>n</sup>)/(x − a) → n a<sup>n−1</sup>.</p><h4>Step-by-step solution</h4><ol><li>n = 5 and a = 2</li><li>n a<sup>n−1</sup> = 5 · 2⁴</li><li>5 · 16 = 80</li></ol><h4>Interpretation and check</h4><p><b>80.</b> Factorising as (x − 2)(x⁴ + 2x³ + 4x² + 8x + 16) and substituting x = 2 gives 16 + 16 + 16 + 16 + 16 = 80 ✓.</p>"
+   }
+  },
+  {
+   "id": "lm1n24",
+   "q": {
+    "en": "Evaluate lim (x² + 2x)/(x) as x → 0."
+   },
+   "a": {
+    "en": "<h4>Given and assumptions</h4><p>Substitution gives 0/0, but here the common factor is simply x.</p><h4>Formula</h4><p>Cancel the common factor x, valid for x ≠ 0.</p><h4>Step-by-step solution</h4><ol><li>x² + 2x = x(x + 2)</li><li>Cancel x: lim (x + 2)</li><li>Substitute x = 0: 2</li></ol><h4>Interpretation and check</h4><p><b>2.</b> The function equals x + 2 everywhere except at 0, where it is undefined, so the hole sits at (0, 2) ✓. A table gives −0.01 → 1.99 and 0.01 → 2.01.</p>"
+   }
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Meaning of a limit"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is meant by lim x→a f(x) = L?"
+     },
+     "a": {
+      "en": "f(x) can be made as close to L as we like by taking x close enough to a, without x equalling a."
+     }
+    },
+    {
+     "q": {
+      "en": "Does the limit depend on the value at the point?"
+     },
+     "a": {
+      "en": "No. f(a) may be undefined or different; the limit describes the approach only."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a left-hand limit?"
+     },
+     "a": {
+      "en": "The value approached using x &lt; a, written lim x→a⁻ f(x)."
+     }
+    },
+    {
+     "q": {
+      "en": "When does a two-sided limit exist?"
+     },
+     "a": {
+      "en": "Only when both one-sided limits exist and are equal."
+     }
+    },
+    {
+     "q": {
+      "en": "Give one reason a limit may fail to exist."
+     },
+     "a": {
+      "en": "The one-sided limits differ, the values blow up, or the values oscillate."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is 0/0 called indeterminate?"
+     },
+     "a": {
+      "en": "Because it does not fix a value - different functions giving 0/0 can have different limits."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Techniques"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is the first step in any limit question?"
+     },
+     "a": {
+      "en": "Direct substitution. A finite value is the answer; 0/0 means more algebra is needed."
+     }
+    },
+    {
+     "q": {
+      "en": "How does factorisation help?"
+     },
+     "a": {
+      "en": "It exposes the factor that makes both numerator and denominator zero, which then cancels."
+     }
+    },
+    {
+     "q": {
+      "en": "When do we rationalise?"
+     },
+     "a": {
+      "en": "When a square root causes the 0/0; multiply above and below by the conjugate."
+     }
+    },
+    {
+     "q": {
+      "en": "Which identity is used in rationalising?"
+     },
+     "a": {
+      "en": "(A − B)(A + B) = A² − B²."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you handle a limit at infinity for polynomials?"
+     },
+     "a": {
+      "en": "Divide by the highest power in the denominator: smaller degree gives 0, equal degree gives the ratio of leading coefficients, larger degree gives ±∞."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is sin x/x = 1 only in radians?"
+     },
+     "a": {
+      "en": "The limit compares an arc with the angle; in degrees the arc-length ratio carries a factor π/180."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the value of (1 − cos x)/x² as x → 0?"
+     },
+     "a": {
+      "en": "1/2, obtained from 1 − cos x = 2sin²(x/2)."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "e, continuity and exam points"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Define the number e by a limit."
+     },
+     "a": {
+      "en": "e = lim (1 + 1/n)ⁿ as n → ∞ = lim (1 + x)^(1/x) as x → 0, approximately 2.71828."
+     }
+    },
+    {
+     "q": {
+      "en": "What is lim (aˣ − 1)/x as x → 0?"
+     },
+     "a": {
+      "en": "log a with the natural logarithm; the base e gives 1."
+     }
+    },
+    {
+     "q": {
+      "en": "State the three conditions for continuity at a point."
+     },
+     "a": {
+      "en": "f(a) is defined, the limit exists, and the limit equals f(a)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a removable discontinuity?"
+     },
+     "a": {
+      "en": "A hole where the limit exists but f(a) is missing or has the wrong value."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the main error to avoid in a limit answer?"
+     },
+     "a": {
+      "en": "Writing 0/0 as the final answer, or cancelling terms that are added rather than multiplied."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Practice: Evaluate lim (x² + 3x − 4)/(x − 1) as x → 1."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Practice: Evaluate lim (x³ − 8)/(x² − 4) as x → 2."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Practice: Evaluate lim (√(4 + x) − 2)/x as x → 0."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Practice: Evaluate lim (5x³ − 2x + 1)/(2x³ + 7) as x → ∞."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Evaluate lim (sin 4x)/(sin 2x) as x → 0."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Practice: Evaluate lim (1 − cos 4x)/x² as x → 0."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Evaluate lim (1 + 5x)^(2/x) as x → 0."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Evaluate lim (2^x − 1)/x as x → 0."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Practice: Evaluate lim ((1 + x)^7 − 1)/x as x → 0."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Practice: Evaluate lim (2x² − 7x + 3)/(x − 3) as x → 3."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: For f(x) = 2x + 1 when x &lt; 2 and f(x) = x² + 1 when x ≥ 2, find lim f(x) as x → 2 and test continuity."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Evaluate lim (√(x² + 5x) − x) as x → ∞."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Evaluate lim (tan 3x)/(sin 5x) as x → 0."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Evaluate lim (e^(3x) − 1)/x as x → 0."
+   },
+   "marks": 3
+  }
+ ],
+ "learning_outcomes": [
+  {
+   "en": "CO5: Demonstrate the ability to analyse and illustrate the functions using the concept of limit."
+  }
+ ],
+ "course_outcomes": [
+  "CO5"
+ ],
+ "practical_numbers": [],
+ "content_kind": "theory",
+ "lesson_count": 13,
+ "answered_practice_count": 14,
+ "assessment_note": {
+  "en": "Official course: theory ESE 70 + PA 30 = 100 marks, 4 credits; this unit carries 17 % weightage and about 12 of the 70 theory marks. Practice-question marks (3/4) are suggested revision sizes, not official GTU allocations or a guaranteed paper pattern. Model answers are in Notes section 7."
+ },
+ "question_provenance": "Original answered revision questions; not official past papers",
+ "question_marks_are_suggested": true,
+ "sources": [
+  {
+   "title": "GTU DI01000021, Mathematics-I, Branch: All, Semester 1, w.e.f. 2024-25 (uploaded syllabus)",
+   "url": "https://s3-ap-southeast-1.amazonaws.com/gtusitecirculars/Syallbus/DI01000021.pdf"
+  },
+  {
+   "title": "NCERT - Class 11 Mathematics, chapter 13 (limits and derivatives)",
+   "url": "https://ncert.nic.in/textbook.php"
+  },
+  {
+   "title": "OpenStax - Calculus Volume 1, chapter 2 (limits)",
+   "url": "https://openstax.org/details/books/calculus-volume-1"
+  },
+  {
+   "title": "Khan Academy - limits and continuity",
+   "url": "https://www.khanacademy.org/math/ap-calculus-ab/ab-limits-new"
+  }
+ ]
+}

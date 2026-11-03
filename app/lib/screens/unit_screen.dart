@@ -345,7 +345,9 @@ class _TabListState extends State<_TabList> with AutomaticKeepAliveClientMixin {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(tr(u['title']), style: const TextStyle(color: Colors.white, fontSize: 16.5, fontWeight: FontWeight.w800)),
           const SizedBox(height: 4),
-          Text('${L('unit')} ${u['unit']} · ${u['weightage']}% ${L('weightage')} · ${u['hours']} ${L('hours')}',
+          Text(u['official'] == false
+                  ? L('own_chapter')
+                  : '${L('unit')} ${u['unit']} · ${u['weightage']}% ${L('weightage')} · ${u['hours']} ${L('hours')}',
               style: const TextStyle(color: Color(0xE6FFFFFF), fontSize: 13)),
           const SizedBox(height: 4),
           Text(u['intro_text'] is Map ? tr(u['intro_text']) : L(introKey), style: const TextStyle(color: Color(0xE6FFFFFF), fontSize: 13)),

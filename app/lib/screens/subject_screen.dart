@@ -149,7 +149,9 @@ class SubjectScreen extends StatelessWidget {
                   Text(tr(u['title']),
                       style: const TextStyle(color: C.p, fontSize: 15.5, fontWeight: FontWeight.w700, height: 1.3)),
                   const SizedBox(height: 4),
-                  Text('${L('unit')} $no · ${u['weightage']}% ${L('weightage')} · ${u['hours']} ${L('hours')}',
+                  Text(u['official'] == false
+                          ? L('own_chapter')
+                          : '${L('unit')} $no · ${u['weightage']}% ${L('weightage')} · ${u['hours']} ${L('hours')}',
                       style: const TextStyle(fontSize: 12.5, color: C.muted)),
                 ]),
               ),

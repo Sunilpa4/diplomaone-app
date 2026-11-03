@@ -7,6 +7,21 @@
 | Notes served to the app | https://sunilpa4.github.io/diplomaone-content/data/catalog.json |
 | Cloud builds | https://github.com/Sunilpa4/diplomaone-app/actions |
 
+## How notes are written
+**[`docs/NOTES-GUIDE.md`](docs/NOTES-GUIDE.md)** – the full spec: unit JSON model, card design,
+`<h4>` skeletons, diagram rules (360-wide SVG), numerical and derivation conventions, viva/exam
+practice, build → test → publish commands, and the definition-of-done checklist.
+Review loop for a new unit: `python3 tools/notes_workshop.py add <CODE> <unit>` puts only that
+unit on a review shelf (`preview/workshop/index.html`, or `serve --port 8800` for a live link) -
+the older committed previews stay out of the way.
+
+Common subjects ("Branch: All") sit in `content/common/sem<N>/<CODE>/` and the exporter lists them
+in that semester of every branch. A subject may also carry our own **unit 0 foundation chapter**
+(e.g. Mathematics-I "Start Mathematics From Zero"): it ships with `official: false`, zero GTU
+hours and marks, and the app labels it "Foundation chapter" instead of a weightage.
+
+Read it before writing a new unit.
+
 ## Everyday workflow
 * **New/changed notes** → `python3 tools/publish.py "Added <CODE> Unit N"`
   (no new APK needed – phones download the changed units on next start)
