@@ -369,6 +369,13 @@ _chemical_sem4 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(4,[])
 if 'DI04005021' not in _chemical_sem4:
     _chemical_sem4.append('DI04005021')
 
+# DiplomaOne registration: DI04005031 chemical semester 4
+if 'DI04005031' not in SUBJECTS:
+    SUBJECTS['DI04005031'] = ('Pollution Control and Effluent Treatment','પોલ્યુશન કંટ્રોલ તથા ઇફ્લુઅન્ટ ટ્રીટમેન્ટ','Core',4,'theory',None)
+_chemical_sem4 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(4,[])
+if 'DI04005031' not in _chemical_sem4:
+    _chemical_sem4.insert(0, 'DI04005031')
+
 # DiplomaOne registration: DI04005041 chemical semester 4
 if 'DI04005041' not in SUBJECTS:
     SUBJECTS['DI04005041'] = ('Chemical Engineering Thermodynamics','કેમિકલ એન્જિનિયરિંગ થર્મોડાયનેમિક્સ','Core',4,'theory',None)
