@@ -1,0 +1,1237 @@
+{
+ "subject": "DI02000021",
+ "unit": 3,
+ "format": "notes",
+ "title": {
+  "en": "Integration and its Applications"
+ },
+ "hours": 10,
+ "weightage": 20,
+ "official": true,
+ "languages": [
+  "en"
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "equations",
+  "numericals",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "Unit 3 of Engineering Mathematics: integration as the reverse of differentiation, the standard integrals and working rules, substitution, integration by parts, the definite integral with its properties, and the two applications - the area under a curve and the volume of revolution. Twenty-five fully solved numericals, each linked to a card."
+ },
+ "notes": [
+  {
+   "title": {
+    "en": "1. Integration as Anti-differentiation"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "1.1 The indefinite integral and the constant c"
+     },
+     "body": {
+      "en": "<h4>Definition</h4><p><b>Integration is the reverse of differentiation.</b> If dF/dx = f(x), then ∫ f(x) dx = F(x) + c, where c is any constant.</p><p>The symbol ∫ means 'integrate', f(x) is the <b>integrand</b>, dx names the variable and the answer F(x) is called the <b>primitive</b> or anti-derivative.</p><h4>Why the + c is compulsory</h4><p>x², x² + 3 and x² − 7 all differentiate to 2x, so from the slope alone you cannot recover the height. Every indefinite integral carries + c until a condition (a point on the curve) fixes it.</p><h4>Worked example</h4><p>∫ 2x dx = x² + c. If you are also told that the curve passes through (1, 5), then 5 = 1 + c gives c = 4 and the answer is y = x² + 4.</p><h4>Check every answer</h4><p>Differentiate the result; it must return the integrand exactly. This one habit catches nearly every integration error.</p>"
+     },
+     "diagram": "i1_family",
+     "examples": [
+      "ig1"
+     ],
+     "syllabus_item": "3.1"
+    },
+    {
+     "h": {
+      "en": "1.2 The power rule for integration"
+     },
+     "body": {
+      "en": "<h4>Rule</h4><p><b>∫ xⁿ dx = xⁿ⁺¹/(n + 1) + c</b>, valid for every n except n = −1.</p><h4>Worked examples</h4><p>∫ x⁵ dx = x⁶/6 + c;  ∫ x² dx = x³/3 + c;  ∫ x dx = x²/2 + c.</p><p>For a root, write it as a power first: ∫ √x dx = ∫ x^(1/2) dx = (2/3)x^(3/2) + c.</p><p>For a reciprocal power: ∫ x⁻² dx = x⁻¹/(−1) + c = −1/x + c.</p><h4>The special case n = −1</h4><p>The rule fails for ∫ x⁻¹ dx because dividing by zero is impossible; the answer is the logarithm: ∫ (1/x) dx = log|x| + c.</p><h4>Common mistake</h4><p>Subtracting one instead of adding one. Integration raises the power, differentiation lowers it.</p>"
+     },
+     "examples": [
+      "ig3",
+      "ig4"
+     ],
+     "syllabus_item": "3.2"
+    },
+    {
+     "h": {
+      "en": "1.3 Integrals of sums and constant multiples"
+     },
+     "body": {
+      "en": "<h4>Rules</h4><ul><li>∫ [f(x) ± g(x)] dx = ∫ f(x) dx ± ∫ g(x) dx</li><li>∫ k f(x) dx = k ∫ f(x) dx for a constant k</li></ul><h4>Worked example</h4><p>∫ (3x² + 2x + 1) dx = x³ + x² + x + c - integrate term by term and add one c at the end, never one per term.</p><h4>Constants</h4><p>∫ 5 dx = 5x + c, because the derivative of 5x is 5. A bare constant integrates to that constant times x.</p><h4>Common mistake</h4><p>Writing a separate + c for every bracket. One constant of integration is enough; three constants would simply combine into one.</p>"
+     },
+     "examples": [
+      "ig2"
+     ],
+     "syllabus_item": "3.2"
+    },
+    {
+     "h": {
+      "en": "1.4 Reading an integration question"
+     },
+     "body": {
+      "en": "<h4>What is being asked</h4><table><tr><th>The question says</th><th>The answer is</th></tr><tr><td>∫ f(x) dx</td><td>a function plus c</td></tr><tr><td>∫ from a to b</td><td>a number</td></tr><tr><td>find the area</td><td>a number with square units</td></tr><tr><td>find y given dy/dx and a point</td><td>a particular curve - find c</td></tr></table><h4>Notation</h4><p>The dx is part of the symbol and tells you the variable: ∫ t² dt is a different question from ∫ t² dx (the latter treats t as a constant, giving t²x + c).</p><h4>A sanity check on size</h4><p>Integrating raises the degree by one: a quadratic integrand gives a cubic answer. If your answer has the same degree as the integrand, something went wrong.</p>"
+     },
+     "syllabus_item": "3.1"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2. Standard Integrals and Working Rules"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "2.1 The standard table"
+     },
+     "body": {
+      "en": "<h4>Learn these by heart</h4><table><tr><th>∫ f(x) dx</th><th>Answer</th></tr><tr><td>xⁿ (n ≠ −1)</td><td>xⁿ⁺¹/(n + 1) + c</td></tr><tr><td>1/x</td><td>log|x| + c</td></tr><tr><td>eˣ</td><td>eˣ + c</td></tr><tr><td>aˣ</td><td>aˣ/log a + c</td></tr><tr><td>sin x</td><td>−cos x + c</td></tr><tr><td>cos x</td><td>sin x + c</td></tr><tr><td>sec²x</td><td>tan x + c</td></tr><tr><td>k (constant)</td><td>kx + c</td></tr></table><h4>Reading the table backwards</h4><p>Each line is a derivative read right to left. Because d(cos x)/dx = −sin x, the integral of sin x carries a minus sign.</p><h4>Common mistake</h4><p>Integrating cos x to −sin x. Differentiation of sin x gives +cos x, so the integral of cos x is +sin x.</p>"
+     },
+     "syllabus_item": "3.2"
+    },
+    {
+     "h": {
+      "en": "2.2 Exponential, logarithmic and reciprocal forms"
+     },
+     "body": {
+      "en": "<h4>Three families</h4><ul><li>∫ eˣ dx = eˣ + c - the only function that is its own integral.</li><li>∫ (1/x) dx = log|x| + c - the modulus because 1/x exists on both sides of 0.</li><li>∫ aˣ dx = aˣ/log a + c.</li></ul><h4>Worked example</h4><p>∫ (eˣ + 1/x) dx = eˣ + log|x| + c. Differentiating gives eˣ + 1/x straight back.</p><h4>With a linear inside</h4><p>∫ e^(3x) dx = e^(3x)/3 + c: divide by the inside derivative. The same idea gives ∫ e^(−2x) dx = −e^(−2x)/2 + c.</p><h4>Common mistake</h4><p>Dropping the modulus in log|x|. For an integrand such as 1/x, negative x is allowed, so the absolute value must stay.</p>"
+     },
+     "examples": [
+      "ig5"
+     ],
+     "syllabus_item": "3.2"
+    },
+    {
+     "h": {
+      "en": "2.3 Trigonometric integrals you will meet"
+     },
+     "body": {
+      "en": "<h4>Direct forms</h4><p>∫ sin x dx = −cos x + c and ∫ cos x dx = sin x + c. A sum integrates term by term: ∫ (sin x − cos x) dx = −cos x − sin x + c.</p><h4>Squared and product forms</h4><p>∫ sec²x dx = tan x + c comes straight from d(tan x)/dx = sec²x.</p><h4>Angles with a coefficient</h4><p>∫ sin 3x dx = −cos(3x)/3 + c and ∫ cos 5x dx = sin(5x)/5 + c: integrate as usual, then divide by the inside derivative.</p><h4>Common mistake</h4><p>Forgetting the division when the angle has a coefficient. Differentiating −cos(3x)/3 gives sin 3x, which proves the factor 3 belongs underneath.</p>"
+     },
+     "examples": [
+      "ig6"
+     ],
+     "syllabus_item": "3.2"
+    },
+    {
+     "h": {
+      "en": "2.4 Choosing a method before you start"
+     },
+     "body": {
+      "en": "<h4>The decision tree</h4><ol><li>Is it a standard form or a sum of them? Integrate directly.</li><li>Does one part look like the derivative of another? Substitute.</li><li>Is it a product of unlike functions (x times eˣ, x times sin x, log x alone)? Use parts.</li></ol><h4>Examples of the choice</h4><table><tr><th>Integrand</th><th>Method</th></tr><tr><td>3x² + 2x</td><td>standard, term by term</td></tr><tr><td>2x(x² + 1)³</td><td>substitution u = x² + 1</td></tr><tr><td>x eˣ</td><td>parts with u = x</td></tr><tr><td>log x</td><td>parts with u = log x, dv = dx</td></tr></table><h4>Verification</h4><p>Whatever method you use, differentiate the answer and compare with the integrand. It takes ten seconds and catches the majority of slips.</p>"
+     },
+     "diagram": "i2_method",
+     "syllabus_item": "3.2"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3. Integration by Substitution"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "3.1 Undoing the chain rule"
+     },
+     "body": {
+      "en": "<h4>Idea</h4><p>If the integrand contains a function and (nearly) its derivative, replace the inner function by u. Then du = u′ dx, and the integral becomes a standard one in u.</p><h4>Worked example</h4><p>∫ 2x(x² + 1)³ dx: take u = x² + 1, so du = 2x dx. The integral is ∫ u³ du = u⁴/4 + c = <b>(x² + 1)⁴/4 + c</b>.</p><h4>Check</h4><p>Differentiating (x² + 1)⁴/4 gives 4(x² + 1)³/4 × 2x = 2x(x² + 1)³, which is the integrand, so the answer is right.</p><h4>Common mistake</h4><p>Substituting but forgetting to replace dx. Every dx must be rewritten in terms of du before you integrate.</p>"
+     },
+     "diagram": "i3_sub",
+     "examples": [
+      "ig9"
+     ],
+     "syllabus_item": "3.3"
+    },
+    {
+     "h": {
+      "en": "3.2 Choosing u"
+     },
+     "body": {
+      "en": "<h4>Good choices</h4><ul><li>Inside a power or root: u = the whole bracket.</li><li>Inside a logarithm: u = the argument of the log.</li><li>The denominator: u = the bottom of a fraction.</li><li>The exponent: u = the power of e.</li></ul><h4>Examples</h4><p>∫ (2x + 3)⁴ dx with u = 2x + 3 gives ∫ u⁴ (du/2) = u⁵/10 + c = (2x + 3)⁵/10 + c.</p><p>∫ sin³x cos x dx with u = sin x gives ∫ u³ du = sin⁴x/4 + c.</p><h4>Rule of thumb</h4><p>After substituting, everything must be in u - if an x survives, the choice was wrong or a constant has to be adjusted.</p>"
+     },
+     "examples": [
+      "ig8",
+      "ig11"
+     ],
+     "syllabus_item": "3.3"
+    },
+    {
+     "h": {
+      "en": "3.3 Adjusting constants"
+     },
+     "body": {
+      "en": "<h4>The constant factor trick</h4><p>If du is a multiple of what is present, adjust the constant rather than the variable.</p><h4>Worked example</h4><p>∫ x(x² + 1)³ dx: u = x² + 1 gives du = 2x dx, but only x dx is present. Write x dx = du/2, so the integral is (1/2)∫ u³ du = (1/2)(u⁴/4) + c = <b>(x² + 1)⁴/8 + c</b>.</p><h4>Logarithmic results</h4><p>When the top is exactly the derivative of the bottom, the answer is a logarithm: ∫ 2x/(x² + 1) dx = log(x² + 1) + c.</p><h4>Common mistake</h4><p>A constant may be moved in or out; a variable may not. Never write x = du/2 unless the x really cancels.</p>"
+     },
+     "examples": [
+      "ig10"
+     ],
+     "syllabus_item": "3.3"
+    },
+    {
+     "h": {
+      "en": "3.4 Definite integrals with a substitution"
+     },
+     "body": {
+      "en": "<h4>Two safe routes</h4><ol><li>Change the limits: when u = x² + 1, the limit x = 0 becomes u = 1 and x = 1 becomes u = 2.</li><li>Or integrate in u, put x back, and only then substitute the original limits.</li></ol><h4>Worked idea</h4><p>∫₀¹ 2x(x² + 1)³ dx. With u = x² + 1 the limits 0 and 1 become 1 and 2, so the integral is ∫₁² u³ du = [u⁴/4]₁² = 4 − 1/4 = 15/4.</p><h4>Why limits must follow u</h4><p>A limit written as 0 refers to x = 0. Once the variable is u, the old limits are meaningless - the most common error in definite substitution.</p><p>No + c appears in a definite integral, because it cancels when the limits are subtracted.</p>"
+     },
+     "examples": [
+      "ig7"
+     ],
+     "syllabus_item": "3.3"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "4. Integration by Parts"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "4.1 The formula"
+     },
+     "body": {
+      "en": "<h4>Rule</h4><p><b>∫ u dv = uv − ∫ v du</b> - it comes from the product rule rearranged, and it trades one integral for a simpler one.</p><h4>Worked example</h4><p>∫ x eˣ dx: choose u = x (so du = dx) and dv = eˣ dx (so v = eˣ). Then the integral is x eˣ − ∫ eˣ dx = x eˣ − eˣ + c = <b>eˣ(x − 1) + c</b>.</p><h4>Check</h4><p>Differentiating eˣ(x − 1) gives eˣ(x − 1) + eˣ = x eˣ, the integrand.</p><h4>Common mistake</h4><p>Swapping u and dv. Choosing u = eˣ makes the new integral harder, not easier - the point of parts is to reduce the work.</p>"
+     },
+     "diagram": "i4_parts",
+     "examples": [
+      "ig12"
+     ],
+     "syllabus_item": "3.4"
+    },
+    {
+     "h": {
+      "en": "4.2 Choosing u: the LIATE order"
+     },
+     "body": {
+      "en": "<h4>Priority for u</h4><p><b>L</b>ogarithm, <b>I</b>nverse trig, <b>A</b>lgebraic (x, x²), <b>T</b>rig, <b>E</b>xponential - take u as the function that comes first in this list, and dv as the rest.</p><h4>Why</h4><p>Logarithms and inverse trig functions have no elementary derivative in the table but become simple when differentiated; exponentials and sines stay simple when integrated.</p><h4>Examples of the choice</h4><table><tr><th>Integral</th><th>u</th><th>dv</th></tr><tr><td>∫ x eˣ dx</td><td>x</td><td>eˣ dx</td></tr><tr><td>∫ x cos x dx</td><td>x</td><td>cos x dx</td></tr><tr><td>∫ x log x dx</td><td>log x</td><td>x dx</td></tr><tr><td>∫ log x dx</td><td>log x</td><td>dx</td></tr></table><h4>Common mistake</h4><p>Choosing u = x when a logarithm is present. With log in the integrand, u = log x always wins.</p>"
+     },
+     "examples": [
+      "ig13"
+     ],
+     "syllabus_item": "3.4"
+    },
+    {
+     "h": {
+      "en": "4.3 Worked examples with trigonometric and logarithmic partners"
+     },
+     "body": {
+      "en": "<h4>Trigonometric</h4><p>∫ x cos x dx: u = x, dv = cos x dx, so v = sin x. The integral is x sin x − ∫ sin x dx = <b>x sin x + cos x + c</b>.</p><h4>Logarithmic with algebra</h4><p>∫ x log x dx: u = log x, dv = x dx, so du = dx/x and v = x²/2. Then the integral is (x²/2)log x − ∫ (x²/2)(1/x) dx = (x²/2)log x − x²/4 + c.</p><h4>When parts is needed twice</h4><p>∫ x² eˣ dx needs two rounds; each round lowers the power of x by one until only eˣ is left.</p><h4>Common mistake</h4><p>Leaving the answer as (x²/2)log x − ∫ x/2 dx. The second integral must be evaluated before the answer is complete.</p>"
+     },
+     "examples": [
+      "ig14",
+      "ig15"
+     ],
+     "syllabus_item": "3.4"
+    },
+    {
+     "h": {
+      "en": "4.4 The special case ∫ log x dx"
+     },
+     "body": {
+      "en": "<h4>A product in disguise</h4><p>There is only one function, but you may take dv = dx, that is v = x.</p><h4>Working</h4><p>u = log x (du = dx/x) and dv = dx (v = x), so ∫ log x dx = x log x − ∫ x(1/x) dx = x log x − ∫ 1 dx = <b>x log x − x + c</b>.</p><h4>Check</h4><p>d/dx[x log x − x] = log x + x(1/x) − 1 = log x, so the answer is correct.</p><h4>Same idea elsewhere</h4><p>∫ log x dx, ∫ sin⁻¹x dx and ∫ tan⁻¹x dx are all done by taking dv = dx. This is a standard exam pattern worth memorising.</p>"
+     },
+     "examples": [
+      "ig15"
+     ],
+     "syllabus_item": "3.4"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "5. Definite Integrals and Their Properties"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "5.1 From area to a number"
+     },
+     "body": {
+      "en": "<h4>Definition</h4><p>A definite integral has limits: <b>∫ from a to b of f(x) dx = F(b) − F(a)</b>, written with square brackets [F(x)] from a to b.</p><p>The answer is a number, not a function, and it equals the signed area between the curve and the x-axis from a to b.</p><h4>Worked example</h4><p>∫₀² (x² + 1) dx = [x³/3 + x]₀² = (8/3 + 2) − 0 = 14/3.</p><h4>Why no + c</h4><p>(F(b) + c) − (F(a) + c) = F(b) − F(a): the constant cancels, so it is never written in a definite integral.</p><h4>Common mistake</h4><p>Subtracting in the wrong order. The upper limit goes in first: F(b) − F(a), not F(a) − F(b).</p>"
+     },
+     "diagram": "i5_definite",
+     "examples": [
+      "ig17"
+     ],
+     "syllabus_item": "3.5"
+    },
+    {
+     "h": {
+      "en": "5.2 Evaluating definite integrals"
+     },
+     "body": {
+      "en": "<h4>Procedure</h4><ol><li>Find the indefinite integral (ignore c).</li><li>Write it in square brackets with the limits.</li><li>Substitute the upper limit, then the lower limit, and subtract.</li><li>Simplify to a single number.</li></ol><h4>Worked examples</h4><p>∫₁³ 2x dx = [x²]₁³ = 9 − 1 = <b>8</b>.</p><p>∫₀^(π/2) sin x dx = [−cos x]₀^(π/2) = 0 − (−1) = <b>1</b>.</p><p>∫₀¹ e^(2x) dx = [e^(2x)/2]₀¹ = (e² − 1)/2.</p><h4>Check the sign</h4><p>An area found below the x-axis comes out negative. That is mathematically correct for the integral, but an area question expects the positive value, so split the interval at the crossing point.</p>"
+     },
+     "examples": [
+      "ig18",
+      "ig19",
+      "ig20"
+     ],
+     "syllabus_item": "3.5"
+    },
+    {
+     "h": {
+      "en": "5.3 Properties worth knowing"
+     },
+     "body": {
+      "en": "<h4>The four properties</h4><ul><li>∫ from a to a = 0</li><li>∫ from a to b = − ∫ from b to a (swapping the limits changes the sign)</li><li>∫ from a to b = ∫ from a to c + ∫ from c to b (splitting the interval)</li><li>∫ from −a to a of an odd function = 0, and of an even function = 2∫ from 0 to a</li></ul><h4>Using odd and even</h4><p>x³ is odd, so ∫₋₁¹ x³ dx = 0 without any calculation. x² is even, so ∫₋₂² x² dx = 2∫₀² x² dx = 16/3.</p><h4>Using the split</h4><p>If ∫₀¹ f = 2 and ∫₁³ f = 5, then ∫₀³ f = 7. This is how a table of measured values is combined in engineering data work.</p><h4>Common mistake</h4><p>Using the odd-function rule on an even function, or forgetting that the rule needs symmetric limits about zero.</p>"
+     },
+     "examples": [
+      "ig21",
+      "ig22"
+     ],
+     "syllabus_item": "3.5"
+    },
+    {
+     "h": {
+      "en": "5.4 Interpreting the number"
+     },
+     "body": {
+      "en": "<h4>Signed area</h4><p>Above the axis the integral is positive; below it is negative. The <b>total area</b> is the sum of the absolute values, which is why a curve that crosses the axis has to be split.</p><h4>Example</h4><p>For y = x from −2 to 2, ∫ x dx = 0, yet the area between the curve and the axis is 2 + 2 = 4: the two triangles cancel in the integral but not in the area.</p><h4>Engineering reading</h4><p>An integral of a rate gives a total: ∫ velocity dt is distance, ∫ current dt is charge, ∫ force dx is work. The units of the answer are the units of the integrand times the units of the variable.</p><details class=\"self-check\"><summary>Can a definite integral be negative?</summary><p>Yes - whenever the curve lies below the axis. A negative answer is a warning to stop and think about geometry, not an error in the method.</p></details>"
+     },
+     "syllabus_item": "3.5"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "6. Area Under a Curve"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "6.1 The area formula"
+     },
+     "body": {
+      "en": "<h4>Rule</h4><p>The area between y = f(x), the x-axis and the lines x = a and x = b is <b>∫ from a to b of y dx</b>, provided the curve stays above the axis.</p><h4>Worked example</h4><p>Area under y = x² from x = 0 to x = 3 is ∫₀³ x² dx = [x³/3]₀³ = 9 square units.</p><h4>Method</h4><ol><li>Sketch the curve and mark the limits - the sketch tells you whether the area is above or below the axis.</li><li>Integrate y with respect to x.</li><li>Substitute the limits and subtract.</li><li>Take the modulus if the question asks for area and the answer is negative.</li></ol><h4>Common mistake</h4><p>Integrating the wrong way round (dx when the boundary is y = c). Read the diagram before choosing the variable.</p>"
+     },
+     "examples": [
+      "ig23"
+     ],
+     "syllabus_item": "3.6"
+    },
+    {
+     "h": {
+      "en": "6.2 Curves that cross the axis"
+     },
+     "body": {
+      "en": "<h4>Why you must split</h4><p>If the curve crosses the axis between the limits, the integral subtracts the part below. For the area, integrate each piece separately and add the sizes.</p><h4>Worked example</h4><p>Area between y = 4x − x² and the x-axis: the curve meets the axis at x = 0 and x = 4 and stays above it in between, so the area is ∫₀⁴ (4x − x²) dx = [2x² − x³/3]₀⁴ = 32 − 64/3 = <b>32/3</b> square units.</p><h4>If it crossed</h4><p>For y = x² − 1 between −2 and 2 the integral is 16/3 − 4 = 4/3, but the true area is 4 (split at x = ±1); the middle piece is below the axis and cancels part of the rest.</p><h4>Reading the answer</h4><p>Area is always positive and carries square units (cm², m²). A negative number means the geometry was not checked first.</p>"
+     },
+     "examples": [
+      "ig24"
+     ],
+     "syllabus_item": "3.6"
+    },
+    {
+     "h": {
+      "en": "6.3 Area between two curves, and a check"
+     },
+     "body": {
+      "en": "<h4>Between two curves</h4><p>When y = f(x) is above y = g(x) on the interval, the area between them is ∫ (f − g) dx. Take the upper curve minus the lower one; the difference is positive.</p><h4>Example</h4><p>Between y = x and y = x² from 0 to 1: ∫₀¹ (x − x²) dx = 1/2 − 1/3 = 1/6.</p><h4>A quick sanity check</h4><p>Estimate the area as a rectangle first: width (b − a) times an average height. If the exact answer is far from the estimate, one of the limits or a sign is wrong.</p><h4>Common mistake</h4><p>Subtracting the lower curve from the upper one only where they actually cross. Find the crossing points first and use them as limits.</p>"
+     },
+     "syllabus_item": "3.6"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "7. Volume of Revolution and Exam Routine"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "7.1 Rotating an area about the x-axis"
+     },
+     "body": {
+      "en": "<h4>Rule</h4><p>When the area under y = f(x) from a to b is rotated about the x-axis, each thin slice is a disc of radius y and thickness dx, so <b>V = π ∫ y² dx</b> between the limits.</p><h4>Worked example</h4><p>y = x from x = 0 to x = 2 rotating about the x-axis: V = π∫₀² x² dx = π[x³/3]₀² = <b>8π/3</b> cubic units.</p><h4>Second example</h4><p>y = √x from 0 to 4: V = π∫₀⁴ x dx = π[x²/2]₀⁴ = 8π.</p><h4>Method</h4><ol><li>Square the given y (or the given x if the rotation is about the y-axis).</li><li>Integrate between the limits.</li><li>Multiply by π and state the cubic units.</li></ol><h4>Common mistake</h4><p>Squaring after integrating. The square is taken first: V = π∫ y² dx, never π(∫ y dx)².</p>"
+     },
+     "diagram": "i6_volume",
+     "examples": [
+      "ig25"
+     ],
+     "syllabus_item": "3.6"
+    },
+    {
+     "h": {
+      "en": "7.2 A two-part volume and the shape of the answer"
+     },
+     "body": {
+      "en": "<h4>One question, two solids</h4><p>A single question often asks for both y = x (0 to 2) and y = √x (0 to 4). Keep the two results separate and label them; comparing them shows how the shape changes the volume.</p><h4>Values</h4><p>y = x gives 8π/3 ≈ 8.38 and y = √x gives 8π ≈ 25.13. The square-root curve encloses far more, because it is further from the axis across most of the interval.</p><h4>Reading the units</h4><p>If x and y are in cm, the volume is in cm³. The π is often left in the answer; a decimal is only needed when the question says so.</p><h4>Common mistake</h4><p>Using y instead of y². The disc area is πr² with r = y, so the square is unavoidable.</p>"
+     },
+     "examples": [
+      "ig26"
+     ],
+     "syllabus_item": "3.6"
+    },
+    {
+     "h": {
+      "en": "7.3 Exam routine for an integration question"
+     },
+     "body": {
+      "en": "<h4>Five lines that earn the method marks</h4><ol><li>Write the integral and say which rule or substitution you are using.</li><li>Show the substitution or the u and dv, not just the answer.</li><li>Integrate and keep the + c (indefinite) or the square brackets (definite).</li><li>Substitute the limits carefully, upper first.</li><li>For an application, state the units and answer the question that was asked (area, volume, distance).</li></ol><h4>Time savers</h4><p>Quote the standard table rather than re-deriving it. Check with differentiation - it takes seconds and settles the answer.</p><h4>Accuracy habits</h4><p>Keep fractions rather than converting early to decimals, and put brackets around negative limits. In a definite integral, (−2)² = 4, not −4.</p><h4>What the examiners reward</h4><p>A clear statement of the formula, one correct integration and the correct limit arithmetic score nearly all the marks, even if the final simplification is clumsy.</p>"
+     },
+     "syllabus_item": "3.6"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "8. Practice Questions with Model Answers"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Practice 1. Evaluate ∫ 6x⁵ dx."
+     },
+     "body": {
+      "en": "<p>Use the power rule: raise the power by one and divide by the new power.</p><p>∫ 6x⁵ dx = 6x⁶/6 + c = x⁶ + c.</p><p>Check by differentiating: d(x⁶)/dx = 6x⁵, which is exactly the integrand, so the answer is right.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 2. Evaluate ∫ (4x³ − 6x + 5) dx."
+     },
+     "body": {
+      "en": "<p>Integrate term by term: 4x³ gives x⁴, −6x gives −3x², and 5 gives 5x.</p><p>So the answer is x⁴ − 3x² + 5x + c.</p><p>Check: differentiating x⁴ − 3x² + 5x gives 4x³ − 6x + 5, exactly the integrand, so no term has been lost.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 3. Evaluate ∫ (3/x + eˣ) dx."
+     },
+     "body": {
+      "en": "<p>Both terms are standard forms: 3/x integrates to 3 log|x| and eˣ to eˣ.</p><p>So the answer is 3 log|x| + eˣ + c.</p><p>The modulus is needed because 3/x exists for negative x as well.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 4. Evaluate ∫ cos 4x dx."
+     },
+     "body": {
+      "en": "<p>Integrate cos to sin and divide by the derivative of the angle, which is 4.</p><p>∫ cos 4x dx = sin(4x)/4 + c.</p><p>Check: differentiating sin(4x)/4 gives 4 cos(4x)/4 = cos 4x, so the division by the angle's derivative is correct.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 5. Evaluate ∫ (3x + 2)⁵ dx."
+     },
+     "body": {
+      "en": "<p>Substitute u = 3x + 2, so du = 3 dx and dx = du/3.</p><p>The integral becomes (1/3)∫ u⁵ du = u⁶/18 + c = (3x + 2)⁶/18 + c.</p><p>Check: differentiating (3x + 2)⁶/18 gives 6(3x + 2)⁵ × 3/18 = (3x + 2)⁵, so the answer is correct.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 6. Evaluate ∫ x²(x³ + 1)⁴ dx."
+     },
+     "body": {
+      "en": "<p>Take u = x³ + 1, so du = 3x² dx, that is x² dx = du/3.</p><p>The integral becomes (1/3)∫ u⁴ du = u⁵/15 + c = (x³ + 1)⁵/15 + c.</p><p>Check by differentiating: 5(x³ + 1)⁴ × 3x²/15 = x²(x³ + 1)⁴.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 7. Evaluate ∫ (2x + 1)/(x² + x) dx."
+     },
+     "body": {
+      "en": "<p>The numerator is the derivative of the denominator: d(x² + x)/dx = 2x + 1.</p><p>So with u = x² + x the integral is ∫ du/u = log|u| + c = log|x² + x| + c.</p><p>The modulus matters here, because x² + x is negative for x between −1 and 0.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 8. Evaluate ∫ x sin x dx by parts."
+     },
+     "body": {
+      "en": "<p>Take u = x (du = dx) and dv = sin x dx (v = −cos x).</p><p>∫ x sin x dx = −x cos x − ∫ (−cos x) dx = −x cos x + sin x + c.</p><p>Check: differentiating gives −cos x + x sin x + cos x = x sin x.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 9. Evaluate ∫ x² log x dx."
+     },
+     "body": {
+      "en": "<p>By LIATE choose u = log x and dv = x² dx, so du = dx/x and v = x³/3.</p><p>The integral = (x³/3)log x − ∫ (x³/3)(1/x) dx = (x³/3)log x − ∫ (x²/3) dx.</p><p>So the answer is (x³/3)log x − x³/9 + c.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 10. Evaluate ∫₁² (2x + 3) dx."
+     },
+     "body": {
+      "en": "<p>Integrate: [x² + 3x]₁².</p><p>Upper limit: 4 + 6 = 10. Lower limit: 1 + 3 = 4.</p><p>The value is 10 − 4 = 6, and no + c is written because the constant cancels in a definite integral.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 11. Evaluate ∫₀¹ x e^(x²) dx."
+     },
+     "body": {
+      "en": "<p>Substitute u = x², so du = 2x dx and x dx = du/2. The limits 0 and 1 become 0 and 1.</p><p>The integral is (1/2)∫₀¹ eᵘ du = (1/2)[eᵘ]₀¹ = (e − 1)/2.</p><p>Numerically this is about 0.859.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 12. Evaluate ∫₀^(π/2) cos x dx."
+     },
+     "body": {
+      "en": "<p>The integral of cos x is sin x, so the value is [sin x] from 0 to π/2.</p><p>sin(π/2) = 1 and sin 0 = 0, so the answer is 1.</p><p>The area under one quarter of the cosine curve is exactly 1 square unit.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 13. Find the area under y = x³ from x = 0 to x = 2."
+     },
+     "body": {
+      "en": "<p>The curve is above the axis on 0 to 2, so the area is ∫₀² x³ dx.</p><p>= [x⁴/4]₀² = 16/4 = 4.</p><p>The area is 4 square units; a rectangle of the same width with average height 2 would have the same area.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 14. Find the area between y = x² and the x-axis from x = 1 to x = 3."
+     },
+     "body": {
+      "en": "<p>The curve is above the axis throughout, so the area is ∫₁³ x² dx.</p><p>= [x³/3]₁³ = 27/3 − 1/3 = 26/3.</p><p>The area is 26/3 ≈ 8.67 square units. The average height over the interval is the area divided by the width, about 4.33, which sits between the curve heights 1 and 9.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 15. Find the volume when y = √x is rotated about the x-axis from x = 0 to x = 4."
+     },
+     "body": {
+      "en": "<p>Each slice is a disc of radius y = √x, so V = π∫₀⁴ y² dx = π∫₀⁴ x dx.</p><p>= π[x²/2]₀⁴ = π(8 − 0) = 8π.</p><p>The volume is 8π ≈ 25.13 cubic units, and the answer is left in terms of π because the question gives no decimals.</p>"
+     }
+    }
+   ]
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "i1_family",
+   "title": {
+    "en": "One slope, a family of curves"
+   },
+   "file": "diagrams/i1_family.svg"
+  },
+  {
+   "id": "i2_method",
+   "title": {
+    "en": "Which integration method?"
+   },
+   "file": "diagrams/i2_method.svg"
+  },
+  {
+   "id": "i3_sub",
+   "title": {
+    "en": "Substitution undoes the chain rule"
+   },
+   "file": "diagrams/i3_sub.svg"
+  },
+  {
+   "id": "i4_parts",
+   "title": {
+    "en": "Parts: split the product"
+   },
+   "file": "diagrams/i4_parts.svg"
+  },
+  {
+   "id": "i5_definite",
+   "title": {
+    "en": "A definite integral is an area"
+   },
+   "file": "diagrams/i5_definite.svg"
+  },
+  {
+   "id": "i6_volume",
+   "title": {
+    "en": "Spin the area to get a volume"
+   },
+   "file": "diagrams/i6_volume.svg"
+  }
+ ],
+ "equations": [
+  {
+   "title": {
+    "en": "Standard integrals"
+   },
+   "items": [
+    {
+     "terms": {
+      "en": "Power rule"
+     },
+     "a": {
+      "en": "∫ xⁿ dx = xⁿ⁺¹/(n + 1) + c,  n ≠ −1"
+     }
+    },
+    {
+     "terms": {
+      "en": "Reciprocal"
+     },
+     "a": {
+      "en": "∫ (1/x) dx = log|x| + c"
+     }
+    },
+    {
+     "terms": {
+      "en": "Exponential"
+     },
+     "a": {
+      "en": "∫ eˣ dx = eˣ + c ;  ∫ e^(ax) dx = e^(ax)/a + c"
+     }
+    },
+    {
+     "terms": {
+      "en": "Sine and cosine"
+     },
+     "a": {
+      "en": "∫ sin x dx = −cos x + c ;  ∫ cos x dx = sin x + c"
+     }
+    },
+    {
+     "terms": {
+      "en": "Tangent family"
+     },
+     "a": {
+      "en": "∫ sec²x dx = tan x + c"
+     }
+    },
+    {
+     "terms": {
+      "en": "Constant"
+     },
+     "a": {
+      "en": "∫ k dx = kx + c"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Methods"
+   },
+   "items": [
+    {
+     "terms": {
+      "en": "Sum and constant multiple"
+     },
+     "a": {
+      "en": "∫ (f ± g) = ∫f ± ∫g ;  ∫ kf = k∫f"
+     }
+    },
+    {
+     "terms": {
+      "en": "Substitution"
+     },
+     "a": {
+      "en": "∫ f(u) du with u = g(x), du = g′(x) dx"
+     }
+    },
+    {
+     "terms": {
+      "en": "Substitution in a power"
+     },
+     "a": {
+      "en": "∫ [g(x)]ⁿ g′(x) dx = [g(x)]ⁿ⁺¹/(n + 1) + c"
+     }
+    },
+    {
+     "terms": {
+      "en": "Integration by parts"
+     },
+     "a": {
+      "en": "∫ u dv = uv − ∫ v du"
+     }
+    },
+    {
+     "terms": {
+      "en": "LIATE order for u"
+     },
+     "a": {
+      "en": "log, inverse trig, algebra, trig, exponential"
+     }
+    },
+    {
+     "terms": {
+      "en": "Logarithm by parts"
+     },
+     "a": {
+      "en": "∫ log x dx = x log x − x + c"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Definite integrals and applications"
+   },
+   "items": [
+    {
+     "terms": {
+      "en": "Fundamental theorem"
+     },
+     "a": {
+      "en": "∫ from a to b of f(x) dx = F(b) − F(a)"
+     }
+    },
+    {
+     "terms": {
+      "en": "Reversed limits"
+     },
+     "a": {
+      "en": "∫ from a to b = − ∫ from b to a"
+     }
+    },
+    {
+     "terms": {
+      "en": "Splitting the interval"
+     },
+     "a": {
+      "en": "∫ from a to b = ∫ from a to c + ∫ from c to b"
+     }
+    },
+    {
+     "terms": {
+      "en": "Odd and even functions"
+     },
+     "a": {
+      "en": "odd: ∫ from −a to a = 0 ;  even: ∫ from −a to a = 2∫ from 0 to a"
+     }
+    },
+    {
+     "terms": {
+      "en": "Area under a curve"
+     },
+     "a": {
+      "en": "A = ∫ from a to b of y dx"
+     }
+    },
+    {
+     "terms": {
+      "en": "Volume of revolution"
+     },
+     "a": {
+      "en": "V = π ∫ from a to b of y² dx"
+     }
+    }
+   ]
+  }
+ ],
+ "numericals": [
+  {
+   "id": "ig1",
+   "q": {
+    "en": "Evaluate ∫ x⁵ dx."
+   },
+   "a": {
+    "en": "<p>Use the power rule: raise the power by one and divide by the new power.</p><p>∫ x⁵ dx = x⁶/6 + c.</p><p>Check: d(x⁶/6)/dx = 6x⁵/6 = x⁵, which is the integrand.</p>"
+   }
+  },
+  {
+   "id": "ig2",
+   "q": {
+    "en": "Evaluate ∫ (3x² + 2x + 1) dx."
+   },
+   "a": {
+    "en": "<p>Integrate term by term: 3x² gives x³, 2x gives x², and 1 gives x.</p><p>So the answer is x³ + x² + x + c.</p><p>Check: 3x² + 2x + 1, exactly the integrand.</p>"
+   }
+  },
+  {
+   "id": "ig3",
+   "q": {
+    "en": "Evaluate ∫ √x dx."
+   },
+   "a": {
+    "en": "<p>Write the root as a power: √x = x^(1/2).</p><p>∫ x^(1/2) dx = x^(3/2)/(3/2) + c = (2/3)x^(3/2) + c.</p><p>In root form this is (2/3)x√x + c.</p>"
+   }
+  },
+  {
+   "id": "ig4",
+   "q": {
+    "en": "Evaluate ∫ (1/x²) dx."
+   },
+   "a": {
+    "en": "<p>Write the integrand as a power: 1/x² = x⁻².</p><p>∫ x⁻² dx = x⁻¹/(−1) + c = −1/x + c.</p><p>Check: d(−x⁻¹)/dx = x⁻² = 1/x².</p>"
+   }
+  },
+  {
+   "id": "ig5",
+   "q": {
+    "en": "Evaluate ∫ (eˣ + 1/x) dx."
+   },
+   "a": {
+    "en": "<p>Both parts are standard forms: eˣ integrates to eˣ and 1/x integrates to log|x|.</p><p>So the answer is eˣ + log|x| + c.</p><p>The modulus sign is needed because 1/x is defined for negative x as well.</p>"
+   }
+  },
+  {
+   "id": "ig6",
+   "q": {
+    "en": "Evaluate ∫ (sin x − cos x) dx."
+   },
+   "a": {
+    "en": "<p>∫ sin x dx = −cos x and ∫ cos x dx = sin x, so the difference is −cos x − sin x + c.</p><p>Check: differentiating gives sin x − cos x, the integrand.</p><p>Watch the double negative: −(−sin x) = +sin x.</p>"
+   }
+  },
+  {
+   "id": "ig7",
+   "q": {
+    "en": "Evaluate ∫₀¹ 2x(x² + 1)³ dx by substitution."
+   },
+   "a": {
+    "en": "<p>Let u = x² + 1, so du = 2x dx. The limits change too: x = 0 gives u = 1 and x = 1 gives u = 2.</p><p>The integral becomes ∫₁² u³ du = [u⁴/4]₁² = 4 − 1/4 = 15/4.</p><p>No + c appears, and the old limits must not be used with u.</p>"
+   }
+  },
+  {
+   "id": "ig8",
+   "q": {
+    "en": "Evaluate ∫ (2x + 3)⁴ dx."
+   },
+   "a": {
+    "en": "<p>Substitute u = 2x + 3, so du = 2 dx and dx = du/2.</p><p>The integral becomes (1/2)∫ u⁴ du = u⁵/10 + c = (2x + 3)⁵/10 + c.</p><p>Check: 5(2x + 3)⁴ × 2/10 = (2x + 3)⁴.</p>"
+   }
+  },
+  {
+   "id": "ig9",
+   "q": {
+    "en": "Evaluate ∫ x(x² + 1)³ dx."
+   },
+   "a": {
+    "en": "<p>Take u = x² + 1, so du = 2x dx, that is x dx = du/2.</p><p>The integral becomes (1/2)∫ u³ du = u⁴/8 + c = (x² + 1)⁴/8 + c.</p><p>Check by differentiating: 4(x² + 1)³ × 2x/8 = x(x² + 1)³.</p>"
+   }
+  },
+  {
+   "id": "ig10",
+   "q": {
+    "en": "Evaluate ∫ 2x/(x² + 1) dx."
+   },
+   "a": {
+    "en": "<p>The numerator is exactly the derivative of the denominator, so the answer is a logarithm.</p><p>With u = x² + 1, du = 2x dx, the integral is ∫ du/u = log|u| + c = log(x² + 1) + c.</p><p>No modulus is needed because x² + 1 is always positive.</p>"
+   }
+  },
+  {
+   "id": "ig11",
+   "q": {
+    "en": "Evaluate ∫ sin³x cos x dx."
+   },
+   "a": {
+    "en": "<p>Take u = sin x, so du = cos x dx.</p><p>The integral becomes ∫ u³ du = u⁴/4 + c = sin⁴x/4 + c.</p><p>Check: 4 sin³x cos x/4 = sin³x cos x, the integrand.</p>"
+   }
+  },
+  {
+   "id": "ig12",
+   "q": {
+    "en": "Evaluate ∫ x eˣ dx by parts."
+   },
+   "a": {
+    "en": "<p>Take u = x (du = dx) and dv = eˣ dx (v = eˣ).</p><p>∫ u dv = uv − ∫ v du = x eˣ − ∫ eˣ dx = x eˣ − eˣ + c.</p><p>So the answer is eˣ(x − 1) + c. Check: eˣ(x − 1) + eˣ = x eˣ.</p>"
+   }
+  },
+  {
+   "id": "ig13",
+   "q": {
+    "en": "Evaluate ∫ x cos x dx by parts."
+   },
+   "a": {
+    "en": "<p>Take u = x (du = dx) and dv = cos x dx (v = sin x).</p><p>The integral is x sin x − ∫ sin x dx = x sin x − (−cos x) + c = x sin x + cos x + c.</p><p>Check: differentiating gives sin x + x cos x − sin x = x cos x.</p>"
+   }
+  },
+  {
+   "id": "ig14",
+   "q": {
+    "en": "Evaluate ∫ x log x dx."
+   },
+   "a": {
+    "en": "<p>By LIATE the logarithm becomes u: u = log x (du = dx/x) and dv = x dx (v = x²/2).</p><p>The integral = (x²/2)log x − ∫ (x²/2)(1/x) dx = (x²/2)log x − ∫ (x/2) dx.</p><p>So the answer is (x²/2)log x − x²/4 + c.</p>"
+   }
+  },
+  {
+   "id": "ig15",
+   "q": {
+    "en": "Evaluate ∫ log x dx."
+   },
+   "a": {
+    "en": "<p>There is one function, so take u = log x and dv = dx, giving v = x.</p><p>∫ log x dx = x log x − ∫ x(1/x) dx = x log x − ∫ 1 dx = x log x − x + c.</p><p>Check: log x + 1 − 1 = log x.</p>"
+   }
+  },
+  {
+   "id": "ig17",
+   "q": {
+    "en": "Evaluate ∫₀² (x² + 1) dx."
+   },
+   "a": {
+    "en": "<p>Integrate: [x³/3 + x]₀².</p><p>Upper limit: 8/3 + 2 = 14/3. Lower limit: 0.</p><p>So the value is 14/3. No + c is written in a definite integral.</p>"
+   }
+  },
+  {
+   "id": "ig18",
+   "q": {
+    "en": "Evaluate ∫₁³ 2x dx."
+   },
+   "a": {
+    "en": "<p>The integral of 2x is x², so the definite integral is [x²]₁³.</p><p>9 − 1 = 8.</p><p>Check by geometry: the area is a trapezium with parallel sides 2 and 6 and width 2, that is (2 + 6)/2 × 2 = 8.</p>"
+   }
+  },
+  {
+   "id": "ig19",
+   "q": {
+    "en": "Evaluate ∫₀^(π/2) sin x dx."
+   },
+   "a": {
+    "en": "<p>The integral of sin x is −cos x, so the value is [−cos x] from 0 to π/2.</p><p>cos(π/2) = 0 and cos 0 = 1, so 0 − (−1) = 1.</p><p>The area under one arch of the sine curve from 0 to π/2 is exactly 1 square unit.</p>"
+   }
+  },
+  {
+   "id": "ig20",
+   "q": {
+    "en": "Evaluate ∫₀¹ e^(2x) dx."
+   },
+   "a": {
+    "en": "<p>The integral of e^(2x) is e^(2x)/2 (divide by the inside derivative).</p><p>So the value is [e^(2x)/2]₀¹ = (e² − 1)/2.</p><p>Numerically (7.389 − 1)/2 ≈ 3.19, which is reasonable for a curve rising from 1 to 7.4.</p>"
+   }
+  },
+  {
+   "id": "ig21",
+   "q": {
+    "en": "Evaluate ∫₋₁¹ x³ dx using a property."
+   },
+   "a": {
+    "en": "<p>x³ is an odd function: f(−x) = −f(x).</p><p>For an odd function the integral over symmetric limits is zero, so ∫₋₁¹ x³ dx = 0.</p><p>Check directly: [x⁴/4]₋₁¹ = 1/4 − 1/4 = 0. The areas above and below the axis cancel.</p>"
+   }
+  },
+  {
+   "id": "ig22",
+   "q": {
+    "en": "If ∫₀¹ f(x) dx = 2 and ∫₁³ f(x) dx = 5, find ∫₀³ f(x) dx."
+   },
+   "a": {
+    "en": "<p>Use the splitting property: the integral over 0 to 3 is the sum of the two pieces.</p><p>∫₀³ f = ∫₀¹ f + ∫₁³ f = 2 + 5 = 7.</p><p>This is how a table of measured values is combined when the readings stop at a point.</p>"
+   }
+  },
+  {
+   "id": "ig23",
+   "q": {
+    "en": "Find the area under y = x² from x = 0 to x = 3."
+   },
+   "a": {
+    "en": "<p>The curve is above the axis on this interval, so the area is ∫₀³ x² dx.</p><p>= [x³/3]₀³ = 27/3 − 0 = 9.</p><p>The area is 9 square units. Integrating raises the degree, so the answer divided by the width (3) gives an average height of 3, which matches the curve at its midpoint.</p>"
+   }
+  },
+  {
+   "id": "ig24",
+   "q": {
+    "en": "Find the area between y = 4x − x² and the x-axis."
+   },
+   "a": {
+    "en": "<p>First find where the curve meets the axis: 4x − x² = x(4 − x) = 0, so x = 0 and x = 4.</p><p>The curve is above the axis between them, so the area is ∫₀⁴ (4x − x²) dx = [2x² − x³/3]₀⁴.</p><p>= 32 − 64/3 = 96/3 − 64/3 = 32/3 ≈ 10.67 square units.</p>"
+   }
+  },
+  {
+   "id": "ig25",
+   "q": {
+    "en": "Find the volume when y = x is rotated about the x-axis from x = 0 to x = 2."
+   },
+   "a": {
+    "en": "<p>Each slice is a disc of radius y = x, so V = π∫ y² dx.</p><p>V = π∫₀² x² dx = π[x³/3]₀² = 8π/3.</p><p>The volume is 8π/3 ≈ 8.38 cubic units - a cone of height 2 and base radius 2, which has volume (1/3)πr²h = 8π/3 exactly.</p>"
+   }
+  },
+  {
+   "id": "ig26",
+   "q": {
+    "en": "Find the volume when y = √x is rotated about the x-axis from x = 0 to x = 4."
+   },
+   "a": {
+    "en": "<p>The radius of each slice is y = √x, so V = π∫ y² dx = π∫₀⁴ x dx.</p><p>= π[x²/2]₀⁴ = π(8 − 0) = 8π.</p><p>The volume is 8π ≈ 25.13 cubic units, three times the volume of the cone in the previous example because the curve stays further from the axis.</p>"
+   }
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Basics"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is integration?"
+     },
+     "a": {
+      "en": "The reverse of differentiation: finding a function whose derivative is the given integrand."
+     }
+    },
+    {
+     "q": {
+      "en": "Why does an indefinite integral end with + c?"
+     },
+     "a": {
+      "en": "Because every constant differentiates to zero, so all the curves F(x) + c have the same slope. A condition on the curve fixes c."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the difference between a definite and an indefinite integral?"
+     },
+     "a": {
+      "en": "An indefinite integral gives a function plus c; a definite integral has limits and gives a number."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is there no + c in a definite integral?"
+     },
+     "a": {
+      "en": "The constant cancels when the limits are subtracted: (F(b) + c) − (F(a) + c) = F(b) − F(a)."
+     }
+    },
+    {
+     "q": {
+      "en": "What is ∫ (1/x) dx and why is the modulus there?"
+     },
+     "a": {
+      "en": "log|x| + c. The modulus is needed because 1/x is defined for negative x too, and log of a negative number does not exist."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Methods"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "When do you use substitution?"
+     },
+     "a": {
+      "en": "When one part of the integrand is (a constant multiple of) the derivative of another part, so the integral reduces to a standard form in u."
+     }
+    },
+    {
+     "q": {
+      "en": "In a definite integral, what must be done to the limits after substituting?"
+     },
+     "a": {
+      "en": "They must be converted to the new variable using u = g(x); keeping the old x-limits with a u-integral is a common error."
+     }
+    },
+    {
+     "q": {
+      "en": "State the formula for integration by parts."
+     },
+     "a": {
+      "en": "∫ u dv = uv − ∫ v du."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you choose u in integration by parts?"
+     },
+     "a": {
+      "en": "By LIATE: logarithm, inverse trig, algebraic, trigonometric, exponential - u is the function that comes first in the list."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you integrate log x?"
+     },
+     "a": {
+      "en": "By parts with u = log x and dv = dx, giving x log x − x + c."
+     }
+    },
+    {
+     "q": {
+      "en": "How can you check any indefinite integral?"
+     },
+     "a": {
+      "en": "Differentiate the answer; it must give the integrand back exactly."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Applications"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What does a definite integral represent geometrically?"
+     },
+     "a": {
+      "en": "The signed area between the curve and the x-axis over the interval: positive above the axis, negative below it."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you find the area under a curve?"
+     },
+     "a": {
+      "en": "Integrate y with respect to x between the two limits, splitting the interval where the curve crosses the axis."
+     }
+    },
+    {
+     "q": {
+      "en": "Give the formula for the volume of revolution about the x-axis."
+     },
+     "a": {
+      "en": "V = π ∫ y² dx between the limits, because each slice is a disc of radius y."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is y squared in the volume formula?"
+     },
+     "a": {
+      "en": "The disc area is πr² with r = y, so the square comes from the geometry of the circle, not from the integration."
+     }
+    },
+    {
+     "q": {
+      "en": "What happens to the sign of an integral when the limits are swapped?"
+     },
+     "a": {
+      "en": "The sign changes: ∫ from a to b = − ∫ from b to a."
+     }
+    },
+    {
+     "q": {
+      "en": "An integral of zero over symmetric limits - what does it mean?"
+     },
+     "a": {
+      "en": "The areas above and below the axis are equal in size; this always happens for an odd function such as x³."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Practice: Evaluate ∫ 6x⁵ dx."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Practice: Evaluate ∫ (4x³ − 6x + 5) dx."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Practice: Evaluate ∫ (3/x + eˣ) dx."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Practice: Evaluate ∫ cos 4x dx."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Practice: Evaluate ∫ (3x + 2)⁵ dx."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Evaluate ∫ x²(x³ + 1)⁴ dx."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Evaluate ∫ (2x + 1)/(x² + x) dx."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Evaluate ∫ x sin x dx by parts."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Evaluate ∫ x² log x dx."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Evaluate ∫₁² (2x + 3) dx."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Practice: Evaluate ∫₀¹ x e^(x²) dx."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Evaluate ∫₀^(π/2) cos x dx."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Practice: Find the area under y = x³ from x = 0 to x = 2."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Find the area between y = x² and the x-axis from x = 1 to x = 3."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Find the volume when y = √x is rotated about the x-axis from x = 0 to x = 4."
+   },
+   "marks": 4
+  }
+ ],
+ "learning_outcomes": [
+  {
+   "en": "CO3: Demonstrate the ability to solve engineering related problems based on applications of integration."
+  }
+ ],
+ "course_outcomes": [
+  "CO3"
+ ],
+ "practical_numbers": [],
+ "content_kind": "theory",
+ "lesson_count": 26,
+ "answered_practice_count": 15,
+ "assessment_note": {
+  "en": "Official course: theory ESE 70 + PA 30 = 100 marks, 4 credits, 45 teaching hours; this unit carries 20 % weightage and about 14 of the 70 theory marks. Practice-question marks (3/4) are suggested revision sizes, not official GTU allocations or a guaranteed paper pattern. Model answers are in Notes section 8."
+ },
+ "question_provenance": "Original answered revision questions; not official past papers",
+ "question_marks_are_suggested": true,
+ "sources": [
+  {
+   "title": "GTU DI02000021, Engineering Mathematics, Semester 2, BSC (uploaded syllabus)",
+   "url": "https://syllabus.gtu.ac.in/"
+  },
+  {
+   "title": "Khan Academy - integrals: rules, substitution and definite integrals",
+   "url": "https://www.khanacademy.org/math/integral-calculus"
+  },
+  {
+   "title": "OpenStax - Calculus Volume 1, chapters 5 and 6",
+   "url": "https://openstax.org/details/books/calculus-volume-1"
+  },
+  {
+   "title": "GeoGebra - shade the area under a curve and change the limits",
+   "url": "https://www.geogebra.org/m/Bh4gGz8p"
+  },
+  {
+   "title": "B. S. Grewal - Elementary Engineering Mathematics (Khanna Publishers)",
+   "url": "https://www.khannapublishers.in/"
+  }
+ ]
+}
