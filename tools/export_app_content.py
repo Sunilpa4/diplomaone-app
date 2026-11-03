@@ -80,6 +80,8 @@ SUBJECTS = {
     "DI04000021": ("Object Oriented Programming - Java", "ઓબ્જેક્ટ ઓરિએન્ટેડ પ્રોગ્રામિંગ - જાવા", "Professional Core", 4, "programming", None),
     "DI04000031": ("Introduction to NoSQL", "નોએસક્યુએલનો પરિચય", "Professional Core", 3, "practical", None),
     "DI04007011": ("Introduction to Web Development", "વેબ ડેવલપમેન્ટનો પરિચય", "Professional Core", 4, "programming", None),
+    # Computer Sem 4 (2025-26): Cloud Computing - English-only release
+    "DI04000041": ("Cloud Computing", None, "Professional Elective", 4, "theory", None),
     # Computer Sem 5 (2026-27): the two provided main-subject syllabi.
     "DI05007011": ("Computer Hardware Architecture and System Maintenance", None, "Professional Core", 4, "theory", None),
     "DI05007021": ("Information Security", None, "Professional Core", 4, "theory", None),
@@ -91,7 +93,7 @@ BRANCH_SEMS = {
         2: ["DI02000101", "DI02000091", "DI02000011", "DI01000071", "DI02000051", "DI02000061",
             "DI02000131", "DI02000141", "DI02000151"],
         3: ["DI03000021", "DI03000011", "DI03000031", "DI03000041", "DI03000051", "DI03000061"],
-        4: ["DI04000021", "DI04000011", "DI04007011", "DI04000031"],
+        4: ["DI04000021", "DI04000011", "DI04007011", "DI04000031", "DI04000041"],
         5: ["DI05007011", "DI05007021"],
     },
 }
@@ -424,6 +426,13 @@ def normalize_for_app(unit):
     viva = unit.get("viva")
     if isinstance(viva, list) and viva and all(isinstance(e, dict) and "q" in e and "a" in e and "items" not in e for e in viva):
         unit["viva"] = [{"title": {"en": "Viva questions", "gu": "વાઇવા પ્રશ્નો"}, "items": viva}]
+
+
+# Mathematics-I (DI01000021) is a common "Branch: All" subject - list it in semester 1 of every branch.
+for _branch in BRANCHES:
+    _sem1 = BRANCH_SEMS.setdefault(_branch[1], {}).setdefault(1, [])
+    if "DI01000021" not in _sem1:
+        _sem1.insert(0, "DI01000021")
 
 
 def main():

@@ -16,8 +16,21 @@ PAGES_URL = "https://sunilpa4.github.io/diplomaone-content/"
 
 
 def token():
-    with open(os.path.join(ROOT, ".secrets", "github_token")) as f:
-        return f.read().strip()
+    """Token from .secrets/github_token, else GH_TOKEN / GITHUB_TOKEN, else `gh auth token`."""
+    path = os.path.join(ROOT, ".secrets", "github_token")
+    if os.path.exists(path):
+        with open(path) as f:
+            return f.read().strip()
+    env = (os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN") or "").strip()
+    if env:
+        return env
+    try:
+        out = subprocess.run(["gh", "auth", "token"], capture_output=True, text=True, check=True).stdout
+        if out.strip():
+            return out.strip()
+    except Exception:
+        pass
+    raise SystemExit("No GitHub token: add .secrets/github_token or set GH_TOKEN.")
 
 
 def api(method, path, data=None, ok=(200, 201, 204)):
