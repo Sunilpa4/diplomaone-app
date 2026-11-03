@@ -1,7 +1,9 @@
 """GTU Engineering Mathematics (DI02000021) - Semester 2, w.e.f. 2024-25.
 
-Official branches: Electrical Engineering, Renewable Energy, Automation and Robotics,
-Instrumentation & Control Engineering, Power Electronics Engineering.
+Official syllabus branches: Electrical Engineering, Renewable Energy, Automation and Robotics,
+Instrumentation & Control Engineering, Power Electronics Engineering. The subject is nonetheless
+shown in semester 2 of every diploma branch (project decision), so subject.json marks it as common
+to all branches rather than limited to the five printed in the PDF.
 
 Syllabus source: tools/syllabus_DI02000021.txt (transcribed from the uploaded PDF,
 sha256 kept in subject.json). The five units, their hours, weightages, marks split
@@ -71,8 +73,7 @@ SUBJECT = {
     "code": CODE,
     "name": tr(TITLE),
     "branch": "common",
-    "branches": ["electrical", "renewable", "robotics", "ic", "power"],
-    "common_to_all_branches": False,
+    "common_to_all_branches": True,
     "semester": 2,
     "syllabus_year": "2024-25",
     "category": "Basic Science (BSC)",
