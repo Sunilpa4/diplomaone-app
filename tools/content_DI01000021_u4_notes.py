@@ -121,7 +121,7 @@ NOTES = [
               + h4("Common mistake / conditions")
               + p("Substituting the point into the <i>family</i>, not into the original line, is what finds k. "
                   "Writing the original constant again gives a parallel line that misses the point."),
-              "cg3_parallel", examples=["cg1n7", "cg1n8", "cg1n24"], syllabus_item="4.3")]},
+              "cg3_parallel", examples=["cg1n7", "cg1n8", "cg1n24"], syllabus_item="4.4")]},
 
     {"title": tr("3. Angle between Two Lines and Distances"),
      "items": [
@@ -137,7 +137,7 @@ NOTES = [
               + h4("Special cases")
               + p("If 1 + m₁m₂ = 0 the denominator vanishes and θ = 90° - the perpendicular condition. If "
                   "m₁ = m₂ the numerator vanishes and θ = 0°: the lines are parallel."),
-              "cg4_angle", examples=["cg1n9", "cg1n10"], syllabus_item="4.4"),
+              "cg4_angle", examples=["cg1n9", "cg1n10"], syllabus_item="4.5"),
          card("3.2 Distance from a point to a line, and between parallel lines",
               h4("Formulae")
               + p("<b>Point to line:</b> d = |ax₁ + by₁ + c| / √(a² + b²) for the point (x₁, y₁) and the line "
@@ -150,7 +150,7 @@ NOTES = [
               + h4("Conditions")
               + p("Both lines must be in the same form before comparing constants. The distance is never "
                   "negative - the modulus is part of the formula."),
-              examples=["cg1n22", "cg1n23"], syllabus_item="4.4")]},
+              examples=["cg1n22", "cg1n23"], syllabus_item="4.5")]},
 
     {"title": tr("4. The Circle"),
      "items": [
@@ -167,7 +167,7 @@ NOTES = [
               + h4("Conditions")
               + p("Watch the signs: centre (2, −3) gives (y + 3)², not (y − 3)². The right side is r², so a "
                   "radius of 5 puts 25 there."),
-              "cg5_circle", examples=["cg1n13", "cg1n15"], syllabus_item="4.5"),
+              "cg5_circle", examples=["cg1n13", "cg1n15"], syllabus_item="4.6"),
          card("4.2 The general equation and how to read it",
               h4("Definition")
               + p("The general circle is <b>x² + y² + 2gx + 2fy + c = 0</b>, with <b>centre (−g, −f)</b> and "
@@ -181,7 +181,7 @@ NOTES = [
               + h4("Conditions")
               + p("The coefficients of x² and y² must both be 1 before reading g and f; divide through if they "
                   "are not. If g² + f² − c &lt; 0 the equation has no real circle."),
-              "cg6_general", examples=["cg1n14", "cg1n25"], syllabus_item="4.6"),
+              "cg6_general", examples=["cg1n14", "cg1n25"], syllabus_item="4.7"),
          card("4.3 Circle from a diameter or three conditions",
               h4("Diameter form")
               + p("If (x₁, y₁) and (x₂, y₂) are the ends of a diameter, the circle is "
@@ -193,7 +193,7 @@ NOTES = [
               + p("A circle through three points needs all three in the general equation, which gives three "
                   "linear equations in g, f, c. Through the origin c = 0 immediately, which is why exam "
                   "questions like to pass circles through (0, 0)."),
-              examples=["cg1n15", "cg1n25", "cg1n16"], syllabus_item="4.5")]},
+              examples=["cg1n15", "cg1n25", "cg1n16"], syllabus_item="4.6")]},
 
     {"title": tr("5. Tangent and Normal to a Circle"),
      "items": [
@@ -210,7 +210,7 @@ NOTES = [
               + h4("Common mistake / conditions")
               + p("The formula needs the point to lie on the circle: check 3² + 4² = 25 first. Using an "
                   "external point with this formula gives the chord of contact, not the tangent."),
-              "cg7_tangent", examples=["cg1n17", "cg1n18"], syllabus_item="4.7"),
+              "cg7_tangent", examples=["cg1n17", "cg1n18"], syllabus_item="4.8"),
          card("5.2 Tangents of a given slope, and the normal",
               h4("Tangent with slope m")
               + p("For x² + y² = a² the tangents of slope m are <b>y = mx ± a√(1 + m²)</b>. The ± gives two "
@@ -224,7 +224,7 @@ NOTES = [
               + h4("Length of a tangent from an external point")
               + p("From P(x₁, y₁) to x² + y² + 2gx + 2fy + c = 0 the length is "
                   "√(x₁² + y₁² + 2gx₁ + 2fy₁ + c). From (5, 1) to x² + y² = 25 it is √(26 − 25) = 1."),
-              "cg7_tangent", examples=["cg1n19", "cg1n20", "cg1n21"], syllabus_item="4.7"),
+              "cg7_tangent", examples=["cg1n19", "cg1n20", "cg1n21"], syllabus_item="4.8"),
          card("5.3 Tangency condition: when a line just touches",
               h4("The test")
               + p("A line touches a circle when the <b>perpendicular distance from the centre equals the "
@@ -240,7 +240,7 @@ NOTES = [
               + h4("Why this is the safest method")
               + p("Solving the line and circle simultaneously gives a quadratic; the discriminant then decides "
                   "the case. Both routes are correct, but the distance test is shorter and has fewer sign traps."),
-              "cg7_tangent", examples=["cg1n26"], syllabus_item="4.7")]},
+              "cg7_tangent", examples=["cg1n26"], syllabus_item="4.8")]},
 
     {"title": tr("6. Answered Practice (Unit 4 level)"), "items": []},
 ]
