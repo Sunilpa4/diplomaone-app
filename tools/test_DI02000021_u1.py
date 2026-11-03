@@ -373,7 +373,8 @@ class EngineeringMathsUnit1(unittest.TestCase):
             self.assertEqual(catalog["subjects"]["DI02000021"]["status"], "available")
             listed = {b["key"] for b in catalog["branches"]
                       if "DI02000021" in b["semesters"].get("2", [])}
-            self.assertEqual(listed, {"electrical", "robotics", "ic", "power"})
+            self.assertEqual(listed, {b["key"] for b in catalog["branches"]},
+                             "semester-2 mathematics should be listed for every branch")
             for rel, wanted in catalog["files"].items():
                 self.assertEqual(hashlib.sha1((out / rel).read_bytes()).hexdigest()[:12], wanted)
 

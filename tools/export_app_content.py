@@ -428,12 +428,14 @@ def normalize_for_app(unit):
         unit["viva"] = [{"title": {"en": "Viva questions", "gu": "વાઇવા પ્રશ્નો"}, "items": viva}]
 
 
-# Engineering Mathematics (DI02000021) - the Semester 2 BSC subject shared by Electrical, Renewable
-# Energy, Automation & Robotics, Instrumentation & Control and Power Electronics branches.
+# Engineering Mathematics (DI02000021) - the Semester 2 mathematics subject. The syllabus lists it
+# for Electrical, Renewable Energy, Automation & Robotics, Instrumentation & Control and Power
+# Electronics, but it is the semester-2 mathematics course every branch teaches, so it is listed in
+# semester 2 of every branch (user decision, like Mathematics-I in semester 1).
 SUBJECTS.setdefault("DI02000021", ("Engineering Mathematics", "એન્જિનિયરિંગ ગણિત",
                                    "Basic Science", 4, "theory", "DI02C00021"))
-for _key in ("electrical", "robotics", "ic", "power"):
-    _sem2 = BRANCH_SEMS.setdefault(_key, {}).setdefault(2, [])
+for _branch in BRANCHES:
+    _sem2 = BRANCH_SEMS.setdefault(_branch[1], {}).setdefault(2, [])
     if "DI02000021" not in _sem2:
         _sem2.insert(0, "DI02000021")
 
