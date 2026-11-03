@@ -158,6 +158,41 @@ class MathsCoverage(unittest.TestCase):
                 subj = json.loads((out / f"subjects/{code}.json").read_text(encoding="utf-8"))
                 self.assertEqual(subj["available_units"], unit_nos, code)
 
+    def test_09_exporter_satisfies_the_publisher_contract(self):
+        """The publisher refuses a subject that is not listed under its branch/semester.
+
+        A common subject ("branch": "common") owns no branch entry, so it must appear in the
+        semester of every branch instead. This is exactly what broke the publish run of PR #6.
+        """
+        import base64
+        import gzip
+
+        payload = (ROOT / "tools/publisher_payloads/hardware.b64").read_text().strip()
+        helper = json.loads(gzip.decompress(base64.b64decode(payload)))["helper"]
+        self.assertIn("common_to_all_branches", helper,
+                      "the publisher helper must understand common subjects")
+
+        with tempfile.TemporaryDirectory() as td:
+            out = Path(td) / "data"
+            r = subprocess.run([sys.executable, "tools/export_app_content.py", "--out", str(out)],
+                               cwd=ROOT, text=True, capture_output=True, timeout=240)
+            self.assertEqual(r.returncode, 0, r.stderr)
+            catalog = json.loads((out / "catalog.json").read_text(encoding="utf-8"))
+            by_key = {b["key"]: b for b in catalog["branches"]}
+            for path in sorted((out / "subjects").glob("*.json")):
+                subj = json.loads(path.read_text(encoding="utf-8"))
+                semester = str(subj["semester"])
+                carriers = [b["key"] for b in catalog["branches"]
+                            if subj["code"] in b.get("semesters", {}).get(semester, [])]
+                if subj.get("common_to_all_branches") or subj.get("branch") == "common":
+                    self.assertEqual(sorted(carriers), sorted(by_key),
+                                     f"{subj['code']} is common but not listed in every branch")
+                else:
+                    self.assertIn(subj["code"],
+                                  by_key[subj["branch"]]["semesters"].get(semester, []),
+                                  f"{subj['code']}: register branch/semester in the exporter")
+                self.assertIn(subj["code"], catalog["subjects"])
+
     def test_08_maths_index_lists_every_unit(self):
         page = ROOT / "preview/workshop/maths.html"
         self.assertTrue(page.is_file(), "run python3 tools/maths_index.py")
