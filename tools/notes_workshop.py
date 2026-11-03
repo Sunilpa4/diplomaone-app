@@ -209,6 +209,12 @@ def write_index():
         Older previews in <code>preview/</code> are deliberately not shown.</p>
       </div>"""
 
+    overview = (
+        '<div class="bar"><a href="maths.html"><b>Mathematics I and II overview</b></a>'
+        ' - all 11 units, hours, marks and syllabus coverage in one table.</div>'
+        if (SHELF / "maths.html").is_file() else ""
+    )
+
     page = f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -252,6 +258,7 @@ def write_index():
 </div></header>
 <main>
   <div class="bar"><b>How to review:</b> open a unit → tap any card to expand → check diagrams (tap to zoom) → spot-check numbers and tables.</div>
+  {overview}
   {body}
   <div class="tips">
     <h3>What to look for</h3>
