@@ -500,6 +500,14 @@ for _key in ENGINEERING_GRAPHICS_BRANCHES:
         _pos = _sem1.index("DI01000021") + 1 if "DI01000021" in _sem1 else len(_sem1)
         _sem1.insert(_pos, "DI01000111")
 
+# Entrepreneurship & Start-up (DI04000081) prints "Branch: All" in its syllabus (Semester 4, MOPEC),
+# so it is listed in semester 4 of every diploma branch.
+SUBJECTS.setdefault("DI04000081", ("Entrepreneurship & Start-up", "એન્ટ્રપ્રિન્યોરશિપ અને સ્ટાર્ટ-અપ",
+                                   "MOPEC", 3, "theory", None))
+for _branch in BRANCHES:
+    _sem4 = BRANCH_SEMS.setdefault(_branch[1], {}).setdefault(4, [])
+    if "DI04000081" not in _sem4:
+        _sem4.append("DI04000081")
 
 def main():
     global OUT
