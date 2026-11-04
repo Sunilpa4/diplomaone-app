@@ -445,6 +445,24 @@ for _branch in BRANCHES:
     if "DI01000021" not in _sem1:
         _sem1.insert(0, "DI01000021")
 
+# Applied Physics (DI01000121) is one subject with two home semesters: semester 1 for Civil,
+# Environmental, Mining, Textile Manufacturing, Ceramic, Printing and Renewable Energy; semester 2 for
+# Automobile, Chemical, Mechanical, Mechatronics, Textile Processing, Fabrication, Textile Design and
+# Mechanical (CAD/CAM). The app carries ten of those branches, so it is listed in each of them at the
+# semester printed in the PDF (subject.json records the split in "semester_by_branch").
+SUBJECTS.setdefault("DI01000121", ("Applied Physics", "એપ્લાઇડ ફિઝિક્સ", "Basic Science", 4,
+                                   "theory", None))
+APPLIED_PHYSICS_BRANCHES = {
+    1: ["civil", "environmental", "mining", "textile_mfg", "printing"],
+    2: ["automobile", "chemical", "mechanical", "mechatronics", "textile_proc"],
+}
+for _sem, _keys in APPLIED_PHYSICS_BRANCHES.items():
+    for _key in _keys:
+        _lst = BRANCH_SEMS.setdefault(_key, {}).setdefault(_sem, [])
+        if "DI01000121" not in _lst:
+            _pos = _lst.index("DI01000021") + 1 if "DI01000021" in _lst else len(_lst)
+            _lst.insert(_pos, "DI01000121")
+
 # Communication Skills in English (DI01000031) prints "Branch: All" in its syllabus, so it is listed
 # in semester 1 of every diploma branch. It sits just after Mathematics-I in the display order.
 for _branch in BRANCHES:
@@ -502,7 +520,8 @@ def main():
         subjects[code] = {
             "code": code, "alt_code": alt, "name": {"en": en, **({"gu": gu} if gu else {})}, "category": cat,
             "credits": cr, "type": typ, "status": "available" if avail else "soon",
-            "units": len(done[code][1]["units"]) if avail else 0,
+            # count the units that actually have a file, not every syllabus unit listed
+            "units": len([u for u in done[code][1]["units"] if u.get("file")]) if avail else 0,
             "languages": done[code][1].get("languages", ["en", "gu"]) if avail else ["en"],
         }
     catalog = {
