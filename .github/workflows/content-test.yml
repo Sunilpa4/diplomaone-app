@@ -37,7 +37,8 @@ jobs:
             tools.test_applied_physics_coverage
       - name: Validate Environmental Sustainability (DI02000051)
         run: |
-          python3 -m unittest tools.test_DI02000051_u1
+          python3 -m unittest tools.test_DI02000051_u1 tools.test_DI02000051_u2 \
+            tools.test_DI02000051_u3 tools.test_DI02000051_u4 tools.test_DI02000051_u5
       - name: Export content and render every part
         run: |
           python3 tools/test_export_compatibility.py
