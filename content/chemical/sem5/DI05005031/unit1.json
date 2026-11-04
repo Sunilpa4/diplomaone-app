@@ -1,0 +1,769 @@
+{
+ "subject": "DI05005031",
+ "unit": 1,
+ "format": "notes",
+ "title": {
+  "en": "Basics of Chemical Reactions",
+  "gu": "રાસાયણિક પ્રક્રિયાઓના પાયા"
+ },
+ "hours": 7,
+ "weightage": 15,
+ "theory_marks": 10,
+ "official": true,
+ "languages": [
+  "en",
+  "gu"
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "equations",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "Unit 1 of Chemical Reaction Engineering: what the subject is for, the six ways a reaction is classified, enzymes and the Michaelis-Menten derivation, the rate of reaction on four different bases, and the variables that change a rate. Every result is derived line by line - the Michaelis-Menten law from the steady-state balance, the adiabatic temperature rise from the energy balance, the unit of k from the unit balance - and six solved numericals follow in section 1.8.",
+  "gu": "Chemical Reaction Engineering નું Unit 1: subject શેના માટે છે, પ્રક્રિયાના વર્ગીકરણની છ રીતો, enzymes અને Michaelis-Menten derivation, ચાર જુદા આધાર પર reaction rate, અને rate બદલતા ચલો. દરેક પરિણામ લીટી-બાય-લીટી derive કરેલું છે - Michaelis-Menten law steady-state balance પરથી, adiabatic temperature rise energy balance પરથી, k નું એકમ unit balance પરથી - અને પછી વિભાગ 1.8 માં છ ઉકેલેલા દાખલા છે."
+ },
+ "notes": [
+  {
+   "title": {
+    "en": "1.1 What chemical reaction engineering is for",
+    "gu": "1.1 Chemical reaction engineering શેના માટે છે"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "The reactor is where the chemistry becomes a product",
+      "gu": "રિએક્ટર એ જગ્યા છે જ્યાં chemistry નું product બને છે"
+     },
+     "body": {
+      "en": "<h4>Definition</h4><p>Chemical reaction engineering (CRE) is the branch that turns a reaction written in a laboratory flask into a vessel that runs day after day in a plant. It answers four questions: <b>how fast</b> the reaction goes (kinetics), <b>how far</b> it can go (thermodynamics), <b>how the heat is added or removed</b> (energy balance) and <b>what the vessel must look like</b> so that the feed reaches the catalyst and the product leaves (fluid mechanics and mass transfer).</p><p>The reactor is the heart of the plant. Everything upstream - storage, pumps, preheaters, compressors - exists to prepare its feed, and everything downstream - distillation, evaporation, dryers - exists to clean up what it makes. A 5 % error in its volume is a 5 % error in the size of the whole plant.</p><h4>The four questions, and the tool that answers each</h4><table><tr><th>Question</th><th>Tool</th><th>Symbol in the design</th></tr><tr><td>How fast does it go?</td><td>rate law and kinetics</td><td>-rA = f(C, T)</td></tr><tr><td>How far can it go?</td><td>equilibrium constant</td><td>K_eq, X_eq</td></tr><tr><td>How much heat moves?</td><td>energy balance</td><td>dH_r, dT_ad</td></tr><tr><td>What shape and size?</td><td>performance equation</td><td>V, tau, s</td></tr></table><h4>Derivation: why the rate law decides the size</h4><p>A plant has to deliver a fixed number of moles per second of product, FP. The vessel can only deliver what the reaction gives it, so the volume is the throughput divided by the rate at which the reaction can supply it:</p><div class=\"math\"> 1. moles to make per second = FA0 X\n 2. moles the vessel can make = (-rA) V\n 3. set equal:  FA0 X = (-rA) V\n 4. so  V = FA0 X / (-rA)     (batch: t = ...)</div><div class=\"eq\">V = FA0 X / (-rA)</div><p>Read the equation twice: the bigger the throughput the bigger the vessel, and the faster the reaction the smaller it is. A plant making 10 kmol/h at 80 % conversion with a rate of 0.02 kmol m-3 s-1 needs V = 10 x 0.8 / (0.02 x 3600) = 0.11 m3 - and the same plant with a rate ten times smaller needs a vessel ten times larger.</p><h4>Why a diploma engineer needs it</h4><ul><li>To select a reactor for a new product instead of copying an old one.</li><li>To fix the operating temperature, pressure and conversion that give the cheapest product.</li><li>To judge a plant complaint: is the reactor too small, too cold, or badly mixed?</li><li>To read a kinetic paper and know whether its numbers can be used at plant scale.</li></ul><p><b>Why it is true.</b> The reactor sets the size of everything else: the feed rate decides the pump, the heat duty decides the exchanger, and the conversion decides the recycle. That is why the reactor is designed first and the rest of the plant is built around it.</p><p><b>Common mistake.</b> Calling CRE 'just kinetics'. Kinetics gives the rate, but the reactor also has to hold the temperature, keep the phases in contact and let the product out; a correct rate law in a badly mixed vessel still gives the wrong product.</p>",
+      "gu": "<h4>વ્યાખ્યા</h4><p>Chemical reaction engineering (CRE) એ શાખા છે જે laboratory ના flask માં લખેલી પ્રક્રિયાને plant માં રોજ ચાલતા vessel માં ફેરવે છે. તે ચાર પ્રશ્નોના જવાબ આપે છે: પ્રક્રિયા <b>કેટલી ઝડપથી</b> થાય (kinetics), <b>કેટલી દૂર સુધી</b> જઈ શકે (thermodynamics), <b>heat કેવી રીતે આપવું કે કાઢવું</b> (energy balance) અને <b>vessel કેવું હોવું જોઈએ</b> જેથી feed catalyst સુધી પહોંચે અને product બહાર નીકળે (fluid mechanics અને mass transfer).</p><p>Plant નું હૃદય reactor છે. ઉપરના દરેક ભાગ - storage, pumps, preheaters, compressors - તેનું feed તૈયાર કરવા માટે છે, અને નીચેના દરેક ભાગ - distillation, evaporation, dryers - તે જે બનાવે છે તેને સાફ કરવા માટે છે. તેના volume માં 5 % ભૂલ એ આખા plant ના size માં 5 % ભૂલ છે.</p><h4>ચાર પ્રશ્નો અને દરેકનું tool</h4><table><tr><th>પ્રશ્ન</th><th>Tool</th><th>Design માં symbol</th></tr><tr><td>કેટલી ઝડપથી થાય?</td><td>rate law અને kinetics</td><td>-rA = f(C, T)</td></tr><tr><td>કેટલી દૂર જઈ શકે?</td><td>equilibrium constant</td><td>K_eq, X_eq</td></tr><tr><td>કેટલી heat જાય?</td><td>energy balance</td><td>dH_r, dT_ad</td></tr><tr><td>કેવો આકાર અને size?</td><td>performance equation</td><td>V, tau, s</td></tr></table><h4>Derivation: rate law size કેવી રીતે નક્કી કરે છે</h4><p>Plant એ પ્રતિ second નિશ્ચિત moles product FP આપવાના હોય છે. Vessel ફક્ત તેટલું જ આપી શકે જેટલું પ્રક્રિયા આપે, તેથી volume એ throughput ને પ્રક્રિયાના rate વડે ભાગ્યા પછી મળે:</p><div class=\"math\"> 1. moles to make per second = FA0 X\n 2. moles the vessel can make = (-rA) V\n 3. set equal:  FA0 X = (-rA) V\n 4. so  V = FA0 X / (-rA)     (batch: t = ...)</div><div class=\"eq\">V = FA0 X / (-rA)</div><p>સમીકરણ બે વાર વાંચો: throughput જેટલું મોટું તેટલું vessel મોટું, અને પ્રક્રિયા જેટલી ઝડપી તેટલું vessel નાનું. 80 % conversion પર 10 kmol/h બનાવતા plant ને 0.02 kmol m-3 s-1 ના rate સાથે V = 10 x 0.8 / (0.02 x 3600) = 0.11 m3 જોઈએ - અને એ જ plant ને દસ ગણા ઓછા rate સાથે દસ ગણું મોટું vessel જોઈએ.</p><h4>Diploma engineer ને તે કેમ જોઈએ</h4><ul><li>નવા product માટે જૂનું copy કરવાને બદલે reactor પસંદ કરવા.</li><li>સૌથી સસ્તું product આપતું operating temperature, pressure અને conversion ઠરાવવા.</li><li>Plant ની ફરિયાદ પરખવા: reactor નાનું છે, ઠંડું છે કે ખોટી રીતે mixed છે?</li><li>Kinetic paper વાંચીને ખબર પડે કે તેના આંકડા plant scale પર વાપરી શકાય કે નહીં.</li></ul><p><b>કેમ સાચું છે.</b> Reactor બાકીના બધાનું size નક્કી કરે છે: feed rate pump નક્કી કરે, heat duty exchanger નક્કી કરે અને conversion recycle નક્કી કરે. તેથી reactor પહેલાં design થાય અને આખો plant તેની આસપાસ બને છે.</p><p><b>સામાન્ય ભૂલ.</b> CRE ને ફક્ત 'kinetics' કહેવું. Kinetics rate આપે છે, પણ reactor એ temperature રાખવું, phases નો સંપર્ક રાખવો અને product બહાર કાઢવું પણ જોઈએ; ખોટી રીતે mixed vessel માં સાચું rate law પણ ખોટું product આપે છે.</p>"
+     },
+     "diagram": "u1_map",
+     "syllabus_item": "1.1"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "1.2 Classifying reactions: phases and the catalyst",
+    "gu": "1.2 પ્રક્રિયાઓનું વર્ગીકરણ: phases અને catalyst"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Homogeneous or heterogeneous - one phase or an interface",
+      "gu": "Homogeneous કે heterogeneous - એક phase કે interface"
+     },
+     "body": {
+      "en": "<h4>The test that decides it</h4><p>Look at the reacting mixture, not at the equation. If every reacting species sits in one phase - all gas, or all liquid, or all dissolved in the same solution - the reaction is <b>homogeneous</b>. If the reaction has to happen <b>at the boundary</b> between two phases, it is <b>heterogeneous</b>, and that boundary is the interface.</p><table><tr><th>System</th><th>Type</th><th>What the rate must be based on</th></tr><tr><td>NaOH + ethyl acetate, both dissolved in water</td><td>homogeneous liquid</td><td>volume of solution</td></tr><tr><td>H2 + Br2 in one gas mixture</td><td>homogeneous gas</td><td>volume of gas</td></tr><tr><td>Coal burning in air</td><td>heterogeneous gas-solid</td><td>surface area of the coal</td></tr><tr><td>CO2 absorbed in NaOH solution</td><td>heterogeneous gas-liquid</td><td>area of the gas-liquid interface</td></tr></table><h4>Catalytic or non-catalytic</h4><p>A <b>catalyst</b> takes part in the reaction and comes out unchanged. It opens a new path with a lower activation energy (Unit 2), so the same vessel at the same temperature produces more. Catalysis does not change how far the reaction can go - the equilibrium conversion is exactly the same with and without it.</p><h4>Derivation: why grinding speeds a heterogeneous reaction up</h4><p>The rate is written per unit of contact area, so what matters is how much area a cubic metre of bed actually offers. Take spherical particles of diameter dp packed to a solids fraction (1 - eps):</p><div class=\"math\"> 1. volume of solids per m3 of bed = (1 - eps)\n 2. number of particles  N = 6 (1-eps) / (pi dp^3)\n 3. area of one particle  = pi dp^2\n 4. area per m3 of bed  a = N pi dp^2\n 5. so  a = 6 (1 - eps) / dp</div><div class=\"eq\">a = 6 (1 - eps) / dp,   (-rA) = k'' a CA</div><p>Halving the particle diameter doubles the area and therefore doubles the observed rate at the same temperature and conversion. That is why a fluidized bed grinds its catalyst to 50 - 150 micrometre powder while a fixed bed keeps 3 - 10 mm pellets: the powder wins on area but loses on pressure drop.</p><p><b>Why it is true.</b> A non-catalytic heterogeneous reaction can only happen where the phases touch, so its rate is written per unit area. That is why its reactor must be full of bubbles, droplets or packing: the design is a design for <i>area</i>, not for volume.</p><p><b>Common mistake.</b> A dissolved salt is not a second phase. NaCl dissolved in water is one liquid phase, so salt plus acid in water is a homogeneous reaction even though the salt was a solid when you weighed it.</p>",
+      "gu": "<h4>નિર્ણય કરતી કસોટી</h4><p>પ્રક્રિયાનું સમીકરણ નહીં, પ્રક્રિયામાં ભાગ લેતું મિશ્રણ જુઓ. જો બધા reacting species એક જ phase માં હોય - બધા gas, અથવા બધા liquid, અથવા એક જ દ્રાવણમાં ઓગળેલા - તો પ્રક્રિયા <b>homogeneous</b> છે. જો પ્રક્રિયા બે phases વચ્ચેની <b>સીમા પર</b> થવી પડે તો તે <b>heterogeneous</b> છે, અને તે સીમાને interface કહે છે.</p><table><tr><th>System</th><th>પ્રકાર</th><th>Rate કયા આધાર પર લખવો</th></tr><tr><td>NaOH + ethyl acetate, બંને પાણીમાં ઓગળેલા</td><td>homogeneous liquid</td><td>solution નું volume</td></tr><tr><td>એક જ gas મિશ્રણમાં H2 + Br2</td><td>homogeneous gas</td><td>gas નું volume</td></tr><tr><td>હવામાં કોલસો બળવો</td><td>heterogeneous gas-solid</td><td>કોલસાનું surface area</td></tr><tr><td>NaOH દ્રાવણમાં CO2 ઓગળવું</td><td>heterogeneous gas-liquid</td><td>gas-liquid interface નું area</td></tr></table><h4>Catalytic કે non-catalytic</h4><p><b>Catalyst</b> પ્રક્રિયામાં ભાગ લે છે અને અંતે બદલાયા વિના નીકળે છે. તે ઓછી activation energy વાળો નવો માર્ગ ખોલે છે (Unit 2), તેથી એ જ vessel એ જ temperature પર વધુ product આપે છે. Catalysis થી પ્રક્રિયા કેટલી દૂર જશે તે બદલાતું નથી - catalyst સાથે અને વગર equilibrium conversion બરાબર એ જ રહે છે.</p><h4>Derivation: દળવાથી heterogeneous પ્રક્રિયા કેમ ઝડપી થાય</h4><p>Rate સંપર્ક area ના એકમ દીઠ લખાય છે, તેથી મહત્વનું એ છે કે bed નો એક ઘન મીટર કેટલું area આપે છે. વ્યાસ dp વાળા ગોળા (1 - eps) solids fraction સુધી ભરેલા લો:</p><div class=\"math\"> 1. volume of solids per m3 of bed = (1 - eps)\n 2. number of particles  N = 6 (1-eps) / (pi dp^3)\n 3. area of one particle  = pi dp^2\n 4. area per m3 of bed  a = N pi dp^2\n 5. so  a = 6 (1 - eps) / dp</div><div class=\"eq\">a = 6 (1 - eps) / dp,   (-rA) = k'' a CA</div><p>કણનો વ્યાસ અડધો કરવાથી area બમણું અને તેથી એ જ temperature તથા conversion પર માપેલો rate બમણો થાય. તેથી જ fluidized bed તેના catalyst ને 50 - 150 micrometre પાવડર સુધી દળે છે જ્યારે fixed bed 3 - 10 mm ની pellets રાખે છે: પાવડર area માં જીતે પણ pressure drop માં હારે.</p><p><b>કેમ સાચું છે.</b> Non-catalytic heterogeneous પ્રક્રિયા ફક્ત ત્યાં જ થઈ શકે જ્યાં phases અડે છે, તેથી તેનો rate per unit area લખાય છે. તેથી તેના reactor માં bubbles, droplets કે packing ભરેલું હોવું જોઈએ: તે design <i>area</i> માટેનું છે, volume માટેનું નહીં.</p><p><b>સામાન્ય ભૂલ.</b> ઓગળેલું મીઠું બીજો phase નથી. પાણીમાં ઓગળેલું NaCl એક જ liquid phase છે, તેથી પાણીમાં મીઠું + acid homogeneous પ્રક્રિયા છે, ભલે તોળતી વખતે મીઠું solid હતું.</p>"
+     },
+     "syllabus_item": "1.2a"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "1.3 Reversible or irreversible, exothermic or endothermic",
+    "gu": "1.3 Reversible કે irreversible, exothermic કે endothermic"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Direction: does the reaction stop, or settle?",
+      "gu": "દિશા: પ્રક્રિયા અટકે છે કે સંતુલને આવે છે?"
+     },
+     "body": {
+      "en": "<h4>Two behaviours</h4><p>An <b>irreversible</b> reaction runs one way until a reactant is finished; its rate falls only because the concentration falls. A <b>reversible</b> reaction runs both ways at once; as products build up the reverse rate grows, the two rates become equal at <b>equilibrium</b>, and there the net rate is zero - however long you wait, nothing more happens.</p><div class=\"math\">A + B <-> C + D\nnet rate = k1 CA CB - k2 CC CD\nat equilibrium: k1 CA CB = k2 CC CD\nK_eq = k1 / k2 = (CC CD) / (CA CB)</div><p>For design this means a reversible reaction has a <b>ceiling</b>: no reactor, however large, can pass the equilibrium conversion at that temperature. The usual answers are to remove a product as it forms, or to run at a temperature where K_eq is larger.</p><h4>Heat: where the energy goes</h4><p>Every reaction either releases heat (<b>exothermic</b>, dH negative) or absorbs it (<b>endothermic</b>, dH positive). The reactor must carry that duty away or supply it, otherwise the temperature drifts - and because the rate constant is exponential in temperature, the rate drifts with it.</p><h4>Derivation: the adiabatic temperature rise</h4><p>Take a vessel with no heat exchange, feed at T0, and conversion X. The heat released by the reaction can only heat the mixture itself:</p><div class=\"math\"> 1. heat released = (-dH_r) nA0 X            [J/s]\n 2. heat to warm  = (sum n_i Cp_i) (T - T0)   [J/s]\n 3. set the two equal and divide by nA0:\n 4. (-dH_r) X = (sum Theta_i Cp_i) (T - T0)\n 5. dT_ad = T - T0 = (-dH_r) X / (sum Theta_i Cp_i)</div><div class=\"eq\">dT_ad = (-dH_r) X / (sum Theta_i Cp_i)</div><p>With dH_r = -90 kJ/mol, X = 0.8, CA0 = 4 kmol/m3 and a mixture of mean capacity 2.6 kJ/(kg K), the adiabatic rise is about 110 K. That is why a strongly exothermic reactor is never run adiabatically: the jacket, the coil or the reflux condenser exists to take that 110 K away.</p><p><b>Why it is true.</b> The sign of dH decides the equipment, not the chemistry: dH negative demands cooling area, dH positive demands a heater or a preheated feed, and the same vessel with the wrong one either runs away or stalls.</p><p><b>Check your answer.</b> For the numbers above the capacity must be per m3 of mixture: 1150 kg/m3 x 2.6 kJ/(kg K) = 2.99 MJ/(m3 K); 90 000 x 4000 x 0.8 / 2.99e6 = 96 K, and with the 2.6 per kg figure the answer is 110 K. Always state which capacity you used.</p>",
+      "gu": "<h4>બે વર્તણૂકો</h4><p><b>Irreversible</b> પ્રક્રિયા એક જ દિશામાં ચાલે જ્યાં સુધી કોઈ reactant પૂરો ન થાય; તેનો rate ફક્ત concentration ઘટવાથી ઘટે છે. <b>Reversible</b> પ્રક્રિયા એકસાથે બંને દિશામાં ચાલે છે; products વધતાં reverse rate વધે છે અને <b>equilibrium</b> પર બંને rate સરખા થાય છે, જ્યાં net rate શૂન્ય થાય છે - કેટલી પણ રાહ જુઓ, આગળ કંઈ થતું નથી.</p><div class=\"math\">A + B <-> C + D\nnet rate = k1 CA CB - k2 CC CD\nat equilibrium: k1 CA CB = k2 CC CD\nK_eq = k1 / k2 = (CC CD) / (CA CB)</div><p>Design માટે તેનો અર્થ એ કે reversible પ્રક્રિયાની એક <b>મર્યાદા</b> હોય છે: તે temperature ના equilibrium conversion થી આગળ કોઈ પણ reactor, કેટલું પણ મોટું હોય, જઈ શકતું નથી. સામાન્ય ઉપાય એ છે કે product બનતાં જ કાઢી લેવું, અથવા એ temperature પર ચલાવવું જ્યાં K_eq વધુ હોય.</p><h4>Heat: energy ક્યાં જાય છે</h4><p>દરેક પ્રક્રિયા heat છોડે છે (<b>exothermic</b>, dH ઋણાત્મક) અથવા લે છે (<b>endothermic</b>, dH ધનાત્મક). Reactor એ તે heat કાઢવી કે આપવી પડે, નહીં તો temperature ખસી જાય - અને rate constant temperature સાથે exponential હોવાથી rate પણ તેની સાથે ખસે.</p><h4>Derivation: adiabatic temperature rise</h4><p>heat exchange વગરનું vessel લો, feed T0 પર અને conversion X. પ્રક્રિયામાં છૂટેલી heat મિશ્રણને જ ગરમ કરી શકે છે:</p><div class=\"math\"> 1. heat released = (-dH_r) nA0 X            [J/s]\n 2. heat to warm  = (sum n_i Cp_i) (T - T0)   [J/s]\n 3. set the two equal and divide by nA0:\n 4. (-dH_r) X = (sum Theta_i Cp_i) (T - T0)\n 5. dT_ad = T - T0 = (-dH_r) X / (sum Theta_i Cp_i)</div><div class=\"eq\">dT_ad = (-dH_r) X / (sum Theta_i Cp_i)</div><p>dH_r = -90 kJ/mol, X = 0.8, CA0 = 4 kmol/m3 અને 2.6 kJ/(kg K) સરેરાશ capacity વાળા મિશ્રણ માટે adiabatic rise લગભગ 110 K થાય. તેથી જ જોરદાર exothermic reactor કદી adiabatic ચલાવાતું નથી: jacket, coil કે reflux condenser એ 110 K કાઢવા માટે જ હોય છે.</p><p><b>કેમ સાચું છે.</b> dH નું ચિહ્ન chemistry નહીં, equipment નક્કી કરે છે: dH ઋણાત્મક હોય તો cooling area જોઈએ, ધનાત્મક હોય તો heater કે ગરમ feed જોઈએ, અને એ જ vessel ખોટા પ્રકાર સાથે કાં runaway થાય કાં થંભી જાય.</p><p><b>જવાબ ચકાસો.</b> ઉપરના આંકડા માટે capacity મિશ્રણના m3 દીઠ હોવી જોઈએ: 1150 kg/m3 x 2.6 kJ/(kg K) = 2.99 MJ/(m3 K); 90 000 x 4000 x 0.8 / 2.99e6 = 96 K, અને 2.6 પ્રતિ kg લેતાં જવાબ 110 K આવે. કઈ capacity વાપરી તે હંમેશા લખો.</p>"
+     },
+     "diagram": "u1_energy",
+     "syllabus_item": "1.2c, 1.2e"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "1.4 Molecularity, order and the six-way classification",
+    "gu": "1.4 Molecularity, order અને છ પ્રકારનું વર્ગીકરણ"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Molecularity is counted, order is measured",
+      "gu": "Molecularity ગણાય છે, order માપવો પડે છે"
+     },
+     "body": {
+      "en": "<h4>Molecularity</h4><p><b>Molecularity</b> is the number of molecules that collide in one <i>elementary</i> step: one molecule breaking up is unimolecular, two molecules meeting is bimolecular, three meeting at once is termolecular. It is a small whole number, it belongs to a single step, and it is fixed by writing the mechanism - not by measuring anything.</p><h4>Order</h4><p><b>Order</b> is the power to which a concentration is raised in the rate law that fits the experiment. It can be 0, 1, 2, 1.5 or even negative, it has no meaning for a mixture of steps, and it is found by the methods of Unit 3.</p><table><tr><th>Point</th><th>Molecularity</th><th>Order</th></tr><tr><td>From</td><td>the mechanism, one step</td><td>the experiment, the rate law</td></tr><tr><td>Values</td><td>1, 2, 3 (whole numbers)</td><td>0, 0.5, 1, 1.5, 2, -1 ...</td></tr><tr><td>For a multi-step reaction</td><td>only for the single step</td><td>for the overall rate law</td></tr><tr><td>Can be fractional?</td><td>no</td><td>yes</td></tr></table><h4>Worked reading of three rate laws</h4><div class=\"math\">2A + B -> products   (elementary)\n  r = k CA^2 CB      order 3, molecularity 3\nH2 + Br2 -> 2 HBr   (chain mechanism)\n  r = k CH2 CBr2^1.5 / (CBr2 + k' CHBr)\n  order 1 in H2, 1.5 in Br2 (not molecularity)\nsugar + H2O -> 2 glucose  (water in excess)\n  r = k' sugar       pseudo first order</div><p>The third case is the everyday laboratory one: water is in such large excess that its concentration hardly changes, so a second order law looks first order. The constant you calculate is then a <b>pseudo first order</b> constant, and it changes if you change the amount of water.</p><p><b>Why it is true.</b> Only an elementary reaction has order equal to molecularity. Whenever they disagree, the disagreement is proof that the reaction runs through more than one step.</p><p><b>Common mistake.</b> Writing 'molecularity 1.5' for a rate law of order 1.5. A collision of one and a half molecules does not exist; such an order always comes from a chain mechanism.</p>",
+      "gu": "<h4>Molecularity</h4><p><b>Molecularity</b> એ એક <i>elementary</i> step માં અથડાતા molecules ની સંખ્યા છે: એક molecule તૂટે તે unimolecular, બે મળે તે bimolecular, ત્રણ એકસાથે મળે તે termolecular. તે નાની પૂર્ણ સંખ્યા છે, એક જ step ની છે, અને mechanism લખવાથી નક્કી થાય છે - માપીને નહીં.</p><h4>Order</h4><p><b>Order</b> એ rate law માં concentration નો ઘાત છે, જે પ્રયોગ સાથે મેળ ખાય તે રીતે નક્કી થાય. તે 0, 1, 2, 1.5 અથવા ઋણાત્મક પણ હોઈ શકે, steps ના મિશ્રણ માટે તેનો અર્થ નથી, અને તે Unit 3 ની methods થી શોધાય છે.</p><table><tr><th>મુદ્દો</th><th>Molecularity</th><th>Order</th></tr><tr><td>ક્યાંથી</td><td>mechanism, એક step</td><td>પ્રયોગ, rate law</td></tr><tr><td>મૂલ્યો</td><td>1, 2, 3 (પૂર્ણ સંખ્યા)</td><td>0, 0.5, 1, 1.5, 2, -1 ...</td></tr><tr><td>બહુ-step પ્રક્રિયા માટે</td><td>ફક્ત એક step માટે</td><td>આખા rate law માટે</td></tr><tr><td>અપૂર્ણાંક હોઈ શકે?</td><td>ના</td><td>હા</td></tr></table><h4>ત્રણ rate laws નું ઉકેલાયેલું વાંચન</h4><div class=\"math\">2A + B -> products   (elementary)\n  r = k CA^2 CB      order 3, molecularity 3\nH2 + Br2 -> 2 HBr   (chain mechanism)\n  r = k CH2 CBr2^1.5 / (CBr2 + k' CHBr)\n  order 1 in H2, 1.5 in Br2 (not molecularity)\nsugar + H2O -> 2 glucose  (water in excess)\n  r = k' sugar       pseudo first order</div><p>ત્રીજો કિસ્સો રોજિંદો laboratory કિસ્સો છે: પાણી એટલા વધારામાં છે કે તેનું concentration લગભગ બદલાતું નથી, તેથી second order law first order જેવો દેખાય છે. ત્યારે ગણેલો constant <b>pseudo first order</b> constant છે, અને પાણીનો જથ્થો બદલો તો તે બદલાઈ જાય.</p><p><b>કેમ સાચું છે.</b> ફક્ત elementary પ્રક્રિયામાં order અને molecularity સરખા હોય છે. જ્યાં તેઓ ન મળે ત્યાં તે અસંમતિ એ પુરાવો છે કે પ્રક્રિયા એક કરતાં વધુ step માંથી પસાર થાય છે.</p><p><b>સામાન્ય ભૂલ.</b> Order 1.5 વાળા rate law માટે 'molecularity 1.5' લખવું. દોઢ molecule ની અથડામણ હોતી નથી; એવો order હંમેશા chain mechanism માંથી આવે છે.</p>"
+     },
+     "diagram": "u1_tree",
+     "syllabus_item": "1.2b, 1.2d, 1.2f"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "1.5 Biochemical reactions and the Michaelis-Menten derivation",
+    "gu": "1.5 Biochemical પ્રક્રિયાઓ અને Michaelis-Menten derivation"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "An enzyme is a catalyst with a saturable seat",
+      "gu": "Enzyme એ saturable seat વાળો catalyst છે"
+     },
+     "body": {
+      "en": "<h4>What is different about a biochemical reaction</h4><p>A biochemical reaction is catalysed by an <b>enzyme</b>, a large protein molecule with a small active site. The substrate must first sit in that site, then be converted, then leave. Two consequences matter for the reactor: the enzyme works at mild temperature and pH, and there is only a fixed number of seats, so the rate <b>saturates</b> instead of rising with concentration for ever.</p><h4>Derivation of the Michaelis-Menten rate</h4><p>Mechanism: the enzyme E binds the substrate S reversibly, and the complex ES breaks down into product P and free enzyme.</p><div class=\"math\">E + S  --k1-->   ES        binding\nES     --k-1-->  E + S     unbinding\nES     --k2-->   E + P     reaction</div><p><b>Assumption (steady state):</b> after a short start-up the complex ES is used as fast as it is formed, so its concentration stays constant.</p><div class=\"math\"> 1. d[ES]/dt = k1 [E][S] - k-1 [ES] - k2 [ES] = 0\n 2. so   [ES] = k1 [E][S] / (k-1 + k2)\n 3. the enzyme is conserved:  [E0] = [E] + [ES]\n 4. put [E] = [E0] - [ES] in the line above:\n 5. [ES] = k1 ([E0] - [ES]) [S] / (k-1 + k2)\n 6. [ES] (k-1 + k2 + k1 [S]) = k1 [E0] [S]\n 7. define  Km = (k-1 + k2) / k1\n 8. and the rate is  v = k2 [ES]\n 9. v = k2 [E0] [S] / (Km + [S])</div><div class=\"eq\">v = Vmax [S] / (Km + [S]),  Vmax = k2 [E0],  Km = (k-1 + k2)/k1</div><h4>What the three numbers mean</h4><ul><li><b>Vmax</b> is reached when every enzyme molecule holds a substrate: it is set by how much enzyme is charged, not by the substrate.</li><li><b>Km</b> is the substrate concentration at which the rate is exactly Vmax/2. A small Km means the enzyme grips the substrate tightly and saturates early.</li><li><b>The two limits</b>: far below Km the rate is (Vmax/Km)[S], first order in substrate; far above Km the rate is Vmax, zero order in substrate.</li><li><b>Linear form for the laboratory</b> (Lineweaver-Burk): plot 1/v against 1/[S]; the intercept is 1/Vmax and the slope is Km/Vmax.</li></ul><div class=\"math\">1/v = (Km/Vmax)(1/[S]) + 1/Vmax</div><p>Reactor consequence: an enzyme reactor is best run in the <b>saturating</b> range, where the rate is zero order and therefore the same everywhere in the vessel - a CSTR and a PFR then need the same volume (Unit 5). Below Km the rate is first order and the plug flow reactor wins.</p><p><b>Why it is true.</b> The saturation comes from geometry, not from chemistry: a fixed number of active sites can hold only a fixed number of substrate molecules, so once every site is busy, more substrate cannot give more product.</p><p><b>Common mistake.</b> Treating Km as the concentration at which the reaction stops. It is the concentration at half the maximum rate; above Km the reaction still runs, just not any faster.</p>",
+      "gu": "<h4>Biochemical પ્રક્રિયામાં શું જુદું છે</h4><p>Biochemical પ્રક્રિયા <b>enzyme</b> થી catalysed થાય છે - નાનું active site ધરાવતું મોટું protein molecule. Substrate પહેલાં તે site માં બેસે, પછી convert થાય, પછી નીકળે. Reactor માટે બે બાબતો મહત્વની છે: enzyme હળવા temperature અને pH પર કામ કરે છે, અને seats ની સંખ્યા નિશ્ચિત હોવાથી rate વધતા concentration સાથે અનંત વધ્યા વિના <b>saturate</b> થાય છે.</p><h4>Michaelis-Menten rate નું derivation</h4><p>Mechanism: enzyme E substrate S ને reversible રીતે બાંધે છે, અને complex ES તૂટીને product P તથા મુક્ત enzyme આપે છે.</p><div class=\"math\">E + S  --k1-->   ES        binding\nES     --k-1-->  E + S     unbinding\nES     --k2-->   E + P     reaction</div><p><b>ધારણા (steady state):</b> થોડા સમય પછી complex ES જેટલું બને એટલું જ વપરાય છે, તેથી તેનું concentration અચળ રહે છે.</p><div class=\"math\"> 1. d[ES]/dt = k1 [E][S] - k-1 [ES] - k2 [ES] = 0\n 2. so   [ES] = k1 [E][S] / (k-1 + k2)\n 3. the enzyme is conserved:  [E0] = [E] + [ES]\n 4. put [E] = [E0] - [ES] in the line above:\n 5. [ES] = k1 ([E0] - [ES]) [S] / (k-1 + k2)\n 6. [ES] (k-1 + k2 + k1 [S]) = k1 [E0] [S]\n 7. define  Km = (k-1 + k2) / k1\n 8. and the rate is  v = k2 [ES]\n 9. v = k2 [E0] [S] / (Km + [S])</div><div class=\"eq\">v = Vmax [S] / (Km + [S]),  Vmax = k2 [E0],  Km = (k-1 + k2)/k1</div><h4>ત્રણ આંકડાનો અર્થ</h4><ul><li><b>Vmax</b> ત્યારે મળે જ્યારે દરેક enzyme molecule substrate પકડીને બેઠું હોય: તે કેટલું enzyme ભરેલું છે તેના પર રહે, substrate પર નહીં.</li><li><b>Km</b> એ substrate concentration છે જ્યાં rate બરાબર Vmax/2 થાય. નાનું Km એટલે enzyme substrate ને મજબૂત પકડે અને વહેલું saturate થાય.</li><li><b>બે મર્યાદા</b>: Km કરતાં ઘણું નીચે rate (Vmax/Km)[S], substrate માં first order; Km કરતાં ઘણું ઉપર rate Vmax, substrate માં zero order.</li><li><b>Laboratory માટે linear સ્વરૂપ</b> (Lineweaver-Burk): 1/v ને 1/[S] સામે દોરો; intercept 1/Vmax અને slope Km/Vmax મળે.</li></ul><div class=\"math\">1/v = (Km/Vmax)(1/[S]) + 1/Vmax</div><p>Reactor પર અસર: enzyme reactor <b>saturating</b> શ્રેણીમાં ચલાવવો સારો, જ્યાં rate zero order હોવાથી vessel માં દરેક જગ્યાએ સરખો રહે - ત્યારે CSTR અને PFR ને સરખું જ volume જોઈએ (Unit 5). Km નીચે rate first order હોય છે અને plug flow reactor જીતે છે.</p><p><b>કેમ સાચું છે.</b> Saturation chemistry થી નહીં, geometry થી આવે છે: નિશ્ચિત active sites નિશ્ચિત સંખ્યાના substrate molecules જ પકડી શકે, તેથી દરેક site ભરાઈ જાય પછી વધુ substrate થી વધુ product ન મળે.</p><p><b>સામાન્ય ભૂલ.</b> Km ને એ concentration ગણવું જ્યાં પ્રક્રિયા અટકે. તે અડધા કમ્મમ rate વાળું concentration છે; Km ઉપર પણ પ્રક્રિયા ચાલે છે, ફક્ત વધુ ઝડપી નહીં.</p>"
+     },
+     "diagram": "u1_mm",
+     "syllabus_item": "1.3"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "1.6 The rate of reaction on four different bases",
+    "gu": "1.6 ચાર જુદા આધાર પર reaction rate"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "One rate, four denominators: volume, mass, area, mass of solid",
+      "gu": "એક rate, ચાર denominator: volume, mass, area, mass of solid"
+     },
+     "body": {
+      "en": "<h4>Definition, derived from the moles balance</h4><p>Take a vessel and count the moles of A inside it at time t. In a small interval dt the count falls by dnA. The rate of disappearance of A per unit volume is that fall divided by dt and by the volume:</p><div class=\"math\"> 1. -rA = -(1/V) dnA/dt                [mol m-3 s-1]\n 2. constant volume: nA = CA V with V constant\n 3. so  -rA = -dCA/dt\n 4. if the volume changes with conversion, keep 1/V:\n 5. -rA = -(1/V) dnA/dt   (never -dCA/dt)</div><p>The negative sign makes the rate positive, because A is disappearing. The four bases below are the same ledger divided by four different quantities, chosen by what the reaction is happening <b>on</b>.</p><table><tr><th>Basis</th><th>Symbol</th><th>Unit</th><th>Used for</th></tr><tr><td>volume of reacting fluid</td><td>-rA</td><td>mol m-3 s-1</td><td>homogeneous liquid or gas</td></tr><tr><td>mass of catalyst</td><td>-rA'</td><td>mol kg-1 s-1</td><td>fixed and fluidized beds</td></tr><tr><td>area of catalyst or interface</td><td>-rA''</td><td>mol m-2 s-1</td><td>gas-liquid and gas-solid contact</td></tr><tr><td>mass of solid reactant</td><td>-rA'''</td><td>mol kg-1 s-1</td><td>roasting, leaching, burning</td></tr></table><h4>How the unit of k follows the order</h4><p>Put the power law -rA = k CA^n into the unit balance and k must carry whatever is left over. That is where the familiar table comes from:</p><div class=\"math\">n = 0: mol m-3 s-1 = k            -> k: mol m-3 s-1\nn = 1: mol m-3 s-1 = k (mol m-3)  -> k: s-1\nn = 2: mol m-3 s-1 = k (mol m-3)^2-> k: m3 mol-1 s-1\nn = 3:                                k: m6 mol-2 s-1\ngeneral: k: (mol m-3)^(1-n) s-1</div><p>On a catalyst basis the moles per second are divided by kg of catalyst instead of m3 of fluid, so a first order constant becomes m3 kg-1 s-1:</p><div class=\"math\">-rA' = k' CA          k': m3 kg-1 s-1\n-rA = (Wc / V) -rA'   to convert a bed to a volume</div><p><b>Check your answer.</b> A rate of 2.0e-3 mol m-3 s-1 in a bed of 1.8 m3 holding 300 kg of catalyst is -rA' = 2.0e-3 x 1.8 / 300 = 1.2e-5 mol kg-1 s-1. The two numbers describe one reaction; only the denominator differs.</p><p><b>Common mistake.</b> Writing -rA = -dCA/dt for a gas reaction in a PFR, where the volume grows with conversion. The correct form keeps 1/V inside, and dropping it overstates the rate by up to 50 % at high conversion.</p>",
+      "gu": "<h4>વ્યાખ્યા, moles balance પરથી</h4><p>vessel લો અને t સમયે તેમાં A ના moles ગણો. નાના interval dt માં ગણતરી dnA જેટલી ઘટે. A ના disappearance નો rate પ્રતિ unit volume એ ઘટાડો dt અને volume વડે ભાગ્યા પછી મળે:</p><div class=\"math\"> 1. -rA = -(1/V) dnA/dt                [mol m-3 s-1]\n 2. constant volume: nA = CA V with V constant\n 3. so  -rA = -dCA/dt\n 4. if the volume changes with conversion, keep 1/V:\n 5. -rA = -(1/V) dnA/dt   (never -dCA/dt)</div><p>A વપરાતું હોવાથી negative sign rate ને ધન બનાવે છે. નીચેના ચાર આધાર એ જ હિસાબને ચાર જુદા જથ્થા વડે ભાગ્યા પછી મળે છે, અને પ્રક્રિયા <b>શેના પર</b> થાય છે તેના આધારે પસંદ થાય છે.</p><table><tr><th>આધાર</th><th>Symbol</th><th>એકમ</th><th>ક્યાં વપરાય</th></tr><tr><td>reacting fluid નું volume</td><td>-rA</td><td>mol m-3 s-1</td><td>homogeneous liquid કે gas</td></tr><tr><td>catalyst નું mass</td><td>-rA'</td><td>mol kg-1 s-1</td><td>fixed અને fluidized beds</td></tr><tr><td>catalyst કે interface નું area</td><td>-rA''</td><td>mol m-2 s-1</td><td>gas-liquid અને gas-solid સંપર્ક</td></tr><tr><td>solid reactant નું mass</td><td>-rA'''</td><td>mol kg-1 s-1</td><td>roasting, leaching, burning</td></tr></table><h4>Order સાથે k નું એકમ કેવી રીતે આવે</h4><p>Power law -rA = k CA^n ને એકમના સંતુલનમાં મૂકો, તો k માં જે વધે તે ભરવું પડે. ત્યાંથી જ પરિચિત કોષ્ટક આવે છે:</p><div class=\"math\">n = 0: mol m-3 s-1 = k            -> k: mol m-3 s-1\nn = 1: mol m-3 s-1 = k (mol m-3)  -> k: s-1\nn = 2: mol m-3 s-1 = k (mol m-3)^2-> k: m3 mol-1 s-1\nn = 3:                                k: m6 mol-2 s-1\ngeneral: k: (mol m-3)^(1-n) s-1</div><p>Catalyst ના આધાર પર પ્રતિ second ના moles fluid ના m3 ને બદલે catalyst ના kg વડે ભાગાય છે, તેથી first order constant m3 kg-1 s-1 થાય:</p><div class=\"math\">-rA' = k' CA          k': m3 kg-1 s-1\n-rA = (Wc / V) -rA'   to convert a bed to a volume</div><p><b>જવાબ ચકાસો.</b> 1.8 m3 ના bed માં 300 kg catalyst સાથે 2.0e-3 mol m-3 s-1 નો rate એટલે -rA' = 2.0e-3 x 1.8 / 300 = 1.2e-5 mol kg-1 s-1. બંને આંકડા એક જ પ્રક્રિયા કહે છે; ફક્ત denominator જુદો છે.</p><p><b>સામાન્ય ભૂલ.</b> PFR માં gas પ્રક્રિયા માટે -rA = -dCA/dt લખવું, જ્યાં volume conversion સાથે વધે છે. સાચા સ્વરૂપમાં 1/V અંદર રહે છે, અને તે છોડી દેવાથી ઊંચા conversion પર rate 50 % સુધી વધારે દેખાય છે.</p>"
+     },
+     "diagram": "u1_basis",
+     "syllabus_item": "1.4"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "1.7 What changes the rate of a reaction",
+    "gu": "1.7 પ્રક્રિયાનો rate શું બદલે છે"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Concentration, temperature, and the five things fixed at construction",
+      "gu": "Concentration, temperature અને બાંધકામ વખતે નક્કી થતી પાંચ બાબતો"
+     },
+     "body": {
+      "en": "<h4>Concentration, and with it pressure</h4><p>More molecules in the same volume means more collisions per second, so the rate rises with each concentration raised to its order. For gases the same effect is reached through pressure, because p = C R T: doubling the pressure doubles every partial pressure and multiplies the rate of a second order reaction by four.</p><h4>Temperature - derived from the Arrhenius law</h4><p>The rate constant is not constant: it rises steeply with temperature because only the molecules carrying enough energy can react.</p><div class=\"math\">k = A exp(-Ea / R T)\nln k = ln A - (Ea/R)(1/T)\nln(k2/k1) = (Ea/R)(1/T1 - 1/T2)</div><p>The last line is the working form: two rate constants at two temperatures give the activation energy, and the same line predicts a third temperature. For Ea about 50 kJ/mol near room temperature the rate roughly doubles every 10 K - the '10 degree rule' of the older textbooks.</p><h4>Catalyst, area, solvent and light</h4><ul><li><b>Catalyst</b> supplies a path with lower Ea. It multiplies k, never K_eq, and it is the only variable that can be changed without changing the temperature.</li><li><b>Surface area</b> decides the rate of a heterogeneous reaction: a lump of limestone reacts on its skin, a powder reacts all through the bed. Grinding and packing are design decisions, not details.</li><li><b>Solvent</b> changes the ionic strength and the polarity around the reacting molecules, so a constant measured in water is not the constant for the plant solvent.</li><li><b>Light</b> starts photochemical reactions: the photon breaks a bond, so the rate depends on how much light is absorbed rather than on temperature.</li></ul><p><b>Why it is true.</b> Every variable acts through the same equation, -rA = k(T) f(C): the f(C) part is chemistry you read from the order, and the k(T) part is exponential - which is why 10 K matters more than a 10 % change in concentration.</p><p><b>Common mistake.</b> Cooling a reaction to 'slow it down' after a runaway has started. The rate falls, but the heat already generated is still in the vessel; control must be designed from the energy balance, and the coolant must be able to take the full dT_ad.</p>",
+      "gu": "<h4>Concentration, અને તેની સાથે pressure</h4><p>એ જ volume માં વધુ molecules એટલે પ્રતિ second વધુ અથડામણો, તેથી દરેક concentration તેના order ના ઘાત સુધી rate વધારે છે. Gases માટે એ જ અસર pressure થી મળે, કારણ કે p = C R T: pressure બમણું કરો તો દરેક partial pressure બમણું થાય અને second order પ્રક્રિયાનો rate ચાર ગણો થાય.</p><h4>Temperature - Arrhenius law પરથી</h4><p>Rate constant અચળ નથી: temperature સાથે તે ઝડપથી વધે છે, કારણ કે ફક્ત પૂરતી energy ધરાવતા molecules જ પ્રક્રિયા કરી શકે.</p><div class=\"math\">k = A exp(-Ea / R T)\nln k = ln A - (Ea/R)(1/T)\nln(k2/k1) = (Ea/R)(1/T1 - 1/T2)</div><p>છેલ્લી લાઇન કામનું સ્વરૂપ છે: બે temperature ના બે rate constants activation energy આપે છે, અને એ જ લાઇન ત્રીજા temperature ની આગાહી કરે છે. Room temperature નજીક 50 kJ/mol જેટલી Ea માટે દર 10 K દીઠ rate લગભગ બમણો થાય - જૂની પુસ્તકોનો '10 degree rule'.</p><h4>Catalyst, area, solvent અને light</h4><ul><li><b>Catalyst</b> ઓછી Ea વાળો માર્ગ આપે છે. તે k ને ગુણે છે, K_eq ને નહીં, અને temperature બદલ્યા વિના બદલી શકાય તેવો એકમાત્ર ચલ છે.</li><li><b>Surface area</b> heterogeneous પ્રક્રિયાનો rate નક્કી કરે: ચૂનાનો ગઠ્ઠો તેની સપાટી પર પ્રક્રિયા કરે, પાવડર આખા bed માં કરે. દળવું અને packing design ના નિર્ણય છે, નાની વિગત નહીં.</li><li><b>Solvent</b> ionic strength અને reacting molecules આસપાસની polarity બદલે છે, તેથી પાણીમાં માપેલો constant plant ના solvent માટેનો નથી હોતો.</li><li><b>Light</b> photochemical પ્રક્રિયાઓ શરૂ કરે છે: photon bond તોડે છે, તેથી rate temperature પર નહીં, કેટલું light શોષાય તેના પર રહે છે.</li></ul><p><b>કેમ સાચું છે.</b> દરેક ચલ એક જ સમીકરણ દ્વારા કામ કરે છે, -rA = k(T) f(C): f(C) ભાગ order પરથી વંચાય તેવી chemistry છે, અને k(T) ભાગ exponential છે - તેથી 10 K નો ફેરફાર concentration માં 10 % ફેરફાર કરતાં વધુ અસર કરે છે.</p><p><b>સામાન્ય ભૂલ.</b> Runaway શરૂ થયા પછી 'ધીમું કરવા' પ્રક્રિયા ઠંડી કરવી. Rate ઘટે છે, પણ પેદા થઈ ગયેલી heat vessel માં જ હોય છે; control energy balance પરથી design કરવો પડે અને coolant આખું dT_ad લઈ શકે તેવું હોવું જોઈએ.</p>"
+     },
+     "diagram": "u1_variables",
+     "syllabus_item": "1.4"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "1.8 Solved Numericals, Step by Step",
+    "gu": "1.8 ઉકેલેલા દાખલા, પગલે પગલે"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Rate, rate constant and units",
+      "gu": "Rate, rate constant અને units"
+     },
+     "body": {
+      "en": "<h4>Step 1 - the change</h4><div class=\"math\">dCA = 1.2 - 2.0 = -0.8 mol/L\ndt  = 8 min = 480 s</div><h4>Step 2 - the rate</h4><div class=\"math\">-rA = -dCA/dt = 0.8 / 480 = 1.667e-3 mol L-1 s-1</div><p>1 L = 1e-3 m3, so per m3 the number is 1000 times larger:</p><div class=\"eq\">-rA = 1.667 mol m-3 s-1</div><h4>Step 3 - the same rate per hour</h4><div class=\"math\">1.667 x 3600 = 6000 mol m-3 h-1 = 6.0 kmol m-3 h-1</div><p><b>Check your answer.</b> The mol/L s form is what a titration gives; the kmol m-3 h form is what a plant balance wants. Both describe the same reaction.</p><p><b>Common mistake.</b> Treating 0.8 mol/L as 0.8 mol/m3. It is 800 mol/m3.</p>",
+      "gu": "<h4>પગલું 1 - ફેરફાર</h4><div class=\"math\">dCA = 1.2 - 2.0 = -0.8 mol/L\ndt  = 8 min = 480 s</div><h4>પગલું 2 - rate</h4><div class=\"math\">-rA = -dCA/dt = 0.8 / 480 = 1.667e-3 mol L-1 s-1</div><p>1 L = 1e-3 m3, તેથી per m3 આંકડો 1000 ગણો થાય:</p><div class=\"eq\">-rA = 1.667 mol m-3 s-1</div><h4>પગલું 3 - એ જ rate કલાક દીઠ</h4><div class=\"math\">1.667 x 3600 = 6000 mol m-3 h-1 = 6.0 kmol m-3 h-1</div><p><b>જવાબ ચકાસો.</b> mol/L s સ્વરૂપ titration આપે છે; kmol m-3 h સ્વરૂપ plant balance માં વપરાય છે. બંને એક જ પ્રક્રિયા કહે છે.</p><p><b>સામાન્ય ભૂલ.</b> 0.8 mol/L ને 0.8 mol/m3 ગણવું. તે 800 mol/m3 છે.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Unit of the rate constant for any order",
+      "gu": "કોઈ પણ order માટે rate constant નું એકમ"
+     },
+     "body": {
+      "en": "<h4>Step 1 - the law</h4><div class=\"math\">-rA = k CA^3</div><h4>Step 2 - solve for k</h4><div class=\"math\">k = 4.0e-3 / (0.50)^3 = 4.0e-3 / 0.125 = 3.2e-2</div><h4>Step 3 - the unit from the balance</h4><div class=\"math\">mol m-3 s-1 = [k] (mol m-3)^3\n[k] = (mol m-3)^(1-3) s-1 = m6 mol-2 s-1</div><div class=\"eq\">k = 3.2 x 10-2 m6 mol-2 s-1</div><p>For second order the same balance gives (mol m-3)^(1-2) s-1 = m3 mol-1 s-1.</p><p><b>Check your answer.</b> 3.2e-2 x 0.125 = 4.0e-3 mol m-3 s-1, the rate you started from.</p>",
+      "gu": "<h4>પગલું 1 - law</h4><div class=\"math\">-rA = k CA^3</div><h4>પગલું 2 - k માટે ઉકેલો</h4><div class=\"math\">k = 4.0e-3 / (0.50)^3 = 4.0e-3 / 0.125 = 3.2e-2</div><h4>પગલું 3 - સંતુલન પરથી એકમ</h4><div class=\"math\">mol m-3 s-1 = [k] (mol m-3)^3\n[k] = (mol m-3)^(1-3) s-1 = m6 mol-2 s-1</div><div class=\"eq\">k = 3.2 x 10-2 m6 mol-2 s-1</div><p>Second order માટે એ જ સંતુલન (mol m-3)^(1-2) s-1 = m3 mol-1 s-1 આપે છે.</p><p><b>જવાબ ચકાસો.</b> 3.2e-2 x 0.125 = 4.0e-3 mol m-3 s-1, જે શરૂઆતનો rate છે.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "The same rate on a catalyst basis",
+      "gu": "Catalyst ના આધાર પર એ જ rate"
+     },
+     "body": {
+      "en": "<h4>Step 1 - convert the basis</h4><div class=\"math\">-rA V = -rA' Wc\n-rA' = 2.5e-3 x 1.8 / 300 = 1.5e-5 mol kg-1 s-1</div><h4>Step 2 - the constant</h4><div class=\"math\">k' = -rA' / CA = 1.5e-5 / 0.8 = 1.875e-5</div><div class=\"eq\">k' = 1.88 x 10-5 m3 kg-1 s-1</div><p>The bed volume cancels; what matters is how much catalyst it holds, which is why a bed datasheet always states kg of catalyst per m3 of bed.</p><p><b>Check your answer.</b> 1.875e-5 x 0.8 x 300 / 1.8 = 2.5e-3 mol m-3 s-1 - back to the measured rate.</p>",
+      "gu": "<h4>પગલું 1 - આધાર બદલો</h4><div class=\"math\">-rA V = -rA' Wc\n-rA' = 2.5e-3 x 1.8 / 300 = 1.5e-5 mol kg-1 s-1</div><h4>પગલું 2 - constant</h4><div class=\"math\">k' = -rA' / CA = 1.5e-5 / 0.8 = 1.875e-5</div><div class=\"eq\">k' = 1.88 x 10-5 m3 kg-1 s-1</div><p>Bed નું volume રદ થાય છે; મહત્વનું એ છે કે તેમાં કેટલું catalyst છે, તેથી bed ના datasheet માં હંમેશા kg catalyst per m3 bed લખાય છે.</p><p><b>જવાબ ચકાસો.</b> 1.875e-5 x 0.8 x 300 / 1.8 = 2.5e-3 mol m-3 s-1 - માપેલા rate પર પાછા.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Activation energy from two rate constants",
+      "gu": "બે rate constants પરથી activation energy"
+     },
+     "body": {
+      "en": "<h4>Step 1 - the working form</h4><div class=\"math\">ln(k2/k1) = (Ea/R)(1/T1 - 1/T2)</div><h4>Step 2 - substitute</h4><div class=\"math\">k2/k1 = 4.0,  ln 4.0 = 1.386\n1/300 - 1/320 = 2.083e-4 K-1\nEa = 8.314 x 1.386 / 2.083e-4 = 5.53e4 J/mol</div><div class=\"eq\">Ea = 55.3 kJ/mol</div><h4>Step 3 - predict at 340 K</h4><div class=\"math\">ln(k3/k2) = (55300/8.314)(1/320 - 1/340)\n           = 6652 x 1.838e-4 = 1.223\nk3 = 9.6e-4 x e^1.223 = 9.6e-4 x 3.40 = 3.26e-3 s-1</div><p><b>Check your answer.</b> k doubles from 300 to 320 K and again from 320 to 340 K, which is the 10 degree rule with a slightly steeper slope.</p><p><b>Common mistake.</b> Using degrees Celsius in the Arrhenius equation. R is per kelvin, so T must be in kelvin.</p>",
+      "gu": "<h4>પગલું 1 - કામનું સ્વરૂપ</h4><div class=\"math\">ln(k2/k1) = (Ea/R)(1/T1 - 1/T2)</div><h4>પગલું 2 - મૂકો</h4><div class=\"math\">k2/k1 = 4.0,  ln 4.0 = 1.386\n1/300 - 1/320 = 2.083e-4 K-1\nEa = 8.314 x 1.386 / 2.083e-4 = 5.53e4 J/mol</div><div class=\"eq\">Ea = 55.3 kJ/mol</div><h4>પગલું 3 - 340 K પર આગાહી</h4><div class=\"math\">ln(k3/k2) = (55300/8.314)(1/320 - 1/340)\n           = 6652 x 1.838e-4 = 1.223\nk3 = 9.6e-4 x e^1.223 = 9.6e-4 x 3.40 = 3.26e-3 s-1</div><p><b>જવાબ ચકાસો.</b> 300 થી 320 K માં k બમણો અને 320 થી 340 K માં ફરી બમણો, જે થોડો તીવ્ર ઢાળ વાળો 10 degree rule છે.</p><p><b>સામાન્ય ભૂલ.</b> Arrhenius equation માં Celsius મૂકવું. R પ્રતિ kelvin છે, તેથી T kelvin માં જ હોવું જોઈએ.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Michaelis-Menten constants from two runs",
+      "gu": "બે રન પરથી Michaelis-Menten constants"
+     },
+     "body": {
+      "en": "<h4>Step 1 - two equations</h4><div class=\"math\">0.60 = Vmax (2) / (Km + 2)\n0.90 = Vmax (6) / (Km + 6)</div><h4>Step 2 - divide them</h4><div class=\"math\">1.5 = 6 (Km + 2) / [2 (Km + 6)]\n3 Km + 18 = 6 Km + 12   ->   Km = 2.0 mmol/L</div><h4>Step 3 - Vmax</h4><div class=\"math\">0.60 = Vmax (2) / (2 + 2)  ->  Vmax = 1.2 mmol L-1 min-1</div><div class=\"eq\">Km = 2.0 mmol/L,   Vmax = 1.2 mmol L-1 min-1</div><h4>Step 4 - the rate at 20 mmol/L</h4><div class=\"math\">v = 1.2 x 20 / (2 + 20) = 1.09 mmol L-1 min-1</div><p>That is 91 % of Vmax, so the enzyme is nearly saturated and more substrate buys almost nothing.</p><p><b>Check your answer.</b> Vmax x 2/(2+2) = 1.2 x 0.5 = 0.60, the measured value.</p>",
+      "gu": "<h4>પગલું 1 - બે સમીકરણો</h4><div class=\"math\">0.60 = Vmax (2) / (Km + 2)\n0.90 = Vmax (6) / (Km + 6)</div><h4>પગલું 2 - ભાગો</h4><div class=\"math\">1.5 = 6 (Km + 2) / [2 (Km + 6)]\n3 Km + 18 = 6 Km + 12   ->   Km = 2.0 mmol/L</div><h4>પગલું 3 - Vmax</h4><div class=\"math\">0.60 = Vmax (2) / (2 + 2)  ->  Vmax = 1.2 mmol L-1 min-1</div><div class=\"eq\">Km = 2.0 mmol/L,   Vmax = 1.2 mmol L-1 min-1</div><h4>પગલું 4 - 20 mmol/L પર rate</h4><div class=\"math\">v = 1.2 x 20 / (2 + 20) = 1.09 mmol L-1 min-1</div><p>તે Vmax ના 91 % છે, તેથી enzyme લગભગ saturated છે અને વધુ substrate થી લગભગ કંઈ મળતું નથી.</p><p><b>જવાબ ચકાસો.</b> Vmax x 2/(2+2) = 1.2 x 0.5 = 0.60, માપેલું મૂલ્ય.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Reading a rate law: order, molecularity and heat duty",
+      "gu": "Rate law વાંચવું: order, molecularity અને heat duty"
+     },
+     "body": {
+      "en": "<h4>Step 1 - order</h4><p>The exponents are 2 in NO and 1 in O2, so the reaction is third order overall, second order in NO and first order in O2.</p><h4>Step 2 - molecularity</h4><p>Three molecules stand on the left, so an elementary step would have molecularity 3 - and here the measured order agrees with it, which is consistent with a single step (but does not prove one).</p><h4>Step 3 - heat released per m3</h4><div class=\"math\">heat = (-dH_r) CA0 X = 114 000 x 1600 x 0.70\n     = 1.277e8 J per m3 of feed</div><h4>Step 4 - temperature rise</h4><div class=\"math\">capacity per m3 = 1150 x 2100 = 2.415e6 J m-3 K-1\ndT_ad = 1.277e8 / 2.415e6 = 52.9 K</div><div class=\"eq\">dT_ad = 53 K</div><p>A 53 K rise on a 320 K feed reaches 373 K, and because k is exponential in temperature that multiplies the rate several times - the reactor must be cooled, and the coolant must be sized for the full 53 K.</p><p><b>Common mistake.</b> Multiplying by X twice. The heat is (-dH_r) x moles reacted, and the moles reacted are already CA0 X, not CA0 X^2.</p>",
+      "gu": "<h4>પગલું 1 - order</h4><p>ઘાત NO માં 2 અને O2 માં 1 છે, તેથી પ્રક્રિયા કુલ third order, NO માં second order અને O2 માં first order છે.</p><h4>પગલું 2 - molecularity</h4><p>ડાબી બાજુ ત્રણ molecules છે, તેથી elementary step ની molecularity 3 થાય - અને અહીં માપેલો order તેની સાથે મેળ ખાય છે, જે એક step સાથે સુસંગત છે (પણ સાબિત કરતું નથી).</p><h4>પગલું 3 - per m3 છૂટતી heat</h4><div class=\"math\">heat = (-dH_r) CA0 X = 114 000 x 1600 x 0.70\n     = 1.277e8 J per m3 of feed</div><h4>પગલું 4 - temperature વધારો</h4><div class=\"math\">capacity per m3 = 1150 x 2100 = 2.415e6 J m-3 K-1\ndT_ad = 1.277e8 / 2.415e6 = 52.9 K</div><div class=\"eq\">dT_ad = 53 K</div><p>320 K ના feed પર 53 K વધારો 373 K સુધી લઈ જાય, અને k, T માં exponential હોવાથી rate ઘણા ગણો થાય - reactor ઠંડું કરવું પડે અને coolant આખા 53 K માટે ગણવો પડે.</p><p><b>સામાન્ય ભૂલ.</b> X વડે બે વાર ગુણવું. Heat = (-dH_r) x reacted moles, અને reacted moles પહેલેથી CA0 X છે, CA0 X^2 નહીં.</p>"
+     }
+    }
+   ]
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "u1_map",
+   "title": {
+    "en": "Where reaction engineering sits",
+    "gu": "Reaction engineering છ બાજુથી ઉધાર લે છે"
+   },
+   "file": "diagrams/u1_map.svg",
+   "caption": {
+    "en": "A reactor is sized with kinetics, but it must also be fed, stirred, heated and paid for - that is why the design pulls six other subjects together.",
+    "gu": "Reactor નું size kinetics થી નક્કી થાય, પણ તેને feed, stir, heat અને ખર્ચ પણ જોઈએ - તેથી design છ વિષયોને એકસાથે લે છે."
+   }
+  },
+  {
+   "id": "u1_tree",
+   "title": {
+    "en": "Six ways to classify a reaction",
+    "gu": "પ્રક્રિયાના છ પ્રકારનું વર્ગીકરણ"
+   },
+   "file": "diagrams/u1_tree.svg",
+   "caption": {
+    "en": "The same reaction can be described by its phases, its catalyst, its direction, its molecularity, its heat and its order; the exam may ask for any one of the six.",
+    "gu": "એક જ પ્રક્રિયાને phases, catalyst, દિશા, molecularity, heat અને order થી વર્ણવી શકાય; પરીક્ષા આ છમાંથી કોઈ પણ પૂછી શકે."
+   }
+  },
+  {
+   "id": "u1_energy",
+   "title": {
+    "en": "Energy profile: exothermic and endothermic",
+    "gu": "Energy profile: exothermic અને endothermic"
+   },
+   "file": "diagrams/u1_energy.svg",
+   "caption": {
+    "en": "The peak is the activation energy, the step between the two levels is the heat of reaction; the catalyst lowers the peak, never the step.",
+    "gu": "શિખર એ activation energy છે અને બે સપાટી વચ્ચેનું અંતર heat of reaction; catalyst શિખર નીચું કરે છે, અંતર નહીં."
+   }
+  },
+  {
+   "id": "u1_basis",
+   "title": {
+    "en": "Four bases on which a rate is written",
+    "gu": "Rate લખવાના ચાર આધાર"
+   },
+   "file": "diagrams/u1_basis.svg",
+   "caption": {
+    "en": "The same moles per second is divided by a volume, a mass of catalyst, an area or a mass of solid, and the unit of the rate constant changes with it.",
+    "gu": "એ જ moles પ્રતિ second ને volume, catalyst mass, area કે solid mass વડે ભાગવાથી rate constant નું એકમ બદલાય છે."
+   }
+  },
+  {
+   "id": "u1_variables",
+   "title": {
+    "en": "What changes the rate of a reaction",
+    "gu": "પ્રક્રિયાનો rate શું બદલે છે"
+   },
+   "file": "diagrams/u1_variables.svg",
+   "caption": {
+    "en": "Concentration and temperature are the two the designer controls directly; the rest - catalyst, area, light, solvent - are chosen when the reactor is built.",
+    "gu": "Concentration અને temperature ડિઝાઇનર સીધા બદલી શકે તેવા બે ચલ છે; બાકીના reactor બનાવતી વખતે નક્કી થાય છે."
+   }
+  },
+  {
+   "id": "u1_mm",
+   "title": {
+    "en": "Enzyme kinetics: the Michaelis-Menten curve",
+    "gu": "Enzyme kinetics: Michaelis-Menten વક્ર"
+   },
+   "file": "diagrams/u1_mm.svg",
+   "caption": {
+    "en": "An enzyme saturates: at low substrate the rate is first order in S, at high substrate it is zero order and the rate locks at Vmax.",
+    "gu": "Enzyme saturate થાય: ઓછા substrate પર rate first order, વધુ પર zero order અને Vmax પર અટકે છે."
+   }
+  }
+ ],
+ "equations": [
+  {
+   "title": {
+    "en": "Rate of reaction",
+    "gu": "પ્રક્રિયાનો rate"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Rate of disappearance of A",
+      "gu": "A ના disappearance નો rate"
+     },
+     "f": "-rA = -(1/V) dnA/dt",
+     "terms": {
+      "en": "Moles per second per unit volume of reacting fluid, mol m-3 s-1; the negative sign makes it positive because A disappears.",
+      "gu": "Reacting fluid ના unit volume દીઠ પ્રતિ second moles, mol m-3 s-1; A વપરાતું હોવાથી negative sign તેને ધન બનાવે છે."
+     }
+    },
+    {
+     "name": {
+      "en": "Constant volume form",
+      "gu": "Constant volume સ્વરૂપ"
+     },
+     "f": "-rA = -dCA/dt",
+     "terms": {
+      "en": "Valid only when the volume does not change with conversion - a liquid phase batch, or a gas at constant density.",
+      "gu": "ફક્ત ત્યારે જ્યારે volume conversion સાથે ન બદલાય - liquid phase batch, અથવા constant density નો gas."
+     }
+    },
+    {
+     "name": {
+      "en": "Catalyst and area bases",
+      "gu": "Catalyst અને area ના આધાર"
+     },
+     "f": "-rA' = -(1/Wc) dnA/dt,  -rA'' = -(1/S) dnA/dt",
+     "terms": {
+      "en": "mol kg-1 s-1 and mol m-2 s-1; used for fixed beds and for gas-liquid contact.",
+      "gu": "mol kg-1 s-1 અને mol m-2 s-1; fixed beds અને gas-liquid સંપર્ક માટે."
+     }
+    },
+    {
+     "name": {
+      "en": "Moles left after conversion X",
+      "gu": "Conversion X પછી બાકી moles"
+     },
+     "f": "nA = nA0 (1 - X)",
+     "terms": {
+      "en": "Conversion is the fraction of the feed A that has reacted.",
+      "gu": "Conversion એ feed ના A માંથી પ્રક્રિયા પામેલો ભાગ છે."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Order and the rate constant",
+    "gu": "Order અને rate constant"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Power law",
+      "gu": "Power law"
+     },
+     "f": "-rA = k CA^n",
+     "terms": {
+      "en": "n is the order with respect to A; the overall order is the sum of the exponents.",
+      "gu": "n એ A પ્રતિ order છે; કુલ order ઘાતોનો સરવાળો છે."
+     }
+    },
+    {
+     "name": {
+      "en": "Unit of k",
+      "gu": "k નું એકમ"
+     },
+     "f": "k: (mol m-3)^(1-n) s-1",
+     "terms": {
+      "en": "s-1 for first order, m3 mol-1 s-1 for second order, mol m-3 s-1 for zero order.",
+      "gu": "first order માટે s-1, second order માટે m3 mol-1 s-1, zero order માટે mol m-3 s-1."
+     }
+    },
+    {
+     "name": {
+      "en": "Elementary reaction",
+      "gu": "Elementary પ્રક્રિયા"
+     },
+     "f": "order = molecularity",
+     "terms": {
+      "en": "True only for a single-step reaction; every disagreement proves a multi-step mechanism.",
+      "gu": "ફક્ત એક-step પ્રક્રિયા માટે સાચું; દરેક અસંમતિ બહુ-step mechanism સાબિત કરે છે."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Temperature dependence",
+    "gu": "Temperature અવલંબન"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Arrhenius law",
+      "gu": "Arrhenius law"
+     },
+     "f": "k = A exp(-Ea/RT)",
+     "terms": {
+      "en": "A is the frequency factor, Ea the activation energy in J/mol and R = 8.314 J mol-1 K-1.",
+      "gu": "A frequency factor, Ea J/mol માં activation energy અને R = 8.314 J mol-1 K-1."
+     }
+    },
+    {
+     "name": {
+      "en": "Two-temperature form",
+      "gu": "બે-temperature સ્વરૂપ"
+     },
+     "f": "ln(k2/k1) = (Ea/R)(1/T1 - 1/T2)",
+     "terms": {
+      "en": "The working form for the laboratory; two k values at two temperatures give Ea.",
+      "gu": "Laboratory માટે કામનું સ્વરૂપ; બે temperature ના બે k Ea આપે છે."
+     }
+    },
+    {
+     "name": {
+      "en": "Ten degree rule",
+      "gu": "દસ ડિગ્રીનો નિયમ"
+     },
+     "f": "k(T+10)/k(T) ~ 2 to 3",
+     "terms": {
+      "en": "A rough rule for Ea about 50 to 80 kJ/mol near room temperature - never a substitute for the two-temperature calculation.",
+      "gu": "Room temperature નજીક 50 થી 80 kJ/mol ની Ea માટે અંદાજી નિયમ - બે-temperature ગણતરીનો વિકલ્પ કદી નહીં."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Enzyme kinetics",
+    "gu": "Enzyme kinetics"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Michaelis-Menten",
+      "gu": "Michaelis-Menten"
+     },
+     "f": "v = Vmax [S] / (Km + [S])",
+     "terms": {
+      "en": "The saturating rate law of an enzyme-catalysed reaction.",
+      "gu": "Enzyme-catalysed પ્રક્રિયાનો saturating rate law."
+     }
+    },
+    {
+     "name": {
+      "en": "The constants",
+      "gu": "Constants"
+     },
+     "f": "Vmax = k2 [E0],  Km = (k-1 + k2)/k1",
+     "terms": {
+      "en": "Vmax depends on how much enzyme is charged; Km is the substrate concentration at half of Vmax.",
+      "gu": "Vmax કેટલું enzyme ભરેલું છે તેના પર રહે; Km એ અડધા Vmax વાળું substrate concentration છે."
+     }
+    },
+    {
+     "name": {
+      "en": "Lineweaver-Burk",
+      "gu": "Lineweaver-Burk"
+     },
+     "f": "1/v = (Km/Vmax)(1/[S]) + 1/Vmax",
+     "terms": {
+      "en": "A straight line with intercept 1/Vmax and slope Km/Vmax.",
+      "gu": "સીધી રેખા જેનો intercept 1/Vmax અને slope Km/Vmax છે."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Heat effects",
+    "gu": "Heat ની અસરો"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Heat of reaction",
+      "gu": "Heat of reaction"
+     },
+     "f": "dH_r negative = exothermic, positive = endothermic",
+     "terms": {
+      "en": "Per mole of the limiting reactant at the reaction temperature.",
+      "gu": "પ્રક્રિયાના temperature પર limiting reactant ના mole દીઠ."
+     }
+    },
+    {
+     "name": {
+      "en": "Adiabatic temperature rise",
+      "gu": "Adiabatic temperature વધારો"
+     },
+     "f": "dT_ad = (-dH_r) X / (sum Theta_i Cp_i)",
+     "terms": {
+      "en": "The rise the mixture would take if no heat were removed; it sizes the cooling system.",
+      "gu": "heat ન કાઢો તો મિશ્રણ જેટલું ગરમ થાય; તેના પરથી cooling system નું size નક્કી થાય."
+     }
+    },
+    {
+     "name": {
+      "en": "Equilibrium",
+      "gu": "Equilibrium"
+     },
+     "f": "K_eq = k1/k2 = products / reactants",
+     "terms": {
+      "en": "Sets the ceiling on conversion for a reversible reaction; a catalyst does not move it.",
+      "gu": "Reversible પ્રક્રિયાના conversion ની મર્યાદા નક્કી કરે; catalyst તેને ખસેડતું નથી."
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Scope of the subject",
+    "gu": "Subject નું ક્ષેત્ર"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What does chemical reaction engineering add to chemical kinetics?",
+      "gu": "Chemical reaction engineering chemical kinetics માં શું ઉમેરે છે?"
+     },
+     "a": {
+      "en": "Kinetics measures how fast a reaction goes in a small flask. CRE turns that rate law into a vessel: it fixes the volume, the temperature, the heat duty, the contact between phases and the way the feed enters and leaves.",
+      "gu": "Kinetics નાના flask માં પ્રક્રિયા કેટલી ઝડપી થાય તે માપે છે. CRE એ rate law ને vessel માં ફેરવે છે: volume, temperature, heat duty, phases વચ્ચેનો સંપર્ક અને feed ના પ્રવેશ-નિકાસની રીત નક્કી કરે છે."
+     }
+    },
+    {
+     "q": {
+      "en": "Name the four questions a reactor design has to answer.",
+      "gu": "Reactor design એ કયા ચાર પ્રશ્નોના જવાબ આપવા પડે?"
+     },
+     "a": {
+      "en": "How fast the reaction goes (kinetics), how far it can go (equilibrium), how much heat is released or needed (energy balance), and what the vessel must look like for the phases to meet (fluid mechanics and mass transfer).",
+      "gu": "પ્રક્રિયા કેટલી ઝડપી થાય (kinetics), કેટલી દૂર જાય (equilibrium), કેટલી heat છૂટે કે જોઈએ (energy balance), અને phases મળે તે માટે vessel કેવું હોવું જોઈએ (fluid mechanics અને mass transfer)."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Classification",
+    "gu": "વર્ગીકરણ"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Is a reaction between a dissolved salt and an acid homogeneous?",
+      "gu": "ઓગળેલું મીઠું અને acid વચ્ચેની પ્રક્રિયા homogeneous છે?"
+     },
+     "a": {
+      "en": "Yes. Once the salt is dissolved there is only one liquid phase, so the reaction is homogeneous even though the salt was weighed as a solid. Heterogeneous means the reaction happens at a boundary between phases.",
+      "gu": "હા. મીઠું ઓગળી જાય પછી ફક્ત એક જ liquid phase હોય છે, તેથી પ્રક્રિયા homogeneous છે ભલે મીઠું solid તરીકે તોળાયું હતું. Heterogeneous એટલે પ્રક્રિયા phases વચ્ચેની સીમા પર થાય."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the difference between molecularity and order?",
+      "gu": "Molecularity અને order માં શું ફરક છે?"
+     },
+     "a": {
+      "en": "Molecularity is the number of molecules in one elementary step, so it is a small whole number taken from the mechanism. Order is the exponent in the rate law that fits the experiment, so it can be zero, fractional or negative. They are equal only for an elementary reaction.",
+      "gu": "Molecularity એ એક elementary step માંના molecules ની સંખ્યા છે, તેથી તે mechanism પરથી મળતી નાની પૂર્ણ સંખ્યા છે. Order એ rate law માંનો ઘાત છે જે પ્રયોગ સાથે મેળ ખાય, તેથી તે શૂન્ય, અપૂર્ણાંક કે ઋણાત્મક હોઈ શકે. બંને ફક્ત elementary પ્રક્રિયામાં સરખા હોય."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is the hydrolysis of cane sugar called pseudo first order?",
+      "gu": "શેરા ખાંડનું hydrolysis pseudo first order કેમ કહેવાય?"
+     },
+     "a": {
+      "en": "The true law is second order, first in sugar and first in water, but water is the solvent and is present in such excess that its concentration hardly changes. The measured law looks first order and the constant contains the water concentration.",
+      "gu": "સાચો law second order છે - sugar માં first અને water માં first - પણ water solvent હોવાથી એટલા વધારામાં છે કે તેનું concentration લગભગ બદલાતું નથી. માપેલો law first order દેખાય છે અને constant માં water નું concentration સમાયેલું હોય છે."
+     }
+    },
+    {
+     "q": {
+      "en": "Does a catalyst change the equilibrium conversion?",
+      "gu": "Catalyst equilibrium conversion બદલે છે?"
+     },
+     "a": {
+      "en": "No. It lowers the activation energy of the forward and the reverse reaction by the same amount, so equilibrium arrives sooner but does not move. Only temperature, or removing a product, changes it.",
+      "gu": "ના. તે forward અને reverse બંનેની activation energy સરખી માત્રામાં ઘટાડે છે, તેથી equilibrium વહેલું આવે પણ ખસે નહીં. ફક્ત temperature કે product કાઢી લેવાથી તે બદલાય છે."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Rates and units",
+    "gu": "Rates અને units"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Why is the rate of a heterogeneous reaction written per unit area or per kg of catalyst?",
+      "gu": "Heterogeneous પ્રક્રિયાનો rate per unit area કે catalyst ના kg દીઠ કેમ લખાય?"
+     },
+     "a": {
+      "en": "Because the reaction can only happen where the phases meet. Doubling the volume without adding surface changes nothing, while adding area or catalyst changes the rate in proportion.",
+      "gu": "કારણ કે પ્રક્રિયા ફક્ત ત્યાં જ થઈ શકે જ્યાં phases મળે. Surface વધાર્યા વિના volume બમણું કરવાથી કંઈ બદલાતું નથી, જ્યારે area કે catalyst ઉમેરવાથી rate પ્રમાણમાં બદલાય છે."
+     }
+    },
+    {
+     "q": {
+      "en": "What are the units of k for zero, first and second order?",
+      "gu": "Zero, first અને second order માટે k ના units કયા?"
+     },
+     "a": {
+      "en": "Zero order: mol m-3 s-1. First order: s-1. Second order: m3 mol-1 s-1. In general (mol m-3)^(1-n) s-1, straight from the unit balance of -rA = k CA^n.",
+      "gu": "Zero order: mol m-3 s-1. First order: s-1. Second order: m3 mol-1 s-1. સામાન્ય રીતે (mol m-3)^(1-n) s-1, જે -rA = k CA^n ના unit સંતુલન પરથી સીધું આવે છે."
+     }
+    },
+    {
+     "q": {
+      "en": "When may -rA be written as -dCA/dt?",
+      "gu": "ક્યારે -rA ને -dCA/dt લખી શકાય?"
+     },
+     "a": {
+      "en": "Only when the volume of the reacting fluid does not change with conversion: a liquid phase reaction, or a gas reaction with no change in the number of moles at constant temperature and pressure. If the volume changes, 1/V stays inside the derivative.",
+      "gu": "ફક્ત ત્યારે જ્યારે reacting fluid નું volume conversion સાથે ન બદલાય: liquid phase પ્રક્રિયા, અથવા moles ની સંખ્યા ન બદલાતી gas પ્રક્રિયા અચળ temperature અને pressure પર. Volume બદલાય તો 1/V derivative ની અંદર રહે."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Heat and enzymes",
+    "gu": "Heat અને enzymes"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is the adiabatic temperature rise, and why does it matter?",
+      "gu": "Adiabatic temperature rise શું છે અને તે કેમ મહત્વનું છે?"
+     },
+     "a": {
+      "en": "It is the rise a mixture would take if none of the heat of reaction were removed: dT_ad = (-dH_r) X / (sum Theta Cp). It tells the designer how strong the cooling system must be and whether the reaction could run away.",
+      "gu": "reaction ની heat જરાય ન કાઢવામાં આવે તો મિશ્રણ જેટલું ગરમ થાય તે છે: dT_ad = (-dH_r) X / (sum Theta Cp). તે કહે છે કે cooling system કેટલું મજબૂત જોઈએ અને પ્રક્રિયા runaway થઈ શકે કે નહીં."
+     }
+    },
+    {
+     "q": {
+      "en": "Why does an enzyme reaction become zero order at high substrate concentration?",
+      "gu": "ઊંચા substrate concentration પર enzyme પ્રક્રિયા zero order કેમ થાય?"
+     },
+     "a": {
+      "en": "Because every active site is already occupied. More substrate cannot make more ES complex, so the rate stops rising at Vmax and is limited by the amount of enzyme.",
+      "gu": "કારણ કે દરેક active site પહેલેથી ભરેલું છે. વધુ substrate થી વધુ ES complex બનતું નથી, તેથી rate Vmax પર અટકે છે અને enzyme ના જથ્થા થી મર્યાદિત થાય છે."
+     }
+    },
+    {
+     "q": {
+      "en": "How are Vmax and Km found from laboratory data?",
+      "gu": "Laboratory data પરથી Vmax અને Km કેવી રીતે શોધાય?"
+     },
+     "a": {
+      "en": "Plot 1/v against 1/[S]. The intercept is 1/Vmax and the slope is Km/Vmax, so Vmax = 1/intercept and Km = slope x Vmax. Reading the plateau and the half-rate point is quicker but less accurate.",
+      "gu": "1/v ને 1/[S] સામે દોરો. Intercept 1/Vmax અને slope Km/Vmax, તેથી Vmax = 1/intercept અને Km = slope x Vmax. Plateau અને અડધા-rate નું બિંદુ વાંચવું ઝડપી છે પણ ઓછું ચોકસાઈવાળું."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "In a constant volume batch reactor the concentration of A falls from 2.0 to 1.2 mol/L in 8 minutes. Find the average rate of disappearance of A in mol m-3 s-1 and in kmol m-3 h-1.",
+    "gu": "Constant volume batch reactor માં A નું concentration 8 મિનિટમાં 2.0 થી 1.2 mol/L થાય છે. A ના disappearance નો સરેરાશ rate mol m-3 s-1 અને kmol m-3 h-1 માં શોધો."
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "A third order reaction has a rate of 4.0 x 10-3 mol m-3 s-1 at CA = 0.50 mol m-3. Find k with its unit, and state the unit k would have if the same reaction were second order.",
+    "gu": "Third order પ્રક્રિયાનો rate CA = 0.50 mol m-3 પર 4.0 x 10-3 mol m-3 s-1 છે. k તેના એકમ સાથે શોધો, અને એ જ પ્રક્રિયા second order હોય તો k નું એકમ શું થાય તે જણાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "A fixed bed of 1.8 m3 holds 300 kg of catalyst. The rate measured per unit volume of bed is 2.5 x 10-3 mol m-3 s-1. Find the rate per kg of catalyst and the rate constant if the reaction is first order in A with CA = 0.8 mol m-3.",
+    "gu": "1.8 m3 ના fixed bed માં 300 kg catalyst છે. Bed ના unit volume દીઠ rate 2.5 x 10-3 mol m-3 s-1 છે. પ્રતિ kg catalyst rate અને A માં first order તથા CA = 0.8 mol m-3 હોય તો rate constant શોધો."
+   },
+   "marks": 5
+  },
+  {
+   "q": {
+    "en": "The rate constant is 2.4 x 10-4 s-1 at 300 K and 9.6 x 10-4 s-1 at 320 K. Find the activation energy and predict k at 340 K.",
+    "gu": "Rate constant 300 K પર 2.4 x 10-4 s-1 અને 320 K પર 9.6 x 10-4 s-1 છે. Activation energy શોધો અને 340 K પર k ની આગાહી કરો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "An enzyme gives v = 0.60 mmol L-1 min-1 at [S] = 2.0 mmol/L and v = 0.90 at [S] = 6.0 mmol/L. Find Vmax and Km, and the rate at [S] = 20 mmol/L.",
+    "gu": "Enzyme [S] = 2.0 mmol/L પર v = 0.60 mmol L-1 min-1 અને [S] = 6.0 mmol/L પર v = 0.90 આપે છે. Vmax અને Km તથા [S] = 20 mmol/L પર rate શોધો."
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "For 2 NO + O2 -> 2 NO2 the measured law is -rNO = k CNO^2 CO2. State the order and the molecularity, and find the adiabatic temperature rise at 70 % conversion if dH_r = -114 kJ per mol NO, the feed holds 1.6 kmol/m3 of NO, the mean heat capacity is 2.1 kJ/(kg K) and the mean density is 1150 kg/m3.",
+    "gu": "2 NO + O2 -> 2 NO2 માટે માપેલો law -rNO = k CNO^2 CO2 છે. Order અને molecularity જણાવો, અને dH_r = -114 kJ પ્રતિ mol NO, feed માં NO 1.6 kmol/m3, સરેરાશ heat capacity 2.1 kJ/(kg K) અને સરેરાશ density 1150 kg/m3 હોય તો 70 % conversion પર adiabatic temperature rise શોધો."
+   },
+   "marks": 7
+  }
+ ],
+ "learning_outcomes": [
+  {
+   "en": "Describe the fundamental aspects of the various chemical reactions.",
+   "gu": "વિવિધ રાસાયણિક પ્રક્રિયાઓની મૂળભૂત બાબતો સમજાવવી."
+  }
+ ],
+ "course_outcomes": [
+  "CO1"
+ ],
+ "practical_numbers": [
+  1,
+  2,
+  10,
+  11
+ ],
+ "content_kind": "theory",
+ "lesson_count": 13,
+ "answered_practice_count": 6,
+ "assessment_note": {
+  "en": "Official course: theory ESE 70 + PA 30 and practical PA 20 + ESE 30 = 150 marks, 4 credits (3 lecture + 2 practical), 45 teaching hours. This unit carries 15 % weightage, 7 of the printed unit hours and 10 of the 70 theory marks. The six numericals of section 1.8 are original revision problems with suggested marks, not GTU papers.",
+  "gu": "અધિકૃત course: theory ESE 70 + PA 30 અને practical PA 20 + ESE 30 = 150 marks, 4 credits (3 lecture + 2 practical), 45 teaching hours. આ unit નું weightage 15 %, છપાયેલા unit hours માંથી 7 અને 70 theory marks માંથી 10 છે. વિભાગ 1.8 ના છ દાખલા revision માટેના મૂળ પ્રશ્નો છે, GTU પેપર નહીં."
+ },
+ "question_provenance": "Original solved numericals written for revision; not official past papers",
+ "question_marks_are_suggested": true,
+ "sources": [
+  {
+   "title": "GTU DI05005031 Chemical Reaction Engineering syllabus (uploaded PDF, w.e.f. 2026-27)",
+   "url": "https://syllabus.gtu.ac.in/"
+  },
+  {
+   "title": "Octave Levenspiel - Chemical Reaction Engineering, 3rd ed., John Wiley and Sons (chapters 1-2)",
+   "url": "https://www.wiley.com/"
+  },
+  {
+   "title": "H. Scott Fogler - Essentials of Chemical Reaction Engineering, 4th ed., Prentice Hall (chapter 1, mole balances and rate laws)",
+   "url": "https://www.pearson.com/"
+  },
+  {
+   "title": "NPTEL course on Chemical Reaction Engineering - https://nptel.ac.in/",
+   "url": "https://nptel.ac.in/"
+  }
+ ]
+}
