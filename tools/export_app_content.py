@@ -63,7 +63,8 @@ SUBJECTS = {
     "DI02000091": ("Electronics Workshop and Practice", "ઇલેક્ટ્રોનિક્સ વર્કશોપ એન્ડ પ્રેક્ટિસ", "Engineering Science", 3, "practical", "DI02C00091"),
     "DI02000011": ("Applied Mathematics", "એપ્લાઇડ મેથેમેટિક્સ", "Basic Science", 4, "theory", "DI02C00011"),
     "DI01000071": ("Engineering Chemistry", "એન્જિનિયરિંગ કેમિસ્ટ્રી", "Basic Science", 4, "theory", "DI01C00071"),
-    "DI02000051": ("Environmental Sustainability", "એન્વાયર્નમેન્ટલ સસ્ટેનેબિલિટી", "Engineering Science", 2, "theory", "DI02C00051"),
+    "DI02000051": ("Environmental Sustainability", "પર્યાવરણીય ટકાઉપણું", "Engineering Science", 2, "theory", "DI02C00051"),
+    "DI01000111": ("Engineering Graphics", None, "Engineering Science", 3, "theory", "DI01C00111"),
     "DI02000061": ("Indian Constitution", "ભારતીય બંધારણ", "Audit Course", 0, "theory", "DI02C00061"),
     "DI02000131": ("Contributor Personality Development", "કન્ટ્રિબ્યુટર પર્સનાલિટી ડેવલપમેન્ટ", "Humanities (Elective)", 3, "theory", "DI02C00131"),
     "DI02000141": ("Integrated Personality Development Course", "ઇન્ટિગ્રેટેડ પર્સનાલિટી ડેવલપમેન્ટ કોર્સ", "Humanities (Elective)", 3, "theory", "DI02C00141"),
@@ -80,6 +81,8 @@ SUBJECTS = {
     "DI04000021": ("Object Oriented Programming - Java", "ઓબ્જેક્ટ ઓરિએન્ટેડ પ્રોગ્રામિંગ - જાવા", "Professional Core", 4, "programming", None),
     "DI04000031": ("Introduction to NoSQL", "નોએસક્યુએલનો પરિચય", "Professional Core", 3, "practical", None),
     "DI04007011": ("Introduction to Web Development", "વેબ ડેવલપમેન્ટનો પરિચય", "Professional Core", 4, "programming", None),
+    # Computer Sem 4 (2025-26): Cloud Computing - English-only release
+    "DI04000041": ("Cloud Computing", None, "Professional Elective", 4, "theory", None),
     # Computer Sem 5 (2026-27): the two provided main-subject syllabi.
     "DI05007011": ("Computer Hardware Architecture and System Maintenance", None, "Professional Core", 4, "theory", None),
     "DI05007021": ("Information Security", None, "Professional Core", 4, "theory", None),
@@ -91,7 +94,7 @@ BRANCH_SEMS = {
         2: ["DI02000101", "DI02000091", "DI02000011", "DI01000071", "DI02000051", "DI02000061",
             "DI02000131", "DI02000141", "DI02000151"],
         3: ["DI03000021", "DI03000011", "DI03000031", "DI03000041", "DI03000051", "DI03000061"],
-        4: ["DI04000021", "DI04000011", "DI04007011", "DI04000031"],
+        4: ["DI04000021", "DI04000011", "DI04007011", "DI04000031", "DI04000041"],
         5: ["DI05007011", "DI05007021"],
     },
 }
@@ -334,6 +337,13 @@ _chemical_sem5 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(5,[])
 if 'DI05005051' not in _chemical_sem5:
     _chemical_sem5.append('DI05005051')
 
+# DiplomaOne registration: DI05005031 chemical semester 5
+if 'DI05005031' not in SUBJECTS:
+    SUBJECTS['DI05005031'] = ('Chemical Reaction Engineering','રાસાયણિક પ્રક્રિયા ઇજનેરી','Professional Elective',4,'theory',None)
+_chemical_sem5 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(5,[])
+if 'DI05005031' not in _chemical_sem5:
+    _chemical_sem5.append('DI05005031')
+
 # DiplomaOne registration: DI03005031 chemical semester 3
 if 'DI03005031' not in SUBJECTS:
     SUBJECTS['DI03005031'] = ('Process Heat Transfer','પ્રોસેસ હીટ ટ્રાન્સફર','Core',3,'theory',None)
@@ -368,6 +378,41 @@ if 'DI04005021' not in SUBJECTS:
 _chemical_sem4 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(4,[])
 if 'DI04005021' not in _chemical_sem4:
     _chemical_sem4.append('DI04005021')
+
+# DiplomaOne registration: DI04005041 chemical semester 4
+if 'DI04005041' not in SUBJECTS:
+    SUBJECTS['DI04005041'] = ('Chemical Engineering Thermodynamics','કેમિકલ એન્જિનિયરિંગ થર્મોડાયનેમિક્સ','Core',4,'theory',None)
+_chemical_sem4 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(4,[])
+if 'DI04005041' not in _chemical_sem4:
+    _chemical_sem4.append('DI04005041')
+
+# DiplomaOne registration: DI04005071 chemical semester 4
+if 'DI04005071' not in SUBJECTS:
+    SUBJECTS['DI04005071'] = ('Petroleum Refining and Petroleum Technology','પેટ્રોલિયમ રિફાઇનિંગ તથા પેટ્રોલિયમ ટેકનોલોજી','Professional Elective',4,'theory',None)
+_chemical_sem4 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(4,[])
+if 'DI04005071' not in _chemical_sem4:
+    _chemical_sem4.append('DI04005071')
+
+# DiplomaOne registration: DI05005011 chemical semester 5
+if 'DI05005011' not in SUBJECTS:
+    SUBJECTS['DI05005011'] = ('Mass Transfer - II','માસ ટ્રાન્સફર-II','Professional Core',4,'theory',None)
+_chemical_sem5 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(5,[])
+if 'DI05005011' not in _chemical_sem5:
+    _chemical_sem5.append('DI05005011')
+
+# DiplomaOne registration: DI05005021 chemical semester 5
+if 'DI05005021' not in SUBJECTS:
+    SUBJECTS['DI05005021'] = ('Chemical Engineering Plant Economics','કેમિકલ એન્જિનિયરિંગ પ્લાન્ટ ઇકોનોમિક્સ','Professional Core',4,'theory',None)
+_chemical_sem5 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(5,[])
+if 'DI05005021' not in _chemical_sem5:
+    _chemical_sem5.append('DI05005021')
+
+# DiplomaOne registration: DI02000121 mechanical semester 2 (English-only subject)
+if 'DI02000121' not in SUBJECTS:
+    SUBJECTS['DI02000121'] = ('Mechanical Drafting',None,'Professional Core',4,'theory',None)
+_mechanical_sem2 = BRANCH_SEMS.setdefault('mechanical',{}).setdefault(2,[])
+if 'DI02000121' not in _mechanical_sem2:
+    _mechanical_sem2.append('DI02000121')
 
 FONT_MAP = [
     (re.compile(r'font-family="Arial, Helvetica, sans-serif"'), 'font-family="DejaVu Sans"'),
@@ -419,6 +464,79 @@ def normalize_for_app(unit):
         unit["viva"] = [{"title": {"en": "Viva questions", "gu": "વાઇવા પ્રશ્નો"}, "items": viva}]
 
 
+# Engineering Mathematics (DI02000021) - the Semester 2 mathematics subject. The syllabus lists it
+# for Electrical, Renewable Energy, Automation & Robotics, Instrumentation & Control and Power
+# Electronics, but it is the semester-2 mathematics course every branch teaches, so it is listed in
+# semester 2 of every branch (user decision, like Mathematics-I in semester 1).
+SUBJECTS.setdefault("DI02000021", ("Engineering Mathematics", "એન્જિનિયરિંગ ગણિત",
+                                   "Basic Science", 4, "theory", "DI02C00021"))
+for _branch in BRANCHES:
+    _sem2 = BRANCH_SEMS.setdefault(_branch[1], {}).setdefault(2, [])
+    if "DI02000021" not in _sem2:
+        _sem2.insert(0, "DI02000021")
+
+# Environmental Sustainability (DI02000051) prints "Branch: ALL" in its syllabus, so it is listed in
+# semester 2 of every diploma branch, just after Engineering Mathematics.
+for _branch in BRANCHES:
+    _sem2 = BRANCH_SEMS.setdefault(_branch[1], {}).setdefault(2, [])
+    if "DI02000051" not in _sem2:
+        _pos = _sem2.index("DI02000021") + 1 if "DI02000021" in _sem2 else len(_sem2)
+        _sem2.insert(_pos, "DI02000051")
+
+# Mathematics-I (DI01000021) is a common "Branch: All" subject - list it in semester 1 of every branch.
+for _branch in BRANCHES:
+    _sem1 = BRANCH_SEMS.setdefault(_branch[1], {}).setdefault(1, [])
+    if "DI01000021" not in _sem1:
+        _sem1.insert(0, "DI01000021")
+
+# Applied Physics (DI01000121) is one subject with two home semesters: semester 1 for Civil,
+# Environmental, Mining, Textile Manufacturing, Ceramic, Printing and Renewable Energy; semester 2 for
+# Automobile, Chemical, Mechanical, Mechatronics, Textile Processing, Fabrication, Textile Design and
+# Mechanical (CAD/CAM). The app carries ten of those branches, so it is listed in each of them at the
+# semester printed in the PDF (subject.json records the split in "semester_by_branch").
+SUBJECTS.setdefault("DI01000121", ("Applied Physics", "એપ્લાઇડ ફિઝિક્સ", "Basic Science", 4,
+                                   "theory", None))
+APPLIED_PHYSICS_BRANCHES = {
+    1: ["civil", "environmental", "mining", "textile_mfg", "printing"],
+    2: ["automobile", "chemical", "mechanical", "mechatronics", "textile_proc"],
+}
+for _sem, _keys in APPLIED_PHYSICS_BRANCHES.items():
+    for _key in _keys:
+        _lst = BRANCH_SEMS.setdefault(_key, {}).setdefault(_sem, [])
+        if "DI01000121" not in _lst:
+            _pos = _lst.index("DI01000021") + 1 if "DI01000021" in _lst else len(_lst)
+            _lst.insert(_pos, "DI01000121")
+
+# Communication Skills in English (DI01000031) prints "Branch: All" in its syllabus, so it is listed
+# in semester 1 of every diploma branch. It sits just after Mathematics-I in the display order.
+for _branch in BRANCHES:
+    _sem1 = BRANCH_SEMS.setdefault(_branch[1], {}).setdefault(1, [])
+    if "DI01000031" not in _sem1:
+        _sem1.insert(_sem1.index("DI01000021") + 1 if "DI01000021" in _sem1 else 0, "DI01000031")
+
+# Engineering Graphics (DI01000111) is the English-only drawing course of twelve branch programmes
+# in semester 1 (the PDF names fifteen branches; the app does not carry Ceramic, Mechanical CAD/CAM
+# or Fabrication as separate branches). It sits after Mathematics-I, like the other common subjects.
+SUBJECTS.setdefault("DI01000111", ("Engineering Graphics", None, "Engineering Science", 3,
+                                   "theory", "DI01C00111"))
+ENGINEERING_GRAPHICS_BRANCHES = ["power", "robotics", "civil", "environmental", "mining", "chemical",
+                                 "metallurgy", "plastic", "mechanical", "automobile", "mechatronics",
+                                 "textile_proc"]
+for _key in ENGINEERING_GRAPHICS_BRANCHES:
+    _sem1 = BRANCH_SEMS.setdefault(_key, {}).setdefault(1, [])
+    if "DI01000111" not in _sem1:
+        _pos = _sem1.index("DI01000021") + 1 if "DI01000021" in _sem1 else len(_sem1)
+        _sem1.insert(_pos, "DI01000111")
+
+# Entrepreneurship & Start-up (DI04000081) prints "Branch: All" in its syllabus (Semester 4, MOPEC),
+# so it is listed in semester 4 of every diploma branch.
+SUBJECTS.setdefault("DI04000081", ("Entrepreneurship & Start-up", "એન્ટ્રપ્રિન્યોરશિપ અને સ્ટાર્ટ-અપ",
+                                   "MOPEC", 3, "theory", None))
+for _branch in BRANCHES:
+    _sem4 = BRANCH_SEMS.setdefault(_branch[1], {}).setdefault(4, [])
+    if "DI04000081" not in _sem4:
+        _sem4.append("DI04000081")
+
 def main():
     global OUT
     if "--out" in sys.argv:
@@ -468,7 +586,8 @@ def main():
         subjects[code] = {
             "code": code, "alt_code": alt, "name": {"en": en, **({"gu": gu} if gu else {})}, "category": cat,
             "credits": cr, "type": typ, "status": "available" if avail else "soon",
-            "units": len(done[code][1]["units"]) if avail else 0,
+            # count the units that actually have a file, not every syllabus unit listed
+            "units": len([u for u in done[code][1]["units"] if u.get("file")]) if avail else 0,
             "languages": done[code][1].get("languages", ["en", "gu"]) if avail else ["en"],
         }
     catalog = {

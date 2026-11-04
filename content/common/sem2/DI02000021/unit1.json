@@ -1,0 +1,1253 @@
+{
+ "subject": "DI02000021",
+ "unit": 1,
+ "format": "notes",
+ "title": {
+  "en": "Matrices"
+ },
+ "hours": 10,
+ "weightage": 23,
+ "official": true,
+ "languages": [
+  "en"
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "equations",
+  "numericals",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "Unit 1 of Engineering Mathematics: what a matrix is and how it is written, the types you must recognise, addition, subtraction and scalar multiplication, the row-into-column product with its size rule, the adjoint and inverse of 2 × 2 and 3 × 3 matrices, and the solution of two simultaneous equations by the inverse-matrix method and by Cramer's rule. Twenty-four fully solved numericals, each linked to a card."
+ },
+ "notes": [
+  {
+   "title": {
+    "en": "1. What a Matrix Is"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "1.1 Order, entries and the meaning of aᵢⱼ"
+     },
+     "body": {
+      "en": "<h4>Definition</h4><p>A <b>matrix</b> is a rectangular arrangement of numbers written inside brackets. The numbers inside are called <b>elements</b> or <b>entries</b>. A matrix has no value of its own: it is an array, so it is never equal to a single number.</p><p>A matrix with m rows and n columns has <b>order m × n</b>. The entry in row i and column j is written <b>aᵢⱼ</b> - the row number always comes first.</p><h4>Counting the entries</h4><ul><li>A 2 × 3 matrix has 2 × 3 = 6 entries.</li><li>A 3 × 3 matrix has 9 entries and is called <b>square</b>.</li><li>a₂₃ means row 2, column 3 - not row 3, column 2.</li></ul><h4>Worked reading</h4><p>For A = <table><tr><th>2</th><th>−1</th><th>3</th></tr><tr><td>0</td><td>5</td><td>4</td></tr></table> the order is 2 × 3, so a₁₃ = 3 and a₂₂ = 5. There is no a₃₁: the matrix has only two rows.</p><h4>Common mistake</h4><p>Writing the order as 3 × 2 because three columns are visible. Read rows first: count the horizontal lines, then the vertical ones.</p>"
+     },
+     "diagram": "mx1_anatomy",
+     "examples": [
+      "mm1n1"
+     ],
+     "syllabus_item": "1.1"
+    },
+    {
+     "h": {
+      "en": "1.2 Building a matrix from a rule, and equality"
+     },
+     "body": {
+      "en": "<h4>Definition</h4><p>A matrix may be described by a formula for its general entry, for example <b>aᵢⱼ = 2i + j</b> for a 2 × 3 matrix. Substitute every (i, j) pair in turn.</p><h4>Worked example</h4><p>a₁₁ = 2(1) + 1 = 3, a₁₂ = 4, a₁₃ = 5, a₂₁ = 5, a₂₂ = 6, a₂₃ = 7, so the matrix is <table><tr><th>3</th><th>4</th><th>5</th></tr><tr><td>5</td><td>6</td><td>7</td></tr></table>.</p><h4>When two matrices are equal</h4><ul><li>The orders must be identical, and</li><li>every pair of matching entries must be equal.</li></ul><p>So <table><tr><th>x + 1</th><th>3</th></tr><tr><td>2</td><td>y − 2</td></tr></table> = <table><tr><th>5</th><th>3</th></tr><tr><td>2</td><td>4</td></tr></table> gives x + 1 = 5 and y − 2 = 4, that is x = 4 and y = 6.</p><details class=\"self-check\"><summary>Can a 2 × 2 matrix equal a 2 × 3 matrix?</summary><p>Never. Equality starts with the order; different orders mean different arrays.</p></details>"
+     },
+     "examples": [
+      "mm1n2",
+      "mm1n3"
+     ],
+     "syllabus_item": "1.1"
+    },
+    {
+     "h": {
+      "en": "1.3 The transpose of a matrix"
+     },
+     "body": {
+      "en": "<h4>Definition</h4><p>The <b>transpose</b> Aᵀ is made by turning rows into columns: the first row of A becomes the first column of Aᵀ. A 2 × 3 matrix has a 3 × 2 transpose.</p><h4>Worked example</h4><p>A = <table><tr><th>1</th><th>2</th><th>3</th></tr><tr><td>4</td><td>5</td><td>6</td></tr></table> gives Aᵀ = <table><tr><th>1</th><th>4</th></tr><tr><td>2</td><td>5</td></tr><tr><td>3</td><td>6</td></tr></table>, and transposing again returns A: (Aᵀ)ᵀ = A.</p><h4>Rules</h4><ul><li>(Aᵀ)ᵀ = A</li><li>(A + B)ᵀ = Aᵀ + Bᵀ</li><li>(kA)ᵀ = kAᵀ</li><li>(AB)ᵀ = BᵀAᵀ - the order reverses, as it does for inverses.</li></ul><p>A square matrix that equals its own transpose is <b>symmetric</b>.</p>"
+     },
+     "examples": [
+      "mm1n4"
+     ],
+     "syllabus_item": "1.2"
+    },
+    {
+     "h": {
+      "en": "1.4 Why engineers use matrices"
+     },
+     "body": {
+      "en": "<h4>Where matrices appear</h4><ul><li>A network of currents or forces is written as one matrix of coefficients - one row per equation.</li><li>A transformation (rotation, scaling, mirror) is stored as a 2 × 2 matrix, and multiplying it by a position vector gives the new position.</li><li>A spreadsheet, a digital photograph and a table of readings are all matrices: row and column positions locate each number.</li></ul><h4>The three questions this unit answers</h4><ol><li>How do I add and multiply these arrays?</li><li>How do I undo a square matrix (the inverse)?</li><li>How do I read the solution of two equations straight out of the matrices?</li></ol><p>Everything later in the semester - differentiation, integration, differential equations - is built on these three skills.</p>"
+     },
+     "syllabus_item": "1.1"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2. Types of Matrices"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "2.1 Square, diagonal, scalar, identity and zero matrices"
+     },
+     "body": {
+      "en": "<h4>Definitions</h4><ul><li><b>Square</b>: number of rows equals number of columns (2 × 2, 3 × 3).</li><li><b>Diagonal</b>: square, and every entry off the main diagonal is zero.</li><li><b>Scalar</b>: a diagonal matrix whose diagonal entries are all equal.</li><li><b>Identity I</b>: a scalar matrix with 1 on the diagonal - the matrix version of the number 1.</li><li><b>Zero matrix O</b>: every entry is 0 - the matrix version of 0.</li></ul><h4>Why the identity matters</h4><p>AI = IA = A for every matrix A that can be multiplied with I. It is the reason a matrix can have an inverse at all: A⁻¹ is defined by A A⁻¹ = I.</p><h4>Reading the diagram</h4><p>Each panel shows the pattern only. A diagonal matrix may have any numbers on its diagonal - what makes it diagonal is the ring of zeros everywhere else.</p>"
+     },
+     "diagram": "mx2_types",
+     "syllabus_item": "1.2"
+    },
+    {
+     "h": {
+      "en": "2.2 Row, column, rectangular and triangular matrices"
+     },
+     "body": {
+      "en": "<h4>Definitions</h4><ul><li><b>Row matrix</b>: a single row (order 1 × n).</li><li><b>Column matrix</b> (column vector): a single column (order m × 1).</li><li><b>Rectangular</b>: rows ≠ columns.</li><li><b>Upper triangular</b>: square, every entry below the main diagonal is zero.</li><li><b>Lower triangular</b>: square, every entry above the main diagonal is zero.</li></ul><h4>Worked reading</h4><p><table><tr><th>2</th><th>7</th></tr><tr><td>0</td><td>4</td></tr></table> is upper triangular and <table><tr><th>2</th><th>0</th></tr><tr><td>5</td><td>4</td></tr></table> is lower triangular. A matrix can be both only if it is diagonal.</p><h4>Useful fact</h4><p>The determinant of a triangular matrix is simply the product of its diagonal entries, so |<table><tr><th>2</th><th>7</th></tr><tr><td>0</td><td>4</td></tr></table>| = 2 × 4 = 8 - no expansion needed.</p><p>A row matrix is the same idea as a vector, so Unit 3 of semester 1 (vectors) and this unit speak the same language.</p>"
+     },
+     "syllabus_item": "1.2"
+    },
+    {
+     "h": {
+      "en": "2.3 Symmetric and skew-symmetric matrices"
+     },
+     "body": {
+      "en": "<h4>Definitions</h4><ul><li><b>Symmetric</b>: Aᵀ = A, so aᵢⱼ = aⱼᵢ - the entries mirror across the main diagonal.</li><li><b>Skew-symmetric</b>: Aᵀ = −A, so aᵢⱼ = −aⱼᵢ and every diagonal entry must be 0.</li></ul><h4>A construction that always works</h4><p>For any square matrix A, the sum A + Aᵀ is symmetric and the difference A − Aᵀ is skew-symmetric. Check: (A + Aᵀ)ᵀ = Aᵀ + A = A + Aᵀ.</p><h4>Worked example</h4><p>A = <table><tr><th>1</th><th>2</th></tr><tr><td>3</td><td>4</td></tr></table> gives Aᵀ = <table><tr><th>1</th><th>3</th></tr><tr><td>2</td><td>4</td></tr></table> and A + Aᵀ = <table><tr><th>2</th><th>5</th></tr><tr><td>5</td><td>8</td></tr></table>, which is symmetric because 5 = 5 across the diagonal.</p><p>Symmetric matrices appear wherever a quantity is measured in both directions: a distance table, a stiffness matrix, a correlation table.</p>"
+     },
+     "examples": [
+      "mm1n8"
+     ],
+     "syllabus_item": "1.2"
+    },
+    {
+     "h": {
+      "en": "2.4 Singular and non-singular matrices"
+     },
+     "body": {
+      "en": "<h4>Definitions</h4><ul><li><b>Non-singular</b>: |A| ≠ 0. The matrix has an inverse.</li><li><b>Singular</b>: |A| = 0. No inverse exists.</li></ul><h4>Why the determinant decides</h4><p>The inverse formula is A⁻¹ = adj A ÷ |A|. If |A| = 0 the division is impossible, so the inverse does not exist - it is not that the answer is zero, it is that there is no answer.</p><h4>The geometric reading</h4><p>Two equations with determinant 0 have proportional rows, so their lines are parallel (no solution) or identical (infinitely many). A matrix with an inverse always gives exactly one solution.</p><h4>Common mistake</h4><p>Writing A⁻¹ = 1/|A| without the adjoint. The determinant is a number, the adjoint is a matrix, and the inverse is the adjoint scaled by that number.</p>"
+     },
+     "examples": [
+      "mm1n17"
+     ],
+     "syllabus_item": "1.5"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3. Addition, Subtraction and Scalar Multiplication"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "3.1 Adding and subtracting matrices"
+     },
+     "body": {
+      "en": "<h4>Rule</h4><p>Two matrices can be added or subtracted only when they have the <b>same order</b>. The answer keeps that order and each entry is added or subtracted separately: <b>Cᵢⱼ = aᵢⱼ ± bᵢⱼ</b>.</p><h4>Worked example</h4><p>A = <table><tr><th>1</th><th>2</th><th>3</th></tr><tr><td>4</td><td>5</td><td>6</td></tr></table> and B = <table><tr><th>6</th><th>5</th><th>4</th></tr><tr><td>3</td><td>2</td><td>1</td></tr></table> give A + B = <table><tr><th>7</th><th>7</th><th>7</th></tr><tr><td>7</td><td>7</td><td>7</td></tr></table> and A − B = <table><tr><th>−5</th><th>−3</th><th>−1</th></tr><tr><td>1</td><td>3</td><td>5</td></tr></table>.</p><h4>Laws</h4><ul><li>A + B = B + A (addition commutes)</li><li>A + (B + C) = (A + B) + C (associates)</li><li>A + O = A, and A + (−A) = O</li></ul><p>So the change B − A is not the same matrix as A − B: subtraction reverses every sign.</p>"
+     },
+     "examples": [
+      "mm1n5"
+     ],
+     "syllabus_item": "1.3"
+    },
+    {
+     "h": {
+      "en": "3.2 Multiplication by a scalar"
+     },
+     "body": {
+      "en": "<h4>Rule</h4><p>A scalar is a single number. Multiply <i>every</i> entry: <b>(kA)ᵢⱼ = k aᵢⱼ</b>. The order does not change.</p><h4>Worked example</h4><p>4A with A = <table><tr><th>1/2</th><th>3</th></tr><tr><td>−1</td><td>1/4</td></tr></table> gives <table><tr><th>2</th><th>12</th></tr><tr><td>−4</td><td>1</td></tr></table>.</p><h4>Laws</h4><ul><li>k(A + B) = kA + kB</li><li>(k + m)A = kA + mA</li><li>k(mA) = (km)A</li><li>1A = A and 0A = O</li></ul><h4>Common mistake</h4><p>Scaling only the first row or only the diagonal. A scalar multiplies every entry, which is exactly why kA ≠ A for most matrices - and why 2I is not the identity.</p>"
+     },
+     "examples": [
+      "mm1n7"
+     ],
+     "syllabus_item": "1.3"
+    },
+    {
+     "h": {
+      "en": "3.3 Mixed expressions such as 3A − 2B"
+     },
+     "body": {
+      "en": "<h4>Method</h4><ol><li>Work out 3A on its own.</li><li>Work out 2B on its own.</li><li>Subtract entry by entry, keeping the order of the two matrices.</li></ol><h4>Worked example</h4><p>A = <table><tr><th>2</th><th>−1</th></tr><tr><td>3</td><td>0</td></tr></table> and B = <table><tr><th>1</th><th>4</th></tr><tr><td>−2</td><td>5</td></tr></table>: 3A = <table><tr><th>6</th><th>−3</th></tr><tr><td>9</td><td>0</td></tr></table>, 2B = <table><tr><th>2</th><th>8</th></tr><tr><td>−4</td><td>10</td></tr></table>, so 3A − 2B = <table><tr><th>4</th><th>−11</th></tr><tr><td>13</td><td>−10</td></tr></table>.</p><h4>Conditions</h4><ul><li>Both matrices must have the same order.</li><li>There is no matrix division: never write 3A/2B.</li><li>A scalar outside the bracket multiplies every entry inside it.</li></ul><p>This is the sort of expression that appears when you compute A² − 3A + 2I in the next section.</p>"
+     },
+     "examples": [
+      "mm1n6"
+     ],
+     "syllabus_item": "1.3"
+    },
+    {
+     "h": {
+      "en": "3.4 Checking your arithmetic"
+     },
+     "body": {
+      "en": "<h4>Three quick checks</h4><ol><li>Order check: both input matrices and the answer must carry the same order.</li><li>Sign check: in a subtraction, the second matrix reverses every one of its signs.</li><li>Corner check: recompute the top-left and the bottom-right entries by hand; if either disagrees, the whole matrix is suspect.</li></ol><h4>Why it matters later</h4><p>The same three checks catch errors in AB, in the adjoint and in Cramer's rule. Almost every lost mark in a matrices question is an arithmetic slip in one entry, not a wrong method.</p><p>Keep the working as a matrix - write the unsimplified sum first, then simplify in a second line. That way the marker can see the method even if one entry is wrong.</p>"
+     },
+     "syllabus_item": "1.3"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "4. Product of Two Matrices"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "4.1 Row into column: the definition of AB"
+     },
+     "body": {
+      "en": "<h4>Definition</h4><p>The product AB exists only when the number of <b>columns of A</b> equals the number of <b>rows of B</b>. The answer then has the rows of A and the columns of B: an m × n matrix times an n × p matrix gives an m × p matrix.</p><p>Each entry is a row-times-column sum: <b>(AB)ᵢⱼ = aᵢ₁b₁ⱼ + aᵢ₂b₂ⱼ + ... + aᵢₙbₙⱼ</b>.</p><h4>Step by step</h4><ol><li>Take row i of A and column j of B.</li><li>Multiply the first pair, the second pair, and so on.</li><li>Add the products - that single number is the (i, j) entry of AB.</li></ol><h4>Worked example</h4><p>A = <table><tr><th>1</th><th>2</th></tr><tr><td>3</td><td>4</td></tr></table> and B = <table><tr><th>2</th><th>0</th></tr><tr><td>1</td><td>3</td></tr></table> give AB = <table><tr><th>4</th><th>6</th></tr><tr><td>10</td><td>12</td></tr></table>: the top-left entry is 1(2) + 2(1) = 4 and the bottom-right is 3(0) + 4(3) = 12.</p>"
+     },
+     "diagram": "mx3_product",
+     "examples": [
+      "mm1n9"
+     ],
+     "syllabus_item": "1.4"
+    },
+    {
+     "h": {
+      "en": "4.2 AB is usually not BA"
+     },
+     "body": {
+      "en": "<h4>The rule</h4><p>Matrix multiplication is <b>not commutative</b>: AB ≠ BA in general. Often both products exist but they are different matrices; sometimes only one of them can be formed at all.</p><h4>Worked comparison</h4><p>With A = <table><tr><th>1</th><th>2</th></tr><tr><td>3</td><td>4</td></tr></table> and B = <table><tr><th>2</th><th>0</th></tr><tr><td>1</td><td>3</td></tr></table>, AB = <table><tr><th>4</th><th>6</th></tr><tr><td>10</td><td>12</td></tr></table> but BA = <table><tr><th>2</th><th>4</th></tr><tr><td>10</td><td>14</td></tr></table>. Same order, different entries.</p><h4>What does survive</h4><ul><li>(AB)C = A(BC) - multiplication is associative.</li><li>A(B + C) = AB + AC - it distributes over addition.</li><li>(AB)ᵀ = BᵀAᵀ and (AB)⁻¹ = B⁻¹A⁻¹ - both reverse the order.</li></ul><h4>Common mistake</h4><p>Swapping AB for BA to make the answer look nicer. In a transformation problem that changes the physical meaning: rotate-then-scale is not scale-then-rotate.</p>"
+     },
+     "examples": [
+      "mm1n10"
+     ],
+     "syllabus_item": "1.4"
+    },
+    {
+     "h": {
+      "en": "4.3 Checking conformability before you multiply"
+     },
+     "body": {
+      "en": "<h4>The size test</h4><p>Write the two orders side by side and cross out the inner numbers: <b>(m × n)(n × p) = m × p</b>. If the inner numbers differ, the product does not exist - no working, no marks.</p><h4>Examples of the test</h4><table><tr><th>Product</th><th>Inner numbers</th><th>Result</th></tr><tr><td>(2 × 3)(3 × 2)</td><td>3 and 3 - match</td><td>2 × 2</td></tr><tr><td>(3 × 2)(2 × 4)</td><td>2 and 2 - match</td><td>3 × 4</td></tr><tr><td>(2 × 3)(2 × 3)</td><td>3 and 2 - differ</td><td>not defined</td></tr></table><h4>Worked example</h4><p>A = <table><tr><th>1</th><th>2</th><th>3</th></tr><tr><td>4</td><td>5</td><td>6</td></tr></table> is 2 × 3 and B = <table><tr><th>1</th><th>0</th></tr><tr><td>2</td><td>1</td></tr><tr><td>0</td><td>3</td></tr></table> is 3 × 2, so AB exists and is 2 × 2: AB = <table><tr><th>5</th><th>11</th></tr><tr><td>14</td><td>23</td></tr></table>.</p><p>Note that BA would be 3 × 3 - a different size entirely. The two products cannot be compared entry by entry.</p>"
+     },
+     "examples": [
+      "mm1n11"
+     ],
+     "syllabus_item": "1.4"
+    },
+    {
+     "h": {
+      "en": "4.4 Powers of a matrix and matrix polynomials"
+     },
+     "body": {
+      "en": "<h4>Definition</h4><p>A² means A × A, so it exists only for a square matrix. The expression <b>A² − 3A + 2I</b> is evaluated term by term: a matrix minus a matrix plus a matrix, where 2I is <i>not</i> the number 2.</p><h4>Worked example</h4><p>A = <table><tr><th>2</th><th>1</th></tr><tr><td>1</td><td>0</td></tr></table>: A² = <table><tr><th>5</th><th>2</th></tr><tr><td>2</td><td>1</td></tr></table>, 3A = <table><tr><th>6</th><th>3</th></tr><tr><td>3</td><td>0</td></tr></table>, 2I = <table><tr><th>2</th><th>0</th></tr><tr><td>0</td><td>2</td></tr></table>, so A² − 3A + 2I = <table><tr><th>1</th><th>−1</th></tr><tr><td>−1</td><td>3</td></tr></table>.</p><h4>The trap</h4><p>Filling the 2I positions with 2 instead of 2 on the diagonal and 0 elsewhere. In an expression like this, the number k always means kI for the size of A.</p><details class=\"self-check\"><summary>Is (A + B)² equal to A² + 2AB + B²?</summary><p>Only when AB = BA. In general (A + B)² = A² + AB + BA + B², and AB + BA is not 2AB.</p></details>"
+     },
+     "examples": [
+      "mm1n12"
+     ],
+     "syllabus_item": "1.4"
+    },
+    {
+     "h": {
+      "en": "4.5 Zero products and unknown entries"
+     },
+     "body": {
+      "en": "<h4>A surprise that is not a surprise</h4><p>AB = O does not force A = O or B = O. Numbers behave differently: if xy = 0 then x = 0 or y = 0, but matrices can multiply to the zero matrix while both are non-zero.</p><h4>Example</h4><p>A = <table><tr><th>1</th><th>1</th></tr><tr><td>1</td><td>1</td></tr></table> and B = <table><tr><th>1</th><th>−1</th></tr><tr><td>−1</td><td>1</td></tr></table> both have non-zero entries, yet AB = <table><tr><th>0</th><th>0</th></tr><tr><td>0</td><td>0</td></tr></table>.</p><h4>Finding an unknown entry</h4><ol><li>Multiply the matrices completely, keeping the unknown in place.</li><li>Compare each entry with the given product.</li><li>Solve the resulting equation, then check it in a second entry.</li></ol><p>That check is essential: a wrong k often satisfies one entry and fails the next.</p>"
+     },
+     "examples": [
+      "mm1n13",
+      "mm1n14"
+     ],
+     "syllabus_item": "1.4"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "5. Adjoint and Inverse of a 2x2 Matrix"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "5.1 Determinant and adjoint of a 2x2 matrix"
+     },
+     "body": {
+      "en": "<h4>Definitions</h4><p>For A = <table><tr><th>a</th><th>b</th></tr><tr><td>c</td><td>d</td></tr></table> the determinant is <b>|A| = ad − bc</b> and the adjoint is <b>adj A = <table><tr><th>d</th><th>−b</th></tr><tr><td>−c</td><td>a</td></tr></table></b>: swap the main diagonal and change the sign of the other two entries.</p><h4>Worked example</h4><p>A = <table><tr><th>3</th><th>1</th></tr><tr><td>5</td><td>2</td></tr></table>: |A| = 3(2) − 1(5) = 1 and adj A = <table><tr><th>2</th><th>−1</th></tr><tr><td>−5</td><td>3</td></tr></table>. Because |A| = 1 the inverse equals the adjoint.</p><h4>Why the adjoint works</h4><p>Multiplying A by its adjoint always gives |A|I: the diagonal entries become ad − bc and the off-diagonal entries cancel. Dividing by |A| therefore leaves exactly I.</p><h4>Common mistake</h4><p>Changing the signs of the diagonal instead of the off-diagonal. Write the pattern once - keep a and d, flip b and c - and copy it every time.</p>"
+     },
+     "diagram": "mx4_inverse2",
+     "examples": [
+      "mm1n15"
+     ],
+     "syllabus_item": "1.5"
+    },
+    {
+     "h": {
+      "en": "5.2 The inverse formula and the verification"
+     },
+     "body": {
+      "en": "<h4>Formula</h4><p><b>A⁻¹ = adj A ÷ |A| = (1/|A|) × <table><tr><th>d</th><th>−b</th></tr><tr><td>−c</td><td>a</td></tr></table></b>, defined only when |A| ≠ 0.</p><h4>Worked example</h4><p>A = <table><tr><th>2</th><th>3</th></tr><tr><td>1</td><td>4</td></tr></table>: |A| = 8 − 3 = 5, adj A = <table><tr><th>4</th><th>−3</th></tr><tr><td>−1</td><td>2</td></tr></table>, so A⁻¹ = (1/5)<table><tr><th>4</th><th>−3</th></tr><tr><td>−1</td><td>2</td></tr></table> = <table><tr><th>4/5</th><th>−3/5</th></tr><tr><td>−1/5</td><td>2/5</td></tr></table>.</p><h4>Always verify</h4><p>Multiply A by A⁻¹ and confirm that the result is I. One line of checking catches every sign slip: the top-left entry must come out as 1 and the others as 0.</p><h4>Two properties worth remembering</h4><ul><li>(A⁻¹)⁻¹ = A</li><li>(AB)⁻¹ = B⁻¹A⁻¹, and the order reverses</li></ul><p>The inverse is how a matrix is 'divided out': to solve AX = B you multiply on the left by A⁻¹, giving X = A⁻¹B.</p>"
+     },
+     "examples": [
+      "mm1n16"
+     ],
+     "syllabus_item": "1.5"
+    },
+    {
+     "h": {
+      "en": "5.3 Reading the answer: what the inverse tells you"
+     },
+     "body": {
+      "en": "<h4>Three readings</h4><table><tr><th>Value of |A|</th><th>Inverse</th><th>Meaning for two equations</th></tr><tr><td>|A| ≠ 0</td><td>exists</td><td>one unique solution</td></tr><tr><td>|A| = 0, constants inconsistent</td><td>does not exist</td><td>no solution - parallel lines</td></tr><tr><td>|A| = 0, rows proportional</td><td>does not exist</td><td>infinitely many solutions</td></tr></table><h4>Engineering reading</h4><p>A singular coefficient matrix means the equations are not independent: one of them repeats information already given. In a circuit or a truss that is the signature of a redundant or a floating element.</p><h4>Common mistake</h4><p>Finding |A| = 0 and then writing A⁻¹ = O. A zero determinant means the inverse does not exist, not that it is the zero matrix.</p>"
+     },
+     "syllabus_item": "1.5"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "6. Adjoint, Inverse (3x3) and Two Equations"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "6.1 Minors, cofactors and the 3x3 determinant"
+     },
+     "body": {
+      "en": "<h4>Definitions</h4><p>The <b>minor</b> Mᵢⱼ of an entry is the 2 × 2 determinant left after deleting its row and column. The <b>cofactor</b> carries the positional sign: <b>Cᵢⱼ = (−1)^(i+j) Mᵢⱼ</b>.</p><h4>The sign board</h4><p>+ − + / − + − / + − + . The sign belongs to the position, not to the number, so a negative entry inside the matrix does not change the pattern.</p><h4>Worked example</h4><p>A = <table><tr><th>2</th><th>1</th><th>3</th></tr><tr><td>0</td><td>4</td><td>1</td></tr><tr><td>5</td><td>2</td><td>0</td></tr></table>: expanding along the first row gives 2(0 − 2) − 1(0 − 5) + 3(0 − 20) = −4 + 5 − 60 = <b>−59</b>.</p><h4>Shortcut</h4><p>Expand along the row or column with the most zeros. Every zero removes a whole 2 × 2 determinant from the work.</p>"
+     },
+     "examples": [
+      "mm1n18"
+     ],
+     "syllabus_item": "1.5"
+    },
+    {
+     "h": {
+      "en": "6.2 The adjoint of a 3x3 matrix"
+     },
+     "body": {
+      "en": "<h4>Method</h4><ol><li>Write the cofactor of all nine entries.</li><li>Transpose that cofactor matrix - its rows become the columns of adj A.</li></ol><h4>Why the transpose</h4><p>A × (transpose of its cofactor matrix) = |A|I. That identity is exactly what makes the inverse formula work, and it holds for every order.</p><h4>Worked example</h4><p>A = <table><tr><th>1</th><th>2</th><th>3</th></tr><tr><td>0</td><td>1</td><td>4</td></tr><tr><td>5</td><td>6</td><td>0</td></tr></table> has |A| = 1 and cofactor matrix <table><tr><th>−24</th><th>20</th><th>−5</th></tr><tr><td>18</td><td>−15</td><td>4</td></tr><tr><td>5</td><td>−4</td><td>1</td></tr></table>, so adj A = <table><tr><th>−24</th><th>18</th><th>5</th></tr><tr><td>20</td><td>−15</td><td>−4</td></tr><tr><td>−5</td><td>4</td><td>1</td></tr></table> - the entries have moved across the diagonal.</p><h4>Common mistake</h4><p>Forgetting the transpose and calling the cofactor matrix the adjoint. The two are equal only when the cofactor matrix happens to be symmetric.</p>"
+     },
+     "diagram": "mx5_adj3",
+     "examples": [
+      "mm1n19"
+     ],
+     "syllabus_item": "1.5"
+    },
+    {
+     "h": {
+      "en": "6.3 The inverse of a 3x3 matrix"
+     },
+     "body": {
+      "en": "<h4>Formula</h4><p><b>A⁻¹ = adj A ÷ |A|</b>, again only when |A| ≠ 0. Every entry of the adjoint is divided by the same number.</p><h4>Worked example</h4><p>A = <table><tr><th>1</th><th>1</th><th>1</th></tr><tr><td>1</td><td>2</td><td>3</td></tr><tr><td>1</td><td>4</td><td>9</td></tr></table>: |A| = 2 and adj A = <table><tr><th>6</th><th>−5</th><th>1</th></tr><tr><td>−6</td><td>8</td><td>−2</td></tr><tr><td>2</td><td>−3</td><td>1</td></tr></table>, so A⁻¹ = (1/2)<table><tr><th>6</th><th>−5</th><th>1</th></tr><tr><td>−6</td><td>8</td><td>−2</td></tr><tr><td>2</td><td>−3</td><td>1</td></tr></table>.</p><h4>Work order that avoids errors</h4><ol><li>Find |A| first. If it is 0, stop - there is no inverse.</li><li>Build the cofactor matrix, one 2 × 2 determinant at a time.</li><li>Transpose to get adj A, then divide every entry by |A|.</li><li>Check one row of A × A⁻¹: it must give the matching row of I.</li></ol><p>A 3 × 3 inverse needs nine minors, so a tidy layout on paper matters more than speed.</p>"
+     },
+     "examples": [
+      "mm1n20"
+     ],
+     "syllabus_item": "1.5"
+    },
+    {
+     "h": {
+      "en": "6.4 Cramer's rule for two equations"
+     },
+     "body": {
+      "en": "<h4>Setup</h4><p>For a₁x + b₁y = c₁ and a₂x + b₂y = c₂ write <b>D = a₁b₂ − a₂b₁</b>, then replace the x-column by the constants to get Dₓ, and the y-column to get D_y.</p><p><b>x = Dₓ/D and y = D_y/D</b>, valid only when D ≠ 0.</p><h4>Worked example</h4><p>x + y = 7 and 2x − y = 2: D = (1)(−1) − (2)(1) = −3, Dₓ = (7)(−1) − (2)(1) = −9, D_y = (1)(2) − (2)(7) = −12. So x = 3 and y = 4, which satisfy both equations.</p><h4>Reading the three cases</h4><p>D ≠ 0 gives one solution; D = 0 with Dₓ or D_y non-zero gives none; D = Dₓ = D_y = 0 gives infinitely many. The diagram shows the three pictures.</p><h4>Common mistake</h4><p>Replacing the wrong column. Dₓ swaps the coefficients of x, D_y swaps the coefficients of y - never the constants.</p>"
+     },
+     "diagram": "mx6_solve",
+     "examples": [
+      "mm1n21"
+     ],
+     "syllabus_item": "1.6"
+    },
+    {
+     "h": {
+      "en": "6.5 The inverse-matrix method"
+     },
+     "body": {
+      "en": "<h4>Method</h4><p>Write the pair as AX = B with A the coefficient matrix, X the column of unknowns and B the column of constants. Then <b>X = A⁻¹B</b>.</p><h4>Worked example</h4><p>2x + y = 8 and x + 3y = 9: A = <table><tr><th>2</th><th>1</th></tr><tr><td>1</td><td>3</td></tr></table> has |A| = 5 and A⁻¹ = (1/5)<table><tr><th>3</th><th>−1</th></tr><tr><td>−1</td><td>2</td></tr></table>, so X = A⁻¹B = (1/5)<table><tr><th>3</th><th>−1</th></tr><tr><td>−1</td><td>2</td></tr></table><table><tr><th>8</th></tr><tr><td>9</td></tr></table> = <table><tr><th>3</th></tr><tr><td>2</td></tr></table>. Hence x = 3 and y = 2.</p><h4>Word problems</h4><p>Translate first, solve second. 'Two numbers add to 30 and differ by 8' becomes x + y = 30 and x − y = 8, which gives x = 19 and y = 11.</p><h4>Which method should I use?</h4><ul><li>Cramer's rule is faster when you only need one unknown.</li><li>The inverse method is better when several right-hand sides share the same A.</li><li>Both need the same determinant - compute it once and reuse it.</li></ul><p>Always substitute the answer back into the original equations; that single step converts a guess into a verified solution.</p>"
+     },
+     "examples": [
+      "mm1n22",
+      "mm1n23"
+     ],
+     "syllabus_item": "1.6"
+    },
+    {
+     "h": {
+      "en": "6.6 Consistent, inconsistent and dependent equations"
+     },
+     "body": {
+      "en": "<h4>Three cases from the determinant</h4><table><tr><th>Determinants</th><th>Name</th><th>Geometry</th></tr><tr><td>D ≠ 0</td><td>consistent, independent</td><td>two lines crossing at one point</td></tr><tr><td>D = 0, Dₓ or D_y ≠ 0</td><td>inconsistent</td><td>parallel lines - no solution</td></tr><tr><td>D = Dₓ = D_y = 0</td><td>dependent</td><td>the same line twice - infinitely many</td></tr></table><h4>Worked example</h4><p>2x + 3y = 7 with 4x + 6y = 14: the second row is twice the first, so D = 0 and Dₓ = D_y = 0 - every point of the line is a solution. Change the right side to 20 and the same left side becomes 4x + 6y = 20, so Dₓ ≠ 0 and there is no solution.</p><h4>What to write in an exam</h4><p>State D, then state the case by name, then give the conclusion. 'D = 0 and Dₓ ≠ 0, so the equations are inconsistent and have no solution' earns the mark; a bare 'no solution' may not.</p><h4>Engineering reading</h4><p>A dependent pair describes one physical law written twice; an inconsistent pair describes two laws that contradict each other - usually a sign error in the data.</p>"
+     },
+     "examples": [
+      "mm1n24"
+     ],
+     "syllabus_item": "1.6"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "7. Practice Questions with Model Answers"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Practice 1. Write the order of A = <table><tr><th>1</th><th>−2</th><th>4</th></tr><tr><td>7</td><td>0</td><td>3</td></tr></table>, state a₂₃ and count the entries."
+     },
+     "body": {
+      "en": "<p>A has 2 rows and 3 columns, so the order is <b>2 × 3</b>; the matrix therefore holds 2 × 3 = 6 entries.</p><p>a₂₃ means row 2, column 3, so <b>a₂₃ = 3</b>.</p><p>Read the row first and the column second: a₃₂ does not exist here, because the matrix has only two rows.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 2. If <table><tr><th>x + 2</th><th>4</th></tr><tr><td>3</td><td>y − 1</td></tr></table> = <table><tr><th>6</th><th>4</th></tr><tr><td>3</td><td>5</td></tr></table>, find x and y."
+     },
+     "body": {
+      "en": "<p>The orders match (2 × 2), so compare the entries that contain unknowns.</p><p>x + 2 = 6 gives <b>x = 4</b>, and y − 1 = 5 gives <b>y = 6</b>. The other two entries, 4 = 4 and 3 = 3, are already satisfied.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 3. Construct the 2 × 3 matrix with aᵢⱼ = i + 3j."
+     },
+     "body": {
+      "en": "<p>Put aᵢⱼ = i + 3j for i = 1, 2 and j = 1, 2, 3.</p><p><table><tr><th>4</th><th>7</th><th>10</th></tr><tr><td>5</td><td>8</td><td>11</td></tr></table></p><p>Row 1: 1 + 3 = 4, 1 + 6 = 7, 1 + 9 = 10. Row 2: 2 + 3 = 5, 2 + 6 = 8, 2 + 9 = 11.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 4. For A = <table><tr><th>2</th><th>−1</th><th>0</th></tr><tr><td>3</td><td>4</td><td>1</td></tr></table> and B = <table><tr><th>1</th><th>2</th><th>3</th></tr><tr><td>0</td><td>−2</td><td>5</td></tr></table>, find A + B and A − B."
+     },
+     "body": {
+      "en": "<p>Both matrices are 2 × 3, so add and subtract entry by entry.</p><p>A + B = <table><tr><th>3</th><th>1</th><th>3</th></tr><tr><td>3</td><td>2</td><td>6</td></tr></table> and A − B = <table><tr><th>1</th><th>−3</th><th>−3</th></tr><tr><td>3</td><td>6</td><td>−4</td></tr></table>.</p><p>Check one entry: 0 + 3 = 3 and 0 − 3 = −3.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 5. Evaluate 2A − 3B for A = <table><tr><th>1</th><th>2</th></tr><tr><td>3</td><td>4</td></tr></table> and B = <table><tr><th>0</th><th>1</th></tr><tr><td>2</td><td>−1</td></tr></table>."
+     },
+     "body": {
+      "en": "<p>Scale first: 2A = <table><tr><th>2</th><th>4</th></tr><tr><td>6</td><td>8</td></tr></table> and 3B = <table><tr><th>0</th><th>3</th></tr><tr><td>6</td><td>−3</td></tr></table>.</p><p>Subtracting: 2A − 3B = <table><tr><th>2</th><th>1</th></tr><tr><td>0</td><td>11</td></tr></table>.</p><p>The bottom-right entry is 8 − (−3) = 11, since subtracting a negative adds.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 6. For A = <table><tr><th>2</th><th>3</th></tr><tr><td>1</td><td>4</td></tr></table>, verify that A + Aᵀ is symmetric."
+     },
+     "body": {
+      "en": "<p>Aᵀ = <table><tr><th>2</th><th>1</th></tr><tr><td>3</td><td>4</td></tr></table>, so A + Aᵀ = <table><tr><th>4</th><th>4</th></tr><tr><td>4</td><td>8</td></tr></table>.</p><p>The entries across the diagonal are equal, so the sum is symmetric.</p><p>In general (A + Aᵀ)ᵀ = Aᵀ + A = A + Aᵀ, which proves the result for every square matrix.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 7. Find AB and BA for A = <table><tr><th>1</th><th>2</th></tr><tr><td>3</td><td>4</td></tr></table> and B = <table><tr><th>0</th><th>1</th></tr><tr><td>1</td><td>0</td></tr></table>, and comment on the result."
+     },
+     "body": {
+      "en": "<p>AB = <table><tr><th>2</th><th>3</th></tr><tr><td>4</td><td>7</td></tr></table> and BA = <table><tr><th>3</th><th>4</th></tr><tr><td>1</td><td>2</td></tr></table>.</p><p>The two products are different matrices, so <b>AB ≠ BA</b>: matrix multiplication is not commutative, even when both products exist and have the same order.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 8. Multiply A = <table><tr><th>1</th><th>2</th><th>3</th></tr><tr><td>4</td><td>5</td><td>6</td></tr></table> by B = <table><tr><th>1</th><th>0</th></tr><tr><td>2</td><td>1</td></tr><tr><td>0</td><td>3</td></tr></table> and state the order of AB."
+     },
+     "body": {
+      "en": "<p>The inner numbers are 3 and 3, so AB exists and its order is 2 × 2.</p><p>AB = <table><tr><th>5</th><th>11</th></tr><tr><td>14</td><td>23</td></tr></table>.</p><p>Row 1 into column 2: 1(0) + 2(1) + 3(3) = 11. Row 2 into column 1: 4(1) + 5(2) + 6(0) = 14.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 9. If A = <table><tr><th>1</th><th>2</th></tr><tr><td>3</td><td>x</td></tr></table> and A² = <table><tr><th>7</th><th>10</th></tr><tr><td>15</td><td>22</td></tr></table>, find x."
+     },
+     "body": {
+      "en": "<p>A² = <table><tr><th>7</th><th>2 + 2x</th></tr><tr><td>3 + 3x</td><td>6 + x²</td></tr></table>.</p><p>Comparing top-right entries: 2 + 2x = 10, so <b>x = 4</b>.</p><p>Check: 3 + 12 = 15 and 6 + 16 = 22, exactly the given entries, so x = 4 is correct.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 10. Find the adjoint and inverse of A = <table><tr><th>4</th><th>5</th></tr><tr><td>2</td><td>3</td></tr></table>."
+     },
+     "body": {
+      "en": "<p>|A| = 4(3) − 5(2) = 12 − 10 = 2, so the inverse exists.</p><p>adj A = <table><tr><th>3</th><th>−5</th></tr><tr><td>−2</td><td>4</td></tr></table> and A⁻¹ = (1/2)<table><tr><th>3</th><th>−5</th></tr><tr><td>−2</td><td>4</td></tr></table>.</p><p>Check: 4(3/2) + 5(−2/2) = 6 − 5 = 1, the top-left entry of I.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 11. For what values of k is A = <table><tr><th>k</th><th>3</th></tr><tr><td>2</td><td>k − 1</td></tr></table> singular?"
+     },
+     "body": {
+      "en": "<p>A is singular when |A| = 0: k(k − 1) − (3)(2) = k² − k − 6 = 0.</p><p>Factorising: (k − 3)(k + 2) = 0, so <b>k = 3 or k = −2</b>.</p><p>For every other value of k the determinant is non-zero and the inverse exists.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 12. Find |A|, adj A and A⁻¹ for A = <table><tr><th>1</th><th>2</th><th>3</th></tr><tr><td>0</td><td>1</td><td>4</td></tr><tr><td>5</td><td>6</td><td>0</td></tr></table>."
+     },
+     "body": {
+      "en": "<p>|A| = 1(0 − 24) − 2(0 − 20) + 3(0 − 5) = −24 + 40 − 15 = <b>1</b>.</p><p>adj A = <table><tr><th>−24</th><th>18</th><th>5</th></tr><tr><td>20</td><td>−15</td><td>−4</td></tr><tr><td>−5</td><td>4</td><td>1</td></tr></table>.</p><p>Since |A| = 1, A⁻¹ = adj A; multiplying A by it gives I, which verifies the answer.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 13. Solve x + y = 7 and 2x − y = 2 by Cramer's rule."
+     },
+     "body": {
+      "en": "<p>Coefficient matrix A = <table><tr><th>1</th><th>1</th></tr><tr><td>2</td><td>−1</td></tr></table> gives D = −1 − 2 = −3.</p><p>Dₓ = 7(−1) − 2(1) = −9 and D_y = 1(2) − 2(7) = −12.</p><p>Hence x = −9/−3 = <b>3</b> and y = −12/−3 = <b>4</b>, which satisfy both equations.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 14. Solve 2x + y = 8 and x + 3y = 9 by the inverse-matrix method."
+     },
+     "body": {
+      "en": "<p>A = <table><tr><th>2</th><th>1</th></tr><tr><td>1</td><td>3</td></tr></table>, B = <table><tr><th>8</th></tr><tr><td>9</td></tr></table>, |A| = 6 − 1 = 5 and A⁻¹ = (1/5)<table><tr><th>3</th><th>−1</th></tr><tr><td>−1</td><td>2</td></tr></table>.</p><p>X = A⁻¹B = (1/5)<table><tr><th>24 − 9</th></tr><tr><td>−8 + 18</td></tr></table> = <table><tr><th>3</th></tr><tr><td>2</td></tr></table>.</p><p>So x = 3 and y = 2; substituting gives 6 + 2 = 8 and 3 + 6 = 9.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Practice 15. Two numbers add to 30 and differ by 8. Form the matrix equation and solve it."
+     },
+     "body": {
+      "en": "<p>Let the numbers be x and y. Then x + y = 30 and x − y = 8, so A = <table><tr><th>1</th><th>1</th></tr><tr><td>1</td><td>−1</td></tr></table> and B = <table><tr><th>30</th></tr><tr><td>8</td></tr></table>.</p><p>|A| = −1 − 1 = −2 and A⁻¹ = (1/−2)<table><tr><th>−1</th><th>−1</th></tr><tr><td>−1</td><td>1</td></tr></table>.</p><p>X = A⁻¹B = <table><tr><th>19</th></tr><tr><td>11</td></tr></table>, so the numbers are <b>19 and 11</b>: they add to 30 and differ by 8.</p>"
+     }
+    }
+   ]
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "mx1_anatomy",
+   "title": {
+    "en": "A matrix is a block of numbers"
+   },
+   "file": "diagrams/mx1_anatomy.svg"
+  },
+  {
+   "id": "mx2_types",
+   "title": {
+    "en": "Six matrix types to recognise"
+   },
+   "file": "diagrams/mx2_types.svg"
+  },
+  {
+   "id": "mx3_product",
+   "title": {
+    "en": "Row times column gives an entry of AB"
+   },
+   "file": "diagrams/mx3_product.svg"
+  },
+  {
+   "id": "mx4_inverse2",
+   "title": {
+    "en": "The 2x2 inverse in three steps"
+   },
+   "file": "diagrams/mx4_inverse2.svg"
+  },
+  {
+   "id": "mx5_adj3",
+   "title": {
+    "en": "Adjoint of a 3x3 matrix"
+   },
+   "file": "diagrams/mx5_adj3.svg"
+  },
+  {
+   "id": "mx6_solve",
+   "title": {
+    "en": "Three outcomes of two equations"
+   },
+   "file": "diagrams/mx6_solve.svg"
+  }
+ ],
+ "equations": [
+  {
+   "title": {
+    "en": "Matrix arithmetic"
+   },
+   "items": [
+    {
+     "terms": {
+      "en": "Order of a matrix with m rows and n columns"
+     },
+     "a": {
+      "en": "m × n (row count first)"
+     }
+    },
+    {
+     "terms": {
+      "en": "Equality of two matrices"
+     },
+     "a": {
+      "en": "same order, and aᵢⱼ = bᵢⱼ for every i, j"
+     }
+    },
+    {
+     "terms": {
+      "en": "Addition and subtraction"
+     },
+     "a": {
+      "en": "(A ± B)ᵢⱼ = aᵢⱼ ± bᵢⱼ  (same order required)"
+     }
+    },
+    {
+     "terms": {
+      "en": "Scalar multiplication"
+     },
+     "a": {
+      "en": "(kA)ᵢⱼ = k aᵢⱼ"
+     }
+    },
+    {
+     "terms": {
+      "en": "Transpose rules"
+     },
+     "a": {
+      "en": "(Aᵀ)ᵀ = A,  (A + B)ᵀ = Aᵀ + Bᵀ,  (AB)ᵀ = BᵀAᵀ"
+     }
+    },
+    {
+     "terms": {
+      "en": "Product entry"
+     },
+     "a": {
+      "en": "(AB)ᵢⱼ = aᵢ₁b₁ⱼ + aᵢ₂b₂ⱼ + ... + aᵢₙbₙⱼ"
+     }
+    },
+    {
+     "terms": {
+      "en": "Size rule for a product"
+     },
+     "a": {
+      "en": "(m × n)(n × p) = m × p; inner numbers must match"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Determinant, adjoint and inverse"
+   },
+   "items": [
+    {
+     "terms": {
+      "en": "Determinant of a 2 × 2 matrix"
+     },
+     "a": {
+      "en": "|A| = ad − bc for A = [a b; c d]"
+     }
+    },
+    {
+     "terms": {
+      "en": "Adjoint of a 2 × 2 matrix"
+     },
+     "a": {
+      "en": "adj A = [d −b; −c a]  (swap a, d; negate b, c)"
+     }
+    },
+    {
+     "terms": {
+      "en": "Inverse of a 2 × 2 matrix"
+     },
+     "a": {
+      "en": "A⁻¹ = adj A / |A| ,  valid only if |A| ≠ 0"
+     }
+    },
+    {
+     "terms": {
+      "en": "Cofactor of an entry"
+     },
+     "a": {
+      "en": "Cᵢⱼ = (−1)^(i+j) × minor of aᵢⱼ"
+     }
+    },
+    {
+     "terms": {
+      "en": "Determinant of a 3 × 3 matrix"
+     },
+     "a": {
+      "en": "|A| = a₁₁C₁₁ + a₁₂C₁₂ + a₁₃C₁₃ (any row or column)"
+     }
+    },
+    {
+     "terms": {
+      "en": "Adjoint of a 3 × 3 matrix"
+     },
+     "a": {
+      "en": "adj A = transpose of the cofactor matrix"
+     }
+    },
+    {
+     "terms": {
+      "en": "Singular test"
+     },
+     "a": {
+      "en": "|A| = 0  ⇒  A⁻¹ does not exist"
+     }
+    },
+    {
+     "terms": {
+      "en": "Verification"
+     },
+     "a": {
+      "en": "A A⁻¹ = A⁻¹A = I"
+     }
+    },
+    {
+     "terms": {
+      "en": "Inverse of a product"
+     },
+     "a": {
+      "en": "(AB)⁻¹ = B⁻¹A⁻¹"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Two simultaneous equations"
+   },
+   "items": [
+    {
+     "terms": {
+      "en": "Matrix form"
+     },
+     "a": {
+      "en": "AX = B  ⇒  X = A⁻¹B"
+     }
+    },
+    {
+     "terms": {
+      "en": "Cramer's rule"
+     },
+     "a": {
+      "en": "x = Dₓ/D ,  y = D_y/D ,  using D = a₁b₂ − a₂b₁"
+     }
+    },
+    {
+     "terms": {
+      "en": "Unique solution"
+     },
+     "a": {
+      "en": "D ≠ 0  ⇒  exactly one solution"
+     }
+    },
+    {
+     "terms": {
+      "en": "No solution"
+     },
+     "a": {
+      "en": "D = 0 and Dₓ or D_y ≠ 0  ⇒  parallel lines"
+     }
+    },
+    {
+     "terms": {
+      "en": "Infinitely many solutions"
+     },
+     "a": {
+      "en": "D = Dₓ = D_y = 0  ⇒  the same line twice"
+     }
+    }
+   ]
+  }
+ ],
+ "numericals": [
+  {
+   "id": "mm1n1",
+   "q": {
+    "en": "Write the order of A = <table><tr><th>2</th><th>−1</th><th>3</th></tr><tr><td>0</td><td>5</td><td>4</td></tr></table> and state the values of a₁₃ and a₂₂."
+   },
+   "a": {
+    "en": "<p>A has 2 rows and 3 columns, so the <b>order is 2 × 3</b> and it holds 2 × 3 = 6 entries.</p><p>a₁₃ means row 1, column 3, so <b>a₁₃ = 3</b>.</p><p>a₂₂ means row 2, column 2, so <b>a₂₂ = 5</b>.</p><p>There is no a₃₁ because the matrix has only two rows.</p>"
+   }
+  },
+  {
+   "id": "mm1n2",
+   "q": {
+    "en": "If <table><tr><th>x + 1</th><th>3</th></tr><tr><td>2</td><td>y − 2</td></tr></table> = <table><tr><th>5</th><th>3</th></tr><tr><td>2</td><td>4</td></tr></table>, find x and y."
+   },
+   "a": {
+    "en": "<p>Both matrices are 2 × 2, so equality means each matching pair of entries is equal.</p><p>Top-left: x + 1 = 5, hence <b>x = 4</b>.</p><p>Bottom-right: y − 2 = 4, hence <b>y = 6</b>.</p><p>The other two entries are 3 = 3 and 2 = 2, which are already satisfied, so the answer is consistent.</p>"
+   }
+  },
+  {
+   "id": "mm1n3",
+   "q": {
+    "en": "Construct the 2 × 3 matrix whose entries are aᵢⱼ = 2i + j."
+   },
+   "a": {
+    "en": "<p>Substitute the six (i, j) pairs, taking i = 1, 2 and j = 1, 2, 3.</p><p><table><tr><th>3</th><th>4</th><th>5</th></tr><tr><td>5</td><td>6</td><td>7</td></tr></table></p><p>Row 1 (i = 1): 2 + 1 = 3, 2 + 2 = 4, 2 + 3 = 5.</p><p>Row 2 (i = 2): 4 + 1 = 5, 4 + 2 = 6, 4 + 3 = 7.</p>"
+   }
+  },
+  {
+   "id": "mm1n4",
+   "q": {
+    "en": "Find the transpose of A = <table><tr><th>1</th><th>2</th><th>3</th></tr><tr><td>4</td><td>5</td><td>6</td></tr></table> and show that (Aᵀ)ᵀ = A."
+   },
+   "a": {
+    "en": "<p>Turn rows into columns: the first row (1, 2, 3) becomes the first column of Aᵀ.</p><p>Aᵀ = <table><tr><th>1</th><th>4</th></tr><tr><td>2</td><td>5</td></tr><tr><td>3</td><td>6</td></tr></table> - order 3 × 2.</p><p>Transposing Aᵀ again returns a 2 × 3 matrix whose rows are the columns of Aᵀ, that is <table><tr><th>1</th><th>2</th><th>3</th></tr><tr><td>4</td><td>5</td><td>6</td></tr></table> = A. Hence <b>(Aᵀ)ᵀ = A</b>.</p>"
+   }
+  },
+  {
+   "id": "mm1n5",
+   "q": {
+    "en": "For A = <table><tr><th>1</th><th>2</th><th>3</th></tr><tr><td>4</td><td>5</td><td>6</td></tr></table> and B = <table><tr><th>6</th><th>5</th><th>4</th></tr><tr><td>3</td><td>2</td><td>1</td></tr></table>, find A + B and A − B."
+   },
+   "a": {
+    "en": "<p>Both matrices are 2 × 3, so both operations are allowed and each entry is combined separately.</p><p>A + B = <table><tr><th>7</th><th>7</th><th>7</th></tr><tr><td>7</td><td>7</td><td>7</td></tr></table>.</p><p>A − B = <table><tr><th>−5</th><th>−3</th><th>−1</th></tr><tr><td>1</td><td>3</td><td>5</td></tr></table>.</p><p>Check one entry: 1 + 6 = 7 and 1 − 6 = −5, as shown.</p>"
+   }
+  },
+  {
+   "id": "mm1n6",
+   "q": {
+    "en": "If A = <table><tr><th>2</th><th>−1</th></tr><tr><td>3</td><td>0</td></tr></table> and B = <table><tr><th>1</th><th>4</th></tr><tr><td>−2</td><td>5</td></tr></table>, evaluate 3A − 2B."
+   },
+   "a": {
+    "en": "<p>Scale first: 3A = <table><tr><th>6</th><th>−3</th></tr><tr><td>9</td><td>0</td></tr></table> and 2B = <table><tr><th>2</th><th>8</th></tr><tr><td>−4</td><td>10</td></tr></table>.</p><p>Subtract entry by entry: 3A − 2B = <table><tr><th>4</th><th>−11</th></tr><tr><td>13</td><td>−10</td></tr></table>.</p><p>Check the top-left entry: 6 − 2 = 4. Because B has negative entries, subtracting 2B adds in places - 0 − 10 = −10, not +10.</p>"
+   }
+  },
+  {
+   "id": "mm1n7",
+   "q": {
+    "en": "Find 4A when A = <table><tr><th>1/2</th><th>3</th></tr><tr><td>−1</td><td>1/4</td></tr></table>."
+   },
+   "a": {
+    "en": "<p>A scalar multiplies every entry, so each of the four numbers is multiplied by 4.</p><p>4A = <table><tr><th>2</th><th>12</th></tr><tr><td>−4</td><td>1</td></tr></table>.</p><p>Check: 4 × 1/2 = 2, 4 × 3 = 12, 4 × (−1) = −4, 4 × 1/4 = 1.</p><p>The order stays 2 × 2 - a scalar never changes the shape of a matrix.</p>"
+   }
+  },
+  {
+   "id": "mm1n8",
+   "q": {
+    "en": "Show that A + Aᵀ is symmetric for A = <table><tr><th>1</th><th>2</th></tr><tr><td>3</td><td>4</td></tr></table>."
+   },
+   "a": {
+    "en": "<p>Aᵀ = <table><tr><th>1</th><th>3</th></tr><tr><td>2</td><td>4</td></tr></table>, so A + Aᵀ = <table><tr><th>2</th><th>5</th></tr><tr><td>5</td><td>8</td></tr></table>.</p><p>The entries across the main diagonal are equal (5 = 5), so the sum is symmetric.</p><p>General proof: (A + Aᵀ)ᵀ = Aᵀ + (Aᵀ)ᵀ = Aᵀ + A = A + Aᵀ, which is exactly the definition of a symmetric matrix.</p>"
+   }
+  },
+  {
+   "id": "mm1n9",
+   "q": {
+    "en": "Multiply A = <table><tr><th>1</th><th>2</th></tr><tr><td>3</td><td>4</td></tr></table> and B = <table><tr><th>2</th><th>0</th></tr><tr><td>1</td><td>3</td></tr></table> to find AB."
+   },
+   "a": {
+    "en": "<p>Each entry of AB is a row of A times a column of B.</p><p>Top-left: 1(2) + 2(1) = 4. Top-right: 1(0) + 2(3) = 6.</p><p>Bottom-left: 3(2) + 4(1) = 10. Bottom-right: 3(0) + 4(3) = 12.</p><p>So AB = <table><tr><th>4</th><th>6</th></tr><tr><td>10</td><td>12</td></tr></table>, a 2 × 2 matrix.</p>"
+   }
+  },
+  {
+   "id": "mm1n10",
+   "q": {
+    "en": "For the same A = <table><tr><th>1</th><th>2</th></tr><tr><td>3</td><td>4</td></tr></table> and B = <table><tr><th>2</th><th>0</th></tr><tr><td>1</td><td>3</td></tr></table>, find BA and compare it with AB."
+   },
+   "a": {
+    "en": "<p>BA takes rows of B into columns of A.</p><p>Top-left: 2(1) + 0(3) = 2. Top-right: 2(2) + 0(4) = 4.</p><p>Bottom-left: 1(1) + 3(3) = 10. Bottom-right: 1(2) + 3(4) = 14.</p><p>BA = <table><tr><th>2</th><th>4</th></tr><tr><td>10</td><td>14</td></tr></table> while AB = <table><tr><th>4</th><th>6</th></tr><tr><td>10</td><td>12</td></tr></table>, so <b>AB ≠ BA</b>: matrix multiplication does not commute.</p>"
+   }
+  },
+  {
+   "id": "mm1n11",
+   "q": {
+    "en": "Find AB for the 2 × 3 matrix A = <table><tr><th>1</th><th>2</th><th>3</th></tr><tr><td>4</td><td>5</td><td>6</td></tr></table> and the 3 × 2 matrix B = <table><tr><th>1</th><th>0</th></tr><tr><td>2</td><td>1</td></tr><tr><td>0</td><td>3</td></tr></table>, and state the order of the product."
+   },
+   "a": {
+    "en": "<p>Inner numbers 3 and 3 match, so AB exists and its order is 2 × 2.</p><p>Row 1: 1(1) + 2(2) + 3(0) = 5 and 1(0) + 2(1) + 3(3) = 11.</p><p>Row 2: 4(1) + 5(2) + 6(0) = 14 and 4(0) + 5(1) + 6(3) = 23.</p><p>AB = <table><tr><th>5</th><th>11</th></tr><tr><td>14</td><td>23</td></tr></table>.</p>"
+   }
+  },
+  {
+   "id": "mm1n12",
+   "q": {
+    "en": "If A = <table><tr><th>2</th><th>1</th></tr><tr><td>1</td><td>0</td></tr></table>, evaluate A² − 3A + 2I."
+   },
+   "a": {
+    "en": "<p>A² = A × A = <table><tr><th>5</th><th>2</th></tr><tr><td>2</td><td>1</td></tr></table>.</p><p>3A = <table><tr><th>6</th><th>3</th></tr><tr><td>3</td><td>0</td></tr></table> and 2I = <table><tr><th>2</th><th>0</th></tr><tr><td>0</td><td>2</td></tr></table> - the 2 sits on the diagonal only.</p><p>A² − 3A + 2I = <table><tr><th>5 − 6 + 2</th><th>2 − 3 + 0</th></tr><tr><td>2 − 3 + 0</td><td>1 − 0 + 2</td></tr></table> = <table><tr><th>1</th><th>−1</th></tr><tr><td>−1</td><td>3</td></tr></table>.</p>"
+   }
+  },
+  {
+   "id": "mm1n13",
+   "q": {
+    "en": "Show that AB can be the zero matrix even when neither A nor B is zero, using A = <table><tr><th>1</th><th>1</th></tr><tr><td>1</td><td>1</td></tr></table> and B = <table><tr><th>1</th><th>−1</th></tr><tr><td>−1</td><td>1</td></tr></table>."
+   },
+   "a": {
+    "en": "<p>Multiply row by column: top-left 1(1) + 1(−1) = 0; top-right 1(−1) + 1(1) = 0.</p><p>Bottom-left 1(1) + 1(−1) = 0; bottom-right 1(−1) + 1(1) = 0.</p><p>So AB = <table><tr><th>0</th><th>0</th></tr><tr><td>0</td><td>0</td></tr></table> = O while both matrices have non-zero entries. Matrices have no zero-product rule.</p>"
+   }
+  },
+  {
+   "id": "mm1n14",
+   "q": {
+    "en": "Find k if A = <table><tr><th>1</th><th>2</th></tr><tr><td>3</td><td>k</td></tr></table> satisfies A² = <table><tr><th>7</th><th>10</th></tr><tr><td>15</td><td>22</td></tr></table>."
+   },
+   "a": {
+    "en": "<p>First find A² = <table><tr><th>1 + 6</th><th>2 + 2k</th></tr><tr><td>3 + 3k</td><td>6 + k²</td></tr></table>.</p><p>Comparing the top-right entries: 2 + 2k = 10, so <b>k = 4</b>.</p><p>Check with the other entries: 3 + 3(4) = 15 (matches) and 6 + 16 = 22 (matches), so k = 4 is consistent.</p>"
+   }
+  },
+  {
+   "id": "mm1n15",
+   "q": {
+    "en": "Find the determinant, the adjoint and the inverse of A = <table><tr><th>3</th><th>1</th></tr><tr><td>5</td><td>2</td></tr></table>."
+   },
+   "a": {
+    "en": "<p>|A| = 3(2) − 1(5) = <b>1</b>, so the matrix is non-singular.</p><p>Swap the diagonal and negate the other two: adj A = <table><tr><th>2</th><th>−1</th></tr><tr><td>−5</td><td>3</td></tr></table>.</p><p>A⁻¹ = adj A ÷ |A| = <table><tr><th>2</th><th>−1</th></tr><tr><td>−5</td><td>3</td></tr></table> because dividing by 1 changes nothing.</p><p>Check: <table><tr><th>3</th><th>1</th></tr><tr><td>5</td><td>2</td></tr></table><table><tr><th>2</th><th>−1</th></tr><tr><td>−5</td><td>3</td></tr></table> = <table><tr><th>1</th><th>0</th></tr><tr><td>0</td><td>1</td></tr></table> = I.</p>"
+   }
+  },
+  {
+   "id": "mm1n16",
+   "q": {
+    "en": "Find A⁻¹ for A = <table><tr><th>2</th><th>3</th></tr><tr><td>1</td><td>4</td></tr></table> and verify the answer."
+   },
+   "a": {
+    "en": "<p>|A| = 2(4) − 3(1) = 5, which is not zero, so the inverse exists.</p><p>adj A = <table><tr><th>4</th><th>−3</th></tr><tr><td>−1</td><td>2</td></tr></table>, so A⁻¹ = (1/5)<table><tr><th>4</th><th>−3</th></tr><tr><td>−1</td><td>2</td></tr></table> = <table><tr><th>4/5</th><th>−3/5</th></tr><tr><td>−1/5</td><td>2/5</td></tr></table>.</p><p>Verification: row 1 of A into column 1 of A⁻¹ gives 2(4/5) + 3(−1/5) = 1, and into column 2 gives 2(−3/5) + 3(2/5) = 0. So A A⁻¹ = I.</p>"
+   }
+  },
+  {
+   "id": "mm1n17",
+   "q": {
+    "en": "For what values of x is A = <table><tr><th>x</th><th>2</th></tr><tr><td>8</td><td>x</td></tr></table> singular?"
+   },
+   "a": {
+    "en": "<p>A square matrix is singular when its determinant is zero.</p><p>|A| = x·x − 2(8) = x² − 16. Setting x² − 16 = 0 gives x = 4 or x = −4.</p><p>So A has <b>no inverse when x = 4 or x = −4</b>; for every other x the inverse exists.</p><p>Note the two answers: a squared equation never gives just one root.</p>"
+   }
+  },
+  {
+   "id": "mm1n18",
+   "q": {
+    "en": "Evaluate |A| for A = <table><tr><th>2</th><th>1</th><th>3</th></tr><tr><td>0</td><td>4</td><td>1</td></tr><tr><td>5</td><td>2</td><td>0</td></tr></table> by expanding along the first row."
+   },
+   "a": {
+    "en": "<p>|A| = 2(4(0) − 1(2)) − 1(0(0) − 1(5)) + 3(0(2) − 4(5)).</p><p>= 2(0 − 2) − 1(0 − 5) + 3(0 − 20) = −4 + 5 − 60.</p><p>So <b>|A| = −59</b>.</p><p>The middle term has a minus sign in front of it, and the inner minus inside the bracket makes it positive: −1 × (−5) = +5.</p>"
+   }
+  },
+  {
+   "id": "mm1n19",
+   "q": {
+    "en": "Find the adjoint of A = <table><tr><th>1</th><th>2</th><th>3</th></tr><tr><td>0</td><td>1</td><td>4</td></tr><tr><td>5</td><td>6</td><td>0</td></tr></table>."
+   },
+   "a": {
+    "en": "<p>Cofactors: C₁₁ = −24, C₁₂ = 20, C₁₃ = −5; C₂₁ = 18, C₂₂ = −15, C₂₃ = 4; C₃₁ = 5, C₃₂ = −4, C₃₃ = 1.</p><p>Cofactor matrix = <table><tr><th>−24</th><th>20</th><th>−5</th></tr><tr><td>18</td><td>−15</td><td>4</td></tr><tr><td>5</td><td>−4</td><td>1</td></tr></table>.</p><p>Transpose it: adj A = <table><tr><th>−24</th><th>18</th><th>5</th></tr><tr><td>20</td><td>−15</td><td>−4</td></tr><tr><td>−5</td><td>4</td><td>1</td></tr></table>.</p><p>Because |A| = 1 here, the same array is also A⁻¹.</p>"
+   }
+  },
+  {
+   "id": "mm1n20",
+   "q": {
+    "en": "Find A⁻¹ for A = <table><tr><th>1</th><th>1</th><th>1</th></tr><tr><td>1</td><td>2</td><td>3</td></tr><tr><td>1</td><td>4</td><td>9</td></tr></table>."
+   },
+   "a": {
+    "en": "<p>Expand along row 1: |A| = 1(18 − 12) − 1(9 − 3) + 1(4 − 2) = 6 − 6 + 2 = 2.</p><p>Cofactors give <table><tr><th>6</th><th>−6</th><th>2</th></tr><tr><td>−5</td><td>8</td><td>−3</td></tr><tr><td>1</td><td>−2</td><td>1</td></tr></table>, so adj A = <table><tr><th>6</th><th>−5</th><th>1</th></tr><tr><td>−6</td><td>8</td><td>−2</td></tr><tr><td>2</td><td>−3</td><td>1</td></tr></table>.</p><p>A⁻¹ = (1/2)<table><tr><th>6</th><th>−5</th><th>1</th></tr><tr><td>−6</td><td>8</td><td>−2</td></tr><tr><td>2</td><td>−3</td><td>1</td></tr></table>.</p><p>Check the top-left entry of A A⁻¹: 1(3) + 1(−3) + 1(1) = 1, as required.</p>"
+   }
+  },
+  {
+   "id": "mm1n21",
+   "q": {
+    "en": "Solve x + y = 7 and 2x − y = 2 by Cramer's rule."
+   },
+   "a": {
+    "en": "<p>Coefficient matrix A = <table><tr><th>1</th><th>1</th></tr><tr><td>2</td><td>−1</td></tr></table> gives D = 1(−1) − 1(2) = <b>−3</b>.</p><p>Replace the x-column by <table><tr><th>7</th></tr><tr><td>2</td></tr></table>: Dₓ = 7(−1) − 2(1) = −9.</p><p>Replace the y-column: D_y = 1(2) − 2(7) = −12.</p><p>x = Dₓ/D = −9/−3 = <b>3</b> and y = D_y/D = −12/−3 = <b>4</b>.</p><p>Check: 3 + 4 = 7 and 2(3) − 4 = 2, so both equations are satisfied.</p>"
+   }
+  },
+  {
+   "id": "mm1n22",
+   "q": {
+    "en": "Solve 2x + y = 8 and x + 3y = 9 by the inverse-matrix method."
+   },
+   "a": {
+    "en": "<p>Write AX = B with A = <table><tr><th>2</th><th>1</th></tr><tr><td>1</td><td>3</td></tr></table>, B = <table><tr><th>8</th></tr><tr><td>9</td></tr></table>.</p><p>|A| = 6 − 1 = 5 and adj A = <table><tr><th>3</th><th>−1</th></tr><tr><td>−1</td><td>2</td></tr></table>, so A⁻¹ = (1/5)<table><tr><th>3</th><th>−1</th></tr><tr><td>−1</td><td>2</td></tr></table>.</p><p>X = A⁻¹B = (1/5)<table><tr><th>24 − 9</th></tr><tr><td>−8 + 18</td></tr></table> = (1/5)<table><tr><th>15</th></tr><tr><td>10</td></tr></table> = <table><tr><th>3</th></tr><tr><td>2</td></tr></table>.</p><p>Hence x = 3 and y = 2, which check out in both original equations.</p>"
+   }
+  },
+  {
+   "id": "mm1n23",
+   "q": {
+    "en": "Two numbers add up to 30 and differ by 8. Set up the equations as matrices and solve them."
+   },
+   "a": {
+    "en": "<p>Let the numbers be x and y: x + y = 30 and x − y = 8, so A = <table><tr><th>1</th><th>1</th></tr><tr><td>1</td><td>−1</td></tr></table> and B = <table><tr><th>30</th></tr><tr><td>8</td></tr></table>.</p><p>|A| = −1 − 1 = −2, adj A = <table><tr><th>−1</th><th>−1</th></tr><tr><td>−1</td><td>1</td></tr></table>, so A⁻¹ = (1/−2)<table><tr><th>−1</th><th>−1</th></tr><tr><td>−1</td><td>1</td></tr></table>.</p><p>X = A⁻¹B = (1/−2)<table><tr><th>−38</th></tr><tr><td>−22</td></tr></table> = <table><tr><th>19</th></tr><tr><td>11</td></tr></table>.</p><p>The numbers are <b>19 and 11</b>: 19 + 11 = 30 and 19 − 11 = 8.</p>"
+   }
+  },
+  {
+   "id": "mm1n24",
+   "q": {
+    "en": "Decide the number of solutions for (a) 2x + 3y = 7 with 4x + 6y = 14 and (b) 2x + 3y = 7 with 4x + 6y = 20."
+   },
+   "a": {
+    "en": "<p>(a) D = 2(6) − 3(4) = 0. Also Dₓ = 7(6) − 3(14) = 0 and D_y = 2(14) − 7(4) = 0, so every point on 2x + 3y = 7 is a solution: <b>infinitely many</b>.</p><p>(b) D = 0 again but Dₓ = 7(6) − 3(20) = −18 ≠ 0, so the equations contradict each other: <b>no solution</b> (parallel lines).</p><p>Rule: D = 0 always means the coefficient rows are proportional; the constants then decide between 'the same line' and 'parallel lines'.</p>"
+   }
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Basics"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "What is a matrix?"
+     },
+     "a": {
+      "en": "A rectangular arrangement of numbers inside brackets. It has no value of its own; it is described by its order and its entries."
+     }
+    },
+    {
+     "q": {
+      "en": "What does the order m × n tell you?"
+     },
+     "a": {
+      "en": "m rows and n columns, so the matrix holds m × n entries."
+     }
+    },
+    {
+     "q": {
+      "en": "In a₂₃, which number is the row?"
+     },
+     "a": {
+      "en": "The first, 2. The row is always quoted before the column."
+     }
+    },
+    {
+     "q": {
+      "en": "When are two matrices equal?"
+     },
+     "a": {
+      "en": "When they have the same order and every matching pair of entries is equal."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a square matrix?"
+     },
+     "a": {
+      "en": "One whose number of rows equals its number of columns, such as 2 × 2 or 3 × 3. Only square matrices have determinants and inverses."
+     }
+    },
+    {
+     "q": {
+      "en": "Name four special square matrices."
+     },
+     "a": {
+      "en": "Diagonal (zeros off the diagonal), scalar (equal diagonal entries), identity (ones on the diagonal) and zero (all entries zero)."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Operations"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "When can two matrices be added?"
+     },
+     "a": {
+      "en": "Only when they have the same order; then each pair of matching entries is added."
+     }
+    },
+    {
+     "q": {
+      "en": "When does the product AB exist?"
+     },
+     "a": {
+      "en": "When the number of columns of A equals the number of rows of B. The answer then has the rows of A and the columns of B."
+     }
+    },
+    {
+     "q": {
+      "en": "Is AB equal to BA?"
+     },
+     "a": {
+      "en": "Usually not. Matrix multiplication is not commutative, and sometimes one of the two products cannot be formed at all."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you find the entry in row 2 and column 1 of AB?"
+     },
+     "a": {
+      "en": "Take row 2 of A and column 1 of B, multiply matching entries and add the products."
+     }
+    },
+    {
+     "q": {
+      "en": "Does AB = O mean A = O or B = O?"
+     },
+     "a": {
+      "en": "No. Two non-zero matrices can multiply to the zero matrix; matrices have no zero-product rule."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the transpose used for?"
+     },
+     "a": {
+      "en": "To turn rows into columns. It defines symmetric matrices (Aᵀ = A) and appears in the rules (AB)ᵀ = BᵀAᵀ."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Adjoint, inverse and equations"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "How do you write the adjoint of a 2 × 2 matrix?"
+     },
+     "a": {
+      "en": "Swap the two diagonal entries and change the signs of the other two: for [a b; c d] the adjoint is [d −b; −c a]."
+     }
+    },
+    {
+     "q": {
+      "en": "When does a matrix have no inverse?"
+     },
+     "a": {
+      "en": "When its determinant is zero. Such a matrix is called singular, and A⁻¹ = adj A/|A| cannot be evaluated."
+     }
+    },
+    {
+     "q": {
+      "en": "How do you check an inverse?"
+     },
+     "a": {
+      "en": "Multiply A by A⁻¹ in either order; the answer must be the identity matrix I."
+     }
+    },
+    {
+     "q": {
+      "en": "What does the determinant of a coefficient matrix tell you?"
+     },
+     "a": {
+      "en": "If D ≠ 0 there is exactly one solution. If D = 0 the equations are either inconsistent (no solution) or dependent (infinitely many)."
+     }
+    },
+    {
+     "q": {
+      "en": "State Cramer's rule for two equations."
+     },
+     "a": {
+      "en": "x = Dₓ/D and y = D_y/D, where Dₓ is formed by replacing the x-column with the constants and D_y by replacing the y-column."
+     }
+    },
+    {
+     "q": {
+      "en": "Why must you check a solution in the original equations?"
+     },
+     "a": {
+      "en": "Because an arithmetic slip in one entry of the inverse or one determinant gives a wrong answer that still looks tidy; substitution is the only reliable check."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Practice: Write the order of A = <table><tr><th>1</th><th>−2</th><th>4</th></tr><tr><td>7</td><td>0</td><td>3</td></tr></table>, state a₂₃ and count the entries."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Practice: If <table><tr><th>x + 2</th><th>4</th></tr><tr><td>3</td><td>y − 1</td></tr></table> = <table><tr><th>6</th><th>4</th></tr><tr><td>3</td><td>5</td></tr></table>, find x and y."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Practice: Construct the 2 × 3 matrix with aᵢⱼ = i + 3j."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Practice: For A = <table><tr><th>2</th><th>−1</th><th>0</th></tr><tr><td>3</td><td>4</td><td>1</td></tr></table> and B = <table><tr><th>1</th><th>2</th><th>3</th></tr><tr><td>0</td><td>−2</td><td>5</td></tr></table>, find A + B and A − B."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Practice: Evaluate 2A − 3B for A = <table><tr><th>1</th><th>2</th></tr><tr><td>3</td><td>4</td></tr></table> and B = <table><tr><th>0</th><th>1</th></tr><tr><td>2</td><td>−1</td></tr></table>."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Practice: For A = <table><tr><th>2</th><th>3</th></tr><tr><td>1</td><td>4</td></tr></table>, verify that A + Aᵀ is symmetric."
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Practice: Find AB and BA for A = <table><tr><th>1</th><th>2</th></tr><tr><td>3</td><td>4</td></tr></table> and B = <table><tr><th>0</th><th>1</th></tr><tr><td>1</td><td>0</td></tr></table>, and comment on the result."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Multiply A = <table><tr><th>1</th><th>2</th><th>3</th></tr><tr><td>4</td><td>5</td><td>6</td></tr></table> by B = <table><tr><th>1</th><th>0</th></tr><tr><td>2</td><td>1</td></tr><tr><td>0</td><td>3</td></tr></table> and state the order of AB."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: If A = <table><tr><th>1</th><th>2</th></tr><tr><td>3</td><td>x</td></tr></table> and A² = <table><tr><th>7</th><th>10</th></tr><tr><td>15</td><td>22</td></tr></table>, find x."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Find the adjoint and inverse of A = <table><tr><th>4</th><th>5</th></tr><tr><td>2</td><td>3</td></tr></table>."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: For what values of k is A = <table><tr><th>k</th><th>3</th></tr><tr><td>2</td><td>k − 1</td></tr></table> singular?"
+   },
+   "marks": 3
+  },
+  {
+   "q": {
+    "en": "Practice: Find |A|, adj A and A⁻¹ for A = <table><tr><th>1</th><th>2</th><th>3</th></tr><tr><td>0</td><td>1</td><td>4</td></tr><tr><td>5</td><td>6</td><td>0</td></tr></table>."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Solve x + y = 7 and 2x − y = 2 by Cramer's rule."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Solve 2x + y = 8 and x + 3y = 9 by the inverse-matrix method."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Practice: Two numbers add to 30 and differ by 8. Form the matrix equation and solve it."
+   },
+   "marks": 4
+  }
+ ],
+ "learning_outcomes": [
+  {
+   "en": "CO1: Demonstrate the ability to crack engineering related problems based on matrices."
+  }
+ ],
+ "course_outcomes": [
+  "CO1"
+ ],
+ "practical_numbers": [],
+ "content_kind": "theory",
+ "lesson_count": 26,
+ "answered_practice_count": 15,
+ "assessment_note": {
+  "en": "Official course: theory ESE 70 + PA 30 = 100 marks, 4 credits, 45 teaching hours; this unit carries 23 % weightage and about 16 of the 70 theory marks. Practice-question marks (3/4) are suggested revision sizes, not official GTU allocations or a guaranteed paper pattern. Model answers are in Notes section 7."
+ },
+ "question_provenance": "Original answered revision questions; not official past papers",
+ "question_marks_are_suggested": true,
+ "sources": [
+  {
+   "title": "GTU DI02000021, Engineering Mathematics, Semester 2, BSC (uploaded syllabus)",
+   "url": "https://syllabus.gtu.ac.in/"
+  },
+  {
+   "title": "Khan Academy - matrices, determinants and inverses",
+   "url": "https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:matrices"
+  },
+  {
+   "title": "OpenStax - College Algebra 2e, chapter 7 (systems of equations and matrices)",
+   "url": "https://openstax.org/details/books/college-algebra-2e"
+  },
+  {
+   "title": "GeoGebra - two straight lines and the number of solutions they share",
+   "url": "https://www.geogebra.org/"
+  },
+  {
+   "title": "B. S. Grewal - Elementary Engineering Mathematics (Khanna Publishers)",
+   "url": "https://www.khannapublishers.in/"
+  }
+ ]
+}

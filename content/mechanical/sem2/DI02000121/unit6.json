@@ -1,0 +1,499 @@
+{
+ "subject": "DI02000121",
+ "unit": 6,
+ "format": "notes",
+ "title": {
+  "en": "Introduction to CAD Software",
+  "gu": "Introduction to CAD Software"
+ },
+ "hours": 6,
+ "weightage": 20,
+ "languages": [
+  "en"
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "numericals",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "tab_labels": {
+  "numericals": {
+   "en": "Solved numericals",
+   "gu": "Solved numericals"
+  },
+  "syntax": {
+   "en": "Commands, symbols and key data",
+   "gu": "Commands, symbols and key data"
+  }
+ },
+ "intro_text": {
+  "en": "Unit 6 of Mechanical Drafting (DI02000121) introduces Computer-Aided Drafting: the CAD software available and what it can do, the AutoCAD window part by part, file operations, setting up a drawing (units, limits, grid, snap and the status-bar aids), the coordinate systems used to enter points exactly, and the organising concepts of layers, blocks and hatch. Unit 7 then dimensions the CAD drawing; Practical 7 produces a plotted 2D drawing in AutoCAD.",
+  "gu": "Unit 6 of Mechanical Drafting (DI02000121) introduces Computer-Aided Drafting: the CAD software available and what it can do, the AutoCAD window part by part, file operations, setting up a drawing (units, limits, grid, snap and the status-bar aids), the coordinate systems used to enter points exactly, and the organising concepts of layers, blocks and hatch. Unit 7 then dimensions the CAD drawing; Practical 7 produces a plotted 2D drawing in AutoCAD."
+ },
+ "notes": [
+  {
+   "title": {
+    "en": "6.1-6.3 CAD software, the AutoCAD window and file features",
+    "gu": "6.1-6.3 CAD software, the AutoCAD window and file features"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "6.1 CAD software in the field and their capabilities",
+      "gu": "6.1 CAD software in the field and their capabilities"
+     },
+     "syllabus_item": "6.1",
+     "body": {
+      "en": "<h4>What CAD replaced - and what it did not</h4><p><b>CAD (Computer-Aided Design/Drafting)</b> software produces the same standardised drawings of Units 1-5 on a computer: exact geometry (no scale-rule error), instant editing (move/copy/mirror instead of erasing), reuse (blocks, templates, copied details), automatic hatching/dimensioning assistance, layer-based organisation, and clean plotted output at any scale. The <b>conventions do not change</b> - line types, sections, symbols and GD&T of the earlier units are exactly what the software must produce; CAD replaces the pencil, never the drafting knowledge.</p><h4>The software landscape</h4><ul><li><b>AutoCAD (Autodesk):</b> the general-purpose 2D drafting standard taught in this course; also 3D modelling; DWG file format is the industry exchange format.</li><li><b>Parametric 3D modellers:</b> SolidWorks, Autodesk Inventor, Creo, CATIA, NX - parts are modelled as solids with parameters and drawings are generated/updated from the model; used for product design.</li><li><b>Free/open and light tools:</b> LibreCAD, DraftSight/FreeCAD, nanoCAD - 2D capability for viewing, teaching and small work.</li><li><b>Capability ladder:</b> 2D drafting (this course) -> 3D solid/surface modelling -> assembly modelling with interference checks -> CAM/CAE links (machining toolpaths, stress analysis) -> PLM data management in large companies.</li></ul>",
+      "gu": "<h4>What CAD replaced - and what it did not</h4><p><b>CAD (Computer-Aided Design/Drafting)</b> software produces the same standardised drawings of Units 1-5 on a computer: exact geometry (no scale-rule error), instant editing (move/copy/mirror instead of erasing), reuse (blocks, templates, copied details), automatic hatching/dimensioning assistance, layer-based organisation, and clean plotted output at any scale. The <b>conventions do not change</b> - line types, sections, symbols and GD&T of the earlier units are exactly what the software must produce; CAD replaces the pencil, never the drafting knowledge.</p><h4>The software landscape</h4><ul><li><b>AutoCAD (Autodesk):</b> the general-purpose 2D drafting standard taught in this course; also 3D modelling; DWG file format is the industry exchange format.</li><li><b>Parametric 3D modellers:</b> SolidWorks, Autodesk Inventor, Creo, CATIA, NX - parts are modelled as solids with parameters and drawings are generated/updated from the model; used for product design.</li><li><b>Free/open and light tools:</b> LibreCAD, DraftSight/FreeCAD, nanoCAD - 2D capability for viewing, teaching and small work.</li><li><b>Capability ladder:</b> 2D drafting (this course) -> 3D solid/surface modelling -> assembly modelling with interference checks -> CAM/CAE links (machining toolpaths, stress analysis) -> PLM data management in large companies.</li></ul>"
+     }
+    },
+    {
+     "h": {
+      "en": "6.2 The AutoCAD software window",
+      "gu": "6.2 The AutoCAD software window"
+     },
+     "syllabus_item": "6.2",
+     "diagram": "md6_window",
+     "body": {
+      "en": "<h4>Tour of the window (diagram md6_window)</h4><ul><li><b>Title bar:</b> application and drawing names (Drawing1.dwg until saved), with the application menu button 'A'.</li><li><b>Quick Access Toolbar:</b> New, Open, Save, Save As, Undo, Redo - one click, customisable.</li><li><b>Ribbon:</b> tabs (Home, Insert, Annotate, Parametric, View, Manage...) each holding panels of tools - Draw panel (Line, Circle, Arc, Polyline...), Modify panel (Move, Copy, Rotate, Mirror, Trim, Fillet...), Layers, Annotation. The ribbon is the modern replacement of the classical <b>Draw and Modify toolbars</b> (floating/docked toolbars of the older interface - same commands).</li><li><b>Drawing area (viewport):</b> the sheet of infinite size where geometry is drawn at true size (1 unit = 1 mm by setup); crosshair cursor; <b>UCS icon</b> at the origin shows the X-Y axes directions; ViewCube/NavBar navigate views (zoom/pan).</li><li><b>Command prompt/window:</b> the conversation line - commands are typed here (or picked from ribbon) and AutoCAD prompts for points/options step by step. <b>Reading the command line is the core operating skill</b>: every tool explains itself there.</li><li><b>Status bar:</b> Model/Layout tabs and the drafting-aid toggles - GRID, SNAP, ORTHO, POLAR, OSNAP, DYN (dynamic input), LWT (lineweight), ISODRAFT (Card 6.4) - plus coordinate readout.</li></ul><h4>Command entry - three equivalent ways</h4><p>Ribbon icon, typed command name or its alias (L for LINE, C for CIRCLE, M for MOVE), or right-click menus; Enter repeats the last command; Esc cancels. The drawing aids can be toggled by status-bar buttons or function keys (F7 grid, F9 snap, F8 ortho, F3 osnap, F12 dynamic input).</p>",
+      "gu": "<h4>Tour of the window (diagram md6_window)</h4><ul><li><b>Title bar:</b> application and drawing names (Drawing1.dwg until saved), with the application menu button 'A'.</li><li><b>Quick Access Toolbar:</b> New, Open, Save, Save As, Undo, Redo - one click, customisable.</li><li><b>Ribbon:</b> tabs (Home, Insert, Annotate, Parametric, View, Manage...) each holding panels of tools - Draw panel (Line, Circle, Arc, Polyline...), Modify panel (Move, Copy, Rotate, Mirror, Trim, Fillet...), Layers, Annotation. The ribbon is the modern replacement of the classical <b>Draw and Modify toolbars</b> (floating/docked toolbars of the older interface - same commands).</li><li><b>Drawing area (viewport):</b> the sheet of infinite size where geometry is drawn at true size (1 unit = 1 mm by setup); crosshair cursor; <b>UCS icon</b> at the origin shows the X-Y axes directions; ViewCube/NavBar navigate views (zoom/pan).</li><li><b>Command prompt/window:</b> the conversation line - commands are typed here (or picked from ribbon) and AutoCAD prompts for points/options step by step. <b>Reading the command line is the core operating skill</b>: every tool explains itself there.</li><li><b>Status bar:</b> Model/Layout tabs and the drafting-aid toggles - GRID, SNAP, ORTHO, POLAR, OSNAP, DYN (dynamic input), LWT (lineweight), ISODRAFT (Card 6.4) - plus coordinate readout.</li></ul><h4>Command entry - three equivalent ways</h4><p>Ribbon icon, typed command name or its alias (L for LINE, C for CIRCLE, M for MOVE), or right-click menus; Enter repeats the last command; Esc cancels. The drawing aids can be toggled by status-bar buttons or function keys (F7 grid, F9 snap, F8 ortho, F3 osnap, F12 dynamic input).</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "6.3 File features: new, save, open",
+      "gu": "6.3 File features: new, save, open"
+     },
+     "syllabus_item": "6.3",
+     "body": {
+      "en": "<h4>The file operations</h4><ul><li><b>New (NEW/QNEW):</b> starts a drawing, normally from a <b>template</b> (.dwt) carrying preset units, limits, layers, text/dimension styles and a title block - the CAD equivalent of opening a fresh standard sheet.</li><li><b>Save (SAVE/QSAVE):</b> writes the .dwg file; first save asks name and location. Save early and often - CAD files are the master record. <b>Save As</b> creates copies/versions or other formats (older DWG versions, DXF for exchange with other software).</li><li><b>Open (OPEN):</b> loads an existing .dwg; recent-file list and previews aid finding. Backup (.bak) and auto-save (.sv$) files protect work against crashes.</li></ul><h4>Good file habits (examined as practice)</h4><p>Meaningful file names with revision (Flange_Drilling_R2.dwg), one project folder per job, templates for every new sheet, and plots (PDF/DWF) for issue - the recipient of a plotted PDF can read/print without AutoCAD, exactly like a printed A2 sheet.</p>",
+      "gu": "<h4>The file operations</h4><ul><li><b>New (NEW/QNEW):</b> starts a drawing, normally from a <b>template</b> (.dwt) carrying preset units, limits, layers, text/dimension styles and a title block - the CAD equivalent of opening a fresh standard sheet.</li><li><b>Save (SAVE/QSAVE):</b> writes the .dwg file; first save asks name and location. Save early and often - CAD files are the master record. <b>Save As</b> creates copies/versions or other formats (older DWG versions, DXF for exchange with other software).</li><li><b>Open (OPEN):</b> loads an existing .dwg; recent-file list and previews aid finding. Backup (.bak) and auto-save (.sv$) files protect work against crashes.</li></ul><h4>Good file habits (examined as practice)</h4><p>Meaningful file names with revision (Flange_Drilling_R2.dwg), one project folder per job, templates for every new sheet, and plots (PDF/DWF) for issue - the recipient of a plotted PDF can read/print without AutoCAD, exactly like a printed A2 sheet.</p>"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "6.4-6.6 Drawing setup, coordinate systems, layers/blocks/hatch",
+    "gu": "6.4-6.6 Drawing setup, coordinate systems, layers/blocks/hatch"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "6.4 Setting up a new drawing: units, limits and the drawing aids",
+      "gu": "6.4 Setting up a new drawing: units, limits and the drawing aids"
+     },
+     "syllabus_item": "6.4",
+     "diagram": "md6_setup",
+     "body": {
+      "en": "<h4>Setup sequence for every new drawing</h4><ul><li><b>UNITS:</b> set the drawing unit and precision - for mechanical work: decimal millimetres, precision 0.0 or 0.00; angle in decimal degrees. One drawing unit = 1 mm thereafter.</li><li><b>LIMITS:</b> the intended drawing extent (e.g. 0,0 to 420,297 for an A3 field, or comfortably around the part) - grid displays inside limits, and ZOOM All frames them.</li><li><b>GRID (F7):</b> visible dot pattern at set spacing - a visual ruler, never printed. <b>SNAP (F9):</b> forces the cursor to jump in set steps for quick regular layouts; grid and snap spacing are set independently.</li></ul><h4>The accuracy aids (this is where CAD beats the pencil)</h4><ul><li><b>ORTHO (F8):</b> constrains lines horizontal/vertical. <b>POLAR tracking:</b> snaps to set angles (30/45/90 deg...) with alignment paths - ORTHO's angular generalisation.</li><li><b>OSNAP (F3) - object snap:</b> grabs exact geometric points of existing objects: ENDpoint, MIDpoint, CENtre, INTersection, PERpendicular, TANgent, NEArest... - the difference between a drawing that merely looks right and one that <i>is</i> right. Running osnaps are set with the OSNAP dialog; markers (square=endpoint, triangle=midpoint, circle=centre) confirm the grab.</li><li><b>DYNMODE (F12, dynamic input):</b> dimension/angle boxes at the cursor while drawing - values are typed where the eyes are.</li><li><b>ISODRAFT:</b> switches the crosshair/grid to isometric planes (left/right/top) for isometric pictorial drawing; <b>Dynamic UCS:</b> automatically aligns the XY plane to a face of a 3D solid while modelling.</li></ul>",
+      "gu": "<h4>Setup sequence for every new drawing</h4><ul><li><b>UNITS:</b> set the drawing unit and precision - for mechanical work: decimal millimetres, precision 0.0 or 0.00; angle in decimal degrees. One drawing unit = 1 mm thereafter.</li><li><b>LIMITS:</b> the intended drawing extent (e.g. 0,0 to 420,297 for an A3 field, or comfortably around the part) - grid displays inside limits, and ZOOM All frames them.</li><li><b>GRID (F7):</b> visible dot pattern at set spacing - a visual ruler, never printed. <b>SNAP (F9):</b> forces the cursor to jump in set steps for quick regular layouts; grid and snap spacing are set independently.</li></ul><h4>The accuracy aids (this is where CAD beats the pencil)</h4><ul><li><b>ORTHO (F8):</b> constrains lines horizontal/vertical. <b>POLAR tracking:</b> snaps to set angles (30/45/90 deg...) with alignment paths - ORTHO's angular generalisation.</li><li><b>OSNAP (F3) - object snap:</b> grabs exact geometric points of existing objects: ENDpoint, MIDpoint, CENtre, INTersection, PERpendicular, TANgent, NEArest... - the difference between a drawing that merely looks right and one that <i>is</i> right. Running osnaps are set with the OSNAP dialog; markers (square=endpoint, triangle=midpoint, circle=centre) confirm the grab.</li><li><b>DYNMODE (F12, dynamic input):</b> dimension/angle boxes at the cursor while drawing - values are typed where the eyes are.</li><li><b>ISODRAFT:</b> switches the crosshair/grid to isometric planes (left/right/top) for isometric pictorial drawing; <b>Dynamic UCS:</b> automatically aligns the XY plane to a face of a 3D solid while modelling.</li></ul>"
+     }
+    },
+    {
+     "h": {
+      "en": "6.5 Coordinate systems in AutoCAD: absolute, relative, Cartesian and polar",
+      "gu": "6.5 Coordinate systems in AutoCAD: absolute, relative, Cartesian and polar"
+     },
+     "syllabus_item": "6.5",
+     "diagram": "md6_coords",
+     "body": {
+      "en": "<h4>Points are entered as coordinates - four ways</h4><p>The drawing plane is the XY plane of the <b>World Coordinate System (WCS)</b>, origin (0,0) at the UCS icon (a User Coordinate System can relocate it). Every point AutoCAD asks for can be typed as:</p><ul><li><b>Absolute Cartesian:</b> X,Y measured from the origin - '30,15' is the point 30 right, 15 up, always.</li><li><b>Relative Cartesian:</b> @dx,dy measured from the last point entered - '@30,15' means 30 right and 15 up <i>from where you are</i>; the @ is the whole meaning. Most real drawing is relative.</li><li><b>Absolute polar:</b> distance&lt;angle from the origin - '50&lt;30'.</li><li><b>Relative polar:</b> @distance&lt;angle from the last point - '@40&lt;30' draws a 40-long line at 30 deg. Polar is the natural input for inclined lines, chamfers and bolt circles.</li></ul><h4>Worked trace (diagram)</h4><p>LINE from P1 (0,0): enter 30,15 (absolute) for P2 - or @30,15 - then @40&lt;30 reaches P3 = (30 + 40 cos 30, 15 + 40 sin 30) = (64.6, 35). Two habits make coordinate entry reliable: watch the command-line prompt (it tells which point is wanted), and verify with the coordinate readout/DIST command instead of trusting the screen scale.</p>",
+      "gu": "<h4>Points are entered as coordinates - four ways</h4><p>The drawing plane is the XY plane of the <b>World Coordinate System (WCS)</b>, origin (0,0) at the UCS icon (a User Coordinate System can relocate it). Every point AutoCAD asks for can be typed as:</p><ul><li><b>Absolute Cartesian:</b> X,Y measured from the origin - '30,15' is the point 30 right, 15 up, always.</li><li><b>Relative Cartesian:</b> @dx,dy measured from the last point entered - '@30,15' means 30 right and 15 up <i>from where you are</i>; the @ is the whole meaning. Most real drawing is relative.</li><li><b>Absolute polar:</b> distance&lt;angle from the origin - '50&lt;30'.</li><li><b>Relative polar:</b> @distance&lt;angle from the last point - '@40&lt;30' draws a 40-long line at 30 deg. Polar is the natural input for inclined lines, chamfers and bolt circles.</li></ul><h4>Worked trace (diagram)</h4><p>LINE from P1 (0,0): enter 30,15 (absolute) for P2 - or @30,15 - then @40&lt;30 reaches P3 = (30 + 40 cos 30, 15 + 40 sin 30) = (64.6, 35). Two habits make coordinate entry reliable: watch the command-line prompt (it tells which point is wanted), and verify with the coordinate readout/DIST command instead of trusting the screen scale.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "6.6 Layers, blocks and hatch - organising the drawing",
+      "gu": "6.6 Layers, blocks and hatch - organising the drawing"
+     },
+     "syllabus_item": "6.6",
+     "diagram": "md6_layers",
+     "body": {
+      "en": "<h4>Layers: transparent sheets, one per kind of information</h4><p>A <b>layer</b> is a named drawing level carrying its own colour, linetype and lineweight; every object is drawn on a layer. A disciplined mechanical drawing uses layers such as OBJECT (visible outlines), CENTRE, HIDDEN, DIM (dimensions), HATCH, TITLE - echoing the line language of Unit 1. Layer controls per layer: <b>On/Off</b> (invisible, still processed), <b>Freeze</b> (invisible and skipped - faster), <b>Lock</b> (visible, uneditable), colour/linetype/lineweight assignment, and <b>Plot/No-plot</b>. Benefits: switch off dimensions to read geometry, plot construction lines away, change a whole class (all centre lines green) in one edit, and keep a large drawing navigable.</p><h4>Blocks: draw once, insert many times</h4><p>A <b>block</b> is a named group of objects defined once (BLOCK command: base point + objects) and inserted (INSERT) any number of times at any scale/rotation: bolts, nuts, weld and roughness symbols, the title block itself. Editing the definition updates every insert; blocks keep file size small and symbols standard. (Dynamic blocks add stretch/flip parameters; block attributes carry text data such as part numbers.)</p><h4>Hatch: filling closed areas</h4><p><b>HATCH</b> fills a closed boundary with a pattern (ANSI31 = the 45 deg section lining of Unit 2, plus steel/concrete/earth material patterns), with angle and scale controls; associative hatch updates when the boundary is edited. On mechanical drawings hatch is used almost entirely for sectional views - placed on its own HATCH layer.</p>",
+      "gu": "<h4>Layers: transparent sheets, one per kind of information</h4><p>A <b>layer</b> is a named drawing level carrying its own colour, linetype and lineweight; every object is drawn on a layer. A disciplined mechanical drawing uses layers such as OBJECT (visible outlines), CENTRE, HIDDEN, DIM (dimensions), HATCH, TITLE - echoing the line language of Unit 1. Layer controls per layer: <b>On/Off</b> (invisible, still processed), <b>Freeze</b> (invisible and skipped - faster), <b>Lock</b> (visible, uneditable), colour/linetype/lineweight assignment, and <b>Plot/No-plot</b>. Benefits: switch off dimensions to read geometry, plot construction lines away, change a whole class (all centre lines green) in one edit, and keep a large drawing navigable.</p><h4>Blocks: draw once, insert many times</h4><p>A <b>block</b> is a named group of objects defined once (BLOCK command: base point + objects) and inserted (INSERT) any number of times at any scale/rotation: bolts, nuts, weld and roughness symbols, the title block itself. Editing the definition updates every insert; blocks keep file size small and symbols standard. (Dynamic blocks add stretch/flip parameters; block attributes carry text data such as part numbers.)</p><h4>Hatch: filling closed areas</h4><p><b>HATCH</b> fills a closed boundary with a pattern (ANSI31 = the 45 deg section lining of Unit 2, plus steel/concrete/earth material patterns), with angle and scale controls; associative hatch updates when the boundary is edited. On mechanical drawings hatch is used almost entirely for sectional views - placed on its own HATCH layer.</p>"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Answered exam questions",
+    "gu": "Answered exam questions"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Q1. What is CAD? State four advantages of CAD over manual drafting.",
+      "gu": "Q1. What is CAD? State four advantages of CAD over manual drafting."
+     },
+     "body": {
+      "en": "<h4>Model answer</h4><p>CAD (Computer-Aided Design/Drafting) is the preparation of engineering drawings with computer software (AutoCAD for 2D drafting in this course). Advantages: (1) accuracy - geometry is created from exact coordinates and object snaps, free of scale-rule and pencil error; (2) speed of editing - move/copy/mirror/trim replace erasing and redrawing, so revisions take minutes; (3) reuse and standardisation - blocks, templates and layers keep symbols and sheets uniform and reusable across projects; (4) output quality and sharing - clean plots at any scale, PDF issue, and DWG/DXF exchange between companies. The drafting conventions (lines, sections, symbols, GD&T) remain the same as manual work; CAD strengthens their execution.</p>",
+      "gu": "<h4>Model answer</h4><p>CAD (Computer-Aided Design/Drafting) is the preparation of engineering drawings with computer software (AutoCAD for 2D drafting in this course). Advantages: (1) accuracy - geometry is created from exact coordinates and object snaps, free of scale-rule and pencil error; (2) speed of editing - move/copy/mirror/trim replace erasing and redrawing, so revisions take minutes; (3) reuse and standardisation - blocks, templates and layers keep symbols and sheets uniform and reusable across projects; (4) output quality and sharing - clean plots at any scale, PDF issue, and DWG/DXF exchange between companies. The drafting conventions (lines, sections, symbols, GD&T) remain the same as manual work; CAD strengthens their execution.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Q2. Sketch and label the main parts of the AutoCAD window.",
+      "gu": "Q2. Sketch and label the main parts of the AutoCAD window."
+     },
+     "body": {
+      "en": "<h4>Model answer</h4><p>From top to bottom (diagram md6_window): <b>Title bar</b> with the drawing name; <b>Quick Access Toolbar</b> (New/Open/Save/Undo/Redo); <b>Ribbon</b> of tabs and panels carrying Draw, Modify, Layers and Annotation tools (the modern form of the Draw and Modify toolbars); the large <b>drawing area/viewport</b> with crosshair cursor, UCS icon at the origin, ViewCube/NavBar for navigation; the <b>command prompt</b> line where commands and options are typed and read; and the <b>status bar</b> with Model/Layout tabs and the drawing-aid toggles (GRID, SNAP, ORTHO, POLAR, OSNAP, DYN, LWT). A neat labelled sketch of this arrangement is the expected answer.</p>",
+      "gu": "<h4>Model answer</h4><p>From top to bottom (diagram md6_window): <b>Title bar</b> with the drawing name; <b>Quick Access Toolbar</b> (New/Open/Save/Undo/Redo); <b>Ribbon</b> of tabs and panels carrying Draw, Modify, Layers and Annotation tools (the modern form of the Draw and Modify toolbars); the large <b>drawing area/viewport</b> with crosshair cursor, UCS icon at the origin, ViewCube/NavBar for navigation; the <b>command prompt</b> line where commands and options are typed and read; and the <b>status bar</b> with Model/Layout tabs and the drawing-aid toggles (GRID, SNAP, ORTHO, POLAR, OSNAP, DYN, LWT). A neat labelled sketch of this arrangement is the expected answer.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Q3. Explain: GRID, SNAP, ORTHO and OSNAP modes.",
+      "gu": "Q3. Explain: GRID, SNAP, ORTHO and OSNAP modes."
+     },
+     "body": {
+      "en": "<h4>Model answer</h4><p><b>GRID (F7)</b> displays a pattern of dots at a set spacing inside the drawing limits as a visual reference; it does not print. <b>SNAP (F9)</b> restricts cursor movement to a set step so points land on a regular lattice. <b>ORTHO (F8)</b> constrains lines and moves to horizontal/vertical directions only. <b>OSNAP (F3)</b>, object snap, picks exact geometric points on existing objects - endpoint (square marker), midpoint (triangle), centre (circle), intersection, perpendicular, tangent - which is what makes CAD geometry exact rather than approximate. GRID/SNAP help layout by eye; OSNAP guarantees connection accuracy.</p>",
+      "gu": "<h4>Model answer</h4><p><b>GRID (F7)</b> displays a pattern of dots at a set spacing inside the drawing limits as a visual reference; it does not print. <b>SNAP (F9)</b> restricts cursor movement to a set step so points land on a regular lattice. <b>ORTHO (F8)</b> constrains lines and moves to horizontal/vertical directions only. <b>OSNAP (F3)</b>, object snap, picks exact geometric points on existing objects - endpoint (square marker), midpoint (triangle), centre (circle), intersection, perpendicular, tangent - which is what makes CAD geometry exact rather than approximate. GRID/SNAP help layout by eye; OSNAP guarantees connection accuracy.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Q4. Differentiate between absolute, relative Cartesian and relative polar coordinates, with examples.",
+      "gu": "Q4. Differentiate between absolute, relative Cartesian and relative polar coordinates, with examples."
+     },
+     "body": {
+      "en": "<h4>Model answer</h4><p><b>Absolute Cartesian</b> (30,15): the point is always 30 units in X and 15 in Y from the WCS origin (0,0), regardless of history. <b>Relative Cartesian</b> (@30,15): 30 in X and 15 in Y measured from the last point entered - the @ changes the reference from the origin to the current point. <b>Relative polar</b> (@40&lt;30): a point 40 units away from the last point at 30 degrees to the X axis - the natural form for drawing an inclined line of known length. Example trace: from (0,0), @30,15 then @40&lt;30 ends at (64.6, 35). Relative entry dominates practical drawing because parts are dimensioned from feature to feature, not from a distant origin.</p>",
+      "gu": "<h4>Model answer</h4><p><b>Absolute Cartesian</b> (30,15): the point is always 30 units in X and 15 in Y from the WCS origin (0,0), regardless of history. <b>Relative Cartesian</b> (@30,15): 30 in X and 15 in Y measured from the last point entered - the @ changes the reference from the origin to the current point. <b>Relative polar</b> (@40&lt;30): a point 40 units away from the last point at 30 degrees to the X axis - the natural form for drawing an inclined line of known length. Example trace: from (0,0), @30,15 then @40&lt;30 ends at (64.6, 35). Relative entry dominates practical drawing because parts are dimensioned from feature to feature, not from a distant origin.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Q5. What are layers? State four layer properties/controls.",
+      "gu": "Q5. What are layers? State four layer properties/controls."
+     },
+     "body": {
+      "en": "<h4>Model answer</h4><p>A layer is a named, transparent level of the drawing with its own colour, linetype and lineweight, on which related objects are drawn (OBJECT, CENTRE, HIDDEN, DIM, HATCH, TITLE...). Controls: <b>On/Off</b> - hide or show the layer's objects (still processed when off); <b>Freeze/Thaw</b> - hide and exclude from processing for speed in big drawings; <b>Lock/Unlock</b> - visible but protected from editing; <b>Plot/No-plot</b> - exclude construction layers from the printed sheet. Colour/linetype/lineweight can also be set per layer so classes of lines change together (ByLayer discipline).</p>",
+      "gu": "<h4>Model answer</h4><p>A layer is a named, transparent level of the drawing with its own colour, linetype and lineweight, on which related objects are drawn (OBJECT, CENTRE, HIDDEN, DIM, HATCH, TITLE...). Controls: <b>On/Off</b> - hide or show the layer's objects (still processed when off); <b>Freeze/Thaw</b> - hide and exclude from processing for speed in big drawings; <b>Lock/Unlock</b> - visible but protected from editing; <b>Plot/No-plot</b> - exclude construction layers from the printed sheet. Colour/linetype/lineweight can also be set per layer so classes of lines change together (ByLayer discipline).</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Q6. What is a block in AutoCAD? Give two applications.",
+      "gu": "Q6. What is a block in AutoCAD? Give two applications."
+     },
+     "body": {
+      "en": "<h4>Model answer</h4><p>A block is a named group of objects defined once with a base (insertion) point and then inserted repeatedly at any position, scale or rotation with the INSERT command; editing the block definition updates all its inserts. Applications: (1) standard symbols and fasteners - bolts, nuts, weld/roughness symbols inserted identically everywhere; (2) the title block with border, inserted on every sheet of a project so all sheets match. Blocks standardise content, reduce file size and make global changes in one edit.</p>",
+      "gu": "<h4>Model answer</h4><p>A block is a named group of objects defined once with a base (insertion) point and then inserted repeatedly at any position, scale or rotation with the INSERT command; editing the block definition updates all its inserts. Applications: (1) standard symbols and fasteners - bolts, nuts, weld/roughness symbols inserted identically everywhere; (2) the title block with border, inserted on every sheet of a project so all sheets match. Blocks standardise content, reduce file size and make global changes in one edit.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Q7. Write the setup sequence for starting a new mechanical drawing in AutoCAD.",
+      "gu": "Q7. Write the setup sequence for starting a new mechanical drawing in AutoCAD."
+     },
+     "body": {
+      "en": "<h4>Model answer</h4><p>(1) NEW from the metric template; (2) UNITS - decimal millimetres, required precision, degree angles; (3) LIMITS to suit the part/sheet and ZOOM All; (4) GRID and SNAP spacings as convenient multiples; (5) OSNAP running modes (endpoint, midpoint, centre, intersection) and DYN on; (6) create the LAYERS (object, centre, hidden, dimension, hatch) with colours/linetypes; (7) set text and dimension styles (Unit 7); then draw at full true size (1 unit = 1 mm) and SAVE with a proper name in the project folder.</p>",
+      "gu": "<h4>Model answer</h4><p>(1) NEW from the metric template; (2) UNITS - decimal millimetres, required precision, degree angles; (3) LIMITS to suit the part/sheet and ZOOM All; (4) GRID and SNAP spacings as convenient multiples; (5) OSNAP running modes (endpoint, midpoint, centre, intersection) and DYN on; (6) create the LAYERS (object, centre, hidden, dimension, hatch) with colours/linetypes; (7) set text and dimension styles (Unit 7); then draw at full true size (1 unit = 1 mm) and SAVE with a proper name in the project folder.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Q8. What is the UCS icon? What is Dynamic UCS?",
+      "gu": "Q8. What is the UCS icon? What is Dynamic UCS?"
+     },
+     "body": {
+      "en": "<h4>Model answer</h4><p>The UCS icon is the small X-Y axes marker displayed at the origin of the current User Coordinate System in the drawing area; it shows where (0,0) is and which way X and Y point, so coordinate entry is never disoriented. Dynamic UCS is a 3D-modelling aid that temporarily aligns the UCS XY-plane automatically onto a face of a solid as the cursor moves over it, letting the user draw directly on that face without manually redefining the UCS.</p>",
+      "gu": "<h4>Model answer</h4><p>The UCS icon is the small X-Y axes marker displayed at the origin of the current User Coordinate System in the drawing area; it shows where (0,0) is and which way X and Y point, so coordinate entry is never disoriented. Dynamic UCS is a 3D-modelling aid that temporarily aligns the UCS XY-plane automatically onto a face of a solid as the cursor moves over it, letting the user draw directly on that face without manually redefining the UCS.</p>"
+     }
+    }
+   ]
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "md6_window",
+   "title": {
+    "en": "The AutoCAD window",
+    "gu": "The AutoCAD window"
+   },
+   "file": "diagrams/md6_window.svg"
+  },
+  {
+   "id": "md6_setup",
+   "title": {
+    "en": "Setting up a new drawing",
+    "gu": "Setting up a new drawing"
+   },
+   "file": "diagrams/md6_setup.svg"
+  },
+  {
+   "id": "md6_coords",
+   "title": {
+    "en": "Coordinate systems in AutoCAD",
+    "gu": "Coordinate systems in AutoCAD"
+   },
+   "file": "diagrams/md6_coords.svg"
+  },
+  {
+   "id": "md6_layers",
+   "title": {
+    "en": "Layers, blocks and hatch",
+    "gu": "Layers, blocks and hatch"
+   },
+   "file": "diagrams/md6_layers.svg"
+  }
+ ],
+ "numericals": {
+  "title": {
+   "en": "Solved numericals",
+   "gu": "Solved numericals"
+  },
+  "items": []
+ },
+ "syntax": {
+  "title": {
+   "en": "Commands, symbols and key data",
+   "gu": "Commands, symbols and key data"
+  },
+  "items": [
+   {
+    "name": {
+     "en": "Draw commands (command - alias - what it makes)",
+     "gu": "Draw commands (command - alias - what it makes)"
+    },
+    "body": {
+     "en": "<div class=\"eq\">LINE (L) - straight segments ; CIRCLE (C) - centre+radius/diameter ; ARC (A) - arcs by 3 points/centre-angles ; RECTANG (REC) - rectangle ; POLYGON (POL) - regular polygon ; ELLIPSE (EL) ; PLINE (PL) - joined polyline ; SPLINE (SPL) - smooth curve ; POINT (PO) ; HATCH (H) - pattern fill of closed area</div><p>Draw commands ask for points - type them as coordinates (Card 6.5) or grab them with OSNAP.</p>",
+     "gu": "<div class=\"eq\">LINE (L) - straight segments ; CIRCLE (C) - centre+radius/diameter ; ARC (A) - arcs by 3 points/centre-angles ; RECTANG (REC) - rectangle ; POLYGON (POL) - regular polygon ; ELLIPSE (EL) ; PLINE (PL) - joined polyline ; SPLINE (SPL) - smooth curve ; POINT (PO) ; HATCH (H) - pattern fill of closed area</div><p>Draw commands ask for points - type them as coordinates (Card 6.5) or grab them with OSNAP.</p>"
+    }
+   },
+   {
+    "name": {
+     "en": "Modify commands (command - alias - what it does)",
+     "gu": "Modify commands (command - alias - what it does)"
+    },
+    "body": {
+     "en": "<div class=\"eq\">MOVE (M) - shift objects ; COPY (CO) - duplicate ; ROTATE (RO) - turn about a base point ; MIRROR (MI) - reflect about a line ; OFFSET (O) - parallel copy at distance ; TRIM (TR) / EXTEND (EX) - cut/lengthen to boundaries ; FILLET (F) / CHAMFER (CHA) - round/corner edges ; SCALE (SC) - resize by factor ; STRETCH (S) - pull a windowed part ; ARRAY (AR) - rectangular/polar patterns ; ERASE (E) - delete</div><p>Modify commands first ask 'Select objects' - window left-to-right selects only fully-enclosed objects; right-to-left (crossing) selects everything touched.</p>",
+     "gu": "<div class=\"eq\">MOVE (M) - shift objects ; COPY (CO) - duplicate ; ROTATE (RO) - turn about a base point ; MIRROR (MI) - reflect about a line ; OFFSET (O) - parallel copy at distance ; TRIM (TR) / EXTEND (EX) - cut/lengthen to boundaries ; FILLET (F) / CHAMFER (CHA) - round/corner edges ; SCALE (SC) - resize by factor ; STRETCH (S) - pull a windowed part ; ARRAY (AR) - rectangular/polar patterns ; ERASE (E) - delete</div><p>Modify commands first ask 'Select objects' - window left-to-right selects only fully-enclosed objects; right-to-left (crossing) selects everything touched.</p>"
+    }
+   },
+   {
+    "name": {
+     "en": "Drawing-aid function keys",
+     "gu": "Drawing-aid function keys"
+    },
+    "body": {
+     "en": "<div class=\"eq\">F3 OSNAP - F7 GRID - F8 ORTHO - F9 SNAP - F10 POLAR - F12 DYNAMIC INPUT ; Enter = repeat last command ; Esc = cancel</div><p>Aliases save the most time: L, C, A, M, CO, RO, MI, O, TR, F, E, Z (ZOOM), P (PAN).</p>",
+     "gu": "<div class=\"eq\">F3 OSNAP - F7 GRID - F8 ORTHO - F9 SNAP - F10 POLAR - F12 DYNAMIC INPUT ; Enter = repeat last command ; Esc = cancel</div><p>Aliases save the most time: L, C, A, M, CO, RO, MI, O, TR, F, E, Z (ZOOM), P (PAN).</p>"
+    }
+   }
+  ]
+ },
+ "viva": {
+  "title": {
+   "en": "Viva questions with model answers",
+   "gu": "Viva questions with model answers"
+  },
+  "items": [
+   {
+    "q": {
+     "en": "Full form of CAD and UCS?",
+     "gu": "Full form of CAD and UCS?"
+    },
+    "a": {
+     "en": "CAD: Computer-Aided Design/Drafting. UCS: User Coordinate System - the relocatable XY working plane whose origin the UCS icon marks.",
+     "gu": "CAD: Computer-Aided Design/Drafting. UCS: User Coordinate System - the relocatable XY working plane whose origin the UCS icon marks."
+    }
+   },
+   {
+    "q": {
+     "en": "Which file formats does AutoCAD save?",
+     "gu": "Which file formats does AutoCAD save?"
+    },
+    "a": {
+     "en": "Native .dwg; templates .dwt; exchange format .dxf; plus .bak backups, .sv$ autosaves, and PDF/DWF plots for issue.",
+     "gu": "Native .dwg; templates .dwt; exchange format .dxf; plus .bak backups, .sv$ autosaves, and PDF/DWF plots for issue."
+    }
+   },
+   {
+    "q": {
+     "en": "GRID vs SNAP?",
+     "gu": "GRID vs SNAP?"
+    },
+    "a": {
+     "en": "GRID only displays reference dots (not printed, no control of the cursor); SNAP actually forces the cursor to step in set increments.",
+     "gu": "GRID only displays reference dots (not printed, no control of the cursor); SNAP actually forces the cursor to step in set increments."
+    }
+   },
+   {
+    "q": {
+     "en": "Why is OSNAP more important than SNAP for accuracy?",
+     "gu": "Why is OSNAP more important than SNAP for accuracy?"
+    },
+    "a": {
+     "en": "OSNAP picks mathematically exact points of existing geometry (endpoint, centre...). A drawing connected by OSNAP is exact; SNAP alone only lands on a regular lattice and can miss the intended feature.",
+     "gu": "OSNAP picks mathematically exact points of existing geometry (endpoint, centre...). A drawing connected by OSNAP is exact; SNAP alone only lands on a regular lattice and can miss the intended feature."
+    }
+   },
+   {
+    "q": {
+     "en": "ORTHO vs POLAR tracking?",
+     "gu": "ORTHO vs POLAR tracking?"
+    },
+    "a": {
+     "en": "ORTHO restricts to horizontal/vertical only. POLAR generalises it: alignment paths at chosen angle increments (e.g. every 30 deg), so inclined lines snap too.",
+     "gu": "ORTHO restricts to horizontal/vertical only. POLAR generalises it: alignment paths at chosen angle increments (e.g. every 30 deg), so inclined lines snap too."
+    }
+   },
+   {
+    "q": {
+     "en": "What does the @ symbol do in coordinate entry?",
+     "gu": "What does the @ symbol do in coordinate entry?"
+    },
+    "a": {
+     "en": "It makes the entry relative to the last point instead of the origin: @30,15 or @40<30.",
+     "gu": "It makes the entry relative to the last point instead of the origin: @30,15 or @40<30."
+    }
+   },
+   {
+    "q": {
+     "en": "Layer Freeze vs Off?",
+     "gu": "Layer Freeze vs Off?"
+    },
+    "a": {
+     "en": "Off hides objects but AutoCAD still processes them (regenerates, zooms to them). Freeze also excludes them from processing - faster in large drawings.",
+     "gu": "Off hides objects but AutoCAD still processes them (regenerates, zooms to them). Freeze also excludes them from processing - faster in large drawings."
+    }
+   },
+   {
+    "q": {
+     "en": "Block vs group of copied objects?",
+     "gu": "Block vs group of copied objects?"
+    },
+    "a": {
+     "en": "A block is one definition inserted many times: edit the definition and every insert updates; inserts keep the file small and standard. Copies are independent objects.",
+     "gu": "A block is one definition inserted many times: edit the definition and every insert updates; inserts keep the file small and standard. Copies are independent objects."
+    }
+   },
+   {
+    "q": {
+     "en": "What is a template (.dwt) file?",
+     "gu": "What is a template (.dwt) file?"
+    },
+    "a": {
+     "en": "A pre-set starting drawing - units, limits, layers, styles, border/title block - so every new drawing of a company starts identically.",
+     "gu": "A pre-set starting drawing - units, limits, layers, styles, border/title block - so every new drawing of a company starts identically."
+    }
+   },
+   {
+    "q": {
+     "en": "ISODRAFT is used for what?",
+     "gu": "ISODRAFT is used for what?"
+    },
+    "a": {
+     "en": "Isometric pictorial drawing: it tilts the grid/crosshair to the isometric planes (left/right/top) with isoplane switching.",
+     "gu": "Isometric pictorial drawing: it tilts the grid/crosshair to the isometric planes (left/right/top) with isoplane switching."
+    }
+   },
+   {
+    "q": {
+     "en": "Name the Draw and Modify commands for: parallel copy, reflection, pattern.",
+     "gu": "Name the Draw and Modify commands for: parallel copy, reflection, pattern."
+    },
+    "a": {
+     "en": "OFFSET (parallel copy at a distance), MIRROR (reflection about a mirror line), ARRAY (rectangular/polar repeated pattern).",
+     "gu": "OFFSET (parallel copy at a distance), MIRROR (reflection about a mirror line), ARRAY (rectangular/polar repeated pattern)."
+    }
+   },
+   {
+    "q": {
+     "en": "Command line - why watch it?",
+     "gu": "Command line - why watch it?"
+    },
+    "a": {
+     "en": "It is AutoCAD's conversation: after every pick it states the next input wanted and the options in [brackets]. Most beginner errors are simply not reading it.",
+     "gu": "It is AutoCAD's conversation: after every pick it states the next input wanted and the options in [brackets]. Most beginner errors are simply not reading it."
+    }
+   }
+  ]
+ },
+ "exam_questions": [
+  {
+   "q": {
+    "en": "What is CAD? State four advantages of CAD over manual drafting.",
+    "gu": "What is CAD? State four advantages of CAD over manual drafting."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Sketch and label the main parts of the AutoCAD window.",
+    "gu": "Sketch and label the main parts of the AutoCAD window."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain: GRID, SNAP, ORTHO and OSNAP modes.",
+    "gu": "Explain: GRID, SNAP, ORTHO and OSNAP modes."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Differentiate between absolute, relative Cartesian and relative polar coordinates, with examples.",
+    "gu": "Differentiate between absolute, relative Cartesian and relative polar coordinates, with examples."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "What are layers? State four layer properties/controls.",
+    "gu": "What are layers? State four layer properties/controls."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "What is a block in AutoCAD? Give two applications.",
+    "gu": "What is a block in AutoCAD? Give two applications."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write the setup sequence for starting a new mechanical drawing in AutoCAD.",
+    "gu": "Write the setup sequence for starting a new mechanical drawing in AutoCAD."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "What is the UCS icon? What is Dynamic UCS?",
+    "gu": "What is the UCS icon? What is Dynamic UCS?"
+   },
+   "marks": 4
+  }
+ ],
+ "practicals": [],
+ "learning_outcomes": [
+  {
+   "en": "CO4: Create and edit 2D drawings and assemblies in AutoCAD (RBT: A)",
+   "gu": "CO4: Create and edit 2D drawings and assemblies in AutoCAD (RBT: A)"
+  }
+ ],
+ "practical_numbers": [],
+ "content_kind": "theory_with_guided_practical_support",
+ "assessment_note": {
+  "en": "Official scheme (GTU DI02000121): Theory ESE 70 + PA 30, Practical PA 20 + ESE 30, total 150 marks, 4 credits. Unit 6 carries 6 hours and 20 % weightage in the official syllabus. All exam questions in this unit are original practice questions; their marks are suggested, not from an official paper.",
+  "gu": "Official scheme (GTU DI02000121): Theory ESE 70 + PA 30, Practical PA 20 + ESE 30, total 150 marks, 4 credits. Unit 6 carries 6 hours and 20 % weightage in the official syllabus. All exam questions in this unit are original practice questions; their marks are suggested, not from an official paper."
+ },
+ "question_provenance": "Original answered revision questions; not official past papers",
+ "question_marks_are_suggested": true,
+ "lesson_count": 6,
+ "answered_practice_count": 8,
+ "sources": [
+  "Autodesk AutoCAD User's Guide / Help (window, commands, drafting aids) - Autodesk Knowledge Network.",
+  "Computer Aided Machine Drawing Practice, AICTE e-Kumbh portal (official GTU reference for DI02000121).",
+  "N. D. Bhatt & V. M. Panchal, Machine Drawing, Charotar Publishing House."
+ ]
+}
