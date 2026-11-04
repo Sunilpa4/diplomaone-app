@@ -97,6 +97,9 @@ SUBJECT = {
     "name": tr(TITLE),
     "branch": "common",
     "branches": BRANCH_KEYS,
+    # The branches above teach it in semester 1 only; naming the semesters lets the publisher check
+    # the registration against BRANCH_SEMS instead of demanding all 27 branches.
+    "semesters": [1],
     "common_to_all_branches": False,
     "semester": 1,
     "syllabus_year": "2024-25",
