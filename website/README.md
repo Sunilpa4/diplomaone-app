@@ -20,3 +20,7 @@ On a push to `main` that changes the website or app, **Publish DiplomaOne websit
 The Flutter web base path is selected from the public repository's `CNAME`: `/diplomaone-content/app/` without a custom domain, `/app/` with one. After adding or removing a custom domain, rerun the website workflow so the Flutter web app is rebuilt with the correct base path. Domain DNS and GitHub Pages settings must be configured separately; do not create a CNAME until the owner has chosen the domain and confirmed the DNS setup. The website remains a hash-routed client app; no search-engine indexing of individual note pages is promised.
 
 Rich note markup is restricted to presentational HTML. Embedded SVG diagrams are displayed as images, never injected as executable markup. Gujarati UI text falls back to English where a particular note has no Gujarati translation.
+
+## AdSense declarations
+
+The public publisher ID is listed in `index.html` and `ads.txt`. The website publisher adds the tracked seller records to the public `ads.txt` while preserving pre-existing records. It does not load advertising scripts or show ads. When the custom domain is connected, check that `https://www.diplomaone.in/ads.txt` is reachable at the domain root and that its seller records are intentional. Additional ad scripts require a separate review of security policy, consent, and the privacy notice.
