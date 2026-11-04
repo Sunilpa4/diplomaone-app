@@ -1,0 +1,83 @@
+name: Publish DiplomaOne website
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'website/**'
+      - 'app/**'
+      - '.github/workflows/publish-website.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'website/**'
+      - 'app/**'
+      - '.github/workflows/publish-website.yml'
+
+concurrency:
+  group: publish-diplomaone-website-${{ github.event_name == 'pull_request' && github.ref || 'main' }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check website JavaScript
+        run: node --check website/app.js
+      - name: Check out existing public site
+        uses: actions/checkout@v4
+        with:
+          repository: Sunilpa4/diplomaone-content
+          ref: main
+          path: public-site
+          token: ${{ secrets.CONTENT_TOKEN }}
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.47.8'
+          channel: stable
+          cache: true
+      - name: Build the existing Flutter web app under /app/
+        working-directory: app
+        run: |
+          if [ -s ../public-site/CNAME ]; then
+            BASE=/app/
+          else
+            BASE=/diplomaone-content/app/
+          fi
+          flutter pub get
+          flutter build web --release --no-wasm-dry-run --no-web-resources-cdn --base-href "$BASE"
+      - name: Update website and web app without touching notes or domain
+        if: github.event_name != 'pull_request'
+        run: |
+          set -euo pipefail
+          cp website/index.html website/styles.css website/app.js public-site/
+          mkdir -p public-site/assets
+          cp website/assets/favicon.svg website/assets/study-illustration.webp website/assets/noto-sans-gujarati.ttf website/assets/NOTO-SANS-GUJARATI-LICENSE.txt public-site/assets/
+          rm -rf public-site/app
+          mkdir -p public-site/app
+          cp -a app/build/web/. public-site/app/
+          touch public-site/.nojekyll
+          cd public-site
+          git config user.name 'DiplomaOne Bot'
+          git config user.email 'Sunilpa4@users.noreply.github.com'
+          git add -- index.html styles.css app.js assets/favicon.svg assets/study-illustration.webp assets/noto-sans-gujarati.ttf assets/NOTO-SANS-GUJARATI-LICENSE.txt app/ .nojekyll
+          if git diff --cached --quiet; then
+            echo 'Website is already up to date.'
+            exit 0
+          fi
+          git commit -m 'Publish DiplomaOne website and web app'
+          # The independent notes publisher may push while the web app builds.
+          # Replay only this website commit over its newer data, without force-pushing.
+          for attempt in 1 2 3 4 5; do
+            git fetch --deepen=10 origin main
+            git rebase origin/main
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            echo "Push raced with another publisher; retry $attempt of 5."
+            sleep 3
+          done
+          echo 'Could not publish after retries; no force push was used.' >&2
+          exit 1
