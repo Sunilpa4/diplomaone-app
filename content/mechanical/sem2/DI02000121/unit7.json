@@ -1,0 +1,507 @@
+{
+ "subject": "DI02000121",
+ "unit": 7,
+ "format": "notes",
+ "title": {
+  "en": "Dimensioning in AutoCAD and Annotation",
+  "gu": "Dimensioning in AutoCAD and Annotation"
+ },
+ "hours": 4,
+ "weightage": 15,
+ "languages": [
+  "en"
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "numericals",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "tab_labels": {
+  "numericals": {
+   "en": "Solved numericals",
+   "gu": "Solved numericals"
+  },
+  "syntax": {
+   "en": "Commands, symbols and key data",
+   "gu": "Commands, symbols and key data"
+  }
+ },
+ "intro_text": {
+  "en": "Unit 7 of Mechanical Drafting (DI02000121) finishes the AutoCAD sequence: dimensioning with dimension styles, the dimension types (linear, aligned, angular, radius, diameter and more), editing dimensions (adding and rotating text, overrides), and writing text with single-line and multi-line tools. It closes with Practical 7 - the complete plotted 2D drawing in AutoCAD.",
+  "gu": "Unit 7 of Mechanical Drafting (DI02000121) finishes the AutoCAD sequence: dimensioning with dimension styles, the dimension types (linear, aligned, angular, radius, diameter and more), editing dimensions (adding and rotating text, overrides), and writing text with single-line and multi-line tools. It closes with Practical 7 - the complete plotted 2D drawing in AutoCAD."
+ },
+ "notes": [
+  {
+   "title": {
+    "en": "7.1-7.2 Dimensioning and dimension types in AutoCAD",
+    "gu": "7.1-7.2 Dimensioning and dimension types in AutoCAD"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "7.1 Dimensioning in AutoCAD: dimension style first",
+      "gu": "7.1 Dimensioning in AutoCAD: dimension style first"
+     },
+     "syllabus_item": "7.1",
+     "diagram": "md7_anatomy",
+     "body": {
+      "en": "<h4>A dimension is a small assembly of parts</h4><p>Every AutoCAD dimension consists of <b>extension (witness) lines</b> from the measured feature, the <b>dimension line</b>, <b>arrowheads</b> (or tick/dot terminators) and the <b>dimension text</b> (diagram md7_anatomy). These follow the same BIS/ISO rules as manual dimensioning: extension lines start slightly clear (~1.5 mm) of the object, dimension lines are placed clear of outlines in chains (smallest nearest the object), never cross each other where avoidable, and the text reads from the bottom or the right of the sheet.</p><h4>DIMSTYLE - set the standard once</h4><p>The <b>Dimension Style Manager (DIMSTYLE)</b> presets every property before dimensioning: arrow size and type, text height (3.5 mm on the plotted sheet), text placement, extension-line offsets, unit format and precision (0.0 mm for machined parts), scale factor, and 'fit' behaviour for tight spaces (text/arrows move outside automatically). Companies store the style in the template, so all drawings of the company agree. Dimensions are <b>associative</b>: stretch the geometry and its dimensions update - the CAD departure from manual practice that examiners love to ask about.</p><h4>Working flow</h4><p>Geometry (Unit 6) -> set/verify DIMSTYLE -> dimension on the DIM layer -> quick dimension (QDIM) for chains -> inspect with zoom -> edit exceptions (Card 7.3). Dimension the way the part will be made and measured: from the same datums the detail drawing declares (Unit 5).</p>",
+      "gu": "<h4>A dimension is a small assembly of parts</h4><p>Every AutoCAD dimension consists of <b>extension (witness) lines</b> from the measured feature, the <b>dimension line</b>, <b>arrowheads</b> (or tick/dot terminators) and the <b>dimension text</b> (diagram md7_anatomy). These follow the same BIS/ISO rules as manual dimensioning: extension lines start slightly clear (~1.5 mm) of the object, dimension lines are placed clear of outlines in chains (smallest nearest the object), never cross each other where avoidable, and the text reads from the bottom or the right of the sheet.</p><h4>DIMSTYLE - set the standard once</h4><p>The <b>Dimension Style Manager (DIMSTYLE)</b> presets every property before dimensioning: arrow size and type, text height (3.5 mm on the plotted sheet), text placement, extension-line offsets, unit format and precision (0.0 mm for machined parts), scale factor, and 'fit' behaviour for tight spaces (text/arrows move outside automatically). Companies store the style in the template, so all drawings of the company agree. Dimensions are <b>associative</b>: stretch the geometry and its dimensions update - the CAD departure from manual practice that examiners love to ask about.</p><h4>Working flow</h4><p>Geometry (Unit 6) -> set/verify DIMSTYLE -> dimension on the DIM layer -> quick dimension (QDIM) for chains -> inspect with zoom -> edit exceptions (Card 7.3). Dimension the way the part will be made and measured: from the same datums the detail drawing declares (Unit 5).</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "7.2 Dimension types: linear, aligned, angular, radius, diameter, etc.",
+      "gu": "7.2 Dimension types: linear, aligned, angular, radius, diameter, etc."
+     },
+     "syllabus_item": "7.2",
+     "diagram": "md7_dimtypes",
+     "body": {
+      "en": "<h4>The dimension commands (know each by name)</h4><ul><li><b>DIMLINEAR</b> - horizontal or vertical distance between two points/extension origins: lengths, widths, heights of rectangular features.</li><li><b>DIMALIGNED</b> - the true distance along an inclined feature: dimension line parallel to the edge measured - the only correct way to size a slanted edge (linear would give its projection).</li><li><b>DIMANGULAR</b> - angle between two lines or three points, given in degrees.</li><li><b>DIMRADIUS (R)</b> - radius of an arc/circle, Leader to the arc with R prefix; centre mark optional.</li><li><b>DIMDIAMETER</b> - full diameter across a circle (dia. symbol), dimension line through the centre - circles are always dimensioned by diameter in production drawings, never radius.</li><li><b>DIMARC</b> - arc length along the curve; <b>DIMORDINATE</b> - X or Y distance of a point from a set datum origin (tabular/CNC style); <b>DIMJOGGED</b> - radius whose centre lies off the sheet; <b>DIMBASELINE / DIMCONTINUE</b> - chained dimensions from one datum line or in series; <b>QDIM</b> - quick multi-dimensioning of selected geometry.</li></ul><h4>Choosing correctly (the examined judgement)</h4><p>Circles: diameter. Arcs (less than semicircle features, fillets): radius. Inclined edge: aligned. Holes pattern: diameter + PCD/position dimensions (Unit 5 flange: dia. 13 holes on PCD 82). A dimension must measure what the machinist will set and the inspector will check - never a value that must be calculated from two others (avoid closed dimension chains).</p>",
+      "gu": "<h4>The dimension commands (know each by name)</h4><ul><li><b>DIMLINEAR</b> - horizontal or vertical distance between two points/extension origins: lengths, widths, heights of rectangular features.</li><li><b>DIMALIGNED</b> - the true distance along an inclined feature: dimension line parallel to the edge measured - the only correct way to size a slanted edge (linear would give its projection).</li><li><b>DIMANGULAR</b> - angle between two lines or three points, given in degrees.</li><li><b>DIMRADIUS (R)</b> - radius of an arc/circle, Leader to the arc with R prefix; centre mark optional.</li><li><b>DIMDIAMETER</b> - full diameter across a circle (dia. symbol), dimension line through the centre - circles are always dimensioned by diameter in production drawings, never radius.</li><li><b>DIMARC</b> - arc length along the curve; <b>DIMORDINATE</b> - X or Y distance of a point from a set datum origin (tabular/CNC style); <b>DIMJOGGED</b> - radius whose centre lies off the sheet; <b>DIMBASELINE / DIMCONTINUE</b> - chained dimensions from one datum line or in series; <b>QDIM</b> - quick multi-dimensioning of selected geometry.</li></ul><h4>Choosing correctly (the examined judgement)</h4><p>Circles: diameter. Arcs (less than semicircle features, fillets): radius. Inclined edge: aligned. Holes pattern: diameter + PCD/position dimensions (Unit 5 flange: dia. 13 holes on PCD 82). A dimension must measure what the machinist will set and the inspector will check - never a value that must be calculated from two others (avoid closed dimension chains).</p>"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "7.3-7.4 Dimension editing and text writing",
+    "gu": "7.3-7.4 Dimension editing and text writing"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "7.3 Dimension editing: adding text and rotating dimension text",
+      "gu": "7.3 Dimension editing: adding text and rotating dimension text"
+     },
+     "syllabus_item": "7.3",
+     "body": {
+      "en": "<h4>Editing without redrawing</h4><ul><li><b>Grips/stretch:</b> selecting a dimension shows grips on its defining points; dragging them repositions text, dimension line or extension origins - associativity keeps the value true.</li><li><b>DIMEDIT:</b> edits dimension text content and orientation - Home (return text to default position), New (replace text - e.g. '4 HOLES EQUISPACED' combined with the size), Rotate (rotate the text to a stated angle for inclined reading), Oblique (skew extension lines for isometric dimensioning).</li><li><b>DIMTEDIT:</b> moves/rotates the text alone - Left/Centre/Right justification along the line, Home, and free drag with Leader when the text must sit outside.</li><li><b>Properties palette / DIMOVERRIDE:</b> change precision, prefix/suffix (dia., R, 'TYP'), suppress arrows or extension lines for one crowded dimension - sparingly, because overrides break style uniformity.</li><li><b>Text additions around dimensions:</b> prefix/suffix conventions - dia./R symbols, 'x45 deg CHAMFER', '4x' repetition count, thread notes (M12), 'TYP' for typical features - typed in the text override, with &lt;&gt; keeping the measured value alive (the &lt;&gt; placeholder means 'measured value here').</li></ul><h4>Discipline</h4><p>Never explode a dimension to edit it (it dies as an object), and never fake the number: if the measured text is wrong, the geometry is wrong - fix the geometry, because inspection measures the part, not the text.</p>",
+      "gu": "<h4>Editing without redrawing</h4><ul><li><b>Grips/stretch:</b> selecting a dimension shows grips on its defining points; dragging them repositions text, dimension line or extension origins - associativity keeps the value true.</li><li><b>DIMEDIT:</b> edits dimension text content and orientation - Home (return text to default position), New (replace text - e.g. '4 HOLES EQUISPACED' combined with the size), Rotate (rotate the text to a stated angle for inclined reading), Oblique (skew extension lines for isometric dimensioning).</li><li><b>DIMTEDIT:</b> moves/rotates the text alone - Left/Centre/Right justification along the line, Home, and free drag with Leader when the text must sit outside.</li><li><b>Properties palette / DIMOVERRIDE:</b> change precision, prefix/suffix (dia., R, 'TYP'), suppress arrows or extension lines for one crowded dimension - sparingly, because overrides break style uniformity.</li><li><b>Text additions around dimensions:</b> prefix/suffix conventions - dia./R symbols, 'x45 deg CHAMFER', '4x' repetition count, thread notes (M12), 'TYP' for typical features - typed in the text override, with &lt;&gt; keeping the measured value alive (the &lt;&gt; placeholder means 'measured value here').</li></ul><h4>Discipline</h4><p>Never explode a dimension to edit it (it dies as an object), and never fake the number: if the measured text is wrong, the geometry is wrong - fix the geometry, because inspection measures the part, not the text.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "7.4 Text writing in AutoCAD: single-line and multi-line text",
+      "gu": "7.4 Text writing in AutoCAD: single-line and multi-line text"
+     },
+     "syllabus_item": "7.4",
+     "body": {
+      "en": "<h4>Two text tools, two jobs</h4><ul><li><b>DTEXT (TEXT) - single-line text:</b> each Enter creates an independent one-line object. Give start point, height, rotation; justification options (left, centre, right, middle...). For labels, part tags, one-line notes, 'SECTION A-A' titles.</li><li><b>MTEXT - multi-line text:</b> a paragraph object inside a defined box: text wraps automatically, with an in-place editor giving fonts, bold/italic, bullets and numbering, columns, symbols (dia., degree, plus-minus) and fields. For general notes blocks ('ALL DIMENSIONS ARE IN MM...'), specifications, BOM-like notes.</li></ul><h4>Text style and readability rules</h4><p><b>STYLE</b> presets font and height like DIMSTYLE does (companies use one text style, e.g. Romansh/ISOCP, heights 3.5 mm notes / 5 mm sub-titles / 7 mm titles on the plotted sheet, matching SP 46 lettering). Text must read from the bottom or right side of the sheet, never upside down; <b>annotative</b> styles/scales automatically size text correctly when the same drawing is plotted at different scales. Field discipline: notes are numbered, kept outside the geometry, and worded as instructions ('BREAK ALL SHARP EDGES 0.5 MAX'), not descriptions.</p>",
+      "gu": "<h4>Two text tools, two jobs</h4><ul><li><b>DTEXT (TEXT) - single-line text:</b> each Enter creates an independent one-line object. Give start point, height, rotation; justification options (left, centre, right, middle...). For labels, part tags, one-line notes, 'SECTION A-A' titles.</li><li><b>MTEXT - multi-line text:</b> a paragraph object inside a defined box: text wraps automatically, with an in-place editor giving fonts, bold/italic, bullets and numbering, columns, symbols (dia., degree, plus-minus) and fields. For general notes blocks ('ALL DIMENSIONS ARE IN MM...'), specifications, BOM-like notes.</li></ul><h4>Text style and readability rules</h4><p><b>STYLE</b> presets font and height like DIMSTYLE does (companies use one text style, e.g. Romansh/ISOCP, heights 3.5 mm notes / 5 mm sub-titles / 7 mm titles on the plotted sheet, matching SP 46 lettering). Text must read from the bottom or right side of the sheet, never upside down; <b>annotative</b> styles/scales automatically size text correctly when the same drawing is plotted at different scales. Field discipline: notes are numbered, kept outside the geometry, and worded as instructions ('BREAK ALL SHARP EDGES 0.5 MAX'), not descriptions.</p>"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Practicals",
+    "gu": "Practicals"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Practical 7: Draw 2D drawing using AutoCAD",
+      "gu": "Practical 7: Draw 2D drawing using AutoCAD"
+     },
+     "syllabus_item": "Practical 7",
+     "practical_no": 7,
+     "learning_outcome": "LO4",
+     "body": {
+      "en": "<h4>Objective (Syllabus Practical 7)</h4><p>Prepare a complete 2D drawing in AutoCAD - preferably the detail/assembly drawing sheet of the earlier practicals - and plot it.</p><h4>Procedure</h4><ul><li><b>Step 1</b>: NEW from the class template; set UNITS (mm), LIMITS, layers (object/centre/hidden/hatch/dim/title), text and dimension styles as taught.</li><li><b>Step 2</b>: Draw the geometry at full scale using Draw/Modify commands, OSNAP-locked coordinate entry (absolute/relative/polar as suitable).</li><li><b>Step 3</b>: Add centre lines, hatching for sections (HATCH, ANSI31), and complete dimensioning with the correct dimension types - no closed chains.</li><li><b>Step 4</b>: Add DTEXT/MTEXT notes, title block; check on the DIM/TITLE layers.</li><li><b>Step 5</b>: PLOT to the sheet size at the declared scale (or PDF), verify lineweights and text heights on the print.</li></ul><h4>Result (report format)</h4><p>Submit the plotted sheet and the .dwg file name. Conclusion: list any five commands you used with their purpose, and the dimension types applied.</p>",
+      "gu": "<h4>Objective (Syllabus Practical 7)</h4><p>Prepare a complete 2D drawing in AutoCAD - preferably the detail/assembly drawing sheet of the earlier practicals - and plot it.</p><h4>Procedure</h4><ul><li><b>Step 1</b>: NEW from the class template; set UNITS (mm), LIMITS, layers (object/centre/hidden/hatch/dim/title), text and dimension styles as taught.</li><li><b>Step 2</b>: Draw the geometry at full scale using Draw/Modify commands, OSNAP-locked coordinate entry (absolute/relative/polar as suitable).</li><li><b>Step 3</b>: Add centre lines, hatching for sections (HATCH, ANSI31), and complete dimensioning with the correct dimension types - no closed chains.</li><li><b>Step 4</b>: Add DTEXT/MTEXT notes, title block; check on the DIM/TITLE layers.</li><li><b>Step 5</b>: PLOT to the sheet size at the declared scale (or PDF), verify lineweights and text heights on the print.</li></ul><h4>Result (report format)</h4><p>Submit the plotted sheet and the .dwg file name. Conclusion: list any five commands you used with their purpose, and the dimension types applied.</p>"
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Answered exam questions",
+    "gu": "Answered exam questions"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Q1. What is a dimension style (DIMSTYLE)? State any five settings it controls.",
+      "gu": "Q1. What is a dimension style (DIMSTYLE)? State any five settings it controls."
+     },
+     "body": {
+      "en": "<h4>Model answer</h4><p>A dimension style is a named, saved set of dimensioning parameters in AutoCAD; every dimension created uses the active style so the whole drawing dimensions uniformly, and styles are stored in templates for company-wide standardisation. Settings include: arrowhead type and size; dimension text height, font and placement (above/centred, aligned or horizontal); extension-line extension and offset from the object; primary unit format and decimal precision; scale factor (overall and for paper-space); and fit rules deciding how text and arrows are placed when space is tight. Changing the style reformats all dimensions made in it - editing is global, not one by one.</p>",
+      "gu": "<h4>Model answer</h4><p>A dimension style is a named, saved set of dimensioning parameters in AutoCAD; every dimension created uses the active style so the whole drawing dimensions uniformly, and styles are stored in templates for company-wide standardisation. Settings include: arrowhead type and size; dimension text height, font and placement (above/centred, aligned or horizontal); extension-line extension and offset from the object; primary unit format and decimal precision; scale factor (overall and for paper-space); and fit rules deciding how text and arrows are placed when space is tight. Changing the style reformats all dimensions made in it - editing is global, not one by one.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Q2. Differentiate between linear and aligned dimensions. When is each used?",
+      "gu": "Q2. Differentiate between linear and aligned dimensions. When is each used?"
+     },
+     "body": {
+      "en": "<h4>Model answer</h4><p>A <b>linear dimension</b> (DIMLINEAR) measures the horizontal or vertical distance between two points - the projection of the distance on the X or Y axis; it is used for lengths, widths and heights of rectangular geometry. An <b>aligned dimension</b> (DIMALIGNED) measures the true straight-line distance between the two points with the dimension line parallel to the line joining them; it is used for inclined edges, where a linear dimension would report only the horizontal/vertical projection and the machinist would cut the wrong length. Rule: if the feature is inclined, dimension it aligned.</p>",
+      "gu": "<h4>Model answer</h4><p>A <b>linear dimension</b> (DIMLINEAR) measures the horizontal or vertical distance between two points - the projection of the distance on the X or Y axis; it is used for lengths, widths and heights of rectangular geometry. An <b>aligned dimension</b> (DIMALIGNED) measures the true straight-line distance between the two points with the dimension line parallel to the line joining them; it is used for inclined edges, where a linear dimension would report only the horizontal/vertical projection and the machinist would cut the wrong length. Rule: if the feature is inclined, dimension it aligned.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Q3. How are circles and arcs dimensioned in AutoCAD? Which commands are used?",
+      "gu": "Q3. How are circles and arcs dimensioned in AutoCAD? Which commands are used?"
+     },
+     "body": {
+      "en": "<h4>Model answer</h4><p>Circles are dimensioned by <b>diameter</b> with DIMDIAMETER: the dimension line passes through the centre with arrowheads at the circle and the value carries the diameter symbol; the centre is marked by centrelines/centre mark. Arcs (and fillets/blends) are dimensioned by <b>radius</b> with DIMRADIUS: a Leader from the arc to its centre direction, value prefixed R. Full circles must never be radius-dimensioned in production drawings, because machining and inspection work with diameters (plug gauges, bore micrometers). DIMARC gives the length along an arc when the developed length is what matters.</p>",
+      "gu": "<h4>Model answer</h4><p>Circles are dimensioned by <b>diameter</b> with DIMDIAMETER: the dimension line passes through the centre with arrowheads at the circle and the value carries the diameter symbol; the centre is marked by centrelines/centre mark. Arcs (and fillets/blends) are dimensioned by <b>radius</b> with DIMRADIUS: a Leader from the arc to its centre direction, value prefixed R. Full circles must never be radius-dimensioned in production drawings, because machining and inspection work with diameters (plug gauges, bore micrometers). DIMARC gives the length along an arc when the developed length is what matters.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Q4. Explain DIMEDIT and DIMTEDIT functions.",
+      "gu": "Q4. Explain DIMEDIT and DIMTEDIT functions."
+     },
+     "body": {
+      "en": "<h4>Model answer</h4><p><b>DIMEDIT</b> edits dimension text and its orientation: New replaces the text content (the &lt;&gt; placeholder retains the measured value), Home returns moved text to its styled default position, Rotate turns the dimension text through a specified angle (used for inclined dimensions), and Oblique skews the extension lines, used in isometric dimensioning. <b>DIMTEDIT</b> repositions only the text of a selected dimension: it can be dragged to a new place (with a Leader if moved far), or set Left/Centre/Right along the dimension line, and returned Home. Both preserve associativity - the dimension remains a live, updatable object, unlike an exploded one.</p>",
+      "gu": "<h4>Model answer</h4><p><b>DIMEDIT</b> edits dimension text and its orientation: New replaces the text content (the &lt;&gt; placeholder retains the measured value), Home returns moved text to its styled default position, Rotate turns the dimension text through a specified angle (used for inclined dimensions), and Oblique skews the extension lines, used in isometric dimensioning. <b>DIMTEDIT</b> repositions only the text of a selected dimension: it can be dragged to a new place (with a Leader if moved far), or set Left/Centre/Right along the dimension line, and returned Home. Both preserve associativity - the dimension remains a live, updatable object, unlike an exploded one.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Q5. Differentiate between DTEXT and MTEXT.",
+      "gu": "Q5. Differentiate between DTEXT and MTEXT."
+     },
+     "body": {
+      "en": "<h4>Model answer</h4><p><b>DTEXT (single-line text)</b> creates each line as a separate object with its own start point, height and rotation - suitable for labels, tags and short one-line notes. <b>MTEXT (multi-line text)</b> creates a paragraph within a drawn text box: lines wrap automatically, and the editor provides fonts, bold/italic, bullets, columns, symbols and spelling control - suitable for general notes, specifications and title-block text. Both are governed by the drawing's text STYLE (font/height presets); MTEXT height is set in the style/editor, DTEXT asks height at creation in non-annotative styles.</p>",
+      "gu": "<h4>Model answer</h4><p><b>DTEXT (single-line text)</b> creates each line as a separate object with its own start point, height and rotation - suitable for labels, tags and short one-line notes. <b>MTEXT (multi-line text)</b> creates a paragraph within a drawn text box: lines wrap automatically, and the editor provides fonts, bold/italic, bullets, columns, symbols and spelling control - suitable for general notes, specifications and title-block text. Both are governed by the drawing's text STYLE (font/height presets); MTEXT height is set in the style/editor, DTEXT asks height at creation in non-annotative styles.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Q6. What is the advantage of associative dimensions?",
+      "gu": "Q6. What is the advantage of associative dimensions?"
+     },
+     "body": {
+      "en": "<h4>Model answer</h4><p>Associative dimensions are linked to the geometry points they measure. When the geometry is edited (stretched, moved, scaled), the dimension values, positions and extension lines update automatically to remain true. This removes the classic revision error of a changed part carrying stale dimensions, and it is why dimensions in CAD are edited through grips and commands rather than exploded or retyped - a manually typed (faked) value breaks this truth chain and is a drawing-office defect.</p>",
+      "gu": "<h4>Model answer</h4><p>Associative dimensions are linked to the geometry points they measure. When the geometry is edited (stretched, moved, scaled), the dimension values, positions and extension lines update automatically to remain true. This removes the classic revision error of a changed part carrying stale dimensions, and it is why dimensions in CAD are edited through grips and commands rather than exploded or retyped - a manually typed (faked) value breaks this truth chain and is a drawing-office defect.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Q7. State four rules of good dimensioning practice (manual or CAD).",
+      "gu": "Q7. State four rules of good dimensioning practice (manual or CAD)."
+     },
+     "body": {
+      "en": "<h4>Model answer</h4><p>(1) Dimension from functional datums, the way the part is made and measured; avoid closed chains - leave one link undimensioned. (2) Place dimensions outside the outline where possible, smaller dimensions nearer the object, and never let dimension lines cross each other or extension lines unnecessarily. (3) Every size once only - no duplicate or contradictory dimensions; the assembly drawing does not repeat part dimensions. (4) Circles by diameter, arcs by radius, inclined features aligned; text upright from bottom/right, clear of lines geometry. (Any four; BIS/SP 46 summarises the same rules.)</p>",
+      "gu": "<h4>Model answer</h4><p>(1) Dimension from functional datums, the way the part is made and measured; avoid closed chains - leave one link undimensioned. (2) Place dimensions outside the outline where possible, smaller dimensions nearer the object, and never let dimension lines cross each other or extension lines unnecessarily. (3) Every size once only - no duplicate or contradictory dimensions; the assembly drawing does not repeat part dimensions. (4) Circles by diameter, arcs by radius, inclined features aligned; text upright from bottom/right, clear of lines geometry. (Any four; BIS/SP 46 summarises the same rules.)</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Q8. How is additional information attached to a dimension value in AutoCAD? Give examples.",
+      "gu": "Q8. How is additional information attached to a dimension value in AutoCAD? Give examples."
+     },
+     "body": {
+      "en": "<h4>Model answer</h4><p>Through the dimension text override (DIMEDIT-New or the Properties text fields), using &lt;&gt; as the live measured value: prefixes/suffixes such as 'dia. &lt;&gt;' or '&lt;&gt; x 45 deg CHAMFER'; multiplicity '&lt;&gt; (4 HOLES EQUISPACED)'; thread callouts 'M12 - 6H THRO' edited beside the diameter dimension; or 'TYP' after a repeated feature size. The measured part stays automatic while the instruction travels with it, so edits to geometry never falsify the note.</p>",
+      "gu": "<h4>Model answer</h4><p>Through the dimension text override (DIMEDIT-New or the Properties text fields), using &lt;&gt; as the live measured value: prefixes/suffixes such as 'dia. &lt;&gt;' or '&lt;&gt; x 45 deg CHAMFER'; multiplicity '&lt;&gt; (4 HOLES EQUISPACED)'; thread callouts 'M12 - 6H THRO' edited beside the diameter dimension; or 'TYP' after a repeated feature size. The measured part stays automatic while the instruction travels with it, so edits to geometry never falsify the note.</p>"
+     }
+    }
+   ]
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "md7_dimtypes",
+   "title": {
+    "en": "Dimension types in AutoCAD",
+    "gu": "Dimension types in AutoCAD"
+   },
+   "file": "diagrams/md7_dimtypes.svg"
+  },
+  {
+   "id": "md7_anatomy",
+   "title": {
+    "en": "Anatomy of a dimension; DTEXT vs MTEXT",
+    "gu": "Anatomy of a dimension; DTEXT vs MTEXT"
+   },
+   "file": "diagrams/md7_anatomy.svg"
+  }
+ ],
+ "numericals": {
+  "title": {
+   "en": "Solved numericals",
+   "gu": "Solved numericals"
+  },
+  "items": [
+   {
+    "id": "u7n1",
+    "title": {
+     "en": "Numerical 7.1 - Coordinate entry trace (absolute, relative, polar)",
+     "gu": "Numerical 7.1 - Coordinate entry trace (absolute, relative, polar)"
+    },
+    "body": {
+     "en": "<h4>Given</h4><p>A line-chain is drawn with LINE using: start 20,20 (typed absolute), then @30,10, then @40&lt;30, then @0,-25 (in AutoCAD input form).</p><h4>Find</h4><p>The coordinates of all four points, the total chain length, and the overall width and height of the chain.</p><h4>Formula</h4><div class=\"eq\">Relative point = last point + (dx, dy) ;  polar step = (L cos A, L sin A) ;  segment length = sqrt(dx^2 + dy^2) or L for polar</div><h4>Substitution and calculation</h4><div class=\"eq\">P1 = (20, 20)</div><div class=\"eq\">P2 = (20 + 30, 20 + 10) = (50, 30) ; segment = sqrt(30^2 + 10^2) = 31.6 units</div><div class=\"eq\">P3 = (50 + 40 cos 30, 30 + 40 sin 30) = (50 + 34.64, 30 + 20) = (84.64, 50) ; segment = 40 units</div><div class=\"eq\">P4 = (84.64, 50 - 25) = (84.64, 25) ; segment = 25 units</div><div class=\"eq\">Total length = 31.6 + 40 + 25 = 96.6 units ; bounding size: X from 20 to 84.64 = 64.64 wide, Y from 20 to 50 = 30 high</div><div class=\"eq boxed\">Points: (20,20), (50,30), (84.6,50), (84.6,25); chain length 96.6 units in a 64.6 x 30 field</div><h4>Validity check</h4><p>The @ steps never refer to the origin - if P2 were misread as absolute (30,10), every following point would shift; verifying the end coordinates with DIST/ID in AutoCAD is the working equivalent of this check ✓.</p>",
+     "gu": "<h4>Given</h4><p>A line-chain is drawn with LINE using: start 20,20 (typed absolute), then @30,10, then @40&lt;30, then @0,-25 (in AutoCAD input form).</p><h4>Find</h4><p>The coordinates of all four points, the total chain length, and the overall width and height of the chain.</p><h4>Formula</h4><div class=\"eq\">Relative point = last point + (dx, dy) ;  polar step = (L cos A, L sin A) ;  segment length = sqrt(dx^2 + dy^2) or L for polar</div><h4>Substitution and calculation</h4><div class=\"eq\">P1 = (20, 20)</div><div class=\"eq\">P2 = (20 + 30, 20 + 10) = (50, 30) ; segment = sqrt(30^2 + 10^2) = 31.6 units</div><div class=\"eq\">P3 = (50 + 40 cos 30, 30 + 40 sin 30) = (50 + 34.64, 30 + 20) = (84.64, 50) ; segment = 40 units</div><div class=\"eq\">P4 = (84.64, 50 - 25) = (84.64, 25) ; segment = 25 units</div><div class=\"eq\">Total length = 31.6 + 40 + 25 = 96.6 units ; bounding size: X from 20 to 84.64 = 64.64 wide, Y from 20 to 50 = 30 high</div><div class=\"eq boxed\">Points: (20,20), (50,30), (84.6,50), (84.6,25); chain length 96.6 units in a 64.6 x 30 field</div><h4>Validity check</h4><p>The @ steps never refer to the origin - if P2 were misread as absolute (30,10), every following point would shift; verifying the end coordinates with DIST/ID in AutoCAD is the working equivalent of this check ✓.</p>"
+    }
+   },
+   {
+    "id": "u7n2",
+    "title": {
+     "en": "Numerical 7.2 - Choosing the sheet scale for a CAD plot",
+     "gu": "Numerical 7.2 - Choosing the sheet scale for a CAD plot"
+    },
+    "body": {
+     "en": "<h4>Given</h4><p>A gearbox housing measures 560 mm x 380 mm overall. It must be drawn (full true size in model space, as always in CAD) and plotted on an A3 sheet (420 x 297 mm, printable about 400 x 277 mm after borders) together with its title block (about 60 mm of the width).</p><h4>Find</h4><p>A suitable standard plot scale, and the size of the housing on paper.</p><h4>Formula</h4><div class=\"eq\">Paper size = true size x scale factor ; choose the largest standard scale (1:1, 1:2, 1:2.5, 1:5...) that fits both directions</div><h4>Substitution and calculation</h4><div class=\"eq\">At 1:1: 560 > 400 available - does not fit</div><div class=\"eq\">At 1:2: housing on paper = 280 x 190 mm ; plus title block 60 -> 340 < 400 [OK], 190 < 277 [OK]</div><div class=\"eq\">Text drawn annotatively at paper heights (3.5 mm) stays 3.5 mm on paper regardless of the 1:2 plot scale</div><div class=\"eq boxed\">Plot at scale 1:2 on A3: housing prints 280 mm x 190 mm with room for title block and notes</div><h4>Validity check</h4><p>Model geometry was never scaled (drawn 560 mm true) - only the plot is scaled; this is the CAD rule that keeps dimensions associatively true. RF = 1/2 as in Numerical 1.2's manual definition ✓.</p>",
+     "gu": "<h4>Given</h4><p>A gearbox housing measures 560 mm x 380 mm overall. It must be drawn (full true size in model space, as always in CAD) and plotted on an A3 sheet (420 x 297 mm, printable about 400 x 277 mm after borders) together with its title block (about 60 mm of the width).</p><h4>Find</h4><p>A suitable standard plot scale, and the size of the housing on paper.</p><h4>Formula</h4><div class=\"eq\">Paper size = true size x scale factor ; choose the largest standard scale (1:1, 1:2, 1:2.5, 1:5...) that fits both directions</div><h4>Substitution and calculation</h4><div class=\"eq\">At 1:1: 560 > 400 available - does not fit</div><div class=\"eq\">At 1:2: housing on paper = 280 x 190 mm ; plus title block 60 -> 340 < 400 [OK], 190 < 277 [OK]</div><div class=\"eq\">Text drawn annotatively at paper heights (3.5 mm) stays 3.5 mm on paper regardless of the 1:2 plot scale</div><div class=\"eq boxed\">Plot at scale 1:2 on A3: housing prints 280 mm x 190 mm with room for title block and notes</div><h4>Validity check</h4><p>Model geometry was never scaled (drawn 560 mm true) - only the plot is scaled; this is the CAD rule that keeps dimensions associatively true. RF = 1/2 as in Numerical 1.2's manual definition ✓.</p>"
+    }
+   }
+  ]
+ },
+ "syntax": {
+  "title": {
+   "en": "Commands, symbols and key data",
+   "gu": "Commands, symbols and key data"
+  },
+  "items": [
+   {
+    "name": {
+     "en": "Dimension commands map",
+     "gu": "Dimension commands map"
+    },
+    "body": {
+     "en": "<div class=\"eq\">DIMLINEAR (DLI) - DIMBASELINE - DIMCONTINUE ; DIMALIGNED (DAL) ; DIMANGULAR (DAN) ; DIMRADIUS (DRA) ; DIMDIAMETER (DDI) ; DIMARC (DAR) ; DIMORDINATE (DOR) ; DIMJOGGED ; QDIM - quick chain</div><p>Set DIMSTYLE first; dimension on the DIM layer; check with a ZOOM, never by exploded edits.</p>",
+     "gu": "<div class=\"eq\">DIMLINEAR (DLI) - DIMBASELINE - DIMCONTINUE ; DIMALIGNED (DAL) ; DIMANGULAR (DAN) ; DIMRADIUS (DRA) ; DIMDIAMETER (DDI) ; DIMARC (DAR) ; DIMORDINATE (DOR) ; DIMJOGGED ; QDIM - quick chain</div><p>Set DIMSTYLE first; dimension on the DIM layer; check with a ZOOM, never by exploded edits.</p>"
+    }
+   },
+   {
+    "name": {
+     "en": "Text commands and conventions",
+     "gu": "Text commands and conventions"
+    },
+    "body": {
+     "en": "<div class=\"eq\">TEXT/DTEXT - single line per object ; MTEXT (T) - paragraph in a box ; STYLE - font/height presets ; heights on paper: 3.5 notes, 5 sub-titles, 7 titles</div><p>&lt;&gt; inside a dimension-text override displays the live measured value - always keep it in overrides.</p>",
+     "gu": "<div class=\"eq\">TEXT/DTEXT - single line per object ; MTEXT (T) - paragraph in a box ; STYLE - font/height presets ; heights on paper: 3.5 notes, 5 sub-titles, 7 titles</div><p>&lt;&gt; inside a dimension-text override displays the live measured value - always keep it in overrides.</p>"
+    }
+   }
+  ]
+ },
+ "viva": {
+  "title": {
+   "en": "Viva questions with model answers",
+   "gu": "Viva questions with model answers"
+  },
+  "items": [
+   {
+    "q": {
+     "en": "DIMSTYLE controls what?",
+     "gu": "DIMSTYLE controls what?"
+    },
+    "a": {
+     "en": "All dimension appearance defaults - arrows, text height/placement, extension offsets, units and precision, scale and fit behaviour - for every dimension drawn in that style.",
+     "gu": "All dimension appearance defaults - arrows, text height/placement, extension offsets, units and precision, scale and fit behaviour - for every dimension drawn in that style."
+    }
+   },
+   {
+    "q": {
+     "en": "Linear vs aligned dimension - choice rule?",
+     "gu": "Linear vs aligned dimension - choice rule?"
+    },
+    "a": {
+     "en": "Linear measures horizontal/vertical projection distances; aligned measures the true length parallel to an inclined feature. Inclined edge: always aligned.",
+     "gu": "Linear measures horizontal/vertical projection distances; aligned measures the true length parallel to an inclined feature. Inclined edge: always aligned."
+    }
+   },
+   {
+    "q": {
+     "en": "Circle: radius or diameter dimension?",
+     "gu": "Circle: radius or diameter dimension?"
+    },
+    "a": {
+     "en": "Diameter (DIMDIAMETER) in production drawings - machining and inspection are diameter-based. Radius is for arcs and fillets (DIMRADIUS).",
+     "gu": "Diameter (DIMDIAMETER) in production drawings - machining and inspection are diameter-based. Radius is for arcs and fillets (DIMRADIUS)."
+    }
+   },
+   {
+    "q": {
+     "en": "What does &lt;&gt; mean in a dimension text override?",
+     "gu": "What does &lt;&gt; mean in a dimension text override?"
+    },
+    "a": {
+     "en": "It is the placeholder for the live measured value; typing '4x &lt;&gt;' shows '4x 25' and updates when geometry changes. Dropping it freezes a fake number - a defect.",
+     "gu": "It is the placeholder for the live measured value; typing '4x &lt;&gt;' shows '4x 25' and updates when geometry changes. Dropping it freezes a fake number - a defect."
+    }
+   },
+   {
+    "q": {
+     "en": "Why never explode a dimension?",
+     "gu": "Why never explode a dimension?"
+    },
+    "a": {
+     "en": "Exploding destroys associativity and object behaviour: arrows/text become dumb lines that never update, and the measured truth chain is broken.",
+     "gu": "Exploding destroys associativity and object behaviour: arrows/text become dumb lines that never update, and the measured truth chain is broken."
+    }
+   },
+   {
+    "q": {
+     "en": "DIMTEDIT vs DIMEDIT?",
+     "gu": "DIMTEDIT vs DIMEDIT?"
+    },
+    "a": {
+     "en": "DIMTEDIT only repositions/rotates the text of one dimension. DIMEDIT additionally rewrites text content, returns Home, rotates text to an angle, and makes extension lines oblique.",
+     "gu": "DIMTEDIT only repositions/rotates the text of one dimension. DIMEDIT additionally rewrites text content, returns Home, rotates text to an angle, and makes extension lines oblique."
+    }
+   },
+   {
+    "q": {
+     "en": "DTEXT or MTEXT for the general notes block?",
+     "gu": "DTEXT or MTEXT for the general notes block?"
+    },
+    "a": {
+     "en": "MTEXT: the paragraph wraps in its box with bullets/formatting; DTEXT would make every line a separate object to manage.",
+     "gu": "MTEXT: the paragraph wraps in its box with bullets/formatting; DTEXT would make every line a separate object to manage."
+    }
+   },
+   {
+    "q": {
+     "en": "What is an annotative text/dimension style?",
+     "gu": "What is an annotative text/dimension style?"
+    },
+    "a": {
+     "en": "A style that sizes text/dimensions to read at the set paper height automatically, whatever the plot scale - the same model prints correctly at 1:1 and 1:2.",
+     "gu": "A style that sizes text/dimensions to read at the set paper height automatically, whatever the plot scale - the same model prints correctly at 1:1 and 1:2."
+    }
+   },
+   {
+    "q": {
+     "en": "Name two ways to chain dimensions quickly.",
+     "gu": "Name two ways to chain dimensions quickly."
+    },
+    "a": {
+     "en": "DIMCONTINUE (each next dimension starts where the previous ended) and DIMBASELINE (all from one datum extension line); QDIM applies chains to selected geometry at once.",
+     "gu": "DIMCONTINUE (each next dimension starts where the previous ended) and DIMBASELINE (all from one datum extension line); QDIM applies chains to selected geometry at once."
+    }
+   },
+   {
+    "q": {
+     "en": "Text height for notes on an A2/A3 plotted sheet?",
+     "gu": "Text height for notes on an A2/A3 plotted sheet?"
+    },
+    "a": {
+     "en": "3.5 mm standard (5 mm for sub-headings, 7 mm for titles), upright, reading from the bottom or right edge - same SP 46 lettering discipline as manual sheets.",
+     "gu": "3.5 mm standard (5 mm for sub-headings, 7 mm for titles), upright, reading from the bottom or right edge - same SP 46 lettering discipline as manual sheets."
+    }
+   },
+   {
+    "q": {
+     "en": "Where should dimensions be placed relative to the views?",
+     "gu": "Where should dimensions be placed relative to the views?"
+    },
+    "a": {
+     "en": "Outside the outlines wherever possible, smallest dimension nearest the object, dimension lines parallel and evenly spaced, none crossing geometry.",
+     "gu": "Outside the outlines wherever possible, smallest dimension nearest the object, dimension lines parallel and evenly spaced, none crossing geometry."
+    }
+   },
+   {
+    "q": {
+     "en": "Jogged radius dimension - when?",
+     "gu": "Jogged radius dimension - when?"
+    },
+    "a": {
+     "en": "When the true centre of a large-radius arc lies outside the printable area: the dimension line is jogged (zig-zagged) to a convenient false centre on the sheet.",
+     "gu": "When the true centre of a large-radius arc lies outside the printable area: the dimension line is jogged (zig-zagged) to a convenient false centre on the sheet."
+    }
+   }
+  ]
+ },
+ "exam_questions": [
+  {
+   "q": {
+    "en": "What is a dimension style (DIMSTYLE)? State any five settings it controls.",
+    "gu": "What is a dimension style (DIMSTYLE)? State any five settings it controls."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Differentiate between linear and aligned dimensions. When is each used?",
+    "gu": "Differentiate between linear and aligned dimensions. When is each used?"
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "How are circles and arcs dimensioned in AutoCAD? Which commands are used?",
+    "gu": "How are circles and arcs dimensioned in AutoCAD? Which commands are used?"
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain DIMEDIT and DIMTEDIT functions.",
+    "gu": "Explain DIMEDIT and DIMTEDIT functions."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Differentiate between DTEXT and MTEXT.",
+    "gu": "Differentiate between DTEXT and MTEXT."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "What is the advantage of associative dimensions?",
+    "gu": "What is the advantage of associative dimensions?"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "State four rules of good dimensioning practice (manual or CAD).",
+    "gu": "State four rules of good dimensioning practice (manual or CAD)."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "How is additional information attached to a dimension value in AutoCAD? Give examples.",
+    "gu": "How is additional information attached to a dimension value in AutoCAD? Give examples."
+   },
+   "marks": 4
+  }
+ ],
+ "practicals": [
+  {
+   "number": 7,
+   "title": {
+    "en": "Practical 7: Draw 2D drawing using AutoCAD",
+    "gu": "Practical 7: Draw 2D drawing using AutoCAD"
+   },
+   "body": {
+    "en": "<h4>Objective (Syllabus Practical 7)</h4><p>Prepare a complete 2D drawing in AutoCAD - preferably the detail/assembly drawing sheet of the earlier practicals - and plot it.</p><h4>Procedure</h4><ul><li><b>Step 1</b>: NEW from the class template; set UNITS (mm), LIMITS, layers (object/centre/hidden/hatch/dim/title), text and dimension styles as taught.</li><li><b>Step 2</b>: Draw the geometry at full scale using Draw/Modify commands, OSNAP-locked coordinate entry (absolute/relative/polar as suitable).</li><li><b>Step 3</b>: Add centre lines, hatching for sections (HATCH, ANSI31), and complete dimensioning with the correct dimension types - no closed chains.</li><li><b>Step 4</b>: Add DTEXT/MTEXT notes, title block; check on the DIM/TITLE layers.</li><li><b>Step 5</b>: PLOT to the sheet size at the declared scale (or PDF), verify lineweights and text heights on the print.</li></ul><h4>Result (report format)</h4><p>Submit the plotted sheet and the .dwg file name. Conclusion: list any five commands you used with their purpose, and the dimension types applied.</p>",
+    "gu": "<h4>Objective (Syllabus Practical 7)</h4><p>Prepare a complete 2D drawing in AutoCAD - preferably the detail/assembly drawing sheet of the earlier practicals - and plot it.</p><h4>Procedure</h4><ul><li><b>Step 1</b>: NEW from the class template; set UNITS (mm), LIMITS, layers (object/centre/hidden/hatch/dim/title), text and dimension styles as taught.</li><li><b>Step 2</b>: Draw the geometry at full scale using Draw/Modify commands, OSNAP-locked coordinate entry (absolute/relative/polar as suitable).</li><li><b>Step 3</b>: Add centre lines, hatching for sections (HATCH, ANSI31), and complete dimensioning with the correct dimension types - no closed chains.</li><li><b>Step 4</b>: Add DTEXT/MTEXT notes, title block; check on the DIM/TITLE layers.</li><li><b>Step 5</b>: PLOT to the sheet size at the declared scale (or PDF), verify lineweights and text heights on the print.</li></ul><h4>Result (report format)</h4><p>Submit the plotted sheet and the .dwg file name. Conclusion: list any five commands you used with their purpose, and the dimension types applied.</p>"
+   }
+  }
+ ],
+ "learning_outcomes": [
+  {
+   "en": "CO4: Create and edit 2D drawings and assemblies in AutoCAD (RBT: A)",
+   "gu": "CO4: Create and edit 2D drawings and assemblies in AutoCAD (RBT: A)"
+  }
+ ],
+ "practical_numbers": [
+  7
+ ],
+ "content_kind": "theory_with_guided_practical_support",
+ "assessment_note": {
+  "en": "Official scheme (GTU DI02000121): Theory ESE 70 + PA 30, Practical PA 20 + ESE 30, total 150 marks, 4 credits. Unit 7 carries 4 hours and 15 % weightage in the official syllabus. All exam questions in this unit are original practice questions; their marks are suggested, not from an official paper.",
+  "gu": "Official scheme (GTU DI02000121): Theory ESE 70 + PA 30, Practical PA 20 + ESE 30, total 150 marks, 4 credits. Unit 7 carries 4 hours and 15 % weightage in the official syllabus. All exam questions in this unit are original practice questions; their marks are suggested, not from an official paper."
+ },
+ "question_provenance": "Original answered revision questions; not official past papers",
+ "question_marks_are_suggested": true,
+ "lesson_count": 5,
+ "answered_practice_count": 8,
+ "sources": [
+  "Autodesk AutoCAD User's Guide / Help (dimensioning, DIMSTYLE, text) - Autodesk Knowledge Network.",
+  "SP 46:1988, Engineering Drawing Practice, Bureau of Indian Standards (dimensioning and lettering rules).",
+  "Computer Aided Machine Drawing Practice, AICTE e-Kumbh portal (official GTU reference)."
+ ]
+}

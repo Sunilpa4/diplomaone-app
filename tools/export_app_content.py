@@ -393,6 +393,27 @@ _chemical_sem4 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(4,[])
 if 'DI04005071' not in _chemical_sem4:
     _chemical_sem4.append('DI04005071')
 
+# DiplomaOne registration: DI05005011 chemical semester 5
+if 'DI05005011' not in SUBJECTS:
+    SUBJECTS['DI05005011'] = ('Mass Transfer - II','માસ ટ્રાન્સફર-II','Professional Core',4,'theory',None)
+_chemical_sem5 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(5,[])
+if 'DI05005011' not in _chemical_sem5:
+    _chemical_sem5.append('DI05005011')
+
+# DiplomaOne registration: DI05005021 chemical semester 5
+if 'DI05005021' not in SUBJECTS:
+    SUBJECTS['DI05005021'] = ('Chemical Engineering Plant Economics','કેમિકલ એન્જિનિયરિંગ પ્લાન્ટ ઇકોનોમિક્સ','Professional Core',4,'theory',None)
+_chemical_sem5 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(5,[])
+if 'DI05005021' not in _chemical_sem5:
+    _chemical_sem5.append('DI05005021')
+
+# DiplomaOne registration: DI02000121 mechanical semester 2 (English-only subject)
+if 'DI02000121' not in SUBJECTS:
+    SUBJECTS['DI02000121'] = ('Mechanical Drafting',None,'Professional Core',4,'theory',None)
+_mechanical_sem2 = BRANCH_SEMS.setdefault('mechanical',{}).setdefault(2,[])
+if 'DI02000121' not in _mechanical_sem2:
+    _mechanical_sem2.append('DI02000121')
+
 FONT_MAP = [
     (re.compile(r'font-family="Arial, Helvetica, sans-serif"'), 'font-family="DejaVu Sans"'),
     (re.compile(r'font-family="DejaVu Sans Mono, Consolas, monospace"'), 'font-family="DejaVu Sans Mono"'),
