@@ -77,7 +77,6 @@ class Unit2Specific(unittest.TestCase):
         self.assertEqual(subj["exam"]["theory_ese"] + subj["exam"]["theory_pa"]
                          + subj["exam"]["practical_pa"] + subj["exam"]["practical_ese"], 150)
 
-del Unit2
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

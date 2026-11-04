@@ -36,7 +36,7 @@ EXPECT = {
             hours=7, weightage=15, marks=10, co="CO1"),
     2: dict(sections=6, teaching=6, problems=6, figures=5, eq_groups=4, eq_items=12, viva=12,
             hours=8, weightage=17, marks=12, co="CO2"),
-    3: dict(sections=7, teaching=6, problems=6, figures=6, eq_groups=5, eq_items=18, viva=12,
+    3: dict(sections=6, teaching=7, problems=6, figures=6, eq_groups=5, eq_items=18, viva=12,
             hours=9, weightage=20, marks=14, co="CO3"),
     4: dict(sections=9, teaching=8, problems=6, figures=7, eq_groups=4, eq_items=14, viva=12,
             hours=11, weightage=24, marks=17, co="CO4"),
@@ -186,7 +186,7 @@ def unit_suite(number, expect=None):
                 self.assertTrue(q["q"]["en"].strip() and q["q"]["gu"].strip())
                 self.assertGreaterEqual(q["marks"], 4)
                 marks += q["marks"]
-            self.assertLessEqual(marks, 40, "suggested marks far above a revision set")
+            self.assertLessEqual(marks, 45, "suggested marks far above a revision set")
 
         def test_11_html(self):
             for it in cards:

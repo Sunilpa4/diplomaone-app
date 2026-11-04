@@ -1,0 +1,777 @@
+{
+ "subject": "DI05005031",
+ "unit": 3,
+ "format": "notes",
+ "title": {
+  "en": "Interpretation of Batch Reactor Data",
+  "gu": "બેચ રિએક્ટરના ડેટાનું અર્થઘટન"
+ },
+ "hours": 9,
+ "weightage": 20,
+ "theory_marks": 14,
+ "official": true,
+ "languages": [
+  "en",
+  "gu"
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "equations",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "Unit 3 of Chemical Reaction Engineering: how a batch experiment is turned into a rate equation. The three methods - differential, integral and half-life - are derived and compared on one set of data; the constant-volume relations, the expansion factor and the batch design equation t = CA0 integral dX/(-rA) follow; pressure readings are converted into concentrations; and the integrated laws of zero, first, second, third and nth order are derived once and tabulated with their half-lives and units. Six solved numericals follow in section 3.5.",
+  "gu": "Chemical Reaction Engineering નું Unit 3: batch experiment ને rate equation માં કેવી રીતે ફેરવવો. ત્રણ રીતો - differential, integral અને half-life - derive કરીને એક જ data પર સરખાવેલી છે; ત્યારબાદ અચળ volume ના સંબંધો, expansion factor અને batch design equation t = CA0 integral dX/(-rA); pressure વાંચનને concentrations માં ફેરવવું; અને zero, first, second, third તથા nth order ના integrated laws એક વાર derive કરીને half-life અને એકમ સાથે કોષ્ટકમાં. વિભાગ 3.5 માં છ ઉકેલેલા દાખલા છે."
+ },
+ "notes": [
+  {
+   "title": {
+    "en": "3.1 Reading batch data: the differential and integral routes",
+    "gu": "3.1 Batch data વાંચવું: differential અને integral રીતો"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "One table of data, three roads to the rate equation",
+      "gu": "એક કોષ્ટક, rate equation સુધીની ત્રણ રીતો"
+     },
+     "body": {
+      "en": "<p>A batch experiment gives one table: concentration against time, at one temperature. Three methods turn that table into a rate equation, and all three answer the same two questions - what is the order n, and what is the rate constant k:</p><table><tr><th>Method</th><th>What you plot</th><th>What the plot gives</th></tr><tr><td>Differential</td><td>-rA from the slope of C against t, then ln(-rA) against ln CA</td><td>slope = n, intercept = ln k</td></tr><tr><td>Integral</td><td>the integrated law for a guessed n, in its straight-line form</td><td>a straight line proves n, its slope is k</td></tr><tr><td>Half-life</td><td>log t1/2 against log CA0</td><td>slope = 1 - n, then k from one half-life</td></tr></table><div class=\"math\">-rA = k CA^n            the one law all three methods test\ndifferential:  ln(-rA) = ln k + n ln CA\nintegral:      CA^(1-n) - CA0^(1-n) = (n-1) k t\nhalf-life:     t1/2 = (2^(n-1) - 1)/((n-1) k CA0^(n-1))</div><h4>The order of work that never fails</h4><ol><li>Check the data first: is the temperature constant, is the volume constant, is there a mole change?</li><li>Find the order by two independent methods and accept it only if they agree.</li><li>Take k from the method that uses all the points, not from one interval.</li></ol><p>The three methods are not alternatives to memorise; they are cross-checks. A report that says \"order 2 by the integral method, order 2 by half-lives\" is worth far more than one that says \"order 2\" with a single plot behind it.</p><p><b>Why it is true.</b> Every method is a different way of testing the same power law, -rA = k CA^n. The differential method tests it after taking logarithms, the integral method tests it after integrating, and the half-life method tests it at one particular conversion. Same law, three windows.</p><p><b>Check your answer.</b> If you are given only three points and no time to waste, use the integral method: one plot per guessed order tells you at once whether the guess was right.</p><p><b>Common mistake.</b> Mixing data from two runs. If the temperature drifted between runs, the two halves of the table belong to two different k, and no method will give a clean answer.</p>",
+      "gu": "<p>Batch experiment એક જ કોષ્ટક આપે છે: એક temperature પર concentration અને time. ત્રણ રીતો એ કોષ્ટકને rate equation માં ફેરવે છે, અને ત્રણેય એ જ બે પ્રશ્નોના જવાબ આપે છે - order n કેટલો અને rate constant k કેટલો:</p><table><tr><th>રીત</th><th>શું દોરો</th><th>પ્લોટ શું આપે</th></tr><tr><td>Differential</td><td>C અને t ના ઢાળ પરથી -rA, પછી ln(-rA) અને ln CA</td><td>ઢાળ = n, intercept = ln k</td></tr><tr><td>Integral</td><td>ધારેલા n માટેનો integrated law, સીધી રેખાના સ્વરૂપમાં</td><td>સીધી રેખા n સાબિત કરે, ઢાળ k આપે</td></tr><tr><td>Half-life</td><td>log t1/2 અને log CA0</td><td>ઢાળ = 1 - n, પછી એક half-life પરથી k</td></tr></table><div class=\"math\">-rA = k CA^n            the one law all three methods test\ndifferential:  ln(-rA) = ln k + n ln CA\nintegral:      CA^(1-n) - CA0^(1-n) = (n-1) k t\nhalf-life:     t1/2 = (2^(n-1) - 1)/((n-1) k CA0^(n-1))</div><h4>જે ક્રમ કદી નિષ્ફળ ન જાય</h4><ol><li>પહેલા data ચકાસો: temperature અચળ છે? volume અચળ છે? mole change છે?</li><li>order બે સ્વતંત્ર રીતોથી શોધો અને બંને મળે તો જ સ્વીકારો.</li><li>k એ રીતમાંથી લો જે બધા બિંદુઓ વાપરે, એક interval પરથી નહીં.</li></ol><p>ત્રણ રીતો યાદ કરવા માટેના વિકલ્પો નથી; તે એકબીજાની ચકાસણી છે. \"integral method થી order 2, half-lives થી પણ order 2\" કહેતો report એવા report કરતાં ઘણો કિંમતી છે જે એક જ પ્લોટ પાછળ \"order 2\" કહે.</p><p><b>કેમ સાચું છે.</b> દરેક રીત એ જ power law -rA = k CA^n ચકાસવાની જુદી રીત છે. Differential method તેને logarithm લીધા પછી ચકાસે છે, integral method integrate કર્યા પછી, અને half-life method એક ખાસ conversion પર. એક જ law, ત્રણ બારી.</p><p><b>જવાબ ચકાસો.</b> ફક્ત ત્રણ બિંદુ અને સમય ઓછો હોય તો integral method વાપરો: દરેક ધારેલા order માટે એક પ્લોટ તરત કહે કે ધારણા સાચી હતી કે નહીં.</p><p><b>સામાન્ય ભૂલ.</b> બે રનના data ભેળવવા. રન વચ્ચે temperature બદલાયું હોય તો કોષ્ટકના બે ભાગ બે જુદા k ના છે, અને કોઈ રીત સ્વચ્છ જવાબ નહીં આપે.</p>"
+     },
+     "diagram": "u3_paths",
+     "syllabus_item": "3.1"
+    },
+    {
+     "h": {
+      "en": "The differential method: differentiate, then take logarithms",
+      "gu": "Differential method: પહેલા derivative, પછી logarithm"
+     },
+     "body": {
+      "en": "<p>Write the power law, take logarithms, and the problem becomes a straight line:</p><div class=\"math\">-rA = k CA^n\nln(-rA) = ln k + n ln CA   <- straight line in ln CA</div><h4>The three steps</h4><ol><li>Plot CA against t and draw a tangent at each concentration; the slope of the tangent, with its sign removed, is -rA at that CA.</li><li>Plot ln(-rA) against ln CA.</li><li>Read the slope as the order and the intercept as ln k.</li></ol><h4>When the data are a table, not a curve</h4><p>Two neighbouring points give the rate at the mid-point of the interval without drawing anything. Use the central difference for interior points and the forward difference at the ends:</p><div class=\"math\"> 1. -rA(mid) = -(CA2 - CA1) / (t2 - t1)\n 2. assign that rate to the mean concentration (CA1 + CA2)/2\n 3. repeat for every interval, then plot ln(-rA) against ln CA</div><h4>A worked table</h4><p>A batch reactor at constant volume, constant temperature, gives the table below. The order is not obvious from CA alone:</p><table><tr><th>t, min</th><th>CA, mol/L</th><th>mean CA</th><th>-rA, mol L-1 min-1</th></tr><tr><td>0</td><td>1.00</td><td>-</td><td>-</td></tr><tr><td>5</td><td>0.80</td><td>0.90</td><td>0.040</td></tr><tr><td>13.3</td><td>0.60</td><td>0.70</td><td>0.024</td></tr><tr><td>30</td><td>0.40</td><td>0.50</td><td>0.012</td></tr><tr><td>60</td><td>0.25</td><td>-</td><td>-</td></tr></table><div class=\"math\">ln(-rA):  -3.22   -3.73   -4.42\nln CA :   -0.105  -0.357  -0.693\nslope = (-4.42 + 3.22) / (-0.693 + 0.105) = 2.04\nintercept: ln k = -3.22 - 2(-0.105) = -3.01 -> k = 0.049</div><div class=\"eq\">order n = 2,  k = 0.049 L mol-1 min-1</div><p>The slope of 2.04 is an order of 2 within the scatter of a hand-drawn tangent. Report it as 2 and say that the data support a second order law between 0.25 and 1.0 mol/L.</p><p><b>Why it is true.</b> Differentiation is the most direct test because it never assumes a form: the power law itself becomes linear. It is also the most sensitive to noise, because a small error in CA becomes a large error in the slope.</p><p><b>Check your answer.</b> A second order law must also give k CA^2 = -rA at every row: 0.049 x 0.81 = 0.040, 0.049 x 0.49 = 0.024, 0.049 x 0.25 = 0.012 - all three rows agree.</p><p><b>Common mistake.</b> Drawing one tangent at t = 0 and calling it the order. The initial slope gives one rate at one concentration; an order needs at least three points spread over the concentration range.</p>",
+      "gu": "<p>Power law લખો, logarithm લો, અને સમસ્યા સીધી રેખા બની જાય છે:</p><div class=\"math\">-rA = k CA^n\nln(-rA) = ln k + n ln CA   <- straight line in ln CA</div><h4>ત્રણ પગલાં</h4><ol><li>CA અને t નો પ્લોટ દોરો અને દરેક concentration પર સ્પર્શક દોરો; સ્પર્શકનો ઢાળ, નિશાની કાઢી નાખ્યા પછી, તે CA પરનો -rA છે.</li><li>ln(-rA) અને ln CA નો પ્લોટ દોરો.</li><li>ઢાળને order અને intercept ને ln k વાંચો.</li></ol><h4>Data કોષ્ટક હોય, વક્ર નહીં</h4><p>પાસેના બે બિંદુઓ interval ના મધ્યબિંદુ પરનો rate આપે છે, કંઈ દોરવાની જરૂર નહીં. વચ્ચેના બિંદુઓ માટે central difference અને છેડે forward difference વાપરો:</p><div class=\"math\"> 1. -rA(mid) = -(CA2 - CA1) / (t2 - t1)\n 2. assign that rate to the mean concentration (CA1 + CA2)/2\n 3. repeat for every interval, then plot ln(-rA) against ln CA</div><h4>ઉકેલેલું કોષ્ટક</h4><p>અચળ volume અને temperature પરનો batch reactor નીચેનું કોષ્ટક આપે છે. ફક્ત CA જોઈને order સ્પષ્ટ થતો નથી:</p><table><tr><th>t, min</th><th>CA, mol/L</th><th>mean CA</th><th>-rA, mol L-1 min-1</th></tr><tr><td>0</td><td>1.00</td><td>-</td><td>-</td></tr><tr><td>5</td><td>0.80</td><td>0.90</td><td>0.040</td></tr><tr><td>13.3</td><td>0.60</td><td>0.70</td><td>0.024</td></tr><tr><td>30</td><td>0.40</td><td>0.50</td><td>0.012</td></tr><tr><td>60</td><td>0.25</td><td>-</td><td>-</td></tr></table><div class=\"math\">ln(-rA):  -3.22   -3.73   -4.42\nln CA :   -0.105  -0.357  -0.693\nslope = (-4.42 + 3.22) / (-0.693 + 0.105) = 2.04\nintercept: ln k = -3.22 - 2(-0.105) = -3.01 -> k = 0.049</div><div class=\"eq\">order n = 2,  k = 0.049 L mol-1 min-1</div><p>2.04 નો ઢાળ હાથે દોરેલા સ્પર્શકના scatter માં order 2 જ છે. તેને 2 લખો અને કહો કે 0.25 થી 1.0 mol/L વચ્ચેનો data second order law ને ટેકો આપે છે.</p><p><b>કેમ સાચું છે.</b> Differentiation સૌથી સીધી ચકાસણી છે કારણ કે તે કોઈ સ્વરૂપ ધારતું નથી: power law પોતે રેખીય બની જાય છે. તે noise માટે પણ સૌથી સંવેદનશીલ છે, કારણ કે CA ની નાની ભૂલ ઢાળમાં મોટી ભૂલ બની જાય છે.</p><p><b>જવાબ ચકાસો.</b> Second order law એ દરેક હારમાં k CA^2 = -rA આપવું જોઈએ: 0.049 x 0.81 = 0.040, 0.049 x 0.49 = 0.024, 0.049 x 0.25 = 0.012 - ત્રણેય હાર મળે છે.</p><p><b>સામાન્ય ભૂલ.</b> t = 0 પર એક સ્પર્શક દોરીને તેને order કહેવું. શરૂઆતનો ઢાળ એક concentration પર એક rate આપે છે; order માટે concentration ની પરાસમાં ઓછામાં ઓછા ત્રણ બિંદુ જોઈએ.</p>"
+     },
+     "diagram": "u3_diff",
+     "syllabus_item": "3.1"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3.1 The half-life route and how to choose between the three",
+    "gu": "3.1 Half-life રીત અને ત્રણમાંથી કઈ પસંદ કરવી"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "The integral method: guess, integrate, then look for a straight line",
+      "gu": "Integral method: ધારો, integrate કરો, પછી સીધી રેખા શોધો"
+     },
+     "body": {
+      "en": "<p>The integral method works the other way round. Guess an order, integrate the rate law, and plot the combination of concentrations that should then be linear in time. If the plot is straight, the guess was right and the slope is k; if it bends, try the next order.</p><table><tr><th>Guessed order</th><th>Integrate -dCA/dt = k CA^n</th><th>Plot this against t</th></tr><tr><td>0</td><td>CA0 - CA = k t</td><td>CA</td></tr><tr><td>1</td><td>ln(CA0/CA) = k t</td><td>ln CA</td></tr><tr><td>2</td><td>1/CA - 1/CA0 = k t</td><td>1/CA</td></tr><tr><td>3</td><td>1/CA^2 - 1/CA0^2 = 2 k t</td><td>1/CA^2</td></tr></table><h4>The same table, tested three times</h4><p>For the five points of the previous card, the three test functions give:</p><div class=\"math\">t:      0     5    13.3    30    60\nCA:    1.00  0.80  0.60  0.40  0.25\nln CA:  0.00 -0.22 -0.51 -0.92 -1.39\n1/CA:   1.00  1.25  1.67  2.50  4.00</div><div class=\"math\">steps in 1/CA per minute:\n(1.25-1.00)/5 = 0.050        (1.67-1.25)/8.3 = 0.050\n(2.50-1.67)/16.7 = 0.050     (4.00-2.50)/30 = 0.050</div><p>The differences of 1/CA are constant, so 1/CA against t is a straight line and the order is 2. The same steps in ln CA (0.044, 0.035, 0.025, 0.016 per minute) fall away, so first order is ruled out; the steps in CA themselves (0.040, 0.024, 0.012, 0.010) also fall, so zero order is ruled out.</p><div class=\"eq\">order 2,  k = 0.050 L mol-1 min-1 (differential gave 0.049)</div><p><b>Why it is true.</b> Integration smooths the data: a small error in one concentration changes the slope of the test plot only slightly, which is why the integral method is the one used on noisy plant data. The price is that you must guess, and a wrong guess is only noticed when the plot bends.</p><p><b>Check your answer.</b> With k = 0.050, the time to reach 0.25 mol/L is (4.00 - 1.00)/0.050 = 60 min, which is the last row of the table.</p><p><b>Common mistake.</b> Testing only the order you expect. Plot all three, look at which one is straight, and let the data choose - examiners award the marks for the comparison, not for the final number.</p>",
+      "gu": "<p>Integral method ઊલટી રીતે કામ કરે છે. order ધારો, rate law integrate કરો, અને concentration નું એ સંયોજન દોરો જે ત્યારે time સાથે રેખીય થવું જોઈએ. પ્લોટ સીધો હોય તો ધારણા સાચી અને ઢાળ k છે; વળે તો બીજો order અજમાવો.</p><table><tr><th>ધારેલો order</th><th>integrate કરો</th><th>t સામે આ દોરો</th></tr><tr><td>0</td><td>CA0 - CA = k t</td><td>CA</td></tr><tr><td>1</td><td>ln(CA0/CA) = k t</td><td>ln CA</td></tr><tr><td>2</td><td>1/CA - 1/CA0 = k t</td><td>1/CA</td></tr><tr><td>3</td><td>1/CA^2 - 1/CA0^2 = 2 k t</td><td>1/CA^2</td></tr></table><h4>એ જ કોષ્ટક, ત્રણ વાર ચકાસ્યું</h4><p>પાછલા card ના પાંચ બિંદુઓ માટે ત્રણ test function આપે છે:</p><div class=\"math\">t:      0     5    13.3    30    60\nCA:    1.00  0.80  0.60  0.40  0.25\nln CA:  0.00 -0.22 -0.51 -0.92 -1.39\n1/CA:   1.00  1.25  1.67  2.50  4.00</div><div class=\"math\">steps in 1/CA per minute:\n(1.25-1.00)/5 = 0.050        (1.67-1.25)/8.3 = 0.050\n(2.50-1.67)/16.7 = 0.050     (4.00-2.50)/30 = 0.050</div><p>1/CA ના તફાવત અચળ છે, તેથી 1/CA અને t સીધી રેખા છે અને order 2 છે. ln CA માં એ જ પગલાં (પ્રતિ મિનિટ 0.044, 0.035, 0.025, 0.016) ઘટે છે, તેથી first order નકારાય; CA માં પગલાં (0.040, 0.024, 0.012, 0.010) પણ ઘટે છે, તેથી zero order નકારાય.</p><div class=\"eq\">order 2,  k = 0.050 L mol-1 min-1 (differential gave 0.049)</div><p><b>કેમ સાચું છે.</b> Integration data ને સરખું કરે છે: એક concentration માંની નાની ભૂલ test plot ના ઢાળને થોડો જ બદલે છે, તેથી noisy plant data પર integral method વપરાય છે. કિંમત એ છે કે ધારવું પડે, અને ખોટી ધારણા પ્લોટ વળે ત્યારે જ દેખાય.</p><p><b>જવાબ ચકાસો.</b> k = 0.050 સાથે 0.25 mol/L સુધી પહોંચવાનો સમય (4.00 - 1.00)/0.050 = 60 min છે, જે કોષ્ટકની છેલ્લી હાર છે.</p><p><b>સામાન્ય ભૂલ.</b> ફક્ત અપેક્ષિત order જ ચકાસવો. ત્રણેય દોરો, કયો સીધો છે તે જુઓ, અને data ને પસંદ કરવા દો - પરીક્ષક સરખામણી માટે ગુણ આપે છે, અંતિમ આંકડા માટે નહીં.</p>"
+     },
+     "diagram": "u3_integral_test",
+     "syllabus_item": "3.1"
+    },
+    {
+     "h": {
+      "en": "The half-life method: one number per run",
+      "gu": "Half-life method: દરેક રન માટે એક જ આંકડો"
+     },
+     "body": {
+      "en": "<p>Start a fresh batch at a different CA0 and measure how long it takes to fall to half. The way that half-life changes with CA0 is the order, because for -rA = k CA^n:</p><div class=\"math\"> 1. t1/2 = (2^(n-1) - 1) / ((n-1) k CA0^(n-1))     for n not equal to 1\n 2. t1/2 = ln 2 / k                              for n = 1\n 3. take logarithms: log t1/2 = const + (1 - n) log CA0\n 4. so a plot of log t1/2 against log CA0 has slope (1 - n)</div><div class=\"math\">two runs are enough:  n = 1 + ln(t1/2 second / t1/2 first) / ln(CA0 first / CA0 second)\ncheck: n = 2 -> t1/2 proportional to 1/CA0;  n = 0 -> t1/2 proportional to CA0</div><h4>Worked example</h4><p>Two runs of the same reaction at the same temperature give t1/2 = 20 min at CA0 = 1.00 mol/L and t1/2 = 40 min at CA0 = 0.50 mol/L. Find the order and k.</p><div class=\"math\">n = 1 + ln(40/20) / ln(1.00/0.50)\n  = 1 + 0.693/0.693 = 2\nfor n = 2:  k = 1/(t1/2 CA0) = 1/(20 x 1.00) = 0.050\ncheck with the second run: 1/(40 x 0.50) = 0.050  (same k)</div><div class=\"eq\">order 2,  k = 0.050 L mol-1 min-1</div><p>Halving the starting concentration doubled the half-life; that doubling is the signature of second order. For a first order reaction the half-life would not have moved at all, and for a zero order reaction it would have halved.</p><p><b>Why it is true.</b> The half-life method needs no calculus at all: each run gives a single number, and the order is read from how those numbers change. That is why it is the method of choice for a quick laboratory screening, and why it is so easy to mark in an examination.</p><p><b>Check your answer.</b> For this reaction a third run at CA0 = 0.25 mol/L must give t1/2 = 80 min. If it does not, the order is not 2 - or the temperature moved between runs.</p><p><b>Common mistake.</b> Using a fractional life without adjusting the formula. The 3/4 life is not 1.5 times the half-life for every order; the half-life itself has a different concentration dependence for each order, so always convert to a fraction you can derive.</p>",
+      "gu": "<p>જુદા CA0 પર નવો batch શરૂ કરો અને અડધું થવા માટે કેટલો સમય લાગે તે માપો. CA0 સાથે half-life કેવી રીતે બદલાય તે જ order છે, કારણ કે -rA = k CA^n માટે:</p><div class=\"math\"> 1. t1/2 = (2^(n-1) - 1) / ((n-1) k CA0^(n-1))     for n not equal to 1\n 2. t1/2 = ln 2 / k                              for n = 1\n 3. take logarithms: log t1/2 = const + (1 - n) log CA0\n 4. so a plot of log t1/2 against log CA0 has slope (1 - n)</div><div class=\"math\">two runs are enough:  n = 1 + ln(t1/2 second / t1/2 first) / ln(CA0 first / CA0 second)\ncheck: n = 2 -> t1/2 proportional to 1/CA0;  n = 0 -> t1/2 proportional to CA0</div><h4>ઉકેલેલું ઉદાહરણ</h4><p>એ જ temperature પરની બે રન આપે છે: CA0 = 1.00 mol/L પર t1/2 = 20 min અને CA0 = 0.50 mol/L પર t1/2 = 40 min. order અને k શોધો.</p><div class=\"math\">n = 1 + ln(40/20) / ln(1.00/0.50)\n  = 1 + 0.693/0.693 = 2\nfor n = 2:  k = 1/(t1/2 CA0) = 1/(20 x 1.00) = 0.050\ncheck with the second run: 1/(40 x 0.50) = 0.050  (same k)</div><div class=\"eq\">order 2,  k = 0.050 L mol-1 min-1</div><p>શરૂઆતનું concentration અડધું કરતાં half-life બમણી થઈ; એ બમણું થવું second order ની ઓળખ છે. First order પ્રક્રિયામાં half-life જરાય બદલાત નહીં, અને zero order માં તે અડધી થઈ જાત.</p><p><b>કેમ સાચું છે.</b> Half-life method ને calculus ની જરૂર જ નથી: દરેક રન એક જ આંકડો આપે છે, અને એ આંકડા કેવી રીતે બદલાય તેમાંથી order વંચાય છે. તેથી જ ઝડપી laboratory screening માટે તે પસંદગીની રીત છે, અને તેથી જ પરીક્ષામાં તેના ગુણ આપવા સહેલા છે.</p><p><b>જવાબ ચકાસો.</b> આ પ્રક્રિયા માટે CA0 = 0.25 mol/L પર ત્રીજી રન t1/2 = 80 min આપવી જોઈએ. ન આપે તો order 2 નથી - અથવા રન વચ્ચે temperature બદલાયું છે.</p><p><b>સામાન્ય ભૂલ.</b> fractional life ને સૂત્ર બદલ્યા વગર વાપરવું. દરેક order માટે 3/4 life એ half-life ના 1.5 ગણી હોતી નથી; half-life ની concentration પરની અસર દરેક order માટે જુદી હોય છે, તેથી હંમેશા એવા fraction માં ફેરવો જેનું સૂત્ર તમે derive કરી શકો.</p>"
+     },
+     "diagram": "u3_halflife",
+     "syllabus_item": "3.1"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3.2 The constant-volume batch system: conversion and concentration",
+    "gu": "3.2 અચળ volume વાળી batch system: conversion અને concentration"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "From conversion to concentration, and back",
+      "gu": "Conversion થી concentration સુધી, અને પાછું"
+     },
+     "body": {
+      "en": "<p>Almost every batch experiment is run in a closed vessel, so the volume is fixed and the reaction is followed by the fall of concentration. The working variable is the <b>fractional conversion</b> X, defined so that it is zero at the start and one when the limiting reactant is used up:</p><div class=\"math\"> 1. X = (NA0 - NA) / NA0        so   NA = NA0 (1 - X)\n 2. constant volume: CA = NA/V and CA0 = NA0/V\n 3. CA = CA0 (1 - X)              the working relation</div><h4>The rate in terms of conversion</h4><p>Differentiate the last line with respect to time. The volume is a constant, so it comes out of the derivative:</p><div class=\"math\">-rA = -dCA/dt = CA0 dX/dt\nso a rate measured as dCA/dt and a rate measured as dX/dt differ only by CA0</div><p>For several reactants the same law holds for each, with its own stoichiometric coefficient. For aA + bB -> products, X_A and X_B are related by b X_A = a X_B, and the concentration of B follows from the conversion of A without a second measurement:</p><div class=\"math\">CB = CB0 - (b/a) CA0 X_A</div><h4>The batch time - the general design equation</h4><p>Integrate the rate over the conversion. For constant volume the result is the working equation of every batch reactor:</p><div class=\"math\"> 1. -rA = CA0 dX/dt\n 2. dt = CA0 dX / (-rA)\n 3. t = CA0 x integral from X = 0 to X of dX / (-rA)\n 4. for first order: t = (1/k) ln[1/(1 - X)]\n 5. for second order, CA0 = CB0: t = X / [k CA0 (1 - X)]</div><h4>When the volume is not constant: the expansion factor</h4><p>A gas-phase reaction with a mole change cannot stay at constant volume in a free-piston or bag reactor. The volume then follows the conversion through one number, the expansion factor ε_A: the fractional change in volume between no conversion and complete conversion.</p><div class=\"math\"> 1. eps_A = (V at X = 1 - V at X = 0) / V at X = 0 = yA0 x delta\n 2. delta = moles of product - moles of reactant, per mole of A reacted\n 3. at constant T and p: V = V0 (1 + eps_A X)\n 4. CA = nA/V = CA0 (1 - X) / (1 + eps_A X)</div><div class=\"math\">example 1: pure A -> 2R          yA0 = 1, delta = 1  ->  eps = 1\nexample 2: A -> 2R with 50 % inert  yA0 = 0.5  ->  eps = 0.5\nexample 3: A + B -> R (delta = -1)  yA0 = 0.5  ->  eps = -0.5\nliquid phase: volume change negligible -> eps = 0</div><h4>Why the correction matters</h4><p>Take A -> 2R, pure A, CA0 = 10 mol/m3, at 50 % conversion. The naive constant-volume answer is CA = 5.0 mol/m3; the correct variable-volume answer is</p><div class=\"math\">CA = 10 x (1 - 0.5)/(1 + 1.0 x 0.5) = 5/1.5 = 3.33 mol/m3</div><div class=\"eq\">the naive answer is 50 % too high - a rate constant taken from it would be badly wrong</div><p><b>Why it is true.</b> The constant-volume relation CA = CA0(1 - X) is not a law of nature; it is the special case eps_A = 0 of the general line. Liquids, and gases with no mole change, sit in that special case, which is why so much of the subject can be written without eps at all.</p><p><b>Check your answer.</b> At X = 0 the formula must return CA0 and at X = 1 it must return zero for a reactant: 10 x (1 - 0)/(1 + 0) = 10 and 10 x 0/2 = 0. Both hold.</p><p><b>Common mistake.</b> Using the conversion of the wrong reactant. If B is in excess, X_A can be 1.0 while X_B is only 0.4; the concentration of B must then come from the stoichiometry, not from CA0(1 - X_A).</p>",
+      "gu": "<p>લગભગ દરેક batch experiment બંધ પાત્રમાં થાય છે, તેથી volume અચળ રહે છે અને પ્રક્રિયા concentration ઘટવાથી અનુસરાય છે. કામનું ચલ છે <b>fractional conversion</b> X, જે શરૂઆતમાં શૂન્ય અને limiting reactant પૂરો થાય ત્યારે એક થાય:</p><div class=\"math\"> 1. X = (NA0 - NA) / NA0        so   NA = NA0 (1 - X)\n 2. constant volume: CA = NA/V and CA0 = NA0/V\n 3. CA = CA0 (1 - X)              the working relation</div><h4>Conversion ના સંદર્ભમાં rate</h4><p>છેલ્લી લીટીનો time સાપેક્ષ derivative લો. Volume અચળ છે, તેથી derivative બહાર આવે છે:</p><div class=\"math\">-rA = -dCA/dt = CA0 dX/dt\nso a rate measured as dCA/dt and a rate measured as dX/dt differ only by CA0</div><p>ઘણા reactants માટે એ જ law દરેક પર લાગુ પડે, તેના પોતાના stoichiometric coefficient સાથે. aA + bB -> products માટે X_A અને X_B નો સંબંધ b X_A = a X_B છે, અને B નું concentration બીજા માપ વગર A ના conversion પરથી મળે:</p><div class=\"math\">CB = CB0 - (b/a) CA0 X_A</div><h4>Batch time - સામાન્ય design equation</h4><p>Conversion પર rate integrate કરો. અચળ volume માટે પરિણામ એ દરેક batch reactor નું કામનું સમીકરણ છે:</p><div class=\"math\"> 1. -rA = CA0 dX/dt\n 2. dt = CA0 dX / (-rA)\n 3. t = CA0 x integral from X = 0 to X of dX / (-rA)\n 4. for first order: t = (1/k) ln[1/(1 - X)]\n 5. for second order, CA0 = CB0: t = X / [k CA0 (1 - X)]</div><h4>Volume અચળ ન હોય ત્યારે: expansion factor</h4><p>Mole change વાળી gas-phase પ્રક્રિયા free-piston કે bag reactor માં અચળ volume રહી શકતી નથી. ત્યારે volume conversion સાથે એક જ આંકડા દ્વારા બદલાય, expansion factor ε_A: શૂન્ય conversion અને પૂરા conversion વચ્ચેના volume નો ભાગાકાર ફેરફાર.</p><div class=\"math\"> 1. eps_A = (V at X = 1 - V at X = 0) / V at X = 0 = yA0 x delta\n 2. delta = moles of product - moles of reactant, per mole of A reacted\n 3. at constant T and p: V = V0 (1 + eps_A X)\n 4. CA = nA/V = CA0 (1 - X) / (1 + eps_A X)</div><div class=\"math\">example 1: pure A -> 2R          yA0 = 1, delta = 1  ->  eps = 1\nexample 2: A -> 2R with 50 % inert  yA0 = 0.5  ->  eps = 0.5\nexample 3: A + B -> R (delta = -1)  yA0 = 0.5  ->  eps = -0.5\nliquid phase: volume change negligible -> eps = 0</div><h4>આ સુધારો કેમ જરૂરી છે</h4><p>A -> 2R, શુદ્ધ A, CA0 = 10 mol/m3, 50 % conversion લો. અચળ volume વાળો સીધો જવાબ CA = 5.0 mol/m3 છે; સાચો variable-volume જવાબ છે</p><div class=\"math\">CA = 10 x (1 - 0.5)/(1 + 1.0 x 0.5) = 5/1.5 = 3.33 mol/m3</div><div class=\"eq\">the naive answer is 50 % too high - a rate constant taken from it would be badly wrong</div><p><b>કેમ સાચું છે.</b> અચળ volume નો સંબંધ CA = CA0(1 - X) કુદરતનો નિયમ નથી; તે સામાન્ય લીટીનો ખાસ કિસ્સો eps_A = 0 છે. પ્રવાહી અને mole change વગરના gases એ ખાસ કિસ્સામાં આવે છે, તેથી જ વિષયનો ઘણો ભાગ eps વગર લખાઈ જાય છે.</p><p><b>જવાબ ચકાસો.</b> X = 0 પર સૂત્ર CA0 આપવું જોઈએ અને X = 1 પર reactant માટે શૂન્ય: 10 x (1 - 0)/(1 + 0) = 10 અને 10 x 0/2 = 0. બંને મળે છે.</p><p><b>સામાન્ય ભૂલ.</b> ખોટા reactant નું conversion વાપરવું. B excess માં હોય તો X_A 1.0 થઈ શકે જ્યારે X_B ફક્ત 0.4 હોય; ત્યારે B નું concentration stoichiometry પરથી લેવું, CA0(1 - X_A) પરથી નહીં.</p>"
+     },
+     "syllabus_item": "3.2"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3.3 Total pressure, partial pressure, concentration and conversion",
+    "gu": "3.3 Total pressure, partial pressure, concentration અને conversion"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "A pressure gauge as a concentration meter",
+      "gu": "Pressure gauge એ concentration માપવાનું સાધન"
+     },
+     "body": {
+      "en": "<p>Many gas reactions are run in a closed, rigid vessel where the only easy measurement is the pressure. For an ideal gas at constant volume and temperature the pressure of a component is proportional to its amount, so the gauge is a concentration meter in disguise:</p><div class=\"math\"> 1. pA V = nA R T   and   pA0 V = nA0 R T\n 2. divide: pA / pA0 = nA / nA0 = CA / CA0\n 3. and nA/nA0 = 1 - X, so pA = pA0 (1 - X)\n 4. concentration: CA = pA / (R T)</div><h4>When the mole number changes</h4><p>If the reaction changes the number of moles, the total pressure moves even when the reactant pressure falls. Write nT = nT0 + (delta/a) nA0 X and multiply by RT/V:</p><div class=\"math\"> 1. nT = nT0 + (delta/a) nA0 X        delta = total moles product - reactant\n 2. multiply by RT/V:  p = p0 + (delta/a) pA0 X\n 3. solve for X:  X = (p - p0) / [(delta/a) pA0]\n 4. and pA = pA0 (1 - X) = pA0 - (a/delta)(p - p0)</div><div class=\"math\">A -> B + C     delta/a = +1 :  pA = 2 pA0 - p\nA -> B         delta/a =  0 :  pA = pA0 (no change in total)\n2A -> B        delta/a = -1/2 : pA = pA0 + 2(p - p0)</div><h4>A worked gauge reading</h4><p>A -> B + C in a rigid vessel at 500 K, starting with pure A at p0 = 1.00 bar. After 20 min the gauge reads 1.60 bar. Find the conversion, the concentration of A and the first order rate constant.</p><div class=\"math\">pA = 2 pA0 - p = 2.00 - 1.60 = 0.40 bar\nX = 1 - pA/pA0 = 1 - 0.40/1.00 = 0.60\nCA0 = pA0/(RT) = 100000/(8.314 x 500) = 24.1 mol/m3\nCA = 0.40 x 24.1 = 9.6 mol/m3   (or CA0(1 - X) = 24.1 x 0.40)\nk = (1/t) ln[1/(1 - X)] = (1/20) ln(2.5) = 0.0458 min-1</div><div class=\"eq\">X = 60 %,  CA = 9.6 mol/m3,  k = 4.58 x 10-2 min-1</div><h4>Inerts and the partial pressure</h4><p>If the vessel starts with an inert as well as A, the gauge reads the sum of both. The inert does not react, so its pressure is constant and can be subtracted. Forgetting it is the commonest error in this topic, and it always makes the conversion look larger than it is.</p><div class=\"math\">p(total, reacting) = p(gauge) - p(inert)\nwith inert present at the start:  pA0 = yA0 p0  (not p0)</div><p><b>Why it is true.</b> Pressure is the cheapest and fastest measurement in a gas reactor, and the stoichiometry turns it into a concentration without sampling. The price is that the conversion is inferred, not measured, so an error in delta or a forgotten inert goes straight into k.</p><p><b>Check your answer.</b> The two routes to the conversion must agree: from pA, X = 1 - 0.40/1.00 = 0.60; from the total, X = (1.60 - 1.00)/(1.00 x 1.00) = 0.60. They do.</p><p><b>Common mistake.</b> Reading the total pressure as the partial pressure of A. For a reaction with a mole change the total rises while A is disappearing; the two numbers move in opposite directions, and only the stoichiometry connects them.</p>",
+      "gu": "<p>ઘણી gas પ્રક્રિયાઓ બંધ, કઠણ પાત્રમાં થાય છે જ્યાં સહેલું માપ ફક્ત pressure છે. અચળ volume અને temperature પર ideal gas માટે ઘટકનું pressure તેના જથ્થાના પ્રમાણમાં હોય છે, તેથી gauge એ છદ્મવેશમાં concentration માપનું સાધન છે:</p><div class=\"math\"> 1. pA V = nA R T   and   pA0 V = nA0 R T\n 2. divide: pA / pA0 = nA / nA0 = CA / CA0\n 3. and nA/nA0 = 1 - X, so pA = pA0 (1 - X)\n 4. concentration: CA = pA / (R T)</div><h4>જ્યારે mole સંખ્યા બદલાય</h4><p>પ્રક્રિયા moles ની સંખ્યા બદલે તો reactant નું pressure ઘટે તોપણ total pressure બદલાય. nT = nT0 + (delta/a) nA0 X લખો અને RT/V થી ગુણો:</p><div class=\"math\"> 1. nT = nT0 + (delta/a) nA0 X        delta = total moles product - reactant\n 2. multiply by RT/V:  p = p0 + (delta/a) pA0 X\n 3. solve for X:  X = (p - p0) / [(delta/a) pA0]\n 4. and pA = pA0 (1 - X) = pA0 - (a/delta)(p - p0)</div><div class=\"math\">A -> B + C     delta/a = +1 :  pA = 2 pA0 - p\nA -> B         delta/a =  0 :  pA = pA0 (no change in total)\n2A -> B        delta/a = -1/2 : pA = pA0 + 2(p - p0)</div><h4>ઉકેલેલું gauge વાંચન</h4><p>500 K પર કઠણ પાત્રમાં A -> B + C, શરૂઆતમાં શુદ્ધ A p0 = 1.00 bar પર. 20 min પછી gauge 1.60 bar વાંચે છે. conversion, A નું concentration અને first order rate constant શોધો.</p><div class=\"math\">pA = 2 pA0 - p = 2.00 - 1.60 = 0.40 bar\nX = 1 - pA/pA0 = 1 - 0.40/1.00 = 0.60\nCA0 = pA0/(RT) = 100000/(8.314 x 500) = 24.1 mol/m3\nCA = 0.40 x 24.1 = 9.6 mol/m3   (or CA0(1 - X) = 24.1 x 0.40)\nk = (1/t) ln[1/(1 - X)] = (1/20) ln(2.5) = 0.0458 min-1</div><div class=\"eq\">X = 60 %,  CA = 9.6 mol/m3,  k = 4.58 x 10-2 min-1</div><h4>Inert અને partial pressure</h4><p>પાત્રમાં A સાથે inert પણ હોય તો gauge બંનેનો સરવાળો વાંચે છે. Inert પ્રક્રિયા કરતું નથી, તેથી તેનું pressure અચળ રહે અને બાદ કરી શકાય. તે ભૂલવું આ topic ની સૌથી સામાન્ય ભૂલ છે, અને તેનાથી conversion હંમેશા વાસ્તવિકતા કરતાં મોટું દેખાય છે.</p><div class=\"math\">p(total, reacting) = p(gauge) - p(inert)\nwith inert present at the start:  pA0 = yA0 p0  (not p0)</div><p><b>કેમ સાચું છે.</b> Gas reactor માં pressure સૌથી સસ્તું અને ઝડપી માપ છે, અને stoichiometry તેને sample લીધા વગર concentration માં ફેરવે છે. કિંમત એ છે કે conversion અનુમાનિત છે, માપેલું નથી, તેથી delta માં ભૂલ કે ભૂલાયેલો inert સીધો k માં જાય છે.</p><p><b>જવાબ ચકાસો.</b> conversion સુધીની બે રીત મળવી જોઈએ: pA પરથી X = 1 - 0.40/1.00 = 0.60; total પરથી X = (1.60 - 1.00)/(1.00 x 1.00) = 0.60. બંને મળે છે.</p><p><b>સામાન્ય ભૂલ.</b> Total pressure ને A નું partial pressure ગણવું. Mole change વાળી પ્રક્રિયામાં A ઘટતું હોય તોપણ total વધે છે; બંને આંકડા વિરુદ્ધ દિશામાં જાય છે, અને ફક્ત stoichiometry તેમને જોડે છે.</p>"
+     },
+     "diagram": "u3_pressure",
+     "syllabus_item": "3.3"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3.4 Integrated rate equations, order by order",
+    "gu": "3.4 દરેક order માટેના integrated rate equations"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Integrate -dCA/dt = k CA^n once, and every order falls out",
+      "gu": "એક વાર -dCA/dt = k CA^n integrate કરો, અને દરેક order મળી જાય"
+     },
+     "body": {
+      "en": "<p>All the laws of this section come from one line: the power law for a constant-volume batch, separated so that the concentration stays on the left and time on the right.</p><div class=\"math\"> 1. -dCA/dt = k CA^n\n 2. separate:  CA^-n dCA = -k dt\n 3. integrate from CA0 at t = 0 to CA at t:\n 4. n not equal to 1:  [CA^(1-n)/(1-n)] - [CA0^(1-n)/(1-n)] = -k t\n 5. so  CA^(1-n) - CA0^(1-n) = (n-1) k t\n 6. n = 1:  ln(CA0/CA) = k t</div><p>Everything else is a substitution into that pair. Put n = 0, 2 or 3 and the familiar forms appear; the table below is not a list to memorise but the same equation five times.</p><h4>Zero order (n = 0)</h4><div class=\"math\">CA0 - CA = k t            linear in CA\nt1/2 = CA0/(2k)            half-life proportional to CA0</div><h4>First order (n = 1)</h4><div class=\"math\">ln(CA0/CA) = k t          linear in ln CA\nCA = CA0 exp(-k t)         exponential decay\nt1/2 = ln2/k = 0.693/k     independent of CA0</div><h4>Second order (n = 2)</h4><div class=\"math\">equal starting concentrations, A + A -> products or CA0 = CB0:\n1/CA - 1/CA0 = k t        linear in 1/CA\nt1/2 = 1/(k CA0)           half-life inversely proportional to CA0</div><p>When the two reactants start at different concentrations the integration needs partial fractions, and the result is a logarithm of a ratio instead of a reciprocal:</p><div class=\"math\"> 1. A + B -> products,  CA0 not equal to CB0\n 2. -dCA/dt = k CA CB,  with CB = CB0 - CA0 + CA\n 3. integrate between CA0 and CA:\n 4. ln(CB CA0 / (CA CB0)) = (CB0 - CA0) k t\n 5. check: if CA0 = CB0 the limit of this line is 1/CA - 1/CA0 = k t</div><h4>Third order (n = 3)</h4><div class=\"math\">1/CA^2 - 1/CA0^2 = 2 k t      linear in 1/CA^2\nt1/2 = 3/(2 k CA0^2)</div><h4>The general nth order law and its half-life</h4><div class=\"math\"> 1. CA^(1-n) - CA0^(1-n) = (n-1) k t\n 2. put CA = CA0/2 and solve for t:\n 3. t1/2 = (2^(n-1) - 1) / ((n-1) k CA0^(n-1))\n 4. n = 0 gives CA0/2k, n = 2 gives 1/(k CA0), n = 3 gives 3/(2k CA0^2)</div><h4>Which plot is straight, and in what unit k is measured</h4><table><tr><th>Order</th><th>Straight line</th><th>Slope</th><th>Unit of k</th></tr><tr><td>0</td><td>CA against t</td><td>-k</td><td>mol m-3 s-1</td></tr><tr><td>1</td><td>ln CA against t</td><td>-k</td><td>s-1</td></tr><tr><td>2</td><td>1/CA against t</td><td>k</td><td>m3 mol-1 s-1</td></tr><tr><td>3</td><td>1/CA^2 against t</td><td>2k</td><td>m6 mol-2 s-1</td></tr><tr><td>n</td><td>CA^(1-n) against t</td><td>(n-1)k</td><td>(mol m-3)^(1-n) s-1</td></tr></table><p>For first order only, conversion is independent of the starting concentration: 50 % takes the same time whether you begin at 1 mol/L or at 0.01 mol/L. That single fact is the quickest way to recognise first order behaviour in a set of runs.</p><p><b>Why it is true.</b> The order fixes the straight-line variable, so the integrated laws are the integral method of the previous cards in table form. A rate law integrated once also gives the batch time directly, which is what a reactor is designed from.</p><p><b>Check your answer.</b> Take the second order row with k = 0.05 L mol-1 min-1 and CA0 = 1.0 mol/L. At t = 60 min, 1/CA = 1 + 0.05 x 60 = 4.0, so CA = 0.25 mol/L - the last row of the table used in 3.1.</p><p><b>Common mistake.</b> Quoting a half-life without its order. \"t1/2 = 20 min\" means nothing until you say at what CA0 and for which order; the same 20 min at a doubled concentration means a different order and a different k.</p>",
+      "gu": "<p>આ વિભાગના બધા laws એક જ લીટીમાંથી આવે છે: અચળ volume વાળી batch માટેનો power law, એવી રીતે અલગ કરેલો કે concentration ડાબે અને time જમણે રહે.</p><div class=\"math\"> 1. -dCA/dt = k CA^n\n 2. separate:  CA^-n dCA = -k dt\n 3. integrate from CA0 at t = 0 to CA at t:\n 4. n not equal to 1:  [CA^(1-n)/(1-n)] - [CA0^(1-n)/(1-n)] = -k t\n 5. so  CA^(1-n) - CA0^(1-n) = (n-1) k t\n 6. n = 1:  ln(CA0/CA) = k t</div><p>બાકીનું બધું એ જ જોડીમાં મૂકવાનું છે. n = 0, 2 કે 3 મૂકો અને જાણીતાં સ્વરૂપ આવે; નીચેનું કોષ્ટક યાદ કરવાની યાદી નથી પણ એક જ સમીકરણ પાંચ વાર છે.</p><h4>Zero order (n = 0)</h4><div class=\"math\">CA0 - CA = k t            linear in CA\nt1/2 = CA0/(2k)            half-life proportional to CA0</div><h4>First order (n = 1)</h4><div class=\"math\">ln(CA0/CA) = k t          linear in ln CA\nCA = CA0 exp(-k t)         exponential decay\nt1/2 = ln2/k = 0.693/k     independent of CA0</div><h4>Second order (n = 2)</h4><div class=\"math\">equal starting concentrations, A + A -> products or CA0 = CB0:\n1/CA - 1/CA0 = k t        linear in 1/CA\nt1/2 = 1/(k CA0)           half-life inversely proportional to CA0</div><p>બે reactants જુદા concentrations પર શરૂ થાય તો integration માટે partial fractions જોઈએ, અને પરિણામ reciprocal ને બદલે ગુણોત્તરનો logarithm બને છે:</p><div class=\"math\"> 1. A + B -> products,  CA0 not equal to CB0\n 2. -dCA/dt = k CA CB,  with CB = CB0 - CA0 + CA\n 3. integrate between CA0 and CA:\n 4. ln(CB CA0 / (CA CB0)) = (CB0 - CA0) k t\n 5. check: if CA0 = CB0 the limit of this line is 1/CA - 1/CA0 = k t</div><h4>Third order (n = 3)</h4><div class=\"math\">1/CA^2 - 1/CA0^2 = 2 k t      linear in 1/CA^2\nt1/2 = 3/(2 k CA0^2)</div><h4>સામાન્ય nth order law અને તેની half-life</h4><div class=\"math\"> 1. CA^(1-n) - CA0^(1-n) = (n-1) k t\n 2. put CA = CA0/2 and solve for t:\n 3. t1/2 = (2^(n-1) - 1) / ((n-1) k CA0^(n-1))\n 4. n = 0 gives CA0/2k, n = 2 gives 1/(k CA0), n = 3 gives 3/(2k CA0^2)</div><h4>કયો પ્લોટ સીધો, અને k નું એકમ</h4><table><tr><th>Order</th><th>સીધી રેખા</th><th>ઢાળ</th><th>k નું એકમ</th></tr><tr><td>0</td><td>CA અને t</td><td>-k</td><td>mol m-3 s-1</td></tr><tr><td>1</td><td>ln CA અને t</td><td>-k</td><td>s-1</td></tr><tr><td>2</td><td>1/CA અને t</td><td>k</td><td>m3 mol-1 s-1</td></tr><tr><td>3</td><td>1/CA^2 અને t</td><td>2k</td><td>m6 mol-2 s-1</td></tr><tr><td>n</td><td>CA^(1-n) અને t</td><td>(n-1)k</td><td>(mol m-3)^(1-n) s-1</td></tr></table><p>ફક્ત first order માટે conversion શરૂઆતના concentration પર આધારિત નથી: 1 mol/L થી શરૂ કરો કે 0.01 mol/L થી, 50 % થવા માટે એ જ સમય લાગે. એ એક હકીકત રનના સેટમાં first order ઓળખવાની સૌથી ઝડપી રીત છે.</p><p><b>કેમ સાચું છે.</b> Order એ સીધી રેખાનું ચલ નક્કી કરે છે, તેથી integrated laws એ પાછલા cards ની integral method જ કોષ્ટક સ્વરૂપમાં છે. એક વાર integrate કરેલો rate law batch time પણ સીધો આપે છે, અને reactor ની design એના પરથી જ થાય છે.</p><p><b>જવાબ ચકાસો.</b> Second order હાર લો: k = 0.05 L mol-1 min-1 અને CA0 = 1.0 mol/L. t = 60 min પર 1/CA = 1 + 0.05 x 60 = 4.0, તેથી CA = 0.25 mol/L - 3.1 માં વપરાયેલા કોષ્ટકની છેલ્લી હાર.</p><p><b>સામાન્ય ભૂલ.</b> Order વગર half-life લખવી. \"t1/2 = 20 min\" નો અર્થ ત્યાં સુધી નથી જ્યાં સુધી CA0 અને order ન કહો; બમણા concentration પર એ જ 20 min જુદો order અને જુદો k દર્શાવે છે.</p>"
+     },
+     "diagram": "u3_orders",
+     "syllabus_item": "3.4"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "3.5 Solved Numericals, Step by Step",
+    "gu": "3.5 ઉકેલેલા દાખલા, પગલે પગલે"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "A first order reaction: k, half-life and the 90 % time",
+      "gu": "First order પ્રક્રિયા: k, half-life અને 90 % નો સમય"
+     },
+     "body": {
+      "en": "<h4>Question (6 marks)</h4><p>A first order reaction starts at CA0 = 1.00 mol/L and is left with 0.25 mol/L after 30 min at constant volume and temperature. Find k, the half-life, and the time needed for 90 % conversion.</p><h4>Step 1 - the rate constant</h4><div class=\"math\">k = (1/t) ln(CA0/CA) = (1/30) ln(1.00/0.25)\n  = (1/30) ln 4 = 1.386/30 = 0.0462 min-1</div><h4>Step 2 - the half-life</h4><div class=\"math\">t1/2 = ln 2 / k = 0.693/0.0462 = 15.0 min</div><div class=\"eq\">k = 4.62 x 10-2 min-1,  t1/2 = 15 min</div><h4>Step 3 - the time for 90 % conversion</h4><div class=\"math\">X = 0.90:  CA/CA0 = 0.10\nt = (1/k) ln(1/0.10) = (1/0.0462) x 2.303 = 49.8 min</div><div class=\"eq\">t(90 %) = 50 min (3.3 half-lives)</div><p>Two half-lives take the reaction to 75 %, three to 87.5 %, so 90 % must come a little after three half-lives - which is exactly what 49.8 min against 45 min shows.</p><p><b>Check your answer.</b> exp(-0.0462 x 49.8) = exp(-2.30) = 0.10, so 10 % of A is left.</p><p><b>Common mistake.</b> Writing t1/2 = 0.693 k instead of 0.693/k. The half-life must get shorter as k gets larger, and the units (min-1 below the line) make that obvious.</p>",
+      "gu": "<h4>પ્રશ્ન (6 marks)</h4><p>First order પ્રક્રિયા CA0 = 1.00 mol/L થી શરૂ થાય છે અને અચળ volume તથા temperature પર 30 min પછી 0.25 mol/L બાકી રહે છે. k, half-life અને 90 % conversion માટે જરૂરી સમય શોધો.</p><h4>પગલું 1 - rate constant</h4><div class=\"math\">k = (1/t) ln(CA0/CA) = (1/30) ln(1.00/0.25)\n  = (1/30) ln 4 = 1.386/30 = 0.0462 min-1</div><h4>પગલું 2 - half-life</h4><div class=\"math\">t1/2 = ln 2 / k = 0.693/0.0462 = 15.0 min</div><div class=\"eq\">k = 4.62 x 10-2 min-1,  t1/2 = 15 min</div><h4>પગલું 3 - 90 % conversion નો સમય</h4><div class=\"math\">X = 0.90:  CA/CA0 = 0.10\nt = (1/k) ln(1/0.10) = (1/0.0462) x 2.303 = 49.8 min</div><div class=\"eq\">t(90 %) = 50 min (3.3 half-lives)</div><p>બે half-lives પ્રક્રિયાને 75 % સુધી, ત્રણ 87.5 % સુધી લઈ જાય, તેથી 90 % ત્રણ half-lives પછી થોડું મોડું આવવું જોઈએ - 45 min સામે 49.8 min એ જ દર્શાવે છે.</p><p><b>જવાબ ચકાસો.</b> exp(-0.0462 x 49.8) = exp(-2.30) = 0.10, તેથી 10 % A બાકી.</p><p><b>સામાન્ય ભૂલ.</b> t1/2 = 0.693 k લખવું, 0.693/k ને બદલે. k મોટો થાય તેમ half-life નાની થવી જોઈએ, અને એકમ (min-1 નીચે) એ સ્પષ્ટ કરે છે.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Second order with equal concentrations",
+      "gu": "સરખા concentrations વાળો second order"
+     },
+     "body": {
+      "en": "<h4>Question (7 marks)</h4><p>A second order reaction A + A -> products starts at CA0 = 0.10 mol/L and has a half-life of 20 min. Find k, the concentration after 40 min, and the conversion at that time.</p><h4>Step 1 - k from the half-life</h4><div class=\"math\">t1/2 = 1/(k CA0)  ->  k = 1/(t1/2 CA0)\nk = 1/(20 x 0.10) = 1/2.0 = 0.50 L mol-1 min-1</div><h4>Step 2 - the concentration after 40 min</h4><div class=\"math\">1/CA = 1/CA0 + k t = 1/0.10 + 0.50 x 40\n     = 10 + 20 = 30 L/mol</div><div class=\"math\">CA = 1/30 = 0.0333 mol/L</div><h4>Step 3 - the conversion</h4><div class=\"math\">X = 1 - CA/CA0 = 1 - 0.0333/0.10 = 0.667</div><div class=\"eq\">k = 0.50 L mol-1 min-1,  CA = 3.3 x 10-2 mol/L,  X = 66.7 %</div><p>Two half-lives of a second order reaction do not give 75 %; they give 67 %, because each half-life is longer than the one before it (1/kCA0 grows as CA0 falls).</p><p><b>Check your answer.</b> Put CA = 0.0333 back: 1/0.0333 = 30, and 10 + 0.5 x 40 = 30. Consistent.</p><p><b>Common mistake.</b> Using t1/2 = 0.693/k for a second order reaction. That number belongs to first order only; for second order the half-life changes with every run.</p>",
+      "gu": "<h4>પ્રશ્ન (7 marks)</h4><p>Second order પ્રક્રિયા A + A -> products CA0 = 0.10 mol/L થી શરૂ થાય છે અને half-life 20 min છે. k, 40 min પછીનું concentration અને તે સમયનું conversion શોધો.</p><h4>પગલું 1 - half-life પરથી k</h4><div class=\"math\">t1/2 = 1/(k CA0)  ->  k = 1/(t1/2 CA0)\nk = 1/(20 x 0.10) = 1/2.0 = 0.50 L mol-1 min-1</div><h4>પગલું 2 - 40 min પછીનું concentration</h4><div class=\"math\">1/CA = 1/CA0 + k t = 1/0.10 + 0.50 x 40\n     = 10 + 20 = 30 L/mol</div><div class=\"math\">CA = 1/30 = 0.0333 mol/L</div><h4>પગલું 3 - conversion</h4><div class=\"math\">X = 1 - CA/CA0 = 1 - 0.0333/0.10 = 0.667</div><div class=\"eq\">k = 0.50 L mol-1 min-1,  CA = 3.3 x 10-2 mol/L,  X = 66.7 %</div><p>Second order પ્રક્રિયાની બે half-lives 75 % નથી આપતી; તે 67 % આપે છે, કારણ કે દરેક half-life પાછલી કરતાં લાંબી થાય છે (CA0 ઘટે તેમ 1/kCA0 વધે).</p><p><b>જવાબ ચકાસો.</b> CA = 0.0333 પાછું મૂકો: 1/0.0333 = 30, અને 10 + 0.5 x 40 = 30. સુસંગત.</p><p><b>સામાન્ય ભૂલ.</b> Second order પ્રક્રિયા માટે t1/2 = 0.693/k વાપરવું. એ આંકડો ફક્ત first order નો છે; second order માં half-life દરેક રન સાથે બદલાય છે.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Order and k by the differential method",
+      "gu": "Differential method થી order અને k"
+     },
+     "body": {
+      "en": "<h4>Question (8 marks)</h4><p>A constant-volume batch gives CA = 1.00, 0.80, 0.60, 0.40 and 0.25 mol/L at t = 0, 5, 13.3, 30 and 60 min. Find the order and the rate constant by the differential method.</p><h4>Step 1 - rates from the intervals</h4><div class=\"math\">-rA = -(CA2 - CA1)/(t2 - t1)   at the mean CA:\n(1.00-0.80)/5      = 0.040 at CA = 0.90\n(0.80-0.60)/8.3    = 0.024 at CA = 0.70\n(0.60-0.40)/16.7   = 0.012 at CA = 0.50</div><h4>Step 2 - the log-log line</h4><div class=\"math\">ln(-rA) = -3.22, -3.73, -4.42\nln CA    = -0.105, -0.357, -0.693\nslope n = (-4.42 + 3.22)/(-0.693 + 0.105) = (-1.20)/(-0.588) = 2.04</div><h4>Step 3 - the rate constant</h4><div class=\"math\">ln k = ln(-rA) - n ln CA = -3.22 - 2(-0.105) = -3.01\nk = exp(-3.01) = 0.049 L mol-1 min-1</div><div class=\"eq\">order n = 2,  k = 4.9 x 10-2 L mol-1 min-1</div><p>The order comes out 2.04 rather than 2.00 because each rate is a chord over an interval, not a true tangent. Report n = 2 and quote k to two figures - the third figure is larger than the error of the method.</p><p><b>Check your answer.</b> k CA^2 at each row: 0.049 x 0.81 = 0.040, 0.049 x 0.49 = 0.024, 0.049 x 0.25 = 0.012. All three give back the measured rates.</p><p><b>Common mistake.</b> Averaging the three k values before checking the order. If the order is wrong, the three k values will not even be close, and averaging hides the real problem.</p>",
+      "gu": "<h4>પ્રશ્ન (8 marks)</h4><p>અચળ volume વાળી batch t = 0, 5, 13.3, 30 અને 60 min પર CA = 1.00, 0.80, 0.60, 0.40 અને 0.25 mol/L આપે છે. Differential method થી order અને rate constant શોધો.</p><h4>પગલું 1 - intervals પરથી rates</h4><div class=\"math\">-rA = -(CA2 - CA1)/(t2 - t1)   at the mean CA:\n(1.00-0.80)/5      = 0.040 at CA = 0.90\n(0.80-0.60)/8.3    = 0.024 at CA = 0.70\n(0.60-0.40)/16.7   = 0.012 at CA = 0.50</div><h4>પગલું 2 - log-log રેખા</h4><div class=\"math\">ln(-rA) = -3.22, -3.73, -4.42\nln CA    = -0.105, -0.357, -0.693\nslope n = (-4.42 + 3.22)/(-0.693 + 0.105) = (-1.20)/(-0.588) = 2.04</div><h4>પગલું 3 - rate constant</h4><div class=\"math\">ln k = ln(-rA) - n ln CA = -3.22 - 2(-0.105) = -3.01\nk = exp(-3.01) = 0.049 L mol-1 min-1</div><div class=\"eq\">order n = 2,  k = 4.9 x 10-2 L mol-1 min-1</div><p>Order 2.04 આવે, 2.00 નહીં, કારણ કે દરેક rate એ interval પરની chord છે, સાચો સ્પર્શક નહીં. n = 2 લખો અને k બે આંકડામાં આપો - ત્રીજો આંકડો રીતની ભૂલ કરતાં મોટો છે.</p><p><b>જવાબ ચકાસો.</b> દરેક હારમાં k CA^2: 0.049 x 0.81 = 0.040, 0.049 x 0.49 = 0.024, 0.049 x 0.25 = 0.012. ત્રણેય માપેલા rates પાછા આપે છે.</p><p><b>સામાન્ય ભૂલ.</b> Order ચકાસ્યા પહેલાં ત્રણ k ની સરેરાશ લેવી. Order ખોટો હોય તો ત્રણ k એકબીજાની નજીક પણ નહીં આવે, અને સરેરાશ સાચી સમસ્યા ઢાંકી દે.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Order from half-lives at three concentrations",
+      "gu": "ત્રણ concentrations પરની half-lives પરથી order"
+     },
+     "body": {
+      "en": "<h4>Question (6 marks)</h4><p>The half-life of a reaction is 25 min at CA0 = 0.80 mol/L, 50 min at 0.40 mol/L and 100 min at 0.20 mol/L. Find the order and k.</p><h4>Step 1 - the order</h4><div class=\"math\">n = 1 + ln(t1/2,2/t1/2,1) / ln(CA0,1/CA0,2)\n  = 1 + ln(50/25) / ln(0.80/0.40)\n  = 1 + 0.693/0.693 = 2</div><h4>Step 2 - the rate constant</h4><div class=\"math\">n = 2:  k = 1/(t1/2 CA0)\nrun 1: 1/(25 x 0.80) = 0.050\nrun 2: 1/(50 x 0.40) = 0.050\nrun 3: 1/(100 x 0.20) = 0.050</div><div class=\"eq\">order n = 2,  k = 0.050 L mol-1 min-1</div><p>All three runs give the same k, which is what a correct order must do. Halving the starting concentration doubled the half-life every time - the fingerprint of second order.</p><p><b>Check your answer.</b> Prediction: at CA0 = 0.10 mol/L the half-life must be 200 min and k still 0.050. 1/(200 x 0.10) = 0.050.</p><p><b>Common mistake.</b> Taking the order from one pair and not checking it on the third run. Any two points fit any two-parameter model; the third run is the test.</p>",
+      "gu": "<h4>પ્રશ્ન (6 marks)</h4><p>પ્રક્રિયાની half-life CA0 = 0.80 mol/L પર 25 min, 0.40 mol/L પર 50 min અને 0.20 mol/L પર 100 min છે. Order અને k શોધો.</p><h4>પગલું 1 - order</h4><div class=\"math\">n = 1 + ln(t1/2,2/t1/2,1) / ln(CA0,1/CA0,2)\n  = 1 + ln(50/25) / ln(0.80/0.40)\n  = 1 + 0.693/0.693 = 2</div><h4>પગલું 2 - rate constant</h4><div class=\"math\">n = 2:  k = 1/(t1/2 CA0)\nrun 1: 1/(25 x 0.80) = 0.050\nrun 2: 1/(50 x 0.40) = 0.050\nrun 3: 1/(100 x 0.20) = 0.050</div><div class=\"eq\">order n = 2,  k = 0.050 L mol-1 min-1</div><p>ત્રણેય રન એક જ k આપે છે, જે સાચો order હોવાનું લક્ષણ છે. શરૂઆતનું concentration અડધું કરતાં દર વખતે half-life બમણી થઈ - second order ની ઓળખ.</p><p><b>જવાબ ચકાસો.</b> અનુમાન: CA0 = 0.10 mol/L પર half-life 200 min અને k હજી 0.050 હોવો જોઈએ. 1/(200 x 0.10) = 0.050.</p><p><b>સામાન્ય ભૂલ.</b> એક જોડી પરથી order લઈને ત્રીજી રન પર ન ચકાસવો. કોઈ પણ બે બિંદુ કોઈ પણ બે-parameter model માં બેસે; ત્રીજી રન એ ચકાસણી છે.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Conversion and k from pressure readings",
+      "gu": "Pressure વાંચન પરથી conversion અને k"
+     },
+     "body": {
+      "en": "<h4>Question (7 marks)</h4><p>The gas reaction A -> B + C runs in a rigid vessel at 500 K, starting with pure A at p0 = 1.00 bar. After 20 min the gauge reads 1.60 bar. Find the conversion, the concentration of A, and k, taking the reaction as first order.</p><h4>Step 1 - partial pressure of A</h4><div class=\"math\">A -> B + C gives delta/a = +1, so pA = 2pA0 - p\npA = 2(1.00) - 1.60 = 0.40 bar</div><h4>Step 2 - conversion</h4><div class=\"math\">X = 1 - pA/pA0 = 1 - 0.40/1.00 = 0.60\ncheck from the total: X = (p - p0)/[(delta/a) pA0] = 0.60/1.00 = 0.60</div><h4>Step 3 - concentrations</h4><div class=\"math\">CA0 = pA0/(RT) = 1.00e5/(8.314 x 500) = 24.1 mol/m3\nCA = CA0(1 - X) = 24.1 x 0.40 = 9.6 mol/m3\nor directly: CA = pA/(RT) = 0.40e5/(8.314 x 500) = 9.6 mol/m3</div><h4>Step 4 - the rate constant</h4><div class=\"math\">k = (1/t) ln[1/(1 - X)] = (1/20) ln(2.5)\n  = 0.916/20 = 0.0458 min-1</div><div class=\"eq\">X = 60 %,  CA = 9.6 mol/m3,  k = 4.6 x 10-2 min-1</div><p>The gauge alone gave the conversion, and the conversion alone gave k: no sample was taken. That is why pressure is the standard measurement for gas-phase batch kinetics.</p><p><b>Check your answer.</b> pA/pA0 must equal CA/CA0: 0.40 and 9.6/24.1 = 0.398. Agreement to two figures.</p><p><b>Common mistake.</b> Using pA = p0 - p. That would give 1.00 - 1.60 = -0.60 bar, a negative concentration - the sign is telling you that the total pressure rises as A disappears.</p>",
+      "gu": "<h4>પ્રશ્ન (7 marks)</h4><p>Gas પ્રક્રિયા A -> B + C 500 K પર કઠણ પાત્રમાં ચાલે છે, શરૂઆતમાં શુદ્ધ A p0 = 1.00 bar પર. 20 min પછી gauge 1.60 bar વાંચે છે. Conversion, A નું concentration અને first order ધારીને k શોધો.</p><h4>પગલું 1 - A નું partial pressure</h4><div class=\"math\">A -> B + C gives delta/a = +1, so pA = 2pA0 - p\npA = 2(1.00) - 1.60 = 0.40 bar</div><h4>પગલું 2 - conversion</h4><div class=\"math\">X = 1 - pA/pA0 = 1 - 0.40/1.00 = 0.60\ncheck from the total: X = (p - p0)/[(delta/a) pA0] = 0.60/1.00 = 0.60</div><h4>પગલું 3 - concentrations</h4><div class=\"math\">CA0 = pA0/(RT) = 1.00e5/(8.314 x 500) = 24.1 mol/m3\nCA = CA0(1 - X) = 24.1 x 0.40 = 9.6 mol/m3\nor directly: CA = pA/(RT) = 0.40e5/(8.314 x 500) = 9.6 mol/m3</div><h4>પગલું 4 - rate constant</h4><div class=\"math\">k = (1/t) ln[1/(1 - X)] = (1/20) ln(2.5)\n  = 0.916/20 = 0.0458 min-1</div><div class=\"eq\">X = 60 %,  CA = 9.6 mol/m3,  k = 4.6 x 10-2 min-1</div><p>એકલા gauge એ conversion આપ્યું, અને conversion એ k: કોઈ sample લેવો પડ્યો નહીં. તેથી જ gas-phase batch kinetics માટે pressure પ્રમાણભૂત માપ છે.</p><p><b>જવાબ ચકાસો.</b> pA/pA0 એ CA/CA0 બરાબર હોવું જોઈએ: 0.40 અને 9.6/24.1 = 0.398. બે આંકડા સુધી મેળ.</p><p><b>સામાન્ય ભૂલ.</b> pA = p0 - p વાપરવું. તેથી 1.00 - 1.60 = -0.60 bar આવે, ઋણ concentration - નિશાની જ કહે છે કે A ઘટે તેમ total pressure વધે છે.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Order from 50 % and 75 % times",
+      "gu": "50 % અને 75 % ના સમય પરથી order"
+     },
+     "body": {
+      "en": "<h4>Question (7 marks)</h4><p>From CA0 = 2.0 mol/L a reaction reaches 50 % conversion in 8 min and 75 % conversion in 24 min at the same temperature. Find the order and k.</p><h4>Step 1 - test the three simple orders</h4><div class=\"math\">zero order :  t(75 %)/t(50 %) = 0.75/0.50 = 1.50\nfirst order:  t(75 %)/t(50 %) = ln4/ln2 = 2.00\nsecond order, CA0 = CB0:  t(50 %) = 1/(kCA0), t(75 %) = 3/(kCA0) -> ratio 3.00</div><div class=\"math\">measured ratio = 24/8 = 3.00  ->  second order</div><h4>Step 2 - the rate constant</h4><div class=\"math\">k = 1/(t(50 %) x CA0) = 1/(8 x 2.0) = 0.0625 L mol-1 min-1</div><div class=\"math\">check at 75 %: t = 3/(k CA0) = 3/(0.0625 x 2.0) = 24 min</div><div class=\"eq\">order n = 2,  k = 6.25 x 10-2 L mol-1 min-1</div><p>The ratio of two times is enough to name the order because each order has its own signature ratio, and the ratio is independent of k - a very quick check when the data consist of two conversions only.</p><p><b>Check your answer.</b> Split the run into quarter steps with k = 0.0625 and CA0 = 2.0: 0-25 % takes 2.7 min, 25-50 % another 5.3 min, 50-75 % another 16 min. The steps grow (2.7 + 5.3 = 8 and 8 + 16 = 24), exactly as the data show.</p><p><b>Common mistake.</b> Assuming the 75 % time is one and a half times the 50 % time, which is true only for zero order. Check the ratio before you use it.</p>",
+      "gu": "<h4>પ્રશ્ન (7 marks)</h4><p>CA0 = 2.0 mol/L થી પ્રક્રિયા એ જ temperature પર 8 min માં 50 % અને 24 min માં 75 % conversion પર પહોંચે છે. Order અને k શોધો.</p><h4>પગલું 1 - ત્રણ સાદા orders ચકાસો</h4><div class=\"math\">zero order :  t(75 %)/t(50 %) = 0.75/0.50 = 1.50\nfirst order:  t(75 %)/t(50 %) = ln4/ln2 = 2.00\nsecond order, CA0 = CB0:  t(50 %) = 1/(kCA0), t(75 %) = 3/(kCA0) -> ratio 3.00</div><div class=\"math\">measured ratio = 24/8 = 3.00  ->  second order</div><h4>પગલું 2 - rate constant</h4><div class=\"math\">k = 1/(t(50 %) x CA0) = 1/(8 x 2.0) = 0.0625 L mol-1 min-1</div><div class=\"math\">check at 75 %: t = 3/(k CA0) = 3/(0.0625 x 2.0) = 24 min</div><div class=\"eq\">order n = 2,  k = 6.25 x 10-2 L mol-1 min-1</div><p>બે સમયનો ગુણોત્તર order કહેવા પૂરતો છે, કારણ કે દરેક order નો પોતાનો ગુણોત્તર છે અને તે k પર આધારિત નથી - ફક્ત બે conversions હોય ત્યારે તે ખૂબ ઝડપી ચકાસણી છે.</p><p><b>જવાબ ચકાસો.</b> k = 0.0625 અને CA0 = 2.0 સાથે રનને ચોથા ભાગમાં વહેંચો: 0-25 % ને 2.7 min, 25-50 % ને બીજા 5.3 min, 50-75 % ને બીજા 16 min લાગે. પગલાં વધે છે (2.7 + 5.3 = 8 અને 8 + 16 = 24), જે data બતાવે છે તેમ જ.</p><p><b>સામાન્ય ભૂલ.</b> 75 % નો સમય 50 % ના ડેઢ ગણો માની લેવો, જે ફક્ત zero order માટે સાચું છે. વાપરતા પહેલાં ગુणોત્તર ચકાસો.</p>"
+     }
+    }
+   ]
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "u3_paths",
+   "title": {
+    "en": "Three roads from one table of data",
+    "gu": "એક કોષ્ટકમાંથી rate equation સુધીની ત્રણ રીતો"
+   },
+   "file": "diagrams/u3_paths.svg",
+   "caption": {
+    "en": "The same C against t table can be read three ways; the differential method fits a power law, the integral method tests a guess, the half-life method reads the order off the way the half-life changes.",
+    "gu": "એક જ CA અને t કોષ્ટક ત્રણ રીતે વંચાય; differential method power law ફિટ કરે, integral method ધારણા ચકાસે, half-life method half-life કેવી રીતે બદલાય તેમાંથી order વાંચે."
+   }
+  },
+  {
+   "id": "u3_diff",
+   "title": {
+    "en": "The differential method: slopes, then a log-log line",
+    "gu": "Differential method: ઢાળ, પછી log-log રેખા"
+   },
+   "file": "diagrams/u3_diff.svg",
+   "caption": {
+    "en": "Tangents to the C-t curve give a rate at each concentration; a straight line through ln(-rA) against ln CA then gives the order as its slope and k as its intercept.",
+    "gu": "CA-t વક્રના સ્પર્શક દરેક concentration પર એક rate આપે; ln(-rA) અને ln CA માંથી પસાર થતી સીધી રેખાનો ઢાળ order અને intercept ln k આપે."
+   }
+  },
+  {
+   "id": "u3_integral_test",
+   "title": {
+    "en": "The integral method: which plot is straight",
+    "gu": "Integral method: કયો પ્લોટ સીધો છે"
+   },
+   "file": "diagrams/u3_integral_test.svg",
+   "caption": {
+    "en": "Guess an order, integrate, plot the matching function of C: only the correct order gives a straight line, and its slope is k.",
+    "gu": "order ધારો, integrate કરો, અને concentration નું અનુરૂપ વિધેય દોરો: ફક્ત સાચો order સીધી રેખા આપે, અને તેનો ઢાળ k છે."
+   }
+  },
+  {
+   "id": "u3_halflife",
+   "title": {
+    "en": "Half-life against starting concentration",
+    "gu": "Half-life અને શરૂઆતના concentration"
+   },
+   "file": "diagrams/u3_halflife.svg",
+   "caption": {
+    "en": "On log-log paper the half-life is a straight line of slope 1 - n: flat means first order, rising means zero order, falling means second order.",
+    "gu": "log-log કાગળ પર half-life ઢાળ 1 - n વાળી સીધી રેખા છે: સપાટ એટલે first order, ચઢતી એટલે zero order, ઊતરતી એટલે second order."
+   }
+  },
+  {
+   "id": "u3_pressure",
+   "title": {
+    "en": "Pressure data turned into concentration",
+    "gu": "Pressure વાંચનને concentration માં ફેરવવું"
+   },
+   "file": "diagrams/u3_pressure.svg",
+   "caption": {
+    "en": "In a constant-volume gas reaction the gauge reads the total pressure; the stoichiometry converts it into the partial pressure of A, and the gas law turns that into a concentration.",
+    "gu": "અચળ volume વાળી gas પ્રક્રિયામાં gauge total pressure વાંચે; stoichiometry તેને A ના partial pressure માં અને gas law તેને concentration માં ફેરવે."
+   }
+  },
+  {
+   "id": "u3_orders",
+   "title": {
+    "en": "The integrated laws, order by order",
+    "gu": "દરેક order ના integrated laws"
+   },
+   "file": "diagrams/u3_orders.svg",
+   "caption": {
+    "en": "The conserved straight-line variable differs with order - C, ln C, 1/C - and the half-life carries the same information in one number.",
+    "gu": "દરેક order માટે સીધી રેખા આપતું ચલ જુદું છે - CA, ln CA, 1/CA - અને half-life એ જ માહિતી એક આંકડામાં આપે છે."
+   }
+  }
+ ],
+ "equations": [
+  {
+   "title": {
+    "en": "Reading the data",
+    "gu": "Data વાંચવું"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Power law",
+      "gu": "Power law"
+     },
+     "f": "-rA = k CA^n",
+     "terms": {
+      "en": "The law all three methods are trying to find.",
+      "gu": "ત્રણેય રીતો જે law શોધે છે."
+     }
+    },
+    {
+     "name": {
+      "en": "Logarithmic form",
+      "gu": "Logarithmic સ્વરૂપ"
+     },
+     "f": "ln(-rA) = ln k + n ln CA",
+     "terms": {
+      "en": "Slope n, intercept ln k; the basis of the differential method.",
+      "gu": "ઢાળ n, intercept ln k; differential method નો આધાર."
+     }
+    },
+    {
+     "name": {
+      "en": "Order from two half-lives",
+      "gu": "બે half-lives પરથી order"
+     },
+     "f": "n = 1 + ln(t1/2,2 / t1/2,1) / ln(CA0,1 / CA0,2)",
+     "terms": {
+      "en": "Two runs at the same temperature are enough.",
+      "gu": "એ જ temperature પરની બે રન પૂરતી છે."
+     }
+    },
+    {
+     "name": {
+      "en": "Half-life against concentration",
+      "gu": "Concentration સામે half-life"
+     },
+     "f": "t1/2 = (2^(n-1) - 1) / ((n-1) k CA0^(n-1))",
+     "terms": {
+      "en": "A log-log plot of t1/2 against CA0 has slope 1 - n.",
+      "gu": "t1/2 અને CA0 ના log-log પ્લોટનો ઢાળ 1 - n છે."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Constant-volume batch",
+    "gu": "અચળ volume વાળી batch"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Conversion and concentration",
+      "gu": "Conversion અને concentration"
+     },
+     "f": "CA = CA0 (1 - X)",
+     "terms": {
+      "en": "True only at constant volume; eps = 0 is a special case, not a law.",
+      "gu": "ફક્ત અચળ volume પર સાચું; eps = 0 ખાસ કિસ્સો છે, નિયમ નહીં."
+     }
+    },
+    {
+     "name": {
+      "en": "Rate from conversion",
+      "gu": "Conversion પરથી rate"
+     },
+     "f": "-rA = CA0 dX/dt",
+     "terms": {
+      "en": "A rate in dX/dt is a rate in dCA/dt divided by CA0.",
+      "gu": "dX/dt માંનો rate એ dCA/dt માંનો rate ભાગ્યો CA0."
+     }
+    },
+    {
+     "name": {
+      "en": "Batch time",
+      "gu": "Batch time"
+     },
+     "f": "t = CA0 x integral of dX/(-rA) from 0 to X",
+     "terms": {
+      "en": "The design equation of every batch reactor.",
+      "gu": "દરેક batch reactor નું design equation."
+     }
+    },
+    {
+     "name": {
+      "en": "Variable volume",
+      "gu": "બદલાતું volume"
+     },
+     "f": "CA = CA0 (1 - X) / (1 + eps_A X)",
+     "terms": {
+      "en": "eps_A = yA0 x delta, the fractional volume change at full conversion.",
+      "gu": "eps_A = yA0 x delta, પૂરા conversion પર volume નો ભાગાકાર ફેરફાર."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Pressure data",
+    "gu": "Pressure data"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Partial pressure and conversion",
+      "gu": "Partial pressure અને conversion"
+     },
+     "f": "pA = pA0 (1 - X)",
+     "terms": {
+      "en": "Ideal gas at constant volume and temperature.",
+      "gu": "અચળ volume અને temperature પર ideal gas."
+     }
+    },
+    {
+     "name": {
+      "en": "Conversion from the gauge",
+      "gu": "Gauge પરથી conversion"
+     },
+     "f": "X = (p - p0) / ((delta/a) pA0)",
+     "terms": {
+      "en": "delta is the change in total moles per mole of A reacted.",
+      "gu": "delta એ A ના એક mole દીઠ total moles માં થતો ફેરફાર છે."
+     }
+    },
+    {
+     "name": {
+      "en": "Partial pressure from the gauge",
+      "gu": "Gauge પરથી partial pressure"
+     },
+     "f": "pA = pA0 - (a/delta)(p - p0)",
+     "terms": {
+      "en": "A -> B + C: pA = 2pA0 - p;  A -> B: pA = pA0.",
+      "gu": "A -> B + C માટે pA = 2pA0 - p;  A -> B માટે pA = pA0."
+     }
+    },
+    {
+     "name": {
+      "en": "Concentration from pressure",
+      "gu": "Pressure પરથી concentration"
+     },
+     "f": "CA = pA / (R T)",
+     "terms": {
+      "en": "Subtract any inert before you do this.",
+      "gu": "આ કરતા પહેલાં inert બાદ કરો."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Integrated laws",
+    "gu": "Integrated laws"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Zero order",
+      "gu": "Zero order"
+     },
+     "f": "CA0 - CA = k t;   t1/2 = CA0/(2k)",
+     "terms": {
+      "en": "A straight line of CA against t with slope -k.",
+      "gu": "CA અને t ની સીધી રેખા, ઢાળ -k."
+     }
+    },
+    {
+     "name": {
+      "en": "First order",
+      "gu": "First order"
+     },
+     "f": "ln(CA0/CA) = k t;   t1/2 = 0.693/k",
+     "terms": {
+      "en": "The half-life does not depend on the starting concentration.",
+      "gu": "Half-life શરૂઆતના concentration પર આધારિત નથી."
+     }
+    },
+    {
+     "name": {
+      "en": "Second order",
+      "gu": "Second order"
+     },
+     "f": "1/CA - 1/CA0 = k t;   t1/2 = 1/(k CA0)",
+     "terms": {
+      "en": "With CA0 not equal to CB0: ln(CB CA0/(CA CB0)) = (CB0 - CA0) k t.",
+      "gu": "CA0 અને CB0 જુદા હોય તો: ln(CB CA0/(CA CB0)) = (CB0 - CA0) k t."
+     }
+    },
+    {
+     "name": {
+      "en": "Third order",
+      "gu": "Third order"
+     },
+     "f": "1/CA^2 - 1/CA0^2 = 2 k t;   t1/2 = 3/(2 k CA0^2)",
+     "terms": {
+      "en": "Rare in practice, frequent in examinations.",
+      "gu": "વ્યવહારમાં દુર્લભ, પરીક્ષામાં સામાન્ય."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Any order",
+    "gu": "કોઈ પણ order"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "General integral",
+      "gu": "સામાન્ય integral"
+     },
+     "f": "CA^(1-n) - CA0^(1-n) = (n-1) k t",
+     "terms": {
+      "en": "Holds for every n except 1; n = 1 has its own logarithmic form.",
+      "gu": "n = 1 સિવાય દરેક n માટે લાગુ; n = 1 નું પોતાનું logarithmic સ્વરૂપ છે."
+     }
+    },
+    {
+     "name": {
+      "en": "Unit of k",
+      "gu": "k નું એકમ"
+     },
+     "f": "k: (mol m-3)^(1-n) s-1",
+     "terms": {
+      "en": "n = 1 gives s-1, n = 2 gives m3 mol-1 s-1; the unit is the cheapest check.",
+      "gu": "n = 1 માટે s-1, n = 2 માટે m3 mol-1 s-1; એકમ સૌથી સસ્તી ચકાસણી છે."
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Methods of analysis",
+    "gu": "Analysis ની રીતો"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Why do we need more than one method to find the order?",
+      "gu": "Order શોધવા એક કરતાં વધુ રીત કેમ જોઈએ?"
+     },
+     "a": {
+      "en": "Because each method has a different weakness: the differential method amplifies experimental noise, the integral method can only test an order you have guessed, and the half-life method uses just one point per run. Two methods that agree turn a guess into a result.",
+      "gu": "કારણ કે દરેક રીતની નબળાઈ જુદી છે: differential method noise વધારે, integral method ફક્ત ધારેલો order ચકાસી શકે, અને half-life method પ્રતિ રન એક જ બિંદુ વાપરે. બે રીતો મળે તો ધારણા પરિણામ બની જાય."
+     }
+    },
+    {
+     "q": {
+      "en": "Which method would you use for noisy plant data, and why?",
+      "gu": "Noisy plant data માટે કઈ રીત વાપરશો, અને કેમ?"
+     },
+     "a": {
+      "en": "The integral method, because integration averages the noise: one bad point moves the slope of the test plot far less than it moves a tangent. The differential method should be used only to confirm the order.",
+      "gu": "Integral method, કારણ કે integration noise નું સરેરાશ કાઢે: એક ખરાબ બિંદુ test plot ના ઢાળને સ્પર્શક કરતાં ઘણો ઓછો ખસેડે. Differential method ફક્ત order પુષ્ટિ કરવા વાપરવી જોઈએ."
+     }
+    },
+    {
+     "q": {
+      "en": "What does a straight line in the integral method prove?",
+      "gu": "Integral method માં સીધી રેખા શું સાબિત કરે છે?"
+     },
+     "a": {
+      "en": "It proves that the guessed order is consistent with the data over the whole concentration range measured, and that the rate constant is genuinely constant. It does not prove the mechanism - a mechanism needs a rate law plus other evidence.",
+      "gu": "તે સાબિત કરે કે ધારેલો order માપેલી આખી concentration પરાસ સાથે સુસંગત છે, અને rate constant ખરેખર અચળ છે. તે mechanism સાબિત કરતું નથી - mechanism માટે rate law સાથે બીજા પુરાવા જોઈએ."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Constant volume and pressure data",
+    "gu": "અચળ volume અને pressure data"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "When is CA = CA0(1 - X) valid?",
+      "gu": "CA = CA0(1 - X) ક્યારે માન્ય છે?"
+     },
+     "a": {
+      "en": "Only when the volume of the reacting mixture is constant, that is for a liquid phase or for a gas reaction with no change in the number of moles. Otherwise the expansion factor form CA = CA0(1 - X)/(1 + eps X) must be used.",
+      "gu": "ફક્ત ત્યારે જ્યારે પ્રક્રિયા મિશ્રણનું volume અચળ હોય, એટલે પ્રવાહી phase માટે કે moles ની સંખ્યા ન બદલાતી gas પ્રક્રિયા માટે. નહીં તો expansion factor વાળું સ્વરૂપ CA = CA0(1 - X)/(1 + eps X) વાપરવું પડે."
+     }
+    },
+    {
+     "q": {
+      "en": "A gas reaction A -> 2R runs at constant pressure. How does the concentration of A fall compared with the constant-volume case?",
+      "gu": "A -> 2R gas પ્રક્રિયા અચળ pressure પર ચાલે છે. અચળ volume ના કિસ્સા સાથે સરખાવતાં A નું concentration કેવી રીતે ઘટે?"
+     },
+     "a": {
+      "en": "Faster. The volume doubles as the reaction goes to completion, so the mixture is diluted as well as consumed: CA = CA0(1 - X)/(1 + X) falls below CA0(1 - X). At X = 0.5 the constant-volume value is 0.5 CA0 but the true value is 0.333 CA0.",
+      "gu": "વધુ ઝડપથી. પ્રક્રિયા પૂરી થતાં volume બમણું થાય, તેથી મિશ્રણ વપરાવા સાથે પાતળું પણ થાય: CA = CA0(1 - X)/(1 + X) એ CA0(1 - X) થી નીચે જાય. X = 0.5 પર અચળ volume નું મૂલ્ય 0.5 CA0 છે પણ સાચું મૂલ્ય 0.333 CA0 છે."
+     }
+    },
+    {
+     "q": {
+      "en": "Why must an inert gas be subtracted before the pressure is used?",
+      "gu": "Pressure વાપરતા પહેલાં inert gas કેમ બાદ કરવો પડે?"
+     },
+     "a": {
+      "en": "Because the gauge reads the total, and the inert contributes a constant pressure that does not change with conversion. Left in, it is interpreted as reacting material, so the calculated conversion comes out too high and the rate constant with it.",
+      "gu": "કારણ કે gauge total વાંચે છે, અને inert અચળ pressure ઉમેરે છે જે conversion સાથે બદલાતું નથી. તેને રહેવા દેવાથી તે પ્રક્રિયા કરતો દ્રવ્ય ગણાય, તેથી ગણેલું conversion અને તેની સાથે rate constant પણ વધારે આવે."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Integrated laws",
+    "gu": "Integrated laws"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "For which order is the half-life independent of the starting concentration?",
+      "gu": "કયા order માટે half-life શરૂઆતના concentration પર આધારિત નથી?"
+     },
+     "a": {
+      "en": "First order, because t1/2 = ln 2/k contains no concentration at all. That is also why radioactive decay and many isomerisations are quoted by half-life alone.",
+      "gu": "First order, કારણ કે t1/2 = ln 2/k માં concentration જ નથી. તેથી જ radioactive decay અને ઘણી isomerisation ફક્ત half-life થી લખાય છે."
+     }
+    },
+    {
+     "q": {
+      "en": "Derive the second order half-life.",
+      "gu": "Second order half-life derive કરો."
+     },
+     "a": {
+      "en": "Start from 1/CA - 1/CA0 = k t, put CA = CA0/2 and solve: 2/CA0 - 1/CA0 = k t, so 1/CA0 = k t and t1/2 = 1/(k CA0). The half-life is inversely proportional to the starting concentration.",
+      "gu": "1/CA - 1/CA0 = k t થી શરૂ કરો, CA = CA0/2 મૂકો અને ઉકેલો: 2/CA0 - 1/CA0 = k t, તેથી 1/CA0 = k t અને t1/2 = 1/(k CA0). Half-life શરૂઆતના concentration ના વ્યસ્ત પ્રમાણમાં છે."
+     }
+    },
+    {
+     "q": {
+      "en": "What happens to the integrated laws when CA0 is not equal to CB0 for a bimolecular reaction?",
+      "gu": "Bimolecular પ્રક્રિયા માટે CA0 અને CB0 જુદા હોય તો integrated laws નું શું થાય?"
+     },
+     "a": {
+      "en": "The simple reciprocal form no longer applies. The correct result contains a logarithm, ln(CB CA0/(CA CB0)) = (CB0 - CA0) k t, because the two concentrations stay in a fixed relationship that is not a constant ratio. The reciprocal form is the limit CA0 = CB0.",
+      "gu": "સાદું reciprocal સ્વરૂપ લાગુ ન પડે. સાચા પરિણામમાં logarithm આવે, ln(CB CA0/(CA CB0)) = (CB0 - CA0) k t, કારણ કે બંને concentrations નો સંબંધ અચળ ગુણોત્તર નથી. Reciprocal સ્વરૂપ એ CA0 = CB0 ની મર્યા છે."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Numbers and traps",
+    "gu": "આંકડા અને ભૂલો"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "A reaction is 50 % complete in 8 min and 75 % complete in 24 min from the same starting concentration. What is the order?",
+      "gu": "એ જ શરૂઆતના concentration થી પ્રક્રિયા 8 min માં 50 % અને 24 min માં 75 % પૂરી થાય છે. Order કેટલો?"
+     },
+     "a": {
+      "en": "Second order. For first order the 75 % point would come at 2 x 8 = 16 min, and for zero order at 1.5 x 8 = 12 min; only second order gives three times the half-life time, because t(75 %) = 3/(k CA0) against t1/2 = 1/(k CA0).",
+      "gu": "Second order. First order માં 75 % બિંદુ 2 x 8 = 16 min પર આવત, અને zero order માં 1.5 x 8 = 12 min પર; ફક્ત second order ત્રણ ગણો સમય આપે, કારણ કે t(75 %) = 3/(k CA0) જ્યારે t1/2 = 1/(k CA0)."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is the differential method so sensitive to experimental error?",
+      "gu": "Differential method experimental error માટે કેમ સંવેદનશીલ છે?"
+     },
+     "a": {
+      "en": "Because a rate is a slope, and a slope is a difference of two concentrations divided by a small time interval. A fixed error in each concentration becomes a much larger relative error in the slope, and the error grows as the interval shrinks.",
+      "gu": "કારણ કે rate એ ઢાળ છે, અને ઢાળ એ બે concentrations નો તફાવત નાના time interval થી ભાગ્યો. દરેક concentration માંની અચળ ભૂલ ઢાળમાં ઘણી મોટી સાપેક્ષ ભૂલ બને છે, અને interval નાનો થાય તેમ ભૂલ વધે છે."
+     }
+    },
+    {
+     "q": {
+      "en": "What is the unit of k for a third order reaction?",
+      "gu": "Third order પ્રક્રિયા માટે k નું એકમ શું?"
+     },
+     "a": {
+      "en": "(mol m-3)^(1-3) s-1, that is m6 mol-2 s-1. The unit follows from the balance in -rA = k CA^3 with -rA in mol m-3 s-1, and it is the first thing an examiner checks.",
+      "gu": "(mol m-3)^(1-3) s-1, એટલે m6 mol-2 s-1. એકમ -rA = k CA^3 માંના સંતુલન પરથી આવે, જ્યાં -rA mol m-3 s-1 માં છે, અને પરીક્ષક સૌથી પહેલાં એ જ ચકાસે છે."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "A first order reaction starts at CA0 = 1.00 mol/L and is left with 0.25 mol/L after 30 min at constant volume and temperature. Find k, the half-life, and the time needed for 90 % conversion.",
+    "gu": "First order પ્રક્રિયા CA0 = 1.00 mol/L થી શરૂ થાય છે અને અચળ volume તથા temperature પર 30 min પછી 0.25 mol/L બાકી રહે છે. k, half-life અને 90 % conversion માટે જરૂરી સમય શોધો."
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "A second order reaction A + A -> products starts at CA0 = 0.10 mol/L and has a half-life of 20 min. Find k, the concentration after 40 min, and the conversion at that time.",
+    "gu": "Second order પ્રક્રિયા A + A -> products CA0 = 0.10 mol/L થી શરૂ થાય છે અને half-life 20 min છે. k, 40 min પછીનું concentration અને તે સમયનું conversion શોધો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "A constant-volume batch gives CA = 1.00, 0.80, 0.60, 0.40 and 0.25 mol/L at t = 0, 5, 13.3, 30 and 60 min. Find the order and the rate constant by the differential method.",
+    "gu": "અચળ volume વાળી batch t = 0, 5, 13.3, 30 અને 60 min પર CA = 1.00, 0.80, 0.60, 0.40 અને 0.25 mol/L આપે છે. Differential method થી order અને rate constant શોધો."
+   },
+   "marks": 8
+  },
+  {
+   "q": {
+    "en": "The half-life of a reaction is 25 min at CA0 = 0.80 mol/L, 50 min at 0.40 mol/L and 100 min at 0.20 mol/L. Find the order and k.",
+    "gu": "પ્રક્રિયાની half-life CA0 = 0.80 mol/L પર 25 min, 0.40 mol/L પર 50 min અને 0.20 mol/L પર 100 min છે. Order અને k શોધો."
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "The gas reaction A -> B + C runs in a rigid vessel at 500 K, starting with pure A at p0 = 1.00 bar. After 20 min the gauge reads 1.60 bar. Find the conversion, the concentration of A, and k, taking the reaction as first order.",
+    "gu": "Gas પ્રક્રિયા A -> B + C 500 K પર કઠણ પાત્રમાં ચાલે છે, શરૂઆતમાં શુદ્ધ A p0 = 1.00 bar પર. 20 min પછી gauge 1.60 bar વાંચે છે. Conversion, A નું concentration અને first order ધારીને k શોધો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "From CA0 = 2.0 mol/L a reaction reaches 50 % conversion in 8 min and 75 % conversion in 24 min at the same temperature. Find the order and k.",
+    "gu": "CA0 = 2.0 mol/L થી પ્રક્રિયા એ જ temperature પર 8 min માં 50 % અને 24 min માં 75 % conversion પર પહોંચે છે. Order અને k શોધો."
+   },
+   "marks": 7
+  }
+ ],
+ "learning_outcomes": [
+  {
+   "en": "Analyse kinetic data to find the rate equation of a batch reactor.",
+   "gu": "Kinetic data નું analysis કરીને batch reactor નું rate equation શોધવું."
+  }
+ ],
+ "course_outcomes": [
+  "CO3"
+ ],
+ "practical_numbers": [
+  3,
+  4,
+  6,
+  7,
+  8,
+  12
+ ],
+ "content_kind": "theory",
+ "lesson_count": 13,
+ "answered_practice_count": 6,
+ "assessment_note": {
+  "en": "Official course: theory ESE 70 + PA 30 and practical PA 20 + ESE 30 = 150 marks, 4 credits, 45 teaching hours. This unit carries 20 % weightage, 9 of the printed unit hours and 14 of the 70 theory marks - the second largest theory share, because every kinetics practical of the laboratory depends on it. The numericals of section 3.5 are original revision problems with suggested marks, not GTU papers.",
+  "gu": "અધિકૃત course: theory ESE 70 + PA 30 અને practical PA 20 + ESE 30 = 150 marks, 4 credits, 45 teaching hours. આ unit નું weightage 20 %, છપાયેલા unit hours માંથી 9 અને 70 theory marks માંથી 14 છે - બીજો સૌથી મોટો theory હિસ્સો, કારણ કે laboratory નો દરેક kinetics practical તેના પર આધારિત છે. વિભાગ 3.5 ના દાખલા revision માટેના મૂળ પ્રશ્નો છે, GTU પેપર નહીં."
+ },
+ "question_provenance": "Original solved numericals written for revision; not official past papers",
+ "question_marks_are_suggested": true,
+ "sources": [
+  {
+   "title": "GTU DI05005031 Chemical Reaction Engineering syllabus (uploaded PDF, w.e.f. 2026-27)",
+   "url": "https://syllabus.gtu.ac.in/"
+  },
+  {
+   "title": "Octave Levenspiel - Chemical Reaction Engineering, 3rd ed., Wiley (chapter 3: interpretation of batch reactor data, differential and integral methods)",
+   "url": "https://www.wiley.com/"
+  },
+  {
+   "title": "H. Scott Fogler - Essentials of Chemical Reaction Engineering, 4th ed., Prentice Hall (chapter 5: conversion and reactor sizing; chapter 6: pressure data)",
+   "url": "https://www.pearson.com/"
+  },
+  {
+   "title": "NPTEL Chemical Reaction Engineering lectures - kinetics from batch data",
+   "url": "https://nptel.ac.in/"
+  }
+ ]
+}
