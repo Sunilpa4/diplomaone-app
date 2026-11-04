@@ -24,3 +24,7 @@ Rich note markup is restricted to presentational HTML. Embedded SVG diagrams are
 ## AdSense declarations
 
 The public publisher ID is listed in `index.html` and `ads.txt`. The website publisher adds the tracked seller records to the public `ads.txt` while preserving pre-existing records except for exact records explicitly listed in `ads-retired.txt`. It does not load advertising scripts or show ads. When the custom domain is connected, check that `https://www.diplomaone.in/ads.txt` is reachable at the domain root and that its seller records are intentional. Additional ad scripts require a separate review of security policy, consent, and the privacy notice.
+
+## Netlify manual-deploy ZIP
+
+Run `python3 tools/build_netlify_package.py` to produce `release/DiplomaOne-Netlify.zip` (or pass another output path). Run `python3 tools/test_netlify_package.py` to verify the archive. Extract the ZIP and drag the resulting folder, containing `index.html` at its root, into Netlify Drop. The archive contains no built-in copy of the notes: its `_redirects` rule proxies `/data/*` to the current GitHub Pages content repository, so normal content publications are visible without redeploying the website. Keep that GitHub Pages URL available and do not point its custom domain back at the Netlify site, which would create a redirect/proxy loop. Design or code changes require another manual Netlify deployment unless a separate continuous-deployment setup is configured. The existing Flutter web app link opens its GitHub Pages location. Ads are not enabled by this package.
