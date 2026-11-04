@@ -63,7 +63,7 @@ SUBJECTS = {
     "DI02000091": ("Electronics Workshop and Practice", "ઇલેક્ટ્રોનિક્સ વર્કશોપ એન્ડ પ્રેક્ટિસ", "Engineering Science", 3, "practical", "DI02C00091"),
     "DI02000011": ("Applied Mathematics", "એપ્લાઇડ મેથેમેટિક્સ", "Basic Science", 4, "theory", "DI02C00011"),
     "DI01000071": ("Engineering Chemistry", "એન્જિનિયરિંગ કેમિસ્ટ્રી", "Basic Science", 4, "theory", "DI01C00071"),
-    "DI02000051": ("Environmental Sustainability", "એન્વાયર્નમેન્ટલ સસ્ટેનેબિલિટી", "Engineering Science", 2, "theory", "DI02C00051"),
+    "DI02000051": ("Environmental Sustainability", "પર્યાવરણીય ટકાઉપણું", "Engineering Science", 2, "theory", "DI02C00051"),
     "DI02000061": ("Indian Constitution", "ભારતીય બંધારણ", "Audit Course", 0, "theory", "DI02C00061"),
     "DI02000131": ("Contributor Personality Development", "કન્ટ્રિબ્યુટર પર્સનાલિટી ડેવલપમેન્ટ", "Humanities (Elective)", 3, "theory", "DI02C00131"),
     "DI02000141": ("Integrated Personality Development Course", "ઇન્ટિગ્રેટેડ પર્સનાલિટી ડેવલપમેન્ટ કોર્સ", "Humanities (Elective)", 3, "theory", "DI02C00141"),
@@ -445,6 +445,14 @@ for _branch in BRANCHES:
     _sem2 = BRANCH_SEMS.setdefault(_branch[1], {}).setdefault(2, [])
     if "DI02000021" not in _sem2:
         _sem2.insert(0, "DI02000021")
+
+# Environmental Sustainability (DI02000051) prints "Branch: ALL" in its syllabus, so it is listed in
+# semester 2 of every diploma branch, just after Engineering Mathematics.
+for _branch in BRANCHES:
+    _sem2 = BRANCH_SEMS.setdefault(_branch[1], {}).setdefault(2, [])
+    if "DI02000051" not in _sem2:
+        _pos = _sem2.index("DI02000021") + 1 if "DI02000021" in _sem2 else len(_sem2)
+        _sem2.insert(_pos, "DI02000051")
 
 # Mathematics-I (DI01000021) is a common "Branch: All" subject - list it in semester 1 of every branch.
 for _branch in BRANCHES:
