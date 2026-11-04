@@ -36,7 +36,16 @@ jobs:
           python3 tools/export_app_content.py
           cd app
           flutter pub get
-          flutter test
+          # Surface failures in Actions annotations even when the log download
+          # is unavailable, while preserving the test command's exit status.
+          set +e
+          flutter test --reporter json > "$RUNNER_TEMP/full-test.jsonl"
+          status=$?
+          set -e
+          if [ "$status" -ne 0 ]; then
+            python3 ../tools/report_flutter_test_failures.py "$RUNNER_TEMP/full-test.jsonl"
+          fi
+          exit "$status"
 
       - name: Signing key + faster Gradle (cloud machine has more memory)
         env:

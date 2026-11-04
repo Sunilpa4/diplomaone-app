@@ -21,7 +21,7 @@
       branchesTitle:'Every journey starts somewhere.', branchesText:'Find your branch and take the next step in your diploma journey.', searchBranches:'Search branches...', searchSubjects:'Search by subject name or code...', result:'results', semester:'Semester', semesters:'Semesters', semesterText:'Choose a semester to see the subjects available for this branch.', subjectList:'Subjects', subjectListText:'Choose a subject to explore its study material.',
       noBranches:'No branches found', noSubjects:'No subjects found', noSearch:'Try another name or subject code.', emptyTitle:'A little more is on the way.', emptyText:'Notes for this selection haven’t been added yet. Explore another branch in the meantime.',
       available:'Available', notYet:'Coming soon', unitsTitle:'Choose a unit', unitsText:'Select a unit to start reading.', hours:'hours', weightage:'weightage', viewUnit:'Read unit',
-      read:'Study notes', notes:'Notes', programs:'Programs', diagrams:'Diagrams', flowcharts:'Flowcharts', equations:'Formulas', numericals:'Numericals', syntax:'Syntax', algorithms:'Algorithms', viva:'Viva', exam:'Exam questions',
+      read:'Study notes', notes:'Notes', programs:'Programs', diagrams:'Diagrams', flowcharts:'Flowcharts', equations:'Formulas', numericals:'Numericals', syntax:'Syntax', algorithms:'Algorithms', viva:'Viva', exam:'Exam questions', sources:'References', sourceIntro:'References supplied with this unit. External links may lead to other websites.', suggestedMarks:'Marks shown are suggested for practice, not official marks.', englishOnly:'This unit is currently available in English.',
       question:'Question', answer:'Answer', code:'Code', output:'Output', explanation:'Explanation', marks:'marks', noContent:'There is no content in this section yet.',
       save:'Save for later', savedButton:'Saved', savedTitle:'Your little study list.', savedText:'Keep the units you want to come back to. Saved on this device.', savedEmpty:'Nothing saved just yet', savedEmptyText:'When you save a unit, it will be waiting here for your next study session.', exploreBranches:'Explore branches',
       searchTitle:'Find what you need.', searchText:'Search the catalog by subject name or code, in English or Gujarati.', searchPrompt:'What are you looking for?', searchPromptText:'Type a subject name or code to begin.', retry:'Try again', loadError:'We couldn’t load this content.', loadErrorText:'Please check your connection and try again.', noUnit:'This unit is not available yet.', aboutTitle:'Made for the journey.', aboutText:'DiplomaOne is an independent study resource created to help GTU diploma students find clear, accessible learning material in English and Gujarati.', aboutNote:'DiplomaOne is not affiliated with Gujarat Technological University. Always refer to your official syllabus and your institution for authoritative information.', remove:'Remove', back:'Back',
@@ -37,7 +37,7 @@
       branchesTitle:'દરેક સફરની એક શરૂઆત હોય છે.', branchesText:'તમારી બ્રાન્ચ શોધો અને ડિપ્લોમાની સફરમાં આગળ વધો.', searchBranches:'બ્રાન્ચ શોધો...', searchSubjects:'વિષયનું નામ અથવા કોડ શોધો...', result:'પરિણામો', semester:'સેમેસ્ટર', semesters:'સેમેસ્ટર', semesterText:'વિષયો જોવા માટે સેમેસ્ટર પસંદ કરો.', subjectList:'વિષયો', subjectListText:'અભ્યાસ સામગ્રી માટે વિષય પસંદ કરો.',
       noBranches:'કોઈ બ્રાન્ચ મળી નથી', noSubjects:'કોઈ વિષય મળ્યો નથી', noSearch:'બીજું નામ અથવા વિષય કોડ અજમાવો.', emptyTitle:'વધુ સામગ્રી જલ્દી આવશે.', emptyText:'આ પસંદગી માટે નોટ્સ હજુ ઉમેરાઈ નથી. ત્યાં સુધી બીજી બ્રાન્ચ જુઓ.',
       available:'ઉપલબ્ધ', notYet:'જલ્દી આવશે', unitsTitle:'એકમ પસંદ કરો', unitsText:'વાંચવાનું શરૂ કરવા માટે એકમ પસંદ કરો.', hours:'કલાક', weightage:'વેઇટેજ', viewUnit:'એકમ વાંચો',
-      read:'અભ્યાસ નોટ્સ', notes:'નોટ્સ', programs:'પ્રોગ્રામ્સ', diagrams:'આકૃતિઓ', flowcharts:'ફ્લોચાર્ટ્સ', equations:'સૂત્રો', numericals:'ગણિતના દાખલા', syntax:'સિન્ટેક્સ', algorithms:'અલ્ગોરિધમ્સ', viva:'વાઇવા', exam:'પરીક્ષા પ્રશ્નો',
+      read:'અભ્યાસ નોટ્સ', notes:'નોટ્સ', programs:'પ્રોગ્રામ્સ', diagrams:'આકૃતિઓ', flowcharts:'ફ્લોચાર્ટ્સ', equations:'સૂત્રો', numericals:'ગણિતના દાખલા', syntax:'સિન્ટેક્સ', algorithms:'અલ્ગોરિધમ્સ', viva:'વાઇવા', exam:'પરીક્ષા પ્રશ્નો', sources:'સંદર્ભો', sourceIntro:'આ એકમ સાથે આપેલા સંદર્ભો. બહારની લિંક્સ અન્ય વેબસાઇટ પર લઈ જઈ શકે છે.', suggestedMarks:'દર્શાવેલા ગુણ અભ્યાસ માટે સૂચિત છે; તે સત્તાવાર ગુણ નથી.', englishOnly:'આ એકમ હાલમાં અંગ્રેજીમાં ઉપલબ્ધ છે.',
       question:'પ્રશ્ન', answer:'જવાબ', code:'કોડ', output:'આઉટપુટ', explanation:'સમજૂતી', marks:'ગુણ', noContent:'આ વિભાગમાં હજુ સામગ્રી નથી.',
       save:'પછી માટે સાચવો', savedButton:'સાચવ્યું', savedTitle:'તમારી અભ્યાસ યાદી.', savedText:'જે એકમો ફરી વાંચવા છે તે અહીં સાચવો. આ ઉપકરણ પર સાચવાય છે.', savedEmpty:'હજુ કંઈ સાચવ્યું નથી', savedEmptyText:'એકમ સાચવો અને તે તમારી આગામી અભ્યાસ માટે અહીં મળશે.', exploreBranches:'બ્રાન્ચ જુઓ',
       searchTitle:'તમને જે જોઈએ તે શોધો.', searchText:'વિષયના નામ અથવા કોડથી ગુજરાતી કે અંગ્રેજીમાં શોધો.', searchPrompt:'તમે શું શોધી રહ્યા છો?', searchPromptText:'વિષયનું નામ અથવા કોડ લખો.', retry:'ફરી પ્રયાસ કરો', loadError:'સામગ્રી લોડ થઈ શકી નથી.', loadErrorText:'ઇન્ટરનેટ તપાસો અને ફરી પ્રયાસ કરો.', noUnit:'આ એકમ હજુ ઉપલબ્ધ નથી.', aboutTitle:'તમારી સફર માટે.', aboutText:'DiplomaOne એ GTU ડિપ્લોમા વિદ્યાર્થીઓને ગુજરાતી અને અંગ્રેજીમાં સુલભ અભ્યાસ સામગ્રી આપવા માટેનું સ્વતંત્ર સાધન છે.', aboutNote:'DiplomaOne ગુજરાત ટેક્નોલોજિકલ યુનિવર્સિટી સાથે સંલગ્ન નથી. અધિકૃત માહિતી માટે હંમેશા તમારા સત્તાવાર અભ્યાસક્રમ અને સંસ્થાનો સંદર્ભ લો.', remove:'દૂર કરો', back:'પાછા',
@@ -199,18 +199,39 @@
     }).join('');
   }
   function unitTabs(unit) {
-    const tabs=['notes','programs','diagrams','flowcharts','equations','numericals','syntax','algorithms','viva','exam'];
+    const tabs=['notes','programs','diagrams','flowcharts','equations','numericals','syntax','algorithms','viva','exam','sources'];
     return tabs.filter(k=>Array.isArray(k==='exam'?(unit.exam_questions||unit.exam):unit[k]) && (k==='exam'?(unit.exam_questions||unit.exam):unit[k]).length);
   }
+  function sourceList(sources) {
+    const items=sources.map(source=>{
+      if(typeof source==='string') return `<li>${esc(source)}</li>`;
+      if(!source || typeof source!=='object') return '';
+      const title=text(source.title||source.name||source.reference||source.file);
+      if(!title) return '';
+      let link='';
+      if(typeof source.url==='string') {
+        try { const parsed=new URL(source.url); if(['https:','http:'].includes(parsed.protocol)) link=parsed.href; } catch (_) { /* Not a URL. */ }
+      }
+      const label=link?`<a href="${esc(link)}" target="_blank" rel="noopener noreferrer">${esc(title)} ↗</a>`:esc(title);
+      const detail=text(source.status||source.authority||source.role||source.use||source.review_status);
+      return `<li>${label}${detail?` <small>${esc(detail)}</small>`:''}</li>`;
+    }).join('');
+    return `<section class="note-section references"><h3>${esc(tr('sources'))}</h3><p>${esc(tr('sourceIntro'))}</p><ul>${items}</ul></section>`;
+  }
   function tabContent(unit,tab) {
+    if(tab==='sources') return sourceList(unit.sources);
     const content=tab==='exam'?(unit.exam_questions||unit.exam):unit[tab];
     const html=Array.isArray(content)?groupCards(content,unit,tab):'';
-    return html || `<p class="page-subtitle">${esc(tr('noContent'))}</p>`;
+    const policy=tab==='exam' ? [text(unit.exam_policy), text(unit.assessment_note), unit.question_marks_are_suggested ? tr('suggestedMarks') : ''].filter(Boolean) : [];
+    const notice=policy.length ? `<div class="reader-notice">${policy.map(p=>`<p>${esc(p)}</p>`).join('')}</div>` : '';
+    return notice+(html || `<p class="page-subtitle">${esc(tr('noContent'))}</p>`);
   }
   function showUnit(unit,subject) {
     const num=Number(unit.unit), tabs=unitTabs(unit);if(!tabs.includes(activeTab))activeTab=tabs[0]||'notes';
     const exists=saved.some(x=>x.code===subject.code&&Number(x.unit)===num);
-    return `${shell(text(subject.name),`${subject.code} · ${lang==='gu'?'એકમ':'Unit'} ${num}`,[{label:tr('subjectList'),href:`#/subject/${encodeURIComponent(subject.code)}`},{label:`${lang==='gu'?'એકમ':'Unit'} ${num}`}])}<section class="page-content"><div class="wrap reader-layout"><aside class="reader-sidebar" aria-label="${esc(tr('unitsTitle'))}"><h3>${esc(tr('unitsTitle'))}</h3>${(subject.units||[]).filter(u=>(subject.available_units||[]).includes(u.no)).map(u=>`<a class="${Number(u.no)===num?'active':''}" href="#/unit/${encodeURIComponent(subject.code)}/${Number(u.no)}">${lang==='gu'?'એકમ':'Unit'} ${Number(u.no)} · ${esc(text(u.title))}</a>`).join('')}</aside><article class="reader-card"><div class="reader-actions"><div><div class="eyebrow">${lang==='gu'?'એકમ':'UNIT'} ${num}</div><h2 class="reader-title">${esc(text(unit.title))}</h2><div class="reader-sub">${esc(text(subject.name))}</div></div><button class="save-button ${exists?'saved':''}" id="save-unit" type="button" aria-pressed="${exists}">${exists?'♥':'♡'} &nbsp;${esc(tr(exists?'savedButton':'save'))}</button></div><div class="reader-tabs" role="tablist" aria-label="${esc(tr('read'))}">${tabs.map(t=>`<button type="button" role="tab" aria-selected="${t===activeTab}" class="${t===activeTab?'active':''}" data-tab="${t}">${esc(tr(t))}</button>`).join('')}</div><div id="reader-content" role="tabpanel">${tabContent(unit,activeTab)}</div></article></div></section>`;
+    const languages=Array.isArray(unit.languages)?unit.languages:subject.languages;
+    const languageNotice=lang==='gu' && Array.isArray(languages) && languages.includes('en') && !languages.includes('gu') ? `<p class="reader-notice">${esc(tr('englishOnly'))}</p>` : '';
+    return `${shell(text(subject.name),`${subject.code} · ${lang==='gu'?'એકમ':'Unit'} ${num}`,[{label:tr('subjectList'),href:`#/subject/${encodeURIComponent(subject.code)}`},{label:`${lang==='gu'?'એકમ':'Unit'} ${num}`}])}<section class="page-content"><div class="wrap reader-layout"><aside class="reader-sidebar" aria-label="${esc(tr('unitsTitle'))}"><h3>${esc(tr('unitsTitle'))}</h3>${(subject.units||[]).filter(u=>(subject.available_units||[]).includes(u.no)).map(u=>`<a class="${Number(u.no)===num?'active':''}" href="#/unit/${encodeURIComponent(subject.code)}/${Number(u.no)}">${lang==='gu'?'એકમ':'Unit'} ${Number(u.no)} · ${esc(text(u.title))}</a>`).join('')}</aside><article class="reader-card"><div class="reader-actions"><div><div class="eyebrow">${lang==='gu'?'એકમ':'UNIT'} ${num}</div><h2 class="reader-title">${esc(text(unit.title))}</h2><div class="reader-sub">${esc(text(subject.name))}</div></div><button class="save-button ${exists?'saved':''}" id="save-unit" type="button" aria-pressed="${exists}">${exists?'♥':'♡'} &nbsp;${esc(tr(exists?'savedButton':'save'))}</button></div><div class="reader-tabs" role="tablist" aria-label="${esc(tr('read'))}">${tabs.map(t=>`<button type="button" role="tab" aria-selected="${t===activeTab}" class="${t===activeTab?'active':''}" data-tab="${t}">${esc(tr(t))}</button>`).join('')}</div>${languageNotice}<div id="reader-content" role="tabpanel">${tabContent(unit,activeTab)}</div></article></div></section>`;
   }
   function bindReader(unit,subject) {
     document.querySelectorAll('[data-tab]').forEach(btn=>btn.addEventListener('click',()=>{activeTab=btn.dataset.tab;document.querySelectorAll('[data-tab]').forEach(b=>{const on=b===btn;b.classList.toggle('active',on);b.setAttribute('aria-selected',String(on));});document.querySelector('#reader-content').innerHTML=tabContent(unit,activeTab);}));
