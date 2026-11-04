@@ -378,6 +378,13 @@ _chemical_sem4 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(4,[])
 if 'DI04005041' not in _chemical_sem4:
     _chemical_sem4.append('DI04005041')
 
+# DiplomaOne registration: DI04005071 chemical semester 4
+if 'DI04005071' not in SUBJECTS:
+    SUBJECTS['DI04005071'] = ('Petroleum Refining and Petroleum Technology','પેટ્રોલિયમ રિફાઇનિંગ તથા પેટ્રોલિયમ ટેકનોલોજી','Professional Elective',4,'theory',None)
+_chemical_sem4 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(4,[])
+if 'DI04005071' not in _chemical_sem4:
+    _chemical_sem4.append('DI04005071')
+
 FONT_MAP = [
     (re.compile(r'font-family="Arial, Helvetica, sans-serif"'), 'font-family="DejaVu Sans"'),
     (re.compile(r'font-family="DejaVu Sans Mono, Consolas, monospace"'), 'font-family="DejaVu Sans Mono"'),
