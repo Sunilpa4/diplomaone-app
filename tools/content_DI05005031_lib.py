@@ -103,12 +103,14 @@ def pit(en, gu):
 
 def parts(*pairs):
     """How a piece of equipment is built - one bullet per part, part name in bold."""
-    return h4("Construction: what it is made of", "રચના: તે કયા ભાગોથી બનેલું છે") + ul(*pairs)
+    head, items = h4("Construction: what it is made of", "રચના: તે કયા ભાગોથી બનેલું છે"), ul(*pairs)
+    return (head[0] + items[0], head[1] + items[1])
 
 
 def working(*pairs):
     """How the same equipment works - numbered, in the order the material moves."""
-    return h4("Working: step by step", "કાર્યપદ્ધતિ: પગલે પગલે") + ol(*pairs)
+    head, steps = h4("Working: step by step", "કાર્યપદ્ધતિ: પગલે પગલે"), ol(*pairs)
+    return (head[0] + steps[0], head[1] + steps[1])
 
 
 def body(*parts_):
