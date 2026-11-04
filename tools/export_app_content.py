@@ -64,6 +64,7 @@ SUBJECTS = {
     "DI02000011": ("Applied Mathematics", "એપ્લાઇડ મેથેમેટિક્સ", "Basic Science", 4, "theory", "DI02C00011"),
     "DI01000071": ("Engineering Chemistry", "એન્જિનિયરિંગ કેમિસ્ટ્રી", "Basic Science", 4, "theory", "DI01C00071"),
     "DI02000051": ("Environmental Sustainability", "પર્યાવરણીય ટકાઉપણું", "Engineering Science", 2, "theory", "DI02C00051"),
+    "DI01000111": ("Engineering Graphics", None, "Engineering Science", 3, "theory", "DI01C00111"),
     "DI02000061": ("Indian Constitution", "ભારતીય બંધારણ", "Audit Course", 0, "theory", "DI02C00061"),
     "DI02000131": ("Contributor Personality Development", "કન્ટ્રિબ્યુટર પર્સનાલિટી ડેવલપમેન્ટ", "Humanities (Elective)", 3, "theory", "DI02C00131"),
     "DI02000141": ("Integrated Personality Development Course", "ઇન્ટિગ્રેટેડ પર્સનાલિટી ડેવલપમેન્ટ કોર્સ", "Humanities (Elective)", 3, "theory", "DI02C00141"),
@@ -484,6 +485,20 @@ for _branch in BRANCHES:
     _sem1 = BRANCH_SEMS.setdefault(_branch[1], {}).setdefault(1, [])
     if "DI01000031" not in _sem1:
         _sem1.insert(_sem1.index("DI01000021") + 1 if "DI01000021" in _sem1 else 0, "DI01000031")
+
+# Engineering Graphics (DI01000111) is the English-only drawing course of twelve branch programmes
+# in semester 1 (the PDF names fifteen branches; the app does not carry Ceramic, Mechanical CAD/CAM
+# or Fabrication as separate branches). It sits after Mathematics-I, like the other common subjects.
+SUBJECTS.setdefault("DI01000111", ("Engineering Graphics", None, "Engineering Science", 3,
+                                   "theory", "DI01C00111"))
+ENGINEERING_GRAPHICS_BRANCHES = ["power", "robotics", "civil", "environmental", "mining", "chemical",
+                                 "metallurgy", "plastic", "mechanical", "automobile", "mechatronics",
+                                 "textile_proc"]
+for _key in ENGINEERING_GRAPHICS_BRANCHES:
+    _sem1 = BRANCH_SEMS.setdefault(_key, {}).setdefault(1, [])
+    if "DI01000111" not in _sem1:
+        _pos = _sem1.index("DI01000021") + 1 if "DI01000021" in _sem1 else len(_sem1)
+        _sem1.insert(_pos, "DI01000111")
 
 
 def main():
