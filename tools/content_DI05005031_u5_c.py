@@ -377,10 +377,10 @@ _PRACTICE = [
       h4("Step 4 - space velocity", "પગલું 4 - space velocity"),
       math("SV = 1/tau = 1/28.3 = 0.0353 h-1"),
       eq("tau = 28.3 h,  V = 113 m3,  SV = 0.035 h-1"),
-      p("A space time of 28 h is long, and it is the price of 85 % conversion in one tank. Two tanks "
-        "in series would need 2 x 9.6 h, i.e. about 77 m3 in all, for the same duty.",
+      p("A space time of 28 h is long, and it is the price of 85 % conversion in one tank. Two equal "
+        "tanks in series would need 7.9 h each, i.e. about 63 m3 in all, for the same duty.",
         "28 h નો space time લાંબો છે, અને એ એક ટાંકીમાં 85 % conversion ની કિંમત છે. Series માં બે "
-        "ટાંકીને દરેક 9.6 h જોઈએ, એટલે એ જ કામ માટે કુલ લગભગ 77 m3."),
+        "સરખી ટાંકીને દરેક 7.9 h જોઈએ, એટલે એ જ કામ માટે કુલ લગભગ 63 m3."),
       check("The two routes to V agree - from tau and from the exit rate - which is the whole point "
             "of the rectangle: V/FA0 is both X times the height and the space time times CA0.",
             "V સુધીના બંને રસ્તા - tau થી અને exit rate થી - સરખા આવે, જે લંબચોરસનો આખો મુદ્દો છે: "
@@ -408,12 +408,12 @@ _PRACTICE = [
       math("one CSTR 113 m3 : three CSTRs 53 m3 : one PFR 37.9 m3",
            "PFR/CSTR = 37.9/113 = 0.34,  train/CSTR = 53/113 = 0.47"),
       eq("PFR 37.9 m3, three CSTRs 52.9 m3, one CSTR 113 m3"),
-      p("Three tanks recover 62 % of the volume saving a PFR would give, at much lower risk: each "
-        "tank is a standard stirred vessel. This is the usual compromise in a plant that must also "
-        "handle solids or changing products.",
-        "ત્રણ ટાંકી PFR આપે તે volume બચતના 62 % પાછી મેળવે, ઘણા ઓછા જોખમે: દરેક ટાંકી પ્રમાણભૂત "
-        "હલાવેલું પાત્ર છે. જે plant ને solids કે બદલાતા products સંભાળવા હોય ત્યાં આ સામાન્ય "
-        "સમાધાન છે."),
+      p("Three tanks recover (113 - 52.9)/(113 - 37.9) = 80 % of the volume saving a PFR would give, "
+        "at much lower risk: each tank is a standard stirred vessel. This is the usual compromise in "
+        "a plant that must also handle solids or changing products.",
+        "ત્રણ ટાંકી PFR આપે તે volume બચતના (113 - 52.9)/(113 - 37.9) = 80 % પાછી મેળવે, ઘણા ઓછા "
+        "જોખમે: દરેક ટાંકી પ્રમાણભૂત હલાવેલું પાત્ર છે. જે plant ને solids કે બદલાતા products સંભાળવા "
+        "હોય ત્યાં આ સામાન્ય સમાધાન છે."),
       check("(1 + 0.882) cubed = 6.67 = 1/0.15, so 1 - X = 0.15 and X = 0.85.",
             "(1 + 0.882) નો ઘન = 6.67 = 1/0.15, તેથી 1 - X = 0.15 અને X = 0.85."),
       pit("Splitting the single-CSTR space time by three. The space time per tank of a train is not "
@@ -500,20 +500,20 @@ _PRACTICE = [
       h4("Step 2 - two equal CSTRs", "પગલું 2 - બે સરખા CSTR"),
       math("1 + k tau/2 = (1/0.10)^(1/2) = 3.162",
            "k tau each = 2.162  ->  tau each = 14.4 h",
-           "V each = 3.0 x 14.4 = 43.2 m3,  total = 86.4 m3"),
+           "V each = 3.0 x 14.4 = 43.2 m3,  total = 86.5 m3"),
       h4("Step 3 - one PFR", "પગલું 3 - એક PFR"),
       math("k tau = ln(1/0.10) = 2.303  ->  tau = 15.35 h",
            "V = 3.0 x 15.35 = 46.1 m3"),
-      eq("CSTR 180 m3,  two CSTRs 86.4 m3,  PFR 46.1 m3"),
+      eq("CSTR 180 m3,  two CSTRs 86.5 m3,  PFR 46.1 m3"),
       p("Recommendation: the PFR if the reaction is clean, single phase and the plant can take a "
         "tube; two tanks if solids, cleaning or product changes rule a tube out. One tank alone would "
         "be 180 m3 at 90 % - nearly four times the tube - and is only chosen for a small campaign.",
         "સૂચન: પ્રક્રિયા સ્વચ્છ, single phase અને plant નળી લઈ શકે તો PFR; solids, સફાઈ કે product "
         "બદલાવ નળી ન રહેવા દે તો બે ટાંકી. એક ટાંકી 90 % પર 180 m3 થાય - નળી કરતાં લગભગ ચાર ગણી - "
         "અને નાના campaign માટે જ પસંદ થાય."),
-      check("Ratios: 180/46.1 = 3.9 and 86.4/46.1 = 1.9, matching the yardsticks of the formula "
+      check("Ratios: 180/46.1 = 3.9 and 86.5/46.1 = 1.9, matching the yardsticks of the formula "
             "sheet for 90 % conversion.",
-            "ગુણોત્તર: 180/46.1 = 3.9 અને 86.4/46.1 = 1.9, જે 90 % conversion માટે formula sheet ના "
+            "ગુણોત્તર: 180/46.1 = 3.9 અને 86.5/46.1 = 1.9, જે 90 % conversion માટે formula sheet ના "
             "માપદંડ સાથે મળે."),
       pit("Recommending the smallest volume without a heat transfer check. A 46 m3 PFR at 90 % of a "
           "fast exothermic reaction may be impossible to cool; the tube that wins on volume can lose "

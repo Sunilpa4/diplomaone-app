@@ -81,8 +81,20 @@ class Unit5Specific(unittest.TestCase):
         k_tau2 = (1 / 0.10) ** 0.5 - 1
         v_train = 2 * 3.0 * k_tau2 / 0.15
         self.assertAlmostEqual(v_train, 86.5, delta=0.2)
-        for token in ("180 m3", "86.4 m3", "46.1 m3"):
+        for token in ("180 m3", "86.5 m3", "46.1 m3"):
             self.assertIn(token, PROBLEMS)
+
+    def test_28b_two_tank_train_and_recovery(self):
+        k_tau = (1 / 0.15) ** 0.5 - 1
+        self.assertAlmostEqual(k_tau, 1.5826, delta=0.001)
+        v_train = 2 * 4.0 * k_tau / 0.20
+        self.assertAlmostEqual(v_train, 63.3, delta=0.2)
+        self.assertIn("63 m3", PROBLEMS)
+        v_hit = 3 * ((1 / 0.15) ** (1 / 3) - 1) / 0.20 * 4.0
+        self.assertAlmostEqual(v_hit, 52.9, delta=0.2)
+        recover = (113.3 - v_hit) / (113.3 - 37.9)
+        self.assertAlmostEqual(recover, 0.80, delta=0.01)
+        self.assertIn("80 % of the volume saving", PROBLEMS)
 
     def test_29_figs_and_no_broken_text(self):
         self.assertEqual(len(UNIT["diagrams"]), 7)
