@@ -61,8 +61,9 @@ class CompatibilityTest(unittest.TestCase):
         directories = [root / 'content/mechanical/sem2/DI02000121',
                        root / 'content/chemical/sem5/DI05005011',
                        root / 'content/chemical/sem5/DI05005021']
-        paths = [path for directory in directories for path in sorted(directory.glob('unit*.json'))]
-        self.assertEqual(len(paths), 18)
+        paths = [directory / f'unit{number}.json'
+                 for directory, count in zip(directories, (7, 6, 5))
+                 for number in range(1, count + 1)]
         for path in paths:
             with self.subTest(path=path):
                 source = json.loads(path.read_text(encoding='utf-8'))
