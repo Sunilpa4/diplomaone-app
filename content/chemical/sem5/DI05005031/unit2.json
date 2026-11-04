@@ -1,0 +1,679 @@
+{
+ "subject": "DI05005031",
+ "unit": 2,
+ "format": "notes",
+ "title": {
+  "en": "Kinetics of Homogeneous Reactions",
+  "gu": "સમરૂપ પ્રક્રિયાઓની ગતિકી"
+ },
+ "hours": 8,
+ "weightage": 17,
+ "theory_marks": 12,
+ "official": true,
+ "languages": [
+  "en",
+  "gu"
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "equations",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "Unit 2 of Chemical Reaction Engineering: the rate law split into its temperature term k(T) and its concentration term f(C), what the rate constant really is, elementary and non-elementary reactions (with the H2 + Br2 chain derived from its steady state), the Arrhenius law derived from the van't Hoff relation and from collision theory, and the activation energy - what it is, how a catalyst lowers it, and how it is measured from rate constants at several temperatures. Six solved numericals follow in section 2.6.",
+  "gu": "Chemical Reaction Engineering નું Unit 2: rate law ના બે ભાગ - temperature વાળો k(T) અને concentration વાળો f(C), rate constant ખરેખર શું છે, elementary અને non-elementary પ્રક્રિયાઓ (H2 + Br2 ની chain તેના steady state પરથી derive કરેલી), van't Hoff સંબંધ અને collision theory પરથી Arrhenius law, અને activation energy - તે શું છે, catalyst તેને કેવી રીતે ઘટાડે છે, અને ઘણા temperatures પરના rate constants પરથી તે કેવી રીતે માપાય છે. વિભાગ 2.6 માં છ ઉકેલેલા દાખલા છે."
+ },
+ "notes": [
+  {
+   "title": {
+    "en": "2.1 The rate law and its two terms",
+    "gu": "2.1 Rate law અને તેના બે ભાગ"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "A rate law is a product: k(T) times f(C)",
+      "gu": "Rate law એ ગુણાકાર છે: k(T) ગુણ્યું f(C)"
+     },
+     "body": {
+      "en": "<h4>Definition</h4><p>A <b>rate law</b> (or rate equation) is the experimental relation between the rate of reaction and the concentrations of the species present. For a homogeneous reaction it is written as two factors multiplied: a number that depends only on temperature, k(T), and a function of composition, f(C).</p><div class=\"math\">-rA = k(T) f(C)\nf(C) = CA^a CB^b ...\na + b + ... = overall order n\nexample: -rA = k CA CB^2   (order 1 in A, 2 in B, 3 overall)</div><p>The order with respect to a species is the exponent of its concentration; the overall order is the sum. Neither is copied from the stoichiometric equation unless the reaction is elementary - they are read off the experiment.</p><h4>Why the two factors separate</h4><p>Temperature changes the energy of the molecules, while composition changes how often they meet. To a very good approximation the two act independently, so a rate measured at one temperature can be moved to another simply by replacing k:</p><div class=\"math\"> 1. -rA(T1) = k(T1) f(C)\n 2. -rA(T2) = k(T2) f(C)\n 3. divide:  -rA(T2) / -rA(T1) = k(T2) / k(T1)\n 4. and k(T2)/k(T1) comes from Arrhenius (2.4)</div><p><b>Why it is true.</b> f(C) carries the chemistry of the mixture and k(T) carries the energy; a plant that changes its temperature does not change its order, and a plant that changes its concentration does not change its activation energy.</p><p><b>Check your answer.</b> A rate law must predict the units: with -rA in mol m-3 s-1, the order 3 law k CA CB^2 needs k in m6 mol-2 s-1.</p><p><b>Common mistake.</b> Writing the rate law from the equation. 2A + B -> products is third order only if the reaction is elementary; measure it before you write it.</p>",
+      "gu": "<h4>વ્યાખ્યા</h4><p><b>Rate law</b> (કે rate equation) એ પ્રક્રિયાના rate અને હાજર species ના concentrations વચ્ચેનો પ્રયોગથી મળેલો સંબંધ છે. Homogeneous પ્રક્રિયા માટે તેને બે અવયવના ગુણાકાર તરીકે લખાય છે: ફક્ત temperature પર આધારિત સંખ્યા k(T), અને રચના પર આધારિત વિધેય f(C).</p><div class=\"math\">-rA = k(T) f(C)\nf(C) = CA^a CB^b ...\na + b + ... = overall order n\nexample: -rA = k CA CB^2   (order 1 in A, 2 in B, 3 overall)</div><p>કોઈ species પ્રતિ order એ તેના concentration નો ઘાત છે; કુલ order એ સરવાળો છે. પ્રક્રિયા elementary ન હોય તો બંને stoichiometric સમીકરણ પરથી લેવાય નહીં - તે પ્રયોગ પરથી વંચાય છે.</p><h4>બે અવયવ કેમ અલગ પડે</h4><p>Temperature molecules ની energy બદલે છે, જ્યારે રચના તેઓ કેટલી વાર મળે તે બદલે છે. ખૂબ સારા અંદાજ સુધી બંને સ્વતંત્ર રીતે કામ કરે છે, તેથી એક temperature પર માપેલો rate બીજા temperature પર ફક્ત k બદલીને લઈ જઈ શકાય:</p><div class=\"math\"> 1. -rA(T1) = k(T1) f(C)\n 2. -rA(T2) = k(T2) f(C)\n 3. divide:  -rA(T2) / -rA(T1) = k(T2) / k(T1)\n 4. and k(T2)/k(T1) comes from Arrhenius (2.4)</div><p><b>કેમ સાચું છે.</b> f(C) મિશ્રણની chemistry ઉપાડે છે અને k(T) energy ઉપાડે છે; temperature બદલતા plant નો order બદલાતો નથી, અને concentration બદલતા plant ની activation energy બદલાતી નથી.</p><p><b>જવાબ ચકાસો.</b> Rate law એ એકમ પણ આપવા જોઈએ: -rA mol m-3 s-1 માં હોય તો order 3 ના law k CA CB^2 માટે k m6 mol-2 s-1 માં જોઈએ.</p><p><b>સામાન્ય ભૂલ.</b> સમીકરણ પરથી rate law લખવો. 2A + B -> products ત્રીજા orderની ફક્ત ત્યારે જ છે જ્યારે પ્રક્રિયા elementary હોય; લખતા પહેલાં માપો.</p>"
+     },
+     "diagram": "u2_terms",
+     "syllabus_item": "2.1"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2.2 The concentration term and the rate constant",
+    "gu": "2.2 Concentration વાળો ભાગ અને rate constant"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "What the rate constant is - and what it is not",
+      "gu": "Rate constant શું છે - અને શું નથી"
+     },
+     "body": {
+      "en": "<h4>The constant is not a constant of nature</h4><p>The rate constant k of a given reaction is fixed only for a given <b>temperature, solvent and catalyst</b>. Change any of the three and it changes; that is why a laboratory value can never be typed into a plant design without the temperature being checked.</p><h4>Derivation: what k means when the concentrations are one</h4><p>Put every concentration equal to unity in the power law:</p><div class=\"math\"> 1. -rA = k CA^a CB^b ...\n 2. set CA = CB = ... = 1 mol m-3\n 3. -rA = k\n 4. so k is the rate when every concentration is 1</div><p>That is the practical meaning: k is not 'the speed of the reaction' but the speed at a reference composition. Two reactions with the same k can run at very different rates, because their concentrations and orders differ.</p><table><tr><th>Order</th><th>Law</th><th>Unit of k</th><th>What a plot of C against t looks like</th></tr><tr><td>0</td><td>-rA = k</td><td>mol m-3 s-1</td><td>a straight falling line</td></tr><tr><td>1</td><td>-rA = k CA</td><td>s-1</td><td>an exponential decay</td></tr><tr><td>2</td><td>-rA = k CA^2</td><td>m3 mol-1 s-1</td><td>a curve tailing to zero slowly</td></tr><tr><td>n</td><td>-rA = k CA^n</td><td>(mol m-3)^(1-n) s-1</td><td>depends on n - Unit 3</td></tr></table><h4>Pseudo order: when the law hides a reactant</h4><div class=\"math\">true:  -rA = k CA CB      (second order)\nwith CB >> CA:  CB ~ constant\nmeasured: -rA = k' CA   k' = k CB</div><p>A pseudo first order constant therefore carries the concentration of the excess reactant inside it. Change the amount of water in a hydrolysis and the 'constant' changes - a favourite examination question and a real trap in a plant.</p><p><b>Why it is true.</b> Units are the quickest audit of a rate law: if k does not carry (mol m-3)^(1-n) s-1, the exponents or the rate units are wrong.</p><p><b>Common mistake.</b> Reporting k to four figures from two runs. Two points give an order and a constant with large error; a report needs the scatter of several runs.</p>",
+      "gu": "<h4>Constant એ કુદરતનો અચળ નથી</h4><p>આપેલી પ્રક્રિયાનો rate constant k ફક્ત આપેલા <b>temperature, solvent અને catalyst</b> માટે અચળ છે. ત્રણમાંથી કોઈ પણ બદલો તો તે બદલાય છે; તેથી laboratory નું મૂલ્ય temperature ચકાસ્યા વિના plant design માં કદી નાખી શકાય નહીં.</p><h4>Derivation: concentrations એક હોય ત્યારે k નો અર્થ</h4><p>Power law માં દરેક concentration એક મૂકો:</p><div class=\"math\"> 1. -rA = k CA^a CB^b ...\n 2. set CA = CB = ... = 1 mol m-3\n 3. -rA = k\n 4. so k is the rate when every concentration is 1</div><p>તેનો વ્યવહારુ અર્થ આ છે: k 'પ્રક્રિયાની ઝડપ' નથી, પણ સંદર્ભ રચના પરની ઝડપ છે. એક જ k વાળી બે પ્રક્રિયાઓ ખૂબ જુદી ઝડપે ચાલી શકે, કારણ કે તેમના concentrations અને orders જુદા છે.</p><table><tr><th>Order</th><th>Law</th><th>k નું એકમ</th><th>C vs t નો ગ્રાફ</th></tr><tr><td>0</td><td>-rA = k</td><td>mol m-3 s-1</td><td>સીધી ઊતરતી લાઇન</td></tr><tr><td>1</td><td>-rA = k CA</td><td>s-1</td><td>exponential ઘટાડો</td></tr><tr><td>2</td><td>-rA = k CA^2</td><td>m3 mol-1 s-1</td><td>ધીમે શૂન્ય તરફ જતો વક્ર</td></tr><tr><td>n</td><td>-rA = k CA^n</td><td>(mol m-3)^(1-n) s-1</td><td>n પર આધારિત - Unit 3</td></tr></table><h4>Pseudo order: જ્યારે law એક reactant છુપાવે</h4><div class=\"math\">true:  -rA = k CA CB      (second order)\nwith CB >> CA:  CB ~ constant\nmeasured: -rA = k' CA   k' = k CB</div><p>Pseudo first order constant માં વધારાના reactant નું concentration સમાયેલું હોય છે. Hydrolysis માં પાણીનો જથ્થો બદલો તો 'constant' બદલાય - પરીક્ષામાં પૂછાતો પ્રિય પ્રશ્ન અને plant માં ખરેખર ફસાવતી બાબત.</p><p><b>કેમ સાચું છે.</b> Units એ rate law ચકાસવાનો સૌથી ઝડપી ઉપાય છે: k માં (mol m-3)^(1-n) s-1 ન હોય તો ઘાત કે rate ના units ખોટા છે.</p><p><b>સામાન્ય ભૂલ.</b> બે રન પરથી k ને ચાર આંકડામાં લખવો. બે બિંદુ order અને constant મોટી ભૂલ સાથે આપે છે; રિપોર્ટને ઘણા રનનું scatter જોઈએ.</p>"
+     },
+     "syllabus_item": "2.2"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2.3 Elementary and non-elementary reactions",
+    "gu": "2.3 Elementary અને non-elementary પ્રક્રિયાઓ"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Two molecules colliding, or a chain of steps?",
+      "gu": "બે molecules ની અથડામણ, કે steps ની શૃંખલા?"
+     },
+     "body": {
+      "en": "<h4>The definition</h4><p>An <b>elementary</b> reaction happens in a single molecular event: the equation as written is the step, so order equals molecularity and the rate law can be written from the equation. A <b>non-elementary</b> reaction is a sequence of such events - initiation, propagation, termination, or an adsorption and a surface reaction - and its rate law has to be derived from the sequence.</p><table><tr><th>Test</th><th>Elementary</th><th>Non-elementary</th></tr><tr><td>Number of steps</td><td>one</td><td>two or more</td></tr><tr><td>Order from the equation?</td><td>yes</td><td>no, from experiment</td></tr><tr><td>Molecularity = order?</td><td>always</td><td>only by accident</td></tr><tr><td>Example</td><td>NO2 + CO -> NO + CO2 (one step)</td><td>H2 + Br2 -> 2 HBr (chain)</td></tr></table><h4>Derivation: the steady state on a chain carrier</h4><p>For H2 + Br2 the chain is started by Br2 splitting, carried by Br. and H., and stopped when two Br. meet. Writing kI, kp1, kp2 and kt for the four steps and assuming the atom concentrations are steady:</p><div class=\"math\"> 1. initiation:  Br2 -> 2 Br.        rate kI [Br2]\n 2. propagation: Br. + H2 -> HBr + H.\n 3.              H. + Br2 -> HBr + Br.\n 4. termination: 2 Br. -> Br2       rate kt [Br.]^2\n 5. steady on [Br.]: 2 kI [Br2] = 2 kt [Br.]^2\n 6. so  [Br.] = (kI [Br2] / kt)^0.5\n 7. rate = kp2 [H.] [Br2], with [H.] from the other balance\n 8. r = k [H2] [Br2]^1.5 / ([Br2] + k' [HBr])</div><p>Two lessons come out of that line. The square root in [Br.] becomes <b>1.5</b> as the order in Br2, and the HBr in the denominator shows <b>product inhibition</b> - the reaction gets slower as its own product accumulates.</p><p><b>Why it is true.</b> An elementary step obeys the law of mass action exactly; a sequence does not, because the concentrations of intermediates set the rate. That is why a fractional order is evidence of a mechanism, not of a measurement error.</p><p><b>Common mistake.</b> Applying the steady-state assumption to the reactants instead of the intermediates. Reactants change by design - only the short-lived radicals are steady.</p>",
+      "gu": "<h4>વ્યાખ્યા</h4><p><b>Elementary</b> પ્રક્રિયા એક જ molecular ઘટનામાં થાય છે: લખેલું સમીકરણ એ જ step છે, તેથી order અને molecularity સરખા થાય અને rate law સમીકરણ પરથી લખી શકાય. <b>Non-elementary</b> પ્રક્રિયા એવી ઘટનાઓની શૃંખલા છે - initiation, propagation, termination, અથવા adsorption અને surface પ્રક્રિયા - અને તેનો rate law શૃંખલા પરથી derive કરવો પડે.</p><table><tr><th>કસોટી</th><th>Elementary</th><th>Non-elementary</th></tr><tr><td>steps ની સંખ્યા</td><td>એક</td><td>બે કે વધુ</td></tr><tr><td>સમીકરણ પરથી order?</td><td>હા</td><td>ના, પ્રયોગ પરથી</td></tr><tr><td>Molecularity = order?</td><td>હંમેશા</td><td>કદાચ જ</td></tr><tr><td>ઉદાહરણ</td><td>NO2 + CO -> NO + CO2 (એક step)</td><td>H2 + Br2 -> 2 HBr (chain)</td></tr></table><h4>Derivation: chain carrier પર steady state</h4><p>H2 + Br2 માં શૃંખલા Br2 તૂટવાથી શરૂ થાય, Br. અને H. દ્વારા ચાલે, અને બે Br. મળતાં અટકે. ચાર steps માટે kI, kp1, kp2 અને kt લખીને atoms ના concentrations steady ધારીએ:</p><div class=\"math\"> 1. initiation:  Br2 -> 2 Br.        rate kI [Br2]\n 2. propagation: Br. + H2 -> HBr + H.\n 3.              H. + Br2 -> HBr + Br.\n 4. termination: 2 Br. -> Br2       rate kt [Br.]^2\n 5. steady on [Br.]: 2 kI [Br2] = 2 kt [Br.]^2\n 6. so  [Br.] = (kI [Br2] / kt)^0.5\n 7. rate = kp2 [H.] [Br2], with [H.] from the other balance\n 8. r = k [H2] [Br2]^1.5 / ([Br2] + k' [HBr])</div><p>તે લાઇનમાંથી બે પાઠ મળે. [Br.] માંનું વર્ગમૂળ Br2 માં <b>1.5</b> order બની જાય, અને denominator માંનું HBr <b>product inhibition</b> દર્શાવે - પોતાનું જ product વધતાં પ્રક્રિયા ધીમી પડે.</p><p><b>કેમ સાચું છે.</b> Elementary step mass action ના નિયમને ચોક્કસ પાળે છે; શૃંખલા નહીં, કારણ કે rate intermediates ના concentrations નક્કી કરે છે. તેથી અપૂર્ણાંક order measurement ની ભૂલ નહીં, mechanism નો પુરાવો છે.</p><p><b>સામાન્ય ભૂલ.</b> Steady-state ધારણા intermediates ને બદલે reactants પર લગાડવી. Reactants તો ડિઝાઇનથી બદલાય છે - ફક્ત ટૂંકું જીવતાં radicals steady હોય છે.</p>"
+     },
+     "diagram": "u2_chain",
+     "syllabus_item": "2.2"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2.4 The temperature term: the Arrhenius law",
+    "gu": "2.4 Temperature વાળો ભાગ: Arrhenius law"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Where exp(-Ea/RT) comes from",
+      "gu": "exp(-Ea/RT) ક્યાંથી આવે છે"
+     },
+     "body": {
+      "en": "<h4>The observation first</h4><p>Svante Arrhenius noticed in 1889 that a plot of ln k against 1/T is a straight line with a negative slope for a very large number of reactions. A straight line in those coordinates has exactly one form:</p><div class=\"math\"> 1. ln k = ln A - (Ea/R)(1/T)\n 2. take the exponential of both sides:\n 3. k = A exp(-Ea / R T)</div><div class=\"eq\">k = A exp(-Ea/RT)</div><p>A is the <b>frequency factor</b> (how often molecules meet with the right orientation) and Ea the <b>activation energy</b> (how much energy that meeting needs). A is nearly independent of temperature; the exponential is not.</p><h4>Derivation from the van't Hoff relation</h4><p>Treat the reaction as an equilibrium between reactants and an activated complex, apply the van't Hoff equation to that equilibrium, and identify the enthalpy of the complex with the activation energy:</p><div class=\"math\"> 1. van't Hoff:  d ln K / dT = dH / (R T^2)\n 2. with K = k1/k-1 for the activated step:\n 3. d ln k / dT = Ea / (R T^2)\n 4. integrate with Ea constant:\n 5. ln k = const - Ea/(R T)\n 6. k = A exp(-Ea/RT)</div><h4>Derivation from collision theory</h4><p>Molecules collide with a spread of energies. The fraction whose energy exceeds Ea follows the Boltzmann distribution, which gives an exponential tail:</p><div class=\"math\">fraction with E > Ea  ~  exp(-Ea / R T)\nk = (collisions per s) x (fraction) x (steric factor)\n  = A exp(-Ea/RT),  A = Z x p</div><p>Both routes give the same law. The first explains <b>why the line is straight</b>; the second explains <b>what A and Ea physically are</b>.</p><p><b>Why it is true.</b> The exponent is the whole story of temperature sensitivity: at 300 K an Ea of 50 kJ/mol makes exp(-Ea/RT) = 2e-9, and a 10 K rise multiplies it by about 2.0 - which is the '10 degree rule' seen from the inside.</p><p><b>Check your answer.</b> k(T1)/k(T2) must be independent of A: 300 -> 310 K with Ea = 50 kJ/mol gives exp[(50000/8.314)(1/300 - 1/310)] = exp(0.647) = 1.91.</p><p><b>Common mistake.</b> Using the two-temperature form with temperatures in Celsius, or with 1/T in minutes. Both T and the reciprocal must be in kelvin and K-1.</p>",
+      "gu": "<h4>પહેલાં અવલોકન</h4><p>1889 માં Svante Arrhenius એ જોયું કે ઘણી બધી પ્રક્રિયાઓ માટે ln k અને 1/T નો ગ્રાફ ઋણાત્મક ઢાળ વાળી સીધી રેખા છે. તે coordinates માં સીધી રેખાનું ફક્ત એક જ સ્વરૂપ હોઈ શકે:</p><div class=\"math\"> 1. ln k = ln A - (Ea/R)(1/T)\n 2. take the exponential of both sides:\n 3. k = A exp(-Ea / R T)</div><div class=\"eq\">k = A exp(-Ea/RT)</div><p>A <b>frequency factor</b> છે (molecules કેટલી વાર યોગ્ય દિશામાં મળે) અને Ea <b>activation energy</b> (તે મુલાકાતને કેટલી energy જોઈએ). A લગભગ temperature પર આધારિત નથી; exponential છે.</p><h4>van't Hoff સંબંધ પરથી derivation</h4><p>પ્રક્રિયાને reactants અને activated complex વચ્ચેના સંતુલન તરીકે લો, તે સંતુલન પર van't Hoff સમીકરણ લગાડો, અને complex ની enthalpy ને activation energy સાથે સરખાવો:</p><div class=\"math\"> 1. van't Hoff:  d ln K / dT = dH / (R T^2)\n 2. with K = k1/k-1 for the activated step:\n 3. d ln k / dT = Ea / (R T^2)\n 4. integrate with Ea constant:\n 5. ln k = const - Ea/(R T)\n 6. k = A exp(-Ea/RT)</div><h4>Collision theory પરથી derivation</h4><p>Molecules જુદી જુદી energy સાથે અથડાય છે. Ea થી વધુ energy ધરાવતા molecules નો ભાગ Boltzmann distribution પાળે છે, જે exponential પૂંછ આપે છે:</p><div class=\"math\">fraction with E > Ea  ~  exp(-Ea / R T)\nk = (collisions per s) x (fraction) x (steric factor)\n  = A exp(-Ea/RT),  A = Z x p</div><p>બંને માર્ગ એક જ law આપે છે. પહેલો સમજાવે કે <b>રેખા કેમ સીધી છે</b>; બીજો સમજાવે કે <b>A અને Ea ભૌતિક રીતે શું છે</b>.</p><p><b>કેમ સાચું છે.</b> આખી temperature સંવેદનશીલતા exponent માં છે: 300 K પર 50 kJ/mol ની Ea માટે exp(-Ea/RT) = 2e-9 થાય, અને 10 K વધારો તેને લગભગ 2.0 ગણો કરે - જે '10 degree rule' અંદરથી દેખાય છે.</p><p><b>જવાબ ચકાસો.</b> k(T1)/k(T2) એ A પર આધારિત ન હોવું જોઈએ: Ea = 50 kJ/mol સાથે 300 થી 310 K માટે exp[(50000/8.314)(1/300 - 1/310)] = exp(0.647) = 1.91.</p><p><b>સામાન્ય ભૂલ.</b> બે-temperature સ્વરૂપમાં Celsius કે મિનિટમાં 1/T વાપરવું. T અને તેનો વ્યસ્ત બંને kelvin અને K-1 માં જ જોઈએ.</p>"
+     },
+     "diagram": "u2_arrhenius",
+     "syllabus_item": "2.4"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2.5 Activation energy",
+    "gu": "2.5 Activation energy (સક્રિયણ ઊર્જા)"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "The barrier every reaction has to clear",
+      "gu": "દરેક પ્રક્રિયાને પાર કરવો પડતો અવરોધ"
+     },
+     "body": {
+      "en": "<h4>What Ea is</h4><p><b>Activation energy</b> is the extra energy a pair of molecules must have before the bonds can break and re-form. At any temperature most molecules have less, so only the high-energy tail reacts. Ea therefore controls <b>how fast the rate grows with temperature</b>: the larger Ea, the steeper the rise.</p><h4>Derivation: why a higher Ea means a more sensitive rate</h4><p>Differentiate the Arrhenius law with respect to temperature:</p><div class=\"math\"> 1. ln k = ln A - Ea/(R T)\n 2. d ln k / dT = Ea / (R T^2)\n 3. d ln k = (Ea / R T^2) dT\n 4. for a small step dT:  dk/k = (Ea/(R T^2)) dT</div><p>The fractional change in k per kelvin is Ea/(RT^2). At 300 K that is 0.00134 per kJ/mol: an Ea of 50 kJ/mol gives 6.7 % per kelvin, while a slow reaction with Ea of 10 kJ/mol gives only 1.3 % - which is why some reactions can be run in a simple kettle and others need a controller.</p><h4>A catalyst lowers Ea, never dH</h4><p>A catalyst provides a different route to the same product. That route has a lower peak, so Ea falls and k rises at the same temperature. The starting and finishing levels are unchanged, so dH, K_eq and the equilibrium conversion are unchanged too.</p><div class=\"math\">catalysed:  k' = A exp(-Ea'/RT)  with Ea' < Ea\nratio: k'/k = exp[(Ea - Ea')/RT]\n20 kJ/mol lower Ea at 500 K: e^(20000/4157) = 123</div><p>A 20 kJ/mol reduction is therefore worth a factor of about 120 at 500 K - the whole economic case for a catalyst in one line.</p><p><b>Why it is true.</b> Ea is a property of the route, not of the reaction: the same overall reaction can have one Ea on a clean surface, another on a poisoned one, and a third in solution. That is why a catalyst's Ea is always quoted with its conditions.</p><p><b>Common mistake.</b> Believing a catalyst 'adds energy' to the reaction. It adds no energy at all - it finds a lower hill to climb.</p>",
+      "gu": "<h4>Ea શું છે</h4><p><b>Activation energy</b> એ બોન્ડ તૂટીને ફરી બની શકે તે પહેલાં molecules ની જોડી પાસે હોવી જોઈએ તે વધારાની energy છે. કોઈ પણ temperature પર મોટા ભાગના molecules પાસે તે ઓછી હોય છે, તેથી ફક્ત ઊંચી energy વાળી પૂંછ પ્રક્રિયા કરે છે. તેથી Ea નક્કી કરે છે કે <b>rate temperature સાથે કેટલી ઝડપથી વધે</b>: Ea જેટલી મોટી, વધારો તેટલો તીવ્ર.</p><h4>Derivation: ઊંચી Ea એ વધુ સંવેદનશીલ rate કેમ</h4><p>Arrhenius law ને temperature પ્રતિ differentiate કરો:</p><div class=\"math\"> 1. ln k = ln A - Ea/(R T)\n 2. d ln k / dT = Ea / (R T^2)\n 3. d ln k = (Ea / R T^2) dT\n 4. for a small step dT:  dk/k = (Ea/(R T^2)) dT</div><p>પ્રતિ kelvin k માં થતો ભાગાકાર ફેરફાર Ea/(RT^2) છે. 300 K પર તે પ્રતિ kJ/mol 0.00134 છે: 50 kJ/mol ની Ea 6.7 % પ્રતિ kelvin આપે છે, જ્યારે 10 kJ/mol વાળી ધીમી પ્રક્રિયા ફક્ત 1.3 % - તેથી કેટલીક પ્રક્રિયા સાદા kettle માં ચાલે છે અને કેટલીકને controller જોઈએ.</p><h4>Catalyst Ea ઘટાડે છે, dH નહીં</h4><p>Catalyst એ જ product સુધીનો બીજો માર્ગ આપે છે. તે માર્ગનું શિખર નીચું હોવાથી Ea ઘટે અને એ જ temperature પર k વધે. શરૂઆત અને અંતની સપાટી ન બદલાય, તેથી dH, K_eq અને equilibrium conversion પણ ન બદલાય.</p><div class=\"math\">catalysed:  k' = A exp(-Ea'/RT)  with Ea' < Ea\nratio: k'/k = exp[(Ea - Ea')/RT]\n20 kJ/mol lower Ea at 500 K: e^(20000/4157) = 123</div><p>તેથી 20 kJ/mol ઘટાડો 500 K પર લગભગ 120 ગણો ફાયદો આપે - catalyst નો આખો આર્થિક તર્ક એક લીટીમાં.</p><p><b>કેમ સાચું છે.</b> Ea પ્રક્રિયાની નહીં, માર્ગની લાક્ષણિકતા છે: એક જ પ્રક્રિયાની Ea સ્વચ્છ surface પર એક, poisoned surface પર બીજી અને દ્રાવણમાં ત્રીજી હોઈ શકે. તેથી catalyst ની Ea હંમેશા તેની શરતો સાથે લખાય છે.</p><p><b>સામાન્ય ભૂલ.</b> Catalyst પ્રક્રિયામાં 'energy ઉમેરે' છે તેવું માનવું. તે જરાય energy ઉમેરતું નથી - તે ચઢવા માટે નીચો ટેકરો શોધે છે.</p>"
+     },
+     "diagram": "u2_barrier",
+     "syllabus_item": "2.5"
+    },
+    {
+     "h": {
+      "en": "Measuring Ea: two temperatures or a straight line",
+      "gu": "Ea માપવી: બે temperature કે સીધી રેખા"
+     },
+     "body": {
+      "en": "<h4>Two points</h4><p>Two rate constants at two temperatures are enough for an examination answer: solve the two-temperature form for Ea.</p><div class=\"math\"> 1. ln(k2/k1) = (Ea/R)(1/T1 - 1/T2)\n 2. Ea = R ln(k2/k1) / (1/T1 - 1/T2)</div><h4>A line through many points</h4><p>Run the reaction at four or five temperatures, plot ln k against 1/T and take the slope. The slope is -Ea/R, so Ea = -R x slope, and the intercept is ln A, which gives the frequency factor as well.</p><div class=\"math\">slope = -Ea/R      intercept = ln A\nEa = -R x slope     A = exp(intercept)</div><p>The line is better than two points because it shows the scatter: a set of points that bends upwards means Ea is not constant, which usually means the mechanism changes with temperature, or that diffusion has started to control the rate.</p><p><b>Why it is true.</b> The slope is read in the units the data demand: if 1/T is in K-1 and ln k is dimensionless, the slope is in kelvin and R x slope is J/mol. Almost every wrong answer in this topic is a unit slip of that kind.</p><p><b>Check your answer.</b> For 2.4e-4 s-1 at 300 K and 9.6e-4 s-1 at 320 K the slope is 1.386/2.083e-4 = 6652 K, so Ea = 8.314 x 6652 = 55.3 kJ/mol.</p>",
+      "gu": "<h4>બે બિંદુ</h4><p>પરીક્ષાના જવાબ માટે બે temperature પરના બે rate constants પૂરતા છે: બે-temperature સ્વરૂપને Ea માટે ઉકેલો.</p><div class=\"math\"> 1. ln(k2/k1) = (Ea/R)(1/T1 - 1/T2)\n 2. Ea = R ln(k2/k1) / (1/T1 - 1/T2)</div><h4>ઘણા બિંદુઓમાંથી રેખા</h4><p>પ્રક્રિયા ચાર-પાંચ temperature પર ચલાવો, ln k ને 1/T સામે દોરો અને ઢાળ લો. ઢાળ -Ea/R છે, તેથી Ea = -R x ઢાળ, અને intercept ln A છે, જે frequency factor પણ આપે છે.</p><div class=\"math\">slope = -Ea/R      intercept = ln A\nEa = -R x slope     A = exp(intercept)</div><p>બે બિંદુ કરતાં રેખા સારી છે કારણ કે તે scatter દર્શાવે: ઉપર તરફ વળતા બિંદુઓ એટલે Ea અચળ નથી, જેનો અર્થ સામાન્ય રીતે mechanism temperature સાથે બદલાય છે અથવા diffusion એ rate નિયંત્રિત કરવા માંડ્યું છે.</p><p><b>કેમ સાચું છે.</b> ઢાળ data ના એકમમાં જ વંચાય: 1/T K-1 માં અને ln k dimensionless હોય તો ઢાળ kelvin માં અને R x ઢાળ J/mol માં. આ topic ના લગભગ દરેક ખોટા જવાબનું કારણ આવી એકમની ભૂલ છે.</p><p><b>જવાબ ચકાસો.</b> 300 K પર 2.4e-4 s-1 અને 320 K પર 9.6e-4 s-1 માટે ઢાળ 1.386/2.083e-4 = 6652 K, તેથી Ea = 8.314 x 6652 = 55.3 kJ/mol.</p>"
+     },
+     "diagram": "u2_ea",
+     "syllabus_item": "2.5"
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "2.6 Solved Numericals, Step by Step",
+    "gu": "2.6 ઉકેલેલા દાખલા, પગલે પગલે"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "Order, rate and the unit of k",
+      "gu": "Order, rate અને k નું એકમ"
+     },
+     "body": {
+      "en": "<h4>Question (6 marks)</h4><p>The rate law of a reaction is -rA = k CA CB^2. At CA = 0.40 mol/L and CB = 0.20 mol/L the rate is 1.6 x 10-3 mol L-1 s-1. Find k with its unit, the overall order, and the rate if CA is doubled.</p><h4>Step 1 - order</h4><div class=\"math\">order = 1 (in A) + 2 (in B) = 3</div><h4>Step 2 - k</h4><div class=\"math\">k = -rA / (CA CB^2)\n  = 1.6e-3 / (0.40 x 0.20^2)\n  = 1.6e-3 / 0.016 = 0.100</div><h4>Step 3 - the unit</h4><div class=\"math\">mol L-1 s-1 = [k] (mol L-1)^3\n[k] = (mol L-1)^(1-3) s-1 = L2 mol-2 s-1</div><div class=\"eq\">k = 0.100 L2 mol-2 s-1,  overall order 3</div><h4>Step 4 - double CA</h4><div class=\"math\">-rA' / -rA = (2 CA / CA)^1 = 2\n-rA' = 3.2e-3 mol L-1 s-1</div><p>Doubling A doubles the rate because it is first order in A; doubling B instead would have multiplied the rate by four.</p><p><b>Check your answer.</b> 0.100 x 0.40 x 0.04 = 1.6e-3 mol L-1 s-1, the rate given.</p>",
+      "gu": "<h4>પ્રશ્ન (6 marks)</h4><p>પ્રક્રિયાનો rate law -rA = k CA CB^2 છે. CA = 0.40 mol/L અને CB = 0.20 mol/L પર rate 1.6 x 10-3 mol L-1 s-1 છે. k તેના એકમ સાથે, કુલ order અને CA બમણું કરતાં rate શોધો.</p><h4>પગલું 1 - order</h4><div class=\"math\">order = 1 (in A) + 2 (in B) = 3</div><h4>પગલું 2 - k</h4><div class=\"math\">k = -rA / (CA CB^2)\n  = 1.6e-3 / (0.40 x 0.20^2)\n  = 1.6e-3 / 0.016 = 0.100</div><h4>પગલું 3 - એકમ</h4><div class=\"math\">mol L-1 s-1 = [k] (mol L-1)^3\n[k] = (mol L-1)^(1-3) s-1 = L2 mol-2 s-1</div><div class=\"eq\">k = 0.100 L2 mol-2 s-1,  overall order 3</div><h4>પગલું 4 - CA બમણું</h4><div class=\"math\">-rA' / -rA = (2 CA / CA)^1 = 2\n-rA' = 3.2e-3 mol L-1 s-1</div><p>A બમણું કરવાથી rate બમણો થાય કારણ કે A માં તે first order છે; તેના બદલે B બમણું કરતાં rate ચાર ગણો થાત.</p><p><b>જવાબ ચકાસો.</b> 0.100 x 0.40 x 0.04 = 1.6e-3 mol L-1 s-1, જે આપેલો rate છે.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Rate constant at another temperature",
+      "gu": "બીજા temperature પર rate constant"
+     },
+     "body": {
+      "en": "<h4>Question (7 marks)</h4><p>A first order reaction has k = 4.0 x 10-4 s-1 at 300 K and an activation energy of 60 kJ/mol. Find k at 320 K and the percentage increase per 10 K.</p><h4>Step 1 - the ratio</h4><div class=\"math\">ln(k2/k1) = (Ea/R)(1/T1 - 1/T2)\n= (60000/8.314)(1/300 - 1/320)\n= 7217 x 2.083e-4 = 1.503</div><h4>Step 2 - k at 320 K</h4><div class=\"math\">k2 = k1 e^1.503 = 4.0e-4 x 4.50 = 1.80e-3 s-1</div><div class=\"eq\">k(320 K) = 1.80 x 10-3 s-1</div><h4>Step 3 - per 10 K</h4><div class=\"math\">ln(k(310)/k(300)) = 7217 x (1/300 - 1/310) = 0.776\nratio = e^0.776 = 2.17,  so + 117 % per 10 K</div><p>A 60 kJ/mol barrier nearly doubles the rate every 10 K. Running the reactor 10 K hotter than the recipe says is not a small change.</p><p><b>Common mistake.</b> Comparing k at two temperatures with the ratio of the temperatures (320/300). The rate constant is exponential, not proportional.</p>",
+      "gu": "<h4>પ્રશ્ન (7 marks)</h4><p>First order પ્રક્રિયાનો 300 K પર k = 4.0 x 10-4 s-1 અને activation energy 60 kJ/mol છે. 320 K પર k અને પ્રતિ 10 K ટકાવારી વધારો શોધો.</p><h4>પગલું 1 - ગુણોત્તર</h4><div class=\"math\">ln(k2/k1) = (Ea/R)(1/T1 - 1/T2)\n= (60000/8.314)(1/300 - 1/320)\n= 7217 x 2.083e-4 = 1.503</div><h4>પગલું 2 - 320 K પર k</h4><div class=\"math\">k2 = k1 e^1.503 = 4.0e-4 x 4.50 = 1.80e-3 s-1</div><div class=\"eq\">k(320 K) = 1.80 x 10-3 s-1</div><h4>પગલું 3 - પ્રતિ 10 K</h4><div class=\"math\">ln(k(310)/k(300)) = 7217 x (1/300 - 1/310) = 0.776\nratio = e^0.776 = 2.17,  so + 117 % per 10 K</div><p>60 kJ/mol નો અવરોધ દર 10 K દીઠ rate લગભગ બમણો કરે. Recipe કરતાં 10 K ગરમ ચલાવવું નાનો ફેરફાર નથી.</p><p><b>સામાન્ય ભૂલ.</b> બે temperature ના k ની સરખામણી temperature ના ગુણોત્તર (320/300) સાથે કરવી. Rate constant exponential છે, પ્રમાણસર નહીં.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Activation energy from a rate-constant table",
+      "gu": "Rate-constant કોષ્ટક પરથી activation energy"
+     },
+     "body": {
+      "en": "<h4>Question (8 marks)</h4><p>Using k = 1.2 x 10-5 s-1 at 290 K, 2.4 x 10-5 at 300 K and 4.7 x 10-5 at 310 K, find Ea and A.</p><h4>Step 1 - check that the data is consistent</h4><div class=\"math\">ln(2.4/1.2) = 0.693 for 1/290 - 1/300 = 1.149e-4\nln(4.7/2.4) = 0.672 for 1/300 - 1/310 = 1.075e-4\nEa = 8.314 x 0.693 / 1.149e-4 = 50.1 kJ/mol\nEa = 8.314 x 0.672 / 1.075e-4 = 52.0 kJ/mol</div><h4>Step 2 - take the mean</h4><div class=\"eq\">Ea = 51 kJ/mol  (two steps agree within 4 %)</div><h4>Step 3 - the frequency factor</h4><div class=\"math\">A = k exp(Ea/RT) = 1.2e-5 exp(51000/(8.314 x 290))\n  = 1.2e-5 x e^21.15 = 1.2e-5 x 1.68e9 = 2.0e4 s-1</div><div class=\"eq\">A = 2.0 x 10^4 s-1</div><p>A frequency factor of 2e4 s-1 is of the size expected for a unimolecular step: the molecule tries the reaction about twenty thousand times a second and succeeds only when it has enough energy.</p><p><b>Check your answer.</b> Both temperature pairs give Ea near 51 kJ/mol, so a single Ea describes the data - the reaction does not change mechanism over 290-310 K.</p>",
+      "gu": "<h4>પ્રશ્ન (8 marks)</h4><p>290 K પર k = 1.2 x 10-5 s-1, 300 K પર 2.4 x 10-5 અને 310 K પર 4.7 x 10-5 વાપરીને Ea અને A શોધો.</p><h4>પગલું 1 - data સુસંગત છે કે નહીં</h4><div class=\"math\">ln(2.4/1.2) = 0.693 for 1/290 - 1/300 = 1.149e-4\nln(4.7/2.4) = 0.672 for 1/300 - 1/310 = 1.075e-4\nEa = 8.314 x 0.693 / 1.149e-4 = 50.1 kJ/mol\nEa = 8.314 x 0.672 / 1.075e-4 = 52.0 kJ/mol</div><h4>પગલું 2 - સરેરાશ લો</h4><div class=\"eq\">Ea = 51 kJ/mol  (two steps agree within 4 %)</div><h4>પગલું 3 - frequency factor</h4><div class=\"math\">A = k exp(Ea/RT) = 1.2e-5 exp(51000/(8.314 x 290))\n  = 1.2e-5 x e^21.15 = 1.2e-5 x 1.68e9 = 2.0e4 s-1</div><div class=\"eq\">A = 2.0 x 10^4 s-1</div><p>2e4 s-1 નો frequency factor unimolecular step માટે અપેક્ષિત કદનો છે: molecule પ્રતિ second લગભગ વીસ હજાર વાર પ્રયત્ન કરે છે અને ફક્ત પૂરતી energy હોય ત્યારે જ સફળ થાય છે.</p><p><b>જવાબ ચકાસો.</b> બંને temperature જોડી Ea લગભગ 51 kJ/mol આપે છે, તેથી એક જ Ea data નું વર્ણન કરે - 290-310 K વચ્ચે પ્રક્રિયા mechanism બદલતી નથી.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Order from initial rates",
+      "gu": "Initial rates પરથી order"
+     },
+     "body": {
+      "en": "<h4>Question (6 marks)</h4><p>Three runs give: run 1, CA = 0.10, CB = 0.10, rate 2.0 x 10-4; run 2, CA = 0.20, CB = 0.10, rate 8.0 x 10-4; run 3, CA = 0.10, CB = 0.20, rate 2.0 x 10-4 (all mol/L and mol L-1 s-1). Find the order in A and in B and the rate constant.</p><h4>Step 1 - order in A (runs 1 and 2)</h4><div class=\"math\">8.0e-4 / 2.0e-4 = (0.20/0.10)^a\n4 = 2^a   ->  a = 2</div><h4>Step 2 - order in B (runs 1 and 3)</h4><div class=\"math\">2.0e-4 / 2.0e-4 = (0.20/0.10)^b\n1 = 2^b   ->  b = 0</div><h4>Step 3 - rate constant</h4><div class=\"math\">k = -rA / CA^2 = 2.0e-4 / 0.010 = 0.020 L mol-1 s-1</div><div class=\"eq\">order 2 in A, zero in B:  -rA = k CA^2,  k = 2.0 x 10-2 L mol-1 s-1</div><p>A zero order in B does not mean B is not needed - it means the surface, or a catalyst, is already saturated with B, so adding more changes nothing.</p><p><b>Common mistake.</b> Changing two concentrations in one run. Each run must change exactly one variable, otherwise the two orders cannot be separated.</p>",
+      "gu": "<h4>પ્રશ્ન (6 marks)</h4><p>ત્રણ રન આપે છે: રન 1, CA = 0.10, CB = 0.10, rate 2.0 x 10-4; રન 2, CA = 0.20, CB = 0.10, rate 8.0 x 10-4; રન 3, CA = 0.10, CB = 0.20, rate 2.0 x 10-4 (બધા mol/L અને mol L-1 s-1). A અને B માં order તથા rate constant શોધો.</p><h4>પગલું 1 - A માં order (રન 1 અને 2)</h4><div class=\"math\">8.0e-4 / 2.0e-4 = (0.20/0.10)^a\n4 = 2^a   ->  a = 2</div><h4>પગલું 2 - B માં order (રન 1 અને 3)</h4><div class=\"math\">2.0e-4 / 2.0e-4 = (0.20/0.10)^b\n1 = 2^b   ->  b = 0</div><h4>પગલું 3 - rate constant</h4><div class=\"math\">k = -rA / CA^2 = 2.0e-4 / 0.010 = 0.020 L mol-1 s-1</div><div class=\"eq\">order 2 in A, zero in B:  -rA = k CA^2,  k = 2.0 x 10-2 L mol-1 s-1</div><p>B માં zero order એટલે B ની જરૂર નથી એમ નહીં - એટલે surface કે catalyst પહેલેથી B થી સંતૃપ્ત છે, તેથી વધુ ઉમેરવાથી કંઈ બદલાતું નથી.</p><p><b>સામાન્ય ભૂલ.</b> એક જ રનમાં બે concentrations બદલવા. દરેક રનમાં ફક્ત એક જ ચલ બદલવો જોઈએ, નહીં તો બે orders અલગ ન પડે.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "A catalyst that lowers Ea by 15 kJ/mol",
+      "gu": "15 kJ/mol Ea ઘટાડતો catalyst"
+     },
+     "body": {
+      "en": "<h4>Question (7 marks)</h4><p>An uncatalysed reaction has Ea = 75 kJ/mol and A = 5.0 x 10^9 s-1. A catalyst lowers Ea to 60 kJ/mol without changing A. Find the ratio of the rates at 400 K, and the temperature at which the uncatalysed reaction would be as fast as the catalysed one at 400 K.</p><h4>Step 1 - the ratio at 400 K</h4><div class=\"math\">k'/k = exp[(Ea - Ea')/RT]\n= exp[(75000 - 60000)/(8.314 x 400)]\n= exp(4.51) = 91</div><div class=\"eq\">the catalysed rate is 91 times faster at 400 K</div><h4>Step 2 - the temperature that replaces the catalyst</h4><div class=\"math\">uncatalysed at T  =  catalysed at 400 K:\nA exp(-75000/(8.314 T)) = A exp(-60000/(8.314 x 400))\n75000/T = 60000/400 = 150   ->   T = 500 K</div><p>The uncatalysed reaction needs 500 K to reach the rate the catalysed one gives at 400 K, so the catalyst is worth 100 K of heating. Notice what had to match: the ratio Ea/T, because 75000/500 = 150 and 60000/400 = 150 J mol-1 K-1.</p><p><b>Check your answer.</b> Catalysed at 400 K: 5e9 exp(-18.04) = 7.3e-5 s-1. Uncatalysed at 500 K: 5e9 exp(-18.04) = 7.3e-5 s-1 - identical, as they must be. Uncatalysed at 400 K is 5e9 exp(-22.55) = 8.0e-7 s-1, and 7.3e-5 / 8.0e-7 = 91, the ratio of step 1.</p><p><b>Common mistake.</b> Confusing the two ways of quoting a catalyst. The <i>rate ratio</i> k'/k = exp[(Ea - Ea')/RT] is largest at low temperature, while the <i>kelvin saved</i> is a fixed fraction of the operating temperature - here T_u = T_c x Ea/Ea' = 1.25 T_c, so 25 % of it at any T.</p>",
+      "gu": "<h4>પ્રશ્ન (7 marks)</h4><p>Uncatalysed પ્રક્રિયાની Ea = 75 kJ/mol અને A = 5.0 x 10^9 s-1 છે. Catalyst Ea ને 60 kJ/mol કરે છે અને A ન બદલે. 400 K પર rates નો ગુણોત્તર શોધો, અને એ temperature પણ શોધો જ્યાં uncatalysed પ્રક્રિયા 400 K ની catalysed પ્રક્રિયા જેટલી ઝડપી થાય.</p><h4>પગલું 1 - 400 K પર ગુણોત્તર</h4><div class=\"math\">k'/k = exp[(Ea - Ea')/RT]\n= exp[(75000 - 60000)/(8.314 x 400)]\n= exp(4.51) = 91</div><div class=\"eq\">the catalysed rate is 91 times faster at 400 K</div><h4>પગલું 2 - catalyst ને બદલતું temperature</h4><div class=\"math\">uncatalysed at T  =  catalysed at 400 K:\nA exp(-75000/(8.314 T)) = A exp(-60000/(8.314 x 400))\n75000/T = 60000/400 = 150   ->   T = 500 K</div><p>400 K પર catalysed પ્રક્રિયા જેટલી ઝડપ uncatalysed ને 500 K પર મળે છે, એટલે catalyst 100 K ગરમીના બરાબર છે. ધ્યાન આપો કે શું મેળવવું પડ્યું: Ea/T નો ગુણોત્તર, કારણ કે 75000/500 = 150 અને 60000/400 = 150 J mol-1 K-1.</p><p><b>જવાબ ચકાસો.</b> 400 K પર catalysed: 5e9 exp(-18.04) = 7.3e-5 s-1. 500 K પર uncatalysed: 5e9 exp(-18.04) = 7.3e-5 s-1 - બંને સરખા, જેમ હોવા જોઈએ. 400 K પર uncatalysed 5e9 exp(-22.55) = 8.0e-7 s-1, અને 7.3e-5 / 8.0e-7 = 91, એટલે પગલું 1 નો ગુણોત્તર.</p><p><b>સામાન્ય ભૂલ.</b> Catalyst ને માપવાની બે રીત ભેળવી દેવી. <i>Rate ratio</i> k'/k = exp[(Ea - Ea')/RT] નીચા temperature પર સૌથી મોટો હોય, જ્યારે <i>બચતના kelvin</i> operating temperature નો અચળ ભાગ હોય - અહીં T_u = T_c x Ea/Ea' = 1.25 T_c, એટલે કોઈ પણ T પર તેનો 25 %.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "Chain reaction: order from the mechanism",
+      "gu": "Chain પ્રક્રિયા: mechanism પરથી order"
+     },
+     "body": {
+      "en": "<h4>Question (7 marks)</h4><p>For the chain H2 + Br2 -> 2 HBr the steady-state treatment gives r = k [H2][Br2]^1.5/([Br2] + k'[HBr]). State the order at the start (no HBr), the order late in the run, and the effect of doubling [Br2] at the start.</p><h4>Step 1 - at the start</h4><div class=\"math\">[HBr] ~ 0:  r = k [H2] [Br2]^0.5\norder 1 in H2, 0.5 in Br2, 1.5 overall</div><h4>Step 2 - late in the run</h4><div class=\"math\">[HBr] large:  r ~ (k/k') [H2][Br2]^1.5/[HBr]\nthe product slows the reaction (inhibition)</div><h4>Step 3 - doubling Br2 at the start</h4><div class=\"math\">r' / r = (2)^0.5 = 1.41</div><div class=\"eq\">rate rises only 41 %, not 100 %</div><p>An examiner's favourite: the equation has one Br2 on the left, yet the rate depends on the square root of bromine. Only the mechanism explains that, and only the mechanism earns the marks.</p><p><b>Check your answer.</b> Half order appears whenever the steady-state concentration of an atom goes as the square root of a molecular concentration - the square root comes from the termination step being second order in the atom.</p>",
+      "gu": "<h4>પ્રશ્ન (7 marks)</h4><p>Chain H2 + Br2 -> 2 HBr માટે steady-state પરથી r = k [H2][Br2]^1.5/([Br2] + k'[HBr]) મળે છે. શરૂઆતમાં (HBr વગર) order, પછીના સમયે order, અને શરૂઆતમાં [Br2] બમણું કરવાની અસર જણાવો.</p><h4>પગલું 1 - શરૂઆતમાં</h4><div class=\"math\">[HBr] ~ 0:  r = k [H2] [Br2]^0.5\norder 1 in H2, 0.5 in Br2, 1.5 overall</div><h4>પગલું 2 - પછીના સમયે</h4><div class=\"math\">[HBr] large:  r ~ (k/k') [H2][Br2]^1.5/[HBr]\nthe product slows the reaction (inhibition)</div><h4>પગલું 3 - શરૂઆતમાં Br2 બમણું</h4><div class=\"math\">r' / r = (2)^0.5 = 1.41</div><div class=\"eq\">rate rises only 41 %, not 100 %</div><p>પરીક્ષકનો પ્રિય પ્રશ્ન: સમીકરણમાં ડાબે એક Br2 છે, છતાં rate bromine ના વર્ગમૂળ પર રહે છે. તે ફક્ત mechanism સમજાવે છે, અને ફક્ત mechanism જ ગુણ આપે છે.</p><p><b>જવાબ ચકાસો.</b> Half order ત્યારે આવે જ્યારે atom નું steady-state concentration કોઈ molecular concentration ના વર્ગમૂળ પ્રમાણે હોય - વર્ગમૂળ termination step atom માં second order હોવાથી આવે છે.</p>"
+     }
+    }
+   ]
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "u2_terms",
+   "title": {
+    "en": "A rate law is two terms multiplied",
+    "gu": "Rate law એ બે ભાગનો ગુણાકાર છે"
+   },
+   "file": "diagrams/u2_terms.svg",
+   "caption": {
+    "en": "The concentration term is chemistry and the temperature term is exponential; a rate law is measured once and then used at any temperature through k(T).",
+    "gu": "Concentration ભાગ chemistry છે અને temperature ભાગ exponential; rate law એક વાર માપીને k(T) દ્વારા કોઈ પણ temperature પર વપરાય છે."
+   }
+  },
+  {
+   "id": "u2_arrhenius",
+   "title": {
+    "en": "The Arrhenius law, as k(T) and as a straight line",
+    "gu": "Arrhenius law: k(T) તરીકે અને સીધી રેખા તરીકે"
+   },
+   "file": "diagrams/u2_arrhenius.svg",
+   "caption": {
+    "en": "k rises exponentially with T, but ln k falls linearly with 1/T - which is why the laboratory plot is a straight line whose slope gives Ea.",
+    "gu": "k, T સાથે exponential વધે છે, પણ ln k, 1/T સાથે સીધી રેખા બને છે - તેથી laboratory માં ઢાળ પરથી Ea મળે છે."
+   }
+  },
+  {
+   "id": "u2_ea",
+   "title": {
+    "en": "Activation energy from ln k against 1/T",
+    "gu": "ln k અને 1/T પરથી activation energy"
+   },
+   "file": "diagrams/u2_ea.svg",
+   "caption": {
+    "en": "Three rate constants at three temperatures fix the line; the slope is -Ea/R, so Ea is read off in J/mol without any curve fitting.",
+    "gu": "ત્રણ temperature ના ત્રણ rate constants રેખા નક્કી કરે; ઢાળ -Ea/R હોવાથી Ea સીધી J/mol માં વંચાય."
+   }
+  },
+  {
+   "id": "u2_barrier",
+   "title": {
+    "en": "The barrier, with and without a catalyst",
+    "gu": "અવરોધ, catalyst સાથે અને વગર"
+   },
+   "file": "diagrams/u2_barrier.svg",
+   "caption": {
+    "en": "A catalyst opens a second route with a lower peak; the two levels of reactant and product, and therefore dH and K_eq, are untouched.",
+    "gu": "Catalyst નીચા શિખર વાળો બીજો માર્ગ ખોલે; reactant અને product ની સપાટી, એટલે dH અને K_eq, અડક્યા વિના રહે."
+   }
+  },
+  {
+   "id": "u2_chain",
+   "title": {
+    "en": "Why a chain reaction gives a fractional order",
+    "gu": "Chain પ્રક્રિયાનો order અપૂર્ણાંક કેમ થાય"
+   },
+   "file": "diagrams/u2_chain.svg",
+   "caption": {
+    "en": "Bromine atoms start and carry the reaction; because a termination step competes with propagation, the measured order in Br2 is 1.5 and not the molecularity 2.",
+    "gu": "Bromine atoms પ્રક્રિયા શરૂ કરે અને ચલાવે; termination propagation સાથે સ્પર્ધા કરતું હોવાથી Br2 માં order 1.5 મળે, molecularity 2 નહીં."
+   }
+  }
+ ],
+ "equations": [
+  {
+   "title": {
+    "en": "Rate law",
+    "gu": "Rate law"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Two-term form",
+      "gu": "બે ભાગનું સ્વરૂપ"
+     },
+     "f": "-rA = k(T) f(C)",
+     "terms": {
+      "en": "The concentration term carries the order, the temperature term carries the energy.",
+      "gu": "Concentration ભાગ order ઉપાડે, temperature ભાગ energy."
+     }
+    },
+    {
+     "name": {
+      "en": "Power law",
+      "gu": "Power law"
+     },
+     "f": "-rA = k CA^a CB^b ...",
+     "terms": {
+      "en": "a, b are the orders with respect to A and B; a + b is the overall order.",
+      "gu": "a, b એ A અને B પ્રતિ orders છે; a + b કુલ order છે."
+     }
+    },
+    {
+     "name": {
+      "en": "Pseudo first order",
+      "gu": "Pseudo first order"
+     },
+     "f": "k' = k CB   when CB >> CA",
+     "terms": {
+      "en": "The excess reactant is absorbed into the constant, so it changes if that reactant changes.",
+      "gu": "વધારાનો reactant constant માં સમાઈ જાય છે, તેથી તે બદલાય તો constant પણ બદલાય."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Units of the rate constant",
+    "gu": "Rate constant ના units"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "General",
+      "gu": "સામાન્ય"
+     },
+     "f": "k: (mol m-3)^(1-n) s-1",
+     "terms": {
+      "en": "Straight from the unit balance of -rA = k CA^n.",
+      "gu": "-rA = k CA^n ના unit સંતુલન પરથી સીધું."
+     }
+    },
+    {
+     "name": {
+      "en": "Common orders",
+      "gu": "સામાન્ય orders"
+     },
+     "f": "n=0: mol m-3 s-1;  n=1: s-1;  n=2: m3 mol-1 s-1",
+     "terms": {
+      "en": "The unit is the fastest check that a rate law is written correctly.",
+      "gu": "Rate law સાચો લખાયો છે તેની સૌથી ઝડપી ચકાસણી units છે."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Arrhenius law",
+    "gu": "Arrhenius law"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "Exponential form",
+      "gu": "Exponential સ્વરૂપ"
+     },
+     "f": "k = A exp(-Ea/RT)",
+     "terms": {
+      "en": "A is the frequency factor and Ea the activation energy in J/mol.",
+      "gu": "A frequency factor અને Ea J/mol માં activation energy."
+     }
+    },
+    {
+     "name": {
+      "en": "Logarithmic form",
+      "gu": "Logarithmic સ્વરૂપ"
+     },
+     "f": "ln k = ln A - (Ea/R)(1/T)",
+     "terms": {
+      "en": "A straight line of slope -Ea/R against 1/T.",
+      "gu": "1/T સામે ઢાળ -Ea/R વાળી સીધી રેખા."
+     }
+    },
+    {
+     "name": {
+      "en": "Two-temperature form",
+      "gu": "બે-temperature સ્વરૂપ"
+     },
+     "f": "ln(k2/k1) = (Ea/R)(1/T1 - 1/T2)",
+     "terms": {
+      "en": "The working form: two k values give Ea, or Ea gives the third value of k.",
+      "gu": "કામનું સ્વરૂપ: બે k Ea આપે, અથવા Ea ત્રીજું k આપે."
+     }
+    },
+    {
+     "name": {
+      "en": "Temperature sensitivity",
+      "gu": "Temperature સંવેદનશીલતા"
+     },
+     "f": "d ln k/dT = Ea/(R T^2)",
+     "terms": {
+      "en": "The fractional change of k per kelvin; at 300 K it is 0.0134 per kJ/mol.",
+      "gu": "પ્રતિ kelvin k માં ભાગાકાર ફેરફાર; 300 K પર પ્રતિ kJ/mol 0.0134."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Activation energy from data",
+    "gu": "Data પરથી activation energy"
+   },
+   "items": [
+    {
+     "name": {
+      "en": "From a plot",
+      "gu": "ગ્રાફ પરથી"
+     },
+     "f": "Ea = -R x slope of ln k against 1/T",
+     "terms": {
+      "en": "Slope in kelvin, Ea in J/mol; the intercept gives A.",
+      "gu": "ઢાળ kelvin માં, Ea J/mol માં; intercept A આપે."
+     }
+    },
+    {
+     "name": {
+      "en": "From two points",
+      "gu": "બે બિંદુ પરથી"
+     },
+     "f": "Ea = R ln(k2/k1) / (1/T1 - 1/T2)",
+     "terms": {
+      "en": "Temperatures in kelvin, always.",
+      "gu": "Temperatures હંમેશા kelvin માં."
+     }
+    },
+    {
+     "name": {
+      "en": "Catalyst effect",
+      "gu": "Catalyst ની અસર"
+     },
+     "f": "k'/k = exp[(Ea - Ea')/RT]",
+     "terms": {
+      "en": "A lower Ea multiplies k at the same temperature and leaves K_eq alone.",
+      "gu": "નીચી Ea એ જ temperature પર k ને ગુણે છે અને K_eq ને અડતી નથી."
+     }
+    }
+   ]
+  }
+ ],
+ "viva": [
+  {
+   "title": {
+    "en": "Rate laws",
+    "gu": "Rate laws"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "Why is a rate law written as k(T) times f(C)?",
+      "gu": "Rate law k(T) ગુણ્યું f(C) કેમ લખાય?"
+     },
+     "a": {
+      "en": "Because the two influences are almost independent: temperature changes the energy of the molecules and composition changes how often they meet. Measuring f(C) at one temperature then lets k be recomputed for any other temperature.",
+      "gu": "કારણ કે બંને અસરો લગભગ સ્વતંત્ર છે: temperature molecules ની energy બદલે અને રચના તેઓ કેટલી વાર મળે તે બદલે. એક temperature પર f(C) માપી લીધા પછી કોઈ પણ બીજા temperature માટે k ગણી શકાય."
+     }
+    },
+    {
+     "q": {
+      "en": "What does the rate constant physically mean?",
+      "gu": "Rate constant ભૌતિક રીતે શું દર્શાવે?"
+     },
+     "a": {
+      "en": "It is the rate when every concentration is one unit, so it is the rate at a reference composition. It is constant only for a fixed temperature, solvent and catalyst.",
+      "gu": "દરેક concentration એક એકમ હોય ત્યારનો rate, એટલે સંદર્ભ રચના પરનો rate. તે ફક્ત નિશ્ચિત temperature, solvent અને catalyst માટે અચળ છે."
+     }
+    },
+    {
+     "q": {
+      "en": "What is a pseudo first order reaction?",
+      "gu": "Pseudo first order પ્રક્રિયા શું છે?"
+     },
+     "a": {
+      "en": "One in which a reactant is present in such large excess that its concentration hardly changes, so its concentration hides inside the measured constant and the law looks first order.",
+      "gu": "એવી પ્રક્રિયા જેમાં એક reactant એટલા વધારામાં હોય કે તેનું concentration લગભગ ન બદલાય, તેથી તેનું concentration માપેલા constant માં સમાઈ જાય અને law first order દેખાય."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Mechanism",
+    "gu": "Mechanism"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "How do you recognise an elementary reaction?",
+      "gu": "Elementary પ્રક્રિયા કેવી રીતે ઓળખાય?"
+     },
+     "a": {
+      "en": "Only by its behaviour: order equals molecularity, the law can be written from the equation, and it holds over a wide range of concentrations. A change of order with conditions proves the reaction is not elementary.",
+      "gu": "ફક્ત તેની વર્તણૂકથી: order અને molecularity સરખા, law સમીકરણ પરથી લખી શકાય અને તે પ્રશસ્ત concentration શ્રેણીમાં ટકે. શરતો સાથે order બદલાય તો પ્રક્રિયા elementary નથી."
+     }
+    },
+    {
+     "q": {
+      "en": "Why can a non-elementary reaction have a fractional order?",
+      "gu": "Non-elementary પ્રક્રિયાનો order અપૂર્ણાંક કેમ હોઈ શકે?"
+     },
+     "a": {
+      "en": "Because the rate depends on the concentration of an intermediate, and the balance that fixes that intermediate usually contains a square root. That square root reaches the rate law as a fractional exponent.",
+      "gu": "કારણ કે rate intermediate ના concentration પર રહે છે, અને તે intermediate નક્કી કરતું સંતુલન સામાન્ય રીતે વર્ગમૂળ ધરાવે છે. તે વર્ગમૂળ rate law માં અપૂર્ણાંક ઘાત તરીકે આવે."
+     }
+    },
+    {
+     "q": {
+      "en": "What are the three kinds of step in a chain reaction?",
+      "gu": "Chain પ્રક્રિયામાં ત્રણ પ્રકારના steps કયા?"
+     },
+     "a": {
+      "en": "Initiation, which creates the first radicals; propagation, which produces product and regenerates a radical; and termination, which destroys radicals. The propagation steps are fast and repeat many times.",
+      "gu": "Initiation - પહેલા radicals બનાવે; propagation - product આપે અને radical ફરી બનાવે; અને termination - radicals નષ્ટ કરે. Propagation steps ઝડપી અને ઘણી વાર પુનરાવર્તિત થાય."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Temperature",
+    "gu": "Temperature"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "State the Arrhenius law and explain each term.",
+      "gu": "Arrhenius law લખો અને દરેક પદ સમજાવો."
+     },
+     "a": {
+      "en": "k = A exp(-Ea/RT): A is the frequency factor, the number of collisions with the right orientation per second; Ea is the activation energy, the barrier the collision must clear; R is 8.314 J mol-1 K-1 and T is the absolute temperature.",
+      "gu": "k = A exp(-Ea/RT): A frequency factor - પ્રતિ second યોગ્ય દિશા વાળી અથડામણોની સંખ્યા; Ea activation energy - અથડામણે પાર કરવો પડતો અવરોધ; R = 8.314 J mol-1 K-1 અને T પૂર્ણ temperature."
+     }
+    },
+    {
+     "q": {
+      "en": "Why does a plot of ln k against 1/T give a straight line?",
+      "gu": "ln k અને 1/T નો ગ્રાફ સીધી રેખા કેમ આપે?"
+     },
+     "a": {
+      "en": "Because taking logarithms of k = A exp(-Ea/RT) gives ln k = ln A - (Ea/R)(1/T), which is y = c + m x with m = -Ea/R. A is almost constant, so the line is straight.",
+      "gu": "k = A exp(-Ea/RT) નું log લેવાથી ln k = ln A - (Ea/R)(1/T) મળે, જે y = c + m x છે જ્યાં m = -Ea/R. A લગભગ અચળ હોવાથી રેખા સીધી રહે."
+     }
+    },
+    {
+     "q": {
+      "en": "What does a curved Arrhenius plot indicate?",
+      "gu": "Arrhenius ગ્રાફ વળેલો હોય તો શું સૂચવે?"
+     },
+     "a": {
+      "en": "That the activation energy is not constant: the mechanism changes with temperature, or the rate at high temperature becomes limited by diffusion rather than by the chemical step.",
+      "gu": "Activation energy અચળ નથી: mechanism temperature સાથે બદલાય છે, અથવા ઊંચા temperature પર rate chemical step ને બદલે diffusion થી મર્યાદિત થાય છે."
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "en": "Activation energy and catalysts",
+    "gu": "Activation energy અને catalysts"
+   },
+   "items": [
+    {
+     "q": {
+      "en": "How do you find Ea from experimental data?",
+      "gu": "પ્રયોગના data પરથી Ea કેવી રીતે શોધાય?"
+     },
+     "a": {
+      "en": "Either from two rate constants with Ea = R ln(k2/k1)/(1/T1 - 1/T2), or better from the slope of ln k against 1/T, because the line shows whether Ea is constant.",
+      "gu": "કાં બે rate constants પરથી Ea = R ln(k2/k1)/(1/T1 - 1/T2), અથવા વધુ સારી રીતે ln k અને 1/T ના ઢાળ પરથી, કારણ કે રેખા બતાવે કે Ea અચળ છે કે નહીં."
+     }
+    },
+    {
+     "q": {
+      "en": "Does a catalyst change the activation energy of the forward and the reverse reaction equally?",
+      "gu": "Catalyst forward અને reverse પ્રક્રિયાની activation energy સરખી બદલે?"
+     },
+     "a": {
+      "en": "Yes. It lowers both by the same number of joules, so the difference between them - the heat of reaction - is unchanged. That is exactly why the equilibrium constant does not move.",
+      "gu": "હા. તે બંનેને સરખા joules ઘટાડે છે, તેથી તેમની વચ્ચેનો તફાવત - heat of reaction - ન બદલાય. તેથી જ equilibrium constant ખસતું નથી."
+     }
+    },
+    {
+     "q": {
+      "en": "Why is a reaction with a large Ea dangerous in a plant?",
+      "gu": "મોટી Ea વાળી પ્રક્રિયા plant માં જોખમી કેમ?"
+     },
+     "a": {
+      "en": "Because its rate is extremely sensitive to temperature: d ln k/dT = Ea/RT^2, so a small rise in temperature gives a large rise in rate, which releases more heat, which raises the temperature further - the runaway loop.",
+      "gu": "કારણ કે તેનો rate temperature પ્રતિ અત્યંત સંવેદનશીલ છે: d ln k/dT = Ea/RT^2, તેથી temperature થોડું વધે તો rate ઘણો વધે, વધુ heat છૂટે, temperature વધુ વધે - runaway લૂપ."
+     }
+    }
+   ]
+  }
+ ],
+ "exam_questions": [
+  {
+   "q": {
+    "en": "The rate law of a reaction is -rA = k CA CB^2. At CA = 0.40 mol/L and CB = 0.20 mol/L the rate is 1.6 x 10-3 mol L-1 s-1. Find k with its unit, the overall order, and the rate if CA is doubled.",
+    "gu": "પ્રક્રિયાનો rate law -rA = k CA CB^2 છે. CA = 0.40 mol/L અને CB = 0.20 mol/L પર rate 1.6 x 10-3 mol L-1 s-1 છે. k તેના એકમ સાથે, કુલ order અને CA બમણું કરતાં rate શોધો."
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "A first order reaction has k = 4.0 x 10-4 s-1 at 300 K and an activation energy of 60 kJ/mol. Find k at 320 K and the percentage increase per 10 K.",
+    "gu": "First order પ્રક્રિયાનો 300 K પર k = 4.0 x 10-4 s-1 અને activation energy 60 kJ/mol છે. 320 K પર k અને પ્રતિ 10 K ટકાવારી વધારો શોધો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Using k = 1.2 x 10-5 s-1 at 290 K, 2.4 x 10-5 at 300 K and 4.7 x 10-5 at 310 K, find Ea and A.",
+    "gu": "290 K પર k = 1.2 x 10-5 s-1, 300 K પર 2.4 x 10-5 અને 310 K પર 4.7 x 10-5 વાપરીને Ea અને A શોધો."
+   },
+   "marks": 8
+  },
+  {
+   "q": {
+    "en": "Three runs give: run 1, CA = 0.10, CB = 0.10, rate 2.0 x 10-4; run 2, CA = 0.20, CB = 0.10, rate 8.0 x 10-4; run 3, CA = 0.10, CB = 0.20, rate 2.0 x 10-4 (all mol/L and mol L-1 s-1). Find the order in A and in B and the rate constant.",
+    "gu": "ત્રણ રન આપે છે: રન 1, CA = 0.10, CB = 0.10, rate 2.0 x 10-4; રન 2, CA = 0.20, CB = 0.10, rate 8.0 x 10-4; રન 3, CA = 0.10, CB = 0.20, rate 2.0 x 10-4 (બધા mol/L અને mol L-1 s-1). A અને B માં order તથા rate constant શોધો."
+   },
+   "marks": 6
+  },
+  {
+   "q": {
+    "en": "An uncatalysed reaction has Ea = 75 kJ/mol and A = 5.0 x 10^9 s-1. A catalyst lowers Ea to 60 kJ/mol without changing A. Find the ratio of the rates at 400 K, and the temperature at which the uncatalysed reaction would be as fast as the catalysed one at 400 K.",
+    "gu": "Uncatalysed પ્રક્રિયાની Ea = 75 kJ/mol અને A = 5.0 x 10^9 s-1 છે. Catalyst Ea ને 60 kJ/mol કરે છે અને A ન બદલે. 400 K પર rates નો ગુણોત્તર શોધો, અને એ temperature પણ શોધો જ્યાં uncatalysed પ્રક્રિયા 400 K ની catalysed પ્રક્રિયા જેટલી ઝડપી થાય."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "For the chain H2 + Br2 -> 2 HBr the steady-state treatment gives r = k [H2][Br2]^1.5/([Br2] + k'[HBr]). State the order at the start (no HBr), the order late in the run, and the effect of doubling [Br2] at the start.",
+    "gu": "Chain H2 + Br2 -> 2 HBr માટે steady-state પરથી r = k [H2][Br2]^1.5/([Br2] + k'[HBr]) મળે છે. શરૂઆતમાં (HBr વગર) order, પછીના સમયે order, અને શરૂઆતમાં [Br2] બમણું કરવાની અસર જણાવો."
+   },
+   "marks": 7
+  }
+ ],
+ "learning_outcomes": [
+  {
+   "en": "Determine the rate, rate constant, activation energy and order of reaction.",
+   "gu": "પ્રક્રિયાનો rate, rate constant, activation energy અને order નક્કી કરવા."
+  }
+ ],
+ "course_outcomes": [
+  "CO2"
+ ],
+ "practical_numbers": [
+  1,
+  2,
+  5,
+  9,
+  10,
+  11
+ ],
+ "content_kind": "theory",
+ "lesson_count": 12,
+ "answered_practice_count": 6,
+ "assessment_note": {
+  "en": "Official course: theory ESE 70 + PA 30 and practical PA 20 + ESE 30 = 150 marks, 4 credits, 45 teaching hours. This unit carries 17 % weightage, 8 of the printed unit hours and 12 of the 70 theory marks. The numericals of section 2.6 are original revision problems with suggested marks, not GTU papers.",
+  "gu": "અધિકૃત course: theory ESE 70 + PA 30 અને practical PA 20 + ESE 30 = 150 marks, 4 credits, 45 teaching hours. આ unit નું weightage 17 %, છપાયેલા unit hours માંથી 8 અને 70 theory marks માંથી 12 છે. વિભાગ 2.6 ના દાખલા revision માટેના મૂળ પ્રશ્નો છે, GTU પેપર નહીં."
+ },
+ "question_provenance": "Original solved numericals written for revision; not official past papers",
+ "question_marks_are_suggested": true,
+ "sources": [
+  {
+   "title": "GTU DI05005031 Chemical Reaction Engineering syllabus (uploaded PDF, w.e.f. 2026-27)",
+   "url": "https://syllabus.gtu.ac.in/"
+  },
+  {
+   "title": "Octave Levenspiel - Chemical Reaction Engineering, 3rd ed., Wiley (chapter 2: kinetics, elementary and non-elementary reactions)",
+   "url": "https://www.wiley.com/"
+  },
+  {
+   "title": "H. Scott Fogler - Essentials of Chemical Reaction Engineering, 4th ed., Prentice Hall (chapter 3: rate laws, Arrhenius, activation energy)",
+   "url": "https://www.pearson.com/"
+  },
+  {
+   "title": "NPTEL Chemical Reaction Engineering lectures - https://nptel.ac.in/",
+   "url": "https://nptel.ac.in/"
+  }
+ ]
+}

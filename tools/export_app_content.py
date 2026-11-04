@@ -337,6 +337,13 @@ _chemical_sem5 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(5,[])
 if 'DI05005051' not in _chemical_sem5:
     _chemical_sem5.append('DI05005051')
 
+# DiplomaOne registration: DI05005031 chemical semester 5
+if 'DI05005031' not in SUBJECTS:
+    SUBJECTS['DI05005031'] = ('Chemical Reaction Engineering','રાસાયણિક પ્રક્રિયા ઇજનેરી','Professional Elective',4,'theory',None)
+_chemical_sem5 = BRANCH_SEMS.setdefault('chemical',{}).setdefault(5,[])
+if 'DI05005031' not in _chemical_sem5:
+    _chemical_sem5.append('DI05005031')
+
 # DiplomaOne registration: DI03005031 chemical semester 3
 if 'DI03005031' not in SUBJECTS:
     SUBJECTS['DI03005031'] = ('Process Heat Transfer','પ્રોસેસ હીટ ટ્રાન્સફર','Core',3,'theory',None)
