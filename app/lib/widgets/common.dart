@@ -222,7 +222,12 @@ class _LoaderState<T> extends State<Loader<T>> {
                   const SizedBox(height: 10),
                   Text(L('load_error'), textAlign: TextAlign.center),
                   const SizedBox(height: 10),
-                  FilledButton(onPressed: () => setState(() => _f = widget.load()), child: Text(L('retry'))),
+                  FilledButton(
+                    onPressed: () => setState(() {
+                      _f = widget.load();
+                    }),
+                    child: Text(L('retry')),
+                  ),
                 ]),
               ),
             );
