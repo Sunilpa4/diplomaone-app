@@ -445,6 +445,13 @@ for _branch in BRANCHES:
     if "DI01000021" not in _sem1:
         _sem1.insert(0, "DI01000021")
 
+# Communication Skills in English (DI01000031) prints "Branch: All" in its syllabus, so it is listed
+# in semester 1 of every diploma branch. It sits just after Mathematics-I in the display order.
+for _branch in BRANCHES:
+    _sem1 = BRANCH_SEMS.setdefault(_branch[1], {}).setdefault(1, [])
+    if "DI01000031" not in _sem1:
+        _sem1.insert(_sem1.index("DI01000021") + 1 if "DI01000021" in _sem1 else 0, "DI01000031")
+
 
 def main():
     global OUT
