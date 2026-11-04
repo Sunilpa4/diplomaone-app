@@ -1875,7 +1875,19 @@ jobs:
             echo 'No note changes to publish.'
           else
             git commit -m 'Publish updated DiplomaOne notes'
-            git push origin HEAD:main
+            # The website publisher may update different files while tests run.
+            # Replay this data-only commit on the latest public history; never force push.
+            for attempt in 1 2 3 4 5; do
+              git fetch --deepen=10 origin main
+              git rebase origin/main
+              if git push origin HEAD:main; then
+                exit 0
+              fi
+              echo "Push raced with another publisher; retry $attempt of 5."
+              sleep 3
+            done
+            echo 'Could not publish notes after retries; no force push was used.' >&2
+            exit 1
           fi
 
       - name: Summary

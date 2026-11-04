@@ -438,6 +438,42 @@ def normalize_for_app(unit):
         tabs = ["exam" if tab == "exam_questions" else tab for tab in unit["tabs"]]
         unit["tabs"] = list(dict.fromkeys(tabs))
 
+    # Some recent subjects store a single group as an object, while released
+    # app readers require lists. Keep their rich HTML and identifiers intact.
+    viva = unit.get("viva")
+    if isinstance(viva, dict):
+        if not isinstance(viva.get("items"), list) or not all(
+            isinstance(item, dict) and "q" in item and "a" in item for item in viva["items"]
+        ):
+            raise ValueError("Unsupported grouped viva format")
+        unit["viva"] = [viva]
+
+    numericals = unit.get("numericals")
+    if isinstance(numericals, dict):
+        if not isinstance(numericals.get("items"), list) or not all(
+            isinstance(item, dict) and "title" in item and "body" in item for item in numericals["items"]
+        ):
+            raise ValueError("Unsupported grouped numericals format")
+        # The app's numericals tab expects question/answer pairs, not rich cards.
+        unit["numericals"] = [dict(item, q=item["title"], a=item["body"]) for item in numericals["items"]]
+
+    syntax = unit.get("syntax")
+    if isinstance(syntax, dict):
+        if not isinstance(syntax.get("items"), list) or not all(
+            isinstance(item, dict) and "name" in item and "body" in item for item in syntax["items"]
+        ):
+            raise ValueError("Unsupported grouped reference format")
+        # Formulae here are rich HTML, not programming syntax. Existing app
+        # versions can display them faithfully as expandable note cards.
+        cards = [dict(item, h=item["name"]) for item in syntax["items"]]
+        if cards:
+            unit.setdefault("notes", []).append({"title": syntax.get("title", {"en": "Reference and formulas", "gu": "સંદર્ભ અને સૂત્રો"}), "items": cards})
+        unit.pop("syntax")
+        if isinstance(unit.get("tabs"), list):
+            unit["tabs"] = [tab for tab in unit["tabs"] if tab != "syntax"]
+            if cards and "notes" not in unit["tabs"]:
+                unit["tabs"].insert(0, "notes")
+
     programs = unit.get("programs")
     if isinstance(programs, list):
         rich = [p for p in programs if isinstance(p, dict) and p.get("format") == "rich_cards" and isinstance(p.get("items"), list)]

@@ -2,6 +2,11 @@ name: Publish DiplomaOne website
 
 on:
   workflow_dispatch:
+  pull_request:
+    paths:
+      - 'website/**'
+      - 'app/**'
+      - '.github/workflows/publish-website.yml'
   push:
     branches: [main]
     paths:
@@ -10,7 +15,7 @@ on:
       - '.github/workflows/publish-website.yml'
 
 concurrency:
-  group: publish-diplomaone-website
+  group: publish-diplomaone-website-${{ github.event_name == 'pull_request' && github.ref || 'main' }}
   cancel-in-progress: false
 
 jobs:
@@ -44,6 +49,7 @@ jobs:
           flutter pub get
           flutter build web --release --no-wasm-dry-run --no-web-resources-cdn --base-href "$BASE"
       - name: Update website and web app without touching notes or domain
+        if: github.event_name != 'pull_request'
         run: |
           set -euo pipefail
           cp website/index.html website/styles.css website/app.js public-site/
@@ -65,7 +71,7 @@ jobs:
           # The independent notes publisher may push while the web app builds.
           # Replay only this website commit over its newer data, without force-pushing.
           for attempt in 1 2 3 4 5; do
-            git fetch origin main
+            git fetch --deepen=10 origin main
             git rebase origin/main
             if git push origin HEAD:main; then
               exit 0

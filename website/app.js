@@ -178,7 +178,7 @@
       if(items) {
         let inner=items.map((item,i)=>{
           if(type==='viva'||type==='exam'||type==='numericals')return qaItem(item,i);
-          if(type==='notes') { const title=text(item.h||item.title||item.q)||`${tr('read')} ${i+1}`; const body=safeHtml(item.body||item.a||'');return card(title,body+(item.diagram?diagram(unit,item.diagram,title):''),false); }
+          if(type==='notes') { const title=text(item.h||item.title||item.q)||`${tr('read')} ${i+1}`; const body=safeHtml(item.body||item.a||''); const examples=(Array.isArray(item.examples)?item.examples:[]).map(id=>{const n=(unit.numericals||[]).find(x=>x.id===id);return n?`<h4>${esc(tr('numericals'))}: ${esc(text(n.q))}</h4>${safeHtml(n.a)}`:'';}).join(''); const programs=(Array.isArray(item.programs)?item.programs:[]).map(id=>{const p=(unit.programs||[]).find(x=>x.id===id);return p?`<h4>${esc(text(p.title))}</h4><pre class="code-output">${esc(text(p.code))}</pre>${p.out?`<pre class="code-output">${esc(text(p.out))}</pre>`:''}${p.expl?safeHtml(p.expl):''}`:'';}).join(''); return card(title,body+(item.diagram?diagram(unit,item.diagram,title):'')+examples+programs,false); }
           const title=text(item.name||item.title||item.h)||`${tr(type)} ${i+1}`;
           if(item.body) return card(title,safeHtml(item.body)+(item.diagram?diagram(unit,item.diagram,title):''));
           const formula=text(item.f||item.code), terms=text(item.terms||item.expl);
@@ -216,6 +216,23 @@
     document.querySelectorAll('[data-tab]').forEach(btn=>btn.addEventListener('click',()=>{activeTab=btn.dataset.tab;document.querySelectorAll('[data-tab]').forEach(b=>{const on=b===btn;b.classList.toggle('active',on);b.setAttribute('aria-selected',String(on));});document.querySelector('#reader-content').innerHTML=tabContent(unit,activeTab);}));
     document.querySelector('#save-unit').addEventListener('click',e=>{const num=Number(unit.unit),exists=saved.some(x=>x.code===subject.code&&Number(x.unit)===num);const next=exists?saved.filter(x=>!(x.code===subject.code&&Number(x.unit)===num)):[...saved,{code:subject.code,unit:num,title:unit.title}];if(!writeStore('diplomaone.website.saved',next)){announce('Unable to save on this device.');return;}saved=next;const b=e.currentTarget;b.classList.toggle('saved',!exists);b.setAttribute('aria-pressed',String(!exists));b.innerHTML=`${exists?'♡':'♥'} &nbsp;${esc(tr(exists?'save':'savedButton'))}`;announce(tr(exists?'remove':'savedButton'));});
   }
+  function showPrivacy() {
+    const gu=lang==='gu';
+    const title=gu?'ગોપનીયતા':'Privacy';
+    const intro=gu?'તમારા અભ્યાસને સરળ અને ખાનગી રાખવાનો અમારો પ્રયાસ છે.':'A simple explanation of how this website handles information.';
+    const sections=gu?[
+      ['ખાતા વગર અભ્યાસ', 'આ વેબસાઇટ પર નોટ્સ વાંચવા માટે ખાતું, નામ અથવા ઇમેઇલ જરૂરી નથી.'],
+      ['આ ઉપકરણ પર સાચવેલી માહિતી', 'તમારી ભાષા પસંદગી અને સાચવેલા એકમો તમારા બ્રાઉઝરના સ્થાનિક સ્ટોરેજમાં રહે છે. બ્રાઉઝર ડેટા દૂર કરવાથી તે પણ દૂર થશે; તે અન્ય ઉપકરણો સાથે સિંક થતું નથી.'],
+      ['હોસ્ટિંગ અને બહારની લિંક્સ', 'GitHub Pages આ સાઇટ અને નોટ્સ હોસ્ટ કરે છે અને સેવા તથા સુરક્ષા માટે IP એડ્રેસ જેવી ટેકનિકલ માહિતી મેળવી શકે છે. Android એપ ડાઉનલોડની લિંક તમને GitHub પર લઈ જાય છે, જ્યાં તેમની પોતાની ગોપનીયતા નીતિ લાગુ પડે છે.'],
+      ['Analytics અને જાહેરાતો', 'આ વેબસાઇટ હાલમાં કોઈ analytics અથવા જાહેરાત સેવા ઉમેરતી નથી. જો આ બદલાય, તો આ માહિતી અપડેટ કરવામાં આવશે.']
+    ]:[
+      ['No account needed', 'You can read notes without creating an account or giving us your name or email address.'],
+      ['Stored on this device', 'Your language preference and saved units are stored in your browser’s local storage. Clearing your browser data removes them, and they do not sync across devices.'],
+      ['Hosting and external links', 'GitHub Pages hosts this website and its notes and may receive technical information such as IP addresses to operate and secure its service. The Android download link takes you to GitHub, where its own privacy policy applies.'],
+      ['Analytics and advertising', 'This website does not currently include an analytics or advertising service. If that changes, this information will be updated.']
+    ];
+    return `${shell(title,intro,[{label:title}])}<section class="page-content"><div class="wrap"><article class="reader-card">${sections.map(([heading,body])=>`<section class="note-section"><h3>${esc(heading)}</h3><p>${esc(body)}</p></section>`).join('')}</article></div></section>`;
+  }
   function updateHeader() {
     document.documentElement.lang=lang;
     document.querySelectorAll('[data-nav]').forEach(a=>a.textContent=tr(a.dataset.nav));
@@ -237,12 +254,13 @@
       else if(route==='search'){html=showSearch();bind=bindSubjectSearch;}
       else if(route==='saved')html=showSaved();
       else if(route==='about')html=`${shell(tr('aboutTitle'),tr('aboutText'),[{label:'About'}])}<section class="page-content"><div class="wrap"><div class="reader-card"><p>${esc(tr('aboutNote'))}</p></div></div></section>`;
+      else if(route==='privacy')html=showPrivacy();
       else if(route==='subject'&&safeCode(arg)) {
         const meta=subjectMeta(arg);
         if(!meta)html=missing();
         else if(meta.status!=='available')html=`${shell(text(meta.name),`${arg} · ${tr('notYet')}`,[{label:tr('allBranches'),href:'#/branches'},{label:text(meta.name)}])}<section class="page-content"><div class="wrap">${empty(tr('emptyTitle'),tr('emptyText'))}</div></section>`;
         else html=showSubject(await fetchJson(`subjects/${arg}.json`),meta);
-      } else if(route==='unit'&&safeCode(arg)&&/^[1-9]\d*$/.test(sub||'')&&subjectMeta(arg)?.status==='available') {
+      } else if(route==='unit'&&safeCode(arg)&&/^(?:0|[1-9]\d*)$/.test(sub||'')&&subjectMeta(arg)?.status==='available') {
         const [subject,unit]=await Promise.all([fetchJson(`subjects/${arg}.json`),fetchJson(`units/${arg}_u${sub}.json`)]);
         html=showUnit(unit,subject);bind=()=>bindReader(unit,subject);
       } else html=missing();
