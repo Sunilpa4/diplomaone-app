@@ -3,6 +3,10 @@ name: Build DiplomaOne
 
 on:
   workflow_dispatch:
+  pull_request:
+    paths:
+      - "app/**"
+      - ".github/workflows/build.yml"
   push:
     branches: [main]
     paths:
@@ -10,7 +14,7 @@ on:
       - ".github/workflows/build.yml"
 
 concurrency:
-  group: build
+  group: build-${{ github.event_name == 'pull_request' && github.ref || 'main' }}
   cancel-in-progress: true
 
 jobs:
@@ -48,6 +52,7 @@ jobs:
           exit "$status"
 
       - name: Signing key + faster Gradle (cloud machine has more memory)
+        if: github.event_name != 'pull_request'
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -58,6 +63,7 @@ jobs:
           sed -i 's/^org.gradle.jvmargs=.*/org.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=1g/; s/^org.gradle.workers.max=.*/org.gradle.workers.max=4/; s/^kotlin.daemon.jvmargs=.*/kotlin.daemon.jvmargs=-Xmx1g/' app/android/gradle.properties
 
       - name: Build APKs and App Bundle
+        if: github.event_name != 'pull_request'
         working-directory: app
         run: |
           V=$(grep '^version:' pubspec.yaml | sed 's/version: *//; s/+.*//')
@@ -71,6 +77,7 @@ jobs:
           ls -la ../out
 
       - name: Save all builds (incl. Play Store .aab)
+        if: github.event_name != 'pull_request'
         uses: actions/upload-artifact@v4
         with:
           name: DiplomaOne-${{ env.VERSION }}-build${{ github.run_number }}
@@ -78,6 +85,7 @@ jobs:
           retention-days: 90
 
       - name: Publish APKs as a public release
+        if: github.event_name != 'pull_request'
         uses: softprops/action-gh-release@v2
         with:
           repository: Sunilpa4/diplomaone-content
