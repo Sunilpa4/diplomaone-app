@@ -23,7 +23,13 @@ def draw():
 def main():
     draw()
     spec = spec_for(1)
-    items = [{"h": h, "body": a} for h, _q, a, _m in PRACTICE]
+    def with_question(h, q, a, m):
+        """A solved numerical opens with its own statement, so the page can be read without the paper."""
+        head = {"en": f"<h4>Question ({m} marks)</h4><p>{q['en']}</p>",
+                "gu": f"<h4>પ્રશ્ન ({m} marks)</h4><p>{q['gu']}</p>"}
+        return {"h": h, "body": {"en": head["en"] + a["en"], "gu": head["gu"] + a["gu"]}}
+
+    items = [with_question(h, q, a, m) for h, q, a, m in PRACTICE]
     NOTES.append({"title": tr("1.8 Solved Numericals, Step by Step",
                               "1.8 ઉકેલેલા દાખલા, પગલે પગલે"), "items": items})
     exam = [{"q": q, "marks": m} for _h, q, _a, m in PRACTICE]

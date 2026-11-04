@@ -241,7 +241,8 @@ def axes(x0, y0, w, h, xlab, ylab, color=INK, xticks=(), yticks=(), size=8.2):
         yy = y0 + h - f * h
         b += ln(x0 - 3, yy, x0, yy, color, 1.0)
         b += text(x0 - 5, yy + 2.6, s, size, anchor="end", color=GREY)
-    b += text(x0 + w + 6, y0 + h + 13, xlab, size + 0.6, anchor="end", color=INK, weight="bold")
+    lab_y = y0 + h + (24 if xticks else 13)
+    b += text(x0 + w + 6, lab_y, xlab, size + 0.6, anchor="end", color=INK, weight="bold")
     b += text(x0 - 3, y0 - 12, ylab, size + 0.6, color=INK, weight="bold")
     return b
 
