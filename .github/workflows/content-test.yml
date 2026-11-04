@@ -32,7 +32,8 @@ jobs:
             tools.test_DI01000031_u3 tools.test_DI01000031_u4 tools.test_english_coverage
       - name: Validate Applied Physics (DI01000121)
         run: |
-          python3 -m unittest tools.test_DI01000121_u1
+          python3 -m unittest tools.test_DI01000121_u1 tools.test_DI01000121_u2 \
+            tools.test_applied_physics_coverage
       - name: Export content and render every part
         run: |
           python3 tools/test_export_compatibility.py
