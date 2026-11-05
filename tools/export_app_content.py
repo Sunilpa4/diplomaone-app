@@ -414,6 +414,19 @@ _mechanical_sem2 = BRANCH_SEMS.setdefault('mechanical',{}).setdefault(2,[])
 if 'DI02000121' not in _mechanical_sem2:
     _mechanical_sem2.append('DI02000121')
 
+# Chemistry courses: the GTU syllabus assigns shared subject codes to several branches.
+# The first seven units follow each course's syllabus; units 8 and 9 are supplementary.
+if 'DI01000161' not in SUBJECTS:
+    SUBJECTS['DI01000161'] = ('Basic Chemistry', 'બેઝિક કેમિસ્ટ્રી', 'Basic Science', 4, 'theory', None)
+for _key, _sem in [('chemical', 1), ('textile_proc', 1), ('ic', 2), ('textile_mfg', 2), ('robotics', 2), ('printing', 2)]:
+    _courses = BRANCH_SEMS.setdefault(_key, {}).setdefault(_sem, [])
+    if 'DI01000161' not in _courses:
+        _courses.append('DI01000161')
+for _key, _sem in [('electrical', 1), ('it', 1), ('power', 1), ('biomedical', 2), ('computer', 2), ('ec', 2), ('cse', 2), ('ict', 2)]:
+    _courses = BRANCH_SEMS.setdefault(_key, {}).setdefault(_sem, [])
+    if 'DI01000071' not in _courses:
+        _courses.append('DI01000071')
+
 FONT_MAP = [
     (re.compile(r'font-family="Arial, Helvetica, sans-serif"'), 'font-family="DejaVu Sans"'),
     (re.compile(r'font-family="DejaVu Sans Mono, Consolas, monospace"'), 'font-family="DejaVu Sans Mono"'),
