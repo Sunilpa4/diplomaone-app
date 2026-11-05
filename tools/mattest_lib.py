@@ -40,7 +40,7 @@ EXPECT = {
             hours=8, weightage=17, marks=12, co="CO3"),
     4: dict(sections=6, teaching=9, problems=6, figures=7, eq_groups=5, eq_items=15, viva=12,
             hours=8, weightage=17, marks=12, co="CO4"),
-    5: dict(sections=5, teaching=9, problems=6, figures=8, eq_groups=5, eq_items=17, viva=12,
+    5: dict(sections=6, teaching=9, problems=6, figures=8, eq_groups=5, eq_items=17, viva=12,
             hours=10, weightage=17, marks=12, co="CO5"),
     6: dict(sections=5, teaching=8, problems=6, figures=6, eq_groups=4, eq_items=14, viva=12,
             hours=6, weightage=15, marks=10, co="CO6"),
