@@ -1,0 +1,387 @@
+{
+ "code": "DI03006041",
+ "unit": 2,
+ "branch": "civil",
+ "semester": 3,
+ "title": {
+  "en": "Moment of Inertia",
+  "gu": "Moment of Inertia (જડત્વ આઘૂર્ણ)"
+ },
+ "hours": 5,
+ "weightage": 10,
+ "cos": [
+  "CO2"
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "numericals",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "",
+  "gu": ""
+ },
+ "notes": [
+  {
+   "title": {
+    "en": "Unit 2 Notes — Moment of Inertia",
+    "gu": "યુનિટ 2 Notes — Moment of Inertia"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "2.1 Why moment of inertia matters",
+      "gu": "2.1 Moment of inertia શા માટે મહત્વનું છે"
+     },
+     "syllabus_item": "2.1 Importance of Moment of Inertia",
+     "body": {
+      "en": "<p><b>The shape's resistance to bending.</b> Moment of inertia (I, mm⁴) measures how a cross-section's area is <i>distributed</i> about an axis: I = Σa·y² — every scrap of area counts with the <i>square</i> of its distance from the axis. That square is the entire subject: move area twice as far out and it works four times as hard, which is why I-beams park their steel in far-apart flanges and hollow tubes beat solid bars per kilogram (Unit 4's bending stress σ = My/I and Unit 7's Euler load both divide by, or multiply with, this number).</p><p><b>Where you will spend it.</b> Bending stress and deflection of beams (Units 4–5), column buckling (Unit 7), torsion later. MOI says nothing about the material — pure geometry: same steel, same area, wildly different I depending on arrangement. A 200 mm deep I-section and a 200 mm square of equal area differ in Ixx by an order of magnitude; the shape is a design variable precisely because I is geometry's lever.</p>",
+      "gu": "<p><b>Bending સામે shape નો પ્રતિકાર:</b> moment of inertia (I, mm⁴) એ માપે છે કે cross-section નું area axis થી કેવી રીતે <i>વહેંચાયેલું</i> છે: I = Σa·y² — area નો દરેક ટુકડો axis થીના અંતરના <i>વર્ગ</i> સાથે ગણાય છે. એ વર્ગ જ આખો વિષય છે: area બમણું દૂર ખસેડો તો તે ચાર ગણું કામ કરે છે — એટલે જ I-beam માં steel દૂરના flanges માં હોય છે (Unit 4 નો bending stress σ = My/I અને Unit 7 નો Euler load બંને આ જ number પર ચાલે છે).</p><p><b>ક્યાં વપરાશે:</b> beam ના bending stress અને deflection (Units 4–5), column buckling (Unit 7), આગળ torsion. MOI material વિશે કંઈ કહેતું નથી — શુદ્ધ geometry છે: એ જ steel, એ જ area, પણ ગોઠવણી પ્રમાણે I માં ઘણો ફરક પડે છે.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "2.2 Axes: symmetry, centroidal and reference — plus radius of gyration",
+      "gu": "2.2 Axes: symmetry, centroidal અને reference — સાથે radius of gyration"
+     },
+     "syllabus_item": "2.2 Axis of symmetry, centroidal axis and axis of reference",
+     "body": {
+      "en": "<p><b>Three addresses for an axis.</b> An <i>axis of symmetry</i> folds the section onto itself (a rectangle has two, a circle infinite, a T one, an unequal angle none). A <i>centroidal axis</i> passes through the centroid C (the area's 'average address', ȳ = Σa·y/Σa) — the axes that bending theory demands (Unit 4 puts the neutral axis here). A <i>reference axis</i> is any convenient line — usually a base or edge — from which you start computing. Fluency is moving between them: compute about an easy reference axis, transfer to the centroidal axis the theory wants (Card 2.3).</p><p><b>Radius of gyration</b> compresses I and A into one length: r = √(I/A) — the distance at which the whole area, concentrated, would give the same I. It returns as the star of Unit 7 (slenderness ratio λ = L_e/r), so meet it properly now: r_x for a rectangle about its strong axis is h/√12 ≈ 0.289h — depth buys radius of gyration almost proportionally, another vote for deep sections.</p>",
+      "gu": "<p><b>Axis ના ત્રણ સરનામાં:</b> <i>axis of symmetry</i> section ને પોતાના પર જ વાળે છે (rectangle ને બે, circle ને અનંત, T ને એક, unequal angle ને એક પણ નહીં). <i>Centroidal axis</i> centroid C (area નું 'સરેરાશ સરનામું', ȳ = Σa·y/Σa) માંથી પસાર થાય છે — bending theory ને (Unit 4) આ જ axis જોઈએ છે. <i>Reference axis</i> એ ગણતરી શરૂ કરવા માટેની સગવડભરી line છે — સામાન્ય રીતે base કે edge. કુશળતા એટલે તેમની વચ્ચે ફરવું: સરળ reference axis પર ગણો, પછી theory ને જોઈતા centroidal axis પર લઈ જાઓ (Card 2.3).</p><p><b>Radius of gyration</b> I અને A ને એક લંબાઈમાં સમાવે છે: r = √(I/A) — એટલા અંતરે આખું area કેન્દ્રિત કરો તો એ જ I મળે. Unit 7 માં તે મુખ્ય પાત્ર છે (slenderness ratio λ = L_e/r), એટલે અત્યારે જ ઓળખાણ પાકી કરો.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "2.3 Parallel axis and perpendicular axis theorems",
+      "gu": "2.3 Parallel axis અને perpendicular axis theorems"
+     },
+     "syllabus_item": "2.3 Parallel axis theorem & perpendicular axis theorem",
+     "body": {
+      "en": "<p><b>Parallel axis theorem (the transfer ticket).</b> MOI about any axis = MOI about the parallel centroidal axis + A·d², where d is the distance between the axes (Diagram):</p><span class=\"eq\">I = I_c + A d^2   (hence I_centroid is always the minimum for that direction)</span><p><b>Perpendicular axis theorem (flat sections only).</b> For a plane lamina, the polar moment about an axis perpendicular to its plane equals the sum of the two in-plane centroidal moments: I_z (J) = I_x + I_y — the bridge to Card 2.6's polar MOI and later torsion. <b>Working rules that prevent 90% of errors:</b> the theorem transfers only <i>from</i> a centroidal axis (to go reference→centroid, subtract A d²); d is measured between the <i>axes</i>, not from a face; and A d² is always positive — if your transferred I came out smaller than I_c, you subtracted the wrong way.</p>",
+      "gu": "<p><b>Parallel axis theorem (transfer ticket):</b> કોઈ પણ axis પર MOI = સમાંતર centroidal axis પર MOI + A·d², જ્યાં d બે axes વચ્ચેનું અંતર છે (Diagram):</p><span class=\"eq\">I = I_c + A d^2   (એટલે I_centroid એ દિશામાં હંમેશા સૌથી નાનું હોય છે)</span><p><b>Perpendicular axis theorem (ફક્ત flat sections માટે):</b> plane lamina માટે plane ને લંબ axis પરનો polar moment બે in-plane centroidal moments ના સરવાળા બરાબર છે: J = I_x + I_y — Card 2.6 અને આગળ torsion નો પુલ. <b>ભૂલો અટકાવતા નિયમો:</b> theorem ફક્ત centroidal axis <i>થી</i> transfer કરે છે (reference→centroid જતાં A d² બાદ થાય છે); d એ <i>axes</i> વચ્ચેનું અંતર છે, face થી નહીં; અને A d² હંમેશા positive છે — transferred I, I_c કરતાં નાનું આવે તો બાદબાકી ઊલટી થઈ છે.</p>"
+     },
+     "diagram": "ms2_theorem"
+    },
+    {
+     "h": {
+      "en": "2.4 Standard sections — formulae without derivations",
+      "gu": "2.4 Standard sections — derivations વગરના formulae"
+     },
+     "syllabus_item": "2.4 Formulas for MOI of solid and hollow rectangle, square, circle, triangle (without derivations)",
+     "body": {
+      "en": "<p><b>The four workhorses (Diagram), all about centroidal axes:</b></p><span class=\"eq\">rectangle (b wide, h deep): Ixx = b h^3/12 ; Iyy = h b^3/12 ; square: b^4/12 both ways</span><span class=\"eq\">circle (diameter D): I = pi D^4/64 ; hollow circle: pi (D^4 - d^4)/64</span><span class=\"eq\">triangle (base b, height h): I about base = b h^3/12 ; about centroidal axis parallel to base = b h^3/36 ; about apex-parallel axis = b h^3/4</span><span class=\"eq\">hollow rectangle: I = (B D^3 - b d^3)/12 - outer minus inner, each about the same axis</span><p><b>Reading the cubes.</b> Depth enters cubed everywhere: double a beam's depth and Ixx grows eight-fold — the cheapest stiffness in structures. The triangle's two values (base vs centroidal) are Card 2.3 in action: bh³/12 − A(h/3)²·... transfers bh³/12 about the base down to bh³/36 about its own centroid — Numerical drills in the extras exercise exactly this subtraction habit.</p>",
+      "gu": "<p><b>ચાર મુખ્ય formulae (Diagram), બધા centroidal axes પર:</b></p><span class=\"eq\">rectangle: Ixx = b h^3/12 ; Iyy = h b^3/12 ; square: b^4/12 બંને રીતે</span><span class=\"eq\">circle: I = pi D^4/64 ; hollow circle: pi (D^4 - d^4)/64</span><span class=\"eq\">triangle: base પર b h^3/12 ; centroidal axis પર b h^3/36</span><span class=\"eq\">hollow rectangle: I = (B D^3 - b d^3)/12 — outer minus inner, એક જ axis પર</span><p><b>ઘન (cube) નો અર્થ:</b> depth દરેક જગ્યાએ ઘનમાં આવે છે — beam ની depth બમણી કરો તો Ixx આઠ ગણો વધે છે; structures માં સૌથી સસ્તી stiffness. Triangle ના બે મૂલ્યો (base vs centroidal) એ Card 2.3 નો જ વ્યવહાર છે.</p>"
+     },
+     "diagram": "ms2_formulas"
+    },
+    {
+     "h": {
+      "en": "2.5 Built-up sections: I, channel, T, angle — the add-and-transfer method",
+      "gu": "2.5 Built-up sections: I, channel, T, angle — add-and-transfer રીત"
+     },
+     "syllabus_item": "2.5 MOI of symmetrical and asymmetrical I, channel, T, angle, hollow and built-up sections about centroidal and reference axes",
+     "body": {
+      "en": "<p><b>The universal algorithm.</b> (1) Split the section into rectangles. (2) If the section is <i>asymmetrical</i> (T, angle, channel about its weak axis), first find the centroid ȳ = Σaᵢyᵢ/Σaᵢ from a reference edge — the centroidal axis is not free any more. (3) For each rectangle add its own centroidal I (bh³/12 about the correct direction) plus its transfer term aᵢdᵢ² to the working axis. (4) Sum. Two shortcuts: symmetrical I-sections also yield to <i>subtraction</i> (outer rectangle minus the two side notches — Numerical 2.2, one line instead of three); and always sanity-check units (mm⁴, of order depth⁴ — an I of 10² mm⁴ for a beam section means a decimal died).</p><p><b>Exam-style anchors.</b> I-section (both axes, flange/web split): the workhorse, Numerical 2.2 (Ixx = 22.93 × 10⁶ mm⁴, Z = 2.29 × 10⁵ mm³ for Unit 4's reuse). T-section: centroid 29.4 mm from the flange top, Ixx = 2.10 × 10⁶ mm⁴ (Numerical 2.3) — asymmetrical, so the section modulus differs top vs bottom, a fact Unit 4 will cash. Channel/angle follow the identical algorithm, the angle needing centroid both ways (x̄ and ȳ).</p>",
+      "gu": "<p><b>સાર્વત્રિક રીત:</b> (1) section ને rectangles માં વહેંચો. (2) section <i>asymmetrical</i> હોય (T, angle) તો પહેલા reference edge થી centroid ȳ = Σaᵢyᵢ/Σaᵢ શોધો — centroidal axis હવે મફત નથી મળતો. (3) દરેક rectangle માટે પોતાનો centroidal I (bh³/12, સાચી દિશામાં) + transfer term aᵢdᵢ² ઉમેરો. (4) સરવાળો કરો. બે shortcuts: symmetrical I-section માટે <i>subtraction</i> (outer rectangle minus બે બાજુના ખાંચા — Numerical 2.2, ત્રણને બદલે એક line); અને એકમ check — beam section માટે I નો ઑર્ડર depth⁴ જેટલો હોવો જોઈએ.</p><p><b>પરીક્ષાના આંકડા:</b> I-section: Numerical 2.2 (Ixx = 22.93 × 10⁶ mm⁴, Z = 2.29 × 10⁵ mm³ — Unit 4 માં ફરી વપરાશે). T-section: centroid flange top થી 29.4 mm, Ixx = 2.10 × 10⁶ mm⁴ (Numerical 2.3) — asymmetrical હોવાથી section modulus ઉપર-નીચે જુદો પડે છે.</p>"
+     },
+     "diagram": "ms2_isection"
+    },
+    {
+     "h": {
+      "en": "2.6 Polar moment of inertia",
+      "gu": "2.6 Polar moment of inertia (ધ્રુવીય)"
+     },
+     "syllabus_item": "2.6 Polar moment of inertia of solid & hollow circular sections",
+     "body": {
+      "en": "<p><b>MOI about a point's perpendicular.</b> The polar moment J measures area distribution about an axis perpendicular to the section (through its centre) — the torsion axis of a shaft. For circles the perpendicular axis theorem (Card 2.3) answers instantly: I_x = I_y = πD⁴/64, so:</p><span class=\"eq\">solid circle: J = I_x + I_y = pi D^4/32 ;  hollow circle: J = pi (D^4 - d^4)/32</span><p><b>Why it earns a card.</b> Torsional shear stress τ = T·r/J (Structures-II) divides by J exactly as bending divides by I; hollow shafts exploit the same square-law geography — a tube with d = 0.8D keeps (1 − 0.8⁴) = 59% of the solid J on (1 − 0.8²) = 36% of the weight. Radius of gyration has a polar twin too (r_p = √(J/A)) when buckling twists — rare at diploma level, but the formula bank (see Formulae tab) holds all three so the family stays together.</p>",
+      "gu": "<p><b>એક point પર લંબ axis પરનો MOI:</b> polar moment J એ section ને લંબ (તેના centre માંથી જતી) axis પર area ની વહેંચણી માપે છે — shaft ની torsion axis. Circle માટે perpendicular axis theorem (Card 2.3) તરત જવાબ આપે છે: I_x = I_y = πD⁴/64, એટલે:</p><span class=\"eq\">solid circle: J = pi D^4/32 ;  hollow circle: J = pi (D^4 - d^4)/32</span><p><b>કેમ મહત્વનું:</b> torsional shear stress τ = T·r/J (Structures-II) માં J વડે જ ભાગાકાર થાય છે જેમ bending માં I વડે થાય છે; hollow shaft એ જ square-law નો ફાયદો લે છે — d = 0.8D વાળી tube 36% વજન પર solid ના 59% J જાળવી રાખે છે.</p>"
+     }
+    }
+   ]
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "ms2_theorem",
+   "title": {
+    "en": "Parallel axis theorem",
+    "gu": "Parallel axis theorem (સમાંતર અક્ષ)"
+   }
+  },
+  {
+   "id": "ms2_formulas",
+   "title": {
+    "en": "Standard MOI formulae",
+    "gu": "Standard MOI formulae (સૂત્રો)"
+   }
+  },
+  {
+   "id": "ms2_isection",
+   "title": {
+    "en": "I-section: add or subtract rectangles",
+    "gu": "I-section: rectangles ઉમેરો કે બાદ કરો"
+   }
+  }
+ ],
+ "numericals": {
+  "title": {
+   "en": "Solved Numericals — Unit 2",
+   "gu": "ઉકેલેલા Numericals — યુનિટ 2"
+  },
+  "items": [
+   {
+    "id": "Numerical 2.1",
+    "title": {
+     "en": "Numerical 2.1 — MOI of a hollow rectangular section",
+     "gu": "Numerical 2.1 — Hollow rectangular section નો MOI"
+    },
+    "body": {
+     "en": "<p><b>Given.</b> Hollow rectangle: outer 100 mm (wide) × 150 mm (deep), inner 80 × 120 mm. Find Ixx about the horizontal centroidal axis and the radius of gyration.</p><p><b>Step 1.</b> Outer minus inner, both about the same centroidal axis (they are concentric).</p><span class=\"eq\">Ixx = (B D^3 - b d^3)/12 = (100 x 150^3 - 80 x 120^3)/12</span><span class=\"eq\">= (337.5 x 10^6 - 138.24 x 10^6)/12 = 199.26 x 10^6/12 = 16.605 x 10^6 mm4</span><p><b>Step 2.</b> Net area and radius of gyration.</p><span class=\"eq\">A = 100 x 150 - 80 x 120 = 15000 - 9600 = 5400 mm2 ;  r = sqrt(I/A) = sqrt(16.605 x 10^6/5400) = 55.45 mm</span><p><b>Final answer.</b></p><span class=\"eq\">╔ Ixx = 16.61 x 10^6 mm4 , r_x = 55.5 mm - a hollow box on 36% of the solid's area keeps 59% of its Ixx ╗</span><p><b>Validity check.</b> The inner void sits near the axis where y² is small, so removing it costs little I — the square law of Card 2.1 visible in arithmetic. Compare solid: (100 × 150³)/12 = 28.1 × 10⁶; we kept 59%.</p>",
+     "gu": "<p><b>આપેલ છે:</b> hollow rectangle: outer 100 × 150 mm, inner 80 × 120 mm. Horizontal centroidal axis પર Ixx અને radius of gyration શોધો.</p><p><b>Step 1.</b> Outer minus inner, બંને એક જ centroidal axis પર.</p><span class=\"eq\">Ixx = (100 x 150^3 - 80 x 120^3)/12 = 16.605 x 10^6 mm4</span><p><b>Step 2.</b> Net area અને radius of gyration.</p><span class=\"eq\">A = 5400 mm2 ;  r = sqrt(I/A) = 55.45 mm</span><p><b>અંતિમ જવાબ:</b></p><span class=\"eq\">╔ Ixx = 16.61 x 10^6 mm4 , r_x = 55.5 mm — solid ના 36% area પર 59% Ixx જળવાયું ╗</span><p><b>ચકાસણી:</b> અંદરનો ખાલી ભાગ axis ની નજીક છે જ્યાં y² નાનું છે, એટલે તેને કાઢવાથી I બહુ ઘટતો નથી — Card 2.1 નો square law આંકડામાં દેખાય છે.</p>"
+    }
+   },
+   {
+    "id": "Numerical 2.2",
+    "title": {
+     "en": "Numerical 2.2 — I-section by the subtraction method",
+     "gu": "Numerical 2.2 — I-section subtraction method થી"
+    },
+    "body": {
+     "en": "<p><b>Given.</b> I-section: flanges 100 × 10 mm, web 10 mm thick, overall depth 200 mm (web clear depth 180 mm). Find Ixx and the section modulus Zxx.</p><p><b>Step 1.</b> See the section as a 100 × 200 rectangle minus two side notches, each (100−10)/2 = 45 mm wide and 180 mm deep.</p><span class=\"eq\">Ixx = (100 x 200^3)/12 - 2 x (45 x 180^3)/12 = (100 x 200^3 - 90 x 180^3)/12</span><p><b>Step 2.</b> Evaluate.</p><span class=\"eq\">= (800 x 10^6 - 524.88 x 10^6)/12 = 275.12 x 10^6/12 = 22.93 x 10^6 mm4</span><p><b>Step 3.</b> Section modulus — I divided by the farthest fibre distance (c = 100 mm).</p><span class=\"eq\">Zxx = Ixx/c = 22.93 x 10^6/100 = 2.293 x 10^5 mm3</span><p><b>Final answer.</b></p><span class=\"eq\">╔ Ixx = 22.93 x 10^6 mm4 , Zxx = 2.29 x 10^5 mm3 - Unit 4 will divide moments by this very Z ╗</span><p><b>Validity check.</b> Cross-check by the 3-rectangle addition (flanges' own I + transfer terms + web): flanges 2 × [100×10³/12 + 1000 × 95²] = 18.06 × 10⁶; web 10×180³/12 = 4.86 × 10⁶; total 22.92 × 10⁶ ✓ — two routes, one geometry (Card 2.5).</p>",
+     "gu": "<p><b>આપેલ છે:</b> I-section: flanges 100 × 10 mm, web 10 mm જાડો, overall depth 200 mm. Ixx અને section modulus Zxx શોધો.</p><p><b>Step 1.</b> Section ને 100 × 200 rectangle માંથી બે બાજુના ખાંચા (45 × 180) બાદ કરેલા જુઓ.</p><span class=\"eq\">Ixx = (100 x 200^3 - 90 x 180^3)/12</span><p><b>Step 2.</b> ગણતરી.</p><span class=\"eq\">Ixx = 22.93 x 10^6 mm4</span><p><b>Step 3.</b> Section modulus — I ને સૌથી દૂરના fibre ના અંતરથી (c = 100 mm) ભાગો.</p><span class=\"eq\">Zxx = 2.293 x 10^5 mm3</span><p><b>અંતિમ જવાબ:</b></p><span class=\"eq\">╔ Ixx = 22.93 x 10^6 mm4 , Zxx = 2.29 x 10^5 mm3 — Unit 4 માં moment આ જ Z થી ભાગાશે ╗</span><p><b>ચકાસણી:</b> 3-rectangle addition થી પણ 22.92 × 10⁶ મળે છે ✓ — બે રસ્તા, એક geometry (Card 2.5).</p>"
+    }
+   },
+   {
+    "id": "Numerical 2.3",
+    "title": {
+     "en": "Numerical 2.3 — T-section: centroid first, then MOI",
+     "gu": "Numerical 2.3 — T-section: પહેલા centroid, પછી MOI"
+    },
+    "body": {
+     "en": "<p><b>Given.</b> T-section: flange 100 × 12 mm on top, stem (web) 88 × 12 mm below it, overall depth 100 mm. Find the centroidal Ixx.</p><p><b>Step 1.</b> Centroid from the base (flange A₁ = 100 × 12 = 1200 mm² at y₁ = 88 + 6 = 94 mm; stem A₂ = 88 × 12 = 1056 mm² at y₂ = 44 mm).</p><span class=\"eq\">y-bar = (1200 x 94 + 1056 x 44)/(1200 + 1056) = (112800 + 46464)/2256 = 70.6 mm from base = 29.4 mm below the flange top</span><p><b>Step 2.</b> Each rectangle: own I + A d² to the centroidal axis.</p><span class=\"eq\">flange: 100 x 12^3/12 + 1200 x (94 - 70.6)^2 = 14400 + 1200 x 547.6 = 0.672 x 10^6</span><span class=\"eq\">stem: 12 x 88^3/12 + 1056 x (70.6 - 44)^2 = 681,000 + 1056 x 707.6 = 1.428 x 10^6</span><p><b>Step 3.</b> Sum.</p><span class=\"eq\">Ixx = 0.672 x 10^6 + 1.428 x 10^6 = 2.10 x 10^6 mm4</span><p><b>Final answer.</b></p><span class=\"eq\">╔ Centroid 29.4 mm below flange top ; Ixx = 2.10 x 10^6 mm4 about the centroidal axis ╗</span><p><b>Validity check.</b> The centroid hugs the flange (the fat partner pulls the average address toward itself) — for a T it must lie within the flange-side third; 29.4 mm from top in a 100 mm section passes. Asymmetry means Z differs top (I/29.4) vs bottom (I/70.6) — Unit 4 will ask which fibre yields first.</p>",
+     "gu": "<p><b>આપેલ છે:</b> T-section: ઉપર flange 100 × 12 mm, નીચે stem 88 × 12 mm, overall depth 100 mm. Centroidal Ixx શોધો.</p><p><b>Step 1.</b> Base થી centroid (flange A₁ = 1200 mm², y₁ = 94; stem A₂ = 1056 mm², y₂ = 44).</p><span class=\"eq\">y-bar = 70.6 mm base થી = flange top થી 29.4 mm નીચે</span><p><b>Step 2.</b> દરેક rectangle: પોતાનો I + A d².</p><span class=\"eq\">flange: 0.672 x 10^6 ;  stem: 1.428 x 10^6</span><p><b>Step 3.</b> સરવાળો.</p><span class=\"eq\">Ixx = 2.10 x 10^6 mm4</span><p><b>અંતિમ જવાબ:</b></p><span class=\"eq\">╔ Centroid flange top થી 29.4 mm નીચે ; Ixx = 2.10 x 10^6 mm4 ╗</span><p><b>ચકાસણી:</b> centroid flange (જાડો ભાગ) તરફ ખેંચાય છે — T માટે તે flange તરફના ત્રીજા ભાગમાં હોવો જોઈએ; 29.4 mm પાસ થાય છે. Asymmetry એટલે Z ઉપર (I/29.4) અને નીચે (I/70.6) જુદો — Unit 4 માં તે મહત્વનો બનશે.</p>"
+    }
+   }
+  ]
+ },
+ "syntax": {
+  "title": {
+   "en": "Formulae, methods and key data — Unit 2",
+   "gu": "Formulae, methods અને key data — યુનિટ 2"
+  },
+  "items": [
+   {
+    "name": {
+     "en": "MOI formula bank",
+     "gu": "MOI formula ભંડાર"
+    },
+    "body": {
+     "en": "<span class=\"eq\">rectangle: Ixx = bh^3/12, Iyy = hb^3/12 ; square: a^4/12 ; circle: pi D^4/64 ; hollow circle: pi(D^4-d^4)/64</span><span class=\"eq\">triangle: base axis bh^3/12 ; centroidal bh^3/36 ; hollow rectangle: (BD^3 - bd^3)/12 (N2.1)</span><span class=\"eq\">polar: J = Ix + Iy ; solid shaft J = pi D^4/32 ; hollow pi(D^4 - d^4)/32 ; radius of gyration r = sqrt(I/A)</span><span class=\"eq\">transfer: I = Ic + A d^2 (from centroidal only) ; centroid y-bar = sum(a y)/sum(a) for built-up pieces (N2.3)</span><p>Order of working for any built-up section: split → centroid (if asymmetric) → each piece (own I + Ad²) → sum → verify magnitude ~ depth⁴.</p>",
+     "gu": "<span class=\"eq\">rectangle: Ixx = bh^3/12 ; circle: pi D^4/64 ; hollow circle: pi(D^4-d^4)/64 ; triangle: centroidal bh^3/36</span><span class=\"eq\">hollow rectangle: (BD^3 - bd^3)/12 (Numerical 2.1) ; polar: J = pi D^4/32 (solid), pi(D^4-d^4)/32 (hollow)</span><span class=\"eq\">transfer: I = Ic + A d^2 ; centroid y-bar = sum(a y)/sum(a) (Numerical 2.3) ; r = sqrt(I/A)</span><p>કોઈ પણ built-up section માટે ક્રમ: ભાગ પાડો → centroid (asymmetric હોય તો) → દરેક ભાગ (પોતાનો I + Ad²) → સરવાળો → magnitude depth⁴ જેટલો છે તે check કરો.</p>"
+    }
+   },
+   {
+    "name": {
+     "en": "Method notes — where marks are lost",
+     "gu": "Method નોંધ — ગુણ ક્યાં જાય છે"
+    },
+    "body": {
+     "en": "<span class=\"eq\">subtraction method: outer minus inner/notches about the SAME axis (I-section, N2.2) - fastest when the void is symmetric</span><span class=\"eq\">addition method: flanges/web as rectangles; flange transfer A d^2 dominates - never drop it (it is ~80% of an I-section's Ixx)</span><span class=\"eq\">asymmetric sections: section modulus Z = I/c differs per face; quote both when a T or angle bends (Unit 4 link)</span><span class=\"eq\">units discipline: mm in, mm^4 out; engineering answers also in cm^4 (divide by 10^4) - state which</span><p>The subtraction and addition routes must agree; examiners award the check almost as much as the answer.</p>",
+     "gu": "<span class=\"eq\">subtraction method: outer minus inner એક જ axis પર (I-section, Numerical 2.2) — void symmetric હોય ત્યારે સૌથી ઝડપી</span><span class=\"eq\">addition method: flange નો transfer term A d^2 સૌથી મોટો હોય છે — ક્યારેય ન છોડો (I-section ના Ixx નો ~80% ભાગ)</span><span class=\"eq\">asymmetric sections માં Z = I/c દરેક face માટે જુદો; T કે angle વળે ત્યારે બંને કહો</span><span class=\"eq\">એકમ શિસ્ત: mm નાખો તો mm^4 મળે; cm^4 જોઈએ તો 10^4 થી ભાગો — કયું વાપર્યું તે લખો</span><p>Subtraction અને addition બંને રસ્તાના જવાબ મળવા જ જોઈએ; examiner check ને પણ લગભગ જવાબ જેટલા ગુણ આપે છે.</p>"
+    }
+   }
+  ]
+ },
+ "viva": {
+  "title": {
+   "en": "Viva Questions — Unit 2",
+   "gu": "Viva Questions — યુનિટ 2"
+  },
+  "items": [
+   {
+    "q": {
+     "en": "Define moment of inertia without using the word 'moment'.",
+     "gu": "'Moment' શબ્દ વાપર્યા વગર moment of inertia ની વ્યાખ્યા આપો."
+    },
+    "a": {
+     "en": "I = Σa·y²: sum over the section of each small area times the square of its distance from the axis. It is a purely geometric measure of how far the material spreads from the axis — bending resistance in one number (Card 2.1).",
+     "gu": "I = Σa·y²: section ના દરેક નાના area ને axis થીના તેના અંતરના વર્ગથી ગુણાકાર કરી કરેલો સરવાળો. તે શુદ્ધ geometric માપ છે કે material axis થી કેટલે દૂર ફેલાયેલું છે — એક number માં bending પ્રતિકાર (Card 2.1)."
+    }
+   },
+   {
+    "q": {
+     "en": "Same area, same steel: a solid square vs a hollow tube for a beam. Who wins and why?",
+     "gu": "એ જ area, એ જ steel: beam માટે solid square vs hollow tube. કોણ જીતે અને કેમ?"
+    },
+    "a": {
+     "en": "The tube, decisively: its area sits far from the centroidal axis where y² is large (Numerical 2.1 kept 59% of I on 36% area). MOI pays for distance squared, not for material — arrangement is free strength (Card 2.1).",
+     "gu": "Tube, ચોક્કસપણે: તેનું area centroidal axis થી દૂર હોય છે જ્યાં y² મોટું છે (Numerical 2.1 માં 36% area પર 59% I જળવાયું). MOI material માટે નહીં, અંતરના વર્ગ માટે ચૂકવે છે — ગોઠવણી મફત મજબૂતી છે (Card 2.1)."
+    }
+   },
+   {
+    "q": {
+     "en": "Parallel axis theorem — state it and name its one forbidden move.",
+     "gu": "Parallel axis theorem જણાવો અને તેની એક પ્રતિબંધિત ચાલ કહો."
+    },
+    "a": {
+     "en": "I = I_centroidal + A·d² for any parallel axis at distance d. Forbidden: transferring between two non-centroidal axes directly with one A d² — you must go via the centroid (subtract to it, add away from it), else the d² belongs to nobody (Card 2.3).",
+     "gu": "I = I_centroidal + A·d² કોઈ પણ સમાંતર axis માટે. પ્રતિબંધિત: બે non-centroidal axes વચ્ચે સીધું એક A d² થી transfer — centroid મારફતે જ જવું પડે છે (ત્યાં બાદ કરી, ત્યાંથી ઉમેરો), નહીંતર d² કોઈનો નથી રહેતો (Card 2.3)."
+    }
+   },
+   {
+    "q": {
+     "en": "Your transferred I came out smaller than the centroidal I. Verdict?",
+     "gu": "તમારું transferred I, centroidal I કરતાં નાનું આવ્યું. નિષ્કર્ષ?"
+    },
+    "a": {
+     "en": "Impossible — A d² is always positive, so the centroidal value is the minimum for parallel axes. A smaller result means the transfer sign was flipped; recompute, don't submit (Card 2.3).",
+     "gu": "અશક્ય — A d² હંમેશા positive છે, એટલે સમાંતર axes માં centroidal મૂલ્ય સૌથી નાનું હોય છે. નાનું પરિણામ એટલે transfer નું ચિહ્ન ઊલટું થયું છે; ફરી ગણો, submit ન કરો (Card 2.3)."
+    }
+   },
+   {
+    "q": {
+     "en": "Triangle: why bh³/12 about the base but bh³/36 about the centroidal axis?",
+     "gu": "Triangle: base પર bh³/12 પણ centroidal axis પર bh³/36 કેમ?"
+    },
+    "a": {
+     "en": "Same triangle, different axis address: the centroidal axis lies h/3 from the base, and transferring (subtract A(h/3)² = (bh/2)(h²/9) = bh³/18) turns bh³/12 = 3bh³/36 into bh³/36. The theorem pays its rent visibly (Card 2.4).",
+     "gu": "એ જ triangle, axis નું સરનામું જુદું: centroidal axis base થી h/3 દૂર છે, અને transfer (A(h/3)² બાદ કરતાં) bh³/12 ને bh³/36 બનાવે છે. Theorem અહીં આંખે દેખાય એ રીતે કામ કરે છે (Card 2.4)."
+    }
+   },
+   {
+    "q": {
+     "en": "I-section by subtraction — when does that trick fail?",
+     "gu": "I-section subtraction થી — આ trick ક્યારે નિષ્ફળ જાય?"
+    },
+    "a": {
+     "en": "When the voids are not full-height side rectangles about the same axis, or the section is asymmetric top-to-bottom (T, channel about weak axis): then it's centroid-first addition (Numerical 2.3). The trick is geometry-dependent, not universal.",
+     "gu": "જ્યારે ખાલી ભાગો એક જ axis પરના સંપૂર્ણ-ઊંચાઈના બાજુના rectangles ન હોય, અથવા section ઉપર-નીચે asymmetric હોય (T, channel): ત્યારે centroid-first addition જ માર્ગ છે (Numerical 2.3). Trick geometry પર આધારિત છે, સર્વત્ર લાગુ નથી."
+    }
+   },
+   {
+    "q": {
+     "en": "Radius of gyration in one line — and its Unit 7 job.",
+     "gu": "Radius of gyration એક line માં — અને Unit 7 માં તેનું કામ."
+    },
+    "a": {
+     "en": "r = √(I/A): the radius at which the section's area, lumped, reproduces its I. In Unit 7 it divides the column's effective length to make the slenderness ratio λ = L_e/r that decides Euler versus crushing (Card 2.2).",
+     "gu": "r = √(I/A): જે અંતરે section નું આખું area ભેગું કરો તો એ જ I મળે તે ત્રિજ્યા. Unit 7 માં તે column ની effective length ને ભાગી slenderness ratio λ = L_e/r બનાવે છે, જે Euler કે crushing નક્કી કરે છે (Card 2.2)."
+    }
+   },
+   {
+    "q": {
+     "en": "Polar MOI J of a solid shaft — formula and its employer.",
+     "gu": "Solid shaft નો polar MOI J — formula અને તેનો વપરાશકર્તા."
+    },
+    "a": {
+     "en": "J = πD⁴/32 (= I_x + I_y by the perpendicular axis theorem). Its employer is torsion: τ = T·r/J in Structures-II, as bending here uses σ = M·y/I (Card 2.6).",
+     "gu": "J = πD⁴/32 (= I_x + I_y, perpendicular axis theorem થી). તેનો વપરાશ torsion માં છે: τ = T·r/J (Structures-II), જેમ અહીં bending માં σ = M·y/I વપરાય છે (Card 2.6)."
+    }
+   },
+   {
+    "q": {
+     "en": "Flange's own bh³/12 in an I-section is tiny. Why do students who drop the A d² term fail anyway?",
+     "gu": "I-section માં flange નો પોતાનો bh³/12 નાનો છે. છતાં A d² છોડનાર વિદ્યાર્થી કેમ નિષ્ફળ જાય?"
+    },
+    "a": {
+     "en": "Because the flange's transfer term A d² (1000 × 95² ≈ 9 × 10⁶ per flange) is nearly the whole Ixx; the flange's own I (≈ 8333) is rounding error. Dropping A d² throws away 80% of the answer (Numerical 2.2).",
+     "gu": "કારણ કે flange નો transfer term A d² (દરેક flange દીઠ ≈ 9 × 10⁶) લગભગ આખો Ixx છે; flange નો પોતાનો I (≈ 8333) તો rounding error છે. A d² છોડવું એટલે જવાબનો 80% ભાગ ફેંકી દેવો (Numerical 2.2)."
+    }
+   },
+   {
+    "q": {
+     "en": "Section modulus Z — define via I and say why T-sections need two of them.",
+     "gu": "Section modulus Z — I થી વ્યાખ્યાયિત કરો, અને T-section ને બે Z કેમ જોઈએ?"
+    },
+    "a": {
+     "en": "Z = I/c, c = distance to the extreme fibre; bending stress is M/Z. A T is asymmetric — c to the flange face (29.4 mm) differs from c to the stem tip (70.6 mm) — so Z_top ≠ Z_bottom and the same moment stresses the two faces unequally (Numerical 2.3).",
+     "gu": "Z = I/c, જ્યાં c = સૌથી દૂરના fibre સુધીનું અંતર; bending stress = M/Z. T asymmetric છે — flange face સુધી c (29.4 mm) અને stem છેડા સુધી c (70.6 mm) જુદા છે — એટલે Z_top ≠ Z_bottom, અને એ જ moment બે face પર જુદો stress આપે છે (Numerical 2.3)."
+    }
+   },
+   {
+    "q": {
+     "en": "Order-of-magnitude guard: a 200 mm deep beam section returns I = 2.3 × 10⁴ mm⁴. Reaction?",
+     "gu": "Magnitude નો પહેરો: 200 mm ઊંડા beam section માટે I = 2.3 × 10⁴ mm⁴ આવ્યું. પ્રતિક્રિયા?"
+    },
+    "a": {
+     "en": "Reject it: I scales like depth⁴ (200⁴ = 1.6 × 10⁹ scale, sections land at 10⁶–10⁸ mm⁴ — Numerical 2.2's 22.9 × 10⁶). 10⁴ means lost factors of 100 — usually mm/cm unit slippage.",
+     "gu": "નકારો: I depth⁴ પ્રમાણે વધે છે (sections 10⁶–10⁸ mm⁴ માં આવે છે — Numerical 2.2 નું 22.9 × 10⁶ જુઓ). 10⁴ એટલે 100 ના factors ખોવાયા છે — સામાન્ય રીતે mm/cm એકમની ગરબડ."
+    }
+   },
+   {
+    "q": {
+     "en": "Perpendicular axis theorem — its one precondition.",
+     "gu": "Perpendicular axis theorem — તેની એકમાત્ર પૂર્વશરત."
+    },
+    "a": {
+     "en": "The section must be a plane lamina and the polar axis perpendicular through the in-plane axes' intersection: J = I_x + I_y. It does not manufacture J for non-planar or skewed-axis cases (Card 2.3).",
+     "gu": "Section plane lamina હોવું જોઈએ અને polar axis તેના plane ના axes ના છેદનબિંદુથી લંબ હોવી જોઈએ: J = I_x + I_y. Non-planar કે ત્રાંસા-axis માટે તે J બનાવી શકતું નથી (Card 2.3)."
+    }
+   }
+  ]
+ },
+ "exam_questions": [
+  {
+   "q": {
+    "en": "State and explain the parallel axis theorem and perpendicular axis theorem. Why is the centroidal MOI the minimum among parallel axes?",
+    "gu": "Parallel axis theorem અને perpendicular axis theorem જણાવી સમજાવો. સમાંતર axes માં centroidal MOI સૌથી નાનું કેમ હોય છે?"
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Write (without derivation) the MOI formulae for rectangle, square, circle, hollow circle, triangle (base and centroidal axes) and hollow rectangle, each with a sketch.",
+    "gu": "Sketch સાથે (derivation વગર) MOI formulae લખો: rectangle, square, circle, hollow circle, triangle (base અને centroidal axes) અને hollow rectangle."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "For the I-section (flanges 100 x 10, web 10 thick, depth 200 mm), determine Ixx by (a) subtraction and (b) addition of three rectangles, showing both agree. Also find Zxx.",
+    "gu": "I-section (flanges 100 x 10, web 10 thick, depth 200 mm) માટે Ixx શોધો (a) subtraction અને (b) ત્રણ rectangles ના addition થી, બંને મળે છે તે બતાવી. Zxx પણ શોધો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "A T-section has flange 100 x 12 and stem 88 x 12. Locate the centroid from the flange face and compute the centroidal Ixx, Z at top and Z at bottom.",
+    "gu": "T-section: flange 100 x 12, stem 88 x 12. Flange face થી centroid શોધો અને centroidal Ixx, Z_top અને Z_bottom ગણો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Define radius of gyration and polar moment of inertia. For a hollow circular section (D = 120, d = 80 mm), compute J and I.",
+    "gu": "Radius of gyration અને polar moment of inertia ની વ્યાખ્યા આપો. Hollow circular section (D = 120, d = 80 mm) માટે J અને I ગણો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "A hollow rectangular section is 100 x 150 mm outside and 80 x 120 mm inside. Find Ixx, Iyy and both radii of gyration about centroidal axes.",
+    "gu": "Hollow rectangular section બહારથી 100 x 150 mm અને અંદરથી 80 x 120 mm છે. Centroidal axes પર Ixx, Iyy અને બંને radii of gyration શોધો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain why built-up (I, channel) shapes are preferred over solid rectangular beams of equal area, using the A d^2 transfer term in your reasoning.",
+    "gu": "Built-up (I, channel) આકારો સરખા area ના solid rectangular beam કરતાં શા માટે પસંદગીય છે તે A d^2 transfer term વાપરી સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Locate the centroid and find Ixx for an unequal angle or channel section (data as in class example), stating each step of the add-and-transfer algorithm.",
+    "gu": "Unequal angle કે channel section (class example મુજબ data) માટે centroid શોધી Ixx ગણો, add-and-transfer algorithm નું દરેક પગલું જણાવીને."
+   },
+   "marks": 4
+  }
+ ],
+ "question_provenance": "Original practice questions written strictly within the official DI03006041 syllabus coverage",
+ "practicals": [],
+ "content_kind": "theory_trimmed_civil"
+}

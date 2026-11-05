@@ -1,0 +1,365 @@
+{
+ "code": "DI03006041",
+ "unit": 5,
+ "branch": "civil",
+ "semester": 3,
+ "title": {
+  "en": "Slope and Deflection",
+  "gu": "Slope અને Deflection"
+ },
+ "hours": 4,
+ "weightage": 10,
+ "cos": [
+  "CO4"
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "numericals",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "",
+  "gu": ""
+ },
+ "notes": [
+  {
+   "title": {
+    "en": "Unit 5 Notes — Slope and Deflection of Beams",
+    "gu": "યુનિટ 5 Notes — Beam નો Slope અને Deflection"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "5.1 Why deflection matters — serviceability and the EI governor",
+      "gu": "5.1 Deflection કેમ મહત્વનું — serviceability અને EI નું શાસન"
+     },
+     "syllabus_item": "5.1 Importance of slope and deflection, definitions, factors affecting deflection, permissible limits",
+     "body": {
+      "en": "<p><b>Strength keeps a beam standing; stiffness keeps it usable.</b> Deflection is the vertical displacement of a point on the beam's axis; slope is the angle (radians) the tangent to the deflected axis — the <i>elastic curve</i> — makes with the original axis (Diagram). A beam can be perfectly safe in stress (Unit 4) and still fail its job: sagging floors crack partitions and brittle finishes, pond rainwater, vibrate underfoot, jam doors, and look unsafe — which, to a user, is unsafe. Codes therefore cap deflection (a common steel limit is span/325; concrete practice limits visible sag to about span/250): deflection is a <i>serviceability</i> limit state policed separately from strength.</p><p><b>What governs it:</b> from 1/R = M/(EI), curvature at every section is moment divided by <i>EI</i> — the flexural rigidity — so deflection shrinks with bigger E and I, and explodes with span (L³, L⁴ in the standard formulas). Load type and position, support settlement, shear deformation (minor in long beams), temperature and — in concrete — creep all add their share; the designer's levers, in order of violence: shorten span, deepen the section (I ∝ h³), add intermediate support, choose stiffer material.</p>",
+      "gu": "<p><b>Strength beam ને ઊભો રાખે છે; stiffness તેને વાપરવા લાયક રાખે છે.</b> Deflection એ beam ની ધરી પરના બિંદુનું vertical ખસવું; slope એ વળેલી ધરી — <i>elastic curve</i> — ના tangent નો મૂળ ધરી સાથેનો ખૂણો (radians) છે (Diagram). Beam stress માં (Unit 4) સંપૂર્ણ સલામત હોવા છતાં કામમાં નિષ્ફળ થઈ શકે છે: લચકતી છત પાર્ટિશન તોડે છે, વરસાદનું પાણી ભેગું કરે છે, પગલાંથી ધ્રુજે છે, દરવાજા જામ કરે છે અને અસલામત દેખાય છે. એટલે code deflection ને મર્યાદિત કરે છે (steel માટે સામાન્ય મર્યાદા span/325): deflection એ strength થી અલગ ચકાસાતી <i>serviceability</i> મર્યાદા છે.</p><p><b>શું શાસન કરે છે:</b> 1/R = M/(EI) મુજબ curvature દરેક section પર moment ભાગ્યા <i>EI</i> (flexural rigidity) છે — એટલે deflection મોટા E અને I સાથે ઘટે છે અને span સાથે વિસ્ફોટે છે (formulas માં L³, L⁴). Designer ના સાધનો: span ટૂંકો કરવો, section ઊંડો કરવો (I ∝ h³), વચ્ચે support ઉમેરવો, stiff material પસંદ કરવું.</p>"
+     },
+     "diagram": "ms5_elastic"
+    },
+    {
+     "h": {
+      "en": "5.2 Methods of finding slope and deflection — the map",
+      "gu": "5.2 Slope અને deflection શોધવાની પદ્ધતિઓ — નકશો"
+     },
+     "syllabus_item": "5.2 Methods: double integration, Macaulay, moment-area, conjugate beam, superposition (concept only) ",
+     "body": {
+      "en": "<p><b>Five roads up the same hill (concepts, per syllabus).</b> (1) <i>Double integration</i>: write M(x), integrate EI y″ = M(x) twice, fix constants from boundary conditions (slope/deflection known at supports) — the mother method. (2) <i>Macaulay's method</i>: the same, with bracket notation that lets one equation serve segment-wise loads (point loads, partial UDLs). (3) <i>Moment-area</i>: geometry of the M/EI diagram — angle between tangents equals 1 area of M/EI between the points; tangential deviation equals its moment — graphical, fast for odd shapes. (4) <i>Conjugate beam</i>: load a fictitious beam with M/EI as 'load'; its shear is slope, its moment is deflection. (5) <i>Superposition</i>: add ready-made standard cases (Cards 5.3–5.4) — the engineer's daily tool, valid while material stays elastic and deflections small.</p><p>GTU's diploma scope: know what each method does, and <i>use standard formulae</i> for the standard cases — examiners test selection and arithmetic fluency (units: N, mm, MPa give mm directly when E in N/mm² and I in mm⁴), not derivations. The universal sanity checks: deflection is zero at every simple/built-in support, slope is zero at built-in ends and at the max-deflection point of symmetric cases, and halving span divides deflection by 8–16 — if your number disobeys, it is wrong.</p>",
+      "gu": "<p><b>એક જ ટેકરીના પાંચ રસ્તા (syllabus મુજબ ખ્યાલો):</b> (1) <i>Double integration</i>: M(x) લખો, EI y″ = M(x) ને બે વાર integrate કરો, boundary conditions થી constants શોધો — માતૃ પદ્ધતિ. (2) <i>Macaulay</i>: એ જ, પણ bracket notation થી એક equation બધા segment ના loads માટે ચાલે છે. (3) <i>Moment-area</i>: M/EI diagram ની ભૂમિતિ — tangents વચ્ચેનો ખૂણો = M/EI નું ક્ષેત્રફળ. (4) <i>Conjugate beam</i>: કાલ્પનિક beam પર M/EI ને 'load' તરીકે મૂકો; તેનો shear એ slope, moment એ deflection. (5) <i>Superposition</i>: તૈયાર standard cases ના પરિણામો ઉમેરો (Cards 5.3–5.4) — દરરોજનું સાધન.</p><p>Diploma scope: દરેક પદ્ધતિ શું કરે છે તે જાણો, અને standard cases માટે <i>તૈયાર formulae વાપરો</i>. સાર્વત્રિક ચકાસણી: દરેક simple/built-in support પર deflection શૂન્ય; fixed છેડા પર slope શૂન્ય; span અડધો કરતાં deflection 8–16 ગણું ઘટે છે — આંકડો આ ન માને તો ખોટો છે.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "5.3 Cantilever standard cases — using the formulae",
+      "gu": "5.3 Cantilever standard cases — formulae નો ઉપયોગ"
+     },
+     "syllabus_item": "5.3 Standard cases: cantilever with end point load and UDL; slope and deflection at any point",
+     "body": {
+      "en": "<p><b>The cantilever bank (Diagram).</b></p><span class=\"eq\">end point load P: theta_tip = PL^2/(2EI) ; delta_tip = PL^3/(3EI) ; delta at x: (P x^2/(6EI))(3L - x)</span><span class=\"eq\">UDL w throughout: theta_tip = wL^3/(6EI) ; delta_tip = wL^4/(8EI) ; delta at x: (w x^2/(24EI))(x^2 - 4Lx + 6L^2)</span><p>Both maxima sit at the free tip; the fixed end has θ = δ = 0 — boundary conditions visible in every formula. Numerical 5.1 audits a steel cantilever (P = 8 kN, L = 2.5 m, I = 8 × 10⁻⁶ m⁴): θ_tip = 0.0156 rad, δ_tip = 26.0 mm — span/96, far beyond span/325: strength never even got asked. Read the exponents: deflection's L³ means the last metre of a diving board does the damage; slope's L² is why end rotations plague cladding joints. Combined loadings superpose: add the two banks' outputs, never multiply them.</p>",
+      "gu": "<p><b>Cantilever બેંક (Diagram):</b></p><span class=\"eq\">end point load P: theta_tip = PL^2/(2EI) ; delta_tip = PL^3/(3EI)</span><span class=\"eq\">UDL w: theta_tip = wL^3/(6EI) ; delta_tip = wL^4/(8EI)</span><p>બંને maxima free છેડા પર; fixed છેડે θ = δ = 0. Numerical 5.1 માં steel cantilever (P = 8 kN, L = 2.5 m): θ_tip = 0.0156 rad, δ_tip = 26.0 mm — span/96, એટલે span/325 ની મર્યાદા કરતાં ઘણું વધારે: strength પુછાયો જ નહીં. ઘાતાંક વાંચો: deflection નો L³ કહે છે કે છેલ્લો મીટર સૌથી વધુ નુકસાન કરે છે. સંયુક્ત loads હોય તો પરિણામો ઉમેરાય છે, ગુણાતા નથી.</p>"
+     },
+     "diagram": "ms5_cantilever"
+    },
+    {
+     "h": {
+      "en": "5.4 Simply supported standard cases — using the formulae",
+      "gu": "5.4 Simply supported standard cases — formulae નો ઉપયોગ"
+     },
+     "syllabus_item": "5.4 Standard cases: SSB with central point load and UDL; slope and deflection, maximum deflection checks",
+     "body": {
+      "en": "<p><b>The simply-supported bank (Diagram).</b></p><span class=\"eq\">central P: theta_supports = PL^2/(16EI) ; delta_centre = PL^3/(48EI)</span><span class=\"eq\">UDL w: theta_supports = wL^3/(24EI) ; delta_centre = 5wL^4/(384EI)</span><p>Symmetric cases peak at midspan where slope passes through zero — the BMD-like silhouette is no accident (moment-area reads slope change straight off the M/EI area). Numerical 5.2 (P = 20 kN, L = 5 m, EI = 3.0 × 10⁷ N·m²): δ = 1.74 mm — span/2875, fortress-stiff. Numerical 5.3 (UDL 12 kN/m, 6 m, same EI): δ = 6.75 mm at centre, θ = 0.0036 rad at supports. Exam pattern: compute, then <i>judge</i> against span/325 or span/250 — 'is it permissible?' is half the marks, because stiffness, like strength, is a pass/fail gate, not a description.</p>",
+      "gu": "<p><b>Simply supported બેંક (Diagram):</b></p><span class=\"eq\">central P: theta_supports = PL^2/(16EI) ; delta_centre = PL^3/(48EI)</span><span class=\"eq\">UDL w: theta_supports = wL^3/(24EI) ; delta_centre = 5wL^4/(384EI)</span><p>Symmetric cases માં મહત્તમ midspan પર, જ્યાં slope શૂન્ય થઈ પસાર થાય છે. Numerical 5.2 (P = 20 kN, L = 5 m): δ = 1.74 mm — span/2875, ખૂબ stiff. Numerical 5.3 (UDL 12 kN/m, 6 m): δ = 6.75 mm, θ = 0.0036 rad. પરીક્ષાનો ઢાંચો: ગણો, પછી span/325 કે span/250 સામે <i>ચકાસો</i> — 'permissible છે?' એ અડધા ગુણ છે.</p>"
+     },
+     "diagram": "ms5_ssb"
+    }
+   ]
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "ms5_elastic",
+   "title": {
+    "en": "Elastic curve: slope and deflection",
+    "gu": "Elastic curve: slope અને deflection"
+   }
+  },
+  {
+   "id": "ms5_cantilever",
+   "title": {
+    "en": "Cantilever standard cases",
+    "gu": "Cantilever standard cases (પ્રમાણભૂત)"
+   }
+  },
+  {
+   "id": "ms5_ssb",
+   "title": {
+    "en": "Simply supported beam standard cases",
+    "gu": "Simply supported beam standard cases (પ્રમાણભૂત)"
+   }
+  }
+ ],
+ "numericals": {
+  "title": {
+   "en": "Solved Numericals — Unit 5",
+   "gu": "ઉકેલેલા Numericals — યુનિટ 5"
+  },
+  "items": [
+   {
+    "id": "Numerical 5.1",
+    "title": {
+     "en": "Numerical 5.1 — Cantilever tip slope and deflection (point load)",
+     "gu": "Numerical 5.1 — Cantilever tip slope અને deflection (point load)"
+    },
+    "body": {
+     "en": "<p><b>Given.</b> Steel cantilever L = 2.5 m, P = 8 kN at the free end, E = 200 GPa, I = 8 × 10⁻⁶ m⁴. Find tip slope and deflection; judge against span/325.</p><p><b>Step 1.</b> Flexural rigidity.</p><span class=\"eq\">EI = 200 x 10^9 x 8 x 10^-6 = 1.6 x 10^6 N-m2</span><p><b>Step 2.</b> Standard cantilever bank (Diagram).</p><span class=\"eq\">theta_tip = PL^2/(2EI) = 8000 x 2.5^2 / (2 x 1.6 x 10^6) = 50000 / 3.2 x 10^6 = 0.0156 rad</span><span class=\"eq\">delta_tip = PL^3/(3EI) = 8000 x 15.625 / (3 x 1.6 x 10^6) = 0.02604 m = 26.0 mm</span><p><b>Final answer.</b></p><span class=\"eq\">╔ theta_tip = 0.0156 rad ; delta_tip = 26.0 mm = L/96 - far beyond L/325: SERVICEABILITY FAILS though stress may pass ╗</span><p><b>Validity check.</b> δ = θ × (2L/3) for this case (0.0156 × 1.67 = 0.026 m ✓ — the tip deflection of an end-loaded cantilever always equals slope × 2L/3). And L³ sensitivity: a 3 m version would sag 45 mm (Card 5.3).</p>",
+     "gu": "<p><b>આપેલ છે:</b> steel cantilever L = 2.5 m, free end પર P = 8 kN, E = 200 GPa, I = 8 × 10⁻⁶ m⁴. Tip slope અને deflection શોધો; span/325 સામે ચકાસો.</p><p><b>Step 1.</b> Flexural rigidity.</p><span class=\"eq\">EI = 1.6 x 10^6 N-m2</span><p><b>Step 2.</b> Standard cantilever સૂત્રો (Diagram).</p><span class=\"eq\">theta_tip = PL^2/(2EI) = 0.0156 rad ;  delta_tip = PL^3/(3EI) = 26.0 mm</span><p><b>અંતિમ જવાબ:</b></p><span class=\"eq\">╔ theta_tip = 0.0156 rad ; delta_tip = 26.0 mm = L/96 — L/325 કરતાં ઘણું વધારે: stress પાસ થાય તો પણ SERVICEABILITY નિષ્ફળ ╗</span><p><b>ચકાસણી:</b> આ case માં δ = θ × (2L/3) (0.0156 × 1.67 = 0.026 m ✓). L³ ની સંવેદનશીલતા: 3 m વાળો 45 mm લચકે (Card 5.3).</p>"
+    }
+   },
+   {
+    "id": "Numerical 5.2",
+    "title": {
+     "en": "Numerical 5.2 — SSB with central point load",
+     "gu": "Numerical 5.2 — SSB central point load સાથે"
+    },
+    "body": {
+     "en": "<p><b>Given.</b> Simply supported beam L = 5 m, central point load 20 kN, EI = 3.0 × 10⁷ N·m². Find maximum deflection and slopes at supports.</p><p><b>Step 1.</b> Central-load bank (Diagram).</p><span class=\"eq\">delta_max = PL^3/(48EI) = 20000 x 125 / (48 x 3.0 x 10^7) = 2.5 x 10^6 / 1.44 x 10^9 = 0.001736 m = 1.74 mm</span><span class=\"eq\">theta_supports = PL^2/(16EI) = 20000 x 25 / (16 x 3.0 x 10^7) = 0.00104 rad (opposite signs at the two ends)</span><p><b>Final answer.</b></p><span class=\"eq\">╔ delta_max = 1.74 mm at centre = L/2875 (very stiff, passes L/325 easily) ; slopes 0.00104 rad at supports ╗</span><p><b>Validity check.</b> For the central-load case δ = θ_support × L/3 (0.00104 × 1.667 = 0.00174 ✓). Small-deflection assumption comfortably valid — the elastic curve is nearly flat, exactly the regime the standard formulae assume (Card 5.2).</p>",
+     "gu": "<p><b>આપેલ છે:</b> simply supported beam L = 5 m, centre પર 20 kN, EI = 3.0 × 10⁷ N·m². મહત્તમ deflection અને supports પર slopes શોધો.</p><p><b>Step 1.</b> Central-load સૂત્રો.</p><span class=\"eq\">delta_max = PL^3/(48EI) = 1.74 mm ;  theta_supports = PL^2/(16EI) = 0.00104 rad</span><p><b>અંતિમ જવાબ:</b></p><span class=\"eq\">╔ delta_max = 1.74 mm centre પર = L/2875 (L/325 આસાનીથી પાસ) ; supports પર slope 0.00104 rad ╗</span><p><b>ચકાસણી:</b> આ case માં δ = θ × L/3 (0.00104 × 1.667 = 0.00174 ✓). Deflection નાનો છે — formulae ની ધારણાઓ પૂરી રીતે માન્ય (Card 5.2).</p>"
+    }
+   },
+   {
+    "id": "Numerical 5.3",
+    "title": {
+     "en": "Numerical 5.3 — SSB with full UDL: deflection and permissibility",
+     "gu": "Numerical 5.3 — SSB સંપૂર્ણ UDL: deflection અને permissibility"
+    },
+    "body": {
+     "en": "<p><b>Given.</b> Simply supported beam L = 6 m, UDL w = 12 kN/m over the whole span, EI = 3.0 × 10⁷ N·m². Find maximum deflection and end slopes; check against L/325 and L/250.</p><p><b>Step 1.</b> UDL bank (Diagram).</p><span class=\"eq\">delta_max = 5wL^4/(384EI) = 5 x 12000 x 1296 / (384 x 3.0 x 10^7) = 7.776 x 10^7 / 1.152 x 10^10 = 0.00675 m = 6.75 mm</span><span class=\"eq\">theta_supports = wL^3/(24EI) = 12000 x 216 / (24 x 3.0 x 10^7) = 0.0036 rad</span><p><b>Step 2.</b> Permissibility verdicts.</p><span class=\"eq\">L/325 = 6000/325 = 18.5 mm ; L/250 = 24 mm ; 6.75 mm < both -> PASSES serviceability</span><p><b>Final answer.</b></p><span class=\"eq\">╔ delta_max = 6.75 mm at centre ; theta = 0.0036 rad at supports ; permissible - stiffness adequate ╗</span><p><b>Validity check.</b> Equivalent-load comparison: UDL total 72 kN; the same total as a central point load would deflect 72/20 × 1.74 × (5/6)³-scale… simpler audit: 5wL⁴/384 = 0.01302 wL⁴/EI vs central-P form PL³/48 = 0.0208 PL³/EI with P = wL: 0.0208 wL⁴/EI — UDL deflects 62% of the equal central load ✓ (spread loads always kinder). Examiners ask the verdict, not just the millimetres (Card 5.4).</p>",
+     "gu": "<p><b>આપેલ છે:</b> simply supported beam L = 6 m, આખા span પર UDL 12 kN/m, EI = 3.0 × 10⁷ N·m². મહત્તમ deflection અને end slopes શોધો; L/325 અને L/250 સામે ચકાસો.</p><p><b>Step 1.</b> UDL સૂત્રો.</p><span class=\"eq\">delta_max = 5wL^4/(384EI) = 6.75 mm ;  theta_supports = wL^3/(24EI) = 0.0036 rad</span><p><b>Step 2.</b> Permissibility નિર્ણય.</p><span class=\"eq\">L/325 = 18.5 mm ; L/250 = 24 mm ; 6.75 mm બંનેથી ઓછો -> PASS</span><p><b>અંતિમ જવાબ:</b></p><span class=\"eq\">╔ delta_max = 6.75 mm centre પર ; theta = 0.0036 rad ; permissible — stiffness પૂરતી છે ╗</span><p><b>ચકાસણી:</b> એ જ કુલ load (72 kN) centre પર મૂક્યો હોત તો deflection વધુ આવત — ફેલાયેલો load હંમેશા હળવો હોય છે. પરીક્ષક ફક્ત mm નહીં, નિર્ણય પણ માગે છે (Card 5.4).</p>"
+    }
+   }
+  ]
+ },
+ "syntax": {
+  "title": {
+   "en": "Formulae, methods and key data — Unit 5",
+   "gu": "Formulae, methods અને key data — યુનિટ 5"
+  },
+  "items": [
+   {
+    "name": {
+     "en": "Standard-case bank (memorise cold)",
+     "gu": "Standard-case બેંક (યાદ રાખો)"
+    },
+    "body": {
+     "en": "<span class=\"eq\">cantilever end P: theta = PL^2/(2EI), delta = PL^3/(3EI) ; cantilever UDL: theta = wL^3/(6EI), delta = wL^4/(8EI) (maxima at tip)</span><span class=\"eq\">SSB central P: theta_supp = PL^2/(16EI), delta = PL^3/(48EI) ; SSB UDL: theta_supp = wL^3/(24EI), delta = 5wL^4/(384EI) (delta max at centre)</span><span class=\"eq\">cantilever point load at distance a from wall: beyond the load the beam stays straight (rotated), delta_tip = delta_a + theta_a (L - a)</span><span class=\"eq\">units audit: E in N/mm2 (MPa) and I in mm4 -> delta in mm directly ; theta always in RADIANS</span><p>Selection skill the exam buys: match load pattern → bank row → substitute → judge. Nothing here is derived in the exam hall.</p>",
+     "gu": "<span class=\"eq\">cantilever end P: theta = PL^2/(2EI), delta = PL^3/(3EI) ; cantilever UDL: theta = wL^3/(6EI), delta = wL^4/(8EI)</span><span class=\"eq\">SSB central P: theta_supp = PL^2/(16EI), delta = PL^3/(48EI) ; SSB UDL: theta_supp = wL^3/(24EI), delta = 5wL^4/(384EI)</span><span class=\"eq\">એકમ ચકાસણી: E N/mm2 માં અને I mm4 માં હોય તો delta સીધો mm માં મળે છે ; theta હંમેશા RADIANS માં</span><p>પરીક્ષામાં ખરીદાતી કુશળતા: load pattern → યોગ્ય formula → આંકડા મૂકો → નિર્ણય આપો. અહીં કંઈ તારવવાનું નથી.</p>"
+    }
+   },
+   {
+    "name": {
+     "en": "Permissible limits and deflection data — key data",
+     "gu": "Permissible મર્યાદા અને deflection data — key data"
+    },
+    "body": {
+     "en": "<span class=\"eq\">typical limits: steel beams span/325 ; visible sag in floors about span/250 ; brittle finishes stricter (span/350-500)</span><span class=\"eq\">governing levers ranked: span (L^3-L^4!) > depth via I (h^3) > added supports > E (steel 200 GPa fixed gift ; timber/concrete pay in creep)</span><span class=\"eq\">checks built into every formula: delta = 0 at supports ; theta = 0 at fixed ends and under the max-delta point of symmetric cases</span><span class=\"eq\">scaling laws: delta proportional to load, to L^3 (point) or L^4 (UDL), inverse to EI - doubling span multiplies sag 8-16x</span><p>A deflection answer without a limit verdict is an unfinished answer — Unit 5's whole professional point (N5.3).</p>",
+     "gu": "<span class=\"eq\">સામાન્ય મર્યાદા: steel beams span/325 ; દેખાતો લચકો આશરે span/250 ; બરડ finishes માટે વધુ કડક</span><span class=\"eq\">નિયંત્રણના સાધનો ક્રમમાં: span (L^3-L^4!) > I દ્વારા depth (h^3) > વધારાના supports > E</span><span class=\"eq\">દરેક formula માં સમાયેલી ચકાસણી: supports પર delta = 0 ; fixed છેડે theta = 0</span><span class=\"eq\">scaling: delta load ને સમપ્રમાણ, L^3 (point) કે L^4 (UDL), EI ને વ્યસ્ત — span બમણો એટલે 8-16 ગણો લચકો</span><p>મર્યાદા-ચકાસણી વગરનો deflection જવાબ અધૂરો જવાબ છે — Unit 5 નો આખો વ્યાવસાયિક મુદ્દો (Numerical 5.3).</p>"
+    }
+   }
+  ]
+ },
+ "viva": {
+  "title": {
+   "en": "Viva Questions — Unit 5",
+   "gu": "Viva Questions — યુનિટ 5"
+  },
+  "items": [
+   {
+    "q": {
+     "en": "Slope and deflection — define both so the definitions discriminate.",
+     "gu": "Slope અને deflection — એવી વ્યાખ્યા આપો કે બંને અલગ પડે."
+    },
+    "a": {
+     "en": "Deflection: vertical displacement of a point on the beam axis (mm). Slope: angle in radians between the tangent to the elastic curve at that point and the original axis. One is a length, one a rotation — every standard formula returns maxima of each, at different addresses (Card 5.1).",
+     "gu": "Deflection: beam ની ધરી પરના બિંદુનું vertical ખસવું (mm). Slope: એ બિંદુએ elastic curve ના tangent નો મૂળ ધરી સાથેનો ખૂણો (radians). એક લંબાઈ છે, એક કોણ — દરેક formula બંનેના maxima જુદા સરનામે આપે છે (Card 5.1)."
+    }
+   },
+   {
+    "q": {
+     "en": "A beam passes stress but deflects 26 mm on a 2.5 m span (N5.1). Verdict and vocabulary?",
+     "gu": "Beam stress માં પાસ પણ 2.5 m span પર 26 mm લચકે છે (N5.1). નિર્ણય?"
+    },
+    "a": {
+     "en": "Fail — serviceability limit state. Strength (Unit 4) and stiffness (Unit 5) are separate gates; span/96 against a span/325 limit means unusable though unbroken: finishes crack, users complain, water ponds. Both gates must pass (Card 5.1).",
+     "gu": "નિષ્ફળ — serviceability limit state. Strength (Unit 4) અને stiffness (Unit 5) અલગ દરવાજા છે; span/96 વિરુદ્ધ span/325 મર્યાદા એટલે તૂટ્યા વગર નકામું. બંને દરવાજા પાસ થવા જોઈએ (Card 5.1)."
+    }
+   },
+   {
+    "q": {
+     "en": "EI — name it, and why I outranks E as a design lever?",
+     "gu": "EI — નામ આપો, અને design સાધન તરીકે I, E કરતાં કેમ ચઢિયાતું છે?"
+    },
+    "a": {
+     "en": "EI is flexural rigidity: curvature = M/EI everywhere. E is essentially fixed by material choice (steel 200 GPa; you cannot buy 400 GPa steel), while I is yours to multiply — h³ for depth. Designers shop for I, not E (Cards 5.1, 2.x).",
+     "gu": "EI એટલે flexural rigidity: દરેક જગ્યાએ curvature = M/EI. E material થી લગભગ નિશ્ચિત છે (steel 200 GPa — 400 GPa નું steel મળતું નથી), જ્યારે I તમારા હાથમાં છે — ઊંડાઈથી h³. Designer E નહીં, I ખરીદે છે (Card 5.1)."
+    }
+   },
+   {
+    "q": {
+     "en": "Cantilever deflection formulas: why L³ there but L² in slope?",
+     "gu": "Cantilever માં deflection ના સૂત્રમાં L³ પણ slope માં L² કેમ?"
+    },
+    "a": {
+     "en": "Slope integrates curvature once (M/EI ∝ x² pattern → L²), deflection integrates slope (→ L³). One more integration, one more L. Same ladder as load→shear→moment→slope→deflection: each rung adds a length dimension (Card 5.3).",
+     "gu": "Slope એ curvature નું એક integration છે (→ L²), deflection એ slope નું બીજું integration (→ L³). એક integration વધુ, એક L વધુ. Load→shear→moment→slope→deflection એ જ સીડી (Card 5.3)."
+    }
+   },
+   {
+    "q": {
+     "en": "SSB with UDL: supports get max slope, centre gets zero slope but max deflection. Consistent?",
+     "gu": "UDL વાળા SSB માં supports પર slope મહત્તમ, centre પર slope શૂન્ય પણ deflection મહત્તમ. સુસંગત?"
+    },
+    "a": {
+     "en": "Exactly: the elastic curve is a flattened dome; its tangent is steepest at the ends, horizontal (slope 0) at the crown where the drop is greatest. Zero slope at max deflection is the symmetric-case signature the formulas encode (Card 5.4).",
+     "gu": "બિલકુલ: elastic curve ચપટો ગુંબજ છે; છેડે tangent સૌથી વધુ ઢળેલો, ટોચ પર આડો (slope 0) જ્યાં લટકો સૌથી વધુ છે. Symmetric case ની આ જ ઓળખ સૂત્રોમાં સમાયેલી છે (Card 5.4)."
+    }
+   },
+   {
+    "q": {
+     "en": "Name the five methods and the one your exam actually uses.",
+     "gu": "પાંચેય પદ્ધતિઓ ગણાવો અને તમારી પરીક્ષા કઈ વાપરે છે તે કહો."
+    },
+    "a": {
+     "en": "Double integration, Macaulay, moment-area, conjugate beam, superposition. The exam uses superposition of standard cases — the others are concept knowledge here; derivations are explicitly out of the diploma scope (Card 5.2).",
+     "gu": "Double integration, Macaulay, moment-area, conjugate beam, superposition. પરીક્ષા standard cases ના superposition નો ઉપયોગ કરે છે — બાકી અહીં ખ્યાલ તરીકે છે; તારવણી diploma scope ની બહાર છે (Card 5.2)."
+    }
+   },
+   {
+    "q": {
+     "en": "Superposition: when does adding standard cases stop being legal?",
+     "gu": "Superposition: standard cases ઉમેરવાનું ક્યારે ગેરકાયદે બને છે?"
+    },
+    "a": {
+     "en": "When linearity dies: material beyond elastic (stress > proportional limit), large deflections (geometry changes the moment arms), or support settlement interplay. Small elastic deflections — the diploma regime — superpose freely (Card 5.2).",
+     "gu": "જ્યારે linearity મરે: elastic મર્યાદા બહારનું material, મોટા deflections (ભૂમિતિ બદલાય), કે support settlement ની અસર. નાના elastic deflections — diploma નું ક્ષેત્ર — માં મુક્ત રીતે ઉમેરાય છે (Card 5.2)."
+    }
+   },
+   {
+    "q": {
+     "en": "Your computed deflection is negative and at a support. Diagnosis?",
+     "gu": "તમારો ગણેલ deflection negative છે અને support પર છે. નિદાન?"
+    },
+    "a": {
+     "en": "Two sins: deflection at a simple/built-in support must be zero — a nonzero value exposes wrong constants/boundary conditions; sign merely tells direction (downward positive by the usual convention). Recheck which bank row and which supports (Card 5.2).",
+     "gu": "બે ભૂલો: simple/built-in support પર deflection શૂન્ય જ હોવો જોઈએ — શૂન્યેતર મૂલ્ય એટલે ખોટા constants/boundary conditions; ચિહ્ન ફક્ત દિશા કહે છે (નીચે તરફ positive). કઈ bank-row અને કયા supports વાપર્યા તે ફરી તપાસો (Card 5.2)."
+    }
+   },
+   {
+    "q": {
+     "en": "Span doubles, same section and load per metre: deflection multiplier?",
+     "gu": "Span બમણો, એ જ section અને load per metre: deflection કેટલા ગણો?"
+    },
+    "a": {
+     "en": "UDL case: δ ∝ wL⁴ — 16 times (load per metre fixed). That's why deflection, not stress, kills long-span designs and why intermediate supports are structural gold (Cards 5.1, 5.4).",
+     "gu": "UDL case માં δ ∝ wL⁴ — 16 ગણો. એટલે લાંબા span ના design ને stress નહીં, deflection મારે છે અને વચ્ચેના supports સોના જેવા મૂલ્યવાન છે (Card 5.4)."
+    }
+   },
+   {
+    "q": {
+     "en": "Why do permissible limits come as span fractions (L/325) rather than millimetres?",
+     "gu": "Permissible મર્યાદા mm માં નહીં, span ના અપૂર્ણાંક (L/325) માં કેમ અપાય છે?"
+    },
+    "a": {
+     "en": "Because perception and damage scale with span: 10 mm sag is invisible on 10 m, alarming on 1 m. The ratio keeps the serviceability promise size-independent — N5.3's 6.75 mm passes on 6 m (L/889) (Card 5.1).",
+     "gu": "કારણ કે નુકસાન અને અનુભવ span સાથે વધે છે: 10 mm લચકો 10 m પર અદ્રશ્ય, 1 m પર ચિંતાજનક. ગુણોત્તર સેવા-મર્યાદાને કદ-મુક્ત રાખે છે — N5.3 નો 6.75 mm 6 m પર પાસ છે (L/889) (Card 5.1)."
+    }
+   },
+   {
+    "q": {
+     "en": "Timber floor joists pass at occupancy but grow saggy over years. Which assumption aged?",
+     "gu": "Timber joists વસવાટ સમયે પાસ પણ વર્ષોમાં વધુ લચકે છે. કઈ ધારણા જૂની થઈ?"
+    },
+    "a": {
+     "en": "Creep: sustained load slowly adds deflection in timber/concrete beyond the elastic δ the formulae give. The 'small elastic deflection' regime assumed time-independent E; real design multiplies long-term deflection or cams the beam (Card 5.2).",
+     "gu": "Creep: સતત load હેઠળ timber/concrete માં elastic δ ઉપરાંત ધીમે ધીમે વધુ deflection ઉમેરાય છે. સૂત્રો સમય-મુક્ત E ધારે છે; ખરી design માં long-term deflection વધારીને ગણાય કે beam ને camber અપાય છે (Card 5.2)."
+    }
+   },
+   {
+    "q": {
+     "en": "Point load not at the tip of a cantilever — what happens beyond the load point?",
+     "gu": "Point load cantilever ના tip પર નથી — load બિંદુથી આગળ શું થાય છે?"
+    },
+    "a": {
+     "en": "No moment beyond it → no curvature → the beam there stays straight but rotated at the load-point slope: tip deflection = δ at load + θ at load × overhang distance. A classic exam add-on to the standard bank (Syntax bank).",
+     "gu": "ત્યાં moment નહીં → curvature નહીં → beam ત્યાં સીધો પણ load-બિંદુના slope એ ઢળેલો રહે છે: tip deflection = load પર δ + load પર θ × આગળનું અંતર. Standard bank નો જાણીતો exam-ઉમેરો (Syntax બેંક)."
+    }
+   }
+  ]
+ },
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Define slope and deflection with a labelled sketch of the elastic curve. State the factors governing deflection and the usual permissible limits with reasons.",
+    "gu": "Elastic curve ના નામનિર્દેશવાળા sketch સાથે slope અને deflection ની વ્યાખ્યા આપો. Deflection ને અસર કરતા પરિબળો અને સામાન્ય permissible મર્યાદા કારણ સાથે જણાવો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "A steel cantilever (L = 2.5 m, E = 200 GPa, I = 8 x 10^-6 m4) carries 8 kN at the free end. Find tip slope and deflection and comment on serviceability against L/325.",
+    "gu": "Steel cantilever (L = 2.5 m, E = 200 GPa, I = 8 x 10^-6 m4) free end પર 8 kN વહન કરે છે. Tip slope અને deflection શોધી L/325 સામે serviceability પર ટિપ્પણી કરો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "A simply supported beam (5 m) with EI = 3.0 x 10^7 N-m2 carries 20 kN at centre. Find maximum deflection and support slopes, with the standard formulae stated.",
+    "gu": "Simply supported beam (5 m), EI = 3.0 x 10^7 N-m2, centre પર 20 kN વહન કરે છે. Standard formulae જણાવી મહત્તમ deflection અને support slopes શોધો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "A simply supported beam (6 m, EI = 3.0 x 10^7 N-m2) carries UDL 12 kN/m throughout. Find max deflection and end slopes; check permissibility (L/325, L/250).",
+    "gu": "Simply supported beam (6 m, EI = 3.0 x 10^7 N-m2) આખા span પર UDL 12 kN/m વહન કરે છે. Max deflection અને end slopes શોધો; permissibility (L/325, L/250) તપાસો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Name the methods of finding slope and deflection and explain any two briefly. Why are derivations not expected at diploma level, and what skill replaces them?",
+    "gu": "Slope અને deflection શોધવાની પદ્ધતિઓ ગણાવો અને કોઈ બે ટૂંકમાં સમજાવો. Diploma સ્તરે તારવણી કેમ અપેક્ષિત નથી, અને તેની જગ્યાએ કઈ કુશળતા આવે છે?"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write the standard formulae (slope and maximum deflection) for: cantilever with end point load; cantilever with UDL; SSB with central load; SSB with UDL, with sketches.",
+    "gu": "Sketches સાથે standard formulae લખો (slope અને મહત્તમ deflection): છેડે point load વાળો cantilever; UDL વાળો cantilever; central load વાળો SSB; UDL વાળો SSB."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain how span, depth (I), material (E) and support conditions affect deflection, using the scaling laws. A span is doubled under same UDL per metre — by what factor does deflection grow?",
+    "gu": "Scaling laws વાપરી સમજાવો કે span, ઊંડાઈ (I), material (E) અને support સ્થિતિ deflection ને કેવી રીતે અસર કરે છે. એ જ UDL per metre હેઠળ span બમણો થાય તો deflection કેટલા ગણું વધે છે?"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "A cantilever has tip deflection 26 mm (L/96). Suggest three design changes, in order of effectiveness, to bring it within L/325, justifying each with a formula exponent.",
+    "gu": "Cantilever નો tip deflection 26 mm (L/96) છે. તેને L/325 ની અંદર લાવવા અસરકારકતાના ક્રમમાં ત્રણ design ફેરફાર સૂચવો, દરેકને formula ના ઘાતાંકથી ન્યાય આપો."
+   },
+   "marks": 4
+  }
+ ],
+ "question_provenance": "Original practice questions written strictly within the official DI03006041 syllabus coverage",
+ "practicals": [],
+ "content_kind": "theory_trimmed_civil"
+}

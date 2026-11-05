@@ -1,0 +1,383 @@
+{
+ "code": "DI03006051",
+ "unit": 7,
+ "branch": "civil",
+ "semester": 3,
+ "title": {
+  "en": "Bearing Capacity of Soil and Earth Pressure",
+  "gu": "Soil ની Bearing Capacity અને Earth Pressure"
+ },
+ "hours": 6,
+ "weightage": 14,
+ "cos": [
+  "CO6"
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "numericals",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "",
+  "gu": ""
+ },
+ "notes": [
+  {
+   "title": {
+    "en": "Unit 7 Notes — Bearing Capacity of Soil and Earth Pressure",
+    "gu": "યુનિટ 7 Notes — Soil ની Bearing Capacity અને Earth Pressure"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "7.1 Bearing capacity — the vocabulary of safe load",
+      "gu": "7.1 Bearing capacity — સલામત load ની શબ્દાવલિ"
+     },
+     "syllabus_item": "7.1 Bearing capacity concepts: ultimate, safe, net, allowable; influence of water table",
+     "body": {
+      "en": "<p><b>Four pressures, four different promises.</b></p><span class=\"eq\" style=\"display:block\">ultimate bearing capacity q_u: load intensity at which soil shears (fails)</span><span class=\"eq\" style=\"display:block\">net ultimate: q_nu = q_u - gamma D_f   (subtract the overburden already there)</span><span class=\"eq\" style=\"display:block\">safe bearing capacity: q_s = q_nu / FOS + gamma D_f   (FOS usually 2.5-3)</span><span class=\"eq\" style=\"display:block\">allowable bearing pressure: the smaller of safe-by-shear and safe-by-settlement</span><p>The last line runs practice: a soil may be strong enough yet settle too much — allowable respects both failure and serviceability (Unit 5's lesson returning). <b>Water table influence:</b> rise of water to foundation level cuts the soil's effective unit weight to the submerged value in the weight term (and below), commonly erasing up to half the computed capacity (Numerical 7.2) — designs therefore take the worst credible water level, often water at ground level, unless drainage is guaranteed forever.</p>",
+      "gu": "<p><b>ચાર દબાણ, ચાર જુદા વચનો:</b></p><span class=\"eq\" style=\"display:block\">ultimate bearing capacity q_u: જે load પર soil shear થઈ નિષ્ફળ જાય</span><span class=\"eq\" style=\"display:block\">net ultimate: q_nu = q_u - gamma D_f</span><span class=\"eq\" style=\"display:block\">safe bearing capacity: q_s = q_nu / FOS + gamma D_f   (FOS સામાન્ય રીતે 2.5-3)</span><span class=\"eq\" style=\"display:block\">allowable bearing pressure: shear-સલામત અને settlement-સલામતમાંથી નાનું</span><p>છેલ્લી line વ્યવહાર ચલાવે છે: soil પૂરતી મજબૂત હોય પણ વધુ બેસી શકે છે — allowable નિષ્ફળતા અને સેવાક્ષમતા બંનેનું સન્માન કરે છે. <b>Water table ની અસર:</b> પાણી foundation સ્તર સુધી ચઢવું soil ના અસરકારક વજનને ડૂબેલા મૂલ્ય પર લઈ જાય છે, ઘણીવાર ગણેલી capacity નો અડધો ભાગ ભૂંસી નાખે છે (Numerical 7.2) — એટલે design સૌથી ખરાબ વિશ્વાસપાત્ર પાણી-સ્તર લે છે.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "7.2 Terzaghi's bearing capacity — assumptions, formula, field alternatives",
+      "gu": "7.2 Terzaghi bearing capacity — ધારણાઓ, સૂત્ર, field વિકલ્પો"
+     },
+     "syllabus_item": "7.2 IS method and theoretical methods; Terzaghi analysis: assumptions, limitations; field methods: plate load test, SPT",
+     "body": {
+      "en": "<p><b>Terzaghi (1943) modelled the strip footing's failure</b> as an elastic wedge under the base driving log-spiral shear zones that heave passive wedges at the sides (Diagram). For a strip footing:</p><span class=\"eq\" style=\"display:block\">q_u = c N_c + q N_q + 0.5 gamma B N_gamma</span><span class=\"eq\" style=\"display:block\">where q = gamma D_f (overburden at base level)</span><span class=\"eq\" style=\"display:block\">N_c, N_q, N_gamma = bearing capacity factors (functions of phi only, from tables)</span><p>The three terms bill the three helpers: cohesion on the slip surfaces, the weight of soil above base level confining them, and the weight of soil inside the failure zone itself. <b>Assumptions:</b> rough strip footing, shallow depth (D_f ≤ B), general shear failure, homogeneous soil, water table deep. <b>Limitations:</b> not for deep footings/piles, layered or very loose soils (local/punching failure needs reduced c, phi), eccentric/inclined loads, or settlement prediction — each has later corrections (IS 6403 codifies the Indian practice version with shape/depth/inclination factors).</p><p><b>Field answers when theory is unwelcome:</b> the <i>plate load test</i> (IS 1888, Diagram se7_plate) loads a 30–75 cm plate at foundation level and reads ultimate/settlement directly (scaled for size and depth, remembering the plate 'feels' only ~2B deep); the <i>SPT</i> correlates N-values with allowable pressure for sands (Unit 5's N returns). Numerical 7.1 runs Terzaghi on a strip footing.</p>",
+      "gu": "<p><b>Terzaghi (1943) એ strip footing ની નિષ્ફળતાનું model</b> આધાર નીચે elastic wedge તરીકે આપ્યું, જે log-spiral shear zones ને ચલાવી બાજુના passive wedges ઊંચા કરે છે (Diagram). Strip footing માટે:</p><span class=\"eq\" style=\"display:block\">q_u = c N_c + q N_q + 0.5 gamma B N_gamma</span><span class=\"eq\" style=\"display:block\">જ્યાં q = gamma D_f (આધાર સ્તરે ઉપરનું ભારણ)</span><span class=\"eq\" style=\"display:block\">N_c, N_q, N_gamma = bearing capacity factors (ફક્ત phi ના વિધેયો)</span><p>ત્રણ પદો ત્રણ મદદગારોનું બિલ આપે છે: સરકતી સપાટીઓ પર cohesion, તેમને દબાવતું ઉપરનું વજન, અને નિષ્ફળતા ક્ષેત્રની અંદરની soil નું પોતાનું વજન. <b>ધારણાઓ:</b> ખરબચડું strip footing, છીછરી ઊંડાઈ (D_f ≤ B), general shear નિષ્ફળતા, એકસરખી soil. <b>મર્યાદાઓ:</b> ઊંડા footings, સ્તરીય કે ખૂબ ઢીલી soils, ત્રાંસા loads કે settlement અનુમાન માટે નથી — IS 6403 ભારતીય પ્રથામાં સુધારા આપે છે.</p><p><b>Theory અણગમતી હોય ત્યારે field જવાબો:</b> <i>plate load test</i> (IS 1888, Diagram) foundation સ્તરે 30–75 cm plate ને દબાવી ultimate/settlement સીધું વાંચે છે; <i>SPT</i> N-values ને રેતીઓ માટે allowable pressure સાથે જોડે છે. Numerical 7.1 strip footing પર Terzaghi ચલાવે છે.</p>"
+     },
+     "diagram": "se7_terzaghi"
+    },
+    {
+     "h": {
+      "en": "7.3 Footings and their failures; improving bearing capacity",
+      "gu": "7.3 Footings અને તેમની નિષ્ફળતાઓ; bearing capacity વધારવી"
+     },
+     "syllabus_item": "7.3 Types of footings; types of shear failure of footings; methods to improve bearing capacity",
+     "body": {
+      "en": "<p><b>Footing menu:</b> isolated (pad) footings under single columns; combined footings pairing two columns (property line, unequal loads); strap footings tying an edge column to an interior one; raft/mat under whole buildings (weak soil, many columns — spreads load to near-buoyancy of the excavated weight); wall/strip footings; piles when good soil is deep (Unit 7's theory stops at shallow, piles are the escape hatch).</p><p><b>Three shear failures (Diagram):</b> <i>general</i> — dense/stiff soil: continuous slip surface reaches ground, sudden failure with surface heave, clear q_u on the load-settlement curve; <i>local</i> — medium soil: slip zones stay buried, gradual settlement, no crisp ultimate; <i>punching</i> — loose/soft soil: footing sinks vertically, soil compresses beneath, surface silent. Terzaghi full-strength applies to the first; local/punching demand reduced parameters (c* = 2c/3, tan phi* = 2/3 tan phi in Terzaghi's own patch).</p><p><b>Improving capacity:</b> increase D_f or B (geometry terms); compact/replace weak soil (Unit 5 — raise phi, gamma); stabilize (lime/cement); drain and keep water table down (protect the gamma terms); use a raft to mobilise area; or bypass with piles to a stronger stratum. Every method buys one of the formula's three terms or avoids the weak soil entirely.</p>",
+      "gu": "<p><b>Footing યાદી:</b> એકલ columns નીચે isolated footings; બે columns જોડતા combined footings; કિનારાના column ને અંદરના સાથે બાંધતા strap footings; આખી ઇમારત નીચે raft/mat (નબળી soil — load ખોદાયેલા વજનની ઉછાળા નજીક ફેલાવે છે); wall/strip footings; સારી soil ઊંડી હોય ત્યારે piles.</p><p><b>ત્રણ shear નિષ્ફળતાઓ (Diagram):</b> <i>general</i> — ગઠ્ઠ/સખત soil: સળંગ સરકતી સપાટી જમીન સુધી પહોંચે છે, અચાનક નિષ્ફળતા સાથે સપાટી ઊચકાય છે; <i>local</i> — મધ્યમ soil: સરકતા ક્ષેત્રો દટાયેલા રહે છે, ધીમું settlement; <i>punching</i> — ઢીલી/નરમ soil: footing ઊભું ડૂબે છે, સપાટી શાંત. Terzaghi ની સંપૂર્ણ strength પહેલા માટે છે; બાકી માટે ઘટાડેલા parameters જોઈએ છે.</p><p><b>Capacity વધારવી:</b> D_f કે B વધારવો; નબળી soil દબાવવી/બદલવી (Unit 5); stabilize કરવી; પાણી-સ્તર નીચું રાખવું; raft થી ક્ષેત્રફળ વાપરવું; કે piles થી મજબૂત સ્તર સુધી બાયપાસ કરવો. દરેક પદ્ધતિ સૂત્રના ત્રણ પદોમાંથી એક ખરીદે છે કે નબળી soil ને સંપૂર્ણ ટાળે છે.</p>"
+     },
+     "diagram": "se7_failures"
+    },
+    {
+     "h": {
+      "en": "7.4 Earth pressure — Rankine active and passive states",
+      "gu": "7.4 Earth pressure — Rankine active અને passive સ્થિતિઓ"
+     },
+     "syllabus_item": "7.4 Earth pressure definitions; active and passive for no surcharge; Rankine coefficients Ka and Kp",
+     "body": {
+      "en": "<p><b>Soil pushes every wall that holds it back.</b> If the wall yields slightly away, the soil expands, mobilising its shear strength to help hold itself — pressure falls to the <i>active</i> state. If the wall drives into the soil, compression mobilises resistance — pressure climbs to the much larger <i>passive</i> state (Diagram). Rankine (1857), for a smooth vertical wall and horizontal cohesionless backfill without surcharge:</p><span class=\"eq\" style=\"display:block\">K_a = (1 - sin phi) / (1 + sin phi)</span><span class=\"eq\" style=\"display:block\">K_p = (1 + sin phi) / (1 - sin phi) = 1 / K_a</span><span class=\"eq\" style=\"display:block\">active pressure at depth z:  p_a = K_a gamma z</span><span class=\"eq\" style=\"display:block\">total active thrust:  P_a = (1/2) K_a gamma H^2   acting at H/3 above base</span><p>The triangular pressure diagram mirrors hydrostatic water with gamma replaced by K_a·gamma — at-rest pressure (no wall movement, K_0 ≈ 1 − sin phi) sits between the two limits. Cohesive backfill adds a −2c√K_a relief term (and tension cracks near the top) — diploma scope notes the term; Numerical 7.3 prices a clean sand wall both ways: passive resistance is typically 5–10× the active load, which is why embedded wall toes work.</p>",
+      "gu": "<p><b>Soil દરેક રોકતી દિવાલને ધકેલે છે.</b> દિવાલ સહેજ દૂર ખસે તો soil વિસ્તરે છે અને પોતાની shear strength ની મદદ લે છે — દબાણ <i>active</i> સ્થિતિએ ઘટે છે. દિવાલ soil માં ઘૂસે તો વિરોધ જાગે છે — દબાણ ઘણું મોટું <i>passive</i> બને છે (Diagram). Rankine (1857), લીસી ઊભી દિવાલ અને surcharge વગરના આડા દાણાદાર ભરણ માટે:</p><span class=\"eq\" style=\"display:block\">K_a = (1 - sin phi) / (1 + sin phi)</span><span class=\"eq\" style=\"display:block\">K_p = 1 / K_a</span><span class=\"eq\" style=\"display:block\">ઊંડાઈ z પર active દબાણ:  p_a = K_a gamma z</span><span class=\"eq\" style=\"display:block\">કુલ active ધક્કો:  P_a = (1/2) K_a gamma H^2   (આધારથી H/3 ઊંચે)</span><p>ત્રિકોણાકાર દબાણ ચિત્ર પાણી જેવું છે, gamma ની જગ્યાએ K_a·gamma સાથે. Numerical 7.3 સ્વચ્છ રેતીની દિવાલને બંને રીતે મૂલવે છે: passive વિરોધ સામાન્ય રીતે active load કરતાં 5–10 ગણો હોય છે.</p>"
+     },
+     "diagram": "se7_earth"
+    },
+    {
+     "h": {
+      "en": "7.5 Liquefaction — when soil briefly becomes liquid",
+      "gu": "7.5 Liquefaction — જ્યારે soil થોડો સમય પ્રવાહી બને છે"
+     },
+     "syllabus_item": "7.5 Liquefaction: definition, causes, effects and remedies",
+     "body": {
+      "en": "<p><b>Definition.</b> Liquefaction is the sudden loss of strength and stiffness of saturated, loose, sandy soil under cyclic (earthquake) or shock loading: pore water cannot escape as fast as shaking tries to compact the grains, pore pressure u climbs until effective stress (sigma − u) — and with it tau_f by Card 6.2's law — falls to near zero. The ground flows like liquid: buildings sink/tilt whole, buried tanks float up, sand boils erupt, slopes spread laterally.</p><p><b>Causes (the recipe needs all three):</b> loose granular deposit (young alluvium of Unit 1!), saturation below the water table, and strong cyclic shaking. <b>Effects:</b> bearing failure without any structural damage, settlement and tilting, lateral spreading toward river banks, uplift of buried structures. <b>Remedies:</b> avoid (site selection, piles through the layer to firm strata), densify in place (vibro-compaction, stone columns, dynamic compaction — Unit 5's machines at depth), drain (gravel drains giving pore pressure an escape), or solidify (grouting/stabilization). India's alluvial belts are mapped for this risk in seismic zonation — it is a design case, not a curiosity.</p>",
+      "gu": "<p><b>વ્યાખ્યા.</b> Liquefaction એ સંતૃપ્ત, ઢીલી, રેતાળ soil ની ધરતીકંપ જેવા ચક્રીય ભાર હેઠળ અચાનક strength ખોવી છે: ધ્રુજારી કણોને દબાવવા માંગે છે એ ઝડપથી છિદ્ર-પાણી બહાર નીકળી શકતું નથી, છિદ્ર-દબાણ u ચઢતું રહે છે જ્યાં સુધી effective stress — અને તેની સાથે tau_f (Card 6.2) — લગભગ શૂન્ય ન થાય. જમીન પ્રવાહી જેવી વહે છે: ઇમારતો આખી ડૂબે/નમે છે, દટાયેલી ટાંકીઓ તરી આવે છે.</p><p><b>કારણો (ત્રણેય જોઈએ):</b> ઢીલો દાણાદાર જમા (Unit 1 નું યુવાન alluvium!), પાણી-સ્તર નીચે saturation, અને જોરદાર ચક્રીય ધ્રુજારી. <b>અસરો:</b> માળખાકીય નુકસાન વગર bearing નિષ્ફળતા, બેસવું અને નમવું, નદી કિનારા તરફ ફેલાવું, દટાયેલા માળખાઓનું ઊંચકાવું. <b>ઉપાયો:</b> ટાળો (સ્થળ પસંદગી, સ્તરમાંથી મજબૂત સ્તર સુધી piles), સ્થળ પર ઘટ્ટ કરો (vibro-compaction, stone columns), નિકાલ આપો (gravel drains), કે ઘટ્ટ બનાવો (grouting). ભારતના alluvial પટ્ટાઓ ભૂકંપ-જોખમ નકશામાં આ માટે નોંધાયેલા છે.</p>"
+     }
+    }
+   ]
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "se7_terzaghi",
+   "title": {
+    "en": "Terzaghi mechanism",
+    "gu": "Terzaghi mechanism (યંત્રરચના)"
+   }
+  },
+  {
+   "id": "se7_failures",
+   "title": {
+    "en": "Footing failure types",
+    "gu": "Footing failure પ્રકારો"
+   }
+  },
+  {
+   "id": "se7_earth",
+   "title": {
+    "en": "Active and passive earth pressure",
+    "gu": "Active અને passive earth pressure"
+   }
+  },
+  {
+   "id": "se7_plate",
+   "title": {
+    "en": "Plate load test",
+    "gu": "Plate load test (પરીક્ષણ)"
+   }
+  }
+ ],
+ "numericals": {
+  "title": {
+   "en": "Solved Numericals — Unit 7",
+   "gu": "ઉકેલેલા Numericals — યુનિટ 7"
+  },
+  "items": [
+   {
+    "id": "Numerical 7.1",
+    "title": {
+     "en": "Numerical 7.1 — Terzaghi ultimate and safe bearing capacity",
+     "gu": "Numerical 7.1 — Terzaghi ultimate અને safe bearing capacity"
+    },
+    "body": {
+     "en": "<p><b>Given.</b> Strip footing B = 1.5 m at depth D_f = 1.0 m in soil with c = 10 kPa, phi = 30°, gamma = 18 kN/m³. For phi = 30° take N_c = 37.2, N_q = 22.5, N_gamma = 19.7. Find q_u and safe bearing capacity at FOS = 3 (on net ultimate).</p><p><b>Step 1.</b> Overburden pressure at base level.</p><span class=\"eq\" style=\"display:block\">q = gamma D_f</span><span class=\"eq\" style=\"display:block\">q = 18 x 1.0</span><span class=\"eq\" style=\"display:block\">q = 18 kPa</span><p><b>Step 2.</b> Cohesion term.</p><span class=\"eq\" style=\"display:block\">c N_c = 10 x 37.2</span><span class=\"eq\" style=\"display:block\">c N_c = 372 kPa</span><p><b>Step 3.</b> Surcharge term.</p><span class=\"eq\" style=\"display:block\">q N_q = 18 x 22.5</span><span class=\"eq\" style=\"display:block\">q N_q = 405 kPa</span><p><b>Step 4.</b> Self-weight term.</p><span class=\"eq\" style=\"display:block\">0.5 gamma B N_gamma = 0.5 x 18 x 1.5 x 19.7</span><span class=\"eq\" style=\"display:block\">0.5 gamma B N_gamma = 265.9 kPa</span><p><b>Step 5.</b> Add the three terms (Terzaghi).</p><span class=\"eq\" style=\"display:block\">q_u = 372 + 405 + 265.9</span><span class=\"eq\" style=\"display:block\">q_u = 1042.9 kPa</span><p><b>Step 6.</b> Net ultimate, then safe.</p><span class=\"eq\" style=\"display:block\">q_nu = q_u - q = 1042.9 - 18</span><span class=\"eq\" style=\"display:block\">q_nu = 1024.9 kPa</span><span class=\"eq\" style=\"display:block\">q_s = q_nu / 3 + q</span><span class=\"eq\" style=\"display:block\">q_s = 341.6 + 18</span><span class=\"eq\" style=\"display:block\">q_s = 359.6 kPa</span><p><b>Final answer.</b></p><span class=\"eq\" style=\"display:block\">q_u = 1043 kPa</span><span class=\"eq\" style=\"display:block\">safe bearing capacity = 360 kPa (approx)</span><p><b>Validity check.</b> Settlement may still govern the allowable (Card 7.1) — 360 kPa is the shear-safe ceiling, not an automatic design value. Note each term's share: surcharge 405 ≈ cohesion 372 &gt; weight 266 — a deeper footing buys the N_q term fastest.</p>",
+     "gu": "<p><b>આપેલ છે:</b> strip footing B = 1.5 m, ઊંડાઈ D_f = 1.0 m; soil c = 10 kPa, phi = 30°, gamma = 18 kN/m³. phi = 30° માટે N_c = 37.2, N_q = 22.5, N_gamma = 19.7. q_u અને FOS = 3 પર safe bearing capacity શોધો.</p><p><b>Step 1.</b> આધાર સ્તરે દબાણ.</p><span class=\"eq\" style=\"display:block\">q = 18 x 1.0 = 18 kPa</span><p><b>Step 2.</b> Cohesion પદ.</p><span class=\"eq\" style=\"display:block\">c N_c = 372 kPa</span><p><b>Step 3.</b> Surcharge પદ.</p><span class=\"eq\" style=\"display:block\">q N_q = 405 kPa</span><p><b>Step 4.</b> સ્વ-વજન પદ.</p><span class=\"eq\" style=\"display:block\">0.5 gamma B N_gamma = 265.9 kPa</span><p><b>Step 5.</b> ત્રણેય ઉમેરો.</p><span class=\"eq\" style=\"display:block\">q_u = 1042.9 kPa</span><p><b>Step 6.</b> Net, પછી safe.</p><span class=\"eq\" style=\"display:block\">q_s = (1042.9 - 18)/3 + 18 = 359.6 kPa</span><p><b>અંતિમ જવાબ:</b></p><span class=\"eq\" style=\"display:block\">q_u = 1043 kPa</span><span class=\"eq\" style=\"display:block\">safe bearing capacity આશરે 360 kPa</span><p><b>ચકાસણી:</b> settlement હજુ allowable નક્કી કરી શકે છે (Card 7.1) — 360 kPa એ shear-સલામત છત છે, આપોઆપ design મૂલ્ય નહીં.</p>"
+    }
+   },
+   {
+    "id": "Numerical 7.2",
+    "title": {
+     "en": "Numerical 7.2 — Water table rises to the footing base",
+     "gu": "Numerical 7.2 — Water table footing ના આધાર સુધી ચઢે છે"
+    },
+    "body": {
+     "en": "<p><b>Given.</b> Square footing 2 m x 2 m at D_f = 1.2 m in sand (c = 0) with given factors N_q = 28, N_gamma = 26, gamma = 18 kN/m³ above water; submerged gamma' = 10.2 kN/m³. Compare q_u with water table deep versus at base level.</p><p><b>Step 1.</b> Overburden (same both cases: water at/below base).</p><span class=\"eq\" style=\"display:block\">q = 18 x 1.2</span><span class=\"eq\" style=\"display:block\">q = 21.6 kPa</span><p><b>Step 2.</b> Case A — water table deep (all gamma = 18).</p><span class=\"eq\" style=\"display:block\">q_u = q N_q + 0.5 gamma B N_gamma</span><span class=\"eq\" style=\"display:block\">q_u = 21.6 x 28 + 0.5 x 18 x 2 x 26</span><span class=\"eq\" style=\"display:block\">q_u = 604.8 + 468</span><span class=\"eq\" style=\"display:block\">q_u = 1072.8 kPa</span><p><b>Step 3.</b> Case B — water table at base: the failure zone works submerged.</p><span class=\"eq\" style=\"display:block\">q_u = 21.6 x 28 + 0.5 x 10.2 x 2 x 26</span><span class=\"eq\" style=\"display:block\">q_u = 604.8 + 265.2</span><span class=\"eq\" style=\"display:block\">q_u = 870.0 kPa</span><p><b>Final answer.</b></p><span class=\"eq\" style=\"display:block\">Dry/deep WT: 1073 kPa</span><span class=\"eq\" style=\"display:block\">WT at base: 870 kPa  ->  capacity falls 19 %</span><span class=\"eq\" style=\"display:block\">WT at ground level would also drown the q term - worse still (Card 7.1)</span><p><b>Validity check.</b> Only the gamma inside the failure bulb drowned in Case B (the overburden stayed moist); had water reached the surface, q N_q would shrink too and losses approach one-half — the textbook warning, here priced (Card 7.1).</p>",
+     "gu": "<p><b>આપેલ છે:</b> square footing 2 m x 2 m, D_f = 1.2 m, રેતી (c = 0), આપેલા factors N_q = 28, N_gamma = 26, પાણી ઉપર gamma = 18, ડૂબેલું gamma' = 10.2 kN/m³. પાણી-સ્તર ઊંડું હોય અને આધાર પર હોય ત્યારે q_u ની સરખામણી કરો.</p><p><b>Step 1.</b> ઉપરનું દબાણ (બંનેમાં સરખું).</p><span class=\"eq\" style=\"display:block\">q = 21.6 kPa</span><p><b>Step 2.</b> Case A — પાણી ઊંડું.</p><span class=\"eq\" style=\"display:block\">q_u = 604.8 + 468 = 1072.8 kPa</span><p><b>Step 3.</b> Case B — પાણી આધાર પર (નિષ્ફળતા ક્ષેત્ર ડૂબેલું).</p><span class=\"eq\" style=\"display:block\">q_u = 604.8 + 265.2 = 870.0 kPa</span><p><b>અંતિમ જવાબ:</b></p><span class=\"eq\" style=\"display:block\">Capacity 19 % ઘટે છે (1073 થી 870 kPa)</span><p><b>ચકાસણી:</b> Case B માં ફક્ત નિષ્ફળતા ક્ષેત્રનું gamma ડૂબ્યું; પાણી સપાટી સુધી હોત તો q પદ પણ સંકોચાત અને નુકસાન અડધાની નજીક જાત (Card 7.1).</p>"
+    }
+   },
+   {
+    "id": "Numerical 7.3",
+    "title": {
+     "en": "Numerical 7.3 — Rankine active thrust and passive resistance",
+     "gu": "Numerical 7.3 — Rankine active ધક્કો અને passive વિરોધ"
+    },
+    "body": {
+     "en": "<p><b>Given.</b> Smooth vertical retaining wall, height H = 4 m, horizontal sand backfill gamma = 19 kN/m³, phi = 30°, no surcharge. Find K_a, pressure at base, total active thrust and its line of action; also K_p and total passive resistance.</p><p><b>Step 1.</b> Active coefficient.</p><span class=\"eq\" style=\"display:block\">K_a = (1 - sin 30) / (1 + sin 30)</span><span class=\"eq\" style=\"display:block\">K_a = (1 - 0.5) / (1 + 0.5)</span><span class=\"eq\" style=\"display:block\">K_a = 0.333</span><p><b>Step 2.</b> Pressure at the base (triangular diagram).</p><span class=\"eq\" style=\"display:block\">p_a = K_a gamma H</span><span class=\"eq\" style=\"display:block\">p_a = 0.333 x 19 x 4</span><span class=\"eq\" style=\"display:block\">p_a = 25.3 kPa</span><p><b>Step 3.</b> Total active thrust = area of the triangle, per metre of wall.</p><span class=\"eq\" style=\"display:block\">P_a = (1/2) x p_a x H</span><span class=\"eq\" style=\"display:block\">P_a = 0.5 x 25.3 x 4</span><span class=\"eq\" style=\"display:block\">P_a = 50.7 kN/m</span><span class=\"eq\" style=\"display:block\">acts at H/3 = 1.33 m above the base</span><p><b>Step 4.</b> Passive side.</p><span class=\"eq\" style=\"display:block\">K_p = 1 / K_a = 3.0</span><span class=\"eq\" style=\"display:block\">P_p = (1/2) K_p gamma H^2</span><span class=\"eq\" style=\"display:block\">P_p = 0.5 x 3.0 x 19 x 16</span><span class=\"eq\" style=\"display:block\">P_p = 456 kN/m</span><p><b>Final answer.</b></p><span class=\"eq\" style=\"display:block\">K_a = 0.333</span><span class=\"eq\" style=\"display:block\">p_a(base) = 25.3 kPa</span><span class=\"eq\" style=\"display:block\">P_a = 50.7 kN/m at 1.33 m above base</span><span class=\"eq\" style=\"display:block\">K_p = 3.0</span><span class=\"eq\" style=\"display:block\">P_p = 456 kN/m  (nine times the active thrust)</span><p><b>Validity check.</b> P_p/P_a = K_p/K_a = 9 exactly for equal H and gamma — soil resists being pushed far harder than it pushes, the asymmetry every embedded toe and sheet pile exploits (Card 7.4).</p>",
+     "gu": "<p><b>આપેલ છે:</b> લીસી ઊભી retaining wall, ઊંચાઈ H = 4 m, આડું રેતી ભરણ gamma = 19 kN/m³, phi = 30°, surcharge નથી. K_a, આધાર પર દબાણ, કુલ active ધક્કો અને તેની કાર્યરેખા શોધો; K_p અને કુલ passive વિરોધ પણ.</p><p><b>Step 1.</b> Active ગુણાંક.</p><span class=\"eq\" style=\"display:block\">K_a = (1 - 0.5) / (1 + 0.5) = 0.333</span><p><b>Step 2.</b> આધાર પર દબાણ.</p><span class=\"eq\" style=\"display:block\">p_a = 0.333 x 19 x 4 = 25.3 kPa</span><p><b>Step 3.</b> કુલ ધક્કો (ત્રિકોણનું ક્ષેત્રફળ).</p><span class=\"eq\" style=\"display:block\">P_a = 0.5 x 25.3 x 4 = 50.7 kN/m ,  આધારથી 1.33 m ઊંચે કાર્ય કરે છે</span><p><b>Step 4.</b> Passive બાજુ.</p><span class=\"eq\" style=\"display:block\">K_p = 3.0</span><span class=\"eq\" style=\"display:block\">P_p = 456 kN/m</span><p><b>અંતિમ જવાબ:</b></p><span class=\"eq\" style=\"display:block\">P_a = 50.7 kN/m</span><span class=\"eq\" style=\"display:block\">P_p = 456 kN/m (નવ ગણો)</span><p><b>ચકાસણી:</b> સરખા H અને gamma માટે P_p/P_a = K_p/K_a = 9 બરાબર — soil ધકેલાવવાને ધકેલવા કરતાં ઘણો વધુ વિરોધ કરે છે (Card 7.4).</p>"
+    }
+   }
+  ]
+ },
+ "syntax": {
+  "title": {
+   "en": "Formulae, methods and key data — Unit 7",
+   "gu": "Formulae, methods અને key data — યુનિટ 7"
+  },
+  "items": [
+   {
+    "name": {
+     "en": "Bearing capacity formula stack",
+     "gu": "Bearing capacity સૂત્ર-ઢગલો"
+    },
+    "body": {
+     "en": "<p>Stepwise stack:</p><span class=\"eq\" style=\"display:block\">overburden: q = gamma D_f</span><span class=\"eq\" style=\"display:block\">Terzaghi (strip): q_u = c N_c + q N_q + 0.5 gamma B N_gamma</span><span class=\"eq\" style=\"display:block\">factors N_c, N_q, N_gamma from phi table (phi 30: 37.2, 22.5, 19.7 as used in N7.1)</span><span class=\"eq\" style=\"display:block\">net ultimate: q_nu = q_u - gamma D_f</span><span class=\"eq\" style=\"display:block\">safe: q_s = q_nu/FOS + gamma D_f , FOS 2.5-3</span><span class=\"eq\" style=\"display:block\">allowable = min(shear-safe, settlement-safe)</span><span class=\"eq\" style=\"display:block\">water table at base: use gamma' in the 0.5 gamma B N_gamma term</span><span class=\"eq\" style=\"display:block\">at surface: gamma' everywhere</span><p>Terzaghi asks: rough shallow strip, general shear, homogeneous soil — else switch to IS 6403 corrections or field tests (plate load IS 1888, SPT).</p>",
+     "gu": "<p>તબક્કાવાર ઢગલો:</p><span class=\"eq\" style=\"display:block\">ઉપરનું દબાણ: q = gamma D_f</span><span class=\"eq\" style=\"display:block\">Terzaghi (strip): q_u = c N_c + q N_q + 0.5 gamma B N_gamma</span><span class=\"eq\" style=\"display:block\">factors phi કોષ્ટકમાંથી (phi 30: 37.2, 22.5, 19.7 — Numerical 7.1)</span><span class=\"eq\" style=\"display:block\">net ultimate: q_nu = q_u - gamma D_f</span><span class=\"eq\" style=\"display:block\">safe: q_s = q_nu/FOS + gamma D_f , FOS 2.5-3</span><span class=\"eq\" style=\"display:block\">પાણી આધાર પર: 0.5 gamma B N_gamma પદમાં gamma'</span><span class=\"eq\" style=\"display:block\">સપાટી પર હોય તો દરેક જગ્યાએ gamma'</span><p>Terzaghi માંગે છે: ખરબચડું છીછરું strip, general shear, એકસરખી soil — નહીંતર IS 6403 સુધારા કે field tests (plate load, SPT) વાપરો.</p>"
+    }
+   },
+   {
+    "name": {
+     "en": "Earth pressure and liquefaction key data",
+     "gu": "Earth pressure અને liquefaction key data"
+    },
+    "body": {
+     "en": "<span class=\"eq\" style=\"display:block\">K_a = (1 - sin phi)/(1 + sin phi)</span><span class=\"eq\" style=\"display:block\">K_p = 1/K_a</span><span class=\"eq\" style=\"display:block\">K_0 (at rest) about 1 - sin phi</span><span class=\"eq\" style=\"display:block\">p_a(z) = K_a gamma z</span><span class=\"eq\" style=\"display:block\">P_a = 0.5 K_a gamma H^2 at H/3 above base</span><span class=\"eq\" style=\"display:block\">P_p = 0.5 K_p gamma H^2</span><span class=\"eq\" style=\"display:block\">phi 30 benchmarks: K_a = 1/3, K_p = 3, P_p/P_a = 9 (N7.3)</span><span class=\"eq\" style=\"display:block\">cohesive backfill: subtract 2c sqrt(K_a) (note only)</span><span class=\"eq\" style=\"display:block\">failures: general (dense, heave, sudden) | local (medium, gradual) | punching (loose, sinking) - local/punching: c* = 2c/3</span><span class=\"eq\" style=\"display:block\">liquefaction recipe: loose + saturated + cyclic shaking -> u up, sigma' to 0, tau_f to 0 | remedies: avoid, densify, drain, piles through</span><p>Both halves of the unit are Unit 6's envelope in uniform: bearing capacity spends c and phi under a footing; earth pressure spends them behind a wall.</p>",
+     "gu": "<span class=\"eq\" style=\"display:block\">K_a = (1 - sin phi)/(1 + sin phi)</span><span class=\"eq\" style=\"display:block\">K_p = 1/K_a</span><span class=\"eq\" style=\"display:block\">K_0 આશરે 1 - sin phi</span><span class=\"eq\" style=\"display:block\">p_a(z) = K_a gamma z</span><span class=\"eq\" style=\"display:block\">P_a = 0.5 K_a gamma H^2 આધારથી H/3 ઊંચે</span><span class=\"eq\" style=\"display:block\">P_p = 0.5 K_p gamma H^2</span><span class=\"eq\" style=\"display:block\">phi 30 માપદંડ: K_a = 1/3, K_p = 3, P_p/P_a = 9 (Numerical 7.3)</span><span class=\"eq\" style=\"display:block\">નિષ્ફળતાઓ: general (ગઠ્ઠ, ઊચકાવ, અચાનક) | local (મધ્યમ, ધીમું) | punching (ઢીલું, ડૂબવું)</span><span class=\"eq\" style=\"display:block\">liquefaction રેસિપી: ઢીલું + સંતૃપ્ત + ચક્રીય ધ્રુજારી -> u વધે, sigma' શૂન્ય, tau_f શૂન્ય | ઉપાય: ટાળો, ઘટ્ટ કરો, નિકાલ, piles</span><p>Unit ના બંને અડધા Unit 6 ની envelope જ છે: bearing capacity તેને footing નીચે ખર્ચે છે; earth pressure દિવાલ પાછળ.</p>"
+    }
+   }
+  ]
+ },
+ "viva": {
+  "title": {
+   "en": "Viva Questions — Unit 7",
+   "gu": "Viva Questions — યુનિટ 7"
+  },
+  "items": [
+   {
+    "q": {
+     "en": "Ultimate, safe and allowable bearing capacity — separate them cleanly.",
+     "gu": "Ultimate, safe અને allowable bearing capacity — સ્વચ્છ રીતે અલગ કરો."
+    },
+    "a": {
+     "en": "Ultimate q_u: soil shears. Safe: net ultimate divided by FOS (2.5–3) plus overburden back. Allowable: the smaller of shear-safe and settlement-safe — the value design may actually use. Confusing safe with allowable skips the settlement audit (Card 7.1).",
+     "gu": "Ultimate q_u: soil shear થાય છે. Safe: net ultimate ને FOS (2.5–3) થી ભાગી ઉપરનું દબાણ પાછું ઉમેરો. Allowable: shear-સલામત અને settlement-સલામતમાંથી નાનું — design ખરેખર વાપરી શકે એ મૂલ્ય. Safe ને allowable સમજવું એટલે settlement તપાસ ચૂકવી (Card 7.1)."
+    }
+   },
+   {
+    "q": {
+     "en": "Why subtract gamma D_f to get net ultimate?",
+     "gu": "Net ultimate માટે gamma D_f કેમ બાદ કરવામાં આવે છે?"
+    },
+    "a": {
+     "en": "The soil at base level already carries the overburden stress gamma D_f before the footing arrives; only the additional (net) pressure can drive failure. FOS applies to the net part; the overburden is then restored for the gross safe value (N7.1).",
+     "gu": "Footing આવે તે પહેલા આધાર સ્તરે soil ઉપરના દબાણ gamma D_f ને પહેલેથી વહન કરે છે; ફક્ત વધારાનું (net) દબાણ નિષ્ફળતા ચલાવી શકે છે. FOS net ભાગ પર લાગે છે; કુલ safe માટે ઉપરનું દબાણ પાછું ઉમેરાય છે (Numerical 7.1)."
+    }
+   },
+   {
+    "q": {
+     "en": "Terzaghi's three terms: name each donor.",
+     "gu": "Terzaghi ના ત્રણ પદો: દરેક દાતાનું નામ આપો."
+    },
+    "a": {
+     "en": "c·N_c: cohesion along slip surfaces. q·N_q: surcharge (overburden) confining the failure zone — depth's gift. 0.5·gamma·B·N_gamma: self-weight of soil in the failure wedge — width's gift. Each scales with its own phi-factor (Diagram, Card 7.2).",
+     "gu": "c·N_c: સરકતી સપાટીઓ પર cohesion. q·N_q: નિષ્ફળતા ક્ષેત્રને દબાવતું ઉપરનું ભારણ — ઊંડાઈની ભેટ. 0.5·gamma·B·N_gamma: નિષ્ફળતા wedge માં soil નું સ્વ-વજન — પહોળાઈની ભેટ. દરેક પોતાના phi-factor સાથે વધે છે (Diagram)."
+    }
+   },
+   {
+    "q": {
+     "en": "Water table at ground surface versus deep: what happens to a sand footing's q_u?",
+     "gu": "પાણી-સ્તર સપાટી પર vs ઊંડું: રેતી footing ના q_u ને શું થાય?"
+    },
+    "a": {
+     "en": "Every gamma becomes gamma' (roughly half), so the q and weight terms nearly halve; cohesion term (zero in sand) can't compensate. Expect up to ~50% loss — design for the worst credible water level (N7.2).",
+     "gu": "દરેક gamma, gamma' બની જાય છે (આશરે અડધું), એટલે q અને વજન પદો લગભગ અડધા થઈ જાય છે. ~50% સુધી નુકસાનની અપેક્ષા — સૌથી ખરાબ વિશ્વાસપાત્ર પાણી-સ્તર માટે design કરો (Numerical 7.2)."
+    }
+   },
+   {
+    "q": {
+     "en": "General versus punching failure: curves and soils.",
+     "gu": "General vs punching નિષ્ફળતા: વક્રો અને soils."
+    },
+    "a": {
+     "en": "General (dense/stiff): load-settlement curve shows a clear peak/ultimate, surface heaves, sudden. Punching (loose/soft): curve keeps sagging without a defined ultimate, footing sinks quietly. Terzaghi full parameters only for general; reduce c, phi for the others (Card 7.3, Diagram).",
+     "gu": "General (ગઠ્ઠ/સખત): load-settlement વક્ર સ્પષ્ટ ટોચ બતાવે છે, સપાટી ઊચકાય છે, અચાનક. Punching (ઢીલું/નરમ): વક્ર નિશ્ચિત ultimate વગર ઝૂકતો રહે છે, footing શાંતિથી ડૂબે છે. Terzaghi ના સંપૂર્ણ parameters ફક્ત general માટે; બાકી માટે c, phi ઘટાડો (Card 7.3)."
+    }
+   },
+   {
+    "q": {
+     "en": "Plate load test: what it proves and its two blind spots.",
+     "gu": "Plate load test: તે શું સાબિત કરે છે અને તેના બે અંધ બિંદુઓ."
+    },
+    "a": {
+     "en": "It measures actual load-settlement behaviour at foundation level (IS 1888). Blind spots: the plate stresses only ~2 plate-widths deep (misses deep soft layers) and settlement scales non-linearly to a full footing — capacity yes, whole-building settlement no (Card 7.2).",
+     "gu": "તે foundation સ્તરે ખરું load-settlement વર્તન માપે છે (IS 1888). અંધ બિંદુઓ: plate ફક્ત ~2 plate-પહોળાઈ ઊંડે stress કરે છે (ઊંડા નરમ સ્તર ચૂકે છે) અને settlement આખા footing પર અરેખીય રીતે વધે છે — capacity હા, આખી ઇમારતનું settlement ના (Card 7.2)."
+    }
+   },
+   {
+    "q": {
+     "en": "Raft footing: when does spreading become floating?",
+     "gu": "Raft footing: ફેલાવો ક્યારે તરવું બને છે?"
+    },
+    "a": {
+     "en": "When the building's weight approaches the weight of soil excavated (compensated raft), net added pressure nears zero and even weak soil settles little. Deep basements on soft clay use exactly this buoyancy bargain (Card 7.3).",
+     "gu": "જ્યારે ઇમારતનું વજન ખોદાયેલી soil ના વજનની નજીક પહોંચે (compensated raft), ચોખ્ખું વધારાનું દબાણ શૂન્યની નજીક જાય છે અને નબળી soil પણ ઓછું બેસે છે. નરમ clay પર ઊંડા ભોંયરાં બરાબર આ ઉછાળા સોદાનો ઉપયોગ કરે છે (Card 7.3)."
+    }
+   },
+   {
+    "q": {
+     "en": "Rankine Ka for phi = 30 without a calculator, and the physics.",
+     "gu": "phi = 30 માટે Rankine Ka કેલ્ક્યુલેટર વગર, અને ભૌતિકશાસ્ત્ર."
+    },
+    "a": {
+     "en": "Ka = (1 − 0.5)/(1 + 0.5) = 1/3. Physics: wall yields away, backfill expands and its own shear strength unloads part of the push; the stronger the soil friction, the smaller the remaining fraction (N7.3).",
+     "gu": "Ka = (1 − 0.5)/(1 + 0.5) = 1/3. ભૌતિકશાસ્ત્ર: દિવાલ દૂર ખસતાં ભરણ વિસ્તરે છે અને તેની પોતાની shear strength ધક્કાનો ભાગ ઉતારે છે; ઘર્ષણ જેટલું મજબૂત, બચતો અપૂર્ણાંક તેટલો નાનો (Numerical 7.3)."
+    }
+   },
+   {
+    "q": {
+     "en": "Why is passive resistance so much larger than active thrust?",
+     "gu": "Passive વિરોધ active ધક્કા કરતાં આટલો મોટો કેમ?"
+    },
+    "a": {
+     "en": "Kp = 1/Ka (9× the resultant at phi 30, equal H): driving INTO soil mobilises friction against compression, while active only relaxes it. Mobilising full passive needs larger wall movement though — designs often credit only part of it (Card 7.4).",
+     "gu": "Kp = 1/Ka (phi 30 પર 9 ગણું પરિણામ, સરખું H): soil માં ઘૂસવું ઘર્ષણને દબાણ સામે જગાડે છે, જ્યારે active તેને ફક્ત છૂટું કરે છે. સંપૂર્ણ passive માટે દિવાલની વધુ હિલચાલ જોઈએ છે — design ઘણીવાર તેનો ભાગ જ ગણે છે (Card 7.4)."
+    }
+   },
+   {
+    "q": {
+     "en": "At-rest pressure K0: where does it sit and when does it govern?",
+     "gu": "At-rest pressure K0: તે ક્યાં બેસે છે અને ક્યારે શાસન કરે છે?"
+    },
+    "a": {
+     "en": "Between Ka and Kp (Jaky: K0 ≈ 1 − sin phi). It governs when the wall cannot yield — basement walls braced by floors, rigid abutments: designing them for active pressure under-builds them (Card 7.4).",
+     "gu": "Ka અને Kp વચ્ચે (Jaky: K0 ≈ 1 − sin phi). તે ત્યારે શાસન કરે છે જ્યારે દિવાલ ખસી શકતી નથી — માળાઓથી બંધાયેલી ભોંયરા દિવાલો, કઠોર abutments: તેમને active દબાણ માટે design કરવા એ ઓછું બાંધવા જેવું છે (Card 7.4)."
+    }
+   },
+   {
+    "q": {
+     "en": "Liquefaction: the three-ingredient recipe and the failing term in Coulomb's law.",
+     "gu": "Liquefaction: ત્રણ-ઘટક રેસિપી અને Coulomb નિયમમાં નિષ્ફળ જતું પદ."
+    },
+    "a": {
+     "en": "Loose granular soil + saturation + cyclic shaking. Shaking raises pore pressure u; sigma' = sigma − u collapses, so tau_f = c' + sigma' tan phi' collapses with it — clean sand behaves as liquid until drainage restores stress (Card 7.5).",
+     "gu": "ઢીલી દાણાદાર soil + saturation + ચક્રીય ધ્રુજારી. ધ્રુજારી છિદ્ર-દબાણ u વધારે છે; sigma' = sigma − u તૂટી પડે છે, એટલે tau_f પણ — સ્વચ્છ રેતી નિકાલ stress પાછો ન લાવે ત્યાં સુધી પ્રવાહી જેવી વર્તે છે (Card 7.5)."
+    }
+   },
+   {
+    "q": {
+     "en": "Two remedies for a liquefiable site under a school building.",
+     "gu": "શાળા ઇમારત નીચે liquefy થાય એવા સ્થળ માટે બે ઉપાયો."
+    },
+    "a": {
+     "en": "Bypass: piles through the loose saturated layer into firm strata. Or treat the ground: vibro-densification/stone columns (densify + drain). Avoidance (relocation) and solidification (grouting) complete the menu — choice is economic, physics is not negotiable (Card 7.5).",
+     "gu": "બાયપાસ: ઢીલા સંતૃપ્ત સ્તરમાંથી મજબૂત સ્તર સુધી piles. કે જમીનની સારવાર: vibro-densification/stone columns (ઘટ્ટ + નિકાલ). ટાળવું (સ્થળ બદલવું) અને ઘટ્ટ બનાવવું (grouting) યાદી પૂરી કરે છે — પસંદગી આર્થિક છે, ભૌતિકશાસ્ત્ર વાટાઘાટોથી પર છે (Card 7.5)."
+    }
+   }
+  ]
+ },
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Define ultimate, net ultimate, safe bearing capacity and allowable bearing pressure. Explain the influence of water table position on bearing capacity.",
+    "gu": "Ultimate, net ultimate, safe bearing capacity અને allowable bearing pressure ની વ્યાખ્યા આપો. Bearing capacity પર water table ના સ્થાનનો પ્રભાવ સમજાવો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "State Terzaghi's bearing capacity equation for a strip footing, the meaning of each term and factor, its assumptions and limitations.",
+    "gu": "Strip footing માટે Terzaghi નું bearing capacity સમીકરણ જણાવો, દરેક પદ અને factor નો અર્થ, તેની ધારણાઓ અને મર્યાદાઓ સાથે."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Strip footing B = 1.5 m, Df = 1 m, c = 10 kPa, phi = 30 degrees (Nc 37.2, Nq 22.5, Ngamma 19.7), gamma = 18 kN/m3: compute qu and safe capacity (FOS 3) stepwise, each term on its own line.",
+    "gu": "Strip footing B = 1.5 m, Df = 1 m, c = 10 kPa, phi = 30 degrees (Nc 37.2, Nq 22.5, Ngamma 19.7), gamma = 18 kN/m3: qu અને safe capacity (FOS 3) તબક્કાવાર ગણો, દરેક પદ અલગ line પર."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "A 2 x 2 m footing in sand (Nq = 28, Ngamma = 26) at 1.2 m depth has qu = 1073 kPa with deep water table. Recompute with water table at base (gamma' = 10.2) stepwise and state the percentage loss.",
+    "gu": "રેતીમાં 2 x 2 m footing (Nq = 28, Ngamma = 26) 1.2 m ઊંડાઈએ ઊંડા પાણી સ્તરે qu = 1073 kPa ધરાવે છે. પાણી આધાર પર હોય (gamma' = 10.2) તો તબક્કાવાર ફરી ગણી ટકાવારી નુકસાન જણાવો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Describe types of footings and the three shear failure patterns with sketches. List four methods to improve bearing capacity, linking each to a Terzaghi term.",
+    "gu": "Footings ના પ્રકારો અને ત્રણ shear નિષ્ફળતા ઢાંચા sketches સાથે વર્ણવો. Bearing capacity સુધારવાની ચાર પદ્ધતિઓ ગણાવો, દરેકને Terzaghi ના પદ સાથે જોડીને."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Define active, passive and at-rest earth pressure. Derive or state Rankine Ka and Kp for phi = 30 degrees and compute total active thrust on a 4 m wall (gamma = 19).",
+    "gu": "Active, passive અને at-rest earth pressure ની વ્યાખ્યા આપો. phi = 30 degrees માટે Rankine Ka અને Kp જણાવો અને 4 m દિવાલ પર કુલ active ધક્કો ગણો (gamma = 19)."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "For the same 4 m wall, compute passive resistance stepwise and its ratio to active thrust. Where is each used in wall design?",
+    "gu": "એ જ 4 m દિવાલ માટે passive વિરોધ તબક્કાવાર ગણી active ધક્કા સાથે તેનો ગુણોત્તર આપો. Wall design માં દરેક ક્યાં વપરાય છે?"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "What is liquefaction? State its causes, effects and remedies, connecting the mechanism to effective stress (sigma - u). Name the field tests used to judge bearing capacity and their limits.",
+    "gu": "Liquefaction શું છે? તેના કારણો, અસરો અને ઉપાયો જણાવો, કાર્યપદ્ધતિને effective stress (sigma - u) સાથે જોડીને. Bearing capacity મૂલવવા વપરાતા field tests અને તેમની મર્યાદાઓ પણ ગણાવો."
+   },
+   "marks": 4
+  }
+ ],
+ "question_provenance": "Original practice questions written strictly within the official DI03006051 syllabus coverage",
+ "practicals": [],
+ "content_kind": "theory_trimmed_civil"
+}

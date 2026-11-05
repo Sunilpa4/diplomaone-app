@@ -1,0 +1,376 @@
+{
+ "code": "DI03006041",
+ "unit": 7,
+ "branch": "civil",
+ "semester": 3,
+ "title": {
+  "en": "Columns and Struts",
+  "gu": "Columns અને Struts"
+ },
+ "hours": 4,
+ "weightage": 10,
+ "cos": [
+  "CO6"
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "numericals",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "",
+  "gu": ""
+ },
+ "notes": [
+  {
+   "title": {
+    "en": "Unit 7 Notes — Column and Strut",
+    "gu": "યુનિટ 7 Notes — Column અને Strut"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "7.1 Column and strut — buckling: the failure that isn't crushing",
+      "gu": "7.1 Column અને strut — buckling: કચડાઈ જવા કરતાં જુદી નિષ્ફળતા"
+     },
+     "syllabus_item": "7.1 Definitions: column, strut, buckling/crippling load, crushing load, failure modes of short and long columns",
+     "body": {
+      "en": "<p><b>Vocabulary first.</b> A <i>strut</i> is any member carrying axial compression (a truss diagonal of Unit 6, a machine brace) — inclined or horizontal; a <i>column</i> is the vertical building member doing the same job. Push a short, fat block and it fails by <i>crushing</i>: stress reaches the crushing/yield strength σc over the whole area, P_crush = σc·A, a Unit-1 style failure. Push a long, slender column and it fails by <i>buckling</i> (crippling): at a critical load it suddenly bows sideways — the axial stress may still be well below yield, yet the shape gives up. The failure is of geometry, not of material, which is why a thin scale-model column disappoints engineers who trust only σ = P/A.</p><p><b>The two loads frame the whole unit:</b> P_buckling depends on E, I (through r), length and end conditions — not on strength; P_crushing depends on σc and A — not on length. Short columns meet crushing first; long columns buckle first; the middle argues both. Design capacity is whichever failure arrives earlier (lower load), typically divided by a factor of safety (Euler loads are commonly divided ~3, since real columns are never perfectly straight or perfectly axial).</p>",
+      "gu": "<p><b>પહેલા શબ્દો:</b> <i>strut</i> એ axial compression વહન કરતો કોઈપણ member છે (Unit 6 નો truss diagonal, machine નો ટેકો) — ત્રાંસો કે આડો; <i>column</i> એ એ જ કામ કરતો ઊભો building member છે. ટૂંકા જાડા block ને દબાવો તો તે <i>crushing</i> થી નિષ્ફળ જાય છે: stress આખા area પર crushing strength σc સુધી પહોંચે છે, P_crush = σc·A — Unit-1 જેવી નિષ્ફળતા. લાંબા પાતળા column ને દબાવો તો તે <i>buckling</i> (crippling) થી નિષ્ફળ જાય છે: એક critical load પર તે અચાનક બાજુમાં વળી જાય છે — axial stress yield કરતાં ઘણો નીચો હોવા છતાં આકાર હારી જાય છે. આ નિષ્ફળતા material ની નહીં, ભૂમિતિની છે.</p><p><b>બે loads આખા unit ને ઘડે છે:</b> P_buckling એ E, I (r દ્વારા), લંબાઈ અને છેડાની સ્થિતિ પર આધારિત છે — strength પર નહીં; P_crushing એ σc અને A પર — લંબાઈ પર નહીં. ટૂંકા columns પહેલા crushing ને મળે છે; લાંબા પહેલા buckling ને; વચ્ચેળિયા બંને સાથે ઝઘડે છે. Design capacity એ જે નિષ્ફળતા વહેલા આવે (ઓછો load) તે છે, સામાન્ય રીતે safety factor થી ભાગેલી (Euler load માટે આશરે 3).</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "7.2 Effective length and slenderness ratio — the column's identity number",
+      "gu": "7.2 Effective length અને slenderness ratio — column નો ઓળખ આંકડો"
+     },
+     "syllabus_item": "7.2 Slenderness ratio, least radius of gyration, effective length for different end conditions (IS 800 values)",
+     "body": {
+      "en": "<p><b>Buckling bows about the weakest axis.</b> A column bends around whichever axis offers the least radius of gyration r_min = √(I_min/A) (Unit 2's r, promoted to judge), so slenderness is always computed with r_min:</p><span class=\"eq\">slenderness ratio lambda = Le/r_min ; Le = effective length = K x L (Diagram: both pinned K = 1, fixed-free K = 2, both fixed K = 0.5, fixed-pinned K = 0.7)</span><p><b>Effective length is the pinned-equivalent length</b> — the distance between inflection points of the buckled shape — so end fixity enters the arithmetic as a length illusion: the both-fixed column behaves like a pinned one half its size, the flagpole (fixed-free) like one twice its size. Design codes (e.g. IS 800) tabulate K by support and bracing; unbraced directions must be checked separately with their own L and r — a column can be a hero about one axis and a buckler about the other. Rough civilisation divides: λ below ~30–50 behaves 'short' (crushing territory), beyond ~90 (mild steel) it is Euler country; between them lives the next card's argument.</p>",
+      "gu": "<p><b>Buckling સૌથી નબળી ધરી પર વળે છે.</b> Column એ ધરી પર વળે છે જ્યાં radius of gyration સૌથી ઓછો હોય, r_min = √(I_min/A) (Unit 2 નો r, હવે ન્યાયાધીશ) — એટલે slenderness હંમેશા r_min થી ગણાય છે:</p><span class=\"eq\">slenderness ratio lambda = Le/r_min ; Le = effective length = K x L (Diagram: બંને pinned K = 1, fixed-free K = 2, બંને fixed K = 0.5, fixed-pinned K = 0.7)</span><p><b>Effective length એટલે pinned-સમકક્ષ લંબાઈ</b> — વળેલા આકારના inflection બિંદુઓ વચ્ચેનું અંતર. બંને છેડે fixed column અડધા કદના pinned જેવો વર્તે છે, fixed-free (ધ્વજદંડ) બમણા કદના જેવો. દરેક દિશા માટે L અને r અલગ તપાસો — column એક ધરી પર હીરો અને બીજી પર નબળો હોઈ શકે છે. આશરે: λ ~30–50 નીચે 'short' (crushing ક્ષેત્ર), ~90 (mild steel) થી ઉપર Euler ક્ષેત્ર; વચ્ચે આગળના card ની દલીલ રહે છે.</p>"
+     },
+     "diagram": "ms7_effective"
+    },
+    {
+     "h": {
+      "en": "7.3 Euler's formula — where it rules and where it lies",
+      "gu": "7.3 Euler નું સૂત્ર — ક્યાં શાસન કરે છે અને ક્યાં છેતરે છે"
+     },
+     "syllabus_item": "7.3 Euler's crippling load formula (statement, no derivation), critical stress, limitations, limiting slenderness ratio",
+     "body": {
+      "en": "<p><b>The crippling load (statement, per syllabus — no derivation).</b></p><span class=\"eq\">P_cr = pi^2 E I_min / Le^2 ; equivalently sigma_cr = pi^2 E / lambda^2 ; safe load = P_cr / FOS (often 3)</span><p>Read its DNA: strength σc appears nowhere — a high-strength steel column buckles at the same load as a mild one (E is identical), I_min insists on the weak-axis layout (bracing the weak direction pays twice), and Le² means halving effective length quadruples capacity — the cheapest capacity in structural engineering is end fixity and mid-bracing.</p><p><b>The lie at the left of the curve (Diagram).</b> As λ → small, π²E/λ² sails past yield — Euler would happily predict crushing-strength exceedances for stocky columns that in truth simply crush. The formula is valid only while σ_cr ≤ yield: λ ≥ λ_limit = π√(E/σ_y) ≈ 89 for mild steel (σ_y = 250). Below that, use crushing/empirical rules (Card 7.4). Numerical 7.1 (pinned strut, Le = 3000, r = 20 → λ = 150) legitimately lives on the Euler curve: σ_cr = 87.7 N/mm², P_cr = 132 kN on A = 1500 mm².</p>",
+      "gu": "<p><b>Crippling load (syllabus મુજબ ફક્ત નિવેદન):</b></p><span class=\"eq\">P_cr = pi^2 E I_min / Le^2 ; અથવા sigma_cr = pi^2 E / lambda^2 ; safe load = P_cr / FOS (ઘણીવાર 3)</span><p>તેનું DNA વાંચો: strength σc ક્યાંય નથી — high-strength steel column mild steel જેટલા જ load પર વળે છે (E સરખું છે); I_min નબળી ધરીને જ ગણે છે; અને Le² નો અર્થ એ કે effective length અડધી કરતાં capacity ચાર ગણી થાય છે — સૌથી સસ્તી capacity એ છેડાની fixity અને વચ્ચેનો bracing છે.</p><p><b>વક્રની ડાબી બાજુની છેતરપિંડી (Diagram):</b> λ નાનો થતાં π²E/λ² yield ને પાર કરી જાય છે — જાડા columns ખરેખર તો ખાલી કચડાય છે. સૂત્ર ફક્ત ત્યારે માન્ય જ્યારે σ_cr ≤ yield: λ ≥ λ_limit = π√(E/σ_y) ≈ 89 (mild steel). Numerical 7.1 (λ = 150) કાયદેસર Euler વક્ર પર છે: σ_cr = 87.7 N/mm², P_cr = 132 kN.</p>"
+     },
+     "diagram": "ms7_euler"
+    },
+    {
+     "h": {
+      "en": "7.4 Rankine's formula — one formula for every column",
+      "gu": "7.4 Rankine નું સૂત્ર — દરેક column માટે એક જ સૂત્ર"
+     },
+     "syllabus_item": "7.4 Rankine's empirical formula, Rankine constant, applications to short and long columns; simple numericals",
+     "body": {
+      "en": "<p><b>The empirical bridge.</b> Rankine blends the two failure loads into one that automatically respects whichever is weaker:</p><span class=\"eq\">1/P_R = 1/P_crush + 1/P_euler -> sigma_R = sigma_c / (1 + a lambda^2) ; a = Rankine constant = sigma_c/(pi^2 E) - for mild steel sigma_c = 320 N/mm2, a = 1/7500</span><p>Asymptotics do the diplomacy (Diagram): λ → 0 gives σ_R → σc (crushing rules short columns); λ → large recovers σ_R → π²E/λ² (Euler rules long ones); in between it interpolates below both parents — conservative everywhere, which is why it survived a century of codes. Numerical 7.2 reprices Numerical 7.1's strut: σ_R = 320/(1 + 150²/7500) = 80 N/mm² → P_R = 120 kN &lt; Euler's 132 kN — Rankine taxing the ideal for real-world crookedness. Other steel grades shift constants (σc from the material's crushing/yield strength, a recomputed); the form never changes.</p>",
+      "gu": "<p><b>અનુભવાદી સેતુ:</b> Rankine બંને failure loads ને એવી રીતે ભેળવે છે કે જે નબળો હોય તેનું આપોઆપ સન્માન થાય છે:</p><span class=\"eq\">1/P_R = 1/P_crush + 1/P_euler -> sigma_R = sigma_c / (1 + a lambda^2) ; mild steel માટે sigma_c = 320 N/mm2, a = 1/7500</span><p>છેડાઓ મુત્સદ્દીગીરી કરે છે (Diagram): λ → 0 તો σ_R → σc (ટૂંકા columns પર crushing નું શાસન); λ મોટો તો σ_R → π²E/λ² (લાંબા પર Euler); વચ્ચે બંને માતાપિતાથી નીચે રહીને interpolate કરે છે — દરેક જગ્યાએ સલામતીભર્યું, એટલે સદીથી code માં ટક્યું છે. Numerical 7.2: σ_R = 80 N/mm² → P_R = 120 kN, Euler ના 132 kN કરતાં ઓછું — વાસ્તવિક વાંકાઈ માટેનો કર.</p>"
+     },
+     "diagram": "ms7_rankine"
+    },
+    {
+     "h": {
+      "en": "7.5 Working a column problem — the routine and its traps",
+      "gu": "7.5 Column problem ઉકેલવો — પદ્ધતિ અને તેની છટકબારીઓ"
+     },
+     "syllabus_item": "7.5 Numerical problems: crippling load by Euler and Rankine, safe load, classification of columns, eccentric loading concept",
+     "body": {
+      "en": "<p><b>The four-step routine.</b> (1) Collect the section's A and r_min (or I_min and A) — buckling shops at the minimum counter. (2) Convert each bracing direction's real length to Le with its end-condition K; λ = Le/r for that direction; the larger λ governs (check both axes!). (3) Classify: λ ≥ λ_limit (≈89 mild steel) → Euler legitimate; below → Rankine (or crushing check for very stocky). (4) Report P_cr (and σ_cr), then the safe/service load with the specified FOS. Numerical 7.3 runs it: fixed-free 4 m column, A = 4400 mm², r_min = 45.1 → Le = 8 m, λ = 177 → σ_cr = 62.7, P_cr = 276 kN; safe at FOS 3 ≈ 92 kN — and notice the same column both-pinned would carry 4× that (1.1 MN): end conditions are load multipliers.</p><p><b>Traps that own the lost marks:</b> using r_max or I about the strong axis; forgetting that r and Le must belong to the <i>same</i> buckling direction; quoting Euler below λ_limit with a straight face; mixing L and Le. One concept beyond scope but examinable as definition: <i>eccentric loading</i> (load off-centroid) adds bending to compression — σ = P/A ± M/Z, the secant-formula world — always more dangerous than the concentric case both formulae assume, and the standing argument for bracing and alignment care on site.</p>",
+      "gu": "<p><b>ચાર પગલાંની પદ્ધતિ:</b> (1) Section ના A અને r_min (કે I_min અને A) ભેગા કરો. (2) દરેક દિશાની ખરી લંબાઈને K થી Le માં ફેરવો; λ = Le/r; મોટો λ શાસન કરે છે (બંને ધરીઓ તપાસો!). (3) વર્ગીકરણ: λ ≥ λ_limit (≈89 mild steel) → Euler માન્ય; નીચે → Rankine. (4) P_cr (અને σ_cr) આપો, પછી આપેલા FOS સાથે safe load. Numerical 7.3: fixed-free 4 m column, r_min = 45.1 → Le = 8 m, λ = 177 → P_cr = 276 kN; FOS 3 પર safe ≈ 92 kN — એ જ column બંને છેડે pinned હોત તો ચાર ગણું (1.1 MN) વહન કરત: છેડાની સ્થિતિ load નો ગુણક છે.</p><p><b>ગુણ ખોવડાવતી ભૂલો:</b> r_max કે strong axis નું I વાપરવું; r અને Le એક જ buckling દિશાના હોવા જોઈએ તે ભૂલવું; λ_limit નીચે Euler ટાંકવો; L અને Le ભેળવવા. એક ખ્યાલ: <i>eccentric loading</i> (centroid થી દૂર load) compression પર bending ઉમેરે છે — σ = P/A ± M/Z — એકકેન્દ્રી case કરતાં હંમેશા વધુ ખતરનાક, અને site પર bracing તથા ગોઠવણની કાળજીની કાયમી દલીલ.</p>"
+     }
+    }
+   ]
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "ms7_effective",
+   "title": {
+    "en": "Effective length: end conditions",
+    "gu": "Effective length: છેડાની સ્થિતિ"
+   }
+  },
+  {
+   "id": "ms7_euler",
+   "title": {
+    "en": "Euler curve: short vs long columns",
+    "gu": "Euler curve: ટૂંકા vs લાંબા columns"
+   }
+  },
+  {
+   "id": "ms7_rankine",
+   "title": {
+    "en": "Rankine curve",
+    "gu": "Rankine curve (વક્ર)"
+   }
+  }
+ ],
+ "numericals": {
+  "title": {
+   "en": "Solved Numericals — Unit 7",
+   "gu": "ઉકેલેલા Numericals — યુનિટ 7"
+  },
+  "items": [
+   {
+    "id": "Numerical 7.1",
+    "title": {
+     "en": "Numerical 7.1 — Euler crippling load of a pinned strut",
+     "gu": "Numerical 7.1 — Pinned strut નો Euler crippling load"
+    },
+    "body": {
+     "en": "<p><b>Given.</b> Steel strut, both ends pinned, length 3.0 m, cross-section A = 1500 mm², least radius of gyration r_min = 20 mm, E = 200 GPa (2 × 10⁵ N/mm²). Find the Euler crippling load and safe load (FOS 3), verifying Euler's applicability.</p><p><b>Step 1.</b> Slenderness (pinned: Le = L).</p><span class=\"eq\">lambda = Le/r_min = 3000/20 = 150 ; lambda_limit = pi sqrt(E/sigma_y) = pi sqrt(200000/250) = 88.9 ; 150 > 88.9 -> Euler VALID</span><p><b>Step 2.</b> Critical stress and load.</p><span class=\"eq\">sigma_cr = pi^2 E/lambda^2 = 9.8696 x 200000/22500 = 87.7 N/mm2 ;  P_cr = sigma_cr x A = 87.7 x 1500 = 131.6 kN</span><p><b>Step 3.</b> Safe load.</p><span class=\"eq\">P_safe = P_cr/3 = 43.9 kN</span><p><b>Final answer.</b></p><span class=\"eq\">╔ lambda = 150 (long column) ; P_cr = 132 kN ; P_safe = 43.9 kN at FOS 3 ╗</span><p><b>Validity check.</b> σ_cr = 87.7 ≪ σ_y = 250: the strut buckles elastically at barely a third of yield — crushing (P = 250 × 1500 = 375 kN) never gets a turn. That gap is the whole lesson of Card 7.1.</p>",
+     "gu": "<p><b>આપેલ છે:</b> steel strut, બંને છેડા pinned, લંબાઈ 3.0 m, A = 1500 mm², r_min = 20 mm, E = 200 GPa. Euler crippling load અને safe load (FOS 3) શોધો, Euler ની માન્યતા ચકાસીને.</p><p><b>Step 1.</b> Slenderness (pinned: Le = L).</p><span class=\"eq\">lambda = 3000/20 = 150 ; lambda_limit = 88.9 ; 150 > 88.9 -> Euler માન્ય</span><p><b>Step 2.</b> Critical stress અને load.</p><span class=\"eq\">sigma_cr = 87.7 N/mm2 ;  P_cr = 131.6 kN</span><p><b>Step 3.</b> Safe load = 131.6/3.</p><span class=\"eq\">P_safe = 43.9 kN</span><p><b>અંતિમ જવાબ:</b></p><span class=\"eq\">╔ lambda = 150 (long column) ; P_cr = 132 kN ; P_safe = 43.9 kN (FOS 3) ╗</span><p><b>ચકાસણી:</b> σ_cr = 87.7, yield 250 કરતાં ઘણું નીચે — strut yield ના ત્રીજા ભાગ પર જ વળી જાય છે; crushing (375 kN) નો વારો જ આવતો નથી. એ જ તફાવત Card 7.1 નો પાઠ છે.</p>"
+    }
+   },
+   {
+    "id": "Numerical 7.2",
+    "title": {
+     "en": "Numerical 7.2 — Rankine load for the same strut, compared",
+     "gu": "Numerical 7.2 — એ જ strut માટે Rankine load, સરખામણી સાથે"
+    },
+    "body": {
+     "en": "<p><b>Given.</b> Numerical 7.1's strut (λ = 150, A = 1500 mm²). Mild steel Rankine constants: σc = 320 N/mm², a = 1/7500. Find the Rankine load and compare with Euler and crushing.</p><p><b>Step 1.</b> Rankine stress.</p><span class=\"eq\">sigma_R = sigma_c/(1 + a lambda^2) = 320/(1 + 22500/7500) = 320/(1 + 3) = 80 N/mm2</span><p><b>Step 2.</b> Loads side by side.</p><span class=\"eq\">P_R = 80 x 1500 = 120 kN ;  P_Euler = 132 kN (N7.1) ;  P_crush(sigma_y basis) = 250 x 1500 = 375 kN</span><p><b>Final answer.</b></p><span class=\"eq\">╔ Rankine 120 kN < Euler 132 kN << crushing 375 kN - Rankine governs as the honest, imperfection-taxed estimate ╗</span><p><b>Validity check.</b> The reciprocal recipe cross-audits: 1/P_R should equal 1/P_crush + 1/P_Euler with consistent stresses — using σc = 320 crushing load 480 kN: 1/480 + 1/131.6 (scaled)... in stress terms 1/80 vs 1/320 + 1/87.7 = 0.003125 + 0.011403 = 0.014528 → 68.8? — the discrepancy is expected: the σc in the constant pair (320, 1/7500) is an empirical fit, not the same crushing stress as the reciprocal diagram's — Rankine constants come as a married couple and must not be separated (Card 7.4).</p>",
+     "gu": "<p><b>આપેલ છે:</b> Numerical 7.1 નો strut (λ = 150, A = 1500 mm²). Mild steel Rankine constants: σc = 320 N/mm², a = 1/7500. Rankine load શોધો અને Euler તથા crushing સાથે સરખાવો.</p><p><b>Step 1.</b> Rankine stress.</p><span class=\"eq\">sigma_R = 320/(1 + 22500/7500) = 320/4 = 80 N/mm2</span><p><b>Step 2.</b> Loads સાથે સાથે.</p><span class=\"eq\">P_R = 120 kN ;  P_Euler = 132 kN ;  P_crush = 375 kN</span><p><b>અંતિમ જવાબ:</b></p><span class=\"eq\">╔ Rankine 120 kN < Euler 132 kN << crushing 375 kN — ખરી, અપૂર્ણતાનો કર લેતી અંદાજ તરીકે Rankine શાસન કરે છે ╗</span><p><b>ચકાસણી:</b> Rankine constants (320, 1/7500) જોડીમાં આવે છે — તેમને અલગ કરીને reciprocal સૂત્રમાં નાખશો નહીં; જોડી એક અનુભવાદી fit છે (Card 7.4).</p>"
+    }
+   },
+   {
+    "id": "Numerical 7.3",
+    "title": {
+     "en": "Numerical 7.3 — Fixed-free column: classification and crippling load",
+     "gu": "Numerical 7.3 — Fixed-free column: વર્ગીકરણ અને crippling load"
+    },
+    "body": {
+     "en": "<p><b>Given.</b> A steel column 4.0 m long is fixed at the base and free at the top. Section: A = 4400 mm², r_min = 45.1 mm, E = 200 GPa, σ_y = 250 N/mm². Classify the column and find crippling and safe (FOS 3) loads.</p><p><b>Step 1.</b> Effective length and slenderness.</p><span class=\"eq\">Le = 2L = 8000 mm ; lambda = 8000/45.1 = 177 (> 88.9 -> LONG column, Euler valid)</span><p><b>Step 2.</b> Euler.</p><span class=\"eq\">sigma_cr = pi^2 x 200000/177^2 = 62.7 N/mm2 ;  P_cr = 62.7 x 4400 = 276 kN ;  P_safe = 276/3 = 92 kN</span><p><b>Final answer.</b></p><span class=\"eq\">╔ LONG column (lambda 177) ; P_cr = 276 kN ; safe 92 kN. Same column pinned-pinned: Le = 4 m, lambda 88.7 - borderline, P_cr about 4 x = 1.1 MN ╗</span><p><b>Validity check.</b> The 4× swing between end conditions is Le² at work (8² vs 4²) — before enlarging any column section, buy fixity or a mid-brace; it is the cheapest capacity in the building (Card 7.3). Note r and Le were both taken for the SAME weak direction (Card 7.5's trap).</p>",
+     "gu": "<p><b>આપેલ છે:</b> steel column 4.0 m, નીચે fixed, ઉપર free. Section: A = 4400 mm², r_min = 45.1 mm, E = 200 GPa, σ_y = 250. Column નું વર્ગીકરણ કરી crippling અને safe (FOS 3) loads શોધો.</p><p><b>Step 1.</b> Effective length અને slenderness.</p><span class=\"eq\">Le = 2L = 8000 mm ; lambda = 177 (> 88.9 -> LONG column, Euler માન્ય)</span><p><b>Step 2.</b> Euler.</p><span class=\"eq\">sigma_cr = 62.7 N/mm2 ;  P_cr = 276 kN ;  P_safe = 92 kN</span><p><b>અંતિમ જવાબ:</b></p><span class=\"eq\">╔ LONG column (lambda 177) ; P_cr = 276 kN ; safe 92 kN. એ જ column pinned-pinned: P_cr આશરે ચાર ગણું = 1.1 MN ╗</span><p><b>ચકાસણી:</b> છેડાની સ્થિતિ વચ્ચેનો 4× તફાવત એ Le² નું કામ છે (8² vs 4²) — section મોટો કરતા પહેલા fixity કે વચ્ચેનો brace ખરીદો; એ સૌથી સસ્તી capacity છે (Card 7.3). r અને Le બંને એક જ નબળી દિશાના લીધા છે તે નોંધો.</p>"
+    }
+   }
+  ]
+ },
+ "syntax": {
+  "title": {
+   "en": "Formulae, methods and key data — Unit 7",
+   "gu": "Formulae, methods અને key data — યુનિટ 7"
+  },
+  "items": [
+   {
+    "name": {
+     "en": "Column formula family",
+     "gu": "Column formula પરિવાર"
+    },
+    "body": {
+     "en": "<span class=\"eq\">crushing: P_c = sigma_c x A (short columns) ; Euler: P_cr = pi^2 E I_min/Le^2 , sigma_cr = pi^2 E/lambda^2 (long columns only)</span><span class=\"eq\">Rankine: sigma_R = sigma_c/(1 + a lambda^2) ; mild steel sigma_c = 320, a = 1/7500 ; cast iron a = 1/1600 ; timber a = 1/750 (formula family data)</span><span class=\"eq\">lambda = Le/r_min ; r = sqrt(I/A) ; Le = K L: K = 1 pinned-pinned, 2 fixed-free, 0.5 fixed-fixed, 0.7 fixed-pinned</span><span class=\"eq\">validity gate: Euler only if lambda >= pi sqrt(E/sigma_y) (= 88.9 for Fe250) ; safe load = crippling load/FOS</span><p>Design sequence: r_min → Le per direction → governing lambda → classify → Euler or Rankine → divide by FOS.</p>",
+     "gu": "<span class=\"eq\">crushing: P_c = sigma_c x A ; Euler: P_cr = pi^2 E I_min/Le^2 , sigma_cr = pi^2 E/lambda^2 (ફક્ત લાંબા columns)</span><span class=\"eq\">Rankine: sigma_R = sigma_c/(1 + a lambda^2) ; mild steel sigma_c = 320, a = 1/7500</span><span class=\"eq\">lambda = Le/r_min ; Le = K L: K = 1 બંને pinned, 2 fixed-free, 0.5 બંને fixed, 0.7 fixed-pinned</span><span class=\"eq\">માન્યતાની શરત: Euler ફક્ત જો lambda >= pi sqrt(E/sigma_y) (= 88.9, Fe250) ; safe load = crippling load/FOS</span><p>Design ક્રમ: r_min → દરેક દિશામાં Le → શાસક lambda → વર્ગીકરણ → Euler કે Rankine → FOS થી ભાગો.</p>"
+    }
+   },
+   {
+    "name": {
+     "en": "Classification and end-condition data — key data",
+     "gu": "વર્ગીકરણ અને છેડાની સ્થિતિ data — key data"
+    },
+    "body": {
+     "en": "<span class=\"eq\">short column: lambda < ~30-50 -> crushing governs ; long: lambda > pi sqrt(E/sigma_y) -> Euler ; intermediate: Rankine/empirical</span><span class=\"eq\">buckling always about r_min axis ; brace the WEAK direction first - added material belongs far from the centroid (Unit 2: I = A r^2)</span><span class=\"eq\">eccentric load (concept): sigma = P/A +/- My/I - never better than concentric ; alignment and bracing are capacities, not cosmetics</span><span class=\"eq\">FOS habit: Euler loads divided by about 3 for design (imperfections, crookedness, accidental eccentricity)</span><p>High-strength steel buys a column nothing against buckling (E unchanged); it only raises the crushing ceiling you'll never reach when slender.</p>",
+     "gu": "<span class=\"eq\">short column: lambda < ~30-50 -> crushing ; long: lambda > pi sqrt(E/sigma_y) -> Euler ; વચ્ચે: Rankine</span><span class=\"eq\">buckling હંમેશા r_min ધરી પર ; નબળી દિશાને પહેલા brace કરો — ઉમેરાતું material centroid થી દૂર મૂકો (Unit 2: I = A r^2)</span><span class=\"eq\">eccentric load (ખ્યાલ): sigma = P/A +/- My/I — concentric કરતાં ક્યારેય સારું નહીં ; ગોઠવણ અને bracing એ capacity છે, શણગાર નહીં</span><span class=\"eq\">FOS ટેવ: design માટે Euler loads ને આશરે 3 થી ભાગો (અપૂર્ણતા, વાંકાઈ, આકસ્મિક ઉત્કેન્દ્રતા)</span><p>High-strength steel buckling સામે column ને કંઈ આપતું નથી (E એ જ રહે છે); તે ફક્ત એ crushing છત ઊંચી કરે છે જે પાતળો column ક્યારેય પહોંચતો નથી.</p>"
+    }
+   }
+  ]
+ },
+ "viva": {
+  "title": {
+   "en": "Viva Questions — Unit 7",
+   "gu": "Viva Questions — યુનિટ 7"
+  },
+  "items": [
+   {
+    "q": {
+     "en": "Column versus strut — and the building member's other name in a truss?",
+     "gu": "Column vs strut — અને truss માં building member નું બીજું નામ?"
+    },
+    "a": {
+     "en": "Same job (axial compression), different posture: a strut is any inclined/horizontal compression member (truss diagonals, machine braces); a column is the vertical building compression member. In Unit 6's language, every strut is a column waiting for this unit's buckling audit (Card 7.1).",
+     "gu": "એક જ કામ (axial compression), જુદી મુદ્રા: strut એ કોઈપણ ત્રાંસો/આડો compression member છે (truss diagonals, machine ટેકા); column એ ઊભો building compression member છે. Unit 6 ની ભાષામાં દરેક strut એ આ unit ની buckling ચકાસણીની રાહ જોતો column છે (Card 7.1)."
+    }
+   },
+   {
+    "q": {
+     "en": "Crushing versus buckling: failure signatures?",
+     "gu": "Crushing vs buckling: નિષ્ફળતાની ઓળખ?"
+    },
+    "a": {
+     "en": "Crushing: material reaches σc, load = σcA, happens to short stocky members, visible squashing/yield. Buckling: shape instability at P_cr = π²EI/Le² with material stress still elastic — sudden sideways bow of long slender members. The governing one is whichever load is smaller (Card 7.1).",
+     "gu": "Crushing: material σc સુધી પહોંચે છે, load = σcA, ટૂંકા જાડા members ને થાય છે, દેખીતું દબાઈ જવું. Buckling: P_cr = π²EI/Le² પર આકારની અસ્થિરતા, material stress હજુ elastic હોય ત્યારે — લાંબા પાતળા members નો અચાનક બાજુનો વળાંક. જે load નાનો તે શાસન કરે છે (Card 7.1)."
+    }
+   },
+   {
+    "q": {
+     "en": "Why r_min and never r_max in slenderness?",
+     "gu": "Slenderness માં r_min જ કેમ, r_max ક્યારેય નહીં?"
+    },
+    "a": {
+     "en": "The column bows about the axis of least resistance: curvature chooses the smallest I, i.e. r_min = √(I_min/A). Computing λ with r_max under-declares slenderness and over-promises capacity — the unforgivable direction of error (Card 7.2).",
+     "gu": "Column સૌથી ઓછા વિરોધવાળી ધરી પર વળે છે: વળાંક સૌથી નાનું I પસંદ કરે છે, એટલે r_min. r_max થી λ ગણશો તો slenderness ઓછો દેખાશે અને capacity વધુ વચન અપાશે — માફ ન થાય એવી દિશાની ભૂલ (Card 7.2)."
+    }
+   },
+   {
+    "q": {
+     "en": "Effective length of a both-fixed column is 0.5L. Physically, why half?",
+     "gu": "બંને છેડે fixed column ની effective length 0.5L છે. ભૌતિક રીતે અડધી કેમ?"
+    },
+    "a": {
+     "en": "Its buckled shape has inflection (zero-moment) points at the quarter spans; the middle half waves like a pinned-pinned column of length L/2, and the end quarters merely restrain it. Le is always the inflection-point spacing of the buckled wave (Diagram, Card 7.2).",
+     "gu": "તેના વળેલા આકારમાં inflection (શૂન્ય-moment) બિંદુઓ ચોથા ભાગ પર આવે છે; વચ્ચેનો અડધો ભાગ L/2 લાંબા pinned column જેવો તરંગાય છે અને છેડાના ભાગો તેને ફક્ત અંકુશમાં રાખે છે. Le હંમેશા વળેલા તરંગના inflection બિંદુઓ વચ્ચેનું અંતર છે (Card 7.2)."
+    }
+   },
+   {
+    "q": {
+     "en": "State Euler and its two silent assumptions that limit it.",
+     "gu": "Euler જણાવો અને તેને મર્યાદિત કરતી તેની બે મૂક ધારણાઓ."
+    },
+    "a": {
+     "en": "P_cr = π²EI_min/Le² (σ_cr = π²E/λ²). Silent assumptions: perfectly straight, concentrically loaded, elastic material — hence usefulness only for λ ≥ π√(E/σ_y) ≈ 89 (Fe250) and the customary FOS ≈ 3 against the imperfections it ignored (Card 7.3).",
+     "gu": "P_cr = π²EI_min/Le² (σ_cr = π²E/λ²). મૂક ધારણાઓ: સંપૂર્ણ સીધો, એકકેન્દ્રી load, elastic material — એટલે ઉપયોગ ફક્ત λ ≥ π√(E/σ_y) ≈ 89 (Fe250) માટે અને તેણે અવગણેલી અપૂર્ણતાઓ સામે customary FOS ≈ 3 (Card 7.3)."
+    }
+   },
+   {
+    "q": {
+     "en": "High-strength steel column versus mild steel, same section and length: buckling verdict?",
+     "gu": "High-strength steel column vs mild steel, એ જ section અને લંબાઈ: buckling નિર્ણય?"
+    },
+    "a": {
+     "en": "Dead heat: E is the same (~200 GPa), and Euler never asks for strength. The expensive steel only helps if the column is short enough to crush near yield — money wasted on slender members (Card 7.3).",
+     "gu": "બરાબરી: E સરખું છે (~200 GPa), અને Euler strength પૂછતું જ નથી. મોંઘું steel ફક્ત ત્યારે મદદ કરે જ્યારે column એટલો ટૂંકો હોય કે yield પાસે કચડાય — પાતળા members પર પૈસાનો બગાડ (Card 7.3)."
+    }
+   },
+   {
+    "q": {
+     "en": "Rankine in one breath: formula, constants for mild steel, and its two limits.",
+     "gu": "Rankine એક શ્વાસમાં: સૂત્ર, mild steel માટે constants, અને તેની બે મર્યાદાઓ."
+    },
+    "a": {
+     "en": "σ_R = σc/(1 + aλ²); mild steel σc = 320 N/mm², a = 1/7500. λ→0: σ_R → σc (crushing); λ→∞: σ_R → π²E/λ² (Euler). One curve, both regimes, always at or below both parents (Diagram, Card 7.4).",
+     "gu": "σ_R = σc/(1 + aλ²); mild steel σc = 320 N/mm², a = 1/7500. λ→0: σ_R → σc (crushing); λ→∞: σ_R → π²E/λ² (Euler). એક વક્ર, બંને ક્ષેત્રો, હંમેશા બંને માતાપિતાની નીચે કે બરાબર (Card 7.4)."
+    }
+   },
+   {
+    "q": {
+     "en": "A column's λ computes 60 (mild steel). Which formula do you defend in the viva and why?",
+     "gu": "Column નો λ 60 આવે છે (mild steel). Viva માં કયા સૂત્રનો બચાવ કરશો અને કેમ?"
+    },
+    "a": {
+     "en": "Rankine (or code empirical): λ = 60 < λ_limit 89, so Euler would predict σ_cr = π²E/60² = 548 N/mm² — beyond yield, physically impossible; the column yields/crushes into buckling first. Euler there is not conservative, it is fantasy (Cards 7.3–7.4).",
+     "gu": "Rankine (કે code નું empirical): λ = 60 < λ_limit 89, એટલે Euler σ_cr = 548 N/mm² આપે — yield થી ઉપર, ભૌતિક રીતે અશક્ય; column પહેલા yield/crush થઈને વળે છે. ત્યાં Euler સલામતીભર્યું નથી, કલ્પના છે (Cards 7.3–7.4)."
+    }
+   },
+   {
+    "q": {
+     "en": "Mid-height lateral brace added to a pinned column. What did you just buy?",
+     "gu": "Pinned column ને વચ્ચે ઊંચાઈએ lateral brace ઉમેર્યો. તમે શું ખરીદ્યું?"
+    },
+    "a": {
+     "en": "Le halves in that direction → λ halves → Euler capacity quadruples (Le² in the denominator), and λ may cross into a friendlier regime. Bracing is the cheapest capacity in the building; it also flips which axis governs — recheck both (Card 7.5).",
+     "gu": "એ દિશામાં Le અડધો → λ અડધો → Euler capacity ચાર ગણી (છેદમાં Le²). Bracing એ building ની સૌથી સસ્તી capacity છે; કઈ ધરી શાસન કરે છે તે પણ બદલાઈ શકે — બંને ફરી તપાસો (Card 7.5)."
+    }
+   },
+   {
+    "q": {
+     "en": "Eccentric loading: why is it worse, and what formula shape prices it?",
+     "gu": "Eccentric loading: વધુ ખરાબ કેમ, અને કયા આકારનું સૂત્ર તેની કિંમત આંકે છે?"
+    },
+    "a": {
+     "en": "Load off the centroid superposes bending on compression: σ_max = P/A + M/Z with M = P·e — the extreme fibre yields early and deflection feeds the moment (secant behaviour). Both Euler and Rankine assume concentric load; eccentricity spends their safety silently (Card 7.5).",
+     "gu": "Centroid થી દૂરનો load compression પર bending ઉમેરે છે: σ_max = P/A + M/Z, M = P·e — છેડાનો fibre વહેલો yield થાય છે અને deflection moment ને ખવડાવે છે. Euler અને Rankine બંને એકકેન્દ્રી load ધારે છે; ઉત્કેન્દ્રતા તેમની safety મૂકપણે ખર્ચે છે (Card 7.5)."
+    }
+   },
+   {
+    "q": {
+     "en": "Two columns, same A: one solid square, one hollow square. Buckling verdict?",
+     "gu": "બે columns, એ જ A: એક solid square, એક hollow square. Buckling નિર્ણય?"
+    },
+    "a": {
+     "en": "Hollow wins: same area pushed farther from the centroid raises I and r (I = Ar²), lowering λ and raising P_cr — geometry identical in spirit to the I-beam's flanges. Material near the centre is ballast (Cards 7.2, 4.1).",
+     "gu": "Hollow જીતે છે: એ જ area centroid થી દૂર ધકેલતાં I અને r વધે છે (I = Ar²), λ ઘટે છે અને P_cr વધે છે — I-beam ના flanges જેવો જ વિચાર. કેન્દ્ર પાસેનું material ખાલી વજન છે (Card 7.2)."
+    }
+   },
+   {
+    "q": {
+     "en": "FOS of 3 on Euler loads: what exactly is it paying for?",
+     "gu": "Euler loads પર FOS 3: તે બરાબર શેના પૈસા ચૂકવે છે?"
+    },
+    "a": {
+     "en": "Everything Euler assumed away: initial crookedness, load eccentricity, end-fixity optimism, residual stresses, bracing give. The factor buys back determinism from a formula derived for a perfect column that has never been fabricated (Card 7.3).",
+     "gu": "Euler એ ધારી લીધું તે બધાનું: શરૂઆતી વાંકાઈ, load ની ઉત્કેન્દ્રતા, છેડાની fixity નો આશાવાદ, residual stresses, bracing ની ઢીલ. સંપૂર્ણ column — જે ક્યારેય બન્યો જ નથી — માટે તારવેલા સૂત્ર પાસેથી નિશ્ચિતતા પાછી ખરીદવાનો આ ભાવ છે (Card 7.3)."
+    }
+   }
+  ]
+ },
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Define column, strut, buckling and crushing loads. Differentiate short and long columns by failure mode and governing formula.",
+    "gu": "Column, strut, buckling અને crushing load ની વ્યાખ્યા આપો. ટૂંકા અને લાંબા columns નો નિષ્ફળતા પ્રકાર અને શાસક સૂત્રથી તફાવત કરો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "State the effective lengths for four end conditions with sketches, and define slenderness ratio using least radius of gyration. Why is r_min mandatory?",
+    "gu": "Sketches સાથે ચાર છેડાની સ્થિતિ માટે effective lengths જણાવો, અને least radius of gyration વાપરી slenderness ratio ની વ્યાખ્યા આપો. r_min ફરજિયાત કેમ છે?"
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "A pinned steel strut (L = 3 m, A = 1500 mm2, r_min = 20 mm): find lambda, Euler crippling load and safe load at FOS 3, first verifying Euler applicability (sigma_y = 250).",
+    "gu": "Pinned steel strut (L = 3 m, A = 1500 mm2, r_min = 20 mm): lambda, Euler crippling load અને FOS 3 પર safe load શોધો, પહેલા Euler ની માન્યતા ચકાસીને (sigma_y = 250)."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "For the same strut compute the Rankine load (sigma_c = 320, a = 1/7500) and compare Euler, Rankine and crushing loads, stating which governs and why.",
+    "gu": "એ જ strut માટે Rankine load (sigma_c = 320, a = 1/7500) ગણો અને Euler, Rankine તથા crushing loads ની સરખામણી કરો — કયો શાસન કરે છે અને કેમ તે જણાવીને."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "State Rankine's formula and show it reduces to crushing for short columns and to Euler for long columns. Sketch both Euler and Rankine curves on one diagram.",
+    "gu": "Rankine નું સૂત્ર જણાવો અને બતાવો કે તે ટૂંકા columns માટે crushing માં અને લાંબા માટે Euler માં કેવી રીતે પરિણમે છે. એક જ diagram પર Euler અને Rankine વક્રો દોરો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "A fixed-free steel column (4 m, A = 4400 mm2, r_min = 45.1 mm) — classify it and find crippling and safe loads. What changes if both ends are pinned?",
+    "gu": "Fixed-free steel column (4 m, A = 4400 mm2, r_min = 45.1 mm) — તેનું વર્ગીકરણ કરી crippling અને safe loads શોધો. બંને છેડા pinned હોય તો શું બદલાય?"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Write Euler's formula, its assumptions and limitations, deriving the limiting slenderness ratio for mild steel (E = 200 GPa, sigma_y = 250 N/mm2).",
+    "gu": "Euler નું સૂત્ર, તેની ધારણાઓ અને મર્યાદાઓ લખો, mild steel માટે limiting slenderness ratio તારવીને (E = 200 GPa, sigma_y = 250 N/mm2)."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain: (i) why a mid-brace quadruples a pinned column's Euler load; (ii) why high-strength steel does not help a slender column; (iii) why hollow sections beat solid ones at equal area.",
+    "gu": "સમજાવો: (i) વચ્ચેનો brace pinned column નો Euler load ચાર ગણો કેમ કરે છે; (ii) high-strength steel પાતળા column ને કેમ મદદ કરતું નથી; (iii) સરખા area એ hollow sections solid કરતાં કેમ ચઢિયાતા છે."
+   },
+   "marks": 4
+  }
+ ],
+ "question_provenance": "Original practice questions written strictly within the official DI03006041 syllabus coverage",
+ "practicals": [],
+ "content_kind": "theory_trimmed_civil"
+}

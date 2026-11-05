@@ -1,0 +1,400 @@
+{
+ "code": "DI04000151",
+ "unit": 5,
+ "branch": "civil",
+ "semester": 4,
+ "title": {
+  "en": "Flow through Open Channel",
+  "gu": "Open Channel માં Flow"
+ },
+ "hours": 10,
+ "weightage": 23,
+ "cos": [
+  "CO5"
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "numericals",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "",
+  "gu": ""
+ },
+ "notes": [
+  {
+   "title": {
+    "en": "Unit 5 Notes — Flow through Open Channel",
+    "gu": "યુનિટ 5 Notes — Open Channel માં Flow"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "5.1 Channels and classification",
+      "gu": "5.1 Channels અને classification"
+     },
+     "syllabus_item": "5.1 Channels and classification",
+     "body": {
+      "en": "<p>Open-channel flow has a free surface exposed to atmospheric pressure; gravity is a principal driving force. Natural channels include rivers and streams; artificial channels include canals, gutters and flumes. Channels may be prismatic (constant shape, size and bed slope) or non-prismatic, and lined or unlined. Flow may be steady/unsteady, uniform/non-uniform, and subcritical/critical/supercritical. Uniform-flow resistance equations require the appropriate steady uniform-flow assumptions; rapidly varied flow such as a hydraulic jump requires a different analysis.</p>",
+      "gu": "<p>Open-channel flow માં atmospheric pressure હેઠળ free surface હોય છે અને gravity મુખ્ય driving force છે. Rivers અને streams natural channels છે; canals, gutters અને flumes artificial છે. Channel prismatic (આકાર, કદ અને bed slope સ્થિર) અથવા non-prismatic, lined અથવા unlined હોઈ શકે. Flow steady/unsteady, uniform/non-uniform અને subcritical/critical/supercritical હોઈ શકે. Uniform-flow resistance equations ને hydraulic jump જેવા rapidly varied flow પર સીધાં લાગુ ન કરવાં.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "5.2 Geometry and Froude number",
+      "gu": "5.2 Geometry અને Froude number"
+     },
+     "syllabus_item": "5.2 Geometry and Froude number",
+     "body": {
+      "en": "<p>Wetted area A is the area of flow cross-section; wetted perimeter P is the length of channel boundary in contact with water, excluding the free surface. Hydraulic radius R = A/P. Hydraulic depth Dₕ = A/T, where T is free-surface top width. Although 'hydraulic mean depth' is used inconsistently in textbooks, distinguish R = A/P for resistance from Dₕ = A/T for Froude number and critical flow.</p><p>Rectangular channel / Rectangular channel: width b and depth y:</p><span class=\"eq\">A = by</span><span class=\"eq\">P = b + 2y</span><span class=\"eq\">T = b</span><span class=\"eq\">R = by/(b + 2y)</span><span class=\"eq\">Dₕ = y</span><p>Trapezoidal channel / Trapezoidal channel: bottom width b, depth y and side slope m horizontal to 1 vertical on each side:</p><span class=\"eq\">A = y(b + my)</span><span class=\"eq\">P = b + 2y√(1 + m²)</span><span class=\"eq\">T = b + 2my</span><span class=\"eq\">R = A/P</span><span class=\"eq\">Dₕ = A/T</span><p>Froude number / Froude number:</p><span class=\"eq\">Fr = V/√(gDₕ)</span><p>Fr &lt; 1 is subcritical, Fr = 1 critical and Fr &gt; 1 supercritical. This classification compares flow speed with gravity-wave speed and is different from Reynolds-number classification. Use cross-section mean velocity and hydraulic depth; rectangular channels have Dₕ = y.</p>",
+      "gu": "<p>Wetted area A એટલે પ્રવાહનો cross-sectional area; wetted perimeter P એટલે પાણીના સંપર્કમાં channel boundary ની લંબાઈ, free surface સિવાય. Hydraulic radius R = A/P છે. Hydraulic depth Dₕ = A/T છે, જ્યાં T free-surface width છે. કેટલાક પુસ્તકોમાં hydraulic mean depth શબ્દ જુદી રીતે વપરાય છે; resistance માટે R = A/P અને Froude number માટે Dₕ = A/T અલગ રાખો.</p><span class=\"eq\">A = by</span><span class=\"eq\">P = b + 2y</span><span class=\"eq\">T = b</span><span class=\"eq\">R = by/(b + 2y)</span><span class=\"eq\">Dₕ = y</span><span class=\"eq\">A = y(b + my)</span><span class=\"eq\">P = b + 2y√(1 + m²)</span><span class=\"eq\">T = b + 2my</span><span class=\"eq\">R = A/P</span><span class=\"eq\">Dₕ = A/T</span><span class=\"eq\">Fr = V/√(gDₕ)</span><p>Fr &lt; 1 એટલે subcritical, Fr = 1 critical અને Fr &gt; 1 supercritical. આ વર્ગીકરણ gravity-wave speed સાથે સંબંધિત છે અને Reynolds-number classification થી અલગ છે. Mean velocity અને hydraulic depth વાપરો; rectangle માટે Dₕ = y.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "5.3 Uniform-flow discharge: Chezy, Manning, Bazin and Kutter",
+      "gu": "5.3 Uniform flow discharge: Chezy, Manning, Bazin અને Kutter"
+     },
+     "syllabus_item": "5.3 Uniform-flow discharge: Chezy, Manning, Bazin and Kutter",
+     "body": {
+      "en": "<p>Chezy:</p><span class=\"eq\">V = C√(RS)</span><span class=\"eq\">Q = AV</span><p>Manning (SI):</p><span class=\"eq\">V = (1/n)R^(2/3)S^(1/2)</span><span class=\"eq\">Q = AV</span><p>For steady uniform flow S is the energy slope, equal to the water-surface and bed slopes under ideal uniform conditions. C is Chezy coefficient and n Manning roughness; units must match the coefficient convention. Bazin and Kutter are empirical ways to estimate C; choose the exact published coefficient convention and units supplied by the problem. One common SI form of Bazin uses roughness parameter mB:</p><span class=\"eq\">C = 87/(1 + mB/√R)</span><p>One common SI form of Kutter, using roughness nK and slope S, is:</p><span class=\"eq\">C = (23 + 0.00155/S + 1/nK) / [1 + (23 + 0.00155/S)nK/√R]</span><p>R is in metres in these empirical forms. Coefficients and constants vary by convention; don't substitute Manning n for another roughness coefficient unless the specified Kutter convention defines it that way. These are empirical and do not require derivation in the syllabus.</p>",
+      "gu": "<span class=\"eq\">V = C√(RS)</span><span class=\"eq\">Q = AV</span><span class=\"eq\">V = (1/n)R^(2/3)S^(1/2)</span><span class=\"eq\">Q = AV</span><span class=\"eq\">C = 87/(1 + mB/√R)</span><span class=\"eq\">C = (23 + 0.00155/S + 1/nK) / [1 + (23 + 0.00155/S)nK/√R]</span><p>Steady uniform flow માટે S એ energy slope છે અને આદર્શ uniform conditions માં bed તથા water-surface slopes સમાન છે. Chezy માં C અને Manning માં n roughness દર્શાવે છે; units અને coefficient convention તપાસો. Bazin તથા Kutter empirical રીતે C આપે છે. ઉપરની સામાન્ય SI forms માં R metres માં છે; જુદા પુસ્તકમાં constants અને coefficients બદલાઈ શકે છે. પ્રશ્નમાં દર્શાવેલી convention જ વાપરો. આ સૂત્રોની derivation syllabus માં જરૂરી નથી.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "5.4 Most economical sections",
+      "gu": "5.4 સૌથી economical sections"
+     },
+     "syllabus_item": "5.4 Most economical sections",
+     "body": {
+      "en": "<p>For a given area, slope and roughness, an economical section minimises wetted perimeter, thereby maximising R and uniform-flow discharge. A rectangular section with a free surface has b = 2y and R = y/2. For a trapezoid with specified side slope m, optimum bottom width and top width satisfy:</p><span class=\"eq\">b = 2y[√(1 + m²) − m]</span><span class=\"eq\">T/2 = y√(1 + m²)</span><span class=\"eq\">R = y/2</span><p>If side slope is also free to vary, the optimal trapezoid is half a regular hexagon: side angle 60° to the horizontal, or m = 1/√3. For circular conduits the answer depends on what is held fixed and the resistance law: for a fixed diameter, constant Manning n and slope, maximum discharge occurs at depth approximately 0.938D, whereas maximum hydraulic radius occurs near 0.813D. Neither is exactly a semicircle. State the design criterion and assumptions rather than treating these as interchangeable. These section conditions are given without derivation.</p>",
+      "gu": "<span class=\"eq\">b = 2y[√(1 + m²) − m]</span><span class=\"eq\">T/2 = y√(1 + m²)</span><span class=\"eq\">R = y/2</span><p>આપેલ area, slope અને roughness માટે economical section wetted perimeter ઓછો અને R તથા uniform-flow discharge વધુ કરે છે. Rectangle માટે b = 2y અને R = y/2 છે. નિશ્ચિત side slope m ધરાવતા trapezoid માટે ઉપરની શરતો લાગુ પડે છે. Side slope પણ બદલાય તો optimum trapezoid અર્ધ regular hexagon છે: બાજુ horizontal સાથે 60° અને m = 1/√3. Fixed-diameter circular conduit માટે પરિણામ criterion પર આધારિત છે: constant Manning n અને slope પર maximum discharge લગભગ 0.938D depth પર અને maximum hydraulic radius લગભગ 0.813D પર મળે છે. બંનેને semicircle સાથે સરખા ન માનવા. આ શરતો derivation વગર આપી છે.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "5.5 Notches",
+      "gu": "5.5 Notches"
+     },
+     "syllabus_item": "5.5 Notches",
+     "body": {
+      "en": "<p>A notch is an opening in a thin plate used to measure discharge in a small channel. Head H is measured upstream from the crest (or vertex) where drawdown is negligible. For free, fully aerated flow, negligible approach velocity and constant Cd, a sharp-crested rectangular notch with effective width b has:</p><span class=\"eq\">Q = (2/3) Cd b √(2g) H^(3/2)</span><p>A sharp-crested triangular notch of included angle θ has:</p><span class=\"eq\">Q = (8/15) Cd tan(θ/2) √(2g) H^(5/2)</span><p>Rectangular end contractions reduce effective width; use the appropriate correction specified by the standard or question. A triangular notch is especially sensitive to small flows. Submergence, poor aeration, approach velocity and inaccurate head measurement invalidate the simple formula or require corrections.</p>",
+      "gu": "<span class=\"eq\">Q = (2/3) Cd b √(2g) H^(3/2)</span><span class=\"eq\">Q = (8/15) Cd tan(θ/2) √(2g) H^(5/2)</span><p>Notch એ પાતળી plate માં opening છે જે small-channel discharge માપે છે. Head H crest અથવા triangular vertex થી upstream એવા બિંદુએ માપો જ્યાં drawdown નગણ્ય હોય. ઉપરનાં સૂત્રો free, fully aerated flow, negligible approach velocity અને constant Cd માટે છે. Rectangular notch માં end contractions માટે યોગ્ય standard correction વાપરો. Triangular notch નાના flows માટે સંવેદનશીલ છે. Submergence, aeration નો અભાવ અને approach velocity હોય તો correction જરૂરી છે.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "5.6 Weirs",
+      "gu": "5.6 Weirs"
+     },
+     "syllabus_item": "5.6 Weirs",
+     "body": {
+      "en": "<p>A weir is an obstruction across an open channel over which water flows; geometry and crest condition determine the applicable rating. A sharp-crested rectangular weir with a fully aerated nappe uses the rectangular-notch expression above with the appropriate effective crest length and coefficient. A narrow-crested weir has a crest narrow relative to head, so a free nappe forms; use a calibrated sharp/narrow-crest relation for the actual geometry. A broad-crested weir supports flow over a substantial crest length; under ideal critical-flow and negligible approach-velocity assumptions:</p><span class=\"eq\">Qideal = b √g (2H/3)^(3/2)</span><span class=\"eq\">Qideal ≈ 1.705 b H^(3/2)  [SI, g = 9.81 m/s²]</span><span class=\"eq\">Qactual = Cd Qideal</span><p>A Cippoletti weir is trapezoidal with sides sloping 1 horizontal to 4 vertical, designed to approximately compensate for end contractions; in SI a common empirical free-flow formula is:</p><span class=\"eq\">Q ≈ 1.86 b H^(3/2)</span><p>Here b is bottom crest length in metres, H in metres, Q in m³/s. The empirical coefficient applies only to the standard geometry and calibration conditions. An ogee weir has a curved crest shaped approximately to a design nappe; use a supplied calibrated coefficient in Q = C L H^(3/2), with effective length L and total head H as defined by the rating. C has units appropriate to the equation and varies with head, crest geometry, approach and submergence; a universal coefficient must not be assumed. Submerged-flow corrections and approach-velocity head may be necessary for any applicable weir.</p>",
+      "gu": "<span class=\"eq\">Qideal = b √g (2H/3)^(3/2)</span><span class=\"eq\">Qideal ≈ 1.705 b H^(3/2)  [SI, g = 9.81 m/s²]</span><span class=\"eq\">Qactual = Cd Qideal</span><span class=\"eq\">Q ≈ 1.86 b H^(3/2)</span><p>Weir channel માં પ્રવાહ ઉપરથી પસાર થાય તેવો અવરોધ છે; crest ની geometry પ્રમાણે યોગ્ય rating પસંદ કરવો. Sharp-crested rectangular weir માટે યોગ્ય effective length અને coefficient સાથે rectangular-notch સૂત્ર વાપરો. Narrow crest માં free nappe બને છે; વાસ્તવિક geometry માટે calibrated relation લો. Broad crest પર flow ને આધાર મળે છે; ઉપરનું ideal critical-flow સૂત્ર તેની assumptions હેઠળ છે અને actual માટે Cd લગાવો. Cippoletti weir ની બાજુ 1 horizontal : 4 vertical હોય છે; સામાન્ય SI empirical સૂત્ર માત્ર યોગ્ય geometry અને calibration conditions માટે છે. Ogee weir માં curved crest હોય છે; આપેલ calibrated C અને effective length વાપરો. Approach velocity અને submergence માટે correction જરૂરી હોઈ શકે છે.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "5.7 Specific energy",
+      "gu": "5.7 Specific energy — માહિતી"
+     },
+     "syllabus_item": "5.7 Specific energy",
+     "body": {
+      "en": "<p>Specific energy E is the total head measured relative to the channel bed, assuming hydrostatic pressure distribution and using energy coefficient α:</p><span class=\"eq\">E = y + αV²/(2g)</span><span class=\"eq\">For a rectangular channel with discharge per unit width q = Q/b and α ≈ 1:</span><span class=\"eq\">E = y + q²/(2gy²)</span><span class=\"eq\">yc = (q²/g)^(1/3)</span><span class=\"eq\">Emin = 3yc/2</span><p>At fixed q, the E–y curve has a minimum at critical depth yc. Above minimum energy, two alternate depths can exist: a shallow supercritical depth and a deep subcritical depth. Specific energy is not the same as total energy head relative to a fixed datum; the bed elevation must be added for the latter.</p>",
+      "gu": "<span class=\"eq\">E = y + αV²/(2g)</span><span class=\"eq\">For a rectangular channel with discharge per unit width q = Q/b and α ≈ 1:</span><span class=\"eq\">E = y + q²/(2gy²)</span><span class=\"eq\">yc = (q²/g)^(1/3)</span><span class=\"eq\">Emin = 3yc/2</span><p>Specific energy E એ channel bed ને datum ગણી માપેલો head છે. Rectangular channel માટે q = Q/b અને α ≈ 1 હોય તો ઉપરનું E સૂત્ર મળે છે. નિશ્ચિત q પર E–y curve નું minimum critical depth yc પર છે. Minimum કરતાં વધુ energy માટે બે alternate depths હોઈ શકે: ઓછી depth supercritical અને વધુ depth subcritical. Fixed datum પરથી total head મેળવવા bed elevation ઉમેરવી પડે છે.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "5.8 Hydraulic jump",
+      "gu": "5.8 Hydraulic jump — માહિતી"
+     },
+     "syllabus_item": "5.8 Hydraulic jump",
+     "body": {
+      "en": "<p>A hydraulic jump is a rapid transition from supercritical shallow flow to subcritical deeper flow, with turbulent mixing and substantial energy dissipation. In a horizontal rectangular channel with negligible external friction over the short jump and hydrostatic pressure at the selected sections, continuity and momentum give the sequent-depth relationship:</p><span class=\"eq\">y₂/y₁ = [√(1 + 8Fr₁²) − 1]/2</span><p>For these assumptions the specific-energy loss is:</p><span class=\"eq\">ΔE = (y₂ − y₁)³/(4y₁y₂)</span><p>Use upstream Fr₁ &gt; 1 and identify y₁ upstream and y₂ downstream. Jumps are used in stilling basins to dissipate energy and reduce downstream scour. Sequent depths have the same momentum function, not the same specific energy; they are not alternate depths on a constant-energy curve.</p>",
+      "gu": "<span class=\"eq\">y₂/y₁ = [√(1 + 8Fr₁²) − 1]/2</span><span class=\"eq\">ΔE = (y₂ − y₁)³/(4y₁y₂)</span><p>Hydraulic jump એ ઓછી depth ધરાવતા supercritical flow નું વધુ depth ધરાવતા subcritical flow માં ઝડપથી રૂપાંતર છે. તેમાં turbulence અને નોંધપાત્ર energy dissipation થાય છે. Horizontal rectangular channel, ટૂંકા jump પર negligible external friction અને પસંદ કરેલા sections પર hydrostatic pressure ધારીને ઉપરનો sequent-depth સંબંધ મળે છે. Upstream Fr₁ &gt; 1 લો. Stilling basin માં jump થી energy ઘટાડી downstream scour ઓછો કરાય છે. Sequent depths માટે momentum function સમાન હોય છે, specific energy નહીં; તે constant-energy alternate depths નથી.</p>"
+     }
+    }
+   ]
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "h5_channel",
+   "title": {
+    "en": "Trapezoidal channel",
+    "gu": "Trapezoidal channel ની આકૃતિ"
+   }
+  },
+  {
+   "id": "h5_jump",
+   "title": {
+    "en": "Hydraulic jump",
+    "gu": "Hydraulic jump ની આકૃતિ"
+   }
+  }
+ ],
+ "numericals": {
+  "title": {
+   "en": "Solved Numericals — Unit 5",
+   "gu": "ઉકેલેલા Numericals — યુનિટ 5"
+  },
+  "items": [
+   {
+    "id": "Numerical 5.1",
+    "title": {
+     "en": "N5.1 Rectangular channel geometry and Froude number",
+     "gu": "N5.1 Rectangular channel geometry and Froude number — માહિતી"
+    },
+    "body": {
+     "en": "<p>b = 3 m, y = 1 m, Q = 6 m³/s, g = 9.81 m/s².</p><span class=\"eq\">A = by</span><span class=\"eq\">A = 3 × 1 = 3 m²</span><span class=\"eq\">P = b + 2y</span><span class=\"eq\">P = 3 + 2 = 5 m</span><span class=\"eq\">R = A/P</span><span class=\"eq\">R = 3/5 = 0.6 m</span><span class=\"eq\">V = Q/A</span><span class=\"eq\">V = 6/3 = 2 m/s</span><span class=\"eq\">Fr = V/√(gy)</span><span class=\"eq\">Fr = 2/√(9.81 × 1)</span><p><b>Answer: R = 0.60 m; Fr = 0.639, so flow is subcritical.</b></p>",
+     "gu": "<p>Rectangular channel માટે b = 3 m, y = 1 m, Q = 6 m³/s અને g = 9.81 m/s² છે. Hydraulic radius અને Froude number શોધો.</p><span class=\"eq\">A = by</span><span class=\"eq\">A = 3 × 1 = 3 m²</span><span class=\"eq\">P = b + 2y</span><span class=\"eq\">P = 3 + 2 = 5 m</span><span class=\"eq\">R = A/P</span><span class=\"eq\">R = 3/5 = 0.6 m</span><span class=\"eq\">V = Q/A</span><span class=\"eq\">V = 6/3 = 2 m/s</span><span class=\"eq\">Fr = V/√(gy)</span><span class=\"eq\">Fr = 2/√(9.81 × 1)</span><p><b>જવાબ: R = 0.60 m; Fr = 0.639, એટલે flow subcritical છે.</b></p>"
+    }
+   },
+   {
+    "id": "Numerical 5.2",
+    "title": {
+     "en": "N5.2 Manning discharge",
+     "gu": "N5.2 Manning discharge — માહિતી"
+    },
+    "body": {
+     "en": "<p>Rectangular channel b = 2 m, y = 1 m, n = 0.015, S = 0.001.</p><span class=\"eq\">A = 2 × 1 = 2 m²</span><span class=\"eq\">P = 2 + 2 × 1 = 4 m</span><span class=\"eq\">R = 2/4 = 0.5 m</span><span class=\"eq\">V = (1/n)R^(2/3)S^(1/2)</span><span class=\"eq\">V = (1/0.015)(0.5)^(2/3)(0.001)^(1/2)</span><span class=\"eq\">V = 1.328 m/s</span><span class=\"eq\">Q = AV</span><span class=\"eq\">Q = 2 × 1.328</span><p><b>Answer: Q ≈ 2.66 m³/s.</b></p>",
+     "gu": "<p>Rectangular channel માટે b = 2 m, y = 1 m, n = 0.015 અને S = 0.001 છે. Manning equation થી discharge શોધો.</p><span class=\"eq\">A = 2 × 1 = 2 m²</span><span class=\"eq\">P = 2 + 2 × 1 = 4 m</span><span class=\"eq\">R = 2/4 = 0.5 m</span><span class=\"eq\">V = (1/n)R^(2/3)S^(1/2)</span><span class=\"eq\">V = (1/0.015)(0.5)^(2/3)(0.001)^(1/2)</span><span class=\"eq\">V = 1.328 m/s</span><span class=\"eq\">Q = AV</span><span class=\"eq\">Q = 2 × 1.328</span><p><b>જવાબ: Q ≈ 2.66 m³/s.</b></p>"
+    }
+   },
+   {
+    "id": "Numerical 5.3",
+    "title": {
+     "en": "N5.3 Triangular notch",
+     "gu": "N5.3 Triangular notch — માહિતી"
+    },
+    "body": {
+     "en": "<p>For a 90° V-notch, Cd = 0.60, H = 0.20 m and g = 9.81 m/s².</p><span class=\"eq\">Q = (8/15)Cd tan(θ/2)√(2g)H^(5/2)</span><span class=\"eq\">Q = (8/15)(0.60)tan(45°)√(19.62)(0.20)^(5/2)</span><p><b>Answer: Q ≈ 0.0254 m³/s.</b></p>",
+     "gu": "<p>90° V-notch માટે Cd = 0.60, H = 0.20 m અને g = 9.81 m/s² છે. Discharge શોધો.</p><span class=\"eq\">Q = (8/15)Cd tan(θ/2)√(2g)H^(5/2)</span><span class=\"eq\">Q = (8/15)(0.60)tan(45°)√(19.62)(0.20)^(5/2)</span><p><b>જવાબ: Q ≈ 0.0254 m³/s.</b></p>"
+    }
+   },
+   {
+    "id": "Numerical 5.4",
+    "title": {
+     "en": "N5.4 Hydraulic jump",
+     "gu": "N5.4 Hydraulic jump — માહિતી"
+    },
+    "body": {
+     "en": "<p>In a horizontal rectangular channel y₁ = 0.5 m and Fr₁ = 3. Find y₂ and ΔE under the stated jump assumptions.</p><span class=\"eq\">y₂/y₁ = [√(1 + 8Fr₁²) − 1]/2</span><span class=\"eq\">y₂/0.5 = [√(1 + 8 × 3²) − 1]/2</span><span class=\"eq\">y₂ = 1.886 m</span><span class=\"eq\">ΔE = (y₂ − y₁)³/(4y₁y₂)</span><span class=\"eq\">ΔE = (1.886 − 0.5)³/(4 × 0.5 × 1.886)</span><p><b>Answer: y₂ ≈ 1.89 m; energy loss ≈ 0.71 m.</b></p>",
+     "gu": "<p>Horizontal rectangular channel માં y₁ = 0.5 m અને Fr₁ = 3 છે. આપેલી jump assumptions હેઠળ y₂ અને ΔE શોધો.</p><span class=\"eq\">y₂/y₁ = [√(1 + 8Fr₁²) − 1]/2</span><span class=\"eq\">y₂/0.5 = [√(1 + 8 × 3²) − 1]/2</span><span class=\"eq\">y₂ = 1.886 m</span><span class=\"eq\">ΔE = (y₂ − y₁)³/(4y₁y₂)</span><span class=\"eq\">ΔE = (1.886 − 0.5)³/(4 × 0.5 × 1.886)</span><p><b>જવાબ: y₂ ≈ 1.89 m; energy loss ≈ 0.71 m.</b></p>"
+    }
+   }
+  ]
+ },
+ "syntax": {
+  "title": {
+   "en": "Formulae, methods and key data — Unit 5",
+   "gu": "Formulae, methods અને key data — યુનિટ 5"
+  },
+  "items": [
+   {
+    "name": {
+     "en": "Key formulae",
+     "gu": "મુખ્ય સૂત્રો"
+    },
+    "body": {
+     "en": "<span class=\"eq\">A = by</span><span class=\"eq\">P = b + 2y</span><span class=\"eq\">T = b</span><span class=\"eq\">R = by/(b + 2y)</span><span class=\"eq\">Dₕ = y</span><span class=\"eq\">A = y(b + my)</span><span class=\"eq\">P = b + 2y√(1 + m²)</span><span class=\"eq\">T = b + 2my</span><span class=\"eq\">R = A/P</span><span class=\"eq\">Dₕ = A/T</span><span class=\"eq\">Fr = V/√(gDₕ)</span><span class=\"eq\">V = C√(RS)</span><span class=\"eq\">Q = AV</span><span class=\"eq\">V = (1/n)R^(2/3)S^(1/2)</span><span class=\"eq\">C = 87/(1 + mB/√R)</span><span class=\"eq\">C = (23 + 0.00155/S + 1/nK) / [1 + (23 + 0.00155/S)nK/√R]</span><span class=\"eq\">b = 2y[√(1 + m²) − m]</span><span class=\"eq\">T/2 = y√(1 + m²)</span><span class=\"eq\">R = y/2</span><span class=\"eq\">Q = (2/3) Cd b √(2g) H^(3/2)</span><span class=\"eq\">Q = (8/15) Cd tan(θ/2) √(2g) H^(5/2)</span><span class=\"eq\">Qideal = b √g (2H/3)^(3/2)</span><span class=\"eq\">Qideal ≈ 1.705 b H^(3/2)  [SI, g = 9.81 m/s²]</span><span class=\"eq\">Qactual = Cd Qideal</span><span class=\"eq\">E = y + αV²/(2g)</span><span class=\"eq\">For a rectangular channel with discharge per unit width q = Q/b and α ≈ 1:</span><span class=\"eq\">E = y + q²/(2gy²)</span><span class=\"eq\">yc = (q²/g)^(1/3)</span><span class=\"eq\">Emin = 3yc/2</span><span class=\"eq\">y₂/y₁ = [√(1 + 8Fr₁²) − 1]/2</span><span class=\"eq\">ΔE = (y₂ − y₁)³/(4y₁y₂)</span>",
+     "gu": "<p>મુખ્ય સૂત્રો નીચે આપ્યા છે:</p><span class=\"eq\">A = by</span><span class=\"eq\">P = b + 2y</span><span class=\"eq\">T = b</span><span class=\"eq\">R = by/(b + 2y)</span><span class=\"eq\">Dₕ = y</span><span class=\"eq\">A = y(b + my)</span><span class=\"eq\">P = b + 2y√(1 + m²)</span><span class=\"eq\">T = b + 2my</span><span class=\"eq\">R = A/P</span><span class=\"eq\">Dₕ = A/T</span><span class=\"eq\">Fr = V/√(gDₕ)</span><span class=\"eq\">V = C√(RS)</span><span class=\"eq\">Q = AV</span><span class=\"eq\">V = (1/n)R^(2/3)S^(1/2)</span><span class=\"eq\">C = 87/(1 + mB/√R)</span><span class=\"eq\">C = (23 + 0.00155/S + 1/nK) / [1 + (23 + 0.00155/S)nK/√R]</span><span class=\"eq\">b = 2y[√(1 + m²) − m]</span><span class=\"eq\">T/2 = y√(1 + m²)</span><span class=\"eq\">R = y/2</span><span class=\"eq\">Q = (2/3) Cd b √(2g) H^(3/2)</span><span class=\"eq\">Q = (8/15) Cd tan(θ/2) √(2g) H^(5/2)</span><span class=\"eq\">Qideal = b √g (2H/3)^(3/2)</span><span class=\"eq\">Qideal ≈ 1.705 b H^(3/2)  [SI, g = 9.81 m/s²]</span><span class=\"eq\">Qactual = Cd Qideal</span><span class=\"eq\">E = y + αV²/(2g)</span><span class=\"eq\">For a rectangular channel with discharge per unit width q = Q/b and α ≈ 1:</span><span class=\"eq\">E = y + q²/(2gy²)</span><span class=\"eq\">yc = (q²/g)^(1/3)</span><span class=\"eq\">Emin = 3yc/2</span><span class=\"eq\">y₂/y₁ = [√(1 + 8Fr₁²) − 1]/2</span><span class=\"eq\">ΔE = (y₂ − y₁)³/(4y₁y₂)</span>"
+    }
+   }
+  ]
+ },
+ "viva": {
+  "title": {
+   "en": "Viva Questions — Unit 5",
+   "gu": "Viva Questions — યુનિટ 5"
+  },
+  "items": [
+   {
+    "q": {
+     "en": "Q1. What distinguishes open-channel flow?",
+     "gu": "Q1. Open-channel flow ની ઓળખ?"
+    },
+    "a": {
+     "en": "Free surface.",
+     "gu": "Free surface."
+    }
+   },
+   {
+    "q": {
+     "en": "Q2. Define wetted perimeter.",
+     "gu": "Q2. Wetted perimeter? — માહિતી"
+    },
+    "a": {
+     "en": "Wetted boundary length, excluding free surface.",
+     "gu": "Free surface સિવાય ભીની boundary ની લંબાઈ."
+    }
+   },
+   {
+    "q": {
+     "en": "Q3. Define hydraulic radius.",
+     "gu": "Q3. Hydraulic radius? — માહિતી"
+    },
+    "a": {
+     "en": "A/P.",
+     "gu": "A/P."
+    }
+   },
+   {
+    "q": {
+     "en": "Q4. Define hydraulic depth.",
+     "gu": "Q4. Hydraulic depth? — માહિતી"
+    },
+    "a": {
+     "en": "A/T.",
+     "gu": "A/T."
+    }
+   },
+   {
+    "q": {
+     "en": "Q5. What does Fr compare?",
+     "gu": "Q5. Fr શું સરખાવે?"
+    },
+    "a": {
+     "en": "Flow velocity and gravity-wave speed.",
+     "gu": "Flow velocity અને gravity-wave speed."
+    }
+   },
+   {
+    "q": {
+     "en": "Q6. Fr below 1 means?",
+     "gu": "Q6. Fr એકથી ઓછું?"
+    },
+    "a": {
+     "en": "Subcritical.",
+     "gu": "Subcritical."
+    }
+   },
+   {
+    "q": {
+     "en": "Q7. Economical rectangular section?",
+     "gu": "Q7. Economical rectangle? — માહિતી"
+    },
+    "a": {
+     "en": "b = 2y.",
+     "gu": "b = 2y."
+    }
+   },
+   {
+    "q": {
+     "en": "Q8. What is the purpose of a notch?",
+     "gu": "Q8. Notch નો ઉપયોગ?"
+    },
+    "a": {
+     "en": "Measure discharge.",
+     "gu": "Discharge માપવું."
+    }
+   },
+   {
+    "q": {
+     "en": "Q9. Cippoletti side slope?",
+     "gu": "Q9. Cippoletti side slope? — માહિતી"
+    },
+    "a": {
+     "en": "1 horizontal to 4 vertical.",
+     "gu": "જવાબ: 1 horizontal to 4 vertical."
+    }
+   },
+   {
+    "q": {
+     "en": "Q10. Define specific energy.",
+     "gu": "Q10. Specific energy? — માહિતી"
+    },
+    "a": {
+     "en": "Head relative to channel bed.",
+     "gu": "Channel bed થી માપેલો head."
+    }
+   },
+   {
+    "q": {
+     "en": "Q11. What occurs at critical depth?",
+     "gu": "Q11. Critical depth પર શું થાય?"
+    },
+    "a": {
+     "en": "Minimum specific energy for given discharge.",
+     "gu": "નિશ્ચિત discharge પર minimum specific energy."
+    }
+   },
+   {
+    "q": {
+     "en": "Q12. Purpose of hydraulic jump?",
+     "gu": "Q12. Hydraulic jump નો ઉપયોગ?"
+    },
+    "a": {
+     "en": "Dissipate energy and reduce scour.",
+     "gu": "Energy ઘટાડવી અને scour ઓછું કરવું."
+    }
+   }
+  ]
+ },
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Derive and calculate geometric properties of rectangular and trapezoidal channels.",
+    "gu": "Rectangular અને trapezoidal channels ના geometric properties કાઢો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain Chezy, Manning, Bazin and Kutter methods and calculate uniform discharge.",
+    "gu": "Chezy, Manning, Bazin અને Kutter પદ્ધતિ સમજાવી discharge ગણો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain economical rectangular, trapezoidal and circular sections with design assumptions.",
+    "gu": "Economical rectangular, trapezoidal અને circular sections શરતો સાથે સમજાવો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain discharge measurement using triangular and rectangular notches and weirs.",
+    "gu": "Triangular અને rectangular notches તથા weirs થી discharge માપન સમજાવો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Explain Froude-number flow classification.",
+    "gu": "Froude number થી flow classification સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain specific-energy curve and critical depth.",
+    "gu": "Specific-energy curve અને critical depth સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain hydraulic jump, its uses and energy loss.",
+    "gu": "Hydraulic jump, ઉપયોગ અને energy loss સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Differentiate sharp-crested, broad-crested, Cippoletti and ogee weirs.",
+    "gu": "Sharp-crested, broad-crested, Cippoletti અને ogee weirs વચ્ચે તફાવત આપો."
+   },
+   "marks": 4
+  }
+ ],
+ "question_provenance": "Original practice questions based on GTU DI04000151 syllabus",
+ "practicals": [],
+ "content_kind": "theory_trimmed_civil"
+}

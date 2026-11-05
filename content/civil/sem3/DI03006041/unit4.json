@@ -1,0 +1,365 @@
+{
+ "code": "DI03006041",
+ "unit": 4,
+ "branch": "civil",
+ "semester": 3,
+ "title": {
+  "en": "Bending and Shear Stress in Beams",
+  "gu": "Beam માં Bending અને Shear Stress"
+ },
+ "hours": 6,
+ "weightage": 15,
+ "cos": [
+  "CO3"
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "numericals",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "",
+  "gu": ""
+ },
+ "notes": [
+  {
+   "title": {
+    "en": "Unit 4 Notes — Bending and Shear Stress in Beams",
+    "gu": "યુનિટ 4 Notes — Beam માં Bending અને Shear Stress"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "4.1 Pure bending, the bending equation and section modulus",
+      "gu": "4.1 Pure bending, bending equation અને section modulus"
+     },
+     "syllabus_item": "4.1 Pure bending theory, assumptions, bending equation (without derivation), section modulus, bending stress distribution",
+     "body": {
+      "en": "<p><b>Pure bending</b> is bending under constant BM (no shear) — the theory's clean room. The standard assumptions: material homogeneous, isotropic, obeying Hooke's law equally in tension/compression with one E; plane sections remain plane; the beam bends into a circular arc; layers are free to slide longitudinally (no longitudinal stress between fibres); the radius of curvature is huge compared with the section depth. From these, strain varies linearly across the depth — zero at the <i>neutral axis</i> (which passes through the centroid, tying Unit 2 to Unit 4), maximum at the extreme fibres — and stress follows strain (Diagram):</p><span class=\"eq\">bending equation: M/I = sigma/y = E/R ;  sigma_max = M/Z , Z = I/y_max (section modulus)</span><p><b>Reading it as a designer.</b> σ_max lives at the farthest fibre; Z (mm³) is the section's bending strength in one number — for a rectangle Z = bh²/6, so depth squared rules again. Compression sits on one face, tension on the other, and the NA itself is stress-free. Numerical 4.1 puts numbers on it; Card 4.2 turns the same equation around into moment of resistance.</p>",
+      "gu": "<p><b>Pure bending</b> એટલે constant BM (shear વગર) હેઠળનું bending — theory નું સ્વચ્છ વાતાવરણ. ધારણાઓ: material homogeneous, isotropic, Hooke's law tension-compression બંનેમાં એક જ E સાથે પાળે છે; plane sections plane જ રહે છે; beam circular arc માં વળે છે; radius, depth કરતાં ઘણો મોટો છે. આ પરથી strain ઊંડાઈમાં linearly બદલાય છે — <i>neutral axis</i> (centroid માંથી પસાર થાય છે — Unit 2 ને Unit 4 સાથે જોડે છે) પર શૂન્ય, છેડાના fibres પર મહત્તમ — અને stress પણ એમ જ (Diagram):</p><span class=\"eq\">bending equation: M/I = sigma/y = E/R ;  sigma_max = M/Z , Z = I/y_max</span><p><b>Designer તરીકે વાંચતાં:</b> σ_max સૌથી દૂરના fibre પર હોય છે; Z (mm³) એ section ની bending strength નો એક આંકડો છે — rectangle માટે Z = bh²/6, એટલે ફરી depth નો વર્ગ શાસન કરે છે. એક face પર compression, બીજી પર tension, અને NA પોતે stress-free હોય છે.</p>"
+     },
+     "diagram": "ms4_bending"
+    },
+    {
+     "h": {
+      "en": "4.2 Moment of resistance — using the bending equation",
+      "gu": "4.2 Moment of resistance — bending equation નો ઉપયોગ"
+     },
+     "syllabus_item": "4.2 Concept of moment of resistance and simple numerical problems using bending equation",
+     "body": {
+      "en": "<p><b>Turning the equation into capacity.</b> A section's <i>moment of resistance</i> (MOR) is the BM it can carry when the extreme fibre just reaches the permissible bending stress:</p><span class=\"eq\">MOR = sigma_permissible x Z ;  design check: applied M (Unit 3) <= MOR ;  required Z = M/sigma_perm</span><p>Every design problem is one of three costumes on this line: given M and material, find the needed section (Z_req → pick depth/width, verify); given section and material, find the safe moment (MOR, then back-solve the safe load from Unit 3's span formulas); given section and moment, audit the stress (σ = M/Z vs permissible — Numerical 4.1's timber beam: σ = 20 N/mm² from M = 60 kN·m on Z = 3.0 × 10⁶ mm³, safe if timber allows 10–16? — no: 20 &gt; permissible, deepen the section — watch a computation become a decision). The syllabus says 'without derivation': the examiner wants fluent use, honest units (N·mm with mm³ gives N/mm²) and the sagging/hogging awareness of which face is in tension.</p>",
+      "gu": "<p><b>Equation ને capacity માં ફેરવતાં:</b> section નો <i>moment of resistance</i> (MOR) એ BM છે જે તે ત્યારે વહન કરી શકે જ્યારે છેડાનો fibre બરાબર permissible bending stress પર પહોંચે:</p><span class=\"eq\">MOR = sigma_permissible x Z ;  check: applied M (Unit 3) <= MOR ;  જરૂરી Z = M/sigma_perm</span><p>દરેક design problem આ line પર ત્રણમાંથી એક વેશ ધારે છે: M અને material આપ્યો હોય તો જરૂરી section શોધો; section અને material આપ્યાં હોય તો safe moment શોધો; section અને moment આપ્યાં હોય તો stress audit કરો (Numerical 4.1: timber beam માં σ = 20 N/mm² — permissible કરતાં વધારે આવે તો section ઊંડો કરો — ગણતરી નિર્ણય બને છે જુઓ). એકમ શિસ્ત: N·mm ને mm³ થી ભાગતાં N/mm² મળે છે.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "4.3 Shear stress in beams — the shear equation and its maxima",
+      "gu": "4.3 Beam માં shear stress — shear equation અને તેના maxima"
+     },
+     "syllabus_item": "4.3 Shear stress equation (without derivation), max vs average shear stress for rectangular and circular sections",
+     "body": {
+      "en": "<p><b>Horizontal shear wears a vertical mask.</b> Transverse shear force V creates shear stress that varies across the depth as:</p><span class=\"eq\">tau = V Q / (I b) ; Q = A' y-bar' (first moment of area beyond the level, about NA) ; b = width at that level</span><p>Consequences to memorise cold: τ = 0 at the top and bottom faces (nothing beyond them, Q = 0), maximum at the neutral axis where Q peaks. For a rectangle the distribution is a parabola with τ_max = 1.5 × τ_avg (= V/A); for a solid circle τ_max = (4/3) × τ_avg. Numerical 4.2: V = 50 kN on 200 × 300 gives τ_avg = 0.83, τ_max = 1.25 N/mm² at NA — small numbers beside bending stress, which is typical: beams are usually bending-critical, shear-checked (except short deep spans, where shear takes the crown).</p><p><b>Horizontal shear vertical બુરખામાં:</b> transverse shear force V થી ઊંડાઈમાં બદલાતો shear stress બને છે:</p><span class=\"eq\">tau = V Q / (I b) ; Q = એ level ની બહારના area નું NA પર first moment ; b = એ level પર પહોળાઈ</span><p>યાદ રાખવાના પરિણામો: ઉપર અને નીચેની faces પર τ = 0 (તેમની બહાર કંઈ નથી, Q = 0); neutral axis પર મહત્તમ. Rectangle માટે distribution parabola છે અને τ_max = 1.5 × τ_avg; solid circle માટે τ_max = (4/3) × τ_avg. Numerical 4.2: 200 × 300 પર V = 50 kN → τ_avg = 0.83, τ_max = 1.25 N/mm². Bending stress ની સરખામણીએ આંકડા નાના છે — beam સામાન્ય રીતે bending-critical હોય છે, shear ફક્ત check થાય છે (ટૂંકા ઊંડા spans સિવાય).</p>",
+      "gu": "<p><b>Horizontal shear wears a vertical mask.</b> Transverse shear force V creates shear stress that varies across the depth as:</p><span class=\"eq\">tau = V Q / (I b) ; Q = A' y-bar' (first moment of area beyond the level, about NA) ; b = width at that level</span><p>Consequences to memorise cold: τ = 0 at the top and bottom faces (nothing beyond them, Q = 0), maximum at the neutral axis where Q peaks. For a rectangle the distribution is a parabola with τ_max = 1.5 × τ_avg (= V/A); for a solid circle τ_max = (4/3) × τ_avg. Numerical 4.2: V = 50 kN on 200 × 300 gives τ_avg = 0.83, τ_max = 1.25 N/mm² at NA — small numbers beside bending stress, which is typical: beams are usually bending-critical, shear-checked (except short deep spans, where shear takes the crown).</p><p><b>Horizontal shear vertical બુરખામાં:</b> transverse shear force V થી ઊંડાઈમાં બદલાતો shear stress બને છે:</p><span class=\"eq\">tau = V Q / (I b) ; Q = એ level ની બહારના area નું NA પર first moment ; b = એ level પર પહોળાઈ</span><p>યાદ રાખવાના પરિણામો: ઉપર અને નીચેની faces પર τ = 0 (તેમની બહાર કંઈ નથી, Q = 0); neutral axis પર મહત્તમ. Rectangle માટે distribution parabola છે અને τ_max = 1.5 × τ_avg; solid circle માટે τ_max = (4/3) × τ_avg. Numerical 4.2: 200 × 300 પર V = 50 kN → τ_avg = 0.83, τ_max = 1.25 N/mm². Bending stress ની સરખામણીએ આંકડા નાના છે — beam સામાન્ય રીતે bending-critical હોય છે, shear ફક્ત check થાય છે (ટૂંકા ઊંડા spans સિવાય).</p>"
+     },
+     "diagram": "ms4_shear_rect"
+    },
+    {
+     "h": {
+      "en": "4.4 Shear stress distribution in standard sections",
+      "gu": "4.4 Standard sections માં shear stress distribution"
+     },
+     "syllabus_item": "4.4 Shear stress distribution for square, rectangular, circle, hollow sections, angle, channel, I-section, T-section; simple numericals",
+     "body": {
+      "en": "<p><b>One equation, many silhouettes.</b> Square/rectangle: symmetric parabola (Card 4.3). Circle: parabola-like, τ_max = 4/3 avg at the centre, with b = chord width shrinking toward the faces. Hollow square/rectangle: two thin walls share the shear (b = sum of wall thicknesses at the level — the classic unit-error), peaking at NA. Angle/channel/T: thin legs behave like stacked rectangles; in a channel the flanges also collect a notable horizontal shear flow toward the web.</p><p><b>The I-section is the exam's portrait (Diagram).</b> In the flanges τ is small (b is huge there — the full flange width divides); at the web junction it leaps (b collapses to the web thickness) and through the web stays high and nearly uniform, peaking mildly at NA. Numbers from Numerical 4.3 (V = 40 kN on Unit 2's I): τ at NA = 23.6 N/mm², τ in the flange at the junction = 1.66 N/mm² — a 14:1 division that is the I-beam's whole philosophy restated in shear: flanges for bending, web for shear, each material where its stress lives. For quick design, τ_web ≈ V/(web depth × thickness) approximates the near-uniform web value within a few percent.</p>",
+      "gu": "<p><b>એક equation, ઘણા આકારો:</b> square/rectangle: symmetric parabola (Card 4.3). Circle: centre પર τ_max = 4/3 avg. Hollow sections: બે પાતળી દિવાલો shear વહેંચે છે (b = બંને દિવાલોની જાડાઈનો સરવાળો — જાણીતી ભૂલ). Angle/channel/T: પાતળા પગ લંબચોરસોના ઢગલા જેવા વર્તે છે.</p><p><b>I-section પરીક્ષાનું કેન્દ્ર છે (Diagram):</b> flanges માં τ નાનો (ત્યાં b આખી flange પહોળાઈ છે); web junction પર તે કૂદે છે (b web ની જાડાઈ થઈ જાય છે) અને આખા web માં ઊંચો, લગભગ એકસરખો રહે છે. Numerical 4.3 (V = 40 kN): NA પર τ = 23.6, flange માં junction પર 1.66 N/mm² — 14:1 નું વિભાજન એ I-beam નો આખો સિદ્ધાંત shear માં ફરી કહે છે: flanges bending માટે, web shear માટે. ઝડપી check: τ_web ≈ V/(web area).</p>"
+     },
+     "diagram": "ms4_shear_I"
+    }
+   ]
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "ms4_bending",
+   "title": {
+    "en": "Bending stress distribution",
+    "gu": "Bending stress distribution (વહેંચણી)"
+   }
+  },
+  {
+   "id": "ms4_shear_rect",
+   "title": {
+    "en": "Shear stress: rectangular section",
+    "gu": "Shear stress: rectangular section (લંબચોરસ)"
+   }
+  },
+  {
+   "id": "ms4_shear_I",
+   "title": {
+    "en": "Shear stress: I-section",
+    "gu": "Shear stress: I-section માં"
+   }
+  }
+ ],
+ "numericals": {
+  "title": {
+   "en": "Solved Numericals — Unit 4",
+   "gu": "ઉકેલેલા Numericals — યુનિટ 4"
+  },
+  "items": [
+   {
+    "id": "Numerical 4.1",
+    "title": {
+     "en": "Numerical 4.1 — Bending stress in a timber beam",
+     "gu": "Numerical 4.1 — Timber beam માં bending stress"
+    },
+    "body": {
+     "en": "<p><b>Given.</b> Timber beam 200 mm wide × 300 mm deep carries a maximum bending moment of 60 kN·m. Find the maximum bending stress, and comment if the permissible stress is 12 N/mm².</p><p><b>Step 1.</b> Section modulus of the rectangle (extreme fibre at 150 mm).</p><span class=\"eq\">Z = b h^2/6 = 200 x 300^2/6 = 3.0 x 10^6 mm3   [or I = bh^3/12 = 4.5 x 10^8 mm4, Z = I/150]</span><p><b>Step 2.</b> Bending stress from σ = M/Z (units: N·mm/mm³).</p><span class=\"eq\">sigma_max = M/Z = 60 x 10^6 / 3.0 x 10^6 = 20 N/mm2</span><p><b>Final answer.</b></p><span class=\"eq\">╔ sigma_max = 20 N/mm2 > 12 permissible - NOT safe: deepen the section (e.g. 375 mm deep gives Z = 4.69 x 10^6, sigma = 12.8; 400 mm gives 11.25 ✓) ╗</span><p><b>Validity check.</b> Stress varies linearly to zero at NA (Diagram), so the mid-depth fibres carry only 10 N/mm² — the price of the rectangular shape. Note the fix exploited h²: a 33% deeper beam nearly halves the stress (Card 4.1).</p>",
+     "gu": "<p><b>આપેલ છે:</b> timber beam 200 mm પહોળો × 300 mm ઊંડો, મહત્તમ bending moment 60 kN·m. મહત્તમ bending stress શોધો; permissible stress 12 N/mm² હોય તો ટિપ્પણી કરો.</p><p><b>Step 1.</b> Rectangle નો section modulus.</p><span class=\"eq\">Z = 200 x 300^2/6 = 3.0 x 10^6 mm3</span><p><b>Step 2.</b> σ = M/Z.</p><span class=\"eq\">sigma_max = 60 x 10^6 / 3.0 x 10^6 = 20 N/mm2</span><p><b>અંતિમ જવાબ:</b></p><span class=\"eq\">╔ sigma_max = 20 N/mm2 > 12 permissible — સલામત નથી: section ઊંડો કરો (400 mm ઊંડાઈએ sigma = 11.25 ✓) ╗</span><p><b>ચકાસણી:</b> stress NA પર શૂન્ય સુધી linearly ઘટે છે (Diagram) — વચ્ચેના fibres ફક્ત 10 N/mm² વહન કરે છે. ઊંડાઈ 33% વધારતાં stress લગભગ અડધો થયો — h² નો જાદુ (Card 4.1).</p>"
+    }
+   },
+   {
+    "id": "Numerical 4.2",
+    "title": {
+     "en": "Numerical 4.2 — Maximum shear stress in a rectangular beam",
+     "gu": "Numerical 4.2 — Rectangular beam માં મહત્તમ shear stress"
+    },
+    "body": {
+     "en": "<p><b>Given.</b> Rectangular beam 200 × 300 mm, shear force 50 kN at the section. Find the average and maximum shear stresses and the shear stress 100 mm from NA.</p><p><b>Step 1.</b> Average shear stress (the crude uniform guess).</p><span class=\"eq\">tau_avg = V/A = 50000/(200 x 300) = 0.833 N/mm2</span><p><b>Step 2.</b> Maximum at NA for a rectangle: 1.5 times the average.</p><span class=\"eq\">tau_max = 1.5 x 0.833 = 1.25 N/mm2 at the neutral axis (parabolic distribution, Diagram)</span><p><b>Step 3.</b> At 100 mm from NA, use the parabola τ = τ_max (1 − (y/(h/2))²).</p><span class=\"eq\">tau = 1.25 x (1 - (100/150)^2) = 1.25 x (1 - 0.444) = 0.694 N/mm2</span><p><b>Final answer.</b></p><span class=\"eq\">╔ tau_avg 0.83 ; tau_max 1.25 at NA ; 0.69 N/mm2 at 100 mm off-axis - zero at both faces ╗</span><p><b>Validity check.</b> Shear stress is an order below typical bending stress in the same beam (compare Numerical 4.1) — exactly why beams are designed for bending and audited for shear (Card 4.3), short deep spans excepted.</p>",
+     "gu": "<p><b>આપેલ છે:</b> rectangular beam 200 × 300 mm, section પર shear force 50 kN. Average અને maximum shear stress તથા NA થી 100 mm દૂર shear stress શોધો.</p><p><b>Step 1.</b> Average shear stress.</p><span class=\"eq\">tau_avg = 50000/60000 = 0.833 N/mm2</span><p><b>Step 2.</b> Rectangle માટે NA પર મહત્તમ: average ના 1.5 ગણો.</p><span class=\"eq\">tau_max = 1.25 N/mm2</span><p><b>Step 3.</b> NA થી 100 mm દૂર, parabola થી.</p><span class=\"eq\">tau = 1.25 x (1 - (100/150)^2) = 0.694 N/mm2</span><p><b>અંતિમ જવાબ:</b></p><span class=\"eq\">╔ tau_avg 0.83 ; tau_max 1.25 NA પર ; 0.69 N/mm2 NA થી 100 mm દૂર — બંને faces પર શૂન્ય ╗</span><p><b>ચકાસણી:</b> એ જ beam માં bending stress (Numerical 4.1) કરતાં shear stress ઘણો નાનો છે — એટલે beam bending માટે design થાય છે, shear માટે ફક્ત check (Card 4.3).</p>"
+    }
+   },
+   {
+    "id": "Numerical 4.3",
+    "title": {
+     "en": "Numerical 4.3 — Shear stress at the neutral axis of an I-section",
+     "gu": "Numerical 4.3 — I-section ના neutral axis પર shear stress"
+    },
+    "body": {
+     "en": "<p><b>Given.</b> The I-section of Numerical 2.2 (flanges 100 × 10, web 10 thick, depth 200, Ixx = 22.93 × 10⁶ mm⁴) carries shear force 40 kN. Find the shear stress at the neutral axis and in the flange at the junction.</p><p><b>Step 1.</b> Q at the NA: first moment of everything above NA — flange + web strip above NA.</p><span class=\"eq\">Q_flange = 100 x 10 x 95 = 95,000 mm3 ;  Q_web(above NA) = 90 x 10 x 45 = 40,500 mm3 ;  Q_NA = 135,500 mm3</span><p><b>Step 2.</b> τ at NA with b = web thickness 10 mm.</p><span class=\"eq\">tau_NA = V Q/(I b) = 40000 x 135500 / (22.93 x 10^6 x 10) = 5.42 x 10^9 / 2.293 x 10^8 = 23.6 N/mm2</span><p><b>Step 3.</b> In the flange at the same junction, Q is the flange's alone but b = full flange width 100 mm.</p><span class=\"eq\">tau_flange = 40000 x 95000 / (22.93 x 10^6 x 100) = 1.66 N/mm2</span><p><b>Final answer.</b></p><span class=\"eq\">╔ tau at NA (in web) = 23.6 N/mm2 ; tau in flange = 1.66 N/mm2 - the web outworks the flange 14 to 1 in shear ╗</span><p><b>Validity check.</b> Shortcut audit: V/(web area) = 40000/(200 × 10) = 20 N/mm² — within ~15% of the exact 23.6, good for field checks as Card 4.4 promises. The single most common error is quoting τ_NA with b = flange width; b is always the width AT the level.</p>",
+     "gu": "<p><b>આપેલ છે:</b> Numerical 2.2 નો I-section (flanges 100 × 10, web 10 thick, depth 200, Ixx = 22.93 × 10⁶ mm⁴) 40 kN shear force વહન કરે છે. Neutral axis પર અને flange માં junction પર shear stress શોધો.</p><p><b>Step 1.</b> NA પર Q: NA ની ઉપરના બધાનું first moment.</p><span class=\"eq\">Q_flange = 95,000 ;  Q_web = 40,500 ;  Q_NA = 135,500 mm3</span><p><b>Step 2.</b> NA પર τ, b = web જાડાઈ 10 mm.</p><span class=\"eq\">tau_NA = 23.6 N/mm2</span><p><b>Step 3.</b> Flange માં junction પર: Q ફક્ત flange નો, પણ b = આખી પહોળાઈ 100 mm.</p><span class=\"eq\">tau_flange = 1.66 N/mm2</span><p><b>અંતિમ જવાબ:</b></p><span class=\"eq\">╔ NA પર (web માં) tau = 23.6 N/mm2 ; flange માં 1.66 N/mm2 — shear માં web, flange કરતાં 14 ગણું કામ કરે છે ╗</span><p><b>ચકાસણી:</b> shortcut V/(web area) = 20 N/mm², ખરા 23.6 ની નજીક છે. સૌથી સામાન્ય ભૂલ: τ_NA માટે b = flange પહોળાઈ લેવી; b હંમેશા એ જ level ની પહોળાઈ હોય છે.</p>"
+    }
+   }
+  ]
+ },
+ "syntax": {
+  "title": {
+   "en": "Formulae, methods and key data — Unit 4",
+   "gu": "Formulae, methods અને key data — યુનિટ 4"
+  },
+  "items": [
+   {
+    "name": {
+     "en": "Bending formula family",
+     "gu": "Bending formula પરિવાર"
+    },
+    "body": {
+     "en": "<span class=\"eq\">M/I = sigma/y = E/R ; sigma_max = M/Z ; Z = I/y_max ; rectangle Z = b h^2/6 ; circle Z = pi D^3/32</span><span class=\"eq\">MOR = sigma_perm x Z ; required Z = M_applied/sigma_perm ; compare with Unit 3 maxima: PL/4, wL^2/8 (N4.1)</span><span class=\"eq\">nature: sagging -> bottom tension/top compression ; hogging -> reversed ; sigma = 0 at NA, linear between</span><span class=\"eq\">depth law: Z grows with h^2, I with h^3 - deepen before you widen</span><p>Unit 3 finds the moment; Unit 4 prices it. The hand-off number is always Z.</p>",
+     "gu": "<span class=\"eq\">M/I = sigma/y = E/R ; sigma_max = M/Z ; rectangle Z = b h^2/6 ; circle Z = pi D^3/32</span><span class=\"eq\">MOR = sigma_perm x Z ; જરૂરી Z = M/sigma_perm ; Unit 3 ના maxima PL/4, wL^2/8 સાથે જોડો (Numerical 4.1)</span><span class=\"eq\">sagging -> નીચે tension/ઉપર compression ; hogging -> ઊલટું ; NA પર sigma = 0</span><span class=\"eq\">depth નો નિયમ: Z એ h^2 થી, I એ h^3 થી વધે છે — પહોળું કરતા પહેલા ઊંડું કરો</span><p>Unit 3 moment શોધે છે; Unit 4 તેની કિંમત આંકે છે. બંને વચ્ચેનો આંકડો હંમેશા Z છે.</p>"
+    }
+   },
+   {
+    "name": {
+     "en": "Shear formula family and distribution bank",
+     "gu": "Shear formula પરિવાર અને distribution બેંક"
+    },
+    "body": {
+     "en": "<span class=\"eq\">tau = VQ/(Ib) ; Q = A' y-bar' beyond the level ; b = width AT the level ; tau = 0 at free faces, max at NA</span><span class=\"eq\">tau_max/tau_avg: rectangle 1.5 ; solid circle 4/3 ; parabola in y for rectangle: tau = tau_max (1 - (2y/h)^2) (N4.2)</span><span class=\"eq\">I-section: web carries ~95% of V ; quick tau_web approx V/(h_web x t_w) ; flange tau tiny because b = flange width (N4.3)</span><span class=\"eq\">hollow sections: b = sum of wall thicknesses at the level ; channels/angles: treat legs as rectangles, watch shear flow into the junction</span><p>Two traps own this unit's lost marks: b at the wrong level, and Z quoted for the wrong face of an asymmetric section.</p>",
+     "gu": "<span class=\"eq\">tau = VQ/(Ib) ; Q = level ની બહારના area નું first moment ; b = એ level ની પહોળાઈ ; free faces પર tau = 0, NA પર મહત્તમ</span><span class=\"eq\">tau_max/tau_avg: rectangle 1.5 ; circle 4/3 (Numerical 4.2)</span><span class=\"eq\">I-section: web ~95% shear વહન કરે છે ; tau_web approx V/(web area) ; flange માં tau નાનો કારણ b = flange પહોળાઈ (Numerical 4.3)</span><span class=\"eq\">hollow sections: b = બંને દિવાલોની જાડાઈનો સરવાળો</span><p>આ unit માં ગુણ ખોવાના બે મુખ્ય કારણો: ખોટા level ની b, અને asymmetric section ની ખોટી face નો Z.</p>"
+    }
+   }
+  ]
+ },
+ "viva": {
+  "title": {
+   "en": "Viva Questions — Unit 4",
+   "gu": "Viva Questions — યુનિટ 4"
+  },
+  "items": [
+   {
+    "q": {
+     "en": "State the bending equation and what each term audits.",
+     "gu": "Bending equation જણાવો અને દરેક પદ શું તપાસે છે તે કહો."
+    },
+    "a": {
+     "en": "M/I = σ/y = E/R: moment over MOI equals fibre stress over its distance from NA equals modulus over radius of curvature. One equality designs (σ = M/Z), the other deflects (1/R drives Unit 5) — the same bending seen as strength and as shape (Card 4.1).",
+     "gu": "M/I = σ/y = E/R: moment/MOI = fibre stress/NA થી અંતર = modulus/radius of curvature. એક સમાનતા design કરે છે (σ = M/Z), બીજી deflection આપે છે (1/R — Unit 5). એ જ bending, મજબૂતી તરીકે અને આકાર તરીકે (Card 4.1)."
+    }
+   },
+   {
+    "q": {
+     "en": "Why must the neutral axis pass through the centroid?",
+     "gu": "Neutral axis centroid માંથી જ કેમ પસાર થવો જોઈએ?"
+    },
+    "a": {
+     "en": "Pure bending has no net axial force: ∫σ dA = (E/R)∫y dA must vanish, so ∫y dA = 0 about the NA — the definition of the centroidal axis. That is why Unit 2's centroid hunt precedes all bending arithmetic (Card 4.1).",
+     "gu": "Pure bending માં ચોખ્ખું axial force નથી: ∫σ dA = 0 થવું જોઈએ, એટલે NA પર ∫y dA = 0 — એ centroid ની જ વ્યાખ્યા છે. એટલે Unit 2 ની centroid શોધ બધી bending ગણતરી પહેલા આવે છે (Card 4.1)."
+    }
+   },
+   {
+    "q": {
+     "en": "Rectangle versus I-section of equal area and depth: bending verdict?",
+     "gu": "સરખા area અને ઊંડાઈના rectangle vs I-section: bending માં નિર્ણય?"
+    },
+    "a": {
+     "en": "The I wins by geography: its area sits at ±h/2 where y (and stress capacity) is maximal, giving far larger I and Z. The rectangle wastes mid-depth material near the NA where bending stress is near zero anyway (Cards 4.1, 2.2).",
+     "gu": "I-section ભૂગોળથી જીતે છે: તેનું area ±h/2 પર છે જ્યાં y (અને stress ક્ષમતા) સૌથી વધુ છે, એટલે I અને Z ઘણા મોટા. Rectangle NA નજીકનું material બગાડે છે જ્યાં bending stress લગભગ શૂન્ય જ છે (Cards 4.1, 2.2)."
+    }
+   },
+   {
+    "q": {
+     "en": "Section modulus Z in one line — and the rectangle's value.",
+     "gu": "Section modulus Z એક line માં — અને rectangle માટે તેનું મૂલ્ય."
+    },
+    "a": {
+     "en": "Z = I/y_max: the section's bending strength index, stress = M/Z. For a rectangle Z = bh²/6 — the h² explains why planks are laid on edge, never flat, across a span (Card 4.1).",
+     "gu": "Z = I/y_max: section ની bending strength નો આંકડો, stress = M/Z. Rectangle માટે Z = bh²/6 — આ h² જ સમજાવે છે કે પાટિયું span પર ઊભું મૂકાય છે, સપાટ ક્યારેય નહીં (Card 4.1)."
+    }
+   },
+   {
+    "q": {
+     "en": "MOR: define and deploy in seven words or fewer after.",
+     "gu": "MOR: વ્યાખ્યા આપો અને પછી સાત શબ્દોમાં તેનો ઉપયોગ."
+    },
+    "a": {
+     "en": "Moment of resistance = σ_permissible × Z: the largest BM the section may carry. Deploy: applied M (Unit 3) ≤ MOR, else resize — deepest first (Card 4.2).",
+     "gu": "Moment of resistance = σ_permissible × Z: section વહન કરી શકે એવો સૌથી મોટો BM. ઉપયોગ: applied M (Unit 3) ≤ MOR, નહીંતર resize — પહેલા ઊંડાઈ (Card 4.2)."
+    }
+   },
+   {
+    "q": {
+     "en": "Shear stress is zero at the top face but bending stress is maximum there. Contradiction?",
+     "gu": "ઉપરની face પર shear stress શૂન્ય પણ bending stress મહત્તમ. વિરોધાભાસ?"
+    },
+    "a": {
+     "en": "None: different stresses, different geographies. τ = VQ/(Ib) has Q = 0 at a free face (no area beyond it); σ = My/I has y maximal there. The corner of a beam is simultaneously the bending champion and the shear idler (Cards 4.3–4.4).",
+     "gu": "ના: જુદા stresses, જુદી ભૂગોળ. τ = VQ/(Ib) માં free face પર Q = 0 (બહાર area નથી); σ = My/I માં y ત્યાં સૌથી મોટું છે. Beam નો ખૂણો એકસાથે bending નો ચેમ્પિયન અને shear નો આળસુ છે (Cards 4.3–4.4)."
+    }
+   },
+   {
+    "q": {
+     "en": "Why 1.5 for rectangle and 4/3 for circle (τmax/τavg)?",
+     "gu": "Rectangle માટે 1.5 અને circle માટે 4/3 (τmax/τavg) કેમ?"
+    },
+    "a": {
+     "en": "Both are the peak of their Q-driven distributions over the mean V/A: the rectangle's parabola peaks at 3/2; the circle's narrower mid-chord (b varies) reshapes the peak to 4/3. Memorise the pair; derive via τ = VQ/(Ib) when suspicious (Card 4.3).",
+     "gu": "બંને તેમના Q-distribution ના શિખર અને સરેરાશ V/A નો ગુણોત્તર છે: rectangle ની parabola 3/2 પર, circle નો (b બદલાય છે એટલે) 4/3 પર શિખર ધરાવે છે. જોડી યાદ રાખો; શંકા પડે તો τ = VQ/(Ib) થી ચકાસો (Card 4.3)."
+    }
+   },
+   {
+    "q": {
+     "en": "In an I-beam, which part would you thicken against shear failure, bending failure?",
+     "gu": "I-beam માં shear failure સામે કયો ભાગ જાડો કરશો, bending failure સામે કયો?"
+    },
+    "a": {
+     "en": "Shear: the web (it carries ~95% of V nearly uniformly — Numerical 4.3). Bending: the flanges (far fibres, M/Z). Thickening the wrong partner adds weight where the stress is not (Card 4.4).",
+     "gu": "Shear: web (તે ~95% V લગભગ એકસરખો વહન કરે છે — Numerical 4.3). Bending: flanges (દૂરના fibres, M/Z). ખોટો ભાગ જાડો કરવો એટલે જ્યાં stress નથી ત્યાં વજન ઉમેરવું (Card 4.4)."
+    }
+   },
+   {
+    "q": {
+     "en": "A student computes τ at the NA of an I-section using b = 100 mm (flange width). What went wrong, numerically?",
+     "gu": "વિદ્યાર્થી I-section ના NA પર τ ગણવા b = 100 mm (flange પહોળાઈ) વાપરે છે. શું ખોટું થયું?"
+    },
+    "a": {
+     "en": "b must be the width at the level asked — at the NA the section is only the 10 mm web. Using 100 mm under-states τ tenfold (2.36 instead of 23.6 N/mm² in Numerical 4.3) — an unsafe error, not a rounding one.",
+     "gu": "b એ પૂછેલા level ની પહોળાઈ હોવી જોઈએ — NA પર section ફક્ત 10 mm web છે. 100 mm વાપરતાં τ દસ ગણો ઓછો આવે છે (23.6 ને બદલે 2.36 N/mm², Numerical 4.3) — એ rounding નથી, અસલામત ભૂલ છે."
+    }
+   },
+   {
+    "q": {
+     "en": "Pure bending assumptions: pick the one real beams break first.",
+     "gu": "Pure bending ની ધારણાઓ: ખરા beams માં સૌથી પહેલા કઈ તૂટે છે?"
+    },
+    "a": {
+     "en": "'Plane sections remain plane' survives well; the casualty in real beams is usually the clean-room itself — shear is present (not pure bending), materials differ in tension/compression (RC!), sections warp near loads. The equation still governs because corrections are second-order (Card 4.1).",
+     "gu": "'Plane sections plane રહે છે' સારી રીતે ટકે છે; ખરા beam માં પહેલા સ્વચ્છ-ઓરડો જ તૂટે છે — shear હાજર હોય છે (pure bending નથી), RC માં tension/compression માં material જુદું વર્તે છે. છતાં equation શાસન કરે છે કારણ કે સુધારા બીજા ક્રમના છે (Card 4.1)."
+    }
+   },
+   {
+    "q": {
+     "en": "Timber beam fails its stress check at 20 vs 12 permissible (N4.1). Options ranked?",
+     "gu": "Timber beam 20 vs 12 permissible માં નિષ્ફળ (N4.1). વિકલ્પો ક્રમમાં?"
+    },
+    "a": {
+     "en": "Deepen first (Z ∝ h²: 300→400 mm fixes it), then widen (Z ∝ b, linear), then better grade (raise permissible), then shorten span/change statics. Depth is the cheapest stress-killer in the catalogue (Card 4.2).",
+     "gu": "પહેલા ઊંડો કરો (Z ∝ h²: 300→400 mm થી ઉકેલ આવે છે), પછી પહોળો (Z ∝ b), પછી સારો grade, પછી span/સ્થિતિ બદલો. Depth સૌથી સસ્તો stress-ઘટાડનાર છે (Card 4.2)."
+    }
+   },
+   {
+    "q": {
+     "en": "Why is shear rarely the design driver in long beams, always checked in short deep ones?",
+     "gu": "લાંબા beams માં shear ભાગ્યે જ નિર્ણાયક, ટૂંકા ઊંડામાં હંમેશા કેમ?"
+    },
+    "a": {
+     "en": "Bending stress grows with moment (span² under UDL) while shear stress grows with V (span¹); length feeds bending faster. Shrink the span and deepen the section and the ratio flips — hence corbels and deep transfer beams are shear-designed (Card 4.3).",
+     "gu": "Bending stress moment સાથે (UDL હેઠળ span²) વધે છે, shear stress V સાથે (span¹); લંબાઈ bending ને ઝડપથી ખવડાવે છે. Span ટૂંકો અને section ઊંડો કરો તો ગુણોત્તર ઊલટે છે — એટલે corbel અને deep transfer beam shear થી design થાય છે (Card 4.3)."
+    }
+   }
+  ]
+ },
+ "exam_questions": [
+  {
+   "q": {
+    "en": "State the assumptions of pure bending theory and write the bending equation with the meaning of each term. Sketch the bending stress distribution across a rectangular section for sagging.",
+    "gu": "Pure bending theory ની ધારણાઓ જણાવો અને bending equation દરેક પદના અર્થ સાથે લખો. Sagging માટે rectangular section પર bending stress distribution નો sketch દોરો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "A timber beam 200 x 300 mm carries BM 60 kN-m. Find the maximum bending stress; if permissible is 12 N/mm2, redesign the depth. (Z = bh^2/6)",
+    "gu": "Timber beam 200 x 300 mm BM 60 kN-m વહન કરે છે. મહત્તમ bending stress શોધો; permissible 12 N/mm2 હોય તો ઊંડાઈ ફરી પસંદ કરો. (Z = bh^2/6)"
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Derive or state tau = VQ/(Ib), define Q and b, and show why tau is zero at the faces and maximum at NA. State tau_max/tau_avg for rectangle and circle.",
+    "gu": "Tau = VQ/(Ib) જણાવો (કે તારવો), Q અને b ની વ્યાખ્યા આપો, અને tau faces પર શૂન્ય અને NA પર મહત્તમ કેમ છે તે બતાવો. Rectangle અને circle માટે tau_max/tau_avg જણાવો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "For the I-section of class example (Ixx = 22.93 x 10^6 mm4) under V = 40 kN, compute shear stress at NA and in the flange, and sketch the shear distribution.",
+    "gu": "Class example ના I-section (Ixx = 22.93 x 10^6 mm4) પર V = 40 kN હોય તો NA પર અને flange માં shear stress ગણી, shear distribution નો sketch દોરો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Define moment of resistance and section modulus. A section has Z = 2.29 x 10^5 mm3 and permissible stress 160 N/mm2 — what BM can it resist, and what span of simply supported beam with UDL 10 kN/m does that allow?",
+    "gu": "Moment of resistance અને section modulus ની વ્યાખ્યા આપો. Section નો Z = 2.29 x 10^5 mm3 અને permissible stress 160 N/mm2 છે — તે કેટલો BM પકડી શકશે, અને UDL 10 kN/m સાથે simply supported beam નો કેટલો span ચાલશે?"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Sketch shear stress distributions for: rectangle, circle, hollow rectangle, T-section and I-section, marking maxima and the tau_max/tau_avg values where standard.",
+    "gu": "Shear stress distributions ના sketch દોરો: rectangle, circle, hollow rectangle, T-section અને I-section — maxima અને લાગુ પડતા tau_max/tau_avg મૂલ્યો દર્શાવીને."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the division of labour in an I-beam between flanges and web for bending and shear, with supporting numbers (bending: y max at flanges; shear: tau_web approx V/(web area)).",
+    "gu": "I-beam માં flanges અને web વચ્ચે bending અને shear માટેના કામના વિભાજનને આંકડાકીય આધાર સાથે સમજાવો (bending: flanges પર y max; shear: tau_web approx V/(web area))."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "A rectangular beam 200 x 300 mm has V = 50 kN. Find tau_avg, tau_max and tau at 100 mm from NA, and state where the shear stress vanishes.",
+    "gu": "Rectangular beam 200 x 300 mm પર V = 50 kN છે. Tau_avg, tau_max અને NA થી 100 mm દૂર tau શોધો, અને shear stress ક્યાં શૂન્ય થાય છે તે જણાવો."
+   },
+   "marks": 4
+  }
+ ],
+ "question_provenance": "Original practice questions written strictly within the official DI03006041 syllabus coverage",
+ "practicals": [],
+ "content_kind": "theory_trimmed_civil"
+}

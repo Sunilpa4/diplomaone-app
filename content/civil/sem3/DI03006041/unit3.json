@@ -1,0 +1,384 @@
+{
+ "code": "DI03006041",
+ "unit": 3,
+ "branch": "civil",
+ "semester": 3,
+ "title": {
+  "en": "Shear Force and Bending Moment in Beams",
+  "gu": "Beam માં Shear Force અને Bending Moment"
+ },
+ "hours": 10,
+ "weightage": 20,
+ "cos": [
+  "CO3"
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "numericals",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "",
+  "gu": ""
+ },
+ "notes": [
+  {
+   "title": {
+    "en": "Unit 3 Notes — Shear Force and Bending Moment in Beams",
+    "gu": "યુનિટ 3 Notes — Beam માં Shear Force અને Bending Moment"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "3.1 Determinate and indeterminate beams",
+      "gu": "3.1 Determinate અને indeterminate beams"
+     },
+     "syllabus_item": "3.1 Statically determinate and statically indeterminate beam examples",
+     "body": {
+      "en": "<p><b>The cast of beams (Diagram).</b> A beam is <i>statically determinate</i> when its reactions come from the three equilibrium equations (ΣF_x = 0, ΣF_y = 0, ΣM = 0) alone: cantilever (3 reactions at the fixed end), simply supported (pin + roller = 3), overhanging (same supports, span extended), compound beams joined by internal hinges. It is <i>indeterminate</i> when restraints exceed equations: fixed-fixed (6 reactions vs 3 equations → indeterminate to the 3rd degree externally), propped cantilever (4 vs 3 → 1st degree), continuous beams over many supports.</p><p><b>Why this unit stays determinate.</b> SF/BM diagrams by pure statics are possible only for the determinate family — this unit's entire cast. Indeterminate beams need deformation compatibility (Structures-II territory), because their reactions hide in stiffness, not equilibrium. Recognising which family a sketch belongs to is the first viva question on every beam ever drawn; miscounting supports is the error that poisons everything downstream.</p>",
+      "gu": "<p><b>Beams ની ઓળખ (Diagram):</b> reactions ફક્ત ત્રણ equilibrium equations (ΣF_x = 0, ΣF_y = 0, ΣM = 0) થી જ મળી જાય તો beam <i>statically determinate</i> છે: cantilever, simply supported (pin + roller), overhanging. Restraints equations કરતાં વધી જાય તો <i>indeterminate</i>: fixed-fixed, propped cantilever, continuous beam.</p><p><b>આ unit determinate જ કેમ:</b> શુદ્ધ statics થી SF/BM diagrams ફક્ત determinate family માટે જ શક્ય છે — આ unit નો આખો વિષય એ જ છે. Indeterminate beams માટે deformation compatibility જોઈએ છે (Structures-II નો વિષય), કારણ કે તેમના reactions stiffness માં છુપાયેલા હોય છે, equilibrium માં નહીં.</p>"
+     },
+     "diagram": "ms3_beams"
+    },
+    {
+     "h": {
+      "en": "3.2 Shear force and bending moment — concepts and sign conventions",
+      "gu": "3.2 Shear force અને bending moment — ખ્યાલો અને sign conventions"
+     },
+     "syllabus_item": "3.2 Concept of bending moment and shear force; 3.3 Sagging and hogging BM, positive and negative SF",
+     "body": {
+      "en": "<p><b>Definitions that calculate.</b> At any section, the <i>shear force</i> is the algebraic sum of vertical forces on one side (traditionally the left): it is the internal force trying to slide the two parts vertically past each other. The <i>bending moment</i> is the algebraic sum of moments of those forces about the section: the internal couple trying to bend the beam. <b>Sign conventions (agree one and never switch):</b> SF is positive when the external forces tend to shear the left part <i>up</i> and the right part <i>down</i> (equivalently: sum of vertical forces to the left, upward positive). BM is positive when it causes <i>sagging</i> — concave-up bending, compression on top fibres, tension below (the smile); negative BM <i>hogs</i> — convex-up (the frown), tension on top.</p><p><b>The two differential gifts.</b> dV/dx = −w (shear slope = load intensity) and dM/dx = V (moment slope = shear): so BM is maximum or minimum exactly where SF = 0 or changes sign, point loads make SF jump by the load, and couples make BM jump. These three checks audit every diagram in this unit before you trust a single number.</p>",
+      "gu": "<p><b>ગણતરી કરતી વ્યાખ્યાઓ:</b> કોઈ પણ section પર <i>shear force</i> એ એક બાજુના (સામાન્ય રીતે ડાબી) vertical forces નો algebraic sum છે — બે ભાગોને ઊભા સરકાવવા માંગતું આંતરિક બળ. <i>Bending moment</i> એ એ જ બળોનો section પરનો moment નો sum છે — beam ને વાળવા માંગતું આંતરિક couple. <b>Sign conventions (એક પસંદ કરો, ક્યારેય ન બદલો):</b> ડાબો ભાગ ઉપર અને જમણો નીચે સરકે એવો SF positive. BM positive જ્યારે <i>sagging</i> થાય — ઉપર compression, નીચે tension (સ્મિત); negative BM એ <i>hogging</i> (ભવાં ચઢેલું), ઉપર tension.</p><p><b>બે differential ભેટ:</b> dV/dx = −w અને dM/dx = V: એટલે BM બરાબર ત્યાં જ maximum હોય જ્યાં SF = 0 થાય કે sign બદલે; point load SF માં કૂદકો આપે છે. આ ત્રણ check દરેક diagram ને વિશ્વાસ પહેલા audit કરે છે.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "3.3 Cantilever beams — point load and UDL",
+      "gu": "3.3 Cantilever beams — point load અને UDL"
+     },
+     "syllabus_item": "3.4-3.5 SF and BM calculations and diagrams: cantilever with point load and/or UDL",
+     "body": {
+      "en": "<p><b>The fixed end is the whole story.</b> For a cantilever, work from the free end (no reactions needed). Point load P at the free end: SF is a constant −P along the whole length (rectangle SFD); BM grows linearly from 0 at the free end to −PL at the wall (triangle BMD) — hogging throughout, so the <i>top</i> fibres at the wall carry the worst tension (Diagram). UDL w over the whole span: SF grows linearly 0 → −wL at the wall; BM parabolically 0 → −wL²/2 at the wall. Combined loads simply superpose (Numerical 3.1: P = 10 kN + UDL 5 kN/m on 3 m gives SF_fixed = −25 kN, BM_fixed = −52.5 kN·m).</p><p><b>Field meaning.</b> Balconies, canopy slabs, retaining-wall stems and crane jibs are cantilevers: their support must supply not just an upward force but the clamping moment −PL (or −wL²/2), which is why cantilever reinforcement lives at the top near the support and why 'the beam broke at the wall' is this diagram translated into news.</p>",
+      "gu": "<p><b>Fixed end જ આખી વાત છે:</b> cantilever માં free end થી શરૂ કરો (reactions ની જરૂર જ નથી). Free end પર point load P: SF આખી લંબાઈમાં constant −P (લંબચોરસ SFD); BM free end પર 0 થી વધી દિવાલ પાસે −PL (ત્રિકોણ BMD) — આખો વખત hogging, એટલે દિવાલ પાસે <i>ઉપરના</i> fibres પર સૌથી વધુ tension (Diagram). આખા span પર UDL w: SF 0 → −wL દિવાલ પાસે; BM 0 → −wL²/2. બંને load સાથે હોય તો ફક્ત superpose કરો (Numerical 3.1: P = 10 kN + UDL 5 kN/m, 3 m પર SF_fixed = −25 kN, BM_fixed = −52.5 kN·m).</p><p><b>વ્યવહારુ અર્થ:</b> balcony, canopy, crane jib બધા cantilever છે: તેમના support એ ફક્ત ઉપરનું બળ નહીં, પણ ઠીક કરતો moment −PL પણ આપવો પડે છે — એટલે cantilever reinforcement support પાસે ઉપર હોય છે.</p>"
+     },
+     "diagram": "ms3_cantilever"
+    },
+    {
+     "h": {
+      "en": "3.4 Simply supported beams — point loads and UDL",
+      "gu": "3.4 Simply supported beams — point loads અને UDL"
+     },
+     "syllabus_item": "3.4-3.5 SF and BM calculations and diagrams: simply supported beam with point load and/or UDL",
+     "body": {
+      "en": "<p><b>The reference cases (memorise the maxima, derive anything).</b> Central point load P on span L: reactions P/2 each; SF jumps from +P/2 to −P/2 at centre; BM triangular, maximum PL/4 at centre. Eccentric point load (a from left, b from right): reactions Pb/L and Pa/L; max BM = Pab/L under the load. UDL w over the whole span (Diagram): reactions wL/2; SF triangular (+wL/2 → −wL/2, zero at centre); BM parabolic, maximum wL²/8 at centre, sagging throughout.</p><p><b>Combinations superpose — carefully.</b> Numerical 3.2 runs UDL 8 kN/m + central 12 kN on 6 m: reactions 30 kN, SF ±30, BM_max = wL²/8 + PL/4 = 36 + 18 = 54 kN·m at centre where SF crosses zero — the Card 3.2 check in uniform. For moments at other sections or off-centre loads, compute section by section: SF diagram first (it is just bookkeeping of vertical forces), then BM = accumulate SF areas — the area under SFD between two sections is the BM change between them, the graphical integration that self-checks every table of numbers.</p>",
+      "gu": "<p><b>સંદર્ભ cases (મહત્તમ મૂલ્યો યાદ રાખો):</b> span L પર કેન્દ્રમાં point load P: reactions P/2; SF કેન્દ્રમાં +P/2 થી −P/2 કૂદે છે; BM ત્રિકોણ, કેન્દ્રમાં મહત્તમ PL/4. આખા span પર UDL w (Diagram): reactions wL/2; SF ત્રિકોણાકાર (+wL/2 → −wL/2, કેન્દ્રમાં શૂન્ય); BM parabolic, કેન્દ્રમાં મહત્તમ wL²/8, આખો વખત sagging.</p><p><b>સંયોજનો superpose થાય છે — કાળજીથી:</b> Numerical 3.2: UDL 8 kN/m + કેન્દ્રમાં 12 kN, 6 m span: reactions 30 kN, BM_max = wL²/8 + PL/4 = 54 kN·m બરાબર ત્યાં જ જ્યાં SF શૂન્ય થાય છે — Card 3.2 નો check. બીજા sections માટે: પહેલા SFD (vertical forces ની નોંધણી), પછી SFD નીચેનું ક્ષેત્રફળ = BM નો ફેરફાર.</p>"
+     },
+     "diagram": "ms3_ssb"
+    },
+    {
+     "h": {
+      "en": "3.5 Overhanging beams and the point of contraflexure",
+      "gu": "3.5 Overhanging beams અને point of contraflexure"
+     },
+     "syllabus_item": "3.4-3.6 Overhang beam SF/BM; point of contraflexure & its importance",
+     "body": {
+      "en": "<p><b>One beam, two personalities.</b> An overhang projects beyond a support: loads on the overhang lever about that support, lifting the far reaction down (it can even go negative — uplift, a design alarm) and wrapping hogging moment over the support region while the span between supports may still sag. Numerical 3.3's anatomy: A–B span 6 m with UDL 10 kN/m, overhang B–C 2 m with 20 kN at C: R_A = 23.33 kN, R_B = 56.67 kN; BM at B = −40 kN·m (hogging from the overhang couple), maximum sagging +27.2 kN·m at 2.33 m from A.</p><p><b>Point of contraflexure (point of inflection).</b> Where BM crosses zero (4.67 m from A in Numerical 3.3, Diagram), the beam's curvature flips: sagging below, hogging above. Its importance is practical gold: bending stress is zero there, so in RC beams it locates where tension steel can be curtailed or must change face (bottom bars end, top bars begin), and in steel it marks splice-friendly locations. Find it by setting the BM equation to zero — never by eyeballing the diagram in an exam.</p>",
+      "gu": "<p><b>એક beam, બે સ્વભાવ:</b> overhang support ની બહાર નીકળે છે: overhang પરના loads એ support પર lever કરે છે, દૂરનો reaction નીચે ખેંચે છે (negative પણ થઈ શકે — uplift, design માટે ચેતવણી) અને support પ્રદેશ પર hogging moment લપેટે છે, જ્યારે supports વચ્ચેનો ભાગ sagging કરી શકે છે. Numerical 3.3: A–B 6 m UDL 10 kN/m, overhang B–C 2 m પર 20 kN: R_A = 23.33, R_B = 56.67 kN; B પર BM = −40 kN·m, મહત્તમ sagging +27.2 kN·m A થી 2.33 m પર.</p><p><b>Point of contraflexure:</b> જ્યાં BM શૂન્ય થઈ પાર જાય (Numerical 3.3 માં A થી 4.67 m, Diagram), ત્યાં beam નો વળાંક ઊલટે છે: એક બાજુ sagging, બીજી બાજુ hogging. વ્યવહારુ મહત્વ: ત્યાં bending stress શૂન્ય હોય છે, એટલે RC beam માં tension steel ક્યાં છોડવું કે બાજુ બદલવી તે આ point કહે છે. BM નું સમીકરણ શૂન્ય મૂકી શોધો — diagram જોઈને અંદાજ ક્યારેય નહીં.</p>"
+     },
+     "diagram": "ms3_overhang"
+    }
+   ]
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "ms3_beams",
+   "title": {
+    "en": "Types of beams and supports",
+    "gu": "Beam ના પ્રકારો અને supports"
+   }
+  },
+  {
+   "id": "ms3_cantilever",
+   "title": {
+    "en": "Cantilever: SFD and BMD (end load)",
+    "gu": "Cantilever: SFD અને BMD (end load)"
+   }
+  },
+  {
+   "id": "ms3_ssb",
+   "title": {
+    "en": "Simply supported beam with UDL: SFD/BMD",
+    "gu": "Simply supported beam UDL સાથે: SFD/BMD"
+   }
+  },
+  {
+   "id": "ms3_overhang",
+   "title": {
+    "en": "Overhang beam: point of contraflexure",
+    "gu": "Overhang beam: point of contraflexure (વળાંક બદલાતો બિંદુ)"
+   }
+  }
+ ],
+ "numericals": {
+  "title": {
+   "en": "Solved Numericals — Unit 3",
+   "gu": "ઉકેલેલા Numericals — યુનિટ 3"
+  },
+  "items": [
+   {
+    "id": "Numerical 3.1",
+    "title": {
+     "en": "Numerical 3.1 — Cantilever with point load plus UDL",
+     "gu": "Numerical 3.1 — Cantilever point load + UDL સાથે"
+    },
+    "body": {
+     "en": "<p><b>Given.</b> Cantilever 3.0 m, free-end point load 10 kN, UDL 5 kN/m over the whole length. Find SF and BM at the fixed end and at mid-length.</p><p><b>Step 1.</b> Shear at a section is everything hanging beyond it. At the wall: the 10 kN point plus the whole UDL (5 × 3 = 15 kN).</p><span class=\"eq\">SF at fixed end = -(10 + 15) = -25 kN ;  SF at mid-length = -(10 + 5 x 1.5) = -17.5 kN</span><p><b>Step 2.</b> Moment at the wall: point load at 3 m, UDL resultant 15 kN at its midpoint 1.5 m.</p><span class=\"eq\">BM at fixed end = -(10 x 3 + 15 x 1.5) = -(30 + 22.5) = -52.5 kN-m</span><span class=\"eq\">BM at mid-length = -(10 x 1.5 + 7.5 x 0.75) = -(15 + 5.625) = -20.63 kN-m</span><p><b>Final answer.</b></p><span class=\"eq\">╔ Fixed end: SF -25 kN , BM -52.5 kN-m (hogging) - the wall section is designed for these two numbers ╗</span><p><b>Validity check.</b> Superposition audit: point load alone gives −10 kN/−30 kN·m; UDL alone −15 kN/−22.5 kN·m (wL, wL²/2); sums match. Negative = hogging: top fibres in tension at the wall (Card 3.3).</p>",
+     "gu": "<p><b>આપેલ છે:</b> cantilever 3.0 m, free end પર 10 kN point load, આખી લંબાઈ પર UDL 5 kN/m. Fixed end અને mid-length પર SF અને BM શોધો.</p><p><b>Step 1.</b> Section પર shear એ તેની બહાર લટકતું બધું છે. દિવાલ પાસે: 10 kN + આખો UDL (15 kN).</p><span class=\"eq\">SF fixed end = -25 kN ;  SF mid = -17.5 kN</span><p><b>Step 2.</b> દિવાલ પાસે moment: point load 3 m પર, UDL resultant 15 kN તેના મધ્ય 1.5 m પર.</p><span class=\"eq\">BM fixed end = -(30 + 22.5) = -52.5 kN-m ;  BM mid = -20.63 kN-m</span><p><b>અંતિમ જવાબ:</b></p><span class=\"eq\">╔ Fixed end: SF -25 kN , BM -52.5 kN-m (hogging) — દિવાલનો section આ બે આંકડા માટે design થાય છે ╗</span><p><b>ચકાસણી:</b> point load એકલો −10/−30, UDL એકલો −15/−22.5; સરવાળો મળે છે. Negative = hogging: દિવાલ પાસે ઉપરના fibres માં tension (Card 3.3).</p>"
+    }
+   },
+   {
+    "id": "Numerical 3.2",
+    "title": {
+     "en": "Numerical 3.2 — Simply supported beam: UDL plus central point load",
+     "gu": "Numerical 3.2 — Simply supported beam: UDL + કેન્દ્રીય point load"
+    },
+    "body": {
+     "en": "<p><b>Given.</b> Simply supported beam, span 6 m, UDL 8 kN/m over the whole span plus a 12 kN point load at mid-span. Draw the key values of the SFD and BMD.</p><p><b>Step 1.</b> Reactions by symmetry — total load 8 × 6 + 12 = 60 kN, shared equally.</p><span class=\"eq\">R_A = R_B = 60/2 = 30 kN</span><p><b>Step 2.</b> Shear forces: starts +30, falls at 8 kN/m (UDL slope), jumps −12 at the centre load.</p><span class=\"eq\">SF at A+ = +30 ; SF just left of centre = 30 - 8 x 3 = +6 ; just right = 6 - 12 = -6 ; SF at B- = -30 kN</span><p><b>Step 3.</b> Maximum BM sits where SF crosses zero — here, exactly at the centre (SF jumps +6 → −6 through it).</p><span class=\"eq\">BM at centre = R_A x 3 - (8 x 3)(1.5) = 90 - 36 = 54 kN-m  [check: wL^2/8 + PL/4 = 36 + 18 = 54 ✓]</span><p><b>Final answer.</b></p><span class=\"eq\">╔ R = 30 kN each ; SFmax = 30 kN ; BMmax = 54 kN-m sagging at mid-span ╗</span><p><b>Validity check.</b> BM at the supports is zero (simple supports cannot hold moment) and BM at quarter-span by the SFD-area method: 30×1.5 − 8×1.5×0.75 = 36 kN·m < 54 ✓ rising toward centre. Diagrams that fail the support-zero or zero-crossing checks are wrong before they are graded (Cards 3.2, 3.4).</p>",
+     "gu": "<p><b>આપેલ છે:</b> simply supported beam, span 6 m, આખા span પર UDL 8 kN/m અને mid-span પર 12 kN point load. SFD અને BMD ના મુખ્ય મૂલ્યો શોધો.</p><p><b>Step 1.</b> Symmetry થી reactions — કુલ load 60 kN, સરખે ભાગે.</p><span class=\"eq\">R_A = R_B = 30 kN</span><p><b>Step 2.</b> Shear: +30 થી શરૂ, UDL થી 8 kN/m દરે ઘટે, centre load પર −12 કૂદે છે.</p><span class=\"eq\">SF centre left = +6 ; centre right = -6 ; B પાસે = -30 kN</span><p><b>Step 3.</b> BM ત્યાં મહત્તમ જ્યાં SF શૂન્ય થાય — અહીં બરાબર centre પર.</p><span class=\"eq\">BM centre = 90 - 36 = 54 kN-m  [check: wL^2/8 + PL/4 = 36 + 18 = 54 ✓]</span><p><b>અંતિમ જવાબ:</b></p><span class=\"eq\">╔ R = 30 kN દરેક ; SFmax = 30 kN ; BMmax = 54 kN-m sagging mid-span પર ╗</span><p><b>ચકાસણી:</b> supports પર BM શૂન્ય (simple support moment પકડી શકતું નથી) અને centre તરફ વધતો ક્રમ — બંને check પાસ (Cards 3.2, 3.4).</p>"
+    }
+   },
+   {
+    "id": "Numerical 3.3",
+    "title": {
+     "en": "Numerical 3.3 — Overhang beam: reactions, BM at support, point of contraflexure",
+     "gu": "Numerical 3.3 — Overhang beam: reactions, support BM અને contraflexure બિંદુ"
+    },
+    "body": {
+     "en": "<p><b>Given.</b> Beam A–B 6 m (simply supported), overhang B–C 2 m; UDL 10 kN/m on A–B only; 20 kN at C. Find reactions, BM at B, maximum sagging BM and the point of contraflexure.</p><p><b>Step 1.</b> Moments about A (the overhang load levers about B and must be counted at its full 8 m).</p><span class=\"eq\">R_B x 6 = (10 x 6)(3) + 20 x 8 = 180 + 160 = 340 -> R_B = 56.67 kN ;  R_A = 60 + 20 - 56.67 = 23.33 kN</span><p><b>Step 2.</b> BM at B comes from the overhang alone (free body right of B).</p><span class=\"eq\">BM at B = -20 x 2 = -40 kN-m (hogging)</span><p><b>Step 3.</b> In the span, BM(x) = R_A·x − 5x². Maximum where SF = 0: x = R_A/w = 2.33 m.</p><span class=\"eq\">BMmax = 23.33 x 2.33 - 5 x 2.33^2 = 54.4 - 27.2 = +27.2 kN-m (sagging)</span><p><b>Step 4.</b> Point of contraflexure: BM(x) = 0 again inside the span.</p><span class=\"eq\">23.33x - 5x^2 = 0 -> x (23.33 - 5x) = 0 -> x = 4.67 m from A</span><p><b>Final answer.</b></p><span class=\"eq\">╔ R_A 23.33 , R_B 56.67 kN ; BM_B = -40 ; BMmax +27.2 at 2.33 m ; contraflexure at 4.67 m from A ╗</span><p><b>Validity check.</b> SF just left of B: 23.33 − 60 = −36.67; add R_B: +20.0 — exactly the overhang point load, constant across B–C, closing to zero at C ✓. Every number in the SFD/BMD chain audits the next (Cards 3.2, 3.5).</p>",
+     "gu": "<p><b>આપેલ છે:</b> beam A–B 6 m (simply supported), overhang B–C 2 m; ફક્ત A–B પર UDL 10 kN/m; C પર 20 kN. Reactions, B પર BM, મહત્તમ sagging BM અને point of contraflexure શોધો.</p><p><b>Step 1.</b> A પર moments (overhang load તેના પૂરા 8 m પર ગણાય).</p><span class=\"eq\">R_B = 56.67 kN ;  R_A = 23.33 kN</span><p><b>Step 2.</b> B પર BM ફક્ત overhang પરથી.</p><span class=\"eq\">BM_B = -20 x 2 = -40 kN-m (hogging)</span><p><b>Step 3.</b> Span માં BM(x) = R_A·x − 5x²; SF = 0 ત્યાં મહત્તમ: x = 2.33 m.</p><span class=\"eq\">BMmax = +27.2 kN-m (sagging)</span><p><b>Step 4.</b> Point of contraflexure: BM(x) = 0 ફરી.</p><span class=\"eq\">x = 4.67 m A થી</span><p><b>અંતિમ જવાબ:</b></p><span class=\"eq\">╔ R_A 23.33 , R_B 56.67 kN ; BM_B = -40 ; BMmax +27.2 (2.33 m પર) ; contraflexure A થી 4.67 m ╗</span><p><b>ચકાસણી:</b> B ની ડાબે SF −36.67; R_B ઉમેરતાં +20.0 — બરાબર overhang નો load, C પર શૂન્ય થઈ close થાય છે ✓ (Cards 3.2, 3.5).</p>"
+    }
+   }
+  ]
+ },
+ "syntax": {
+  "title": {
+   "en": "Formulae, methods and key data — Unit 3",
+   "gu": "Formulae, methods અને key data — યુનિટ 3"
+  },
+  "items": [
+   {
+    "name": {
+     "en": "Maxima bank — the diagrams' headline values",
+     "gu": "Maxima bank — diagrams ના મુખ્ય મૂલ્યો"
+    },
+    "body": {
+     "en": "<span class=\"eq\">cantilever: end P -> SF -P, BM_wall -PL ; UDL w -> SF -wL, BM_wall -wL^2/2 (N3.1 combines both)</span><span class=\"eq\">simply supported: central P -> BM PL/4 ; eccentric P (a,b) -> BM Pab/L under load ; UDL -> BM wL^2/8 at centre, SF +/- wL/2 (N3.2)</span><span class=\"eq\">overhang: BM over the support = -(overhang load x its length) - the lever that also drags the far reaction (N3.3)</span><span class=\"eq\">relations: dV/dx = -w ; dM/dx = V ; BM extremum where V = 0/sign change ; delta BM between sections = area of SFD between them</span><p>Draw SF first, always: it is bookkeeping; BM is its running total. Examiners forgive arithmetic slips, not a BMD whose peak ignores the SFD's zero.</p>",
+     "gu": "<span class=\"eq\">cantilever: end P -> SF -P, BM -PL ; UDL -> SF -wL, BM -wL^2/2 (Numerical 3.1)</span><span class=\"eq\">simply supported: central P -> PL/4 ; eccentric P -> Pab/L ; UDL -> wL^2/8 centre પર, SF +/- wL/2 (Numerical 3.2)</span><span class=\"eq\">overhang: support પર BM = -(overhang load x લંબાઈ) (Numerical 3.3)</span><span class=\"eq\">સંબંધો: dV/dx = -w ; dM/dx = V ; BM ત્યાં મહત્તમ જ્યાં V = 0 ; બે sections વચ્ચે delta BM = વચ્ચેના SFD નું ક્ષેત્રફળ</span><p>હંમેશા પહેલા SF દોરો: તે નોંધણી છે; BM તેનો ચાલુ સરવાળો છે.</p>"
+    }
+   },
+   {
+    "name": {
+     "en": "Sign convention and diagram grammar — key data",
+     "gu": "Sign convention અને diagram વ્યાકરણ — key data"
+    },
+    "body": {
+     "en": "<span class=\"eq\">SF positive: left segment pushed up/right segment down (sum of verticals from left, up +) ; point load = vertical JUMP in SFD equal to the load</span><span class=\"eq\">BM positive = sagging (concave up, bottom in tension) ; negative = hogging (top in tension) ; BM at simple supports and free ends = 0 ; applied couple = JUMP in BMD</span><span class=\"eq\">UDL => SFD straight slope -w, BMD parabola ; no load => SFD flat, BMD straight ; point of contraflexure: BM = 0 crossing, curvature flips</span><span class=\"eq\">checks: SFD must close to zero past the last support ; BMD peaks sit under SFD zero-crossings ; support moments match free-body of overhangs</span><p>A diagram is an argument: every jump, slope and zero must be explainable by a load — that's the viva hidden inside CO3.</p>",
+     "gu": "<span class=\"eq\">SF positive: ડાબો ભાગ ઉપર (ડાબેથી verticals નો સરવાળો, ઉપર +) ; point load = SFD માં load જેટલો ઊભો કૂદકો</span><span class=\"eq\">BM positive = sagging (નીચે tension) ; negative = hogging (ઉપર tension) ; simple support અને free end પર BM = 0 ; couple = BMD માં કૂદકો</span><span class=\"eq\">UDL => SFD ઢાળ -w સીધો, BMD parabola ; load નહીં => SFD સપાટ, BMD સીધો ; contraflexure: BM = 0 પાર કરે ત્યાં</span><span class=\"eq\">checks: SFD છેલ્લા support પછી શૂન્ય પર close થવો જોઈએ ; BMD ના શિખરો SFD ના zero-crossing નીચે હોવા જોઈએ</span><p>Diagram એ દલીલ છે: દરેક કૂદકો, ઢાળ અને શૂન્ય load થી સમજાવી શકાવો જોઈએ — એ જ CO3 ની અંદર છુપાયેલો viva છે.</p>"
+    }
+   }
+  ]
+ },
+ "viva": {
+  "title": {
+   "en": "Viva Questions — Unit 3",
+   "gu": "Viva Questions — યુનિટ 3"
+  },
+  "items": [
+   {
+    "q": {
+     "en": "Shear force at a section — define it so I can compute from it.",
+     "gu": "Section પર shear force — એવી વ્યાખ્યા આપો કે ગણતરી થઈ શકે."
+    },
+    "a": {
+     "en": "The algebraic sum of all vertical forces acting on one side (say the left) of the section. Positive if that sum acts upward on the left segment (left up, right down shear). It is the internal vertical force the section must provide to keep its half in equilibrium (Card 3.2).",
+     "gu": "Section ની એક બાજુના (દા.ત. ડાબી) બધા vertical forces નો algebraic sum. ડાબા ભાગ પર તે સરવાળો ઉપર તરફ હોય તો positive. તે આંતરિક vertical force છે જે section એ પોતાના અડધા ભાગના સંતુલન માટે આપવો પડે છે (Card 3.2)."
+    }
+   },
+   {
+    "q": {
+     "en": "Sagging versus hogging — answer with fibres, not smiles.",
+     "gu": "Sagging vs hogging — સ્મિતથી નહીં, fibres થી જવાબ આપો."
+    },
+    "a": {
+     "en": "Sagging (positive BM): concave-up bending — top fibres shorten (compression), bottom fibres stretch (tension). Hogging (negative): convex-up — top in tension, bottom in compression. Reinforcement chases the tension face, so the distinction places steel (Card 3.2).",
+     "gu": "Sagging (positive BM): ઉપર તરફ અંતર્ગોળ વળાંક — ઉપરના fibres ટૂંકાય (compression), નીચેના લંબાય (tension). Hogging (negative): ઉપર બહિર્ગોળ — ઉપર tension, નીચે compression. Reinforcement tension face ને અનુસરે છે, એટલે આ તફાવત steel નું સ્થાન નક્કી કરે છે (Card 3.2)."
+    }
+   },
+   {
+    "q": {
+     "en": "Why is BM maximum exactly where SF crosses zero?",
+     "gu": "BM બરાબર ત્યાં જ મહત્તમ કેમ જ્યાં SF શૂન્ય થાય છે?"
+    },
+    "a": {
+     "en": "Because dM/dx = V: the moment's slope IS the shear. Where shear passes through zero, the moment stops climbing and turns — a maximum (or sign change through a jump load). Every BMD peak in Unit 3 sits under an SFD zero (Numerical 3.2).",
+     "gu": "કારણ કે dM/dx = V: moment નો ઢાળ જ shear છે. જ્યાં shear શૂન્ય થઈ પાર જાય ત્યાં moment ચઢવાનું બંધ કરી વળે છે — મહત્તમ. Unit 3 ના દરેક BMD શિખર SFD ના શૂન્ય નીચે જ છે (Numerical 3.2)."
+    }
+   },
+   {
+    "q": {
+     "en": "A point load lands on your SFD. What does it do to SFD and BMD?",
+     "gu": "Point load તમારા SFD પર પડે છે. SFD અને BMD ને શું કરે છે?"
+    },
+    "a": {
+     "en": "SFD: instant vertical jump equal to the load (downward load, downward jump going left to right). BMD: no jump, but a kink — its slope (the shear) changes value at that section. A jump in the BMD would need an applied couple, not a force (Card 3.2).",
+     "gu": "SFD: load જેટલો તરત ઊભો કૂદકો (નીચે તરફનો load, ડાબેથી જમણે નીચે કૂદકો). BMD: કૂદકો નહીં, પણ વળાંક — તેનો ઢાળ (shear) એ section પર બદલાય છે. BMD માં કૂદકા માટે બળ નહીં, applied couple જોઈએ (Card 3.2)."
+    }
+   },
+   {
+    "q": {
+     "en": "Cantilever, end load: where do you detail the steel and why?",
+     "gu": "Cantilever, છેડે load: steel ક્યાં detail કરશો અને કેમ?"
+    },
+    "a": {
+     "en": "At the fixed end, top face: BM peaks there (−PL) and it is hogging — top fibres in tension. The free end has zero moment and needs almost nothing; the diagram literally draws the reinforcement map (Numerical 3.1).",
+     "gu": "Fixed end પાસે, ઉપરની face પર: BM ત્યાં સૌથી વધુ (−PL) અને hogging છે — ઉપરના fibres tension માં. Free end પર moment શૂન્ય. Diagram જ reinforcement નો નકશો દોરે છે (Numerical 3.1)."
+    }
+   },
+   {
+    "q": {
+     "en": "Overhang load is increased until R_A computes negative. Meaning and remedy?",
+     "gu": "Overhang load વધારતાં R_A negative આવે છે. અર્થ અને ઉપાય?"
+    },
+    "a": {
+     "en": "Uplift: the far support must hold the beam DOWN or the beam lifts off it. Remedies: the support must be anchored (designed for tension), the overhang load/path reconsidered, or the span/overhang ratio changed. A negative reaction is a design alarm, not a number (Card 3.5).",
+     "gu": "Uplift: દૂરનો support beam ને નીચે પકડવો પડે છે, નહીંતર beam ઊંચકાય જાય છે. ઉપાય: support ને tension માટે anchor કરવો, overhang load/રસ્તો ફરી વિચારવો, કે span/overhang ગુણોત્તર બદલવો. Negative reaction એ design ની ચેતવણી છે, ખાલી આંકડો નહીં (Card 3.5)."
+    }
+   },
+   {
+    "q": {
+     "en": "Point of contraflexure — why do RC designers hunt it?",
+     "gu": "Point of contraflexure — RC designer તેને કેમ શોધે છે?"
+    },
+    "a": {
+     "en": "BM = 0 there: bending stress vanishes, curvature flips sagging↔hogging. It is the lawful place to curtail bottom steel and start top steel — misplacing it puts tension steel where the moment has already changed sign (Numerical 3.3).",
+     "gu": "ત્યાં BM = 0: bending stress ગાયબ, વળાંક sagging↔hogging ઊલટે છે. નીચેનું steel છોડવાનું અને ઉપરનું શરૂ કરવાનું તે કાયદેસર સ્થાન છે — ખોટી જગ્યાએ મૂકશો તો tension steel એવી જગ્યાએ હશે જ્યાં moment નું ચિહ્ન બદલાઈ ગયું છે (Numerical 3.3)."
+    }
+   },
+   {
+    "q": {
+     "en": "Two beams, same span and load: one fixed-fixed, one simply supported. Why can't Unit 3 draw the fixed one?",
+     "gu": "બે beam, એ જ span અને load: એક fixed-fixed, એક simply supported. Unit 3 fixed વાળો કેમ દોરી શકતું નથી?"
+    },
+    "a": {
+     "en": "Fixed-fixed has 6 reactions against 3 equilibrium equations — indeterminate to the third degree; its reactions depend on stiffness (EI, settlement), not statics alone. Unit 3's tools stop at determinacy; compatibility methods come later (Card 3.1).",
+     "gu": "Fixed-fixed પાસે 3 equilibrium equations સામે 6 reactions છે — ત્રીજા degree સુધી indeterminate; તેના reactions stiffness (EI, settlement) પર આધારિત છે, ફક્ત statics પર નહીં. Unit 3 ના સાધનો determinacy પર અટકે છે (Card 3.1)."
+    }
+   },
+   {
+    "q": {
+     "en": "UDL on the SFD gives a straight line; on the BMD a parabola. One relation explains both.",
+     "gu": "UDL SFD પર સીધી line, BMD પર parabola આપે છે. એક સંબંધ બંને સમજાવે છે."
+    },
+    "a": {
+     "en": "dV/dx = −w integrates: constant w makes V linear; dM/dx = V then makes M quadratic. Load → shear → moment is one integration ladder; each rung smoother than the last (Card 3.4).",
+     "gu": "dV/dx = −w ને integrate કરો: constant w થી V linear બને; dM/dx = V થી M quadratic બને છે. Load → shear → moment એ એક integration સીડી છે; દરેક પગથિયું અગાઉના કરતાં smooth (Card 3.4)."
+    }
+   },
+   {
+    "q": {
+     "en": "Your BMD shows −15 kN·m at a simple support. Grade yourself.",
+     "gu": "તમારો BMD simple support પર −15 kN·m બતાવે છે. પોતાને grade આપો."
+    },
+    "a": {
+     "en": "Fail and redraw: a simple (pin/roller) support cannot resist moment, so BM there is identically zero. A nonzero value exposes a reaction or bookkeeping error upstream — find it before proceeding (Numerical 3.2 check).",
+     "gu": "Fail, ફરી દોરો: simple (pin/roller) support moment પકડી જ શકતું નથી, એટલે ત્યાં BM હંમેશા શૂન્ય હોય છે. શૂન્યેતર મૂલ્ય એટલે reaction કે નોંધણીમાં ઉપરવાસ ભૂલ — આગળ વધતા પહેલા તે શોધો (Numerical 3.2 check)."
+    }
+   },
+   {
+    "q": {
+     "en": "Eccentric point load P at distance a from left, b from right. Max BM and its address?",
+     "gu": "ડાબેથી a, જમણેથી b અંતરે eccentric point load P. મહત્તમ BM અને તેનું સરનામું?"
+    },
+    "a": {
+     "en": "Reactions Pb/L (left) and Pa/L (right); BM peaks UNDER the load at Pab/L — not at midspan unless a = b. Note Pab/L ≤ PL/4 always: midspan is the worst address (Card 3.4).",
+     "gu": "Reactions Pb/L (ડાબે) અને Pa/L (જમણે); BM load ની બરાબર નીચે Pab/L જેટલો મહત્તમ થાય છે — a = b ન હોય તો midspan પર નહીં. નોંધો Pab/L હંમેશા ≤ PL/4: મધ્ય સૌથી ખરાબ સરનામું છે (Card 3.4)."
+    }
+   },
+   {
+    "q": {
+     "en": "How do you find BM at a section without moments about that section?",
+     "gu": "Section પર moments લીધા વગર ત્યાંનો BM કેવી રીતે શોધશો?"
+    },
+    "a": {
+     "en": "By areas: BM change between two sections equals the area of the SFD between them. March from a known (usually zero) end moment adding shear-diagram areas — the self-checking graphical integration of Card 3.4.",
+     "gu": "ક્ષેત્રફળથી: બે sections વચ્ચે BM નો ફેરફાર = તેમની વચ્ચેના SFD નું ક્ષેત્રફળ. જાણીતા (સામાન્ય રીતે શૂન્ય) છેડાના moment થી શરૂ કરી shear-diagram ના ક્ષેત્રફળ ઉમેરતા જાઓ — સ્વ-તપાસ કરતું graphical integration (Card 3.4)."
+    }
+   }
+  ]
+ },
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Define shear force and bending moment with sign conventions. List the checks (dV/dx, dM/dx, jumps) used to verify an SFD/BMD pair.",
+    "gu": "Sign conventions સાથે shear force અને bending moment ની વ્યાખ્યા આપો. SFD/BMD જોડી ચકાસવા માટેના checks (dV/dx, dM/dx, કૂદકા) લખો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "A cantilever of 3 m carries 10 kN at the free end and UDL 5 kN/m throughout. Calculate SF and BM at the fixed end and mid-length, and sketch the diagrams naming the nature of BM at the wall.",
+    "gu": "3 m cantilever પર free end પર 10 kN અને આખી લંબાઈમાં UDL 5 kN/m છે. Fixed end અને mid-length પર SF અને BM ગણી, diagrams દોરો અને દિવાલ પાસે BM નો પ્રકાર જણાવો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "For a simply supported beam (6 m) with UDL 8 kN/m over the whole span and 12 kN at the centre, find reactions, draw SFD/BMD and state maximum SF and BM with locations.",
+    "gu": "Simply supported beam (6 m) પર આખા span માં UDL 8 kN/m અને centre પર 12 kN માટે reactions શોધી, SFD/BMD દોરી મહત્તમ SF અને BM સ્થાન સાથે જણાવો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Define point of contraflexure and explain its importance in RC beam design. In an overhang beam (data as per class example) locate it analytically.",
+    "gu": "Point of contraflexure ની વ્યાખ્યા આપો અને RC beam design માં તેનું મહત્વ સમજાવો. Overhang beam (class example મુજબ data) માં તેને ગણતરીથી શોધો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Classify beams into statically determinate and indeterminate with two examples each and the degree of indeterminacy of a fixed beam and a propped cantilever.",
+    "gu": "Beams ને statically determinate અને indeterminate માં બે-બે ઉદાહરણો સાથે વર્ગીકૃત કરો અને fixed beam તથા propped cantilever નો degree of indeterminacy જણાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "An overhang beam A-B (6 m, UDL 10 kN/m) with overhang B-C 2 m carrying 20 kN at C: find the reactions, BM at B, maximum sagging BM and its position.",
+    "gu": "Overhang beam A-B (6 m, UDL 10 kN/m), overhang B-C 2 m પર C પર 20 kN: reactions, B પર BM, મહત્તમ sagging BM અને તેનું સ્થાન શોધો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "State the standard results (reactions, max SF, max BM) for: cantilever with end load; simply supported beam with central point load; with eccentric point load; with full UDL — with sketches.",
+    "gu": "Sketch સાથે standard results જણાવો (reactions, max SF, max BM): છેડે load વાળો cantilever; central point load વાળો simply supported beam; eccentric point load વાળો; સંપૂર્ણ UDL વાળો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain sagging and hogging with fibre stresses. Why does BM at simple supports vanish, and where does the maximum BM occur in a beam under transverse loads?",
+    "gu": "Fibre stresses સાથે sagging અને hogging સમજાવો. Simple supports પર BM કેમ શૂન્ય થાય છે, અને transverse loads હેઠળ beam માં મહત્તમ BM ક્યાં આવે છે?"
+   },
+   "marks": 4
+  }
+ ],
+ "question_provenance": "Original practice questions written strictly within the official DI03006041 syllabus coverage",
+ "practicals": [],
+ "content_kind": "theory_trimmed_civil"
+}

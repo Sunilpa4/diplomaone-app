@@ -626,6 +626,19 @@ if 'DI01000181' not in _mechanical_sem1:
     _mechanical_sem1.append('DI01000181')
 
 
+# Civil subjects registered in the November batch.
+for _code, _en, _gu, _cat, _credits, _sem in [
+    ('DI03006011', 'Construction Technology', 'બાંધકામ ટેકનોલોજી', 'ESC', 3, 3),
+    ('DI03006021', 'Advance Surveying', 'અદ્યતન સર્વેક્ષણ', 'PCC', 4, 3),
+    ('DI03006031', 'Basic Transportation Engineering', 'મૂળભૂત પરિવહન ઇજનેરી', 'PCC', 4, 3),
+    ('DI03006041', 'Mechanics of Structures-I', 'સ્ટ્રક્ચર્સનું મિકેનિક્સ-I', 'PCC', 4, 3),
+    ('DI03006051', 'Soil Engineering', 'મૃદા ઇજનેરી', 'PCC', 4, 3),
+    ('DI04000151', 'Hydraulics', 'હાઇડ્રોલિક્સ', 'PCC / Professional Elective - I', 4, 4),
+]:
+    SUBJECTS[_code] = (_en, _gu, _cat, _credits, 'theory', None)
+    _courses = BRANCH_SEMS.setdefault('civil', {}).setdefault(_sem, [])
+    if _code not in _courses: _courses.append(_code)
+
 def main():
     global OUT
     if "--out" in sys.argv:

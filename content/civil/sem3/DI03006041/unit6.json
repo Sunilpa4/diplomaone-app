@@ -1,0 +1,384 @@
+{
+ "code": "DI03006041",
+ "unit": 6,
+ "branch": "civil",
+ "semester": 3,
+ "title": {
+  "en": "Analysis of Truss",
+  "gu": "Truss નું Analysis"
+ },
+ "hours": 6,
+ "weightage": 15,
+ "cos": [
+  "CO5"
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "numericals",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "",
+  "gu": ""
+ },
+ "notes": [
+  {
+   "title": {
+    "en": "Unit 6 Notes — Analysis of Truss",
+    "gu": "યુનિટ 6 Notes — Truss નું Analysis"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "6.1 What a truss is — types, parts and the ideal-truss assumptions",
+      "gu": "6.1 Truss એટલે શું — પ્રકારો, ભાગો અને ideal-truss ધારણાઓ"
+     },
+     "syllabus_item": "6.1 Definition, types of trusses (roof, bridge), nomenclature: span, panel, panel point, chords, web members",
+     "body": {
+      "en": "<p><b>A truss is a beam that traded its web for triangles.</b> Straight members joined at their ends carry loads to the supports while every member works in pure axial tension or compression (Unit 1 forces, zero bending). Vocabulary (Diagram): <i>span</i> between supports; the top and bottom <i>chords</i> (the flown-apart flanges of the equivalent beam — they resist the bending moment, chord force ≈ M/depth); <i>web members</i> — verticals and diagonals (they resist the shear); a <i>panel</i> is the bay between two adjacent bottom joints (<i>panel points</i>), and the truss height is its lever arm. Types by duty: roof trusses (king post, queen post, Pratt, Fink) and bridge trusses (Pratt, Howe, Warren, through/deck), by outline: triangular, trapezoidal, parallel-chord.</p><p><b>The theory lives on assumptions:</b> joints are frictionless pins; loads act only at joints (so load between joints must be delivered to joints by secondary beams/purlins); members are straight, loads in the truss plane, member axes concurrent at joints; self-weight split to the joints it hangs from. Reality (bolted/welded gussets, eccentricities) bends members slightly — secondary stresses the ideal model ignores because axial force dominates. Every method in this unit is just equilibrium applied to these ideal bones.</p>",
+      "gu": "<p><b>Truss એટલે web ને બદલે ત્રિકોણો અપનાવેલો beam.</b> છેડે જોડાયેલા સીધા members load ને supports સુધી પહોંચાડે છે અને દરેક member શુદ્ધ axial tension કે compression માં કામ કરે છે (Unit 1 ના forces, bending શૂન્ય). શબ્દો (Diagram): supports વચ્ચેનો <i>span</i>; ઉપર-નીચેના <i>chords</i> (સમકક્ષ beam ના છૂટા પડેલા flanges — bending moment નો સામનો કરે છે, chord force ≈ M/depth); <i>web members</i> — verticals અને diagonals (shear નો સામનો); બે પાસપાસેના નીચેના joints વચ્ચેનો <i>panel</i>; truss ની ઊંચાઈ એ તેનો lever arm છે. પ્રકારો: roof trusses (king post, queen post, Fink) અને bridge trusses (Pratt, Howe, Warren).</p><p><b>Theory આ ધારણાઓ પર જીવે છે:</b> joints ઘર્ષણરહિત pins છે; loads ફક્ત joints પર જ લાગે છે (joints વચ્ચેનો load purlins થી joints સુધી પહોંચાડવો પડે છે); members સીધા, loads truss ના plane માં, અક્ષો joints પર એકસાથે મળે છે. વાસ્તવિકતા (gusset plates, welding) members ને થોડું વાળે છે — પણ axial force જ મુખ્ય હોવાથી ideal model એ નાની અસરો અવગણે છે. આ unit ની દરેક પદ્ધતિ આ ideal હાડપિંજર પર equilibrium જ છે.</p>"
+     },
+     "diagram": "ms6_types"
+    },
+    {
+     "h": {
+      "en": "6.2 Determinacy — counting members, joints and reactions; zero-force members",
+      "gu": "6.2 Determinacy — members, joints, reactions ની ગણતરી; zero-force members"
+     },
+     "syllabus_item": "6.2 Degree of static determinacy of trusses, condition m = 2j - 3, zero force members (concept)",
+     "body": {
+      "en": "<p><b>Count before you compute.</b> Each joint gives 2 equilibrium equations (ΣFx, ΣFy), so j joints give 2j; unknowns are m member forces + r reaction components. The truss is internally+externally determinate when:</p><span class=\"eq\">m + r = 2j ; for the usual r = 3: m = 2j - 3 (Numerical 6.1/6.3 trusses: j = 6, m = 9 ✓)</span><p>m fewer: a mechanism (it folds); m more: indeterminate (Unit 3's boundary again). Counting is necessary, not sufficient — a badly arranged truss (three parallel or concurrent members) can count right and still collapse, which is why arrangement by triangles is the real stability guarantee.</p><p><b>Free answers: zero-force members.</b> (i) An unloaded joint with only two non-collinear members: both are zero (nothing balances their components). (ii) An unloaded joint with three members, two of them collinear: the third (non-collinear) member is zero and the collinear pair are equal (Diagram) — Numerical 6.1's diagonal FE is zero exactly this way (its joint-mates balance vertically without it). (iii) A loaded joint where the load runs along one member: the other non-collinear members are zero. Spot them first: they do no work under this loading (they still brace the truss and may wake up under another load case), and each one spotted deletes an unknown from every later joint.</p>",
+      "gu": "<p><b>ગણતરી પહેલા ગણો (count કરો).</b> દરેક joint 2 equilibrium equations આપે છે (ΣFx, ΣFy), એટલે j joints પાસે 2j; અજ્ઞાત છે m member forces + r reactions. Truss ત્યારે determinate છે જ્યારે:</p><span class=\"eq\">m + r = 2j ; સામાન્ય રીતે r = 3 હોવાથી: m = 2j - 3 (Numerical 6.1/6.3: j = 6, m = 9 ✓)</span><p>m ઓછા: mechanism (ભાંગી પડે); m વધુ: indeterminate (ફરી Unit 3 ની સીમા). ગણતરી જરૂરી છે પણ પૂરતી નથી — ત્રિકોણોથી ગોઠવણ જ ખરી સ્થિરતાની ખાતરી છે.</p><p><b>મફત જવાબો: zero-force members.</b> (i) ફક્ત બે અસમાંતર (non-collinear) members વાળું load-વગરનું joint: બંને શૂન્ય. (ii) ત્રણ members વાળું load-વગરનું joint જેમાં બે એક જ line માં છે: ત્રીજો member શૂન્ય, જોડી સરખી (Diagram) — Numerical 6.1 નો diagonal FE બરાબર આ રીતે શૂન્ય છે. (iii) Load એક member ની દિશામાં હોય તેવું joint: બીજા અસમાંતર members શૂન્ય. પહેલા તેમને ઓળખો: આ loading માં તેઓ કામ કરતા નથી (બીજા load case માં જાગી શકે છે), અને દરેક ઓળખાયેલો પછીના દરેક joint માંથી એક અજ્ઞાત ઘટાડે છે.</p>"
+     },
+     "diagram": "ms6_zero"
+    },
+    {
+     "h": {
+      "en": "6.3 Method of joints — the joint-by-joint march",
+      "gu": "6.3 Method of joints — joint-by-joint આગેકૂચ"
+     },
+     "syllabus_item": "6.3 Method of joints: procedure, sign convention (tensile positive), simple numericals",
+     "body": {
+      "en": "<p><b>Dissect the truss one pin at a time.</b> Procedure: (1) reactions from whole-truss equilibrium; (2) start at a joint with at most two unknown member forces (a support joint usually qualifies — Diagram's joint A); (3) draw the joint free-body with every member force assumed <i>tensile</i> (pulling away from the joint) — a negative answer then honestly means compression, no re-drawing; (4) ΣFy then ΣFx (choose the order that isolates one unknown — resolve diagonals by their rise/run); (5) carry each solved force to the neighbouring joint, flipping direction on the far pin (Newton's third law), and march across.</p><p>Numerical 6.1 marches the Diagram truss (10 kN at D and E): joint A gives AF = 14.14 kN compression (ΣFy: force = 10/sin45°) and AD = 10 kN tension; joint D hangs its load on vertical DF = 10 kN tension and passes DE = 10 kN tension along; joint F exposes FE = 0 (zero-force rule cashing out inside the arithmetic); the top chord FG closes at 10 kN compression — the chords carrying ±M/depth = ±(20 kN·m at mid)/2 m as Card 6.1 promised. The method is unbeatable for 'force in every member', laborious for 'force in one member' — which is Card 6.4's job.</p>",
+      "gu": "<p><b>Truss ને એક-એક pin છૂટું પાડો.</b> પદ્ધતિ: (1) આખા truss ના equilibrium થી reactions; (2) વધુમાં વધુ બે અજ્ઞાત member forces વાળા joint થી શરૂઆત (સામાન્ય રીતે support joint — Diagram નો joint A); (3) દરેક member force ને <i>tensile</i> ધારીને (joint થી દૂર ખેંચતો) joint નું free-body દોરો — negative જવાબ એટલે પ્રામાણિકપણે compression, ફરી દોરવું પડતું નથી; (4) ΣFy પછી ΣFx (diagonal ને તેના rise/run થી છૂટા પાડો); (5) મળેલું force બાજુના joint પર ઊલટી દિશામાં લઈ આગળ વધો.</p><p>Numerical 6.1 Diagram વાળા truss (D અને E પર 10 kN) પર ચાલે છે: joint A થી AF = 14.14 kN compression (10/sin45°) અને AD = 10 kN tension; joint D પોતાનો load vertical DF = 10 kN tension પર લટકાવે છે; joint F માં FE = 0 નીકળે છે (zero-force નિયમ ગણતરીમાં જ ખુલે છે); top chord FG = 10 kN compression. બધા members ના forces માટે આ પદ્ધતિ શ્રેષ્ઠ છે; એક જ member માટે મહેનત વધુ પડે — તે Card 6.4 નું કામ છે.</p>"
+     },
+     "diagram": "ms6_joints"
+    },
+    {
+     "h": {
+      "en": "6.4 Method of sections — one cut, one member",
+      "gu": "6.4 Method of sections — એક cut, એક member"
+     },
+     "syllabus_item": "6.4 Method of sections: procedure, choosing the section, moments about joints, simple numericals",
+     "body": {
+      "en": "<p><b>Need one member? Don't march — cut.</b> Slice the truss with a section through at most three unknown members, keep one side (the one with fewer loads), and write equilibrium of that whole chunk: ΣM about the joint where two of the cut members meet erases both and hands you the third directly; ΣFy/ΣFx then collect the diagonal. Assumed tensile directions again; negative = compression.</p><p>Numerical 6.2 cuts the same truss through FG, FE, DE and keeps the left: ΣM about E → FG = 10 kN compression (the DE and FE lines both pass through E and vanish from the equation); ΣM about F → DE = 10 kN tension (FG and FE pass through F); ΣFy → FE's vertical component has nothing to balance (R_A and the D-load cancel) → FE = 0, confirming the joint march. Choose the cut to pass through your target and, ideally, make the other two members concurrent at one joint — that joint becomes your moment centre. Sections answer surgeons' questions ('the midspan bottom chord under full load?') in three lines that joints take thirty to reach.</p>",
+      "gu": "<p><b>એક member જોઈએ છે? ચાલશો નહીં — કાપો.</b> વધુમાં વધુ ત્રણ અજ્ઞાત members માંથી section કાપો, એક બાજુ રાખો (જેના પર ઓછા loads છે), અને એ આખા ટુકડાનું equilibrium લખો: જે joint પર બે cut members મળે છે તેના પર ΣM લેતાં બંને ગાયબ થઈ ત્રીજો સીધો મળે છે; પછી ΣFy/ΣFx થી diagonal મળે છે. ફરી tensile ધારણા; negative એટલે compression.</p><p>Numerical 6.2 એ જ truss ને FG, FE, DE માંથી કાપી ડાબી બાજુ રાખે છે: E પર ΣM → FG = 10 kN compression (DE અને FE બંને E માંથી પસાર થઈ equation માંથી ગાયબ); F પર ΣM → DE = 10 kN tension; ΣFy → FE = 0. તમારા લક્ષ્ય member માંથી cut પસાર કરો અને બીજા બે members એક joint પર મળતા હોય તેમ ગોઠવો — એ joint તમારું moment centre બને છે. Sections સર્જનના પ્રશ્નોના જવાબ ત્રણ line માં આપે છે.</p>"
+     },
+     "diagram": "ms6_sections"
+    },
+    {
+     "h": {
+      "en": "6.5 Graphical method and choosing your weapon",
+      "gu": "6.5 Graphical method અને સાધનની પસંદગી"
+     },
+     "syllabus_item": "6.5 Graphical method of truss analysis (concept), comparison of methods; nature of forces summary",
+     "body": {
+      "en": "<p><b>The drawing-board ancestor.</b> The graphical method (force polygons per joint, unified in a Maxwell/Cremona diagram, with Bow's notation lettering the spaces between members) solves the whole truss as one linked vector drawing: each joint's polygon closes because the joint is in equilibrium, and each member appears once as a shared side of two polygons. Before computers it was the fastest full-truss tool and it remains the best error-detector: a member whose line doesn't fit both its polygons is wrong. Diploma scope: the concept and the reading of a Cremona diagram, not drafting one.</p><p><b>Choosing the weapon.</b> All members, small truss → joints. One/few members, mid-truss → sections. Checking a computer output → graphical reasoning and zero-force spots. Sign discipline carries everywhere: tension positive, pull away from the joint, compression announces itself negative. And the results always rhyme with the equivalent beam: chords ∝ M/depth (max at midspan), diagonals ∝ shear (max near supports), zero-force members near midspan verticals under symmetric load — Unit 3's SFD/BMD wearing a triangulated costume, which is exactly how an examiner expects you to sanity-check a truss table.</p>",
+      "gu": "<p><b>Drawing-board ના પૂર્વજ:</b> Graphical method (Bow's notation સાથે દરેક joint ના force polygons, Maxwell/Cremona diagram માં એક થયેલા) આખા truss ને એક જોડાયેલા vector drawing તરીકે ઉકેલે છે: દરેક joint નો polygon બંધ થાય છે કારણ કે joint equilibrium માં છે. Computer પહેલા તે સૌથી ઝડપી સાધન હતું અને આજે પણ શ્રેષ્ઠ ભૂલ-પકડનાર છે: જે member ની line તેના બંને polygons માં બેસતી નથી તે ખોટો છે. Diploma scope: ખ્યાલ અને Cremona diagram વાંચવો, દોરવો નહીં.</p><p><b>સાધનની પસંદગી:</b> બધા members, નાનો truss → joints. એક/થોડા members, વચ્ચેનો truss → sections. Computer પરિણામની ચકાસણી → graphical તર્ક અને zero-force ઓળખ. Sign શિસ્ત દરેક જગ્યાએ: tension positive, joint થી દૂર ખેંચાણ, compression negative બનીને જાહેર થાય છે. અને પરિણામો હંમેશા સમકક્ષ beam સાથે સુસંગત હોય છે: chords ∝ M/depth (midspan પર મહત્તમ), diagonals ∝ shear (supports પાસે મહત્તમ) — Unit 3 ના SFD/BMD ત્રિકોણી વેશમાં, બરાબર એમ જ પરીક્ષક તમારી પાસેથી ચકાસણીની અપેક્ષા રાખે છે.</p>"
+     }
+    }
+   ]
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "ms6_types",
+   "title": {
+    "en": "Anatomy of a truss",
+    "gu": "Truss ની રચના (anatomy)"
+   }
+  },
+  {
+   "id": "ms6_joints",
+   "title": {
+    "en": "Method of joints",
+    "gu": "Method of joints (સાંધા પદ્ધતિ)"
+   }
+  },
+  {
+   "id": "ms6_sections",
+   "title": {
+    "en": "Method of sections",
+    "gu": "Method of sections (છેદ પદ્ધતિ)"
+   }
+  },
+  {
+   "id": "ms6_zero",
+   "title": {
+    "en": "Zero-force members",
+    "gu": "Zero-force members (શૂન્ય બળ)"
+   }
+  }
+ ],
+ "numericals": {
+  "title": {
+   "en": "Solved Numericals — Unit 6",
+   "gu": "ઉકેલેલા Numericals — યુનિટ 6"
+  },
+  "items": [
+   {
+    "id": "Numerical 6.1",
+    "title": {
+     "en": "Numerical 6.1 — Method of joints on a parallel-chord truss",
+     "gu": "Numerical 6.1 — Parallel-chord truss પર method of joints"
+    },
+    "body": {
+     "en": "<p><b>Given.</b> The truss of the Diagrams (span 6 m, 3 panels × 2 m, height 2 m; A pin, B roller): loads 10 kN downward at bottom panel points D and E. Find the force in every member by joints. Check determinacy: j = 6, m = 9 = 2j − 3 ✓.</p><p><b>Step 1.</b> Reactions (symmetry): R_A = R_B = 10 kN ↑, H_A = 0.</p><p><b>Step 2.</b> Joint A (unknowns AF at 45°, AD horizontal; Diagram inset).</p><span class=\"eq\">sum Fy = 0: 10 + F_AF sin45 = 0 -> F_AF = -14.14 kN (14.14 COMPRESSION) ; sum Fx = 0: F_AD + F_AF cos45 = 0 -> F_AD = +10 kN TENSION</span><p><b>Step 3.</b> Joint D (load 10 kN; AD arrives as 10 tension pulling left).</p><span class=\"eq\">sum Fy = 0: F_DF = 10 kN TENSION (the vertical hangs the panel load) ; sum Fx = 0: F_DE = F_AD = 10 kN TENSION</span><p><b>Step 4.</b> Joint F (AF pushes (+10,+10) into F; DF pulls down 10).</p><span class=\"eq\">sum Fy = 0: 10 (from AF) - 10 (DF) - F_FE sin45 = 0 -> F_FE = 0 (ZERO-FORCE, as Card 6.2 predicted) ; sum Fx = 0: F_FG = -10 kN -> 10 kN COMPRESSION</span><p><b>Step 5.</b> By symmetry the right half mirrors: EG = 10 T, GB = 14.14 C, EB = 10 T. Joint E and G close-balance as final audit.</p><p><b>Final answer.</b></p><span class=\"eq\">╔ Chords: bottom AD=DE=EB 10 T ; top FG 10 C | verticals DF=EG 10 T | diagonals AF=GB 14.14 C ; FE 0 ╗</span><p><b>Validity check.</b> Equivalent-beam audit: midspan M = 10×3 − 10×1 = 20 kN·m → chord force M/depth = 20/2 = 10 kN ✓ matches FG/DE. Diagonal near support carries the support shear's angle: 10/sin45 = 14.14 ✓ (Units 3+6 rhyme, Card 6.5).</p>",
+     "gu": "<p><b>આપેલ છે:</b> Diagrams નો truss (span 6 m, 3 panels × 2 m, ઊંચાઈ 2 m; A pin, B roller): નીચેના panel points D અને E પર 10 kN નીચે તરફ loads. Joints પદ્ધતિથી દરેક member નું force શોધો. Determinacy: j = 6, m = 9 = 2j − 3 ✓.</p><p><b>Step 1.</b> Reactions (symmetry): R_A = R_B = 10 kN ↑.</p><p><b>Step 2.</b> Joint A (AF 45° પર, AD આડો; Diagram inset).</p><span class=\"eq\">F_AF = -14.14 kN (COMPRESSION) ;  F_AD = +10 kN TENSION</span><p><b>Step 3.</b> Joint D (load 10 kN): vertical load ને લટકાવે છે.</p><span class=\"eq\">F_DF = 10 kN TENSION ;  F_DE = 10 kN TENSION</span><p><b>Step 4.</b> Joint F.</p><span class=\"eq\">F_FE = 0 (ZERO-FORCE, Card 6.2 મુજબ) ;  F_FG = 10 kN COMPRESSION</span><p><b>Step 5.</b> Symmetry થી જમણી બાજુ અરીસો: EG = 10 T, GB = 14.14 C, EB = 10 T.</p><p><b>અંતિમ જવાબ:</b></p><span class=\"eq\">╔ નીચેના chords 10 T ; top FG 10 C | verticals 10 T | diagonals AF=GB 14.14 C ; FE 0 ╗</span><p><b>ચકાસણી:</b> midspan M = 20 kN·m → chord force = M/depth = 10 kN ✓ FG/DE સાથે મળે છે. Support પાસેનો diagonal: 10/sin45 = 14.14 ✓ (Card 6.5).</p>"
+    }
+   },
+   {
+    "id": "Numerical 6.2",
+    "title": {
+     "en": "Numerical 6.2 — Method of sections: forces in FG, FE and DE",
+     "gu": "Numerical 6.2 — Method of sections: FG, FE અને DE માં forces"
+    },
+    "body": {
+     "en": "<p><b>Given.</b> Same truss and loading as Numerical 6.1. Using one section cutting FG, FE, DE, find the three forces without solving any joint.</p><p><b>Step 1.</b> Keep the LEFT section (reactions known: R_A = 10 ↑; one 10 kN load at D inside it).</p><p><b>Step 2.</b> ΣM about E — DE (through E along y = 0) and FE (ending at E) both vanish.</p><span class=\"eq\">sum M_E = 0: R_A x 4 - 10 x 2 - F_FG x 2 = 0 -> 40 - 20 = 2 F_FG -> F_FG = -10 -> 10 kN COMPRESSION [sign per tensile assumption: negative = C]</span><p><b>Step 3.</b> ΣM about F — FG (at F's height through the joint line) and FE (starting at F) vanish.</p><span class=\"eq\">sum M_F = 0: R_A x 2 - F_DE x 2 = 0 -> F_DE = +10 kN TENSION</span><p><b>Step 4.</b> ΣFy of the section: only FE has a vertical component among the cut three.</p><span class=\"eq\">sum Fy = 0: 10 - 10 - F_FE sin45 = 0 -> F_FE = 0</span><p><b>Final answer.</b></p><span class=\"eq\">╔ FG = 10 kN C ; DE = 10 kN T ; FE = 0 - identical to the joint march (N6.1), in 3 equations instead of 5 joints ╗</span><p><b>Validity check.</b> The moment-centre trick only works because the unwanted pair concur at a joint of the truss — if a proposed cut's other two members are parallel (both verticals, say), use force equilibrium in the perpendicular direction instead (Card 6.4).</p>",
+     "gu": "<p><b>આપેલ છે:</b> Numerical 6.1 નો જ truss અને loading. FG, FE, DE માંથી પસાર થતો એક section વાપરી, એક પણ joint ઉકેલ્યા વગર ત્રણેય forces શોધો.</p><p><b>Step 1.</b> ડાબો section રાખો (R_A = 10 ↑; અંદર D પર એક 10 kN load).</p><p><b>Step 2.</b> E પર ΣM — DE અને FE બંને ગાયબ થાય છે.</p><span class=\"eq\">40 - 20 = 2 F_FG -> F_FG = 10 kN COMPRESSION</span><p><b>Step 3.</b> F પર ΣM.</p><span class=\"eq\">F_DE = 10 kN TENSION</span><p><b>Step 4.</b> Section નું ΣFy.</p><span class=\"eq\">10 - 10 - F_FE sin45 = 0 -> F_FE = 0</span><p><b>અંતિમ જવાબ:</b></p><span class=\"eq\">╔ FG = 10 kN C ; DE = 10 kN T ; FE = 0 — joints ના પરિણામ સાથે એકદમ સરખું, પાંચ joints ને બદલે 3 equations માં ╗</span><p><b>ચકાસણી:</b> Moment-centre ની યુક્તિ ત્યારે જ ચાલે છે જ્યારે બિનજરૂરી જોડ એક joint પર મળે; બીજા બે members સમાંતર હોય તો તેમને કાટખૂણે force equilibrium વાપરો (Card 6.4).</p>"
+    }
+   },
+   {
+    "id": "Numerical 6.3",
+    "title": {
+     "en": "Numerical 6.3 — Triangular roof truss by joints",
+     "gu": "Numerical 6.3 — Joints થી triangular roof truss"
+    },
+    "body": {
+     "en": "<p><b>Given.</b> Roof truss: span 6 m, apex M at 3 m height over mid-point C; rafter joints P, Q at the rafter midpoints (1.5, 1.5) and (4.5, 1.5); members AP, PM, MQ, QB (rafters), AC, CB (tie), CM (king post), PC, QC. Loads (purlin reactions delivered to joints): 6 kN at P, 12 kN at M, 6 kN at Q, all vertical. Find forces in AP, AC, PM, PC and CM.</p><p><b>Step 1.</b> Reactions by symmetry: R_A = R_B = (6 + 12 + 6)/2 = 12 kN ↑. Determinacy: j = 6, m = 9 ✓.</p><p><b>Step 2.</b> Joint A: rafter at 45° (rise 3 over run 3).</p><span class=\"eq\">sum Fy = 0: 12 + F_AP sin45 = 0 -> F_AP = -16.97 (16.97 kN COMPRESSION) ; sum Fx = 0: F_AC = -F_AP cos45 = +12 kN TENSION</span><p><b>Step 3.</b> Joint P (AP known, pushing P with components (+12, +12); load 6 down; unknowns PM along 45°, PC down-right at −45°).</p><span class=\"eq\">sum Fx = 0: 12 + 0.707 F_PM + 0.707 F_PC = 0 ;  sum Fy = 0: 12 + 0.707 F_PM - 0.707 F_PC - 6 = 0</span><span class=\"eq\">adding/subtracting: F_PM = -12.73 (12.73 C) ; F_PC = -4.24 (4.24 C)</span><p><b>Step 4.</b> Joint C (no load; AC pulls left 12, CB right, PC/QC arrive symmetric, CM vertical).</p><span class=\"eq\">sum Fy = 0: F_CM - 3 - 3 = 0 -> F_CM = +6 kN TENSION (king post hangs the tie from the apex) ; sum Fx closes: -12 + 12 + 3 - 3 = 0 ✓ with CB = 12 T</span><p><b>Final answer.</b></p><span class=\"eq\">╔ AP 16.97 C ; AC 12 T ; PM 12.73 C ; PC 4.24 C ; CM 6 T - rafters & diagonals compress, tie & king post pull ╗</span><p><b>Validity check.</b> Roof logic confirmed: inclined rafters behave like the compression chord of a triangular beam (force falling from support 16.97 to apex segment 12.73 as the equivalent moment falls); the tie AC = R/tan45°-geometry = 12 ✓. Under wind-uplift the signs would reverse — the same table, read backwards (Cards 6.1, 6.5).</p>",
+     "gu": "<p><b>આપેલ છે:</b> roof truss: span 6 m, મધ્યબિંદુ C ઉપર 3 m ઊંચાઈએ apex M; rafter joints P (1.5, 1.5), Q (4.5, 1.5); members AP, PM, MQ, QB, AC, CB, CM, PC, QC. Loads: P પર 6, M પર 12, Q પર 6 kN. AP, AC, PM, PC અને CM માં forces શોધો.</p><p><b>Step 1.</b> Reactions: R_A = R_B = 12 kN ↑. j = 6, m = 9 ✓.</p><p><b>Step 2.</b> Joint A (rafter 45° પર).</p><span class=\"eq\">F_AP = 16.97 kN COMPRESSION ;  F_AC = 12 kN TENSION</span><p><b>Step 3.</b> Joint P (load 6 નીચે; AP ના ઘટકો (+12, +12)).</p><span class=\"eq\">F_PM = 12.73 kN C ;  F_PC = 4.24 kN C</span><p><b>Step 4.</b> Joint C (load નથી).</p><span class=\"eq\">F_CM = 6 kN TENSION (king post tie ને apex થી લટકાવે છે) ; CB = 12 T</span><p><b>અંતિમ જવાબ:</b></p><span class=\"eq\">╔ AP 16.97 C ; AC 12 T ; PM 12.73 C ; PC 4.24 C ; CM 6 T — rafters/diagonals દબાય છે, tie/king post ખેંચાય છે ╗</span><p><b>ચકાસણી:</b> Rafters ત્રિકોણાકાર beam ના compression chord જેવા છે (support પાસે 16.97 થી apex તરફ 12.73 ઘટે છે); પવન-ઉથલપાથલ (uplift) માં બધા ચિહ્નો ઊલટાશે — એ જ કોષ્ટક ઊલટું વાંચવાનું (Cards 6.1, 6.5).</p>"
+    }
+   }
+  ]
+ },
+ "syntax": {
+  "title": {
+   "en": "Formulae, methods and key data — Unit 6",
+   "gu": "Formulae, methods અને key data — યુનિટ 6"
+  },
+  "items": [
+   {
+    "name": {
+     "en": "Determinacy, sign convention and method choice",
+     "gu": "Determinacy, sign convention અને પદ્ધતિ પસંદગી"
+    },
+    "body": {
+     "en": "<span class=\"eq\">determinacy: m + r = 2j ; simple truss (r = 3): m = 2j - 3 ; count first, triangles = stability</span><span class=\"eq\">sign convention: TENSION positive - draw every member pulling AWAY from the joint ; negative result = compression ; never redraw mid-solution</span><span class=\"eq\">chord-force estimator: F_chord approx M_at_panel_point / truss_depth ; diagonal estimator: F_diag approx V_panel / sin(theta) (equivalent-beam checks, N6.1)</span><span class=\"eq\">zero-force patterns: unloaded 2-member joint -> both zero ; unloaded 3-member with 2 collinear -> odd member zero ; load along one member -> other non-collinear members zero</span><p>Method choice: joints = every member; sections = target member; graphical = whole-truss check. All three must agree where they overlap.</p>",
+     "gu": "<span class=\"eq\">determinacy: m + r = 2j ; simple truss: m = 2j - 3 ; પહેલા ગણો, ત્રિકોણો = સ્થિરતા</span><span class=\"eq\">sign convention: TENSION positive — દરેક member joint થી દૂર ખેંચતો દોરો ; negative પરિણામ = compression ; વચ્ચે ફરી દોરશો નહીં</span><span class=\"eq\">chord-force અંદાજ: F_chord approx M/depth ; diagonal અંદાજ: F_diag approx V_panel/sin(theta) (Numerical 6.1)</span><span class=\"eq\">zero-force ઢાંચા: load-વગરનું 2-member joint -> બંને શૂન્ય ; 2 collinear + ત્રીજો -> ત્રીજો શૂન્ય</span><p>પદ્ધતિ પસંદગી: joints = બધા members; sections = લક્ષ્ય member; graphical = આખા truss ની ચકાસણી. ત્રણેય જ્યાં મળે ત્યાં સરખા આવવા જોઈએ.</p>"
+    }
+   },
+   {
+    "name": {
+     "en": "Procedure bank — joints and sections",
+     "gu": "Procedure બેંક — joints અને sections"
+    },
+    "body": {
+     "en": "<span class=\"eq\">joints: reactions -> joint with <= 2 unknowns -> sum Fy, sum Fx -> carry force (reversed) to next joint -> audit last joint unused equations</span><span class=\"eq\">sections: cut <= 3 unknowns through target -> keep calmer side -> sum M about concurrence of two cut members -> sum F for the diagonal -> confirm with the other side if time</span><span class=\"eq\">resolve diagonals by slope: horizontal comp = F x (run/length), vertical = F x (rise/length) - 3-4-5 triangles: divide by 5, multiply 3/4</span><span class=\"eq\">name forces as e.g. '14.14 kN C (strut)' / '10 kN T (tie)' - compression members later meet Unit 7 buckling; ties never do</span><p>The unused equations at the final joint are your free examiner: if they don't close, the error is upstream, and sections can re-derive any single suspect member independently.</p>",
+     "gu": "<span class=\"eq\">joints: reactions -> <= 2 અજ્ઞાત વાળું joint -> sum Fy, sum Fx -> force (ઊલટાવી) બીજા joint પર -> છેલ્લા joint ના ન વપરાયેલા equations થી ચકાસણી</span><span class=\"eq\">sections: લક્ષ્યમાંથી <= 3 અજ્ઞાતનો cut -> શાંત બાજુ રાખો -> બે cut members મળે ત્યાં sum M -> diagonal માટે sum F</span><span class=\"eq\">diagonal ના ઘટકો: આડો = F x (run/length), ઊભો = F x (rise/length) — 3-4-5 ત્રિકોણ: 5 થી ભાગો, 3/4 થી ગુણો</span><span class=\"eq\">forces નામ સાથે લખો: '14.14 kN C (strut)' / '10 kN T (tie)' — compression members આગળ Unit 7 માં buckling ને મળશે; ties ક્યારેય નહીં</span><p>છેલ્લા joint ના ન વપરાયેલા equations તમારા મફત પરીક્ષક છે: બંધ ન થાય તો ભૂલ ઉપર તરફ છે.</p>"
+    }
+   }
+  ]
+ },
+ "viva": {
+  "title": {
+   "en": "Viva Questions — Unit 6",
+   "gu": "Viva Questions — યુનિટ 6"
+  },
+  "items": [
+   {
+    "q": {
+     "en": "Truss versus beam: the one-sentence structural difference?",
+     "gu": "Truss vs beam: એક વાક્યમાં માળખાકીય તફાવત?"
+    },
+    "a": {
+     "en": "A (pin-jointed) truss carries loads only as axial tension/compression in straight members meeting at joints — no bending anywhere — while a beam carries transverse load by bending and shear. Hence truss loads must arrive at panel points (Cards 6.1, 3.x).",
+     "gu": "Pin-jointed truss loads ને ફક્ત joints પર મળતા સીધા members માં axial tension/compression તરીકે વહન કરે છે — ક્યાંય bending નહીં — જ્યારે beam transverse load ને bending અને shear થી વહન કરે છે. એટલે truss ના loads panel points પર જ આવવા જોઈએ (Card 6.1)."
+    }
+   },
+   {
+    "q": {
+     "en": "m = 2j − 3: recite the bookkeeping behind it.",
+     "gu": "m = 2j − 3: તેની પાછળની હિસાબી સમજાવો."
+    },
+    "a": {
+     "en": "j joints × 2 equilibrium equations each = 2j equations; unknowns are m member forces + (usually) 3 reactions; determinacy needs m + 3 = 2j. More members: indeterminate; fewer: mechanism — but right counting with wrong (non-triangulated) arrangement still folds (Card 6.2).",
+     "gu": "j joints × દરેક 2 equations = 2j; અજ્ઞાત છે m member forces + સામાન્ય 3 reactions; determinacy માટે m + 3 = 2j જોઈએ. વધુ members: indeterminate; ઓછા: mechanism — પણ ગણતરી સાચી હોય પણ ગોઠવણ ત્રિકોણરહિત હોય તો પણ ભાંગે (Card 6.2)."
+    }
+   },
+   {
+    "q": {
+     "en": "Your joint has three unknown members. Your move?",
+     "gu": "તમારા joint પર ત્રણ અજ્ઞાત members છે. તમારું પગલું?"
+    },
+    "a": {
+     "en": "Don't start there: joints yield only two equations. Either pick another joint, spot a zero-force member to delete an unknown, or open with a section to harvest one force first. The march always begins at a support joint with ≤2 unknowns (Card 6.3, Diagram).",
+     "gu": "ત્યાંથી શરૂ ન કરો: joint ફક્ત બે equations આપે છે. કાં બીજું joint પસંદ કરો, કાં zero-force member ઓળખી અજ્ઞાત ઘટાડો, કાં section થી પહેલું force કાઢો. ચાલ હંમેશા ≤2 અજ્ઞાતવાળા support joint થી શરૂ થાય છે (Card 6.3)."
+    }
+   },
+   {
+    "q": {
+     "en": "Why draw every member force tensile when half are obviously compression?",
+     "gu": "અડધા members દેખીતા compression માં હોય છતાં બધાને tensile કેમ દોરો છો?"
+    },
+    "a": {
+     "en": "Because the algebra then reports nature honestly: negative = compression, with no mid-solution redrawing and no sign flips to lose. Consistency of assumption is what makes the final audit (unused equations closing) meaningful (Card 6.3).",
+     "gu": "કારણ કે તો algebra પ્રકૃતિ પ્રામાણિકપણે જણાવે છે: negative = compression, વચ્ચે ફરી દોર્યા વગર અને ચિહ્નો ગુમાવ્યા વગર. ધારણાની સાતત્યતા જ અંતિમ ચકાસણી (બંધ થતા ન વપરાયેલા equations) ને અર્થ આપે છે (Card 6.3)."
+    }
+   },
+   {
+    "q": {
+     "en": "FE computed zero in N6.1. Is the member useless — remove it?",
+     "gu": "N6.1 માં FE શૂન્ય આવ્યો. Member નકામો છે — કાઢી નાખીએ?"
+    },
+    "a": {
+     "en": "No: zero under THIS symmetric loading only. It braces joints, halves effective lengths against buckling, and wakes up under asymmetric/wind loads (partial UDL makes it work). Zero-force is a load-case statement, not a member verdict (Cards 6.2–6.3).",
+     "gu": "ના: ફક્ત આ symmetric loading માં શૂન્ય છે. તે joints ને ટેકો આપે છે, buckling સામે લંબાઈ અડધી કરે છે, અને asymmetric/wind loads માં જાગે છે. Zero-force એ load-case નું નિવેદન છે, member નો ચુકાદો નહીં (Cards 6.2–6.3)."
+    }
+   },
+   {
+    "q": {
+     "en": "Sections: why moments about a truss joint, and which joint?",
+     "gu": "Sections: truss ના joint પર જ moments કેમ, અને કયા joint પર?"
+    },
+    "a": {
+     "en": "About the joint where the two UNWANTED cut members meet: both their lines pass through it, so both vanish from ΣM, leaving the target alone. If the unwanted pair are parallel (no meeting point), take force equilibrium perpendicular to them instead (Numerical 6.2).",
+     "gu": "જે joint પર બે બિનજરૂરી cut members મળે તેના પર: બંનેની lines તેમાંથી પસાર થતી હોવાથી ΣM માંથી બંને ગાયબ થાય છે અને લક્ષ્ય એકલું રહે છે. જોડ સમાંતર હોય (મળતી નથી) તો તેમને કાટખૂણે force equilibrium વાપરો (Numerical 6.2)."
+    }
+   },
+   {
+    "q": {
+     "en": "Chord forces peak at midspan, diagonals near supports. Which earlier unit explains the pattern?",
+     "gu": "Chord forces midspan પર ટોચે, diagonals supports પાસે. કયો અગાઉનો unit આ ઢાંચો સમજાવે છે?"
+    },
+    "a": {
+     "en": "Unit 3: chords ≈ M/depth follow the BMD (max midspan), diagonals ≈ V/sinθ follow the SFD (max at supports). The truss is a materialised SFD+BMD pair — the rhyme is the fastest audit of a force table (Card 6.5).",
+     "gu": "Unit 3: chords ≈ M/depth BMD ને અનુસરે છે (midspan પર મહત્તમ), diagonals ≈ V/sinθ SFD ને (supports પાસે મહત્તમ). Truss એ આકાર પામેલી SFD+BMD જોડ છે — આ સુસંગતતા force table ની સૌથી ઝડપી ચકાસણી છે (Card 6.5)."
+    }
+   },
+   {
+    "q": {
+     "en": "A load lands mid-panel on the bottom chord (between joints). What breaks?",
+     "gu": "Load નીચેના chord પર બે joints ની વચ્ચે પડે છે. શું તૂટે છે?"
+    },
+    "a": {
+     "en": "The ideal-truss contract: that chord member now bends (local BM + axial), violating 'loads at joints only'. Real design delivers such loads to panel points via deck beams/stringers — or designs the chord as a beam-column, outside this unit's model (Card 6.1).",
+     "gu": "Ideal-truss નો કરાર: એ chord member હવે વળે છે (સ્થાનિક BM + axial), 'loads ફક્ત joints પર' નો ભંગ. ખરી design માં આવા loads deck beams થી panel points સુધી પહોંચાડાય છે — કે chord ને beam-column તરીકે design કરાય છે, જે આ unit ના model ની બહાર છે (Card 6.1)."
+    }
+   },
+   {
+    "q": {
+     "en": "Pratt versus Howe diagonals under gravity load — who tensions?",
+     "gu": "Gravity load હેઠળ Pratt vs Howe diagonals — કોણ tension માં?"
+    },
+    "a": {
+     "en": "Pratt: long diagonals in tension (verticals in compression) — steel's preference since tension members need no buckling checks (Unit 7). Howe reverses: diagonals compression, historically fit for timber. Warren: equilateral alternation shares both (Card 6.1).",
+     "gu": "Pratt: લાંબા diagonals tension માં (verticals compression) — steel ની પસંદગી, કારણ કે tension members ને buckling check નથી જોઈતું (Unit 7). Howe ઊલટું: diagonals compression, ઐતિહાસિક રીતે timber માટે યોગ્ય. Warren બંને વહેંચે છે (Card 6.1)."
+    }
+   },
+   {
+    "q": {
+     "en": "Graphical (Cremona) method: what does a non-closing joint polygon tell you?",
+     "gu": "Graphical (Cremona) method: બંધ ન થતો joint polygon શું કહે છે?"
+    },
+    "a": {
+     "en": "That joint isn't in equilibrium on paper — an arithmetic/drawing error in one of its members, each of which appears in two polygons and must fit both. It is the pre-computer self-audit, and the reason the method survives as a checking concept (Card 6.5).",
+     "gu": "કે એ joint કાગળ પર equilibrium માં નથી — તેના કોઈ member માં ગણતરી/દોરવાની ભૂલ છે, કારણ કે દરેક member બે polygons માં આવે છે અને બંનેમાં બેસવો જોઈએ. Computer પહેલાની આ સ્વ-ચકાસણી એ જ કારણે આ પદ્ધતિ checking ખ્યાલ તરીકે જીવે છે (Card 6.5)."
+    }
+   },
+   {
+    "q": {
+     "en": "Compression members come back in Unit 7 — why do tie members escape?",
+     "gu": "Compression members Unit 7 માં પાછા આવે છે — ties કેમ બચી જાય છે?"
+    },
+    "a": {
+     "en": "Ties fail by yielding in tension (area × f_y) — no stability question. Struts can buckle sideways long before crushing, so their capacity depends on length and least radius of gyration (slenderness), the whole subject of Unit 7 (Cards 6.5, 7.1).",
+     "gu": "Ties ફક્ત tension માં yield થઈ નિષ્ફળ જાય છે (area × f_y) — સ્થિરતાનો પ્રશ્ન જ નથી. Struts કચડાઈ જતા પહેલા બાજુમાં વળી (buckle) શકે છે, એટલે તેમની ક્ષમતા લંબાઈ અને least radius of gyration પર આધારિત છે — Unit 7 નો આખો વિષય (Card 6.5)."
+    }
+   },
+   {
+    "q": {
+     "en": "Classify the Diagram truss by outline, chords and duty.",
+     "gu": "Diagram વાળા truss નું outline, chords અને કાર્ય પ્રમાણે વર્ગીકરણ કરો."
+    },
+    "a": {
+     "en": "Parallel-chord (top and bottom chords parallel), rectangular panels with verticals + single diagonals, 6 m/3 panels of 2 m, height 2 m — a small bridge/floor truss silhouette; with a triangular outline it would dress as a roof truss (Card 6.1).",
+     "gu": "Parallel-chord (ઉપર-નીચેના chords સમાંતર), verticals + single diagonals વાળા લંબચોરસ panels, 6 m/3 panels, ઊંચાઈ 2 m — નાના bridge/floor truss નો આકાર; ત્રિકોણાકાર outline હોય તો તે roof truss બને (Card 6.1)."
+    }
+   }
+  ]
+ },
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Define a truss, name its parts (chords, web members, panel, panel point) with a sketch, and state the assumptions of simple truss analysis.",
+    "gu": "Truss ની વ્યાખ્યા આપો, sketch સાથે તેના ભાગો (chords, web members, panel, panel point) ગણાવો અને simple truss analysis ની ધારણાઓ જણાવો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "For the 6 m parallel-chord truss of the class example (10 kN at D and E), find by the method of joints the forces in AF, AD, DF, DE and FG, stating nature of each.",
+    "gu": "Class example ના 6 m parallel-chord truss (D અને E પર 10 kN) માટે method of joints થી AF, AD, DF, DE અને FG માં forces શોધો, દરેકની પ્રકૃતિ જણાવીને."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Using a section through FG, FE, DE in the same truss, determine the three member forces by the method of sections, explaining the choice of moment centres.",
+    "gu": "એ જ truss માં FG, FE, DE માંથી પસાર થતા section થી method of sections વડે ત્રણેય member forces શોધો, moment centres ની પસંદગી સમજાવીને."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "State the zero-force member rules with sketches. In the class truss FE is zero — prove it twice: by a joint and by a section.",
+    "gu": "Sketches સાથે zero-force member ના નિયમો જણાવો. Class truss માં FE શૂન્ય છે — બે રીતે સાબિત કરો: joint થી અને section થી."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "A truss has j = 8 joints. How many members make it just determinate (r = 3)? What happens with 12 and with 14 members? State the graphical method's principle in brief.",
+    "gu": "Truss માં j = 8 joints છે. તેને just determinate (r = 3) બનાવવા કેટલા members જોઈએ? 12 અને 14 members હોય તો શું થાય? Graphical method નો સિદ્ધાંત ટૂંકમાં જણાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "For the triangular roof truss of the class example (6/12/6 kN at P/M/Q), find forces in AP, AC, PM and CM by joints and comment on the nature pattern.",
+    "gu": "Class example ના triangular roof truss (P/M/Q પર 6/12/6 kN) માટે joints થી AP, AC, PM અને CM માં forces શોધો અને પ્રકૃતિના ઢાંચા પર ટિપ્પણી કરો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Compare method of joints, method of sections and graphical method: scope, effort, best use, and how each self-checks.",
+    "gu": "Method of joints, method of sections અને graphical method ની સરખામણી કરો: વ્યાપ, મહેનત, શ્રેષ્ઠ ઉપયોગ અને દરેક કેવી રીતે સ્વ-ચકાસણી કરે છે."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain how chord and diagonal forces in a truss mirror the BMD and SFD of the equivalent beam. Hence estimate the midspan chord and support diagonal forces for the class truss and verify.",
+    "gu": "સમજાવો કે truss માં chord અને diagonal forces સમકક્ષ beam ના BMD અને SFD ને કેવી રીતે પ્રતિબિંબિત કરે છે. તે પરથી class truss માટે midspan chord અને support diagonal forces નો અંદાજ કાઢી ચકાસો."
+   },
+   "marks": 4
+  }
+ ],
+ "question_provenance": "Original practice questions written strictly within the official DI03006041 syllabus coverage",
+ "practicals": [],
+ "content_kind": "theory_trimmed_civil"
+}
