@@ -586,6 +586,16 @@ for _branch in BRANCHES:
     if "DI04000081" not in _sem4:
         _sem4.append("DI04000081")
 
+# DiplomaOne registration: DI01000181 mechanical semester 1 (Engineering Materials Science, the
+# subject built unit by unit in this branch: six units, both languages, 45 teaching hours).
+if 'DI01000181' not in SUBJECTS:
+    SUBJECTS['DI01000181'] = ('Engineering Materials Science', 'ઇજનેરી સામગ્રી વિજ્ઞાન',
+                              'Engineering Science', 4, 'theory', None)
+_mechanical_sem1 = BRANCH_SEMS.setdefault('mechanical', {}).setdefault(1, [])
+if 'DI01000181' not in _mechanical_sem1:
+    _mechanical_sem1.append('DI01000181')
+
+
 def main():
     global OUT
     if "--out" in sys.argv:
