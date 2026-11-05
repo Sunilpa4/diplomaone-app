@@ -414,6 +414,36 @@ _mechanical_sem2 = BRANCH_SEMS.setdefault('mechanical',{}).setdefault(2,[])
 if 'DI02000121' not in _mechanical_sem2:
     _mechanical_sem2.append('DI02000121')
 
+# DiplomaOne registration: DI01006021 civil semester 1
+if 'DI01006021' not in SUBJECTS:
+    SUBJECTS['DI01006021'] = ('Construction Material','કન્સ્ટ્રક્શન મટીરિયલ','Engineering Science',3,'theory',None)
+_civil_sem1 = BRANCH_SEMS.setdefault('civil',{}).setdefault(1,[])
+if 'DI01006021' not in _civil_sem1:
+    _civil_sem1.append('DI01006021')
+
+# DiplomaOne registration: DI01006011 civil semester 1 (English-only subject)
+if 'DI01006011' not in SUBJECTS:
+    SUBJECTS['DI01006011'] = ('Civil Engineering Drawing',None,'Professional Core',4,'theory',None)
+_civil_sem1 = BRANCH_SEMS.setdefault('civil',{}).setdefault(1,[])
+if 'DI01006011' not in _civil_sem1:
+    _civil_sem1.append('DI01006011')
+
+# DiplomaOne registration: DI02000071 civil + environmental semester 2
+if 'DI02000071' not in SUBJECTS:
+    SUBJECTS['DI02000071'] = ('Engineering Mechanics','એન્જિનિયરિંગ મિકેનિક્સ','Professional Core',4,'theory',None)
+for _br in ('civil','environmental'):
+    _bs = BRANCH_SEMS.setdefault(_br,{}).setdefault(2,[])
+    if 'DI02000071' not in _bs:
+        _bs.append('DI02000071')
+
+# DiplomaOne registration: DI02006011 civil semester 2
+if 'DI02006011' not in SUBJECTS:
+    SUBJECTS['DI02006011'] = ('Basic Surveying','મૂળભૂત સર્વેક્ષણ','Engineering Science',3,'theory',None)
+_civil_sem2 = BRANCH_SEMS.setdefault('civil',{}).setdefault(2,[])
+if 'DI02006011' not in _civil_sem2:
+    _civil_sem2.append('DI02006011')
+
+
 # Chemistry courses: the GTU syllabus assigns shared subject codes to several branches.
 # The first seven units follow each course's syllabus; units 8 and 9 are supplementary.
 if 'DI01000161' not in SUBJECTS:
