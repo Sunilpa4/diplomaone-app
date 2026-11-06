@@ -1,0 +1,317 @@
+{
+ "code": "DI05006011",
+ "unit": 3,
+ "branch": "civil",
+ "semester": 5,
+ "title": {
+  "en": "Doubly Reinforced Beam",
+  "gu": "Doubly Reinforced Beam નું Design"
+ },
+ "hours": 6,
+ "weightage": 12,
+ "cos": [
+  "CO2"
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "numericals",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "",
+  "gu": ""
+ },
+ "notes": [
+  {
+   "title": {
+    "en": "Unit 3 Notes — Doubly Reinforced Beam",
+    "gu": "યુનિટ 3 Notes — Doubly Reinforced Beam"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "3.1 Need and behaviour",
+      "gu": "3.1 જરૂરિયાત અને behaviour"
+     },
+     "syllabus_item": "3.1 requirements of doubly reinforced beams",
+     "body": {
+      "en": "<p><b>Why use compression reinforcement?</b></p><ul><li>Restricted beam depth or width makes singly reinforced limiting moment insufficient.</li><li>Moment reversal can change the tension face, requiring appropriate reinforcement on both faces.</li><li>Compression bars can assist long-term behaviour and ductility, subject to design and detailing.</li></ul><p>A doubly reinforced beam resists flexure through concrete compression, compression steel and tension steel. Stirrups restrain compression bars and carry shear. Providing top hanger bars alone does not mean their contribution to ultimate compression has been established.</p>",
+      "gu": "<p><b>Compression reinforcement ની જરૂર કેમ પડે?</b></p><ul><li>Beam depth અથવા width પર મર્યાદા હોવાથી singly reinforced limiting moment પૂરતો ન હોય.</li><li>Moment reversal થી tension face બદલાય અને બંને faces પર યોગ્ય reinforcement જરૂરી બને.</li><li>Design અને detailing મુજબ compression bars long-term behaviour તથા ductility માં મદદ કરી શકે.</li></ul><p>Doubly reinforced beam માં concrete compression, compression steel અને tension steel મળીને flexure resist કરે છે. Stirrups, compression bars ને restrain કરી shear પણ લે છે. માત્ર ઉપર hanger bars આપવાથી ultimate compression માં તેમનો ફાળો સાબિત થતો નથી.</p>"
+     },
+     "diagram": "rc3_double"
+    },
+    {
+     "h": {
+      "en": "3.2 Strain compatibility and compression steel stress",
+      "gu": "3.2 Strain compatibility અને compression steel stress"
+     },
+     "syllabus_item": "3.2 stress diagram fsc d prime d",
+     "body": {
+      "en": "<p>For neutral-axis depth xu, compression steel centroid d′ from the compression face and maximum concrete strain 0.0035, the steel strain is εsc = 0.0035(xu − d′)/xu, when d′ &lt; xu. Obtain design stress fsc at this strain from the appropriate IS 456 design stress–strain curve or SP 16 tables for the steel grade; compression steel does not always reach 0.87fy. For analysis, xu is unknown and usually found iteratively.</p><p>Use force equilibrium with the concrete stress displaced by the compression steel: T = Cc + (fsc − fcc)Asc, where fcc is the concrete stress at the steel level included in Cc. When the steel lies in the rectangular maximum-stress part of the concrete block, fcc may be taken as 0.446fck; otherwise use the actual compatible concrete stress. Do not subtract 0.446fck indiscriminately.</p>",
+      "gu": "<p>Neutral-axis depth xu, compression face થી compression steel centroid d′ અને maximum concrete strain 0.0035 હોય ત્યારે d′ &lt; xu માટે steel strain εsc = 0.0035(xu − d′)/xu છે. આ strain માટે steel grade મુજબ યોગ્ય IS 456 design stress–strain curve અથવા SP 16 tables થી design stress fsc મેળવો; compression steel હંમેશા 0.87fy સુધી પહોંચતું નથી. Analysis માં xu અજ્ઞાત હોય છે અને સામાન્ય રીતે iteration થી મળે છે.</p><p>Compression steel એ ખસેડેલા concrete stress સાથે force equilibrium લો: T = Cc + (fsc − fcc)Asc, જ્યાં fcc એ Cc માં સમાવાયેલ steel level પરનું concrete stress છે. Steel, concrete block ના rectangular maximum-stress ભાગમાં હોય ત્યારે fcc = 0.446fck લઈ શકાય; અન્યથા compatible actual concrete stress લો. 0.446fck દરેક પરિસ્થિતિમાં અંધપણે બાદ ન કરો.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "3.3 Design and SP 16 methods",
+      "gu": "3.3 Design અને SP 16 પદ્ધતિઓ"
+     },
+     "syllabus_item": "3.3 analysis design IS 456 SP16 table chart",
+     "body": {
+      "en": "<p><b>IS 456 design procedure:</b></p><ol><li>Choose b, d, d′, material grades and factored moment. Calculate xu,max and singly reinforced limiting moment.</li><li>For Mu greater than Mlim, take the difference as additional moment. Determine fsc from the strain at xu,max and the displaced concrete stress fcc.</li><li>Calculate Asc = (Mu − Mlim)/[(fsc − fcc)(d − d′)] and additional Ast2 = (Mu − Mlim)/[0.87fy(d − d′)] when tension steel satisfies design strain.</li><li>Add Ast2 to limiting tension steel; choose practical bars and recalculate centroids and resistance. Check shear, deflection, anchorage, ties and detailing.</li></ol><p><b>SP 16:</b> select the correct table/chart for concrete and steel grades, section, d′/d and dimensionless moment. Read/interpolate as directed, use the correct table definitions and check reinforcement and code limits. Do not invent chart values.</p>",
+      "gu": "<p><b>IS 456 design procedure:</b></p><ol><li>b, d, d′, material grades અને factored moment પસંદ કરો. xu,max તથા singly reinforced limiting moment ગણો.</li><li>Mu, Mlim કરતાં વધુ હોય તો તફાવત additional moment લો. xu,max પર strain થી fsc અને displaced concrete stress fcc શોધો.</li><li>Tension steel design strain સંતોષે ત્યારે Asc = (Mu − Mlim)/[(fsc − fcc)(d − d′)] અને additional Ast2 = (Mu − Mlim)/[0.87fy(d − d′)] ગણો.</li><li>Ast2 ને limiting tension steel માં ઉમેરો; વ્યવહારુ bars પસંદ કરી centroids અને resistance ફરી ગણો. Shear, deflection, anchorage, ties અને detailing તપાસો.</li></ol><p><b>SP 16:</b> concrete અને steel grades, section, d′/d તથા dimensionless moment માટે યોગ્ય table/chart પસંદ કરો. સૂચના મુજબ read/interpolate કરો, table ની ચોક્કસ definitions અને reinforcement તથા code limits તપાસો. Chart values મનથી ન લો.</p>"
+     }
+    }
+   ]
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "rc3_double",
+   "title": {
+    "en": "Doubly reinforced beam section",
+    "gu": "Doubly reinforced beam section ની આકૃતિ"
+   }
+  }
+ ],
+ "numericals": {
+  "title": {
+   "en": "Solved Numericals — Unit 3",
+   "gu": "ઉકેલેલા Numericals — યુનિટ 3"
+  },
+  "items": [
+   {
+    "id": "Numerical 3.1",
+    "title": {
+     "en": "Numerical 3.1 — Design steel for moment above limiting capacity",
+     "gu": "Numerical 3.1 — Limiting capacity કરતાં વધુ moment માટે steel design"
+    },
+    "body": {
+     "en": "<p><b>Given:</b> For a rectangular beam, b = 250 mm, d = 450 mm, d′ = 45 mm, fck = 20 MPa, fy = 415 MPa and Mu = 180 kN m. At the limiting strain assume conservative design stress fsc = 351.8 MPa; compression steel is in the rectangular stress-block zone, so fcc = 0.446fck. Find theoretical steel areas.</p><p><b>Step 1.</b> Find the limiting neutral axis and moment.</p><span class=\"eq\" style=\"display:block\">xu,max = 0.48d</span><span class=\"eq\" style=\"display:block\">xu,max = 0.48 × 450</span><span class=\"eq\" style=\"display:block\">xu,max = 216 mm</span><span class=\"eq\" style=\"display:block\">Mlim = 0.36 × 20 × 250 × 216 × (450 − 0.42 × 216) / 10⁶</span><span class=\"eq\" style=\"display:block\">Mlim ≈ 139.69 kN m</span><p><b>Step 2.</b> Check compression strain and calculate the extra moment.</p><span class=\"eq\" style=\"display:block\">εsc = 0.0035(xu,max − d′) / xu,max</span><span class=\"eq\" style=\"display:block\">εsc = 0.0035(216 − 45) / 216</span><span class=\"eq\" style=\"display:block\">εsc ≈ 0.002771</span><span class=\"eq\" style=\"display:block\">M2 = 180 − 139.688</span><span class=\"eq\" style=\"display:block\">M2 = 40.312 kN m</span><span class=\"eq\" style=\"display:block\">fcc = 0.446 × 20</span><span class=\"eq\" style=\"display:block\">fcc = 8.92 MPa</span><p><b>Step 3.</b> Calculate compression and additional tension steel.</p><span class=\"eq\" style=\"display:block\">Asc = M2 / [(fsc − fcc)(d − d′)]</span><span class=\"eq\" style=\"display:block\">Asc = 40.312 × 10⁶ / [(351.8 − 8.92)(450 − 45)]</span><span class=\"eq\" style=\"display:block\">Asc ≈ 290.29 mm²</span><span class=\"eq\" style=\"display:block\">Ast2 = M2 / [0.87fy(d − d′)]</span><span class=\"eq\" style=\"display:block\">Ast2 = 40.312 × 10⁶ / [0.87 × 415 × 405]</span><span class=\"eq\" style=\"display:block\">Ast2 ≈ 275.68 mm²</span><p><b>Step 4.</b> Calculate limiting tension steel and total.</p><span class=\"eq\" style=\"display:block\">Ast1 = 0.36fck b xu,max / (0.87fy)</span><span class=\"eq\" style=\"display:block\">Ast1 = 0.36 × 20 × 250 × 216 / (0.87 × 415)</span><span class=\"eq\" style=\"display:block\">Ast1 ≈ 1076.86 mm²</span><span class=\"eq\" style=\"display:block\">Ast = Ast1 + Ast2</span><span class=\"eq\" style=\"display:block\">Ast ≈ 1076.86 + 275.68</span><p><b>Final answer:</b></p><p class=\"result\"><strong>Theoretical Ast ≈ 1352.54 mm² and Asc ≈ 290.29 mm²; select bars and complete all checks.</strong></p>",
+     "gu": "<p><b>આપેલ છે:</b> Rectangular beam માટે b = 250 mm, d = 450 mm, d′ = 45 mm, fck = 20 MPa, fy = 415 MPa અને Mu = 180 kN m છે. Limiting strain પર conservative design stress fsc = 351.8 MPa ધારો; compression steel rectangular stress-block zone માં હોવાથી fcc = 0.446fck છે. Theoretical steel areas શોધો.</p><p><b>Step 1.</b> Limiting neutral axis અને moment શોધો.</p><span class=\"eq\" style=\"display:block\">xu,max = 0.48d</span><span class=\"eq\" style=\"display:block\">xu,max = 0.48 × 450</span><span class=\"eq\" style=\"display:block\">xu,max = 216 mm</span><span class=\"eq\" style=\"display:block\">Mlim = 0.36 × 20 × 250 × 216 × (450 − 0.42 × 216) / 10⁶</span><span class=\"eq\" style=\"display:block\">Mlim ≈ 139.69 kN m</span><p><b>Step 2.</b> Compression strain તપાસી extra moment ગણો.</p><span class=\"eq\" style=\"display:block\">εsc = 0.0035(xu,max − d′) / xu,max</span><span class=\"eq\" style=\"display:block\">εsc = 0.0035(216 − 45) / 216</span><span class=\"eq\" style=\"display:block\">εsc ≈ 0.002771</span><span class=\"eq\" style=\"display:block\">M2 = 180 − 139.688</span><span class=\"eq\" style=\"display:block\">M2 = 40.312 kN m</span><span class=\"eq\" style=\"display:block\">fcc = 0.446 × 20</span><span class=\"eq\" style=\"display:block\">fcc = 8.92 MPa</span><p><b>Step 3.</b> Compression અને additional tension steel ગણો.</p><span class=\"eq\" style=\"display:block\">Asc = M2 / [(fsc − fcc)(d − d′)]</span><span class=\"eq\" style=\"display:block\">Asc = 40.312 × 10⁶ / [(351.8 − 8.92)(450 − 45)]</span><span class=\"eq\" style=\"display:block\">Asc ≈ 290.29 mm²</span><span class=\"eq\" style=\"display:block\">Ast2 = M2 / [0.87fy(d − d′)]</span><span class=\"eq\" style=\"display:block\">Ast2 = 40.312 × 10⁶ / [0.87 × 415 × 405]</span><span class=\"eq\" style=\"display:block\">Ast2 ≈ 275.68 mm²</span><p><b>Step 4.</b> Limiting tension steel અને કુલ steel ગણો.</p><span class=\"eq\" style=\"display:block\">Ast1 = 0.36fck b xu,max / (0.87fy)</span><span class=\"eq\" style=\"display:block\">Ast1 = 0.36 × 20 × 250 × 216 / (0.87 × 415)</span><span class=\"eq\" style=\"display:block\">Ast1 ≈ 1076.86 mm²</span><span class=\"eq\" style=\"display:block\">Ast = Ast1 + Ast2</span><span class=\"eq\" style=\"display:block\">Ast ≈ 1076.86 + 275.68</span><p><b>અંતિમ જવાબ:</b></p><p class=\"result\"><strong>Theoretical Ast ≈ 1352.54 mm² અને Asc ≈ 290.29 mm²; bars પસંદ કરી બધા checks પૂર્ણ કરો.</strong></p>"
+    }
+   },
+   {
+    "id": "Numerical 3.2",
+    "title": {
+     "en": "Numerical 3.2 — Analysis by strain compatibility",
+     "gu": "Numerical 3.2 — Strain compatibility વડે analysis"
+    },
+    "body": {
+     "en": "<p><b>Given:</b> A rectangular M20/Fe415 section has b = 250 mm, d = 450 mm, d′ = 40 mm, Ast = 1377.405 mm² and Asc = 400 mm². A trial neutral axis xu = 200 mm gives compatible design compression-steel stress fsc = 352.2 MPa from the assumed design curve. Check equilibrium and determine moment.</p><p><b>Step 1.</b> Check strain, concrete stress and tension steel condition.</p><span class=\"eq\" style=\"display:block\">εsc = 0.0035(xu − d′) / xu</span><span class=\"eq\" style=\"display:block\">εsc = 0.0035(200 − 40) / 200</span><span class=\"eq\" style=\"display:block\">εsc = 0.0028</span><span class=\"eq\" style=\"display:block\">fcc = 0.446 × 20</span><span class=\"eq\" style=\"display:block\">fcc = 8.92 MPa</span><span class=\"eq\" style=\"display:block\">xu,max = 0.48 × 450</span><span class=\"eq\" style=\"display:block\">xu,max = 216 mm</span><span class=\"eq\" style=\"display:block\">xu = 200 mm < xu,max</span><p><b>Step 2.</b> Check force equilibrium using the supplied stress.</p><span class=\"eq\" style=\"display:block\">T = 0.87 × 415 × 1377.405</span><span class=\"eq\" style=\"display:block\">T ≈ 497312 N</span><span class=\"eq\" style=\"display:block\">Cc = 0.36 × 20 × 250 × 200</span><span class=\"eq\" style=\"display:block\">Cc = 360000 N</span><span class=\"eq\" style=\"display:block\">Cs,net = (352.2 − 8.92) × 400</span><span class=\"eq\" style=\"display:block\">Cs,net = 137312 N</span><span class=\"eq\" style=\"display:block\">Cc + Cs,net = 497312 N</span><p><b>Step 3.</b> Take moments of compression forces about tensile steel.</p><span class=\"eq\" style=\"display:block\">Mu = Cc(d − 0.42xu) + Cs,net(d − d′)</span><span class=\"eq\" style=\"display:block\">Mu = 360000 × (450 − 0.42 × 200) + 137312 × (450 − 40)</span><span class=\"eq\" style=\"display:block\">Mu ≈ 188.06 × 10⁶ N mm</span><p><b>Final answer:</b></p><p class=\"result\"><strong>Moment resistance ≈ 188.06 kN m for the supplied curve stress and assumed trial axis; complete other checks.</strong></p>",
+     "gu": "<p><b>આપેલ છે:</b> Rectangular M20/Fe415 section માટે b = 250 mm, d = 450 mm, d′ = 40 mm, Ast = 1377.405 mm² અને Asc = 400 mm² છે. Trial neutral axis xu = 200 mm પર ધારેલ design curve મુજબ compatible compression-steel stress fsc = 352.2 MPa મળે છે. Equilibrium તપાસી moment શોધો.</p><p><b>Step 1.</b> Strain, concrete stress અને tension steel condition તપાસો.</p><span class=\"eq\" style=\"display:block\">εsc = 0.0035(xu − d′) / xu</span><span class=\"eq\" style=\"display:block\">εsc = 0.0035(200 − 40) / 200</span><span class=\"eq\" style=\"display:block\">εsc = 0.0028</span><span class=\"eq\" style=\"display:block\">fcc = 0.446 × 20</span><span class=\"eq\" style=\"display:block\">fcc = 8.92 MPa</span><span class=\"eq\" style=\"display:block\">xu,max = 0.48 × 450</span><span class=\"eq\" style=\"display:block\">xu,max = 216 mm</span><span class=\"eq\" style=\"display:block\">xu = 200 mm < xu,max</span><p><b>Step 2.</b> આપેલ stress થી force equilibrium તપાસો.</p><span class=\"eq\" style=\"display:block\">T = 0.87 × 415 × 1377.405</span><span class=\"eq\" style=\"display:block\">T ≈ 497312 N</span><span class=\"eq\" style=\"display:block\">Cc = 0.36 × 20 × 250 × 200</span><span class=\"eq\" style=\"display:block\">Cc = 360000 N</span><span class=\"eq\" style=\"display:block\">Cs,net = (352.2 − 8.92) × 400</span><span class=\"eq\" style=\"display:block\">Cs,net = 137312 N</span><span class=\"eq\" style=\"display:block\">Cc + Cs,net = 497312 N</span><p><b>Step 3.</b> Tensile steel વિશે compression forces ના moments લો.</p><span class=\"eq\" style=\"display:block\">Mu = Cc(d − 0.42xu) + Cs,net(d − d′)</span><span class=\"eq\" style=\"display:block\">Mu = 360000 × (450 − 0.42 × 200) + 137312 × (450 − 40)</span><span class=\"eq\" style=\"display:block\">Mu ≈ 188.06 × 10⁶ N mm</span><p><b>અંતિમ જવાબ:</b></p><p class=\"result\"><strong>આપેલ curve stress અને ધારેલ trial axis માટે moment resistance ≈ 188.06 kN m; અન્ય checks પૂર્ણ કરો.</strong></p>"
+    }
+   }
+  ]
+ },
+ "syntax": {
+  "title": {
+   "en": "Formulae, methods and key data — Unit 3",
+   "gu": "Formulae, methods અને key data — યુનિટ 3"
+  },
+  "items": [
+   {
+    "name": {
+     "en": "Doubly reinforced design",
+     "gu": "Doubly reinforced design ના સંબંધો"
+    },
+    "body": {
+     "en": "<p>At limiting neutral axis, use compatible steel and displaced-concrete stresses.</p><span class=\"eq\" style=\"display:block\">εsc = 0.0035(xu − d′) / xu</span><span class=\"eq\" style=\"display:block\">M2 = Mu − Mlim</span><span class=\"eq\" style=\"display:block\">Asc = M2 / [(fsc − fcc)(d − d′)]</span><span class=\"eq\" style=\"display:block\">Ast2 = M2 / [0.87fy(d − d′)]</span><span class=\"eq\" style=\"display:block\">Ast = Ast,lim + Ast2</span>",
+     "gu": "<p>Limiting neutral axis પર compatible steel અને displaced-concrete stresses લો.</p><span class=\"eq\" style=\"display:block\">εsc = 0.0035(xu − d′) / xu</span><span class=\"eq\" style=\"display:block\">M2 = Mu − Mlim</span><span class=\"eq\" style=\"display:block\">Asc = M2 / [(fsc − fcc)(d − d′)]</span><span class=\"eq\" style=\"display:block\">Ast2 = M2 / [0.87fy(d − d′)]</span><span class=\"eq\" style=\"display:block\">Ast = Ast,lim + Ast2</span>"
+    }
+   }
+  ]
+ },
+ "viva": {
+  "title": {
+   "en": "Viva Questions — Unit 3",
+   "gu": "Viva Questions — યુનિટ 3"
+  },
+  "items": [
+   {
+    "q": {
+     "en": "When is doubly reinforced design useful?",
+     "gu": "Doubly reinforced design ક્યારે ઉપયોગી છે?"
+    },
+    "a": {
+     "en": "When depth is limited and limiting singly reinforced moment is insufficient.",
+     "gu": "Depth મર્યાદિત હોય અને singly reinforced limiting moment પૂરતો ન હોય ત્યારે."
+    }
+   },
+   {
+    "q": {
+     "en": "Where is compression steel for sagging moment?",
+     "gu": "Sagging moment માટે compression steel ક્યાં હોય છે?"
+    },
+    "a": {
+     "en": "Near the top compression face.",
+     "gu": "ઉપર compression face પાસે."
+    }
+   },
+   {
+    "q": {
+     "en": "What is d′?",
+     "gu": "d′ શું છે?"
+    },
+    "a": {
+     "en": "Distance from compression face to compression steel centroid.",
+     "gu": "Compression face થી compression steel centroid સુધીનું અંતર."
+    }
+   },
+   {
+    "q": {
+     "en": "What is fsc?",
+     "gu": "fsc શું છે?"
+    },
+    "a": {
+     "en": "Design stress in compression steel at compatible strain.",
+     "gu": "Compatible strain પર compression steel નો design stress."
+    }
+   },
+   {
+    "q": {
+     "en": "Does compression steel always yield?",
+     "gu": "Compression steel હંમેશા yield થાય છે?"
+    },
+    "a": {
+     "en": "No; determine its stress from its strain.",
+     "gu": "નહીં; strain પરથી તેનો stress શોધો."
+    }
+   },
+   {
+    "q": {
+     "en": "What is displaced concrete stress?",
+     "gu": "Displaced concrete stress શું છે?"
+    },
+    "a": {
+     "en": "Concrete stress at the steel location already counted in the concrete block.",
+     "gu": "Steel location પર concrete block માં પહેલેથી ગણાયેલ concrete stress."
+    }
+   },
+   {
+    "q": {
+     "en": "Why deduct displaced concrete?",
+     "gu": "Displaced concrete કેમ બાદ કરીએ?"
+    },
+    "a": {
+     "en": "To avoid counting the same area twice.",
+     "gu": "એક જ area બે વાર ન ગણાય તે માટે."
+    }
+   },
+   {
+    "q": {
+     "en": "What is Mlim?",
+     "gu": "Mlim શું છે?"
+    },
+    "a": {
+     "en": "Limiting singly reinforced flexural moment.",
+     "gu": "Singly reinforced flexure નો limiting moment."
+    }
+   },
+   {
+    "q": {
+     "en": "What resists additional moment?",
+     "gu": "Additional moment કોણ resist કરે છે?"
+    },
+    "a": {
+     "en": "A couple of added tension and net compression-steel forces.",
+     "gu": "Added tension અને net compression-steel forces નું couple."
+    }
+   },
+   {
+    "q": {
+     "en": "What does SP 16 provide?",
+     "gu": "SP 16 શું આપે છે?"
+    },
+    "a": {
+     "en": "Design aids including tables and charts.",
+     "gu": "Tables અને charts સહિત design aids."
+    }
+   },
+   {
+    "q": {
+     "en": "Why recalculate effective depth after bar selection?",
+     "gu": "Bars પસંદ કર્યા પછી effective depth ફરી કેમ ગણવી?"
+    },
+    "a": {
+     "en": "The bar centroid may change.",
+     "gu": "Bar centroid બદલાઈ શકે છે."
+    }
+   },
+   {
+    "q": {
+     "en": "Are shear checks still needed?",
+     "gu": "Shear checks હજુ જરૂરી છે?"
+    },
+    "a": {
+     "en": "Yes; flexural design alone is incomplete.",
+     "gu": "હા; ફક્ત flexural design અધૂરું છે."
+    }
+   }
+  ]
+ },
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Explain the need for and behaviour of doubly reinforced beams.",
+    "gu": "Doubly reinforced beams ની જરૂરિયાત અને behaviour સમજાવો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Design a doubly reinforced rectangular beam using IS 456 for given data.",
+    "gu": "આપેલ data માટે IS 456 વડે doubly reinforced rectangular beam design કરો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Analyse a doubly reinforced section using strain compatibility.",
+    "gu": "Strain compatibility વડે doubly reinforced section નું analysis કરો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Describe the use of SP 16 tables and charts for a doubly reinforced section.",
+    "gu": "Doubly reinforced section માટે SP 16 tables અને charts નો ઉપયોગ સમજાવો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Define compression steel stress and strain.",
+    "gu": "Compression steel stress અને strain વ્યાખ્યાયિત કરો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Why deduct displaced concrete stress?",
+    "gu": "Displaced concrete stress કેમ બાદ કરીએ?"
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain the effect of d′/d.",
+    "gu": "d′/d ની અસર સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "List checks after selecting reinforcement.",
+    "gu": "Reinforcement પસંદ કર્યા પછીના checks લખો."
+   },
+   "marks": 4
+  }
+ ],
+ "question_provenance": "Original practice questions written strictly within the official DI05006011 syllabus coverage",
+ "practicals": [],
+ "content_kind": "theory_trimmed_civil"
+}

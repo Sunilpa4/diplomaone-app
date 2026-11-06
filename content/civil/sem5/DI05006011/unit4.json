@@ -1,0 +1,339 @@
+{
+ "code": "DI05006011",
+ "unit": 4,
+ "branch": "civil",
+ "semester": 5,
+ "title": {
+  "en": "T-Beam",
+  "gu": "T-Beam નું Analysis"
+ },
+ "hours": 6,
+ "weightage": 12,
+ "cos": [
+  "CO2"
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "numericals",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "",
+  "gu": ""
+ },
+ "notes": [
+  {
+   "title": {
+    "en": "Unit 4 Notes — T-Beam",
+    "gu": "યુનિટ 4 Notes — T-Beam"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "4.1 Flange action and effective width",
+      "gu": "4.1 Flange action અને effective width"
+     },
+     "syllabus_item": "4.1 flanged T L beam effective width",
+     "body": {
+      "en": "<p><b>Key characteristics:</b></p><ul><li>A T-beam consists of a web and slab flange on both sides; an L-beam has flange on one side.</li><li>The flange participates in compression when bending places the slab in compression and slab and web act together.</li><li>Effective width is smaller than or equal to the actual available width; non-uniform stress and shear lag limit participation.</li><li>Advantages include greater compression area and flexural efficiency without making the entire beam equally wide.</li></ul><p>For qualifying monolithic construction, IS 456 clause 23.1.2 gives bf = l0/6 + bw + 6Df for a T-beam and bf = l0/12 + bw + 3Df for an L-beam, subject to actual available flange width and applicable conditions. l0 is the distance between points of zero moment; determine it from the structural behaviour and code. Isolated beams and other conditions have different provisions.</p>",
+      "gu": "<p><b>મુખ્ય characteristics:</b></p><ul><li>T-beam માં web ની બંને બાજુ slab flange છે; L-beam માં એક બાજુ flange છે.</li><li>Bending થી slab compression માં હોય અને slab તથા web સાથે કાર્ય કરે ત્યારે flange compression માં ભાગ લે છે.</li><li>Effective width actual ઉપલબ્ધ width કરતાં વધુ નથી; non-uniform stress અને shear lag ને કારણે આખી પહોળાઈ સમાન રીતે કાર્ય કરતી નથી.</li><li>ફાયદામાં વધુ compression area અને આખા beam ને સમાન પહોળાઈ આપ્યા વગર વધુ flexural efficiency છે.</li></ul><p>યોગ્ય monolithic construction માટે IS 456 clause 23.1.2 મુજબ T-beam માટે bf = l0/6 + bw + 6Df અને L-beam માટે bf = l0/12 + bw + 3Df છે, actual ઉપલબ્ધ flange width અને લાગુ conditions ની મર્યાદામાં. l0 એટલે points of zero moment વચ્ચેનું અંતર; structural behaviour અને code મુજબ નક્કી કરો. Isolated beams તથા અન્ય conditions માટે અલગ provisions છે.</p>"
+     },
+     "diagram": "rc4_tee"
+    },
+    {
+     "h": {
+      "en": "4.2 Neutral axis in the flange",
+      "gu": "4.2 Neutral axis flange માં હોય ત્યારે"
+     },
+     "syllabus_item": "4.2 neutral axis within flange",
+     "body": {
+      "en": "<p>If xu ≤ Df, the entire compression block lies within the flange and the section is analysed as a rectangular section of width bf. For yielded tensile steel: xu = 0.87fy Ast/(0.36fck bf), Mu = 0.87fy Ast(d − 0.42xu). Verify the assumed neutral-axis location and xu ≤ xu,max. If either condition fails, change the model or use strain compatibility as appropriate.</p>",
+      "gu": "<p>જો xu ≤ Df હોય તો સમગ્ર compression block flange માં છે અને section ને bf width ધરાવતા rectangular section તરીકે analyse કરો. Yielded tensile steel માટે xu = 0.87fy Ast/(0.36fck bf), Mu = 0.87fy Ast(d − 0.42xu) છે. ધારેલ neutral-axis location અને xu ≤ xu,max તપાસો. કોઈ condition ખોટી હોય તો યોગ્ય model અથવા strain compatibility વાપરો.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "4.3 Neutral axis in the web",
+      "gu": "4.3 Neutral axis web માં હોય ત્યારે"
+     },
+     "syllabus_item": "4.2 neutral axis in web and moment",
+     "body": {
+      "en": "<p>For xu &gt; Df, separate the rectangular web contribution and the flange overhang. Let yf = Df when Df/xu ≤ 0.43; otherwise yf = min(0.15xu + 0.65Df, Df). For an under-reinforced section with yielded steel:</p><span class=\"eq\" style=\"display:block\">T = 0.87fy Ast</span><span class=\"eq\" style=\"display:block\">Cw = 0.36fck bw xu</span><span class=\"eq\" style=\"display:block\">Cf = 0.45fck(bf − bw)yf</span><span class=\"eq\" style=\"display:block\">T = Cw + Cf</span><span class=\"eq\" style=\"display:block\">Mu = Cw(d − 0.42xu) + Cf(d − yf/2)</span><p>Solve equilibrium for xu, recheck its assumed region and the yf condition, and compare with xu,max. Use the appropriate IS 456 Annex G provisions rather than applying this yielded-steel equation to an over-reinforced section.</p>",
+      "gu": "<p>જો xu &gt; Df હોય તો rectangular web contribution અને flange overhang અલગ લો. Df/xu ≤ 0.43 હોય તો yf = Df; અન્યથા yf = min(0.15xu + 0.65Df, Df). Yielded steel સાથે under-reinforced section માટે:</p><span class=\"eq\" style=\"display:block\">T = 0.87fy Ast</span><span class=\"eq\" style=\"display:block\">Cw = 0.36fck bw xu</span><span class=\"eq\" style=\"display:block\">Cf = 0.45fck(bf − bw)yf</span><span class=\"eq\" style=\"display:block\">T = Cw + Cf</span><span class=\"eq\" style=\"display:block\">Mu = Cw(d − 0.42xu) + Cf(d − yf/2)</span><p>Equilibrium થી xu શોધી તેનું ધારેલ સ્થાન અને yf condition ફરી તપાસો તથા xu,max સાથે સરખાવો. Over-reinforced section માટે આ yielded-steel equation લગાવવાને બદલે યોગ્ય IS 456 Annex G provisions વાપરો.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "4.4 Limiting moment and SP 16",
+      "gu": "4.4 Limiting moment અને SP 16"
+     },
+     "syllabus_item": "4.3 limiting moment IS456 SP16",
+     "body": {
+      "en": "<p><b>Steps:</b></p><ol><li>Find xu,max from the steel grade and effective depth.</li><li>Determine whether xu,max is in the flange or web.</li><li>Apply the matching compression block and lever arms, including the correct limiting flange-depth condition in IS 456 Annex G.</li><li>For SP 16, select the correct flanged-section chart/table, ratios bf/bw, Df/d and material grades; interpolate only as directed and check units and limits.</li></ol><p>Use actual section dimensions and reinforcement layout; shear, flange connection, serviceability and anchorage are separate checks.</p>",
+      "gu": "<p><b>પગલાં:</b></p><ol><li>Steel grade અને effective depth થી xu,max શોધો.</li><li>xu,max flange માં છે કે web માં તે નક્કી કરો.</li><li>IS 456 Annex G મુજબ યોગ્ય limiting flange-depth condition સહિત સંબંધિત compression block અને lever arms લગાવો.</li><li>SP 16 માટે યોગ્ય flanged-section chart/table, bf/bw, Df/d ratios અને material grades લો; સૂચના મુજબ interpolation કરી units અને limits તપાસો.</li></ol><p>Actual section dimensions અને reinforcement layout લો; shear, flange connection, serviceability અને anchorage અલગ checks છે.</p>"
+     }
+    }
+   ]
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "rc4_tee",
+   "title": {
+    "en": "T-beam section",
+    "gu": "T-beam section ની આકૃતિ"
+   }
+  }
+ ],
+ "numericals": {
+  "title": {
+   "en": "Solved Numericals — Unit 4",
+   "gu": "ઉકેલેલા Numericals — યુનિટ 4"
+  },
+  "items": [
+   {
+    "id": "Numerical 4.1",
+    "title": {
+     "en": "Numerical 4.1 — Neutral axis in flange",
+     "gu": "Numerical 4.1 — Neutral axis flange માં"
+    },
+    "body": {
+     "en": "<p><b>Given:</b> For bf = 800 mm, Df = 80 mm, d = 450 mm, Ast = 800 mm², fck = 20 MPa and fy = 415 MPa, find moment resistance.</p><p><b>Step 1.</b> Assume the neutral axis lies in the flange and calculate it.</p><span class=\"eq\" style=\"display:block\">xu = 0.87fy Ast / (0.36fck bf)</span><span class=\"eq\" style=\"display:block\">xu = 0.87 × 415 × 800 / (0.36 × 20 × 800)</span><span class=\"eq\" style=\"display:block\">xu ≈ 50.15 mm</span><span class=\"eq\" style=\"display:block\">50.15 < Df = 80 mm</span><span class=\"eq\" style=\"display:block\">xu,max = 0.48 × 450</span><span class=\"eq\" style=\"display:block\">xu,max = 216 mm</span><p><b>Step 2.</b> Calculate the flexural resistance.</p><span class=\"eq\" style=\"display:block\">Mu = 0.87fy Ast(d − 0.42xu)</span><span class=\"eq\" style=\"display:block\">Mu = 0.87 × 415 × 800 × (450 − 0.42 × 50.1458) / 10⁶</span><p><b>Final answer:</b></p><p class=\"result\"><strong>Moment resistance ≈ 123.89 kN m for the stated assumptions.</strong></p>",
+     "gu": "<p><b>આપેલ છે:</b> bf = 800 mm, Df = 80 mm, d = 450 mm, Ast = 800 mm², fck = 20 MPa અને fy = 415 MPa માટે moment resistance શોધો.</p><p><b>Step 1.</b> Neutral axis flange માં છે તેમ ધારી તેની depth ગણો.</p><span class=\"eq\" style=\"display:block\">xu = 0.87fy Ast / (0.36fck bf)</span><span class=\"eq\" style=\"display:block\">xu = 0.87 × 415 × 800 / (0.36 × 20 × 800)</span><span class=\"eq\" style=\"display:block\">xu ≈ 50.15 mm</span><span class=\"eq\" style=\"display:block\">50.15 < Df = 80 mm</span><span class=\"eq\" style=\"display:block\">xu,max = 0.48 × 450</span><span class=\"eq\" style=\"display:block\">xu,max = 216 mm</span><p><b>Step 2.</b> Flexural resistance ગણો.</p><span class=\"eq\" style=\"display:block\">Mu = 0.87fy Ast(d − 0.42xu)</span><span class=\"eq\" style=\"display:block\">Mu = 0.87 × 415 × 800 × (450 − 0.42 × 50.1458) / 10⁶</span><p><b>અંતિમ જવાબ:</b></p><p class=\"result\"><strong>આપેલ assumptions માટે moment resistance ≈ 123.89 kN m.</strong></p>"
+    }
+   },
+   {
+    "id": "Numerical 4.2",
+    "title": {
+     "en": "Numerical 4.2 — Neutral axis in web",
+     "gu": "Numerical 4.2 — Neutral axis web માં"
+    },
+    "body": {
+     "en": "<p><b>Given:</b> For bf = 800 mm, bw = 250 mm, Df = 80 mm, d = 450 mm, Ast = 1600 mm², M20 and Fe415, calculate flexural resistance.</p><p><b>Step 1.</b> Calculate tension and test a flange-only neutral axis.</p><span class=\"eq\" style=\"display:block\">T = 0.87 × 415 × 1600</span><span class=\"eq\" style=\"display:block\">T = 577680 N</span><span class=\"eq\" style=\"display:block\">xu,flange = 577680 / (0.36 × 20 × 800)</span><span class=\"eq\" style=\"display:block\">xu,flange ≈ 100.29 mm</span><span class=\"eq\" style=\"display:block\">100.29 > Df = 80 mm</span><p><b>Step 2.</b> Solve equilibrium using the reduced flange depth.</p><span class=\"eq\" style=\"display:block\">yf = 0.15xu + 0.65Df</span><span class=\"eq\" style=\"display:block\">yf = 0.15xu + 52</span><span class=\"eq\" style=\"display:block\">577680 = 0.36 × 20 × 250 × xu + 0.45 × 20 × 550 × (0.15xu + 52)</span><span class=\"eq\" style=\"display:block\">xu ≈ 125.97 mm</span><span class=\"eq\" style=\"display:block\">yf ≈ 70.90 mm</span><span class=\"eq\" style=\"display:block\">Df / xu = 80 / 125.97</span><span class=\"eq\" style=\"display:block\">Df / xu ≈ 0.635 > 0.43</span><span class=\"eq\" style=\"display:block\">xu,max = 0.48 × 450</span><span class=\"eq\" style=\"display:block\">xu,max = 216 mm</span><p><b>Step 3.</b> Compute web and flange moments.</p><span class=\"eq\" style=\"display:block\">Cw = 0.36 × 20 × 250 × 125.97</span><span class=\"eq\" style=\"display:block\">Cw ≈ 226747 N</span><span class=\"eq\" style=\"display:block\">Cf = 0.45 × 20 × 550 × 70.896</span><span class=\"eq\" style=\"display:block\">Cf ≈ 350933 N</span><span class=\"eq\" style=\"display:block\">Mu = Cw(d − 0.42xu) + Cf(d − yf / 2)</span><span class=\"eq\" style=\"display:block\">Mu ≈ 235.52 kN m</span><p><b>Final answer:</b></p><p class=\"result\"><strong>Flexural resistance ≈ 235.52 kN m; separate checks remain.</strong></p>",
+     "gu": "<p><b>આપેલ છે:</b> bf = 800 mm, bw = 250 mm, Df = 80 mm, d = 450 mm, Ast = 1600 mm², M20 અને Fe415 માટે flexural resistance ગણો.</p><p><b>Step 1.</b> Tension ગણી flange-only neutral axis તપાસો.</p><span class=\"eq\" style=\"display:block\">T = 0.87 × 415 × 1600</span><span class=\"eq\" style=\"display:block\">T = 577680 N</span><span class=\"eq\" style=\"display:block\">xu,flange = 577680 / (0.36 × 20 × 800)</span><span class=\"eq\" style=\"display:block\">xu,flange ≈ 100.29 mm</span><span class=\"eq\" style=\"display:block\">100.29 > Df = 80 mm</span><p><b>Step 2.</b> Reduced flange depth વાપરી equilibrium ઉકેલો.</p><span class=\"eq\" style=\"display:block\">yf = 0.15xu + 0.65Df</span><span class=\"eq\" style=\"display:block\">yf = 0.15xu + 52</span><span class=\"eq\" style=\"display:block\">577680 = 0.36 × 20 × 250 × xu + 0.45 × 20 × 550 × (0.15xu + 52)</span><span class=\"eq\" style=\"display:block\">xu ≈ 125.97 mm</span><span class=\"eq\" style=\"display:block\">yf ≈ 70.90 mm</span><span class=\"eq\" style=\"display:block\">Df / xu = 80 / 125.97</span><span class=\"eq\" style=\"display:block\">Df / xu ≈ 0.635 > 0.43</span><span class=\"eq\" style=\"display:block\">xu,max = 0.48 × 450</span><span class=\"eq\" style=\"display:block\">xu,max = 216 mm</span><p><b>Step 3.</b> Web અને flange moments ગણો.</p><span class=\"eq\" style=\"display:block\">Cw = 0.36 × 20 × 250 × 125.97</span><span class=\"eq\" style=\"display:block\">Cw ≈ 226747 N</span><span class=\"eq\" style=\"display:block\">Cf = 0.45 × 20 × 550 × 70.896</span><span class=\"eq\" style=\"display:block\">Cf ≈ 350933 N</span><span class=\"eq\" style=\"display:block\">Mu = Cw(d − 0.42xu) + Cf(d − yf / 2)</span><span class=\"eq\" style=\"display:block\">Mu ≈ 235.52 kN m</span><p><b>અંતિમ જવાબ:</b></p><p class=\"result\"><strong>Flexural resistance ≈ 235.52 kN m; અલગ checks બાકી છે.</strong></p>"
+    }
+   },
+   {
+    "id": "Numerical 4.3",
+    "title": {
+     "en": "Numerical 4.3 — Limiting moment of a T-beam",
+     "gu": "Numerical 4.3 — T-beam નું limiting moment"
+    },
+    "body": {
+     "en": "<p><b>Given:</b> Use bf = 800 mm, bw = 250 mm, Df = 80 mm, d = 450 mm, M20 and Fe415. Find limiting moment assuming a qualifying flange.</p><p><b>Step 1.</b> Find limiting axis and select flange depth.</p><span class=\"eq\" style=\"display:block\">xu,max = 0.48 × 450</span><span class=\"eq\" style=\"display:block\">xu,max = 216 mm</span><span class=\"eq\" style=\"display:block\">Df / xu,max = 80 / 216</span><span class=\"eq\" style=\"display:block\">Df / xu,max ≈ 0.370 < 0.43</span><span class=\"eq\" style=\"display:block\">yf = Df = 80 mm</span><p><b>Step 2.</b> Calculate limiting resistance of web and flange.</p><span class=\"eq\" style=\"display:block\">Mlim = 0.36fck bw xu,max(d − 0.42xu,max) + 0.45fck(bf − bw)yf(d − yf / 2)</span><span class=\"eq\" style=\"display:block\">Mlim = 0.36 × 20 × 250 × 216 × (450 − 0.42 × 216) + 0.45 × 20 × 550 × 80 × (450 − 40)</span><span class=\"eq\" style=\"display:block\">Mlim ≈ 302.05 × 10⁶ N mm</span><p><b>Final answer:</b></p><p class=\"result\"><strong>Limiting moment ≈ 302.05 kN m.</strong></p>",
+     "gu": "<p><b>આપેલ છે:</b> bf = 800 mm, bw = 250 mm, Df = 80 mm, d = 450 mm, M20 અને Fe415 લો. યોગ્ય flange ધારણ કરી limiting moment શોધો.</p><p><b>Step 1.</b> Limiting axis શોધી flange depth પસંદ કરો.</p><span class=\"eq\" style=\"display:block\">xu,max = 0.48 × 450</span><span class=\"eq\" style=\"display:block\">xu,max = 216 mm</span><span class=\"eq\" style=\"display:block\">Df / xu,max = 80 / 216</span><span class=\"eq\" style=\"display:block\">Df / xu,max ≈ 0.370 < 0.43</span><span class=\"eq\" style=\"display:block\">yf = Df = 80 mm</span><p><b>Step 2.</b> Web અને flange ની limiting resistance ગણો.</p><span class=\"eq\" style=\"display:block\">Mlim = 0.36fck bw xu,max(d − 0.42xu,max) + 0.45fck(bf − bw)yf(d − yf / 2)</span><span class=\"eq\" style=\"display:block\">Mlim = 0.36 × 20 × 250 × 216 × (450 − 0.42 × 216) + 0.45 × 20 × 550 × 80 × (450 − 40)</span><span class=\"eq\" style=\"display:block\">Mlim ≈ 302.05 × 10⁶ N mm</span><p><b>અંતિમ જવાબ:</b></p><p class=\"result\"><strong>Limiting moment ≈ 302.05 kN m.</strong></p>"
+    }
+   }
+  ]
+ },
+ "syntax": {
+  "title": {
+   "en": "Formulae, methods and key data — Unit 4",
+   "gu": "Formulae, methods અને key data — યુનિટ 4"
+  },
+  "items": [
+   {
+    "name": {
+     "en": "Flanged-beam relations",
+     "gu": "Flanged-beam ના સંબંધો"
+    },
+    "body": {
+     "en": "<p>Effective-width and stress-block equations are subject to code conditions.</p><span class=\"eq\" style=\"display:block\">bf,T = l0 / 6 + bw + 6Df</span><span class=\"eq\" style=\"display:block\">bf,L = l0 / 12 + bw + 3Df</span><span class=\"eq\" style=\"display:block\">yf = Df when Df / xu ≤ 0.43</span><span class=\"eq\" style=\"display:block\">yf = min(0.15xu + 0.65Df, Df) when Df / xu > 0.43</span><span class=\"eq\" style=\"display:block\">T = 0.36fck bw xu + 0.45fck(bf − bw)yf</span><span class=\"eq\" style=\"display:block\">Mu = 0.36fck bw xu(d − 0.42xu) + 0.45fck(bf − bw)yf(d − yf / 2)</span>",
+     "gu": "<p>Effective-width અને stress-block equations code conditions હેઠળ લાગુ છે.</p><span class=\"eq\" style=\"display:block\">bf,T = l0 / 6 + bw + 6Df</span><span class=\"eq\" style=\"display:block\">bf,L = l0 / 12 + bw + 3Df</span><span class=\"eq\" style=\"display:block\">yf = Df when Df / xu ≤ 0.43</span><span class=\"eq\" style=\"display:block\">yf = min(0.15xu + 0.65Df, Df) when Df / xu > 0.43</span><span class=\"eq\" style=\"display:block\">T = 0.36fck bw xu + 0.45fck(bf − bw)yf</span><span class=\"eq\" style=\"display:block\">Mu = 0.36fck bw xu(d − 0.42xu) + 0.45fck(bf − bw)yf(d − yf / 2)</span>"
+    }
+   }
+  ]
+ },
+ "viva": {
+  "title": {
+   "en": "Viva Questions — Unit 4",
+   "gu": "Viva Questions — યુનિટ 4"
+  },
+  "items": [
+   {
+    "q": {
+     "en": "What is a T-beam?",
+     "gu": "T-beam શું છે?"
+    },
+    "a": {
+     "en": "A web with effective compression flange on both sides.",
+     "gu": "બંને બાજુ effective compression flange ધરાવતો web."
+    }
+   },
+   {
+    "q": {
+     "en": "What is an L-beam?",
+     "gu": "L-beam શું છે?"
+    },
+    "a": {
+     "en": "A beam with flange mainly on one side.",
+     "gu": "મુખ્યત્વે એક બાજુ flange ધરાવતો beam."
+    }
+   },
+   {
+    "q": {
+     "en": "What is bf?",
+     "gu": "bf શું છે?"
+    },
+    "a": {
+     "en": "Effective flange width.",
+     "gu": "તે effective flange width છે."
+    }
+   },
+   {
+    "q": {
+     "en": "What is bw?",
+     "gu": "bw શું છે?"
+    },
+    "a": {
+     "en": "Web width.",
+     "gu": "Web ની width."
+    }
+   },
+   {
+    "q": {
+     "en": "What is Df?",
+     "gu": "Df શું છે?"
+    },
+    "a": {
+     "en": "Flange thickness.",
+     "gu": "Flange ની thickness."
+    }
+   },
+   {
+    "q": {
+     "en": "Why use effective width?",
+     "gu": "Effective width કેમ વાપરીએ?"
+    },
+    "a": {
+     "en": "Flange compression is non-uniform across the slab.",
+     "gu": "Slab માં flange compression અસમાન છે."
+    }
+   },
+   {
+    "q": {
+     "en": "When is a T-section rectangular in flexure?",
+     "gu": "Flexure માં T-section ક્યારે rectangular બને?"
+    },
+    "a": {
+     "en": "When the neutral axis lies within the flange.",
+     "gu": "Neutral axis flange ની અંદર હોય ત્યારે."
+    }
+   },
+   {
+    "q": {
+     "en": "What if xu is in the web?",
+     "gu": "xu web માં હોય તો શું કરવું?"
+    },
+    "a": {
+     "en": "Combine web and flange-overhang compression.",
+     "gu": "Web અને flange-overhang compression ઉમેરો."
+    }
+   },
+   {
+    "q": {
+     "en": "What is yf?",
+     "gu": "yf શું છે?"
+    },
+    "a": {
+     "en": "Equivalent depth for the flange overhang stress block.",
+     "gu": "Flange overhang stress block ની equivalent depth."
+    }
+   },
+   {
+    "q": {
+     "en": "Can bf exceed actual flange width?",
+     "gu": "bf actual flange width થી વધુ હોઈ શકે?"
+    },
+    "a": {
+     "en": "No; applicable physical and code limits apply.",
+     "gu": "નહીં; physical અને code limits લાગુ પડે છે."
+    }
+   },
+   {
+    "q": {
+     "en": "What is l0?",
+     "gu": "l0 શું છે?"
+    },
+    "a": {
+     "en": "Distance between points of zero moment.",
+     "gu": "Zero moment points વચ્ચેનું અંતર."
+    }
+   },
+   {
+    "q": {
+     "en": "Does a slab always act as a compression flange?",
+     "gu": "Slab હંમેશા compression flange તરીકે કાર્ય કરે છે?"
+    },
+    "a": {
+     "en": "No; moment sign and composite action matter.",
+     "gu": "નહીં; moment sign અને composite action મહત્વનાં છે."
+    }
+   }
+  ]
+ },
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Explain T-beam action and effective flange width.",
+    "gu": "T-beam action અને effective flange width સમજાવો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Calculate the moment resistance when the neutral axis lies in the flange.",
+    "gu": "Neutral axis flange માં હોય ત્યારે moment resistance ગણો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Calculate the moment resistance when the neutral axis lies in the web.",
+    "gu": "Neutral axis web માં હોય ત્યારે moment resistance ગણો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Determine limiting moment of a T-beam using IS 456 or SP 16.",
+    "gu": "IS 456 અથવા SP 16 વડે T-beam નું limiting moment શોધો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Distinguish T and L beams.",
+    "gu": "T અને L beams વચ્ચે તફાવત આપો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Define effective flange width.",
+    "gu": "Effective flange width વ્યાખ્યાયિત કરો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Define yf and state its use.",
+    "gu": "yf વ્યાખ્યાયિત કરી તેનો ઉપયોગ લખો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "List conditions needed for flange action.",
+    "gu": "Flange action માટે જરૂરી conditions લખો."
+   },
+   "marks": 4
+  }
+ ],
+ "question_provenance": "Original practice questions written strictly within the official DI05006011 syllabus coverage",
+ "practicals": [],
+ "content_kind": "theory_trimmed_civil"
+}

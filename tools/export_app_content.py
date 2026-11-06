@@ -506,16 +506,36 @@ def normalize_for_app(unit):
             isinstance(item, dict) and "name" in item and "body" in item for item in syntax["items"]
         ):
             raise ValueError("Unsupported grouped reference format")
-        # Formulae here are rich HTML, not programming syntax. Existing app
-        # versions can display them faithfully as expandable note cards.
-        cards = [dict(item, h=item["name"]) for item in syntax["items"]]
-        if cards:
-            unit.setdefault("notes", []).append({"title": syntax.get("title", {"en": "Reference and formulas", "gu": "સંદર્ભ અને સૂત્રો"}), "items": cards})
-        unit.pop("syntax")
-        if isinstance(unit.get("tabs"), list):
-            unit["tabs"] = [tab for tab in unit["tabs"] if tab != "syntax"]
-            if cards and "notes" not in unit["tabs"]:
-                unit["tabs"].insert(0, "notes")
+        # Preserve the dedicated reference tab for the new Civil batch while
+        # keeping the existing Flutter grouped-equations schema compatible.
+        civil_codes = {'DI04006011','DI04006021','DI04006031','DI05006011','DI05006021'}
+        if unit.get('code') in civil_codes:
+            def vertical(html):
+                return re.sub(r'<span class="eq" style="display:block">(.*?)</span>',
+                              r'<div><i>\1</i></div>', html, flags=re.S)
+            def converted(value):
+                return {lang: vertical(html) if isinstance(html, str) else html for lang, html in value.items()}
+            items = [dict(item, f={'en':'Formulae and key data','gu':'સૂત્રો અને મુખ્ય માહિતી'},
+                          terms=converted(item['body']), body=converted(item['body']))
+                     for item in syntax['items']]
+            unit['equations'] = [{'title': syntax.get('title', {'en':'Formulae','gu':'સૂત્રો'}), 'items':items}]
+            unit.pop('syntax')
+            unit['tabs'] = ['equations' if tab == 'syntax' else tab for tab in unit.get('tabs', [])]
+            for n in unit.get('numericals', []):
+                if isinstance(n.get('a'), dict): n['a'] = converted(n['a'])
+            for group in unit.get('notes', []):
+                for card in group.get('items', []):
+                    if isinstance(card.get('body'), dict): card['body'] = converted(card['body'])
+        else:
+            # Other subjects retain their existing export format.
+            cards = [dict(item, h=item["name"]) for item in syntax["items"]]
+            if cards:
+                unit.setdefault("notes", []).append({"title": syntax.get("title", {"en": "Reference and formulas", "gu": "સંદર્ભ અને સૂત્રો"}), "items": cards})
+            unit.pop("syntax")
+            if isinstance(unit.get("tabs"), list):
+                unit["tabs"] = [tab for tab in unit["tabs"] if tab != "syntax"]
+                if cards and "notes" not in unit["tabs"]:
+                    unit["tabs"].insert(0, "notes")
 
     programs = unit.get("programs")
     if isinstance(programs, list):
@@ -626,6 +646,18 @@ if 'DI01000181' not in _mechanical_sem1:
     _mechanical_sem1.append('DI01000181')
 
 
+# Completed Civil semester 4 and 5 subjects.
+for _code, _en, _gu, _credits, _sem in [
+    ('DI04006011', 'Concrete Technology', 'Concrete Technology', 4, 4),
+    ('DI04006021', 'Estimation and Costing', 'Estimation અને Costing', 4, 4),
+    ('DI04006031', 'Design of Steel Structures', 'Steel Structures નું Design', 3, 4),
+    ('DI05006011', 'Design of Reinforced Concrete Structures', 'Reinforced Concrete Structures નું Design', 4, 5),
+    ('DI05006021', 'Water Supply & Sanitary Engineering', 'Water Supply અને Sanitary Engineering', 4, 5),
+]:
+    SUBJECTS[_code] = (_en, _gu, 'PCC', _credits, 'theory', None)
+    _courses = BRANCH_SEMS.setdefault('civil', {}).setdefault(_sem, [])
+    if _code not in _courses: _courses.append(_code)
+
 # Civil subjects registered in the November batch.
 for _code, _en, _gu, _cat, _credits, _sem in [
     ('DI03006011', 'Construction Technology', 'બાંધકામ ટેકનોલોજી', 'ESC', 3, 3),
@@ -676,6 +708,7 @@ def main():
             units.append(u["no"])
             total_units += 1
         s = dict(s)
+        s['units'] = [dict(u, title=u.get('title', u.get('name', {}))) for u in s['units']]
         s["available_units"] = units
         s.setdefault("languages", ["en", "gu"])
         s.setdefault("code_lang", "c" if s.get("type") == "programming" else None)

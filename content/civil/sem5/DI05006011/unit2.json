@@ -1,0 +1,339 @@
+{
+ "code": "DI05006011",
+ "unit": 2,
+ "branch": "civil",
+ "semester": 5,
+ "title": {
+  "en": "Singly Reinforced Beam",
+  "gu": "Singly Reinforced Beam નું Design"
+ },
+ "hours": 8,
+ "weightage": 20,
+ "cos": [
+  "CO2"
+ ],
+ "tabs": [
+  "notes",
+  "diagrams",
+  "numericals",
+  "syntax",
+  "viva",
+  "exam"
+ ],
+ "intro_text": {
+  "en": "",
+  "gu": ""
+ },
+ "notes": [
+  {
+   "title": {
+    "en": "Unit 2 Notes — Singly Reinforced Beam",
+    "gu": "યુનિટ 2 Notes — Singly Reinforced Beam"
+   },
+   "items": [
+    {
+     "h": {
+      "en": "2.1 Beam types and flexural behaviour",
+      "gu": "2.1 Beam ના પ્રકારો અને flexural behaviour"
+     },
+     "syllabus_item": "2.1 types singly doubly T L beam",
+     "body": {
+      "en": "<p><b>Types and characteristics:</b></p><ul><li>A singly reinforced rectangular section relies on tension reinforcement with concrete in compression for flexural resistance.</li><li>A doubly reinforced section also uses compression steel in the flexural strength calculation.</li><li>A T-beam has slab flange on both sides of the web; an L-beam has flange on one side, as at an edge.</li><li>Flange action requires integral construction and effective load transfer; the slab is not automatically effective under every moment sign.</li></ul><p>Under sagging bending the top is in compression and bottom is in tension. Concrete in tension is neglected in ultimate flexural strength after cracking. Plane sections remain plane, so strain varies linearly; maximum compression strain at the extreme concrete fibre is 0.0035 at the ultimate limit state. The resulting stress distribution is nonlinear, represented by the IS 456 design stress block.</p>",
+      "gu": "<p><b>પ્રકારો અને characteristics:</b></p><ul><li>Singly reinforced rectangular section માં flexural resistance માટે tension reinforcement અને compression માં concrete મુખ્ય છે.</li><li>Doubly reinforced section માં flexural strength માટે compression steel પણ ગણાય છે.</li><li>T-beam માં web ની બંને બાજુ slab flange અને L-beam માં edge પાસે એક બાજુ flange હોય છે.</li><li>Flange action માટે integral construction અને યોગ્ય load transfer જરૂરી છે; દરેક moment sign માટે slab આપોઆપ effective નથી.</li></ul><p>Sagging bending માં ઉપર compression અને નીચે tension હોય છે. Cracking પછી ultimate flexural strength માટે tension માં concrete અવગણાય છે. Plane sections plane રહે છે, તેથી strain રેખીય રીતે બદલાય છે; ultimate limit state પર extreme concrete compression fibre ની maximum strain 0.0035 છે. પરિણામી stress distribution nonlinear છે અને IS 456 design stress block થી દર્શાવાય છે.</p>"
+     },
+     "diagram": "rc2_section"
+    },
+    {
+     "h": {
+      "en": "2.2 Under-reinforced, balanced and over-reinforced",
+      "gu": "2.2 Under-reinforced, balanced અને over-reinforced"
+     },
+     "syllabus_item": "2.2 stress strain under over balanced",
+     "body": {
+      "en": "<p>In an under-reinforced section, tension steel reaches its design yield strain before concrete reaches the limiting compressive strain; it normally gives visible deformation before crushing. At the balanced or limiting condition both limiting strains occur together. In an over-reinforced section concrete can crush before the steel yields, giving a less ductile failure. Design avoids reliance on over-reinforced capacity.</p><p>For a singly reinforced rectangular section at ultimate limit state, limiting neutral-axis ratios xu,max/d are commonly 0.53 for Fe250, 0.48 for Fe415 and 0.46 for Fe500; use the applicable code grade and conditions. These values follow strain compatibility and the specified minimum tensile strain, not an arbitrary geometrical division.</p>",
+      "gu": "<p>Under-reinforced section માં concrete ની limiting compressive strain પહેલાં tension steel તેની design yield strain સુધી પહોંચે છે; સામાન્ય રીતે crushing પહેલાં દૃશ્ય deformation થાય છે. Balanced અથવા limiting condition માં બંને limiting strains સાથે થાય છે. Over-reinforced section માં steel yield થાય તે પહેલાં concrete crush થઈ શકે છે, જે ઓછું ductile failure છે. Design માં over-reinforced capacity પર આધાર રાખાતો નથી.</p><p>Singly reinforced rectangular section માટે ultimate limit state પર limiting neutral-axis ratios xu,max/d સામાન્ય રીતે Fe250 માટે 0.53, Fe415 માટે 0.48 અને Fe500 માટે 0.46 છે; લાગુ code grade અને conditions લો. આ values strain compatibility અને નિર્દિષ્ટ minimum tensile strain પરથી આવે છે, મનસ્વી geometrical division પરથી નહીં.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "2.3 Analysis of a singly reinforced section",
+      "gu": "2.3 Singly reinforced section નું analysis"
+     },
+     "syllabus_item": "2.3 lever arm compression tension moment resistance",
+     "body": {
+      "en": "<p>For rectangular width b, effective depth d and yielded tension steel Ast, equilibrium gives T = 0.87fy Ast = C = 0.36fck b xu. The concrete resultant acts at 0.42xu from the compression face, giving z = d − 0.42xu and Mu = Tz. The steel percentage is pt = 100 Ast/(bd). Units: b, d and xu in mm, area in mm², stress in N/mm²; convert N·mm to kN·m by dividing by 10⁶.</p><p>Check xu ≤ xu,max before assuming steel stress 0.87fy. When xu exceeds the limit, the yielded-steel expression is not a valid direct capacity calculation: use strain compatibility for analysis or redesign to comply with the code. Limiting moment is 0.36fck b xu,max(d − 0.42xu,max). Check shear, anchorage, serviceability and detailing separately.</p>",
+      "gu": "<p>Rectangular width b, effective depth d અને yielded tension steel Ast માટે equilibrium મુજબ T = 0.87fy Ast = C = 0.36fck b xu છે. Concrete resultant compression face થી 0.42xu પર કાર્ય કરે છે, તેથી z = d − 0.42xu અને Mu = Tz મળે છે. Steel percentage pt = 100 Ast/(bd) છે. Units: b, d અને xu mm માં, area mm² માં અને stress N/mm² માં લો; N·mm ને kN·m કરવા 10⁶ થી ભાગો.</p><p>Steel stress 0.87fy માનતાં પહેલાં xu ≤ xu,max તપાસો. જો xu limit કરતાં વધુ હોય તો yielded-steel expression સીધી capacity માટે માન્ય નથી: analysis માટે strain compatibility વાપરો અથવા code મુજબ redesign કરો. Limiting moment 0.36fck b xu,max(d − 0.42xu,max) છે. Shear, anchorage, serviceability અને detailing અલગ તપાસો.</p>"
+     }
+    },
+    {
+     "h": {
+      "en": "2.4 Design, bar arrangement and serviceability",
+      "gu": "2.4 Design, bar arrangement અને serviceability"
+     },
+     "syllabus_item": "2.4 design detailing bar combinations spacing serviceability",
+     "body": {
+      "en": "<p>Start from factored moment and choose b, trial D and cover; determine d from the bar arrangement. Compare Mu with limiting capacity, solve the equilibrium/moment equations for required Ast, and choose bar numbers and diameters providing at least the required steel. Sum individual bar areas when diameters differ and recalculate the tension-steel centroid and d. Beam minimum tensile steel is 0.85bd/fy; applicable maximum area is 0.04bD. Confirm the code conditions and all related provisions.</p><p>Fit bars within the stirrups with adequate horizontal and vertical clear spacing, considering the larger bar diameter and aggregate size under IS 456 clause 26.3. Provide correct cover for exposure and fire, development length, curtailment and stirrups. Check deflection using span/depth modification factors or explicit calculations as appropriate, and cracking at service loads. Shear design, bearing, torsion and support anchorage must be checked even when flexure is adequate.</p>",
+      "gu": "<p>Factored moment થી શરૂઆત કરી b, trial D અને cover પસંદ કરો; bar arrangement પરથી d નક્કી કરો. Mu ને limiting capacity સાથે સરખાવો, equilibrium/moment equations થી જરૂરી Ast શોધો અને ઓછામાં ઓછું જરૂરી steel મળે તે રીતે bar numbers તથા diameters પસંદ કરો. જુદા diameters હોય તો દરેક bar area ઉમેરો અને tension-steel centroid તથા d ફરી ગણો. Beam minimum tensile steel 0.85bd/fy છે; લાગુ maximum area 0.04bD છે. Code conditions અને અન્ય provisions તપાસો.</p><p>IS 456 clause 26.3 મુજબ મોટા bar diameter અને aggregate size ધ્યાનમાં રાખી stirrups ની અંદર પૂરતું horizontal તથા vertical clear spacing આપો. Exposure અને fire માટે યોગ્ય cover, development length, curtailment અને stirrups આપો. યોગ્ય span/depth modification factors અથવા explicit calculations થી deflection અને service loads પર cracking તપાસો. Flexure પૂરતું હોય તોપણ shear design, bearing, torsion અને support anchorage તપાસવાં જરૂરી છે.</p>"
+     }
+    }
+   ]
+  }
+ ],
+ "diagrams": [
+  {
+   "id": "rc2_section",
+   "title": {
+    "en": "Singly reinforced section and strain",
+    "gu": "Singly reinforced section અને strain"
+   }
+  }
+ ],
+ "numericals": {
+  "title": {
+   "en": "Solved Numericals — Unit 2",
+   "gu": "ઉકેલેલા Numericals — યુનિટ 2"
+  },
+  "items": [
+   {
+    "id": "Numerical 2.1",
+    "title": {
+     "en": "Numerical 2.1 — Moment of resistance for a singly reinforced beam",
+     "gu": "Numerical 2.1 — Singly reinforced beam નું moment of resistance"
+    },
+    "body": {
+     "en": "<p><b>Given:</b> Given b = 250 mm, d = 450 mm, M20 concrete and Fe415 steel with 3 bars of 20 mm diameter, determine flexural resistance assuming steel yields.</p><p><b>Step 1.</b> Find the tension steel area.</p><span class=\"eq\" style=\"display:block\">Ast = 3 × π × 20² / 4</span><span class=\"eq\" style=\"display:block\">Ast ≈ 942.48 mm²</span><p><b>Step 2.</b> Find neutral-axis depth and verify yielding.</p><span class=\"eq\" style=\"display:block\">xu = 0.87fy Ast / (0.36fck b)</span><span class=\"eq\" style=\"display:block\">xu = 0.87 × 415 × 942.48 / (0.36 × 20 × 250)</span><span class=\"eq\" style=\"display:block\">xu ≈ 189.05 mm</span><span class=\"eq\" style=\"display:block\">xu,max = 0.48 × 450</span><span class=\"eq\" style=\"display:block\">xu,max = 216 mm</span><span class=\"eq\" style=\"display:block\">xu < xu,max</span><p><b>Step 3.</b> Find lever arm and moment resistance.</p><span class=\"eq\" style=\"display:block\">z = d − 0.42xu</span><span class=\"eq\" style=\"display:block\">z = 450 − 0.42 × 189.05</span><span class=\"eq\" style=\"display:block\">z ≈ 370.60 mm</span><span class=\"eq\" style=\"display:block\">Mu = 0.87fy Ast z</span><span class=\"eq\" style=\"display:block\">Mu = 0.87 × 415 × 942.48 × 370.60 / 10⁶</span><p><b>Final answer:</b></p><p class=\"result\"><strong>Flexural resistance ≈ 126.11 kN m; shear, service and detailing checks remain.</strong></p>",
+     "gu": "<p><b>આપેલ છે:</b> b = 250 mm, d = 450 mm, M20 concrete અને Fe415 steel સાથે 20 mm diameter ના 3 bars આપેલ છે. Steel yield થાય એમ માની flexural resistance શોધો.</p><p><b>Step 1.</b> Tension steel area શોધો.</p><span class=\"eq\" style=\"display:block\">Ast = 3 × π × 20² / 4</span><span class=\"eq\" style=\"display:block\">Ast ≈ 942.48 mm²</span><p><b>Step 2.</b> Neutral-axis depth શોધી yielding તપાસો.</p><span class=\"eq\" style=\"display:block\">xu = 0.87fy Ast / (0.36fck b)</span><span class=\"eq\" style=\"display:block\">xu = 0.87 × 415 × 942.48 / (0.36 × 20 × 250)</span><span class=\"eq\" style=\"display:block\">xu ≈ 189.05 mm</span><span class=\"eq\" style=\"display:block\">xu,max = 0.48 × 450</span><span class=\"eq\" style=\"display:block\">xu,max = 216 mm</span><span class=\"eq\" style=\"display:block\">xu < xu,max</span><p><b>Step 3.</b> Lever arm અને moment resistance શોધો.</p><span class=\"eq\" style=\"display:block\">z = d − 0.42xu</span><span class=\"eq\" style=\"display:block\">z = 450 − 0.42 × 189.05</span><span class=\"eq\" style=\"display:block\">z ≈ 370.60 mm</span><span class=\"eq\" style=\"display:block\">Mu = 0.87fy Ast z</span><span class=\"eq\" style=\"display:block\">Mu = 0.87 × 415 × 942.48 × 370.60 / 10⁶</span><p><b>અંતિમ જવાબ:</b></p><p class=\"result\"><strong>Flexural resistance ≈ 126.11 kN m; shear, service અને detailing checks બાકી છે.</strong></p>"
+    }
+   },
+   {
+    "id": "Numerical 2.2",
+    "title": {
+     "en": "Numerical 2.2 — Select tension bars for a given moment",
+     "gu": "Numerical 2.2 — આપેલ moment માટે tension bars પસંદ કરો"
+    },
+    "body": {
+     "en": "<p><b>Given:</b> For b = 250 mm, d = 450 mm, D = 500 mm, M20 and Fe415, design tension steel for Mu = 100 kN m. Assume one layer, 25 mm nominal cover to 8 mm stirrups, 20 mm aggregate; the assumed d is conservatively less than the actual depth for 3 bars of 20 mm.</p><p><b>Step 1.</b> Calculate limiting neutral axis and moment.</p><span class=\"eq\" style=\"display:block\">xu,max = 0.48 × 450</span><span class=\"eq\" style=\"display:block\">xu,max = 216 mm</span><span class=\"eq\" style=\"display:block\">Mu,lim = 0.36fck b xu,max(d − 0.42xu,max)</span><span class=\"eq\" style=\"display:block\">Mu,lim = 0.36 × 20 × 250 × 216 × (450 − 0.42 × 216) / 10⁶</span><span class=\"eq\" style=\"display:block\">Mu,lim ≈ 139.69 kN m</span><p><b>Step 2.</b> Solve moment and force equilibrium for the smaller steel root.</p><span class=\"eq\" style=\"display:block\">100 × 10⁶ = 0.87 × 415 × Ast × (450 − 0.42xu)</span><span class=\"eq\" style=\"display:block\">xu = 0.87 × 415 × Ast / (0.36 × 20 × 250)</span><span class=\"eq\" style=\"display:block\">Ast,required ≈ 709.81 mm²</span><p><b>Step 3.</b> Check minimum steel and choose bars.</p><span class=\"eq\" style=\"display:block\">Ast,min = 0.85bd / fy</span><span class=\"eq\" style=\"display:block\">Ast,min = 0.85 × 250 × 450 / 415</span><span class=\"eq\" style=\"display:block\">Ast,min ≈ 230.42 mm²</span><span class=\"eq\" style=\"display:block\">Ast,provided = 3 × π × 20² / 4</span><span class=\"eq\" style=\"display:block\">Ast,provided ≈ 942.48 mm²</span><p><b>Step 4.</b> Check geometry for one layer.</p><span class=\"eq\" style=\"display:block\">d,actual = 500 − 25 − 8 − 20 / 2</span><span class=\"eq\" style=\"display:block\">d,actual = 457 mm</span><span class=\"eq\" style=\"display:block\">Clear space = (250 − 2 × (25 + 8) − 3 × 20) / 2</span><span class=\"eq\" style=\"display:block\">Clear space = 62 mm</span><p><b>Final answer:</b></p><p class=\"result\"><strong>Provide 3 bars of 20 mm for this preliminary flexural selection; actual d = 457 mm is at least the assumed 450 mm. Verify code spacing, shear, anchorage, cracking and deflection.</strong></p>",
+     "gu": "<p><b>આપેલ છે:</b> b = 250 mm, d = 450 mm, D = 500 mm, M20 અને Fe415 માટે Mu = 100 kN m ને અનુરૂપ tension steel design કરો. એક layer, 8 mm stirrups સુધી 25 mm nominal cover અને 20 mm aggregate ધારો; ત્રણ 20 mm bars ની actual depth કરતાં ધારેલ d ઓછું અને conservative છે.</p><p><b>Step 1.</b> Limiting neutral axis અને moment ગણો.</p><span class=\"eq\" style=\"display:block\">xu,max = 0.48 × 450</span><span class=\"eq\" style=\"display:block\">xu,max = 216 mm</span><span class=\"eq\" style=\"display:block\">Mu,lim = 0.36fck b xu,max(d − 0.42xu,max)</span><span class=\"eq\" style=\"display:block\">Mu,lim = 0.36 × 20 × 250 × 216 × (450 − 0.42 × 216) / 10⁶</span><span class=\"eq\" style=\"display:block\">Mu,lim ≈ 139.69 kN m</span><p><b>Step 2.</b> Moment અને force equilibrium થી ઓછી steel root શોધો.</p><span class=\"eq\" style=\"display:block\">100 × 10⁶ = 0.87 × 415 × Ast × (450 − 0.42xu)</span><span class=\"eq\" style=\"display:block\">xu = 0.87 × 415 × Ast / (0.36 × 20 × 250)</span><span class=\"eq\" style=\"display:block\">Ast,required ≈ 709.81 mm²</span><p><b>Step 3.</b> Minimum steel તપાસી bars પસંદ કરો.</p><span class=\"eq\" style=\"display:block\">Ast,min = 0.85bd / fy</span><span class=\"eq\" style=\"display:block\">Ast,min = 0.85 × 250 × 450 / 415</span><span class=\"eq\" style=\"display:block\">Ast,min ≈ 230.42 mm²</span><span class=\"eq\" style=\"display:block\">Ast,provided = 3 × π × 20² / 4</span><span class=\"eq\" style=\"display:block\">Ast,provided ≈ 942.48 mm²</span><p><b>Step 4.</b> એક layer માટે geometry તપાસો.</p><span class=\"eq\" style=\"display:block\">d,actual = 500 − 25 − 8 − 20 / 2</span><span class=\"eq\" style=\"display:block\">d,actual = 457 mm</span><span class=\"eq\" style=\"display:block\">Clear space = (250 − 2 × (25 + 8) − 3 × 20) / 2</span><span class=\"eq\" style=\"display:block\">Clear space = 62 mm</span><p><b>અંતિમ જવાબ:</b></p><p class=\"result\"><strong>આ preliminary flexural selection માટે 20 mm ના 3 bars આપો; actual d = 457 mm ધારેલ 450 mm કરતાં ઓછું નથી. Code spacing, shear, anchorage, cracking અને deflection તપાસો.</strong></p>"
+    }
+   },
+   {
+    "id": "Numerical 2.3",
+    "title": {
+     "en": "Numerical 2.3 — Combination of bar diameters and centroid",
+     "gu": "Numerical 2.3 — જુદા bar diameters અને centroid"
+    },
+    "body": {
+     "en": "<p><b>Given:</b> Two 20 mm and two 16 mm bars have their centroids respectively 45 mm and 80 mm from the bottom of a 500 mm deep beam. Find steel area and effective depth for top compression.</p><p><b>Step 1.</b> Find areas of the two bar groups.</p><span class=\"eq\" style=\"display:block\">A1 = 2 × π × 20² / 4</span><span class=\"eq\" style=\"display:block\">A1 ≈ 628.32 mm²</span><span class=\"eq\" style=\"display:block\">A2 = 2 × π × 16² / 4</span><span class=\"eq\" style=\"display:block\">A2 ≈ 402.12 mm²</span><span class=\"eq\" style=\"display:block\">Ast = 628.32 + 402.12</span><span class=\"eq\" style=\"display:block\">Ast ≈ 1030.44 mm²</span><p><b>Step 2.</b> Find the area-weighted centroid from the bottom.</p><span class=\"eq\" style=\"display:block\">ȳ = (A1 × 45 + A2 × 80) / Ast</span><span class=\"eq\" style=\"display:block\">ȳ = (628.32 × 45 + 402.12 × 80) / 1030.44</span><span class=\"eq\" style=\"display:block\">ȳ ≈ 58.66 mm</span><p><b>Step 3.</b> Subtract the centroid distance from overall depth.</p><span class=\"eq\" style=\"display:block\">d = 500 − 58.66</span><p><b>Final answer:</b></p><p class=\"result\"><strong>Steel area ≈ 1030.44 mm² and effective depth ≈ 441.34 mm; check actual detailing.</strong></p>",
+     "gu": "<p><b>આપેલ છે:</b> 500 mm ઊંડા beam માં બે 20 mm અને બે 16 mm bars ના centroids અનુક્રમે bottom થી 45 mm અને 80 mm દૂર છે. Top compression માટે steel area અને effective depth શોધો.</p><p><b>Step 1.</b> બંને bar groups ના areas શોધો.</p><span class=\"eq\" style=\"display:block\">A1 = 2 × π × 20² / 4</span><span class=\"eq\" style=\"display:block\">A1 ≈ 628.32 mm²</span><span class=\"eq\" style=\"display:block\">A2 = 2 × π × 16² / 4</span><span class=\"eq\" style=\"display:block\">A2 ≈ 402.12 mm²</span><span class=\"eq\" style=\"display:block\">Ast = 628.32 + 402.12</span><span class=\"eq\" style=\"display:block\">Ast ≈ 1030.44 mm²</span><p><b>Step 2.</b> Bottom થી area-weighted centroid શોધો.</p><span class=\"eq\" style=\"display:block\">ȳ = (A1 × 45 + A2 × 80) / Ast</span><span class=\"eq\" style=\"display:block\">ȳ = (628.32 × 45 + 402.12 × 80) / 1030.44</span><span class=\"eq\" style=\"display:block\">ȳ ≈ 58.66 mm</span><p><b>Step 3.</b> Overall depth માંથી centroid distance બાદ કરો.</p><span class=\"eq\" style=\"display:block\">d = 500 − 58.66</span><p><b>અંતિમ જવાબ:</b></p><p class=\"result\"><strong>Steel area ≈ 1030.44 mm² અને effective depth ≈ 441.34 mm; actual detailing તપાસો.</strong></p>"
+    }
+   }
+  ]
+ },
+ "syntax": {
+  "title": {
+   "en": "Formulae, methods and key data — Unit 2",
+   "gu": "Formulae, methods અને key data — યુનિટ 2"
+  },
+  "items": [
+   {
+    "name": {
+     "en": "Singly reinforced rectangular flexure",
+     "gu": "Singly reinforced rectangular flexure ના સૂત્રો"
+    },
+    "body": {
+     "en": "<p>Valid for yielded tension steel and appropriate IS 456 assumptions.</p><span class=\"eq\" style=\"display:block\">Ast = Σ(nπφ² / 4)</span><span class=\"eq\" style=\"display:block\">pt = 100 Ast / (bd)</span><span class=\"eq\" style=\"display:block\">T = 0.87fy Ast</span><span class=\"eq\" style=\"display:block\">C = 0.36fck b xu</span><span class=\"eq\" style=\"display:block\">xu = 0.87fy Ast / (0.36fck b)</span><span class=\"eq\" style=\"display:block\">z = d − 0.42xu</span><span class=\"eq\" style=\"display:block\">Mu = 0.87fy Ast z</span><span class=\"eq\" style=\"display:block\">Mu,lim = 0.36fck b xu,max(d − 0.42xu,max)</span><span class=\"eq\" style=\"display:block\">Ast,min = 0.85bd / fy</span>",
+     "gu": "<p>Yielded tension steel તથા યોગ્ય IS 456 assumptions માટે લાગુ.</p><span class=\"eq\" style=\"display:block\">Ast = Σ(nπφ² / 4)</span><span class=\"eq\" style=\"display:block\">pt = 100 Ast / (bd)</span><span class=\"eq\" style=\"display:block\">T = 0.87fy Ast</span><span class=\"eq\" style=\"display:block\">C = 0.36fck b xu</span><span class=\"eq\" style=\"display:block\">xu = 0.87fy Ast / (0.36fck b)</span><span class=\"eq\" style=\"display:block\">z = d − 0.42xu</span><span class=\"eq\" style=\"display:block\">Mu = 0.87fy Ast z</span><span class=\"eq\" style=\"display:block\">Mu,lim = 0.36fck b xu,max(d − 0.42xu,max)</span><span class=\"eq\" style=\"display:block\">Ast,min = 0.85bd / fy</span>"
+    }
+   }
+  ]
+ },
+ "viva": {
+  "title": {
+   "en": "Viva Questions — Unit 2",
+   "gu": "Viva Questions — યુનિટ 2"
+  },
+  "items": [
+   {
+    "q": {
+     "en": "What is a singly reinforced section?",
+     "gu": "Singly reinforced section શું છે?"
+    },
+    "a": {
+     "en": "A section relying on tensile steel and concrete in compression for flexure.",
+     "gu": "Flexure માટે tension steel અને compression concrete પર આધારિત section."
+    }
+   },
+   {
+    "q": {
+     "en": "What is a doubly reinforced beam?",
+     "gu": "Doubly reinforced beam શું છે?"
+    },
+    "a": {
+     "en": "A beam using tension and compression reinforcement in flexural design.",
+     "gu": "Flexural design માં tension અને compression reinforcement ધરાવતો beam."
+    }
+   },
+   {
+    "q": {
+     "en": "What is a T-beam?",
+     "gu": "T-beam શું છે?"
+    },
+    "a": {
+     "en": "An integral beam with an effective flange on both sides.",
+     "gu": "બંને બાજુ effective flange ધરાવતો integral beam."
+    }
+   },
+   {
+    "q": {
+     "en": "What is a neutral axis?",
+     "gu": "Neutral axis શું છે?"
+    },
+    "a": {
+     "en": "The level of zero longitudinal strain.",
+     "gu": "Zero longitudinal strain નું સ્તર."
+    }
+   },
+   {
+    "q": {
+     "en": "What is maximum concrete strain in flexure?",
+     "gu": "Flexure માં maximum concrete strain કેટલી છે?"
+    },
+    "a": {
+     "en": "0.0035 at the extreme compression fibre.",
+     "gu": "Extreme compression fibre પર 0.0035."
+    }
+   },
+   {
+    "q": {
+     "en": "Define under-reinforced section.",
+     "gu": "Under-reinforced section વ્યાખ્યાયિત કરો."
+    },
+    "a": {
+     "en": "A section where tensile steel yields before concrete reaches limiting strain.",
+     "gu": "Concrete limiting strain પહેલાં tensile steel yield થાય તે section."
+    }
+   },
+   {
+    "q": {
+     "en": "Why avoid an over-reinforced section?",
+     "gu": "Over-reinforced section કેમ ટાળવું?"
+    },
+    "a": {
+     "en": "It may crush with limited warning and ductility.",
+     "gu": "તે ઓછા warning અને ductility સાથે crush થઈ શકે છે."
+    }
+   },
+   {
+    "q": {
+     "en": "What is lever arm?",
+     "gu": "Lever arm શું છે?"
+    },
+    "a": {
+     "en": "Distance between compression and tension resultants.",
+     "gu": "Compression અને tension resultants વચ્ચેનું અંતર."
+    }
+   },
+   {
+    "q": {
+     "en": "Where does the concrete resultant act?",
+     "gu": "Concrete resultant ક્યાં કાર્ય કરે છે?"
+    },
+    "a": {
+     "en": "At 0.42xu from the compression face.",
+     "gu": "Compression face થી 0.42xu અંતરે."
+    }
+   },
+   {
+    "q": {
+     "en": "What is pt?",
+     "gu": "pt શું છે?"
+    },
+    "a": {
+     "en": "Percentage of tensile steel based on b and d.",
+     "gu": "b અને d આધારિત tensile steel ની ટકાવારી."
+    }
+   },
+   {
+    "q": {
+     "en": "What happens if multiple bar diameters are used?",
+     "gu": "અલગ bar diameters વપરાય તો શું કરવું?"
+    },
+    "a": {
+     "en": "Sum areas and calculate the area-weighted centroid.",
+     "gu": "Areas ઉમેરી area-weighted centroid ગણો."
+    }
+   },
+   {
+    "q": {
+     "en": "Is a flexural check alone sufficient?",
+     "gu": "ફક્ત flexural check પૂરતી છે?"
+    },
+    "a": {
+     "en": "No; shear, serviceability, anchorage and detailing also matter.",
+     "gu": "નહીં; shear, serviceability, anchorage અને detailing પણ જરૂરી છે."
+    }
+   }
+  ]
+ },
+ "exam_questions": [
+  {
+   "q": {
+    "en": "Explain stress and strain distribution in a singly reinforced beam.",
+    "gu": "Singly reinforced beam માં stress અને strain distribution સમજાવો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Analyse a singly reinforced rectangular beam and determine moment resistance.",
+    "gu": "Singly reinforced rectangular beam નું analysis કરી moment resistance શોધો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Design and detail a singly reinforced beam for a given factored moment.",
+    "gu": "આપેલ factored moment માટે singly reinforced beam design અને detail કરો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Compare under-reinforced, balanced and over-reinforced sections.",
+    "gu": "Under-reinforced, balanced અને over-reinforced sections સરખાવો."
+   },
+   "marks": 7
+  },
+  {
+   "q": {
+    "en": "Differentiate T-beam and L-beam.",
+    "gu": "T-beam અને L-beam વચ્ચે તફાવત આપો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Define lever arm and neutral axis.",
+    "gu": "Lever arm અને neutral axis વ્યાખ્યાયિત કરો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "Explain how mixed bar diameters affect effective depth.",
+    "gu": "Mixed bar diameters effective depth ને કેવી રીતે અસર કરે છે તે સમજાવો."
+   },
+   "marks": 4
+  },
+  {
+   "q": {
+    "en": "List beam serviceability and detailing checks.",
+    "gu": "Beam ના serviceability અને detailing checks લખો."
+   },
+   "marks": 4
+  }
+ ],
+ "question_provenance": "Original practice questions written strictly within the official DI05006011 syllabus coverage",
+ "practicals": [],
+ "content_kind": "theory_trimmed_civil"
+}

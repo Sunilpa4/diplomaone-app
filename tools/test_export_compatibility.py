@@ -85,6 +85,28 @@ class CompatibilityTest(unittest.TestCase):
                 self.assertNotIn('syntax', unit)
                 self.assertNotIn('syntax', unit['tabs'])
 
+    def test_civil_batch_keeps_formulae_separate_and_vertical(self):
+        root = Path(__file__).resolve().parent.parent
+        cases = [('sem4','DI04006011',6), ('sem4','DI04006021',5),
+                 ('sem4','DI04006031',6), ('sem5','DI05006011',7),
+                 ('sem5','DI05006021',11)]
+        for sem, code, count in cases:
+            for number in range(1, count + 1):
+                source = json.loads((root / 'content' / 'civil' / sem / code / f'unit{number}.json').read_text(encoding='utf-8'))
+                unit = copy.deepcopy(source)
+                normalize_for_app(unit)
+                with self.subTest(code=code, number=number):
+                    self.assertEqual(unit['tabs'], ['notes','diagrams','numericals','equations','viva','exam'])
+                    self.assertEqual(len(unit['equations'][0]['items']), len(source['syntax']['items']))
+                    self.assertEqual(len(unit['viva'][0]['items']), 12)
+                    self.assertEqual(len(unit['exam_questions']), 8)
+                    self.assertEqual(len(unit['numericals']), len(source['numericals']['items']))
+                    for item in unit['equations'][0]['items']:
+                        self.assertTrue(item['terms']['en'])
+                        self.assertNotIn('<span class="eq"', item['terms']['en'])
+                    for item in unit['numericals']:
+                        self.assertIn('<div><i>', item['a']['en'])
+
     def test_unrecognized_rich_group_fails_instead_of_losing_notes(self):
         for name in ('syntax', 'viva', 'numericals'):
             with self.subTest(name=name), self.assertRaises(ValueError):
