@@ -73,6 +73,10 @@
     return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${shapes[key] || shapes.grid}</svg>`;
   };
   const safeCode = code => /^[A-Za-z0-9_-]+$/.test(code || '');
+  // Only published papers are linked; unlisted URLs are never fetched as content.
+  const paperSubjects = new Set(['DI03000141','DI03000151','DI03000161','DI03000171','DI03000201','DI03019011']);
+  const paperBase = 'https://sunilpa4.github.io/diplomaone-content/papers';
+  const paperCache = new Map();
   const branches = () => Array.isArray(catalog?.branches) ? catalog.branches : [];
   const subjectMeta = code => catalog?.subjects?.[code];
   const allSubjects = () => Object.values(catalog?.subjects || {});
@@ -150,7 +154,80 @@
   function showSubject(s, meta) {
     const location=whereIs(s.code), available=new Set(s.available_units||[]), units=Array.isArray(s.units)?s.units:[];
     const crumbs=[{label:tr('allBranches'),href:'#/branches'}]; if(location)crumbs.push({label:text(location[0].name),href:`#/branch/${encodeURIComponent(location[0].key)}`},{label:`${tr('semester')} ${location[1]}`,href:`#/branch/${encodeURIComponent(location[0].key)}/${location[1]}`});crumbs.push({label:text(s.name)});
-    return `${shell(text(s.name),`${s.code} · ${meta?.category || s.category || ''}`,crumbs)}<section class="page-content"><div class="wrap">${['DI03000141','DI03000151','DI03000161','DI03000171','DI03000201','DI03019011'].includes(s.code)?`<div class="section-heading"><div><div class="eyebrow">EXAM PREPARATION</div><h2>${lang==='gu'?'ઉકેલેલા પ્રશ્નપત્રો':'Solved papers'}</h2><p>${lang==='gu'?'અંગ્રેજી અને ગુજરાતી બંનેમાં મુખ્ય તથા OR પ્રશ્નોના ઉકેલ.':'Main and OR questions solved in English and Gujarati.'}</p></div></div><div class="subject-grid"><a class="subject-card" href="papers/${encodeURIComponent(s.code)}/summer-2026.html"><div class="subject-meta"><span>SUMMER 2026</span><span class="subject-code">70 MARKS</span></div><h3>${lang==='gu'?'ઉકેલેલું પ્રશ્નપત્ર':'Solved question paper'}</h3><div class="subject-foot"><span>EN / GU · ALL QUESTIONS &amp; OR</span><strong>Open ↗</strong></div></a></div>`:''}<div class="section-heading"><div><div class="eyebrow">${esc(tr('read'))}</div><h2>${esc(tr('unitsTitle'))}</h2><p>${esc(tr('unitsText'))}</p></div></div><div class="subject-grid">${units.map(u=>`<${available.has(u.no)?'a':'div'} class="subject-card" ${available.has(u.no)?`href="#/unit/${encodeURIComponent(s.code)}/${Number(u.no)}"`:''}><div class="subject-meta"><span>${lang==='gu'?'એકમ':'UNIT'} ${Number(u.no)}</span><span class="subject-code">${available.has(u.no)?esc(tr('available')):esc(tr('notYet'))}</span></div><h3>${esc(text(u.title))}</h3><div class="subject-foot"><span>${u.hours?`${esc(u.hours)} ${esc(tr('hours'))}`:''}${u.weightage?` · ${esc(u.weightage)}%`:''}</span><strong>${available.has(u.no)?`${esc(tr('viewUnit'))} ↗`:' '}</strong></div></${available.has(u.no)?'a':'div'}>`).join('')}</div>${units.length?'':empty(tr('emptyTitle'),tr('emptyText'))}</div></section>`;
+    return `${shell(text(s.name),`${s.code} · ${meta?.category || s.category || ''}`,crumbs)}<section class="page-content"><div class="wrap">${paperSubjects.has(s.code)?`<div class="section-heading"><div><div class="eyebrow">EXAM PREPARATION</div><h2>${lang==='gu'?'ઉકેલેલા પ્રશ્નપત્રો':'Solved papers'}</h2><p>${lang==='gu'?'અંગ્રેજી અને ગુજરાતી બંનેમાં મુખ્ય તથા OR પ્રશ્નોના ઉકેલ.':'Main and OR questions solved in English and Gujarati.'}</p></div></div><div class="subject-grid"><a class="subject-card" href="#/paper/${encodeURIComponent(s.code)}/summer-2026"><div class="subject-meta"><span>SUMMER 2026</span><span class="subject-code">70 MARKS</span></div><h3>${lang==='gu'?'ઉકેલેલું પ્રશ્નપત્ર':'Solved question paper'}</h3><div class="subject-foot"><span>EN / GU · ALL QUESTIONS &amp; OR</span><strong>Open ↗</strong></div></a></div>`:''}<div class="section-heading"><div><div class="eyebrow">${esc(tr('read'))}</div><h2>${esc(tr('unitsTitle'))}</h2><p>${esc(tr('unitsText'))}</p></div></div><div class="subject-grid">${units.map(u=>`<${available.has(u.no)?'a':'div'} class="subject-card" ${available.has(u.no)?`href="#/unit/${encodeURIComponent(s.code)}/${Number(u.no)}"`:''}><div class="subject-meta"><span>${lang==='gu'?'એકમ':'UNIT'} ${Number(u.no)}</span><span class="subject-code">${available.has(u.no)?esc(tr('available')):esc(tr('notYet'))}</span></div><h3>${esc(text(u.title))}</h3><div class="subject-foot"><span>${u.hours?`${esc(u.hours)} ${esc(tr('hours'))}`:''}${u.weightage?` · ${esc(u.weightage)}%`:''}</span><strong>${available.has(u.no)?`${esc(tr('viewUnit'))} ↗`:' '}</strong></div></${available.has(u.no)?'a':'div'}>`).join('')}</div>${units.length?'':empty(tr('emptyTitle'),tr('emptyText'))}</div></section>`;
+  }
+  // Build an inert image from a restricted SVG tree. Never inject remote SVG/JS.
+  function paperDiagram(source) {
+    const svgNS='http://www.w3.org/2000/svg';
+    const tags=new Set(['svg','defs','marker','path','line','rect','circle','text']);
+    const attrs=new Set(['viewBox','width','height','x','y','x1','y1','x2','y2','cx','cy','r','rx','d','fill','stroke','stroke-width','stroke-dasharray','font-size','text-anchor','id','refX','refY','markerWidth','markerHeight','orient','marker-end','role','aria-label']);
+    function copy(node) {
+      if(node.nodeType===3)return document.createTextNode(node.nodeValue);
+      if(node.nodeType!==1||node.namespaceURI!==svgNS||!tags.has(node.localName))return null;
+      const out=document.createElementNS(svgNS,node.localName);
+      for(const a of node.attributes) {
+        if(!attrs.has(a.name))continue;
+        if(a.name==='marker-end'&&!/^url\(#[A-Za-z0-9_-]+\)$/.test(a.value))continue;
+        if(a.name==='id'&&!/^[A-Za-z0-9_-]+$/.test(a.value))continue;
+        if(a.name!=='marker-end'&&/url\s*\(|javascript:|data:/i.test(a.value))continue;
+        out.setAttribute(a.name,a.value);
+      }
+      if(node.localName==='text'&&node.classList.contains('svg-title')){out.setAttribute('font-size','14');out.setAttribute('font-weight','700');}
+      if(node.localName==='text'&&node.classList.contains('svg-sub'))out.setAttribute('font-size','10');
+      for(const child of node.childNodes){const safe=copy(child);if(safe)out.appendChild(safe);}
+      return out;
+    }
+    const svg=copy(source);if(!svg)return null;
+    svg.setAttribute('xmlns',svgNS);
+    const img=document.createElement('img');
+    img.setAttribute('alt',source.getAttribute('aria-label')||'Diagram');
+    img.setAttribute('loading','lazy');
+    img.setAttribute('src','data:image/svg+xml;charset=utf-8,'+encodeURIComponent(new XMLSerializer().serializeToString(svg)));
+    return img;
+  }
+  // Copy only presentational nodes and selected math classes from remote papers.
+  // Event handlers, scripts, URLs, forms and source CSS are never inserted.
+  function sanitizePaper(html, language) {
+    const source=new DOMParser().parseFromString(html,'text/html');
+    const main=source.querySelector('main');
+    if(!main||!main.querySelector('details'))throw new Error('Invalid paper format');
+    const tags=new Set(['MAIN','SECTION','H2','H3','P','DIV','SPAN','STRONG','B','EM','I','U','SMALL','SUB','SUP','UL','OL','LI','BR','DETAILS','SUMMARY','FIGURE','FIGCAPTION','IMG','TABLE','THEAD','TBODY','TR','TH','TD']);
+    const blocked=new Set(['SCRIPT','STYLE','IFRAME','OBJECT','EMBED','FORM','INPUT','BUTTON','LINK','META','VIDEO','AUDIO']);
+    const classes=new Set(['card','answer','note','eq','frac','num','den','result','paper-figure']);
+    function copy(node) {
+      if(node.nodeType===3)return document.createTextNode(node.nodeValue);
+      if(node.nodeType!==1)return null;
+      if((node.classList.contains('en')&&language!=='en')||(node.classList.contains('gu')&&language!=='gu'))return null;
+      if(node.namespaceURI==='http://www.w3.org/2000/svg')return node.localName==='svg'?paperDiagram(node):null;
+      if(blocked.has(node.tagName))return null;
+      const out=tags.has(node.tagName)?document.createElement(node.localName):document.createDocumentFragment();
+      if(node.tagName==='IMG') {
+        const src=node.getAttribute('src')||'';
+        if(src.length>1200000||!/^data:image\/(png|jpeg|gif|webp);base64,[a-z0-9+/=\s]+$/i.test(src))return null;
+        out.setAttribute('src',src);out.setAttribute('alt',node.getAttribute('alt')||'Paper figure');out.setAttribute('loading','lazy');
+      }
+      if(tags.has(node.tagName)) {
+        const names=[...node.classList].filter(c=>classes.has(c));if(names.length)out.className=names.join(' ');
+      }
+      for(const child of node.childNodes){const safe=copy(child);if(safe)out.appendChild(safe);}
+      return out;
+    }
+    const holder=document.createElement('div'), cleaned=copy(main);
+    if(!cleaned)throw new Error('Invalid paper content');
+    holder.appendChild(cleaned);return holder.innerHTML;
+  }
+  async function showPaper(code, session, meta) {
+    const key=`${code}/${session}`;
+    let html=paperCache.get(key);
+    if(!html) {
+      const response=await fetch(`${paperBase}/${encodeURIComponent(code)}/${session}.html?t=${Math.floor(Date.now()/60000)}`,{cache:'no-cache',redirect:'error'});
+      if(!response.ok)throw new Error('Could not load solved paper');
+      html=await response.text();if(html.length>3000000)throw new Error('Paper too large');
+      paperCache.set(key,html);
+    }
+    const title=lang==='gu'?'ઉકેલેલું પ્રશ્નપત્ર':'Solved question paper';
+    const pdf=`${paperBase}/${encodeURIComponent(code)}/Question_Paper.pdf`;
+    return `${shell(title,`${text(meta.name)} · ${code} · Summer 2026`,[{label:tr('allBranches'),href:'#/branches'},{label:text(meta.name),href:`#/subject/${encodeURIComponent(code)}`},{label:title}])}<section class="page-content"><div class="wrap"><div class="paper-toolbar"><a class="button-text" href="#/subject/${encodeURIComponent(code)}">← ${esc(tr('back'))}</a><a class="button-text" href="${esc(pdf)}" target="_blank" rel="noopener noreferrer">${lang==='gu'?'મૂળ પ્રશ્નપત્ર (PDF)':'Original question paper (PDF)'} ↗</a></div><article class="reader-card solved-paper">${sanitizePaper(html,lang)}</article></div></section>`;
   }
   // Only allow inert, presentational markup from note content. Never execute source HTML or SVG.
   function safeHtml(value) {
@@ -281,6 +358,8 @@
         if(!meta)html=missing();
         else if(meta.status!=='available')html=`${shell(text(meta.name),`${arg} · ${tr('notYet')}`,[{label:tr('allBranches'),href:'#/branches'},{label:text(meta.name)}])}<section class="page-content"><div class="wrap">${empty(tr('emptyTitle'),tr('emptyText'))}</div></section>`;
         else html=showSubject(await fetchJson(`subjects/${arg}.json`),meta);
+      } else if(route==='paper'&&paperSubjects.has(arg)&&sub==='summer-2026'&&subjectMeta(arg)?.status==='available') {
+        html=await showPaper(arg,sub,subjectMeta(arg));
       } else if(route==='unit'&&safeCode(arg)&&/^(?:0|[1-9]\d*)$/.test(sub||'')&&subjectMeta(arg)?.status==='available') {
         const [subject,unit]=await Promise.all([fetchJson(`subjects/${arg}.json`),fetchJson(`units/${arg}_u${sub}.json`)]);
         html=showUnit(unit,subject);bind=()=>bindReader(unit,subject);

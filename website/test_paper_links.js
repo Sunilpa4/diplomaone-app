@@ -15,7 +15,7 @@ for (const code of ['DI03000141','DI03000151','DI03000161','DI03000171','DI03000
   for (const language of ['en', 'gu']) {
     setLanguage(language);
     const html = showSubject({code, name:{en:'Test subject', gu:'ટેસ્ટ વિષય'}, available_units:[1], units:[{no:1,title:{en:'Test unit'},hours:1,weightage:1}]}, {});
-    assert(html.includes(`href="papers/${code}/summer-2026.html"`), `${code}: missing paper link (${language})`);
+    assert(html.includes(`href="#/paper/${code}/summer-2026"`), `${code}: missing in-site paper link (${language})`);
     assert(html.includes(`href="#/unit/${code}/1"`), `${code}: existing notes link lost`);
     assert(html.includes(language === 'en' ? 'Solved papers' : 'ઉકેલેલા પ્રશ્નપત્રો'));
   }
