@@ -1,0 +1,68 @@
+name: Publish uploaded solved papers
+
+on:
+  pull_request:
+    paths:
+      - 'papers-upload/**'
+      - 'tools/publish_solved_papers.py'
+      - 'tools/test_publish_solved_papers.py'
+      - '.github/workflows/publish-solved-papers.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'papers-upload/**'
+      - 'tools/publish_solved_papers.py'
+      - 'tools/test_publish_solved_papers.py'
+      - '.github/workflows/publish-solved-papers.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-solved-papers-${{ github.event_name == 'pull_request' && github.ref || 'production' }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check additive publishing and uploaded files
+        run: |
+          python3 tools/test_publish_solved_papers.py
+          mkdir "$RUNNER_TEMP/paper-check"
+          python3 tools/publish_solved_papers.py papers-upload/papers "$RUNNER_TEMP/paper-check"
+      - name: Check out public site
+        if: github.event_name != 'pull_request'
+        uses: actions/checkout@v4
+        with:
+          repository: Sunilpa4/diplomaone-content
+          ref: main
+          path: public-site
+          token: ${{ secrets.CONTENT_TOKEN }}
+      - name: Publish without overwriting existing content
+        if: github.event_name != 'pull_request'
+        run: |
+          set -euo pipefail
+          python3 tools/publish_solved_papers.py papers-upload/papers public-site
+          cd public-site
+          git config user.name 'DiplomaOne Bot'
+          git config user.email 'Sunilpa4@users.noreply.github.com'
+          git add -- papers/
+          if git diff --cached --quiet; then
+            echo 'All papers already exist unchanged.'
+            exit 0
+          fi
+          git commit -m 'Publish seven solved-paper sets'
+          for attempt in 1 2 3 4 5; do
+            git fetch --deepen=10 origin main
+            git rebase origin/main
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            echo "Push raced with another publisher; retry $attempt of 5."
+            sleep 3
+          done
+          echo 'Could not publish after retries; no force push was used.' >&2
+          exit 1
