@@ -74,32 +74,49 @@
   };
   const safeCode = code => /^[A-Za-z0-9_-]+$/.test(code || '');
   const paperBase = 'https://sunilpa4.github.io/diplomaone-content/papers';
+  const paperTreeUrl = 'https://api.github.com/repos/Sunilpa4/diplomaone-content/git/trees/main?recursive=1';
   const paperCache = new Map();
   const validPaperCode = value => /^DI[0-9]{8}$/.test(value || '');
   const validPaperSession = value => /^[a-z][a-z0-9]*-[0-9]{4}$/.test(value || '');
-  let paperIndex = null, paperIndexTime = 0, paperIndexPending = null, paperIndexError = false;
+  let paperIndex = null, paperIndexPending = null, paperIndexError = false;
   const fallbackPapers = Object.fromEntries(['DI03000141','DI03000151','DI03000161','DI03000171','DI03000201','DI03019011'].map(code=>[code,[{session:'summer-2026',pdf:'Question_Paper.pdf'}]]));
+  // Discover only filenames, with no background polling or scheduled indexing.
+  function papersFromTree(data) {
+    if(!data || data.truncated!==false || !Array.isArray(data.tree))throw new Error('Paper directory is unavailable or incomplete');
+    const files=new Set();
+    for(const item of data.tree) {
+      if(item.type!=='blob'||!['100644','100755'].includes(item.mode)||typeof item.path!=='string')continue;
+      const parts=item.path.split('/');
+      if(parts.length===3 && parts[0]==='papers' && validPaperCode(parts[1])) files.add(item.path);
+    }
+    const safe=Object.create(null);
+    for(const path of files) {
+      const [,code,file]=path.split('/');
+      if(!file.endsWith('.html'))continue;
+      const session=file.slice(0,-5);
+      if(!validPaperSession(session))continue;
+      (safe[code] ||= []).push({session,pdf:files.has(`papers/${code}/${session}.pdf`)?`${session}.pdf`:null,legacyPdf:files.has(`papers/${code}/Question_Paper.pdf`)});
+    }
+    for(const entries of Object.values(safe)) {
+      entries.sort((a,b)=>b.session.slice(-4).localeCompare(a.session.slice(-4))||b.session.localeCompare(a.session));
+      if(entries.length===1 && entries[0].legacyPdf && !entries[0].pdf)entries[0].pdf='Question_Paper.pdf';
+    }
+    return safe;
+  }
   async function loadPaperIndex() {
-    if(paperIndex && Date.now()-paperIndexTime<60000)return paperIndex;
+    // Once per tab: a refresh reads GitHub again, never a background timer.
+    if(paperIndex && !paperIndexError)return paperIndex;
     if(paperIndexPending)return paperIndexPending;
     paperIndexPending=(async()=>{
-      const controller=new AbortController(), timeout=setTimeout(()=>controller.abort(),5000);
+      const controller=new AbortController(), timeout=setTimeout(()=>controller.abort(),8000);
       try {
-        const response=await fetch(`${paperBase}/index.json?t=${Math.floor(Date.now()/60000)}`,{cache:'no-cache',redirect:'error',signal:controller.signal});
-        if(!response.ok)throw new Error('Paper index unavailable');
-        const data=await response.json();
-        if(data.version!==1||!data.subjects||typeof data.subjects!=='object'||Array.isArray(data.subjects))throw new Error('Invalid paper index');
-        const safe=Object.create(null);
-        for(const [code,entries] of Object.entries(data.subjects)) {
-          if(!validPaperCode(code)||!Array.isArray(entries))continue;
-          safe[code]=entries.filter(e=>e&&validPaperSession(e.session)).map(e=>({session:e.session,pdf:e.pdf===`${e.session}.pdf`||e.pdf==='Question_Paper.pdf'?e.pdf:null}));
-        }
-        paperIndex=safe;paperIndexTime=Date.now();paperIndexError=false;
+        const response=await fetch(paperTreeUrl,{cache:'no-cache',redirect:'error',signal:controller.signal});
+        if(!response.ok)throw new Error('Paper list unavailable');
+        paperIndex=papersFromTree(await response.json());paperIndexError=false;
       } catch(error) {
         console.error(error);paperIndexError=true;
-        // Keep the last known list on a temporary failure; retry next time.
+        // Preserve the last known list on failure; retry when the user navigates.
         if(!paperIndex)paperIndex=fallbackPapers;
-        paperIndexTime=0;
       } finally { clearTimeout(timeout); }
       return paperIndex;
     })();
@@ -266,7 +283,11 @@
       paperCache.set(key,html);
     }
     const title=lang==='gu'?'ઉકેલેલું પ્રશ્નપત્ર':'Solved question paper';
-    const pdf=entry?.pdf?`${paperBase}/${encodeURIComponent(code)}/${encodeURIComponent(entry.pdf)}`:'';
+    // For older shared PDF names, only link the file if the paper explicitly
+    // names it; do not associate one exam's PDF with a different exam.
+    const legacyLinked=entry?.legacyPdf && [...new DOMParser().parseFromString(html,'text/html').querySelectorAll('a[href]')].some(a=>/^(?:\.\/)?Question_Paper\.pdf$/i.test(a.getAttribute('href')));
+    const pdfName=entry?.pdf||(legacyLinked?'Question_Paper.pdf':null);
+    const pdf=pdfName?`${paperBase}/${encodeURIComponent(code)}/${encodeURIComponent(pdfName)}`:'';
     const name=text(meta?.name)||code, back=meta?`#/subject/${encodeURIComponent(code)}`:'#/papers';
     return `${shell(title,`${name} · ${code} · ${paperSessionTitle(session)}`,[{label:tr('papers'),href:'#/papers'},{label:name,href:back},{label:title}])}<section class="page-content"><div class="wrap"><div class="paper-toolbar"><a class="button-text" href="${esc(back)}">← ${esc(tr('back'))}</a>${pdf?`<a class="button-text" href="${esc(pdf)}" target="_blank" rel="noopener noreferrer">${lang==='gu'?'મૂળ પ્રશ્નપત્ર (PDF)':'Original question paper (PDF)'} ↗</a>`:''}</div><article class="reader-card solved-paper">${sanitizePaper(html,lang)}</article></div></section>`;
   }
@@ -362,12 +383,12 @@
     const sections=gu?[
       ['ખાતા વગર અભ્યાસ', 'આ વેબસાઇટ પર નોટ્સ વાંચવા માટે ખાતું, નામ અથવા ઇમેઇલ જરૂરી નથી.'],
       ['આ ઉપકરણ પર સાચવેલી માહિતી', 'તમારી ભાષા પસંદગી અને સાચવેલા એકમો તમારા બ્રાઉઝરના સ્થાનિક સ્ટોરેજમાં રહે છે. બ્રાઉઝર ડેટા દૂર કરવાથી તે પણ દૂર થશે; તે અન્ય ઉપકરણો સાથે સિંક થતું નથી.'],
-      ['હોસ્ટિંગ અને બહારની લિંક્સ', 'GitHub Pages આ સાઇટ અને નોટ્સ હોસ્ટ કરે છે અને સેવા તથા સુરક્ષા માટે IP એડ્રેસ જેવી ટેકનિકલ માહિતી મેળવી શકે છે. Android એપ ડાઉનલોડની લિંક તમને GitHub પર લઈ જાય છે, જ્યાં તેમની પોતાની ગોપનીયતા નીતિ લાગુ પડે છે.'],
+      ['હોસ્ટિંગ અને બહારની લિંક્સ', 'GitHub Pages આ સાઇટ અને નોટ્સ હોસ્ટ કરે છે અને સેવા તથા સુરક્ષા માટે IP એડ્રેસ જેવી ટેકનિકલ માહિતી મેળવી શકે છે. પેપરની યાદી GitHub API પરથી મેળવાય છે. Android એપ ડાઉનલોડની લિંક તમને GitHub પર લઈ જાય છે, જ્યાં તેમની પોતાની ગોપનીયતા નીતિ લાગુ પડે છે.'],
       ['Analytics અને જાહેરાતો', 'આ વેબસાઇટ હાલમાં કોઈ analytics અથવા જાહેરાત સેવા ઉમેરતી નથી. જો આ બદલાય, તો આ માહિતી અપડેટ કરવામાં આવશે.']
     ]:[
       ['No account needed', 'You can read notes without creating an account or giving us your name or email address.'],
       ['Stored on this device', 'Your language preference and saved units are stored in your browser’s local storage. Clearing your browser data removes them, and they do not sync across devices.'],
-      ['Hosting and external links', 'GitHub Pages hosts this website and its notes and may receive technical information such as IP addresses to operate and secure its service. The Android download link takes you to GitHub, where its own privacy policy applies.'],
+      ['Hosting and external links', 'GitHub Pages hosts this website and its notes and may receive technical information such as IP addresses to operate and secure its service. The paper list is requested from the GitHub API. The Android download link takes you to GitHub, where its own privacy policy applies.'],
       ['Analytics and advertising', 'This website does not currently include an analytics or advertising service. If that changes, this information will be updated.']
     ];
     return `${shell(title,intro,[{label:title}])}<section class="page-content"><div class="wrap"><article class="reader-card">${sections.map(([heading,body])=>`<section class="note-section"><h3>${esc(heading)}</h3><p>${esc(body)}</p></section>`).join('')}</article></div></section>`;
