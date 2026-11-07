@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Build a deploy-ready, static Netlify ZIP without bundling stale note data.
 
-The Netlify rewrite serves the existing public content repository at /data/ so
-both the website and the Android app receive the same published note updates.
+The Netlify rewrite serves published note data at /data/. Paper links redirect
+to GitHub Pages so the independently maintained HTML runs on its own origin.
 """
 from pathlib import Path
 from zipfile import ZipFile, ZipInfo, ZIP_DEFLATED
@@ -11,7 +11,10 @@ import argparse
 ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / 'website'
 CONTENT_BASE = 'https://sunilpa4.github.io/diplomaone-content'
-REDIRECTS = f'/data/*  {CONTENT_BASE}/data/:splat  200\n'
+REDIRECTS = (
+    f'/data/*  {CONTENT_BASE}/data/:splat  200\n'
+    f'/papers/*  {CONTENT_BASE}/papers/:splat  302\n'
+)
 
 
 def replace_once(content, old, new):
@@ -28,10 +31,10 @@ def build_package(destination):
     app = (SITE / 'app.js').read_text(encoding='utf-8')
     app = replace_once(app,
         'GitHub Pages hosts this website and its notes and may receive technical information such as IP addresses to operate and secure its service.',
-        'Netlify hosts this website and proxies requests for notes from GitHub Pages. These service providers may receive technical information such as IP addresses to operate and secure their services.')
+        'Netlify hosts this website and proxies requests for notes from GitHub Pages. Solved paper links open on GitHub Pages. These service providers may receive technical information such as IP addresses to operate and secure their services.')
     app = replace_once(app,
         'GitHub Pages આ સાઇટ અને નોટ્સ હોસ્ટ કરે છે અને સેવા તથા સુરક્ષા માટે IP એડ્રેસ જેવી ટેકનિકલ માહિતી મેળવી શકે છે.',
-        'Netlify આ વેબસાઇટ હોસ્ટ કરે છે અને નોટ્સ GitHub Pages પરથી મેળવે છે. સેવા અને સુરક્ષા માટે આ સેવા પ્રદાતાઓ IP એડ્રેસ જેવી ટેકનિકલ માહિતી મેળવી શકે છે.')
+        'Netlify આ વેબસાઇટ હોસ્ટ કરે છે અને નોટ્સ GitHub Pages પરથી મેળવે છે. ઉકેલેલા પેપર GitHub Pages પર ખુલે છે. સેવા અને સુરક્ષા માટે આ સેવા પ્રદાતાઓ IP એડ્રેસ જેવી ટેકનિકલ માહિતી મેળવી શકે છે.')
     with ZipFile(destination, 'w', compression=ZIP_DEFLATED, compresslevel=9) as archive:
         def write_text(name, content):
             entry = ZipInfo(name)
