@@ -32,8 +32,9 @@ assert.throws(()=>sanitizePaper('<main>missing details</main>','en'),/Invalid pa
 (async()=>{
  let calls=0;
  dom.window.fetch=async(url,options)=>{calls++; assert(url.startsWith('https://sunilpa4.github.io/diplomaone-content/papers/DI03000141/summer-2026.html?'));assert.equal(options.redirect,'error');return {ok:true,text:async()=>sample}};
- setLanguage('en');const first=await showPaper('DI03000141','summer-2026',{name:{en:'Machines'}});
- setLanguage('gu');const second=await showPaper('DI03000141','summer-2026',{name:{en:'Machines'}});
+ const entry={session:'summer-2026',pdf:'Question_Paper.pdf'};
+ setLanguage('en');const first=await showPaper('DI03000141','summer-2026',{name:{en:'Machines'}},entry);
+ setLanguage('gu');const second=await showPaper('DI03000141','summer-2026',{name:{en:'Machines'}},entry);
  assert(first.includes('English question'));assert(second.includes('ગુજરાતી પ્રશ્ન'));assert.equal(calls,1,'language change should use cached source');
  assert(first.includes('Question_Paper.pdf'));assert(first.includes('rel="noopener noreferrer"'));
  console.log('In-site paper rendering, bilingual content, fractions, diagrams and unsafe markup checks passed.');

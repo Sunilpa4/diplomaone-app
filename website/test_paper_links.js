@@ -1,4 +1,4 @@
-// Check the actual subject renderer used by both the website and the Netlify ZIP.
+// Check dynamic listing and existing unit links in website and Netlify package.
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
@@ -6,21 +6,26 @@ const path = process.argv[2] || require('node:path').join(__dirname, 'app.js');
 let source = fs.readFileSync(path, 'utf8');
 const hook = '  updateHeader();render();\n})();';
 assert.equal(source.split(hook).length, 2, 'test hook must be unique');
-source = source.replace(hook, `  globalThis.testAPI = { showSubject, setLanguage(value) { lang = value; } };\n})();`);
+source = source.replace(hook, `  globalThis.testAPI = { showSubject, showPapers, setIndex(value) { paperIndex = value; }, setLanguage(value) { lang = value; } };\n})();`);
 const element = { addEventListener() {}, setAttribute() {}, querySelectorAll() { return []; } };
 const context = { document: { querySelector() { return element; } }, window: { addEventListener() {} }, localStorage: { getItem() { return null; } }, console, setTimeout, clearTimeout };
 vm.runInNewContext(source, context);
-const { showSubject, setLanguage } = context.testAPI;
-for (const code of ['DI03000141','DI03000151','DI03000161','DI03000171','DI03000201','DI03019011']) {
+const { showSubject, showPapers, setIndex, setLanguage } = context.testAPI;
+const index = {};
+for (const code of ['DI03000141','DI03000151','DI03000161','DI03000171','DI03000201','DI03019011']) index[code]=[{session:'summer-2026',pdf:'Question_Paper.pdf'}];
+index.DI05019011=[{session:'winter-2027',pdf:null},{session:'summer-2026',pdf:null}];
+index.DI09999999=[{session:'winter-2027',pdf:null}]; // No catalog subject yet.
+setIndex(index);
+for (const [code,entries] of Object.entries(index)) {
   for (const language of ['en', 'gu']) {
     setLanguage(language);
     const html = showSubject({code, name:{en:'Test subject', gu:'ટેસ્ટ વિષય'}, available_units:[1], units:[{no:1,title:{en:'Test unit'},hours:1,weightage:1}]}, {});
-    assert(html.includes(`href="#/paper/${code}/summer-2026"`), `${code}: missing in-site paper link (${language})`);
+    for(const {session} of entries) assert(html.includes(`href="#/paper/${code}/${session}"`), `${code}: missing ${session} link (${language})`);
     assert(html.includes(`href="#/unit/${code}/1"`), `${code}: existing notes link lost`);
-    assert(html.includes(language === 'en' ? 'Solved papers' : 'ઉકેલેલા પ્રશ્નપત્રો'));
+    assert(html.includes(language === 'en' ? 'Solved papers' : 'ઉકેલેલા પેપર'));
   }
 }
 setLanguage('en');
-const noPaper = showSubject({code:'DI05019011', name:{en:'Other subject'}, units:[]}, {});
-assert(!noPaper.includes('summer-2026.html'), 'do not advertise a paper that was not uploaded');
-console.log('Six paper links and existing unit links render in English and Gujarati.');
+assert(showPapers().includes('#/paper/DI09999999/winter-2027'), 'unregistered subjects remain discoverable');
+assert(!showSubject({code:'DI05007011', name:{en:'Other subject'}, units:[]}, {}).includes('#/paper/DI05007011/'), 'do not advertise unlisted papers');
+console.log('Dynamic subject and all-paper listings preserve note links in both languages.');

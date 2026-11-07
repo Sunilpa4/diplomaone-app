@@ -11,7 +11,7 @@
 
   const strings = {
     en: {
-      home:'Home', branches:'Explore branches', saved:'Saved notes', start:'Start learning', search:'Search subjects', allBranches:'All branches',
+      home:'Home', branches:'Explore branches', papers:'Solved papers', saved:'Saved notes', start:'Start learning', search:'Search subjects', allBranches:'All branches',
       heroEye:'A LITTLE HELP FOR YOUR BIG GOALS', heroTitle:'Your diploma,<br><em>made simpler.</em>', heroText:'Thoughtful notes, clear diagrams, and everything you need to feel a little more ready for class and exams.', browse:'Explore your branch', find:'Find a subject', heroBadge:'Made for diploma students', heroBadgeSmall:'Your learning, your pace',
       trust1:'Built for GTU diploma', trust1s:'Study with direction', trust2:'English & Gujarati', trust2s:'Learn your way', trust3:'Notes that make sense', trust3s:'Clear and easy to follow', trust4:'Free to explore', trust4s:'Your study space, always',
       chooseEye:'LET’S FIND YOUR WAY', choose:'Start with your branch', chooseText:'Pick a branch and find the notes made for your journey.', viewAll:'View all branches', ready:'subjects ready', coming:'More notes coming soon', subjects:'subjects', branch:'Branch',
@@ -27,7 +27,7 @@
       searchTitle:'Find what you need.', searchText:'Search the catalog by subject name or code, in English or Gujarati.', searchPrompt:'What are you looking for?', searchPromptText:'Type a subject name or code to begin.', retry:'Try again', loadError:'We couldn’t load this content.', loadErrorText:'Please check your connection and try again.', noUnit:'This unit is not available yet.', aboutTitle:'Made for the journey.', aboutText:'DiplomaOne is an independent study resource created to help GTU diploma students find clear, accessible learning material in English and Gujarati.', aboutNote:'DiplomaOne is not affiliated with Gujarat Technological University. Always refer to your official syllabus and your institution for authoritative information.', remove:'Remove', back:'Back',
     },
     gu: {
-      home:'હોમ', branches:'બ્રાન્ચ જુઓ', saved:'સાચવેલી નોટ્સ', start:'અભ્યાસ શરૂ કરો', search:'વિષય શોધો', allBranches:'બધી બ્રાન્ચ',
+      home:'હોમ', branches:'બ્રાન્ચ જુઓ', papers:'ઉકેલેલા પેપર', saved:'સાચવેલી નોટ્સ', start:'અભ્યાસ શરૂ કરો', search:'વિષય શોધો', allBranches:'બધી બ્રાન્ચ',
       heroEye:'તમારા મોટા સપનાઓ માટે નાની મદદ', heroTitle:'તમારો ડિપ્લોમા,<br><em>હવે વધુ સરળ.</em>', heroText:'સરળ નોટ્સ, સ્પષ્ટ આકૃતિઓ અને વર્ગ તથા પરીક્ષાની તૈયારી માટે જરૂરી માર્ગદર્શન.', browse:'તમારી બ્રાન્ચ શોધો', find:'વિષય શોધો', heroBadge:'ડિપ્લોમા વિદ્યાર્થીઓ માટે', heroBadgeSmall:'તમારો અભ્યાસ, તમારી ગતિએ',
       trust1:'GTU ડિપ્લોમા માટે', trust1s:'સાચી દિશામાં અભ્યાસ', trust2:'ગુજરાતી અને અંગ્રેજી', trust2s:'તમારી રીતે શીખો', trust3:'સરળ સમજાય તેવી નોટ્સ', trust3s:'સ્પષ્ટ અને સહેલી', trust4:'મફત અભ્યાસ', trust4s:'તમારી અભ્યાસની જગ્યા',
       chooseEye:'ચાલો તમારી દિશા શોધીએ', choose:'તમારી બ્રાન્ચથી શરૂઆત કરો', chooseText:'તમારી બ્રાન્ચ પસંદ કરો અને તમારી નોટ્સ શોધો.', viewAll:'બધી બ્રાન્ચ જુઓ', ready:'વિષયો તૈયાર', coming:'વધુ નોટ્સ જલ્દી આવશે', subjects:'વિષયો', branch:'બ્રાન્ચ',
@@ -73,10 +73,50 @@
     return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${shapes[key] || shapes.grid}</svg>`;
   };
   const safeCode = code => /^[A-Za-z0-9_-]+$/.test(code || '');
-  // Only published papers are linked; unlisted URLs are never fetched as content.
-  const paperSubjects = new Set(['DI03000141','DI03000151','DI03000161','DI03000171','DI03000201','DI03019011']);
   const paperBase = 'https://sunilpa4.github.io/diplomaone-content/papers';
   const paperCache = new Map();
+  const validPaperCode = value => /^DI[0-9]{8}$/.test(value || '');
+  const validPaperSession = value => /^[a-z][a-z0-9]*-[0-9]{4}$/.test(value || '');
+  let paperIndex = null, paperIndexTime = 0, paperIndexPending = null, paperIndexError = false;
+  const fallbackPapers = Object.fromEntries(['DI03000141','DI03000151','DI03000161','DI03000171','DI03000201','DI03019011'].map(code=>[code,[{session:'summer-2026',pdf:'Question_Paper.pdf'}]]));
+  async function loadPaperIndex() {
+    if(paperIndex && Date.now()-paperIndexTime<60000)return paperIndex;
+    if(paperIndexPending)return paperIndexPending;
+    paperIndexPending=(async()=>{
+      const controller=new AbortController(), timeout=setTimeout(()=>controller.abort(),5000);
+      try {
+        const response=await fetch(`${paperBase}/index.json?t=${Math.floor(Date.now()/60000)}`,{cache:'no-cache',redirect:'error',signal:controller.signal});
+        if(!response.ok)throw new Error('Paper index unavailable');
+        const data=await response.json();
+        if(data.version!==1||!data.subjects||typeof data.subjects!=='object'||Array.isArray(data.subjects))throw new Error('Invalid paper index');
+        const safe=Object.create(null);
+        for(const [code,entries] of Object.entries(data.subjects)) {
+          if(!validPaperCode(code)||!Array.isArray(entries))continue;
+          safe[code]=entries.filter(e=>e&&validPaperSession(e.session)).map(e=>({session:e.session,pdf:e.pdf===`${e.session}.pdf`||e.pdf==='Question_Paper.pdf'?e.pdf:null}));
+        }
+        paperIndex=safe;paperIndexTime=Date.now();paperIndexError=false;
+      } catch(error) {
+        console.error(error);paperIndexError=true;
+        // Keep the last known list on a temporary failure; retry next time.
+        if(!paperIndex)paperIndex=fallbackPapers;
+        paperIndexTime=0;
+      } finally { clearTimeout(timeout); }
+      return paperIndex;
+    })();
+    try{return await paperIndexPending;}finally{paperIndexPending=null;}
+  }
+  const paperSessionTitle = session => session.split('-').map((word,i)=>i?word:word.charAt(0).toUpperCase()+word.slice(1)).join(' ');
+  const paperListNotice = () => paperIndexError ? `<p class="reader-notice">${lang==='gu'?'પેપર યાદી હાલમાં અપડેટ થઈ શકી નથી. જાણીતા પેપર બતાવવામાં આવે છે; પછી ફરી પ્રયાસ કરો.':'The paper list could not be updated. Showing known papers; please try again later.'}</p>` : '';
+  const paperEntries = code => paperIndex?.[code] || [];
+  function paperCards(code, entries) {
+    return entries.map(p=>`<a class="subject-card" href="#/paper/${encodeURIComponent(code)}/${encodeURIComponent(p.session)}"><div class="subject-meta"><span>${esc(paperSessionTitle(p.session))}</span><span class="subject-code">${esc(code)}</span></div><h3>${lang==='gu'?'ઉકેલેલું પ્રશ્નપત્ર':'Solved question paper'}</h3><div class="subject-foot"><span>${esc(text(subjectMeta(code)?.name)||code)}</span><strong>${lang==='gu'?'વાંચો':'Read'} ↗</strong></div></a>`).join('');
+  }
+  function showPapers() {
+    const entries=Object.entries(paperIndex||{}).flatMap(([code,papers])=>papers.map(p=>({code,p})));
+    const title=tr('papers');
+    const description=lang==='gu'?'વિષય અને પરીક્ષા પ્રમાણે ઉકેલેલા પેપર વાંચો.':'Read solved papers by subject and exam.';
+    return `${shell(title,description,[{label:title}])}<section class="page-content"><div class="wrap">${paperListNotice()}${entries.length?`<div class="subject-grid">${entries.map(({code,p})=>paperCards(code,[p])).join('')}</div>`:empty(lang==='gu'?'હજુ કોઈ પેપર નથી':'No papers yet',lang==='gu'?'નવા પેપર અહીં ઉમેરાશે.':'New papers will appear here.',false)}</div></section>`;
+  }
   const branches = () => Array.isArray(catalog?.branches) ? catalog.branches : [];
   const subjectMeta = code => catalog?.subjects?.[code];
   const allSubjects = () => Object.values(catalog?.subjects || {});
@@ -154,7 +194,7 @@
   function showSubject(s, meta) {
     const location=whereIs(s.code), available=new Set(s.available_units||[]), units=Array.isArray(s.units)?s.units:[];
     const crumbs=[{label:tr('allBranches'),href:'#/branches'}]; if(location)crumbs.push({label:text(location[0].name),href:`#/branch/${encodeURIComponent(location[0].key)}`},{label:`${tr('semester')} ${location[1]}`,href:`#/branch/${encodeURIComponent(location[0].key)}/${location[1]}`});crumbs.push({label:text(s.name)});
-    return `${shell(text(s.name),`${s.code} · ${meta?.category || s.category || ''}`,crumbs)}<section class="page-content"><div class="wrap">${paperSubjects.has(s.code)?`<div class="section-heading"><div><div class="eyebrow">EXAM PREPARATION</div><h2>${lang==='gu'?'ઉકેલેલા પ્રશ્નપત્રો':'Solved papers'}</h2><p>${lang==='gu'?'અંગ્રેજી અને ગુજરાતી બંનેમાં મુખ્ય તથા OR પ્રશ્નોના ઉકેલ.':'Main and OR questions solved in English and Gujarati.'}</p></div></div><div class="subject-grid"><a class="subject-card" href="#/paper/${encodeURIComponent(s.code)}/summer-2026"><div class="subject-meta"><span>SUMMER 2026</span><span class="subject-code">70 MARKS</span></div><h3>${lang==='gu'?'ઉકેલેલું પ્રશ્નપત્ર':'Solved question paper'}</h3><div class="subject-foot"><span>EN / GU · ALL QUESTIONS &amp; OR</span><strong>Open ↗</strong></div></a></div>`:''}<div class="section-heading"><div><div class="eyebrow">${esc(tr('read'))}</div><h2>${esc(tr('unitsTitle'))}</h2><p>${esc(tr('unitsText'))}</p></div></div><div class="subject-grid">${units.map(u=>`<${available.has(u.no)?'a':'div'} class="subject-card" ${available.has(u.no)?`href="#/unit/${encodeURIComponent(s.code)}/${Number(u.no)}"`:''}><div class="subject-meta"><span>${lang==='gu'?'એકમ':'UNIT'} ${Number(u.no)}</span><span class="subject-code">${available.has(u.no)?esc(tr('available')):esc(tr('notYet'))}</span></div><h3>${esc(text(u.title))}</h3><div class="subject-foot"><span>${u.hours?`${esc(u.hours)} ${esc(tr('hours'))}`:''}${u.weightage?` · ${esc(u.weightage)}%`:''}</span><strong>${available.has(u.no)?`${esc(tr('viewUnit'))} ↗`:' '}</strong></div></${available.has(u.no)?'a':'div'}>`).join('')}</div>${units.length?'':empty(tr('emptyTitle'),tr('emptyText'))}</div></section>`;
+    return `${shell(text(s.name),`${s.code} · ${meta?.category || s.category || ''}`,crumbs)}<section class="page-content"><div class="wrap">${paperListNotice()}${paperEntries(s.code).length?`<div class="section-heading"><div><div class="eyebrow">EXAM PREPARATION</div><h2>${esc(tr('papers'))}</h2><p>${lang==='gu'?'વિષયના ઉકેલેલા પ્રશ્નપત્રો.':'Solved question papers for this subject.'}</p></div></div><div class="subject-grid">${paperCards(s.code,paperEntries(s.code))}</div>`:''}<div class="section-heading"><div><div class="eyebrow">${esc(tr('read'))}</div><h2>${esc(tr('unitsTitle'))}</h2><p>${esc(tr('unitsText'))}</p></div></div><div class="subject-grid">${units.map(u=>`<${available.has(u.no)?'a':'div'} class="subject-card" ${available.has(u.no)?`href="#/unit/${encodeURIComponent(s.code)}/${Number(u.no)}"`:''}><div class="subject-meta"><span>${lang==='gu'?'એકમ':'UNIT'} ${Number(u.no)}</span><span class="subject-code">${available.has(u.no)?esc(tr('available')):esc(tr('notYet'))}</span></div><h3>${esc(text(u.title))}</h3><div class="subject-foot"><span>${u.hours?`${esc(u.hours)} ${esc(tr('hours'))}`:''}${u.weightage?` · ${esc(u.weightage)}%`:''}</span><strong>${available.has(u.no)?`${esc(tr('viewUnit'))} ↗`:' '}</strong></div></${available.has(u.no)?'a':'div'}>`).join('')}</div>${units.length?'':empty(tr('emptyTitle'),tr('emptyText'))}</div></section>`;
   }
   // Build an inert image from a restricted SVG tree. Never inject remote SVG/JS.
   function paperDiagram(source) {
@@ -216,7 +256,7 @@
     if(!cleaned)throw new Error('Invalid paper content');
     holder.appendChild(cleaned);return holder.innerHTML;
   }
-  async function showPaper(code, session, meta) {
+  async function showPaper(code, session, meta, entry) {
     const key=`${code}/${session}`;
     let html=paperCache.get(key);
     if(!html) {
@@ -226,8 +266,9 @@
       paperCache.set(key,html);
     }
     const title=lang==='gu'?'ઉકેલેલું પ્રશ્નપત્ર':'Solved question paper';
-    const pdf=`${paperBase}/${encodeURIComponent(code)}/Question_Paper.pdf`;
-    return `${shell(title,`${text(meta.name)} · ${code} · Summer 2026`,[{label:tr('allBranches'),href:'#/branches'},{label:text(meta.name),href:`#/subject/${encodeURIComponent(code)}`},{label:title}])}<section class="page-content"><div class="wrap"><div class="paper-toolbar"><a class="button-text" href="#/subject/${encodeURIComponent(code)}">← ${esc(tr('back'))}</a><a class="button-text" href="${esc(pdf)}" target="_blank" rel="noopener noreferrer">${lang==='gu'?'મૂળ પ્રશ્નપત્ર (PDF)':'Original question paper (PDF)'} ↗</a></div><article class="reader-card solved-paper">${sanitizePaper(html,lang)}</article></div></section>`;
+    const pdf=entry?.pdf?`${paperBase}/${encodeURIComponent(code)}/${encodeURIComponent(entry.pdf)}`:'';
+    const name=text(meta?.name)||code, back=meta?`#/subject/${encodeURIComponent(code)}`:'#/papers';
+    return `${shell(title,`${name} · ${code} · ${paperSessionTitle(session)}`,[{label:tr('papers'),href:'#/papers'},{label:name,href:back},{label:title}])}<section class="page-content"><div class="wrap"><div class="paper-toolbar"><a class="button-text" href="${esc(back)}">← ${esc(tr('back'))}</a>${pdf?`<a class="button-text" href="${esc(pdf)}" target="_blank" rel="noopener noreferrer">${lang==='gu'?'મૂળ પ્રશ્નપત્ર (PDF)':'Original question paper (PDF)'} ↗</a>`:''}</div><article class="reader-card solved-paper">${sanitizePaper(html,lang)}</article></div></section>`;
   }
   // Only allow inert, presentational markup from note content. Never execute source HTML or SVG.
   function safeHtml(value) {
@@ -335,7 +376,7 @@
     document.documentElement.lang=lang;
     document.querySelectorAll('[data-nav]').forEach(a=>a.textContent=tr(a.dataset.nav));
     document.querySelector('.header-cta').innerHTML=`${esc(tr('start'))} <span aria-hidden="true">↗</span>`;
-    const mobile=mobileNav.querySelectorAll('a');['home','branches','saved'].forEach((key,i)=>mobile[i].textContent=tr(key));
+    const mobile=mobileNav.querySelectorAll('a');['home','branches','papers','saved'].forEach((key,i)=>mobile[i].textContent=tr(key));
     langButton.setAttribute('aria-label',lang==='en'?'Switch to Gujarati':'Switch to English');
     langButton.innerHTML=lang==='en'?'ગુ <span>/</span> <strong>EN</strong>':'<strong>ગુ</strong> <span>/</span> EN';
   }
@@ -350,16 +391,22 @@
       else if(route==='branches'){html=showBranches();bind=bindBranchSearch;}
       else if(route==='branch')html=sub?showSemester(arg,sub):showBranch(arg);
       else if(route==='search'){html=showSearch();bind=bindSubjectSearch;}
+      else if(route==='papers'){await loadPaperIndex();html=showPapers();}
       else if(route==='saved')html=showSaved();
       else if(route==='about')html=`${shell(tr('aboutTitle'),tr('aboutText'),[{label:'About'}])}<section class="page-content"><div class="wrap"><div class="reader-card"><p>${esc(tr('aboutNote'))}</p></div></div></section>`;
       else if(route==='privacy')html=showPrivacy();
       else if(route==='subject'&&safeCode(arg)) {
         const meta=subjectMeta(arg);
         if(!meta)html=missing();
-        else if(meta.status!=='available')html=`${shell(text(meta.name),`${arg} · ${tr('notYet')}`,[{label:tr('allBranches'),href:'#/branches'},{label:text(meta.name)}])}<section class="page-content"><div class="wrap">${empty(tr('emptyTitle'),tr('emptyText'))}</div></section>`;
-        else html=showSubject(await fetchJson(`subjects/${arg}.json`),meta);
-      } else if(route==='paper'&&paperSubjects.has(arg)&&sub==='summer-2026'&&subjectMeta(arg)?.status==='available') {
-        html=await showPaper(arg,sub,subjectMeta(arg));
+        else {
+          await loadPaperIndex();
+          const subject=meta.status==='available'?await fetchJson(`subjects/${arg}.json`):{code:arg,name:meta.name,units:[],available_units:[]};
+          html=showSubject(subject,meta);
+        }
+      } else if(route==='paper'&&validPaperCode(arg)&&validPaperSession(sub)) {
+        await loadPaperIndex();
+        const entry=paperEntries(arg).find(p=>p.session===sub);
+        html=entry?await showPaper(arg,sub,subjectMeta(arg),entry):missing();
       } else if(route==='unit'&&safeCode(arg)&&/^(?:0|[1-9]\d*)$/.test(sub||'')&&subjectMeta(arg)?.status==='available') {
         const [subject,unit]=await Promise.all([fetchJson(`subjects/${arg}.json`),fetchJson(`units/${arg}_u${sub}.json`)]);
         html=showUnit(unit,subject);bind=()=>bindReader(unit,subject);
