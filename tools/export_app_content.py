@@ -469,6 +469,20 @@ def clean_svg(svg):
     return svg
 
 
+def normalize_unit_identity(unit, code, number):
+    """Make an explicitly matching source `code` available to shipped readers.
+
+    Civil sources use `code`; the Android repository requires `subject`. Never
+    infer from an unverified or conflicting identity and never edit source files.
+    """
+    if unit.get('subject') is None and unit.get('code') == code:
+        unit['subject'] = code
+    if unit.get('subject') != code or unit.get('unit') != number:
+        raise ValueError(f'Unit identity mismatch for {code} unit {number}')
+    if unit.get('code') is not None and unit['code'] != code:
+        raise ValueError(f'Conflicting unit code for {code} unit {number}')
+
+
 def normalize_for_app(unit):
     """Adapt newer rich-card layouts to the existing app without altering sources.
 
@@ -694,6 +708,7 @@ def main():
             if not os.path.exists(fp):
                 continue
             unit = json.load(open(fp, encoding="utf-8"))
+            normalize_unit_identity(unit, code, u["no"])
             normalize_for_app(unit)
             svgs = {}
             for dg in unit.get("diagrams", []):
