@@ -4,10 +4,26 @@ import unittest
 import json
 from pathlib import Path
 
-from export_app_content import normalize_for_app
+from export_app_content import normalize_for_app, normalize_unit_identity
 
 
 class CompatibilityTest(unittest.TestCase):
+    def test_unit_identity_accepts_only_matching_code_and_preserves_content(self):
+        original = {'code': 'DI01006021', 'unit': 1, 'notes': [{'content': 'keep'}]}
+        unit = copy.deepcopy(original)
+        normalize_unit_identity(unit, 'DI01006021', 1)
+        self.assertEqual(unit, {**original, 'subject': 'DI01006021'})
+        self.assertNotIn('subject', original)
+        for invalid in (
+            {'unit': 1},
+            {'code': 'OTHER', 'unit': 1},
+            {'subject': 'OTHER', 'code': 'DI01006021', 'unit': 1},
+            {'subject': 'DI01006021', 'code': 'OTHER', 'unit': 1},
+            {'code': 'DI01006021', 'unit': 2},
+        ):
+            with self.subTest(invalid=invalid), self.assertRaises(ValueError):
+                normalize_unit_identity(invalid, 'DI01006021', 1)
+
     def test_rich_cards_and_flat_entries_are_visible_to_existing_readers(self):
         original = {
             'tabs': ['notes', 'programs', 'diagrams', 'syntax', 'viva', 'exam'],

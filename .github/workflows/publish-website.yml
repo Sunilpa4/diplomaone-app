@@ -27,6 +27,8 @@ jobs:
       - name: Check website JavaScript and ad declarations
         run: |
           node --check website/app.js
+          node website/test_paper_links.js
+          python3 tools/test_netlify_package.py
           python3 -m unittest discover -s website -p 'test_*.py'
       - name: Check out existing public site
         uses: actions/checkout@v4
