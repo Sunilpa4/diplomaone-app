@@ -76,7 +76,9 @@
   const paperBase = 'https://sunilpa4.github.io/diplomaone-content/papers';
   const paperTreeUrl = 'https://api.github.com/repos/Sunilpa4/diplomaone-content/git/trees/main?recursive=1';
   const paperCache = new Map();
-  const validPaperCode = value => /^DI[0-9]{8}$/.test(value || '');
+  // The older GTU scheme uses seven-digit codes, distinct from DI codes.
+  const legacyPaperNames = {'4351902':'Manufacturing Engineering – III','4351903':'Thermal Engineering – II'};
+  const validPaperCode = value => /^(?:DI[0-9]{8}|[0-9]{7})$/.test(value || '');
   const validPaperSession = value => /^[a-z][a-z0-9]*-[0-9]{4}$/.test(value || '');
   let paperIndex = null, paperIndexPending = null, paperIndexError = false;
   const fallbackPapers = Object.fromEntries(['DI03000141','DI03000151','DI03000161','DI03000171','DI03000201','DI03019011'].map(code=>[code,[{session:'summer-2026',pdf:'Question_Paper.pdf'}]]));
@@ -126,7 +128,7 @@
   const paperListNotice = () => paperIndexError ? `<p class="reader-notice">${lang==='gu'?'પેપર યાદી હાલમાં અપડેટ થઈ શકી નથી. જાણીતા પેપર બતાવવામાં આવે છે; પછી ફરી પ્રયાસ કરો.':'The paper list could not be updated. Showing known papers; please try again later.'}</p>` : '';
   const paperEntries = code => paperIndex?.[code] || [];
   function paperCards(code, entries) {
-    return entries.map(p=>`<a class="subject-card" href="#/paper/${encodeURIComponent(code)}/${encodeURIComponent(p.session)}"><div class="subject-meta"><span>${esc(paperSessionTitle(p.session))}</span><span class="subject-code">${esc(code)}</span></div><h3>${lang==='gu'?'ઉકેલેલું પ્રશ્નપત્ર':'Solved question paper'}</h3><div class="subject-foot"><span>${esc(text(subjectMeta(code)?.name)||code)}</span><strong>${lang==='gu'?'વાંચો':'Read'} ↗</strong></div></a>`).join('');
+    return entries.map(p=>`<a class="subject-card" href="#/paper/${encodeURIComponent(code)}/${encodeURIComponent(p.session)}"><div class="subject-meta"><span>${esc(paperSessionTitle(p.session))}</span><span class="subject-code">${esc(code)}</span></div><h3>${lang==='gu'?'ઉકેલેલું પ્રશ્નપત્ર':'Solved question paper'}</h3><div class="subject-foot"><span>${esc(text(subjectMeta(code)?.name)||legacyPaperNames[code]||code)}</span><strong>${lang==='gu'?'વાંચો':'Read'} ↗</strong></div></a>`).join('');
   }
   function showPapers() {
     const entries=Object.entries(paperIndex||{}).flatMap(([code,papers])=>papers.map(p=>({code,p})));
@@ -288,7 +290,7 @@
     const legacyLinked=entry?.legacyPdf && [...new DOMParser().parseFromString(html,'text/html').querySelectorAll('a[href]')].some(a=>/^(?:\.\/)?Question_Paper\.pdf$/i.test(a.getAttribute('href')));
     const pdfName=entry?.pdf||(legacyLinked?'Question_Paper.pdf':null);
     const pdf=pdfName?`${paperBase}/${encodeURIComponent(code)}/${encodeURIComponent(pdfName)}`:'';
-    const name=text(meta?.name)||code, back=meta?`#/subject/${encodeURIComponent(code)}`:'#/papers';
+    const name=text(meta?.name)||legacyPaperNames[code]||code, back=meta?`#/subject/${encodeURIComponent(code)}`:'#/papers';
     return `${shell(title,`${name} · ${code} · ${paperSessionTitle(session)}`,[{label:tr('papers'),href:'#/papers'},{label:name,href:back},{label:title}])}<section class="page-content"><div class="wrap"><div class="paper-toolbar"><a class="button-text" href="${esc(back)}">← ${esc(tr('back'))}</a>${pdf?`<a class="button-text" href="${esc(pdf)}" target="_blank" rel="noopener noreferrer">${lang==='gu'?'મૂળ પ્રશ્નપત્ર (PDF)':'Original question paper (PDF)'} ↗</a>`:''}</div><article class="reader-card solved-paper">${sanitizePaper(html,lang)}</article></div></section>`;
   }
   // Only allow inert, presentational markup from note content. Never execute source HTML or SVG.
