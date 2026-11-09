@@ -44,6 +44,17 @@ class PublisherTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Invalid PDF'):
             prepare(self.src, self.site)
 
+    def test_explicit_english_only_and_partial_translations(self):
+        path = self.src / '4351902' / 'summer-2026.html'
+        body = ''.join('<section>' + ''.join('<details><summary>Question</summary><div>Answer</div></details>' for _ in range(28 if i == 0 else 0)) + '</section>' for i in range(5))
+        english = '<html lang="en"><head><meta name="paper-language" content="en-only"></head><main>' + body + '</main></html>'
+        path.write_text(english, encoding='utf-8')
+        self.assertEqual(len(prepare(self.src, self.site)), 2)
+        for invalid in (english.replace('en-only', 'en'), english.replace('lang="en"', 'lang="gu"'), english.replace('<details>', '<details class="en">', 1), english.replace('<details>', '<details class="gu">', 1), english.replace('<details>', '<div>', 1)):
+            path.write_text(invalid, encoding='utf-8')
+            with self.assertRaisesRegex(ValueError, 'Incomplete'):
+                prepare(self.src, self.site)
+
     def test_destination_symlinks_rejected(self):
         (self.site / 'papers').symlink_to(self.src, target_is_directory=True)
         with self.assertRaisesRegex(ValueError, 'Unsafe target'):

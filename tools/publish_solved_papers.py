@@ -22,9 +22,15 @@ class SolutionParser(HTMLParser):
         self.sections = 0
         self.en = 0
         self.gu = 0
+        self.english_only = False
+        self.document_language = None
 
     def handle_starttag(self, tag, attrs):
         attributes = dict(attrs)
+        if tag == 'html':
+            self.document_language = attributes.get('lang')
+        if tag == 'meta' and attributes.get('name') == 'paper-language' and attributes.get('content') == 'en-only':
+            self.english_only = True
         if tag == 'main':
             self.in_main = True
         elif self.in_main and tag == 'details':
@@ -62,8 +68,11 @@ def prepare(source, site):
                 raise ValueError(f'Solution is too large: {rel}')
             parser = SolutionParser()
             parser.feed(data.decode('utf-8'))
-            if parser.sections != 5 or parser.details != 28 or parser.en < 28 or parser.gu < 28:
-                raise ValueError(f'Incomplete bilingual solution: {rel}')
+            bilingual = parser.en >= 28 and parser.gu >= 28 and not parser.english_only
+            english_only = (parser.english_only and parser.document_language == 'en'
+                            and parser.en == 0 and parser.gu == 0)
+            if parser.sections != 5 or parser.details != 28 or not (bilingual or english_only):
+                raise ValueError(f'Incomplete bilingual solution or invalid English-only solution: {rel}')
         elif not data.startswith(b'%PDF-') or b'%%EOF' not in data[-2048:]:
             raise ValueError(f'Invalid PDF: {rel}')
         pairs.setdefault((rel.parts[0], path.stem), set()).add(path.suffix)
