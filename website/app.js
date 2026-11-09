@@ -78,6 +78,8 @@
   const paperCache = new Map();
   // The older GTU scheme uses seven-digit codes, distinct from DI codes.
   const legacyPaperNames = {'4351902':'Manufacturing Engineering – III','4351903':'Thermal Engineering – II'};
+  // Cross-list by matching subject title; these are different GTU scheme codes.
+  const legacyPaperSubjects = {'4351902':'DI05019011','4351903':'DI05019021'};
   const validPaperCode = value => /^(?:DI[0-9]{8}|[0-9]{7})$/.test(value || '');
   const validPaperSession = value => /^[a-z][a-z0-9]*-[0-9]{4}$/.test(value || '');
   let paperIndex = null, paperIndexPending = null, paperIndexError = false;
@@ -127,8 +129,11 @@
   const paperSessionTitle = session => session.split('-').map((word,i)=>i?word:word.charAt(0).toUpperCase()+word.slice(1)).join(' ');
   const paperListNotice = () => paperIndexError ? `<p class="reader-notice">${lang==='gu'?'પેપર યાદી હાલમાં અપડેટ થઈ શકી નથી. જાણીતા પેપર બતાવવામાં આવે છે; પછી ફરી પ્રયાસ કરો.':'The paper list could not be updated. Showing known papers; please try again later.'}</p>` : '';
   const paperEntries = code => paperIndex?.[code] || [];
+  const subjectPaperGroups = code => [code, ...Object.keys(legacyPaperSubjects).filter(legacy=>legacyPaperSubjects[legacy]===code)]
+    .map(paperCode=>({code:paperCode,entries:paperEntries(paperCode)})).filter(group=>group.entries.length);
+  const paperName = code => text(subjectMeta(code)?.name || subjectMeta(legacyPaperSubjects[code])?.name) || legacyPaperNames[code] || code;
   function paperCards(code, entries) {
-    return entries.map(p=>`<a class="subject-card" href="#/paper/${encodeURIComponent(code)}/${encodeURIComponent(p.session)}"><div class="subject-meta"><span>${esc(paperSessionTitle(p.session))}</span><span class="subject-code">${esc(code)}</span></div><h3>${lang==='gu'?'ઉકેલેલું પ્રશ્નપત્ર':'Solved question paper'}</h3><div class="subject-foot"><span>${esc(text(subjectMeta(code)?.name)||legacyPaperNames[code]||code)}</span><strong>${lang==='gu'?'વાંચો':'Read'} ↗</strong></div></a>`).join('');
+    return entries.map(p=>`<a class="subject-card" href="#/paper/${encodeURIComponent(code)}/${encodeURIComponent(p.session)}"><div class="subject-meta"><span>${esc(paperSessionTitle(p.session))}${legacyPaperSubjects[code]?(lang==='gu'?' · જૂની યોજના':' · Older scheme'):''}</span><span class="subject-code">${esc(code)}</span></div><h3>${lang==='gu'?'ઉકેલેલું પ્રશ્નપત્ર':'Solved question paper'}</h3><div class="subject-foot"><span>${esc(paperName(code))}</span><strong>${lang==='gu'?'વાંચો':'Read'} ↗</strong></div></a>`).join('');
   }
   function showPapers() {
     const entries=Object.entries(paperIndex||{}).flatMap(([code,papers])=>papers.map(p=>({code,p})));
@@ -213,7 +218,7 @@
   function showSubject(s, meta) {
     const location=whereIs(s.code), available=new Set(s.available_units||[]), units=Array.isArray(s.units)?s.units:[];
     const crumbs=[{label:tr('allBranches'),href:'#/branches'}]; if(location)crumbs.push({label:text(location[0].name),href:`#/branch/${encodeURIComponent(location[0].key)}`},{label:`${tr('semester')} ${location[1]}`,href:`#/branch/${encodeURIComponent(location[0].key)}/${location[1]}`});crumbs.push({label:text(s.name)});
-    return `${shell(text(s.name),`${s.code} · ${meta?.category || s.category || ''}`,crumbs)}<section class="page-content"><div class="wrap">${paperListNotice()}${paperEntries(s.code).length?`<div class="section-heading"><div><div class="eyebrow">EXAM PREPARATION</div><h2>${esc(tr('papers'))}</h2><p>${lang==='gu'?'વિષયના ઉકેલેલા પ્રશ્નપત્રો.':'Solved question papers for this subject.'}</p></div></div><div class="subject-grid">${paperCards(s.code,paperEntries(s.code))}</div>`:''}<div class="section-heading"><div><div class="eyebrow">${esc(tr('read'))}</div><h2>${esc(tr('unitsTitle'))}</h2><p>${esc(tr('unitsText'))}</p></div></div><div class="subject-grid">${units.map(u=>`<${available.has(u.no)?'a':'div'} class="subject-card" ${available.has(u.no)?`href="#/unit/${encodeURIComponent(s.code)}/${Number(u.no)}"`:''}><div class="subject-meta"><span>${lang==='gu'?'એકમ':'UNIT'} ${Number(u.no)}</span><span class="subject-code">${available.has(u.no)?esc(tr('available')):esc(tr('notYet'))}</span></div><h3>${esc(text(u.title))}</h3><div class="subject-foot"><span>${u.hours?`${esc(u.hours)} ${esc(tr('hours'))}`:''}${u.weightage?` · ${esc(u.weightage)}%`:''}</span><strong>${available.has(u.no)?`${esc(tr('viewUnit'))} ↗`:' '}</strong></div></${available.has(u.no)?'a':'div'}>`).join('')}</div>${units.length?'':empty(tr('emptyTitle'),tr('emptyText'))}</div></section>`;
+    return `${shell(text(s.name),`${s.code} · ${meta?.category || s.category || ''}`,crumbs)}<section class="page-content"><div class="wrap">${paperListNotice()}${subjectPaperGroups(s.code).length?`<div class="section-heading"><div><div class="eyebrow">EXAM PREPARATION</div><h2>${esc(tr('papers'))}</h2><p>${lang==='gu'?'વિષયના ઉકેલેલા પ્રશ્નપત્રો.':'Solved question papers for this subject.'}</p></div></div><div class="subject-grid">${subjectPaperGroups(s.code).map(group=>paperCards(group.code,group.entries)).join('')}</div>`:''}<div class="section-heading"><div><div class="eyebrow">${esc(tr('read'))}</div><h2>${esc(tr('unitsTitle'))}</h2><p>${esc(tr('unitsText'))}</p></div></div><div class="subject-grid">${units.map(u=>`<${available.has(u.no)?'a':'div'} class="subject-card" ${available.has(u.no)?`href="#/unit/${encodeURIComponent(s.code)}/${Number(u.no)}"`:''}><div class="subject-meta"><span>${lang==='gu'?'એકમ':'UNIT'} ${Number(u.no)}</span><span class="subject-code">${available.has(u.no)?esc(tr('available')):esc(tr('notYet'))}</span></div><h3>${esc(text(u.title))}</h3><div class="subject-foot"><span>${u.hours?`${esc(u.hours)} ${esc(tr('hours'))}`:''}${u.weightage?` · ${esc(u.weightage)}%`:''}</span><strong>${available.has(u.no)?`${esc(tr('viewUnit'))} ↗`:' '}</strong></div></${available.has(u.no)?'a':'div'}>`).join('')}</div>${units.length?'':empty(tr('emptyTitle'),tr('emptyText'))}</div></section>`;
   }
   // Build an inert image from a restricted SVG tree. Never inject remote SVG/JS.
   function paperDiagram(source) {
@@ -290,8 +295,11 @@
     const legacyLinked=entry?.legacyPdf && [...new DOMParser().parseFromString(html,'text/html').querySelectorAll('a[href]')].some(a=>/^(?:\.\/)?Question_Paper\.pdf$/i.test(a.getAttribute('href')));
     const pdfName=entry?.pdf||(legacyLinked?'Question_Paper.pdf':null);
     const pdf=pdfName?`${paperBase}/${encodeURIComponent(code)}/${encodeURIComponent(pdfName)}`:'';
-    const name=text(meta?.name)||legacyPaperNames[code]||code, back=meta?`#/subject/${encodeURIComponent(code)}`:'#/papers';
-    return `${shell(title,`${name} · ${code} · ${paperSessionTitle(session)}`,[{label:tr('papers'),href:'#/papers'},{label:name,href:back},{label:title}])}<section class="page-content"><div class="wrap"><div class="paper-toolbar"><a class="button-text" href="${esc(back)}">← ${esc(tr('back'))}</a>${pdf?`<a class="button-text" href="${esc(pdf)}" target="_blank" rel="noopener noreferrer">${lang==='gu'?'મૂળ પ્રશ્નપત્ર (PDF)':'Original question paper (PDF)'} ↗</a>`:''}</div><article class="reader-card solved-paper">${sanitizePaper(html,lang)}</article></div></section>`;
+    const related=legacyPaperSubjects[code], relatedMeta=subjectMeta(related);
+    const name=text(meta?.name)||text(relatedMeta?.name)||legacyPaperNames[code]||code;
+    const back=meta?`#/subject/${encodeURIComponent(code)}`:relatedMeta?`#/subject/${encodeURIComponent(related)}`:'#/papers';
+    const schemeNotice=related?(lang==='gu'?`આ જૂની યોજનાનું પ્રશ્નપત્ર છે (કોડ ${code}). સમાન વિષયના નામ હેઠળ બતાવ્યું છે; બંને યોજનાના અભ્યાસક્રમ અલગ હોઈ શકે છે.`:`This is an older-scheme paper (code ${code}), listed with a subject of the same name. The syllabuses may differ.`):'';
+    return `${shell(title,`${name} · ${code} · ${paperSessionTitle(session)}`,[{label:tr('papers'),href:'#/papers'},{label:name,href:back},{label:title}])}<section class="page-content"><div class="wrap"><div class="paper-toolbar"><a class="button-text" href="${esc(back)}">← ${esc(tr('back'))}</a>${pdf?`<a class="button-text" href="${esc(pdf)}" target="_blank" rel="noopener noreferrer">${lang==='gu'?'મૂળ પ્રશ્નપત્ર (PDF)':'Original question paper (PDF)'} ↗</a>`:''}</div>${schemeNotice?`<p class="reader-notice">${esc(schemeNotice)}</p>`:''}<article class="reader-card solved-paper">${sanitizePaper(html,lang)}</article></div></section>`;
   }
   // Only allow inert, presentational markup from note content. Never execute source HTML or SVG.
   function safeHtml(value) {

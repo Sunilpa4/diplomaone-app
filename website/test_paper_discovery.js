@@ -11,11 +11,12 @@ const tree={truncated:false,tree:[
  file('papers/DI05019011/winter-2027.html'), file('papers/DI05019011/winter-2027.pdf'),
  file('papers/DI05019011/summer-2026.html'), file('papers/DI05019011/Question_Paper.pdf'),
  file('papers/4351902/summer-2026.html'), file('papers/4351902/summer-2026.pdf'),
+ file('papers/4351903/summer-2026.html'), file('papers/4351903/summer-2026.pdf'),
  file('papers/DI09999999/winter-2027.html'), file('papers/DI09999999/evil.pdf'),
  file('papers/DI09999999/spring-2028.html','120000'), file('papers/DI09999999/../../danger.html'),
  file('papers/../../bad/winter-2027.html'), file('papers/DI09999999/index.html')
 ]};
-const catalog={branches:[],subjects:{DI05019011:{code:'DI05019011',name:{en:'Future subject'},status:'unavailable'}}};
+const catalog={branches:[],subjects:{DI05019011:{code:'DI05019011',name:{en:'Manufacturing Engineering - III',gu:'મેન્યુફેક્ચરિંગ ઇજનેરી - III'},status:'unavailable'},DI05019021:{code:'DI05019021',name:{en:'Thermal Engineering - II',gu:'થર્મલ ઇજનેરી - II'},status:'unavailable'}}};
 let failIndex=false;
 w.fetch=async url=>{
   requests.push(String(url));
@@ -26,7 +27,7 @@ w.fetch=async url=>{
 };
 w.eval(fs.readFileSync(path.join(__dirname,'app.js'),'utf8'));
 const waitFor=async(fn)=>{for(let i=0;i<100;i++){if(fn())return;await new Promise(r=>setTimeout(r,10));}throw Error('Timed out waiting for render: '+w.document.querySelector('#main').textContent.slice(0,100));};
-async function go(hash,selector){w.location.hash=hash;await waitFor(()=>!!w.document.querySelector(selector));}
+async function go(hash,selector){const previous=w.document.querySelector('.page-title');w.location.hash=hash;await waitFor(()=>w.document.querySelector('.page-title')!==previous && !!w.document.querySelector(selector));}
 (async()=>{
  await waitFor(()=>!!w.document.querySelector('a[href="#/paper/DI05019011/winter-2027"]'));
  assert(w.document.querySelector('a[href="#/paper/DI09999999/winter-2027"]'));
@@ -34,12 +35,23 @@ async function go(hash,selector){w.location.hash=hash;await waitFor(()=>!!w.docu
  assert(!w.document.body.innerHTML.includes('../../danger'));
  assert(!w.document.querySelector('a[href*=spring-2028]')); // symlink is not a paper
  await go('#/subject/DI05019011','a[href="#/paper/DI05019011/summer-2026"]'); // even without notes
+ assert(w.document.querySelector('a[href="#/paper/4351902/summer-2026"]'));
+ assert(!w.document.querySelector('a[href="#/paper/4351903/summer-2026"]'));
+ assert(w.document.querySelector('a[href="#/paper/4351902/summer-2026"]').textContent.includes('Older scheme'));
  await go('#/paper/DI05019011/winter-2027','.solved-paper details');
  assert(w.document.querySelector('a[href$="winter-2027.pdf"]'));
  assert(w.document.querySelector('.solved-paper').textContent.includes('New answer'));
  await go('#/paper/4351902/summer-2026','.solved-paper details');
  await waitFor(()=>w.document.querySelector('.page-subtitle').textContent.includes('4351902'));
  assert(w.document.querySelector('a[href$="summer-2026.pdf"]'));
+ assert(w.document.querySelector('.reader-notice').textContent.includes('older-scheme paper (code 4351902)'));
+ assert(w.document.querySelector('.paper-toolbar a[href="#/subject/DI05019011"]'));
+ await go('#/subject/DI05019021','a[href="#/paper/4351903/summer-2026"]');
+ assert(!w.document.querySelector('a[href="#/paper/4351902/summer-2026"]'));
+ await go('#/paper/4351903/summer-2026','.solved-paper details');
+ await waitFor(()=>w.document.querySelector('.page-subtitle').textContent.includes('4351903'));
+ assert(w.document.querySelector('.paper-toolbar a[href="#/subject/DI05019021"]'));
+ assert(w.document.querySelector('.reader-notice').textContent.includes('older-scheme paper (code 4351903)'));
  await go('#/paper/DI09999999/winter-2027','.solved-paper details');
  await waitFor(()=>w.document.querySelector('.page-subtitle').textContent.includes('DI09999999'));
  assert(!w.document.querySelector('a[href$="evil.pdf"]'));
