@@ -6,6 +6,8 @@ on:
       - 'papers-upload/**'
       - 'tools/publish_solved_papers.py'
       - 'tools/test_publish_solved_papers.py'
+      - 'tools/test_computer_papers.js'
+      - 'tools/prepare_computer_papers.js'
       - '.github/workflows/publish-solved-papers.yml'
   push:
     branches: [main]
@@ -13,6 +15,8 @@ on:
       - 'papers-upload/**'
       - 'tools/publish_solved_papers.py'
       - 'tools/test_publish_solved_papers.py'
+      - 'tools/test_computer_papers.js'
+      - 'tools/prepare_computer_papers.js'
       - '.github/workflows/publish-solved-papers.yml'
 
 permissions:
@@ -28,6 +32,10 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+      - name: Install paper reader test dependency
+        run: npm install --no-save --ignore-scripts --no-package-lock jsdom@26.1.0
+      - name: Check reader compatibility
+        run: node tools/test_computer_papers.js
       - name: Check additive publishing and uploaded files
         run: |
           python3 tools/test_publish_solved_papers.py
@@ -54,7 +62,7 @@ jobs:
             echo 'All papers already exist unchanged.'
             exit 0
           fi
-          git commit -m 'Publish seven solved-paper sets'
+          git commit -m 'Publish uploaded solved-paper sets'
           for attempt in 1 2 3 4 5; do
             git fetch --deepen=10 origin main
             git rebase origin/main
