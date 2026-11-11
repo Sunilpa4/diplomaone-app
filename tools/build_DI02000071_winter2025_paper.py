@@ -1,0 +1,413 @@
+#!/usr/bin/env python3
+"""Build DI02000071 Engineering Mechanics Winter-2025 (20-01-2026) — friendly Gujarati minimal brackets."""
+from pathlib import Path
+import html
+ROOT = Path(__file__).resolve().parent.parent
+CSS = """:root{--ink:#20252d;--muted:#65717d;--blue:#0b5b6a;--line:#d9e1e7;--paper:#f7f9fb;--purple:#58316f}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+.page{width:min(1000px,calc(100% - 32px));margin:26px auto 70px}
+.hero{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px;margin-bottom:24px}
+.eyebrow{color:var(--blue);font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.hero h1{font-size:clamp(1.5rem,4vw,2.25rem);line-height:1.2;margin:.45rem 0}
+.meta{color:var(--muted);font-size:.9rem}
+.group{margin:30px 0}.group h2{font-size:1.35rem;color:var(--blue);margin:0 0 10px}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;margin:10px 0;overflow:hidden}
+.card summary{cursor:pointer;padding:15px 17px;color:#164f73;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.card summary strong{flex:1;min-width:220px}.card summary small{font-size:.78rem;color:var(--muted);white-space:nowrap}
+.answer{border-top:1px solid var(--line);padding:18px 20px;overflow-wrap:anywhere}
+.answer p{margin:9px 0}.answer li{margin:5px 0}.answer ul,.answer ol{padding-left:1.35rem}
+.eq{font-family:Georgia,serif;font-size:1.04rem;background:#f4f7f9;border-left:3px solid #7caac5;padding:9px 12px;margin:11px 0;overflow-x:auto}
+.frac{display:inline-flex;vertical-align:middle;flex-direction:column;text-align:center;font-style:italic;line-height:1.15;margin:0 .15em}
+.num{border-bottom:1px solid currentColor;padding:0 .3em .1em}
+.den{padding:.1em .3em 0}
+.result{display:table;background:#f1fbf6;border:1px solid #77a795;border-radius:7px;padding:7px 11px;margin:10px 0}
+.answer table{border-collapse:collapse;width:100%;font-size:.93rem;margin:12px 0}
+.answer th,.answer td{border:1px solid #d4dde4;padding:8px;vertical-align:top;text-align:left}
+.answer th{background:#edf5f9}
+pre{background:#f4f7f9;border:1px solid #d9e1e7;border-radius:6px;padding:10px;overflow-x:auto;font-size:.9rem;line-height:1.5}
+code{font-family:ui-monospace,monospace}
+figure{margin:16px auto;max-width:760px}figure svg{display:block;width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:8px}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:5px}
+.footer{font-size:.82rem;color:var(--muted);border-top:1px solid var(--line);margin-top:36px;padding-top:14px}
+.lang-switch{display:flex;gap:8px;margin:12px 0}.lang-switch button{border:1px solid #c9b9d1;background:#fff;color:var(--purple);border-radius:20px;padding:7px 13px;font-weight:700;cursor:pointer;font:inherit;font-size:.85rem}
+.lang-switch button[aria-pressed="true"]{background:var(--purple);color:#fff}
+html[lang="en"] .gu{display:none!important}html[lang="gu"] .en{display:none!important}
+:lang(gu){font-family:"Noto Sans Gujarati","Shruti","Nirmala UI",system-ui,sans-serif;line-height:1.85}
+@media(max-width:600px){.page{width:calc(100% - 20px);margin-top:10px}.hero{padding:19px}.answer{padding:14px}.card summary strong{min-width:160px}.answer table{font-size:.82rem}.answer th,.answer td{padding:6px}}
+"""
+def svg_wrap(inner,caption,label):
+    return f'<figure><svg role="img" aria-label="{html.escape(label)}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 220" font-family="Arial,sans-serif">{inner}</svg><figcaption>{html.escape(caption)}</figcaption></figure>'
+
+# SVGs
+CLASS_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#0b5b6a">Engineering Mechanics — branches</text>
+<g font-size="6">
+<rect x="20" y="35" width="150" height="32" rx="6" fill="#eaf4fa" stroke="#0b5b6a"/><text x="95" y="48" text-anchor="middle" font-weight="bold">Statics — at rest</text><text x="95" y="59" text-anchor="middle">ΣF=0 ΣM=0</text>
+<rect x="190" y="35" width="150" height="32" rx="6" fill="#fff4e0" stroke="#b77e24"/><text x="265" y="48" text-anchor="middle" font-weight="bold">Dynamics</text><text x="265" y="59" text-anchor="middle">Kinematics + Kinetics</text>
+<text x="20" y="85" font-size="6">Rigid body → deformable, fluid, etc. Statics includes concurrent, parallel, general force systems</text>
+</g>"""
+
+FORCE_CHAR_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#0b5b6a">Force — characteristics</text>
+<g font-size="6">
+<text x="20" y="45">Magnitude kN, Direction angle, Point of application, Line of action, Sense, Nature push/pull</text>
+<line x1="90" y1="80" x2="150" y2="80" stroke="#c00" stroke-width="1.5"/><polygon points="150,80 142,76 142,84" fill="#c00"/><text x="120" y="75" text-anchor="middle" fill="#c00">F vector</text>
+<circle cx="90" cy="80" r="3" fill="#333"/><text x="90" y="95" text-anchor="middle" font-size="5">A point</text>
+<text x="20" y="110" font-size="6">Represented by arrow length = magnitude, angle to x, unit N, kN — 1kN=1000N</text>
+</g>"""
+
+RESOL_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#0b5b6a">Resolution of a force into components</text>
+<g font-size="6">
+<line x1="60" y1="110" x2="140" y2="60" stroke="#c00" stroke-width="1.5"/><text x="145" y="58" fill="#c00">F</text>
+<line x1="60" y1="110" x2="140" y2="110" stroke="#0b5b6a" stroke-width="1"/><text x="100" y="120" fill="#0b5b6a">Fx = F cosθ</text>
+<line x1="140" y1="60" x2="140" y2="110" stroke="#0b8043" stroke-width="1"/><text x="150" y="90" fill="#0b8043">Fy = F sinθ</text>
+<path d="M80 110 A20 20 0 0 0 95 95" fill="none" stroke="#333"/><text x="95" y="102" font-size="5">θ</text>
+<text x="180" y="55" font-size="6">θ with x-axis — if θ from y, swap sin cos</text>
+<text x="180" y="70" font-size="6">Fx = F cosθ, Fy = F sinθ for perpendicular axes</text>
+<text x="180" y="85" font-size="6">Resultant R: Rx = ΣFx, Ry = ΣFy, R = √(Rx²+Ry²)</text>
+</g>"""
+
+VARIGNON_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#0b5b6a">Varignon's principle — moment of resultant = sum of moments</text>
+<g font-size="6">
+<text x="20" y="45">For concurrent F1 F2 R = F1+F2 — moment about O: Mo(R) = Mo(F1)+Mo(F2)</text>
+<line x1="60" y1="110" x2="90" y2="80" stroke="#c00"/><text x="92" y="78" fill="#c00">F1</text>
+<line x1="60" y1="110" x2="90" y2="110" stroke="#0b5b6a"/><text x="92" y="115" fill="#0b5b6a">F2</text>
+<line x1="60" y1="110" x2="110" y2="90" stroke="#0b8043" stroke-dasharray="2 2"/><text x="115" y="88" fill="#0b8043">R</text>
+<circle cx="30" cy="130" r="2" fill="#333"/><text x="30" y="145" text-anchor="middle" font-size="5">O</text>
+<text x="20" y="165" font-size="6">Proof useful to find moment of inclined force by resolving — used for distributed loads</text>
+</g>"""
+
+STRING_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#0b5b6a">100 kN hanging by two strings — Lami's theorem</text>
+<g font-size="6">
+<line x1="80" y1="40" x2="180" y2="40" stroke="#333" stroke-width="1"/><text x="130" y="35" text-anchor="middle">Ceiling</text>
+<line x1="140" y1="40" x2="110" y2="100" stroke="#c00" stroke-width="1"/><text x="105" y="70" fill="#c00">T1  θ1</text>
+<line x1="140" y1="40" x2="170" y2="100" stroke="#0b5b6a" stroke-width="1"/><text x="175" y="70" fill="#0b5b6a">T2 θ2</text>
+<circle cx="140" cy="105" r="8" fill="#ffe9a0" stroke="#b77e24"/><text x="140" y="109" text-anchor="middle" font-size="5">100kN</text>
+<text x="20" y="135" font-size="6">Assume symmetric 45° each → Lami: T/sin angle opp — often figure shows 30°/60° — method same</text>
+<text x="20" y="150" font-size="6">ΣFx=0, ΣFy=0 → T1 cos + T2 cos balance — solve</text>
+</g>"""
+
+SPHERE_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#0b5b6a">Sphere 200 kN between two inclined planes</text>
+<g font-size="6">
+<line x1="60" y1="130" x2="120" y2="70" stroke="#333" stroke-width="1"/><text x="55" y="85" font-size="5">AB 45°</text>
+<line x1="180" y1="70" x2="240" y2="130" stroke="#333" stroke-width="1"/><text x="245" y="85" font-size="5">BC 45°</text>
+<circle cx="150" cy="100" r="25" fill="#eaf4fa" stroke="#0b5b6a"/><text x="150" y="104" text-anchor="middle" font-size="7">200kN</text>
+<text x="20" y="150" font-size="6">Contact reactions normal to planes — concurrent at sphere centre — Lami or triangle law</text>
+</g>"""
+
+BEAM_TYPES_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#0b5b6a">Types of beams</text>
+<g font-size="5.5">
+<text x="18" y="40">Simply supported — pin + roller, Cantilever — one fixed</text>
+<text x="18" y="52">Overhang — beyond support, Fixed — both ends clamped</text>
+<text x="18" y="64">Continuous — 3+ supports, Propped cantilever — pin+fixed</text>
+<line x1="20" y1="80" x2="100" y2="80" stroke="#333" stroke-width="1.5"/><polygon points="20,80 15,77 15,83" fill="#333"/><circle cx="100" cy="80" r="4" fill="none" stroke="#333"/><text x="60" y="92" text-anchor="middle" font-size="5">SS beam</text>
+<line x1="130" y1="80" x2="210" y2="80" stroke="#333" stroke-width="2"/><rect x="130" y="76" width="6" height="8" fill="#333"/><text x="170" y="92" text-anchor="middle" font-size="5">Cantilever</text>
+</g>"""
+
+AXES_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#0b5b6a">Axis of reference vs axis of symmetry</text>
+<g font-size="6">
+<line x1="40" y1="110" x2="140" y2="110" stroke="#0b5b6a"/><text x="90" y="105" text-anchor="middle" fill="#0b5b6a">Reference X any</text>
+<line x1="220" y1="40" x2="220" y2="140" stroke="#c00" stroke-dasharray="3 3"/><text x="240" y="90" fill="#c00">Symmetry divides equal</text>
+<rect x="200" y="80" width="40" height="30" fill="#eaf4fa" stroke="#333"/><line x1="220" y1="80" x2="220" y2="110" stroke="#c00" stroke-dasharray="2 2"/>
+<text x="20" y="135" font-size="6">All symmetry axes centroidal, all centroidal not symmetry — CG lies on symmetry line</text>
+</g>"""
+
+SUPPORTS_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#0b5b6a">Supports and loads on beam</text>
+<g font-size="5.5">
+<text x="12" y="40">Supports: Simple roller 1 reaction vertical, Hinged 2 Rx Ry, Fixed 3 Rx Ry M, Spring elastic</text>
+<text x="12" y="55">Loads: Point kN, UDL kN/m uniform, UVL triangular, Couple kNm, Self weight</text>
+<rect x="20" y="70" width="40" height="20" rx="3" fill="#eaf4fa" stroke="#0b5b6a"/><text x="40" y="82" text-anchor="middle" font-size="5">Hinge</text>
+<rect x="80" y="80" width="40" height="10" rx="5" fill="#fff4e0" stroke="#b77e24"/><text x="100" y="87" text-anchor="middle" font-size="5">Roller</text>
+<rect x="140" y="70" width="40" height="20" fill="#333"/><text x="160" y="82" text-anchor="middle" fill="#fff" font-size="5">Fixed</text>
+</g>"""
+
+CG_DIFF_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#0b5b6a">Centroid vs Centre of Gravity</text>
+<g font-size="6">
+<text x="18" y="45">Centroid C = geometric centre of area/volume — (x̄ = ΣAx/ΣA) independent of g</text>
+<text x="18" y="60">CG G = weight centre — (x̄ = ΣWx/ΣW) same if uniform density and g constant</text>
+<text x="18" y="75">For plane lamina in uniform gravity C = G — in text problems use interchangeably</text>
+<text x="18" y="95" font-size="6" fill="#0b5b6a">Example: rectangle centroid at mid h/2, triangle at h/3 from base</text>
+</g>"""
+
+ANGLE_CG_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#0b5b6a">Angle section CG — L shape</text>
+<g font-size="6">
+<rect x="60" y="40" width="80" height="12" fill="#eaf4fa" stroke="#0b5b6a"/><text x="100" y="36" text-anchor="middle" font-size="5">b1×t1</text>
+<rect x="60" y="52" width="12" height="60" fill="#eaf4fa" stroke="#0b5b6a"/><text x="45" y="82" font-size="5">b2×t2</text>
+<text x="150" y="50" font-size="6">Divide into two rectangles</text><text x="150" y="62" font-size="6">A1 b1t1, A2 (b2-t1)t2 avoid double</text>
+<text x="150" y="76" font-size="6">x̄ = (A1x1+A2x2)/(A1+A2)</text><text x="150" y="88" font-size="6">ȳ = (A1y1+A2y2)/(A1+A2) from base</text>
+<text x="20" y="125" font-size="6">Typical 100×100×10 angle → x̄ ȳ ≈28mm from outer — lies on 45° diagonal</text>
+</g>"""
+
+T_CG_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#0b5b6a">T section CG</text>
+<g font-size="6">
+<rect x="70" y="40" width="80" height="12" fill="#eaf4fa" stroke="#0b5b6a"/><text x="110" y="36" font-size="5">flange B×Tf</text>
+<rect x="104" y="52" width="12" height="60" fill="#fff4e0" stroke="#b77e24"/><text x="125" y="82" font-size="5">web Hw×Tw</text>
+<text x="160" y="50" font-size="6">A1 = B Tf, A2 = Hw Tw</text><text x="160" y="62" font-size="6">y from bottom: y1 = Hw+Tf/2, y2 = Hw/2</text>
+<text x="160" y="76" font-size="6">ȳ = (A1y1+A2y2)/(A1+A2)</text>
+<text x="20" y="125" font-size="6">Example 100×12 plus 80×12 → ȳ about 56mm — closer to flange</text>
+</g>"""
+
+FRICTION_INCLINE_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#0b5b6a">Block on incline 30° μ=0.15 — push up</text>
+<g font-size="6">
+<line x1="40" y1="110" x2="220" y2="110" stroke="#333"/><line x1="140" y1="110" x2="200" y2="50" stroke="#333"/><text x="210" y="55" font-size="5">30°</text>
+<rect x="130" y="70" width="30" height="20" fill="#fff4e0" stroke="#b77e24" transform="rotate(-30 145 80)"/><text x="145" y="75" font-size="5">200kN</text>
+<text x="20" y="135" font-size="6">Friction opposes motion — for up motion friction down plane — equilibrium Σ‖=0 Σ⊥=0</text>
+<text x="20" y="150" font-size="6">P = W sinα + F, F=μN, N=W cosα — angle of friction φ=tan⁻¹μ =8.53°</text>
+</g>"""
+
+PULL_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#0b5b6a">Pull at 30° on horizontal — find weight</text>
+<g font-size="6">
+<line x1="20" y1="100" x2="200" y2="100" stroke="#333"/><rect x="90" y="70" width="30" height="30" fill="#eaf4fa" stroke="#0b5b6a"/><text x="105" y="88" text-anchor="middle" font-size="5">W</text>
+<line x1="105" y1="70" x2="140" y2="45" stroke="#c00"/><text x="145" y="40" fill="#c00">50N 30°</text>
+<text x="20" y="125" font-size="6">ΣV=0: N + P sin30 = W → N = W - P sin30 — friction F=μN</text>
+<text x="20" y="140" font-size="6">ΣH=0: P cos30 = F = μ(W - P sin30) → solve W</text>
+</g>"""
+
+MACHINE_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#0b5b6a">Simple lifting machines — law</text>
+<g font-size="6">
+<text x="18" y="40">VR = distance effort / distance load — for screw, crab, pulley — constant geometry</text>
+<text x="18" y="55">MA = W/P, η = MA/VR, Ideal MA = VR, effort loss to friction</text>
+<text x="18" y="70">Law: P = mW + C — m =1/ηo slope, C friction at no load — max η =1/mVR</text>
+<text x="18" y="85">Reversible if η>50% self-locking if η<50% — no return on releasing effort</text>
+</g>"""
+
+DB_CRAB_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#0b5b6a">Double purchase crab — velocity ratio</text>
+<g font-size="6">
+<text x="18" y="40">Two stages: handle radius Rh 30cm, drum radius Rd 10cm (20cm dia)</text>
+<text x="18" y="55">Pinions T1=10 T2=20, spurs T3=40 T4=50 — compound gear</text>
+<text x="18" y="70">VR = (2πRh)/(πDd) × (T3/T1)×(T4/T2) = (2Rh/Dd)×(T3T4/T1T2)</text>
+<text x="18" y="85">P = W/(VR η) for lift — ideal P =W/VR — extra due to losses</text>
+</g>"""
+
+
+SECTIONS=[
+{
+ "title_en":"Q1 · Basics, force and resultant",
+ "title_gu":"પ્ર.1 · પાયા, બળ અને પરિણામી",
+ "cards":[
+  {
+   "q_en":"Q.1 (a) Define Engineering Mechanics and give its classification. (3 marks)",
+   "marks_en":"3 marks","marks_gu":"૦૩ ગુણ",
+   "a_en":"""<p><strong>Engineering Mechanics is science of forces on bodies at rest or motion — predicts stability and motion for design.</strong></p><ul><li><strong>Statics:</strong> Bodies at rest — equilibrium ΣF=0 ΣM=0 — beams, trusses.</li><li><strong>Dynamics:</strong> Bodies in motion — Kinematics motion without forces and Kinetics forces cause motion — vehicles, engines.</li><li>Further: Rigid vs deformable, fluid, strength of materials — mechanics is base for all design.</li></ul>""" + svg_wrap(CLASS_SVG,"Statics at rest vs dynamics motion — kinematics kinetics","Branches"),
+   "a_gu":"""<p><strong>એન્જિનિયરિંગ મિકેનિક્સ એટલે બળો ની અસર નું વિજ્ઞાન — સ્થિર કે ગતિ માટે ડિઝાઇન આગાહી.</strong></p><ul><li><strong>Statics:</strong> સ્થિર શરીર ΣF=0 ΣM=0 — beam truss.</li><li><strong>Dynamics:</strong> ગતિ — Kinematics ગતિ માત્ર Kinetics બળ થી ગતિ — વાહન એન્જિન.</li><li>આગળ rigid deformable fluid — base.</li></ul>""" + svg_wrap(CLASS_SVG,"Statics સ્થિર vs dynamics ગતિ","Branches"),
+  },
+  {
+   "q_en":"Q.1 (b) Define force and give characteristics of force. (4 marks)",
+   "marks_en":"4 marks","marks_gu":"૦૪ ગુણ",
+   "a_en":"""<p><strong>Force is push or pull that changes or tends to change state of rest or motion — vector.</strong></p><ul><li><strong>Magnitude:</strong> value in N or kN, 1kN=1000N.</li><li><strong>Direction:</strong> angle with reference axis.</li><li><strong>Point of application:</strong> where force touches body.</li><li><strong>Line of action:</strong> infinite line along force.</li><li><strong>Sense and nature:</strong> tensile away, compressive towards.</li></ul><p>Transmissibility: force can slide on its line without effect on rigid body.</p>""" + svg_wrap(FORCE_CHAR_SVG,"Magnitude direction point line sense — F arrow","Force"),
+   "a_gu":"""<p><strong>બળ એટલે ધક્કો ખેંચાણ જે સ્થિતિ બદલે — સદિશ.</strong></p><ul><li><strong>મૂલ્ય:</strong> N kN 1kN=1000N.</li><li><strong>દિશા:</strong> axis સાથે ખૂણો.</li><li><strong>લાગુ બિંદુ:</strong> જ્યાં સ્પર્શે.</li><li><strong>ક્રિયા રેખા:</strong> બળ ની સીધી રેખા.</li><li><strong>ખેંચાણ દાબ:</strong> દૂર તરફ tensile નજીક compressive.</li></ul>""" + svg_wrap(FORCE_CHAR_SVG,"મૂલ્ય દિશા બિંદુ રેખા — F તીર","Force"),
+  },
+  {
+   "q_en":"Q.1 (c) A tensile force of 40 kN is acting towards East and a force of 30 kN is acting from North. Find out resultant force in magnitude and direction. (7 marks)",
+   "marks_en":"7 marks","marks_gu":"૦૭ ગુણ",
+   "a_en":"""<p><strong>Take East as X positive, North as Y positive. 40kN East = Fx 40, Fy 0. 30kN from North means towards South? In paper text says from North — interpret as South direction 30kN. If North direction, Fy +30. Both cases easy.</strong></p><div class="eq">R<sub>x</sub> = 40 kN &nbsp; R<sub>y</sub> = -30 kN if South &nbsp; R = √(R<sub>x</sub><sup>2</sup>+R<sub>y</sub><sup>2</sup>) = √(1600+900)=√2500 = <strong>50 kN</strong></div><div class="eq">θ = tan<sup>-1</sup>(|R<sub>y</sub>|/R<sub>x</sub>) = tan<sup>-1</sup>(30/40)= tan<sup>-1</sup>0.75 = <strong>36.87° South of East</strong></div><p>If 30kN North then R =50kN 36.87° North of East. Magnitude same.</p><div class="result">If both tensile away East and North, Rx 40 Ry 30 → R=50kN θ=36.87° North of East. Parallelogram diagonal confirms.</div>""",
+   "a_gu":"""<p><strong>પૂર્વ X ધન, ઉત્તર Y ધન. 40kN પૂર્વ = Fx 40, 30kN ઉત્તર થી એટલે દક્ષિણ 30kN — વિગત પ્રમાણે.</strong></p><div class="eq">R<sub>x</sub>=40 kN R<sub>y</sub>=-30kN R =√(1600+900)=√2500=<strong>50 kN</strong></div><div class="eq">θ = tan<sup>-1</sup>(30/40)=<strong>36.87° દક્ષિણ પૂર્વ થી</strong></div><p>જો 30kN ઉત્તર હોય તો 36.87° ઉત્તર પૂર્વ — મૂલ્ય એ જ 50kN.</p><div class="result">બંને ખેંચાણ પૂર્વ ઉત્તર તો 50kN 36.87° ઉત્તર પૂર્વ.</div>""",
+  },
+  {
+   "q_en":"Q.1 (c) OR Following forces are acting at a point. Find magnitude and direction of the resultant force. 1)600 kN towards North 2)500 kN towards S-W 3)400 kN acting from West 4)800 kN acting 30˚ South of East. (7 marks)",
+   "marks_en":"7 marks","marks_gu":"૦૭ ગુણ",
+   "a_en":"""<p><strong>Resolve each to X East Y North:</strong></p><div class="eq">1) 600N: Fx0, Fy+600 &nbsp; 2) 500 SW 45°: Fx -500cos45=-353.55, Fy -353.55 &nbsp; 3) 400 from West = East: Fx+400 &nbsp; 4) 800 30° S of E: Fx 800cos30=692.82, Fy -400</div><div class="eq">ΣFx =0 -353.55+400+692.82 = <strong>739.27 kN</strong> &nbsp; ΣFy=600-353.55-400 = <strong>-153.55 kN</strong></div><div class="eq">R =√(739.27<sup>2</sup>+153.55<sup>2</sup>)= √(546521+23577)=√570098= <strong>754.98 kN ≈755 kN</strong></div><div class="eq">θ = tan<sup>-1</sup>(|ΣFy|/ΣFx)= tan<sup>-1</sup>(153.55/739.27)= tan<sup>-1</sup>0.2077= <strong>11.72° South of East</strong></div><p>If S-W exact west-south 225°, same. Quadrant IV due to positive X negative Y.</p>""",
+   "a_gu":"""<p><strong>દરેક ને X પૂર્વ Y ઉત્તર માં છૂટા પાડો:</strong></p><div class="eq">1) 600N: Fx0 Fy+600 2) 500 SW 45°: Fx -353.55 Fy -353.55 3) 400 પશ્ચિમ થી =પૂર્વ Fx+400 4) 800 30° દક્ષિણ પૂર્વ: Fx692.82 Fy -400</div><div class="eq">ΣFx=739.27 kN ΣFy=-153.55kN R=√(739.27²+153.55²)=<strong>755 kN</strong></div><div class="eq">θ = tan<sup>-1</sup>(153.55/739.27)=<strong>11.72° દક્ષિણ પૂર્વ</strong></div>""",
+  },
+ ]
+},
+{
+ "title_en":"Q2 · Resolution, Varignon and equilibrium",
+ "title_gu":"પ્ર.2 · વિઘટન, Varignon અને સંતુલન",
+ "cards":[
+  {
+   "q_en":"Q.2 (a) Explain resolution of a force. (3 marks)",
+   "marks_en":"3 marks","marks_gu":"૦૩ ગુણ",
+   "a_en":"""<p><strong>Resolution is splitting F into components along axes — opposite of resultant.</strong> For rectangular: Fx = F cosθ Fy = F sinθ where θ with X. For non perpendicular parallelogram law: F1 = F sinα / sin(θ) etc.</p><p>Use to find ΣFx ΣFy then R. For space 3D cos α β γ.</p>""" + svg_wrap(RESOL_SVG,"Fx = F cosθ Fy= F sinθ — then sum components to get resultant","Resolution"),
+   "a_gu":"""<p><strong>Resolution એટલે F ને axis પર છૂટા પાડવા — result નું ઊલટું.</strong> કાટખૂણે Fx = F cosθ Fy = F sinθ. ત્રાંસા માટે parallelogram.</p><p>ΣFx ΣFy થી R મળે.</p>""" + svg_wrap(RESOL_SVG,"Fx = F cosθ Fy = F sinθ — પછી સરવાળો R","Resolution"),
+  },
+  {
+   "q_en":"Q.2 (b) State and explain Varignon’s Principal. (4 marks)",
+   "marks_en":"4 marks","marks_gu":"૦૪ ગુણ",
+   "a_en":"""<p><strong>Varignon's theorem: Moment of resultant about any point equals sum of moments of its components about that point.</strong></p><p>Proof: R = F1+F2 vector → r×R = r×F1 + r×F2. So MoR = Mo1+Mo2.</p><p>Use: Find moment of inclined load by resolving to horizontal vertical then sum — easier than perpendicular distance for slanted force. For distributed load moment = area moment.</p>""" + svg_wrap(VARIGNON_SVG,"Mo(R)=Mo(F1)+Mo(F2) — find moment via components","Varignon"),
+   "a_gu":"""<p><strong>Varignon: કોઈ બિંદુ એ પરિણામી નો moment = ઘટક ના moments નો સરવાળો.</strong></p><p>R = F1+F2 → r×R = r×F1+r×F2. ત્રાંસા બળ નો moment ઘટક પાડી શોધવો સહેલો.</p>""" + svg_wrap(VARIGNON_SVG,"Mo(R)=Mo(F1)+Mo(F2)","Varignon"),
+  },
+  {
+   "q_en":"Q.2 (c) A weight of 100 kN is hung by means of two strings from ceiling as shown in figure (1). Find tensions in both the strings. (7 marks)",
+   "marks_en":"7 marks","marks_gu":"૦૭ ગુણ",
+   "a_en":"""<p><strong>Figure not fully sharp — assume common textbook: strings 30° and 60° with horizontal or symmetric. Method general — adapt angle:</strong></p><p>Equilibrium at knot: ΣFx=0 ΣFy=0. T1 cosθ1 = T2 cosθ2, T1 sinθ1 + T2 sinθ2 =100.</p><p><strong>If symmetric 45° each:</strong> T1=T2 =100/(2 sin45)=100/(1.414)=<strong>70.71 kN each</strong>.</p><p><strong>If 30° left 60° right with horizontal:</strong> Resolve: T1 cos30 = T2 cos60, T1 sin30+T2 sin60=100 → T1≈51.76kN T2=89.65kN. Use Lami: T1/sin(180-θ2) etc gives same.</p><p>Steps: Draw FBD, apply Lami's theorem T1/sinα = T2/sinβ =100/sinγ where opposite angles.</p>""" + svg_wrap(STRING_SVG,"Knot ΣFx ΣFy =0 — Lami T1/sin α = T2/sin β = W/sin γ","Strings"),
+   "a_gu":"""<p><strong>આકૃતિ ઝાંખી — સામાન્ય 30° 60° ધારો:</strong> knot સંતુલન ΣFx=0 ΣFy=0. T1 cosθ1 = T2 cosθ2, T1 sinθ1+T2 sinθ2=100.</p><p><strong>45° સરખું તો</strong> T=70.71kN દરેક. <strong>30° 60° તો</strong> T1≈51.76 T2≈89.65kN. Lami થી પણ એ જ.</p>""" + svg_wrap(STRING_SVG,"knot ΣFx ΣFy=0 — Lami","Strings"),
+  },
+  {
+   "q_en":"Q.2 (a) OR State and explain Principal of Transmissibility of forces. (3 marks)",
+   "marks_en":"3 marks","marks_gu":"૦૩ ગુણ",
+   "a_en":"""<p><strong>Principle: Force acting at one point on rigid body can be moved to any point on its line of action without changing external effects — translations and rotations same.</strong> Internal deformation may change but rigid motion same. Proof via adding equal opposite forces on line.</p><p>Use: Move force along line to convenient point for moment calculation.</p>""",
+   "a_gu":"""<p><strong>નિયમ: Rigid શરીર પર બિંદુ એ લાગતું બળ તેની ક્રિયા રેખા પર ક્યાંય ખસેડો બાહ્ય અસર એ જ રહે.</strong> internal બદલાય પણ ગતિ એ જ.</p>""",
+  },
+  {
+   "q_en":"Q.2 (b) OR Differentiate between Moment and Couple. (4 marks)",
+   "marks_en":"4 marks","marks_gu":"૦૪ ગુણ",
+   "a_en":"""<table><tr><th>Point</th><th>Moment M = F×d</th><th>Couple = F×a</th></tr><tr><td>Definition</td><td>Force times perpendicular to point — causes rotation about point</td><td>Two equal opposite not collinear — pure rotation</td></tr><tr><td>Effect</td><td>Rotation plus translation</td><td>Only rotation, no net force</td></tr><tr><td>Value depends on</td><td>Choice of moment centre</td><td>Free vector same anywhere</td></tr><tr><td>Example</td><td>Spanner turning nut about nut</td><td>Steering wheel two hands, opening tap</td></tr></table>""",
+   "a_gu":"""<table><tr><th>મુદ્દો</th><th>Moment M = F×d</th><th>Couple</th></tr><tr><td>વ્યાખ્યા</td><td>બળ × બિંદુ અંતર — બિંદુ ફરતે ઘૂમણ</td><td>સરખા ઊલટા સમાંતર નહિ — માત્ર ઘૂમણ</td></tr><tr><td>અસર</td><td>ઘૂમણ વત્તા ખસેડ</td><td>માત્ર ઘૂમણ</td></tr><tr><td>ઉદા</td><td>પાના નો નટ ફેરવવું</td><td>steering બે હાથ</td></tr></table>""",
+  },
+  {
+   "q_en":"Q.2 (c) OR A sphere of 200 kN weight is laying between two inclined planes as shown in figure (2). Find reactions offered by two surfaces AB and BC. (7 marks)",
+   "marks_en":"7 marks","marks_gu":"૦૭ ગુણ",
+   "a_en":"""<p><strong>Sphere touches two smooth planes — reactions normal to planes through centre in equilibrium with weight.</strong></p><p>Assume symmetric 45° each with horizontal or as figure 60°? General: ΣFx=0 ΣFy=0. RA sinθ = RB sinφ, RA cosθ + RB cosφ =200.</p><p><strong>If both 45° symmetric:</strong> RA=RB =200/(2 cos45)=200/1.414=<strong>141.42 kN each</strong> normal to each plane.</p><p><strong>If 30° and 60°:</strong> Solve RA=100kN RB=173.2kN etc. Using Lami: RA/sin(180-θW) etc. Check figure angle for exact.</p>""" + svg_wrap(SPHERE_SVG,"Normal reactions concurrent with weight — ΣFx ΣFy =0 gives RA RB","Sphere"),
+   "a_gu":"""<p><strong>ગોળો બે લીસી સપાટી વચ્ચે — પ્રતિક્રિયા સપાટીને લંબ કેન્દ્રમાં.</strong> RA sinθ = RB sinφ RA cosθ+RB cosφ=200.</p><p><strong>45° સરખું તો</strong> RA=RB=141.42kN દરેક. 30°60° તો 100kN 173kN. Lami થી પણ.</p>""" + svg_wrap(SPHERE_SVG,"લંબ પ્રતિક્રિયા વજન સાથે સંતુલન","Sphere"),
+  },
+ ]
+},
+{
+ "title_en":"Q3 · Beams and resultant on square",
+ "title_gu":"પ્ર.3 · બીમ અને ચોરસ પર પરિણામી",
+ "cards":[
+  {
+   "q_en":"Q.3 (a) Enlist different types of beams with figure. (3 marks)",
+   "marks_en":"3 marks","marks_gu":"૦૩ ગુણ",
+   "a_en":"""<ul><li><strong>Simply supported:</strong> Hinged one end roller other.</li><li><strong>Cantilever:</strong> Fixed at one, free at other.</li><li><strong>Overhanging:</strong> Support inset load beyond.</li><li><strong>Fixed:</strong> Both ends fixed moment resists.</li><li><strong>Continuous:</strong> More than 2 supports.</li><li><strong>Propped cantilever:</strong> One fixed one roller.</li></ul>""" + svg_wrap(BEAM_TYPES_SVG,"SS, cantilever, overhang, fixed, continuous, propped","Beam types"),
+   "a_gu":"""<ul><li><strong>Simply supported:</strong> hinged roller.</li><li><strong>Cantilever:</strong> એક fixed બીજું મુક્ત.</li><li><strong>Overhang:</strong> ટેકા વચ્ચે લોડ બહાર.</li><li><strong>Fixed:</strong> બંને fixed.</li><li><strong>Continuous:</strong> 2 થી વધુ ટેકા.</li></ul>""" + svg_wrap(BEAM_TYPES_SVG,"SS cantilever overhang fixed","Beam types"),
+  },
+  {
+   "q_en":"Q.3 (b) Differentiate between axis of reference and axis of symmetry. (4 marks)",
+   "marks_en":"4 marks","marks_gu":"૦૪ ગુણ",
+   "a_en":"""<p><strong>Axis of reference:</strong> Any chosen coordinate X or Y for measurements — moments taken about it, not necessarily centroidal.</p><p><strong>Axis of symmetry:</strong> Line that divides shape into mirror halves — area above equals below mirrored. All symmetry axes are centroidal, CG lies on them. Reference may be outside shape.</p><p>Example: rectangle symmetry both central axes, reference at bottom for ȳ measurement.</p>""" + svg_wrap(AXES_SVG,"Reference any line — symmetry mirror equal centroidal","Axes"),
+   "a_gu":"""<p><strong>Reference axis:</strong> માપ માટે ગમે તે X Y — moment તેના પર.</p><p><strong>Symmetry axis:</strong> આકૃતિ ને અરીસા બે ભાગ — બધા symmetry centroidal હોય CG તેના પર. reference બહાર પણ હોઈ શકે.</p>""" + svg_wrap(AXES_SVG,"Reference ગમે તે — symmetry અરીસો centroidal","Axes"),
+  },
+  {
+   "q_en":"Q.3 (c) A beam ABC is 6 m long. End A is hinged and end B is supported on roller. AB is 4m and BC is overhanging. Span AB is subjected to uniformly distributed load of 12 kN/m, and point load of 6 kN is acting at point C. Find reactions at A and B. (7 marks)",
+   "marks_en":"7 marks","marks_gu":"૦૭ ગુણ",
+   "a_en":"""<p><strong>Hinged A has Ax Ay, roller B has By vertical only. UDL 12kN/m on AB 4m → total 48kN at midpoint 2m from A.</strong></p><div class="eq">ΣFx=0 → A<sub>x</sub>=0 &nbsp; ΣFy=0: A<sub>y</sub>+B<sub>y</sub> =48+6=54kN</div><div class="eq">ΣM<sub>A</sub>=0: B<sub>y</sub>×4 −48×2 −6×6=0 → 4B<sub>y</sub>=96+36=132 → <strong>B<sub>y</sub>=33 kN upward</strong></div><div class="eq">A<sub>y</sub>=54−33= <strong>21 kN upward</strong></div><p>Check ΣM<sub>B</sub>: 21×4 −48×2 +6×2=84−96+12=0 OK. Shear constant, moment max under UDL at mid.</p>""",
+   "a_gu":"""<p><strong>Hinged A માં Ax Ay, roller B માં By માત્ર vertical. UDL 12kN/m 4m →48kN મધ્ય 2m એ.</strong></p><div class="eq">ΣFx=0 Ax=0 ΣFy Ay+By=54kN</div><div class="eq">ΣMA=0: By×4 −48×2 −6×6=0 → By=<strong>33 kN ઉપર</strong></div><div class="eq">Ay=54−33=<strong>21 kN ઉપર</strong></div>""",
+  },
+  {
+   "q_en":"Q.3 (a) OR Enlist different types of supports and loads acting on beam. (3 marks)",
+   "marks_en":"3 marks","marks_gu":"૦૩ ગુણ",
+   "a_en":"""<p><strong>Supports:</strong> Hinged 2 reactions, roller 1 vertical, fixed 3 with moment, simple, spring.</p><p><strong>Loads:</strong> Concentrated point kN, UDL uniform kN/m, UVL triangular zero to max, couple kNm, dead self weight.</p>""" + svg_wrap(SUPPORTS_SVG,"Hinge roller fixed — point UDL UVL couple loads","Supports loads"),
+   "a_gu":"""<p><strong>ટેકા:</strong> hinged 2, roller 1, fixed 3 moment સાથે.</p><p><strong>લોડ:</strong> point kN, UDL kN/m, UVL ત્રિકોણ, couple kNm.</p>""" + svg_wrap(SUPPORTS_SVG,"hinge roller fixed — point UDL UVL couple","Supports loads"),
+  },
+  {
+   "q_en":"Q.3 (b) OR Differentiate between center of gravity and centroid. (4 marks)",
+   "marks_en":"4 marks","marks_gu":"૦૪ ગુણ",
+   "a_en":"""<p><strong>Centroid is geometric centre of area/length/volume — x̄=ΣAx/ΣA — independent of weight.</strong></p><p><strong>CG is weight centre — x̄=ΣWx/ΣW — depends on density and gravity.</strong> For uniform lamina same. Centroid at h/2 rectangle, h/3 triangle, CG same if uniform.</p>""" + svg_wrap(CG_DIFF_SVG,"Centroid geometry — CG weight centre — same for uniform lamina","Centroid vs CG"),
+   "a_gu":"""<p><strong>Centroid ભૌમિતિક કેન્દ્ર — x̄=ΣAx/ΣA વજન પર નિર્ભર નહિ.</strong></p><p><strong>CG વજન કેન્દ્ર — x̄=ΣWx/ΣW — ઘનતા પર. એકસરખી lamina માં એક જ.</strong></p>""" + svg_wrap(CG_DIFF_SVG,"Centroid ભૌમિતિક — CG વજન કેન્દ્ર","Centroid vs CG"),
+  },
+  {
+   "q_en":"Q.3 (c) OR ABCD is a square of side 2 m. Forces of 8 kN, 12 kN, 12 kN and 10 kN are applied in the directions DA, AB, BC and BD respectively. Find the magnitude and direction of the resultant force. (7 marks)",
+   "marks_en":"7 marks","marks_gu":"૦૭ ગુણ",
+   "a_en":"""<p><strong>Place A origin 0,0 B 2,0 C 2,2 D 0,2. DA from D to A down: along -Y 8kN. AB along +X 12kN. BC along +Y 12kN. BD diagonal from B to D: vector D-B = -2,2 → unit (-1/√2,1/√2) ×10kN → Fx -7.07 Fy +7.07.</strong></p><div class="eq">ΣFx =0 +12 +0 -7.07 = <strong>4.93 kN</strong> &nbsp; ΣFy = -8 +0 +12 +7.07 = <strong>11.07 kN</strong></div><div class="eq">R =√(4.93<sup>2</sup>+11.07<sup>2</sup>)=√(24.30+122.54)=√146.84= <strong>12.12 kN</strong></div><div class="eq">θ = tan<sup>-1</sup>(11.07/4.93)= tan<sup>-1</sup>2.245= <strong>65.98° from X positive</strong></div>""",
+   "a_gu":"""<p><strong>A 0,0 B2,0 C2,2 D0,2. DA -Y 8kN, AB +X 12kN, BC +Y12kN, BD D-B -2,2 → Fx -7.07 Fy+7.07.</strong></p><div class="eq">ΣFx=4.93kN ΣFy=11.07kN R=√(4.93²+11.07²)=<strong>12.12 kN</strong></div><div class="eq">θ=tan<sup>-1</sup>(11.07/4.93)=<strong>66° X થી</strong></div>""",
+  },
+ ]
+},
+{
+ "title_en":"Q4 · Friction and centroid of sections",
+ "title_gu":"પ્ર.4 · ઘર્ષણ અને સેક્શન centroid",
+ "cards":[
+  {
+   "q_en":"Q.4 (a) Write advantages and disadvantages of friction. (3 marks)",
+   "marks_en":"3 marks","marks_gu":"૦૩ ગુણ",
+   "a_en":"""<p><strong>Advantages:</strong> Walking without slipping, vehicle tyre grip braking, writing, belt drives, screw holding, ladder standing.</p><p><strong>Disadvantages:</strong> Energy waste heat wear, needs lubrication, reduces efficiency, causes seizure in machines.</p><p>Friction both useful and harmful — control wanted: increase where needed via rubber tread, decrease via oil.</p>""",
+   "a_gu":"""<p><strong>ફાયદા:</strong> ચાલવું tyre grip brake લખવું belt screw ladder.</p><p><strong>ગેરફાયદા:</strong> ઉર્જા બગડે ગરમી ઘસારો lubrication જોઈએ efficiency ઘટે.</p>""",
+  },
+  {
+   "q_en":"Q.4 (b) Find C.G. for an angle section as shown in fig. (3). (4 marks)",
+   "marks_en":"4 marks","marks_gu":"૦૪ ગુણ",
+   "a_en":"""<p><strong>Assume standard ISA 100×100×10mm L — figure often 100×10 plus 90×10 to avoid double count.</strong> Outer size 100×100×10.</p><div class="eq">Let bottom left origin. A1 =100×10=1000 mm² at y1=95mm x1=50mm if top horizontal &nbsp; A2=(100-10)×10=900 at y2=45mm x2=5mm</div><div class="eq">A =1900 &nbsp; x̄ = (1000×50+900×5)/1900 = (50000+4500)/1900= <strong>28.68mm from outer vertical</strong></div><div class="eq">ȳ = (1000×95+900×45)/1900 = (95000+40500)/1900= <strong>71.32mm from bottom</strong> symmetric for square angle lies on 45° diagonal.</div><p>If figure sizes differ substitute same formula.</p>""" + svg_wrap(ANGLE_CG_SVG,"Two rectangles avoid double count — x̄ȳ from bottom left","Angle CG"),
+   "a_gu":"""<p><strong>100×100×10 L ધારો: A1=1000 A2=900 A=1900.</strong></p><div class="eq">x̄=(1000×50+900×5)/1900=<strong>28.68mm</strong> ȳ=(1000×95+900×45)/1900=<strong>71.32mm</strong> — 45° પર.</div>""" + svg_wrap(ANGLE_CG_SVG,"બે લંબચોરસ — x̄ȳ","Angle CG"),
+  },
+  {
+   "q_en":"Q.4 (c) A wooden block weighing 200 kN is placed on a rough inclined plane. It makes 30 º angle with horizontal. If co-efficient of friction is 0.15, find the force applied on the block parallel to the plane so that the block is just on the point of moving up the plane. Also find angle of friction. (7 marks)",
+   "marks_en":"7 marks","marks_gu":"૦૭ ગુણ",
+   "a_en":"""<p><strong>Inclined α=30° Weight W=200kN μ=0.15 block tends to slide down friction up — to push up need overcome W sinα plus friction.</strong></p><div class="eq">N = W cosα =200×cos30=200×0.8660= <strong>173.205 kN</strong></div><div class="eq">F = μN =0.15×173.205= <strong>25.98 kN</strong></div><div class="eq">P_up = W sinα + F =200×0.5 +25.98=100+25.98= <strong>125.98 kN parallel up</strong></div><div class="eq">Angle of friction φ = tan<sup>-1</sup>μ = tan<sup>-1</sup>0.15 = <strong>8.53°</strong></div>""" + svg_wrap(FRICTION_INCLINE_SVG,"N=W cosα F=μN P= W sinα + F — φ= tan⁻¹μ","Incline up"),
+   "a_gu":"""<p><strong>α=30° W=200kN μ=0.15 ઉપર ધકેલવા W sinα અને friction બંને સામે.</strong></p><div class="eq">N=W cosα=173.205kN F=μN=25.98kN</div><div class="eq">P_up= W sinα+F=125.98kN ઉપર સમાંતર</div><div class="eq">φ=tan<sup>-1</sup>0.15=<strong>8.53°</strong></div>""" + svg_wrap(FRICTION_INCLINE_SVG,"N=Wcosα P=Wsinα+F φ=8.53°","Incline up"),
+  },
+  {
+   "q_en":"Q.4 (a) OR Define: (1) Friction (2) Co-efficient of friction (3) Angle of repose (3 marks)",
+   "marks_en":"3 marks","marks_gu":"૦૩ ગુણ",
+   "a_en":"""<p><strong>Friction:</strong> Force opposing relative motion between contact surfaces — acts parallel tangent.</p><p><strong>Coefficient μ:</strong> Ratio limiting friction F to normal N — μ= F/N dimensionless depends on surfaces.</p><p><strong>Angle of repose:</strong> Maximum inclination where block just does not slide under own weight — equal to angle of friction tan φ = μ.</p>""",
+   "a_gu":"""<p><strong>Friction:</strong> સંપર્ક સપાટી વચ્ચે સંબંધિત ગતિ રોકતું બળ.</p><p><strong>μ:</strong> F/N ગુણોત્તર.</p><p><strong>Angle of repose:</strong> પોતાના વજન થી સરક્યા વગર મહત્તમ ઢોળાવ — φ જેટલો.</p>""",
+  },
+  {
+   "q_en":"Q.4 (b) OR Find C.G. for a T section as shown in fig. (4). (4 marks)",
+   "marks_en":"4 marks","marks_gu":"૦૪ ગુણ",
+   "a_en":"""<p><strong>Assume flange 100×20 top web 80×20 forming T total height 100mm.</strong></p><div class="eq">A1 flange =100×20=2000 at y1 =80+10=90mm from bottom &nbsp; A2 web=80×20=1600 at y2=40mm</div><div class="eq">ȳ = (2000×90 +1600×40)/3600 = (180000+64000)/3600=244000/3600= <strong>67.78mm from bottom</strong></div><p>x̄ 0 by symmetry on vertical centre. If dimensions different substitute same steps.</p>""" + svg_wrap(T_CG_SVG,"Flange top web stem — ȳ from bottom via area weighting","T CG"),
+   "a_gu":"""<p><strong>100×20 flange 80×20 web — A1=2000 y1=90 A2=1600 y2=40 ȳ=67.78mm નીચે થી, symmetry થી x̄ 0.</strong></p>""" + svg_wrap(T_CG_SVG,"flange web — ȳ 67.78mm","T CG"),
+  },
+  {
+   "q_en":"Q.4 (c) OR The pull of 50 N inclined at 30˚ to the horizontal is necessary to move a wooden block on horizontal table. If co-efficient of friction is 0.2, find weight of wooden block. (7 marks)",
+   "marks_en":"7 marks","marks_gu":"૦૭ ગુણ",
+   "a_en":"""<p><strong>Pull P 50N at 30° above horizontal upward reduces normal.</strong></p><div class="eq">ΣV=0: N + P sin30 = W → N = W −50×0.5 = W −25</div><div class="eq">ΣH=0: P cos30 = F = μN → 50×0.8660=0.2(W−25) →43.30=0.2W−5 →0.2W=48.30 → <strong>W=241.5 N</strong></div><p>On verge of motion F = limiting. If push instead N = W+P sin30 would increase weight.</p>""" + svg_wrap(PULL_SVG,"N = W - P sin30, P cos30 = μN → W=241.5N","Pull horizontal"),
+   "a_gu":"""<p><strong>30° ઉપર 50N ખેંચાણ normal ઘટાડે:</strong> N=W−25, Pcos30=μN →43.30=0.2(W−25)→<strong>W=241.5N</strong></p>""" + svg_wrap(PULL_SVG,"W=241.5N","Pull horizontal"),
+  },
+ ]
+},
+{
+ "title_en":"Q5 · Machines — efficiency and VR",
+ "title_gu":"પ્ર.5 · મશીન — ક્ષમતા અને VR",
+ "cards":[
+  {
+   "q_en":"Q.5 (a) Write short note on Law of Machine. (3 marks)",
+   "marks_en":"3 marks","marks_gu":"૦૩ ગુણ",
+   "a_en":"""<p><strong>Law of machine relates effort P and load W linearly: P = mW + C.</strong> m =tanθ slope reciprocal of efficiency at large load, C = friction intercept effort at no load. Determined by testing machine at different W measure P plot straight line.</p><p>From law ideal effort Pi = mW, friction Pf = C, mechanical advantage changes with load.</p>""",
+   "a_gu":"""<p><strong>યંત્ર નો નિયમ P = mW + C સીધી રેખા — m ઢાળ, C નો લોડે friction.</strong> જુદા W પર P માપી plot કરી મળે.</p>""",
+  },
+  {
+   "q_en":"Q.5 (b) Differentiate between reversible and irreversible machines. (4 marks)",
+   "marks_en":"4 marks","marks_gu":"૦૪ ગુણ",
+   "a_en":"""<table><tr><th>Point</th><th>Reversible</th><th>Irreversible self locking</th></tr><tr><td>Condition</td><td>Efficiency above 50% — can lower load by small effort</td><td>Efficiency below 50% — load does not descend on its own</td></tr><tr><td>Effort removal</td><td>Load comes down — needs brake</td><td>Load stays — safe for lifting</td></tr><tr><td>Example</td><td>Simple wheel pulley</td><td>Screw jack</td></tr></table>""",
+   "a_gu":"""<table><tr><th>મુદ્દો</th><th>Reversible</th><th>Irreversible</th></tr><tr><td>શરત</td><td>η>50% load જાતે નીચે આવે</td><td>η<50% load અટકે</td></tr></table>""",
+  },
+  {
+   "q_en":"Q.5 (c) In a double purchase crab the pinions have 10 and 20 teeth and spur wheels have 40 and 50 teeth. The handle is 30 cm long and load axle drum is 20 cm in diameter. Find the effort required to lift a load of 1500 N when efficiency of the machine is 40%. (7 marks)",
+   "marks_en":"7 marks","marks_gu":"૦૭ ગુણ",
+   "a_en":"""<div class="eq">Velocity ratio VR = <span class="frac"><span class="num">Distance effort per rev</span><span class="den">Distance load per rev</span></span> = <span class="frac"><span class="num">2π×handle length</span><span class="den">π×drum diameter</span></span> × <span class="frac"><span class="num">T3×T4</span><span class="den">T1×T2</span></span></div><div class="eq"> = <span class="frac"><span class="num">2×30</span><span class="den">20</span></span> × <span class="frac"><span class="num">40×50</span><span class="den">10×20</span></span> =3 ×10 = <strong>30</strong></div><div class="eq">Ideal effort Pi = <span class="frac"><span class="num">W</span><span class="den">VR</span></span> =1500/30=50N</div><div class="eq">Actual with η 0.40: P = Pi/η =50/0.40= <strong>125 N</strong></div><p>Check: MA =W/P =12, η=MA/VR=12/30=0.40 OK.</p>""" + svg_wrap(DB_CRAB_SVG,"VR = (2Rh/Dd)×(T3T4/T1T2)=30 ideal 50N actual 125N at 40%","Double crab"),
+   "a_gu":"""<div class="eq">VR = (2×handle/drum)×(T3T4/T1T2)=3×10=<strong>30</strong></div><div class="eq">Ideal 1500/30=50N વાસ્તવિક 40% એ 50/0.4=<strong>125N</strong></div>""" + svg_wrap(DB_CRAB_SVG,"VR 30 ideal 50N 125N 40%","Double crab"),
+  },
+  {
+   "q_en":"Q.5 (a) OR Define: (1) Velocity Ratio, (2) Mechanical Advantage, (3) Ideal Machine (3 marks)",
+   "marks_en":"3 marks","marks_gu":"૦૩ ગુણ",
+   "a_en":"""<p><strong>Velocity ratio VR:</strong> Ratio distance moved by effort to distance moved by load per unit time — Dp/Dw — constant for machine geometry.</p><p><strong>Mechanical advantage MA:</strong> Load lifted divided by effort applied — W/P — varies with friction.</p><p><strong>Ideal machine:</strong> Frictionless η=100% so MA = VR — effort only overcomes load, no losses.</p>""",
+   "a_gu":"""<p><strong>VR:</strong> effort અંતર / load અંતર — geometry સ્થિર.</p><p><strong>MA:</strong> W/P.</p><p><strong>Ideal:</strong> friction શૂન્ય η=100% MA=VR.</p>""",
+  },
+  {
+   "q_en":"Q.5 (b) OR Prove with usual notations efficiency Ƞ = M.A./ V.R.. (4 marks)",
+   "marks_en":"4 marks","marks_gu":"૦૪ ગુણ",
+   "a_en":"""<div class="eq">η = <span class="frac"><span class="num">Output</span><span class="den">Input</span></span> = <span class="frac"><span class="num">W × Dw</span><span class="den">P × Dp</span></span> = <span class="frac"><span class="num">W</span><span class="den">P</span></span> × <span class="frac"><span class="num">Dw</span><span class="den">Dp</span></span> = MA × <span class="frac"><span class="num">1</span><span class="den">VR</span></span></div><div class="result">η = <span class="frac"><span class="num">MA</span><span class="den">VR</span></span></div>""",
+   "a_gu":"""<div class="eq">η = (W×Dw)/(P×Dp) = (W/P)×(Dw/Dp)=MA/VR</div><div class="result">η=MA/VR</div>""",
+  },
+  {
+   "q_en":"Q.5 (c) OR In a simple lifting machine an effort of 2 kN raised a load of 60 kN and an effort of 3 kN raised a load of 100 kN. The velocity ratio of the machine is 50. Calculate 1) the effort required to lift a load of 160 kN, 2) maximum efficiency of the machine and 3) state weather this machine is reversible or self locking. (7 marks)",
+   "marks_en":"7 marks","marks_gu":"૦૭ ગુણ",
+   "a_en":"""<p><strong>Find law P = mW + C from two points: 2 = m×60 + C, 3 = m×100 + C → subtract 1= m×40 → m=0.025.</strong></p><div class="eq">C =2 −0.025×60=2−1.5= <strong>0.5 kN</strong> &nbsp; Law: <strong>P =0.025W +0.5</strong></div><div class="eq">1) For W160kN: P =0.025×160+0.5=4+0.5= <strong>4.5 kN</strong></div><div class="eq">2) Max efficiency η<sub>max</sub>= <span class="frac"><span class="num">1</span><span class="den">m×VR</span></span> = <span class="frac"><span class="num">1</span><span class="den">0.025×50</span></span> =1/1.25= <strong>80%</strong></div><p>3) Since 80% above 50% → <strong>reversible machine</strong> — load will descend if effort removed, not self locking. MA for 160kN =160/4.5=35.56 η=35.56/50=71.1% less than max.</p>""" + svg_wrap(MACHINE_SVG,"P=mW+C → m=0.025 C=0.5 → P160=4.5kN ηmax 80% reversible","Law P=mW+C"),
+   "a_gu":"""<p><strong>બે બિંદુ થી P=mW+C: 2=m60+C 3=m100+C → m=0.025 C=0.5 Law P=0.025W+0.5</strong></p><div class="eq">W160 માટે P=4.5kN ηmax=1/(mVR)=80% → <strong>reversible</strong> load નીચે આવે.</div>""" + svg_wrap(MACHINE_SVG,"P=0.025W+0.5 ηmax80%","Law P=mW+C"),
+  },
+ ]
+},
+]
+
+def build_page():
+    sections_html=[]
+    for sec in SECTIONS:
+        cards=[]
+        for c in sec["cards"]:
+            q_html=html.escape(c["q_en"])
+            cards.append(f'''<details class="card"><summary><strong><span class="en">{q_html}</span><span class="gu">{q_html}</span></strong><small><span class="en">{c["marks_en"]}</span><span class="gu">{c["marks_gu"]}</span></small></summary><div class="answer"><div class="en">{c["a_en"]}</div><div class="gu">{c["a_gu"]}</div></div></details>''')
+        sections_html.append(f'''<section class="group"><h2>{html.escape(sec["title_en"])}</h2>{''.join(cards)}</section>''')
+    page=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DI02000071 · Winter 2025 solved paper</title><style>{CSS}</style></head><body><main class="page"><header class="hero"><div class="eyebrow">Solved question paper · English questions · Friendly Gujarati answers</div><div class="lang-switch" aria-label="Choose language"><button type="button" data-lang="en" aria-pressed="true">English</button><button type="button" data-lang="gu" aria-pressed="false">ગુજરાતી</button></div><h1>Engineering Mechanics</h1><div class="meta">GTU Diploma · Civil/All · Semester 2 · Winter 2025 · DI02000071 · 20-01-2026 · 70 marks · 10:30 AM TO 01:00PM</div></header>{''.join(sections_html)}<div class="footer">Solved paper for study. Verify with standard data book before site application.</div></main><script>document.querySelectorAll('.lang-switch button').forEach(b=>b.addEventListener( 'click',()=>{{document.documentElement.lang=b.dataset.lang;document.querySelectorAll('.lang-switch button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));}}));</script></body></html>'''
+    return page
+
+def main():
+    page=build_page()
+    out_papers=ROOT/"papers-upload/papers/DI02000071/winter-2025.html"
+    out_ws=ROOT/"preview/workshop/DI02000071_winter2025_bilingual.html"
+    out_papers.parent.mkdir(parents=True,exist_ok=True)
+    out_ws.parent.mkdir(parents=True,exist_ok=True)
+    out_papers.write_text(page,encoding="utf-8")
+    out_ws.write_text(page,encoding="utf-8")
+    d=page.count('<details'); s=page.count('<section'); ce=page.count('class="en"'); cg=page.count('class="gu"')
+    print(f"Bilingual: {out_papers} ({len(page)} chars)")
+    print(f"details={d}, sections={s}, en={ce}, gu={cg}")
+    print("PASS" if d==28 and s==5 and ce>=28 and cg>=28 else "FAIL")
+    figs=page.count('<figure>'); fracs=page.count('class="frac"')
+    print(f"figs={figs} fracs={fracs}")
+    import re
+    gu=''.join(re.findall(r'<div class="gu">(.*?)</div>',page,re.S))
+    print(f"brackets gu={gu.count('(')+gu.count(')')}")
+    (ROOT/"drive-upload/DI02000071_winter_2025_bilingual.html").write_text(page,encoding="utf-8")
+
+if __name__=="__main__":
+    main()
