@@ -1,0 +1,471 @@
+#!/usr/bin/env python3
+"""Build DI04000321 Electrical Machines-II Summer 2026 — friendly Gujarati, minimal brackets."""
+from pathlib import Path
+import html
+ROOT = Path(__file__).resolve().parent.parent
+CSS = """:root{--ink:#20252d;--muted:#65717d;--blue:#145c8b;--line:#d9e1e7;--paper:#f7f9fb;--purple:#58316f}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+.page{width:min(1000px,calc(100% - 32px));margin:26px auto 70px}
+.hero{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px;margin-bottom:24px}
+.eyebrow{color:var(--blue);font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.hero h1{font-size:clamp(1.5rem,4vw,2.25rem);line-height:1.2;margin:.45rem 0}
+.meta{color:var(--muted);font-size:.9rem}
+.group{margin:30px 0}.group h2{font-size:1.35rem;color:var(--blue);margin:0 0 10px}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;margin:10px 0;overflow:hidden}
+.card summary{cursor:pointer;padding:15px 17px;color:#164f73;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.card summary strong{flex:1;min-width:220px}.card summary small{font-size:.78rem;color:var(--muted);white-space:nowrap}
+.answer{border-top:1px solid var(--line);padding:18px 20px;overflow-wrap:anywhere}
+.answer p{margin:9px 0}.answer li{margin:5px 0}.answer ul,.answer ol{padding-left:1.35rem}
+.eq{font-family:Georgia,serif;font-size:1.04rem;background:#f4f7f9;border-left:3px solid #7caac5;padding:9px 12px;margin:11px 0;overflow-x:auto}
+.frac{display:inline-flex;vertical-align:middle;flex-direction:column;text-align:center;font-style:italic;line-height:1.15;margin:0 .15em}
+.num{border-bottom:1px solid currentColor;padding:0 .3em .1em}
+.den{padding:.1em .3em 0}
+.result{display:table;background:#f1fbf6;border:1px solid #77a795;border-radius:7px;padding:7px 11px;margin:10px 0}
+.answer table{border-collapse:collapse;width:100%;font-size:.93rem;margin:12px 0}
+.answer th,.answer td{border:1px solid #d4dde4;padding:8px;vertical-align:top;text-align:left}
+.answer th{background:#edf5f9}
+pre{background:#f4f7f9;border:1px solid #d9e1e7;border-radius:6px;padding:10px;overflow-x:auto;font-size:.9rem;line-height:1.5}
+code{font-family:ui-monospace,monospace}
+figure{margin:16px auto;max-width:760px}figure svg{display:block;width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:8px}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:5px}
+.footer{font-size:.82rem;color:var(--muted);border-top:1px solid var(--line);margin-top:36px;padding-top:14px}
+.lang-switch{display:flex;gap:8px;margin:12px 0}.lang-switch button{border:1px solid #c9b9d1;background:#fff;color:var(--purple);border-radius:20px;padding:7px 13px;font-weight:700;cursor:pointer;font:inherit;font-size:.85rem}
+.lang-switch button[aria-pressed="true"]{background:var(--purple);color:#fff}
+html[lang="en"] .gu{display:none!important}html[lang="gu"] .en{display:none!important}
+:lang(gu){font-family:"Noto Sans Gujarati","Shruti","Nirmala UI",system-ui,sans-serif;line-height:1.85}
+@media(max-width:600px){.page{width:calc(100% - 20px);margin-top:10px}.hero{padding:19px}.answer{padding:14px}.card summary strong{min-width:160px}.answer table{font-size:.82rem}.answer th,.answer td{padding:6px}}
+"""
+def svg_wrap(inner,caption,label):
+    return f'<figure><svg role="img" aria-label="{html.escape(label)}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 220" font-family="Arial,sans-serif">{inner}</svg><figcaption>{html.escape(caption)}</figcaption></figure>'
+
+# --- SVG definitions ---
+TYPES_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#164f73">Single phase IM types and where they are used</text>
+<g font-size="6.5">
+<rect x="10" y="35" width="105" height="36" rx="6" fill="#eaf4fa" stroke="#145c8b"/><text x="62" y="48" text-anchor="middle" font-weight="bold">Split phase</text><text x="62" y="60" text-anchor="middle">fans, washing drain pump</text>
+<rect x="125" y="35" width="105" height="36" rx="6" fill="#fff3e0" stroke="#b77e24"/><text x="177" y="48" text-anchor="middle" font-weight="bold">Capacitor start run</text><text x="177" y="60" text-anchor="middle">compressor, pump, AC</text>
+<rect x="240" y="35" width="110" height="36" rx="6" fill="#f1fbf6" stroke="#77a795"/><text x="295" y="48" text-anchor="middle" font-weight="bold">Permanent capacitor</text><text x="295" y="60" text-anchor="middle">ceiling fan, blower</text>
+<rect x="10" y="80" width="105" height="36" rx="6" fill="#efe3fa" stroke="#7B2CD9"/><text x="62" y="93" text-anchor="middle" font-weight="bold">Shaded pole</text><text x="62" y="105" text-anchor="middle">table fan, toy, relay</text>
+<rect x="125" y="80" width="105" height="36" rx="6" fill="#fce9e9" stroke="#c00"/><text x="177" y="93" text-anchor="middle" font-weight="bold">Capacitor start cap run</text><text x="177" y="105" text-anchor="middle">high torque pump</text>
+<rect x="240" y="80" width="110" height="36" rx="6" fill="#f7f9fb" stroke="#333"/><text x="295" y="93" text-anchor="middle" font-weight="bold">Universal / Repulsion</text><text x="295" y="105" text-anchor="middle">mixer, drill, traction</text>
+</g>
+<text x="180" y="140" font-size="6.5" text-anchor="middle" fill="#333">Choice depends on starting torque, cost and noise — fan needs quiet low torque, pump needs high start torque</text>"""
+
+CSIR_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#164f73">Capacitor Start Induction Run — construction and phasor</text>
+<rect x="20" y="30" width="150" height="90" rx="8" fill="#eaf4fa" stroke="#145c8b"/><text x="95" y="44" text-anchor="middle" font-size="7" font-weight="bold">Stator</text><text x="95" y="56" font-size="6" text-anchor="middle">Main winding — thick, low R</text><text x="95" y="68" font-size="6" text-anchor="middle">Aux winding — 90° apart, thin</text><text x="95" y="80" font-size="6" text-anchor="middle">Capacitor + centrifugal switch</text><text x="95" y="92" font-size="6" text-anchor="middle">in series with aux</text><text x="95" y="104" font-size="5.5" text-anchor="middle">opens at ~75% speed</text>
+<rect x="190" y="30" width="150" height="90" rx="8" fill="#fff3e0" stroke="#b77e24"/><text x="265" y="44" text-anchor="middle" font-size="7" font-weight="bold">Rotor</text><text x="265" y="58" font-size="6" text-anchor="middle">Squirrel cage — bars shorted</text><text x="265" y="72" font-size="6" text-anchor="middle">No winding, rugged</text><text x="265" y="86" font-size="6" text-anchor="middle">Rotating field cuts bars</text><text x="265" y="100" font-size="6" text-anchor="middle">→ induced current → torque</text>
+<g font-size="6">
+<line x1="80" y1="135" x2="120" y2="135" stroke="#145c8b" stroke-width="1.2"/><polygon points="120,135 112,131 112,139" fill="#145c8b"/><text x="100" y="130" text-anchor="middle" fill="#145c8b">Im — lag</text>
+<line x1="80" y1="145" x2="115" y2="125" stroke="#b77e24" stroke-width="1.2"/><polygon points="115,125 110,131 108,122" fill="#b77e24"/><text x="95" y="120" text-anchor="middle" fill="#b77e24">Ia — lead ~80°</text>
+<text x="180" y="160" font-size="6.5" text-anchor="middle">Two currents ~90° apart → elliptical rotating field → starting torque, then only main runs</text>
+</g>"""
+
+RMF_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#164f73">Rotating magnetic field from 3 phase supply</text>
+<g font-size="6">
+<circle cx="90" cy="90" r="50" fill="none" stroke="#145c8b" stroke-width="1"/><text x="90" y="20" font-size="6" text-anchor="middle">Stator 3 coils 120° apart</text>
+<line x1="90" y1="90" x2="90" y2="38" stroke="#c00" stroke-width="1"/><text x="92" y="35" fill="#c00">A</text>
+<line x1="90" y1="90" x2="135" y2="115" stroke="#0a7a2e" stroke-width="1"/><text x="138" y="118" fill="#0a7a2e">B</text>
+<line x1="90" y1="90" x2="45" y2="115" stroke="#7B2CD9" stroke-width="1"/><text x="40" y="118" fill="#7B2CD9">C</text>
+<path d="M140 70 A55 55 0 0 1 140 110" fill="none" stroke="#333" stroke-dasharray="3 3"/><text x="150" y="90" font-size="5">rotation →</text>
+</g>
+<text x="250" y="50" font-size="6">Instant currents sum to rotating vector</text><text x="250" y="62" font-size="6">Magnitude = 1.5 Φm constant</text><text x="250" y="74" font-size="6">Speed Ns = 120f/P</text><text x="250" y="86" font-size="6">Reversing any two phases →</text><text x="250" y="98" font-size="6">field reverses → motor reverses</text>
+<text x="180" y="145" font-size="7" text-anchor="middle">Three balanced sine currents make steady rotating field without any mechanical rotation</text>"""
+
+DOUBLE_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#164f73">Double field — why single phase not self start</text>
+<line x1="60" y1="90" x2="120" y2="60" stroke="#145c8b" stroke-width="1.2"/><polygon points="120,60 112,62 115,70" fill="#145c8b"/><text x="125" y="58" font-size="6" fill="#145c8b">Forward +½Φ</text>
+<line x1="60" y1="90" x2="120" y2="120" stroke="#b77e24" stroke-width="1.2"/><polygon points="120,120 112,118 115,110" fill="#b77e24"/><text x="125" y="125" font-size="6" fill="#b77e24">Backward +½Φ</text>
+<circle cx="60" cy="90" r="2" fill="#333"/>
+<text x="200" y="50" font-size="6">Pulsating Φ = forward + backward</text><text x="200" y="62" font-size="6">At standstill s=1 both give equal</text><text x="200" y="74" font-size="6">→ opposite torques cancel → net 0</text><text x="200" y="86" font-size="6">If pushed, forward slip small,</text><text x="200" y="98" font-size="6">backward slip ~2 → net torque forward</text>
+<text x="180" y="135" font-size="6.5" text-anchor="middle">Single phase gives no rotating field at start, two half fields cancel. Aux winding makes phase shift to start.</text>"""
+
+DOL_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#164f73">DOL Starter — 3 phase induction motor</text>
+<rect x="20" y="30" width="320" height="110" rx="8" fill="#f7f9fb" stroke="#333"/><g font-size="6">
+<text x="40" y="45">L1 L2 L3 → MCCB →</text><text x="40" y="58">Contactor C → OLR → Motor</text><text x="40" y="71">Coil via Start NO + Stop NC</text><text x="40" y="84">in series with OLR NC</text><text x="40" y="97">Hold on contact seals</text>
+<rect x="190" y="40" width="70" height="22" rx="4" fill="#eaf4fa" stroke="#145c8b"/><text x="225" y="54" text-anchor="middle">START</text>
+<rect x="190" y="68" width="70" height="22" rx="4" fill="#fce9e9" stroke="#c00"/><text x="225" y="82" text-anchor="middle">STOP</text>
+<rect x="190" y="96" width="70" height="22" rx="4" fill="#fff3e0" stroke="#b77e24"/><text x="225" y="110" text-anchor="middle">OLR</text>
+</g>
+<text x="180" y="160" font-size="6.5" text-anchor="middle">Press START → coil energises → main contacts close → motor direct on line, OLR trips on overload</text>
+<text x="180" y="175" font-size="6" text-anchor="middle" fill="#666">Upto ~5 HP, simple cheap, full voltage start — high inrush 5 to 7 times</text>"""
+
+SHADED_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#164f73">Shaded pole motor — flux shift makes rotation</text>
+<rect x="30" y="35" width="100" height="70" rx="6" fill="#eaf4fa" stroke="#145c8b"/><text x="80" y="50" text-anchor="middle" font-size="7" font-weight="bold">Stator pole</text><text x="80" y="62" font-size="5.5" text-anchor="middle">one part covered</text><text x="80" y="72" font-size="5.5" text-anchor="middle">by copper shading ring</text><text x="80" y="82" font-size="5.5" text-anchor="middle">shorted turn</text>
+<text x="160" y="55" font-size="6">Main flux Φm</text><line x1="130" y1="60" x2="145" y2="60" stroke="#333"/><polygon points="145,60 137,56 137,64" fill="#333"/>
+<text x="160" y="70" font-size="6">Shaded flux Φs lags</text><line x1="130" y1="75" x2="145" y2="75" stroke="#b77e24"/><polygon points="145,75 137,71 137,79" fill="#b77e24"/>
+<rect x="190" y="35" width="140" height="70" rx="6" fill="#fff3e0" stroke="#b77e24"/><text x="260" y="50" font-size="6" text-anchor="middle">Unshaded part flux first,</text><text x="260" y="62" font-size="6" text-anchor="middle">shaded part delayed by induced</text><text x="260" y="74" font-size="6" text-anchor="middle">current → moving flux → torque</text><text x="260" y="86" font-size="6" text-anchor="middle">from unshaded to shaded</text>
+<text x="180" y="130" font-size="7" text-anchor="middle">Low torque, very simple, no capacitor — used in small fans and timers</text>"""
+
+ALTERNATOR_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#164f73">Alternator rotors — salient vs cylindrical</text>
+<rect x="15" y="35" width="160" height="85" rx="8" fill="#eaf4fa" stroke="#145c8b"/><text x="95" y="50" text-anchor="middle" font-size="7" font-weight="bold">Salient pole — projected</text><text x="95" y="62" font-size="6" text-anchor="middle">Poles bolted on spider, large dia</text><text x="95" y="72" font-size="6" text-anchor="middle">short axial, low speed 125 to 500 rpm</text><text x="95" y="82" font-size="6" text-anchor="middle">hydro, diesel, many poles</text><text x="95" y="92" font-size="6" text-anchor="middle">damper slots, uneven airgap</text>
+<rect x="185" y="35" width="160" height="85" rx="8" fill="#fff3e0" stroke="#b77e24"/><text x="265" y="50" text-anchor="middle" font-size="7" font-weight="bold">Cylindrical — non-salient</text><text x="265" y="62" font-size="6" text-anchor="middle">Solid forged steel, slots for DC</text><text x="265" y="72" font-size="6" text-anchor="middle">small dia long axial, high speed</text><text x="265" y="82" font-size="6" text-anchor="middle">1500 / 3000 rpm, 2 or 4 pole</text><text x="265" y="92" font-size="6" text-anchor="middle">turbo steam / gas, uniform airgap</text>
+<text x="180" y="140" font-size="6.5" text-anchor="middle">Choice depends on prime mover speed — water slow so salient, steam fast so cylindrical</text>"""
+
+PHASOR_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#164f73">Alternator phasor — lag and lead</text>
+<g font-size="6">
+<circle cx="90" cy="90" r="45" fill="none" stroke="#ddd"/><line x1="90" y1="90" x2="130" y2="70" stroke="#145c8b" stroke-width="1"/><text x="135" y="68" fill="#145c8b">Ia lag</text><line x1="90" y1="90" x2="90" y2="45" stroke="#c00" stroke-width="1"/><text x="92" y="40" fill="#c00">V</text><line x1="90" y1="90" x2="135" y2="55" stroke="#0a7a2e" stroke-width="1"/><text x="138" y="52" fill="#0a7a2e">Ef lag case larger</text>
+<circle cx="260" cy="90" r="45" fill="none" stroke="#ddd"/><line x1="260" y1="90" x2="300" y2="100" stroke="#145c8b" stroke-width="1"/><text x="302" y="103" fill="#145c8b">Ia lead</text><line x1="260" y1="90" x2="260" y2="45" stroke="#c00" stroke-width="1"/><text x="262" y="40" fill="#c00">V</text><line x1="260" y1="90" x2="285" y2="55" stroke="#0a7a2e" stroke-width="1"/><text x="287" y="52" fill="#0a7a2e">Ef lead smaller</text>
+</g>
+<text x="180" y="145" font-size="6.5" text-anchor="middle">Ef = V + Ia(Ra + jXs), lag needs more excitation, lead needs less — controls Pf</text>"""
+
+EMF_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#164f73">EMF equation of alternator — derivation steps</text>
+<g font-size="6.5">
+<text x="20" y="40">Flux Φ per pole, P poles, N rpm → f = P·N / 120</text>
+<text x="20" y="58">One turn cuts 2Φ per rev → e_avg per turn = 4 f Φ</text>
+<text x="20" y="76">T turns → 4.44 f Φ T sine wave factor</text>
+<text x="20" y="94">Pitch Kp = cos ε/2, Distribution Kd = sin qβ/2 / q sin β/2</text>
+<text x="20" y="112">Eph = 4.44 Kp Kd f Φ T, Line = √3 Eph for star</text>
+</g>
+<text x="180" y="135" font-size="7" text-anchor="middle" fill="#145c8b">If short pitched, Kp less than 1 but harmonics reduce — design trade off</text>
+<text x="180" y="150" font-size="6" text-anchor="middle" fill="#666">All conductors in series as in Q4c, T = total conductors / 2 / phases</text>"""
+
+TORQUE_SLIP_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#164f73">Torque slip characteristic — 3 phase IM</text>
+<path d="M30 160 L200 160" stroke="#333" stroke-width="1"/><path d="M30 160 L30 30" stroke="#333" stroke-width="1"/><text x="200" y="170" font-size="6" text-anchor="middle">slip s → 0 to 1 to 2</text><text x="12" y="35" font-size="6">Torque</text>
+<path d="M30 150 C60 100 90 40 120 70 C150 110 180 140 195 150" fill="none" stroke="#145c8b" stroke-width="1.5"/>
+<circle cx="120" cy="70" r="2.5" fill="#c00"/><text x="125" y="65" font-size="5.5" fill="#c00">Tmax at s=R2/X2</text>
+<text x="60" y="100" font-size="5.5">stable 0 — sm</text><text x="150" y="100" font-size="5.5">unstable sm — 1</text><text x="100" y="185" font-size="6" text-anchor="middle">Generator s negative, motoring 0-1, braking 1-2</text>
+<text x="180" y="200" font-size="6.5" text-anchor="middle" fill="#333">High R2 shifts peak to higher slip — slip ring gives high starting torque</text>"""
+
+EQUIV_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#164f73">Equivalent circuit of 3 phase induction motor</text>
+<g font-size="6">
+<rect x="20" y="40" width="40" height="20" rx="4" fill="#eaf4fa" stroke="#145c8b"/><text x="40" y="53" text-anchor="middle">R1</text>
+<rect x="65" y="40" width="40" height="20" rx="4" fill="#fff3e0" stroke="#b77e24"/><text x="85" y="53" text-anchor="middle">jX1</text>
+<rect x="115" y="40" width="50" height="30" rx="6" fill="#f1fbf6" stroke="#77a795"/><text x="140" y="53" text-anchor="middle">jXm</text><text x="140" y="62" font-size="5">magnetising</text>
+<rect x="175" y="40" width="40" height="20" rx="4" fill="#fce9e9" stroke="#c00"/><text x="195" y="53" text-anchor="middle">R2/s</text>
+<rect x="220" y="40" width="40" height="20" rx="4" fill="#efe3fa" stroke="#7B2CD9"/><text x="240" y="53" text-anchor="middle">jX2</text>
+<text x="20" y="80" font-size="6">V1 → R1 jX1 → parallel Xm → series R2/s jX2 → slip power</text>
+<text x="20" y="92" font-size="6">R2/s = R2 + R2(1-s)/s — second part is mechanical load</text>
+<text x="20" y="104" font-size="6">No load test → Xm, blocked rotor → R1+R2, X1+X2</text>
+</g>
+<text x="180" y="125" font-size="7" text-anchor="middle">Referred to stator, single phase diagram, three phases identical balanced</text>"""
+
+POWERFLOW_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#164f73">Power stages in induction motor</text>
+<g font-size="6.5">
+<rect x="10" y="40" width="80" height="26" rx="6" fill="#eaf4fa" stroke="#145c8b"/><text x="50" y="56" text-anchor="middle">Pin — 3 V1 I1 cosφ</text>
+<text x="95" y="54" font-size="10">→</text><text x="115" y="50" font-size="5.5">stator Cu+iron</text>
+<rect x="150" y="40" width="70" height="26" rx="6" fill="#fff3e0" stroke="#b77e24"/><text x="185" y="56" text-anchor="middle">Pg — airgap</text>
+<text x="225" y="54" font-size="10">→</text><text x="245" y="50" font-size="5.5">rotor Cu sPg</text>
+<rect x="275" y="40" width="70" height="26" rx="6" fill="#f1fbf6" stroke="#77a795"/><text x="310" y="56" text-anchor="middle">Pm = (1-s)Pg</text>
+<text x="95" y="85" font-size="6">Pg : Rotor Cu : Pm = 1 : s : 1-s</text>
+<text x="95" y="100" font-size="6">Mechanical Pm → friction → shaft Pout</text>
+<rect x="110" y="108" width="120" height="22" rx="6" fill="#fce9e9" stroke="#c00"/><text x="170" y="122" text-anchor="middle">Pout = Pm − mech loss</text>
+</g>
+<text x="180" y="145" font-size="7" text-anchor="middle">Efficiency = Pout / Pin, slip tells where power goes</text>"""
+
+VCURVE_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#164f73">V curves and inverted V of synchronous motor</text>
+<path d="M30 150 L170 150" stroke="#333"/><path d="M30 150 L30 30" stroke="#333"/><text x="100" y="165" font-size="6" text-anchor="middle">Field current If →</text><text x="15" y="35" font-size="6">Ia</text>
+<path d="M40 130 C70 50 100 50 130 130" fill="none" stroke="#145c8b" stroke-width="1.4"/><text x="85" y="45" font-size="5.5" fill="#145c8b">V curve min at unity Pf</text>
+<path d="M40 60 C70 110 100 110 130 60" fill="none" stroke="#b77e24" stroke-width="1.4" stroke-dasharray="3 3"/><text x="85" y="115" font-size="5.5" fill="#b77e24">inverted V Pf peak at unity</text>
+<text x="90" y="80" font-size="5.5">under</text><text x="120" y="80" font-size="5.5">over</text><text x="85" y="80" fill="#c00" font-size="5.5">lag</text><text x="130" y="80" fill="#0a7a2e" font-size="5.5">lead</text>
+<text x="220" y="55" font-size="6">More If → over excited →</text><text x="220" y="67" font-size="6">motor supplies kVAR → lead</text><text x="220" y="79" font-size="6">Less If → under → lag,</text><text x="220" y="91" font-size="6">sucks kVAR</text>
+<text x="180" y="145" font-size="7" text-anchor="middle">At constant load, armature current lowest when Pf =1</text>"""
+
+SYNC_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#164f73">Synchronising alternator to infinite bus</text>
+<g font-size="6">
+<rect x="20" y="40" width="80" height="40" rx="6" fill="#eaf4fa" stroke="#145c8b"/><text x="60" y="55" text-anchor="middle" font-weight="bold">Bus bar</text><text x="60" y="68" text-anchor="middle">infinite — V f fixed</text>
+<rect x="140" y="40" width="80" height="40" rx="6" fill="#fff3e0" stroke="#b77e24"/><text x="180" y="55" text-anchor="middle" font-weight="bold">Incoming</text><text x="180" y="68" text-anchor="middle">alternator</text>
+<circle cx="120" cy="90" r="8" fill="#fff" stroke="#333"/><text x="120" y="93" text-anchor="middle" font-size="5">sync</text><line x1="60" y1="60" x2="112" y2="85" stroke="#333"/><line x1="180" y1="60" x2="128" y2="85" stroke="#333"/>
+<text x="30" y="110" font-size="6">Conditions: V, f, phase, sequence same</text><text x="30" y="122" font-size="6">Lamps dark = in phase, synchroscope 12 o clock</text><text x="30" y="134" font-size="6">Adjust speed and excitation then close breaker</text>
+</g>
+<text x="180" y="155" font-size="7" text-anchor="middle">Wrong sync → huge circulating current → mechanical shock</text>"""
+
+SLIPMEASURE_SVG="""<rect width="360" height="220" fill="#fff"/><text x="180" y="16" font-size="11" text-anchor="middle" font-weight="bold" fill="#164f73">Methods to measure slip</text>
+<g font-size="6.5">
+<rect x="15" y="35" width="100" height="30" rx="6" fill="#eaf4fa" stroke="#145c8b"/><text x="65" y="47" text-anchor="middle">Stroboscopic</text><text x="65" y="58" text-anchor="middle">disc on shaft, lamp on supply</text>
+<rect x="125" y="35" width="100" height="30" rx="6" fill="#fff3e0" stroke="#b77e24"/><text x="175" y="47" text-anchor="middle">Rotor frequency</text><text x="175" y="58" text-anchor="middle">measure fr = s f with meter</text>
+<rect x="235" y="35" width="110" height="30" rx="6" fill="#f1fbf6" stroke="#77a795"/><text x="290" y="47" text-anchor="middle">Tachometer</text><text x="290" y="58" text-anchor="middle">Ns from f, N from tacho → s</text>
+<rect x="70" y="80" width="100" height="30" rx="6" fill="#efe3fa" stroke="#7B2CD9"/><text x="120" y="92" text-anchor="middle">Belt or pointer flicker</text>
+<rect x="190" y="80" width="100" height="30" rx="6" fill="#fce9e9" stroke="#c00"/><text x="240" y="92" text-anchor="middle">Speed comparison counter</text>
+</g>
+<text x="180" y="130" font-size="7" text-anchor="middle">Most lab uses tacho plus frequency: slip = (Ns − N)/Ns</text>"""
+
+# --- SECTIONS 5 x 28 cards ---
+SECTIONS=[
+{
+ "title_en":"Q1 · Single phase motors and 3 phase torque",
+ "title_gu":"પ્ર.1 · સિંગલ ફેઝ મોટર અને થ્રી ફેઝ ટોર્ક",
+ "cards":[
+  {
+   "q_en":"Q.1 (a) List the application of various single phase induction motor. (3 marks)",
+   "marks_en":"3 marks","marks_gu":"૦૩ ગુણ",
+   "a_en":"""<p><strong>Single phase motors are chosen by starting need, cost and noise.</strong></p><table><tr><th>Type</th><th>Typical application</th><th>Why</th></tr><tr><td>Split phase</td><td>Washing machine drain pump, small lathe, drill press</td><td>Low start torque enough, cheap</td></tr><tr><td>Capacitor start induction run</td><td>Air compressor, water pump, refrigerator compressor</td><td>Higher start torque 2 to 3 times</td></tr><tr><td>Capacitor start capacitor run</td><td>Submersible pump, heavy conveyor</td><td>High torque plus smooth running</td></tr><tr><td>Permanent capacitor</td><td>Ceiling fan, blower, room cooler, exhaust</td><td>Quiet, low surge, medium torque</td></tr><tr><td>Shaded pole</td><td>Table fan, record player, small relay, toys, hair dryer</td><td>Very cheap, tiny, low torque</td></tr><tr><td>Universal / repulsion start</td><td>Mixer, vacuum cleaner, portable drill, traction</td><td>High speed with AC and DC</td></tr></table>""" + svg_wrap(TYPES_SVG,"Types of single phase IM and their normal uses","Single phase types"),
+   "a_gu":"""<p><strong>સિંગલ ફેઝ મોટર ક્યાં વાપરવી તે કેટલો સ્ટાર્ટ ટોર્ક જોઈએ તેના પર નક્કી થાય.</strong></p><table><tr><th>પ્રકાર</th><th>સામાન્ય ઉપયોગ</th><th>કારણ</th></tr><tr><td>Split phase</td><td>વોશિંગ મશીન પંપ, નાનો લેથ, ડ્રિલ</td><td>ઓછા સ્ટાર્ટ ટોર્ક માં ચાલે, સસ્તી</td></tr><tr><td>Capacitor start induction run</td><td>એર કોમ્પ્રેસર, પાણી પંપ, ફ્રિજ કોમ્પ્રેસર</td><td>સ્ટાર્ટ ટોર્ક 2 થી 3 ગણો</td></tr><tr><td>Capacitor start capacitor run</td><td>સબમર્સિબલ પંપ, ભારે કન્વેયર</td><td>વધુ ટોર્ક વત્તા સરળ રનિંગ</td></tr><tr><td>Permanent capacitor</td><td>સીલિંગ પંખો, બ્લોઅર, કુલર</td><td>અવાજ ઓછો, સર્જ ઓછો</td></tr><tr><td>Shaded pole</td><td>ટેબલ પંખો, નાનું રમકડું, હેર ડ્રાયર</td><td>ખૂબ સસ્તી, નાનું ટોર્ક ચાલે</td></tr><tr><td>Universal</td><td>મિક્સર, વેક્યૂમ ક્લીનર, ડ્રિલ</td><td>AC DC બંને પર ઝડપી સ્પીડ</td></tr></table>""" + svg_wrap(TYPES_SVG,"સિંગલ ફેઝ મોટર પ્રકાર અને તેના સામાન્ય ઉપયોગ","Single phase types"),
+  },
+  {
+   "q_en":"Q.1 (b) Explain construction and working of capacitor start Induction run single phase Induction motor. (4 marks)",
+   "marks_en":"4 marks","marks_gu":"૦૪ ગુણ",
+   "a_en":"""<p><strong>Construction:</strong> Stator has two windings 90° apart. Main winding thick wire many turns low resistance, auxiliary winding thin wire fewer turns high resistance plus series capacitor about 70 to 120 µF for 0.5 to 1 HP. Centrifugal switch in series with auxiliary opens at about 75% synchronous speed. Rotor is ordinary squirrel cage aluminium bars shorted by end rings.</p><p><strong>Working:</strong> At start both windings carry current. Capacitor makes auxiliary current lead main by about 80 to 90°. Two phase shifted currents give rotating elliptical field → starting torque. Rotor bars cut field, emf induced, current flows, torque developed by interaction. Near 75% speed switch opens, motor runs only on main winding as single phase pulsating field is enough to keep rotation.</p><p>Capacitor chosen so phase shift near 90° for maximum start torque, then disconnected to avoid overheat.</p>""" + svg_wrap(CSIR_SVG,"Capacitor Start Induction Run construction, centrifugal switch opens at 75% speed","Capacitor motor"),
+   "a_gu":"""<p><strong>બનાવટ:</strong> સ્ટેટર માં બે વાઇન્ડિંગ 90° પર. Main વાઇન્ડિંગ જાડો તાર વધુ આંટા ઓછો અવરોધ, auxiliary વાઇન્ડિંગ પાતળો તાર ઓછા આંટા વધુ અવરોધ વત્તા શ્રેણી માં Capacitor 0.5 થી 1 HP માટે 70 થી 120 µF. Centrifugal switch શ્રેણી માં જે 75% સ્પીડે ખૂલી જાય. રોટર સામાન્ય squirrel cage એલ્યુમિનિયમ સળિયા.</p><p><strong>કામ:</strong> શરૂઆત માં બંને વાઇન્ડિંગ માં કરંટ. Capacitor ને લીધે auxiliary કરંટ main થી 80 થી 90° આગળ. બે કરંટ વચ્ચે તફાવત થી ફરતું ફિલ્ડ બને → સ્ટાર્ટ ટોર્ક. રોટર સળિયા ફિલ્ડ કાપે, emf બને, કરંટ વહે, ટોર્ક આવે. 75% સ્પીડે switch ખૂલી જાય, પછી માત્ર main વાઇન્ડિંગ થી મોટર ચાલુ રહે.</p><p>Capacitor એવી રીતે પસંદ કરાય કે ફેઝ તફાવત 90° જેવો થાય ત્યારે સ્ટાર્ટ ટોર્ક સૌથી વધુ મળે, પછી ગરમ ન થાય માટે છૂટી પડે.</p>""" + svg_wrap(CSIR_SVG,"Capacitor Start Induction Run બનાવટ, 75% સ્પીડે switch ખૂલે","Capacitor motor"),
+  },
+  {
+   "q_en":"Q.1 (c) A 6 pole, 3-Ø, 440V, 50Hz Induction motor develops 8 HP at 955 rpm, stator losses amount to 400 watts and the friction losses 0.5 HP. Calculate Synchronous speed, Slip, Rotor output, Rotor input, Rotor cu loss and Efficiency of motor. (7 marks)",
+   "marks_en":"7 marks","marks_gu":"૦૭ ગુણ",
+   "a_en":"""<p><strong>Given:</strong> P=6, f=50Hz, N=955 rpm, shaft 8 HP, friction 0.5 HP, stator loss 400W. 1 HP =746W.</p>
+<div class="eq">Synchronous speed N<sub>s</sub> = <span class="frac"><span class="num">120 f</span><span class="den">P</span></span> = <span class="frac"><span class="num">120 × 50</span><span class="den">6</span></span> = <strong>1000 rpm</strong></div>
+<div class="eq">Slip s = <span class="frac"><span class="num">N<sub>s</sub> − N</span><span class="den">N<sub>s</sub></span></span> = <span class="frac"><span class="num">1000 − 955</span><span class="den">1000</span></span> = 0.045 = <strong>4.5%</strong></div>
+<div class="eq">Slip speed = s N<sub>s</sub> = 0.045 × 1000 = <strong>45 rpm</strong></div>
+<div class="eq">Shaft output = 8 × 746 = <strong>5968 W</strong> &nbsp; Friction = 0.5 × 746 = <strong>373W</strong></div>
+<div class="eq">Rotor mechanical output P<sub>m</sub> = shaft + friction = 5968 + 373 = <strong>6341W</strong> = 8.5 HP</div>
+<div class="eq">Rotor input P<sub>g</sub> = <span class="frac"><span class="num">P<sub>m</sub></span><span class="den">1 − s</span></span> = <span class="frac"><span class="num">6341</span><span class="den">0.955</span></span> = <strong>6640W</strong></div>
+<div class="eq">Rotor copper loss = s P<sub>g</sub> = 0.045 × 6640 = <strong>298.8W ≈ 299W</strong></div>
+<div class="eq">Stator input P<sub>in</sub> = P<sub>g</sub> + stator loss = 6640 + 400 = <strong>7040W</strong></div>
+<div class="result">Efficiency η = <span class="frac"><span class="num">shaft output</span><span class="den">P<sub>in</sub></span></span> = <span class="frac"><span class="num">5968</span><span class="den">7040</span></span> = <strong>84.77% ≈ 84.8%</strong>. If mechanical efficiency = 6341/7040 = 90.07%</div>
+<p>Check: Pg : Pm : rotor Cu = 1 : 1−s : s = 1 : 0.955 : 0.045 matches.</p>""",
+   "a_gu":"""<p><strong>આપેલ:</strong> P=6, f=50Hz, N=955 rpm, shaft 8 HP, ઘર્ષણ 0.5 HP, stator loss 400W. 1 HP =746W.</p>
+<div class="eq">Synchronous speed N<sub>s</sub> = <span class="frac"><span class="num">120 f</span><span class="den">P</span></span> = <span class="frac"><span class="num">120 × 50</span><span class="den">6</span></span> = <strong>1000 rpm</strong></div>
+<div class="eq">Slip s = <span class="frac"><span class="num">N<sub>s</sub> − N</span><span class="den">N<sub>s</sub></span></span> = <span class="frac"><span class="num">1000 − 955</span><span class="den">1000</span></span> = 0.045 = <strong>4.5%</strong></div>
+<div class="eq">Slip speed = s N<sub>s</sub> = 0.045 × 1000 = <strong>45 rpm</strong></div>
+<div class="eq">Shaft output = 8 × 746 = <strong>5968 W</strong> &nbsp; ઘર્ષણ = 0.5 × 746 = <strong>373W</strong></div>
+<div class="eq">Rotor યાંત્રિક output P<sub>m</sub> = shaft + ઘર્ષણ = 5968 + 373 = <strong>6341W</strong></div>
+<div class="eq">Rotor input P<sub>g</sub> = <span class="frac"><span class="num">P<sub>m</sub></span><span class="den">1 − s</span></span> = <span class="frac"><span class="num">6341</span><span class="den">0.955</span></span> = <strong>6640W</strong></div>
+<div class="eq">Rotor copper loss = s P<sub>g</sub> = 0.045 × 6640 = <strong>298.8W ≈ 299W</strong></div>
+<div class="eq">Stator input P<sub>in</sub> = P<sub>g</sub> + stator loss = 6640 + 400 = <strong>7040W</strong></div>
+<div class="result">કાર્યક્ષમતા η = <span class="frac"><span class="num">shaft output</span><span class="den">P<sub>in</sub></span></span> = <span class="frac"><span class="num">5968</span><span class="den">7040</span></span> = <strong>84.8%</strong>. યાંત્રિક 6341/7040 = 90.1%</div>
+<p>તપાસ: Pg : Pm : rotor Cu = 1 : 1−s : s બરાબર બેસે.</p>""",
+  },
+  {
+   "q_en":"Q.1 (c) OR Derive the torque equation for three phase Induction motor under running condition and derive the condition for maximum running torque. (7 marks)",
+   "marks_en":"7 marks","marks_gu":"૦૭ ગુણ",
+   "a_en":"""<p><strong>Running condition slip s small.</strong> Rotor induced emf at slip s: E<sub>2s</sub> = s E<sub>2</sub> where E<sub>2</sub> standstill rotor emf per phase. Rotor impedance at slip: Z<sub>2s</sub> = R<sub>2</sub> + j s X<sub>2</sub>.</p>
+<div class="eq">Rotor current I<sub>2s</sub> = <span class="frac"><span class="num">s E<sub>2</sub></span><span class="den">√(R<sub>2</sub><sup>2</sup> + (sX<sub>2</sub>)<sup>2</sup>)</span></span> &nbsp; cos φ<sub>2</sub> = <span class="frac"><span class="num">R<sub>2</sub></span><span class="den">√(R<sub>2</sub><sup>2</sup> + (sX<sub>2</sub>)<sup>2</sup>)</span></span></div>
+<div class="eq">Airgap power P<sub>g</sub> = 3 I<sub>2s</sub><sup>2</sup> <span class="frac"><span class="num">R<sub>2</sub></span><span class="den">s</span></span> &nbsp; Torque T = <span class="frac"><span class="num">P<sub>g</sub></span><span class="den">ω<sub>s</sub></span></span> where ω<sub>s</sub>=2πN<sub>s</sub>/60</div>
+<div class="eq">T = <span class="frac"><span class="num">3</span><span class="den">ω<sub>s</sub></span></span> · <span class="frac"><span class="num">s E<sub>2</sub><sup>2</sup> R<sub>2</sub></span><span class="den">R<sub>2</sub><sup>2</sup> + s<sup>2</sup> X<sub>2</sub><sup>2</sup></span></span></div>
+<p><strong>Condition for maximum:</strong> dT/ds =0. Put denominator D = R<sub>2</sub><sup>2</sup> + s<sup>2</sup>X<sub>2</sub><sup>2</sup>. Numerator N = s. d/ds (s/D)=0 → D·1 − s·2sX<sub>2</sub><sup>2</sup>=0 → R<sub>2</sub><sup>2</sup> + s<sup>2</sup>X<sub>2</sub><sup>2</sup> −2s<sup>2</sup>X<sub>2</sub><sup>2</sup>=0 → R<sub>2</sub><sup>2</sup>= s<sup>2</sup>X<sub>2</sub><sup>2</sup>.</p>
+<div class="result">Maximum torque when <strong>s = R<sub>2</sub> / X<sub>2</sub></strong> &nbsp; Value T<sub>max</sub> = <span class="frac"><span class="num">3</span><span class="den">2 ω<sub>s</sub> X<sub>2</sub></span></span> · <span class="frac"><span class="num">E<sub>2</sub><sup>2</sup></span><span class="den">X<sub>2</sub></span></span> independent of R<sub>2</sub> magnitude only position shifts.</div>
+<p>More R<sub>2</sub> moves peak to higher slip → slip ring motor uses external R<sub>2</sub> for high start torque.</p>""" + svg_wrap(TORQUE_SLIP_SVG,"Torque slip curve with peak at s = R2/X2","Torque equation"),
+   "a_gu":"""<p><strong>રનિંગ માં slip s નાનો હોય.</strong> Rotor emf slip પર E<sub>2s</sub> = s E<sub>2</sub>. Rotor impedance Z<sub>2s</sub> = R<sub>2</sub> + j s X<sub>2</sub>.</p>
+<div class="eq">Rotor current I<sub>2s</sub> = <span class="frac"><span class="num">s E<sub>2</sub></span><span class="den">√(R<sub>2</sub><sup>2</sup> + (sX<sub>2</sub>)<sup>2</sup>)</span></span> &nbsp; cos φ<sub>2</sub> = <span class="frac"><span class="num">R<sub>2</sub></span><span class="den">√(R<sub>2</sub><sup>2</sup> + (sX<sub>2</sub>)<sup>2</sup>)</span></span></div>
+<div class="eq">Airgap power P<sub>g</sub> = 3 I<sub>2s</sub><sup>2</sup> <span class="frac"><span class="num">R<sub>2</sub></span><span class="den">s</span></span> &nbsp; Torque T = <span class="frac"><span class="num">P<sub>g</sub></span><span class="den">ω<sub>s</sub></span></span></div>
+<div class="eq">T = <span class="frac"><span class="num">3</span><span class="den">ω<sub>s</sub></span></span> · <span class="frac"><span class="num">s E<sub>2</sub><sup>2</sup> R<sub>2</sub></span><span class="den">R<sub>2</sub><sup>2</sup> + s<sup>2</sup> X<sub>2</sub><sup>2</sup></span></span></div>
+<p><strong>મહત્તમ ટોર્ક શરત:</strong> dT/ds =0 કરો. D = R<sub>2</sub><sup>2</sup> + s<sup>2</sup>X<sub>2</sub><sup>2</sup>, N = s. d/ds (s/D)=0 → R<sub>2</sub><sup>2</sup> = s<sup>2</sup>X<sub>2</sub><sup>2</sup>.</p>
+<div class="result">મહત્તમ ટોર્ક ત્યારે જ્યારે <strong>s = R<sub>2</sub> / X<sub>2</sub></strong> &nbsp; T<sub>max</sub> નું મૂલ્ય R<sub>2</sub> પર નિર્ભર નથી, માત્ર સ્થાન બદલાય. R<sub>2</sub> વધે તો peak વધુ slip તરફ જાય → slip ring માં બહાર અવરોધ નાખી સ્ટાર્ટ ટોર્ક વધારાય.</div>""" + svg_wrap(TORQUE_SLIP_SVG,"Torque slip વક્ર peak s = R2/X2 પર","Torque equation"),
+  },
+ ]
+},
+{
+ "title_en":"Q2 · Induction motor basics and starters",
+ "title_gu":"પ્ર.2 · ઇન્ડક્શન મોટર બેઝિક અને સ્ટાર્ટર",
+ "cards":[
+  {
+   "q_en":"Q.2 (a) Define Synchronous speed, Slip and Slip Speed. (3 marks)",
+   "marks_en":"3 marks","marks_gu":"૦૩ ગુણ",
+   "a_en":"""<p><strong>Synchronous speed N<sub>s</sub>:</strong> Speed of rotating magnetic field, N<sub>s</sub> = 120 f / P where f frequency, P poles. Example 4 pole 50Hz →1200 rpm.</p><p><strong>Slip s:</strong> How much rotor lags field, s = (N<sub>s</sub> − N)/N<sub>s</sub> per unit, in percent ×100. At standstill s=1, at sync s=0.</p><p><strong>Slip speed:</strong> Difference N<sub>s</sub> − N = s N<sub>s</sub> in rpm. Rotor frequency f<sub>r</sub> = s f. Slip gives rotor emf and copper loss.</p>""",
+   "a_gu":"""<p><strong>Synchronous speed N<sub>s</sub>:</strong> ફરતા ફિલ્ડ ની ઝડપ, N<sub>s</sub> = 120 f / P. જેમ 4 pole 50Hz તો 1200 rpm.</p><p><strong>Slip s:</strong> રોટર ફિલ્ડ થી કેટલો પાછળ છે, s = (N<sub>s</sub> − N)/N<sub>s</sub>. ઊભી મોટરે s=1, sync પર s=0.</p><p><strong>Slip speed:</strong> તફાવત N<sub>s</sub> − N = s N<sub>s</sub> rpm માં. Rotor frequency f<sub>r</sub> = s f. Slip થી જ rotor માં emf અને copper loss નક્કી થાય.</p>""",
+  },
+  {
+   "q_en":"Q.2 (b) Apply double field revolving theory to explain why 1-Ø induction motor is not self-starting. (4 marks)",
+   "marks_en":"4 marks","marks_gu":"૦૪ ગુણ",
+   "a_en":"""<p><strong>Pulsating field splits into two rotating halves:</strong> Single phase flux Φm cos ωt stationary pulsating can be written as ½Φm rotating forward plus ½Φm rotating backward at synchronous speed.</p><p>At standstill both forward and backward fields cut rotor equally → produce equal opposite torques Tf = Tb → net zero. So rotor feels no start.</p><p>If rotor is given push, forward slip sf = s small → forward torque large, backward slip sb = 2 − s ≈2 → backward torque small → net in pushed direction and motor continues. Characteristic shows two slip torque curves crossing at zero.</p><p>Hence auxiliary phase or capacitor needed to create unbalanced rotating field at start.</p>""" + svg_wrap(DOUBLE_SVG,"Double field splits pulsating into forward and backward — net zero at start","Double field"),
+   "a_gu":"""<p><strong>ધબકતું ફિલ્ડ બે અડધા ફરતા ફિલ્ડ માં વહેંચાય:</strong> સિંગલ ફેઝ Φm cos ωt સ્થિર ધબકે તે ½Φm આગળ અને ½Φm પાછળ ફરતા બરાબર છે.</p><p>ઊભી સ્થિતિ માં બંને આગળ અને પાછળ ના ફિલ્ડ એકસરખું રોટર કાપે → બંને સરખો સામ સામે ટોર્ક Tf = Tb → ચોખ્ખું શૂન્ય. તેથી જાતે ચાલુ ન થાય.</p><p>જો હાથ થી ધક્કો મારો તો આગળ ની slip sf = s નાની → આગળ ટોર્ક મોટો, પાછળ ની slip sb = 2 − s ≈2 → પાછળ ટોર્ક નાનો → ચોખ્ખું ધક્કા તરફ અને મોટર ચાલુ રહે.</p><p>તેથી સ્ટાર્ટ માટે auxiliary ફેઝ કે Capacitor થી અસંતુલિત ફરતું ફિલ્ડ બનાવવું પડે.</p>""" + svg_wrap(DOUBLE_SVG,"Double field — સ્થિર ધબકતું બે સરખા ઊલટા ફરતા માં વહેંચાય","Double field"),
+  },
+  {
+   "q_en":"Q.2 (c) Explain D.O.L Starter with necessary diagrams. (7 marks)",
+   "marks_en":"7 marks","marks_gu":"૦૭ ગુણ",
+   "a_en":"""<p><strong>DOL = Direct On Line:</strong> Motor direct to 415V via contactor and overload relay. Used upto about 5 HP where supply can take starting current 5 to 7 times full load.</p><ul><li><strong>Power circuit:</strong> MCCB / fuses → contactor main contacts → overload relay heaters → motor terminals.</li><li><strong>Control circuit:</strong> Coil energised through Stop NC button, Start NO button momentary, hold on auxiliary NO contact seals coil. Overload NC in series trips and opens coil on overcurrent, no volt release if supply fails.</li><li><strong>Working:</strong> Press START → coil pulls → main contacts close → motor runs, auxiliary keeps coil latched. Press STOP or OLR trip → coil drops → motor off. Needs reset.</li></ul><p>Advantages simple cheap, disadvantage heavy inrush voltage dip. For larger motor use star delta or soft start.</p>""" + svg_wrap(DOL_SVG,"DOL starter power and control — START NO STOP NC OLR, hold on seal","DOL Starter"),
+   "a_gu":"""<p><strong>DOL = Direct On Line:</strong> મોટર સીધી 415V પર contactor અને overload relay થી. લગભગ 5 HP સુધી જ્યાં સપ્લાય સ્ટાર્ટ કરંટ 5 થી 7 ગણો સહન કરી શકે.</p><ul><li><strong>પાવર સર્કિટ:</strong> MCCB / fuse → contactor મુખ્ય contact → overload relay heater → મોટર.</li><li><strong>કંટ્રોલ સર્કિટ:</strong> coil Stop NC button, Start NO button ક્ષણિક, hold on NO contact coil ને પકડી રાખે. Overload NC શ્રેણી માં વધુ કરંટ કે સપ્લાય જાય તો coil છોડી દે.</li><li><strong>કામ:</strong> START દબાવો → coil ખેંચાય → મુખ્ય contact બંધ → મોટર ચાલે, auxiliary પકડી રાખે. STOP કે OLR trip → coil છૂટે → મોટર બંધ.</li></ul><p>ફાયદો સસ્તું સરળ, ગેરલાભ જોરદાર inrush થી વોલ્ટેજ ઘટે. મોટી મોટર માટે star delta કે soft start વાપરો.</p>""" + svg_wrap(DOL_SVG,"DOL starter પાવર અને કંટ્રોલ — START STOP OLR hold on","DOL Starter"),
+  },
+  {
+   "q_en":"Q.2 (a) OR State Working Principle of three phase induction motor. (3 marks)",
+   "marks_en":"3 marks","marks_gu":"૦૩ ગુણ",
+   "a_en":"""<p><strong>Principle is electromagnetic induction plus rotating field.</strong> Three phase stator fed with 120° currents makes rotating magnetic field at Ns =120f/P. This field sweeps over stationary squirrel cage rotor bars at slip speed, induces emf by Faraday, rotor shorted so current flows. Rotor current makes its own field which interacts with stator field giving force by Lorentz F = B I L. Rotor tries to catch field but never reaches sync because at sync slip zero no emf. So runs slightly below Ns with slip providing torque.</p>""",
+   "a_gu":"""<p><strong>સિદ્ધાંત Induction વત્તા ફરતું ફિલ્ડ.</strong> ત્રણ ફેઝ સ્ટેટર માં 120° કરંટ ફરતું ફિલ્ડ બનાવે Ns =120f/P પર. આ ફિલ્ડ રોટર સળિયા ને slip speed એ કાપે, Faraday થી emf બને, રોટર short તેથી કરંટ વહે. રોટર કરંટ પોતાનું ફિલ્ડ બનાવે જે સ્ટેટર ફિલ્ડ સાથે આંતરક્રિયા કરી F = B I L બળ આપે. રોટર ફિલ્ડ ને પકડવા દોડે પણ sync પર slip શૂન્ય થાય તેથી કદી પહોંચે નહિ, થોડું નીચે slip થી ટોર્ક સાથે ચાલે.</p>""",
+  },
+  {
+   "q_en":"Q.2 (b) OR Develop construction and flux distribution diagram of single phase Shaded pole induction motor and explain it. (4 marks)",
+   "marks_en":"4 marks","marks_gu":"૦૪ ગુણ",
+   "a_en":"""<p><strong>Construction:</strong> Slotted stator with salient poles, each pole face partly surrounded by one turn copper shading ring shorted. Single main winding fed. Rotor squirrel cage.</p><p><strong>Flux distribution:</strong> When main flux rises, induced current in shading ring opposes change in its covered part, so that part flux lags unshaded part by about 30 to 50°. Net flux is non uniform moving from unshaded to shaded tip → gives small travelling wave → low starting torque.</p><p>Direction always unshaded to shaded, cannot reverse unless shading mechanically swapped. Used for very small low torque loads.</p>""" + svg_wrap(SHADED_SVG,"Shaded pole — copper ring delays flux in shaded part → moving field","Shaded pole"),
+   "a_gu":"""<p><strong>બનાવટ:</strong> સાલિયંટ pole વાળો સ્ટેટર, દરેક pole નો થોડો ભાગ એક આંટા ના તાંબા shading ring થી ઢંકાયેલો short. એક જ main વાઇન્ડિંગ. રોટર squirrel cage.</p><p><strong>ફ્લક્સ વિતરણ:</strong> Main ફ્લક્સ વધે ત્યારે shading ring માં induced કરંટ ઢંકાયેલા ભાગ માં ફેરફાર ને રોકે, તેથી તે ભાગ નો ફ્લક્સ ખુલ્લા ભાગ થી 30 થી 50° પાછળ. ચોખ્ખો ફ્લક્સ ખુલ્લા થી ઢંકાયેલા તરફ સરકે → નાની travelling wave → ઓછો સ્ટાર્ટ ટોર્ક.</p><p>દિશા હંમેશા ખુલ્લા થી ઢંકાયેલા તરફ, યાંત્રિક રીતે ring ફેરવ્યા વગર ઊલટી ન થાય. ખૂબ નાના લોડ માટે.</p>""" + svg_wrap(SHADED_SVG,"Shaded pole — તાંબા ring થી ઢંકાયેલ ભાગ પાછળ → સરકતું ફિલ્ડ","Shaded pole"),
+  },
+  {
+   "q_en":"Q.2 (c) OR Explain production of rotating magnetic field in 3-phase Induction motor due to 3-phase supply with diagrams. (7 marks)",
+   "marks_en":"7 marks","marks_gu":"૦૭ ગુણ",
+   "a_en":"""<p><strong>Three coils R Y B placed 120° mechanical with currents Ir = Im sin ωt, Iy = Im sin (ωt−120°), Ib = Im sin (ωt−240°).</strong> Each makes pulsating flux along its axis Φr = Φm sin ωt etc.</p><p>Vector sum at any instant: Resolve along X Y. Using sine identity sum is constant 1.5 Φm and angle ωt. So resultant is not pulsating but steady magnitude rotating at ω rad/s. Proof via phasor addition or graphical waveforms at ωt=0°, 60°, 120° shows resultant rotates.</p><p>Speed Ns =120f/P electrical, direction R→Y→B. Interchange any two lines → phase sequence reverses → field reverses → motor reverses. This is why swapping motor leads changes direction.</p>""" + svg_wrap(RMF_SVG,"Three coils 120° with balanced currents sum to 1.5Φm rotating at Ns","Rotating field"),
+   "a_gu":"""<p><strong>ત્રણ coil R Y B 120° પર, કરંટ Ir = Im sin ωt, Iy = Im sin (ωt−120°), Ib = Im sin (ωt−240°).</strong> દરેક પોતાની ધરી પર ધબકતો ફ્લક્સ બનાવે Φr = Φm sin ωt વગેરે.</p><p>કોઈ પણ ક્ષણે સદિશ સરવાળો: X Y પર છૂટો પાડો. સાઇન ગુણધર્મ થી સરવાળો હંમેશા 1.5 Φm અને ખૂણો ωt. તેથી પરિણામ ધબકતું નથી પણ સ્થિર કદનું ω ઝડપે ફરતું રહે. ωt=0°, 60°, 120° પર ગ્રાફ થી પણ એ જ દેખાય.</p><p>ઝડપ Ns =120f/P, દિશા R→Y→B. કોઈ બે વાયર અદલાબદલી કરો → ફેઝ ક્રમ ઊલટો → ફિલ્ડ ઊલટું → મોટર ઊલટી ફરે. તેથી જ લીડ બદલવાથી દિશા બદલાય.</p>""" + svg_wrap(RMF_SVG,"ત્રણ coil 120° સંતુલિત કરંટ નો સરવાળો 1.5Φm Ns એ ફરે","Rotating field"),
+  },
+ ]
+},
+{
+ "title_en":"Q3 · Synchronous motors and alternators",
+ "title_gu":"પ્ર.3 · સિન્ક્રોનસ મોટર અને અલ્ટરનેટર",
+ "cards":[
+  {
+   "q_en":"Q.3 (a) State the application of Synchronous motor. (3 marks)",
+   "marks_en":"3 marks","marks_gu":"૦૩ ગુણ",
+   "a_en":"""<p><strong>Used where constant speed or power factor correction needed:</strong></p><ul><li>Power factor correction — over excited runs as synchronous condenser in large mills to improve plant Pf.</li><li>Constant speed drives unaffected by load — rolling mills, paper making, cement kiln, reciprocating pumps and compressors.</li><li>Low speed large drives with no slip — crushers, ball mills, large fans and blowers.</li><li>Frequency control and timing — synchronous clocks, special drives.</li><li>Voltage regulation in transmission — condenser mode absorbs or supplies kVAR.</li></ul>""",
+   "a_gu":"""<p><strong>જ્યાં એકધારી ઝડપ કે power factor સુધારવો હોય ત્યાં:</strong></p><ul><li>Power factor સુધારણા — વધુ excitation પર synchronous condenser તરીકે મિલ માં Pf સુધારે.</li><li>લોડ બદલાય તો પણ ઝડપ એક જ — રોલિંગ મિલ, પેપર, સિમેન્ટ ભઠ્ઠી, પંપ કોમ્પ્રેસર.</li><li>ઓછી ઝડપ મોટો ડ્રાઇવ slip વગર — ક્રશર, બોલ મિલ, મોટા પંખા.</li><li>ફ્રિકવન્સી કંટ્રોલ ટાઇમિંગ — ઘડિયાળ, ખાસ ડ્રાઇવ.</li><li>ટ્રાન્સમિશન વોલ્ટેજ નિયંત્રણ — condenser તરીકે kVAR આપે કે લે.</li></ul>""",
+  },
+  {
+   "q_en":"Q.3 (b) Explain Synchronization of alternator with infinite bus bar. (4 marks)",
+   "marks_en":"4 marks","marks_gu":"૦૪ ગુણ",
+   "a_en":"""<p><strong>Infinite bus is large system where V and f do not change when new machine added.</strong> Conditions before closing breaker:</p><ol><li>Terminal voltage magnitude equal — adjust excitation.</li><li>Frequency equal — adjust prime mover speed to Ns.</li><li>Phase sequence same — check motor rotation.</li><li>Phase angle coincidence — instant of closing when voltages in phase.</li></ol><p><strong>Methods:</strong> Lamp dark/bright: three lamps between bus and machine, dark when in phase, bright when out, all dark together → correct sequence. Synchroscope pointer at 12 o clock steady → in sync, rotating fast means frequency mismatch. Automatic synchroniser does same.</p><p>After sync machine floats, increase steam to take active power, increase excitation to supply kVAR.</p>""" + svg_wrap(SYNC_SVG,"Sync conditions V f phase sequence angle must match before closing breaker","Synchronising"),
+   "a_gu":"""<p><strong>Infinite bus એટલે મોટી સિસ્ટમ જ્યાં નવી મશીન જોડાય તો V f બદલાય નહિ.</strong> બ્રેકર બંધ કરતા પહેલા શરતો:</p><ol><li>ટર્મિનલ વોલ્ટેજ સરખું — excitation ગોઠવો.</li><li>ફ્રિકવન્સી સરખી — prime mover ઝડપ Ns પર લાવો.</li><li>ફેઝ ક્રમ એક જ — મોટર ફરવાની તપાસ.</li><li>ફેઝ ખૂણો મળતો આવે તે ક્ષણે બંધ કરો.</li></ol><p><strong>રીત:</strong> Lamp dark/bright — બસ અને મશીન વચ્ચે ત્રણ lamp, ફેઝ માં હોય તો અંધારું, બહાર તો તેજ, ત્રણ સાથે અંધારું → ક્રમ સાચો. Synchroscope કાંટો 12 વાગ્યે સ્થિર → sync, ઝડપી ફરે તો frequency ફેર.</p><p>sync પછી મશીન તરતું રહે, steam વધારો તો active power લે, excitation વધારો તો kVAR આપે.</p>""" + svg_wrap(SYNC_SVG,"Sync શરતો V f ફેઝ ક્રમ ખૂણો મળે ત્યારે બ્રેકર બંધ","Synchronising"),
+  },
+  {
+   "q_en":"Q.3 (c) Compare Projected pole and Cylindrical pole type of rotor in alternator. (7 marks)",
+   "marks_en":"7 marks","marks_gu":"૦૭ ગુણ",
+   "a_en":"""<table><tr><th>Point</th><th>Salient projected pole</th><th>Cylindrical non salient</th></tr><tr><td>Shape</td><td>Poles projecting out bolted on spider</td><td>Solid cylinder slots for field winding</td></tr><tr><td>Diameter vs length</td><td>Large diameter short axial</td><td>Small diameter long axial</td></tr><tr><td>Speed</td><td>Low 125 to 500 rpm, many poles 10 to 64</td><td>High 1500/3000 rpm, 2 or 4 poles</td></tr><tr><td>Prime mover</td><td>Hydro, diesel, wind slow</td><td>Steam, gas turbo fast</td></tr><tr><td>Airgap</td><td>Non uniform max at pole centre</td><td>Uniform except slots</td></tr><tr><td>Mechanical</td><td>Needs damper winding for hunting, less robust at high centrifugal</td><td>Very robust retains balance, no damper needed but often provided</td></tr><tr><td>Cost</td><td>More poles construction heavy</td><td>Forging costly but compact</td></tr></table>""" + svg_wrap(ALTERNATOR_SVG,"Salient slow hydro vs cylindrical fast turbo — choice by speed","Rotor types"),
+   "a_gu":"""<table><tr><th>મુદ્દો</th><th>Salient projected pole</th><th>Cylindrical</th></tr><tr><td>આકાર</td><td>pole બહાર નીકળેલા spider પર</td><td>નક્કર સિલિન્ડર માં slot વાઇન્ડિંગ</td></tr><tr><td>વ્યાસ લંબાઈ</td><td>મોટો વ્યાસ ટૂંકી લંબાઈ</td><td>નાનો વ્યાસ લાંબી લંબાઈ</td></tr><tr><td>ઝડપ</td><td>ઓછી 125 થી 500 rpm, pole વધુ</td><td>વધુ 1500/3000 rpm, 2 કે 4 pole</td></tr><tr><td>prime mover</td><td>હાઇડ્રો ડીઝલ ધીમું</td><td>સ્ટીમ ગેસ ઝડપી</td></tr><tr><td>airgap</td><td>અસમાન pole વચ્ચે વધુ</td><td>સમાન slot સિવાય</td></tr><tr><td>મજબૂતી</td><td>hunting માટે damper જોઈએ, વધુ ઝડપે નબળું</td><td>ખૂબ મજબૂત સંતુલિત</td></tr></table>""" + svg_wrap(ALTERNATOR_SVG,"Salient ધીમું hydro અને cylindrical ઝડપી turbo — ઝડપ પર પસંદગી","Rotor types"),
+  },
+  {
+   "q_en":"Q.3 (a) OR Define Pitch factor and Distribution factor for alternator. (3 marks)",
+   "marks_en":"3 marks","marks_gu":"૦૩ ગુણ",
+   "a_en":"""<div class="eq">Pitch factor K<sub>p</sub> = EMF with short pitch / EMF with full pitch = cos (ε/2) where ε is chording angle how many electrical degrees coil shorted.</div><p>Full pitch 180° gives Kp=1, short pitch reduces harmonics but slightly less fundamental.</p><div class="eq">Distribution factor K<sub>d</sub> = EMF with distributed winding / EMF with concentrated = <span class="frac"><span class="num">sin (q β/2)</span><span class="den">q sin (β/2)</span></span> where q slots per pole per phase, β slot pitch electrical =180°/(slots per pole).</div><p>Distributed winding gives smoother sine but Kd less than 1, e.g. q=3 β=20° →0.96.</p>""",
+   "a_gu":"""<div class="eq">Pitch factor K<sub>p</sub> = ટૂંકા pitch નું EMF / પૂરા pitch નું EMF = cos (ε/2) જ્યાં ε કેટલા ડિગ્રી coil ટૂંકો કર્યો.</div><p>પૂરો pitch 180° તો Kp=1, ટૂંકો કરવાથી harmonic ઘટે પણ થોડું મૂળ ઓછું.</p><div class="eq">Distribution factor K<sub>d</sub> = વહેંચાયેલા વાઇન્ડિંગ નું EMF / એક જગ્યા નું EMF = <span class="frac"><span class="num">sin (q β/2)</span><span class="den">q sin (β/2)</span></span> જ્યાં q = slots per pole per phase, β = slot pitch =180°/(slots per pole).</div><p>વહેંચાયેલું વાઇન્ડિંગ વધુ સાઇન જેવું પણ Kd 1 થી ઓછો, જેમ q=3 β=20° →0.96.</p>""",
+  },
+  {
+   "q_en":"Q.3 (b) OR Compare Synchronous motors and induction motor. (4 marks)",
+   "marks_en":"4 marks","marks_gu":"૦૪ ગુણ",
+   "a_en":"""<table><tr><th>Point</th><th>Synchronous motor</th><th>Induction motor</th></tr><tr><td>Speed</td><td>Exactly sync Ns =120f/P, no slip</td><td>Slightly below Ns with slip</td></tr><tr><td>Excitation</td><td>Needs DC field, not self starting needs pony or damper</td><td>Self starting, no DC needed</td></tr><tr><td>Power factor</td><td>Controllable lag to lead by field, can correct Pf</td><td>Always lag, low at light load</td></tr><tr><td>Cost</td><td>Higher for small sizes, economical above few hundred kW low speed</td><td>Cheap rugged for all small to medium</td></tr><tr><td>Torque</td><td>Sensitive to sudden load may fall out of sync hunting</td><td>More tolerant slip adjusts</td></tr></table>""",
+   "a_gu":"""<table><tr><th>મુદ્દો</th><th>Synchronous</th><th>Induction</th></tr><tr><td>ઝડપ</td><td>બરાબર sync Ns =120f/P, slip શૂન્ય</td><td>Ns થી થોડી ઓછી slip સાથે</td></tr><tr><td>Excitation</td><td>DC field જોઈએ, જાતે ચાલુ ન થાય</td><td>જાતે ચાલુ, DC ન જોઈએ</td></tr><tr><td>Power factor</td><td>field થી lag થી lead સુધી કંટ્રોલ, Pf સુધારે</td><td>હંમેશા lag, હળવા લોડે ઓછો</td></tr><tr><td>ખર્ચ</td><td>નાની માં મોંઘી, મોટી ધીમી માં સસ્તી પડે</td><td>બધી નાની મધ્યમ માં સસ્તી મજબૂત</td></tr><tr><td>ટોર્ક</td><td>અચાનક લોડે sync બહાર hunting</td><td>slip થી સહનશીલ</td></tr></table>""",
+  },
+  {
+   "q_en":"Q.3 (c) OR Explain V-curves and inverted V-curves of Synchronous motor. (7 marks)",
+   "marks_en":"7 marks","marks_gu":"૦૭ ગુણ",
+   "a_en":"""<p><strong>At constant mechanical load, varying field current If changes excitation.</strong></p><ul><li>Under excited: Ef less than V → motor draws lagging current to supply magnetising kVAR → Pf lag.</li><li>Normal excited: Ef ≈ V → armature current minimum → Pf unity.</li><li>Over excited: Ef greater than V → motor draws leading current, supplies kVAR to system → Pf lead.</li></ul><p><strong>V curve:</strong> Plot Ia versus If at fixed load is V shaped, minimum at unity Pf. Higher load shifts curve up but same shape.</p><p><strong>Inverted V:</strong> Plot Pf versus If peaks at unity at normal excitation, falls both sides lag on left lead on right.</p><p>Used to set synchronous condenser excitation for desired Pf correction.</p>""" + svg_wrap(VCURVE_SVG,"V curve Ia vs If — minimum at unity, inverted V Pf vs If peak at unity","V curves"),
+   "a_gu":"""<p><strong>એક જ લોડ પર field current If બદલો તો excitation બદલાય.</strong></p><ul><li>Under excited: Ef V થી ઓછું → lagging કરંટ લે kVAR લેવા → Pf lag.</li><li>Normal: Ef ≈ V → armature કરંટ સૌથી ઓછો → Pf એક.</li><li>Over excited: Ef V થી વધુ → leading કરંટ, સિસ્ટમ ને kVAR આપે → Pf lead.</li></ul><p><strong>V curve:</strong> Ia વિરુદ્ધ If એક જ લોડે V આકાર, સૌથી નીચું unity Pf પર. લોડ વધે તો આખો V ઉપર જાય.</p><p><strong>Inverted V:</strong> Pf વિરુદ્ધ If ઉલ્ટો V, unity પર ટોચ, બંને બાજુ ઘટે lag ડાબે lead જમણે.</p><p>Synchronous condenser ને કેટલો Pf જોઈએ તે If થી સેટ કરાય.</p>""" + svg_wrap(VCURVE_SVG,"V curve Ia vs If unity પર નીચું, inverted V Pf vs If unity પર ટોચ","V curves"),
+  },
+ ]
+},
+{
+ "title_en":"Q4 · Alternator parallel and hunting",
+ "title_gu":"પ્ર.4 · અલ્ટરનેટર પેરેલલ અને hunting",
+ "cards":[
+  {
+   "q_en":"Q.4 (a) State necessity of parallel operation of Alternators and List conditions of parallel operation. (3 marks)",
+   "marks_en":"3 marks","marks_gu":"૦૩ ગુણ",
+   "a_en":"""<p><strong>Necessity:</strong> Demand varies, one large cannot run efficiently at light load; parallel gives reliability if one fails, allows maintenance, future expansion, better efficiency by switching on as per load, high overload capacity.</p><p><strong>Conditions to parallel:</strong> Same voltage magnitude, same frequency, same phase sequence, voltages in phase at closing instant. Violating gives large cross current and mechanical jerk.</p>""",
+   "a_gu":"""<p><strong>જરૂર:</strong> માંગ બદલાય, મોટો એક હળવા લોડે કાર્યક્ષમ નહિ, પેરેલલ થી એક બગડે તો બીજો ચાલુ, જાળવણી થાય, વિસ્તરણ થાય, લોડ પ્રમાણે ચાલુ કરી કાર્યક્ષમતા વધે, overload ક્ષમતા વધુ.</p><p><strong>શરતો:</strong> વોલ્ટેજ સરખો, ફ્રિકવન્સી સરખી, ફેઝ ક્રમ એક જ, બંધ કરતી ઘડીએ વોલ્ટેજ ફેઝ માં. નહિ તો મોટો cross કરંટ અને ઝટકો આવે.</p>""",
+  },
+  {
+   "q_en":"Q.4 (b) Develop vector diagram of Alternator on lagging and leading power factor. (4 marks)",
+   "marks_en":"4 marks","marks_gu":"૦૪ ગુણ",
+   "a_en":"""<p>Take V as reference. Ia lags V by φ for lag Pf, leads for lead. Drop Ia Ra in phase with Ia, drop j Ia Xs 90° ahead of Ia.</p><div class="eq">Excitation emf E<sub>f</sub> = V + I<sub>a</sub> R<sub>a</sub> + j I<sub>a</sub> X<sub>s</sub></div><p>Lagging: Ia behind V → jIaXs adds more to V → Ef larger and angle δ load angle forward. Leading: Ia ahead → jIaXs partially subtracts → Ef smaller. This shows why lag load needs more field.</p>""" + svg_wrap(PHASOR_SVG,"Lag needs larger Ef, lead needs smaller — Ef = V + Ia(Ra + jXs)","Phasor lag lead"),
+   "a_gu":"""<p>V ને reference લો. Ia lag તો V થી φ પાછળ, lead તો આગળ. Drop Ia Ra Ia ની દિશા માં, j Ia Xs Ia થી 90° આગળ.</p><div class="eq">E<sub>f</sub> = V + I<sub>a</sub> R<sub>a</sub> + j I<sub>a</sub> X<sub>s</sub></div><p>Lagging: Ia પાછળ → jIaXs V માં વધુ ઉમેરે → Ef મોટું, δ આગળ. Leading: Ia આગળ → jIaXs થોડું બાદ કરે → Ef નાનું. તેથી lag લોડે વધુ field જોઈએ.</p>""" + svg_wrap(PHASOR_SVG,"Lag માં Ef મોટું lead માં નાનું — Ef = V + Ia(Ra + jXs)","Phasor lag lead"),
+  },
+  {
+   "q_en":"Q.4 (c) Derive an EMF equation of Alternator (7 marks)",
+   "marks_en":"7 marks","marks_gu":"૦૭ ગુણ",
+   "a_en":"""<p><strong>Assume full pitch concentrated first.</strong> Flux per pole Φ wb, P poles, N rpm → frequency f = PN/120.</p><p>Each conductor cuts flux 2Φ per revolution. Time per rev 60/N. Average emf per conductor = 2Φ / (60/N/ P?) Simpler per turn: Flux cut per revolution per turn =2Φ, turns T per phase gives total flux linkage 2ΦT. Frequency f revolutions per second.</p><div class="eq">Average E per turn = 4 f Φ &nbsp; For sine → rms =1.11 × average</div><div class="eq">E<sub>ph</sub> (concentrated full pitch) = 4.44 f Φ T</div><p><strong>Correct for winding:</strong> Short pitch reduces by Kp =cos ε/2, distributed reduces by Kd = sin(qβ/2)/(q sin β/2). T is turns per phase = conductors per phase /2.</p><div class="result">E<sub>ph</sub> = 4.44 K<sub>p</sub> K<sub>d</sub> f Φ T &nbsp; Line E<sub>L</sub> = √3 E<sub>ph</sub> for star, E<sub>ph</sub> for delta. Often written with Z total conductors: E<sub>ph</sub>=4.44 K<sub>p</sub>K<sub>d</sub> f Φ Z / (a) where a phases.</div>""" + svg_wrap(EMF_SVG,"Derivation: flux Φ, f = PN/120, 4.44 factor for sine, Kp Kd corrections","EMF equation"),
+   "a_gu":"""<p><strong>પહેલા પૂરો pitch એક જગ્યા માનો.</strong> Flux per pole Φ, P pole, N rpm → f = PN/120.</p><p>દરેક વાહક 2Φ કાપે દર ફેરે. સરેરાશ emf per turn =4 f Φ, સાઇન માટે rms 1.11 ગણું.</p><div class="eq">E<sub>ph</sub> = 4.44 f Φ T</div><p><strong>વાઇન્ડિંગ સુધારો:</strong> ટૂંકો pitch Kp =cos ε/2 થી ઘટે, વહેંચાયેલું Kd = sin(qβ/2)/(q sin β/2) થી ઘટે. T = conductors per phase /2.</p><div class="result">E<sub>ph</sub> = 4.44 K<sub>p</sub> K<sub>d</sub> f Φ T &nbsp; Star માટે Line = √3 E<sub>ph</sub></div>""" + svg_wrap(EMF_SVG,"EMF તારવણી: Φ f 4.44 Kp Kd — star Line √3 ગણું","EMF equation"),
+  },
+  {
+   "q_en":"Q.4 (a) OR Define Hunting and its effect in Synchronous motor. (3 marks)",
+   "marks_en":"3 marks","marks_gu":"૦૩ ગુણ",
+   "a_en":"""<p><strong>Hunting is oscillation of rotor about synchronous position due to sudden load change, fault or pulsating torque.</strong> Rotor angle δ swings to and fro like pendulum, field and damper currents oscillate, power surges.</p><p><strong>Effects:</strong> Large current swings, voltage flicker, mechanical stress, may lose synchronism and stall, noisy vibration. Damper cage damps by inducing current opposing motion. Flywheel effect matters.</p>""",
+   "a_gu":"""<p><strong>Hunting એટલે sync સ્થાન ની આસપાસ રોટર નું દોલન — અચાનક લોડ, fault કે ધબકતા ટોર્ક થી.</strong> રોટર ખૂણો δ લોલક જેમ આગળ પાછળ હાલે, કરંટ વધ ઘટ, power ધબકે.</p><p><strong>અસર:</strong> કરંટ ઝોલા, વોલ્ટેજ ઝબક, યાંત્રિક તાણ, sync છૂટી stall થઈ શકે, અવાજ કંપન. Damper cage ગતિ સામે કરંટ બનાવી રોકે.</p>""",
+  },
+  {
+   "q_en":"Q.4 (b) OR A 3-Ø, 3.3 KV star connected alternator has a full load current of 100 A under short circuit condition. It takes 5A field current to produce full load short circuit current. The line voltage of the open circuit emf on the same excitation is 900 Volt. Armature resistance is 0.9 ohm per phase. Calculate the synchronous reactance per phase. (4 marks)",
+   "marks_en":"4 marks","marks_gu":"૦૪ ગુણ",
+   "a_en":"""<p><strong>OCC and SCC at same If =5A give Zs.</strong></p>
+<div class="eq">Open circuit phase emf E<sub>oc</sub> = <span class="frac"><span class="num">V<sub>L oc</sub></span><span class="den">√3</span></span> = <span class="frac"><span class="num">900</span><span class="den">1.732</span></span> = <strong>519.6 V</strong></div>
+<div class="eq">Short circuit current I<sub>sc</sub> =100 A phase for star line = phase.</div>
+<div class="eq">Synchronous impedance Z<sub>s</sub> = <span class="frac"><span class="num">E<sub>oc</sub></span><span class="den">I<sub>sc</sub></span></span> = <span class="frac"><span class="num">519.6</span><span class="den">100</span></span> = <strong>5.196 Ω</strong></div>
+<div class="eq">Z<sub>s</sub><sup>2</sup> = R<sub>a</sub><sup>2</sup> + X<sub>s</sub><sup>2</sup> → X<sub>s</sub> = √(Z<sub>s</sub><sup>2</sup> − R<sub>a</sub><sup>2</sup>) = √(5.196<sup>2</sup> − 0.9<sup>2</sup>) = √(27.0 − 0.81) = √26.19 = <strong>5.12 Ω per phase</strong></div>
+<p>If Ra neglected Xs ≈Zs ≈5.20Ω. This is unsaturated value.</p>""",
+   "a_gu":"""<p><strong>એક જ If =5A પર OCC અને SCC થી Zs.</strong></p>
+<div class="eq">E<sub>oc</sub> phase = <span class="frac"><span class="num">900</span><span class="den">√3</span></span> = <span class="frac"><span class="num">900</span><span class="den">1.732</span></span> = <strong>519.6 V</strong></div>
+<div class="eq">I<sub>sc</sub> =100 A</div>
+<div class="eq">Z<sub>s</sub> = <span class="frac"><span class="num">E<sub>oc</sub></span><span class="den">I<sub>sc</sub></span></span> = <span class="frac"><span class="num">519.6</span><span class="den">100</span></span> = <strong>5.196 Ω</strong></div>
+<div class="eq">X<sub>s</sub> = √(Z<sub>s</sub><sup>2</sup> − R<sub>a</sub><sup>2</sup>) = √(5.196<sup>2</sup> − 0.9<sup>2</sup>) = √26.19 = <strong>5.12 Ω per phase</strong></div>
+<p>Ra અવગણો તો Xs ≈5.20Ω. આ unsaturated મૂલ્ય.</p>""",
+  },
+  {
+   "q_en":"Q.4 (c) OR A 3-Ø star connected alternator has 8 poles and is driven at 750 rpm. The stator has 3 slots per pole phase and 15 conductors per slot. useful flux per pole is 54mwb. Calculate the open circuit line voltage. Assume that all the conductors per phases are connected in series. (7 marks)",
+   "marks_en":"7 marks","marks_gu":"૦૭ ગુણ",
+   "a_en":"""<p><strong>Data:</strong> P=8, N=750 rpm → f = PN/120 =8×750/120=50Hz. Φ=54mWb=0.054Wb. Slots per pole per phase q=3 → total slots = q·P·3 =3·8·3=72. Conductors per slot 15 → total Z =72·15=1080. Per phase Zph =1080/3=360 → turns T =Zph/2=180. Full pitch Kp≈1.</p>
+<div class="eq">Slots per pole =72/8=9 → slot pitch β = <span class="frac"><span class="num">180°</span><span class="den">9</span></span> =20° electrical.</div>
+<div class="eq">Distribution K<sub>d</sub> = <span class="frac"><span class="num">sin(qβ/2)</span><span class="den">q sin(β/2)</span></span> = <span class="frac"><span class="num">sin(3×20/2)=sin30°=0.5</span><span class="den">3 sin10°=3×0.1736=0.5208</span></span> = <strong>0.96</strong></div>
+<div class="eq">E<sub>ph</sub> =4.44 K<sub>p</sub>K<sub>d</sub> f Φ T =4.44×1×0.96×50×0.054×180</div>
+<div class="eq"> =4.2624×50=213.12 →213.12×0.054=11.508 →11.508×180=<strong>2071.5 V phase</strong></div>
+<div class="result">Line voltage E<sub>L</sub> =√3 E<sub>ph</sub> =1.732×2071.5 = <strong>3588 V ≈3.59 kV</strong></div>
+<p>If Kp slightly less due to chording, value ~3.4 to 3.6kV acceptable.</p>""",
+   "a_gu":"""<p><strong>ડેટા:</strong> P=8, N=750 rpm → f =8×750/120=50Hz. Φ=0.054Wb. q=3 → કુલ slot =3·8·3=72. કુલ વાહક Z =72·15=1080. per phase Zph=360 → T =180. Kp≈1.</p>
+<div class="eq">Slots per pole =72/8=9 → β = <span class="frac"><span class="num">180°</span><span class="den">9</span></span> =20°</div>
+<div class="eq">K<sub>d</sub> = <span class="frac"><span class="num">sin30°=0.5</span><span class="den">3 sin10°=0.5208</span></span> = <strong>0.96</strong></div>
+<div class="eq">E<sub>ph</sub> =4.44×1×0.96×50×0.054×180 = <strong>2071.5 V</strong></div>
+<div class="result">Line =√3 E<sub>ph</sub> =1.732×2071.5 = <strong>3588 V ≈3.59 kV</strong></div>
+<p>થોડો chording હોય તો ~3.4 થી 3.6kV બરાબર.</p>""",
+  },
+ ]
+},
+{
+ "title_en":"Q5 · Slip, power flow and cage vs slip ring",
+ "title_gu":"પ્ર.5 · slip, power flow અને cage vs slip ring",
+ "cards":[
+  {
+   "q_en":"Q.5 (a) A 4 pole 60 Hz, 3-Ø star connected Induction motor has full load slip of 3%. Find full load speed of the motor. (3 marks)",
+   "marks_en":"3 marks","marks_gu":"૦૩ ગુણ",
+   "a_en":"""<div class="eq">Synchronous Ns = <span class="frac"><span class="num">120 f</span><span class="den">P</span></span> = <span class="frac"><span class="num">120×60</span><span class="den">4</span></span> = <strong>1800 rpm</strong></div>
+<div class="eq">Rotor speed N = N<sub>s</sub>(1 − s) =1800×(1−0.03)=1800×0.97 = <strong>1746 rpm</strong></div>
+<div class="eq">Slip speed = N<sub>s</sub>−N = 54 rpm &nbsp; Rotor frequency fr = s f =0.03×60 = <strong>1.8Hz</strong></div>""",
+   "a_gu":"""<div class="eq">Ns = <span class="frac"><span class="num">120×60</span><span class="den">4</span></span> = <strong>1800 rpm</strong></div>
+<div class="eq">N = Ns(1 − s) =1800×0.97 = <strong>1746 rpm</strong></div>
+<div class="eq">Slip speed 54 rpm, fr = s f =1.8Hz</div>""",
+  },
+  {
+   "q_en":"Q.5 (b) List different methods to measure slip and explain anyone. (4 marks)",
+   "marks_en":"4 marks","marks_gu":"૦૪ ગુણ",
+   "a_en":"""<p><strong>Methods:</strong> Direct tachometer, stroboscopic disc, rotor frequency measurement, belt flicker count, comparison of supply and rotor counters, smartphone tacho app.</p><p><strong>Example — Tachometer plus frequency:</strong> Measure supply f from nameplate 50Hz gives Ns=120f/P. Measure rotor N with digital tacho on shaft. Then slip s=(Ns−N)/Ns. Rotor frequency can also be measured by low frequency voltmeter on slip rings for wound rotor → fr and s=fr/f. Simple and used in lab.</p>""" + svg_wrap(SLIPMEASURE_SVG,"Five practical slip measurement methods — tacho plus fr most common","Slip methods"),
+   "a_gu":"""<p><strong>રીતો:</strong> સીધો tachometer, stroboscopic disc, rotor frequency માપ, belt flicker ગણતરી, counter સરખામણી.</p><p><strong>ઉદાહરણ — Tachometer વત્તા frequency:</strong> નેમ પ્લેટ થી f → Ns=120f/P. shaft પર digital tacho થી N માપો. પછી s=(Ns−N)/Ns. wound rotor માં slip ring પર ઓછા Hz વોલ્ટમીટર થી fr માપી s=fr/f કરો. લેબ માં સૌથી સરળ.</p>""" + svg_wrap(SLIPMEASURE_SVG,"Slip માપવાની પાંચ રીત — tacho વત્તા fr સૌથી સામાન્ય","Slip methods"),
+  },
+  {
+   "q_en":"Q.5 (c) Explain Torque slip characteristic of 3-Ø Induction motor. (7 marks)",
+   "marks_en":"7 marks","marks_gu":"૦૭ ગુણ",
+   "a_en":"""<p><strong>Regions:</strong> Motoring 0 &lt;s &lt;1 torque rises initially linear, peaks at s=R2/X2 called breakdown torque about 2 to 3 times full load, then falls to starting torque at s=1. Generating s negative torque negative. Braking 1&lt;s&lt;2 positive torque opposite rotation.</p><p><strong>Stable zone 0 to sm:</strong> If load increases slip increases torque increases → returns. Unstable beyond peak load increase slips more but torque drops → stall.</p><p>High rotor resistance shifts peak to higher slip raising start torque but more copper loss. Squirrel cage low R2 low start, slip ring can add external R2 for high start.</p>""" + svg_wrap(TORQUE_SLIP_SVG,"Torque slip — stable linear to peak at sm, then unstable to s=1 start","Torque slip"),
+   "a_gu":"""<p><strong>વિસ્તાર:</strong> Motoring 0 &lt;s &lt;1 ટોર્ક શરૂ માં સીધો વધે, s=R2/X2 પર breakdown ટોર્ક ફુલ લોડ થી 2 થી 3 ગણો, પછી s=1 સ્ટાર્ટ સુધી ઘટે. Generating s નકારાત્મક, Braking 1 થી 2.</p><p><strong>સ્થિર વિસ્તાર 0 થી sm:</strong> લોડ વધે → slip વધે → ટોર્ક વધે → પાછો સ્થિર. peak પછી અસ્થિર — લોડ વધે પણ ટોર્ક ઘટે → stall.</p><p>વધુ R2 peak ને વધુ slip તરફ ખસેડે, સ્ટાર્ટ ટોર્ક વધે પણ copper loss વધે. squirrel માં ઓછો R2 ઓછો સ્ટાર્ટ, slip ring માં બહાર R2 નાખી સ્ટાર્ટ વધારાય.</p>""" + svg_wrap(TORQUE_SLIP_SVG,"Torque slip — 0 થી peak સ્થિર પછી 1 સુધી અસ્થિર","Torque slip"),
+  },
+  {
+   "q_en":"Q.5 (a) OR Develop Equivalent circuit of 3-Ø Induction motor. (3 marks)",
+   "marks_en":"3 marks","marks_gu":"૦૩ ગુણ",
+   "a_en":"""<p>Per phase referred to stator. Stator R1 X1 series, magnetising branch Xm parallel with core loss Rc, rotor referred R2/s X2 series. At standstill s=1, at no load s≈0 open.</p><div class="eq">R<sub>2</sub>/s = R<sub>2</sub> + R<sub>2</sub>(1−s)/s where second term is mechanical load resistance.</div><p>Supply balances copper, iron and output. Tests: no load gives Xm, blocked rotor gives R01 X01.</p>""" + svg_wrap(EQUIV_SVG,"Single phase equivalent — R1 X1, Xm, R2/s X2 — mechanical as resistance","Equivalent"),
+   "a_gu":"""<p>Per phase સ્ટેટર તરફ. સ્ટેટર R1 X1 શ્રેણી, magnetising Xm સમાંતર, રોટર R2/s X2 શ્રેણી. s=1 ઊભું, s≈0 હળવું.</p><div class="eq">R<sub>2</sub>/s = R<sub>2</sub> + R<sub>2</sub>(1−s)/s બીજો ભાગ યાંત્રિક લોડ.</div><p>No load થી Xm, blocked rotor થી R01 X01 મળે.</p>""" + svg_wrap(EQUIV_SVG,"એક ફેઝ સમકક્ષ — R1 X1 Xm R2/s X2","Equivalent"),
+  },
+  {
+   "q_en":"Q.5 (b) OR Draw and Explain Power stages in an induction motor. (4 marks)",
+   "marks_en":"4 marks","marks_gu":"૦૪ ગુણ",
+   "a_en":"""<p><strong>Flow:</strong> Electrical input Pin =3V1 I1 cosφ → minus stator copper and iron → airgap power Pg =Pin − stator losses.</p><p>Pg crosses to rotor → minus rotor copper sPg → mechanical Pm =(1−s)Pg.</p><p>Pm minus friction windage → shaft Pout. Relation Pg : rotor Cu : Pm =1 : s : 1−s.</p>""" + svg_wrap(POWERFLOW_SVG,"Pin → Pg → Pm → Pout — ratio 1 : s : 1−s — slip decides split","Power stages"),
+   "a_gu":"""<p><strong>પ્રવાહ:</strong> Pin =3V1 I1 cosφ → stator copper iron બાદ → Pg =Pin − stator loss.</p><p>Pg રોટર માં → rotor copper sPg બાદ → Pm =(1−s)Pg.</p><p>Pm માં ઘર્ષણ બાદ → shaft Pout. ગુણોત્તર Pg : rotor Cu : Pm =1 : s : 1−s.</p>""" + svg_wrap(POWERFLOW_SVG,"Pin → Pg → Pm → Pout — ગુણોત્તર 1 : s : 1−s","Power stages"),
+  },
+  {
+   "q_en":"Q.5 (c) OR Compare Squirrel cage and slip ring induction motor. (7 marks)",
+   "marks_en":"7 marks","marks_gu":"૦૭ ગુણ",
+   "a_en":"""<table><tr><th>Point</th><th>Squirrel cage</th><th>Slip ring wound rotor</th></tr><tr><td>Rotor</td><td>Bars shorted, simple rugged</td><td>Wound coils to slip rings, brushes</td></tr><tr><td>Start torque</td><td>Low 1.5 times, high current 5 to 7 times</td><td>High upto 2.5 times with external R, low current</td></tr><tr><td>Speed control</td><td>Limited pole change or VFD only</td><td>Wide by rotor resistance, smooth</td></tr><tr><td>Maintenance</td><td>Almost none, cheap</td><td>Brush slip wear, needs care, cost more</td></tr><tr><td>Efficiency</td><td>Higher, low rotor Cu</td><td>Lower due to external loss</td></tr><tr><td>Use</td><td>Fans, pumps, compressors general</td><td>Cranes, hoists, crushers heavy start</td></tr></table>""",
+   "a_gu":"""<table><tr><th>મુદ્દો</th><th>Squirrel cage</th><th>Slip ring</th></tr><tr><td>રોટર</td><td>સળિયા short, સરળ મજબૂત</td><td>coil slip ring brush</td></tr><tr><td>સ્ટાર્ટ ટોર્ક</td><td>ઓછો 1.5 ગણો, કરંટ 5 થી 7 ગણો</td><td>વધુ 2.5 ગણો બહાર R થી, કરંટ ઓછો</td></tr><tr><td>ઝડપ કંટ્રોલ</td><td>pole કે VFD જ</td><td>રોટર અવરોધ થી પહોળું</td></tr><tr><td>જાળવણી</td><td>લગભગ શૂન્ય, સસ્તી</td><td>brush ઘસારો, ખર્ચ વધુ</td></tr><tr><td>કાર્યક્ષમતા</td><td>વધુ</td><td>બહાર loss થી ઓછી</td></tr><tr><td>ઉપયોગ</td><td>પંખા પંમ કોમ્પ્રેસર</td><td>ક્રેન હોઇસ્ટ ક્રશર</td></tr></table>""",
+  },
+ ]
+},
+]
+
+def build_page():
+    sections_html=[]
+    for sec in SECTIONS:
+        cards=[]
+        for c in sec["cards"]:
+            q_html=html.escape(c["q_en"])
+            cards.append(f'''<details class="card"><summary><strong><span class="en">{q_html}</span><span class="gu">{q_html}</span></strong><small><span class="en">{c["marks_en"]}</span><span class="gu">{c["marks_gu"]}</span></small></summary><div class="answer"><div class="en">{c["a_en"]}</div><div class="gu">{c["a_gu"]}</div></div></details>''')
+        sections_html.append(f'''<section class="group"><h2>{html.escape(sec["title_en"])}</h2>{''.join(cards)}</section>''')
+    # language title handling
+    page=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DI04000321 · Summer 2026 solved paper</title><style>{CSS}</style></head><body><main class="page"><header class="hero"><div class="eyebrow">Solved question paper · English questions · Friendly Gujarati answers</div><div class="lang-switch" aria-label="Choose language"><button type="button" data-lang="en" aria-pressed="true">English</button><button type="button" data-lang="gu" aria-pressed="false">ગુજરાતી</button></div><h1>Electrical Machines – II</h1><div class="meta">GTU Diploma · Electrical · Semester 4 · Summer 2026 · DI04000321 · 19 May 2026 · 70 marks · 10:30 AM TO 01:00 PM</div></header>{''.join(sections_html)}<div class="footer">Solved paper for study. Verify ratings and safety from official datasheets and lab instructions before practical.</div></main><script>document.querySelectorAll('.lang-switch button').forEach(b=>b.addEventListener('click',()=>{{document.documentElement.lang=b.dataset.lang;document.querySelectorAll('.lang-switch button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));}}));</script></body></html>'''
+    return page
+
+def main():
+    page=build_page()
+    out_papers=ROOT/"papers-upload/papers/DI04000321/summer-2026.html"
+    out_ws=ROOT/"preview/workshop/DI04000321_summer2026_bilingual.html"
+    out_papers.parent.mkdir(parents=True,exist_ok=True)
+    out_ws.parent.mkdir(parents=True,exist_ok=True)
+    out_papers.write_text(page,encoding="utf-8")
+    out_ws.write_text(page,encoding="utf-8")
+    d=page.count('<details'); s=page.count('<section'); ce=page.count('class="en"'); cg=page.count('class="gu"')
+    print(f"Bilingual: {out_papers} ({len(page)} chars)")
+    print(f"details={d}, sections={s}, en={ce}, gu={cg}")
+    print("PASS" if d==28 and s==5 and ce>=28 and cg>=28 else "FAIL")
+    figs=page.count('<figure>'); fracs=page.count('class="frac"')
+    print(f"figs={figs} fracs={fracs}")
+    import re
+    gu=''.join(re.findall(r'<div class="gu">(.*?)</div>',page,re.S))
+    print(f"brackets gu={gu.count('(')+gu.count(')')}")
+    # write drive copy
+    (ROOT/"drive-upload/DI04000321_summer_2026_bilingual.html").write_text(page,encoding="utf-8")
+
+if __name__=="__main__":
+    main()
