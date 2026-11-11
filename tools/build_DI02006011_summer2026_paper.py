@@ -62,8 +62,8 @@ SECTIONS=[
   {
    "q_en":"Q.1 (a) Explain Principles of surveying. (03 marks)",
    "marks_en":"03 marks","marks_gu":"૦૩ ગુણ",
-   "a_en":f"<p><strong>Whole to part:</strong> Establish major control triangle / traverse first, minor detail inside. Errors stay local, never accumulate.</p><p><strong>Fix by two independent references:</strong> Every new point located from two known points — intersection of distance or direction — so check possible.</p><p>Other corollaries: work from firm datum, provide independent checks, economy of accuracy.</p>"+fig(svg_principles,"Whole to part control first, then detail — two references fix a point"),
-   "a_gu":f"<p><strong>આખા થી ભાગ:</strong> મોટું control પહેલા, નાની વિગત અંદર.</p><p><strong>બે સંદર્ભ થી નવો બિંદુ:</strong> દરેક નવો point બે જાણીતા થી નક્કી.</p>"+fig(svg_principles,"આખા થી ભાગ — control પહેલા"),
+   "a_en":f"<p><strong>Whole to part:</strong> Establish major control triangle / traverse first, minor detail inside. Errors stay local, never accumulate.</p><p><strong>Fix by two independent references:</strong> Every new point located from two known points — intersection of distance or direction — so check possible.</p><p>Other corollaries: work from firm datum, provide independent checks, economy of accuracy.</p>",
+   "a_gu":f"<p><strong>આખા થી ભાગ:</strong> મોટું control પહેલા, નાની વિગત અંદર.</p><p><strong>બે સંદર્ભ થી નવો બિંદુ:</strong> દરેક નવો point બે જાણીતા થી નક્કી.</p>",
   },
   {
    "q_en":"Q.1 (b) Explain Types of ranging in detail. (04 marks)",
@@ -80,8 +80,8 @@ SECTIONS=[
   {
    "q_en":"Q.1 (c) OR Enlist any seven survey instruments used in chain, Tape & compass Survey with its functions. (07 marks)",
    "marks_en":"07 marks","marks_gu":"૦૭ ગુણ",
-   "a_en":"<table><tr><th>Instrument</th><th>Function</th></tr><tr><td>Metric chain 20/30m</td><td>Horizontal distance</td></tr><tr><td>Arrows</td><td>Mark chain end</td></tr><tr><td>Ranging rods 2-3m</td><td>Mark stations line</td></tr><tr><td>Tape steel/invar</td><td>Offsets accurate</td></tr><tr><td>Cross staff / optical square</td><td>Right angle offset</td></tr><tr><td>Plumb bob</td><td>Vertical transfer on slope</td></tr><tr><td>Prismatic compass</td><td>Bearing</td></tr><tr><td>Pegs, hammer</td><td>Fix stations</td></tr></table>"+fig(svg_chain,"Chain tape compass accessories"),
-   "a_gu":"<p>Chain, arrows, ranging rod, tape, cross staff, plumb bob, compass, pegs — કોષ્ટક ઉપર.</p>"+fig(svg_chain,"સાંકળ સાધનો"),
+   "a_en":"<table><tr><th>Instrument</th><th>Function</th></tr><tr><td>Metric chain 20/30m</td><td>Horizontal distance</td></tr><tr><td>Arrows</td><td>Mark chain end</td></tr><tr><td>Ranging rods 2-3m</td><td>Mark stations line</td></tr><tr><td>Tape steel/invar</td><td>Offsets accurate</td></tr><tr><td>Cross staff / optical square</td><td>Right angle offset</td></tr><tr><td>Plumb bob</td><td>Vertical transfer on slope</td></tr><tr><td>Prismatic compass</td><td>Bearing</td></tr><tr><td>Pegs, hammer</td><td>Fix stations</td></tr></table>",
+   "a_gu":"<p>Chain, arrows, ranging rod, tape, cross staff, plumb bob, compass, pegs — કોષ્ટક ઉપર.</p>",
   },
  ]
 },
@@ -92,14 +92,14 @@ SECTIONS=[
   {
    "q_en":"Q.2 (a) Differentiate between prismatic compass and surveyor compass. (03 marks)",
    "marks_en":"03 marks","marks_gu":"૦૩ ગુણ",
-   "a_en":"<table><tr><th>Point</th><th>Prismatic</th><th>Surveyor</th></tr><tr><td>Graduation</td><td>0-360 WCB on ring attached to needle</td><td>0-90 QB on fixed box</td></tr><tr><td>Reading</td><td>Prism magnified while sighting</td><td>Direct on top after sighting</td></tr><tr><td>Needle</td><td>Magnetic needle carries card</td><td>Card fixed needle moves</td></tr><tr><td>Tripod</td><td>Usually on tripod small</td><td>Larger on stand</td></tr></table>"+fig(svg_compass,"Prismatic 0-360 vs Surveyor QB"),
-   "a_gu":"<p>Prismatic 0-360 prism થી વંચાય, Surveyor 0-90 QB direct.</p>"+fig(svg_compass,"કંપાસ તફાવત"),
+   "a_en":"<table><tr><th>Point</th><th>Prismatic</th><th>Surveyor</th></tr><tr><td>Graduation</td><td>0-360 WCB on ring attached to needle</td><td>0-90 QB on fixed box</td></tr><tr><td>Reading</td><td>Prism magnified while sighting</td><td>Direct on top after sighting</td></tr><tr><td>Needle</td><td>Magnetic needle carries card</td><td>Card fixed needle moves</td></tr><tr><td>Tripod</td><td>Usually on tripod small</td><td>Larger on stand</td></tr></table>",
+   "a_gu":"<p>Prismatic 0-360 prism થી વંચાય, Surveyor 0-90 QB direct.</p>",
   },
   {
    "q_en":"Q.2 (b) State methods of Plane Tabling and explain any one in detail. (04 marks)",
    "marks_en":"04 marks","marks_gu":"૦૪ ગુણ",
-   "a_en":"<p><strong>Methods:</strong> Radiation, intersection, traversing, resection. <strong>Radiation detail:</strong> Set over one station, orient, draw rays to all detail points, measure distance scale off — suitable for small area.</p>"+fig(svg_ptable,"Plane table radiation intersection traversing resection"),
-   "a_gu":"<p>Radiation, intersection, traversing, resection — radiation માં એક station થી કિરણ દોરી અંતર માપી point મૂકો.</p>"+fig(svg_ptable,"પ્લેન ટેબલ પદ્ધતિ"),
+   "a_en":"<p><strong>Methods:</strong> Radiation, intersection, traversing, resection. <strong>Radiation detail:</strong> Set over one station, orient, draw rays to all detail points, measure distance scale off — suitable for small area.</p>",
+   "a_gu":"<p>Radiation, intersection, traversing, resection — radiation માં એક station થી કિરણ દોરી અંતર માપી point મૂકો.</p>",
   },
   {
    "q_en":"Q.2 (c) Explain Temporary adjustment of Prismatic compass. (07 marks)",
@@ -110,20 +110,20 @@ SECTIONS=[
   {
    "q_en":"Q.2 (a) OR Define (i) Contour (ii) Fore sight (iii) Axis of telescope (03 marks)",
    "marks_en":"03 marks","marks_gu":"૦૩ ગુણ",
-   "a_en":"<p><strong>Contour:</strong> Line joining equal RL — horizontal slice. <strong>Fore sight:</strong> Last staff reading before shifting level. <strong>Axis of telescope:</strong> Line through objective centre and cross hair.</p>"+fig(svg_terms,"Contour equal RL, FS last reading, telescope axis"),
-   "a_gu":"<p>Contour સરખા RL ની રેખા, Fore sight shift પહેલા છેલ્લું વાંચન, telescope axis objective થી cross hair.</p>"+fig(svg_terms,"પરિભાષા"),
+   "a_en":"<p><strong>Contour:</strong> Line joining equal RL — horizontal slice. <strong>Fore sight:</strong> Last staff reading before shifting level. <strong>Axis of telescope:</strong> Line through objective centre and cross hair.</p>",
+   "a_gu":"<p>Contour સરખા RL ની રેખા, Fore sight shift પહેલા છેલ્લું વાંચન, telescope axis objective થી cross hair.</p>",
   },
   {
    "q_en":"Q.2 (b) OR Explain characteristics of contours. (04 marks)",
    "marks_en":"04 marks","marks_gu":"૦૪ ગુણ",
-   "a_en":"<ul><li>Never intersect except overhang / vertical cliff merged.</li><li>Close steep, wide flat.</li><li>Perpendicular to steepest slope, loop around hill.</li></ul>"+fig(svg_contour,"Contours close=steep wide=flat"),
-   "a_gu":"<ul><li>ભેગી ન થાય cliff સિવાય.</li><li>નજીક steep દૂર flat.</li></ul>"+fig(svg_contour,"સમોચ્ચ લક્ષણ"),
+   "a_en":"<ul><li>Never intersect except overhang / vertical cliff merged.</li><li>Close steep, wide flat.</li><li>Perpendicular to steepest slope, loop around hill.</li></ul>",
+   "a_gu":"<ul><li>ભેગી ન થાય cliff સિવાય.</li><li>નજીક steep દૂર flat.</li></ul>",
   },
   {
    "q_en":"Q.2 (c) OR The following readings were taken with dumpy level: 1.155, 1.565, 2.695, 3.580, 2.085, 2.895, 4.125. Level shifted after 4th reading. Calculate RL by Rise and Fall. Assume BM 100.00 (07 marks)",
    "marks_en":"07 marks","marks_gu":"૦૭ ગુણ",
-   "a_en":"""<p><strong>Two setups:</strong> Setup1 BS 1.155 FS 3.580, Setup2 BS 2.085 FS 4.125. CP at 3.580/2.085 same point.</p><table><tr><th>Pt</th><th>BS</th><th>IS</th><th>FS</th><th>HI</th><th>RL</th></tr><tr><td>BM</td><td>1.155</td><td></td><td></td><td>101.155</td><td>100.000</td></tr><tr><td>1</td><td></td><td>1.565</td><td></td><td></td><td>99.590</td></tr><tr><td>2</td><td></td><td>2.695</td><td></td><td></td><td>98.460</td></tr><tr><td>CP</td><td>2.085</td><td></td><td>3.580</td><td>99.660</td><td>97.575</td></tr><tr><td>3</td><td></td><td>2.895</td><td></td><td></td><td>96.765</td></tr><tr><td>4</td><td></td><td></td><td>4.125</td><td></td><td>95.535</td></tr></table><div class="eq">Rise/Fall check: ΣBS 3.240 ΣFS 7.705 diff −4.465 = last RL 95.535 −100.000 ✓</div><p><em>Alternatively via rise/fall between successive points omitting CP duplicate: fall 0.410,1.130,0.885,0.810,1.23 sum 4.465.</em></p>"""+fig(svg_terms,"Levelling HI = RL+BS, RL=HI−IS/FS"),
-   "a_gu":"""<p><strong>બે setup:</strong> HI1 101.155 RL 99.59 98.46 97.575 HI2 99.66 RL 96.765 95.535.</p><div class="eq">ΣBS−ΣFS −4.465 = છેલ્લા−પ્રથમ ✓</div>"""+fig(svg_terms,"HI રીત"),
+   "a_en":"""<p><strong>Two setups:</strong> Setup1 BS 1.155 FS 3.580, Setup2 BS 2.085 FS 4.125. CP at 3.580/2.085 same point.</p><table><tr><th>Pt</th><th>BS</th><th>IS</th><th>FS</th><th>HI</th><th>RL</th></tr><tr><td>BM</td><td>1.155</td><td></td><td></td><td>101.155</td><td>100.000</td></tr><tr><td>1</td><td></td><td>1.565</td><td></td><td></td><td>99.590</td></tr><tr><td>2</td><td></td><td>2.695</td><td></td><td></td><td>98.460</td></tr><tr><td>CP</td><td>2.085</td><td></td><td>3.580</td><td>99.660</td><td>97.575</td></tr><tr><td>3</td><td></td><td>2.895</td><td></td><td></td><td>96.765</td></tr><tr><td>4</td><td></td><td></td><td>4.125</td><td></td><td>95.535</td></tr></table><div class="eq">Rise/Fall check: ΣBS 3.240 ΣFS 7.705 diff −4.465 = last RL 95.535 −100.000 ✓</div><p><em>Alternatively via rise/fall between successive points omitting CP duplicate: fall 0.410,1.130,0.885,0.810,1.23 sum 4.465.</em></p>""",
+   "a_gu":"""<p><strong>બે setup:</strong> HI1 101.155 RL 99.59 98.46 97.575 HI2 99.66 RL 96.765 95.535.</p><div class="eq">ΣBS−ΣFS −4.465 = છેલ્લા−પ્રથમ ✓</div>""",
   },
  ]
 },
@@ -146,14 +146,14 @@ SECTIONS=[
   {
    "q_en":"Q.3 (c) Explain errors in the compass survey and describe the closing error. (07 marks)",
    "marks_en":"07 marks","marks_gu":"૦૭ ગુણ",
-   "a_en":"<p><strong>Instrumental:</strong> Pivot, needle, graduation. <strong>Personal:</strong> Centering levelling reading. <strong>Natural:</strong> Magnetic storm, local attraction iron, declination.</p><p><strong>Closing error:</strong> Traverse fails to close on itself due to angular/linear errors. Vector e = √ (ΣLat²+ΣDep²). Adjusted by Bowditch or transit rule.</p>"+fig(svg_closing,"Errors instrumental personal natural, closing error vector"),
-   "a_gu":"<p>યંત્ર, વ્યક્તિ, natural local attraction — closing error traverse બંધ ન થાય, Bowditch થી સુધારો.</p>"+fig(svg_closing,"ભૂલ અને closing"),
+   "a_en":"<p><strong>Instrumental:</strong> Pivot, needle, graduation. <strong>Personal:</strong> Centering levelling reading. <strong>Natural:</strong> Magnetic storm, local attraction iron, declination.</p><p><strong>Closing error:</strong> Traverse fails to close on itself due to angular/linear errors. Vector e = √ (ΣLat²+ΣDep²). Adjusted by Bowditch or transit rule.</p>",
+   "a_gu":"<p>યંત્ર, વ્યક્તિ, natural local attraction — closing error traverse બંધ ન થાય, Bowditch થી સુધારો.</p>",
   },
   {
    "q_en":"Q.3 (a) OR Explain the classifications of the Theodolite (03 marks)",
    "marks_en":"03 marks","marks_gu":"૦૩ ગુણ",
-   "a_en":"<p>Transit vs non-transit, vernier vs micrometer, primary vs secondary, digital electronic total station.</p>"+fig(svg_theodolite,"Theodolite types overview"),
-   "a_gu":"<p>Transit, vernier, digital — પ્રકાર.</p>"+fig(svg_theodolite,"થિયોડોલાઇટ પ્રકાર"),
+   "a_en":"<p>Transit vs non-transit, vernier vs micrometer, primary vs secondary, digital electronic total station.</p>",
+   "a_gu":"<p>Transit, vernier, digital — પ્રકાર.</p>",
   },
   {
    "q_en":"Q.3 (b) OR Enlist instruments used for setting out right angles. explain each in details. (04 marks)",
@@ -182,8 +182,8 @@ SECTIONS=[
   {
    "q_en":"Q.4 (b) List the fundamental axis of theodolite & give relation between them. (04 marks)",
    "marks_en":"04 marks","marks_gu":"૦૪ ગુણ",
-   "a_en":"<p><strong>Axes:</strong> Vertical, horizontal/trunnion, collimation, altitude bubble, plate level.</p><p><strong>Relation:</strong> All perpendicular where needed — collimation ⊥ horizontal, horizontal ⊥ vertical, bubble ⊥ vertical when levelled.</p>"+fig(svg_adjust,"Axes: vertical, horizontal, collimation, bubble"),
-   "a_gu":"<p>Vertical, horizontal, collimation, bubble — બધા પરસ્પર લંબ.</p>"+fig(svg_adjust,"અક્ષ"),
+   "a_en":"<p><strong>Axes:</strong> Vertical, horizontal/trunnion, collimation, altitude bubble, plate level.</p><p><strong>Relation:</strong> All perpendicular where needed — collimation ⊥ horizontal, horizontal ⊥ vertical, bubble ⊥ vertical when levelled.</p>",
+   "a_gu":"<p>Vertical, horizontal, collimation, bubble — બધા પરસ્પર લંબ.</p>",
   },
   {
    "q_en":"Q.4 (c) Draw a neat sketch of Theodolite and label its all parts. (07 marks)",
@@ -206,8 +206,8 @@ SECTIONS=[
   {
    "q_en":"Q.4 (c) OR Write Advantages and Disadvantages of Plain Table Survey. (07 marks)",
    "marks_en":"07 marks","marks_gu":"૦૭ ગુણ",
-   "a_en":"<p><strong>Adv:</strong> No office plotting error, field check, cheap, good for small fill-in. <strong>Disadv:</strong> Not for rainy/windy, precise work, replot difficult, needs skilled alidade.</p>"+fig(svg_ptable,"Plain table pros cons"),
-   "a_gu":"<p>ફાયદા field જ check, ગેરફાયદા પવન વરસાદ માં નહીં.</p>"+fig(svg_ptable,"પ્લેન ટેબલ"),
+   "a_en":"<p><strong>Adv:</strong> No office plotting error, field check, cheap, good for small fill-in. <strong>Disadv:</strong> Not for rainy/windy, precise work, replot difficult, needs skilled alidade.</p>",
+   "a_gu":"<p>ફાયદા field જ check, ગેરફાયદા પવન વરસાદ માં નહીં.</p>",
   },
  ]
 },
@@ -224,14 +224,14 @@ SECTIONS=[
   {
    "q_en":"Q.5 (b) Explain temporary adjustment of Theodolite. (04 marks)",
    "marks_en":"04 marks","marks_gu":"૦૪ ગુણ",
-   "a_en":"<p>Setting over station, centering, levelling with plate bubble, focussing eyepiece/objective, parallax removal.</p>"+fig(svg_adjust,"Temporary adjustment centering levelling focussing"),
-   "a_gu":"<p>Centering, levelling, focusing.</p>"+fig(svg_adjust,"સમાયોજન"),
+   "a_en":"<p>Setting over station, centering, levelling with plate bubble, focussing eyepiece/objective, parallax removal.</p>",
+   "a_gu":"<p>Centering, levelling, focusing.</p>",
   },
   {
    "q_en":"Q.5 (c) Explain the methods of locating contour lines in surveying. (07 marks)",
    "marks_en":"07 marks","marks_gu":"૦૭ ગુણ",
-   "a_en":"<p><strong>Direct:</strong> Trace contour by level searching points of same RL. <strong>Indirect:</strong> Grid/spot levels then interpolate. <strong>Tachometry</strong> for hills. Interpolation by arithmetic or graphical.</p>"+fig(svg_interp,"Direct trace vs indirect grid interpolation"),
-   "a_gu":"<p>Direct contour પર ફરી point, indirect grid લઈ interpolate.</p>"+fig(svg_interp,"contour પદ્ધતિ"),
+   "a_en":"<p><strong>Direct:</strong> Trace contour by level searching points of same RL. <strong>Indirect:</strong> Grid/spot levels then interpolate. <strong>Tachometry</strong> for hills. Interpolation by arithmetic or graphical.</p>",
+   "a_gu":"<p>Direct contour પર ફરી point, indirect grid લઈ interpolate.</p>",
   },
   {
    "q_en":"Q.5 (a) OR What are the objectives and uses of surveying? (03 marks)",
@@ -242,8 +242,8 @@ SECTIONS=[
   {
    "q_en":"Q.5 (b) OR Explain: Bowditch rule and Transit rule. (04 marks)",
    "marks_en":"04 marks","marks_gu":"૦૪ ગુણ",
-   "a_en":"<p><strong>Bowditch:</strong> Correction ∝ length — C_lat = −e_lat × l / Σl. <strong>Transit:</strong> Correction ∝ |lat| or |dep| — better for angular errors.</p>"+fig(svg_closing,"Bowditch vs Transit adjustment"),
-   "a_gu":"<p>Bowditch length પ્રમાણે, Transit latitude પ્રમાણે.</p>"+fig(svg_closing,"નિયમ"),
+   "a_en":"<p><strong>Bowditch:</strong> Correction ∝ length — C_lat = −e_lat × l / Σl. <strong>Transit:</strong> Correction ∝ |lat| or |dep| — better for angular errors.</p>",
+   "a_gu":"<p>Bowditch length પ્રમાણે, Transit latitude પ્રમાણે.</p>",
   },
   {
    "q_en":"Q.5 (c) OR Enlist any Seven equipment and accessories used in Plain Table Survey with its uses. (07 marks)",

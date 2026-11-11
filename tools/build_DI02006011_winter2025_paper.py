@@ -64,8 +64,8 @@ SECTIONS=[
   {
    "q_en":"Q.1 (b) Define: (1) Offset (2) Tie line (3) Base line (4) Check line (04 marks)",
    "marks_en":"04 marks","marks_gu":"૦૪ ગુણ",
-   "a_en":"<p><strong>Offset:</strong> Perpendicular distance from chain line to detail. <strong>Tie line:</strong> Joins two tie stations to locate interior detail. <strong>Base line:</strong> Longest main line on which framework rests. <strong>Check line:</strong> Joins apex to side to verify accuracy.</p>"+fig(svg_chain,"Offsets, tie line, base line, check line"),
-   "a_gu":"<p>Offset લંબ અંતર, Tie line interior બિંદુ જોડે, Base line સૌથી લાંબી, Check line ચકાસણી.</p>"+fig(svg_chain,"રેખા પ્રકાર"),
+   "a_en":"<p><strong>Offset:</strong> Perpendicular distance from chain line to detail. <strong>Tie line:</strong> Joins two tie stations to locate interior detail. <strong>Base line:</strong> Longest main line on which framework rests. <strong>Check line:</strong> Joins apex to side to verify accuracy.</p>",
+   "a_gu":"<p>Offset લંબ અંતર, Tie line interior બિંદુ જોડે, Base line સૌથી લાંબી, Check line ચકાસણી.</p>",
   },
   {
    "q_en":"Q.1 (c) State the principles of Surveying and explain with help of sketch (07 marks)",
@@ -94,8 +94,8 @@ SECTIONS=[
   {
    "q_en":"Q.2 (b) List out different methods used for computation of area by taking offsets and explain any one in detail. (04 marks)",
    "marks_en":"04 marks","marks_gu":"૦૪ ગુણ",
-   "a_en":"<p>Mid ordinate, average ordinate, trapezoidal, Simpson. <strong>Simpson:</strong> Area = d/3 [first+last +4 odd +2 even] needs even intervals parabolic accuracy.</p>"+fig(svg_ordinates,"Mid, average, trapezoidal, Simpson"),
-   "a_gu":"<p>Mid, average, trapezoidal, Simpson — Simpson d/3 [first+last+4odd+2even] parabolic.</p>"+fig(svg_ordinates,"ક્ષેત્રફળ પદ્ધતિ"),
+   "a_en":"<p>Mid ordinate, average ordinate, trapezoidal, Simpson. <strong>Simpson:</strong> Area = d/3 [first+last +4 odd +2 even] needs even intervals parabolic accuracy.</p>",
+   "a_gu":"<p>Mid, average, trapezoidal, Simpson — Simpson d/3 [first+last+4odd+2even] parabolic.</p>",
   },
   {
    "q_en":"Q.2 (c) Draw neat sketch of Prismatic compass and label all its parts. (07 marks)",
@@ -106,20 +106,20 @@ SECTIONS=[
   {
    "q_en":"Q.2 (a) OR Enlist various instruments used in chaining with their uses. (03 marks)",
    "marks_en":"03 marks","marks_gu":"૦૩ ગુણ",
-   "a_en":"<p>Chain, arrows, ranging rods, offset rods, plumb bob, cross staff, pegs, hammers.</p>"+fig(svg_chain,"Chaining accessories"),
-   "a_gu":"<p>Chain, arrows, rods, plumb bob, cross staff — યાદી.</p>"+fig(svg_chain,"સાધનો"),
+   "a_en":"<p>Chain, arrows, ranging rods, offset rods, plumb bob, cross staff, pegs, hammers.</p>",
+   "a_gu":"<p>Chain, arrows, rods, plumb bob, cross staff — યાદી.</p>",
   },
   {
    "q_en":"Q.2 (b) OR Differentiate between prismatic and surveyor compass (04 marks)",
    "marks_en":"04 marks","marks_gu":"૦૪ ગુણ",
-   "a_en":"<table><tr><th>Prismatic</th><th>Surveyor</th></tr><tr><td>WCB 0-360 rotating ring</td><td>QB 0-90 fixed</td></tr><tr><td>Prism read while sighting</td><td>Read after sighting on top</td></tr></table>"+fig(svg_compass,"0-360 vs QB"),
-   "a_gu":"<p>Prismatic WCB 0-360 prism, Surveyor QB 0-90 direct.</p>"+fig(svg_compass,"તફાવત"),
+   "a_en":"<table><tr><th>Prismatic</th><th>Surveyor</th></tr><tr><td>WCB 0-360 rotating ring</td><td>QB 0-90 fixed</td></tr><tr><td>Prism read while sighting</td><td>Read after sighting on top</td></tr></table>",
+   "a_gu":"<p>Prismatic WCB 0-360 prism, Surveyor QB 0-90 direct.</p>",
   },
   {
    "q_en":"Q.2 (c) OR Write Advantages and Disadvantages of Plain Table Survey. (07 marks)",
    "marks_en":"07 marks","marks_gu":"૦૭ ગુણ",
-   "a_en":"<p>Adv no plotting office, field check, simple. Disadv not for wet/windy, less accurate than theodolite, replot hard.</p>"+fig(svg_ptable,"Advantages disadvantages"),
-   "a_gu":"<p>ફાયદા office નહીં, ગેરફાયદા વરસાદ માં નહીં.</p>"+fig(svg_ptable,"ફાયદા ગેરફાયદા"),
+   "a_en":"<p>Adv no plotting office, field check, simple. Disadv not for wet/windy, less accurate than theodolite, replot hard.</p>",
+   "a_gu":"<p>ફાયદા office નહીં, ગેરફાયદા વરસાદ માં નહીં.</p>",
   },
  ]
 },
@@ -130,8 +130,8 @@ SECTIONS=[
   {
    "q_en":"Q.3 (a) Define: i) Magnetic bearing ii) Fore bearing iii) Isogonic lines. (03 marks)",
    "marks_en":"03 marks","marks_gu":"૦૩ ગુણ",
-   "a_en":"<p><strong>Magnetic bearing:</strong> Angle from magnetic north. <strong>Fore bearing:</strong> Bearing in forward direction of progress. <strong>Isogonic:</strong> Lines joining equal declination.</p>"+fig(svg_bearings,"Magnetic, fore, isogonic"),
-   "a_gu":"<p>Magnetic ઉત્તર થી ખૂણો, Fore આગળ દિશા, Isogonic સરખા declination ની રેખા.</p>"+fig(svg_bearings,"વ્યાખ્યા"),
+   "a_en":"<p><strong>Magnetic bearing:</strong> Angle from magnetic north. <strong>Fore bearing:</strong> Bearing in forward direction of progress. <strong>Isogonic:</strong> Lines joining equal declination.</p>",
+   "a_gu":"<p>Magnetic ઉત્તર થી ખૂણો, Fore આગળ દિશા, Isogonic સરખા declination ની રેખા.</p>",
   },
   {
    "q_en":"Q.3 (b) Explain Temporary adjustment of Prismatic compass. (04 marks)",
@@ -142,20 +142,20 @@ SECTIONS=[
   {
    "q_en":"Q.3 (c) During compass survey traverse ABCDE bearings FB 106°19' 27°06' 279°42' 193°17' 126°32' BB 286°19' 207°06' 99°42' 13°17' 306°32'. Compute interior angles and closing error. (07 marks)",
    "marks_en":"07 marks","marks_gu":"૦૭ ગુણ",
-   "a_en":f"""<p><strong>FB to BB diff 180° → no local attraction.</strong></p><table><tr><th>At</th><th>BB prev</th><th>FB next</th><th>Diff</th><th>Interior (&lt;180)</th></tr><tr><td>B</td><td>286°19'</td><td>27°06'</td><td>259°13'</td><td>100°47'</td></tr><tr><td>C</td><td>207°06'</td><td>279°42'</td><td>72°36'</td><td>72°36'</td></tr><tr><td>D</td><td>99°42'</td><td>193°17'</td><td>93°35'</td><td>93°35'</td></tr><tr><td>E</td><td>13°17'</td><td>126°32'</td><td>113°15'</td><td>113°15'</td></tr><tr><td>A</td><td>306°32'</td><td>106°19'</td><td>200°13'</td><td>159°47'</td></tr></table><div class="eq">Sum =540°00' = (5−2)180 → <strong>closing error 0°00'</strong></div>"""+fig(svg_closing,"Interior sum 540° closing error zero"),
-   "a_gu":f"""<p>FB to BB 180 તફાવત — local attraction નહીં.</p><div class="eq">B100°47' C72°36' D93°35' E113°15' A159°47' સરવાળો 540° closing 0.</div>"""+fig(svg_closing,"540° check"),
+   "a_en":f"""<p><strong>FB to BB diff 180° → no local attraction.</strong></p><table><tr><th>At</th><th>BB prev</th><th>FB next</th><th>Diff</th><th>Interior (&lt;180)</th></tr><tr><td>B</td><td>286°19'</td><td>27°06'</td><td>259°13'</td><td>100°47'</td></tr><tr><td>C</td><td>207°06'</td><td>279°42'</td><td>72°36'</td><td>72°36'</td></tr><tr><td>D</td><td>99°42'</td><td>193°17'</td><td>93°35'</td><td>93°35'</td></tr><tr><td>E</td><td>13°17'</td><td>126°32'</td><td>113°15'</td><td>113°15'</td></tr><tr><td>A</td><td>306°32'</td><td>106°19'</td><td>200°13'</td><td>159°47'</td></tr></table><div class="eq">Sum =540°00' = (5−2)180 → <strong>closing error 0°00'</strong></div>""",
+   "a_gu":f"""<p>FB to BB 180 તફાવત — local attraction નહીં.</p><div class="eq">B100°47' C72°36' D93°35' E113°15' A159°47' સરવાળો 540° closing 0.</div>""",
   },
   {
    "q_en":"Q.3 (a) OR Differentiate between Whole Circle Bearing and Quadrantal Bearing (03 marks)",
    "marks_en":"03 marks","marks_gu":"૦૩ ગુણ",
-   "a_en":"<table><tr><th>WCB</th><th>QB</th></tr><tr><td>0-360 from north clockwise</td><td>0-90 from N or S toward E/W</td></tr><tr><td>Prismatic</td><td>Surveyor</td></tr></table>"+fig(svg_bearings,"WCB vs QB"),
-   "a_gu":"<p>WCB 0-360, QB N/S થી 0-90.</p>"+fig(svg_bearings,"WCB QB"),
+   "a_en":"<table><tr><th>WCB</th><th>QB</th></tr><tr><td>0-360 from north clockwise</td><td>0-90 from N or S toward E/W</td></tr><tr><td>Prismatic</td><td>Surveyor</td></tr></table>",
+   "a_gu":"<p>WCB 0-360, QB N/S થી 0-90.</p>",
   },
   {
    "q_en":"Q.3 (b) OR Enlist different methods of Plane table surveying and explain any one in detail. (04 marks)",
    "marks_en":"04 marks","marks_gu":"૦૪ ગુણ",
-   "a_en":"<p>Radiation, intersection, traversing, resection — radiation one station rays scale distance.</p>"+fig(svg_ptable,"Plane table methods"),
-   "a_gu":"<p>Radiation, intersection, traversing, resection.</p>"+fig(svg_ptable,"પ્લેન ટેબલ"),
+   "a_en":"<p>Radiation, intersection, traversing, resection — radiation one station rays scale distance.</p>",
+   "a_gu":"<p>Radiation, intersection, traversing, resection.</p>",
   },
   {
    "q_en":"Q.3 (c) OR (i) Convert WCB into Reduced bearing (1)65° (2)195° (3)295° (ii) Convert Fore bearing into Back bearing AB 12°24' BC 119°48' CD 266°30' DE 354°18' (07 marks)",
@@ -172,20 +172,20 @@ SECTIONS=[
   {
    "q_en":"Q.4 (a) Define: (1) Levelling (2) Reduced level (3) Bench Mark (03 marks)",
    "marks_en":"03 marks","marks_gu":"૦૩ ગુણ",
-   "a_en":"<p><strong>Levelling:</strong> Find elevation relative to datum. <strong>RL:</strong> Height above datum. <strong>BM:</strong> Known RL point.</p>"+fig(svg_terms,"Levelling RL BM"),
-   "a_gu":"<p>Levelling ઊંચાઈ, RL datum થી, BM જાણીતો RL.</p>"+fig(svg_terms,"વ્યાખ્યા"),
+   "a_en":"<p><strong>Levelling:</strong> Find elevation relative to datum. <strong>RL:</strong> Height above datum. <strong>BM:</strong> Known RL point.</p>",
+   "a_gu":"<p>Levelling ઊંચાઈ, RL datum થી, BM જાણીતો RL.</p>",
   },
   {
    "q_en":"Q.4 (b) Explain Contour Interval and Horizontal equivalent. (04 marks)",
    "marks_en":"04 marks","marks_gu":"૦૪ ગુણ",
-   "a_en":"<p><strong>CI:</strong> Vertical distance between successive contours — constant. <strong>HE:</strong> Horizontal distance between them — varies with slope steep small HE.</p>"+fig(svg_contour,"CI vertical constant, HE horizontal varies"),
-   "a_gu":"<p>CI ઊભું અંતર fixed, HE આડું અંતર slope પર.</p>"+fig(svg_contour,"CI HE"),
+   "a_en":"<p><strong>CI:</strong> Vertical distance between successive contours — constant. <strong>HE:</strong> Horizontal distance between them — varies with slope steep small HE.</p>",
+   "a_gu":"<p>CI ઊભું અંતર fixed, HE આડું અંતર slope પર.</p>",
   },
   {
    "q_en":"Q.4 (c) Readings on 4m staff continuous sloping ground 30m interval: 0.76,1.515,1.935,2.400,2.985,3.650,1.015,1.855,2.495,3.57,0.875,1.085,1.790,2.450. RL first 200.500 HI method. (07 marks)",
    "marks_en":"07 marks","marks_gu":"૦૭ ગુણ",
-   "a_en":"""<p><strong>Three setups:</strong> CP1 after 3.650 CP2 after 3.57</p><table><tr><th>Pt</th><th>BS</th><th>IS</th><th>FS</th><th>HI</th><th>RL</th><th>Dist</th></tr><tr><td>1</td><td>0.76</td><td></td><td></td><td>201.260</td><td>200.500</td><td>0</td></tr><tr><td>2</td><td></td><td>1.515</td><td></td><td></td><td>199.745</td><td>30</td></tr><tr><td>3</td><td></td><td>1.935</td><td></td><td></td><td>199.325</td><td>60</td></tr><tr><td>4</td><td></td><td>2.400</td><td></td><td></td><td>198.860</td><td>90</td></tr><tr><td>5</td><td></td><td>2.985</td><td></td><td></td><td>198.275</td><td>120</td></tr><tr><td>6 CP1</td><td>1.015</td><td></td><td>3.650</td><td>198.625</td><td>197.610</td><td>150</td></tr><tr><td>7</td><td></td><td>1.855</td><td></td><td></td><td>196.770</td><td>180</td></tr><tr><td>8</td><td></td><td>2.495</td><td></td><td></td><td>196.130</td><td>210</td></tr><tr><td>9 CP2</td><td>0.875</td><td></td><td>3.57</td><td>195.930</td><td>195.055</td><td>240</td></tr><tr><td>10</td><td></td><td>1.085</td><td></td><td></td><td>194.845</td><td>270</td></tr><tr><td>11</td><td></td><td>1.790</td><td></td><td></td><td>194.140</td><td>300</td></tr><tr><td>12</td><td></td><td></td><td>2.450</td><td></td><td>193.480</td><td>330</td></tr></table><div class="eq">ΣBS2.65 ΣFS9.67 diff −7.02 =193.48−200.50 ✓</div>"""+fig(svg_dumpy,"HI method: HI=RL+BS RL=HI−IS/FS"),
-   "a_gu":"""<p><strong>ત્રણ setup:</strong> HI1 201.26 CP1 197.61 HI2 198.625 CP2 195.055 છેલ્લા 193.48 check ΣBS−ΣFS −7.02.</p>"""+fig(svg_dumpy,"HI રીત"),
+   "a_en":"""<p><strong>Three setups:</strong> CP1 after 3.650 CP2 after 3.57</p><table><tr><th>Pt</th><th>BS</th><th>IS</th><th>FS</th><th>HI</th><th>RL</th><th>Dist</th></tr><tr><td>1</td><td>0.76</td><td></td><td></td><td>201.260</td><td>200.500</td><td>0</td></tr><tr><td>2</td><td></td><td>1.515</td><td></td><td></td><td>199.745</td><td>30</td></tr><tr><td>3</td><td></td><td>1.935</td><td></td><td></td><td>199.325</td><td>60</td></tr><tr><td>4</td><td></td><td>2.400</td><td></td><td></td><td>198.860</td><td>90</td></tr><tr><td>5</td><td></td><td>2.985</td><td></td><td></td><td>198.275</td><td>120</td></tr><tr><td>6 CP1</td><td>1.015</td><td></td><td>3.650</td><td>198.625</td><td>197.610</td><td>150</td></tr><tr><td>7</td><td></td><td>1.855</td><td></td><td></td><td>196.770</td><td>180</td></tr><tr><td>8</td><td></td><td>2.495</td><td></td><td></td><td>196.130</td><td>210</td></tr><tr><td>9 CP2</td><td>0.875</td><td></td><td>3.57</td><td>195.930</td><td>195.055</td><td>240</td></tr><tr><td>10</td><td></td><td>1.085</td><td></td><td></td><td>194.845</td><td>270</td></tr><tr><td>11</td><td></td><td>1.790</td><td></td><td></td><td>194.140</td><td>300</td></tr><tr><td>12</td><td></td><td></td><td>2.450</td><td></td><td>193.480</td><td>330</td></tr></table><div class="eq">ΣBS2.65 ΣFS9.67 diff −7.02 =193.48−200.50 ✓</div>""",
+   "a_gu":"""<p><strong>ત્રણ setup:</strong> HI1 201.26 CP1 197.61 HI2 198.625 CP2 195.055 છેલ્લા 193.48 check ΣBS−ΣFS −7.02.</p>""",
   },
   {
    "q_en":"Q.4 (a) OR Define: (1) Line of collimation (2) Back Sight (3) Fore Sight (03 marks)",
@@ -220,8 +220,8 @@ SECTIONS=[
   {
    "q_en":"Q.5 (b) Explain Temporary adjustment of theodolite. (04 marks)",
    "marks_en":"04 marks","marks_gu":"૦૪ ગુણ",
-   "a_en":"<p>Setting, centering, levelling with plate bubbles, focussing.</p>"+fig(svg_adjust,"Theodolite temporary adjustment"),
-   "a_gu":"<p>Centering, levelling, focusing.</p>"+fig(svg_adjust,"સમાયોજન"),
+   "a_en":"<p>Setting, centering, levelling with plate bubbles, focussing.</p>",
+   "a_gu":"<p>Centering, levelling, focusing.</p>",
   },
   {
    "q_en":"Q.5 (c) Explain Characteristics of contour with help of sketch. (07 marks)",
@@ -238,8 +238,8 @@ SECTIONS=[
   {
    "q_en":"Q.5 (b) OR Explain Following terms with respect to Theodolite (1) Transiting (2) Face left observation (3) Line of Collimation (4) Trunnion axis (04 marks)",
    "marks_en":"04 marks","marks_gu":"૦૪ ગુણ",
-   "a_en":"<p><strong>Transiting:</strong> Telescope 180 vertical to invert. <strong>Face left:</strong> Vertical circle left. <strong>Collimation:</strong> Sight line. <strong>Trunnion:</strong> Horizontal tilting axis.</p>"+fig(svg_theodolite,"Transiting, face left, collimation, trunnion"),
-   "a_gu":"<p>Transiting 180 flip, Face left circle ડાબે, collimation sight, trunnion આડો axis.</p>"+fig(svg_theodolite,"શબ્દ"),
+   "a_en":"<p><strong>Transiting:</strong> Telescope 180 vertical to invert. <strong>Face left:</strong> Vertical circle left. <strong>Collimation:</strong> Sight line. <strong>Trunnion:</strong> Horizontal tilting axis.</p>",
+   "a_gu":"<p>Transiting 180 flip, Face left circle ડાબે, collimation sight, trunnion આડો axis.</p>",
   },
   {
    "q_en":"Q.5 (c) OR Draw neat sketch of Dumpy level and label its all parts. (07 marks)",
