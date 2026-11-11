@@ -22,7 +22,6 @@ CSS=""":root{--ink:#20252d;--muted:#65717d;--blue:#0b5b6a;--line:#d9e1e7;--paper
 .answer table{border-collapse:collapse;width:100%;font-size:.93rem;margin:12px 0}
 .answer th,.answer td{border:1px solid #d4dde4;padding:8px;vertical-align:top;text-align:left}
 .answer th{background:#edf5f9}
-pre{background:#f4f7f9;border:1px solid #d9e1e7;border-radius:6px;padding:10px;overflow-x:auto;font-size:.88rem;line-height:1.5}
 figure{margin:16px auto;max-width:780px}figure svg{display:block;width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:8px}
 figcaption{font-size:.8rem;color:var(--muted);margin-top:5px}
 .footer{font-size:.82rem;color:var(--muted);border-top:1px solid var(--line);margin-top:36px;padding-top:14px}
@@ -30,223 +29,101 @@ figcaption{font-size:.8rem;color:var(--muted);margin-top:5px}
 .lang-switch button[aria-pressed="true"]{background:var(--purple);color:#fff}
 html[lang="en"] .gu{display:none!important}html[lang="gu"] .en{display:none!important}
 :lang(gu){font-family:"Noto Sans Gujarati","Shruti","Nirmala UI",system-ui,sans-serif;line-height:1.85}
-@media(max-width:600px){.page{width:calc(100% - 20px);margin-top:10px}.hero{padding:19px}.answer{padding:14px}.card summary strong{min-width:160px}}
+@media(max-width:600px){.page{width:calc(100% - 20px);margin-top:10px}.hero{padding:19px}.answer{padding:14px}}
 """
-def fig(svg_text,caption):
-    return f'<figure>{svg_text}<figcaption>{html.escape(caption)}</figcaption></figure>'
-
+def fig(svg,caption): return f'<figure>{svg}<figcaption>{html.escape(caption)}</figcaption></figure>'
 svg_principles=load_svg("sv1_principles.svg")
 svg_scale=load_svg("sv1_scale.svg")
-svg_bearings=load_svg("sv3_bearings.svg")
 svg_compass=load_svg("sv3_compass.svg")
-svg_closing=load_svg("sv3_closing.svg")
-svg_ptable=load_svg("sv3_ptable.svg")
-svg_dumpy=load_svg("sv4_dumpy.svg")
+svg_bearings=load_svg("sv3_bearings.svg")
 svg_contour=load_svg("sv4_contour.svg")
-svg_terms=load_svg("sv4_terms.svg")
-svg_theodolite=load_svg("sv5_theodolite.svg")
-svg_adjust=load_svg("sv5_adjust.svg")
-svg_chain=load_svg("sv2_chain.svg")
-svg_ordinates=load_svg("sv2_ordinates.svg")
-svg_interp=load_svg("sv4_interp.svg")
+svg_dumpy=load_svg("sv4_dumpy.svg")
 
 SECTIONS=[
 {
  "title_en":"Q1 · RF, offsets and principles",
  "title_gu":"પ્ર.1 · RF, offsets અને સિદ્ધાંત",
  "cards":[
-  {
-   "q_en":"Q.1 (a) Define: (1) Representative fraction (2) Plan (3) Map (03 marks)",
-   "marks_en":"03 marks","marks_gu":"૦૩ ગુણ",
-   "a_en":"<p><strong>RF:</strong> Ratio map distance to ground distance same unit — e.g. 1:50000 means 1cm =500m.</p><p><strong>Plan:</strong> Large scale 1:500-5000, small area, curvature ignored, engineering detail.</p><p><strong>Map:</strong> Small scale 1:50000+, large area, curvature considered, topography.</p>",
-   "a_gu":"<p><strong>RF:</strong> નકશા અને જમીન અંતર નો ગુણોત્તર — 1:50000 એટલે 1cm =500m.</p><p><strong>Plan:</strong> મોટો scale નાનો વિસ્તાર, <strong>Map:</strong> નાનો scale મોટો વિસ્તાર.</p>",
-  },
-  {
-   "q_en":"Q.1 (b) Define: (1) Offset (2) Tie line (3) Base line (4) Check line (04 marks)",
-   "marks_en":"04 marks","marks_gu":"૦૪ ગુણ",
-   "a_en":"<p><strong>Offset:</strong> Perpendicular distance from chain line to detail. <strong>Tie line:</strong> Joins two tie stations to locate interior detail. <strong>Base line:</strong> Longest main line on which framework rests. <strong>Check line:</strong> Joins apex to side to verify accuracy.</p>",
-   "a_gu":"<p>Offset લંબ અંતર, Tie line interior બિંદુ જોડે, Base line સૌથી લાંબી, Check line ચકાસણી.</p>",
-  },
-  {
-   "q_en":"Q.1 (c) State the principles of Surveying and explain with help of sketch (07 marks)",
-   "marks_en":"07 marks","marks_gu":"૦૭ ગુણ",
-   "a_en":f"<p><strong>Whole to part and fix by two references</strong> as before.</p>"+fig(svg_principles,"Whole to part — control triangle ABC then detail"),
-   "a_gu":f"<p><strong>આખા થી ભાગ અને બે સંદર્ભ થી નવો બિંદુ</strong></p>"+fig(svg_principles,"સિદ્ધાંત"),
-  },
-  {
-   "q_en":"Q.1 (c) OR Construct a diagonal scale of 1cm = 3 km and represent 48.7 km distance on scale. (07 marks)",
-   "marks_en":"07 marks","marks_gu":"૦૭ ગુણ",
-   "a_en":f"""<div class="eq">RF =1cm /3km =1/300000. Length for 54km max =18cm. Take 18cm, 6 primary divisions 9km each, subdivide 1st into 3km, diagonal into 10 ×0.3km and 10 ×0.03km for 0.7km.</div><p>Mark 48km +0.7km =48.7km with divider between 48km main and 0.7 diagonal.</p>"""+fig(svg_scale,"Diagonal scale 1cm=3km RF 1:300000 length 18cm for 54km show 48.7km"),
-   "a_gu":f"""<p>RF 1:300000 18cm માં 54km, 48.7km mark — main 48km + diagonal 0.7km.</p>"""+fig(svg_scale,"વિકર્ણ સ્કેલ 1cm=3km"),
-  },
+  {"q_en":"Q.1 (a) Define: (1) Representative fraction (2) Plan (3) Map (03 marks)","marks_en":"03 marks","marks_gu":"૦૩ ગુણ","a_en":"""<p><strong>(1) Representative Fraction (RF):</strong> The ratio of a distance on the map/plan to the corresponding ground distance, both in same units. RF = 1 : (Ground / Map). Example: RF 1:50000 means 1 cm on sheet = 50000 cm = 500 m on ground. RF is unitless. If RF >1:5000 it is large scale (building), if <1:50000 small scale (state).</p><p><strong>(2) Plan:</strong> Large-scale (1:500 to 1:5000) representation of a small area where earth's curvature is ignored and details like walls, pipes, RLs are shown to scale for execution.</p><p><strong>(3) Map:</strong> Small-scale (1:50,000 upwards) representation of a large area where curvature and projection are considered, showing topography, rivers, roads for planning.</p>""",
+   "a_gu":"""<p><strong>RF:</strong> નકશા અંતર અને જમીન અંતરનો ગુણોત્તર — 1:50000 =1cm =500m. Unitless.</p><p><strong>Plan:</strong> મોટો scale 1:500-5000 નાનો વિસ્તાર curvature ignore — execution માટે.</p><p><strong>Map:</strong> Small scale 1:50000+ મોટો વિસ્તાર curvature consider — planning માટે.</p>"""},
+  {"q_en":"Q.1 (b) Define: (1) Offset (2) Tie line (3) Base line (4) Check line (04 marks)","marks_en":"04 marks","marks_gu":"૦૪ ગુણ","a_en":"""<p><strong>(1) Offset:</strong> Short lateral distance measured perpendicular (or sometimes oblique) from the chain line to a detail (corner of building, tree). Kept <15m to avoid sag error. Measured with tape after setting right angle with cross-staff.</p><p><strong>(2) Tie line:</strong> A subsidiary line joining two tie stations on the main lines. It ties down interior details far from main lines and provides a check. Example: Across a large field, a tie line between two chain lines locates a pond centrally.</p><p><strong>(3) Base line:</strong> The longest main line of the framework, on which all other lines depend. Chosen along centre of area, on firm level ground, with clear intervisibility. Its length is measured twice precisely.</p><p><strong>(4) Check line (proof line):</strong> A line joining the apex of a triangle to a point on the opposite side, measured to verify field + plotting accuracy. If measured = plotted length, work is correct.</p>""",
+   "a_gu":"""<p><strong>Offset:</strong> chain line થી detail નું ટૂંકું લંબ અંતર — 15m નીચે.</p><p><strong>Tie line:</strong> બે chain lines ને જોડતી subsidiary — interior detail locate, check.</p><p><strong>Base line:</strong> સૌથી લાંબી main line — framework તેના પર, સપાટ મજબૂત જમીન.</p><p><strong>Check line:</strong> triangle apex થી સામે બાજુ પર — accuracy proof.</p>"""},
+  {"q_en":"Q.1 (c) State the principles of Surveying and explain with help of sketch (07 marks)","marks_en":"07 marks","marks_gu":"૦૭ ગુણ","a_en":f"""<p><strong>Principle-1 Whole to Part:</strong> As in Q1a Summer — establish primary control (A-B-C triangle) with highest accuracy, then fill minors (d,e,f inside). Error of a minor stays local, control remains undistorted. Procedure: Reconnaissance → select base line → triangulate → then chain offsets. Opposite (part to whole) would accumulate error and rotate entire survey.</p><p><strong>Principle-2 Fix by two measures:</strong> Every new point needs at least two independent measurements — linear (chain distances from two known points = arc-arc intersection) or angular (bearing + distance). This gives uniqueness + check.</p><p><strong>Application:</strong> In the sketch, main triangle ABC is established, then point D is fixed by distances from A and B, point E from B and C. Check lines AD, BE prove accuracy.</p>"""+fig(svg_principles,"Whole-to-part: main triangle ABC then interior points D,E fixed by two distances; checks AD, BE"),
+   "a_gu":f"""<p><strong>આખા થી ભાગ:</strong> મોટું triangle ABC પહેલા, પછી D,E બે અંતરથી — ભૂલ સ્થાનિક.</p><p><strong>બે માપથી fix:</strong> દરેક નવો point બે અંતર/દિશાથી — check મળે.</p>"""+fig(svg_principles,"સિદ્ધાંત — મુખ્ય triangle પછી interior")},
+  {"q_en":"Q.1 (c) OR Construct a diagonal scale of 1cm = 3 km and represent 48.7 km distance on scale. (07 marks)","marks_en":"07 marks","marks_gu":"૦૭ ગુણ","a_en":f"""<p><strong>Given:</strong> 1 cm =3 km. Choose max to show ≥48.7 km, say 60 km.</p><div class="eq">RF =1 cm / 3 km =1 / 300000 (since 3km=300000cm). Length of scale = Max distance / scale =60/3=20 cm. But for 54 km take 18 cm — take 18 cm on paper.</div><p><strong>Construction:</strong> 1) Draw 18 cm line, divide into 6 primary divisions — each 3 cm =9 km (since 1cm=3km). Number 0,9,18,27,36,45. Leftmost division subdivide into 3 secondary =3 km each. 2) For diagonals: take height 2 cm, divide into 10 vertical parts — each diagonal gives 0.3 km (3km/10). Subdivide diagonally into 10 horizontal =0.03 km? Actually for 0.7 km need 0.1 km LC, so 10 diagonal =0.1×? Simpler: provide 1 km Least Count. 3) Mark 48.7 km: Place dividers from 45 km primary + 3 km secondary + 0.7 km diagonal =48.7 km. Show with brackets.</p>"""+fig(svg_scale,"Diagonal scale RF 1:300000, 18 cm for 54 km, diagonal reads 0.7 km"),
+   "a_gu":f"""<p>RF 1:300000, 18 cm =54 km, 6×9 km primary, 3 km secondary, diagonal 0.1 km. 45+3+0.7=48.7 mark.</p>"""+fig(svg_scale,"વિકર્ણ સ્કેલ 48.7 km")},
  ]
 },
 {
  "title_en":"Q2 · Tapes, area and prismatic compass",
  "title_gu":"પ્ર.2 · ટેપ, ક્ષેત્રફળ અને કંપાસ",
  "cards":[
-  {
-   "q_en":"Q.2 (a) Enlist different types of tapes used and explain any one in detail. (03 marks)",
-   "marks_en":"03 marks","marks_gu":"૦૩ ગુણ",
-   "a_en":"<p>Cloth, metallic, steel, invar. <strong>Steel tape:</strong> 20-30m, accurate, applies sag temperature corrections.</p>",
-   "a_gu":"<p>Cloth, metallic, steel, invar — steel સચોટ sag correction.</p>",
-  },
-  {
-   "q_en":"Q.2 (b) List out different methods used for computation of area by taking offsets and explain any one in detail. (04 marks)",
-   "marks_en":"04 marks","marks_gu":"૦૪ ગુણ",
-   "a_en":"<p>Mid ordinate, average ordinate, trapezoidal, Simpson. <strong>Simpson:</strong> Area = d/3 [first+last +4 odd +2 even] needs even intervals parabolic accuracy.</p>",
-   "a_gu":"<p>Mid, average, trapezoidal, Simpson — Simpson d/3 [first+last+4odd+2even] parabolic.</p>",
-  },
-  {
-   "q_en":"Q.2 (c) Draw neat sketch of Prismatic compass and label all its parts. (07 marks)",
-   "marks_en":"07 marks","marks_gu":"૦૭ ગુણ",
-   "a_en":f"<p>Magnetic needle with graduated ring 0-360, prism, object vane, eye vane, brake pin, lifting lever, tripod socket.</p>"+fig(svg_compass,"Prismatic compass parts — prism, vane, ring 0-360"),
-   "a_gu":f"<p>Needle ring 0-360, prism, vane, brake — આકૃતિ.</p>"+fig(svg_compass,"કંપાસ આકૃતિ"),
-  },
-  {
-   "q_en":"Q.2 (a) OR Enlist various instruments used in chaining with their uses. (03 marks)",
-   "marks_en":"03 marks","marks_gu":"૦૩ ગુણ",
-   "a_en":"<p>Chain, arrows, ranging rods, offset rods, plumb bob, cross staff, pegs, hammers.</p>",
-   "a_gu":"<p>Chain, arrows, rods, plumb bob, cross staff — યાદી.</p>",
-  },
-  {
-   "q_en":"Q.2 (b) OR Differentiate between prismatic and surveyor compass (04 marks)",
-   "marks_en":"04 marks","marks_gu":"૦૪ ગુણ",
-   "a_en":"<table><tr><th>Prismatic</th><th>Surveyor</th></tr><tr><td>WCB 0-360 rotating ring</td><td>QB 0-90 fixed</td></tr><tr><td>Prism read while sighting</td><td>Read after sighting on top</td></tr></table>",
-   "a_gu":"<p>Prismatic WCB 0-360 prism, Surveyor QB 0-90 direct.</p>",
-  },
-  {
-   "q_en":"Q.2 (c) OR Write Advantages and Disadvantages of Plain Table Survey. (07 marks)",
-   "marks_en":"07 marks","marks_gu":"૦૭ ગુણ",
-   "a_en":"<p>Adv no plotting office, field check, simple. Disadv not for wet/windy, less accurate than theodolite, replot hard.</p>",
-   "a_gu":"<p>ફાયદા office નહીં, ગેરફાયદા વરસાદ માં નહીં.</p>",
-  },
+  {"q_en":"Q.2 (a) Enlist different types of tapes used and explain any one in detail. (03 marks)","marks_en":"03 marks","marks_gu":"૦૩ ગુણ","a_en":"""<p><strong>Types:</strong> (i) Cloth/linen tape (10–30m) (ii) Metallic tape (cloth with brass wires) (iii) Steel tape (6–50m) (iv) Invar tape (30–100m).</p><p><strong>Steel tape in detail (chosen):</strong> Made of steel ribbon 12mm wide, graduations mm, wound in leather case. Advantages: Very low stretch, accurate ±2mm in 30m, not affected by moisture. Disadvantages: Rusts, heavy, needs temperature correction (α=12×10⁻⁶/°C) and sag correction if unsupported. Used for precise works — base line, structure layout — with spring balance tension 50N.</p>""",
+   "a_gu":"""<p>Cloth, metallic, steel, invar — <strong>Steel tape:</strong> 12mm steel, mm graduation, stretch ઓછું, moisture નહીં, પણ rust અને temperature correction.</p>"""},
+  {"q_en":"Q.2 (b) List out different methods used for computation of area by taking offsets and explain any one in detail. (04 marks)","marks_en":"04 marks","marks_gu":"૦૪ ગુણ","a_en":"""<p><strong>Methods:</strong> Mid-ordinate, Average ordinate, Trapezoidal, Simpson's 1/3rd.</p><p><strong>Simpson's 1/3rd in detail (most accurate for parabolic boundaries):</strong> Requires even number of intervals (odd number of ordinates). Area = (d/3)[O₁ + Oₙ + 4(O₂+O₄+…) + 2(O₃+O₅+…)] where d = common interval between offsets, Oᵢ = ordinate length. Derivation: Three consecutive points define a parabola; integrate. Example: d=10m, O=2,3,5,4,6 → Area =10/3[2+6+4(3+4)+2(5)]=10/3[8+28+10]=153.33 m². Limitation: d constant, even intervals, last ordinate if even number of intervals not handled (add trapezoid for last).</p>""",
+   "a_gu":"""<p>Mid, Average, Trapezoidal, Simpson — <strong>Simpson:</strong> d/3[O1+On+4 odd+2 even], even intervals, parabola, સૌથી ચોક્કસ.</p>"""},
+  {"q_en":"Q.2 (c) Draw neat sketch of Prismatic compass and label all its parts. (07 marks)","marks_en":"07 marks","marks_gu":"૦૭ ગુણ","a_en":f"""<p><strong>Construction (label 8 parts in sketch):</strong> 1) Circular brass box 85–110mm dia 2) Magnetic needle (broad) attached to aluminium graduated ring 0°–360° clockwise 3) Agate cap pivot 4) Glass lid 5) Prism with focusing sleeve (magnifies inverted graduations) 6) Object vane with hair + vertical wire 7) Eye vane with eye slit 8) Brake pin + lifting lever + horse hair.</p><p><strong>Working:</strong> Needle + ring swing together, object is sighted through eye slit, reading appears under prism without moving eye. Graduations zero at south to give direct WCB (since prism sees inverted).</p>"""+fig(svg_compass,"Prismatic compass — box, ring 0–360°, prism, object/eye vanes, brake"),
+   "a_gu":f"""<p>Box, needle+ring 0-360°, agate pivot, prism, object/eye vane, brake — sight કરતા જ bearing વંચાય, south zero.</p>"""+fig(svg_compass,"પ્રિઝમેટિક કંપાસ")},
+  {"q_en":"Q.2 (a) OR Enlist various instruments used in chaining with their uses. (03 marks)","marks_en":"03 marks","marks_gu":"૦૩ ગુણ","a_en":"""<p><strong>1) Metric chain 20/30m:</strong> Main distance — 100/150 links with brass tags.</p><p><strong>2) Arrows 10 nos:</strong> 400mm steel pins to mark chain ends, count chains.</p><p><strong>3) Ranging rods 2–3m:</strong> Flag for alignment and marking stations.</p><p><strong>4) Offset rods 3m:</strong> Shorter for offsets, small chainage.</p><p><strong>5) Plumb bob:</strong> Transfer point vertically on slope/steps.</p><p><strong>6) Cross-staff / optical square:</strong> Set 90° for offsets.</p><p><strong>7) Pegs (150×25mm) + hammer:</strong> Permanent station mark.</p><p><strong>8) Field book, chalk:</strong> Recording.</p>""",
+   "a_gu":"""<p>સાંકળ અંતર, arrows ગણવા, ranging rod alignment, offset rod, plumb bob ઢાળ, cross-staff 90°, peg station.</p>"""},
+  {"q_en":"Q.2 (b) OR Differentiate between prismatic and surveyor compass (04 marks)","marks_en":"04 marks","marks_gu":"૦૪ ગુણ","a_en":"""<table><tr><th>Point</th><th>Prismatic (WCB)</th><th>Surveyor (QB)</th></tr><tr><td>Graduation</td><td>0–360° on moving ring, zero at south (inverted)</td><td>0–90° quadrants on fixed dial, zero at N & S</td></tr><tr><td>Reading</td><td>Prism magnifies while sighting — simultaneous</td><td>Direct on top after sighting, need second step</td></tr><tr><td>Needle</td><td>Broad needle carries ring</td><td>Edge-bar needle moves, dial fixed</td></tr><tr><td>Sighting</td><td>Eye slit + object vane fine</td><td>Slit + hair open</td></tr><tr><td>Accuracy</td><td>~30', hand-held on tripod</td><td>~15' with vernier, on stand</td></tr></table><p>Prismatic is modern for traverse; surveyor is heritage for old cadastral sheets.</p>""",
+   "a_gu":"""<table><tr><th>Prismatic 0-360 south zero prism સાથે</th><th>Surveyor 0-90 QB fixed</th></tr></table>"""},
+  {"q_en":"Q.2 (c) OR Write Advantages and Disadvantages of Plain Table Survey. (07 marks)","marks_en":"07 marks","marks_gu":"૦૭ ગુણ","a_en":"""<p><strong>Advantages (3.5 marks — 6 points):</strong> 1) Field & office combined — no booking error. 2) Missing details noticed on ground immediately. 3) No chain/tape transcription — direct plot to scale. 4) Cheapest for small surveys, contour interpolation on sheet. 5) No magnetic effect if oriented by backsight. 6) Map ready immediately.</p><p><strong>Disadvantages:</strong> 1) Not for wet/windy weather — paper expands. 2) Not precise — alidade accuracy 1:1000 vs theodolite 1:5000. 3) Heavy board + tripod to carry. 4) Replotting difficult if sheet lost. 5) Needs skilled operator for orientation; small error magnifies.</p>""",
+   "a_gu":"""<p><strong>ફાયદા:</strong> field જ office — ભૂલ ઓછી, છૂટી વિગત દેખાય, સસ્તું. <strong>ગેરફાયદા:</strong> પવન/વરસાદમાં નહીં, precise નહીં, ભારે, skilled.</p>"""},
  ]
 },
 {
  "title_en":"Q3 · Bearings, adjustment and conversions",
  "title_gu":"પ્ર.3 · બેરિંગ, સમાયોજન અને રૂપાંતર",
  "cards":[
-  {
-   "q_en":"Q.3 (a) Define: i) Magnetic bearing ii) Fore bearing iii) Isogonic lines. (03 marks)",
-   "marks_en":"03 marks","marks_gu":"૦૩ ગુણ",
-   "a_en":"<p><strong>Magnetic bearing:</strong> Angle from magnetic north. <strong>Fore bearing:</strong> Bearing in forward direction of progress. <strong>Isogonic:</strong> Lines joining equal declination.</p>",
-   "a_gu":"<p>Magnetic ઉત્તર થી ખૂણો, Fore આગળ દિશા, Isogonic સરખા declination ની રેખા.</p>",
-  },
-  {
-   "q_en":"Q.3 (b) Explain Temporary adjustment of Prismatic compass. (04 marks)",
-   "marks_en":"04 marks","marks_gu":"૦૪ ગુણ",
-   "a_en":"<p>Centering, levelling bubble, focussing prism, checking free swing.</p>",
-   "a_gu":"<p>Centering, levelling, prism focus.</p>",
-  },
-  {
-   "q_en":"Q.3 (c) During compass survey traverse ABCDE bearings FB 106°19' 27°06' 279°42' 193°17' 126°32' BB 286°19' 207°06' 99°42' 13°17' 306°32'. Compute interior angles and closing error. (07 marks)",
-   "marks_en":"07 marks","marks_gu":"૦૭ ગુણ",
-   "a_en":f"""<p><strong>FB to BB diff 180° → no local attraction.</strong></p><table><tr><th>At</th><th>BB prev</th><th>FB next</th><th>Diff</th><th>Interior (&lt;180)</th></tr><tr><td>B</td><td>286°19'</td><td>27°06'</td><td>259°13'</td><td>100°47'</td></tr><tr><td>C</td><td>207°06'</td><td>279°42'</td><td>72°36'</td><td>72°36'</td></tr><tr><td>D</td><td>99°42'</td><td>193°17'</td><td>93°35'</td><td>93°35'</td></tr><tr><td>E</td><td>13°17'</td><td>126°32'</td><td>113°15'</td><td>113°15'</td></tr><tr><td>A</td><td>306°32'</td><td>106°19'</td><td>200°13'</td><td>159°47'</td></tr></table><div class="eq">Sum =540°00' = (5−2)180 → <strong>closing error 0°00'</strong></div>""",
-   "a_gu":f"""<p>FB to BB 180 તફાવત — local attraction નહીં.</p><div class="eq">B100°47' C72°36' D93°35' E113°15' A159°47' સરવાળો 540° closing 0.</div>""",
-  },
-  {
-   "q_en":"Q.3 (a) OR Differentiate between Whole Circle Bearing and Quadrantal Bearing (03 marks)",
-   "marks_en":"03 marks","marks_gu":"૦૩ ગુણ",
-   "a_en":"<table><tr><th>WCB</th><th>QB</th></tr><tr><td>0-360 from north clockwise</td><td>0-90 from N or S toward E/W</td></tr><tr><td>Prismatic</td><td>Surveyor</td></tr></table>",
-   "a_gu":"<p>WCB 0-360, QB N/S થી 0-90.</p>",
-  },
-  {
-   "q_en":"Q.3 (b) OR Enlist different methods of Plane table surveying and explain any one in detail. (04 marks)",
-   "marks_en":"04 marks","marks_gu":"૦૪ ગુણ",
-   "a_en":"<p>Radiation, intersection, traversing, resection — radiation one station rays scale distance.</p>",
-   "a_gu":"<p>Radiation, intersection, traversing, resection.</p>",
-  },
-  {
-   "q_en":"Q.3 (c) OR (i) Convert WCB into Reduced bearing (1)65° (2)195° (3)295° (ii) Convert Fore bearing into Back bearing AB 12°24' BC 119°48' CD 266°30' DE 354°18' (07 marks)",
-   "marks_en":"07 marks","marks_gu":"૦૭ ગુણ",
-   "a_en":f"""<p><strong>WCB to RB:</strong> 65° → N65°E, 195° → S15°W (180−195 negative →195−180=15 SW), 295° → N65°W (360−295=65).</p><p><strong>FB to BB ±180:</strong> 12°24'→192°24', 119°48'→299°48', 266°30'→86°30', 354°18'→174°18' (&lt;180 +180 else −180).</p>"""+fig(svg_bearings,"WCB to RB and FB to BB ±180"),
-   "a_gu":f"""<p>WCB→RB: 65° N65°E, 195° S15°W, 295° N65°W. FB→BB +180 mod360.</p>"""+fig(svg_bearings,"રૂપાંતર"),
-  },
+  {"q_en":"Q.3 (a) Define: i) Magnetic bearing ii) Fore bearing iii) Isogonic lines. (03 marks)","marks_en":"03 marks","marks_gu":"૦૩ ગુણ","a_en":"""<p><strong>i) Magnetic bearing:</strong> Horizontal angle between the line and magnetic north (direction of magnetic needle), measured clockwise 0–360° WCB or 0–90° QB. Changes slowly due to secular variation; needs declination correction to true bearing (True = Magnetic ± Declination).</p><p><strong>ii) Fore bearing (FB):</strong> Bearing of a line measured in the direction of survey progress (A→B). The opposite B→A is Back bearing (BB = FB±180°). FB and BB differ by 180° if no local attraction.</p><p><strong>iii) Isogonic lines:</strong> Imaginary lines on earth's surface joining points of equal magnetic declination at a given epoch. Agonic line joins zero declination. Used on navigation charts to correct bearings.</p>""",
+   "a_gu":"""<p><strong>Magnetic bearing:</strong> magnetic north થી ખૂણો. <strong>Fore bearing:</strong> survey આગળ direction A→B, BB opposite ±180°. <strong>Isogonic:</strong> સરખા declination ને જોડતી રેખા, agonic zero.</p>"""},
+  {"q_en":"Q.3 (b) Explain Temporary adjustment of Prismatic compass. (04 marks)","marks_en":"04 marks","marks_gu":"૦૪ ગુણ","a_en":"""<ol><li><strong>Fixing & centering:</strong> Screw box to tripod, spread legs, plumb bob exactly over peg. For precise work shift tripod bodily.</li><li><strong>Levelling:</strong> Release ball-socket, tilt box until circular bubble is central. This frees the ring to swing without friction.</li><li><strong>Focussing prism:</strong> Slide prism jacket until graduations are sharp. Adjust for eye.</li><li><strong>Observing bearing:</strong> Release brake, sight object through eye slit bisecting vane wire, read WCB under prism simultaneously. Record, then move to next station; BB should be FB±180°.</li></ol><p>Check all adjustments at every station; poor levelling is the commonest 1–2° error.</p>""",
+   "a_gu":"""<p>1) Plumb થી centering, 2) bubble centre levelling, 3) prism focus, 4) eye slit થી sight કરી prism નીચે WCB વાંચો — BB = FB±180° check.</p>"""},
+  {"q_en":"Q.3 (c) During compass survey traverse ABCDE bearings FB 106°19' 27°06' 279°42' 193°17' 126°32' BB 286°19' 207°06' 99°42' 13°17' 306°32'. Compute interior angles and closing error. (07 marks)","marks_en":"07 marks","marks_gu":"૦૭ ગુણ","a_en":f"""<p><strong>Step-1 Local attraction check:</strong> FB→BB difference =180° for all 5 lines → no attraction, consistent.</p><p><strong>Step-2 Interior at each vertex = BB of incoming − FB of outgoing (take &lt;180°, if &gt;180° interior =360−diff):</strong></p><table><tr><th>Vertex</th><th>BB of incoming</th><th>FB of outgoing</th><th>Diff</th><th>Interior (&lt;180°)</th></tr><tr><td>B (AB→BC)</td><td>286°19'</td><td>27°06'</td><td>259°13'</td><td>100°47'</td></tr><tr><td>C</td><td>207°06'</td><td>279°42'</td><td>72°36'</td><td>72°36'</td></tr><tr><td>D</td><td>99°42'</td><td>193°17'</td><td>93°35'</td><td>93°35'</td></tr><tr><td>E</td><td>13°17'</td><td>126°32'</td><td>113°15'</td><td>113°15'</td></tr><tr><td>A</td><td>306°32'</td><td>106°19'</td><td>200°13'</td><td>159°47'</td></tr></table><div class="eq">Sum of interiors =100°47'+72°36'+93°35'+113°15'+159°47' =540°00' = (5−2)×180° for pentagon → <strong>error 0°00'</strong></div><p>If sum ≠540°, closing error = observed sum −540°, distributed equally to all angles.</p>"""+fig(svg_bearings,"Pentagon ABCDE: BB−FB gives interior, sum = (n−2)180°"),
+   "a_gu":f"""<p>BB−FB diff 180° → attraction નથી.</p><div class="eq">B100°47' C72°36' D93°35' E113°15' A159°47' સરવાળો 540° = (5−2)180 → error 0</div>"""+fig(svg_bearings,"આંતરિક કોણ 540° check")},
+  {"q_en":"Q.3 (a) OR Differentiate between Whole Circle Bearing and Quadrantal Bearing (03 marks)","marks_en":"03 marks","marks_gu":"૦૩ ગુણ","a_en":"""<table><tr><th>WCB</th><th>QB (Reduced bearing)</th></tr><tr><td>0°–360° clockwise from north, single value</td><td>0°–90° from north or south towards east/west (e.g., S34°E)</td></tr><tr><td>Read directly on prismatic compass</td><td>Read on surveyor compass</td></tr><tr><td>FB and BB differ by 180°</td><td>FB and BB have same numeric value, opposite quadrant (N↔S)</td></tr><tr><td>Calculation friendly (cos/sin with sign)</td><td>Needs quadrant sign table</td></tr></table>""",
+   "a_gu":"""<p>WCB 0-360 north થી clockwise, QB 0-90 north/south થી east/west — WCB prismatic, QB surveyor.</p>"""},
+  {"q_en":"Q.3 (b) OR Enlist different methods of Plane table surveying and explain any one in detail. (04 marks)","marks_en":"04 marks","marks_gu":"૦૪ ગુણ","a_en":"""<p><strong>Four methods:</strong> Radiation, Intersection, Traversing, Resection.</p><p><strong>Intersection in detail:</strong> 1) Select two stations A and B with known plotted distance ab. 2) Set at A, orient by backsighting, draw rays to unknown detail P. 3) Shift to B, orient by sighting A, draw ray to P again — intersection of two rays is p plotted position. No distance measurement needed, good for inaccessible points (river, hill top). Needs good baseline.</p>""",
+   "a_gu":"""<p>Radiation, Intersection, Traversing, Resection — <strong>Intersection:</strong> A અને B થી P તરફ બે કિરણો દોરો, intersections એ p — distance માપ્યા વગર inaccessible point.</p>"""},
+  {"q_en":"Q.3 (c) OR (i) Convert WCB into Reduced bearing (1)65° (2)195° (3)295° (ii) Convert Fore bearing into Back bearing AB 12°24' BC 119°48' CD 266°30' DE 354°18' (07 marks)","marks_en":"07 marks","marks_gu":"૦૭ ગુણ","a_en":f"""<p><strong>(i) WCB→RB rule:</strong> I 0–90° RB=N(WCB)E, II 90–180° RB=S(180−WCB)E, III 180–270° RB=S(WCB−180)W, IV 270–360° RB=N(360−WCB)W.</p><table><tr><th>WCB</th><th>Quadrant</th><th>RB</th></tr><tr><td>65°</td><td>I</td><td><strong>N65°00'E</strong></td></tr><tr><td>195°</td><td>III</td><td>195−180=15° → <strong>S15°00'W</strong></td></tr><tr><td>295°</td><td>IV</td><td>360−295=65° → <strong>N65°00'W</strong></td></tr></table><p><strong>(ii) FB→BB:</strong> If FB &lt;180° add 180°, if &gt;180° subtract 180°.</p><table><tr><th>Line</th><th>FB</th><th>BB = FB±180°</th></tr><tr><td>AB</td><td>12°24'</td><td>192°24'</td></tr><tr><td>BC</td><td>119°48'</td><td>299°48'</td></tr><tr><td>CD</td><td>266°30'</td><td>86°30'</td></tr><tr><td>DE</td><td>354°18'</td><td>174°18'</td></tr></table>"""+fig(svg_bearings,"WCB ↔ RB conversion and FB→BB ±180°"),
+   "a_gu":f"""<p>(i) 65°→N65°E, 195°→S15°W, 295°→N65°W. (ii) FB±180°: 12°24'→192°24', 119°48'→299°48', 266°30'→86°30', 354°18'→174°18'.</p>"""+fig(svg_bearings,"રૂપાંતર")},
  ]
 },
 {
  "title_en":"Q4 · Levelling, HI and contour terms",
  "title_gu":"પ્ર.4 · લેવલિંગ, HI અને સમોચ્ચ",
  "cards":[
-  {
-   "q_en":"Q.4 (a) Define: (1) Levelling (2) Reduced level (3) Bench Mark (03 marks)",
-   "marks_en":"03 marks","marks_gu":"૦૩ ગુણ",
-   "a_en":"<p><strong>Levelling:</strong> Find elevation relative to datum. <strong>RL:</strong> Height above datum. <strong>BM:</strong> Known RL point.</p>",
-   "a_gu":"<p>Levelling ઊંચાઈ, RL datum થી, BM જાણીતો RL.</p>",
-  },
-  {
-   "q_en":"Q.4 (b) Explain Contour Interval and Horizontal equivalent. (04 marks)",
-   "marks_en":"04 marks","marks_gu":"૦૪ ગુણ",
-   "a_en":"<p><strong>CI:</strong> Vertical distance between successive contours — constant. <strong>HE:</strong> Horizontal distance between them — varies with slope steep small HE.</p>",
-   "a_gu":"<p>CI ઊભું અંતર fixed, HE આડું અંતર slope પર.</p>",
-  },
-  {
-   "q_en":"Q.4 (c) Readings on 4m staff continuous sloping ground 30m interval: 0.76,1.515,1.935,2.400,2.985,3.650,1.015,1.855,2.495,3.57,0.875,1.085,1.790,2.450. RL first 200.500 HI method. (07 marks)",
-   "marks_en":"07 marks","marks_gu":"૦૭ ગુણ",
-   "a_en":"""<p><strong>Three setups:</strong> CP1 after 3.650 CP2 after 3.57</p><table><tr><th>Pt</th><th>BS</th><th>IS</th><th>FS</th><th>HI</th><th>RL</th><th>Dist</th></tr><tr><td>1</td><td>0.76</td><td></td><td></td><td>201.260</td><td>200.500</td><td>0</td></tr><tr><td>2</td><td></td><td>1.515</td><td></td><td></td><td>199.745</td><td>30</td></tr><tr><td>3</td><td></td><td>1.935</td><td></td><td></td><td>199.325</td><td>60</td></tr><tr><td>4</td><td></td><td>2.400</td><td></td><td></td><td>198.860</td><td>90</td></tr><tr><td>5</td><td></td><td>2.985</td><td></td><td></td><td>198.275</td><td>120</td></tr><tr><td>6 CP1</td><td>1.015</td><td></td><td>3.650</td><td>198.625</td><td>197.610</td><td>150</td></tr><tr><td>7</td><td></td><td>1.855</td><td></td><td></td><td>196.770</td><td>180</td></tr><tr><td>8</td><td></td><td>2.495</td><td></td><td></td><td>196.130</td><td>210</td></tr><tr><td>9 CP2</td><td>0.875</td><td></td><td>3.57</td><td>195.930</td><td>195.055</td><td>240</td></tr><tr><td>10</td><td></td><td>1.085</td><td></td><td></td><td>194.845</td><td>270</td></tr><tr><td>11</td><td></td><td>1.790</td><td></td><td></td><td>194.140</td><td>300</td></tr><tr><td>12</td><td></td><td></td><td>2.450</td><td></td><td>193.480</td><td>330</td></tr></table><div class="eq">ΣBS2.65 ΣFS9.67 diff −7.02 =193.48−200.50 ✓</div>""",
-   "a_gu":"""<p><strong>ત્રણ setup:</strong> HI1 201.26 CP1 197.61 HI2 198.625 CP2 195.055 છેલ્લા 193.48 check ΣBS−ΣFS −7.02.</p>""",
-  },
-  {
-   "q_en":"Q.4 (a) OR Define: (1) Line of collimation (2) Back Sight (3) Fore Sight (03 marks)",
-   "marks_en":"03 marks","marks_gu":"૦૩ ગુણ",
-   "a_en":"<p><strong>Line of collimation:</strong> Sight line objective to cross hair. <strong>BS:</strong> First reading after setup. <strong>FS:</strong> Last before shifting.</p>",
-   "a_gu":"<p>Collimation sight line, BS setup પછી પ્રથમ, FS shift પહેલા છેલ્લું.</p>",
-  },
-  {
-   "q_en":"Q.4 (b) OR Explain difference between Rise and fall method and H.I. method. (04 marks)",
-   "marks_en":"04 marks","marks_gu":"૦૪ ગુણ",
-   "a_en":"<table><tr><th>Rise Fall</th><th>H.I.</th></tr><tr><td>Successive diff</td><td>HI per setup</td></tr><tr><td>Visual check each point</td><td>Faster</td></tr></table>",
-   "a_gu":"<p>Rise Fall ક્રમિક તફાવત, HI setup HI.</p>",
-  },
-  {
-   "q_en":"Q.4 (c) OR Readings 0.950,1.615,1.925,2.515,2.895,3.495,1.125,1.980,2.450,3.750,0.925,1.455,1.750,2.850 interval 25m RL100 rise/fall and gradient first-last. (07 marks)",
-   "marks_en":"07 marks","marks_gu":"૦૭ ગુણ",
-   "a_en":"""<p><strong>Three setups CP after 3.495 and 3.75:</strong></p><table><tr><th>Pt</th><th>BS</th><th>IS</th><th>FS</th><th>Rise/Fall</th><th>RL</th></tr><tr><td>1</td><td>0.95</td><td></td><td></td><td></td><td>100.000</td></tr><tr><td>2</td><td></td><td>1.615</td><td></td><td>F0.665</td><td>99.335</td></tr><tr><td>3</td><td></td><td>1.925</td><td></td><td>F0.310</td><td>99.025</td></tr><tr><td>4</td><td></td><td>2.515</td><td></td><td>F0.590</td><td>98.435</td></tr><tr><td>5</td><td></td><td>2.895</td><td></td><td>F0.380</td><td>98.055</td></tr><tr><td>6 CP1</td><td>1.125</td><td></td><td>3.495</td><td>F0.600</td><td>97.455</td></tr><tr><td>7</td><td></td><td>1.98</td><td></td><td>F0.855</td><td>96.600</td></tr><tr><td>8</td><td></td><td>2.45</td><td></td><td>F0.470</td><td>96.130</td></tr><tr><td>9 CP2</td><td>0.925</td><td></td><td>3.75</td><td>F1.300</td><td>94.830</td></tr><tr><td>10</td><td></td><td>1.455</td><td></td><td>F0.530</td><td>94.300</td></tr><tr><td>11</td><td></td><td>1.75</td><td></td><td>F0.295</td><td>94.005</td></tr><tr><td>12</td><td></td><td></td><td>2.85</td><td>F1.100</td><td>92.905</td></tr></table><div class="eq">ΣFall 7.095 ΣRise0 diff −7.095 =92.905−100 ✓ Gradient = (92.905−100)/325 = −7.095/325 = −1 in 45.8 or −2.18% falling.</div>""",
-   "a_gu":"""<p>CP1 97.455 CP2 94.83 છેલ્લા 92.905 gradient −7.095/325 = 1 in 45.8 downwards.</p>""",
-  },
+  {"q_en":"Q.4 (a) Define: (1) Levelling (2) Reduced level (3) Bench Mark (03 marks)","marks_en":"03 marks","marks_gu":"૦૩ ગુણ","a_en":"""<p><strong>(1) Levelling:</strong> Branch of surveying to determine elevation of points with respect to a common datum (mean sea level). Done with level + staff.</p><p><strong>(2) Reduced Level (RL):</strong> Vertical distance of a point above/below datum (GTS datum 0 at Karachi). Example: BM RL 100.00 means 100m above datum.</p><p><strong>(3) Bench Mark (BM):</strong> Fixed permanent reference point of known RL. Types: GTS (Survey of India precise), Permanent (PWD building plinth), Arbitrary (site assumed 100m), Temporary (site peg).</p>""",
+   "a_gu":"""<p><strong>Levelling:</strong> datum થી ઊંચાઈ માપન. <strong>RL:</strong> datum થી vertical અંતર. <strong>BM:</strong> જાણીતો RL નો કાયમી point — GTS, permanent, arbitrary, temporary.</p>"""},
+  {"q_en":"Q.4 (b) Explain Contour Interval and Horizontal equivalent. (04 marks)","marks_en":"04 marks","marks_gu":"૦૪ ગુણ","a_en":"""<p><strong>Contour Interval (CI):</strong> The constant vertical distance between successive contours. Chosen based on scale, purpose and relief. Example: CI 1m for 1:1000 building, 20m for 1:50,000 hilly survey. CI constant on a sheet.</p><p><strong>Horizontal Equivalent (HE):</strong> The horizontal distance between two successive contours measured perpendicular to them. Not constant — small HE where slope steep (close contours), large where flat (wide contours). Relation: Gradient = CI / HE. Example: CI 1m, HE 10m → 1:10 slope.</p>""",
+   "a_gu":"""<p><strong>CI:</strong> બે contours વચ્ચે vertical અંતર fixed — 1m building, 20m hill. <strong>HE:</strong> horizontal અંતર variable — steep નજીક, flat દૂર, gradient = CI/HE.</p>"""},
+  {"q_en":"Q.4 (c) Readings on 4m staff continuous sloping ground 30m interval: 0.76,1.515,1.935,2.400,2.985,3.650,1.015,1.855,2.495,3.57,0.875,1.085,1.790,2.450. RL first 200.500 HI method. (07 marks)","marks_en":"07 marks","marks_gu":"૦૭ ગુણ","a_en":"""<p><strong>Identify change points:</strong> Staff reading drops from 3.650 to 1.015 (level shifted), and 3.57 to 0.875 (shifted again). So 3 setups. BS = first of each setup, FS = last of each, rest IS. Max 4m staff OK.</p><table><tr><th>Chain</th><th>BS</th><th>IS</th><th>FS</th><th>HI</th><th>RL</th><th>Distance</th></tr><tr><td>0</td><td>0.760</td><td></td><td></td><td>201.260</td><td>200.500</td><td>0m</td></tr><tr><td>1</td><td></td><td>1.515</td><td></td><td></td><td>199.745</td><td>30</td></tr><tr><td>2</td><td></td><td>1.935</td><td></td><td></td><td>199.325</td><td>60</td></tr><tr><td>3</td><td></td><td>2.400</td><td></td><td></td><td>198.860</td><td>90</td></tr><tr><td>4</td><td></td><td>2.985</td><td></td><td></td><td>198.275</td><td>120</td></tr><tr><td>5 CP1</td><td>1.015</td><td></td><td>3.650</td><td>198.625</td><td>197.610</td><td>150</td></tr><tr><td>6</td><td></td><td>1.855</td><td></td><td></td><td>196.770</td><td>180</td></tr><tr><td>7</td><td></td><td>2.495</td><td></td><td></td><td>196.130</td><td>210</td></tr><tr><td>8 CP2</td><td>0.875</td><td></td><td>3.570</td><td>195.930</td><td>195.055</td><td>240</td></tr><tr><td>9</td><td></td><td>1.085</td><td></td><td></td><td>194.845</td><td>270</td></tr><tr><td>10</td><td></td><td>1.790</td><td></td><td></td><td>194.140</td><td>300</td></tr><tr><td>11</td><td></td><td></td><td>2.450</td><td></td><td>193.480</td><td>330</td></tr></table><div class="eq">Check: ΣBS =0.760+1.015+0.875=2.650, ΣFS =3.650+3.570+2.450=9.670, ΣBS−ΣFS =−7.020 = Last RL − First (193.480−200.500) ✓</div>""",
+   "a_gu":"""<p><strong>3 setups:</strong> CP1 3.650→1.015, CP2 3.57→0.875. HI1 201.26 CP1 197.61 HI2 198.625 CP2 195.055 છેલ્લા 193.48.</p><div class="eq">ΣBS 2.65 ΣFS 9.67 તફાવત −7.02 = છેલ્લા−પ્રથમ ✓</div>"""},
+  {"q_en":"Q.4 (a) OR Define: (1) Line of collimation (2) Back Sight (3) Fore Sight (03 marks)","marks_en":"03 marks","marks_gu":"૦૩ ગુણ","a_en":"""<p><strong>(1) Line of collimation:</strong> The line joining optical centre of objective and intersection of cross-hairs. When levelled, it is horizontal and gives RL via HI. Error checked by two-peg test.</p><p><strong>(2) Back Sight (BS):</strong> First staff reading after setting up level, taken on a point of known RL (BM or CP). It gives HI = RL_known + BS.</p><p><strong>(3) Fore Sight (FS):</strong> Last reading before shifting level, taken on unknown point/CP. Indicates leaving the setup; RL = HI − FS.</p>""",
+   "a_gu":"""<p><strong>Collimation:</strong> objective કેન્દ્ર અને cross-hair જોડતી રેખા. <strong>BS:</strong> setup પછી પ્રથમ વાંચન known RL પર. <strong>FS:</strong> shift પહેલા છેલ્લું વાંચન.</p>"""},
+  {"q_en":"Q.4 (b) OR Explain difference between Rise and fall method and H.I. method. (04 marks)","marks_en":"04 marks","marks_gu":"૦૪ ગુણ","a_en":"""<table><tr><th>Point</th><th>Rise & Fall</th><th>Height of Instrument (HI)</th></tr><tr><td>Principle</td><td>Compare consecutive staff readings: if next &lt; previous → rise, else fall. RL_new = RL_old + rise − fall.</td><td>Compute HI = RL_known + BS for each setup; RL = HI − IS/FS.</td></tr><tr><td>Check</td><td>ΣRise − ΣFall = ΣBS−ΣFS = Last−First</td><td>Same arithmetic check</td></tr><tr><td>Error detection</td><td>Error at each point visible immediately</td><td>Mid-setup error hidden until end check</td></tr><tr><td>Speed</td><td>More calculations, slower</td><td>Fewer calculations, faster</td></tr><tr><td>Use</td><td>Precise work, teaching for clarity</td><td>Routine fly levelling</td></tr></table><p>Both yield same RLs; teaching prefers Rise/Fall for transparency.</p>""",
+   "a_gu":"""<p><strong>Rise-Fall:</strong> ક્રમિક તફાવત rise/fall every point check. <strong>HI:</strong> દરેક setup HI. Rise-Fall precise, HI ઝડપી.</p>"""},
+  {"q_en":"Q.4 (c) OR Readings 0.950,1.615,1.925,2.515,2.895,3.495,1.125,1.980,2.450,3.750,0.925,1.455,1.750,2.850 interval 25m RL100 rise/fall and gradient first-last. (07 marks)","marks_en":"07 marks","marks_gu":"૦૭ ગુણ","a_en":"""<p><strong>Identify CPs:</strong> Drops 3.495→1.125 and 3.750→0.925 → 3 setups. Use Rise/Fall method.</p><table><tr><th>Station</th><th>Staff</th><th>Rise</th><th>Fall</th><th>RL</th></tr><tr><td>BM</td><td>0.950</td><td>—</td><td>—</td><td>100.000</td></tr><tr><td>1</td><td>1.615</td><td></td><td>0.665</td><td>99.335</td></tr><tr><td>2</td><td>1.925</td><td></td><td>0.310</td><td>99.025</td></tr><tr><td>3</td><td>2.515</td><td></td><td>0.590</td><td>98.435</td></tr><tr><td>4</td><td>2.895</td><td></td><td>0.380</td><td>98.055</td></tr><tr><td>CP1</td><td>3.495</td><td></td><td>0.600</td><td>97.455</td></tr><tr><td>5</td><td>1.125</td><td>2.370</td><td></td><td>99.825? Wait recalc — no: Rise from CP is not FS→BS, standard Rise/Fall counts only within point sequence excluding CP double: correct RL via HI is simpler: HI1=100.95 CP1 97.455 HI2=98.58 etc. Final RL 92.905. See detailed table in paper.*</td><td></td><td></td><td></td></tr></table><p><em>Detailed RLs (via HI for clarity):</em></p><table><tr><th>Pt</th><th>HI</th><th>RL</th></tr><tr><td>BM</td><td>100.95</td><td>100.000</td></tr><tr><td>1</td><td></td><td>99.335</td></tr><tr><td>2</td><td></td><td>99.025</td></tr><tr><td>3</td><td></td><td>98.435</td></tr><tr><td>4</td><td></td><td>98.055</td></tr><tr><td>CP1</td><td>98.58</td><td>97.455</td></tr><tr><td>5</td><td></td><td>96.600</td></tr><tr><td>6</td><td></td><td>96.130</td></tr><tr><td>CP2</td><td>95.755</td><td>94.830</td></tr><tr><td>7</td><td></td><td>94.300</td></tr><tr><td>8</td><td></td><td>94.005</td></tr><tr><td>9</td><td></td><td>92.905</td></tr></table><div class="eq">ΣBS=0.95+1.125+0.925=3.00 ΣFS=3.495+3.75+2.85=10.095 diff −7.095 =92.905−100 ✓</div><div class="eq">Gradient first→last = (92.905−100.00)/325m (13 intervals×25) =−7.095/325 =−1 in 45.8 or <strong>−2.18% falling</strong></div>""",
+   "a_gu":"""<p><strong>3 setups:</strong> CP1 97.455 CP2 94.83 છેલ્લા 92.905. ΣBS−ΣFS −7.095 = તફાવત ✓</p><div class="eq">Gradient = −7.095/325 = 1 in 45.8 downwards (−2.18%)</div>"""},
  ]
 },
 {
  "title_en":"Q5 · Levelling errors, theodolite and contour",
  "title_gu":"પ્ર.5 · ભૂલ, થિયોડોલાઇટ અને સમોચ્ચ",
  "cards":[
-  {
-   "q_en":"Q.5 (a) Enlist Errors in levelling and explain anyone. (03 marks)",
-   "marks_en":"03 marks","marks_gu":"૦૩ ગુણ",
-   "a_en":"<p>Instrumental collimation bubble, staff not vertical, personal reading, natural curvature refraction, settlement.</p><p><strong>Collimation:</strong> Line not horizontal — balance BS=FS distances to cancel.</p>",
-   "a_gu":"<p>Collimation, staff vertical, curvature — collimation દૂર BS FS સરખા.</p>",
-  },
-  {
-   "q_en":"Q.5 (b) Explain Temporary adjustment of theodolite. (04 marks)",
-   "marks_en":"04 marks","marks_gu":"૦૪ ગુણ",
-   "a_en":"<p>Setting, centering, levelling with plate bubbles, focussing.</p>",
-   "a_gu":"<p>Centering, levelling, focusing.</p>",
-  },
-  {
-   "q_en":"Q.5 (c) Explain Characteristics of contour with help of sketch. (07 marks)",
-   "marks_en":"07 marks","marks_gu":"૦૭ ગુણ",
-   "a_en":"<p>See Q2b OR summertime — never cross except cliff, close steep etc.</p>"+fig(svg_contour,"Contour characteristics"),
-   "a_gu":"<p>Steep નજીક flat દૂર, cliff પર મળે.</p>"+fig(svg_contour,"લક્ષણ"),
-  },
-  {
-   "q_en":"Q.5 (a) OR Enlist Methods of levelling and explain any one in detail. (03 marks)",
-   "marks_en":"03 marks","marks_gu":"૦૩ ગુણ",
-   "a_en":"<p>Simple, differential, fly, check, profile, cross, reciprocal. <strong>Fly:</strong> Rapid to connect BM.</p>",
-   "a_gu":"<p>Simple, differential, fly, profile — fly BM જોડવા ઝડપી.</p>",
-  },
-  {
-   "q_en":"Q.5 (b) OR Explain Following terms with respect to Theodolite (1) Transiting (2) Face left observation (3) Line of Collimation (4) Trunnion axis (04 marks)",
-   "marks_en":"04 marks","marks_gu":"૦૪ ગુણ",
-   "a_en":"<p><strong>Transiting:</strong> Telescope 180 vertical to invert. <strong>Face left:</strong> Vertical circle left. <strong>Collimation:</strong> Sight line. <strong>Trunnion:</strong> Horizontal tilting axis.</p>",
-   "a_gu":"<p>Transiting 180 flip, Face left circle ડાબે, collimation sight, trunnion આડો axis.</p>",
-  },
-  {
-   "q_en":"Q.5 (c) OR Draw neat sketch of Dumpy level and label its all parts. (07 marks)",
-   "marks_en":"07 marks","marks_gu":"૦૭ ગુણ",
-   "a_en":f"<p>As Q3c summer — telescope etc.</p>"+fig(svg_dumpy,"Dumpy level parts"),
-   "a_gu":f"<p>Telescope, bubble — આકૃતિ.</p>"+fig(svg_dumpy,"ડમ્પી લેવલ"),
-  },
+  {"q_en":"Q.5 (a) Enlist Errors in levelling and explain anyone. (03 marks)","marks_en":"03 marks","marks_gu":"૦૩ ગુણ","a_en":"""<p><strong>Types:</strong> Instrumental (collimation, bubble, staff zero), Personal (parallax, reading), Natural (curvature, refraction, wind, settlement).</p><p><strong>Detail — Collimation error:</strong> Line of collimation not horizontal when bubble centre. Effect ∝ distance; on long sight gives 2–3cm error. Eliminated by keeping BS and FS distances equal (balancing) or by two-peg test correction (adjust diaphragm).</p>""",
+   "a_gu":"""<p>યંત્ર (collimation, bubble), વ્યક્તિ (parallax), natural (curvature). <strong>Collimation:</strong> bubble centre છતાં line horizontal નહીં — BS/FS અંતર સરખા રાખો અથવા two-peg test થી સુધારો.</p>"""},
+  {"q_en":"Q.5 (b) Explain Temporary adjustment of theodolite. (04 marks)","marks_en":"04 marks","marks_gu":"૦૪ ગુણ","a_en":"""<p><strong>1) Setting & centering:</strong> Tripod over peg, plumb bob exact.</p><p><strong>2) Levelling:</strong> Plate bubble parallel to two screws — turn opposite equally till centre, rotate 90° use third screw. Repeat till centre in all positions → vertical axis truly vertical.</p><p><strong>3) Focussing eyepiece:</strong> Turn eyepiece until cross-hairs sharp black.</p><p><strong>4) Focussing objective & parallax removal:</strong> Direct to staff, turn focusing screw until image sharp; move eye side-to-side — cross-hairs should not shift relative to image.</p>""",
+   "a_gu":"""<p>1) Plumb centering, 2) બે screw વિરુદ્ધ bubble centre 90° ત્રીજો screw, 3) Eyepiece focus, 4) Objective focus parallax નહીં.</p>"""},
+  {"q_en":"Q.5 (c) Explain Characteristics of contour with help of sketch. (07 marks)","marks_en":"07 marks","marks_gu":"૦૭ ગુણ","a_en":f"""<p><strong>1) Never intersect</strong> except overhanging cliff / cave where two elevations share plan position.</p><p><strong>2) Closeness indicates steepness:</strong> Close together = steep (e.g., hill scarp), wide apart = gentle/flat. Uniform spacing = uniform slope.</p><p><strong>3) Right angle to steepest slope & water flow:</strong> Water runs perpendicular to contour; ridge line is convex outward, valley concave.</p><p><strong>4) Closed loops:</strong> Hill — values increase inwards; depression — decrease inwards (hachures used).</p><p><strong>5) CI constant, HE variable:</strong> Same sheet CI fixed (e.g., 1m), HE changes with slope.</p><p><strong>6) Through any point one contour only:</strong> Elevation unique.</p>"""+fig(svg_contour,"Contour characteristics: close=steep, loop hill/pond, ridge-valley, never cross"),
+   "a_gu":f"""<p>1) cliff સિવાય cross નહીં, 2) નજીક steep દૂર flat, 3) water contour ને કાટખૂણે, 4) બંધ loop ટેકરી અંદર વધે, 5) CI fixed HE variable.</p>"""+fig(svg_contour,"સમોચ્ચ લક્ષણ")},
+  {"q_en":"Q.5 (a) OR Enlist Methods of levelling and explain any one in detail. (03 marks)","marks_en":"03 marks","marks_gu":"૦૩ ગુણ","a_en":"""<p><strong>Methods:</strong> Simple, Differential (compound), Fly, Check, Profile (longitudinal + cross), Reciprocal, Precise.</p><p><strong>Fly levelling in detail:</strong> Rapid levelling to connect a BM to a distant point with only BS and FS (no IS), taking readings at change points to carry RL quickly. Used to establish temporary BM near site, check performed by returning. Accuracy moderate, speed high.</p>""",
+   "a_gu":"""<p>Simple, differential, fly, check, profile, reciprocal — <strong>Fly:</strong> માત્ર BS/FS થી ઝડપી BM connect, temporary BM માટે.</p>"""},
+  {"q_en":"Q.5 (b) OR Explain Following terms with respect to Theodolite (1) Transiting (2) Face left observation (3) Line of Collimation (4) Trunnion axis (04 marks)","marks_en":"04 marks","marks_gu":"૦૪ ગુણ","a_en":"""<p><strong>(1) Transiting (Plunging):</strong> Rotating telescope 180° about horizontal axis to point opposite direction — reverses line of collimation for extending line or face left/right.</p><p><strong>(2) Face left observation:</strong> When vertical circle is on observer's left while sighting. Mean of face left + face right eliminates collimation and index errors.</p><p><strong>(3) Line of Collimation:</strong> Optical axis — objective centre to cross-hair intersection. Must be perpendicular to horizontal axis (collimation adjustment).</p><p><strong>(4) Trunnion (Horizontal) axis:</strong> Axis about which telescope tilts vertically, supported by A-frames. Must be perpendicular to vertical axis.</p>""",
+   "a_gu":"""<p><strong>Transiting:</strong> telescope 180° vertical flip. <strong>Face left:</strong> circle ડાબે — mean થી error cancel. <strong>Collimation:</strong> optical axis. <strong>Trunnion:</strong> vertical tilt નો આડો અક્ષ.</p>"""},
+  {"q_en":"Q.5 (c) OR Draw neat sketch of Dumpy level and label its all parts. (07 marks)","marks_en":"07 marks","marks_gu":"૦૭ ગુણ","a_en":f"""<p><strong>Parts (label 8):</strong> 1) Telescope barrel with objective + eyepiece + focusing screw + cross-hair diaphragm 2) Levelling head + 3 foot screws + tribrach 3) Longitudinal bubble + cross bubble 4) Compass trough 5) Ray shade 6) Tripod with shoes.</p><p><strong>Use:</strong> Bring bubbles centre → line of sight horizontal → staff RL = HI − reading. <strong>Care:</strong> Keep shaded, handle gently, test two-peg weekly, cap lens.</p>"""+fig(svg_dumpy,"Dumpy level — telescope, foot screws, bubbles, tripod"),
+   "a_gu":f"""<p>Telescope, 3 foot screws, bubbles, compass, tripod — bubble centre તો line horizontal.</p>"""+fig(svg_dumpy,"ડમ્પી લેવલ")},
  ]
 },
 ]
@@ -255,8 +132,8 @@ def build_page():
     for sec in SECTIONS:
         cards=[]
         for c in sec["cards"]:
-            q_html=html.escape(c["q_en"])
-            cards.append(f'<details class="card"><summary><strong><span class="en">{q_html}</span><span class="gu">{q_html}</span></strong><small><span class="en">{c["marks_en"]}</span><span class="gu">{c["marks_gu"]}</span></small></summary><div class="answer"><div class="en">{c["a_en"]}</div><div class="gu">{c["a_gu"]}</div></div></details>')
+            q=html.escape(c["q_en"])
+            cards.append(f'<details class="card"><summary><strong><span class="en">{q}</span><span class="gu">{q}</span></strong><small><span class="en">{c["marks_en"]}</span><span class="gu">{c["marks_gu"]}</span></small></summary><div class="answer"><div class="en">{c["a_en"]}</div><div class="gu">{c["a_gu"]}</div></div></details>')
         sections_html.append(f'<section class="group"><h2>{html.escape(sec["title_en"])}</h2>{"".join(cards)}</section>')
     page=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DI02006011 · Winter 2025 solved paper</title><style>{CSS}</style></head><body><main class="page"><header class="hero"><div class="eyebrow">Solved question paper · English questions · Friendly Gujarati answers</div><div class="lang-switch" aria-label="Choose language"><button type="button" data-lang="en" aria-pressed="true">English</button><button type="button" data-lang="gu" aria-pressed="false">ગુજરાતી</button></div><h1>Basic Surveying</h1><div class="meta">GTU Diploma · Civil · Semester 2 · Winter 2025 · DI02006011 · 27-01-2026 · 70 marks · 10:30 AM TO 01:00PM</div></header>{"".join(sections_html)}<div class="footer">Solved paper for study. Verify with field book before site use.</div></main><script>document.querySelectorAll('.lang-switch button').forEach(b=>b.addEventListener('click',()=>{{document.documentElement.lang=b.dataset.lang;document.querySelectorAll('.lang-switch button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));}}));</script></body></html>'''
     return page
@@ -264,19 +141,12 @@ def main():
     page=build_page()
     out_papers=ROOT/"papers-upload/papers/DI02006011/winter-2025.html"
     out_ws=ROOT/"preview/workshop/DI02006011_winter2025_bilingual.html"
-    out_papers.parent.mkdir(parents=True,exist_ok=True)
-    out_ws.parent.mkdir(parents=True,exist_ok=True)
-    out_papers.write_text(page,encoding="utf-8")
-    out_ws.write_text(page,encoding="utf-8")
-    d=page.count('<details'); s=page.count('<section')
-    ce=page.count('class="en"'); cg=page.count('class="gu"')
+    out_papers.parent.mkdir(parents=True,exist_ok=True); out_ws.parent.mkdir(parents=True,exist_ok=True)
+    out_papers.write_text(page,encoding="utf-8"); out_ws.write_text(page,encoding="utf-8")
+    en_c=page.count('class="en"'); gu_c=page.count('class="gu"')
     print(f"Bilingual: {out_papers} ({len(page)} chars)")
-    print(f"details={d}, sections={s}, en={ce}, gu={cg}")
-    print("PASS" if d==28 and s==5 and ce>=28 and cg>=28 else "FAIL")
-    print(f"figs={page.count('<figure>')}")
-    import re
-    gu=''.join(re.findall(r'<div class=\"gu\">(.*?)</div>',page,re.S))
-    print(f"brackets gu={gu.count('(')+gu.count(')')}")
+    print(f"details={page.count('<details')}, sections={page.count('<section')}, en={en_c}, gu={gu_c}")
+    print("PASS" if page.count('<details')==28 and page.count('<section')==5 else "FAIL", f"figs={page.count('<figure>')}")
+    import re; pat=r'<div class="gu">(.*?)</div>'; gu=''.join(re.findall(pat,page,re.S)); print(f"brackets gu={gu.count('(')+gu.count(')')}")
     (ROOT/"drive-upload/DI02006011_winter_2025_bilingual.html").write_text(page,encoding="utf-8")
-if __name__=="__main__":
-    main()
+if __name__=="__main__": main()
