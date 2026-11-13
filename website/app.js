@@ -257,7 +257,7 @@
     if(!main||!main.querySelector('details'))throw new Error('Invalid paper format');
     const tags=new Set(['MAIN','SECTION','H2','H3','P','DIV','SPAN','STRONG','B','EM','I','U','SMALL','SUB','SUP','UL','OL','LI','BR','DETAILS','SUMMARY','FIGURE','FIGCAPTION','IMG','TABLE','THEAD','TBODY','TR','TH','TD']);
     const blocked=new Set(['SCRIPT','STYLE','IFRAME','OBJECT','EMBED','FORM','INPUT','BUTTON','LINK','META','VIDEO','AUDIO']);
-    const classes=new Set(['card','answer','note','eq','frac','num','den','result','paper-figure']);
+    const classes=new Set(['card','answer','note','eq','frac','num','den','result','paper-figure','steps','work','step-label']);
     function copy(node) {
       if(node.nodeType===3)return document.createTextNode(node.nodeValue);
       if(node.nodeType!==1)return null;

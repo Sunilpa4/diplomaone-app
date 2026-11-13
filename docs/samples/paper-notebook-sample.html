@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sample · notebook-style numerical and derivation answers</title>
+<style>
+:root{--ink:#20252d;--muted:#65717d;--blue:#145c8b;--pale:#eaf4fa;--line:#d9e1e7;--paper:#f7f9fb}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.62 system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+.page{width:min(960px,calc(100% - 30px));margin:25px auto 68px}
+.hero{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;margin-bottom:22px}
+.eyebrow{color:var(--blue);font-size:.79rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.hero h1{font-size:clamp(1.4rem,3.6vw,2rem);line-height:1.2;margin:.4rem 0}
+.meta,.small{color:var(--muted);font-size:.9rem}
+.note{background:var(--pale);border-left:4px solid #4389b3;border-radius:7px;padding:12px 15px;margin:14px 0}
+.group{margin:28px 0}.group h2{font-size:1.3rem;color:var(--blue);margin:0 0 10px}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;margin:10px 0;overflow:hidden}
+.card summary{cursor:pointer;padding:15px 17px;color:#164f73;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.card summary strong{flex:1;min-width:220px}.card summary small{font-size:.78rem;color:var(--muted);white-space:nowrap}
+.answer{border-top:1px solid var(--line);padding:17px 19px;overflow-wrap:anywhere}
+.answer p{margin:9px 0}.answer li{margin:5px 0}.answer ul,.answer ol{padding-left:1.35rem}
+.answer h4{margin:16px 0 4px;color:#394f63}
+.en{}.gu{}
+/* notebook block: one line per step, margin rule like a ruled page */
+.work{border-left:2px solid #e2d5ea;margin:12px 0;padding:2px 0 2px 14px}
+.work p{margin:5px 0;line-height:1.75}
+ol.steps{counter-reset:step;list-style:none;margin:12px 0;padding:0}
+ol.steps>li{counter-increment:step;position:relative;margin:3px 0;padding:2px 0 2px 34px;line-height:1.7}
+ol.steps>li:before{content:counter(step);position:absolute;left:0;top:2px;width:24px;height:24px;border-radius:50%;background:#f1e7f7;color:#6a2f86;font:700 12px/24px system-ui,sans-serif;text-align:center}
+.step-label{display:block;color:#6a2f86;font-weight:600;font-size:13px}
+.result{display:table;border:1px solid #77a795;border-radius:7px;padding:8px 12px;background:#f1fbf6;margin:12px 0}
+</style></head>
+<body><main class="page">
+<header class="hero">
+  <div class="eyebrow">Style sample · notebook-style worked answers</div>
+  <h1>How a numerical and a derivation look inside a solved paper</h1>
+  <div class="meta">Demonstration file — not a published paper. It shows the card layout, the step-by-step
+    notebook block, and the same answer in English and easy Gujarati.</div>
+  <div class="note"><p><b>Rule shown here:</b> every line of a calculation sits on its own line, in the order
+    it is written in a notebook — given → formula → substitution → calculation → answer → check.
+    The final answer is boxed. Identifiers and units stay in English inside the Gujarati answer.</p></div>
+</header>
+
+<section class="group"><h2>Q1 · Resistance, current and energy</h2>
+
+<details class="card" open>
+  <summary><span class="en"><strong>Q.1 (a) Three resistors of 4 Ω, 6 Ω and 10 Ω are connected in series
+  across a 20 V supply. Derive the equivalent resistance and find the current.</strong><small>4 marks</small></span><span class="gu"><strong>Q.1 (a) Three resistors of 4 Ω, 6 Ω and 10 Ω are connected in series
+  across a 20 V supply. Derive the equivalent resistance and find the current.</strong><small>4 ગુણ</small></span></summary>
+  <div class="en"><div class="answer">
+    <p><strong>Question as printed:</strong> Q.1 (a) Three resistors of 4 Ω, 6 Ω and 10 Ω are connected in
+    series across a 20 V supply. Derive the equivalent resistance and find the current.</p>
+
+    <h4>Derivation — line by line</h4>
+    <div class="work">
+      <p>In series, the same current I flows through every resistor.</p>
+      <p>V<sub>1</sub> = I R<sub>1</sub>, V<sub>2</sub> = I R<sub>2</sub>, V<sub>3</sub> = I R<sub>3</sub></p>
+      <p>Total voltage V = V<sub>1</sub> + V<sub>2</sub> + V<sub>3</sub></p>
+      <p>V = I (R<sub>1</sub> + R<sub>2</sub> + R<sub>3</sub>)</p>
+      <p>V / I = R<sub>1</sub> + R<sub>2</sub> + R<sub>3</sub></p>
+      <p>R<sub>eq</sub> = R<sub>1</sub> + R<sub>2</sub> + R<sub>3</sub></p>
+    </div>
+
+    <h4>Numerical — step by step</h4>
+    <ol class="steps">
+      <li><span class="step-label">Given</span>R<sub>1</sub> = 4 Ω, R<sub>2</sub> = 6 Ω, R<sub>3</sub> = 10 Ω, V = 20 V</li>
+      <li><span class="step-label">Formula</span>R<sub>eq</sub> = R<sub>1</sub> + R<sub>2</sub> + R<sub>3</sub></li>
+      <li><span class="step-label">Substitution</span>R<sub>eq</sub> = 4 + 6 + 10</li>
+      <li><span class="step-label">Calculate</span>R<sub>eq</sub> = 20 Ω</li>
+      <li><span class="step-label">Formula</span>I = V / R<sub>eq</sub></li>
+      <li><span class="step-label">Substitution</span>I = 20 / 20</li>
+      <li><span class="step-label">Calculate</span>I = 1 A</li>
+    </ol>
+    <p class="result"><b>R<sub>eq</sub> = 20 Ω, I = 1 A</b></p>
+    <p class="small"><b>Check:</b> the equivalent resistance is larger than every individual resistor, which is
+    exactly what series connection must give.</p>
+  </div></div>
+  <div class="gu"><div class="answer">
+    <p><strong>Question as printed:</strong> Q.1 (a) Three resistors of 4 Ω, 6 Ω and 10 Ω are connected in
+    series across a 20 V supply. Derive the equivalent resistance and find the current.</p>
+
+    <h4>Derivation — લાઇન બાય લાઇન</h4>
+    <div class="work">
+      <p>Series connectionમાં દરેક રેઝિસ્ટરમાં એક જ current I વહે છે.</p>
+      <p>V<sub>1</sub> = I R<sub>1</sub>, V<sub>2</sub> = I R<sub>2</sub>, V<sub>3</sub> = I R<sub>3</sub></p>
+      <p>કુલ voltage V = V<sub>1</sub> + V<sub>2</sub> + V<sub>3</sub></p>
+      <p>V = I (R<sub>1</sub> + R<sub>2</sub> + R<sub>3</sub>)</p>
+      <p>V / I = R<sub>1</sub> + R<sub>2</sub> + R<sub>3</sub></p>
+      <p>R<sub>eq</sub> = R<sub>1</sub> + R<sub>2</sub> + R<sub>3</sub></p>
+    </div>
+
+    <h4>દાખલો — સ્ટેપ બાય સ્ટેપ</h4>
+    <ol class="steps">
+      <li><span class="step-label">આપેલું</span>R<sub>1</sub> = 4 Ω, R<sub>2</sub> = 6 Ω, R<sub>3</sub> = 10 Ω, V = 20 V</li>
+      <li><span class="step-label">સૂત્ર</span>R<sub>eq</sub> = R<sub>1</sub> + R<sub>2</sub> + R<sub>3</sub></li>
+      <li><span class="step-label">કિંમત મૂકો</span>R<sub>eq</sub> = 4 + 6 + 10</li>
+      <li><span class="step-label">ગણો</span>R<sub>eq</sub> = 20 Ω</li>
+      <li><span class="step-label">સૂત્ર</span>I = V / R<sub>eq</sub></li>
+      <li><span class="step-label">કિંમત મૂકો</span>I = 20 / 20</li>
+      <li><span class="step-label">ગણો</span>I = 1 A</li>
+    </ol>
+    <p class="result"><b>R<sub>eq</sub> = 20 Ω, I = 1 A</b></p>
+    <p class="small"><b>ચકાસણી:</b> equivalent resistance દરેક રેઝિસ્ટર કરતાં મોટું આવે છે — series connectionમાં
+    એ જ આવવું જોઈએ.</p>
+  </div></div>
+</details>
+
+<details class="card">
+  <summary><span class="en"><strong>Q.2 (c) An electric heater of resistance 22 Ω works on a 220 V supply for
+  3 hours. Find the current, the power and the energy consumed in kWh.</strong><small>7 marks</small></span><span class="gu"><strong>Q.2 (c) An electric heater of resistance 22 Ω works on a 220 V supply for
+  3 hours. Find the current, the power and the energy consumed in kWh.</strong><small>7 ગુણ</small></span></summary>
+  <div class="en"><div class="answer">
+    <p><strong>Question as printed:</strong> Q.2 (c) An electric heater of resistance 22 Ω works on a 220 V
+    supply for 3 hours. Find the current, the power and the energy consumed in kWh.</p>
+
+    <h4>Given and assumption</h4>
+    <div class="work">
+      <p>R = 22 Ω</p>
+      <p>V = 220 V</p>
+      <p>t = 3 h</p>
+      <p>Assumption: supply voltage stays constant and the heater resistance does not change with temperature.</p>
+    </div>
+
+    <h4>Step-by-step solution</h4>
+    <ol class="steps">
+      <li><span class="step-label">Formula · current</span>I = V / R</li>
+      <li><span class="step-label">Substitution</span>I = 220 / 22</li>
+      <li><span class="step-label">Calculate</span>I = 10 A</li>
+      <li><span class="step-label">Formula · power</span>P = V I</li>
+      <li><span class="step-label">Substitution</span>P = 220 × 10</li>
+      <li><span class="step-label">Calculate</span>P = 2200 W = 2.2 kW</li>
+      <li><span class="step-label">Formula · energy</span>Energy = P × t</li>
+      <li><span class="step-label">Substitution</span>Energy = 2.2 kW × 3 h</li>
+      <li><span class="step-label">Calculate</span>Energy = 6.6 kWh</li>
+    </ol>
+    <p class="result"><b>I = 10 A, P = 2.2 kW, Energy = 6.6 kWh</b></p>
+
+    <h4>Interpretation and check</h4>
+    <ul>
+      <li>10 A is a normal heater current for a 220 V domestic line, so the order of magnitude is right.</li>
+      <li>2.2 kW for 3 hours must be about 6.6 units on the electricity meter — matches the calculation.</li>
+      <li>At ₹5.50 per unit the running cost is 6.6 × 5.50 = ₹36.30.</li>
+    </ul>
+  </div></div>
+  <div class="gu"><div class="answer">
+    <p><strong>Question as printed:</strong> Q.2 (c) An electric heater of resistance 22 Ω works on a 220 V
+    supply for 3 hours. Find the current, the power and the energy consumed in kWh.</p>
+
+    <h4>આપેલી માહિતી અને ધારણા</h4>
+    <div class="work">
+      <p>R = 22 Ω</p>
+      <p>V = 220 V</p>
+      <p>t = 3 h</p>
+      <p>ધારણા: supply voltage અચળ રહે છે અને ગરમ થવાથી heaterનો resistance બદલાતો નથી.</p>
+    </div>
+
+    <h4>સ્ટેપ બાય સ્ટેપ ઉકેલ</h4>
+    <ol class="steps">
+      <li><span class="step-label">સૂત્ર · current</span>I = V / R</li>
+      <li><span class="step-label">કિંમત મૂકો</span>I = 220 / 22</li>
+      <li><span class="step-label">ગણો</span>I = 10 A</li>
+      <li><span class="step-label">સૂત્ર · power</span>P = V I</li>
+      <li><span class="step-label">કિંમત મૂકો</span>P = 220 × 10</li>
+      <li><span class="step-label">ગણો</span>P = 2200 W = 2.2 kW</li>
+      <li><span class="step-label">સૂત્ર · energy</span>Energy = P × t</li>
+      <li><span class="step-label">કિંમત મૂકો</span>Energy = 2.2 kW × 3 h</li>
+      <li><span class="step-label">ગણો</span>Energy = 6.6 kWh</li>
+    </ol>
+    <p class="result"><b>I = 10 A, P = 2.2 kW, Energy = 6.6 kWh</b></p>
+
+    <h4>અર્થ અને ચકાસણી</h4>
+    <ul>
+      <li>220 V લાઇન પર 10 A એ સામાન્ય heater current છે, એટલે magnitude બરાબર છે.</li>
+      <li>2.2 kW ને 3 કલાક ચલાવીએ તો meter પર લગભગ 6.6 unit વપરાય — ગણતરી સાથે મળે છે.</li>
+      <li>એક unit ₹5.50 લેખે ખર્ચ 6.6 × 5.50 = ₹36.30 થાય.</li>
+    </ul>
+  </div></div>
+</details>
+</section>
+</main></body></html>

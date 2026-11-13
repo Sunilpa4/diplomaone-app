@@ -287,3 +287,49 @@ chip reads `7 marks` in English and `7 ગુણ` in Gujarati.
 `<summary>` count equal to `<details>` count, and the language blocks either balanced `.en`/`.gu` or an
 explicit `en-only` marker. A paper with 15 parts, or five questions of six parts each, publishes
 normally. `tools/test_publish_solved_papers.py` covers those shapes.
+
+---
+
+## 10. Notebook-style layout for numericals and derivations
+
+Owner's instruction (2026-11-13): *"numericals write as we write in notebook — step by step, line by
+line."* A numerical or a derivation is therefore never a paragraph. It is a stack of short lines, in
+the exact order a student writes them in an answer book. Live sample: `docs/samples/paper-notebook-sample.html`.
+
+**Markup** (classes are whitelisted in `sanitizePaper()`, so this survives on the website):
+
+```html
+<h4>Given and assumption</h4>
+<div class="work">
+  <p>R = 22 Ω</p>
+  <p>V = 220 V</p>
+  <p>t = 3 h</p>
+</div>
+
+<h4>Step-by-step solution</h4>
+<ol class="steps">
+  <li><span class="step-label">Formula · current</span>I = V / R</li>
+  <li><span class="step-label">Substitution</span>I = 220 / 22</li>
+  <li><span class="step-label">Calculate</span>I = 10 A</li>
+  <li><span class="step-label">Formula · power</span>P = V I</li>
+  <li><span class="step-label">Substitution</span>P = 220 × 10</li>
+  <li><span class="step-label">Calculate</span>P = 2200 W = 2.2 kW</li>
+</ol>
+<p class="result"><b>I = 10 A, P = 2.2 kW</b></p>
+```
+
+* `.work` = the ruled block (left margin rule, one quantity/statement per line) — use it for
+  given data, formula boards and derivation lines.
+* `ol.steps` = auto-numbered steps; `.step-label` names the step in purple small caps
+  (`Given / Formula / Substitution / Calculate / Answer` — Gujarati: `આપેલું / સૂત્ર / કિંમત મૂકો / ગણો / જવાબ`).
+* `.result` = the boxed final answer; one per numerical, bold, with units.
+* Math stays **plain text** (`x/5`, `I = V / R`, `10⁻³`, `V<sub>rms</sub>`); no stacked fractions.
+* One statement per line means one `<p>` or one `<li>` — never `a = 1, b = 2, so c = 3` in a sentence.
+* Every line carries its unit; the substitution line repeats the formula with numbers in place.
+
+**Order for a numerical:** Given → Formula → Substitution → Calculate → (repeat per quantity) →
+boxed answer → Interpretation/check (1–3 bullets: magnitude, sign, unit, real-world sense).
+
+**Order for a derivation:** Statement of what is being derived → Assumptions (bulleted) →
+`.work` lines numbered so each one follows from the previous → final relation in bold →
+validity/limits line. Six lines or fewer; longer algebra goes to a separate "algebra appendix" card.
