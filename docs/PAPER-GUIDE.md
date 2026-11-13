@@ -80,7 +80,9 @@ original; `originals/` is kept byte-identical so a paper can always be re-conver
 
 Rules that follow from the gates:
 
-* **5 `<section class="group">` and 28 `<details class="card">`** — always. 4 + 6 + 6 + 6 + 6.
+* Every shipped set has **5 `<section class="group">` and 28 `<details class="card">`** (4 + 6 + 6 + 6 + 6).
+  New papers follow the pattern the actual paper prints — the publisher checks completeness and
+  part↔summary pairing, not a fixed number.
 * `h2` is a *topic summary* of the group, not the paper's own phrase: `Q2 · SQL commands and operators`.
   Gujarati originals use `પ્ર.2 · …`.
 * Every group is followed by its cards directly — no wrapper `<div>` around a `details`.
@@ -155,8 +157,8 @@ Figures are decorative-inert on purpose: text stays selectable, diagrams are not
 |---|---|
 | Path shape | `papers/<CODE>/<session>.html` + `.pdf`, exactly two parts |
 | Codes | `DI[0-9]{8}` or legacy `[0-9]{7}`; never silently mapped to a new-scheme subject |
-| Sections / parts | 5 `<section>`, 28 `<details>` inside `<main>` |
-| Language | bilingual: `en ≥ 28` and `gu ≥ 28` and no `en-only` marker — or `en-only` + `lang="en"` + zero `.en/.gu` |
+| Sections / parts | **read from the paper**: ≥1 `<section>`, ≥1 `<details>` inside `<main>`, every section holds at least one part, every part has its own `<summary>`. No fixed count — the shipped sets are 28 parts, new papers may be 15 or 5×6. |
+| Language | bilingual: `.en` blocks and `.gu` blocks equal in number and ≥1, no `en-only` marker — or `en-only` + `lang="en"` + zero `.en/.gu` |
 | Size | HTML ≤ 3,000,000 bytes |
 | PDF | starts `%PDF-`, `%%EOF` inside the last 2 KB, one PDF per solution |
 | Filesystem | no symlinks, no path escaping the site checkout |
@@ -270,3 +272,18 @@ circuit, waveform, flowchart, classification tree) or the paper says "with diagr
 
 **Provenance** — answer the printed question as printed, at its printed marks; hero `.note` carries the
 assumptions; footer keeps the source line; every card refetches nothing and cites nothing external.
+
+### Question line inside each card (owner's decision, 2026-11-13)
+
+The Gujarati block answers in Gujarati but **keeps the printed English question line unchanged**
+(`<strong>Q.4 (c) Define Normalization, Explain 3NF with Example.</strong>` in both languages).
+Only the answer body is translated, so nothing about the paper's own wording can drift. The marks
+chip reads `7 marks` in English and `7 ગુણ` in Gujarati.
+
+### Gate is structure-adaptive (owner's decision, 2026-11-13)
+
+`SolutionParser.check()` in `tools/publish_solved_papers.py` derives the shape from the document:
+`<main>` must be closed, at least one `<section>`, at least one `<details>`, every section non-empty,
+`<summary>` count equal to `<details>` count, and the language blocks either balanced `.en`/`.gu` or an
+explicit `en-only` marker. A paper with 15 parts, or five questions of six parts each, publishes
+normally. `tools/test_publish_solved_papers.py` covers those shapes.

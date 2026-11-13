@@ -15,11 +15,22 @@ SESSION = re.compile(r'[a-z][a-z0-9]*-[0-9]{4}\Z')
 
 
 class SolutionParser(HTMLParser):
+    """Structure of one solved-paper document.
+
+    The shape is read from the paper itself: sections are the printed questions,
+    every <details> is one answer part (an OR alternative is its own part). The
+    publisher therefore does not assume one fixed question pattern; it checks
+    that the document is complete and self-consistent.
+    """
+
     def __init__(self):
         super().__init__()
         self.in_main = False
+        self.main_closed = False
         self.details = 0
+        self.summaries = 0
         self.sections = 0
+        self.parts_per_section = []
         self.en = 0
         self.gu = 0
         self.english_only = False
@@ -33,10 +44,15 @@ class SolutionParser(HTMLParser):
             self.english_only = True
         if tag == 'main':
             self.in_main = True
-        elif self.in_main and tag == 'details':
-            self.details += 1
         elif self.in_main and tag == 'section':
             self.sections += 1
+            self.parts_per_section.append(0)
+        elif self.in_main and tag == 'summary':
+            self.summaries += 1
+        elif self.in_main and tag == 'details':
+            self.details += 1
+            if self.parts_per_section:
+                self.parts_per_section[-1] += 1
         if self.in_main:
             classes = (attributes.get('class') or '').split()
             self.en += 'en' in classes
@@ -45,6 +61,32 @@ class SolutionParser(HTMLParser):
     def handle_endtag(self, tag):
         if tag == 'main':
             self.in_main = False
+            self.main_closed = True
+
+    def check(self, path):
+        """Return the paper's structure, or raise ValueError describing the first fault."""
+        if not self.main_closed:
+            raise ValueError(f'Solution has no closed <main>: {path}')
+        if self.sections < 1:
+            raise ValueError(f'Solution has no question section: {path}')
+        if self.details < 1:
+            raise ValueError(f'Solution has no answer part: {path}')
+        empty = [i + 1 for i, count in enumerate(self.parts_per_section) if not count]
+        if empty:
+            raise ValueError(f'Solution section(s) {empty} have no answer part: {path}')
+        bilingual = self.en == self.gu and self.en > 0 and not self.english_only
+        english_only = (self.english_only and self.document_language == 'en'
+                        and self.en == 0 and self.gu == 0)
+        if not (bilingual or english_only):
+            if self.english_only:
+                raise ValueError(f'English-only marker must use lang="en" and no .en/.gu spans: {path}')
+            raise ValueError(f'Incomplete bilingual solution: {self.en} English and {self.gu} '
+                             f'Gujarati blocks across {self.details} parts: {path}')
+        if self.summaries != self.details:
+            raise ValueError(f'Every answer part needs its own <summary>: {self.summaries} '
+                             f'summaries for {self.details} parts: {path}')
+        return {'sections': self.sections, 'parts': self.details,
+                'parts_per_section': self.parts_per_section, 'bilingual': bilingual}
 
 
 def prepare(source, site):
@@ -68,11 +110,7 @@ def prepare(source, site):
                 raise ValueError(f'Solution is too large: {rel}')
             parser = SolutionParser()
             parser.feed(data.decode('utf-8'))
-            bilingual = parser.en >= 28 and parser.gu >= 28 and not parser.english_only
-            english_only = (parser.english_only and parser.document_language == 'en'
-                            and parser.en == 0 and parser.gu == 0)
-            if parser.sections != 5 or parser.details != 28 or not (bilingual or english_only):
-                raise ValueError(f'Incomplete bilingual solution or invalid English-only solution: {rel}')
+            parser.check(rel)
         elif not data.startswith(b'%PDF-') or b'%%EOF' not in data[-2048:]:
             raise ValueError(f'Invalid PDF: {rel}')
         pairs.setdefault((rel.parts[0], path.stem), set()).add(path.suffix)
