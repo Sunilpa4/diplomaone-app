@@ -13,3 +13,12 @@ Ten sets from the owner's `Computer Engineering Paper Solutions` Drive folder co
 Basics of Electronics (DI01000151) was supplied as separate English and Gujarati files. The reader copy combines the matching question parts so the website language toggle chooses the respective original text. The other nine solutions were supplied only in English: both website language settings show the English answer and an explicit English-only notice rather than presenting it as a Gujarati translation. The publisher requires either the existing bilingual structure or an explicitly marked English-only document with 28 question parts.
 
 The existing deployed reader cannot preserve every SVG feature in these papers, so the reader copies contain inert PNG renderings of the original diagrams. Text and code examples remain selectable. The original vector diagrams and original full HTML are preserved in `originals/`. The reader compatibility test compares every answer's text with its original and checks all 28 parts and diagrams in each website language mode. To regenerate these ten reader copies, install `jsdom@26` and `@resvg/resvg-js` in a local Node environment and run `node tools/prepare_computer_papers.js`; the original HTML files are the input. Raster output may vary with fonts or library versions, so review changes before publishing. The publisher refuses to overwrite any differing existing public file.
+
+## Chemical Engineering Semester 1 papers
+
+Two new sets are built with the repository's own generators rather than supplied as finished HTML:
+
+- `papers/DI01005011/winter-2025` — Plant Utilities, Winter 2025 (exam 29-01-2026), 28 answer parts.
+- `papers/DI01005021/summer-2026` — Material Science and Technology, Summer 2026 (exam 07-07-2026), 28 answer parts.
+
+Each is fully bilingual: the printed English question is repeated in both language modes and only the answer body is translated. The answer modules live in `tools/papers/` (`paperkit.py` for the markup, `svgdiag.py` plus `chemfigs.py`/`matfigs.py` for the diagrams) and are rebuilt with `python3 tools/papers/make_<CODE>_<session>.py`. Every diagram is drawn as inline SVG with wrapped labels, so it stays inside the 360 px canvas and survives the reader's SVG whitelist.
