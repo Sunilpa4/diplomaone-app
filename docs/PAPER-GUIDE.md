@@ -221,3 +221,52 @@ Shared DNA: purple `#7B2CD9` accent, white cards on a pale page, `summary` = the
 5. `python3 tools/publish_solved_papers.py papers-upload/papers <empty-dir>` dry run reports every file as added.
 6. Visual check at 390 px and 1100 px: no clipped diagram label, no sideways-scrolling table, question text intact.
 7. Only then push to `main`; the workflow publishes additively and refuses overwrites.
+
+---
+
+## 9. Owner's answer style (standing instruction, 2026-11-13)
+
+Applies to **every new paper** solve. Recorded here so it survives between sessions.
+
+**Language** — one file, both languages, *same content* in each, switched by the site's language
+button. Use the established shape: `<span class="en">` / `<span class="gu">` in the summary, and
+`<div class="en"><div class="answer">…</div></div>` + `<div class="gu"><div class="answer">…</div></div>`
+for the body. Never mix a Gujarati sentence into the English block or vice versa. No en-only
+fallback for a paper solved under this rule.
+
+**Gujarati voice** — easy, friendly, spoken Gujarati a student can revise from (not heavy
+Sanskritised textbook Gujarati). **Technical keywords stay in English inside the Gujarati sentence**:
+"રેઝિસ્ટરનું **tolerance** બેન્ડ …", "**primary key** ક્યારેય NULL ન હોઈ શકે". Numbers, units,
+symbols, code and question numbers are never translated.
+
+**Depth follows the printed marks, nothing else**
+
+| Part | Must contain |
+|---|---|
+| 3 marks | one-sentence definition (term in `<b>`) + 2–4 key points/classification bullets + one concrete example. No derivation, no padding. |
+| 4 marks | definition + how it works / where it is used (ordered or bulleted) + a small worked example or a ≤3-column comparison table + one limitation. |
+| 7 marks | definition and why it matters → **construction part-by-part** → **working step-and-reason** → classification/comparison table → one labelled diagram → worked example/numerical → 2–3 limitations/applications. |
+
+**Construction / working questions** — always two named blocks:
+`<h4>Construction — part and purpose</h4>` (ordered list, one part per step) then
+`<h4>Working — step and reason</h4>` (ordered list: what happens, then why it happens). Close with
+limitations/safety. This is where diploma papers award the marks.
+
+**Numericals and derivations** — stepwise and reproducible:
+1. Given/assume, every quantity with its unit ("illustrative" when the paper supplies no data);
+2. formula written, then the same formula with the numbers substituted;
+3. one arithmetic step per numbered line, units carried in every line;
+4. bold final answer, then a one-line sanity check (magnitude/sign/units);
+5. derivation: definition → assumptions → numbered steps → final relation in bold → validity limits.
+   No skipped algebra, no "it can be shown that".
+
+**Maths formatting** — plain text, owner's explicit choice: `V = IR`, `x/5`, `10⁻⁶`, `V<sub>rms</sub>`,
+`× ÷ ≈ ≤ ≥ → √ π ω`. **No `.frac/.num/.den` stacked fractions** and no `.eq` blocks in new papers.
+
+**Diagrams** — minimal: only when the question is inherently visual (construction, working, block,
+circuit, waveform, flowchart, classification tree) or the paper says "with diagram". A definition-only
+3-mark part gets no figure. A technical diagram that the answer depends on is drawn properly
+(360 wide, palette + rules of §4); decorative figures are not added.
+
+**Provenance** — answer the printed question as printed, at its printed marks; hero `.note` carries the
+assumptions; footer keeps the source line; every card refetches nothing and cites nothing external.
