@@ -470,9 +470,16 @@ class RootHandler(Handler):
         super().__init__(*a, root=True, **kw)
 
     def do_GET(self):
-        if self.path in ("/", "/index.html", "/workshop", "/workshop/"):
+        shelf = SHELF.relative_to(ROOT).as_posix()
+        if self.path in ("/", "/index.html") and (SHELF / "papers.html").is_file():
+            target = "/%s/papers.html" % shelf          # solved papers first: that is what is reviewed
+        elif self.path in ("/", "/index.html", "/workshop", "/workshop/"):
+            target = "/%s/" % shelf
+        else:
+            target = None
+        if target:
             self.send_response(302)
-            self.send_header("Location", "/%s/" % SHELF.relative_to(ROOT).as_posix())
+            self.send_header("Location", target)
             self.send_header("Content-Length", "0")
             self.end_headers()
             return

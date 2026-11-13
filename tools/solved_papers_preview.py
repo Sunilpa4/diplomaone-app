@@ -163,6 +163,7 @@ PAGE = """<!DOCTYPE html>
 </div></header>
 <main>
   <div class="bar"><b>How to review:</b> pick a paper → it opens in the reader below → the language button swaps every answer block.</div>
+  <div class="bar"><a href="index.html"><b>Unit notes shelf</b></a> - the {units} authored unit previews live one page over.</div>
 {cards}
   <div class="reader">
     <div class="reader-top" id="reader-top"></div>
@@ -227,10 +228,18 @@ paintLang(); load();
 """
 
 
+def unit_count():
+    path = ROOT / "preview" / "workshop" / "manifest.json"
+    try:
+        return len(json.loads(path.read_text(encoding="utf-8")).get("units", []))
+    except (OSError, ValueError):
+        return 0
+
+
 def build():
     rows = collect()
     data = json.dumps(rows, ensure_ascii=False, separators=(",", ":"))
-    page = PAGE.format(count=len(rows), cards="".join(card(p, i) for i, p in enumerate(rows)), data=data)
+    page = PAGE.format(count=len(rows), units=unit_count(), cards="".join(card(p, i) for i, p in enumerate(rows)), data=data)
     return page, rows
 
 
