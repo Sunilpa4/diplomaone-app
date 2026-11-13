@@ -216,7 +216,7 @@ def write_index():
     )
     if (SHELF / "papers.html").is_file():
         overview += (
-            '<div class="bar"><a href="papers.html"><b>Solved question papers</b></a>'
+            '<div class="bar"><a href="papers/index.html"><b>Solved question papers</b></a>'
             ' - the four authored papers, 28 printed parts each, both languages.</div>'
         )
 
@@ -475,8 +475,8 @@ class RootHandler(Handler):
 
     def _map_entry_point(self):
         shelf = SHELF.relative_to(ROOT).as_posix()
-        if self.path in ("/", "/index.html") and (SHELF / "papers.html").is_file():
-            self.path = "/%s/papers.html" % shelf          # solved papers first: that is what is reviewed
+        if self.path in ("/", "/index.html") and (SHELF / "papers" / "index.html").is_file():
+            self.path = "/%s/papers/index.html" % shelf      # solved papers first: that is what is reviewed
         elif self.path in ("/", "/index.html", "/workshop", "/workshop/"):
             self.path = "/%s/" % shelf
 

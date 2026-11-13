@@ -977,7 +977,7 @@ Q5['cards'].append(dict(
             ['Condenser', 'cooling water કે હવાને heat આપી vapourને લિક્વિડ કરે'],
             ['Expansion valve કે capillary', 'pressure evaporator સુધી ઘટાડે અને flow માપે, જેથી temperature ઘટે'],
             ['Evaporator', 'જગ્યામાંથી heat લઈને liquid refrigerantને બાષ્પ બનાવે'],
-            ['Receiver, drier અને filter', 'liquid સંગ્રહે અને expansion valve પહેલાં ભેજ તથા ગряж કાઢે'],
+            ['Receiver, drier અને filter', 'liquid સંગ્રહે અને expansion valve પહેલાં ભેજ તથા કાદવ કાઢે'],
             ['Thermostat, HP/LP cut-out, sight glass', 'compressor on–off કરે અને machine સાચવે'],
         ]),
         h4('કાર્ય — ચાર process, સ્ટેપ અને કારણ'),

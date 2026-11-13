@@ -247,7 +247,7 @@ Q1['cards'].append(dict(
               ('Anion bed', 'પછી acidic પાણી R–OH resin પાસે જાય, જે anions લે અને OH<sup>−</sup> આપે; H<sup>+</sup> '
                             'અને OH<sup>−</sup> મળીને પાણી બને.'),
               ('Exhaustion', 'Outletની conductivity વધે કે hardness દેખાય ત્યારે resin થાકેલું ગણાય.'),
-              ('Backwash', 'ઉપરની તરફ પાણી વહાવીને bed ઢીલું કરાય અને ગряж ધોવાય.'),
+              ('Backwash', 'ઉપરની તરફ પાણી વહાવીને bed ઢીલું કરાય અને કાદવ ધોવાય.'),
               ('Regeneration', 'Cation bed ને dilute HCl કે H<sub>2</sub>SO<sub>4</sub>થી, anion bed ને NaOHથી '
                                'regenerate કરાય. Wasteમાં દૂર થયેલા Ca, Mg અને anions જાય.'),
               ('Rinse', 'Service શરૂ કરતાં પહેલાં slow અને fast rinseથી regenerant કાઢાય.')),
