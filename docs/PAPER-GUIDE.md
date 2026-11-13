@@ -262,8 +262,17 @@ limitations/safety. This is where diploma papers award the marks.
 5. derivation: definition → assumptions → numbered steps → final relation in bold → validity limits.
    No skipped algebra, no "it can be shown that".
 
-**Maths formatting** — plain text, owner's explicit choice: `V = IR`, `x/5`, `10⁻⁶`, `V<sub>rms</sub>`,
-`× ÷ ≈ ≤ ≥ → √ π ω`. **No `.frac/.num/.den` stacked fractions** and no `.eq` blocks in new papers.
+**Maths formatting** — real vertical fractions, owner's decision of 2026-11-13 (supersedes the
+earlier plain-text choice). Any division, ratio, rate or unit conversion is written as a **stacked
+fraction**, numerator on top, a rule, denominator at the bottom — never `x/5` on one line:
+
+```html
+<span class="frac"><span class="num">V</span><span class="den">R</span></span>
+```
+
+`V = IR` style products, sums, powers (`10⁻⁶`) and roots stay inline; `10⁻⁶`, `V<sub>rms</sub>`,
+`× ÷ ≈ ≤ ≥ → √ π ω` are unchanged. `.frac` is whitelisted by the reader and styled in
+`solved-paper` CSS (`num` gets the underline/rule, `den` sits below).
 
 **Diagrams** — minimal: only when the question is inherently visual (construction, working, block,
 circuit, waveform, flowchart, classification tree) or the paper says "with diagram". A definition-only
@@ -323,7 +332,9 @@ the exact order a student writes them in an answer book. Live sample: `docs/samp
 * `ol.steps` = auto-numbered steps; `.step-label` names the step in purple small caps
   (`Given / Formula / Substitution / Calculate / Answer` — Gujarati: `આપેલું / સૂત્ર / કિંમત મૂકો / ગણો / જવાબ`).
 * `.result` = the boxed final answer; one per numerical, bold, with units.
-* Math stays **plain text** (`x/5`, `I = V / R`, `10⁻³`, `V<sub>rms</sub>`); no stacked fractions.
+* Math inside a step uses stacked fractions for every division:
+  `<span class="frac"><span class="num">220</span><span class="den">22</span></span>` renders as 220 over 22.
+  The step text never contains `220 / 22` on one line. Products stay inline: `P = 220 × 10`.
 * One statement per line means one `<p>` or one `<li>` — never `a = 1, b = 2, so c = 3` in a sentence.
 * Every line carries its unit; the substitution line repeats the formula with numbers in place.
 
