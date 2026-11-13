@@ -214,6 +214,11 @@ def write_index():
         ' - all 11 units, hours, marks and syllabus coverage in one table.</div>'
         if (SHELF / "maths.html").is_file() else ""
     )
+    if (SHELF / "papers.html").is_file():
+        overview += (
+            '<div class="bar"><a href="papers.html"><b>Solved question papers</b></a>'
+            ' - the four authored papers, 28 printed parts each, both languages.</div>'
+        )
 
     page = f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
@@ -446,8 +451,9 @@ def cmd_clear(args):
 
 
 class Handler(SimpleHTTPRequestHandler):
-    def __init__(self, *a, **kw):
-        super().__init__(*a, directory=str(SHELF), **kw)
+    def __init__(self, *a, root=False, **kw):
+        self.root = root
+        super().__init__(*a, directory=str(ROOT if root else SHELF), **kw)
 
     def end_headers(self):
         self.send_header("Cache-Control", "no-store, max-age=0")
@@ -457,11 +463,33 @@ class Handler(SimpleHTTPRequestHandler):
         sys.stderr.write("  %s\n" % (fmt % args))
 
 
+class RootHandler(Handler):
+    """Serves the repository root so papers.html can frame ../../papers-upload/..."""
+
+    def __init__(self, *a, **kw):
+        super().__init__(*a, root=True, **kw)
+
+    def do_GET(self):
+        if self.path in ("/", "/index.html", "/workshop", "/workshop/"):
+            self.send_response(302)
+            self.send_header("Location", "/%s/" % SHELF.relative_to(ROOT).as_posix())
+            self.send_header("Content-Length", "0")
+            self.end_headers()
+            return
+        super().do_GET()
+
+
 def cmd_serve(args):
     write_index()
     port = args.port
-    httpd = ThreadingHTTPServer(("0.0.0.0", port), Handler)
-    print(f"notes workshop on http://0.0.0.0:{port}/  (serving {SHELF.relative_to(ROOT)}/)")
+    if args.root:
+        handler = RootHandler
+        where = "repository root (solved-paper gallery works)"
+    else:
+        handler = Handler
+        where = f"serving {SHELF.relative_to(ROOT)}/"
+    httpd = ThreadingHTTPServer(("0.0.0.0", port), handler)
+    print(f"notes workshop on http://0.0.0.0:{port}/  ({where})")
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
@@ -500,6 +528,8 @@ def main():
 
     s = sub.add_parser("serve", help="serve the workshop over HTTP")
     s.add_argument("--port", type=int, default=8800)
+    s.add_argument("--root", action="store_true",
+                   help="serve the repository root instead of preview/workshop/ (needed by papers.html)")
     s.set_defaults(func=cmd_serve)
 
     args = ap.parse_args()
