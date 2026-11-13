@@ -13,6 +13,7 @@ import html
 import json
 import re
 import sys
+from html.parser import HTMLParser
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -21,6 +22,7 @@ META = HERE / "papers" / "data"
 PAPERS = ROOT / "papers-upload" / "papers"
 ORIGINALS = ROOT / "papers-upload" / "originals"
 OUT = ROOT / "preview" / "workshop" / "papers.html"
+VIEWS = ROOT / "preview" / "workshop" / "papers"      # per-language copies for the reader
 
 ORDER = [
     ("DI01005011", "winter-2025"),
@@ -53,6 +55,99 @@ def counts(path):
     }
 
 
+VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta",
+        "param", "source", "track", "wbr", "path", "line", "rect", "circle", "ellipse",
+        "polygon", "polyline", "stop", "use"}
+
+
+class LangFilter(HTMLParser):
+    """Re-emit a solved paper keeping only one language's blocks.
+
+    Same intent as website/app.js `sanitizePaper`, but at build time so the reader can
+    point an iframe straight at a finished file (no scripts, no cross-frame DOM access).
+    """
+
+    def __init__(self, keep):
+        super().__init__(convert_charrefs=False)
+        self.keep = keep
+        self.drop = "gu" if keep == "en" else "en"
+        self.skip = 0
+        self.out = []
+
+    def _open(self, tag, attrs, close):
+        if self.skip:
+            if tag not in VOID:
+                self.skip += 1
+            return
+        marks = (dict(attrs).get("class") or "").split()
+        if self.drop in marks:
+            if tag not in VOID and not close:
+                self.skip = 1
+            return
+        bits = [tag] + [f' {k}="{v}"' if v is not None else f" {k}" for k, v in attrs]
+        self.out.append("<" + "".join(bits) + (" />" if close else ">"))
+
+    def handle_starttag(self, tag, attrs):
+        self._open(tag, attrs, False)
+
+    def handle_startendtag(self, tag, attrs):
+        self._open(tag, attrs, True)
+
+    def handle_endtag(self, tag):
+        if self.skip:
+            if tag not in VOID:
+                self.skip -= 1
+            return
+        if tag not in VOID:
+            self.out.append(f"</{tag}>")
+
+    def handle_data(self, data):
+        if not self.skip:
+            self.out.append(data)
+
+    def handle_entityref(self, name):
+        if not self.skip:
+            self.out.append(f"&{name};")
+
+    def handle_charref(self, name):
+        if not self.skip:
+            self.out.append(f"&#{name};")
+
+    def handle_decl(self, decl):
+        if not self.skip:
+            self.out.append(f"<!{decl}>")
+
+    def handle_comment(self, data):
+        if not self.skip:
+            self.out.append(f"<!--{data}-->")
+
+
+def language_copy(source, keep, language):
+    parser = LangFilter(keep)
+    parser.feed(source)
+    parser.close()
+    out = "".join(parser.out)
+    # swap the document language so spell-check and hyphenation follow the text
+    return re.sub(r'(<html[^>]*\blang=")[^"]*"', r'\g<1>' + language + '"', out, count=1)
+
+
+def write_views():
+    written = []
+    for code, session in ORDER:
+        src = PAPERS / code / f"{session}.html"
+        if not src.is_file():
+            continue
+        raw = src.read_text(encoding="utf-8")
+        dest = VIEWS / code
+        dest.mkdir(parents=True, exist_ok=True)
+        for keep, language in (("en", "en"), ("gu", "gu")):
+            page = language_copy(raw, keep, language)
+            target = dest / f"{session}.{keep}.html"
+            target.write_text(page, encoding="utf-8")
+            written.append((target, len(page.encode("utf-8"))))
+    return written
+
+
 def collect():
     rows = []
     for code, session in ORDER:
@@ -69,8 +164,12 @@ def collect():
                 "title": meta.get("title_en", code),
                 "exam": meta.get("exam_date", ""),
                 "marks": meta.get("marks", ""),
-                "file": f"../../papers-upload/papers/{code}/{session}.html",
-                "pdf": f"../../papers-upload/papers/{code}/{session}.pdf" if pdf.is_file() else "",
+                "file": f"/papers-upload/papers/{code}/{session}.html",
+                "pdf": f"/papers-upload/papers/{code}/{session}.pdf" if pdf.is_file() else "",
+                "views": {
+                    "en": f"papers/{code}/{session}.en.html",
+                    "gu": f"papers/{code}/{session}.gu.html",
+                },
                 "stats": counts(html_path),
             }
         )
@@ -100,7 +199,7 @@ def card(p, i):
         else ""
     )
     return f"""
-      <button class="card pick" type="button" data-i="{i}" aria-pressed="{'true' if i == 0 else 'false'}">
+      <div class="card pick" data-i="{i}" role="button" tabindex="0" aria-pressed="{'true' if i == 0 else 'false'}">
         <div class="row">
           <div>
             <div class="code">{p['code']} · {label(p['session'])}</div>
@@ -110,8 +209,8 @@ def card(p, i):
           <div class="go">Read →</div>
         </div>
         <div class="chips">{chips(st)}</div>
-        {pdf}
-      </button>"""
+        <div class="links">{pdf}<a class="pdf open" href="{p['views']['en']}" target="_blank" rel="noopener">Open paper in a new tab ↗</a></div>
+      </div>"""
 
 
 PAGE = """<!DOCTYPE html>
@@ -143,7 +242,8 @@ PAGE = """<!DOCTYPE html>
  .go{{flex:none;color:var(--p);font-weight:700;font-size:13.5px;padding-top:14px}}
  .chips{{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap}}
  .chip{{background:#F5EEFD;color:var(--pd);border-radius:999px;padding:3px 9px;font-size:11.5px;font-weight:700}}
- .pdf{{display:inline-block;margin-top:9px;font-size:12.5px;color:var(--pd);text-decoration:none;border-bottom:1px solid var(--lav)}}
+ .links{{margin-top:9px;display:flex;gap:14px;flex-wrap:wrap}}
+ .pdf{{font-size:12.5px;color:var(--pd);text-decoration:none;border-bottom:1px solid var(--lav)}}
  .reader{{margin-top:6px;background:#fff;border-radius:12px;border:1px solid #eadcf9;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,110,.14)}}
  .reader-top{{display:flex;gap:10px;justify-content:space-between;align-items:center;padding:9px 13px;border-bottom:1px solid #eadcf9;
    font-size:12.5px;color:var(--muted);flex-wrap:wrap}}
@@ -173,10 +273,12 @@ PAGE = """<!DOCTYPE html>
 </main>
 <footer>Generated by <code>tools/solved_papers_preview.py</code> from <code>papers-upload/papers/</code> · same markup the app reader shows.</footer>
 <script>
+// Each solved paper already carries its own styles; the reader only needs to hide the
+// language the reviewer did not pick. CSS does that, so the frame loads the paper by URL
+// (no fetch, no srcdoc) and works even when the page is served through a proxy.
 const PAPERS = {data};
 let i = 0;
 let lang = 'en';
-const cache = new Map();
 const view = document.getElementById('view');
 const status = document.getElementById('status');
 const top = document.getElementById('reader-top');
@@ -189,40 +291,35 @@ function paintLang(){{
 }}
 function notice(){{
   const p = PAPERS[i];
-  top.innerHTML = `<span><b>${{p.code}} · ${{p.session}}</b> — ${{p.title}}</span>` +
-    (p.pdf ? `<a class="pdf" href="${{p.pdf}}" target="_blank" rel="noopener">Original question paper (PDF) ↗</a>` : '');
+  document.querySelectorAll('.open').forEach((a, n) => a.href = PAPERS[n].views[lang]);
+  top.innerHTML = '<span><b>' + p.code + ' · ' + p.session + '</b> — ' + p.title + '</span>' +
+    (p.pdf ? '<a class="pdf" href="' + p.pdf + '" target="_blank" rel="noopener">Original question paper (PDF) ↗</a>' : '');
 }}
-// Same idea as website/app.js: keep only the chosen language's blocks.
-function filter(html, language){{
-  const doc = new DOMParser().parseFromString(html, 'text/html');
-  doc.querySelectorAll('.en, .gu').forEach(node => {{
-    const isEn = node.classList.contains('en');
-    if ((isEn && language !== 'en') || (!isEn && language !== 'gu')) node.remove();
-  }});
-  doc.documentElement.lang = language;
-  return '<!doctype html>' + doc.documentElement.outerHTML;
-}}
-async function load(){{
+function show(){{
   const p = PAPERS[i];
-  paintLang(); notice();
-  document.querySelectorAll('.pick').forEach(el => el.setAttribute('aria-pressed', String(+el.dataset.i === i)));
-  status.hidden = false; view.hidden = true; status.textContent = 'Loading ' + p.code + ' · ' + p.session + ' …';
-  try {{
-    if (!cache.has(p.file)) {{
-      const res = await fetch(p.file, {{ cache: 'no-store' }});
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      cache.set(p.file, await res.text());
-    }}
-    view.srcdoc = filter(cache.get(p.file), lang);
-    view.hidden = false; status.hidden = true;
-  }} catch (err) {{
-    view.hidden = true; status.hidden = false;
-    status.textContent = 'Could not load the paper (' + err.message + '). Serve the repository root: python3 tools/notes_workshop.py serve --root';
-  }}
+  document.querySelectorAll('.pick').forEach(function(el){{
+    el.setAttribute('aria-pressed', String(+el.dataset.i === i));
+  }});
+  notice(); paintLang();
+  status.hidden = false; status.textContent = 'Loading ' + p.code + ' · ' + p.session + ' …';
+  // Load the paper by URL, then write the language rule into it from the parent frame.
+  view.onload = function(){{
+    status.hidden = true; view.hidden = false;
+  }};
+  view.src = p.views[lang] + '?v=' + Date.now();
 }}
-document.querySelectorAll('.pick').forEach(el => el.addEventListener('click', () => {{ i = +el.dataset.i; load(); }}));
-btn.addEventListener('click', () => {{ lang = lang === 'en' ? 'gu' : 'en'; if (view.hidden === false) {{ load(); }} else {{ paintLang(); }} }});
-paintLang(); load();
+function applyLang(){{
+  paintLang();
+  view.src = PAPERS[i].views[lang] + '?v=' + Date.now();
+}}
+document.querySelectorAll('.pick').forEach(function(el){{
+  el.addEventListener('click', function(){{ i = +el.dataset.i; show(); }});
+  el.addEventListener('keydown', function(e){{
+    if (e.key === 'Enter' || e.key === ' ') {{ e.preventDefault(); i = +el.dataset.i; show(); }}
+  }});
+}});
+btn.addEventListener('click', function(){{ lang = lang === 'en' ? 'gu' : 'en'; applyLang(); }});
+show();
 </script>
 </body></html>
 """
@@ -256,7 +353,9 @@ def main():
         print(f"papers.html is current ({len(rows)} papers)")
         return 0
     OUT.write_text(page, encoding="utf-8")
+    views = write_views()
     print(f"wrote {OUT.relative_to(ROOT)} with {len(rows)} papers")
+    print(f"wrote {len(views)} single-language reader copies under {VIEWS.relative_to(ROOT)}/")
     for r in rows:
         print(f"  {r['code']} {r['session']:<11} {r['stats']}")
     return 0

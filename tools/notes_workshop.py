@@ -464,26 +464,29 @@ class Handler(SimpleHTTPRequestHandler):
 
 
 class RootHandler(Handler):
-    """Serves the repository root so papers.html can frame ../../papers-upload/..."""
+    """Serves the repository root so papers.html can frame ../../papers-upload/...
+
+    `/` answers with the gallery itself (200, no redirect): preview proxies do not
+    always follow a 302, which makes the page look broken.
+    """
 
     def __init__(self, *a, **kw):
         super().__init__(*a, root=True, **kw)
 
-    def do_GET(self):
+    def _map_entry_point(self):
         shelf = SHELF.relative_to(ROOT).as_posix()
         if self.path in ("/", "/index.html") and (SHELF / "papers.html").is_file():
-            target = "/%s/papers.html" % shelf          # solved papers first: that is what is reviewed
+            self.path = "/%s/papers.html" % shelf          # solved papers first: that is what is reviewed
         elif self.path in ("/", "/index.html", "/workshop", "/workshop/"):
-            target = "/%s/" % shelf
-        else:
-            target = None
-        if target:
-            self.send_response(302)
-            self.send_header("Location", target)
-            self.send_header("Content-Length", "0")
-            self.end_headers()
-            return
+            self.path = "/%s/" % shelf
+
+    def do_GET(self):
+        self._map_entry_point()
         super().do_GET()
+
+    def do_HEAD(self):
+        self._map_entry_point()
+        super().do_HEAD()
 
 
 def cmd_serve(args):

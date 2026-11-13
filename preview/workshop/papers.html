@@ -27,7 +27,8 @@
  .go{flex:none;color:var(--p);font-weight:700;font-size:13.5px;padding-top:14px}
  .chips{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap}
  .chip{background:#F5EEFD;color:var(--pd);border-radius:999px;padding:3px 9px;font-size:11.5px;font-weight:700}
- .pdf{display:inline-block;margin-top:9px;font-size:12.5px;color:var(--pd);text-decoration:none;border-bottom:1px solid var(--lav)}
+ .links{margin-top:9px;display:flex;gap:14px;flex-wrap:wrap}
+ .pdf{font-size:12.5px;color:var(--pd);text-decoration:none;border-bottom:1px solid var(--lav)}
  .reader{margin-top:6px;background:#fff;border-radius:12px;border:1px solid #eadcf9;overflow:hidden;box-shadow:0 1px 3px rgba(60,20,110,.14)}
  .reader-top{display:flex;gap:10px;justify-content:space-between;align-items:center;padding:9px 13px;border-bottom:1px solid #eadcf9;
    font-size:12.5px;color:var(--muted);flex-wrap:wrap}
@@ -49,7 +50,7 @@
   <div class="bar"><b>How to review:</b> pick a paper → it opens in the reader below → the language button swaps every answer block.</div>
   <div class="bar"><a href="index.html"><b>Unit notes shelf</b></a> - the 43 authored unit previews live one page over.</div>
 
-      <button class="card pick" type="button" data-i="0" aria-pressed="true">
+      <div class="card pick" data-i="0" role="button" tabindex="0" aria-pressed="true">
         <div class="row">
           <div>
             <div class="code">DI01005011 · Winter 2025</div>
@@ -59,9 +60,9 @@
           <div class="go">Read →</div>
         </div>
         <div class="chips"><span class="chip">28 answer parts</span><span class="chip">9 worked examples</span><span class="chip">23 tables</span><span class="chip">10 diagrams</span></div>
-        <a class="pdf" href="../../papers-upload/papers/DI01005011/winter-2025.pdf" target="_blank" rel="noopener">Question paper PDF ↗</a>
-      </button>
-      <button class="card pick" type="button" data-i="1" aria-pressed="false">
+        <div class="links"><a class="pdf" href="/papers-upload/papers/DI01005011/winter-2025.pdf" target="_blank" rel="noopener">Question paper PDF ↗</a><a class="pdf open" href="papers/DI01005011/winter-2025.en.html" target="_blank" rel="noopener">Open paper in a new tab ↗</a></div>
+      </div>
+      <div class="card pick" data-i="1" role="button" tabindex="0" aria-pressed="false">
         <div class="row">
           <div>
             <div class="code">DI01005011 · Summer 2026</div>
@@ -71,9 +72,9 @@
           <div class="go">Read →</div>
         </div>
         <div class="chips"><span class="chip">28 answer parts</span><span class="chip">19 worked examples</span><span class="chip">32 tables</span><span class="chip">15 diagrams</span></div>
-        <a class="pdf" href="../../papers-upload/papers/DI01005011/summer-2026.pdf" target="_blank" rel="noopener">Question paper PDF ↗</a>
-      </button>
-      <button class="card pick" type="button" data-i="2" aria-pressed="false">
+        <div class="links"><a class="pdf" href="/papers-upload/papers/DI01005011/summer-2026.pdf" target="_blank" rel="noopener">Question paper PDF ↗</a><a class="pdf open" href="papers/DI01005011/summer-2026.en.html" target="_blank" rel="noopener">Open paper in a new tab ↗</a></div>
+      </div>
+      <div class="card pick" data-i="2" role="button" tabindex="0" aria-pressed="false">
         <div class="row">
           <div>
             <div class="code">DI01005021 · Summer 2026</div>
@@ -83,9 +84,9 @@
           <div class="go">Read →</div>
         </div>
         <div class="chips"><span class="chip">28 answer parts</span><span class="chip">10 worked examples</span><span class="chip">37 tables</span><span class="chip">9 diagrams</span></div>
-        <a class="pdf" href="../../papers-upload/papers/DI01005021/summer-2026.pdf" target="_blank" rel="noopener">Question paper PDF ↗</a>
-      </button>
-      <button class="card pick" type="button" data-i="3" aria-pressed="false">
+        <div class="links"><a class="pdf" href="/papers-upload/papers/DI01005021/summer-2026.pdf" target="_blank" rel="noopener">Question paper PDF ↗</a><a class="pdf open" href="papers/DI01005021/summer-2026.en.html" target="_blank" rel="noopener">Open paper in a new tab ↗</a></div>
+      </div>
+      <div class="card pick" data-i="3" role="button" tabindex="0" aria-pressed="false">
         <div class="row">
           <div>
             <div class="code">DI01005021 · Winter 2025</div>
@@ -95,8 +96,8 @@
           <div class="go">Read →</div>
         </div>
         <div class="chips"><span class="chip">28 answer parts</span><span class="chip">22 worked examples</span><span class="chip">47 tables</span><span class="chip">18 diagrams</span></div>
-        <a class="pdf" href="../../papers-upload/papers/DI01005021/winter-2025.pdf" target="_blank" rel="noopener">Question paper PDF ↗</a>
-      </button>
+        <div class="links"><a class="pdf" href="/papers-upload/papers/DI01005021/winter-2025.pdf" target="_blank" rel="noopener">Question paper PDF ↗</a><a class="pdf open" href="papers/DI01005021/winter-2025.en.html" target="_blank" rel="noopener">Open paper in a new tab ↗</a></div>
+      </div>
   <div class="reader">
     <div class="reader-top" id="reader-top"></div>
     <div class="status" id="status">Loading…</div>
@@ -105,10 +106,12 @@
 </main>
 <footer>Generated by <code>tools/solved_papers_preview.py</code> from <code>papers-upload/papers/</code> · same markup the app reader shows.</footer>
 <script>
-const PAPERS = [{"code":"DI01005011","session":"winter-2025","title":"Plant Utilities","exam":"29-01-2026","marks":70,"file":"../../papers-upload/papers/DI01005011/winter-2025.html","pdf":"../../papers-upload/papers/DI01005011/winter-2025.pdf","stats":{"cards":28,"figures":10,"tables":23,"worked":9,"kb":219}},{"code":"DI01005011","session":"summer-2026","title":"Plant Utilities","exam":"04-07-2026","marks":70,"file":"../../papers-upload/papers/DI01005011/summer-2026.html","pdf":"../../papers-upload/papers/DI01005011/summer-2026.pdf","stats":{"cards":28,"figures":15,"tables":32,"worked":19,"kb":378}},{"code":"DI01005021","session":"summer-2026","title":"Material Science and Technology","exam":"07-07-2026","marks":70,"file":"../../papers-upload/papers/DI01005021/summer-2026.html","pdf":"../../papers-upload/papers/DI01005021/summer-2026.pdf","stats":{"cards":28,"figures":9,"tables":37,"worked":10,"kb":298}},{"code":"DI01005021","session":"winter-2025","title":"Material Science and Technology","exam":"31-01-2026","marks":70,"file":"../../papers-upload/papers/DI01005021/winter-2025.html","pdf":"../../papers-upload/papers/DI01005021/winter-2025.pdf","stats":{"cards":28,"figures":18,"tables":47,"worked":22,"kb":428}}];
+// Each solved paper already carries its own styles; the reader only needs to hide the
+// language the reviewer did not pick. CSS does that, so the frame loads the paper by URL
+// (no fetch, no srcdoc) and works even when the page is served through a proxy.
+const PAPERS = [{"code":"DI01005011","session":"winter-2025","title":"Plant Utilities","exam":"29-01-2026","marks":70,"file":"/papers-upload/papers/DI01005011/winter-2025.html","pdf":"/papers-upload/papers/DI01005011/winter-2025.pdf","views":{"en":"papers/DI01005011/winter-2025.en.html","gu":"papers/DI01005011/winter-2025.gu.html"},"stats":{"cards":28,"figures":10,"tables":23,"worked":9,"kb":219}},{"code":"DI01005011","session":"summer-2026","title":"Plant Utilities","exam":"04-07-2026","marks":70,"file":"/papers-upload/papers/DI01005011/summer-2026.html","pdf":"/papers-upload/papers/DI01005011/summer-2026.pdf","views":{"en":"papers/DI01005011/summer-2026.en.html","gu":"papers/DI01005011/summer-2026.gu.html"},"stats":{"cards":28,"figures":15,"tables":32,"worked":19,"kb":378}},{"code":"DI01005021","session":"summer-2026","title":"Material Science and Technology","exam":"07-07-2026","marks":70,"file":"/papers-upload/papers/DI01005021/summer-2026.html","pdf":"/papers-upload/papers/DI01005021/summer-2026.pdf","views":{"en":"papers/DI01005021/summer-2026.en.html","gu":"papers/DI01005021/summer-2026.gu.html"},"stats":{"cards":28,"figures":9,"tables":37,"worked":10,"kb":298}},{"code":"DI01005021","session":"winter-2025","title":"Material Science and Technology","exam":"31-01-2026","marks":70,"file":"/papers-upload/papers/DI01005021/winter-2025.html","pdf":"/papers-upload/papers/DI01005021/winter-2025.pdf","views":{"en":"papers/DI01005021/winter-2025.en.html","gu":"papers/DI01005021/winter-2025.gu.html"},"stats":{"cards":28,"figures":18,"tables":47,"worked":22,"kb":428}}];
 let i = 0;
 let lang = 'en';
-const cache = new Map();
 const view = document.getElementById('view');
 const status = document.getElementById('status');
 const top = document.getElementById('reader-top');
@@ -121,39 +124,34 @@ function paintLang(){
 }
 function notice(){
   const p = PAPERS[i];
-  top.innerHTML = `<span><b>${p.code} · ${p.session}</b> — ${p.title}</span>` +
-    (p.pdf ? `<a class="pdf" href="${p.pdf}" target="_blank" rel="noopener">Original question paper (PDF) ↗</a>` : '');
+  document.querySelectorAll('.open').forEach((a, n) => a.href = PAPERS[n].views[lang]);
+  top.innerHTML = '<span><b>' + p.code + ' · ' + p.session + '</b> — ' + p.title + '</span>' +
+    (p.pdf ? '<a class="pdf" href="' + p.pdf + '" target="_blank" rel="noopener">Original question paper (PDF) ↗</a>' : '');
 }
-// Same idea as website/app.js: keep only the chosen language's blocks.
-function filter(html, language){
-  const doc = new DOMParser().parseFromString(html, 'text/html');
-  doc.querySelectorAll('.en, .gu').forEach(node => {
-    const isEn = node.classList.contains('en');
-    if ((isEn && language !== 'en') || (!isEn && language !== 'gu')) node.remove();
-  });
-  doc.documentElement.lang = language;
-  return '<!doctype html>' + doc.documentElement.outerHTML;
-}
-async function load(){
+function show(){
   const p = PAPERS[i];
-  paintLang(); notice();
-  document.querySelectorAll('.pick').forEach(el => el.setAttribute('aria-pressed', String(+el.dataset.i === i)));
-  status.hidden = false; view.hidden = true; status.textContent = 'Loading ' + p.code + ' · ' + p.session + ' …';
-  try {
-    if (!cache.has(p.file)) {
-      const res = await fetch(p.file, { cache: 'no-store' });
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      cache.set(p.file, await res.text());
-    }
-    view.srcdoc = filter(cache.get(p.file), lang);
-    view.hidden = false; status.hidden = true;
-  } catch (err) {
-    view.hidden = true; status.hidden = false;
-    status.textContent = 'Could not load the paper (' + err.message + '). Serve the repository root: python3 tools/notes_workshop.py serve --root';
-  }
+  document.querySelectorAll('.pick').forEach(function(el){
+    el.setAttribute('aria-pressed', String(+el.dataset.i === i));
+  });
+  notice(); paintLang();
+  status.hidden = false; status.textContent = 'Loading ' + p.code + ' · ' + p.session + ' …';
+  // Load the paper by URL, then write the language rule into it from the parent frame.
+  view.onload = function(){
+    status.hidden = true; view.hidden = false;
+  };
+  view.src = p.views[lang] + '?v=' + Date.now();
 }
-document.querySelectorAll('.pick').forEach(el => el.addEventListener('click', () => { i = +el.dataset.i; load(); }));
-btn.addEventListener('click', () => { lang = lang === 'en' ? 'gu' : 'en'; if (view.hidden === false) { load(); } else { paintLang(); } });
-paintLang(); load();
+function applyLang(){
+  paintLang();
+  view.src = PAPERS[i].views[lang] + '?v=' + Date.now();
+}
+document.querySelectorAll('.pick').forEach(function(el){
+  el.addEventListener('click', function(){ i = +el.dataset.i; show(); });
+  el.addEventListener('keydown', function(e){
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); i = +el.dataset.i; show(); }
+  });
+});
+btn.addEventListener('click', function(){ lang = lang === 'en' ? 'gu' : 'en'; applyLang(); });
+show();
 </script>
 </body></html>
