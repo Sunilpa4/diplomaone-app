@@ -16,9 +16,10 @@ The existing deployed reader cannot preserve every SVG feature in these papers, 
 
 ## Chemical Engineering Semester 1 papers
 
-Two new sets are built with the repository's own generators rather than supplied as finished HTML:
+Three new sets are built with the repository's own generators rather than supplied as finished HTML:
 
 - `papers/DI01005011/winter-2025` — Plant Utilities, Winter 2025 (exam 29-01-2026), 28 answer parts.
+- `papers/DI01005011/summer-2026` — Plant Utilities, Summer 2026 (exam 04-07-2026), 28 answer parts.
 - `papers/DI01005021/summer-2026` — Material Science and Technology, Summer 2026 (exam 07-07-2026), 28 answer parts.
 
-Each is fully bilingual: the printed English question is repeated in both language modes and only the answer body is translated. The answer modules live in `tools/papers/` (`paperkit.py` for the markup, `svgdiag.py` plus `chemfigs.py`/`matfigs.py` for the diagrams) and are rebuilt with `python3 tools/papers/make_<CODE>_<session>.py`. Every diagram is drawn as inline SVG with wrapped labels, so it stays inside the 360 px canvas and survives the reader's SVG whitelist.
+Each is fully bilingual: the printed English question is repeated in both language modes and only the answer body is translated. The answer modules live in `tools/papers/` (`paperkit.py` for the markup, `svgdiag.py` plus `chemfigs.py`, `utilfigs.py`/`matfigs.py` for the diagrams) and are rebuilt with `python3 tools/papers/make_<CODE>_<session>.py`. Every diagram is drawn as inline SVG with wrapped labels, so it stays inside the 360 px canvas and survives the reader's SVG whitelist.
