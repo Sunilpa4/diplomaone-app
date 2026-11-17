@@ -8,6 +8,8 @@ on:
       - 'tools/test_publish_solved_papers.py'
       - 'tools/test_computer_papers.js'
       - 'tools/prepare_computer_papers.js'
+      - 'tools/prepare_mechanical_papers.js'
+      - 'tools/test_mechanical_papers.js'
       - '.github/workflows/publish-solved-papers.yml'
   push:
     branches: [main]
@@ -17,6 +19,8 @@ on:
       - 'tools/test_publish_solved_papers.py'
       - 'tools/test_computer_papers.js'
       - 'tools/prepare_computer_papers.js'
+      - 'tools/prepare_mechanical_papers.js'
+      - 'tools/test_mechanical_papers.js'
       - '.github/workflows/publish-solved-papers.yml'
 
 permissions:
@@ -35,12 +39,14 @@ jobs:
       - name: Install paper reader test dependency
         run: npm install --no-save --ignore-scripts --no-package-lock jsdom@26.1.0
       - name: Check reader compatibility
-        run: node tools/test_computer_papers.js
+        run: |
+          node tools/test_computer_papers.js
+          node tools/test_mechanical_papers.js
       - name: Check additive publishing and uploaded files
         run: |
           python3 tools/test_publish_solved_papers.py
           mkdir "$RUNNER_TEMP/paper-check"
-          python3 tools/publish_solved_papers.py papers-upload/papers "$RUNNER_TEMP/paper-check"
+          python3 tools/publish_solved_papers.py papers-upload/papers "$RUNNER_TEMP/paper-check" --missing-originals papers-upload/missing-originals.json
       - name: Check out public site
         if: github.event_name != 'pull_request'
         uses: actions/checkout@v4
@@ -53,7 +59,7 @@ jobs:
         if: github.event_name != 'pull_request'
         run: |
           set -euo pipefail
-          python3 tools/publish_solved_papers.py papers-upload/papers public-site
+          python3 tools/publish_solved_papers.py papers-upload/papers public-site --missing-originals papers-upload/missing-originals.json
           cd public-site
           git config user.name 'DiplomaOne Bot'
           git config user.email 'Sunilpa4@users.noreply.github.com'

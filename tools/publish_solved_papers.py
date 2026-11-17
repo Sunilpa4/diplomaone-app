@@ -7,6 +7,7 @@ again with identical content is safe; differing public files require review.
 from html.parser import HTMLParser
 from pathlib import Path
 import argparse
+import json
 import re
 import shutil
 
@@ -47,11 +48,31 @@ class SolutionParser(HTMLParser):
             self.in_main = False
 
 
-def prepare(source, site):
+def missing_originals_manifest(path):
+    """Explicit, reviewed exceptions: solutions whose source question PDF is absent."""
+    if path is None:
+        return set()
+    path = Path(path)
+    if path.is_symlink() or not path.is_file():
+        raise ValueError('Missing-originals manifest must be a regular file')
+    items = json.loads(path.read_text(encoding='utf-8'))
+    if not isinstance(items, list) or any(not isinstance(x, str) for x in items) or len(items) != len(set(items)):
+        raise ValueError('Invalid missing-originals manifest')
+    result = set()
+    for item in items:
+        parts = item.split('/')
+        if len(parts) != 2 or not CODE.fullmatch(parts[0]) or not SESSION.fullmatch(parts[1]):
+            raise ValueError('Invalid missing-originals entry: ' + item)
+        result.add((parts[0], parts[1]))
+    return result
+
+
+def prepare(source, site, missing_originals=None):
     source = Path(source).resolve()
     site = Path(site).resolve()
     if not source.is_dir() or not site.is_dir():
         raise ValueError('Source papers directory and site checkout must exist')
+    exceptions = missing_originals_manifest(missing_originals)
     files = []
     pairs = {}
     for path in sorted(source.rglob('*')):
@@ -85,13 +106,16 @@ def prepare(source, site):
         if target.exists() and (not target.is_file() or target.read_bytes() != data):
             raise ValueError(f'Existing public file differs; refusing to overwrite: {target}')
         files.append((path, target))
-    if not files or any(extensions != {'.html', '.pdf'} for extensions in pairs.values()):
+    if not files:
         raise ValueError('Every solution needs a matching original PDF')
+    missing = {pair for pair, extensions in pairs.items() if extensions == {'.html'}}
+    if any(extensions not in ({'.html'}, {'.html', '.pdf'}) for extensions in pairs.values()) or missing != exceptions:
+        raise ValueError('Every solution needs a matching original PDF or a matching reviewed exception')
     return files
 
 
-def publish(source, site):
-    files = prepare(source, site)
+def publish(source, site, missing_originals=None):
+    files = prepare(source, site, missing_originals)
     added = []
     for src, target in files:
         if target.exists():
@@ -108,5 +132,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('source', type=Path)
     parser.add_argument('site', type=Path)
+    parser.add_argument('--missing-originals', type=Path, help='Explicit manifest of reviewed solutions without an original PDF')
     args = parser.parse_args()
-    print(f'{len(publish(args.source, args.site))} files added; existing files preserved.')
+    print(f'{len(publish(args.source, args.site, args.missing_originals))} files added; existing files preserved.')
