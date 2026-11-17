@@ -77,9 +77,11 @@
   const paperTreeUrl = 'https://api.github.com/repos/Sunilpa4/diplomaone-content/git/trees/main?recursive=1';
   const paperCache = new Map();
   // The older GTU scheme uses seven-digit codes, distinct from DI codes.
-  const legacyPaperNames = {'4351902':'Manufacturing Engineering – III','4351903':'Thermal Engineering – II'};
+  const legacyPaperNames = {'4351902':'Manufacturing Engineering – III','4351903':'Thermal Engineering – II','4350501':'Mass Transfer - II','4360501':'Chemical Reaction Engineering'};
+  // Names from the supplied Civil paper folders where the catalogue has no entry yet.
+  const paperOnlyNames = {'DI03006011':'Construction Technology','DI03006021':'Advance Surveying','DI03006031':'Basic Transportation Engineering','DI03006041':'Mechanics of Structures - I','DI03006051':'Soil Engineering'};
   // Cross-list by matching subject title; these are different GTU scheme codes.
-  const legacyPaperSubjects = {'4351902':'DI05019011','4351903':'DI05019021'};
+  const legacyPaperSubjects = {'4351902':'DI05019011','4351903':'DI05019021','4350501':'DI05005011','4360501':'DI05005031'};
   const validPaperCode = value => /^(?:DI[0-9]{8}|[0-9]{7})$/.test(value || '');
   const validPaperSession = value => /^[a-z][a-z0-9]*-[0-9]{4}$/.test(value || '');
   let paperIndex = null, paperIndexPending = null, paperIndexError = false;
@@ -93,13 +95,20 @@
       const parts=item.path.split('/');
       if(parts.length===3 && parts[0]==='papers' && validPaperCode(parts[1])) files.add(item.path);
     }
-    const safe=Object.create(null);
+    const safe=Object.create(null), seen=new Set();
     for(const path of files) {
       const [,code,file]=path.split('/');
-      if(!file.endsWith('.html'))continue;
-      const session=file.slice(0,-5);
+      const isHtml=file.endsWith('.html');
+      const isSolutionPdf=file.endsWith('.solution.pdf');
+      if(!isHtml&&!isSolutionPdf)continue;
+      const session=isHtml?file.slice(0,-5):file.slice(0,-13);
       if(!validPaperSession(session))continue;
-      (safe[code] ||= []).push({session,pdf:files.has(`papers/${code}/${session}.pdf`)?`${session}.pdf`:null,legacyPdf:files.has(`papers/${code}/Question_Paper.pdf`)});
+      const key=`${code}/${session}`;
+      if(seen.has(key))continue;
+      seen.add(key);
+      const html=files.has(`papers/${code}/${session}.html`);
+      const solutionPdf=files.has(`papers/${code}/${session}.solution.pdf`)?`${session}.solution.pdf`:null;
+      (safe[code] ||= []).push({session,pdf:files.has(`papers/${code}/${session}.pdf`)?`${session}.pdf`:null,legacyPdf:files.has(`papers/${code}/Question_Paper.pdf`), ...(html?{}:{pdfOnly:true}), ...(solutionPdf?{solutionPdf}:{})});
     }
     for(const entries of Object.values(safe)) {
       entries.sort((a,b)=>b.session.slice(-4).localeCompare(a.session.slice(-4))||b.session.localeCompare(a.session));
@@ -131,7 +140,7 @@
   const paperEntries = code => paperIndex?.[code] || [];
   const subjectPaperGroups = code => [code, ...Object.keys(legacyPaperSubjects).filter(legacy=>legacyPaperSubjects[legacy]===code)]
     .map(paperCode=>({code:paperCode,entries:paperEntries(paperCode)})).filter(group=>group.entries.length);
-  const paperName = code => text(subjectMeta(code)?.name || subjectMeta(legacyPaperSubjects[code])?.name) || legacyPaperNames[code] || code;
+  const paperName = code => text(subjectMeta(code)?.name || subjectMeta(legacyPaperSubjects[code])?.name) || legacyPaperNames[code] || paperOnlyNames[code] || code;
   function paperCards(code, entries) {
     return entries.map(p=>`<a class="subject-card" href="#/paper/${encodeURIComponent(code)}/${encodeURIComponent(p.session)}"><div class="subject-meta"><span>${esc(paperSessionTitle(p.session))}${legacyPaperSubjects[code]?(lang==='gu'?' · જૂની યોજના':' · Older scheme'):''}</span><span class="subject-code">${esc(code)}</span></div><h3>${lang==='gu'?'ઉકેલેલું પ્રશ્નપત્ર':'Solved question paper'}</h3><div class="subject-foot"><span>${esc(paperName(code))}</span><strong>${lang==='gu'?'વાંચો':'Read'} ↗</strong></div></a>`).join('');
   }
@@ -195,14 +204,18 @@
     const list=branches().slice().sort((a,b)=>Number(readyInBranch(b)>0)-Number(readyInBranch(a)>0));
     const update=()=>{const q=input.value.trim().toLocaleLowerCase();const found=list.filter(b=>`${b.name?.en||''} ${b.name?.gu||''} ${b.code||''}`.toLocaleLowerCase().includes(q)); count.textContent=`${found.length} ${tr('result')}`;results.innerHTML=found.length?found.map(branchCard).join(''):`<div class="empty-state"><h3>${esc(tr('noBranches'))}</h3><p>${esc(tr('noSearch'))}</p></div>`;}; input.addEventListener('input',update);update();
   }
+  // Paper-only subjects can appear in their branch/semester without fabricating notes.
+  const branchPaperOnly = {civil:{'3':['DI03006011','DI03006021','DI03006031','DI03006041','DI03006051']},chemical:{'6':['4360501']}};
+  const extraPaperGroups = (key, sem) => (branchPaperOnly[key]?.[sem] || []).map(code=>({code,entries:paperEntries(code)})).filter(group=>group.entries.length);
   function showBranch(key) {
     const b=branches().find(x=>x.key===key); if(!b) return missing();
-    return `${shell(text(b.name),tr('semesterText'),[{label:tr('allBranches'),href:'#/branches'},{label:text(b.name)}])}<section class="page-content"><div class="wrap"><div class="section-heading"><div><div class="eyebrow">${esc(tr('branch'))} ${esc(b.code)}</div><h2>${esc(tr('semesters'))}</h2></div></div><div class="semester-list">${[1,2,3,4,5,6].map(s=>{const codes=b.semesters?.[String(s)]||[], n=codes.filter(c=>subjectMeta(c)?.status==='available').length;return `<a class="semester-card" href="#/branch/${encodeURIComponent(key)}/${s}"><span class="semester-number">${s}</span><h3>${esc(tr('semester'))} ${s}</h3><p>${codes.length?`${codes.length} ${esc(tr('subjects'))}`:esc(tr('coming'))}</p><span class="branch-bottom">${n?`${n} ${esc(tr('ready'))}`:esc(tr('notYet'))} &nbsp; →</span></a>`}).join('')}</div></div></section>`;
+    return `${shell(text(b.name),tr('semesterText'),[{label:tr('allBranches'),href:'#/branches'},{label:text(b.name)}])}<section class="page-content"><div class="wrap"><div class="section-heading"><div><div class="eyebrow">${esc(tr('branch'))} ${esc(b.code)}</div><h2>${esc(tr('semesters'))}</h2></div></div><div class="semester-list">${[1,2,3,4,5,6].map(s=>{const codes=b.semesters?.[String(s)]||[], n=codes.filter(c=>subjectMeta(c)?.status==='available').length;return `<a class="semester-card" href="#/branch/${encodeURIComponent(key)}/${s}"><span class="semester-number">${s}</span><h3>${esc(tr('semester'))} ${s}</h3><p>${codes.length?`${codes.length} ${esc(tr('subjects'))}`:extraPaperGroups(key,String(s)).length?esc(tr('papers')):esc(tr('coming'))}</p><span class="branch-bottom">${n?`${n} ${esc(tr('ready'))}`:extraPaperGroups(key,String(s)).length?esc(tr('papers')):esc(tr('notYet'))} &nbsp; →</span></a>`}).join('')}</div></div></section>`;
   }
   function showSemester(key,sem) {
     const b=branches().find(x=>x.key===key); if(!b || !/^[1-6]$/.test(sem)) return missing();
     const list=(b.semesters?.[sem]||[]).map(subjectMeta).filter(Boolean).sort((a,b)=>Number(b.status==='available')-Number(a.status==='available'));
-    return `${shell(`${tr('semester')} ${sem}`,tr('subjectListText'),[{label:tr('allBranches'),href:'#/branches'},{label:text(b.name),href:`#/branch/${encodeURIComponent(key)}`},{label:`${tr('semester')} ${sem}`}])}<section class="page-content"><div class="wrap"><div class="section-heading"><div><div class="eyebrow">${esc(text(b.name))}</div><h2>${esc(tr('subjectList'))}</h2></div></div>${list.length?`<div class="subject-grid">${list.map(subjectCard).join('')}</div>`:empty(tr('emptyTitle'),tr('emptyText'))}</div></section>`;
+    const extras=extraPaperGroups(key,sem);
+    return `${shell(`${tr('semester')} ${sem}`,tr('subjectListText'),[{label:tr('allBranches'),href:'#/branches'},{label:text(b.name),href:`#/branch/${encodeURIComponent(key)}`},{label:`${tr('semester')} ${sem}`}])}<section class="page-content"><div class="wrap"><div class="section-heading"><div><div class="eyebrow">${esc(text(b.name))}</div><h2>${esc(tr('subjectList'))}</h2></div></div>${list.length?`<div class="subject-grid">${list.map(subjectCard).join('')}</div>`:extras.length?'':empty(tr('emptyTitle'),tr('emptyText'))}${extras.length?`<div class="section-heading"><h2>${esc(tr('papers'))}</h2></div><div class="subject-grid">${extras.map(group=>paperCards(group.code,group.entries)).join('')}</div>`:''}</div></section>`;
   }
   function empty(title, description, button=true) { return `<div class="empty-state"><h3>${esc(title)}</h3><p>${esc(description)}</p>${button?`<a href="#/branches" class="button-primary">${esc(tr('exploreBranches'))} →</a>`:''}</div>`; }
   function missing() { return `${shell(tr('loadError'),tr('loadErrorText'))}<section class="page-content"><div class="wrap">${empty(tr('loadError'),tr('loadErrorText'))}</div></section>`; }
@@ -283,7 +296,7 @@
   async function showPaper(code, session, meta, entry) {
     const key=`${code}/${session}`;
     let html=paperCache.get(key);
-    if(!html) {
+    if(!html && !entry?.pdfOnly) {
       const response=await fetch(`${paperBase}/${encodeURIComponent(code)}/${session}.html?t=${Math.floor(Date.now()/60000)}`,{cache:'no-cache',redirect:'error'});
       if(!response.ok)throw new Error('Could not load solved paper');
       html=await response.text();if(html.length>3000000)throw new Error('Paper too large');
@@ -292,14 +305,16 @@
     const title=lang==='gu'?'ઉકેલેલું પ્રશ્નપત્ર':'Solved question paper';
     // For older shared PDF names, only link the file if the paper explicitly
     // names it; do not associate one exam's PDF with a different exam.
-    const legacyLinked=entry?.legacyPdf && [...new DOMParser().parseFromString(html,'text/html').querySelectorAll('a[href]')].some(a=>/^(?:\.\/)?Question_Paper\.pdf$/i.test(a.getAttribute('href')));
+    const legacyLinked=html && entry?.legacyPdf && [...new DOMParser().parseFromString(html,'text/html').querySelectorAll('a[href]')].some(a=>/^(?:\.\/)?Question_Paper\.pdf$/i.test(a.getAttribute('href')));
     const pdfName=entry?.pdf||(legacyLinked?'Question_Paper.pdf':null);
     const pdf=pdfName?`${paperBase}/${encodeURIComponent(code)}/${encodeURIComponent(pdfName)}`:'';
     const related=legacyPaperSubjects[code], relatedMeta=subjectMeta(related);
-    const name=text(meta?.name)||text(relatedMeta?.name)||legacyPaperNames[code]||code;
+    const name=text(meta?.name)||text(relatedMeta?.name)||legacyPaperNames[code]||paperOnlyNames[code]||code;
     const back=meta?`#/subject/${encodeURIComponent(code)}`:relatedMeta?`#/subject/${encodeURIComponent(related)}`:'#/papers';
     const schemeNotice=related?(lang==='gu'?`આ જૂની યોજનાનું પ્રશ્નપત્ર છે (કોડ ${code}). સમાન વિષયના નામ હેઠળ બતાવ્યું છે; બંને યોજનાના અભ્યાસક્રમ અલગ હોઈ શકે છે.`:`This is an older-scheme paper (code ${code}), listed with a subject of the same name. The syllabuses may differ.`):'';
-    return `${shell(title,`${name} · ${code} · ${paperSessionTitle(session)}`,[{label:tr('papers'),href:'#/papers'},{label:name,href:back},{label:title}])}<section class="page-content"><div class="wrap"><div class="paper-toolbar"><a class="button-text" href="${esc(back)}">← ${esc(tr('back'))}</a>${pdf?`<a class="button-text" href="${esc(pdf)}" target="_blank" rel="noopener noreferrer">${lang==='gu'?'મૂળ પ્રશ્નપત્ર (PDF)':'Original question paper (PDF)'} ↗</a>`:''}</div>${schemeNotice?`<p class="reader-notice">${esc(schemeNotice)}</p>`:''}<article class="reader-card solved-paper">${sanitizePaper(html,lang)}</article></div></section>`;
+    const solvedPdf=entry?.solutionPdf?`${paperBase}/${encodeURIComponent(code)}/${encodeURIComponent(entry.solutionPdf)}`:'';
+    const body=entry?.pdfOnly ? `<p class="note">${lang==='gu'?'આ બિનસત્તાવાર અભ્યાસ ઉકેલ છે, સત્તાવાર GTU જવાબવહી નથી. જવાબોની સ્વતંત્ર ચકાસણી થઈ નથી. PDF માં આપેલી ભાષાઓ એકસાથે છે.':'This is an unofficial study solution, not an official GTU answer key. Answers have not been independently verified. The supplied languages appear together in the PDF.'}</p><p>${lang==='gu'?'સંપૂર્ણ ઉકેલ અને આકૃતિઓ જોવા PDF ખોલો.':'Open the PDF for the complete solution and diagrams.'}</p><p><a class="button-primary" href="${esc(solvedPdf)}" target="_blank" rel="noopener noreferrer">${lang==='gu'?'ઉકેલ PDF ખોલો':'Open solution PDF'} ↗</a></p>` : sanitizePaper(html,lang);
+    return `${shell(title,`${name} · ${code} · ${paperSessionTitle(session)}`,[{label:tr('papers'),href:'#/papers'},{label:name,href:back},{label:title}])}<section class="page-content"><div class="wrap"><div class="paper-toolbar"><a class="button-text" href="${esc(back)}">← ${esc(tr('back'))}</a>${pdf?`<a class="button-text" href="${esc(pdf)}" target="_blank" rel="noopener noreferrer">${lang==='gu'?'મૂળ પ્રશ્નપત્ર (PDF)':'Original question paper (PDF)'} ↗</a>`:''}${solvedPdf&&!entry?.pdfOnly?`<a class="button-text" href="${esc(solvedPdf)}" target="_blank" rel="noopener noreferrer">${lang==='gu'?'ઉકેલ PDF':'Solution PDF'} ↗</a>`:''}</div>${schemeNotice?`<p class="reader-notice">${esc(schemeNotice)}</p>`:''}<article class="reader-card solved-paper">${body}</article></div></section>`;
   }
   // Only allow inert, presentational markup from note content. Never execute source HTML or SVG.
   function safeHtml(value) {
@@ -420,7 +435,7 @@
       if(!catalog) await loadCatalog();
       if(!route)html=showHome();
       else if(route==='branches'){html=showBranches();bind=bindBranchSearch;}
-      else if(route==='branch')html=sub?showSemester(arg,sub):showBranch(arg);
+      else if(route==='branch'){await loadPaperIndex();html=sub?showSemester(arg,sub):showBranch(arg);}
       else if(route==='search'){html=showSearch();bind=bindSubjectSearch;}
       else if(route==='papers'){await loadPaperIndex();html=showPapers();}
       else if(route==='saved')html=showSaved();

@@ -73,6 +73,26 @@ class PublisherTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'matching original PDF'):
             prepare(self.src, self.site, manifest)  # stale exceptions are forbidden
 
+    def test_pdf_only_pairs_and_existing_html_guard(self):
+        folder = self.src / '4351902'
+        (folder / 'summer-2026.html').unlink()
+        solution_pdf = folder / 'summer-2026.solution.pdf'
+        solution_pdf.write_bytes(b'%PDF-1.4\nsolution\n%%EOF\n')
+        self.assertEqual(len(prepare(self.src, self.site)), 2)
+        solution_pdf.write_bytes((folder / 'summer-2026.pdf').read_bytes())
+        with self.assertRaisesRegex(ValueError, 'different PDFs'):
+            prepare(self.src, self.site)
+        solution_pdf.write_bytes(b'%PDF-1.4\nsolution\n%%EOF\n')
+        (folder / 'summer-2026.pdf').unlink()
+        with self.assertRaisesRegex(ValueError, 'matching original'):
+            prepare(self.src, self.site)
+        (folder / 'summer-2026.pdf').write_bytes(b'%PDF-1.4\n%%EOF\n')
+        published = self.site / 'papers' / '4351902' / 'summer-2026.html'
+        published.parent.mkdir(parents=True)
+        published.write_text('previous solution')
+        with self.assertRaisesRegex(ValueError, 'Existing HTML'):
+            prepare(self.src, self.site)
+
     def test_destination_symlinks_rejected(self):
         (self.site / 'papers').symlink_to(self.src, target_is_directory=True)
         with self.assertRaisesRegex(ValueError, 'Unsafe target'):

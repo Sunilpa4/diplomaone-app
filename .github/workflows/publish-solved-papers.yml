@@ -6,6 +6,7 @@ on:
       - 'papers-upload/**'
       - 'tools/publish_solved_papers.py'
       - 'tools/test_publish_solved_papers.py'
+      - 'tools/test_pdf_batch.py'
       - 'tools/test_computer_papers.js'
       - 'tools/prepare_computer_papers.js'
       - 'tools/prepare_mechanical_papers.js'
@@ -17,6 +18,7 @@ on:
       - 'papers-upload/**'
       - 'tools/publish_solved_papers.py'
       - 'tools/test_publish_solved_papers.py'
+      - 'tools/test_pdf_batch.py'
       - 'tools/test_computer_papers.js'
       - 'tools/prepare_computer_papers.js'
       - 'tools/prepare_mechanical_papers.js'
@@ -45,6 +47,7 @@ jobs:
       - name: Check additive publishing and uploaded files
         run: |
           python3 tools/test_publish_solved_papers.py
+          python3 tools/test_pdf_batch.py
           mkdir "$RUNNER_TEMP/paper-check"
           python3 tools/publish_solved_papers.py papers-upload/papers "$RUNNER_TEMP/paper-check" --missing-originals papers-upload/missing-originals.json
       - name: Check out public site
