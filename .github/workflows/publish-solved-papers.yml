@@ -7,6 +7,7 @@ on:
       - 'tools/publish_solved_papers.py'
       - 'tools/test_publish_solved_papers.py'
       - 'tools/test_pdf_batch.py'
+      - 'tools/test_common_subject_papers.py'
       - 'tools/test_computer_papers.js'
       - 'tools/prepare_computer_papers.js'
       - 'tools/prepare_mechanical_papers.js'
@@ -19,6 +20,7 @@ on:
       - 'tools/publish_solved_papers.py'
       - 'tools/test_publish_solved_papers.py'
       - 'tools/test_pdf_batch.py'
+      - 'tools/test_common_subject_papers.py'
       - 'tools/test_computer_papers.js'
       - 'tools/prepare_computer_papers.js'
       - 'tools/prepare_mechanical_papers.js'
@@ -48,6 +50,7 @@ jobs:
         run: |
           python3 tools/test_publish_solved_papers.py
           python3 tools/test_pdf_batch.py
+          python3 tools/test_common_subject_papers.py
           mkdir "$RUNNER_TEMP/paper-check"
           python3 tools/publish_solved_papers.py papers-upload/papers "$RUNNER_TEMP/paper-check" --missing-originals papers-upload/missing-originals.json
       - name: Check out public site
