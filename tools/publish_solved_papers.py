@@ -81,7 +81,11 @@ def prepare(source, site, missing_originals=None):
         if path.is_dir():
             continue
         rel = path.relative_to(source)
-        if len(rel.parts) != 2 or not CODE.fullmatch(rel.parts[0]) or path.suffix not in ('.html', '.pdf') or not SESSION.fullmatch(path.stem):
+        if len(rel.parts) != 2 or not CODE.fullmatch(rel.parts[0]):
+            raise ValueError(f'Unexpected paper path: {rel}')
+        kind = '.solution.pdf' if path.name.endswith('.solution.pdf') else path.suffix
+        session = path.name[:-len(kind)] if kind in ('.html', '.pdf', '.solution.pdf') else ''
+        if not SESSION.fullmatch(session):
             raise ValueError(f'Unexpected paper path: {rel}')
         data = path.read_bytes()
         if path.suffix == '.html':
@@ -96,7 +100,7 @@ def prepare(source, site, missing_originals=None):
                 raise ValueError(f'Incomplete bilingual solution or invalid English-only solution: {rel}')
         elif not data.startswith(b'%PDF-') or b'%%EOF' not in data[-2048:]:
             raise ValueError(f'Invalid PDF: {rel}')
-        pairs.setdefault((rel.parts[0], path.stem), set()).add(path.suffix)
+        pairs.setdefault((rel.parts[0], session), set()).add(kind)
         target = site / 'papers' / rel
         # Do not follow an existing symlink, even if it points back inside the checkout.
         if (site / 'papers').is_symlink() or target.parent.is_symlink() or target.is_symlink():
@@ -109,8 +113,16 @@ def prepare(source, site, missing_originals=None):
     if not files:
         raise ValueError('Every solution needs a matching original PDF')
     missing = {pair for pair, extensions in pairs.items() if extensions == {'.html'}}
-    if any(extensions not in ({'.html'}, {'.html', '.pdf'}) for extensions in pairs.values()) or missing != exceptions:
+    allowed = ({'.html'}, {'.html', '.pdf'}, {'.pdf', '.solution.pdf'}, {'.html', '.pdf', '.solution.pdf'})
+    if any(extensions not in allowed for extensions in pairs.values()) or missing != exceptions:
         raise ValueError('Every solution needs a matching original PDF or a matching reviewed exception')
+    for (code, session), extensions in pairs.items():
+        if '.solution.pdf' in extensions:
+            if (source / code / (session + '.solution.pdf')).read_bytes() == (source / code / (session + '.pdf')).read_bytes():
+                raise ValueError(f'Solution and original must be different PDFs: {code}/{session}')
+            # A PDF-only set must not silently change the presentation of an existing HTML paper.
+            if '.html' not in extensions and (site / 'papers' / code / (session + '.html')).exists():
+                raise ValueError(f'Existing HTML requires review: {code}/{session}')
     return files
 
 

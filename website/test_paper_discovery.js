@@ -12,11 +12,14 @@ const tree={truncated:false,tree:[
  file('papers/DI05019011/summer-2026.html'), file('papers/DI05019011/Question_Paper.pdf'),
  file('papers/4351902/summer-2026.html'), file('papers/4351902/summer-2026.pdf'),
  file('papers/4351903/summer-2026.html'), file('papers/4351903/summer-2026.pdf'),
+ file('papers/4350501/winter-2025.solution.pdf'), file('papers/4350501/winter-2025.pdf'),
+ file('papers/4360501/summer-2026.solution.pdf'), file('papers/4360501/summer-2026.pdf'),
+ file('papers/DI03006041/summer-2026.solution.pdf'), file('papers/DI03006041/summer-2026.pdf'),
  file('papers/DI09999999/winter-2027.html'), file('papers/DI09999999/evil.pdf'),
  file('papers/DI09999999/spring-2028.html','120000'), file('papers/DI09999999/../../danger.html'),
  file('papers/../../bad/winter-2027.html'), file('papers/DI09999999/index.html')
 ]};
-const catalog={branches:[],subjects:{DI05019011:{code:'DI05019011',name:{en:'Manufacturing Engineering - III',gu:'મેન્યુફેક્ચરિંગ ઇજનેરી - III'},status:'unavailable'},DI05019021:{code:'DI05019021',name:{en:'Thermal Engineering - II',gu:'થર્મલ ઇજનેરી - II'},status:'unavailable'}}};
+const catalog={branches:[{key:'civil',code:'06',name:{en:'Civil Engineering',gu:'Civil Engineering'},semesters:{'3':[]}},{key:'chemical',code:'05',name:{en:'Chemical Engineering',gu:'Chemical Engineering'},semesters:{'6':[]}}],subjects:{DI05019011:{code:'DI05019011',name:{en:'Manufacturing Engineering - III',gu:'મેન્યુફેક્ચરિંગ ઇજનેરી - III'},status:'unavailable'},DI05019021:{code:'DI05019021',name:{en:'Thermal Engineering - II',gu:'થર્મલ ઇજનેરી - II'},status:'unavailable'}}};
 let failIndex=false;
 w.fetch=async url=>{
   requests.push(String(url));
@@ -32,6 +35,17 @@ async function go(hash,selector){const previous=w.document.querySelector('.page-
  await waitFor(()=>!!w.document.querySelector('a[href="#/paper/DI05019011/winter-2027"]'));
  assert(w.document.querySelector('a[href="#/paper/DI09999999/winter-2027"]'));
  assert(w.document.querySelector('a[href="#/paper/4351902/summer-2026"]').textContent.includes('Manufacturing Engineering'));
+ assert(w.document.querySelector('a[href="#/paper/4350501/winter-2025"]').textContent.includes('Mass Transfer'));
+ assert(w.document.querySelector('a[href="#/paper/DI03006041/summer-2026"]').textContent.includes('Mechanics of Structures'));
+ await go('#/paper/4350501/winter-2025','.solved-paper a[href$="winter-2025.solution.pdf"]');
+ assert(w.document.querySelector('.paper-toolbar a[href$="winter-2025.pdf"]'));
+ assert(w.document.querySelector('.solved-paper').textContent.includes('unofficial study solution'));
+ assert(!requests.some(x=>x.includes('/4350501/winter-2025.html')), 'PDF-only route must not request an HTML file');
+ await go('#/branch/civil/3','a[href="#/paper/DI03006041/summer-2026"]');
+ assert(w.document.querySelector('a[href="#/paper/DI03006041/summer-2026"]').textContent.includes('Mechanics of Structures'));
+ await go('#/branch/chemical/6','a[href="#/paper/4360501/summer-2026"]');
+ assert(w.document.querySelector('a[href="#/paper/4360501/summer-2026"]').textContent.includes('Chemical Reaction Engineering'));
+ await go('#/papers','a[href="#/paper/4351902/summer-2026"]');
  assert(!w.document.body.innerHTML.includes('../../danger'));
  assert(!w.document.querySelector('a[href*=spring-2028]')); // symlink is not a paper
  await go('#/subject/DI05019011','a[href="#/paper/DI05019011/summer-2026"]'); // even without notes
