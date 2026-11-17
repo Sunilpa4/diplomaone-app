@@ -1,4 +1,5 @@
 import tempfile
+import json
 import unittest
 from pathlib import Path
 from publish_solved_papers import prepare, publish
@@ -54,6 +55,23 @@ class PublisherTest(unittest.TestCase):
             path.write_text(invalid, encoding='utf-8')
             with self.assertRaisesRegex(ValueError, 'Incomplete'):
                 prepare(self.src, self.site)
+
+    def test_explicit_missing_original_manifest(self):
+        pdf = self.src / '4351902' / 'summer-2026.pdf'
+        pdf.unlink()
+        manifest = Path(self.temp.name) / 'missing.json'
+        manifest.write_text(json.dumps(['4351902/summer-2026']))
+        self.assertEqual(len(prepare(self.src, self.site, manifest)), 1)
+        with self.assertRaisesRegex(ValueError, 'matching original PDF'):
+            prepare(self.src, self.site)
+        for entries in ([], ['4351902/winter-2025'], ['../summer-2026'], ['4351902/summer-2026']*2):
+            manifest.write_text(json.dumps(entries))
+            with self.assertRaises(ValueError):
+                prepare(self.src, self.site, manifest)
+        manifest.write_text(json.dumps(['4351902/summer-2026']))
+        pdf.write_bytes(b'%PDF-1.4\n%%EOF\n')
+        with self.assertRaisesRegex(ValueError, 'matching original PDF'):
+            prepare(self.src, self.site, manifest)  # stale exceptions are forbidden
 
     def test_destination_symlinks_rejected(self):
         (self.site / 'papers').symlink_to(self.src, target_is_directory=True)
