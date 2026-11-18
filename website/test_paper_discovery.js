@@ -48,9 +48,17 @@ async function go(hash,selector){const previous=w.document.querySelector('.page-
  await go('#/paper/DI01000021/summer-2026','.solved-paper a[href$="summer-2026.solution.pdf"]');
  assert(w.document.querySelector('.paper-toolbar a[href$="summer-2026.pdf"]'));
  assert(w.document.querySelector('.solved-paper').textContent.includes('unofficial study solution'));
+ assert(w.document.querySelector('.reader-notice').textContent.includes('does not translate PDF contents'));
+ const mathPdfCards=[...w.document.querySelectorAll('.solved-paper .paper-pdf-card')];
+ assert.equal(mathPdfCards.length,2,'show solution and original inside expandable cards');
+ assert(mathPdfCards[0].open,'solution card should be open by default');
+ assert(mathPdfCards[0].querySelector('iframe').getAttribute('src').includes('/papers/DI01000021/summer-2026.solution.pdf#view=FitH'));
+ assert(mathPdfCards[1].querySelector('iframe').getAttribute('src').includes('/papers/DI01000021/summer-2026.pdf#view=FitH'));
+ assert(!mathPdfCards[1].open,'original PDF card should be collapsed by default');
  await go('#/paper/DI01000121/winter-2025','.solved-paper a[href$="winter-2025.solution.pdf"]');
  assert(w.document.querySelector('.paper-toolbar a[href$="winter-2025.pdf"]'));
  assert(w.document.querySelector('.solved-paper').textContent.includes('unofficial study solution'));
+ assert(w.document.querySelector('.solved-paper .paper-pdf-card iframe').getAttribute('src').includes('/papers/DI01000121/winter-2025.solution.pdf#view=FitH'));
  await go('#/paper/4350501/winter-2025','.solved-paper a[href$="winter-2025.solution.pdf"]');
  assert(w.document.querySelector('.paper-toolbar a[href$="winter-2025.pdf"]'));
  assert(w.document.querySelector('.solved-paper').textContent.includes('unofficial study solution'));

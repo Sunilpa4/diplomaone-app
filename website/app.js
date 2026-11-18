@@ -293,6 +293,11 @@
     if(!cleaned)throw new Error('Invalid paper content');
     holder.appendChild(cleaned);return holder.innerHTML;
   }
+  function paperPdfCard(url,label,open,buttonLabel) {
+    if(!url)return '';
+    const viewerUrl=`${url}#view=FitH`;
+    return `<details class="note-card paper-pdf-card" ${open?'open':''}><summary>${esc(label)}</summary><div class="note-body"><div class="paper-pdf-viewer"><iframe class="paper-pdf-frame" src="${esc(viewerUrl)}" title="${esc(label)}" loading="${open?'eager':'lazy'}" referrerpolicy="no-referrer"></iframe></div><p class="paper-pdf-actions"><a class="button-primary" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(buttonLabel)} ↗</a></p></div></details>`;
+  }
   async function showPaper(code, session, meta, entry) {
     const key=`${code}/${session}`;
     let html=paperCache.get(key);
@@ -313,7 +318,9 @@
     const back=meta?`#/subject/${encodeURIComponent(code)}`:relatedMeta?`#/subject/${encodeURIComponent(related)}`:'#/papers';
     const schemeNotice=related?(lang==='gu'?`આ જૂની યોજનાનું પ્રશ્નપત્ર છે (કોડ ${code}). સમાન વિષયના નામ હેઠળ બતાવ્યું છે; બંને યોજનાના અભ્યાસક્રમ અલગ હોઈ શકે છે.`:`This is an older-scheme paper (code ${code}), listed with a subject of the same name. The syllabuses may differ.`):'';
     const solvedPdf=entry?.solutionPdf?`${paperBase}/${encodeURIComponent(code)}/${encodeURIComponent(entry.solutionPdf)}`:'';
-    const body=entry?.pdfOnly ? `<p class="note">${lang==='gu'?'આ બિનસત્તાવાર અભ્યાસ ઉકેલ છે, સત્તાવાર GTU જવાબવહી નથી. જવાબોની સ્વતંત્ર ચકાસણી થઈ નથી. PDF માં આપેલી ભાષાઓ એકસાથે છે.':'This is an unofficial study solution, not an official GTU answer key. Answers have not been independently verified. The supplied languages appear together in the PDF.'}</p><p>${lang==='gu'?'સંપૂર્ણ ઉકેલ અને આકૃતિઓ જોવા PDF ખોલો.':'Open the PDF for the complete solution and diagrams.'}</p><p><a class="button-primary" href="${esc(solvedPdf)}" target="_blank" rel="noopener noreferrer">${lang==='gu'?'ઉકેલ PDF ખોલો':'Open solution PDF'} ↗</a></p>` : sanitizePaper(html,lang);
+    const pdfNotice=lang==='gu'?'આ બિનસત્તાવાર અભ્યાસ ઉકેલ છે, સત્તાવાર GTU જવાબવહી નથી. જવાબોની સ્વતંત્ર ચકાસણી થઈ નથી. PDF માં આપેલી ભાષાઓ જેવી છે તેવી જ જળવાય છે; સાઇટનો ભાષા વિકલ્પ PDF નું ભાષાંતર કરતો નથી.':'This is an unofficial study solution, not an official GTU answer key. Answers have not been independently verified. The PDF preserves the language(s) supplied with the source; the site language switch does not translate PDF contents.';
+    const pdfCardButton=lang==='gu'?'નવા ટેબમાં PDF ખોલો':'Open PDF in a new tab';
+    const body=entry?.pdfOnly ? `<div class="reader-notice"><p>${esc(pdfNotice)}</p></div>${paperPdfCard(solvedPdf,lang==='gu'?'સંપૂર્ણ ઉકેલ (PDF)':'Complete solution (PDF)',true,pdfCardButton)}${pdf?paperPdfCard(pdf,lang==='gu'?'મૂળ પ્રશ્નપત્ર (PDF)':'Original question paper (PDF)',false,pdfCardButton):''}` : sanitizePaper(html,lang);
     return `${shell(title,`${name} · ${code} · ${paperSessionTitle(session)}`,[{label:tr('papers'),href:'#/papers'},{label:name,href:back},{label:title}])}<section class="page-content"><div class="wrap"><div class="paper-toolbar"><a class="button-text" href="${esc(back)}">← ${esc(tr('back'))}</a>${pdf?`<a class="button-text" href="${esc(pdf)}" target="_blank" rel="noopener noreferrer">${lang==='gu'?'મૂળ પ્રશ્નપત્ર (PDF)':'Original question paper (PDF)'} ↗</a>`:''}${solvedPdf&&!entry?.pdfOnly?`<a class="button-text" href="${esc(solvedPdf)}" target="_blank" rel="noopener noreferrer">${lang==='gu'?'ઉકેલ PDF':'Solution PDF'} ↗</a>`:''}</div>${schemeNotice?`<p class="reader-notice">${esc(schemeNotice)}</p>`:''}<article class="reader-card solved-paper">${body}</article></div></section>`;
   }
   // Only allow inert, presentational markup from note content. Never execute source HTML or SVG.
