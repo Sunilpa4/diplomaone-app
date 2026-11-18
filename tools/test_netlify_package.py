@@ -31,6 +31,8 @@ class NetlifyPackageTest(unittest.TestCase):
                 self.assertIn('Netlify hosts this website', packaged_js)
                 self.assertIn('paperPdfCard', packaged_js)
                 self.assertIn('paper-pdf-card', packaged_js)
+                self.assertIn('branchSemesterPaperGroups', packaged_js)
+                self.assertIn('paperSets', packaged_js)
                 self.assertIn('.paper-pdf-frame', z.read('styles.css').decode())
                 self.assertIn('pub-6133298835140242', z.read('ads.txt').decode())
                 self.assertIn('ca-pub-6133298835140242', z.read('index.html').decode())
