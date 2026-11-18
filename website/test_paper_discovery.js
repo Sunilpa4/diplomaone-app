@@ -13,8 +13,19 @@ const tree={truncated:false,tree:[
  file('papers/4351902/summer-2026.html'), file('papers/4351902/summer-2026.pdf'),
  file('papers/4351903/summer-2026.html'), file('papers/4351903/summer-2026.pdf'),
  file('papers/4350501/winter-2025.solution.pdf'), file('papers/4350501/winter-2025.pdf'),
+ file('papers/4350501/summer-2026.solution.pdf'), file('papers/4350501/summer-2026.pdf'),
+ file('papers/4360501/winter-2025.solution.pdf'), file('papers/4360501/winter-2025.pdf'),
  file('papers/4360501/summer-2026.solution.pdf'), file('papers/4360501/summer-2026.pdf'),
+ file('papers/DI03006011/winter-2025.solution.pdf'), file('papers/DI03006011/winter-2025.pdf'),
+ file('papers/DI03006021/winter-2025.solution.pdf'), file('papers/DI03006021/winter-2025.pdf'),
+ file('papers/DI03006031/summer-2026.solution.pdf'), file('papers/DI03006031/summer-2026.pdf'),
+ file('papers/DI03006031/winter-2025.solution.pdf'), file('papers/DI03006031/winter-2025.pdf'),
  file('papers/DI03006041/summer-2026.solution.pdf'), file('papers/DI03006041/summer-2026.pdf'),
+ file('papers/DI03006041/winter-2025.solution.pdf'), file('papers/DI03006041/winter-2025.pdf'),
+ file('papers/DI03006051/summer-2026.solution.pdf'), file('papers/DI03006051/summer-2026.pdf'),
+ file('papers/DI03006051/winter-2025.solution.pdf'), file('papers/DI03006051/winter-2025.pdf'),
+ file('papers/DI01006021/summer-2026.solution.pdf'), file('papers/DI01006021/summer-2026.pdf'),
+ file('papers/DI01006021/winter-2025.solution.pdf'), file('papers/DI01006021/winter-2025.pdf'),
  file('papers/DI01000021/summer-2026.solution.pdf'), file('papers/DI01000021/summer-2026.pdf'),
  file('papers/DI01000021/winter-2025.solution.pdf'), file('papers/DI01000021/winter-2025.pdf'),
  file('papers/DI01000121/summer-2026.solution.pdf'), file('papers/DI01000121/summer-2026.pdf'),
@@ -23,11 +34,12 @@ const tree={truncated:false,tree:[
  file('papers/DI09999999/spring-2028.html','120000'), file('papers/DI09999999/../../danger.html'),
  file('papers/../../bad/winter-2027.html'), file('papers/DI09999999/index.html')
 ]};
-const catalog={branches:[{key:'civil',code:'06',name:{en:'Civil Engineering',gu:'Civil Engineering'},semesters:{'3':[]}},{key:'chemical',code:'05',name:{en:'Chemical Engineering',gu:'Chemical Engineering'},semesters:{'6':[]}}],subjects:{DI05019011:{code:'DI05019011',name:{en:'Manufacturing Engineering - III',gu:'મેન્યુફેક્ચરિંગ ઇજનેરી - III'},status:'unavailable'},DI05019021:{code:'DI05019021',name:{en:'Thermal Engineering - II',gu:'થર્મલ ઇજનેરી - II'},status:'unavailable'},DI01000021:{code:'DI01000021',name:{en:'Mathematics - I'},status:'unavailable'},DI01000121:{code:'DI01000121',name:{en:'Applied Physics'},status:'unavailable'}}};
+const catalog={branches:[{key:'civil',code:'06',name:{en:'Civil Engineering',gu:'Civil Engineering'},semesters:{'1':['DI01000021','DI01000121','DI01006021'],'3':['DI03006011','DI03006021','DI03006031','DI03006041','DI03006051']}},{key:'chemical',code:'05',name:{en:'Chemical Engineering',gu:'Chemical Engineering'},semesters:{'5':['DI05005011','DI05005031']}},{key:'mechanical',code:'01',name:{en:'Mechanical Engineering',gu:'Mechanical Engineering'},semesters:{'1':['DI01000021'],'2':['DI01000121'],'5':['DI05019011','DI05019021']}}],subjects:{DI05019011:{code:'DI05019011',name:{en:'Manufacturing Engineering - III',gu:'મેન્યુફેક્ચરિંગ ઇજનેરી - III'},status:'available'},DI05019021:{code:'DI05019021',name:{en:'Thermal Engineering - II',gu:'થર્મલ ઇજનેરી - II'},status:'available'},DI05005011:{code:'DI05005011',name:{en:'Mass Transfer - II'},status:'available'},DI05005031:{code:'DI05005031',name:{en:'Chemical Reaction Engineering'},status:'available'},DI01000021:{code:'DI01000021',name:{en:'Mathematics - I'},status:'unavailable'},DI01000121:{code:'DI01000121',name:{en:'Applied Physics'},status:'unavailable'},DI01006021:{code:'DI01006021',name:{en:'Construction Material'},status:'available'},DI03006011:{code:'DI03006011',name:{en:'Construction Technology'},status:'available'},DI03006021:{code:'DI03006021',name:{en:'Advance Surveying'},status:'available'},DI03006031:{code:'DI03006031',name:{en:'Basic Transportation Engineering'},status:'available'},DI03006041:{code:'DI03006041',name:{en:'Mechanics of Structures-I'},status:'available'},DI03006051:{code:'DI03006051',name:{en:'Soil Engineering'},status:'available'}}};
 let failIndex=false;
 w.fetch=async url=>{
   requests.push(String(url));
   if(String(url).startsWith('data/catalog'))return {ok:true,json:async()=>catalog};
+  if(String(url).startsWith('data/subjects/')){const code=String(url).split('/').pop().split('?')[0].replace('.json','');return {ok:true,json:async()=>({code,name:catalog.subjects[code]?.name,units:[],available_units:[]})};}
   if(String(url).startsWith('https://api.github.com/'))return failIndex?{ok:false}:{ok:true,json:async()=>tree};
   if(String(url).includes('/papers/'))return {ok:true,text:async()=>'<main><section><details class="card"><summary>New question</summary><div class="answer">New answer</div></details></section></main>'};
   throw Error('Unexpected request '+url);
@@ -63,10 +75,28 @@ async function go(hash,selector){const previous=w.document.querySelector('.page-
  assert(w.document.querySelector('.paper-toolbar a[href$="winter-2025.pdf"]'));
  assert(w.document.querySelector('.solved-paper').textContent.includes('unofficial study solution'));
  assert(!requests.some(x=>x.includes('/4350501/winter-2025.html')), 'PDF-only route must not request an HTML file');
+ await go('#/branch/civil','a[href="#/branch/civil/3"]');
+ assert(w.document.querySelector('a[href="#/branch/civil/3"]').textContent.includes('8 paper sets'));
  await go('#/branch/civil/3','a[href="#/paper/DI03006041/summer-2026"]');
  assert(w.document.querySelector('a[href="#/paper/DI03006041/summer-2026"]').textContent.includes('Mechanics of Structures'));
- await go('#/branch/chemical/6','a[href="#/paper/4360501/summer-2026"]');
+ await go('#/subject/DI03006041','a[href="#/paper/DI03006041/summer-2026"]');
+ assert(w.document.querySelector('.section-heading h2').textContent.includes('Solved papers'));
+ await go('#/branch/civil/1','a[href="#/paper/DI01006021/summer-2026"]');
+ await go('#/subject/DI01006021','a[href="#/paper/DI01006021/summer-2026"]');
+ assert(w.document.querySelector('a[href="#/paper/DI01006021/summer-2026"]').textContent.includes('Construction Material'));
+ await go('#/branch/chemical','a[href="#/branch/chemical/5"]');
+ assert(w.document.querySelector('a[href="#/branch/chemical/5"]').textContent.includes('4 paper sets'));
+ await go('#/branch/chemical/5','a[href="#/paper/4360501/summer-2026"]');
+ assert(w.document.querySelector('a[href="#/paper/4350501/winter-2025"]').textContent.includes('Mass Transfer'));
  assert(w.document.querySelector('a[href="#/paper/4360501/summer-2026"]').textContent.includes('Chemical Reaction Engineering'));
+ await go('#/subject/DI05005011','a[href="#/paper/4350501/summer-2026"]');
+ await go('#/subject/DI05005031','a[href="#/paper/4360501/summer-2026"]');
+ await go('#/branch/mechanical','a[href="#/branch/mechanical/5"]');
+ assert(w.document.querySelector('a[href="#/branch/mechanical/5"]').textContent.includes('4 paper sets'));
+ await go('#/branch/mechanical/5','a[href="#/paper/4351902/summer-2026"]');
+ assert(w.document.querySelector('a[href="#/paper/4351902/summer-2026"]').textContent.includes('Manufacturing Engineering'));
+ await go('#/branch/mechanical/1','a[href="#/paper/DI01000021/summer-2026"]');
+ assert(w.document.querySelector('a[href="#/paper/DI01000021/summer-2026"]').textContent.includes('Mathematics - I'));
  await go('#/papers','a[href="#/paper/4351902/summer-2026"]');
  assert(!w.document.body.innerHTML.includes('../../danger'));
  assert(!w.document.querySelector('a[href*=spring-2028]')); // symlink is not a paper
@@ -112,6 +142,6 @@ async function go(hash,selector){const previous=w.document.querySelector('.page-
  assert(w2.document.querySelector('.reader-notice').textContent.includes('could not be updated'));
  assert(w2.document.querySelector('a[href="#/paper/DI03000141/summer-2026"]'));
  w2.close();
- console.log('Automatic listing, new exams, unknown subjects, optional PDFs, route safety and fallback passed.');
+ console.log('Automatic listing, branch/semester paper placement, PDF card preview, unknown subjects and route fallback passed.');
  w.close();
 })().catch(e=>{console.error(e);w.close();process.exitCode=1});

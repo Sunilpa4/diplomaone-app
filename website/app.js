@@ -11,10 +11,10 @@
 
   const strings = {
     en: {
-      home:'Home', branches:'Explore branches', papers:'Solved papers', saved:'Saved notes', start:'Start learning', search:'Search subjects', allBranches:'All branches',
+      home:'Home', branches:'Explore branches', papers:'Solved papers', paperSet:'paper set', paperSets:'paper sets', examPrep:'EXAM PREPARATION', saved:'Saved notes', start:'Start learning', search:'Search subjects', allBranches:'All branches',
       heroEye:'A LITTLE HELP FOR YOUR BIG GOALS', heroTitle:'Your diploma,<br><em>made simpler.</em>', heroText:'Thoughtful notes, clear diagrams, and everything you need to feel a little more ready for class and exams.', browse:'Explore your branch', find:'Find a subject', heroBadge:'Made for diploma students', heroBadgeSmall:'Your learning, your pace',
       trust1:'Built for GTU diploma', trust1s:'Study with direction', trust2:'English & Gujarati', trust2s:'Learn your way', trust3:'Notes that make sense', trust3s:'Clear and easy to follow', trust4:'Free to explore', trust4s:'Your study space, always',
-      chooseEye:'LET’S FIND YOUR WAY', choose:'Start with your branch', chooseText:'Pick a branch and find the notes made for your journey.', viewAll:'View all branches', ready:'subjects ready', coming:'More notes coming soon', subjects:'subjects', branch:'Branch',
+      chooseEye:'LET’S FIND YOUR WAY', choose:'Start with your branch', chooseText:'Pick a branch and find the notes made for your journey.', viewAll:'View all branches', ready:'subjects ready', coming:'More notes coming soon', subject:'subject', subjects:'subjects', subjectReady:'subject ready', subjectsReady:'subjects ready', branch:'Branch',
       howEye:'A SIMPLER WAY TO STUDY', howTitle:'Less searching.<br>More learning.', howText:'From the first chapter to the final revision, your next step is always easy to find.', step1:'Choose your branch', step1s:'Start where you belong, across all diploma branches.', step2:'Find your subject', step2s:'Browse by semester or search by name and code.', step3:'Learn at your pace', step3s:'Read clear notes, diagrams, questions and more.',
       exploreEye:'PICK UP WHERE CURIOSITY STARTS', explore:'Ready when you are', exploreText:'A few subjects to get you started.', viewSubjects:'Search all subjects', units:'units', study:'Start studying',
       ctaTitle:'A little support goes a long way.', ctaText:'Take your notes with you, wherever your learning happens.', download:'Get the Android app',
@@ -27,10 +27,10 @@
       searchTitle:'Find what you need.', searchText:'Search the catalog by subject name or code, in English or Gujarati.', searchPrompt:'What are you looking for?', searchPromptText:'Type a subject name or code to begin.', retry:'Try again', loadError:'We couldn’t load this content.', loadErrorText:'Please check your connection and try again.', noUnit:'This unit is not available yet.', aboutTitle:'Made for the journey.', aboutText:'DiplomaOne is an independent study resource created to help GTU diploma students find clear, accessible learning material in English and Gujarati.', aboutNote:'DiplomaOne is not affiliated with Gujarat Technological University. Always refer to your official syllabus and your institution for authoritative information.', remove:'Remove', back:'Back',
     },
     gu: {
-      home:'હોમ', branches:'બ્રાન્ચ જુઓ', papers:'ઉકેલેલા પેપર', saved:'સાચવેલી નોટ્સ', start:'અભ્યાસ શરૂ કરો', search:'વિષય શોધો', allBranches:'બધી બ્રાન્ચ',
+      home:'હોમ', branches:'બ્રાન્ચ જુઓ', papers:'ઉકેલેલા પેપર', paperSet:'પેપર સેટ', paperSets:'પેપર સેટ', examPrep:'પરીક્ષા તૈયારી', saved:'સાચવેલી નોટ્સ', start:'અભ્યાસ શરૂ કરો', search:'વિષય શોધો', allBranches:'બધી બ્રાન્ચ',
       heroEye:'તમારા મોટા સપનાઓ માટે નાની મદદ', heroTitle:'તમારો ડિપ્લોમા,<br><em>હવે વધુ સરળ.</em>', heroText:'સરળ નોટ્સ, સ્પષ્ટ આકૃતિઓ અને વર્ગ તથા પરીક્ષાની તૈયારી માટે જરૂરી માર્ગદર્શન.', browse:'તમારી બ્રાન્ચ શોધો', find:'વિષય શોધો', heroBadge:'ડિપ્લોમા વિદ્યાર્થીઓ માટે', heroBadgeSmall:'તમારો અભ્યાસ, તમારી ગતિએ',
       trust1:'GTU ડિપ્લોમા માટે', trust1s:'સાચી દિશામાં અભ્યાસ', trust2:'ગુજરાતી અને અંગ્રેજી', trust2s:'તમારી રીતે શીખો', trust3:'સરળ સમજાય તેવી નોટ્સ', trust3s:'સ્પષ્ટ અને સહેલી', trust4:'મફત અભ્યાસ', trust4s:'તમારી અભ્યાસની જગ્યા',
-      chooseEye:'ચાલો તમારી દિશા શોધીએ', choose:'તમારી બ્રાન્ચથી શરૂઆત કરો', chooseText:'તમારી બ્રાન્ચ પસંદ કરો અને તમારી નોટ્સ શોધો.', viewAll:'બધી બ્રાન્ચ જુઓ', ready:'વિષયો તૈયાર', coming:'વધુ નોટ્સ જલ્દી આવશે', subjects:'વિષયો', branch:'બ્રાન્ચ',
+      chooseEye:'ચાલો તમારી દિશા શોધીએ', choose:'તમારી બ્રાન્ચથી શરૂઆત કરો', chooseText:'તમારી બ્રાન્ચ પસંદ કરો અને તમારી નોટ્સ શોધો.', viewAll:'બધી બ્રાન્ચ જુઓ', ready:'વિષયો તૈયાર', coming:'વધુ નોટ્સ જલ્દી આવશે', subject:'વિષય', subjects:'વિષયો', subjectReady:'વિષય તૈયાર', subjectsReady:'વિષયો તૈયાર', branch:'બ્રાન્ચ',
       howEye:'અભ્યાસની સરળ રીત', howTitle:'ઓછું શોધો.<br>વધુ શીખો.', howText:'પહેલા પ્રકરણથી અંતિમ પુનરાવર્તન સુધી, આગળનું પગલું શોધવું હવે સહેલું છે.', step1:'તમારી બ્રાન્ચ પસંદ કરો', step1s:'તમારી ડિપ્લોમા બ્રાન્ચથી શરૂઆત કરો.', step2:'તમારો વિષય શોધો', step2s:'સેમેસ્ટર, નામ અથવા કોડથી વિષય શોધો.', step3:'તમારી ગતિએ શીખો', step3s:'નોટ્સ, આકૃતિઓ અને પ્રશ્નો વાંચો.',
       exploreEye:'શીખવાની શરૂઆત અહીંથી', explore:'અભ્યાસ માટે તૈયાર', exploreText:'શરૂઆત કરવા માટે થોડા વિષયો.', viewSubjects:'બધા વિષયો શોધો', units:'એકમો', study:'વાંચવાનું શરૂ કરો',
       ctaTitle:'થોડી મદદથી ઘણો ફરક પડે છે.', ctaText:'અભ્યાસ જ્યાં પણ કરો, નોટ્સ તમારી સાથે રાખો.', download:'Android એપ મેળવો',
@@ -140,6 +140,9 @@
   const paperEntries = code => paperIndex?.[code] || [];
   const subjectPaperGroups = code => [code, ...Object.keys(legacyPaperSubjects).filter(legacy=>legacyPaperSubjects[legacy]===code)]
     .map(paperCode=>({code:paperCode,entries:paperEntries(paperCode)})).filter(group=>group.entries.length);
+  const paperSetLabel = count => `${count} ${tr(count===1?'paperSet':'paperSets')}`;
+  const subjectCountLabel = count => `${count} ${tr(count===1?'subject':'subjects')}`;
+  const readySubjectLabel = count => `${count} ${tr(count===1?'subjectReady':'subjectsReady')}`;
   const paperName = code => text(subjectMeta(code)?.name || subjectMeta(legacyPaperSubjects[code])?.name) || legacyPaperNames[code] || paperOnlyNames[code] || code;
   function paperCards(code, entries) {
     return entries.map(p=>`<a class="subject-card" href="#/paper/${encodeURIComponent(code)}/${encodeURIComponent(p.session)}"><div class="subject-meta"><span>${esc(paperSessionTitle(p.session))}${legacyPaperSubjects[code]?(lang==='gu'?' · જૂની યોજના':' · Older scheme'):''}</span><span class="subject-code">${esc(code)}</span></div><h3>${lang==='gu'?'ઉકેલેલું પ્રશ્નપત્ર':'Solved question paper'}</h3><div class="subject-foot"><span>${esc(paperName(code))}</span><strong>${lang==='gu'?'વાંચો':'Read'} ↗</strong></div></a>`).join('');
@@ -204,18 +207,38 @@
     const list=branches().slice().sort((a,b)=>Number(readyInBranch(b)>0)-Number(readyInBranch(a)>0));
     const update=()=>{const q=input.value.trim().toLocaleLowerCase();const found=list.filter(b=>`${b.name?.en||''} ${b.name?.gu||''} ${b.code||''}`.toLocaleLowerCase().includes(q)); count.textContent=`${found.length} ${tr('result')}`;results.innerHTML=found.length?found.map(branchCard).join(''):`<div class="empty-state"><h3>${esc(tr('noBranches'))}</h3><p>${esc(tr('noSearch'))}</p></div>`;}; input.addEventListener('input',update);update();
   }
-  // Paper-only subjects can appear in their branch/semester without fabricating notes.
-  const branchPaperOnly = {civil:{'3':['DI03006011','DI03006021','DI03006031','DI03006041','DI03006051']},chemical:{'6':['4360501']}};
-  const extraPaperGroups = (key, sem) => (branchPaperOnly[key]?.[sem] || []).map(code=>({code,entries:paperEntries(code)})).filter(group=>group.entries.length);
+  // Resolve papers through the live branch catalog, so PDFs and legacy-scheme papers
+  // appear in the semester of their matching subject instead of a hard-coded branch bucket.
+  const branchSemesterPaperGroups = (key, sem) => {
+    const branch=branches().find(x=>x.key===key), groups=[], seen=new Set();
+    for(const code of branch?.semesters?.[sem]||[]) for(const group of subjectPaperGroups(code)) {
+      if(seen.has(group.code))continue;
+      seen.add(group.code);groups.push(group);
+    }
+    return groups;
+  };
   function showBranch(key) {
     const b=branches().find(x=>x.key===key); if(!b) return missing();
-    return `${shell(text(b.name),tr('semesterText'),[{label:tr('allBranches'),href:'#/branches'},{label:text(b.name)}])}<section class="page-content"><div class="wrap"><div class="section-heading"><div><div class="eyebrow">${esc(tr('branch'))} ${esc(b.code)}</div><h2>${esc(tr('semesters'))}</h2></div></div><div class="semester-list">${[1,2,3,4,5,6].map(s=>{const codes=b.semesters?.[String(s)]||[], n=codes.filter(c=>subjectMeta(c)?.status==='available').length;return `<a class="semester-card" href="#/branch/${encodeURIComponent(key)}/${s}"><span class="semester-number">${s}</span><h3>${esc(tr('semester'))} ${s}</h3><p>${codes.length?`${codes.length} ${esc(tr('subjects'))}`:extraPaperGroups(key,String(s)).length?esc(tr('papers')):esc(tr('coming'))}</p><span class="branch-bottom">${n?`${n} ${esc(tr('ready'))}`:extraPaperGroups(key,String(s)).length?esc(tr('papers')):esc(tr('notYet'))} &nbsp; →</span></a>`}).join('')}</div></div></section>`;
+    const semesters=[1,2,3,4,5,6].map(s=>{
+      const sem=String(s), codes=b.semesters?.[sem]||[], groups=branchSemesterPaperGroups(key,sem);
+      const subjectCount=codes.filter(code=>subjectMeta(code)).length;
+      const readyCount=codes.filter(code=>subjectMeta(code)?.status==='available').length;
+      const paperCount=groups.reduce((count,group)=>count+group.entries.length,0);
+      const details=subjectCount?subjectCountLabel(subjectCount):paperCount?paperSetLabel(paperCount):tr('coming');
+      const status=[readyCount?readySubjectLabel(readyCount):'',subjectCount&&paperCount?paperSetLabel(paperCount):'']
+        .filter(Boolean).join(' · ')||(paperCount?tr('papers'):tr('notYet'));
+      return `<a class="semester-card" href="#/branch/${encodeURIComponent(key)}/${s}"><span class="semester-number">${s}</span><h3>${esc(tr('semester'))} ${s}</h3><p>${esc(details)}</p><span class="branch-bottom">${esc(status)} &nbsp; →</span></a>`;
+    }).join('');
+    return `${shell(text(b.name),tr('semesterText'),[{label:tr('allBranches'),href:'#/branches'},{label:text(b.name)}])}<section class="page-content"><div class="wrap">${paperListNotice()}<div class="section-heading"><div><div class="eyebrow">${esc(tr('branch'))} ${esc(b.code)}</div><h2>${esc(tr('semesters'))}</h2></div></div><div class="semester-list">${semesters}</div></div></section>`;
   }
   function showSemester(key,sem) {
     const b=branches().find(x=>x.key===key); if(!b || !/^[1-6]$/.test(sem)) return missing();
     const list=(b.semesters?.[sem]||[]).map(subjectMeta).filter(Boolean).sort((a,b)=>Number(b.status==='available')-Number(a.status==='available'));
-    const extras=extraPaperGroups(key,sem);
-    return `${shell(`${tr('semester')} ${sem}`,tr('subjectListText'),[{label:tr('allBranches'),href:'#/branches'},{label:text(b.name),href:`#/branch/${encodeURIComponent(key)}`},{label:`${tr('semester')} ${sem}`}])}<section class="page-content"><div class="wrap"><div class="section-heading"><div><div class="eyebrow">${esc(text(b.name))}</div><h2>${esc(tr('subjectList'))}</h2></div></div>${list.length?`<div class="subject-grid">${list.map(subjectCard).join('')}</div>`:extras.length?'':empty(tr('emptyTitle'),tr('emptyText'))}${extras.length?`<div class="section-heading"><h2>${esc(tr('papers'))}</h2></div><div class="subject-grid">${extras.map(group=>paperCards(group.code,group.entries)).join('')}</div>`:''}</div></section>`;
+    const paperGroups=branchSemesterPaperGroups(key,sem);
+    const subjectSection=list.length?`<div class="section-heading"><div><div class="eyebrow">${esc(text(b.name))}</div><h2>${esc(tr('subjectList'))}</h2></div></div><div class="subject-grid">${list.map(subjectCard).join('')}</div>`:'';
+    const paperSection=paperGroups.length?`<div class="section-heading"><div><div class="eyebrow">${esc(tr('examPrep'))}</div><h2>${esc(tr('papers'))}</h2></div></div><div class="subject-grid">${paperGroups.map(group=>paperCards(group.code,group.entries)).join('')}</div>`:'';
+    const emptyState=!list.length&&!paperGroups.length?empty(tr('emptyTitle'),tr('emptyText')):'';
+    return `${shell(`${tr('semester')} ${sem}`,tr('subjectListText'),[{label:tr('allBranches'),href:'#/branches'},{label:text(b.name),href:`#/branch/${encodeURIComponent(key)}`},{label:`${tr('semester')} ${sem}`}])}<section class="page-content"><div class="wrap">${paperListNotice()}${subjectSection}${paperSection}${emptyState}</div></section>`;
   }
   function empty(title, description, button=true) { return `<div class="empty-state"><h3>${esc(title)}</h3><p>${esc(description)}</p>${button?`<a href="#/branches" class="button-primary">${esc(tr('exploreBranches'))} →</a>`:''}</div>`; }
   function missing() { return `${shell(tr('loadError'),tr('loadErrorText'))}<section class="page-content"><div class="wrap">${empty(tr('loadError'),tr('loadErrorText'))}</div></section>`; }
@@ -231,7 +254,7 @@
   function showSubject(s, meta) {
     const location=whereIs(s.code), available=new Set(s.available_units||[]), units=Array.isArray(s.units)?s.units:[];
     const crumbs=[{label:tr('allBranches'),href:'#/branches'}]; if(location)crumbs.push({label:text(location[0].name),href:`#/branch/${encodeURIComponent(location[0].key)}`},{label:`${tr('semester')} ${location[1]}`,href:`#/branch/${encodeURIComponent(location[0].key)}/${location[1]}`});crumbs.push({label:text(s.name)});
-    return `${shell(text(s.name),`${s.code} · ${meta?.category || s.category || ''}`,crumbs)}<section class="page-content"><div class="wrap">${paperListNotice()}${subjectPaperGroups(s.code).length?`<div class="section-heading"><div><div class="eyebrow">EXAM PREPARATION</div><h2>${esc(tr('papers'))}</h2><p>${lang==='gu'?'વિષયના ઉકેલેલા પ્રશ્નપત્રો.':'Solved question papers for this subject.'}</p></div></div><div class="subject-grid">${subjectPaperGroups(s.code).map(group=>paperCards(group.code,group.entries)).join('')}</div>`:''}<div class="section-heading"><div><div class="eyebrow">${esc(tr('read'))}</div><h2>${esc(tr('unitsTitle'))}</h2><p>${esc(tr('unitsText'))}</p></div></div><div class="subject-grid">${units.map(u=>`<${available.has(u.no)?'a':'div'} class="subject-card" ${available.has(u.no)?`href="#/unit/${encodeURIComponent(s.code)}/${Number(u.no)}"`:''}><div class="subject-meta"><span>${lang==='gu'?'એકમ':'UNIT'} ${Number(u.no)}</span><span class="subject-code">${available.has(u.no)?esc(tr('available')):esc(tr('notYet'))}</span></div><h3>${esc(text(u.title))}</h3><div class="subject-foot"><span>${u.hours?`${esc(u.hours)} ${esc(tr('hours'))}`:''}${u.weightage?` · ${esc(u.weightage)}%`:''}</span><strong>${available.has(u.no)?`${esc(tr('viewUnit'))} ↗`:' '}</strong></div></${available.has(u.no)?'a':'div'}>`).join('')}</div>${units.length?'':empty(tr('emptyTitle'),tr('emptyText'))}</div></section>`;
+    return `${shell(text(s.name),`${s.code} · ${meta?.category || s.category || ''}`,crumbs)}<section class="page-content"><div class="wrap">${paperListNotice()}${subjectPaperGroups(s.code).length?`<div class="section-heading"><div><div class="eyebrow">${esc(tr('examPrep'))}</div><h2>${esc(tr('papers'))}</h2><p>${lang==='gu'?'વિષયના ઉકેલેલા પ્રશ્નપત્રો.':'Solved question papers for this subject.'}</p></div></div><div class="subject-grid">${subjectPaperGroups(s.code).map(group=>paperCards(group.code,group.entries)).join('')}</div>`:''}<div class="section-heading"><div><div class="eyebrow">${esc(tr('read'))}</div><h2>${esc(tr('unitsTitle'))}</h2><p>${esc(tr('unitsText'))}</p></div></div><div class="subject-grid">${units.map(u=>`<${available.has(u.no)?'a':'div'} class="subject-card" ${available.has(u.no)?`href="#/unit/${encodeURIComponent(s.code)}/${Number(u.no)}"`:''}><div class="subject-meta"><span>${lang==='gu'?'એકમ':'UNIT'} ${Number(u.no)}</span><span class="subject-code">${available.has(u.no)?esc(tr('available')):esc(tr('notYet'))}</span></div><h3>${esc(text(u.title))}</h3><div class="subject-foot"><span>${u.hours?`${esc(u.hours)} ${esc(tr('hours'))}`:''}${u.weightage?` · ${esc(u.weightage)}%`:''}</span><strong>${available.has(u.no)?`${esc(tr('viewUnit'))} ↗`:' '}</strong></div></${available.has(u.no)?'a':'div'}>`).join('')}</div>${units.length?'':empty(tr('emptyTitle'),tr('emptyText'))}</div></section>`;
   }
   // Build an inert image from a restricted SVG tree. Never inject remote SVG/JS.
   function paperDiagram(source) {
