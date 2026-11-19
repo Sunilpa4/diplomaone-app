@@ -32,4 +32,42 @@ The 33 Civil and Chemical exam sets are listed with original source names, Drive
 
 This batch contains Civil DI01006021, DI03006011, DI03006021, DI03006031, DI03006041 and DI03006051, and Chemical DI01005011, DI01005021, DI02005011, DI02005021, DI03005011, DI03005021, DI03005031, DI03005061, DI04005021, DI04005041, DI04005071, 4350501 and 4360501. The seven-digit codes are older-scheme subjects, not renamed to DI codes. Cross-listing by name warns that the syllabuses can differ. Missing years have not been invented.
 
-The browser discovers `*.solution.pdf` names on demand, alongside existing `*.html` solutions, without scheduled scanning. PDF-only solution pages now show the unchanged PDF in an expandable in-page card with a separate card for the original question PDF and a direct-open fallback. This keeps the supplied diagrams, formulas and languages intact instead of attempting an unreviewed conversion into question/answer HTML cards. Solved-paper cards are also grouped under their catalog subject's actual branch and semester; linked older-scheme papers follow their matching subject (including Chemical semester 5 and Mechanical semester 5) rather than a manually assigned semester. A PDF-only set published by the uploader still requires a matching original PDF and refuses an existing HTML destination. Future PDF names follow `papers/<code>/<session>.solution.pdf` plus the original `<session>.pdf`. The old Netlify deployment cannot discover PDF-only sets: deploying the updated Netlify package is required once. A separate older archival Chemical Engineering materials tree contains many other historical documents and has not yet been fully inventoried or imported in this batch.
+The browser discovers uploaded papers on demand, without scheduled scanning. When a matching `<session>.html` is present, it takes precedence over `<session>.solution.pdf`; the two do not create duplicate exam entries. Solved papers remain grouped under their catalog subject's actual branch and semester. Linked older-scheme papers follow the matching subject but retain a scheme warning, rather than being relabelled with a DI code. Future PDF-only uploads receive an honest conversion-needed notice and optional links, **not an embedded PDF viewer**. A PDF is an archive/download, not question-card content.
+
+## Individual-question card refresh
+
+All **37 formerly PDF-only sets** above now have actual HTML `<details class="card">` question/answer readers alongside their unchanged original/solution PDFs. There are **1,076 cards and 3,129 lossless WebP excerpts**. The 33 Civil/Chemical engineering sets have 28 parts, including OR alternatives. Each Mathematics-I and Applied Physics paper has **38 items**: 14 MCQs plus all three choices in the eight remaining groups. Maths stays English-only and says so in either website language mode; no Gujarati translation has been invented.
+
+`tools/prepare_pdf_paper_cards.py` segments the original solution by question number and language. English prose is selectable HTML; equations, fractions, diagrams, tables and all Gujarati content use cropped original pixels inside the matching question's summary/answer. They are not whole-PDF frames or full-page scans. Small source print can be enlarged in a keyboard-accessible dialog with fit/original-size controls. Source notes and assumptions remain available in a separate expandable block, not ahead of every question.
+
+`pdf-card-sources.json` records the verified Drive solution IDs. `pdf-card-manifest.json` records source/HTML/image SHA-256 hashes, all ordered question labels, language coverage, PDF coordinates, fixed-origin raster crop boxes and source-block coverage. Conversion fails on missing question boundaries or unaccounted content blocks. Checksums prove identity and retained content, **not correctness of the supplied educational answers**.
+
+For reproducible conversion/auditing:
+
+```sh
+python3 -m venv .venv
+.venv/bin/pip install -r tools/paper-card-requirements.txt
+.venv/bin/python tools/prepare_pdf_paper_cards.py
+python3 tools/test_paper_card_files.py
+.venv/bin/python tools/verify_pdf_card_rendering.py
+```
+
+### Electrical Engineering Summer 2026
+
+Twelve verified ZIP bundles supplied actual HTML, so these were **not re-created from PDFs**. The subject codes are DI01000081, DI01009011, DI02000161, DI02000171, DI03000081, DI03000091, DI03000101, DI03009011, DI03009021, DI04000171, DI04000321 and DI04009011. Their matching originals remain separate PDFs. All 15 supplied HTML files are unmodified in `originals/`; bundled font licences are retained. `electrical-paper-provenance.json` records Drive bundle/extracted-file identities and checksums.
+
+`tools/prepare_electrical_papers.js` combines the separate English/Gujarati files for the first two subjects, preserves all supplied worked text, makes inherited OR labels explicit, and rasterizes complete source SVGs to scoped PNGs. `electrical-card-manifest.json` audits **336 bilingual cards and 271 distinct PNG diagrams**, including source SVG and image hashes. Two known Digital Electronics (DI02000161) issues have explicit bilingual review/correction notices at Q1(c) OR and Q2(c) OR; the supplied original answer is retained underneath, not silently edited. This is not a full independent answer audit.
+
+Install `jsdom@26.1.0` and `@resvg/resvg-js@2.6.2`, then run `node tools/prepare_electrical_papers.js`. On a reviewed regeneration only, `--update-reader-copies` permits replacing a local generated reader whose hash still matches its prior manifest; it does not authorize overwriting published public files.
+
+### Mechanical and the second Chemical location
+
+Existing Mechanical Summer 2026 HTML cards and the four 2025 readers remain unchanged. The two combined 2025 Drive sources still match their verified checksums. Summer 2026 Drive PDFs are exports of existing card solutions, not grounds for replacing confirmed, distinct exams.
+
+The second Chemical shortcut points to an older **2017 Batch** archive with diploma/degree material, legacy-scheme references, handwritten scans and mixed-session documents. Its six diploma semesters and named solution folders were inspected separately. Unidentified scans and combined sessions have **not** been uploaded as current solved papers; for example 3360501 is Fertilizer, not 4360501 Chemical Reaction Engineering. Scope and unresolved source identities are recorded in `drive-card-refresh-audit.json`. Do not silently merge these schemes or label an OCR-free scan as a verified solution.
+
+### Publishing and deployment
+
+The publisher validates every staged file before copying, refuses symlinks/unsafe paths and differing existing public files, requires matching original PDFs (except the four documented 2025 exceptions), and permits only referenced PNG/WebP assets in the current paper's own `<session>.assets/` directory. Common papers must explicitly declare their 38-item layout. Website CSP trusts only the public paper image path and forbids PDF frames. No scheduled background job was added.
+
+Reader, source-preservation, manifest, source-pixel and optional real-Chromium desktop/mobile tests are in `website/test_card_refresh.js`, `tools/test_electrical_papers.js`, `tools/test_paper_card_files.py`, `tools/verify_pdf_card_rendering.py` and `tools/test_paper_cards_browser.js`. Publish the content **and redeploy the rebuilt `DiplomaOne-Netlify.zip`** to update a manually deployed custom domain; a successful GitHub Pages content upload alone does not update an older Netlify frontend.

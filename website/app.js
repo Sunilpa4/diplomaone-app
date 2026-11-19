@@ -285,29 +285,60 @@
     img.setAttribute('src','data:image/svg+xml;charset=utf-8,'+encodeURIComponent(new XMLSerializer().serializeToString(svg)));
     return img;
   }
+  // An uploaded paper can reference only its own numbered, inert diagram
+  // assets. Never resolve arbitrary relative URLs, hosts, SVGs or other papers.
+  function paperAssetUrl(source, paper) {
+    if(!validPaperCode(paper?.code)||!validPaperSession(paper?.session))return '';
+    const parts=source.split('/');
+    if(parts.length!==2||parts[0]!==`${paper.session}.assets`||!/^\d{4}\.(?:webp|png)$/.test(parts[1]))return '';
+    return `${paperBase}/${paper.code}/${paper.session}.assets/${parts[1]}`;
+  }
   // Copy only presentational nodes and selected math classes from remote papers.
-  // Event handlers, scripts, URLs, forms and source CSS are never inserted.
-  function sanitizePaper(html, language) {
+  // Source scripts, event handlers, links, forms and CSS are never inserted.
+  function sanitizePaper(html, language, paper) {
     const source=new DOMParser().parseFromString(html,'text/html');
     const main=source.querySelector('main');
     if(!main||!main.querySelector('details'))throw new Error('Invalid paper format');
-    const tags=new Set(['MAIN','SECTION','H2','H3','P','DIV','SPAN','STRONG','B','EM','I','U','SMALL','SUB','SUP','UL','OL','LI','BR','DETAILS','SUMMARY','FIGURE','FIGCAPTION','IMG','TABLE','THEAD','TBODY','TR','TH','TD']);
+    const tags=new Set(['MAIN','SECTION','H2','H3','H4','P','DIV','SPAN','STRONG','B','EM','I','U','SMALL','SUB','SUP','UL','OL','LI','BR','DETAILS','SUMMARY','FIGURE','FIGCAPTION','IMG','TABLE','THEAD','TBODY','TFOOT','TR','TH','TD','CODE','PRE','BLOCKQUOTE']);
     const blocked=new Set(['SCRIPT','STYLE','IFRAME','OBJECT','EMBED','FORM','INPUT','BUTTON','LINK','META','VIDEO','AUDIO']);
-    const classes=new Set(['card','answer','note','eq','frac','num','den','result','paper-figure']);
+    const classes=new Set(['card','answer','note','eq','frac','num','den','result','paper-figure','paper-excerpt','paper-erratum','paper-choice-label','paper-question-hint','paper-source-notes']);
     function copy(node) {
       if(node.nodeType===3)return document.createTextNode(node.nodeValue);
       if(node.nodeType!==1)return null;
       if((node.classList.contains('en')&&language!=='en')||(node.classList.contains('gu')&&language!=='gu'))return null;
       if(node.namespaceURI==='http://www.w3.org/2000/svg')return node.localName==='svg'?paperDiagram(node):null;
       if(blocked.has(node.tagName))return null;
-      const out=tags.has(node.tagName)?document.createElement(node.localName):document.createDocumentFragment();
+      const sourceNotes=node.tagName==='DIV'&&node.classList.contains('paper-source-notes');
+      const out=tags.has(node.tagName)?document.createElement(sourceNotes?'details':node.tagName==='MAIN'?'div':node.localName):document.createDocumentFragment();
+      if(sourceNotes) {
+        const summary=document.createElement('summary');
+        summary.className='paper-source-notes-title';
+        summary.textContent=language==='gu'?'મૂળ નોંધો, ધારણાઓ અને પરીક્ષાની સૂચનાઓ':'Source notes, assumptions and exam instructions';
+        out.appendChild(summary);
+      }
       if(node.tagName==='IMG') {
-        const src=node.getAttribute('src')||'';
-        if(src.length>1200000||!/^data:image\/(png|jpeg|gif|webp);base64,[a-z0-9+/=\s]+$/i.test(src))return null;
+        const sourceUrl=node.getAttribute('src')||'';
+        const embedded=sourceUrl.length<=1200000&&/^data:image\/(png|jpeg|gif|webp);base64,[a-z0-9+/=\s]+$/i.test(sourceUrl);
+        const src=embedded?sourceUrl:paperAssetUrl(sourceUrl,paper);
+        if(!src)return null;
         out.setAttribute('src',src);out.setAttribute('alt',node.getAttribute('alt')||'Paper figure');out.setAttribute('loading','lazy');
+        out.setAttribute('decoding','async');out.setAttribute('referrerpolicy','no-referrer');
+        for(const dimension of ['width','height']) {
+          const value=node.getAttribute(dimension)||'';
+          if(/^[1-9]\d{0,4}$/.test(value)&&Number(value)<=10000)out.setAttribute(dimension,value);
+        }
       }
       if(tags.has(node.tagName)) {
-        const names=[...node.classList].filter(c=>classes.has(c));if(names.length)out.className=names.join(' ');
+        const names=[...node.classList].filter(c=>classes.has(c));
+        if(node.tagName==='DETAILS'&&!names.includes('card'))names.push('card');
+        if(names.length)out.className=names.join(' ');
+        if(node.tagName==='MAIN')out.classList.add('paper-content');
+        if(node.classList.contains('en')||node.getAttribute('lang')==='en')out.lang='en';
+        if(node.classList.contains('gu')||node.getAttribute('lang')==='gu')out.lang='gu';
+        if(['TH','TD'].includes(node.tagName))for(const attr of ['colspan','rowspan']) {
+          const value=node.getAttribute(attr)||'';
+          if(/^[1-9]\d?$/.test(value)&&Number(value)<=20)out.setAttribute(attr,value);
+        }
       }
       for(const child of node.childNodes){const safe=copy(child);if(safe)out.appendChild(safe);}
       return out;
@@ -316,12 +347,50 @@
     if(!cleaned)throw new Error('Invalid paper content');
     holder.appendChild(cleaned);return holder.innerHTML;
   }
-  function paperPdfCard(url,label,open,buttonLabel) {
-    if(!url)return '';
-    const viewerUrl=`${url}#view=FitH`;
-    return `<details class="note-card paper-pdf-card" ${open?'open':''}><summary>${esc(label)}</summary><div class="note-body"><div class="paper-pdf-viewer"><iframe class="paper-pdf-frame" src="${esc(viewerUrl)}" title="${esc(label)}" loading="${open?'eager':'lazy'}" referrerpolicy="no-referrer"></iframe></div><p class="paper-pdf-actions"><a class="button-primary" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(buttonLabel)} ↗</a></p></div></details>`;
+  function bindPaperReader() {
+    const article=main.querySelector('.solved-paper');if(!article)return;
+    const cards=[...article.querySelectorAll('details.card')];
+    main.querySelectorAll('[data-paper-expand]').forEach(button=>button.addEventListener('click',()=>{
+      const open=button.dataset.paperExpand==='true';cards.forEach(card=>{card.open=open;});
+    }));
+    const figures=[...article.querySelectorAll('figure')].filter(figure=>figure.querySelector('img'));
+    if(!figures.length)return;
+    const dialog=document.createElement('dialog');dialog.className='paper-image-dialog';
+    dialog.setAttribute('aria-label',lang==='gu'?'મૂળ ચિત્ર મોટું કરીને વાંચો':'Enlarged source image');
+    const toolbar=document.createElement('div');toolbar.className='paper-image-toolbar';
+    const hint=document.createElement('span');hint.textContent=lang==='gu'?'જરૂર પડે ત્યાં ચિત્ર સરકાવીને વાંચો.':'Scroll the image to inspect small details.';
+    const zoom=document.createElement('button');zoom.type='button';zoom.className='paper-control';
+    const close=document.createElement('button');close.type='button';close.className='paper-control';close.textContent=lang==='gu'?'બંધ કરો ×':'Close ×';
+    const stage=document.createElement('div');stage.className='paper-image-stage';stage.tabIndex=0;
+    const enlarged=document.createElement('img');enlarged.referrerPolicy='no-referrer';stage.appendChild(enlarged);
+    const caption=document.createElement('p');caption.className='paper-image-caption';
+    toolbar.append(hint,zoom,close);dialog.append(toolbar,stage,caption);article.appendChild(dialog);
+    let trigger=null;
+    const setZoom=original=>{
+      dialog.classList.toggle('at-original-size',original);zoom.setAttribute('aria-pressed',String(original));
+      zoom.textContent=lang==='gu'?(original?'પહોળાઈમાં ફિટ કરો':'મૂળ કદમાં વાંચો'):(original?'Fit to width':'Original size');
+    };
+    close.addEventListener('click',()=>{if(typeof dialog.close==='function')dialog.close();else {dialog.removeAttribute('open');trigger?.focus();}});
+    dialog.addEventListener('close',()=>{enlarged.removeAttribute('src');trigger?.focus();});
+    dialog.addEventListener('click',event=>{if(event.target===dialog)close.click();});
+    dialog.addEventListener('keydown',event=>{if(event.key==='Escape'&&typeof dialog.close!=='function'){event.preventDefault();close.click();}});
+    zoom.addEventListener('click',()=>setZoom(!dialog.classList.contains('at-original-size')));
+    for(const figure of figures) {
+      const img=figure.querySelector('img'),button=document.createElement('button');
+      button.type='button';button.className='paper-enlarge paper-control';button.setAttribute('aria-haspopup','dialog');
+      button.textContent=lang==='gu'?'ચિત્ર મોટું કરો ↗':'Enlarge image ↗';
+      button.addEventListener('click',()=>{
+        trigger=button;enlarged.src=img.src;enlarged.alt=img.alt;
+        caption.textContent=figure.querySelector('figcaption')?.textContent||img.alt;
+        setZoom(false);stage.scrollTop=0;stage.scrollLeft=0;
+        if(typeof dialog.showModal==='function')dialog.showModal();else dialog.setAttribute('open','');
+        close.focus();
+      });
+      figure.appendChild(button);
+    }
   }
   async function showPaper(code, session, meta, entry) {
+    if(!validPaperCode(code)||!validPaperSession(session))throw new Error('Invalid paper path');
     const key=`${code}/${session}`;
     let html=paperCache.get(key);
     if(!html && !entry?.pdfOnly) {
@@ -341,10 +410,11 @@
     const back=meta?`#/subject/${encodeURIComponent(code)}`:relatedMeta?`#/subject/${encodeURIComponent(related)}`:'#/papers';
     const schemeNotice=related?(lang==='gu'?`આ જૂની યોજનાનું પ્રશ્નપત્ર છે (કોડ ${code}). સમાન વિષયના નામ હેઠળ બતાવ્યું છે; બંને યોજનાના અભ્યાસક્રમ અલગ હોઈ શકે છે.`:`This is an older-scheme paper (code ${code}), listed with a subject of the same name. The syllabuses may differ.`):'';
     const solvedPdf=entry?.solutionPdf?`${paperBase}/${encodeURIComponent(code)}/${encodeURIComponent(entry.solutionPdf)}`:'';
-    const pdfNotice=lang==='gu'?'આ બિનસત્તાવાર અભ્યાસ ઉકેલ છે, સત્તાવાર GTU જવાબવહી નથી. જવાબોની સ્વતંત્ર ચકાસણી થઈ નથી. PDF માં આપેલી ભાષાઓ જેવી છે તેવી જ જળવાય છે; સાઇટનો ભાષા વિકલ્પ PDF નું ભાષાંતર કરતો નથી.':'This is an unofficial study solution, not an official GTU answer key. Answers have not been independently verified. The PDF preserves the language(s) supplied with the source; the site language switch does not translate PDF contents.';
-    const pdfCardButton=lang==='gu'?'નવા ટેબમાં PDF ખોલો':'Open PDF in a new tab';
-    const body=entry?.pdfOnly ? `<div class="reader-notice"><p>${esc(pdfNotice)}</p></div>${paperPdfCard(solvedPdf,lang==='gu'?'સંપૂર્ણ ઉકેલ (PDF)':'Complete solution (PDF)',true,pdfCardButton)}${pdf?paperPdfCard(pdf,lang==='gu'?'મૂળ પ્રશ્નપત્ર (PDF)':'Original question paper (PDF)',false,pdfCardButton):''}` : sanitizePaper(html,lang);
-    return `${shell(title,`${name} · ${code} · ${paperSessionTitle(session)}`,[{label:tr('papers'),href:'#/papers'},{label:name,href:back},{label:title}])}<section class="page-content"><div class="wrap"><div class="paper-toolbar"><a class="button-text" href="${esc(back)}">← ${esc(tr('back'))}</a>${pdf?`<a class="button-text" href="${esc(pdf)}" target="_blank" rel="noopener noreferrer">${lang==='gu'?'મૂળ પ્રશ્નપત્ર (PDF)':'Original question paper (PDF)'} ↗</a>`:''}${solvedPdf&&!entry?.pdfOnly?`<a class="button-text" href="${esc(solvedPdf)}" target="_blank" rel="noopener noreferrer">${lang==='gu'?'ઉકેલ PDF':'Solution PDF'} ↗</a>`:''}</div>${schemeNotice?`<p class="reader-notice">${esc(schemeNotice)}</p>`:''}<article class="reader-card solved-paper">${body}</article></div></section>`;
+    const pdfNotice=lang==='gu'?'આ પેપર માટે પ્રશ્ન-જવાબ કાર્ડ હજુ તૈયાર થયા નથી. ઉપરની વૈકલ્પિક PDF લિંક્સથી મૂળ સામગ્રી વાંચી શકો છો. આ બિનસત્તાવાર અભ્યાસ ઉકેલ છે; જવાબોની સ્વતંત્ર ચકાસણી થઈ નથી. સાઇટનો ભાષા વિકલ્પ PDF નું ભાષાંતર કરતો નથી.':'Question-and-answer cards have not yet been prepared for this paper. The optional PDF links above provide the supplied material. This is an unofficial study solution; answers have not been independently verified. The site language switch does not translate PDF contents.';
+    const body=entry?.pdfOnly?`<div class="reader-notice"><p>${esc(pdfNotice)}</p></div>`:sanitizePaper(html,lang,{code,session});
+    const count=entry?.pdfOnly?0:new DOMParser().parseFromString(body,'text/html').querySelectorAll('details.card').length;
+    const controls=count?`<div class="paper-controls"><div><strong>${count} ${lang==='gu'?'પ્રશ્ન ભાગો':count===1?'question part':'question parts'}</strong><p>${lang==='gu'?'જવાબ વાંચવા પ્રશ્ન પર ટેપ કરો. પરીક્ષાની વિકલ્પ સૂચનાઓ અનુસરો.':'Tap a question to read its answer. Follow the original exam choice instructions.'}</p></div><div class="paper-control-buttons"><button type="button" class="paper-control" data-paper-expand="true">${lang==='gu'?'બધા ખોલો':'Expand all'}</button><button type="button" class="paper-control" data-paper-expand="false">${lang==='gu'?'બધા બંધ કરો':'Collapse all'}</button></div></div>`:'';
+    return `${shell(title,`${name} · ${code} · ${paperSessionTitle(session)}`,[{label:tr('papers'),href:'#/papers'},{label:name,href:back},{label:title}])}<section class="page-content"><div class="wrap paper-wrap"><div class="paper-toolbar"><a class="button-text" href="${esc(back)}">← ${esc(tr('back'))}</a><div class="paper-downloads">${pdf?`<a class="button-text" href="${esc(pdf)}" target="_blank" rel="noopener noreferrer">${lang==='gu'?'મૂળ પ્રશ્નપત્ર (PDF)':'Original question paper (PDF)'} ↗</a>`:''}${solvedPdf?`<a class="button-text" href="${esc(solvedPdf)}" target="_blank" rel="noopener noreferrer">${lang==='gu'?'વૈકલ્પિક ઉકેલ PDF':'Optional solution PDF'} ↗</a>`:''}</div></div>${schemeNotice?`<p class="reader-notice">${esc(schemeNotice)}</p>`:''}${controls}<article class="reader-card solved-paper">${body}</article></div></section>`;
   }
   // Only allow inert, presentational markup from note content. Never execute source HTML or SVG.
   function safeHtml(value) {
@@ -483,6 +553,7 @@
         await loadPaperIndex();
         const entry=paperEntries(arg).find(p=>p.session===sub);
         html=entry?await showPaper(arg,sub,subjectMeta(arg),entry):missing();
+        if(entry)bind=bindPaperReader;
       } else if(route==='unit'&&safeCode(arg)&&/^(?:0|[1-9]\d*)$/.test(sub||'')&&subjectMeta(arg)?.status==='available') {
         const [subject,unit]=await Promise.all([fetchJson(`subjects/${arg}.json`),fetchJson(`units/${arg}_u${sub}.json`)]);
         html=showUnit(unit,subject);bind=()=>bindReader(unit,subject);

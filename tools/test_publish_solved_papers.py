@@ -1,6 +1,7 @@
 import tempfile
 import json
 import unittest
+import base64
 from pathlib import Path
 from publish_solved_papers import prepare, publish
 
@@ -97,6 +98,99 @@ class PublisherTest(unittest.TestCase):
         (self.site / 'papers').symlink_to(self.src, target_is_directory=True)
         with self.assertRaisesRegex(ValueError, 'Unsafe target'):
             publish(self.src, self.site)
+
+    def add_image(self):
+        image = self.src / '4351902' / 'summer-2026.assets' / '0001.png'
+        image.parent.mkdir(exist_ok=True)
+        image.write_bytes(base64.b64decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a7ioAAAAASUVORK5CYII='))
+        html = self.src / '4351902' / 'summer-2026.html'
+        html.write_text(solution().replace('</summary>', '</summary><img src="summer-2026.assets/0001.png">', 1))
+        return image, html
+
+    def test_scoped_images_are_published_and_idempotent(self):
+        image, _ = self.add_image()
+        self.assertEqual(len(publish(self.src, self.site)), 3)
+        self.assertEqual(len(publish(self.src, self.site)), 0)
+        self.assertEqual((self.site / 'papers' / image.relative_to(self.src)).read_bytes(), image.read_bytes())
+        image.write_bytes(image.read_bytes() + b'changed')
+        with self.assertRaises(ValueError):
+            prepare(self.src, self.site)
+
+    def test_missing_or_orphan_images_abort_before_writes(self):
+        image, html = self.add_image()
+        data = image.read_bytes()
+        image.unlink()
+        with self.assertRaisesRegex(ValueError, 'Missing or unreferenced'):
+            publish(self.src, self.site)
+        self.assertFalse((self.site / 'papers').exists())
+        image.write_bytes(data)
+        html.write_text(solution())
+        with self.assertRaisesRegex(ValueError, 'Missing or unreferenced'):
+            publish(self.src, self.site)
+        self.assertFalse((self.site / 'papers').exists())
+
+    def test_unscoped_references_and_non_image_assets_rejected(self):
+        image, html = self.add_image()
+        good = html.read_text()
+        for bad in ('../0001.png', 'winter-2025.assets/0001.png', '/summer-2026.assets/0001.png',
+                    'https://example.com/0001.png', 'summer-2026.assets/../0001.png',
+                    'summer-2026.assets/0001.svg', 'summer-2026.assets/0001.png?x=1',
+                    'summer-2026.assets/%30%30%30%31.png', 'summer-2026.assets\\\\0001.png'):
+            html.write_text(good.replace('summer-2026.assets/0001.png', bad))
+            with self.subTest(reference=bad), self.assertRaisesRegex(ValueError, 'Unscoped'):
+                prepare(self.src, self.site)
+        html.write_text(good)
+        image.write_bytes(b'<svg onload="alert(1)"></svg>')
+        with self.assertRaisesRegex(ValueError, 'Invalid paper image'):
+            prepare(self.src, self.site)
+
+    def test_asset_and_ancestor_symlinks_are_rejected(self):
+        image, _ = self.add_image()
+        target = self.site / 'papers' / '4351902'
+        target.mkdir(parents=True)
+        (target / 'summer-2026.assets').symlink_to(image.parent, target_is_directory=True)
+        with self.assertRaisesRegex(ValueError, 'Unsafe target'):
+            publish(self.src, self.site)
+        (target / 'summer-2026.assets').unlink()
+        (target / 'summer-2026.assets').write_text('not a directory')
+        with self.assertRaisesRegex(ValueError, 'Unsafe target'):
+            publish(self.src, self.site)
+        (target / 'summer-2026.assets').unlink()
+        data = image.read_bytes()
+        image.unlink()
+        original = Path(self.temp.name) / 'source.png'; original.write_bytes(data)
+        image.symlink_to(original)
+        with self.assertRaisesRegex(ValueError, 'Symlinks'):
+            publish(self.src, self.site)
+
+    def test_explicit_38_item_common_paper_and_each_language(self):
+        folder = self.src / '4351902'
+        folder.rename(self.src / 'DI01000021')
+        html = self.src / 'DI01000021' / 'summer-2026.html'
+        content = '<html lang="en"><meta name="paper-layout" content="source-pdf-cards-v1"><meta name="paper-question-count" content="38"><meta name="paper-language" content="en-only"><main>'
+        content += ''.join('<section>' + ''.join('<details><summary>Question</summary><div class="answer">Worked answer</div></details>' for _ in range(38 if i == 0 else 0)) + '</section>' for i in range(5)) + '</main></html>'
+        html.write_text(content)
+        self.assertEqual(len(prepare(self.src, self.site)), 2)
+        for bad in (content.replace('content="38"', 'content="28"'),
+                    content.replace('source-pdf-cards-v1', 'unknown'),
+                    content.replace('<div class="answer">', '<div>', 1),
+                    content.replace('</main>', '<script>bad()</script></main>'),
+                    content.replace('<details>', '<details onclick="bad()">', 1)):
+            html.write_text(bad)
+            with self.assertRaises(ValueError):
+                prepare(self.src, self.site)
+
+    def test_new_html_replaces_pdf_presentation_without_modifying_pdfs(self):
+        target = self.site / 'papers' / '4351902'; target.mkdir(parents=True)
+        pdf = self.src / '4351902' / 'summer-2026.pdf'
+        (target / pdf.name).write_bytes(pdf.read_bytes())
+        solved = b'%PDF-1.4\nsource solution\n%%EOF\n'
+        (self.src / '4351902' / 'summer-2026.solution.pdf').write_bytes(solved)
+        (target / 'summer-2026.solution.pdf').write_bytes(solved)
+        added = publish(self.src, self.site)
+        self.assertEqual([p.name for p in added], ['summer-2026.html'])
+        self.assertEqual((target / pdf.name).read_bytes(), pdf.read_bytes())
+        self.assertEqual((target / 'summer-2026.solution.pdf').read_bytes(), solved)
 
 
 if __name__ == '__main__':

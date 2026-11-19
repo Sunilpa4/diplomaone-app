@@ -34,6 +34,9 @@ const tree={truncated:false,tree:[
  file('papers/DI09999999/spring-2028.html','120000'), file('papers/DI09999999/../../danger.html'),
  file('papers/../../bad/winter-2027.html'), file('papers/DI09999999/index.html')
 ]};
+// Converted HTML is the default even while its optional solution PDF remains.
+for(const item of [...tree.tree])if(item.path.endsWith('.solution.pdf'))tree.tree.push(file(item.path.replace('.solution.pdf','.html')));
+tree.tree.push(file('papers/DI09999998/winter-2025.solution.pdf'),file('papers/DI09999998/winter-2025.pdf'),file('papers/DI01000021/summer-2026.assets/0001.webp'),file('papers/DI01000021/summer-2026.assets/evil.html'));
 const catalog={branches:[{key:'civil',code:'06',name:{en:'Civil Engineering',gu:'Civil Engineering'},semesters:{'1':['DI01000021','DI01000121','DI01006021'],'3':['DI03006011','DI03006021','DI03006031','DI03006041','DI03006051']}},{key:'chemical',code:'05',name:{en:'Chemical Engineering',gu:'Chemical Engineering'},semesters:{'5':['DI05005011','DI05005031']}},{key:'mechanical',code:'01',name:{en:'Mechanical Engineering',gu:'Mechanical Engineering'},semesters:{'1':['DI01000021'],'2':['DI01000121'],'5':['DI05019011','DI05019021']}}],subjects:{DI05019011:{code:'DI05019011',name:{en:'Manufacturing Engineering - III',gu:'મેન્યુફેક્ચરિંગ ઇજનેરી - III'},status:'available'},DI05019021:{code:'DI05019021',name:{en:'Thermal Engineering - II',gu:'થર્મલ ઇજનેરી - II'},status:'available'},DI05005011:{code:'DI05005011',name:{en:'Mass Transfer - II'},status:'available'},DI05005031:{code:'DI05005031',name:{en:'Chemical Reaction Engineering'},status:'available'},DI01000021:{code:'DI01000021',name:{en:'Mathematics - I'},status:'unavailable'},DI01000121:{code:'DI01000121',name:{en:'Applied Physics'},status:'unavailable'},DI01006021:{code:'DI01006021',name:{en:'Construction Material'},status:'available'},DI03006011:{code:'DI03006011',name:{en:'Construction Technology'},status:'available'},DI03006021:{code:'DI03006021',name:{en:'Advance Surveying'},status:'available'},DI03006031:{code:'DI03006031',name:{en:'Basic Transportation Engineering'},status:'available'},DI03006041:{code:'DI03006041',name:{en:'Mechanics of Structures-I'},status:'available'},DI03006051:{code:'DI03006051',name:{en:'Soil Engineering'},status:'available'}}};
 let failIndex=false;
 w.fetch=async url=>{
@@ -57,24 +60,28 @@ async function go(hash,selector){const previous=w.document.querySelector('.page-
  assert(w.document.querySelector('a[href="#/paper/DI01000021/winter-2025"]').textContent.includes('Mathematics - I'));
  assert(w.document.querySelector('a[href="#/paper/DI01000121/summer-2026"]').textContent.includes('Applied Physics'));
  assert(w.document.querySelector('a[href="#/paper/DI01000121/winter-2025"]').textContent.includes('Applied Physics'));
- await go('#/paper/DI01000021/summer-2026','.solved-paper a[href$="summer-2026.solution.pdf"]');
+ await go('#/paper/DI01000021/summer-2026','.solved-paper details');
  assert(w.document.querySelector('.paper-toolbar a[href$="summer-2026.pdf"]'));
- assert(w.document.querySelector('.solved-paper').textContent.includes('unofficial study solution'));
- assert(w.document.querySelector('.reader-notice').textContent.includes('does not translate PDF contents'));
- const mathPdfCards=[...w.document.querySelectorAll('.solved-paper .paper-pdf-card')];
- assert.equal(mathPdfCards.length,2,'show solution and original inside expandable cards');
- assert(mathPdfCards[0].open,'solution card should be open by default');
- assert(mathPdfCards[0].querySelector('iframe').getAttribute('src').includes('/papers/DI01000021/summer-2026.solution.pdf#view=FitH'));
- assert(mathPdfCards[1].querySelector('iframe').getAttribute('src').includes('/papers/DI01000021/summer-2026.pdf#view=FitH'));
- assert(!mathPdfCards[1].open,'original PDF card should be collapsed by default');
- await go('#/paper/DI01000121/winter-2025','.solved-paper a[href$="winter-2025.solution.pdf"]');
+ assert(w.document.querySelector('.paper-toolbar a[href$="summer-2026.solution.pdf"]'));
+ assert(w.document.querySelector('.solved-paper').textContent.includes('New answer'));
+ assert.equal(w.document.querySelectorAll('iframe').length,0,'never use a PDF viewer as a question card');
+ assert(requests.some(x=>x.includes('/DI01000021/summer-2026.html')));
+ w.document.querySelector('[data-paper-expand="true"]').click();assert(w.document.querySelector('details.card').open);
+ w.document.querySelector('[data-paper-expand="false"]').click();assert(!w.document.querySelector('details.card').open);
+ await go('#/paper/DI01000121/winter-2025','.solved-paper details');
  assert(w.document.querySelector('.paper-toolbar a[href$="winter-2025.pdf"]'));
- assert(w.document.querySelector('.solved-paper').textContent.includes('unofficial study solution'));
- assert(w.document.querySelector('.solved-paper .paper-pdf-card iframe').getAttribute('src').includes('/papers/DI01000121/winter-2025.solution.pdf#view=FitH'));
- await go('#/paper/4350501/winter-2025','.solved-paper a[href$="winter-2025.solution.pdf"]');
+ assert(w.document.querySelector('.paper-toolbar a[href$="winter-2025.solution.pdf"]'));
+ assert(w.document.querySelector('.solved-paper').textContent.includes('New answer'));
+ assert.equal(w.document.querySelectorAll('iframe').length,0);
+ await go('#/paper/4350501/winter-2025','.solved-paper details');
  assert(w.document.querySelector('.paper-toolbar a[href$="winter-2025.pdf"]'));
- assert(w.document.querySelector('.solved-paper').textContent.includes('unofficial study solution'));
- assert(!requests.some(x=>x.includes('/4350501/winter-2025.html')), 'PDF-only route must not request an HTML file');
+ assert(w.document.querySelector('.solved-paper').textContent.includes('New answer'));
+ assert(requests.some(x=>x.includes('/4350501/winter-2025.html')), 'matching HTML replaces the default PDF presentation');
+ await go('#/paper/DI09999998/winter-2025','.solved-paper .reader-notice');
+ assert(w.document.querySelector('.solved-paper').textContent.includes('cards have not yet been prepared'));
+ assert(w.document.querySelector('.paper-toolbar a[href$="winter-2025.solution.pdf"]'));
+ assert(!requests.some(x=>x.includes('/DI09999998/winter-2025.html')), 'an unconverted PDF must not be misrepresented as a question card');
+ assert.equal(w.document.querySelectorAll('iframe,object,embed').length,0);
  await go('#/branch/civil','a[href="#/branch/civil/3"]');
  assert(w.document.querySelector('a[href="#/branch/civil/3"]').textContent.includes('8 paper sets'));
  await go('#/branch/civil/3','a[href="#/paper/DI03006041/summer-2026"]');
@@ -142,6 +149,6 @@ async function go(hash,selector){const previous=w.document.querySelector('.page-
  assert(w2.document.querySelector('.reader-notice').textContent.includes('could not be updated'));
  assert(w2.document.querySelector('a[href="#/paper/DI03000141/summer-2026"]'));
  w2.close();
- console.log('Automatic listing, branch/semester paper placement, PDF card preview, unknown subjects and route fallback passed.');
+ console.log('Automatic listing, catalog placement, HTML-over-PDF precedence, question controls and honest PDF-only fallback passed.');
  w.close();
 })().catch(e=>{console.error(e);w.close();process.exitCode=1});

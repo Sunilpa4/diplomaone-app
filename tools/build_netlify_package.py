@@ -2,7 +2,8 @@
 """Build a deploy-ready, static Netlify ZIP without bundling stale note data.
 
 The Netlify rewrite serves published note data at /data/. The in-site paper
-reader fetches and sanitizes published solutions; legacy paper URLs redirect.
+reader fetches and sanitizes individual question cards and scoped image assets;
+PDFs stay optional downloads, never frames. Legacy paper URLs redirect.
 """
 from pathlib import Path
 from zipfile import ZipFile, ZipInfo, ZIP_DEFLATED
