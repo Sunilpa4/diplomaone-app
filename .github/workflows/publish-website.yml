@@ -6,12 +6,18 @@ on:
     paths:
       - 'website/**'
       - 'app/**'
+      - 'tools/build_netlify_package.py'
+      - 'tools/test_netlify_package.py'
+      - 'DiplomaOne-Netlify.zip'
       - '.github/workflows/publish-website.yml'
   push:
     branches: [main]
     paths:
       - 'website/**'
       - 'app/**'
+      - 'tools/build_netlify_package.py'
+      - 'tools/test_netlify_package.py'
+      - 'DiplomaOne-Netlify.zip'
       - '.github/workflows/publish-website.yml'
 
 concurrency:
@@ -33,6 +39,8 @@ jobs:
           node website/test_paper_reader.js
           node website/test_paper_discovery.js
           node website/test_uploaded_papers.js
+          node website/test_card_refresh.js
+          node tools/test_electrical_papers.js
           node website/test_published_papers.js
           python3 tools/test_netlify_package.py
           python3 -m unittest discover -s website -p 'test_*.py'

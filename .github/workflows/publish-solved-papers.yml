@@ -12,6 +12,13 @@ on:
       - 'tools/prepare_computer_papers.js'
       - 'tools/prepare_mechanical_papers.js'
       - 'tools/test_mechanical_papers.js'
+      - 'tools/prepare_electrical_papers.js'
+      - 'tools/test_electrical_papers.js'
+      - 'tools/prepare_pdf_paper_cards.py'
+      - 'tools/verify_pdf_card_rendering.py'
+      - 'tools/paper-card-requirements.txt'
+      - 'tools/test_paper_card_files.py'
+      - 'website/test_card_refresh.js'
       - '.github/workflows/publish-solved-papers.yml'
   push:
     branches: [main]
@@ -25,6 +32,13 @@ on:
       - 'tools/prepare_computer_papers.js'
       - 'tools/prepare_mechanical_papers.js'
       - 'tools/test_mechanical_papers.js'
+      - 'tools/prepare_electrical_papers.js'
+      - 'tools/test_electrical_papers.js'
+      - 'tools/prepare_pdf_paper_cards.py'
+      - 'tools/verify_pdf_card_rendering.py'
+      - 'tools/paper-card-requirements.txt'
+      - 'tools/test_paper_card_files.py'
+      - 'website/test_card_refresh.js'
       - '.github/workflows/publish-solved-papers.yml'
 
 permissions:
@@ -46,13 +60,20 @@ jobs:
         run: |
           node tools/test_computer_papers.js
           node tools/test_mechanical_papers.js
+          node tools/test_electrical_papers.js
+          node website/test_card_refresh.js
       - name: Check additive publishing and uploaded files
         run: |
           python3 tools/test_publish_solved_papers.py
           python3 tools/test_pdf_batch.py
           python3 tools/test_common_subject_papers.py
+          python3 tools/test_paper_card_files.py
           mkdir "$RUNNER_TEMP/paper-check"
           python3 tools/publish_solved_papers.py papers-upload/papers "$RUNNER_TEMP/paper-check" --missing-originals papers-upload/missing-originals.json
+      - name: Verify lossless question excerpts against original PDFs
+        run: |
+          python3 -m pip install --disable-pip-version-check -r tools/paper-card-requirements.txt
+          python3 tools/verify_pdf_card_rendering.py
       - name: Check out public site
         if: github.event_name != 'pull_request'
         uses: actions/checkout@v4
