@@ -147,11 +147,59 @@
   function paperCards(code, entries) {
     return entries.map(p=>`<a class="subject-card" href="#/paper/${encodeURIComponent(code)}/${encodeURIComponent(p.session)}"><div class="subject-meta"><span>${esc(paperSessionTitle(p.session))}${legacyPaperSubjects[code]?(lang==='gu'?' · જૂની યોજના':' · Older scheme'):''}</span><span class="subject-code">${esc(code)}</span></div><h3>${lang==='gu'?'ઉકેલેલું પ્રશ્નપત્ર':'Solved question paper'}</h3><div class="subject-foot"><span>${esc(paperName(code))}</span><strong>${lang==='gu'?'વાંચો':'Read'} ↗</strong></div></a>`).join('');
   }
-  function showPapers() {
-    const entries=Object.entries(paperIndex||{}).flatMap(([code,papers])=>papers.map(p=>({code,p})));
-    const title=tr('papers');
-    const description=lang==='gu'?'વિષય અને પરીક્ષા પ્રમાણે ઉકેલેલા પેપર વાંચો.':'Read solved papers by subject and exam.';
-    return `${shell(title,description,[{label:title}])}<section class="page-content"><div class="wrap">${paperListNotice()}${entries.length?`<div class="subject-grid">${entries.map(({code,p})=>paperCards(code,[p])).join('')}</div>`:empty(lang==='gu'?'હજુ કોઈ પેપર નથી':'No papers yet',lang==='gu'?'નવા પેપર અહીં ઉમેરાશે.':'New papers will appear here.',false)}</div></section>`;
+  // Use catalog membership, not the Drive folder or a code-prefix guess. A
+  // shared subject can belong to several branches/semesters; legacy codes
+  // retain their own exam identities under their reviewed related subject.
+  function paperLocations(code) {
+    const subject=legacyPaperSubjects[code]||code, locations=[];
+    for(const branch of branches())for(const [semester,codes] of Object.entries(branch.semesters||{}))
+      if(Array.isArray(codes)&&codes.includes(subject))locations.push({branch,semester});
+    return locations;
+  }
+  function renderPaperGroups(groups, showLocation=false) {
+    const subjects=new Map();
+    for(const group of groups) {
+      const subject=legacyPaperSubjects[group.code]||group.code;
+      if(!subjects.has(subject))subjects.set(subject,[]);
+      subjects.get(subject).push(group);
+    }
+    return [...subjects].map(([subject,sources])=>{
+      const count=sources.reduce((n,g)=>n+g.entries.length,0), locations=paperLocations(subject);
+      const allUploaded=subjectPaperGroups(subject).reduce((n,g)=>n+g.entries.length,0);
+      const coverage=allUploaded===1?`<p class="paper-coverage-note">${lang==='gu'?'આ વિષય માટે હાલમાં આ એક જ પરીક્ષા સત્ર અપલોડ થયેલું છે. બીજા આપેલા સત્રો ઉમેરાશે ત્યારે અહીં આપમેળે દેખાશે.':'This is the only uploaded exam session currently available for this subject. Other supplied sessions will appear here when added.'}</p>`:'';
+      const branchNames=[...new Set(locations.map(l=>text(l.branch.name)))], semesters=[...new Set(locations.map(l=>l.semester))].sort();
+      const location=branchNames.length===1?`${branchNames[0]} · ${tr('semester')} ${semesters.join(', ')}`:
+        branchNames.length>1?`${lang==='gu'?'સાંઝો વિષય':'Shared subject'} · ${tr('semester')} ${semesters.join(', ')}`:
+        (lang==='gu'?'અન્ય આપેલા પેપર':'Other supplied papers');
+      return `<section class="paper-subject-group" data-paper-subject="${esc(subject)}"><div class="paper-group-heading"><div>${showLocation?`<p>${esc(location)}</p>`:''}<h3>${esc(paperName(subject))}</h3><span class="subject-code">${esc(subject)}</span></div><strong>${esc(paperSetLabel(count))}</strong></div>${coverage}<div class="subject-grid">${sources.map(g=>paperCards(g.code,g.entries)).join('')}</div></section>`;
+    }).join('');
+  }
+  function paperFilterResults(branchKey='', semester='', query='') {
+    const q=query.trim().toLocaleLowerCase(), groups=[];
+    for(const [code,entries] of Object.entries(paperIndex||{})) {
+      const locations=paperLocations(code);
+      if((branchKey||semester)&&!locations.some(l=>(!branchKey||l.branch.key===branchKey)&&(!semester||l.semester===semester)))continue;
+      const meta=subjectMeta(legacyPaperSubjects[code]||code);
+      const matched=entries.filter(p=>!q||`${code} ${legacyPaperSubjects[code]||''} ${meta?.name?.en||''} ${meta?.name?.gu||''} ${paperName(code)} ${p.session} ${paperSessionTitle(p.session)}`.toLocaleLowerCase().includes(q));
+      if(matched.length)groups.push({code,entries:matched});
+    }
+    const count=groups.reduce((n,g)=>n+g.entries.length,0);
+    return {count,html:groups.length?renderPaperGroups(groups,true):empty(lang==='gu'?'કોઈ પેપર મળ્યા નથી':'No matching papers',lang==='gu'?'બીજી બ્રાન્ચ, સેમેસ્ટર અથવા વિષય અજમાવો.':'Try another branch, semester or subject.',false)};
+  }
+  function showPapers(initialBranch='', initialSemester='') {
+    const selectedBranch=branches().some(b=>b.key===initialBranch)?initialBranch:'', selectedSemester=/^[1-6]$/.test(initialSemester)?initialSemester:'';
+    const result=paperFilterResults(selectedBranch,selectedSemester),title=tr('papers');
+    const description=lang==='gu'?'બ્રાન્ચ અને સેમેસ્ટર પસંદ કરો. દરેક વિષય હેઠળ તેના બધા ઉપલબ્ધ પરીક્ષા સત્રો સાથે બતાવ્યા છે.':'Choose a branch and semester. All supplied exam sessions are grouped together under their subject.';
+    return `${shell(title,description,[{label:title}])}<section class="page-content"><div class="wrap">${paperListNotice()}<div class="paper-filter-bar"><label class="paper-filter-field">${esc(tr('branch'))}<select id="paper-branch-filter"><option value="">${esc(tr('allBranches'))}</option>${branches().map(b=>`<option value="${esc(b.key)}" ${b.key===selectedBranch?'selected':''}>${esc(text(b.name))}</option>`).join('')}</select></label><label class="paper-filter-field">${esc(tr('semester'))}<select id="paper-semester-filter"><option value="">${lang==='gu'?'બધા સેમેસ્ટર':'All semesters'}</option>${[1,2,3,4,5,6].map(s=>`<option value="${s}" ${String(s)===selectedSemester?'selected':''}>${esc(tr('semester'))} ${s}</option>`).join('')}</select></label><div class="search-box">${icon('search')}<label class="sr-only" for="paper-search-input">${esc(tr('searchSubjects'))}</label><input id="paper-search-input" type="search" placeholder="${esc(tr('searchSubjects'))}"></div></div><p id="paper-result-count" class="result-count" aria-live="polite">${esc(paperSetLabel(result.count))}</p><div id="paper-results">${result.html}</div></div></section>`;
+  }
+  function bindPaperFilters() {
+    const branch=main.querySelector('#paper-branch-filter'),semester=main.querySelector('#paper-semester-filter'),search=main.querySelector('#paper-search-input');
+    const update=()=>{
+      const result=paperFilterResults(branch.value,semester.value,search.value);
+      main.querySelector('#paper-results').innerHTML=result.html;
+      main.querySelector('#paper-result-count').textContent=paperSetLabel(result.count);
+    };
+    branch.addEventListener('change',update);semester.addEventListener('change',update);search.addEventListener('input',update);
   }
   const branches = () => Array.isArray(catalog?.branches) ? catalog.branches : [];
   const subjectMeta = code => catalog?.subjects?.[code];
@@ -229,14 +277,14 @@
         .filter(Boolean).join(' · ')||(paperCount?tr('papers'):tr('notYet'));
       return `<a class="semester-card" href="#/branch/${encodeURIComponent(key)}/${s}"><span class="semester-number">${s}</span><h3>${esc(tr('semester'))} ${s}</h3><p>${esc(details)}</p><span class="branch-bottom">${esc(status)} &nbsp; →</span></a>`;
     }).join('');
-    return `${shell(text(b.name),tr('semesterText'),[{label:tr('allBranches'),href:'#/branches'},{label:text(b.name)}])}<section class="page-content"><div class="wrap">${paperListNotice()}<div class="section-heading"><div><div class="eyebrow">${esc(tr('branch'))} ${esc(b.code)}</div><h2>${esc(tr('semesters'))}</h2></div></div><div class="semester-list">${semesters}</div></div></section>`;
+    return `${shell(text(b.name),tr('semesterText'),[{label:tr('allBranches'),href:'#/branches'},{label:text(b.name)}])}<section class="page-content"><div class="wrap">${paperListNotice()}<div class="section-heading"><div><div class="eyebrow">${esc(tr('branch'))} ${esc(b.code)}</div><h2>${esc(tr('semesters'))}</h2></div><a class="section-link" href="#/papers/${encodeURIComponent(key)}">${lang==='gu'?'આ બ્રાન્ચના બધા પેપર':'All papers for this branch'} ↗</a></div><div class="semester-list">${semesters}</div></div></section>`;
   }
   function showSemester(key,sem) {
     const b=branches().find(x=>x.key===key); if(!b || !/^[1-6]$/.test(sem)) return missing();
     const list=(b.semesters?.[sem]||[]).map(subjectMeta).filter(Boolean).sort((a,b)=>Number(b.status==='available')-Number(a.status==='available'));
     const paperGroups=branchSemesterPaperGroups(key,sem);
     const subjectSection=list.length?`<div class="section-heading"><div><div class="eyebrow">${esc(text(b.name))}</div><h2>${esc(tr('subjectList'))}</h2></div></div><div class="subject-grid">${list.map(subjectCard).join('')}</div>`:'';
-    const paperSection=paperGroups.length?`<div class="section-heading"><div><div class="eyebrow">${esc(tr('examPrep'))}</div><h2>${esc(tr('papers'))}</h2></div></div><div class="subject-grid">${paperGroups.map(group=>paperCards(group.code,group.entries)).join('')}</div>`:'';
+    const paperSection=paperGroups.length?`<div class="section-heading"><div><div class="eyebrow">${esc(tr('examPrep'))}</div><h2>${esc(tr('papers'))}</h2></div><a class="section-link" href="#/papers/${encodeURIComponent(key)}/${sem}">${lang==='gu'?'પેપર શોધો':'Filter papers'} ↗</a></div>${renderPaperGroups(paperGroups)}`:'';
     const emptyState=!list.length&&!paperGroups.length?empty(tr('emptyTitle'),tr('emptyText')):'';
     return `${shell(`${tr('semester')} ${sem}`,tr('subjectListText'),[{label:tr('allBranches'),href:'#/branches'},{label:text(b.name),href:`#/branch/${encodeURIComponent(key)}`},{label:`${tr('semester')} ${sem}`}])}<section class="page-content"><div class="wrap">${paperListNotice()}${subjectSection}${paperSection}${emptyState}</div></section>`;
   }
@@ -537,7 +585,7 @@
       else if(route==='branches'){html=showBranches();bind=bindBranchSearch;}
       else if(route==='branch'){await loadPaperIndex();html=sub?showSemester(arg,sub):showBranch(arg);}
       else if(route==='search'){html=showSearch();bind=bindSubjectSearch;}
-      else if(route==='papers'){await loadPaperIndex();html=showPapers();}
+      else if(route==='papers'){await loadPaperIndex();html=showPapers(arg,sub);bind=bindPaperFilters;}
       else if(route==='saved')html=showSaved();
       else if(route==='about')html=`${shell(tr('aboutTitle'),tr('aboutText'),[{label:'About'}])}<section class="page-content"><div class="wrap"><div class="reader-card"><p>${esc(tr('aboutNote'))}</p></div></div></section>`;
       else if(route==='privacy')html=showPrivacy();

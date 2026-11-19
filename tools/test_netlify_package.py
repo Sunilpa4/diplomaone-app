@@ -28,6 +28,8 @@ class NetlifyPackageTest(unittest.TestCase):
                 subprocess.run(['node', str(Path(__file__).resolve().parent.parent / 'website' / 'test_paper_links.js'), str(packaged_app)], check=True)
                 subprocess.run(['node', str(Path(__file__).resolve().parent.parent / 'website' / 'test_paper_reader.js'), str(packaged_app)], check=True)
                 subprocess.run(['node', str(Path(__file__).resolve().parent.parent / 'website' / 'test_card_refresh.js'), str(packaged_app)], check=True)
+                subprocess.run(['node', str(Path(__file__).resolve().parent.parent / 'tools' / 'test_mechanical_refresh.js'), str(packaged_app)], check=True)
+                subprocess.run(['node', str(Path(__file__).resolve().parent.parent / 'website' / 'test_mechanical_listing.js'), str(packaged_app)], check=True)
                 with ZipFile(Path(__file__).resolve().parent.parent / 'DiplomaOne-Netlify.zip') as committed:
                     self.assertEqual(set(committed.namelist()), files, 'Rebuild the committed Netlify ZIP')
                     for name in files:

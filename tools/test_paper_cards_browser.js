@@ -34,6 +34,8 @@ const tree=JSON.stringify({truncated:false,tree:fs.readdirSync(staged,{recursive
   ['DI01000181','winter-2025','gu',28],
   ['DI04019011','summer-2026','en',28],
  ];
+ for(const code of ['DI03000161','DI03000171','DI03000201','DI03019011'])for(const session of ['winter-2025','summer-2026'])for(const language of ['en','gu'])cases.push([code,session,language,28]);
+ for(const code of ['DI03000141','DI03000151'])for(const language of ['en','gu'])cases.push([code,'summer-2026',language,28]);
  fs.mkdirSync(path.join(root,'build/card-browser'),{recursive:true});
  for(const [label,viewport] of [['desktop',{width:1365,height:960}],['mobile',{width:390,height:844}]]) {
   const context=await browser.newContext({viewport});
@@ -75,11 +77,15 @@ const tree=JSON.stringify({truncated:false,tree:fs.readdirSync(staged,{recursive
    if(label==='mobile')assert(await dialog.locator('.paper-image-stage').evaluate(el=>{
     const img=el.querySelector('img');return img.naturalWidth<=el.clientWidth||el.scrollWidth>el.clientWidth;
    }),'large original-size image can scroll on mobile');
-   if(['DI03006041','DI01000021','DI03000081'].includes(code))await page.screenshot({path:path.join(root,'build/card-browser',`${label}-${code}-${language}-enlarged.png`)});
+   if(['DI03006041','DI01000021','DI03000081'].includes(code))await page.screenshot({path:path.join(root,'build/card-browser',`${label}-${code}-${session}-${language}-enlarged.png`)});
    await page.keyboard.press('Escape');await dialog.waitFor({state:'hidden'});
    assert(await figure.locator('button.paper-enlarge').evaluate(el=>el===document.activeElement));
    if(code==='DI02000161')assert.equal(await page.locator('.paper-erratum').count(),2);
    if(code==='DI01000021')assert((await page.locator('.solved-paper').textContent()).includes('English only'));
+   if(['DI03000161','DI03000171','DI03000201','DI03019011'].includes(code)) {
+    assert((await page.locator('.solved-paper').textContent()).includes('English only'));
+    assert.equal(await page.locator('.paper-downloads a').count(),session==='winter-2025'?0:1,'never associate the Summer original with Winter');
+   }
    if(code==='DI03006041') {
     await page.locator('[data-paper-expand="true"]').click();assert.equal(await page.locator('details.card[open]').count(),count);
     await page.locator('[data-paper-expand="false"]').click();assert.equal(await page.locator('details.card[open]').count(),0);
@@ -87,12 +93,29 @@ const tree=JSON.stringify({truncated:false,tree:fs.readdirSync(staged,{recursive
    }
    assert.deepEqual(errors,[]);assert.deepEqual(await page.evaluate(()=>window.__paperCsp),[],'source image must pass production CSP');
    await page.locator('details.card').first().evaluate(e=>window.scrollTo({top:e.getBoundingClientRect().top+window.scrollY-95,behavior:'instant'}));
-   await page.screenshot({path:path.join(root,'build/card-browser',`${label}-${code}-${language}.png`),fullPage:false});
+   await page.screenshot({path:path.join(root,'build/card-browser',`${label}-${code}-${session}-${language}.png`),fullPage:false});
    console.log(label,code,session,language,count,'cards; images, dialog, CSP and layout passed');
    await page.close();
   }
+  const listing=await context.newPage();
+  await listing.addInitScript(()=>localStorage.setItem('diplomaone.website.lang',JSON.stringify('en')));
+  await listing.goto(`${base}/#/papers/mechanical/3`,{waitUntil:'networkidle'});
+  await listing.locator('#paper-results [data-paper-subject="DI03000161"]').waitFor();
+  assert.equal(await listing.locator('#paper-branch-filter').inputValue(),'mechanical');
+  assert.equal(await listing.locator('#paper-semester-filter').inputValue(),'3');
+  assert.equal(await listing.locator('#paper-results .paper-subject-group').count(),6);
+  assert.equal(await listing.locator('#paper-results a[href^="#/paper/"]').count(),10);
+  assert(await listing.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'paper filter/listing fits the viewport');
+  await listing.screenshot({path:path.join(root,'build/card-browser',`${label}-mechanical-semester-3-listing.png`)});
+  await listing.locator('#paper-search-input').fill('winter-2025');
+  assert.equal(await listing.locator('#paper-results a[href^="#/paper/"]').count(),4);
+  await listing.locator('#paper-search-input').fill('');
+  await listing.locator('#paper-semester-filter').selectOption('5');
+  assert.equal(await listing.locator('#paper-results a[href="#/paper/4351902/summer-2026"]').count(),1);
+  assert.equal(await listing.locator('#paper-results a[href="#/paper/4351903/summer-2026"]').count(),1);
+  await listing.close();console.log(label,'Mechanical subject/session grouping and filters passed');
   await context.close();
  }
  await browser.close();
- console.log('20 real-browser paper/language/viewport checks passed.');
+ console.log(`${cases.length*2} real-browser paper/language/viewport checks and two Mechanical listing/filter checks passed.`);
 })().catch(e=>{console.error(e);process.exit(1);});

@@ -2,6 +2,7 @@ import tempfile
 import json
 import unittest
 import base64
+from hashlib import sha256
 from pathlib import Path
 from publish_solved_papers import prepare, publish
 
@@ -191,6 +192,79 @@ class PublisherTest(unittest.TestCase):
         self.assertEqual([p.name for p in added], ['summer-2026.html'])
         self.assertEqual((target / pdf.name).read_bytes(), pdf.read_bytes())
         self.assertEqual((target / 'summer-2026.solution.pdf').read_bytes(), solved)
+
+    def replacement_review(self, old=b'previous reviewed HTML'):
+        rel = '4351902/summer-2026.html'
+        record = {'path': rel, 'old_sha256': sha256(old).hexdigest(),
+                  'new_sha256': sha256((self.src / rel).read_bytes()).hexdigest(),
+                  'reason': 'Owner requested the newly supplied answers for this same exam.',
+                  'source_drive_id': 'reviewed-source-id'}
+        manifest = Path(self.temp.name) / 'replacements.json'
+        manifest.write_text(json.dumps([record]))
+        return manifest, record
+
+    def test_reviewed_html_replacement_is_explicit_pinned_and_idempotent(self):
+        manifest, record = self.replacement_review()
+        target = self.site / 'papers' / record['path']; target.parent.mkdir(parents=True)
+        target.write_bytes(b'previous reviewed HTML')
+        with self.assertRaisesRegex(ValueError, 'refusing to overwrite'):
+            publish(self.src, self.site)
+        self.assertFalse(target.with_suffix('.pdf').exists())
+        self.assertEqual(len(publish(self.src, self.site, replacements=manifest)), 2)
+        self.assertEqual(target.read_bytes(), (self.src / record['path']).read_bytes())
+        self.assertEqual(len(publish(self.src, self.site, replacements=manifest)), 0)
+
+    def test_replacement_rejects_changed_old_or_incoming_bytes_before_writes(self):
+        manifest, record = self.replacement_review()
+        target = self.site / 'papers' / record['path']; target.parent.mkdir(parents=True)
+        target.write_bytes(b'another revision not reviewed')
+        with self.assertRaisesRegex(ValueError, 'refusing to overwrite'):
+            publish(self.src, self.site, replacements=manifest)
+        self.assertFalse(target.with_suffix('.pdf').exists())
+        target.write_bytes(b'previous reviewed HTML')
+        source = self.src / record['path']; source.write_bytes(source.read_bytes() + b'changed')
+        with self.assertRaisesRegex(ValueError, 'Incoming reader differs'):
+            publish(self.src, self.site, replacements=manifest)
+        self.assertEqual(target.read_bytes(), b'previous reviewed HTML')
+        self.assertFalse(target.with_suffix('.pdf').exists())
+
+    def test_only_exact_reviewed_html_paths_and_complete_metadata_allowed(self):
+        manifest, record = self.replacement_review()
+        bad_records = [dict(record, path=name) for name in (
+            '../4351902/summer-2026.html', '/4351902/summer-2026.html',
+            '4351902/../summer-2026.html', '4351902/summer-2026.pdf',
+            '4351902/summer-2026.assets/0001.png', '4351902/Question_Paper.html')]
+        bad_records += [dict(record, old_sha256='not a hash'), dict(record, new_sha256=record['old_sha256']),
+                        dict(record, reason=''), dict(record, source_drive_id=''),
+                        {k:v for k,v in record.items() if k != 'old_sha256'}]
+        for bad in bad_records:
+            manifest.write_text(json.dumps([bad]))
+            with self.subTest(record=bad), self.assertRaises(ValueError):
+                publish(self.src, self.site, replacements=manifest)
+            self.assertFalse((self.site / 'papers').exists())
+        manifest.write_text(json.dumps([record, record]))
+        with self.assertRaisesRegex(ValueError, 'Duplicate'):
+            publish(self.src, self.site, replacements=manifest)
+
+    def test_replacement_manifest_cannot_authorize_other_overwrites(self):
+        manifest, record = self.replacement_review()
+        target = self.site / 'papers' / record['path']; target.parent.mkdir(parents=True)
+        target.write_bytes(b'previous reviewed HTML')
+        pdf = target.with_suffix('.pdf'); pdf.write_bytes(b'preserve existing original PDF')
+        with self.assertRaisesRegex(ValueError, 'refusing to overwrite'):
+            publish(self.src, self.site, replacements=manifest)
+        self.assertEqual(target.read_bytes(), b'previous reviewed HTML')
+        self.assertEqual(pdf.read_bytes(), b'preserve existing original PDF')
+
+    def test_replacement_manifest_stale_paths_and_symlinks_rejected(self):
+        manifest, record = self.replacement_review()
+        manifest.write_text(json.dumps([dict(record, path='4351902/winter-2025.html')]))
+        with self.assertRaisesRegex(ValueError, 'absent staged'):
+            publish(self.src, self.site, replacements=manifest)
+        self.assertFalse((self.site / 'papers').exists())
+        link = Path(self.temp.name) / 'link.json'; link.symlink_to(manifest)
+        with self.assertRaisesRegex(ValueError, 'regular file'):
+            publish(self.src, self.site, replacements=link)
 
 
 if __name__ == '__main__':
