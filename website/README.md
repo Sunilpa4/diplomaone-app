@@ -2,6 +2,12 @@
 
 The website reads `data/catalog.json`, subject files and unit files published by the same content pipeline as the Android app. New content appears after the normal notes publisher updates the public repository; the site does not bundle a copy of the notes. Saved units and the language choice are stored only in the visitor's browser.
 
+## Optional Google account (phase 1)
+
+`#/account` adds Google sign-in/out using the owner's **diplomaone-53b4e** Firebase web project, a locally bundled SDK and tab-session persistence. Reading remains available without sign-in, and signing in does not sync saved units or enable purchases. `#/purchases` explicitly says checkout/purchase records are not connected. No Analytics, database or payment SDK is initialized.
+
+See **[AUTH-SETUP.md](AUTH-SETUP.md)** for the exact Firebase provider/domain setup, the different earlier Android project, reproducible build/tests, deployment files, privacy/session details and the still-pending live OAuth checklist. Public web config is not a private key or purchase authorization. Do not charge for solutions until private content and verified server-side ownership are implemented.
+
 ## Local preview
 
 From the repository root:

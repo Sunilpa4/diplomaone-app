@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="google-adsense-account" content="ca-pub-6133298835140242">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://sunilpa4.github.io/diplomaone-content/papers/; font-src 'self'; connect-src 'self' https://sunilpa4.github.io https://api.github.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://sunilpa4.github.io/diplomaone-content/papers/; font-src 'self'; connect-src 'self' https://sunilpa4.github.io https://api.github.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://diplomaone-53b4e.firebaseapp.com; frame-src https://diplomaone-53b4e.firebaseapp.com/__/auth/; object-src 'none'; base-uri 'self'; form-action 'self'">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f7f5f1">
   <meta name="description" content="Free, easy-to-follow GTU diploma notes, diagrams, formulas and viva questions in English and Gujarati. Find your branch, semester and subject on DiplomaOne.">
@@ -13,6 +13,7 @@
   <title>DiplomaOne — Your diploma, made simpler</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
+  <script src="auth.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 <body>
@@ -25,17 +26,17 @@
       </nav>
       <div class="header-actions">
         <button class="lang-switch" id="lang-toggle" type="button" aria-label="Switch language">ગુ <span>/</span> EN</button>
-        <a class="header-cta" href="#/branches">Start learning <span aria-hidden="true">↗</span></a>
+        <a class="header-cta account-link" href="#/account" data-account-link>Sign in <span aria-hidden="true">↗</span></a>
         <button class="menu-button" id="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span><span></span></button>
       </div>
     </div>
-    <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden><a href="#/">Home</a><a href="#/branches">Explore branches</a><a href="#/papers">Solved papers</a><a href="#/saved">Saved notes</a></nav>
+    <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden><a href="#/">Home</a><a href="#/branches">Explore branches</a><a href="#/papers">Solved papers</a><a href="#/saved">Saved notes</a><a href="#/account" data-account-link>Sign in</a><a href="#/purchases" data-purchases-link>My purchases</a></nav>
   </header>
   <main id="main" tabindex="-1"><div class="loading-page"><span class="spinner"></span><p>Getting your study space ready...</p></div></main>
   <footer class="site-footer">
     <div class="wrap footer-main">
       <div><a class="brand brand-footer" href="#/"><span class="brand-icon">d<span>1</span></span><span>Diploma<span class="brand-accent">One</span><small>LEARN WITH CLARITY</small></span></a><p>Little steps. Big understanding.<br>A little help for your diploma journey.</p></div>
-      <div class="footer-links"><div><strong>EXPLORE</strong><a href="#/branches">All branches</a><a href="#/search">Search subjects</a><a href="#/papers">Solved papers</a><a href="#/saved">Saved notes</a></div><div><strong>MORE</strong><a href="app/">Open web app ↗</a><a href="https://github.com/Sunilpa4/diplomaone-content/releases/latest" target="_blank" rel="noopener noreferrer">Get the Android app ↗</a><a href="#/about">About DiplomaOne</a><a href="#/privacy">Privacy</a></div></div>
+      <div class="footer-links"><div><strong>EXPLORE</strong><a href="#/branches">All branches</a><a href="#/search">Search subjects</a><a href="#/papers">Solved papers</a><a href="#/saved">Saved notes</a></div><div><strong>MORE</strong><a href="app/">Open web app ↗</a><a href="https://github.com/Sunilpa4/diplomaone-content/releases/latest" target="_blank" rel="noopener noreferrer">Get the Android app ↗</a><a href="#/account" data-account-link>Sign in</a><a href="#/purchases" data-purchases-link>My purchases</a><a href="#/about">About DiplomaOne</a><a href="#/privacy">Privacy</a></div></div>
     </div>
     <div class="wrap footer-bottom"><span>© <span id="year"></span> DiplomaOne. Made for learners.</span><span>An independent study resource. Not affiliated with GTU.</span></div>
   </footer>

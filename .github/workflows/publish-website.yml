@@ -28,13 +28,23 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     timeout-minutes: 40
+    env:
+      NODE_PATH: ${{ github.workspace }}/website/node_modules
     steps:
       - uses: actions/checkout@v4
-      - name: Install paper reader test dependency
-        run: npm install --no-save --ignore-scripts --no-package-lock jsdom@26.1.0
-      - name: Check website JavaScript and ad declarations
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+      - name: Install pinned authentication build and reader test dependencies
+        run: npm ci --prefix website --ignore-scripts --no-fund
+      - name: Check website, authentication, deployment package and ad declarations
         run: |
           node --check website/app.js
+          node --check website/auth.js
+          npm run check:auth --prefix website
+          npm run test:auth --prefix website
           node website/test_paper_links.js
           node website/test_paper_reader.js
           node website/test_paper_discovery.js
@@ -72,10 +82,10 @@ jobs:
         if: github.event_name != 'pull_request'
         run: |
           set -euo pipefail
-          cp website/index.html website/styles.css website/app.js public-site/
+          cp website/index.html website/styles.css website/app.js website/auth.js public-site/
           python3 website/merge_ads_txt.py website/ads.txt public-site/ads.txt website/ads-retired.txt
           mkdir -p public-site/assets
-          cp website/assets/favicon.svg website/assets/study-illustration.webp website/assets/noto-sans-gujarati.ttf website/assets/NOTO-SANS-GUJARATI-LICENSE.txt public-site/assets/
+          cp website/assets/favicon.svg website/assets/study-illustration.webp website/assets/noto-sans-gujarati.ttf website/assets/NOTO-SANS-GUJARATI-LICENSE.txt website/assets/firebase-auth.js website/assets/firebase-auth.js.LEGAL.txt public-site/assets/
           rm -rf public-site/app
           mkdir -p public-site/app
           cp -a app/build/web/. public-site/app/
@@ -83,7 +93,7 @@ jobs:
           cd public-site
           git config user.name 'DiplomaOne Bot'
           git config user.email 'Sunilpa4@users.noreply.github.com'
-          git add -- index.html styles.css app.js ads.txt assets/favicon.svg assets/study-illustration.webp assets/noto-sans-gujarati.ttf assets/NOTO-SANS-GUJARATI-LICENSE.txt app/ .nojekyll
+          git add -- index.html styles.css app.js auth.js ads.txt assets/favicon.svg assets/study-illustration.webp assets/noto-sans-gujarati.ttf assets/NOTO-SANS-GUJARATI-LICENSE.txt assets/firebase-auth.js assets/firebase-auth.js.LEGAL.txt app/ .nojekyll
           if git diff --cached --quiet; then
             echo 'Website is already up to date.'
             exit 0

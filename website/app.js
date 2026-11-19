@@ -52,6 +52,8 @@
   let activeTab = 'notes';
   let routeCounter = 0;
   let toastTimer;
+  let accountState={status:window.DiplomaOneAuth?'idle':'unavailable',user:null,busy:null,error:null};
+  const accountLabels={en:{signIn:'Sign in',account:'My account',purchases:'My purchases'},gu:{signIn:'સાઇન ઇન',account:'મારું ખાતું',purchases:'મારી ખરીદી'}};
   const tr = (key) => strings[lang][key] || strings.en[key] || key;
   const text = (value) => value == null ? '' : typeof value === 'object' ? String(value[lang] || value.en || value.gu || '') : String(value);
   const esc = (value) => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -549,18 +551,118 @@
     document.querySelectorAll('[data-tab]').forEach(btn=>btn.addEventListener('click',()=>{activeTab=btn.dataset.tab;document.querySelectorAll('[data-tab]').forEach(b=>{const on=b===btn;b.classList.toggle('active',on);b.setAttribute('aria-selected',String(on));});document.querySelector('#reader-content').innerHTML=tabContent(unit,activeTab);}));
     document.querySelector('#save-unit').addEventListener('click',e=>{const num=Number(unit.unit),exists=saved.some(x=>x.code===subject.code&&Number(x.unit)===num);const next=exists?saved.filter(x=>!(x.code===subject.code&&Number(x.unit)===num)):[...saved,{code:subject.code,unit:num,title:unit.title}];if(!writeStore('diplomaone.website.saved',next)){announce('Unable to save on this device.');return;}saved=next;const b=e.currentTarget;b.classList.toggle('saved',!exists);b.setAttribute('aria-pressed',String(!exists));b.innerHTML=`${exists?'♡':'♥'} &nbsp;${esc(tr(exists?'save':'savedButton'))}`;announce(tr(exists?'remove':'savedButton'));});
   }
+  function accountCopy() {
+    return lang==='gu'?{
+      title:'તમારી અભ્યાસની ઓળખ.',subtitle:'Google દ્વારા સાઇન ઇન કરો. નોટ્સ અને હાલમાં ઉપલબ્ધ પેપર વાંચવા માટે સાઇન ઇન જરૂરી નથી.',
+      heading:'તમારા Google ખાતા સાથે જોડાઓ',intro:'તમારી ઓળખ Firebase Authentication દ્વારા સંચાલિત થાય છે. DiplomaOne તમારો Google પાસવર્ડ જોતું નથી અને તમારા Drive માટે પરવાનગી માગતું નથી.',
+      google:'Google દ્વારા સાઇન ઇન કરો',loading:'સુરક્ષિત સાઇન ઇન તૈયાર થઈ રહ્યું છે…',working:'કૃપા કરીને રાહ જુઓ…',ready:'તમે Google દ્વારા સાઇન ઇન કરી શકો છો.',connected:'તમે સાઇન ઇન કરેલું છે.',
+      signOut:'સાઇન આઉટ',retry:'ફરી પ્રયાસ કરો',email:'ઇમેઇલ',emailStatus:'ઇમેઇલની સ્થિતિ',verified:'ઇમેઇલ ચકાસાયેલું છે',unverified:'ઇમેઇલ ચકાસાયેલું નથી',student:'વિદ્યાર્થી',
+      session:'સાઇન ઇન આ બ્રાઉઝર ટૅબના સત્ર માટે સાચવાય છે, લાંબા સમયના લૉગિન તરીકે નહીં. શેર કરેલા ઉપકરણ પર સાઇન આઉટ કરો; બ્રાઉઝર ક્યારેક બંધ ટૅબનું સત્ર પાછું લાવી શકે છે. અહીંથી સાઇન આઉટ કરવાથી Googleની અન્ય સેવાઓમાંથી સાઇન આઉટ થતું નથી.',
+      local:'સાચવેલી નોટ્સ અને ભાષાની પસંદગી હજુ માત્ર આ ઉપકરણ પર રહે છે; સાઇન ઇન કરવાથી તે સિંક થતી નથી.',
+      read:'અભ્યાસ ચાલુ રાખો',privacy:'ગોપનીયતા વિશે વાંચો',purchaseTitle:'તમારી ખરીદીનું સ્થાન.',
+      purchaseNotice:'ખરીદી હજી શરૂ થઈ નથી',purchaseBody:'આ તબક્કામાં માત્ર સાઇન ઇન છે. ચુકવણી કે ખરીદીના રેકોર્ડ હજી જોડાયેલા નથી. સાઇન ઇન કરવાથી કોઈ પેપર ખરીદાતું કે અનલૉક થતું નથી. હાલમાં ઉપલબ્ધ વાંચન યથાવત્ છે.',
+      purchaseSignIn:'સાઇન ઇન કરી શકો છો; ચુકવણી અને ખરીદીની ચકાસણી પછીના તબક્કામાં આવશે.',
+      errors:{
+        'auth/popup-closed-by-user':'સાઇન ઇન વિન્ડો બંધ થઈ ગઈ. તમે ફરી પ્રયાસ કરી શકો છો.',
+        'auth/cancelled-popup-request':'બીજી સાઇન ઇન વિન્ડો પહેલેથી ખુલ્લી છે. એક જ વિન્ડોનો ઉપયોગ કરો.',
+        'auth/popup-blocked':'બ્રાઉઝરે સાઇન ઇન વિન્ડો રોકી છે. આ સાઇટ માટે પોપ-અપને મંજૂરી આપી ફરી પ્રયાસ કરો.',
+        'auth/unauthorized-domain':'આ વેબસાઇટનું સરનામું Google સાઇન ઇન માટે હજી અધિકૃત નથી. DiplomaOneને Firebaseમાં આ ડોમેન ઉમેરવાનું કહો.',
+        'auth/operation-not-allowed':'આ પ્રોજેક્ટ માટે Google સાઇન ઇન હજી ચાલુ નથી. DiplomaOneએ Firebaseમાં તે સક્ષમ કરવું પડશે.',
+        'auth/configuration-not-found':'Firebase Authenticationનું સેટઅપ હજી પૂર્ણ નથી. પછી ફરી પ્રયાસ કરો.',
+        'auth/invalid-api-key':'સાઇન ઇનનું સેટઅપ ચકાસવું જરૂરી છે. DiplomaOneને જાણ કરો.',
+        'auth/network-request-failed':'સાઇન ઇન સેવા સાથે જોડાણ થઈ શક્યું નથી. ઇન્ટરનેટ તપાસી ફરી પ્રયાસ કરો.',
+        'auth/internal-error':'સાઇન ઇન સેવા શરૂ થઈ શકી નથી. ઇન્ટરનેટ તપાસો અને સામાન્ય બ્રાઉઝર ટૅબમાં ફરી પ્રયાસ કરો; કન્ટેન્ટ બ્લોકર Google સાઇન ઇન રોકી શકે છે.',
+        'auth/operation-not-supported-in-this-environment':'આ બ્રાઉઝર સાઇન ઇનને સમર્થન આપતું નથી. સાઇટને સામાન્ય બ્રાઉઝર ટૅબમાં ખોલો.',
+        'auth/user-token-expired':'સાઇન ઇનનું સત્ર પૂરું થયું છે. સાઇન આઉટ કરીને ફરી સાઇન ઇન કરો.',
+        'auth/invalid-user-token':'સાઇન ઇનનું સત્ર ચકાસી શકાયું નથી. સાઇન આઉટ કરીને ફરી સાઇન ઇન કરો.',
+        'auth/web-storage-unsupported':'આ બ્રાઉઝરમાં સુરક્ષિત સત્ર સ્ટોરેજ ઉપલબ્ધ નથી. સામાન્ય બ્રાઉઝર ટૅબમાં ફરી પ્રયાસ કરો.',
+        'auth/user-disabled':'આ ખાતું નિષ્ક્રિય છે. સહાય માટે DiplomaOneનો સંપર્ક કરો.',
+        'auth/too-many-requests':'ઘણા પ્રયાસ થયા છે. થોડી વાર પછી ફરી પ્રયાસ કરો.',
+        'auth/account-exists-with-different-credential':'આ ઇમેઇલ માટે અન્ય સાઇન ઇન પદ્ધતિ જોડાયેલી છે. ખાતાઓને જોડવા માટે સહાય લો; નવું ખાતું બનાવશો નહીં.',
+      },fallback:'સાઇન ઇન અત્યારે ઉપલબ્ધ નથી. નોટ્સ વાંચવાનું ચાલુ રાખી શકો છો અને પછી ફરી પ્રયાસ કરો.',
+    }:{
+      title:'Your study account.',subtitle:'Sign in with Google. Notes and currently available papers can still be read without an account.',
+      heading:'Connect your Google account',intro:'Firebase Authentication manages your sign-in. DiplomaOne does not see your Google password or request access to your Drive.',
+      google:'Sign in with Google',loading:'Preparing secure sign-in…',working:'Please wait…',ready:'Ready to sign in with Google.',connected:'You are signed in.',
+      signOut:'Sign out',retry:'Try again',email:'Email',emailStatus:'Email status',verified:'Email verified',unverified:'Email not verified',student:'Student',
+      session:'Sign-in is saved for this browser tab’s session, not as a long-term login. Sign out on shared devices; browsers can sometimes restore closed-tab sessions. Signing out here does not sign you out of other Google services.',
+      local:'Saved notes and your language preference remain on this device; signing in does not sync them.',
+      read:'Keep learning',privacy:'Read about privacy',purchaseTitle:'A place for your purchases.',
+      purchaseNotice:'Purchases are not enabled yet',purchaseBody:'This phase adds sign-in only. Payments and purchase records are not connected yet. Signing in does not buy or unlock a paper. Existing reading access is unchanged.',
+      purchaseSignIn:'You can sign in now; checkout and verified purchase access will come in a later phase.',
+      errors:{
+        'auth/popup-closed-by-user':'The sign-in window was closed. You can try again when you are ready.',
+        'auth/cancelled-popup-request':'Another sign-in window is already open. Please use one window at a time.',
+        'auth/popup-blocked':'Your browser blocked the sign-in window. Allow pop-ups for this site and try again.',
+        'auth/unauthorized-domain':'This website address is not authorized for Google sign-in yet. Ask DiplomaOne to add this domain in Firebase.',
+        'auth/operation-not-allowed':'Google sign-in is not enabled for this project yet. DiplomaOne must enable it in Firebase.',
+        'auth/configuration-not-found':'Firebase Authentication setup is not complete yet. Please try again later.',
+        'auth/invalid-api-key':'The sign-in configuration needs attention. Please let DiplomaOne know.',
+        'auth/network-request-failed':'We could not reach the sign-in service. Check your connection and try again.',
+        'auth/internal-error':'The sign-in service could not start. Check your connection and try a normal browser tab; a content blocker may be preventing Google sign-in.',
+        'auth/operation-not-supported-in-this-environment':'This browser cannot run sign-in. Open the site in a normal browser tab.',
+        'auth/user-token-expired':'Your sign-in session has expired. Sign out and sign in again.',
+        'auth/invalid-user-token':'Your sign-in session could not be verified. Sign out and sign in again.',
+        'auth/web-storage-unsupported':'Secure session storage is unavailable in this browser. Try a normal browser tab.',
+        'auth/user-disabled':'This account is disabled. Please contact DiplomaOne for help.',
+        'auth/too-many-requests':'Too many attempts. Please wait a little before trying again.',
+        'auth/account-exists-with-different-credential':'This email already uses another sign-in method. Please get help linking the accounts instead of creating a duplicate.',
+      },fallback:'Sign-in is unavailable right now. You can keep reading notes and try again later.',
+    };
+  }
+  const googleMark=()=>'<svg class="google-mark" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M21.6 12.23c0-.71-.06-1.39-.18-2.05H12v3.88h5.38a4.6 4.6 0 0 1-2 3.02v2.51h3.24c1.9-1.75 2.98-4.33 2.98-7.36Z"/><path fill="#34A853" d="M12 22c2.7 0 4.96-.9 6.62-2.41l-3.24-2.51c-.9.6-2.05.96-3.38.96-2.6 0-4.8-1.76-5.6-4.12H3.05v2.6A10 10 0 0 0 12 22Z"/><path fill="#FBBC05" d="M6.4 13.92a6 6 0 0 1 0-3.84v-2.6H3.05a10 10 0 0 0 0 9.04l3.35-2.6Z"/><path fill="#EA4335" d="M12 5.96c1.47 0 2.79.5 3.83 1.5L18.7 4.6A9.62 9.62 0 0 0 12 2a10 10 0 0 0-8.95 5.48l3.35 2.6A5.99 5.99 0 0 1 12 5.96Z"/></svg>';
+  function showAccount(purchases=false) {
+    const c=accountCopy(),s=accountState,user=s.user,busy=!!s.busy,preparing=['idle','loading'].includes(s.status);
+    const labels=accountLabels[lang],title=purchases?c.purchaseTitle:c.title;
+    const error=s.error?`<div class="account-message" role="alert"><p>${esc(c.errors[s.error.code]||c.fallback)}</p><small>${esc(s.error.code)}</small></div>`:'';
+    const purchaseNotice=`<div class="account-phase-note"><strong>${esc(c.purchaseNotice)}</strong><p>${esc(c.purchaseBody)}</p></div>`;
+    let content;
+    if(user) {
+      const display=user.displayName||c.student;
+      content=`<div class="account-identity"><span class="account-avatar" aria-hidden="true">${esc(Array.from(display.trim())[0]||'D')}</span><div><p class="eyebrow">${esc(labels.account)}</p><h2>${esc(display)}</h2></div></div><dl class="account-details"><div><dt>${esc(c.email)}</dt><dd>${esc(user.email||'—')}</dd></div><div><dt>${esc(c.emailStatus)}</dt><dd>${esc(user.emailVerified?c.verified:c.unverified)}</dd></div></dl><div class="account-actions"><button type="button" id="account-signout" class="save-button" ${busy?'disabled':''}>${esc(busy?c.working:c.signOut)}</button><a class="button-text" href="#/${purchases?'account':'purchases'}">${esc(purchases?labels.account:labels.purchases)} →</a></div>`;
+    } else {
+      content=`<div class="account-emblem">${icon('school')}</div><h2>${esc(c.heading)}</h2><p class="account-intro">${esc(purchases?c.purchaseSignIn:c.intro)}</p>${preparing?`<p class="account-preparing"><span class="spinner" aria-hidden="true"></span>${esc(c.loading)}</p>`:''}${s.status==='unavailable'?`<p>${esc(c.fallback)}</p><button type="button" id="account-retry" class="paper-control">${esc(c.retry)}</button>`:`<button type="button" id="account-signin" class="google-signin-button" ${preparing||busy?'disabled':''}>${googleMark()}<span>${esc(busy?c.working:c.google)}</span></button>`}`;
+    }
+    return `${shell(title,purchases?c.purchaseBody:c.subtitle,[{label:labels.account,href:purchases?'#/account':undefined},...(purchases?[{label:labels.purchases}]:[])])}<section class="page-content"><div class="wrap account-layout" data-account-view><article class="account-card" aria-busy="${preparing||busy}">${content}${error}<p id="account-status" class="sr-only" role="status" aria-live="polite">${esc(preparing?c.loading:busy?c.working:user?c.connected:s.status==='signed-out'?c.ready:c.fallback)}</p><p class="account-session">${esc(c.session)}</p><a class="account-privacy" href="#/privacy">${esc(c.privacy)} ↗</a></article><aside class="account-sidebar">${purchaseNotice}<div class="account-reading-note"><p>${esc(c.local)}</p><a class="button-text" href="#/branches">${esc(c.read)} →</a></div></aside></div></section>`;
+  }
+  function updateAccountLinks() {
+    // Before the optional SDK loads, the saved session is unknown, not signed out.
+    const labels=accountLabels[lang],label=accountState.status==='signed-out'?labels.signIn:labels.account;
+    document.querySelectorAll('[data-account-link]').forEach(a=>{a.textContent=label;});
+    document.querySelectorAll('[data-purchases-link]').forEach(a=>{a.textContent=labels.purchases;});
+  }
+  function bindAccount() {
+    const service=window.DiplomaOneAuth;
+    if(!service){main.querySelector('#account-retry')?.addEventListener('click',()=>location.reload());return;}
+    const focusAction=()=>{if(main.querySelector('[data-account-view]'))main.querySelector('#account-signout,#account-signin,#account-retry')?.focus();};
+    main.querySelector('#account-signin')?.addEventListener('click',()=>{service.signIn(lang).then(focusAction);});
+    main.querySelector('#account-signout')?.addEventListener('click',()=>{service.signOut().then(focusAction);});
+    main.querySelector('#account-retry')?.addEventListener('click',()=>{service.initialize().then(focusAction);});
+    if(accountState.status==='idle')service.initialize();
+  }
+  function startAccount() {
+    if(!window.DiplomaOneAuth)return;
+    window.DiplomaOneAuth.subscribe(state=>{
+      accountState=state;updateAccountLinks();
+      if(main.querySelector('[data-account-view]'))render();
+    });
+  }
   function showPrivacy() {
     const gu=lang==='gu';
     const title=gu?'ગોપનીયતા':'Privacy';
     const intro=gu?'તમારા અભ્યાસને સરળ અને ખાનગી રાખવાનો અમારો પ્રયાસ છે.':'A simple explanation of how this website handles information.';
     const sections=gu?[
       ['ખાતા વગર અભ્યાસ', 'આ વેબસાઇટ પર નોટ્સ વાંચવા માટે ખાતું, નામ અથવા ઇમેઇલ જરૂરી નથી.'],
-      ['આ ઉપકરણ પર સાચવેલી માહિતી', 'તમારી ભાષા પસંદગી અને સાચવેલા એકમો તમારા બ્રાઉઝરના સ્થાનિક સ્ટોરેજમાં રહે છે. બ્રાઉઝર ડેટા દૂર કરવાથી તે પણ દૂર થશે; તે અન્ય ઉપકરણો સાથે સિંક થતું નથી.'],
+      ['વૈકલ્પિક Google સાઇન ઇન', 'મારું ખાતું અથવા મારી ખરીદી ખોલવાથી સ્થાનિક રીતે હોસ્ટ કરેલો Firebase Authentication ક્લાયન્ટ લોડ થાય છે. તમે સાઇન ઇન કરો ત્યારે Google અને Firebase તમારી ઓળખ, નામ, ઇમેઇલ અને ટેકનિકલ માહિતી પર પ્રક્રિયા કરે છે. Firebase Authentication ખાતાની ઓળખનો રેકોર્ડ રાખે છે; સાઇન આઉટ કરવાથી તે રેકોર્ડ કાઢી નાખવામાં આવતો નથી. આ વેબસાઇટ તમારો Google પાસવર્ડ મેળવતી નથી કે Drive માટે પરવાનગી માગતી નથી.'],
+      ['આ ઉપકરણ પર સાચવેલી માહિતી', 'ભાષા અને સાચવેલી નોટ્સ બ્રાઉઝરના સ્થાનિક સ્ટોરેજમાં રહે છે; સાઇન ઇન કર્યા પછી પણ અન્ય ઉપકરણો પર સિંક થતી નથી. Firebase સાઇન ઇનને આ ટૅબના સેશન સ્ટોરેજમાં સંભાળે છે, લાંબા સમયના લૉગિન તરીકે નહીં. શેર કરેલા ઉપકરણ પર સાઇન આઉટ કરો; બ્રાઉઝર ક્યારેક બંધ ટૅબનું સત્ર પાછું લાવી શકે છે. અહીંથી સાઇન આઉટ કરવાથી અન્ય Google સેવાઓમાંથી સાઇન આઉટ થતું નથી. બ્રાઉઝર ડેટા દૂર કરવાથી સ્થાનિક પસંદગીઓ દૂર થાય છે.'],
+      ['ખરીદી હજી શરૂ નથી', 'આ તબક્કો ચુકવણી લેતો નથી, ખરીદીના રેકોર્ડ બનાવતો નથી કે ચૂકવેલા પેપરની પરવાનગી આપતો નથી. Firestore, Firebase Storage કે Analytics શરૂ કરાતાં નથી. સાઇન ઇન કરવું ખરીદીનો પુરાવો નથી.'],
       ['હોસ્ટિંગ અને બહારની લિંક્સ', 'GitHub Pages આ સાઇટ અને નોટ્સ હોસ્ટ કરે છે અને સેવા તથા સુરક્ષા માટે IP એડ્રેસ જેવી ટેકનિકલ માહિતી મેળવી શકે છે. પેપરની યાદી GitHub API પરથી મેળવાય છે. Android એપ ડાઉનલોડની લિંક તમને GitHub પર લઈ જાય છે, જ્યાં તેમની પોતાની ગોપનીયતા નીતિ લાગુ પડે છે.'],
       ['Analytics અને જાહેરાતો', 'આ વેબસાઇટ હાલમાં કોઈ analytics અથવા જાહેરાત સેવા ઉમેરતી નથી. જો આ બદલાય, તો આ માહિતી અપડેટ કરવામાં આવશે.']
     ]:[
       ['No account needed', 'You can read notes without creating an account or giving us your name or email address.'],
-      ['Stored on this device', 'Your language preference and saved units are stored in your browser’s local storage. Clearing your browser data removes them, and they do not sync across devices.'],
+      ['Optional Google sign-in', 'Opening My account or My purchases loads the self-hosted Firebase Authentication client. If you choose to sign in, Google and Firebase process your account identifier, name, email and technical information to authenticate you. Firebase Authentication keeps an account identity record; signing out does not delete that record. This website does not receive your Google password or request Drive access.'],
+      ['Stored on this device', 'Your language preference and saved units are stored in your browser’s local storage. They do not sync across devices after sign-in. Firebase manages sign-in data in this tab’s session storage, not as a long-term login. Sign out on shared devices; browsers can sometimes restore closed-tab sessions. Signing out here clears this site’s authentication session, not your Google session in other services. Clearing browser data removes locally stored preferences.'],
+      ['Purchases are not active', 'This phase does not collect payments, create purchase records or grant access to paid content. It does not initialize a Firestore database, Firebase Storage or Analytics. Signing in is not proof of a purchase.'],
       ['Hosting and external links', 'GitHub Pages hosts this website and its notes and may receive technical information such as IP addresses to operate and secure its service. The paper list is requested from the GitHub API. The Android download link takes you to GitHub, where its own privacy policy applies.'],
       ['Analytics and advertising', 'This website does not currently include an analytics or advertising service. If that changes, this information will be updated.']
     ];
@@ -569,7 +671,7 @@
   function updateHeader() {
     document.documentElement.lang=lang;
     document.querySelectorAll('[data-nav]').forEach(a=>a.textContent=tr(a.dataset.nav));
-    document.querySelector('.header-cta').innerHTML=`${esc(tr('start'))} <span aria-hidden="true">↗</span>`;
+    updateAccountLinks();
     const mobile=mobileNav.querySelectorAll('a');['home','branches','papers','saved'].forEach((key,i)=>mobile[i].textContent=tr(key));
     langButton.setAttribute('aria-label',lang==='en'?'Switch to Gujarati':'Switch to English');
     langButton.innerHTML=lang==='en'?'ગુ <span>/</span> <strong>EN</strong>':'<strong>ગુ</strong> <span>/</span> EN';
@@ -580,8 +682,10 @@
     const [route,arg,sub]=parts; let html='', bind=null;
     main.innerHTML='<div class="loading-page"><span class="spinner" aria-label="Loading"></span></div>';
     try {
-      if(!catalog) await loadCatalog();
+      // Account and privacy screens must remain usable if note data is offline.
+      if(!catalog&&!['account','purchases','privacy'].includes(route)) await loadCatalog();
       if(!route)html=showHome();
+      else if(route==='account'||route==='purchases'){html=showAccount(route==='purchases');bind=bindAccount;}
       else if(route==='branches'){html=showBranches();bind=bindBranchSearch;}
       else if(route==='branch'){await loadPaperIndex();html=sub?showSemester(arg,sub):showBranch(arg);}
       else if(route==='search'){html=showSearch();bind=bindSubjectSearch;}
@@ -620,5 +724,6 @@
   menuButton.addEventListener('click',()=>{const open=mobileNav.hidden;mobileNav.hidden=!open;menuButton.setAttribute('aria-expanded',String(open));});
   mobileNav.addEventListener('click',e=>{if(e.target.closest('a')){mobileNav.hidden=true;menuButton.setAttribute('aria-expanded','false');}});
   window.addEventListener('hashchange',()=>{activeTab='notes';window.scrollTo(0,0);render();});
+  startAccount();
   updateHeader();render();
 })();

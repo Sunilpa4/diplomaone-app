@@ -45,7 +45,7 @@ def build_package(destination):
         write_text('index.html', index)
         write_text('app.js', app)
         write_text('_redirects', REDIRECTS)
-        for name in ('styles.css', 'ads.txt'):
+        for name in ('styles.css', 'auth.js', 'ads.txt'):
             archive.write(SITE / name, name)
         for path in sorted((SITE / 'assets').rglob('*')):
             if path.is_file():
