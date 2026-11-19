@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""Copy compatible uploaded paper sets and scoped images, without overwrites.
+"""Publish compatible paper sets, preserving all unreviewed existing bytes.
 
-All source files, referenced assets, pairs and existing destinations are checked
-before any write. Running again with identical content is safe; differing public
-files still require review. Adding HTML alongside a solution PDF changes only
-its default presentation: the byte-exact PDFs remain optional downloads.
+All files, pairs, scoped assets and destinations are checked before any write.
+A differing HTML reader may be replaced only with an explicitly passed review
+manifest pinning BOTH its previous and incoming SHA-256 hashes. Original PDFs
+and images cannot be overwritten. Identical reruns remain safe.
 """
 from html.parser import HTMLParser
+from hashlib import sha256
 from pathlib import Path
 import argparse
 import json
@@ -101,6 +102,38 @@ def missing_originals_manifest(path):
     return result
 
 
+def reviewed_replacements_manifest(path):
+    """Narrow, opt-in authorization to replace a reviewed HTML exam reader."""
+    if path is None:
+        return {}
+    path = Path(path)
+    if path.is_symlink() or not path.is_file():
+        raise ValueError('Replacement manifest must be a regular file')
+    records = json.loads(path.read_text(encoding='utf-8'))
+    if not isinstance(records, list):
+        raise ValueError('Invalid replacement manifest')
+    result = {}
+    for record in records:
+        if not isinstance(record, dict) or set(record) != {'path', 'old_sha256', 'new_sha256', 'reason', 'source_drive_id'}:
+            raise ValueError('Invalid replacement record')
+        name = record['path']
+        parts = name.split('/') if isinstance(name, str) else []
+        if (len(parts) != 2 or not CODE.fullmatch(parts[0]) or not parts[1].endswith('.html')
+                or not SESSION.fullmatch(parts[1][:-5])):
+            raise ValueError('Only exact subject/session HTML readers may be replaced')
+        if any(not isinstance(record[k], str) or not re.fullmatch('[0-9a-f]{64}', record[k]) for k in ('old_sha256', 'new_sha256')):
+            raise ValueError('Replacement must pin both SHA-256 hashes')
+        if record['old_sha256'] == record['new_sha256']:
+            raise ValueError('Replacement hashes must differ')
+        if any(not isinstance(record[k], str) or not record[k].strip() for k in ('reason', 'source_drive_id')):
+            raise ValueError('Replacement requires a reason and reviewed source identity')
+        rel = Path(name)
+        if rel in result:
+            raise ValueError('Duplicate replacement path')
+        result[rel] = record
+    return result
+
+
 def validate_asset(path, data, rel):
     if len(data) > 2_000_000:
         raise ValueError(f'Paper image is too large: {rel}')
@@ -137,12 +170,14 @@ def validate_solution(data, rel):
     return parser
 
 
-def prepare(source, site, missing_originals=None):
+def prepare(source, site, missing_originals=None, replacements=None):
     source = Path(source).resolve()
     site = Path(site).resolve()
     if not source.is_dir() or not site.is_dir():
         raise ValueError('Source papers directory and site checkout must exist')
     exceptions = missing_originals_manifest(missing_originals)
+    reviewed = reviewed_replacements_manifest(replacements)
+    source_paths = set()
     files, pairs, assets, required_assets = [], {}, set(), set()
     for path in sorted(source.rglob('*')):
         if path.is_symlink():
@@ -153,6 +188,9 @@ def prepare(source, site, missing_originals=None):
         if not CODE.fullmatch(rel.parts[0]):
             raise ValueError(f'Unexpected paper path: {rel}')
         data = path.read_bytes()
+        source_paths.add(rel)
+        if rel in reviewed and sha256(data).hexdigest() != reviewed[rel]['new_sha256']:
+            raise ValueError(f'Incoming reader differs from reviewed replacement: {rel}')
         if (len(rel.parts) == 3 and rel.parts[1].endswith('.assets')
                 and SESSION.fullmatch(rel.parts[1][:-7]) and ASSET.fullmatch(rel.name)):
             validate_asset(path, data, rel)
@@ -184,9 +222,15 @@ def prepare(source, site, missing_originals=None):
             raise ValueError(f'Unsafe target: {target}')
         if not target.resolve().is_relative_to(site):
             raise ValueError(f'Target escapes site: {target}')
-        if target.exists() and (not target.is_file() or target.read_bytes() != data):
-            raise ValueError(f'Existing public file differs; refusing to overwrite: {target}')
+        if target.exists():
+            if not target.is_file():
+                raise ValueError(f'Existing public file differs; refusing to overwrite: {target}')
+            existing = target.read_bytes()
+            if existing != data and (rel not in reviewed or sha256(existing).hexdigest() != reviewed[rel]['old_sha256']):
+                raise ValueError(f'Existing public file differs; refusing to overwrite: {target}')
         files.append((path, target))
+    if set(reviewed) - source_paths:
+        raise ValueError('Replacement manifest refers to an absent staged reader')
     if assets != required_assets:
         raise ValueError('Missing or unreferenced paper images: ' + str(sorted(assets ^ required_assets)))
     if not pairs:
@@ -205,18 +249,19 @@ def prepare(source, site, missing_originals=None):
     return files
 
 
-def publish(source, site, missing_originals=None):
-    files = prepare(source, site, missing_originals)
-    added = []
+def publish(source, site, missing_originals=None, replacements=None):
+    files = prepare(source, site, missing_originals, replacements)
+    changed = []
     for src, target in files:
-        if target.exists():
+        exists = target.exists()
+        if exists and target.read_bytes() == src.read_bytes():
             continue
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(src, target)
-        added.append(target)
+        changed.append(target)
         if target.suffix in ('.html', '.pdf'):
-            print(f'Added {target}')
-    return added
+            print(f'{"Replaced reviewed reader" if exists else "Added"} {target}')
+    return changed
 
 
 if __name__ == '__main__':
@@ -224,5 +269,6 @@ if __name__ == '__main__':
     parser.add_argument('source', type=Path)
     parser.add_argument('site', type=Path)
     parser.add_argument('--missing-originals', type=Path, help='Explicit manifest of reviewed solutions without an original PDF')
+    parser.add_argument('--replacements', type=Path, help='Reviewed HTML replacements pinning old/new hashes; no general overwrite flag')
     args = parser.parse_args()
-    print(f'{len(publish(args.source, args.site, args.missing_originals))} files added; existing files preserved.')
+    print(f'{len(publish(args.source, args.site, args.missing_originals, args.replacements))} files added or explicitly replaced; other existing files preserved.')
