@@ -1,36 +1,47 @@
-# Test-backend validation record
+# TEST backend validation record
 
-## Deployment crash regression: missing `pg`
+## Current change: Firestore instead of paid Netlify Database
 
-The owner's first Netlify test deployment reached the function but crashed at ESM startup with **`ERR_MODULE_NOT_FOUND: Cannot find package 'pg'`**. The agent reproduced that exact error using Netlify's real `@netlify/zip-it-and-ship-it@16.6.0` packager on the original dependency layout. The resulting v2/NFT archive had five files and unresolved bare runtime imports; sibling `backend/node_modules` packages were not traced into it. The earlier standalone esbuild smoke was insufficient and did **not** establish correct deploy packaging.
+The owner rejected Netlify Database after a payment prompt, chose Firebase, explicitly confirmed billing is already enabled, and reports creating the Standard/default/Production Firestore database in **`diplomaone-53b4e`**. Cloud existence/settings are owner-reported, not independently verified by the agent.
 
-Correction: the server's pinned npm manifest/lock now live at the **repository/Netlify base**; `npm ci` installs runtime packages where the function tracer can include them. Netlify build/CI/import commands and docs use the root installation. Root JS remains **CommonJS** so existing `tools/*.js` behavior is not changed; server source/entry stays explicit `.mjs`. No purchase logic, secrets, service provisioning or checkout flags changed.
+The runtime, configuration and owner importer now use **`@google-cloud/firestore@9.4.1`**, not `pg`/PostgreSQL/`NETLIFY_DB_URL`. The unused, never-deployed SQL migration and PGlite dependency are removed; there is no real old purchase database/data migration. Fixed TEST-only Firestore namespace: **`diplomaone_test/v1/**`**. File bytes remain in the separately private Netlify Blobs store. No cloud write, account configuration, key creation, rules deployment, additional paid service or private paper upload was performed.
 
-`npm run check:bundle` now uses the **actual Netlify packager and TOML settings**, which select **NFT** for this native v2 function. The corrected ZIP includes `pg`, `jose`, `@netlify/blobs` and their traced runtime dependencies. It is extracted into an isolated temporary directory **outside the checkout** and executed with a stripped environment / no `NODE_PATH`. Dependency resolution is asserted to stay inside that artifact. Both the app's ESM default export and Netlify's generated Lambda v2 bootstrap/entry return disabled-config HTTP 200 in **two cases**: no secrets, and unit-fixture configuration with checkout still disabled. The latter also exercises creation of the real PG client/pool without making a database/provider call. Native route metadata is checked. The old dependency layout failed this kind of artifact import; the new one passes. Dev-only packaging glob/minimatch dependencies use tested, pinned patched overrides.
+### Completed locally
 
-**A new owner-side Netlify deployment is still needed to confirm the hosted fix.** The agent cannot certify the protected site's new build from local artifacts/CI, and old deploy-ID URLs remain immutable.
+- Node 22 syntax checks, pinned root install, root audit **0 vulnerabilities**.
+- **57 backend cases: 56 passed, 1 intentionally skipped** without an emulator. Tests cover exact-project Firebase JWTs; server-only credentials and TLS; fixed INR pricing/free subjects; tester scoping; request/order/payment binding; transactional uniqueness/idempotency; uncertain-provider fail-closed behavior; budget exhaustion/expiry/concurrency; captured-only grants; raw HMAC/event conflicts; refunds/replay/racing delivery/repurchase; UID-safe document paths; bounded metadata; private source/hash/size/reference/import checks; safe disabled deployment and sanitized failed connection probe.
+- Local repository tests use an explicit **test-only Firestore document/transaction double**, with atomic commits, version conflicts/retries and read-before-write checking. They are not claimed to be a real Firestore engine. The browser Security Rules test intentionally skips here; Java/emulator tooling is absent from this sandbox.
+- Actual Netlify native **v2/NFT Function ZIP**: approximately **2.78 MB compressed** with the Firestore SDK, JWK/Blobs/runtime dependencies. Extracted outside the checkout; all required dependency imports resolve inside the artifact. App ESM and generated Lambda v2 bootstrap return the exact expected disabled JSON for both no-secret and configured-but-disabled cases. Fetch/Node network transports are blocked in this disabled smoke; no cloud call is hidden by it.
+- The public build still contains exactly the same **12 frontend files**, byte-for-byte matching the existing frontend-only ZIP. No backend, credentials, npm dependencies, emulator/test tooling or private files enter static publish output.
+- Existing regressions re-run for this change: **24 auth/account tests**, auth-bundle freshness, **8 offline paper/reader/listing/source-placement suites**, **2 frontend-package tests** and **5 ad-declaration tests** passed. Website audit: **0 vulnerabilities**. Workflow YAML/shell syntax and `git diff --check` passed.
 
-## Completed locally for the packaging correction
+### Required CI emulator gate (not replaced by the double)
 
-- Clean pinned Node 22 root dependency install and syntax checks passed, without any old `backend/node_modules` fallback.
-- **44 backend tests passed**, including the new root-dependency/lockfile/Netlify-base regression plus all existing Firebase JWT, fixed INR pricing/free-common-code, UID/order ownership/idempotency/concurrency, pilot budget, capture/HMAC/webhook/replay/refund, SQL rollback/constraints, private hash/size/reference/path and tester-allowlist cases.
-- Database tests execute the additive migration and queries in **PGlite's Postgres engine**. This exercises real SQL/constraints/transactions, not a fake JSON purchase database. It does not certify distributed Netlify/Postgres network behavior or the operator's actual database role.
-- Actual isolated **Netlify Function ZIP and native Lambda v2 entry** passed both no-secret and configured-disabled smoke cases, with mock AWS response streaming only. No provider-backed payment test is claimed.
-- **13 existing auth/adapter + 11 existing account/DOM tests passed**; auth SDK bundle freshness passed.
-- All **8 existing offline paper/reader/listing/placement suites passed**, including the 49-paper/1,412-part refresh, Electrical answers and Mechanical source/placement regressions.
-- **2 Netlify frontend package tests + 5 existing ad-declaration Python tests passed**.
-- Netlify TOML/publish isolation passed. All 12 generated public frontend files match the existing manual ZIP byte-for-byte. No backend, npm manifests/lockfiles, `.env`, SQL, dependencies or private source enters that static output.
-- Root and website `npm audit --audit-level=moderate`: **0 vulnerabilities**. `git diff --check` passed.
-- The frontend ZIP was deliberately not changed: **540,762 bytes**, SHA256 `2e4c509ad7991c0775cb8712001d6877c1d228f5568be4975947bb2ad19bea6c`.
+The payment workflow installs Java 21 and downloads the official **Firestore emulator 1.22.0**, verifying the pinned **136,707,194-byte** JAR and SHA256 **`9b6498b7f62714d67f48f59b3818883cd682dbcd46b9f59511de81c97bb5166c`** before executing it. The source/checksum come from Firebase Tools **v15.37.0**'s official emulator manifest.
+
+`npm run test:firestore` starts a fresh loopback-only emulator with **`demo-diplomaone-payments`**, no real cloud project/login/key, and emulator-only deny-all rules. It runs **all 57 cases against the real SDK/emulator**, including the previously skipped anonymous/signed-in client-rule checks, then exercises actual read/write/query/transaction/delete operations from the **isolated deployed ZIP's SDK**. Files sharing the same demo namespace run sequentially; individual cases explicitly exercise concurrency. The runner refuses an existing server, strips owner credentials, pins the demo ID, and stops its child emulator. Diagnostics are retained only as short-lived CI artifacts.
+
+Use the latest payment check on [draft PR #37](https://github.com/Sunilpa4/diplomaone-app/pull/37) as evidence of this gate's outcome; local-double results alone are insufficient. Emulator success still does not certify real-project IAM, network latency, contention, billing settings or provider behavior.
+
+## Earlier deployment crash regression: resolved startup only
+
+The owner's first deployment failed with **`ERR_MODULE_NOT_FOUND: Cannot find package 'pg'`**. The agent reproduced it with the real Netlify packager: the old five-file archive had unresolved runtime imports because packages were installed only in sibling `backend/node_modules`. The earlier standalone esbuild test missed the defect.
+
+Commit **`afecd4f`** moved manifest/install ownership to the repository/Netlify base, retained CommonJS for existing tools and added actual ZIP/isolation/native Lambda checks. The old implementation's **44 backend tests**, **24 auth/account tests**, **8 offline reader suites**, **2 frontend-package + 5 ad tests** passed; root/website audits were clear. PR payment/content/publish checks passed (publisher required a same-commit failed-job retry; the original sub-check failure was not diagnosed). The owner subsequently confirmed this response from the new preview:
+
+```json
+{"mode":"test","enabled":false,"reason":"setup_required","currency":"INR"}
+```
+
+That confirms the packaging/startup repair, **not payment/database readiness**. `pg` is now removed as part of the Firestore replacement, but the root-tracing/isolated ZIP regression remains mandatory for the new SDK. Old immutable deploy URLs still refer to old artifacts. Agent-side requests remain behind Netlify Team protection.
 
 ## Not completed / no claims made
 
-- The **owner** created the initial test site and supplied its startup error. No Netlify account/plan setting, Functions redeployment, actual database provisioning/migration, Blobs import or private credentials were configured by the agent.
-- The public agent-side fetch reached **Netlify Team protection**, not the app/API, so hosted readiness cannot be inferred. Do not share Netlify credentials or disable protection simply to expose setup errors.
-- No request was made to Razorpay with the owner's API credentials; no real or provider-backed test payment/capture/refund was made. Unit-only secrets/provider doubles are not proof that the supplied public Key ID is active or matched to a secret.
-- No live-mode key/path acceptance is implemented. No billing, recharge, payout or Firebase database/billing change was performed.
-- No paper/source/Drive item was moved, deleted, migrated, replaced, made private or newly published. Existing public copies/history remain public; no frontend lock conceals this fact.
-- The browser still has no connected Buy button/purchase-history/private-reader flow. Its existing placeholder remains truthful. Browser integration/CSP/privacy/refund/access policy and private publisher/migration review are mandatory gates before enabling the two test-checkout flags.
-- No general DDoS resistance, unlimited free hosting, instantaneous token revocation, provider availability or protection of previously public/downloaded copies is promised.
+- No real Firestore connectivity/IAM/read/write acceptance, server secret configuration, Netlify account inspection/change or Blobs import by the agent. Production rules/SA permissions must be reviewed privately by the owner; server IAM bypasses client Security Rules.
+- No request using the owner's Razorpay API secret; no actual provider-backed test payment, charge, capture, refund, payout or live-key acceptance. Local doubles and the supplied public Test Key ID do not establish a working merchant integration.
+- No change to billing, recharge, plans, Firebase Storage/Functions or paid infrastructure. Existing Firebase billing is not a free-unlimited/cost-cap claim or permission to provision more services.
+- No paper/source/Drive item moved, deleted, replaced, made private or newly published. Existing public answers/history/downloads remain public; UI locking/copying privately cannot revoke those copies. Existing automatic publishers are unchanged.
+- No connected browser Buy/My purchases/private-reader flow or agreed customer refund/access/preview policy. These and publisher/private-content migration review are mandatory before enabling either checkout flag.
+- No general DDoS protection, instantaneous ID-token revocation, unlimited free hosting, real-project availability or live-payment readiness is promised.
 
-Owner recovery steps and remaining end-to-end acceptance gates are in [README.md](README.md). Keep checkout disabled until those are met.
+The frontend ZIP remains **540,762 bytes**, SHA256 **`2e4c509ad7991c0775cb8712001d6877c1d228f5568be4975947bb2ad19bea6c`**. See [README.md](README.md) for safe owner setup and separate acceptance gates. Keep checkout OFF.

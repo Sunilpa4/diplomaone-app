@@ -32,7 +32,7 @@ permissions:
 jobs:
   test-payments:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -42,10 +42,34 @@ jobs:
           cache-dependency-path: package-lock.json
       - name: Install pinned backend dependencies without lifecycle scripts
         run: npm ci --include=dev --ignore-scripts --no-fund
-      - name: Check API, SQL transactions, Firebase identity, private storage and disabled deployment
+      - name: Check API, Firebase identity, private storage and isolated disabled deployment
         run: |
           npm run check
           npm test
           npm run check:bundle
           npm audit --audit-level=moderate
-      # No provider keys, Netlify credentials, payment calls or deploy commands.
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Download pinned official Firestore emulator (test tooling only)
+        env:
+          FIRESTORE_EMULATOR_JAR: ${{ runner.temp }}/firestore-emulator.jar
+        run: |
+          EMULATOR_URL=$(node -p "require('./backend/test/firestore-emulator.json').url")
+          curl --fail --location --retry 3 --output "$FIRESTORE_EMULATOR_JAR" "$EMULATOR_URL"
+          # The runner verifies both the exact byte length and SHA-256 before execution.
+      - name: Verify real Firestore transactions, denied client rules and packaged SDK against DEMO emulator
+        env:
+          FIRESTORE_EMULATOR_JAR: ${{ runner.temp }}/firestore-emulator.jar
+        run: npm run test:firestore
+      - name: Keep emulator diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: firestore-demo-emulator-log
+          path: build/firestore-emulator.log
+          if-no-files-found: ignore
+          retention-days: 5
+      # No Firebase CLI login, service-account keys, Netlify credentials, provider
+      # calls, billable resources, rules deploys or real cloud project access.

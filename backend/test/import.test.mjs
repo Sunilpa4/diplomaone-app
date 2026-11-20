@@ -27,8 +27,15 @@ test('private import preserves exact source bytes, hashes and explicit branch id
 test('default owner command is a no-network dry run and never echoes credentials',async t=>{
   const f=await fixture(t);
   const result=spawnSync(process.execPath,[new URL('../scripts/import-paper.mjs',import.meta.url).pathname,f.file],{
-    encoding:'utf8',env:{...process.env,NETLIFY_AUTH_TOKEN:'DO_NOT_PRINT_TOKEN',NETLIFY_DB_URL:'postgres://DO_NOT_PRINT_PASSWORD@invalid.test/db'}});
+    encoding:'utf8',env:{...process.env,NETLIFY_AUTH_TOKEN:'DO_NOT_PRINT_TOKEN',FIREBASE_CLIENT_EMAIL:'DO_NOT_PRINT_EMAIL',FIREBASE_PRIVATE_KEY:'DO_NOT_PRINT_KEY'}});
   assert.equal(result.status,0,result.stderr);assert(result.stdout.includes('"dryRun":true'));
+  assert(!result.stdout.includes('DO_NOT_PRINT'));assert(!result.stderr.includes('DO_NOT_PRINT'));
+});
+
+test('owner read-only Firestore probe refuses invalid setup without printing secrets',()=>{
+  const result=spawnSync(process.execPath,[new URL('../scripts/check-firestore.mjs',import.meta.url).pathname],{
+    encoding:'utf8',env:{PATH:process.env.PATH,FIREBASE_PROJECT_ID:'diplomaone-53b4e',FIREBASE_CLIENT_EMAIL:'DO_NOT_PRINT_EMAIL',FIREBASE_PRIVATE_KEY:'DO_NOT_PRINT_KEY'}});
+  assert.equal(result.status,1);assert(result.stderr.includes('Firestore read check failed'));
   assert(!result.stdout.includes('DO_NOT_PRINT'));assert(!result.stderr.includes('DO_NOT_PRINT'));
 });
 

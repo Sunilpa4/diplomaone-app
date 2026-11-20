@@ -1,4 +1,5 @@
 import {createHash,createHmac,timingSafeEqual} from 'node:crypto';
+import {firestoreOptions} from './firestore-config.mjs';
 
 export const MODE='test';
 export const PREFIX='/api/payments/test';
@@ -37,7 +38,7 @@ export function readConfig(env=process.env){
   const configured=env.RAZORPAY_KEY_ID===keyId&&/^rzp_test_[A-Za-z0-9]{10,50}$/.test(keyId)&&
     typeof env.RAZORPAY_KEY_SECRET==='string'&&env.RAZORPAY_KEY_SECRET.length>=16&&
     typeof env.RAZORPAY_WEBHOOK_SECRET==='string'&&env.RAZORPAY_WEBHOOK_SECRET.length>=32&&
-    !!env.NETLIFY_DB_URL&&env.FIREBASE_PROJECT_ID==='diplomaone-53b4e';
+    !!firestoreOptions(env);
   return Object.freeze({keyId,keySecret:env.RAZORPAY_KEY_SECRET,webhookSecret:env.RAZORPAY_WEBHOOK_SECRET,
     firebaseProject:'diplomaone-53b4e',context,configured,testers:Object.freeze(validTesters?testers:[]),
     enabled:configured&&validTesters&&context==='production'&&env.PAYMENTS_TEST_ENABLED==='true'&&env.PAYMENTS_PRIVATE_MIGRATION_CONFIRMED==='true'});

@@ -1,7 +1,11 @@
 // Runs only against an extracted Netlify ZIP in a temporary directory OUTSIDE
 // the checkout. Built-ins only: repository node_modules must not rescue it.
 import assert from 'node:assert/strict';
-import {createRequire} from 'node:module';
+import {createRequire,syncBuiltinESMExports} from 'node:module';
+import http from 'node:http';
+import https from 'node:https';
+import net from 'node:net';
+import tls from 'node:tls';
 import {realpath,readFile} from 'node:fs/promises';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
@@ -18,12 +22,17 @@ assert(match,'generated Lambda entry must point to the packaged user module');
 const main=await realpath(path.resolve(directory,match[2]));
 assert(main.startsWith(directory+path.sep));
 const resolve=createRequire(main);
-for(const name of ['pg','@netlify/blobs','jose']){
+for(const name of ['@google-cloud/firestore','@netlify/blobs','jose']){
   const file=await realpath(resolve.resolve(name));
   assert(file.startsWith(directory+path.sep),`${name} must come from the deployed ZIP, not the checkout`);
 }
-// Also prevent accidental provider/database/network calls in a smoke check.
-globalThis.fetch=async()=>{throw new Error('External network is forbidden in the artifact smoke');};
+// Block both fetch and the Node transports used by Google/Blobs SDKs. Safe
+// disabled startup must not discover ADC, fetch JWKs or contact any service.
+const forbidden=()=>{throw new Error('Network is forbidden in the disabled artifact smoke');};
+globalThis.fetch=async()=>forbidden();
+http.request=http.get=https.request=https.get=net.connect=net.createConnection=tls.connect=forbidden;
+net.Socket.prototype.connect=forbidden;
+syncBuiltinESMExports();
 const mod=await import(pathToFileURL(main));
 assert.deepEqual(mod.config,{path:'/api/payments/test/*'});
 const prefix='https://unit-test.netlify.app/api/payments/test';

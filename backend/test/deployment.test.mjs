@@ -16,11 +16,11 @@ test('actual entry supports the native same-origin test route and is disabled wi
   assert.equal(insecure.status,400);assert.equal((await insecure.json()).error,'https_required');
 });
 
-test('runtime dependencies and lockfile live at the Netlify base so native tracing includes pg and the other packages',async()=>{
+test('runtime dependencies and lockfile live at the Netlify base so native tracing includes Firestore and the other packages',async()=>{
   const manifest=JSON.parse(await readFile(path.join(root,'package.json'),'utf8'));
   const lock=JSON.parse(await readFile(path.join(root,'package-lock.json'),'utf8'));
   assert.equal(manifest.type,'commonjs','existing tools/*.js must keep their CommonJS semantics; server entry is explicitly .mjs');
-  for(const name of ['pg','jose','@netlify/blobs']){
+  for(const name of ['@google-cloud/firestore','jose','@netlify/blobs']){
     assert(manifest.dependencies[name],`${name} must be a runtime dependency at the function base`);
     assert.equal(lock.packages[''].dependencies[name],manifest.dependencies[name]);
   }
@@ -81,7 +81,8 @@ test('environment example contains the public supplied test key only and checkou
   assert(example.includes('RAZORPAY_KEY_ID=rzp_test_ToAdJ9DdVMFeM2'));
   for(const key of ['RAZORPAY_KEY_SECRET','RAZORPAY_WEBHOOK_SECRET'])assert(example.includes(key+'=\n'));
   assert(example.includes('PAYMENTS_TEST_ENABLED=false'));assert(example.includes('PAYMENTS_PRIVATE_MIGRATION_CONFIRMED=false'));
-  const sql=await readFile(path.join(root,'netlify/database/migrations/0001_test_payments.sql'),'utf8');
-  assert(!/DROP\s+(?:TABLE|SCHEMA)|DELETE\s+FROM|INSERT\s+INTO/i.test(sql),'additive migration, no fake purchases/products');
-  assert(sql.includes('REVOKE ALL ON SCHEMA diplomaone_test FROM PUBLIC'));
+  for(const key of ['FIREBASE_CLIENT_EMAIL','FIREBASE_PRIVATE_KEY'])assert(example.includes(key+'=\n'));
+  await assert.rejects(readFile(path.join(root,'netlify/database/migrations/0001_test_payments.sql')),{code:'ENOENT'});
+  const manifest=JSON.parse(await readFile(path.join(root,'package.json'),'utf8'));
+  assert.equal(manifest.dependencies.pg,undefined);assert.equal(manifest.devDependencies['@electric-sql/pglite'],undefined);
 });

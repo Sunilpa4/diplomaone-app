@@ -1,34 +1,25 @@
-import {test,before,after,beforeEach} from 'node:test';
+import {test,after,beforeEach} from 'node:test';
 import assert from 'node:assert/strict';
-import {readFile} from 'node:fs/promises';
 import {randomUUID} from 'node:crypto';
-import {PGlite} from '@electric-sql/pglite';
-import {Repository} from '../src/repository.mjs';
+import {store} from './store.mjs';
+import {fixtureFirestoreEnv} from './credentials.mjs';
 import {createHandler} from '../src/api.mjs';
 import {readConfig,Problem,PREFIX,hmac,digest,MAX_ASSET_BYTES} from '../src/domain.mjs';
 
-let database,repository;
+const {database,repository,reset}=store();
 const id='DI03000161--summer-2026',other='DI03000171--winter-2025';
 const bytes=Buffer.from('PRIVATE UNIT TEST FIXTURE - NOT A PUBLISHED SOLUTION'),assetId=digest(bytes);
 const product={id,title:'Manufacturing Engineering-I',branch:'mechanical',reader_asset:assetId,
   assets:[{id:assetId,path:'reader.html',mime:'text/plain; charset=utf-8',bytes:bytes.length}]};
 const env={RAZORPAY_KEY_ID:'rzp_test_OnlyUnitTest123',RAZORPAY_KEY_SECRET:'test-only-key-secret-0123456789',
-  RAZORPAY_WEBHOOK_SECRET:'test-only-webhook-secret-0123456789',NETLIFY_DB_URL:'postgres://unit.invalid/db',
+  RAZORPAY_WEBHOOK_SECRET:'test-only-webhook-secret-0123456789',...fixtureFirestoreEnv,
   FIREBASE_PROJECT_ID:'diplomaone-53b4e',CONTEXT:'production',PAYMENTS_TEST_ENABLED:'true',PAYMENTS_PRIVATE_MIGRATION_CONFIRMED:'true',
-  PAYMENTS_TESTER_UIDS:"alice,bob,u' OR 1=1--"};
+  PAYMENTS_TESTER_UIDS:"alice,bob,u' OR 1=1--/nested"};
 const config=readConfig(env);
 
-before(async()=>{
-  database=new PGlite();
-  await database.exec(await readFile(new URL('../../netlify/database/migrations/0001_test_payments.sql',import.meta.url),'utf8'));
-  repository=new Repository({query:(...args)=>database.query(...args),
-    transaction:fn=>database.transaction(tx=>fn((...args)=>tx.query(...args)))});
-});
-after(async()=>database?.close());
-beforeEach(async()=>{
-  await database.exec('TRUNCATE diplomaone_test.events,diplomaone_test.entitlements,diplomaone_test.orders,diplomaone_test.products CASCADE');
-  await repository.importProduct(product);
-});
+async function resetState(){await reset();await repository.importProduct(product);}
+after(async()=>database.terminate());
+beforeEach(resetState);
 
 function fixture(options={}){
   const calls={create:0,order:0,payment:0,asset:0},orders=new Map(),payments=new Map(),logs=[];
@@ -41,8 +32,8 @@ function fixture(options={}){
     async payment(id){++calls.payment;return payments.get(id);},
   };
   const handler=createHandler({config:options.config||config,repository,provider,
-    verifyIdentity:async header=>{if(!/^Bearer (alice|bob|sql-user)$/.test(header||''))throw new Problem(401,'sign_in_required');
-      return {uid:header.slice(7)==='sql-user'?"u' OR 1=1--":header.slice(7)};},
+    verifyIdentity:async header=>{if(!/^Bearer (alice|bob|path-user)$/.test(header||''))throw new Problem(401,'sign_in_required');
+      return {uid:header.slice(7)==='path-user'?"u' OR 1=1--/nested":header.slice(7)};},
     assets:{async ready(){if(options.storageError)throw Error('PRIVATE_STORAGE_DETAIL');return !options.missingAssets;},
       async get(){++calls.asset;return options.badAsset?new Uint8Array([1]).buffer:new Uint8Array(bytes).buffer;}},
     log:code=>logs.push(code)});
@@ -86,7 +77,7 @@ test('config exposes only reviewed public metadata, fixed price and public test 
   assert.equal(result.body.keyId,env.RAZORPAY_KEY_ID);
   assert.equal(result.body.products[0].assets,undefined);
   assert(!JSON.stringify(result.body).includes(env.RAZORPAY_KEY_SECRET));
-  await database.exec('UPDATE diplomaone_test.products SET active=false');
+  await repository.collection('products').doc(id).update({active:false});
   assert.equal((await f.request('/config',{user:null})).body.reason,'no_private_papers');
 });
 
@@ -139,12 +130,12 @@ test('idempotency key cannot be re-used for another paper and concurrent reserve
 
 test('missing or unavailable private assets block provider order creation and keep ownership off',async()=>{
   for(const options of [{missingAssets:true},{storageError:true}]){
-    await database.exec('TRUNCATE diplomaone_test.orders CASCADE');
+    await resetState();
     const f=fixture(options),result=await f.request('/orders',{method:'POST',body:{productId:id,requestId:randomUUID()}});
     assert.equal(result.status,503);assert.equal(result.body.error,'private_paper_not_ready');
     assert.equal(f.calls.create,0);assert.equal(await repository.owns('alice',id),false);
     assert(!JSON.stringify(result).includes('PRIVATE_STORAGE_DETAIL'));
-    assert.equal((await database.query('SELECT status FROM diplomaone_test.orders')).rows[0].status,'failed');
+    assert.equal((await repository.collection('orders').get()).docs[0].data().status,'failed');
   }
 });
 
@@ -159,7 +150,7 @@ test('uncertain provider errors do not create duplicate retries or grant access'
 
 test('mismatched provider-created amount, currency or receipt is never returned to checkout',async()=>{
   for(const override of [{amount:1},{currency:'USD'},{receipt:'other_receipt'},{partial_payment:true},{status:'paid'}]){
-    await database.exec('TRUNCATE diplomaone_test.orders CASCADE');
+    await resetState();
     const f=fixture({createOverride:override}),result=await f.request('/orders',{method:'POST',body:{productId:id,requestId:randomUUID()}});
     assert.equal(result.status,503);assert.equal(result.body.error,'provider_order_mismatch');
   }
@@ -231,11 +222,11 @@ test('disabling new checkout still allows already-created verified payments to b
   assert.equal((await f.verify({orderId:'order_beforeDisable'})).status,200);
 });
 
-test('purchases are UID-scoped, parameterized and not invented when the database fails',async()=>{
-  const f=fixture(),o=await f.order('sql-user');f.capture(o.orderId);await f.verify(o,undefined,'sql-user');
-  assert.equal((await f.request('/purchases',{user:'sql-user'})).body.purchases.length,1);
+test('purchases are UID-scoped, path-safe and not invented when the database fails',async()=>{
+  const f=fixture(),o=await f.order('path-user');f.capture(o.orderId);await f.verify(o,undefined,'path-user');
+  assert.equal((await f.request('/purchases',{user:'path-user'})).body.purchases.length,1);
   assert.equal((await f.request('/purchases',{user:'alice'})).body.purchases.length,0);
-  const row=(await f.request('/purchases',{user:'sql-user'})).body.purchases[0];
+  const row=(await f.request('/purchases',{user:'path-user'})).body.purchases[0];
   assert.equal(row.productId,id);assert.equal(row.active,true);assert.equal(row.uid,undefined);
   const handler=createHandler({config,repository:{async purchases(){throw Error('PRIVATE_DB_PASSWORD');}},verifyIdentity:async()=>({uid:'alice'})});
   const response=await handler(new Request('https://www.diplomaone.in'+PREFIX+'/purchases'));
@@ -255,7 +246,7 @@ test('owned content is checked on every request, hash-verified, non-cacheable an
 
 test('a confirmed refund revokes access, including refund-before-capture delivery ordering',async()=>{
   for(const before of [false,true]){
-    await database.exec('TRUNCATE diplomaone_test.events,diplomaone_test.entitlements,diplomaone_test.orders CASCADE');
+    await resetState();
     const f=fixture(),o=await f.order(),payment=f.capture(o.orderId);
     if(!before)await f.verify(o);
     payment.amount_refunded=payment.amount;payment.status='refunded';
@@ -268,19 +259,22 @@ test('a confirmed refund revokes access, including refund-before-capture deliver
   }
 });
 
-test('SQL constraints keep live/free products and reused payment IDs out of test entitlements',async()=>{
+test('server invariants keep free products and reused payment IDs out of test entitlements',async()=>{
   await assert.rejects(repository.importProduct({...product,id:'DI01000021--summer-2026'}),/common_subject_is_free/);
-  await assert.rejects(database.query(`INSERT INTO diplomaone_test.products(id,title,branch,assets,reader_asset)
-    VALUES('DI01000121--summer-2026','Free Physics','chemical',$1::jsonb,$2)`,[JSON.stringify(product.assets),assetId]));
+  // Even corrupt owner-written metadata cannot turn a common subject into a
+  // purchasable record. Unlike SQL, Firestore has no CHECK constraints.
+  const common='DI01000121--summer-2026';
+  await repository.collection('products').doc(common).set({...product,id:common,active:true});
+  await assert.rejects(repository.product(common),/common_subject_is_free/);
   const f=fixture(),alice=await f.order();f.capture(alice.orderId);await f.verify(alice);
   const bob=await f.order('bob');
   await assert.rejects(repository.grant(bob.orderId,'pay_123456789012'));
-  assert.equal(await repository.owns('bob',id),false,'a failed unique payment constraint rolls back entitlement writes');
+  assert.equal(await repository.owns('bob',id),false,'a conflicting unique payment document rolls back entitlement writes');
 });
 
 test('an event hash conflict atomically rolls back order/payment/ownership changes',async()=>{
   const f=fixture(),o=await f.order();f.capture(o.orderId);
-  await database.query('INSERT INTO diplomaone_test.events(id,body_hash) VALUES($1,$2)',['evt_same','a'.repeat(64)]);
+  await repository.eventRef('evt_same').set({body_hash:'a'.repeat(64)});
   await assert.rejects(repository.grant(o.orderId,'pay_123456789012',{id:'evt_same',hash:'b'.repeat(64)}),/event_id_conflict/);
   assert.equal(await repository.owns('alice',id),false);
   const stored=await repository.order(o.orderId);assert.equal(stored.status,'created');assert.equal(stored.payment_id,null);
@@ -290,12 +284,12 @@ test('free-tier pilot has durable per-user and global new-order budgets',async()
   const p=await repository.product(id);
   for(let n=0;n<5;n++){
     const reserved=await repository.reserve('alice',p,randomUUID());
-    await database.query("UPDATE diplomaone_test.orders SET status='failed' WHERE id=$1",[reserved.order.id]);
+    await repository.unavailable(reserved.order.id);
   }
   await assert.rejects(repository.reserve('alice',p,randomUUID()),/test_order_limit/);
   for(let n=0;n<45;n++){
     const reserved=await repository.reserve('other-user-'+n,p,randomUUID());
-    await database.query("UPDATE diplomaone_test.orders SET status='failed' WHERE id=$1",[reserved.order.id]);
+    await repository.unavailable(reserved.order.id);
   }
   await assert.rejects(repository.reserve('another-user',p,randomUUID()),/test_order_limit/);
 });

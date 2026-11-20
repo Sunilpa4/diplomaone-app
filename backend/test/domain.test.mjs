@@ -4,10 +4,13 @@ import {generateKeyPair,SignJWT} from 'jose';
 import {readConfig,validateProduct,FREE_CODES,PRICES,hmac,validSignature} from '../src/domain.mjs';
 import {firebaseVerifier} from '../src/firebase.mjs';
 import {razorpayClient} from '../src/razorpay.mjs';
-import {databasePool,privateKey} from '../src/runtime.mjs';
+import {privateKey} from '../src/assets.mjs';
+import {firestoreDatabase} from '../src/firestore.mjs';
+import {firestoreOptions} from '../src/firestore-config.mjs';
+import {fixtureFirestoreEnv} from './credentials.mjs';
 
 const secrets={RAZORPAY_KEY_ID:'rzp_test_TestPublic123456',RAZORPAY_KEY_SECRET:'only-a-unit-test-secret-000',
-  RAZORPAY_WEBHOOK_SECRET:'only-a-unit-test-webhook-secret-000',NETLIFY_DB_URL:'postgres://unit.test/database',
+  RAZORPAY_WEBHOOK_SECRET:'only-a-unit-test-webhook-secret-000',...fixtureFirestoreEnv,
   FIREBASE_PROJECT_ID:'diplomaone-53b4e',CONTEXT:'production',PAYMENTS_TEST_ENABLED:'true',PAYMENTS_PRIVATE_MIGRATION_CONFIRMED:'true',PAYMENTS_TESTER_UIDS:'test-user'};
 
 test('configuration fails closed, refuses live keys, and separates preview/production',()=>{
@@ -73,12 +76,30 @@ test('provider client uses test-only Basic auth, INR and receipt from server, wi
   await assert.rejects(failing.order('order_12345'),error=>error.code==='payment_provider_unavailable'&&!error.message.includes('private'));
 });
 
-test('private key paths are content-addressed and database TLS is not weakened',async()=>{
+test('private file paths are content-addressed and Firestore uses explicit project credentials',async()=>{
   assert.equal(privateKey('DI03000161--summer-2026','a'.repeat(64)),'DI03000161--summer-2026/'+'a'.repeat(64));
   assert.throws(()=>privateKey('../private','a'.repeat(64)));
   assert.throws(()=>privateKey('DI03000161--summer-2026','../reader.html'));
-  assert.throws(()=>databasePool('https://invalid.test/database'));
-  const pool=databasePool('postgres://unit:password@unit.invalid/test?sslmode=disable');
-  assert(new URL(pool.options.connectionString).searchParams.get('sslmode')==='verify-full');
-  await pool.end();
+  assert.throws(()=>firestoreDatabase({}),/firestore_not_configured/);
+  if(process.env.FIRESTORE_EMULATOR_HOST)assert.throws(()=>firestoreDatabase(fixtureFirestoreEnv),/firestore_not_configured/);
+  else{
+    const database=firestoreDatabase(fixtureFirestoreEnv);
+    assert.equal(database.projectId,'diplomaone-53b4e');assert.equal(database.databaseId,'(default)');
+    await database.terminate();
+  }
+});
+
+
+test('Firestore credential parsing is strict, TLS-pinned, private and rejects emulator/other projects',()=>{
+  const options=firestoreOptions(fixtureFirestoreEnv);
+  assert.equal(options.ssl,true);assert.equal(options.apiEndpoint,'firestore.googleapis.com');assert.equal(options.preferRest,true);
+  assert.equal(firestoreOptions({...fixtureFirestoreEnv,FIREBASE_PRIVATE_KEY:fixtureFirestoreEnv.FIREBASE_PRIVATE_KEY.replaceAll('\n','\\n')}).credentials.private_key,options.credentials.private_key);
+  for(const change of [{FIREBASE_PROJECT_ID:'diplomaone'},
+    {FIREBASE_CLIENT_EMAIL:'other@diplomaone.iam.gserviceaccount.com'},
+    {FIREBASE_CLIENT_EMAIL:'https://evil.invalid/'},{FIREBASE_PRIVATE_KEY:'not a private key'},
+    {FIREBASE_PRIVATE_KEY:'x'.repeat(20000)},{FIRESTORE_EMULATOR_HOST:'127.0.0.1:8085'},
+    {FIRESTORE_DATABASE_ID:'another-database'}]){
+    assert.equal(firestoreOptions({...fixtureFirestoreEnv,...change}),null);
+    assert.equal(readConfig({...secrets,...change}).configured,false);
+  }
 });

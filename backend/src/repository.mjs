@@ -1,107 +1,163 @@
 import {randomUUID} from 'node:crypto';
-import {reject,validateProduct} from './domain.mjs';
+import {reject,validateProduct,digest,productPattern,providerOrderPattern,providerPaymentPattern,uuidPattern,assetPattern,MIME,MAX_ASSET_BYTES} from './domain.mjs';
+import {FIRESTORE_ROOT} from './firestore-config.mjs';
 
-async function recordEvent(query,event){
-  if(!event)return;
-  const {rows}=await query(`INSERT INTO diplomaone_test.events(id,body_hash) VALUES($1,$2)
-    ON CONFLICT(id) DO UPDATE SET id=excluded.id WHERE diplomaone_test.events.body_hash=excluded.body_hash RETURNING id`,[event.id,event.hash]);
-  reject(rows.length!==1,409,'event_id_conflict');
-}
+const hash=(...values)=>digest(JSON.stringify(values));
+const data=snapshot=>snapshot.exists?snapshot.data():null;
+const activeStates=['reserving','created','unknown'];
+function identity(uid){reject(typeof uid!=='string'||!uid||uid.length>128,400,'invalid_user');}
+function productId(id){reject(typeof id!=='string'||!productPattern.test(id)||id.includes('/')||id.trim()!==id,400,'invalid_product');}
+function eventCheck(stored,event){reject(stored&&stored.body_hash!==event.hash,409,'event_id_conflict');}
 
-// query(text, values) -> {rows}; transaction(fn) supplies a connection-scoped query.
-// There is deliberately no in-memory production fallback.
+// All durable state lives under one TEST namespace. No SQL service, in-memory
+// production fallback, background scan, collection-group query or live records.
+// Every transaction reads before writing; retries do not call Razorpay/storage.
 export class Repository {
-  constructor(database){this.db=database;}
+  constructor(firestore,{clock=()=>Date.now()}={}){this.db=firestore;this.root=firestore.doc(FIRESTORE_ROOT);this.clock=clock;}
+  collection(name){return this.root.collection(name);}
+  ownerRef(uid,id){identity(uid);productId(id);return this.collection('users').doc(hash(uid)).collection('purchases').doc(id);}
+  activeRef(uid,id){return this.collection('activeOrders').doc(hash(uid,id));}
+  eventRef(id){return this.collection('events').doc(hash(id));}
+  transaction(fn){return this.db.runTransaction(fn,{maxAttempts:5});}
   async products(){
-    const {rows}=await this.db.query('SELECT id,title,branch FROM diplomaone_test.products WHERE active=true ORDER BY id');
-    return rows.map(validateProduct);
+    const result=await this.collection('products').where('active','==',true).limit(101).get();
+    reject(result.docs.length>100,503,'pilot_catalog_limit');
+    return result.docs.map(doc=>validateProduct({...doc.data(),id:doc.id})).sort((a,b)=>a.id.localeCompare(b.id));
   }
   async product(id){
-    const {rows}=await this.db.query('SELECT * FROM diplomaone_test.products WHERE id=$1 AND active=true',[id]);
-    return rows[0]?validateProduct(rows[0]):null;
+    productId(id);const stored=data(await this.collection('products').doc(id).get());
+    return stored?.active===true?validateProduct({...stored,id}):null;
   }
   async importProduct(product){
-    const p=validateProduct(product);
-    const {rows}=await this.db.query(`INSERT INTO diplomaone_test.products(id,title,branch,assets,reader_asset,active)
-      VALUES ($1,$2,$3,$4::jsonb,$5,true) ON CONFLICT(id) DO NOTHING RETURNING id`,
-      [p.id,p.title,p.branch,JSON.stringify(p.assets),p.reader_asset]);
-    reject(rows.length!==1,409,'product_already_imported_review_required');
+    const p=validateProduct(product),ref=this.collection('products').doc(p.id),paths=new Set();
+    reject(!Array.isArray(p.assets)||!p.assets.length||p.assets.length>300,400,'invalid_assets');
+    const assets=p.assets.map(a=>{
+      reject(!a||!assetPattern.test(a.id||'')||typeof a.path!=='string'||!a.path||a.path.length>220||
+        /[\\\x00-\x1f?#%]/.test(a.path)||a.path.split('/').some(part=>!part||part==='.'||part==='..')||paths.has(a.path)||
+        !Object.values(MIME).includes(a.mime)||!Number.isInteger(a.bytes)||a.bytes<1||a.bytes>MAX_ASSET_BYTES,400,'invalid_assets');
+      paths.add(a.path);return {id:a.id,path:a.path,mime:a.mime,bytes:a.bytes};
+    });
+    reject(!assets.some(a=>a.id===p.reader_asset&&a.mime===MIME['.html']&&a.path.endsWith('.html')),400,'reader_required');
+    // The importer has already strong-read verified all private blobs. Store
+    // only bounded allowlisted metadata, never manifest fields/answer bytes.
+    return this.transaction(async tx=>{
+      reject((await tx.get(ref)).exists,409,'product_already_imported_review_required');
+      tx.create(ref,{id:p.id,title:p.title,branch:p.branch,assets,reader_asset:p.reader_asset,active:true,created_at:this.clock()});
+    });
   }
   async reserve(uid,product,requestId){
-    return this.db.transaction(async query=>{
-      // Global pilot budget and per-user/paper reservation are serialized across
-      // instances, not just within one function's memory. 50 new orders/day.
-      await query("SELECT pg_advisory_xact_lock(hashtextextended('diplomaone-test-checkout',0))");
-      let {rows}=await query('SELECT * FROM diplomaone_test.orders WHERE uid=$1 AND request_id=$2',[uid,requestId]);
-      if(rows[0]){reject(rows[0].product_id!==product.id,409,'idempotency_conflict');return {created:false,order:rows[0]};}
-      ({rows}=await query('SELECT active FROM diplomaone_test.entitlements WHERE uid=$1 AND product_id=$2',[uid,product.id]));
-      reject(rows[0]?.active,409,'already_owned');
-      ({rows}=await query("SELECT * FROM diplomaone_test.orders WHERE uid=$1 AND product_id=$2 AND status IN ('reserving','created','unknown')",[uid,product.id]));
-      if(rows[0])return {created:false,order:rows[0]};
-      ({rows}=await query(`SELECT count(*)::int AS total,
-        count(*) FILTER (WHERE uid=$1 AND created_at>now()-interval '1 hour')::int AS user_total
-        FROM diplomaone_test.orders WHERE created_at>now()-interval '24 hours'`,[uid]));
-      reject(rows[0].total>=50||rows[0].user_total>=5,429,'test_order_limit');
-      const id=randomUUID(),receipt='dt_'+id.replaceAll('-','');
-      ({rows}=await query(`INSERT INTO diplomaone_test.orders(id,uid,product_id,request_id,receipt,amount,status)
-        VALUES($1,$2,$3,$4,$5,$6,'reserving') RETURNING *`,[id,uid,product.id,requestId,receipt,product.amount]));
-      return {created:true,order:rows[0]};
+    identity(uid);productId(product.id);reject(!uuidPattern.test(requestId||''),400,'invalid_order_request');
+    requestId=requestId.toLowerCase();
+    const requestRef=this.collection('requests').doc(hash(uid,requestId)),activeRef=this.activeRef(uid,product.id);
+    const ownerRef=this.ownerRef(uid,product.id),globalRef=this.collection('limits').doc('all'),userRef=this.collection('limits').doc(hash(uid));
+    const id=randomUUID(),orderRef=this.collection('orders').doc(id);
+    return this.transaction(async tx=>{
+      const request=data(await tx.get(requestRef));
+      if(request){
+        reject(request.uid!==uid||request.product_id!==product.id,409,'idempotency_conflict');
+        const order=data(await tx.get(this.collection('orders').doc(request.order_id)));
+        reject(!order||order.uid!==uid||order.product_id!==product.id,409,'order_state_conflict');
+        return {created:false,order};
+      }
+      const owner=data(await tx.get(ownerRef));reject(owner?.active===true,409,'already_owned');
+      const active=data(await tx.get(activeRef));
+      if(active){
+        const order=data(await tx.get(this.collection('orders').doc(active.order_id)));
+        reject(!order||order.uid!==uid||order.product_id!==product.id||!activeStates.includes(order.status),409,'order_state_conflict');
+        return {created:false,order};
+      }
+      const stored=data(await tx.get(this.collection('products').doc(product.id)));
+      reject(stored?.active!==true,404,'paper_unavailable');
+      const canonical=validateProduct({...stored,id:product.id});
+      const global=data(await tx.get(globalRef)),user=data(await tx.get(userRef)),now=this.clock();
+      // Bounded rolling timestamp arrays: no paid count query or growing scan.
+      const recent=(global?.times||[]).filter(t=>t>now-86400000),mine=(user?.times||[]).filter(t=>t>now-3600000);
+      reject(recent.length>=50||mine.length>=5,429,'test_order_limit');
+      const order={id,uid,product_id:canonical.id,request_id:requestId,receipt:'dt_'+id.replaceAll('-',''),
+        amount:canonical.amount,currency:'INR',title:canonical.title,branch:canonical.branch,
+        status:'reserving',razorpay_order_id:null,payment_id:null,created_at:now,paid_at:null};
+      tx.create(orderRef,order);
+      tx.create(requestRef,{uid,product_id:canonical.id,order_id:id});
+      tx.create(activeRef,{uid,product_id:canonical.id,order_id:id});
+      tx.set(globalRef,{times:[...recent,now]});tx.set(userRef,{times:[...mine,now]});
+      return {created:true,order};
     });
   }
   async attachOrder(id,providerId){
-    const {rows}=await this.db.query(`UPDATE diplomaone_test.orders SET status='created',razorpay_order_id=$2
-      WHERE id=$1 AND status='reserving' RETURNING *`,[id,providerId]);
-    reject(rows.length!==1,409,'order_state_conflict');return rows[0];
+    reject(!providerOrderPattern.test(providerId||''),400,'invalid_order');
+    const ref=this.collection('orders').doc(id),index=this.collection('orderIds').doc(providerId);
+    return this.transaction(async tx=>{
+      const stored=data(await tx.get(ref)),mapped=data(await tx.get(index));
+      reject(!stored||stored.status!=='reserving',409,'order_state_conflict');
+      reject(mapped,409,'provider_order_conflict');
+      const order={...stored,status:'created',razorpay_order_id:providerId};
+      tx.create(index,{order_id:id});tx.set(ref,order);return order;
+    });
   }
-  async unavailable(id){await this.db.query("UPDATE diplomaone_test.orders SET status='failed' WHERE id=$1 AND status='reserving'",[id]);}
-  async uncertain(id){await this.db.query("UPDATE diplomaone_test.orders SET status='unknown' WHERE id=$1 AND status='reserving'",[id]);}
-  async order(id){return (await this.db.query('SELECT * FROM diplomaone_test.orders WHERE razorpay_order_id=$1',[id])).rows[0]||null;}
-  async payment(id){return (await this.db.query('SELECT * FROM diplomaone_test.orders WHERE payment_id=$1',[id])).rows[0]||null;}
+  async pending(id,status){
+    const ref=this.collection('orders').doc(id);
+    return this.transaction(async tx=>{
+      const stored=data(await tx.get(ref));if(stored?.status!=='reserving')return;
+      const active=this.activeRef(stored.uid,stored.product_id),pointer=data(await tx.get(active));
+      tx.update(ref,{status});
+      if(status==='failed'&&pointer?.order_id===id)tx.delete(active);
+    });
+  }
+  unavailable(id){return this.pending(id,'failed');}
+  uncertain(id){return this.pending(id,'unknown');}
+  async order(id){
+    reject(!providerOrderPattern.test(id||''),400,'invalid_order');
+    const mapped=data(await this.collection('orderIds').doc(id).get());
+    if(!mapped)return null;
+    const order=data(await this.collection('orders').doc(mapped.order_id).get());
+    reject(!order||order.razorpay_order_id!==id,409,'order_state_conflict');return order;
+  }
   async event(id,hash){
-    if(!id)return false;
-    const row=(await this.db.query('SELECT body_hash FROM diplomaone_test.events WHERE id=$1',[id])).rows[0];
-    reject(row&&row.body_hash!==hash,409,'event_id_conflict');return !!row;
+    if(!id)return false;const stored=data(await this.eventRef(id).get());eventCheck(stored,{hash});return !!stored;
   }
-  async grant(orderId,paymentId,event=null){
-    return this.db.transaction(async query=>{
-      const stored=(await query('SELECT * FROM diplomaone_test.orders WHERE razorpay_order_id=$1 FOR UPDATE',[orderId])).rows[0];
-      reject(!stored,404,'order_not_found');
-      reject(stored.status==='revoked',409,'payment_revoked');
+  async settle(orderId,paymentId,event,revoke){
+    reject(!providerOrderPattern.test(orderId||'')||!providerPaymentPattern.test(paymentId||''),400,'invalid_payment');
+    const index=this.collection('orderIds').doc(orderId),paymentRef=this.collection('payments').doc(paymentId);
+    return this.transaction(async tx=>{
+      const mapped=data(await tx.get(index));reject(!mapped,404,'order_not_found');
+      const orderRef=this.collection('orders').doc(mapped.order_id),stored=data(await tx.get(orderRef));
+      reject(!stored||stored.razorpay_order_id!==orderId,409,'order_state_conflict');
+      const ownerRef=this.ownerRef(stored.uid,stored.product_id),activeRef=this.activeRef(stored.uid,stored.product_id);
+      const payment=data(await tx.get(paymentRef)),owner=data(await tx.get(ownerRef)),active=data(await tx.get(activeRef));
+      const eventRef=event?this.eventRef(event.id):null,eventData=event?data(await tx.get(eventRef)):null;
+      if(event)eventCheck(eventData,event);
+      reject(payment&&payment.order_id!==stored.id,409,'payment_conflict');
       reject(stored.payment_id&&stored.payment_id!==paymentId,409,'payment_conflict');
-      reject(!['created','paid'].includes(stored.status),409,'order_state_conflict');
-      await query("UPDATE diplomaone_test.orders SET status='paid',payment_id=$2,paid_at=coalesce(paid_at,now()) WHERE id=$1",[stored.id,paymentId]);
-      await query(`INSERT INTO diplomaone_test.entitlements(uid,product_id,order_id) VALUES($1,$2,$3)
-        ON CONFLICT(uid,product_id) DO UPDATE SET active=true,order_id=excluded.order_id,created_at=now()
-        WHERE diplomaone_test.entitlements.active=false`,[stored.uid,stored.product_id,stored.id]);
-      await recordEvent(query,event);
-      return {productId:stored.product_id,owned:true,mode:'test'};
+      if(!revoke){
+        reject(stored.status==='revoked',409,'payment_revoked');
+        reject(!['created','paid'].includes(stored.status),409,'order_state_conflict');
+        reject(owner?.active===true&&owner.order_id!==stored.id,409,'entitlement_conflict');
+      }
+      const now=this.clock();
+      tx.update(orderRef,{status:revoke?'revoked':'paid',payment_id:paymentId,paid_at:revoke?stored.paid_at:(stored.paid_at??now)});
+      if(!payment)tx.create(paymentRef,{order_id:stored.id});
+      if(revoke){
+        // An old refunded order must not revoke a newer repurchase. Recording a
+        // refund even before the first capture also blocks late re-grants.
+        if(owner?.order_id===stored.id)tx.update(ownerRef,{active:false});
+      }else tx.set(ownerRef,{uid:stored.uid,product_id:stored.product_id,order_id:stored.id,active:true,
+        title:stored.title,branch:stored.branch,amount:stored.amount,currency:'INR',
+        created_at:owner?.active===true?owner.created_at:now});
+      if(active?.order_id===stored.id)tx.delete(activeRef);
+      if(event&&!eventData)tx.create(eventRef,{body_hash:event.hash,created_at:now});
+      return {productId:stored.product_id,owned:!revoke,mode:'test'};
     });
   }
-  async revoke(orderId,paymentId,event){
-    return this.db.transaction(async query=>{
-      // Resolve by canonical order, including a refund that arrives BEFORE the
-      // captured webhook/callback has saved payment_id. Never re-grant it later.
-      const order=(await query('SELECT * FROM diplomaone_test.orders WHERE razorpay_order_id=$1 FOR UPDATE',[orderId])).rows[0];
-      if(!order)return;
-      reject(order.payment_id&&order.payment_id!==paymentId,409,'payment_conflict');
-      await query("UPDATE diplomaone_test.orders SET status='revoked',payment_id=$2 WHERE id=$1",[order.id,paymentId]);
-      await query('UPDATE diplomaone_test.entitlements SET active=false WHERE order_id=$1',[order.id]);
-      await recordEvent(query,event);
-    });
-  }
+  grant(orderId,paymentId,event=null){return this.settle(orderId,paymentId,event,false);}
+  revoke(orderId,paymentId,event){return this.settle(orderId,paymentId,event,true);}
   async purchases(uid){
-    return (await this.db.query(`SELECT e.product_id AS "productId",p.title,p.branch,e.active,o.amount,o.currency,e.created_at AS "purchasedAt"
-      FROM diplomaone_test.entitlements e JOIN diplomaone_test.products p ON p.id=e.product_id
-      JOIN diplomaone_test.orders o ON o.id=e.order_id WHERE e.uid=$1 ORDER BY e.created_at DESC LIMIT 100`,[uid])).rows;
+    identity(uid);
+    const result=await this.collection('users').doc(hash(uid)).collection('purchases').orderBy('created_at','desc').limit(100).get();
+    return result.docs.map(doc=>{
+      const p=doc.data();reject(p.uid!==uid||p.product_id!==doc.id,409,'entitlement_conflict');
+      return {productId:p.product_id,title:p.title,branch:p.branch,active:p.active,amount:p.amount,
+        currency:p.currency,purchasedAt:new Date(p.created_at).toISOString()};
+    });
   }
-  async owns(uid,id){return (await this.db.query('SELECT active FROM diplomaone_test.entitlements WHERE uid=$1 AND product_id=$2',[uid,id])).rows[0]?.active===true;}
-}
-
-export function pgDatabase(pool){
-  return {query:(...args)=>pool.query(...args),async transaction(fn){
-    const client=await pool.connect();
-    try{await client.query('BEGIN');const result=await fn((...args)=>client.query(...args));await client.query('COMMIT');return result;}
-    catch(error){await client.query('ROLLBACK');throw error;}
-    finally{client.release();}
-  }};
+  async owns(uid,id){const stored=data(await this.ownerRef(uid,id).get());return stored?.uid===uid&&stored?.product_id===id&&stored?.active===true;}
 }

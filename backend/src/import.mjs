@@ -49,7 +49,7 @@ export async function prepareImport(manifestPath){
 
 export async function applyImport(prepared,{store,repository}){
   // Upload and strong-read verification MUST finish before the product becomes
-  // active in SQL. Failures leave no purchasable partial paper.
+  // active in Firestore. Failures leave no purchasable partial paper.
   for(const file of prepared.files){
     const key=prepared.product.id+'/'+file.id;
     await store.set(key,file.content,{metadata:{sha256:file.id,bytes:file.bytes,mime:file.mime}});
