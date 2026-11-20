@@ -21,7 +21,11 @@ The payment workflow installs Java 21 and downloads the official **Firestore emu
 
 `npm run test:firestore` starts a fresh loopback-only emulator with **`demo-diplomaone-payments`**, no real cloud project/login/key, and emulator-only deny-all rules. It runs **all 57 cases against the real SDK/emulator**, including the previously skipped anonymous/signed-in client-rule checks, then exercises actual read/write/query/transaction/delete operations from the **isolated deployed ZIP's SDK**. Files sharing the same demo namespace run sequentially; individual cases explicitly exercise concurrency. The runner refuses an existing server, strips owner credentials, pins the demo ID, and stops its child emulator. Diagnostics are retained only as short-lived CI artifacts.
 
-Use the latest payment check on [draft PR #37](https://github.com/Sunilpa4/diplomaone-app/pull/37) as evidence of this gate's outcome; local-double results alone are insufficient. Emulator success still does not certify real-project IAM, network latency, contention, billing settings or provider behavior.
+**Passed on `ffcfcf4`:** [payment run 44690340020](https://github.com/Sunilpa4/diplomaone-app/actions/runs/44690340020/job/136134349439), **1m03s**, including all **57 real-emulator cases**, the SDK connection probe and the isolated packaged-SDK operations. Local-double results are not used as a substitute.
+
+The first real-emulator attempt (`db0fc94`, run 44688769415) caught a defect the double could not: REST-fallback cleanup repeatedly failed with SDK `UNAVAILABLE`/code 14. A separate local transport probe also showed that fallback trying ADC without credentials. The implementation and emulator clients now use the SDK's **native gRPC transport**, with the Google universe explicitly pinned to avoid ambient metadata discovery; the fresh genuine-emulator/ZIP run passed. The emulator runner now fails fast on connection problems and emits diagnostic annotations instead of silently spending minutes retrying every setup hook. No owner cloud setting was changed to make tests pass.
+
+Use the latest payment check on [draft PR #37](https://github.com/Sunilpa4/diplomaone-app/pull/37) for subsequent revisions. Emulator success still does not certify real-project IAM, network latency, contention, billing settings or provider behavior.
 
 ## Earlier deployment crash regression: resolved startup only
 

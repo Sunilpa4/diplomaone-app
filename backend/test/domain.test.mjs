@@ -93,6 +93,7 @@ test('private file paths are content-addressed and Firestore uses explicit proje
 test('Firestore credential parsing is strict, TLS-pinned, private and rejects emulator/other projects',()=>{
   const options=firestoreOptions(fixtureFirestoreEnv);
   assert.equal(options.ssl,true);assert.equal(options.apiEndpoint,'firestore.googleapis.com');assert.equal(options.preferRest,false);
+  assert.equal(options.universeDomain,'googleapis.com');
   assert.equal(firestoreOptions({...fixtureFirestoreEnv,FIREBASE_PRIVATE_KEY:fixtureFirestoreEnv.FIREBASE_PRIVATE_KEY.replaceAll('\n','\\n')}).credentials.private_key,options.credentials.private_key);
   for(const change of [{FIREBASE_PROJECT_ID:'diplomaone'},
     {FIREBASE_CLIENT_EMAIL:'other@diplomaone.iam.gserviceaccount.com'},
