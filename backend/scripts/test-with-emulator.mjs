@@ -7,6 +7,27 @@ import path from 'node:path';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 assert(/^(127\.0\.0\.1|localhost):\d+$/.test(process.env.FIRESTORE_EMULATOR_HOST||''),'Refuse tests without a loopback emulator');
 const env={...process.env,DIPLOMAONE_TEST_FIRESTORE_EMULATOR:'1'};
+// Fail fast with a useful annotation, rather than retrying every beforeEach
+// cleanup for minutes if the real SDK/emulator transport cannot connect.
+const probe=spawnSync(process.execPath,['--input-type=module','-e',`
+  import assert from 'node:assert/strict';
+  import {Firestore} from '@google-cloud/firestore';
+  const db=new Firestore({projectId:'demo-diplomaone-payments',databaseId:'(default)',universeDomain:'googleapis.com',preferRest:false});
+  const ref=db.doc('diplomaone_test/connection_probe');
+  console.log('Emulator SDK preflight: writing a DEMO-only probe');
+  try{
+    await ref.set({probe:true});
+    assert.equal((await ref.get()).data().probe,true);
+    await ref.delete();
+    console.log('Emulator SDK preflight passed');
+  }finally{await db.terminate();}
+`],{cwd:root,env,encoding:'utf8',timeout:20000});
+process.stdout.write(probe.stdout||'');process.stderr.write(probe.stderr||'');
+if(probe.status!==0){
+  const detail=probe.stderr||probe.error?.message||'SDK probe did not finish';
+  console.error('::error::DEMO SDK connection probe failed: '+detail.replaceAll('%','%25').replaceAll('\r','%0D').replaceAll('\n','%0A'));
+  process.exit(1);
+}
 // Files share one demo namespace, so run files sequentially; tests within a
 // file explicitly exercise concurrent callbacks/reservations where intended.
 const tests=(await readdir(path.join(root,'backend/test'))).filter(n=>n.endsWith('.test.mjs')).sort().map(n=>'backend/test/'+n);

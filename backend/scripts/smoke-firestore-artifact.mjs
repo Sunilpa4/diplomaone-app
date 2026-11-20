@@ -13,7 +13,7 @@ assert(main);
 const require=createRequire(path.resolve(directory,main[2]));
 assert((await realpath(require.resolve('@google-cloud/firestore'))).startsWith(directory+path.sep));
 const {Firestore}=require('@google-cloud/firestore');
-const db=new Firestore({projectId:'demo-diplomaone-payments',databaseId:'(default)',preferRest:true});
+const db=new Firestore({projectId:'demo-diplomaone-payments',databaseId:'(default)',universeDomain:'googleapis.com',preferRest:false});
 const id=randomUUID(),ref=db.doc('diplomaone_test/artifact_smoke/probes/'+id);
 try{
   await ref.set({counter:0,probe:id});

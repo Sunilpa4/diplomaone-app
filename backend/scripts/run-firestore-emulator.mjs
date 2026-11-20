@@ -8,6 +8,7 @@ import {spawn} from 'node:child_process';
 import {createConnection} from 'node:net';
 import {fileURLToPath} from 'node:url';
 import {setTimeout as delay} from 'node:timers/promises';
+import {finished} from 'node:stream/promises';
 import path from 'node:path';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 const manifest=JSON.parse(await readFile(path.join(root,'backend/test/firestore-emulator.json'),'utf8'));
@@ -51,6 +52,10 @@ try{
 }finally{
   java.kill('SIGTERM');
   if(!ended){await Promise.race([exited,delay(4000)]);if(!ended){java.kill('SIGKILL');await exited;}}
-  log.end();
-  if(process.exitCode)console.error((await readFile(logFile,'utf8')).slice(-8000));
+  log.end();await finished(log);
+  if(process.exitCode){
+    const detail=(await readFile(logFile,'utf8')).slice(-8000);
+    console.error(detail);
+    console.error('::error::DEMO emulator diagnostics: '+detail.replaceAll('%','%25').replaceAll('\r','%0D').replaceAll('\n','%0A'));
+  }
 }

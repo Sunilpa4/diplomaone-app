@@ -17,8 +17,10 @@ export function firestoreOptions(env=process.env){
     const pem=env.FIREBASE_PRIVATE_KEY.replace(/\\n/g,'\n').trim()+'\n';
     const key=createPrivateKey(pem);
     if(key.asymmetricKeyType!=='rsa'||key.asymmetricKeyDetails.modulusLength<2048)return null;
-    return {projectId:FIREBASE_PROJECT,databaseId:FIRESTORE_DATABASE,preferRest:true,
-      apiEndpoint:'firestore.googleapis.com',ssl:true,
+    // Use the SDK's native gRPC-over-TLS transport. Explicit universe/project
+    // also avoids ambient metadata/ADC discovery on a non-Google host.
+    return {projectId:FIREBASE_PROJECT,databaseId:FIRESTORE_DATABASE,preferRest:false,
+      apiEndpoint:'firestore.googleapis.com',universeDomain:'googleapis.com',ssl:true,
       credentials:{client_email:email,private_key:pem}};
   }catch(_){return null;}
 }
