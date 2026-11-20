@@ -1,7 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {generateKeyPair,SignJWT} from 'jose';
-import {readConfig,validateProduct,FREE_CODES,PRICES,hmac,validSignature} from '../src/domain.mjs';
+import {readConfig,validateProduct,FREE_CODES,PRICES,hmac,validSignature,productPattern,providerOrderPattern,providerPaymentPattern,assetPattern,uuidPattern} from '../src/domain.mjs';
 import {firebaseVerifier} from '../src/firebase.mjs';
 import {razorpayClient} from '../src/razorpay.mjs';
 import {privateKey} from '../src/assets.mjs';
@@ -32,6 +32,15 @@ test('server owns exact per-paper INR/paise pricing and common papers cannot be 
   for(const code of FREE_CODES)assert.throws(()=>validateProduct({id:code+'--summer-2026',title:'Common',branch:'chemical'}),/common_subject_is_free/);
   for(const patch of [{id:'../../private'},{id:'DI03000161--Summer-2026'},{branch:'it'},{title:''}])
     assert.throws(()=>validateProduct({id:'DI03000161--summer-2026',title:'Title',branch:'mechanical',...patch}));
+});
+
+test('stored/provider/asset/request identifiers reject trailing line breaks rather than a JS dollar-anchor prefix match',()=>{
+  for(const [pattern,value] of [[productPattern,'DI03000161--summer-2026'],[providerOrderPattern,'order_Fixture12345'],
+    [providerPaymentPattern,'pay_Fixture12345'],[assetPattern,'a'.repeat(64)],
+    [uuidPattern,'eb28512b-b995-4daa-80ac-72f9981d3b65']]){
+    assert(pattern.test(value));for(const suffix of ['\n','\r','\r\n','\u2028','\u2029'])assert(!pattern.test(value+suffix));
+  }
+  assert.equal(readConfig({...secrets,RAZORPAY_KEY_ID:secrets.RAZORPAY_KEY_ID+'\n'}).configured,false);
 });
 
 test('HMAC signatures are checked as 32-byte digests, not string prefixes',()=>{

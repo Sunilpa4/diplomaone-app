@@ -8,7 +8,7 @@ import paymentFunction,{config} from '../../netlify/functions/payments.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 
 test('actual entry supports the native same-origin test route and is disabled without private environment',async()=>{
-  assert.equal(config.path,'/api/payments/test/*');
+  assert.equal(config.path,'/api/payments/*');
   const response=await paymentFunction(new Request('https://www.diplomaone.in/api/payments/test/config'));
   const body=await response.json();assert.equal(body.enabled,false);assert.equal(body.mode,'test');
   assert(!JSON.stringify(body).includes('NETLIFY_DB_URL'));
@@ -79,8 +79,9 @@ assert not (Path('build/rejected-private-publish')/'backend/.env').exists()
 test('environment example contains the public supplied test key only and checkout flags stay off',async()=>{
   const example=await readFile(path.join(root,'backend/.env.example'),'utf8');
   assert(example.includes('RAZORPAY_KEY_ID=rzp_test_ToAdJ9DdVMFeM2'));
-  for(const key of ['RAZORPAY_KEY_SECRET','RAZORPAY_WEBHOOK_SECRET'])assert(example.includes(key+'=\n'));
-  assert(example.includes('PAYMENTS_TEST_ENABLED=false'));assert(example.includes('PAYMENTS_PRIVATE_MIGRATION_CONFIRMED=false'));
+  for(const key of ['RAZORPAY_KEY_SECRET','RAZORPAY_WEBHOOK_SECRET','RAZORPAY_LIVE_KEY_ID','RAZORPAY_LIVE_KEY_SECRET','RAZORPAY_LIVE_WEBHOOK_SECRET','PAYMENTS_LIVE_PILOT_UIDS'])assert(example.includes(key+'=\n'));
+  for(const flag of ['PAYMENTS_TEST_ENABLED','PAYMENTS_PRIVATE_MIGRATION_CONFIRMED','PAYMENTS_LIVE_ENABLED',
+    'PAYMENTS_LIVE_PRIVATE_MIGRATION_CONFIRMED','PAYMENTS_LIVE_MERCHANT_CONFIRMED','PAYMENTS_LIVE_POLICIES_CONFIRMED'])assert(example.includes(flag+'=false\n'));
   for(const key of ['FIREBASE_CLIENT_EMAIL','FIREBASE_PRIVATE_KEY'])assert(example.includes(key+'=\n'));
   await assert.rejects(readFile(path.join(root,'netlify/database/migrations/0001_test_payments.sql')),{code:'ENOENT'});
   const manifest=JSON.parse(await readFile(path.join(root,'package.json'),'utf8'));

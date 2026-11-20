@@ -4,7 +4,9 @@ import unittest
 import base64
 from hashlib import sha256
 from pathlib import Path
-from publish_solved_papers import prepare, publish
+# Historical byte-preservation/replacement tests exercise OFFLINE staging.
+# Separate public-publisher tests below assert that paid bytes never publish.
+from publish_solved_papers import prepare, stage_reviewed_files as publish, publish as publish_public
 
 
 def solution():
@@ -23,6 +25,45 @@ class PublisherTest(unittest.TestCase):
 
     def tearDown(self):
         self.temp.cleanup()
+
+    def test_public_publisher_never_copies_paid_answers_pdfs_or_images(self):
+        image, _ = self.add_image()
+        changed = publish_public(self.src, self.site)
+        self.assertEqual([p.name for p in changed], ['summer-2026.json'])
+        metadata = json.loads(changed[0].read_text())
+        self.assertEqual(metadata, {'version': 1, 'private': True, 'id': '4351902--summer-2026'})
+        self.assertEqual(list((self.site / 'papers' / '4351902').iterdir()), changed)
+        self.assertFalse((self.site / 'papers' / image.relative_to(self.src)).exists())
+        self.assertEqual(publish_public(self.src, self.site), [])
+
+    def test_public_publisher_preserves_existing_paid_copies_for_explicit_private_migration(self):
+        target = self.site / 'papers' / '4351902' / 'summer-2026.html'
+        target.parent.mkdir(parents=True)
+        target.write_bytes((self.src / '4351902' / 'summer-2026.html').read_bytes())
+        before = target.read_bytes()
+        publish_public(self.src, self.site)
+        self.assertEqual(target.read_bytes(), before, 'Do not delete before verified private backup/import')
+        self.assertFalse(target.with_suffix('.pdf').exists(), 'No new paid PDF is published')
+
+    def test_public_publisher_keeps_common_papers_free(self):
+        folder = self.src / '4351902'
+        folder.rename(self.src / 'DI01000021')
+        self.assertEqual(len(publish_public(self.src, self.site)), 2)
+        self.assertTrue((self.site / 'papers' / 'DI01000021' / 'summer-2026.html').exists())
+        self.assertTrue((self.site / 'papers' / 'DI01000021' / 'summer-2026.pdf').exists())
+        self.assertEqual(len(publish_public(self.src, self.site)), 0)
+
+    def test_public_metadata_conflict_or_symlink_aborts_before_writes(self):
+        target = self.site / 'papers' / '4351902' / 'summer-2026.json'
+        target.parent.mkdir(parents=True)
+        target.write_text('{"private": false}')
+        with self.assertRaisesRegex(ValueError, 'Unreviewed'):
+            publish_public(self.src, self.site)
+        self.assertEqual(target.read_text(), '{"private": false}')
+        target.unlink()
+        target.symlink_to(self.src / '4351902' / 'summer-2026.html')
+        with self.assertRaisesRegex(ValueError, 'Unsafe'):
+            publish_public(self.src, self.site)
 
     def test_additive_and_idempotent(self):
         other = self.site / 'papers' / 'DI03000141' / 'old.html'

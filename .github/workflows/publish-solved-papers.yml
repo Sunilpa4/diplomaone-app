@@ -23,6 +23,7 @@ on:
       - 'tools/paper-card-requirements.txt'
       - 'tools/test_paper_card_files.py'
       - 'website/test_card_refresh.js'
+      - 'website/test_private_context.js'
       - '.github/workflows/publish-solved-papers.yml'
   push:
     branches: [main]
@@ -47,6 +48,7 @@ on:
       - 'tools/paper-card-requirements.txt'
       - 'tools/test_paper_card_files.py'
       - 'website/test_card_refresh.js'
+      - 'website/test_private_context.js'
       - '.github/workflows/publish-solved-papers.yml'
 
 permissions:
@@ -93,7 +95,11 @@ jobs:
           ref: main
           path: public-site
           token: ${{ secrets.CONTENT_TOKEN }}
-      - name: Publish reviewed readers and preserve all other existing content
+      # Public CLI now publishes only the two free subjects and small private
+      # product metadata. Paid HTML/PDF/images can never be copied by this job.
+      # Existing public copies require verified private import + owner cleanup;
+      # this job does not delete source/history or silently declare migration.
+      - name: Publish free readers and private-paper listing metadata only
         if: github.event_name != 'pull_request'
         run: |
           set -euo pipefail

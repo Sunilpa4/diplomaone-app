@@ -54,6 +54,10 @@
   let toastTimer;
   let accountState={status:window.DiplomaOneAuth?'idle':'unavailable',user:null,busy:null,error:null};
   let connectionState={status:'idle',code:null},connectionGeneration=0;
+  let paymentGeneration=0,paymentView={key:null,status:'idle'},purchaseView={uid:null,status:'idle'},privateObserver=null;
+  const freePaperCodes=new Set(['DI01000021','DI01000121']);
+  const paperPrices=Object.freeze({computer:1900,mechanical:2900,electrical:2900,civil:2900,chemical:3900});
+  const isPaymentSite=()=>['https://www.diplomaone.in','https://vermillion-pothos-520a34.netlify.app'].includes(location.origin);
   const isConnectionTestSite=()=>location.origin==='https://vermillion-pothos-520a34.netlify.app';
   const accountLabels={en:{signIn:'Sign in',account:'My account',purchases:'My purchases'},gu:{signIn:'સાઇન ઇન',account:'મારું ખાતું',purchases:'મારી ખરીદી'}};
   const tr = (key) => strings[lang][key] || strings.en[key] || key;
@@ -86,9 +90,9 @@
   const paperOnlyNames = {'DI03006011':'Construction Technology','DI03006021':'Advance Surveying','DI03006031':'Basic Transportation Engineering','DI03006041':'Mechanics of Structures - I','DI03006051':'Soil Engineering'};
   // Cross-list by matching subject title; these are different GTU scheme codes.
   const legacyPaperSubjects = {'4351902':'DI05019011','4351903':'DI05019021','4350501':'DI05005011','4360501':'DI05005031'};
-  const validPaperCode = value => /^(?:DI[0-9]{8}|[0-9]{7})$/.test(value || '');
-  const validPaperSession = value => /^[a-z][a-z0-9]*-[0-9]{4}$/.test(value || '');
-  let paperIndex = null, paperIndexPending = null, paperIndexError = false;
+  const validPaperCode = value => /^(?:DI[0-9]{8}|[0-9]{7})(?![\s\S])/.test(value || '');
+  const validPaperSession = value => /^[a-z][a-z0-9]*-[0-9]{4}(?![\s\S])/.test(value || '');
+  let paperIndex = null, paperIndexPending = null, paperIndexError = false,paperIndexAttemptRoute=null;
   const fallbackPapers = Object.fromEntries(['DI03000141','DI03000151','DI03000161','DI03000171','DI03000201','DI03019011'].map(code=>[code,[{session:'summer-2026',pdf:'Question_Paper.pdf'}]]));
   // Discover only filenames, with no background polling or scheduled indexing.
   function papersFromTree(data) {
@@ -104,8 +108,9 @@
       const [,code,file]=path.split('/');
       const isHtml=file.endsWith('.html');
       const isSolutionPdf=file.endsWith('.solution.pdf');
-      if(!isHtml&&!isSolutionPdf)continue;
-      const session=isHtml?file.slice(0,-5):file.slice(0,-13);
+      const isMetadata=file.endsWith('.json'); // Private-paper listing, never answer bytes.
+      if(!isHtml&&!isSolutionPdf&&!isMetadata)continue;
+      const session=isHtml||isMetadata?file.slice(0,-5):file.slice(0,-13);
       if(!validPaperSession(session))continue;
       const key=`${code}/${session}`;
       if(seen.has(key))continue;
@@ -122,19 +127,36 @@
   }
   async function loadPaperIndex() {
     // Once per tab: a refresh reads GitHub again, never a background timer.
-    if(paperIndex && !paperIndexError)return paperIndex;
+    if(paperIndex&&(!paperIndexError||paperIndexAttemptRoute===location.hash))return paperIndex;
     if(paperIndexPending)return paperIndexPending;
+    paperIndexAttemptRoute=location.hash;
     paperIndexPending=(async()=>{
       const controller=new AbortController(), timeout=setTimeout(()=>controller.abort(),8000);
+      const privateMetadata=isPaymentSite()?fetch('/api/payments/live/config',{cache:'no-store',redirect:'error',signal:controller.signal})
+        .then(response=>response.ok?response.json():null).catch(()=>null):Promise.resolve(null);
       try {
         const response=await fetch(paperTreeUrl,{cache:'no-cache',redirect:'error',signal:controller.signal});
         if(!response.ok)throw new Error('Paper list unavailable');
         paperIndex=papersFromTree(await response.json());paperIndexError=false;
       } catch(error) {
         console.error(error);paperIndexError=true;
-        // Preserve the last known list on failure; retry when the user navigates.
-        if(!paperIndex)paperIndex=fallbackPapers;
-      } finally { clearTimeout(timeout); }
+        // Preserve known metadata on failure; never cache or fall back to paid answers.
+        if(!paperIndex)paperIndex=Object.fromEntries(Object.entries(fallbackPapers).map(([code,entries])=>[code,entries.map(p=>({...p}))]));
+      }
+      // The private catalog does not depend on GitHub being available. One
+      // foreground request per tab, no scheduled polling or public answers.
+      try{
+        const config=await privateMetadata;
+        if(config?.mode==='live'&&config.enabled===true&&Array.isArray(config.products)&&config.products.length<=100)
+          for(const product of config.products){
+            const parts=typeof product?.id==='string'?product.id.split('--'):[];
+            if(parts.length!==2||!validPaperCode(parts[0])||!validPaperSession(parts[1])||freePaperCodes.has(parts[0])||
+              !Object.hasOwn(paperPrices,product.branch)||product.amount!==paperPrices[product.branch]||product.currency!=='INR')continue;
+            const entries=paperIndex[parts[0]]||=([]),existing=entries.find(p=>p.session===parts[1]);
+            if(existing)existing.branch=product.branch;else entries.push({session:parts[1],branch:product.branch,private:true});
+          }
+        for(const entries of Object.values(paperIndex))entries.sort((a,b)=>b.session.slice(-4).localeCompare(a.session.slice(-4))||b.session.localeCompare(a.session));
+      }finally{clearTimeout(timeout);}
       return paperIndex;
     })();
     try{return await paperIndexPending;}finally{paperIndexPending=null;}
@@ -148,8 +170,18 @@
   const subjectCountLabel = count => `${count} ${tr(count===1?'subject':'subjects')}`;
   const readySubjectLabel = count => `${count} ${tr(count===1?'subjectReady':'subjectsReady')}`;
   const paperName = code => text(subjectMeta(code)?.name || subjectMeta(legacyPaperSubjects[code])?.name) || legacyPaperNames[code] || paperOnlyNames[code] || code;
+  function listedPaperPrice(code,entry){
+    if(Object.hasOwn(paperPrices,entry?.branch))return paperPrices[entry.branch];
+    const amounts=new Set(paperLocations(code).map(l=>paperPrices[l.branch.key]).filter(Boolean));
+    return amounts.size===1?[...amounts][0]:null; // Never guess between different branch prices.
+  }
+  const rupees=paise=>'₹'+(paise/100).toLocaleString('en-IN',{maximumFractionDigits:2});
   function paperCards(code, entries) {
-    return entries.map(p=>`<a class="subject-card" href="#/paper/${encodeURIComponent(code)}/${encodeURIComponent(p.session)}"><div class="subject-meta"><span>${esc(paperSessionTitle(p.session))}${legacyPaperSubjects[code]?(lang==='gu'?' · જૂની યોજના':' · Older scheme'):''}</span><span class="subject-code">${esc(code)}</span></div><h3>${lang==='gu'?'ઉકેલેલું પ્રશ્નપત્ર':'Solved question paper'}</h3><div class="subject-foot"><span>${esc(paperName(code))}</span><strong>${lang==='gu'?'વાંચો':'Read'} ↗</strong></div></a>`).join('');
+    return entries.map(p=>{
+      const free=freePaperCodes.has(code),price=listedPaperPrice(code,p);
+      const access=free?(lang==='gu'?'મફત':'Free'):price?`${rupees(price)} · ${lang==='gu'?'આ પેપર':'this paper'}`:(lang==='gu'?'લૉક કરેલું':'Locked');
+      return `<a class="subject-card" href="#/paper/${encodeURIComponent(code)}/${encodeURIComponent(p.session)}"><div class="subject-meta"><span>${esc(paperSessionTitle(p.session))}${legacyPaperSubjects[code]?(lang==='gu'?' · જૂની યોજના':' · Older scheme'):''}</span><span class="subject-code">${esc(code)}</span></div><h3>${lang==='gu'?'ઉકેલેલું પ્રશ્નપત્ર':'Solved question paper'}</h3><span class="paper-access-label ${free?'is-free':''}">${free?'':'🔒 '}${esc(access)}</span><div class="subject-foot"><span>${esc(paperName(code))}</span><strong>${free?(lang==='gu'?'વાંચો':'Read'):(lang==='gu'?'પેપર જુઓ':'View paper')} ↗</strong></div></a>`;
+    }).join('');
   }
   // Use catalog membership, not the Drive folder or a code-prefix guess. A
   // shared subject can belong to several branches/semesters; legacy codes
@@ -340,10 +372,18 @@
   // An uploaded paper can reference only its own numbered, inert diagram
   // assets. Never resolve arbitrary relative URLs, hosts, SVGs or other papers.
   function paperAssetUrl(source, paper) {
-    if(!validPaperCode(paper?.code)||!validPaperSession(paper?.session))return '';
+    if(!validPaperCode(paper?.code)||!validPaperSession(paper?.session)||!freePaperCodes.has(paper.code))return '';
     const parts=source.split('/');
     if(parts.length!==2||parts[0]!==`${paper.session}.assets`||!/^\d{4}\.(?:webp|png)$/.test(parts[1]))return '';
     return `${paperBase}/${paper.code}/${paper.session}.assets/${parts[1]}`;
+  }
+  function privateImageAsset(source,paper){
+    if(!paper?.private||typeof source!=='string'||!source||/^[a-z][a-z0-9+.-]*:|^\/|[?#\\]/i.test(source))return '';
+    let decoded;try{decoded=decodeURIComponent(source);}catch(_){return '';}
+    if(/^[a-z][a-z0-9+.-]*:|^\/|[?#\\]/i.test(decoded))return '';
+    const base='https://private.invalid/',resolved=new URL(decoded,new URL(paper.readerPath,base));
+    const relative=resolved.pathname.slice(1),asset=paper.assets.find(a=>a.path===relative&&['image/png','image/webp','image/jpeg'].includes(a.mime));
+    return asset&&/^[a-f0-9]{64}$/.test(asset.id)?asset.id:'';
   }
   // Copy only presentational nodes and selected math classes from remote papers.
   // Source scripts, event handlers, links, forms and CSS are never inserted.
@@ -371,9 +411,11 @@
       if(node.tagName==='IMG') {
         const sourceUrl=node.getAttribute('src')||'';
         const embedded=sourceUrl.length<=1200000&&/^data:image\/(png|jpeg|gif|webp);base64,[a-z0-9+/=\s]+$/i.test(sourceUrl);
-        const src=embedded?sourceUrl:paperAssetUrl(sourceUrl,paper);
-        if(!src)return null;
-        out.setAttribute('src',src);out.setAttribute('alt',node.getAttribute('alt')||'Paper figure');out.setAttribute('loading','lazy');
+        const privateAsset=paper?.private&&!embedded?privateImageAsset(sourceUrl,paper):'';
+        const src=embedded?sourceUrl:paper?.private?'':paperAssetUrl(sourceUrl,paper);
+        if(!src&&!privateAsset)return null;
+        if(src)out.setAttribute('src',src);else out.setAttribute('data-private-asset',privateAsset);
+        out.setAttribute('alt',node.getAttribute('alt')||'Paper figure');out.setAttribute('loading','lazy');
         out.setAttribute('decoding','async');out.setAttribute('referrerpolicy','no-referrer');
         for(const dimension of ['width','height']) {
           const value=node.getAttribute(dimension)||'';
@@ -401,6 +443,7 @@
   }
   function bindPaperReader() {
     const article=main.querySelector('.solved-paper');if(!article)return;
+    if(article.dataset.privateProduct)bindPrivateAssets(article);
     const cards=[...article.querySelectorAll('details.card')];
     main.querySelectorAll('[data-paper-expand]').forEach(button=>button.addEventListener('click',()=>{
       const open=button.dataset.paperExpand==='true';cards.forEach(card=>{card.open=open;});
@@ -431,7 +474,9 @@
       const img=figure.querySelector('img'),button=document.createElement('button');
       button.type='button';button.className='paper-enlarge paper-control';button.setAttribute('aria-haspopup','dialog');
       button.textContent=lang==='gu'?'ચિત્ર મોટું કરો ↗':'Enlarge image ↗';
-      button.addEventListener('click',()=>{
+      button.addEventListener('click',async()=>{
+        if(img.dataset.privateAsset&&!img.getAttribute('src'))await loadPrivateImage(img,article.dataset.privateProduct);
+        if(!button.isConnected||!img.getAttribute('src'))return;
         trigger=button;enlarged.src=img.src;enlarged.alt=img.alt;
         caption.textContent=figure.querySelector('figcaption')?.textContent||img.alt;
         setZoom(false);stage.scrollTop=0;stage.scrollLeft=0;
@@ -443,9 +488,11 @@
   }
   async function showPaper(code, session, meta, entry) {
     if(!validPaperCode(code)||!validPaperSession(session))throw new Error('Invalid paper path');
-    const key=`${code}/${session}`;
-    let html=paperCache.get(key);
-    if(!html && !entry?.pdfOnly) {
+    const key=`${code}/${session}`,paid=!freePaperCodes.has(code);
+    const privateData=paid&&paymentView.key===paymentKey(code,session)&&paymentView.status==='owned'?paymentView.reader:null;
+    if(paid&&!privateData)return showLockedPaper(code,session,meta,entry);
+    let html=paid?privateData.html:paperCache.get(key);
+    if(!paid&&!html && !entry?.pdfOnly) {
       const response=await fetch(`${paperBase}/${encodeURIComponent(code)}/${session}.html?t=${Math.floor(Date.now()/60000)}`,{cache:'no-cache',redirect:'error'});
       if(!response.ok)throw new Error('Could not load solved paper');
       html=await response.text();if(html.length>3000000)throw new Error('Paper too large');
@@ -456,17 +503,159 @@
     // names it; do not associate one exam's PDF with a different exam.
     const legacyLinked=html && entry?.legacyPdf && [...new DOMParser().parseFromString(html,'text/html').querySelectorAll('a[href]')].some(a=>/^(?:\.\/)?Question_Paper\.pdf$/i.test(a.getAttribute('href')));
     const pdfName=entry?.pdf||(legacyLinked?'Question_Paper.pdf':null);
-    const pdf=pdfName?`${paperBase}/${encodeURIComponent(code)}/${encodeURIComponent(pdfName)}`:'';
+    const pdf=!paid&&pdfName?`${paperBase}/${encodeURIComponent(code)}/${encodeURIComponent(pdfName)}`:'';
     const related=legacyPaperSubjects[code], relatedMeta=subjectMeta(related);
     const name=text(meta?.name)||text(relatedMeta?.name)||legacyPaperNames[code]||paperOnlyNames[code]||code;
     const back=meta?`#/subject/${encodeURIComponent(code)}`:relatedMeta?`#/subject/${encodeURIComponent(related)}`:'#/papers';
     const schemeNotice=related?(lang==='gu'?`આ જૂની યોજનાનું પ્રશ્નપત્ર છે (કોડ ${code}). સમાન વિષયના નામ હેઠળ બતાવ્યું છે; બંને યોજનાના અભ્યાસક્રમ અલગ હોઈ શકે છે.`:`This is an older-scheme paper (code ${code}), listed with a subject of the same name. The syllabuses may differ.`):'';
-    const solvedPdf=entry?.solutionPdf?`${paperBase}/${encodeURIComponent(code)}/${encodeURIComponent(entry.solutionPdf)}`:'';
+    const solvedPdf=!paid&&entry?.solutionPdf?`${paperBase}/${encodeURIComponent(code)}/${encodeURIComponent(entry.solutionPdf)}`:'';
+    const privateDownloads=paid?privateData.assets.filter(a=>a.mime==='application/pdf').map(a=>`<button type="button" class="paper-control" data-private-download="${esc(a.id)}" data-download-name="${esc(a.path.split('/').pop())}">${esc(a.path.endsWith('.solution.pdf')?(lang==='gu'?'વૈકલ્પિક ઉકેલ PDF':'Optional solution PDF'):(lang==='gu'?'મૂળ પ્રશ્નપત્ર (PDF)':'Original question paper (PDF)'))} ↧</button>`).join(''):'';
     const pdfNotice=lang==='gu'?'આ પેપર માટે પ્રશ્ન-જવાબ કાર્ડ હજુ તૈયાર થયા નથી. ઉપરની વૈકલ્પિક PDF લિંક્સથી મૂળ સામગ્રી વાંચી શકો છો. આ બિનસત્તાવાર અભ્યાસ ઉકેલ છે; જવાબોની સ્વતંત્ર ચકાસણી થઈ નથી. સાઇટનો ભાષા વિકલ્પ PDF નું ભાષાંતર કરતો નથી.':'Question-and-answer cards have not yet been prepared for this paper. The optional PDF links above provide the supplied material. This is an unofficial study solution; answers have not been independently verified. The site language switch does not translate PDF contents.';
-    const body=entry?.pdfOnly?`<div class="reader-notice"><p>${esc(pdfNotice)}</p></div>`:sanitizePaper(html,lang,{code,session});
-    const count=entry?.pdfOnly?0:new DOMParser().parseFromString(body,'text/html').querySelectorAll('details.card').length;
+    const body=!paid&&entry?.pdfOnly?`<div class="reader-notice"><p>${esc(pdfNotice)}</p></div>`:sanitizePaper(html,lang,paid?{...privateData,private:true,code,session}:{code,session});
+    const count=!paid&&entry?.pdfOnly?0:new DOMParser().parseFromString(body,'text/html').querySelectorAll('details.card').length;
     const controls=count?`<div class="paper-controls"><div><strong>${count} ${lang==='gu'?'પ્રશ્ન ભાગો':count===1?'question part':'question parts'}</strong><p>${lang==='gu'?'જવાબ વાંચવા પ્રશ્ન પર ટેપ કરો. પરીક્ષાની વિકલ્પ સૂચનાઓ અનુસરો.':'Tap a question to read its answer. Follow the original exam choice instructions.'}</p></div><div class="paper-control-buttons"><button type="button" class="paper-control" data-paper-expand="true">${lang==='gu'?'બધા ખોલો':'Expand all'}</button><button type="button" class="paper-control" data-paper-expand="false">${lang==='gu'?'બધા બંધ કરો':'Collapse all'}</button></div></div>`:'';
-    return `${shell(title,`${name} · ${code} · ${paperSessionTitle(session)}`,[{label:tr('papers'),href:'#/papers'},{label:name,href:back},{label:title}])}<section class="page-content"><div class="wrap paper-wrap"><div class="paper-toolbar"><a class="button-text" href="${esc(back)}">← ${esc(tr('back'))}</a><div class="paper-downloads">${pdf?`<a class="button-text" href="${esc(pdf)}" target="_blank" rel="noopener noreferrer">${lang==='gu'?'મૂળ પ્રશ્નપત્ર (PDF)':'Original question paper (PDF)'} ↗</a>`:''}${solvedPdf?`<a class="button-text" href="${esc(solvedPdf)}" target="_blank" rel="noopener noreferrer">${lang==='gu'?'વૈકલ્પિક ઉકેલ PDF':'Optional solution PDF'} ↗</a>`:''}</div></div>${schemeNotice?`<p class="reader-notice">${esc(schemeNotice)}</p>`:''}${controls}<article class="reader-card solved-paper">${body}</article></div></section>`;
+    return `${shell(title,`${name} · ${code} · ${paperSessionTitle(session)}`,[{label:tr('papers'),href:'#/papers'},{label:name,href:back},{label:title}])}<section class="page-content"><div class="wrap paper-wrap"><div class="paper-toolbar"><a class="button-text" href="${esc(back)}">← ${esc(tr('back'))}</a><div class="paper-downloads">${pdf?`<a class="button-text" href="${esc(pdf)}" target="_blank" rel="noopener noreferrer">${lang==='gu'?'મૂળ પ્રશ્નપત્ર (PDF)':'Original question paper (PDF)'} ↗</a>`:''}${solvedPdf?`<a class="button-text" href="${esc(solvedPdf)}" target="_blank" rel="noopener noreferrer">${lang==='gu'?'વૈકલ્પિક ઉકેલ PDF':'Optional solution PDF'} ↗</a>`:''}</div></div>${schemeNotice?`<p class="reader-notice">${esc(schemeNotice)}</p>`:''}${paid?`<div class="private-paper-status"><span>${lang==='gu'?'ખરીદેલું · માત્ર આ પેપર':'Purchased · this paper only'}</span><a href="#/purchases">${esc(accountLabels[lang].purchases)} →</a></div><div class="paper-downloads">${privateDownloads}</div><p id="private-asset-status" role="status" aria-live="polite"></p>`:''}${controls}<article class="reader-card solved-paper" ${paid?`data-private-product="${esc(code+'--'+session)}"`:''}>${body}</article></div></section>`;
+  }
+  const paymentText=(en,gu)=>lang==='gu'?gu:en;
+  const paymentKey=(code,session)=>`${accountState.user?.uid||'signed-out'}:${code}--${session}`;
+  const paymentRoute=(code,session)=>`#/paper/${code}/${session}`;
+  function resetPayments(){
+    ++paymentGeneration;privateObserver?.disconnect();privateObserver=null;
+    window.DiplomaOneAuth?.cancelPayments?.();
+    paymentView={key:null,status:'idle'};purchaseView={uid:null,status:'idle'};
+    // Remove private bytes synchronously on logout/navigation, before another
+    // asynchronous render. Received content cannot be made screenshot-proof.
+    main.querySelector('[data-private-product]')?.replaceChildren();
+  }
+  function paymentMessage(code){
+    const messages={
+      payment_site_required:['Purchases are available on www.diplomaone.in. No payment was started here.','ખરીદી www.diplomaone.in પર ઉપલબ્ધ છે. અહીં કોઈ ચુકવણી શરૂ થઈ નથી.'],
+      sign_in_required:['Sign in with Google to buy or read your purchased paper.','પેપર ખરીદવા અથવા ખરીદેલું પેપર વાંચવા Google દ્વારા સાઇન ઇન કરો.'],
+      invalid_or_expired_session:['Your session expired. Sign out and sign in again.','તમારું સત્ર પૂરું થયું. સાઇન આઉટ કરીને ફરી સાઇન ઇન કરો.'],
+      live_checkout_disabled:['Checkout is not open yet. No payment can be taken for this paper right now.','ચેકઆઉટ હજી શરૂ નથી. આ પેપર માટે અત્યારે ચુકવણી લઈ શકાતી નથી.'],
+      backend_not_configured:['Checkout is not open yet. No payment can be taken for this paper right now.','ચેકઆઉટ હજી શરૂ નથી. આ પેપર માટે અત્યારે ચુકવણી લઈ શકાતી નથી.'],
+      paper_unavailable:['This paper is not available for new purchases yet. Your other purchases are unchanged.','આ પેપર હજી નવી ખરીદી માટે ઉપલબ્ધ નથી. તમારી બીજી ખરીદી યથાવત્ છે.'],
+      private_paper_not_ready:['This paper’s private files are not ready. No payment was started.','આ પેપરની ખાનગી ફાઇલો તૈયાર નથી. કોઈ ચુકવણી શરૂ થઈ નથી.'],
+      live_pilot_only:['Purchases are temporarily limited to an approved launch group. No payment was started.','ખરીદી હમણાં મંજૂર કરેલા શરૂઆતના જૂથ માટે જ છે. કોઈ ચુકવણી શરૂ થઈ નથી.'],
+      order_limit:['Too many order attempts. Please wait before trying again.','ઓર્ડરના ઘણા પ્રયાસ થયા. ફરી પ્રયાસ પહેલાં રાહ જુઓ.'],
+      order_being_created:['An order is already being prepared. Wait, then check My purchases before trying again.','ઓર્ડર તૈયાર થઈ રહ્યો છે. રાહ જોઈને ફરી પ્રયાસ પહેલાં મારી ખરીદી તપાસો.'],
+      order_pending_operator_review:['An earlier order needs review. Do not pay again; check My purchases and contact support with your Razorpay receipt.','અગાઉના ઓર્ડરની તપાસ જરૂરી છે. ફરી ચૂકવશો નહીં; મારી ખરીદી તપાસો અને Razorpay રસીદ સાથે સહાય લો.'],
+      checkout_closed:['The payment window closed. If money was debited, do not pay again—check My purchases after capture is confirmed.','ચુકવણીની વિન્ડો બંધ થઈ. પૈસા કપાયા હોય તો ફરી ચૂકવશો નહીં—પુષ્ટિ પછી મારી ખરીદી તપાસો.'],
+      payment_failed:['The payment attempt was not confirmed. If money was debited, do not pay again; check My purchases and your Razorpay receipt.','ચુકવણીના પ્રયાસની પુષ્ટિ નથી. પૈસા કપાયા હોય તો ફરી ચૂકવશો નહીં; મારી ખરીદી અને Razorpay રસીદ તપાસો.'],
+      payment_not_captured_or_mismatch:['Payment has not been confirmed as fully captured. Do not pay again. Refresh My purchases after confirmation.','ચુકવણી સંપૂર્ણ મળી હોવાની પુષ્ટિ નથી. ફરી ચૂકવશો નહીં. પુષ્ટિ પછી મારી ખરીદી ફરી તપાસો.'],
+      payment_revoked:['Access for this payment is no longer active. Check your receipt and contact support.','આ ચુકવણીની પરવાનગી સક્રિય નથી. રસીદ તપાસો અને સહાય લો.'],
+      checkout_unavailable:['The secure payment window could not open. Check your connection or content blocker.','સુરક્ષિત ચુકવણીની વિન્ડો ખૂલી નથી. ઇન્ટરનેટ અથવા કન્ટેન્ટ બ્લોકર તપાસો.'],
+      payment_timeout:['The request timed out; payment status is unknown. If you paid, do not pay again. Refresh My purchases.','વિનંતીનો સમય પૂરો થયો; ચુકવણીની સ્થિતિ અજ્ઞાત છે. ચૂકવ્યું હોય તો ફરી ચૂકવશો નહીં. મારી ખરીદી ફરી તપાસો.'],
+      session_changed:['Your account or page changed. Reopen the selected paper using the Google account that paid.','તમારું એકાઉન્ટ કે પેજ બદલાયું. જે Google એકાઉન્ટથી ચૂકવ્યું તેનાથી પેપર ફરી ખોલો.'],
+      payments_unavailable:['We could not confirm access right now. If you paid, do not pay again. Refresh My purchases using the same Google account.','અત્યારે પરવાનગીની પુષ્ટિ થઈ શકી નથી. ચૂકવ્યું હોય તો ફરી ચૂકવશો નહીં. એ જ Google એકાઉન્ટથી મારી ખરીદી ફરી તપાસો.']
+    };
+    return (messages[code]||messages.payments_unavailable)[lang==='gu'?1:0];
+  }
+  function showLockedPaper(code,session,meta,entry){
+    const view=paymentView.key===paymentKey(code,session)?paymentView:{status:'idle'};
+    const selected=view.config?.products?.find(p=>p.id===code+'--'+session),price=selected?.amount||listedPaperPrice(code,entry);
+    const signedIn=accountState.status==='signed-in'&&!!accountState.user;
+    const busy=['loading','buying'].includes(view.status)||!!accountState.busy;
+    const ready=signedIn&&view.status==='locked'&&!!selected&&view.config?.enabled===true&&isPaymentSite();
+    const name=text(meta?.name)||paperName(code),title=paymentText('Unlock this paper.','આ પેપર અનલૉક કરો.');
+    const related=legacyPaperSubjects[code],back=meta?`#/subject/${code}`:related&&subjectMeta(related)?`#/subject/${related}`:'#/papers';
+    const schemeNotice=related?paymentText(`This is an older-scheme paper (code ${code}). The original exam identity is unchanged; the related subject’s syllabus may differ.`,`આ જૂની યોજનાનું પેપર છે (કોડ ${code}). મૂળ પરીક્ષાની ઓળખ યથાવત્ છે; સંબંધિત વિષયનો અભ્યાસક્રમ અલગ હોઈ શકે છે.`):'';
+    const sessionLabel=paperSessionTitle(session),auth=accountCopy();
+    let action;
+    if(!isPaymentSite())action=`<p class="reader-notice">${esc(paymentMessage('payment_site_required'))}</p><a class="button-primary" href="https://www.diplomaone.in/${esc(paymentRoute(code,session))}" rel="noreferrer">${paymentText('Open DiplomaOne','DiplomaOne ખોલો')} ↗</a>`;
+    else if(!signedIn)action=`<button type="button" id="paper-signin" class="google-signin-button" ${['idle','loading'].includes(accountState.status)||busy?'disabled':''}>${googleMark()}${esc(auth.google)}</button>${accountState.status==='unavailable'?`<button type="button" id="paper-auth-retry" class="paper-control">${esc(auth.retry)}</button>`:''}<p>${esc(paymentMessage('sign_in_required'))}</p>`;
+    else action=`<button type="button" id="buy-paper" class="button-primary" data-checkout ${!ready||busy?'disabled':''}>${esc(view.status==='buying'?paymentText('Opening secure payment…','સુરક્ષિત ચુકવણી ખૂલી રહી છે…'):view.status==='loading'?paymentText('Checking your access…','તમારી પરવાનગી તપાસાઈ રહી છે…'):ready?paymentText(`Pay ${rupees(selected.amount)} & unlock`,` ${rupees(selected.amount)} ચૂકવો અને ખોલો`):paymentText('Checkout not available','ચેકઆઉટ ઉપલબ્ધ નથી'))}</button><button type="button" id="paper-access-retry" class="paper-control" ${busy?'disabled':''}>${paymentText('Check access again','પરવાનગી ફરી તપાસો')}</button>`;
+    const message=view.message||(signedIn&&!busy&&!ready?'live_checkout_disabled':null);
+    return `${shell(title,`${name} · ${code} · ${sessionLabel}`,[{label:tr('papers'),href:'#/papers'},{label:sessionLabel}])}<section class="page-content"><div class="wrap paper-lock-layout" data-paid-paper="${esc(code+'--'+session)}"><article class="account-card paper-lock-card"><div class="account-emblem" aria-hidden="true">${icon('book')}</div><p class="eyebrow">${paymentText('ONE PAPER · ONE PURCHASE','એક પેપર · એક ખરીદી')}</p><h2>${esc(name)}</h2><p class="subject-code">${esc(code)} · ${esc(sessionLabel)}</p>${schemeNotice?`<p class="reader-notice">${esc(schemeNotice)}</p>`:''}<a class="button-text" href="${esc(back)}">← ${esc(tr('back'))}</a><div class="paper-price">${price?esc(rupees(price)):paymentText('Price available at checkout','ચેકઆઉટ પર કિંમત')}<small>${paymentText('for this exam-session paper only','માત્ર આ પરીક્ષા સત્રના પેપર માટે')}</small></div><p>${paymentText('Unlock the existing expandable question-and-answer cards, worked solutions and diagrams for this paper. Notes, Maths-I and Applied Physics remain free.','આ પેપરના પ્રશ્ન-જવાબ કાર્ડ, વિગતવાર ઉકેલ અને આકૃતિઓ અનલૉક કરો. નોટ્સ, Maths-I અને Applied Physics મફત રહે છે.')}</p><div class="paper-purchase-actions">${action}</div><div id="paper-payment-status" role="status" aria-live="polite" tabindex="-1">${message?esc(paymentMessage(message)):''}</div>${accountState.error?`<p role="alert">${esc(auth.errors[accountState.error.code]||auth.fallback)}</p>`:''}</article><aside class="account-sidebar"><div class="account-phase-note"><h3>${paymentText('Only the paper you choose','માત્ર પસંદ કરેલું પેપર')}</h3><p>${paymentText('Your Google account receives access only after the server verifies a fully captured Razorpay payment. A payment screenshot, sign-in or browser setting cannot unlock a paper.','સર્વર Razorpay ની સંપૂર્ણ મળેલી ચુકવણી ચકાસે પછી જ તમારા Google એકાઉન્ટને પરવાનગી મળે છે. સ્ક્રીનશૉટ, સાઇન ઇન કે બ્રાઉઝર સેટિંગથી પેપર ખૂલતું નથી.')}</p></div><div class="account-reading-note"><a class="button-text" href="#/purchases">${esc(accountLabels[lang].purchases)} →</a><p>${paymentText('Already paid? Use the same Google account. Refresh purchases instead of paying twice.','પહેલેથી ચૂકવ્યું છે? એ જ Google એકાઉન્ટ વાપરો. ફરી ચૂકવવાને બદલે ખરીદીની યાદી ફરી તપાસો.')}</p><a href="#/purchase-info">${paymentText('Purchase information & support','ખરીદીની માહિતી અને સહાય')} ↗</a></div></aside></div></section>`;
+  }
+  function bindPaidPaper(code,session){
+    if(freePaperCodes.has(code)||location.hash!==paymentRoute(code,session))return;
+    const service=window.DiplomaOneAuth;if(!service||!isPaymentSite())return;
+    const key=paymentKey(code,session),uid=accountState.user?.uid||null;
+    if(paymentView.key!==key)paymentView={key,status:'idle'};
+    const active=()=>paymentView.key===key&&location.hash===paymentRoute(code,session)&&(accountState.user?.uid||null)===uid;
+    main.querySelector('#paper-signin')?.addEventListener('click',event=>{if(event.currentTarget.isConnected)service.signIn(lang);});
+    main.querySelector('#paper-auth-retry')?.addEventListener('click',()=>service.initialize());
+    main.querySelector('#paper-access-retry')?.addEventListener('click',()=>{if(!['loading','buying'].includes(paymentView.status)){paymentView={key,status:'idle'};render();}});
+    main.querySelector('#buy-paper')?.addEventListener('click',async event=>{
+      if(!event.currentTarget.isConnected||!active()||paymentView.status!=='locked')return;
+      const generation=paymentGeneration;paymentView={...paymentView,status:'buying',message:null};render();
+      let result;try{result=await service.buyPaper(code+'--'+session);}catch(_){result={ok:false};}
+      if(generation!==paymentGeneration||!active())return;
+      paymentView=result?.ok===true||result?.code==='already_owned'?{key,status:'idle'}:
+        {...paymentView,status:'locked',message:result?.code||'payments_unavailable'};
+      await render();main.querySelector('#paper-payment-status')?.focus();
+    });
+    if(accountState.status==='idle'){service.initialize();return;}
+    if(accountState.status!=='signed-in'||accountState.busy||paymentView.status!=='idle')return;
+    const generation=paymentGeneration;paymentView={key,status:'loading'};
+    // Rendering this loading state must not start another query.
+    render();
+    Promise.all([service.paymentConfiguration?.(),service.readPurchasedPaper?.(code+'--'+session)]).then(([config,reader])=>{
+      if(generation!==paymentGeneration||!active())return;
+      paymentView=reader?.ok===true?{key,status:'owned',reader}:
+        {key,status:'locked',config:config?.ok===true?config:null,message:reader?.code==='purchase_required'?null:reader?.code||'payments_unavailable'};
+      render();
+    }).catch(()=>{if(generation===paymentGeneration&&active()){paymentView={key,status:'locked',message:'payments_unavailable'};render();}});
+  }
+  async function loadPrivateImage(img,id){
+    if(!img.isConnected||img.getAttribute('src')||!id)return;
+    img.setAttribute('aria-busy','true');
+    const generation=paymentGeneration,result=await window.DiplomaOneAuth?.readPurchasedAsset?.(id,img.dataset.privateAsset);
+    if(generation!==paymentGeneration||!img.isConnected)return;
+    img.removeAttribute('aria-busy');
+    if(result?.ok===true&&typeof result.url==='string'&&result.url.startsWith('blob:'))img.src=result.url;
+    else {const status=main.querySelector('#private-asset-status');if(status)status.textContent=paymentText('An image could not load. Reopen this paper to retry; no public copy is used.','આકૃતિ લોડ થઈ નથી. ફરી પ્રયાસ માટે પેપર ખોલો; જાહેર નકલ વપરાતી નથી.');}
+  }
+  function bindPrivateAssets(article){
+    const id=article.dataset.privateProduct,images=[...article.querySelectorAll('img[data-private-asset]')];
+    privateObserver?.disconnect();
+    const visible=img=>{for(let parent=img.parentElement;parent&&parent!==article;parent=parent.parentElement)if(parent.tagName==='DETAILS'&&!parent.open&&!parent.querySelector('summary')?.contains(img))return false;return true;};
+    if(typeof IntersectionObserver==='function'){
+      privateObserver=new IntersectionObserver(entries=>{for(const item of entries)if(item.isIntersecting&&visible(item.target))loadPrivateImage(item.target,id);},{rootMargin:'240px'});
+      images.forEach(img=>privateObserver.observe(img));
+    }else images.filter(visible).forEach(img=>loadPrivateImage(img,id));
+    article.querySelectorAll('details').forEach(card=>card.addEventListener('toggle',()=>{
+      if(card.open)card.querySelectorAll('img[data-private-asset]').forEach(img=>{if(visible(img))loadPrivateImage(img,id);});
+    }));
+    main.querySelectorAll('[data-private-download]').forEach(button=>button.addEventListener('click',async()=>{
+      if(!button.isConnected||button.disabled)return;button.disabled=true;
+      const generation=paymentGeneration,result=await window.DiplomaOneAuth?.readPurchasedAsset?.(id,button.dataset.privateDownload);
+      if(generation!==paymentGeneration||!button.isConnected)return;button.disabled=false;
+      if(result?.ok===true&&typeof result.url==='string'&&result.url.startsWith('blob:')){
+        const a=document.createElement('a');a.href=result.url;a.download=button.dataset.downloadName||'paper.pdf';a.rel='noreferrer';document.body.append(a);a.click();a.remove();
+      }else {const status=main.querySelector('#private-asset-status');if(status)status.textContent=paymentMessage(result?.code);}
+    }));
+  }
+  function showPurchasePanel(){
+    const signedIn=accountState.status==='signed-in'&&!!accountState.user,view=purchaseView;
+    let content;
+    if(!signedIn)content=`<p>${esc(paymentMessage('sign_in_required'))}</p>`;
+    else if(view.status==='loaded'){
+      content=view.purchases.length?`<div class="purchase-list">${view.purchases.map(p=>{
+        const parts=p.productId.split('--');if(parts.length!==2||!validPaperCode(parts[0])||!validPaperSession(parts[1]))return '';
+        const title=`${p.title} · ${parts[0]} · ${paperSessionTitle(parts[1])}`;
+        return `<article class="purchase-item"><h3>${esc(title)}</h3><p>${esc(rupees(p.amount))} · ${esc(new Date(p.purchasedAt).toLocaleDateString(lang==='gu'?'gu-IN':'en-IN'))}</p>${p.active?`<a class="button-text" href="${esc(paymentRoute(...parts))}">${paymentText('Open purchased paper','ખરીદેલું પેપર ખોલો')} →</a>`:`<p>${paymentText('Access inactive. Check your receipt and contact support.','પરવાનગી સક્રિય નથી. રસીદ તપાસો અને સહાય લો.')}</p>`}</article>`;
+      }).join('')}</div>`:`<p>${paymentText('No confirmed purchases for this Google account yet.','આ Google એકાઉન્ટ માટે હજી કોઈ ખરીદીની પુષ્ટિ નથી.')}</p>`;
+    }else if(view.status==='error')content=`<p role="alert">${esc(paymentMessage(view.code))}</p>`;
+    else content=`<p role="status">${paymentText('Loading your purchases…','તમારી ખરીદી લોડ થઈ રહી છે…')}</p>`;
+    return `<section class="account-phase-note purchases-panel" data-purchases-panel><h2>${esc(accountLabels[lang].purchases)}</h2><p>${paymentText('Only server-confirmed purchases appear here. Sign-in alone does not unlock a paper.','માત્ર સર્વરે પુષ્ટિ કરેલી ખરીદી અહીં દેખાય છે. માત્ર સાઇન ઇન કરવાથી પેપર ખૂલતું નથી.')}</p>${content}${signedIn?`<button type="button" class="paper-control" id="purchases-refresh" ${view.status==='loading'?'disabled':''}>${paymentText('Refresh purchases','ખરીદી ફરી તપાસો')}</button>`:''}<p>${paymentText('If your payment is still being captured, wait for confirmation and refresh. Do not pay again.','ચુકવણીની પુષ્ટિ બાકી હોય તો રાહ જોઈને ફરી તપાસો. ફરી ચૂકવશો નહીં.')}</p><a href="#/purchase-info">${paymentText('Purchase information & support','ખરીદીની માહિતી અને સહાય')} ↗</a></section>`;
+  }
+  function bindPurchases(){
+    if(location.hash!=='#/purchases'||accountState.status!=='signed-in'||accountState.busy)return;
+    const service=window.DiplomaOneAuth,uid=accountState.user?.uid;
+    main.querySelector('#purchases-refresh')?.addEventListener('click',()=>{if(purchaseView.status!=='loading'){purchaseView={uid,status:'idle'};render();}});
+    if(purchaseView.uid!==uid)purchaseView={uid,status:'idle'};
+    if(purchaseView.status!=='idle')return;
+    purchaseView={uid,status:'loading'};const generation=paymentGeneration;render();
+    Promise.resolve(service?.loadPurchases?.()).then(result=>{
+      if(generation!==paymentGeneration||location.hash!=='#/purchases'||accountState.user?.uid!==uid)return;
+      purchaseView=result?.ok===true?{uid,status:'loaded',purchases:result.purchases}:{uid,status:'error',code:result?.code};render();
+    }).catch(()=>{if(generation===paymentGeneration&&accountState.user?.uid===uid){purchaseView={uid,status:'error',code:'payments_unavailable'};render();}});
+  }
+  function showPurchaseInfo(){
+    const title=paymentText('Purchase information & support','ખરીદીની માહિતી અને સહાય');
+    return `${shell(title,paymentText('Individual exam-session paper solutions.','અલગ પરીક્ષા સત્રના પેપરના ઉકેલ.'),[{label:title}])}<section class="page-content"><div class="wrap"><article class="reader-card"><h2>${paymentText('Sales are not open yet','વેચાણ હજી શરૂ નથી')}</h2><p>${paymentText('Before accepting payments, DiplomaOne must publish the merchant’s contact and support details, approved refund/cancellation rules, access duration and delivery terms here. Checkout remains closed until these details are available.','ચુકવણી સ્વીકારતાં પહેલાં DiplomaOne એ વેપારીની સંપર્ક અને સહાયની વિગતો, મંજૂર રિફંડ/રદ કરવાની નીતિ, પરવાનગીનો સમયગાળો અને સામગ્રી આપવાની શરતો અહીં પ્રકાશિત કરવાની છે. આ વિગતો ઉપલબ્ધ થાય ત્યાં સુધી ચેકઆઉટ બંધ રહેશે.')}</p><p>${paymentText('Planned prices per selected paper: Computer ₹19; Mechanical, Electrical and Civil ₹29; Chemical ₹39. Notes, Maths-I and Applied Physics remain free. This is not a subscription or a whole-subject purchase.','પસંદ કરેલા દરેક પેપરની કિંમત: Computer ₹19; Mechanical, Electrical અને Civil ₹29; Chemical ₹39. નોટ્સ, Maths-I અને Applied Physics મફત છે. આ સબ્સ્ક્રિપ્શન કે આખા વિષયની ખરીદી નથી.')}</p><p>${paymentText('Payment access is tied to the Google account used at checkout and requires server-confirmed full capture. If a payment is debited without access, keep your Razorpay receipt and do not pay again. Private delivery does not prevent an authorized reader from making copies.','ચુકવણીની પરવાનગી ચેકઆઉટના Google એકાઉન્ટ સાથે જોડાય છે અને સર્વરની સંપૂર્ણ ચુકવણીની પુષ્ટિ જરૂરી છે. પૈસા કપાયા છતાં પરવાનગી ન મળે તો Razorpay રસીદ સાચવો અને ફરી ચૂકવશો નહીં. ખાનગી સામગ્રી મળ્યા પછી અધિકૃત વાચકને નકલ બનાવતાં રોકી શકાતો નથી.')}</p><a class="button-text" href="#/privacy">${paymentText('Privacy','ગોપનીયતા')} ↗</a></article></div></section>`;
   }
   // Only allow inert, presentational markup from note content. Never execute source HTML or SVG.
   function safeHtml(value) {
@@ -555,15 +744,15 @@
   }
   function accountCopy() {
     return lang==='gu'?{
-      title:'તમારી અભ્યાસની ઓળખ.',subtitle:'Google દ્વારા સાઇન ઇન કરો. નોટ્સ અને હાલમાં ઉપલબ્ધ પેપર વાંચવા માટે સાઇન ઇન જરૂરી નથી.',
+      title:'તમારી અભ્યાસની ઓળખ.',subtitle:'પેપર ખરીદવા અથવા ખરીદેલું પેપર ખોલવા Google દ્વારા સાઇન ઇન કરો. નોટ્સ, Maths-I અને Applied Physics મફત છે.',
       heading:'તમારા Google ખાતા સાથે જોડાઓ',intro:'તમારી ઓળખ Firebase Authentication દ્વારા સંચાલિત થાય છે. DiplomaOne તમારો Google પાસવર્ડ જોતું નથી અને તમારા Drive માટે પરવાનગી માગતું નથી.',
       google:'Google દ્વારા સાઇન ઇન કરો',loading:'સુરક્ષિત સાઇન ઇન તૈયાર થઈ રહ્યું છે…',working:'કૃપા કરીને રાહ જુઓ…',ready:'તમે Google દ્વારા સાઇન ઇન કરી શકો છો.',connected:'તમે સાઇન ઇન કરેલું છે.',
       signOut:'સાઇન આઉટ',retry:'ફરી પ્રયાસ કરો',email:'ઇમેઇલ',emailStatus:'ઇમેઇલની સ્થિતિ',verified:'ઇમેઇલ ચકાસાયેલું છે',unverified:'ઇમેઇલ ચકાસાયેલું નથી',student:'વિદ્યાર્થી',
       session:'સાઇન ઇન આ બ્રાઉઝર ટૅબના સત્ર માટે સાચવાય છે, લાંબા સમયના લૉગિન તરીકે નહીં. શેર કરેલા ઉપકરણ પર સાઇન આઉટ કરો; બ્રાઉઝર ક્યારેક બંધ ટૅબનું સત્ર પાછું લાવી શકે છે. અહીંથી સાઇન આઉટ કરવાથી Googleની અન્ય સેવાઓમાંથી સાઇન આઉટ થતું નથી.',
       local:'સાચવેલી નોટ્સ અને ભાષાની પસંદગી હજુ માત્ર આ ઉપકરણ પર રહે છે; સાઇન ઇન કરવાથી તે સિંક થતી નથી.',
-      read:'અભ્યાસ ચાલુ રાખો',privacy:'ગોપનીયતા વિશે વાંચો',purchaseTitle:'તમારી ખરીદીનું સ્થાન.',
-      purchaseNotice:'ખરીદી હજી શરૂ થઈ નથી',purchaseBody:'આ તબક્કામાં માત્ર સાઇન ઇન છે. ચુકવણી કે ખરીદીના રેકોર્ડ હજી જોડાયેલા નથી. સાઇન ઇન કરવાથી કોઈ પેપર ખરીદાતું કે અનલૉક થતું નથી. હાલમાં ઉપલબ્ધ વાંચન યથાવત્ છે.',
-      purchaseSignIn:'સાઇન ઇન કરી શકો છો; ચુકવણી અને ખરીદીની ચકાસણી પછીના તબક્કામાં આવશે.',
+      read:'અભ્યાસ ચાલુ રાખો',privacy:'ગોપનીયતા વિશે વાંચો',purchaseTitle:'તમારા ખરીદેલા પેપર.',
+      purchaseNotice:'અલગ પેપરની પરવાનગી',purchaseBody:'દરેક ખરીદી પસંદ કરેલા વિષય અને પરીક્ષા સત્રના એક પેપર માટે છે. સર્વર ચુકવણી ચકાસે પછી જ પરવાનગી મળે છે; મફત નોટ્સ મફત રહે છે.',
+      purchaseSignIn:'જે Google એકાઉન્ટથી ચૂકવ્યું તેનાથી સાઇન ઇન કરો. સફળ સાઇન ઇન ખરીદીનો પુરાવો નથી.',
       errors:{
         'auth/popup-closed-by-user':'સાઇન ઇન વિન્ડો બંધ થઈ ગઈ. તમે ફરી પ્રયાસ કરી શકો છો.',
         'auth/cancelled-popup-request':'બીજી સાઇન ઇન વિન્ડો પહેલેથી ખુલ્લી છે. એક જ વિન્ડોનો ઉપયોગ કરો.',
@@ -583,15 +772,15 @@
         'auth/account-exists-with-different-credential':'આ ઇમેઇલ માટે અન્ય સાઇન ઇન પદ્ધતિ જોડાયેલી છે. ખાતાઓને જોડવા માટે સહાય લો; નવું ખાતું બનાવશો નહીં.',
       },fallback:'સાઇન ઇન અત્યારે ઉપલબ્ધ નથી. નોટ્સ વાંચવાનું ચાલુ રાખી શકો છો અને પછી ફરી પ્રયાસ કરો.',
     }:{
-      title:'Your study account.',subtitle:'Sign in with Google. Notes and currently available papers can still be read without an account.',
+      title:'Your study account.',subtitle:'Sign in with Google to buy an individual paper or reopen your purchases. Notes, Maths-I and Applied Physics stay free.',
       heading:'Connect your Google account',intro:'Firebase Authentication manages your sign-in. DiplomaOne does not see your Google password or request access to your Drive.',
       google:'Sign in with Google',loading:'Preparing secure sign-in…',working:'Please wait…',ready:'Ready to sign in with Google.',connected:'You are signed in.',
       signOut:'Sign out',retry:'Try again',email:'Email',emailStatus:'Email status',verified:'Email verified',unverified:'Email not verified',student:'Student',
       session:'Sign-in is saved for this browser tab’s session, not as a long-term login. Sign out on shared devices; browsers can sometimes restore closed-tab sessions. Signing out here does not sign you out of other Google services.',
       local:'Saved notes and your language preference remain on this device; signing in does not sync them.',
-      read:'Keep learning',privacy:'Read about privacy',purchaseTitle:'A place for your purchases.',
-      purchaseNotice:'Purchases are not enabled yet',purchaseBody:'This phase adds sign-in only. Payments and purchase records are not connected yet. Signing in does not buy or unlock a paper. Existing reading access is unchanged.',
-      purchaseSignIn:'You can sign in now; checkout and verified purchase access will come in a later phase.',
+      read:'Keep learning',privacy:'Read about privacy',purchaseTitle:'Your purchased papers.',
+      purchaseNotice:'Individual paper access',purchaseBody:'Each purchase covers one selected subject and exam-session paper. Access is granted only after server-verified payment; your free notes remain free.',
+      purchaseSignIn:'Sign in using the same Google account you used to pay. A successful sign-in is not proof of purchase.',
       errors:{
         'auth/popup-closed-by-user':'The sign-in window was closed. You can try again when you are ready.',
         'auth/cancelled-popup-request':'Another sign-in window is already open. Please use one window at a time.',
@@ -661,7 +850,7 @@
     if(connection&&!isConnectionTestSite())return `${shell(check.title,check.subtitle,[{label:check.heading}])}<section class="page-content"><div class="wrap"><p class="account-phase-note">${esc(check.errors.test_site_required)}</p></div></section>`;
     const labels=accountLabels[lang],title=connection?check.title:purchases?c.purchaseTitle:c.title;
     const error=s.error?`<div class="account-message" role="alert"><p>${esc(c.errors[s.error.code]||c.fallback)}</p><small>${esc(s.error.code)}</small></div>`:'';
-    const purchaseNotice=`<div class="account-phase-note"><strong>${esc(c.purchaseNotice)}</strong><p>${esc(c.purchaseBody)}</p></div>`;
+    const purchaseNotice=purchases?showPurchasePanel():`<div class="account-phase-note"><strong>${esc(c.purchaseNotice)}</strong><p>${esc(c.purchaseBody)}</p><a class="button-text" href="#/purchases">${esc(labels.purchases)} →</a></div>`;
     let content;
     if(user&&connection){
       // The diagnostic page/status deliberately does not echo profile, UID or
@@ -703,12 +892,16 @@
       });
     });
     if(accountState.status==='idle')service.initialize();
+    bindPurchases();
   }
   function startAccount() {
     if(!window.DiplomaOneAuth)return;
     window.DiplomaOneAuth.subscribe(state=>{
+      const changed=accountState.user?.uid!==state.user?.uid||state.busy==='signOut'||!!state.error;
+      if(changed)resetPayments();
       resetConnection();accountState=state;updateAccountLinks();
-      if(main.querySelector('[data-account-view]'))render();
+      if(/^#\/(?:account|purchases|test-connection)(?:$|\/)/.test(location.hash)||
+        /^#\/paper\//.test(location.hash)&&!freePaperCodes.has(location.hash.split('/')[2]))render();
     });
   }
   function showPrivacy() {
@@ -717,20 +910,20 @@
     const intro=gu?'તમારા અભ્યાસને સરળ અને ખાનગી રાખવાનો અમારો પ્રયાસ છે.':'A simple explanation of how this website handles information.';
     const sections=gu?[
       ['ખાતા વગર અભ્યાસ', 'આ વેબસાઇટ પર નોટ્સ વાંચવા માટે ખાતું, નામ અથવા ઇમેઇલ જરૂરી નથી.'],
-      ['વૈકલ્પિક Google સાઇન ઇન', 'મારું ખાતું અથવા મારી ખરીદી ખોલવાથી સ્થાનિક રીતે હોસ્ટ કરેલો Firebase Authentication ક્લાયન્ટ લોડ થાય છે. તમે સાઇન ઇન કરો ત્યારે Google અને Firebase તમારી ઓળખ, નામ, ઇમેઇલ અને ટેકનિકલ માહિતી પર પ્રક્રિયા કરે છે. Firebase Authentication ખાતાની ઓળખનો રેકોર્ડ રાખે છે; સાઇન આઉટ કરવાથી તે રેકોર્ડ કાઢી નાખવામાં આવતો નથી. આ વેબસાઇટ તમારો Google પાસવર્ડ મેળવતી નથી કે Drive માટે પરવાનગી માગતી નથી.'],
+      ['વૈકલ્પિક Google સાઇન ઇન', 'મારું ખાતું, મારી ખરીદી અથવા ચૂકવવાનું પેપર ખોલવાથી સ્થાનિક રીતે હોસ્ટ કરેલો Firebase Authentication ક્લાયન્ટ લોડ થાય છે. તમે સાઇન ઇન કરો ત્યારે Google અને Firebase તમારી ઓળખ, નામ, ઇમેઇલ અને ટેકનિકલ માહિતી પર પ્રક્રિયા કરે છે. Firebase Authentication ખાતાની ઓળખનો રેકોર્ડ રાખે છે; સાઇન આઉટ કરવાથી તે રેકોર્ડ કાઢી નાખવામાં આવતો નથી. આ વેબસાઇટ તમારો Google પાસવર્ડ મેળવતી નથી કે Drive માટે પરવાનગી માગતી નથી.'],
       ['આ ઉપકરણ પર સાચવેલી માહિતી', 'ભાષા અને સાચવેલી નોટ્સ બ્રાઉઝરના સ્થાનિક સ્ટોરેજમાં રહે છે; સાઇન ઇન કર્યા પછી પણ અન્ય ઉપકરણો પર સિંક થતી નથી. Firebase સાઇન ઇનને આ ટૅબના સેશન સ્ટોરેજમાં સંભાળે છે, લાંબા સમયના લૉગિન તરીકે નહીં. શેર કરેલા ઉપકરણ પર સાઇન આઉટ કરો; બ્રાઉઝર ક્યારેક બંધ ટૅબનું સત્ર પાછું લાવી શકે છે. અહીંથી સાઇન આઉટ કરવાથી અન્ય Google સેવાઓમાંથી સાઇન આઉટ થતું નથી. બ્રાઉઝર ડેટા દૂર કરવાથી સ્થાનિક પસંદગીઓ દૂર થાય છે.'],
-      ['ખરીદી હજી શરૂ નથી', 'આ તબક્કો ચુકવણી લેતો નથી, ખરીદીના રેકોર્ડ બનાવતો નથી કે ચૂકવેલા પેપરની પરવાનગી આપતો નથી. બ્રાઉઝરમાં Firestore, Firebase Storage કે Analytics SDK લોડ થતાં નથી. સાઇન ઇન કરવું ખરીદીનો પુરાવો નથી.'],
+      ['ખરીદી અને ખાનગી સામગ્રી', 'લાઇવ ચેકઆઉટ ચાલુ હોય ત્યારે Razorpay તેના સુરક્ષિત Checkout માં ચુકવણીની માહિતી સંભાળે છે. અમે કાર્ડની વિગતો કે UPI ઓળખ સાચવતા નથી. આ જ સાઇટનો સર્વર Google ID ટોકન અને મળેલી ચુકવણી ચકાસીને Firestore માં Firebase UID, પસંદ કરેલું પેપર, ઓર્ડર/ચુકવણી ID, રકમ, સ્થિતિ અને સમય સાચવે છે. સર્વરની પરવાનગી પછી જ ખાનગી જવાબ અને આકૃતિ મળે છે; એપના સ્ટોરેજ કે લોગમાં ટોકન કે જવાબની ફાઇલો સાચવાતી નથી. બ્રાઉઝરમાં Firestore, Firebase Storage કે Analytics SDK લોડ થતાં નથી. સાઇન ઇન ખરીદીનો પુરાવો નથી.'],
       ['સુરક્ષિત ટેસ્ટ સાઇટની તપાસ', 'ટેસ્ટ સાઇટ પર મંજૂર Google ટેસ્ટર મેન્યુઅલ Firestore જોડાણ તપાસ ચલાવી શકે છે. Firebase ID ટોકન માત્ર આ જ સાઇટના સર્વરને Authorization હેડરમાં મોકલાય છે. સર્વર તેની ઓળખ અને મંજૂર UID યાદી ચકાસે છે, વધુમાં વધુ એક ટેસ્ટ પ્રોડક્ટનું મેટાડેટા વાંચે છે અને માત્ર સુરક્ષિત સ્થિતિ આપે છે. તપાસ કંઈ લખતી નથી કે ચુકવણી ચાલુ કરતી નથી. અમે ટોકન, ડેટાબેઝની વિગતો કે તપાસનું પરિણામ એપના સ્ટોરેજ અથવા લોગમાં સાચવતા નથી.'],
-      ['હોસ્ટિંગ અને બહારની લિંક્સ', 'GitHub Pages આ સાઇટ અને નોટ્સ હોસ્ટ કરે છે અને સેવા તથા સુરક્ષા માટે IP એડ્રેસ જેવી ટેકનિકલ માહિતી મેળવી શકે છે. પેપરની યાદી GitHub API પરથી મેળવાય છે. Android એપ ડાઉનલોડની લિંક તમને GitHub પર લઈ જાય છે, જ્યાં તેમની પોતાની ગોપનીયતા નીતિ લાગુ પડે છે.'],
-      ['Analytics અને જાહેરાતો', 'આ વેબસાઇટ હાલમાં કોઈ analytics અથવા જાહેરાત સેવા ઉમેરતી નથી. જો આ બદલાય, તો આ માહિતી અપડેટ કરવામાં આવશે.']
+      ['હોસ્ટિંગ અને બહારની લિંક્સ', 'GitHub Pages આ સાઇટ અને મફત નોટ્સ હોસ્ટ કરે છે અને સેવા તથા સુરક્ષા માટે IP એડ્રેસ જેવી ટેકનિકલ માહિતી મેળવી શકે છે. પેપરની યાદી GitHub API પરથી મેળવાય છે. Android એપ ડાઉનલોડની લિંક તમને GitHub પર લઈ જાય છે, જ્યાં તેમની પોતાની ગોપનીયતા નીતિ લાગુ પડે છે.'],
+      ['Analytics અને જાહેરાતો', 'આ વેબસાઇટ કોઈ analytics કે જાહેરાત સેવા ઉમેરતી નથી. Google/Firebase, Netlify અને Razorpay પોતાની નીતિઓ હેઠળ ઓળખ, હોસ્ટિંગ અને ચુકવણી માટે ટેકનિકલ માહિતી મેળવી શકે છે. અમારો ઉપયોગ બદલાય તો આ માહિતી અપડેટ થશે.']
     ]:[
       ['No account needed', 'You can read notes without creating an account or giving us your name or email address.'],
-      ['Optional Google sign-in', 'Opening My account or My purchases loads the self-hosted Firebase Authentication client. If you choose to sign in, Google and Firebase process your account identifier, name, email and technical information to authenticate you. Firebase Authentication keeps an account identity record; signing out does not delete that record. This website does not receive your Google password or request Drive access.'],
+      ['Optional Google sign-in', 'Opening My account, My purchases or a paid paper loads the self-hosted Firebase Authentication client. If you choose to sign in, Google and Firebase process your account identifier, name, email and technical information to authenticate you. Firebase Authentication keeps an account identity record; signing out does not delete that record. This website does not receive your Google password or request Drive access.'],
       ['Stored on this device', 'Your language preference and saved units are stored in your browser’s local storage. They do not sync across devices after sign-in. Firebase manages sign-in data in this tab’s session storage, not as a long-term login. Sign out on shared devices; browsers can sometimes restore closed-tab sessions. Signing out here clears this site’s authentication session, not your Google session in other services. Clearing browser data removes locally stored preferences.'],
-      ['Purchases are not active', 'This phase does not collect payments, create purchase records or grant access to paid content. The browser does not load a Firestore, Firebase Storage or Analytics SDK. Signing in is not proof of a purchase.'],
+      ['Purchases and private delivery', 'When live checkout is enabled, Razorpay processes payment information in its secure Checkout. We do not receive or store card details or UPI credentials. The same-origin server verifies your Google ID token and captured payment, then stores your Firebase UID, selected paper, order/payment IDs, amount, status and timestamps in Firestore. Private answers and images are delivered only after server authorization; app-managed storage and logs do not contain your tokens or answer files. The browser does not load a Firestore, Firebase Storage or Analytics SDK. Signing in is not proof of a purchase.'],
       ['Protected test-site check', 'On the protected test site, an approved Google tester can manually run a Firestore connection check. A Firebase ID token goes only to this same site’s server in an Authorization header. The server verifies that identity against the tester UID allowlist, queries at most one test product’s metadata and returns only a safe status. The check does not write records or enable payments. We do not copy tokens, database contents or check results into application storage or logs.'],
-      ['Hosting and external links', 'GitHub Pages hosts this website and its notes and may receive technical information such as IP addresses to operate and secure its service. The paper list is requested from the GitHub API. The Android download link takes you to GitHub, where its own privacy policy applies.'],
-      ['Analytics and advertising', 'This website does not currently include an analytics or advertising service. If that changes, this information will be updated.']
+      ['Hosting and external links', 'GitHub Pages hosts this website and its free notes and may receive technical information such as IP addresses to operate and secure its service. The paper list is requested from the GitHub API. The Android download link takes you to GitHub, where its own privacy policy applies.'],
+      ['Analytics and advertising', 'This website does not add an analytics or advertising service. Google/Firebase, Netlify and Razorpay may process technical information for their authentication, hosting and payment services under their own policies. If our use changes, this information will be updated.']
     ];
     return `${shell(title,intro,[{label:title}])}<section class="page-content"><div class="wrap"><article class="reader-card">${sections.map(([heading,body])=>`<section class="note-section"><h3>${esc(heading)}</h3><p>${esc(body)}</p></section>`).join('')}</article></div></section>`;
   }
@@ -743,13 +936,14 @@
     langButton.innerHTML=lang==='en'?'ગુ <span>/</span> <strong>EN</strong>':'<strong>ગુ</strong> <span>/</span> EN';
   }
   async function render() {
-    const id=++routeCounter;
+    const id=++routeCounter,routeHash=location.hash;
+    privateObserver?.disconnect();privateObserver=null;
     const parts=(location.hash.startsWith('#/')?location.hash.slice(2):'').split('/').map(p=>{try{return decodeURIComponent(p)}catch(_){return ''}});
     const [route,arg,sub]=parts; let html='', bind=null;
     main.innerHTML='<div class="loading-page"><span class="spinner" aria-label="Loading"></span></div>';
     try {
       // Account, setup and privacy screens must work without the public catalog.
-      if(!catalog&&!['account','purchases','test-connection','privacy'].includes(route)) await loadCatalog();
+      if(!catalog&&!['account','purchases','test-connection','privacy','purchase-info'].includes(route)) await loadCatalog();
       if(!route)html=showHome();
       else if(route==='account'||route==='purchases'||route==='test-connection'){html=showAccount(route==='purchases',route==='test-connection');bind=bindAccount;}
       else if(route==='branches'){html=showBranches();bind=bindBranchSearch;}
@@ -759,6 +953,7 @@
       else if(route==='saved')html=showSaved();
       else if(route==='about')html=`${shell(tr('aboutTitle'),tr('aboutText'),[{label:'About'}])}<section class="page-content"><div class="wrap"><div class="reader-card"><p>${esc(tr('aboutNote'))}</p></div></div></section>`;
       else if(route==='privacy')html=showPrivacy();
+      else if(route==='purchase-info')html=showPurchaseInfo();
       else if(route==='subject'&&safeCode(arg)) {
         const meta=subjectMeta(arg);
         if(!meta)html=missing();
@@ -770,18 +965,21 @@
       } else if(route==='paper'&&validPaperCode(arg)&&validPaperSession(sub)) {
         await loadPaperIndex();
         const entry=paperEntries(arg).find(p=>p.session===sub);
-        html=entry?await showPaper(arg,sub,subjectMeta(arg),entry):missing();
-        if(entry)bind=bindPaperReader;
+        const available=entry||!freePaperCodes.has(arg); // Owners can reopen a delisted paid paper.
+        html=available?await showPaper(arg,sub,subjectMeta(arg),entry||{}):missing();
+        if(available)bind=()=>{bindPaperReader();bindPaidPaper(arg,sub);};
       } else if(route==='unit'&&safeCode(arg)&&/^(?:0|[1-9]\d*)$/.test(sub||'')&&subjectMeta(arg)?.status==='available') {
         const [subject,unit]=await Promise.all([fetchJson(`subjects/${arg}.json`),fetchJson(`units/${arg}_u${sub}.json`)]);
         html=showUnit(unit,subject);bind=()=>bindReader(unit,subject);
       } else html=missing();
-      if(id!==routeCounter)return;
+      if(id!==routeCounter||location.hash!==routeHash)return;
       main.innerHTML=html;if(bind)bind();
       document.title=route ? `${main.querySelector('h1')?.textContent || 'Study'} | DiplomaOne`:'DiplomaOne — Your diploma, made simpler';
       document.querySelectorAll('[data-nav]').forEach(a=>a.classList.toggle('active',(route||'home')===a.dataset.nav));
     } catch(error) {
-      console.error(error);if(id!==routeCounter)return;
+      // Paid responses, identity and provider details never enter app logs.
+      if(route!=='paper'&&route!=='purchases')console.error(error);
+      if(id!==routeCounter||location.hash!==routeHash)return;
       main.innerHTML=`<div class="error-page"><h1>${esc(tr('loadError'))}</h1><p>${esc(tr('loadErrorText'))}</p><button type="button" id="retry" class="button-primary">${esc(tr('retry'))}</button></div>`;
       document.querySelector('#retry').addEventListener('click',render);
     }
@@ -789,7 +987,7 @@
   langButton.addEventListener('click',()=>{lang=lang==='en'?'gu':'en';writeStore('diplomaone.website.lang',lang);updateHeader();render();});
   menuButton.addEventListener('click',()=>{const open=mobileNav.hidden;mobileNav.hidden=!open;menuButton.setAttribute('aria-expanded',String(open));});
   mobileNav.addEventListener('click',e=>{if(e.target.closest('a')){mobileNav.hidden=true;menuButton.setAttribute('aria-expanded','false');}});
-  window.addEventListener('hashchange',()=>{resetConnection(true);activeTab='notes';window.scrollTo(0,0);render();});
+  window.addEventListener('hashchange',()=>{resetConnection(true);resetPayments();activeTab='notes';window.scrollTo(0,0);render();});
   startAccount();
   updateHeader();render();
 })();

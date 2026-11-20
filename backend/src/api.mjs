@@ -1,4 +1,4 @@
-import {Problem,PREFIX,MODE,PRICES,MAX_ASSET_BYTES,TEST_SITE_ORIGIN,productPattern,providerOrderPattern,providerPaymentPattern,
+import {Problem,PRICES,MAX_ASSET_BYTES,TEST_SITE_ORIGIN,LIVE_ORIGINS,productPattern,providerOrderPattern,providerPaymentPattern,
   assetPattern,uuidPattern,reject,validSignature,digest,confirmCaptured} from './domain.mjs';
 
 const headers={'Cache-Control':'private, no-store','Vary':'Authorization, Origin',
@@ -22,6 +22,7 @@ async function parseBody(request,keys){
 }
 
 export function createHandler({config,repository,provider,verifyIdentity,assets,connectionCheck,log=()=>{}}){
+  const MODE=config.mode||'test',PREFIX='/api/payments/'+MODE;
   const requireSetup=()=>reject(!config.configured,503,'backend_not_configured');
   async function grant(stored,paymentId,event){
     reject(!stored,404,'order_not_found');
@@ -60,7 +61,8 @@ export function createHandler({config,repository,provider,verifyIdentity,assets,
       if(!stored)return json({mode:MODE,received:true,ignored:true});
       reject(payment.amount!==stored.amount||payment.currency!=='INR'||!Number.isInteger(payment.amount_refunded)||
         payment.amount_refunded<=0,409,'refund_not_confirmed');
-      // Test policy: any confirmed refund revokes test access. No refund API is called.
+      // Fail closed on a confirmed refund; this is access reconciliation, not
+      // a refund-eligibility promise. No money-moving refund API is called.
       await repository.revoke(stored.razorpay_order_id,id,event);
     }else return json({mode:MODE,received:true,ignored:true});
     return json({mode:MODE,received:true});
@@ -72,6 +74,7 @@ export function createHandler({config,repository,provider,verifyIdentity,assets,
       reject(!url.pathname.startsWith(PREFIX+'/')||/%2f|%5c/i.test(url.pathname)||url.search,404,'not_found');
       const methods=['/orders','/verify','/webhook','/connection'].includes(path)?['POST']:['GET'];
       reject(!methods.includes(request.method),405,'method_not_allowed');
+      if(MODE==='live')reject(config.context!=='production'||!LIVE_ORIGINS.includes(url.origin),404,'not_found');
       if(path==='/webhook')return await webhook(request);
       // Same-origin API. No wildcard CORS or token-in-query support. Hosting
       // cookies never authorize application access; Google Bearer tokens do.
@@ -90,7 +93,7 @@ export function createHandler({config,repository,provider,verifyIdentity,assets,
         // This is not a public readiness endpoint. Even an empty query consumes
         // a read; never touch Firestore before Google/UID authorization. POST
         // requires same-origin JSON and cannot be triggered by an image/link.
-        reject(config.context!=='production'||url.origin!==TEST_SITE_ORIGIN,404,'connection_check_unavailable');
+        reject(MODE!=='test'||config.context!=='production'||url.origin!==TEST_SITE_ORIGIN,404,'connection_check_unavailable');
         const user=await verifyIdentity(request.headers.get('authorization'));
         reject(!config.testers.includes(user.uid),403,'tester_not_allowed');
         await parseBody(request,[]);
@@ -100,11 +103,16 @@ export function createHandler({config,repository,provider,verifyIdentity,assets,
         await connectionCheck();
         return json({mode:MODE,database:'firestore',readable:true,readOnly:true,checkoutEnabled:false,paymentsVerified:false});
       }
-      requireSetup();
+      // Existing LIVE purchases remain readable when new checkout is paused or
+      // gateway keys need attention. Provider-backed routes still require keys.
+      if(MODE==='live'&&(path==='/purchases'||path.startsWith('/content/')))
+        reject(!config.firestoreConfigured,503,'backend_not_configured');
+      else requireSetup();
       const user=await verifyIdentity(request.headers.get('authorization'));
-      reject(!config.testers.includes(user.uid),403,'tester_not_allowed');
+      if(MODE==='test')reject(!config.testers.includes(user.uid),403,'tester_not_allowed');
       if(path==='/orders'){
-        reject(!config.enabled,503,'test_checkout_disabled');
+        reject(!config.enabled,503,MODE==='live'?'live_checkout_disabled':'test_checkout_disabled');
+        if(MODE==='live')reject(config.livePilots?.length&&!config.livePilots.includes(user.uid),403,'live_pilot_only');
         const body=await parseBody(request,['productId','requestId']);
         reject(!productPattern.test(body.productId)||!uuidPattern.test(body.requestId),400,'invalid_order_request');
         const product=await repository.product(body.productId);reject(!product,404,'paper_unavailable');
@@ -143,7 +151,7 @@ export function createHandler({config,repository,provider,verifyIdentity,assets,
       if(content){
         const [,id,assetId]=content;reject(!productPattern.test(id),404,'not_found');
         reject(!await repository.owns(user.uid,id),403,'purchase_required');
-        const product=await repository.product(id);reject(!product,404,'paper_unavailable');
+        const product=await repository.product(id,MODE==='live');reject(!product,404,'paper_unavailable');
         if(!assetId)return json({mode:MODE,productId:id,readerAsset:product.reader_asset,
           assets:product.assets.map(({id,path,mime,bytes})=>({id,path,mime,bytes}))});
         const asset=product.assets.find(a=>a.id===assetId&&assetPattern.test(a.id));

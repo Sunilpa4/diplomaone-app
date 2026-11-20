@@ -1,5 +1,5 @@
 // This module is bundled locally. No CDN, Analytics, Firestore, Storage,
-// payments, admin credentials or client-side purchase entitlements are loaded.
+// admin credentials or client-side purchase entitlements are loaded.
 import { initializeApp } from '@firebase/app';
 import {
   initializeAuth, browserSessionPersistence, browserPopupRedirectResolver,
@@ -7,6 +7,7 @@ import {
 } from '@firebase/auth';
 import { firebaseConfig } from './firebase-config.js';
 import { createConnectionCheck } from './connection-check.js';
+import { createPaymentClient } from './payment-client.js';
 
 export function createClient(onUser, onError) {
   const app = initializeApp(firebaseConfig, 'diplomaone-website');
@@ -19,10 +20,17 @@ export function createClient(onUser, onError) {
   });
   const provider = new GoogleAuthProvider();
   provider.setCustomParameters({ prompt: 'select_account' });
-  const connection=createConnectionCheck(()=>auth.currentUser);
-  const unsubscribe = onAuthStateChanged(auth,user=>{connection.cancel();onUser(user);},error=>{connection.cancel();onError?.(error);});
+  const connection=createConnectionCheck(()=>auth.currentUser),payments=createPaymentClient(()=>auth.currentUser);
+  const changed=()=>{connection.cancel();payments.cancel();};
+  const unsubscribe = onAuthStateChanged(auth,user=>{changed();onUser(user);},error=>{changed();onError?.(error);});
   return Object.freeze({
-    dispose(){connection.dispose();unsubscribe();},
+    dispose(){connection.dispose();payments.dispose();unsubscribe();},
+    paymentConfiguration:()=>payments.configuration(),
+    loadPurchases:()=>payments.purchases(),
+    readPurchasedPaper:id=>payments.readPaper(id),
+    readPurchasedAsset:(id,asset)=>payments.readAsset(id,asset),
+    buyPaper:id=>payments.buy(id),
+    cancelPayments:()=>payments.cancel(),
     checkTestConnection:()=>connection.check(),
     cancelTestConnection:()=>connection.cancel(),
     ready: () => auth.authStateReady(),
@@ -33,6 +41,6 @@ export function createClient(onUser, onError) {
       // The returned Google OAuth credential/token never leaves the SDK layer.
       return signInWithPopup(auth, provider).then(() => undefined);
     },
-    signOut(){connection.cancel();return signOut(auth);},
+    signOut(){changed();return signOut(auth);},
   });
 }

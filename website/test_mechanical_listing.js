@@ -4,18 +4,31 @@ const root=path.resolve(__dirname,'..'),base=path.join(root,'papers-upload'),sta
 const audit=JSON.parse(fs.readFileSync(path.join(base,'mechanical-placement-audit.json'),'utf8'));
 const catalog=audit.catalog_snapshot,codes=audit.mechanical_semester_3_codes,newCodes=['DI03000161','DI03000171','DI03000201','DI03019011'];
 const tree={truncated:false,tree:fs.readdirSync(staged,{recursive:true}).filter(rel=>fs.statSync(path.join(staged,rel)).isFile()).map(rel=>({path:'papers/'+rel.split(path.sep).join('/'),type:'blob',mode:'100644'}))};
-const dom=new JSDOM(fs.readFileSync(path.join(__dirname,'index.html'),'utf8'),{url:'https://diplomaone.in/#/branch/mechanical/3',runScripts:'outside-only'}),w=dom.window,requests=[];
+const dom=new JSDOM(fs.readFileSync(path.join(__dirname,'index.html'),'utf8'),{url:'https://www.diplomaone.in/#/branch/mechanical/3',runScripts:'outside-only'}),w=dom.window,requests=[];
+const privateContext=require('./test_private_context'),{createHash}=require('node:crypto');
 w.scrollTo=()=>{};
 w.fetch=async url=>{
  const s=String(url);requests.push(s);
  if(s.startsWith('data/catalog'))return {ok:true,json:async()=>catalog};
  if(s.startsWith('data/subjects/')) {const code=s.split('/').pop().split('?')[0].replace('.json','');return {ok:true,json:async()=>({code,name:catalog.subjects[code]?.name,units:[{no:1,title:{en:'Preserved study notes'}}],available_units:[1]})};}
  if(s.startsWith('https://api.github.com/'))return {ok:true,json:async()=>tree};
- if(s.startsWith('https://sunilpa4.github.io/diplomaone-content/papers/')) {
-  const rel=s.split('/papers/')[1].split('?')[0];assert(!rel.includes('..'));return {ok:true,text:async()=>fs.readFileSync(path.join(staged,rel),'utf8')};
- }
- throw Error('Unexpected request '+s);
+ if(s==='/api/payments/live/config')return {ok:true,json:async()=>({mode:'live',enabled:false})};
+ throw Error('Unexpected/public paid-answer request '+s);
 };
+// Offline authenticated-reader boundary: use the actual staged bytes and
+// private manifest shape, never the old public HTTP reader. Real auth/request/
+// capture boundaries are separately exercised by test_purchase_ui/payments.
+w.DiplomaOneAuth={subscribe(next){next({status:'signed-in',user:{uid:'offline-owner'},busy:null,error:null});},cancelPayments(){},
+ paymentConfiguration:async()=>({ok:true,enabled:false,products:[]}),
+ readPurchasedPaper:async productId=>{
+  const [code,session]=productId.split('--');assert(/^(DI[0-9]{8}|[0-9]{7})$/.test(code));assert(/^[a-z]+-\d{4}$/.test(session));
+  const html=fs.readFileSync(path.join(staged,code,session+'.html'),'utf8'),context=privateContext(html,code,session);
+  for(const suffix of ['.pdf','.solution.pdf']){
+   const filename=session+suffix,file=path.join(staged,code,filename);
+   if(fs.existsSync(file)){const bytes=fs.readFileSync(file);context.assets.push({id:createHash('sha256').update(bytes).digest('hex'),path:filename,mime:'application/pdf',bytes:bytes.length});}
+  }
+  return {ok:true,productId,html,...context};
+ },readPurchasedAsset:async()=>({ok:false,code:'payments_unavailable'})};
 w.eval(fs.readFileSync(process.argv[2]||path.join(__dirname,'app.js'),'utf8'));
 const wait=async fn=>{for(let i=0;i<150;i++){if(fn())return;await new Promise(r=>setTimeout(r,10));}throw Error('Render timed out: '+w.document.querySelector('#main').textContent.slice(0,200));};
 async function go(hash,selector){const before=w.document.querySelector('.page-title');w.location.hash=hash;await wait(()=>w.document.querySelector('.page-title')!==before&&w.document.querySelector(selector));}
@@ -37,9 +50,10 @@ const linked=()=>[...w.document.querySelectorAll('#paper-results a[href^="#/pape
  await go('#/paper/DI03000161/winter-2025','.solved-paper details.card');
  assert.equal(w.document.querySelectorAll('details.card').length,28);
  assert(w.document.querySelector('.solved-paper').textContent.includes('original Winter 2025 question PDF was not found'));
- assert(!w.document.querySelector('.paper-downloads a'),'do not link a legacy Summer original to the new Winter exam');
+ assert(!w.document.querySelector('[data-private-download]'),'do not link a legacy Summer original to the new Winter exam');
  await go('#/paper/DI03000161/summer-2026','.solved-paper details.card');
- assert(w.document.querySelector('.paper-downloads a[href$="/DI03000161/summer-2026.pdf"]'));
+ assert(w.document.querySelector('[data-private-download][data-download-name="summer-2026.pdf"]'));
+ assert(!w.document.querySelector('.paper-downloads a[href^="https:"]'),'PDF access must remain private');
  assert(w.document.querySelector('.solved-paper').textContent.includes('Q1(a) and Q1(b) are common parts, shown once'));
  assert.equal(w.document.querySelectorAll('details.card').length,28,'do not duplicate common Q1 parts');
  const answerText=()=>{const copy=w.document.querySelector('details.card .answer').cloneNode(true);copy.querySelectorAll('button').forEach(b=>b.remove());return copy.textContent;};

@@ -3,7 +3,8 @@
 
 The Netlify rewrite serves published note data at /data/. The in-site paper
 reader fetches and sanitizes individual question cards and scoped image assets;
-PDFs stay optional downloads, never frames. Legacy paper URLs redirect.
+PDFs stay optional downloads, never frames. Only the two free subjects' legacy
+paper URLs redirect publicly. Paid readers require the separate same-origin API.
 """
 from pathlib import Path
 from zipfile import ZipFile, ZipInfo, ZIP_DEFLATED
@@ -14,7 +15,9 @@ SITE = ROOT / 'website'
 CONTENT_BASE = 'https://sunilpa4.github.io/diplomaone-content'
 REDIRECTS = (
     f'/data/*  {CONTENT_BASE}/data/:splat  200\n'
-    f'/papers/*  {CONTENT_BASE}/papers/:splat  302\n'
+    f'/papers/DI01000021/*  {CONTENT_BASE}/papers/DI01000021/:splat  302\n'
+    f'/papers/DI01000121/*  {CONTENT_BASE}/papers/DI01000121/:splat  302\n'
+    '/papers/*  /index.html  404\n'
 )
 
 
@@ -31,11 +34,11 @@ def build_package(destination):
     index = replace_once(index, 'href="app/"', f'href="{CONTENT_BASE}/app/"')
     app = (SITE / 'app.js').read_text(encoding='utf-8')
     app = replace_once(app,
-        'GitHub Pages hosts this website and its notes and may receive technical information such as IP addresses to operate and secure its service.',
-        'Netlify hosts this website. Notes and solved paper content are loaded from GitHub Pages; original paper PDFs open there. These service providers may receive technical information such as IP addresses to operate and secure their services.')
+        'GitHub Pages hosts this website and its free notes and may receive technical information such as IP addresses to operate and secure its service.',
+        'Netlify hosts this website and its same-origin payment API/private delivery. Free notes, Maths-I and Applied Physics are loaded from GitHub Pages. Paid answers never fall back to public files. These service providers may receive technical information such as IP addresses to operate and secure their services.')
     app = replace_once(app,
-        'GitHub Pages આ સાઇટ અને નોટ્સ હોસ્ટ કરે છે અને સેવા તથા સુરક્ષા માટે IP એડ્રેસ જેવી ટેકનિકલ માહિતી મેળવી શકે છે.',
-        'Netlify આ વેબસાઇટ હોસ્ટ કરે છે. નોટ્સ અને ઉકેલેલા પેપર GitHub Pages પરથી લોડ થાય છે; મૂળ પ્રશ્નપત્રની PDF ત્યાં ખુલે છે. સેવા અને સુરક્ષા માટે આ સેવા પ્રદાતાઓ IP એડ્રેસ જેવી ટેકનિકલ માહિતી મેળવી શકે છે.')
+        'GitHub Pages આ સાઇટ અને મફત નોટ્સ હોસ્ટ કરે છે અને સેવા તથા સુરક્ષા માટે IP એડ્રેસ જેવી ટેકનિકલ માહિતી મેળવી શકે છે.',
+        'Netlify આ વેબસાઇટ અને આ જ સાઇટની ચુકવણી API/ખાનગી સામગ્રી હોસ્ટ કરે છે. મફત નોટ્સ, Maths-I અને Applied Physics GitHub Pages પરથી આવે છે. ચૂકવેલા જવાબ માટે જાહેર ફાઇલનો વિકલ્પ વપરાતો નથી. સેવા અને સુરક્ષા માટે આ સેવા પ્રદાતાઓ IP એડ્રેસ જેવી ટેકનિકલ માહિતી મેળવી શકે છે.')
     with ZipFile(destination, 'w', compression=ZIP_DEFLATED, compresslevel=9) as archive:
         def write_text(name, content):
             entry = ZipInfo(name)

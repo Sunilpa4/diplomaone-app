@@ -9,11 +9,14 @@ function identity(uid){reject(typeof uid!=='string'||!uid||uid.length>128,400,'i
 function productId(id){reject(typeof id!=='string'||!productPattern.test(id)||id.includes('/')||id.trim()!==id,400,'invalid_product');}
 function eventCheck(stored,event){reject(stored&&stored.body_hash!==event.hash,409,'event_id_conflict');}
 
-// All durable state lives under one TEST namespace. No SQL service, in-memory
-// production fallback, background scan, collection-group query or live records.
+// TEST and LIVE use separate fixed namespaces. No SQL service, in-memory
+// production fallback, background scan or collection-group query.
 // Every transaction reads before writing; retries do not call Razorpay/storage.
 export class Repository {
-  constructor(firestore,{clock=()=>Date.now()}={}){this.db=firestore;this.root=firestore.doc(FIRESTORE_ROOT);this.clock=clock;}
+  constructor(firestore,{clock=()=>Date.now(),mode='test'}={}){
+    reject(!['test','live'].includes(mode),503,'invalid_payment_mode');
+    this.db=firestore;this.mode=mode;this.root=firestore.doc(mode==='live'?'diplomaone_live/v1':FIRESTORE_ROOT);this.clock=clock;
+  }
   collection(name){return this.root.collection(name);}
   ownerRef(uid,id){identity(uid);productId(id);return this.collection('users').doc(hash(uid)).collection('purchases').doc(id);}
   activeRef(uid,id){return this.collection('activeOrders').doc(hash(uid,id));}
@@ -24,9 +27,9 @@ export class Repository {
     reject(result.docs.length>100,503,'pilot_catalog_limit');
     return result.docs.map(doc=>validateProduct({...doc.data(),id:doc.id})).sort((a,b)=>a.id.localeCompare(b.id));
   }
-  async product(id){
+  async product(id,includeInactive=false){
     productId(id);const stored=data(await this.collection('products').doc(id).get());
-    return stored?.active===true?validateProduct({...stored,id}):null;
+    return stored&&(stored.active===true||includeInactive)?validateProduct({...stored,id}):null;
   }
   async importProduct(product){
     const p=validateProduct(product),ref=this.collection('products').doc(p.id),paths=new Set();
@@ -72,8 +75,8 @@ export class Repository {
       const global=data(await tx.get(globalRef)),user=data(await tx.get(userRef)),now=this.clock();
       // Bounded rolling timestamp arrays: no paid count query or growing scan.
       const recent=(global?.times||[]).filter(t=>t>now-86400000),mine=(user?.times||[]).filter(t=>t>now-3600000);
-      reject(recent.length>=50||mine.length>=5,429,'test_order_limit');
-      const order={id,uid,product_id:canonical.id,request_id:requestId,receipt:'dt_'+id.replaceAll('-',''),
+      reject(recent.length>=50||mine.length>=5,429,this.mode==='live'?'order_limit':'test_order_limit');
+      const order={id,uid,product_id:canonical.id,request_id:requestId,receipt:(this.mode==='live'?'dl_':'dt_')+id.replaceAll('-',''),
         amount:canonical.amount,currency:'INR',title:canonical.title,branch:canonical.branch,
         status:'reserving',razorpay_order_id:null,payment_id:null,created_at:now,paid_at:null};
       tx.create(orderRef,order);
@@ -145,7 +148,7 @@ export class Repository {
         created_at:owner?.active===true?owner.created_at:now});
       if(active?.order_id===stored.id)tx.delete(activeRef);
       if(event&&!eventData)tx.create(eventRef,{body_hash:event.hash,created_at:now});
-      return {productId:stored.product_id,owned:!revoke,mode:'test'};
+      return {productId:stored.product_id,owned:!revoke,mode:this.mode};
     });
   }
   grant(orderId,paymentId,event=null){return this.settle(orderId,paymentId,event,false);}

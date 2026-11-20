@@ -46,8 +46,8 @@ async function layout(page,label){
       if(width===1365||width===390)await page.screenshot({path:path.join(out,label.replace(' ','-')+'-signed-out.png'),fullPage:true});
       // Check an actionable, translated popup error before a successful mock sign-in.
       await page.evaluate(()=>window.__accountFixture.error='auth/popup-blocked');await page.locator('#account-signin').click();
-      await page.locator('[role="alert"]').waitFor();
-      assert((await page.locator('[role="alert"]').textContent()).includes(language==='en'?'Allow pop-ups':'પોપ-અપને મંજૂરી'));
+      await page.locator('.account-card [role="alert"]').waitFor();
+      assert((await page.locator('.account-card [role="alert"]').textContent()).includes(language==='en'?'Allow pop-ups':'પોપ-અપને મંજૂરી'));
       assert(!(await page.locator('main').textContent()).includes('NEVER-RENDER'));
       await page.evaluate(()=>window.__accountFixture.error=null);await page.locator('#account-signin').click();
       await page.locator('#account-signout').waitFor();
@@ -57,12 +57,13 @@ async function layout(page,label){
       assert(!(await page.locator('main').textContent()).includes('PRIVATE-UID'));assert.equal(await page.locator('main img').count(),0);
       await layout(page,label+' signed in');
       if(width===1365||width===390)await page.screenshot({path:path.join(out,label.replace(' ','-')+'-signed-in.png'),fullPage:true});
-      await page.locator('main a[href="#/purchases"]').click();
+      await page.locator('.account-actions a[href="#/purchases"]').click();
       await page.waitForFunction(()=>location.hash==='#/purchases'&&!!document.querySelector('#account-signout'));
-      assert((await page.locator('main').textContent()).includes(language==='en'?'Purchases are not enabled yet':'ખરીદી હજી શરૂ થઈ નથી'));
+      await page.locator('[data-purchases-panel]').waitFor();
+      assert((await page.locator('main').textContent()).includes(language==='en'?'Only server-confirmed purchases appear here':'માત્ર સર્વરે પુષ્ટિ કરેલી ખરીદી અહીં દેખાય છે'));
       assert.equal(await page.locator('[data-checkout],form,input,iframe').count(),0);await layout(page,label+' purchases');
       await page.evaluate(()=>window.__accountFixture.error='auth/network-request-failed');await page.locator('#account-signout').click();
-      await page.locator('[role="alert"]').waitFor();assert.equal(await page.locator('.account-details dd').first().textContent(),'student@example.test');
+      await page.locator('.account-card [role="alert"]').waitFor();assert.equal(await page.locator('.account-details dd').first().textContent(),'student@example.test');
       await page.evaluate(()=>window.__accountFixture.error=null);await page.locator('#account-signout').click();
       await page.locator('#account-signin').waitFor();await page.waitForFunction(()=>document.activeElement?.id==='account-signin');
       assert(!(await page.locator('main').textContent()).includes('student@example.test'));
@@ -88,8 +89,8 @@ async function layout(page,label){
       await page.addInitScript(()=>{window.__accountCsp=[];document.addEventListener('securitypolicyviolation',e=>window.__accountCsp.push(e.violatedDirective+':'+e.blockedURI));});
       await page.goto(base+'/#/account');await page.waitForFunction(()=>document.querySelector('#account-signin')?.disabled===false);
       assert.equal(await page.evaluate(()=>window.DiplomaOneAuth.snapshot().status),'signed-out');
-      await page.locator('#account-signin').click();await page.locator('[role="alert"]').waitFor();
-      const alert=await page.locator('[role="alert"]').textContent();
+      await page.locator('#account-signin').click();await page.locator('.account-card [role="alert"]').waitFor();
+      const alert=await page.locator('.account-card [role="alert"]').textContent();
       // Firebase reports an aborted GAPI <script> load as internal-error.
       assert(alert.includes('auth/internal-error')&&alert.includes('content blocker'),alert+'; external requests: '+external.map(url=>new URL(url).origin).join(', '));
       assert(external.some(url=>url.startsWith('https://apis.google.com/')),'real SDK requests GAPI at its allowed host');

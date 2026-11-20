@@ -1,5 +1,13 @@
 # Solved-paper upload batches
 
+## Current security migration — NOT yet private
+
+The provenance/content records below describe earlier public uploads. Current paid paper/source bytes in this folder remain publicly retrievable until the owner verifies private backup/import and explicitly migrates them out of public source and deployment. Keeping these originals for now prevents unverified destructive loss, but **sales must stay OFF**; hiding links or copying to private Blobs does not secure Git history, releases or downloaded copies. No Drive item is changed.
+
+The automatic public publisher now copies **only Maths-I `DI01000021`, Applied Physics `DI01000121`, and tiny private-paper listing JSON**. It can no longer publish branch-specific HTML, images or PDFs, even with a replacement manifest. Existing paid public files are not silently deleted. Use **[backend/LIVE-LAUNCH.md](../backend/LIVE-LAUNCH.md)**, `npm run prepare:live-papers` (offline/no-write by default), explicit `--mode=live` owner import and `npm run audit:public-papers` for the migration. Original cards, answers, languages, code/session identities and diagrams must be retained privately; never replace them with a direct PDF.
+
+## Historical upload/provenance record
+
 ## Original seven Summer 2026 HTML sets
 
 These files came from the owner's `papers-manual-upload.zip` in Google Drive. The original GTU question PDFs are unchanged. The supplied solution HTML is retained, except that the primary Q1(c) in DI04000241 and DI04000251 was incorrectly labelled “OR”; the English and Gujarati labels were corrected against the original PDFs (including the Gujarati alternative marker in DI04000251). No other answer changes were made.

@@ -122,11 +122,11 @@ test('read-only browser probe query leaves all product/order/purchase records un
 
 test('actual emulator denies anonymous and signed-in browser writes/reads to purchase records',{skip:!usingEmulator},async()=>{
   const base='http://'+process.env.FIRESTORE_EMULATOR_HOST+'/v1/projects/'+DEMO_PROJECT+'/databases/(default)/documents/';
-  const url=base+repository.ownerRef('alice',id).path;
+  const urls=[base+repository.ownerRef('alice',id).path,base+new Repository(database,{mode:'live'}).ownerRef('alice',id).path];
   const now=Math.floor(Date.now()/1000),encode=value=>Buffer.from(JSON.stringify(value)).toString('base64url');
   const token=encode({alg:'none',typ:'JWT'})+'.'+encode({iss:'https://securetoken.google.com/'+DEMO_PROJECT,aud:DEMO_PROJECT,
     sub:'alice',user_id:'alice',iat:now,exp:now+3600,auth_time:now,firebase:{sign_in_provider:'google.com'}})+'.';
-  for(const headers of [{},{Authorization:'Bearer '+token}]){
+  for(const url of urls)for(const headers of [{},{Authorization:'Bearer '+token}]){
     const read=await fetch(url,{headers});assert.equal(read.status,403);
     const write=await fetch(url,{method:'PATCH',headers:{...headers,'Content-Type':'application/json'},body:JSON.stringify({fields:{active:{booleanValue:true}}})});
     assert.equal(write.status,403);

@@ -8,6 +8,7 @@ const app=fs.readFileSync(process.argv[2]||path.join(__dirname,'app.js'),'utf8')
 shell.window.eval(app.replace(hook,'  globalThis.testAPI={sanitizePaper,papersFromTree};\n})();'));
 const parse=html=>new shell.window.DOMParser().parseFromString(html,'text/html');
 const norm=x=>x.replace(/\s+/g,' ').trim();
+const privateContext=require('./test_private_context');
 const pdf=JSON.parse(fs.readFileSync(path.join(upload,'pdf-card-manifest.json'),'utf8')).papers;
 const electrical=JSON.parse(fs.readFileSync(path.join(upload,'electrical-card-manifest.json'),'utf8')).papers;
 assert.equal(pdf.length,37);assert.equal(electrical.length,12);
@@ -19,7 +20,8 @@ for(const record of [...pdf,...electrical]) {
  for(const language of ['en','gu']) {
   const expected=parse(html).querySelector('main');
   expected.querySelectorAll(language==='en'?'.gu':'.en').forEach(e=>e.remove());
-  const doc=parse(shell.window.testAPI.sanitizePaper(html,language,{code,session}));
+  const context=privateContext(html,code,session);
+  const doc=parse(shell.window.testAPI.sanitizePaper(html,language,context));
   assert.equal(doc.querySelectorAll('section').length,5,record.paper+' '+language);
   const cards=[...doc.querySelectorAll('details.card')];assert.equal(cards.length,record.questions.length,record.paper+' '+language);
   doc.querySelectorAll('.paper-source-notes-title').forEach(e=>e.remove()); // trusted reader control, not supplied answer text
@@ -31,7 +33,10 @@ for(const record of [...pdf,...electrical]) {
   assert.equal(images.length,originalImages.length,record.paper+' '+language+' lost image');
   images.forEach((img,i)=>{
    const relative=originalImages[i].getAttribute('src');
-   assert.equal(img.src,`https://sunilpa4.github.io/diplomaone-content/papers/${code}/${relative}`);
+   if(context.private){
+    assert.equal(img.getAttribute('src'),null,'paid images must never use a public URL');
+    assert.equal(img.dataset.privateAsset,context.assets.find(a=>a.path===relative).id);
+   }else assert.equal(img.src,`https://sunilpa4.github.io/diplomaone-content/papers/${code}/${relative}`);
    assert(record.assets.some(a=>a.path===`${code}/${relative}`),record.paper+' image not audited');
    assert(fs.existsSync(path.join(upload,'papers',code,relative)));
    assert.equal(img.getAttribute('loading'),'lazy');

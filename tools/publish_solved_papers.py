@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
-"""Publish compatible paper sets, preserving all unreviewed existing bytes.
+"""Publish FREE paper sets and private-paper listing metadata only.
 
+Paid answer bytes are never copied by the public CLI. Existing public copies
+need a separate verified private migration and cleanup before sales can open.
 All files, pairs, scoped assets and destinations are checked before any write.
 A differing HTML reader may be replaced only with an explicitly passed review
 manifest pinning BOTH its previous and incoming SHA-256 hashes. Original PDFs
@@ -249,8 +251,12 @@ def prepare(source, site, missing_originals=None, replacements=None):
     return files
 
 
-def publish(source, site, missing_originals=None, replacements=None):
-    files = prepare(source, site, missing_originals, replacements)
+def stage_reviewed_files(source, site, missing_originals=None, replacements=None):
+    """Private/offline compatibility staging, NOT the public CLI publisher."""
+    return _copy_files(prepare(source, site, missing_originals, replacements))
+
+
+def _copy_files(files):
     changed = []
     for src, target in files:
         exists = target.exists()
@@ -264,6 +270,47 @@ def publish(source, site, missing_originals=None, replacements=None):
     return changed
 
 
+FREE_PUBLIC_CODES = frozenset({'DI01000021', 'DI01000121'})
+
+
+def publish(source, site, missing_originals=None, replacements=None):
+    """Public-safe only: free papers + filename-sized private product metadata.
+
+    No flag can publish branch-specific answer HTML, images or PDFs. Existing
+    public copies are NOT silently deleted: verified private import and an owner
+    audit/cleanup are separate launch prerequisites; Git history remains public.
+    """
+    files = prepare(source, site, missing_originals, replacements)
+    root = Path(source).resolve()
+    free, metadata = [], {}
+    for src, target in files:
+        rel = src.relative_to(root)
+        if rel.parts[0] in FREE_PUBLIC_CODES:
+            free.append((src, target))
+        elif len(rel.parts) == 2:
+            name = rel.parts[1]
+            kind = '.solution.pdf' if name.endswith('.solution.pdf') else src.suffix
+            session = name[:-len(kind)]
+            destination = target.parent / (session + '.json')
+            item = {'version': 1, 'private': True, 'id': rel.parts[0] + '--' + session}
+            if destination.is_symlink() or (destination.exists() and not destination.is_file()):
+                raise ValueError('Unsafe private listing metadata target')
+            if destination.exists():
+                existing = json.loads(destination.read_text(encoding='utf-8'))
+                if (not isinstance(existing, dict) or any(existing.get(k) != v for k, v in item.items())
+                        or not set(existing) <= {'version', 'private', 'id', 'title', 'branch', 'amount', 'currency'}):
+                    raise ValueError('Unreviewed existing private listing metadata')
+            else:
+                metadata[destination] = item
+    # Everything, including all metadata targets, was validated before writing.
+    changed = _copy_files(free)
+    for destination, item in sorted(metadata.items()):
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_text(json.dumps(item, separators=(',', ':')) + '\n', encoding='utf-8')
+        changed.append(destination)
+    return changed
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('source', type=Path)
@@ -271,4 +318,4 @@ if __name__ == '__main__':
     parser.add_argument('--missing-originals', type=Path, help='Explicit manifest of reviewed solutions without an original PDF')
     parser.add_argument('--replacements', type=Path, help='Reviewed HTML replacements pinning old/new hashes; no general overwrite flag')
     args = parser.parse_args()
-    print(f'{len(publish(args.source, args.site, args.missing_originals, args.replacements))} files added or explicitly replaced; other existing files preserved.')
+    print(f'{len(publish(args.source, args.site, args.missing_originals, args.replacements))} free files/private listing records added; paid answers were not published. Existing public copies still require migration.')

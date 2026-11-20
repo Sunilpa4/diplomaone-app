@@ -23,7 +23,7 @@ const artifact=archives[0];
 assert.equal(artifact.name,'payments');assert.equal(artifact.runtimeAPIVersion,2);
 assert.equal(artifact.runtimeVersion,'nodejs22.x');
 assert.equal(artifact.entryFilename,'___netlify-entry-point.mjs');
-assert(artifact.routes.some(route=>route.pattern==='/api/payments/test/*'));
+assert(artifact.routes.some(route=>route.pattern==='/api/payments/*'));
 console.log(`Actual Netlify packager selected ${artifact.bundler} (${artifact.bundlerReason||'v2'}); archive ${artifact.size} bytes`);
 
 const isolated=await mkdtemp(path.join(tmpdir(),'diplomaone-netlify-artifact-'));
@@ -52,7 +52,9 @@ with ZipFile(sys.argv[1]) as z:
     PAYMENTS_TEST_ENABLED:'false',PAYMENTS_PRIVATE_MIGRATION_CONFIRMED:'false'};
   const cases=[{name:'no-secret',env:baseEnv},{name:'firestore-only-disabled',env:firestoreEnv},
     {name:'configured-disabled',env:{...firestoreEnv,RAZORPAY_KEY_ID:'rzp_test_UnitFixture12345',
-      RAZORPAY_KEY_SECRET:'unit-fixture-key-secret-not-real',RAZORPAY_WEBHOOK_SECRET:'unit-fixture-webhook-secret-not-real-0000'}}];
+      RAZORPAY_KEY_SECRET:'unit-fixture-key-secret-not-real',RAZORPAY_WEBHOOK_SECRET:'unit-fixture-webhook-secret-not-real-0000'}},
+    {name:'live-configured-disabled',env:{...firestoreEnv,RAZORPAY_LIVE_KEY_ID:'rzp_live_UnitFixture12345',
+      RAZORPAY_LIVE_KEY_SECRET:'unit-live-fixture-not-real-0000',RAZORPAY_LIVE_WEBHOOK_SECRET:'unit-live-webhook-fixture-not-real-0000'}}];
   for(const scenario of cases){
     const result=spawnSync(process.execPath,[path.join(root,'backend/scripts/smoke-artifact.mjs'),isolated,scenario.name],
       {cwd:isolated,encoding:'utf8',env:scenario.env,timeout:20000});

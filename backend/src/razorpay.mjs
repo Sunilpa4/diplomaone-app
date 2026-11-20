@@ -1,8 +1,11 @@
 import {Problem,reject,providerOrderPattern,providerPaymentPattern} from './domain.mjs';
 
-// REST calls are server-side only. Test keys are mandatory, never a live fallback.
+// Server-side only. Explicit mode-specific credentials; NEVER a mode fallback.
 export function razorpayClient(config,fetcher=fetch){
-  reject(!/^rzp_test_[A-Za-z0-9]+$/.test(config.keyId)||!config.keySecret,503,'test_keys_required');
+  const live=config.mode==='live';
+  reject((config.mode!==undefined&&!['test','live'].includes(config.mode))||
+    !(live?/^rzp_live_[A-Za-z0-9]+$/:/^rzp_test_[A-Za-z0-9]+$/).test(config.keyId)||!config.keySecret,
+    503,live?'live_keys_required':'test_keys_required');
   const authorization='Basic '+Buffer.from(config.keyId+':'+config.keySecret).toString('base64');
   async function request(path,body){
     let response;
@@ -17,6 +20,7 @@ export function razorpayClient(config,fetcher=fetch){
     createOrder:stored=>request('orders',{amount:stored.amount,currency:'INR',receipt:stored.receipt,partial_payment:false}),
     order(id){reject(!providerOrderPattern.test(id),400,'invalid_order');return request('orders/'+id);},
     payment(id){reject(!providerPaymentPattern.test(id),400,'invalid_payment');return request('payments/'+id);},
-    // No capture, refund, payout or live-money API is implemented in this phase.
+    // No manual capture, refund, payout or arbitrary money-moving API. The
+    // merchant must configure automatic full capture before opening sales.
   };
 }

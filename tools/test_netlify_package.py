@@ -22,7 +22,9 @@ class NetlifyPackageTest(unittest.TestCase):
                 self.assertEqual(z.read('_redirects').decode(), REDIRECTS)
                 self.assertEqual(REDIRECTS.splitlines(), [
                     f'/data/*  {CONTENT_BASE}/data/:splat  200',
-                    f'/papers/*  {CONTENT_BASE}/papers/:splat  302',
+                    f'/papers/DI01000021/*  {CONTENT_BASE}/papers/DI01000021/:splat  302',
+                    f'/papers/DI01000121/*  {CONTENT_BASE}/papers/DI01000121/:splat  302',
+                    '/papers/*  /index.html  404',
                 ])
                 packaged_app = Path(tmp) / 'packaged-app.js'
                 packaged_app.write_bytes(z.read('app.js'))
@@ -45,11 +47,11 @@ class NetlifyPackageTest(unittest.TestCase):
                 packaged_html = z.read('index.html').decode()
                 self.assertIn(f'href="{CONTENT_BASE}/app/"', packaged_html)
                 self.assertIn('src="auth.js" defer', packaged_html)
-                self.assertIn('frame-src https://diplomaone-53b4e.firebaseapp.com/__/auth/;', packaged_html)
+                self.assertIn('frame-src https://diplomaone-53b4e.firebaseapp.com/__/auth/ https://api.razorpay.com https://checkout.razorpay.com;', packaged_html)
                 self.assertIn("object-src 'none';", packaged_html)
                 self.assertNotIn('<iframe', packaged_html)
                 self.assertNotIn('unsafe-eval', packaged_html)
-                self.assertIn("img-src 'self' data: https://sunilpa4.github.io/diplomaone-content/papers/;", packaged_html)
+                self.assertIn("img-src 'self' data: blob: https://sunilpa4.github.io/diplomaone-content/papers/;", packaged_html)
                 packaged_js = z.read('app.js').decode()
                 self.assertIn('Netlify hosts this website', packaged_js)
                 self.assertNotIn('paperPdfCard', packaged_js)

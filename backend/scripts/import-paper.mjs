@@ -7,20 +7,23 @@ import {firestoreDatabase} from '../src/firestore.mjs';
 import {PRIVATE_STORE} from '../src/assets.mjs';
 
 const args=process.argv.slice(2),apply=args.includes('--apply'),file=args.find(a=>!a.startsWith('--'));
-if(!file||args.some(a=>a.startsWith('--')&&a!=='--apply')){
-  console.error('Usage: npm run import:paper -- /PRIVATE/path/paper.json [--apply]');process.exitCode=1;
+const modes=args.filter(a=>a.startsWith('--mode=')),mode=modes[0]?.slice(7)||'test';
+if(!file||modes.length>1||!['test','live'].includes(mode)||args.some(a=>a.startsWith('--')&&a!=='--apply'&&!a.startsWith('--mode='))){
+  console.error('Usage: npm run import:paper -- /PRIVATE/path/paper.json [--mode=test|live] [--apply]');process.exitCode=1;
 }else{
   let database;
   try{
     const prepared=await prepareImport(file);
-    console.log(JSON.stringify({mode:'test',dryRun:!apply,productId:prepared.product.id,
+    console.log(JSON.stringify({mode,dryRun:!apply,productId:prepared.product.id,
       assets:prepared.files.length,bytes:prepared.files.reduce((n,f)=>n+f.bytes,0)}));
     if(apply){
+      if(mode==='live'&&process.env.PAYMENTS_LIVE_IMPORT_CONFIRMED!=='true')throw Error('Explicit live import approval required');
       for(const name of ['NETLIFY_SITE_ID','NETLIFY_AUTH_TOKEN'])if(!process.env[name])throw Error('Owner environment required');
       database=firestoreDatabase();
-      const store=getStore({name:PRIVATE_STORE,siteID:process.env.NETLIFY_SITE_ID,token:process.env.NETLIFY_AUTH_TOKEN,consistency:'strong'});
-      await applyImport(prepared,{store,repository:new Repository(database)});
-      console.log('Private test import verified. Checkout remains controlled by separate server flags.');
+      const store=getStore({name:mode==='live'?'diplomaone-private-live':PRIVATE_STORE,
+        siteID:process.env.NETLIFY_SITE_ID,token:process.env.NETLIFY_AUTH_TOKEN,consistency:'strong'});
+      await applyImport(prepared,{store,repository:new Repository(database,{mode})});
+      console.log('Private '+mode+' import verified. Checkout remains controlled by separate server flags.');
     }
   }catch(_){console.error('Import did not complete. Check the private manifest, owner environment and storage/database configuration. No credentials are logged.');process.exitCode=1;}
   finally{await database?.terminate();}

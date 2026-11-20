@@ -9,6 +9,7 @@ const shell=new JSDOM('<main id="main"></main><span id="year"></span><button id=
 const app=fs.readFileSync(process.argv[2]||path.join(root,'website/app.js'),'utf8'),hook='  updateHeader();render();\n})();';assert.equal(app.split(hook).length,2);
 shell.window.eval(app.replace(hook,'  globalThis.testAPI={sanitizePaper};\n})();'));
 const parse=html=>new shell.window.DOMParser().parseFromString(html,'text/html');
+const privateContext=require('../website/test_private_context');
 const sources=JSON.parse(fs.readFileSync(path.join(base,'mechanical-refresh-sources.json'),'utf8')).sources;
 const manifest=JSON.parse(fs.readFileSync(path.join(base,'mechanical-refresh-manifest.json'),'utf8')).papers;
 const replacements=JSON.parse(fs.readFileSync(path.join(base,'reviewed-paper-replacements.json'),'utf8'));
@@ -35,7 +36,7 @@ for(const source of sources) {
    const image=fs.readFileSync(path.join(base,'papers',asset.path));assert.equal(hash(image),asset.sha256);assert.equal(image.readUInt32BE(16),asset.width);assert.equal(image.readUInt32BE(20),asset.height);
   }
   for(const language of ['en','gu']) {
-   const doc=parse(shell.window.testAPI.sanitizePaper(html,language,{code:source.code,session}));
+   const doc=parse(shell.window.testAPI.sanitizePaper(html,language,privateContext(html,source.code,session)));
    const cards=[...doc.querySelectorAll('details.card')];assert.equal(cards.length,28);assert.equal(doc.querySelectorAll('section').length,5);
    assert(doc.body.textContent.includes('English only'),'do not invent a Gujarati translation');
    assert.equal(doc.querySelectorAll('svg,script,iframe,object,embed,button').length,0);
@@ -48,7 +49,8 @@ for(const source of sources) {
      assert(norm(got.querySelector('summary').textContent).includes(norm(before.querySelector('.marks').textContent)),'marks retained');
      const expected=[...before.querySelectorAll('.answer-body img')],images=[...after.querySelectorAll('img')];assert.equal(images.length,expected.length);
      images.forEach((img,j)=>{
-      const rel=img.src.split('/papers/')[1],asset=assetMap.get(rel);assert(asset,'unscoped or unaudited diagram');
+      assert.equal(img.getAttribute('src'),null,'no public image fallback for paid papers');
+      const asset=[...assetMap.values()].find(a=>a.sha256===img.dataset.privateAsset);assert(asset,'unscoped or unaudited private diagram');
       const svg=Buffer.from(expected[j].getAttribute('src').split(',')[1],'base64');assert.equal(hash(svg),asset.source_svg_sha256,'wrong diagram');
      });
     }

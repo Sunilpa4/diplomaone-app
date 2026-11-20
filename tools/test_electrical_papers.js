@@ -8,6 +8,7 @@ const shell=new JSDOM('<main id="main"></main><span id="year"></span><button id=
 const app=fs.readFileSync(path.join(root,'website/app.js'),'utf8'),hook='  updateHeader();render();\n})();';assert.equal(app.split(hook).length,2);
 shell.window.eval(app.replace(hook,'  globalThis.testAPI={sanitizePaper};\n})();'));
 const parse=html=>new shell.window.DOMParser().parseFromString(html,'text/html'),norm=x=>x.replace(/\s+/g,' ').trim();
+const privateContext=require('../website/test_private_context');
 const records=JSON.parse(fs.readFileSync(path.join(base,'electrical-card-manifest.json'),'utf8')).papers;
 for(const {paper} of records) {
  const [code,session]=paper.split('/'),split=['DI01000081','DI01009011'].includes(code);
@@ -15,7 +16,7 @@ for(const {paper} of records) {
  for(const language of ['en','gu']) {
   const original=parse(fs.readFileSync(path.join(base,'originals',code,`summer-2026.${split?language:'bilingual'}.html`),'utf8'));
   original.querySelectorAll(language==='en'?'.gu':'.en').forEach(e=>e.remove());
-  const safe=parse(shell.window.testAPI.sanitizePaper(reader,language,{code,session}));
+  const safe=parse(shell.window.testAPI.sanitizePaper(reader,language,privateContext(reader,code,session)));
   const got=[...safe.querySelectorAll('details.card')],expected=[...original.querySelectorAll('main details')];
   assert.equal(got.length,28);assert.equal(expected.length,28);
   got.forEach((card,i)=>{

@@ -1,12 +1,14 @@
 import {productionHandler} from '../../backend/src/runtime.mjs';
-let handler;
+const handlers=new Map();
 export default async request=>{
-  try{handler??=productionHandler();return await handler(request);}
-  catch(_){
-    // Configuration/runtime errors must not reveal connection strings or keys.
-    return Response.json({mode:'test',error:'backend_not_configured'},{status:503,
+  const mode=new URL(request.url).pathname.startsWith('/api/payments/live/')?'live':'test';
+  try{
+    if(!handlers.has(mode))handlers.set(mode,productionHandler(process.env,mode));
+    return await handlers.get(mode)(request);
+  }catch(_){
+    return Response.json({mode,error:'backend_not_configured'},{status:503,
       headers:{'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff'}});
   }
 };
-// A same-origin API, not a browser call to localhost or to another service.
-export const config={path:'/api/payments/test/*'};
+// Both modes are explicit, isolated, same-origin and OFF by default.
+export const config={path:'/api/payments/*'};

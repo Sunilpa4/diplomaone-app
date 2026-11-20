@@ -22,7 +22,8 @@
     'connection_timeout','test_site_required','session_changed']);
   const checkFailure=code=>Object.freeze({ok:false,code});
   return function createAuthController(loadModule, timeoutMs=15000) {
-    let state={status:'idle',user:null,busy:null,error:null},client=null,pending=null,generation=0,sessionVersion=0,checkPending=null;
+    let state={status:'idle',user:null,busy:null,error:null},client=null,pending=null,generation=0,sessionVersion=0,checkPending=null,paymentVersion=0;
+    const paymentPending=new Map();
     const listeners=new Set();
     const snapshot=()=>Object.freeze({...state,error:state.error?Object.freeze({...state.error}):null});
     const deliver=(listener,value)=>{try{listener(value);}catch(_){/* A view cannot break auth state. */}};
@@ -39,10 +40,10 @@
         if(version!==generation)return false;
         candidate=sdk.createClient(user=>{
           if(version!==generation)return;
-          cancelTestConnection();
+          cancelTestConnection();cancelPayments();
           observedUser=publicUser(user);
           if(active){state.user=observedUser;state.status=observedUser?'signed-in':'signed-out';state.error=null;notify();}
-        },error=>{if(version===generation){cancelTestConnection();fail(error,'session');}});
+        },error=>{if(version===generation){cancelTestConnection();cancelPayments();fail(error,'session');}});
         await candidate.ready();
         if(version!==generation){dispose(candidate);return false;}
         return true;
@@ -62,7 +63,7 @@
       if(!client||!['signed-in','signed-out'].includes(state.status))return Promise.resolve(false);
       if(operation==='signIn'&&state.user)return Promise.resolve(true);
       if(operation==='signOut'&&!state.user)return Promise.resolve(true);
-      if(operation==='signOut')cancelTestConnection();
+      if(operation==='signOut'){cancelTestConnection();cancelPayments();}
       state.busy=operation;state.error=null;notify();
       let result;
       // Invoke directly in the user's click, not after an await or SDK import.
@@ -87,8 +88,30 @@
       },()=>checkFailure('connection_check_unavailable')).finally(()=>{if(checkPending===request)checkPending=null;});
       checkPending=request;return request;
     }
+    function cancelPayments(){
+      ++paymentVersion;paymentPending.clear();
+      try{client?.cancelPayments?.();}catch(_){/* No raw adapter errors. */}
+    }
+    function payment(method,args=[]){
+      if(!client||state.busy||!['signed-in','signed-out'].includes(state.status))return Promise.resolve(checkFailure('sign_in_required'));
+      if(method!=='paymentConfiguration'&&!state.user)return Promise.resolve(checkFailure('sign_in_required'));
+      const key=method+JSON.stringify(args);if(paymentPending.has(key))return paymentPending.get(key);
+      if(typeof client[method]!=='function')return Promise.resolve(checkFailure('payments_unavailable'));
+      const version=paymentVersion,activeClient=client;
+      const result=Promise.resolve().then(()=>{
+        if(version!==paymentVersion||activeClient!==client)return checkFailure('session_changed');
+        return activeClient[method](...args);
+      }).then(value=>version===paymentVersion&&activeClient===client?value:checkFailure('session_changed'),()=>checkFailure('payments_unavailable'))
+        .finally(()=>{if(paymentPending.get(key)===result)paymentPending.delete(key);});
+      paymentPending.set(key,result);return result;
+    }
     return Object.freeze({
-      snapshot,initialize,checkTestConnection,cancelTestConnection,
+      snapshot,initialize,checkTestConnection,cancelTestConnection,cancelPayments,
+      paymentConfiguration:()=>payment('paymentConfiguration'),
+      loadPurchases:()=>payment('loadPurchases'),
+      readPurchasedPaper:id=>payment('readPurchasedPaper',[id]),
+      readPurchasedAsset:(id,asset)=>payment('readPurchasedAsset',[id,asset]),
+      buyPaper:id=>payment('buyPaper',[id]),
       subscribe(listener){if(typeof listener!=='function')throw new TypeError('Auth listener must be a function');listeners.add(listener);deliver(listener,snapshot());return()=>listeners.delete(listener);},
       signIn:language=>run('signIn',language),signOut:()=>run('signOut'),
     });

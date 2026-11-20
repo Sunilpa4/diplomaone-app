@@ -34,7 +34,7 @@ http.request=http.get=https.request=https.get=net.connect=net.createConnection=t
 net.Socket.prototype.connect=forbidden;
 syncBuiltinESMExports();
 const mod=await import(pathToFileURL(main));
-assert.deepEqual(mod.config,{path:'/api/payments/test/*'});
+assert.deepEqual(mod.config,{path:'/api/payments/*'});
 const prefix='https://unit-test.netlify.app/api/payments/test';
 const response=await mod.default(new Request(prefix+'/config'));
 assert.equal(response.status,200,'the actual package must initialize successfully, not hide an import/startup failure');
@@ -53,6 +53,14 @@ assert.equal((await connection.json()).error,process.argv[3]==='no-secret'?'conn
 const wrongSite=await mod.default(new Request(prefix+'/connection',{
   method:'POST',headers:{Origin:new URL(prefix).origin,'Content-Type':'application/json'},body:'{}'}));
 assert.equal(wrongSite.status,404);assert.equal((await wrongSite.json()).error,'connection_check_unavailable');
+const live=await mod.default(new Request(testOrigin+'/api/payments/live/config'));
+assert.equal(live.status,process.argv[3]==='no-secret'?404:200);
+assert.equal((await live.json()).mode,'live');
+const liveOrder=await mod.default(new Request(testOrigin+'/api/payments/live/orders',{
+ method:'POST',headers:{Origin:testOrigin,'Content-Type':'application/json'},body:'{}'}));
+assert.equal(liveOrder.status,process.argv[3]==='no-secret'?404:process.argv[3]==='live-configured-disabled'?401:503);
+const livePurchases=await mod.default(new Request(testOrigin+'/api/payments/live/purchases'));
+assert.equal(livePurchases.status,process.argv[3]==='no-secret'?404:401,'existing-owner route initializes without live gateway keys, but still requires Google identity');
 
 // Exercise Netlify's generated Lambda v2 bootstrap/entry as well as our default
 // export. Only AWS's response-stream primitive is simulated, not the app code.
@@ -61,13 +69,14 @@ globalThis.awslambda={streamifyResponse:fn=>fn,HttpResponseStream:{
 }};
 const {handler}=await import(pathToFileURL(path.join(directory,'___netlify-entry-point.mjs')));
 assert.equal(typeof handler,'function');
-const stream=new PassThrough(),chunks=[];
-stream.on('data',chunk=>chunks.push(chunk));
-const complete=finished(stream);
-await handler({rawUrl:prefix+'/config',httpMethod:'GET',headers:{},body:null,isBase64Encoded:false},stream,
-  {awsRequestId:'unit-test-artifact',getRemainingTimeInMillis:()=>30000});
-await complete;
-assert.equal(stream.responseMetadata.statusCode,200);
-assert.deepEqual(JSON.parse(Buffer.concat(chunks).toString('utf8')),
-  {mode:'test',enabled:false,reason:'setup_required',currency:'INR'});
-console.log(`Isolated Netlify ZIP: ${process.argv[3]} ESM import, bundled dependencies, disabled routes, diagnostic gates and native Lambda v2 bootstrap passed`);
+for(const [mode,rawUrl,expectedStatus] of [['test',prefix+'/config',200],
+  ['live',testOrigin+'/api/payments/live/config',process.argv[3]==='no-secret'?404:200]]){
+  const stream=new PassThrough(),chunks=[];
+  stream.on('data',chunk=>chunks.push(chunk));const complete=finished(stream);
+  await handler({rawUrl,httpMethod:'GET',headers:{},body:null,isBase64Encoded:false},stream,
+    {awsRequestId:'unit-test-artifact',getRemainingTimeInMillis:()=>30000});
+  await complete;assert.equal(stream.responseMetadata.statusCode,expectedStatus);
+  const value=JSON.parse(Buffer.concat(chunks).toString('utf8'));
+  assert.deepEqual(value,expectedStatus===200?{mode,enabled:false,reason:'setup_required',currency:'INR'}:{mode,error:'not_found'});
+}
+console.log(`Isolated Netlify ZIP: ${process.argv[3]} ESM import, bundled dependencies, isolated disabled live/test routes, diagnostic gates and native Lambda v2 bootstrap passed`);

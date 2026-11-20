@@ -38,17 +38,17 @@ const mainText=b=>b.d.querySelector('main').textContent;
 const click=(b,selector)=>{const element=b.d.querySelector(selector);assert(element,selector+' is missing');element.click();return element;};
 const unchangedPreferences=b=>assert.equal(b.w.localStorage.getItem('diplomaone.website.saved'),b.saved);
 
-test('index loads controller before app and allows only the scoped Firebase auth frame',()=>{
+test('index loads controller before app with narrowly scoped Firebase/Checkout CSP',()=>{
   const doc=new JSDOM(html).window.document;
   assert.deepEqual([...doc.querySelectorAll('script[src]')].map(s=>s.getAttribute('src')),['auth.js','app.js']);
   assert([...doc.querySelectorAll('script')].every(s=>s.hasAttribute('defer')&&!s.textContent.trim()));
   const policy=doc.querySelector('[http-equiv="Content-Security-Policy"]').content;
   const directives=Object.fromEntries(policy.split(';').filter(x=>x.trim()).map(x=>{const [name,...values]=x.trim().split(/\s+/);return [name,values];}));
-  assert.deepEqual(directives['script-src'],["'self'",'https://apis.google.com']);
-  assert.deepEqual(directives['frame-src'],['https://diplomaone-53b4e.firebaseapp.com/__/auth/']);
+  assert.deepEqual(directives['script-src'],["'self'",'https://apis.google.com','https://checkout.razorpay.com/v1/checkout.js']);
+  assert.deepEqual(directives['frame-src'],['https://diplomaone-53b4e.firebaseapp.com/__/auth/','https://api.razorpay.com','https://checkout.razorpay.com']);
   assert.deepEqual(directives['object-src'],["'none'"]);
   assert.deepEqual(directives['connect-src'],["'self'",'https://sunilpa4.github.io','https://api.github.com',
-    'https://identitytoolkit.googleapis.com','https://securetoken.googleapis.com','https://diplomaone-53b4e.firebaseapp.com']);
+    'https://identitytoolkit.googleapis.com','https://securetoken.googleapis.com','https://diplomaone-53b4e.firebaseapp.com','https://api.razorpay.com','https://lumberjack.razorpay.com']);
   assert(!policy.includes('*'));assert(!policy.includes('unsafe-eval'));assert(!directives['script-src'].includes("'unsafe-inline'"));
   assert(!doc.querySelector('iframe,object,embed'));
   assert(doc.querySelector('.header-actions [href="#/account"]'));
@@ -75,7 +75,7 @@ test('account route is usable without catalog/network and the button waits for r
   gate.resolve();await settle();
   assert.equal(b.d.querySelector('#account-signin').disabled,false);assert.equal(b.calls.load,1);
   assert.equal(b.d.querySelector('[data-account-link]').textContent,'Sign in');
-  assert(mainText(b).includes('Purchases are not enabled yet'));
+  assert(mainText(b).includes('Individual paper access'));
   assert(mainText(b).includes('signing in does not sync them'));
   assert(mainText(b).includes('Sign out on shared devices'));
   assert.equal(b.calls.fetch.length,0);assert.deepEqual(b.errors,[]);
@@ -163,15 +163,15 @@ test('missing auth controller does not crash reading or pretend sign-in works',a
   assert(!b.d.querySelector('#account-signin'));assert.deepEqual(b.errors,[]);
 });
 
-test('My purchases is an honest future feature, for signed-out and signed-in visitors',async t=>{
+test('My purchases requires Google and never invents empty history when the service is unavailable',async t=>{
   for(const initialUser of [null,student]) {
     const b=boot(t,{hash:'#/purchases',initialUser});await settle();
-    assert(mainText(b).includes('Purchases are not enabled yet'));
-    assert(mainText(b).includes('Payments and purchase records are not connected yet'));
-    assert(mainText(b).includes('Signing in does not buy or unlock a paper'));
-    assert(mainText(b).includes('Existing reading access is unchanged'));
-    assert(!b.d.querySelector('[data-checkout],form,input,script[src*="razorpay"],iframe'));
-    assert(!/₹\s*(19|29|39)|purchase complete|you own|no purchases yet/i.test(mainText(b)));
+    assert(mainText(b).includes('Only server-confirmed purchases appear here'));
+    assert(mainText(b).includes('Sign-in alone does not unlock a paper'));
+    if(initialUser)assert(mainText(b).includes('could not confirm access right now'));
+    else assert(mainText(b).includes('Sign in with Google to buy or read your purchased paper'));
+    assert(!b.d.querySelector('[data-checkout],form,input,script[src*="razorpay"],iframe,.purchase-item'));
+    assert(!/purchase complete|you own|No confirmed purchases/i.test(mainText(b)));
     assert.equal(b.calls.fetch.length,0);assert.equal(b.calls.load,1);unchangedPreferences(b);
     assert.deepEqual(b.errors,[]);
   }
@@ -196,7 +196,7 @@ test('test-site diagnostic is manual, signed-in, bilingual and never echoes a pr
   assert(mainText(b).includes('not a billing cap'));assert(mainText(b).includes('does not test Razorpay'));
   assert(!b.d.querySelector('[data-checkout],form,input,iframe,script[src*="razorpay"]'));
   assert(!mainText(b).includes('NEVER_RENDER'));assert.equal(b.w.localStorage.length,2);assert.equal(b.w.sessionStorage.length,0);
-  await b.go('#/purchases');assert(mainText(b).includes('Purchases are not enabled yet'));assert.equal(b.calls.check,1);
+  await b.go('#/purchases');assert(mainText(b).includes('Only server-confirmed purchases appear here'));assert.equal(b.calls.check,1);
   unchangedPreferences(b);assert.deepEqual(b.errors,[]);
 });
 
@@ -257,7 +257,7 @@ test('navigation cancels diagnostics, ignores late success and never replays on 
 test('privacy is bilingual, independent of the catalog, and does not initialize auth',async t=>{
   const b=boot(t,{hash:'#/privacy',fetch:()=>Promise.reject(Error('offline'))});await settle();
   for(const phrase of ['Optional Google sign-in','Firebase Authentication keeps an account identity record',
-    'signing out does not delete','session storage','do not sync across devices','Payments','does not currently include an analytics']) {
+    'signing out does not delete','session storage','do not sync across devices','Payments','does not add an analytics']) {
     // The payments section uses sentence case in production copy.
     assert(mainText(b).toLowerCase().includes(phrase.toLowerCase()),phrase);
   }

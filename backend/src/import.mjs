@@ -26,6 +26,13 @@ function checkReader(reader,files){
 export async function prepareImport(manifestPath){
   const filename=await realpath(manifestPath),base=path.dirname(filename);
   const manifest=JSON.parse(await readFile(filename,'utf8'));
+  return prepareImportData(manifest,base);
+}
+
+// Shared by the offline migration planner; no source manifest needs to be
+// temporarily written into a public checkout just to validate existing files.
+export async function prepareImportData(manifest,base){
+  base=await realpath(base);
   const product=validateProduct(manifest);
   reject(manifest.version!==1||!Array.isArray(manifest.files)||manifest.files.length<1||manifest.files.length>300,400,'invalid_manifest');
   const seen=new Set(),files=[];

@@ -9,15 +9,15 @@ import {razorpayClient} from './razorpay.mjs';
 import {createHandler} from './api.mjs';
 import {firestoreConnectionCheck} from './connection.mjs';
 
-export function productionHandler(env=process.env){
-  const config=readConfig(env);
+export function productionHandler(env=process.env,mode='test'){
+  const config=readConfig(env,mode);
   let repository=null,provider=null,assets=null,database=null;
   const getDatabase=()=>database??=firestoreDatabase(env);
-  if(config.configured){
-    repository=new Repository(getDatabase());
-    provider=razorpayClient(config);
-    assets=privateAssets(()=>getStore({name:PRIVATE_STORE,consistency:'strong'}));
+  if(config.configured||(mode==='live'&&config.firestoreConfigured)){
+    repository=new Repository(getDatabase(),{mode});
+    if(config.configured)provider=razorpayClient(config);
+    assets=privateAssets(()=>getStore({name:mode==='live'?'diplomaone-private-live':PRIVATE_STORE,consistency:'strong'}));
   }
   return createHandler({config,repository,provider,assets,verifyIdentity:firebaseVerifier(config.firebaseProject),
-    connectionCheck:firestoreConnectionCheck(getDatabase),log:code=>console.warn('test_payments',code)});
+    connectionCheck:firestoreConnectionCheck(getDatabase),log:code=>console.warn(mode+'_payments',code)});
 }

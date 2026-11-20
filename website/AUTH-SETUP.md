@@ -1,8 +1,12 @@
-# Google sign-in — phase 1
+# Google sign-in and private payment adapter
+
+## Current live-flow follow-up (not launched)
+
+The sign-in foundation now also has a narrow private payment helper, real My purchases and authenticated card/image delivery. Paid screens on approved origins lazily initialize Auth; free notes/Maths-I/Applied Physics do not. Razorpay Checkout loads only after an enabled, user-requested live purchase. No generic ID-token getter, arbitrary authenticated fetch or browser entitlement is exposed. See **[backend/LIVE-LAUNCH.md](../backend/LIVE-LAUNCH.md)** and **[README.md](README.md)** for the current flow, blockers and checks. The phase-1 behavior/results below are a retained historical baseline, not current purchase-placeholder behavior. Real OAuth/cloud/provider acceptance remains owner-controlled and unverified.
 
 ## Follow-up: protected read-only setup check
 
-The phase-1 sign-in baseline below now also supports one narrowly scoped **manual** request at **`https://vermillion-pothos-520a34.netlify.app/#/test-connection`**. It uses the same Auth-only SDK; no browser Firestore/payment SDK, generic authenticated fetch or token getter is exposed. Only this exact test origin/diagnostic route can request a token, and the server separately enforces Production context, verified Google identity, the tester UID allowlist and both checkout flags OFF. The server makes one fixed products query with `limit(1)` and returns a safe status, never document contents or profile/UID/email/configuration details. It requires no Razorpay secret.
+The phase-1 sign-in baseline below now also supports one narrowly scoped **manual** request at **`https://vermillion-pothos-520a34.netlify.app/#/test-connection`**. It uses the same Auth-only SDK; no browser Firestore/payment SDK, generic authenticated fetch or token getter is exposed. Only this exact test origin/diagnostic route can request a token **for the manual diagnostic** (separate narrow live methods exist), and the server separately enforces Production context, verified Google identity, the tester UID allowlist and both checkout flags OFF. The server makes one fixed products query with `limit(1)` and returns a safe status, never document contents or profile/UID/email/configuration details. It requires no Razorpay secret.
 
 Tokens remain inside the bundled SDK/request helper and only in the fixed same-origin Authorization header, never app-managed storage, URLs, DOM or logs. Pending checks are deduplicated, bounded by a 15-second browser deadline and invalidated/cancelled on logout, account change or navigation. Cancellation cannot undo a server read already accepted. There is no automatic probe/retry/polling; the server's 30-second per-instance cooldown is **not a distributed billing cap**. Google/JWK/Firestore/hosting requests can still incur their applicable usage.
 

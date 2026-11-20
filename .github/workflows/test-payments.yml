@@ -4,6 +4,9 @@ on:
   pull_request:
     paths:
       - 'backend/**'
+      - 'papers-upload/**'
+      - 'tools/publish_solved_papers.py'
+      - 'tools/test_publish_solved_papers.py'
       - 'package.json'
       - 'package-lock.json'
       - 'netlify/**'
@@ -16,6 +19,9 @@ on:
     branches: [main]
     paths:
       - 'backend/**'
+      - 'papers-upload/**'
+      - 'tools/publish_solved_papers.py'
+      - 'tools/test_publish_solved_papers.py'
       - 'package.json'
       - 'package-lock.json'
       - 'netlify/**'
@@ -42,12 +48,25 @@ jobs:
           cache-dependency-path: package-lock.json
       - name: Install pinned backend dependencies without lifecycle scripts
         run: npm ci --include=dev --ignore-scripts --no-fund
-      - name: Check API, Firebase identity, private storage and isolated disabled deployment
+      - name: Check isolated live/test APIs, capture authorization, migration and disabled deployment
         run: |
           npm run check
           npm test
+          npm run prepare:live-papers
           npm run check:bundle
           npm audit --audit-level=moderate
+      - name: Install pinned website and offline browser test tools
+        run: |
+          npm ci --prefix website --include=dev --ignore-scripts --no-fund
+          npm install --prefix build/auth-browser-tools --no-save --ignore-scripts --no-package-lock --no-fund playwright@1.56.1 @sparticuz/chromium@153.0.0
+      - name: Check packaged live purchase flow, English/Gujarati cards and responsive CSP with offline boundaries
+        env:
+          NODE_PATH: ${{ github.workspace }}/build/auth-browser-tools/node_modules:${{ github.workspace }}/website/node_modules
+        run: |
+          npm run check:auth --prefix website
+          npm run test:auth --prefix website
+          python3 tools/build_netlify_site.py
+          node website/test_payment_browser.js
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
