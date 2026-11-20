@@ -7,7 +7,7 @@ import {databasePool,PRIVATE_STORE} from '../src/runtime.mjs';
 
 const args=process.argv.slice(2),apply=args.includes('--apply'),file=args.find(a=>!a.startsWith('--'));
 if(!file||args.some(a=>a.startsWith('--')&&a!=='--apply')){
-  console.error('Usage: npm run import:paper --prefix backend -- /PRIVATE/path/paper.json [--apply]');process.exitCode=1;
+  console.error('Usage: npm run import:paper -- /PRIVATE/path/paper.json [--apply]');process.exitCode=1;
 }else{
   let pool;
   try{

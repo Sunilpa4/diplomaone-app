@@ -16,6 +16,26 @@ test('actual entry supports the native same-origin test route and is disabled wi
   assert.equal(insecure.status,400);assert.equal((await insecure.json()).error,'https_required');
 });
 
+test('runtime dependencies and lockfile live at the Netlify base so native tracing includes pg and the other packages',async()=>{
+  const manifest=JSON.parse(await readFile(path.join(root,'package.json'),'utf8'));
+  const lock=JSON.parse(await readFile(path.join(root,'package-lock.json'),'utf8'));
+  assert.equal(manifest.type,'commonjs','existing tools/*.js must keep their CommonJS semantics; server entry is explicitly .mjs');
+  for(const name of ['pg','jose','@netlify/blobs']){
+    assert(manifest.dependencies[name],`${name} must be a runtime dependency at the function base`);
+    assert.equal(lock.packages[''].dependencies[name],manifest.dependencies[name]);
+  }
+  for(const name of ['backend/package.json','backend/package-lock.json'])
+    await assert.rejects(readFile(path.join(root,name)),{code:'ENOENT'});
+  const result=spawnSync('python3',['-c',`import tomllib
+c=tomllib.load(open('netlify.toml','rb'))
+assert c['build'].get('base','.') in ('','.')
+assert c['build']['functions']=='netlify/functions'
+assert 'npm ci --include=dev' in c['build']['command']
+assert '--prefix backend' not in c['build']['command']
+`],{cwd:root,encoding:'utf8'});
+  assert.equal(result.status,0,result.stderr);
+});
+
 test('Git-connected publish output contains only the same twelve public frontend files, never backend/secrets/papers',async()=>{
   const result=spawnSync('python3',['tools/build_netlify_site.py'],{cwd:root,encoding:'utf8'});
   assert.equal(result.status,0,result.stderr);

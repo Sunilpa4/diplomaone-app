@@ -39,7 +39,8 @@ Netlify Database is available on **credit-based** plans only. The exact account 
 
 Use a **Git-connected** site pointed at this repository/current feature branch. Root `netlify.toml` supplies:
 
-- Build: clean pinned installs in `backend/` and `website/`, auth-bundle freshness check, `python3 tools/build_netlify_site.py`.
+- Build: clean pinned installs at the **repository root** and in `website/`, auth-bundle freshness check, `python3 tools/build_netlify_site.py`.
+- **Root `package.json` / `package-lock.json` own all server runtime dependencies** (`pg`, `jose`, `@netlify/blobs`). `backend/` is a source/test directory, not a separate npm project. Netlify's native v2 function tracer must find the packages from its root base; a sibling `backend/node_modules` install alone can produce a ZIP with unresolved imports.
 - Publish directory: **`build/netlify-site`** only.
 - Functions: **`netlify/functions`**, Node **22.12+** (build selects Node 22).
 - SQL migrations: **`netlify/database/migrations`** (native migration convention).
@@ -73,6 +74,19 @@ Do not enable Firebase billing. No real key/secret is needed. No bank details, p
 
 After a Git-connected deploy, visiting the test site's **`/api/payments/test/config`** should return JSON with **`mode: "test", enabled: false`**. This is the expected safe setup state, not a checkout test or proof the credentials/database are valid. A missing Function/404 means the static ZIP was deployed or the functions build is not configured; do not work around it by exposing keys in JavaScript.
 
+### Recovery for `Cannot find package 'pg'`
+
+The first user-deployed test build exposed a real packaging defect: packages installed only under `backend/` were not included by Netlify's native v2 tracer, even though the earlier standalone esbuild smoke passed. Root dependency manifests and a new actual-ZIP regression replace that layout/test. It is **not** a missing Razorpay secret or a reason to upgrade a plan.
+
+For the existing Git-connected **test** project:
+
+1. Keep branch **`arena/7e6ec7f8-diplomaone-app`**, the repository root as the base directory, publish **`build/netlify-site`**, and functions **`netlify/functions`**. Use the updated root `netlify.toml`; remove a stale dashboard build-command override only if it still runs `npm ci --prefix backend`.
+2. Wait for the new commit's auto-deploy. If it does not start, use **Deploys → Trigger deploy → Clear cache and deploy site** (wording may be **Retry without cache**) and ensure the selected build is the **latest branch commit**, not a retry of the old commit/artifact.
+3. Test the **stable site URL** `https://vermillion-pothos-520a34.netlify.app/api/payments/test/config`. The old long deploy-ID-prefixed URL is immutable and will still refer to the broken build. Keep both checkout flags false and all secret values unchanged.
+4. If Netlify Team protection displays a login, check the route from the owner's signed-in browser. Do not share Netlify credentials or disable protection just to expose a setup error. A future Razorpay webhook will need a deliberately reviewed publicly reachable endpoint, not this login barrier.
+
+A freshly built **disabled** config should return HTTP 200 with `mode: "test"` / `enabled: false`. That verifies function startup only. Public/live payment readiness still requires the separate gates below.
+
 ### 4. Review the private-content migration, then import one real pilot paper
 
 **Do not turn on payment collection just because files were copied.** Existing answers/images/PDFs are public on GitHub. Public/history/downloaded copies cannot be retrospectively made never-public. Before a paid launch:
@@ -99,16 +113,18 @@ For test setup, the **owner** can stage one actual reviewed paper and its diagra
 
 `reader.html` must be an actual compatible `<main>` / expandable `<details>` card reader, not an embedded PDF. List **every referenced relative image** in `files`; external/public answer-image references, frames, unsupported SVG files, escaping paths/symlinks, duplicate paths, missing diagrams and files over 4 MiB fail import. Inline SVG content is preserved as source text and still needs the existing browser sanitizer at display time. Shape/hash/reference checks do not certify educational correctness.
 
+From the **repository root** (the importer source is still in `backend/`):
+
 ```sh
-npm ci --prefix backend --ignore-scripts --no-fund
+npm ci --ignore-scripts --no-fund
 # Safe default: validates/hashes only; no network or credential required.
-npm run import:paper --prefix backend -- /PRIVATE/path/paper.json
+npm run import:paper -- /PRIVATE/path/paper.json
 ```
 
 Applying is a separate owner operation, **not performed by the agent**. On the owner's machine, privately configure `NETLIFY_SITE_ID`, an appropriately scoped `NETLIFY_AUTH_TOKEN`, and the selected test database's `NETLIFY_DB_URL`. Do not send any credential here. Then add `--apply`:
 
 ```sh
-npm run import:paper --prefix backend -- /PRIVATE/path/paper.json --apply
+npm run import:paper -- /PRIVATE/path/paper.json --apply
 ```
 
 The tool writes only to **`diplomaone-private-test`** Blobs, verifies strong-read bytes/hashes, and only then activates SQL metadata. Failed uploads do not activate a partial product. Replacing an existing imported product is refused for explicit review; unused content-addressed blobs may remain after a failure and can be reviewed by the owner. No automatic destructive rollback/cleanup is run. Runtime Functions use Netlify's own blob access context; the owner's personal import token is not needed in the frontend or Function environment.
@@ -139,15 +155,19 @@ Do not pass a Firebase/Google token in a URL, dump it to logs/DOM or return it f
 
 ## Validation and remaining acceptance gates
 
+Run these from the **repository root**, not `backend/`:
+
 ```sh
-npm ci --prefix backend --ignore-scripts --no-fund
-npm run check --prefix backend
-npm test --prefix backend
-npm run check:bundle --prefix backend
-npm audit --prefix backend --audit-level=moderate
+npm ci --include=dev --ignore-scripts --no-fund
+npm run check
+npm test
+npm run check:bundle
+npm audit --audit-level=moderate
 ```
 
-Tests use **local PGlite (real Postgres engine/transactions/constraints), generated RSA-signed JWTs, mock Razorpay/private storage and fake unit-only secrets**. The actual function is bundled and smoke-run without credentials/network to prove startup and disabled configuration. Deployment tests verify the public output excludes all backend/secret/private/source material. Tests are not a provider certification, a real charge, a real database/blob deploy or proof of account-plan availability.
+Tests use **local PGlite (real Postgres engine/transactions/constraints), generated RSA-signed JWTs, mock Razorpay/private storage and fake unit-only secrets**. `check:bundle` uses pinned **`@netlify/zip-it-and-ship-it`** with the real `netlify.toml` settings. For v2 functions Netlify selects **NFT** even when `node_bundler = "esbuild"` is set. The test checks the actual ZIP contains every runtime package, extracts it **outside the checkout**, and runs its ESM module **and Netlify-generated Lambda v2 entry/bootstrap** with no repository dependency fallback. Both the no-secret and configured-but-disabled cases must return safe disabled JSON; the latter uses fake credentials only and never connects to a database/provider. This replaces the inadequate standalone esbuild-only smoke.
+
+The root's dev-only Netlify packager uses explicitly pinned patched `glob`/`minimatch` overrides to avoid known audit advisories; the actual packaging/ZIP tests exercise that tooling. These tools and PGlite are not shipped in the Function ZIP. Deployment tests also verify the public frontend output excludes all backend/secret/private/source material. Tests are not a provider certification, a real charge, a real database/blob deploy or proof of account-plan availability.
 
 Before marking test checkout complete, verify on the actual selected Netlify test site:
 

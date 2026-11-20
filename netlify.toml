@@ -1,7 +1,9 @@
 # Git-connected TEST backend deployment, not a frontend-only drag/drop ZIP.
 # Merely adding this file does not connect a Netlify account or enable checkout.
+# Runtime packages must be installed at this repository base: the v2 function
+# packager traces dependencies here, not in a sibling backend/node_modules.
 [build]
-  command = "npm ci --prefix backend --include=dev --ignore-scripts --no-fund && npm ci --prefix website --include=dev --ignore-scripts --no-fund && npm run check:auth --prefix website && python3 tools/build_netlify_site.py"
+  command = "npm ci --include=dev --ignore-scripts --no-fund && npm ci --prefix website --include=dev --ignore-scripts --no-fund && npm run check:auth --prefix website && python3 tools/build_netlify_site.py"
   publish = "build/netlify-site"
   functions = "netlify/functions"
 

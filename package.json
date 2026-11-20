@@ -1,0 +1,28 @@
+{
+  "name": "diplomaone-test-payments",
+  "version": "0.1.0",
+  "private": true,
+  "type": "commonjs",
+  "description": "Disabled-by-default Netlify backend for server-verified Razorpay TEST payments only.",
+  "engines": {"node": ">=22.12.0"},
+  "scripts": {
+    "test": "node --test backend/test/*.test.mjs",
+    "check": "node --check backend/src/api.mjs && node --check backend/src/repository.mjs && node --check netlify/functions/payments.mjs",
+    "check:bundle": "node backend/scripts/check-bundle.mjs",
+    "import:paper": "node backend/scripts/import-paper.mjs"
+  },
+  "dependencies": {
+    "@netlify/blobs": "11.1.9",
+    "jose": "6.2.18",
+    "parse5": "8.0.0",
+    "pg": "8.16.3"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.17",
+    "@netlify/zip-it-and-ship-it": "16.6.0"
+  },
+  "overrides": {
+    "glob": "14.0.6",
+    "minimatch": "11.0.9"
+  }
+}

@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'backend/**'
+      - 'package.json'
+      - 'package-lock.json'
       - 'netlify/**'
       - 'netlify.toml'
       - 'tools/build_netlify_site.py'
@@ -14,6 +16,8 @@ on:
     branches: [main]
     paths:
       - 'backend/**'
+      - 'package.json'
+      - 'package-lock.json'
       - 'netlify/**'
       - 'netlify.toml'
       - 'tools/build_netlify_site.py'
@@ -35,13 +39,13 @@ jobs:
         with:
           node-version: '22'
           cache: npm
-          cache-dependency-path: backend/package-lock.json
+          cache-dependency-path: package-lock.json
       - name: Install pinned backend dependencies without lifecycle scripts
-        run: npm ci --prefix backend --ignore-scripts --no-fund
+        run: npm ci --include=dev --ignore-scripts --no-fund
       - name: Check API, SQL transactions, Firebase identity, private storage and disabled deployment
         run: |
-          npm run check --prefix backend
-          npm test --prefix backend
-          npm run check:bundle --prefix backend
-          npm audit --prefix backend --audit-level=moderate
+          npm run check
+          npm test
+          npm run check:bundle
+          npm audit --audit-level=moderate
       # No provider keys, Netlify credentials, payment calls or deploy commands.
