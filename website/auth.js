@@ -17,8 +17,12 @@
     });
   }
   const errorCode=error=>/^auth\/[a-z0-9-]+$/.test(error?.code||'')?error.code:'auth/unavailable';
+  const checkCodes=new Set(['sign_in_required','invalid_or_expired_session','tester_not_allowed','disable_test_checkout',
+    'firestore_not_configured','firestore_check_failed','connection_check_rate_limited','connection_check_unavailable',
+    'connection_timeout','test_site_required','session_changed']);
+  const checkFailure=code=>Object.freeze({ok:false,code});
   return function createAuthController(loadModule, timeoutMs=15000) {
-    let state={status:'idle',user:null,busy:null,error:null},client=null,pending=null,generation=0;
+    let state={status:'idle',user:null,busy:null,error:null},client=null,pending=null,generation=0,sessionVersion=0,checkPending=null;
     const listeners=new Set();
     const snapshot=()=>Object.freeze({...state,error:state.error?Object.freeze({...state.error}):null});
     const deliver=(listener,value)=>{try{listener(value);}catch(_){/* A view cannot break auth state. */}};
@@ -35,9 +39,10 @@
         if(version!==generation)return false;
         candidate=sdk.createClient(user=>{
           if(version!==generation)return;
+          cancelTestConnection();
           observedUser=publicUser(user);
           if(active){state.user=observedUser;state.status=observedUser?'signed-in':'signed-out';state.error=null;notify();}
-        },error=>{if(version===generation)fail(error,'session');});
+        },error=>{if(version===generation){cancelTestConnection();fail(error,'session');}});
         await candidate.ready();
         if(version!==generation){dispose(candidate);return false;}
         return true;
@@ -57,6 +62,7 @@
       if(!client||!['signed-in','signed-out'].includes(state.status))return Promise.resolve(false);
       if(operation==='signIn'&&state.user)return Promise.resolve(true);
       if(operation==='signOut'&&!state.user)return Promise.resolve(true);
+      if(operation==='signOut')cancelTestConnection();
       state.busy=operation;state.error=null;notify();
       let result;
       // Invoke directly in the user's click, not after an await or SDK import.
@@ -64,8 +70,25 @@
       catch(error){result=Promise.reject(error);}
       return Promise.resolve(result).then(()=>true,error=>{fail(error,operation);return false;}).finally(()=>{state.busy=null;notify();});
     }
+    function cancelTestConnection(){
+      ++sessionVersion;checkPending=null;
+      try{client?.cancelTestConnection?.();}catch(_){/* No raw adapter error reaches a view. */}
+    }
+    function checkTestConnection(){
+      if(!client||state.status!=='signed-in'||!state.user||state.busy)return Promise.resolve(checkFailure('sign_in_required'));
+      if(checkPending)return checkPending;
+      if(typeof client.checkTestConnection!=='function')return Promise.resolve(checkFailure('connection_check_unavailable'));
+      const version=sessionVersion,activeClient=client;let result;
+      try{result=activeClient.checkTestConnection();}catch(_){result=Promise.resolve(checkFailure('connection_check_unavailable'));}
+      const request=Promise.resolve(result).then(value=>{
+        if(version!==sessionVersion||client!==activeClient||state.status!=='signed-in')return checkFailure('session_changed');
+        if(value?.ok===true)return Object.freeze({ok:true});
+        return checkFailure(checkCodes.has(value?.code)?value.code:'connection_check_unavailable');
+      },()=>checkFailure('connection_check_unavailable')).finally(()=>{if(checkPending===request)checkPending=null;});
+      checkPending=request;return request;
+    }
     return Object.freeze({
-      snapshot,initialize,
+      snapshot,initialize,checkTestConnection,cancelTestConnection,
       subscribe(listener){if(typeof listener!=='function')throw new TypeError('Auth listener must be a function');listeners.add(listener);deliver(listener,snapshot());return()=>listeners.delete(listener);},
       signIn:language=>run('signIn',language),signOut:()=>run('signOut'),
     });

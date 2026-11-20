@@ -47,11 +47,12 @@ with ZipFile(sys.argv[1]) as z:
 `,artifact.path,isolated]);
   const baseEnv={PATH:process.env.PATH,NODE_ENV:'production'};
   const fixtureKey=generateKeyPairSync('rsa',{modulusLength:2048,privateKeyEncoding:{format:'pem',type:'pkcs8'},publicKeyEncoding:{format:'pem',type:'spki'}}).privateKey;
-  const cases=[{name:'no-secret',env:baseEnv},{name:'configured-disabled',env:{...baseEnv,
-    CONTEXT:'production',RAZORPAY_KEY_ID:'rzp_test_UnitFixture12345',RAZORPAY_KEY_SECRET:'unit-fixture-key-secret-not-real',
-    RAZORPAY_WEBHOOK_SECRET:'unit-fixture-webhook-secret-not-real-0000',FIREBASE_PROJECT_ID:'diplomaone-53b4e',
+  const firestoreEnv={...baseEnv,CONTEXT:'production',FIREBASE_PROJECT_ID:'diplomaone-53b4e',
     FIREBASE_CLIENT_EMAIL:'artifact-fixture@diplomaone-53b4e.iam.gserviceaccount.com',FIREBASE_PRIVATE_KEY:fixtureKey,PAYMENTS_TESTER_UIDS:'unit-test-user',
-    PAYMENTS_TEST_ENABLED:'false',PAYMENTS_PRIVATE_MIGRATION_CONFIRMED:'false'}}];
+    PAYMENTS_TEST_ENABLED:'false',PAYMENTS_PRIVATE_MIGRATION_CONFIRMED:'false'};
+  const cases=[{name:'no-secret',env:baseEnv},{name:'firestore-only-disabled',env:firestoreEnv},
+    {name:'configured-disabled',env:{...firestoreEnv,RAZORPAY_KEY_ID:'rzp_test_UnitFixture12345',
+      RAZORPAY_KEY_SECRET:'unit-fixture-key-secret-not-real',RAZORPAY_WEBHOOK_SECRET:'unit-fixture-webhook-secret-not-real-0000'}}];
   for(const scenario of cases){
     const result=spawnSync(process.execPath,[path.join(root,'backend/scripts/smoke-artifact.mjs'),isolated,scenario.name],
       {cwd:isolated,encoding:'utf8',env:scenario.env,timeout:20000});

@@ -1,4 +1,4 @@
-import {Problem,PREFIX,MODE,PRICES,MAX_ASSET_BYTES,productPattern,providerOrderPattern,providerPaymentPattern,
+import {Problem,PREFIX,MODE,PRICES,MAX_ASSET_BYTES,TEST_SITE_ORIGIN,productPattern,providerOrderPattern,providerPaymentPattern,
   assetPattern,uuidPattern,reject,validSignature,digest,confirmCaptured} from './domain.mjs';
 
 const headers={'Cache-Control':'private, no-store','Vary':'Authorization, Origin',
@@ -21,7 +21,7 @@ async function parseBody(request,keys){
   return body;
 }
 
-export function createHandler({config,repository,provider,verifyIdentity,assets,log=()=>{}}){
+export function createHandler({config,repository,provider,verifyIdentity,assets,connectionCheck,log=()=>{}}){
   const requireSetup=()=>reject(!config.configured,503,'backend_not_configured');
   async function grant(stored,paymentId,event){
     reject(!stored,404,'order_not_found');
@@ -70,10 +70,11 @@ export function createHandler({config,repository,provider,verifyIdentity,assets,
       const url=new URL(request.url),path=url.pathname.slice(PREFIX.length);
       reject(url.protocol!=='https:',400,'https_required');
       reject(!url.pathname.startsWith(PREFIX+'/')||/%2f|%5c/i.test(url.pathname)||url.search,404,'not_found');
-      const methods=path==='/orders'||path==='/verify'||path==='/webhook'?['POST']:['GET'];
+      const methods=['/orders','/verify','/webhook','/connection'].includes(path)?['POST']:['GET'];
       reject(!methods.includes(request.method),405,'method_not_allowed');
       if(path==='/webhook')return await webhook(request);
-      // Same-origin API. No wildcard CORS, cookies or token-in-query support.
+      // Same-origin API. No wildcard CORS or token-in-query support. Hosting
+      // cookies never authorize application access; Google Bearer tokens do.
       const origin=request.headers.get('origin');
       reject(origin!==null&&origin!==url.origin,403,'origin_not_allowed');
       if(request.method==='POST')reject(origin!==url.origin,403,'origin_required');
@@ -84,6 +85,20 @@ export function createHandler({config,repository,provider,verifyIdentity,assets,
         const products=await repository.products();
         return json({mode:MODE,enabled:products.length>0,reason:products.length?'ready':'no_private_papers',
           keyId:config.keyId,currency:'INR',products:products.map(({id,title,branch,amount,currency})=>({id,title,branch,amount,currency}))});
+      }
+      if(path==='/connection'){
+        // This is not a public readiness endpoint. Even an empty query consumes
+        // a read; never touch Firestore before Google/UID authorization. POST
+        // requires same-origin JSON and cannot be triggered by an image/link.
+        reject(config.context!=='production'||url.origin!==TEST_SITE_ORIGIN,404,'connection_check_unavailable');
+        const user=await verifyIdentity(request.headers.get('authorization'));
+        reject(!config.testers.includes(user.uid),403,'tester_not_allowed');
+        await parseBody(request,[]);
+        reject(!config.checkoutFlagsOff,409,'disable_test_checkout');
+        reject(!config.firestoreConfigured,503,'firestore_not_configured');
+        reject(typeof connectionCheck!=='function',503,'connection_check_unavailable');
+        await connectionCheck();
+        return json({mode:MODE,database:'firestore',readable:true,readOnly:true,checkoutEnabled:false,paymentsVerified:false});
       }
       requireSetup();
       const user=await verifyIdentity(request.headers.get('authorization'));
@@ -145,7 +160,7 @@ export function createHandler({config,repository,provider,verifyIdentity,assets,
       // No raw errors, Authorization headers, keys, body/PII, database URLs or
       // provider response objects reach responses or the application log.
       try{log(code);}catch(_){}
-      return json({mode:MODE,error:code},status,status===429?{'Retry-After':'3600'}:{});
+      return json({mode:MODE,error:code},status,status===429?{'Retry-After':code==='connection_check_rate_limited'?'30':'3600'}:{});
     }
   };
 }

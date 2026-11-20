@@ -10,10 +10,10 @@ const html=fs.readFileSync(path.join(site,'index.html'),'utf8'),app=fs.readFileS
 const student={uid:'not-for-display',displayName:'Test Student',email:'student@example.test',emailVerified:true};
 const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve=a;reject=b;});return {promise,resolve,reject};};
 const settle=async()=>{await new Promise(resolve=>setImmediate(resolve));await new Promise(resolve=>setImmediate(resolve));};
-function boot(t,{hash='#/account',language='en',initialUser=null,ready,loadError=false,service=true,fetch}={}) {
+function boot(t,{hash='#/account',origin='https://www.diplomaone.in',language='en',initialUser=null,ready,loadError=false,service=true,fetch}={}) {
   const errors=[],vc=new VirtualConsole();vc.on('jsdomError',error=>errors.push(error.message));
-  const dom=new JSDOM(html,{url:'https://www.diplomaone.in/'+hash,runScripts:'outside-only',virtualConsole:vc});
-  const w=dom.window,d=w.document,calls={load:0,signIn:[],signOut:0,fetch:[]},handlers={};
+  const dom=new JSDOM(html,{url:origin+'/'+hash,runScripts:'outside-only',virtualConsole:vc});
+  const w=dom.window,d=w.document,calls={load:0,signIn:[],signOut:0,fetch:[],check:0,cancel:0},handlers={};
   const saved='[{"code":"DI03000161","unit":1,"title":{"en":"Saved unit"}}]';
   w.localStorage.setItem('diplomaone.website.lang',JSON.stringify(language));
   w.localStorage.setItem('diplomaone.website.saved',saved);
@@ -23,7 +23,9 @@ function boot(t,{hash='#/account',language='en',initialUser=null,ready,loadError
   const sdk={createClient(next){onUser=next;return {
     ready(){next(initialUser);return ready?.()||Promise.resolve();},
     signIn(lang){calls.signIn.push(lang);return handlers.signIn?.()||Promise.resolve();},
-    signOut(){++calls.signOut;return handlers.signOut?.()||Promise.resolve();},dispose(){},
+    signOut(){++calls.signOut;return handlers.signOut?.()||Promise.resolve();},
+    checkTestConnection(){++calls.check;return handlers.check?.()||Promise.resolve({ok:true});},
+    cancelTestConnection(){++calls.cancel;handlers.cancel?.();},dispose(){},
   };}};
   let importFails=loadError;
   if(service)w.DiplomaOneAuth=createAuthController(()=>{++calls.load;return importFails?Promise.reject(Error('internal-import-detail')):Promise.resolve(sdk);});
@@ -173,6 +175,83 @@ test('My purchases is an honest future feature, for signed-out and signed-in vis
     assert.equal(b.calls.fetch.length,0);assert.equal(b.calls.load,1);unchangedPreferences(b);
     assert.deepEqual(b.errors,[]);
   }
+});
+
+const testOrigin='https://vermillion-pothos-520a34.netlify.app';
+test('test-site diagnostic is manual, signed-in, bilingual and never echoes a profile/token or invents purchases',async t=>{
+  const b=boot(t,{hash:'#/test-connection',origin:testOrigin,fetch:()=>Promise.reject(Error('catalog offline'))});await settle();
+  assert.equal(b.calls.fetch.length,0);assert.equal(b.calls.check,0);assert.equal(b.calls.load,1);
+  assert.equal(b.d.querySelector('#connection-check').disabled,true);click(b,'#connection-check');assert.equal(b.calls.check,0);
+  b.handlers.signIn=()=>{b.emit({...student,accessToken:'NEVER_RENDER'});return Promise.resolve();};
+  click(b,'#account-signin');await settle();assert.equal(b.calls.check,0,'sign-in is not permission for an automatic database query');
+  assert.equal(b.d.querySelector('#connection-check').disabled,false);
+  for(const value of [student.uid,student.email,student.displayName,'NEVER_RENDER'])assert(!mainText(b).includes(value));
+  const gate=deferred();b.handlers.check=()=>gate.promise;
+  const button=click(b,'#connection-check');assert.equal(b.calls.check,1);assert.equal(b.d.querySelector('#connection-check').disabled,true);
+  button.click();assert.equal(b.calls.check,1,'a detached duplicate click cannot re-request');
+  click(b,'#lang-toggle');await settle();assert.equal(b.calls.check,1);assert(b.d.querySelector('#connection-result').textContent.includes('તપાસાઈ રહ્યું છે'));
+  gate.resolve({ok:true,uid:'NEVER_RENDER',token:'NEVER_RENDER',documents:['NEVER_RENDER']});await settle();
+  assert(b.d.querySelector('#connection-result').textContent.includes('વાંચન સફળ'));assert.equal(b.d.activeElement.id,'connection-result');
+  click(b,'#lang-toggle');await settle();assert.equal(b.d.querySelector('#connection-result').textContent,'Firestore read succeeded. Checkout remains OFF.');
+  assert(mainText(b).includes('not a billing cap'));assert(mainText(b).includes('does not test Razorpay'));
+  assert(!b.d.querySelector('[data-checkout],form,input,iframe,script[src*="razorpay"]'));
+  assert(!mainText(b).includes('NEVER_RENDER'));assert.equal(b.w.localStorage.length,2);assert.equal(b.w.sessionStorage.length,0);
+  await b.go('#/purchases');assert(mainText(b).includes('Purchases are not enabled yet'));assert.equal(b.calls.check,1);
+  unchangedPreferences(b);assert.deepEqual(b.errors,[]);
+});
+
+test('diagnostic route is unavailable without loading auth on public/preview hosts; setup link is test-site-only',async t=>{
+  for(const origin of ['https://www.diplomaone.in','https://sunilpa4.github.io',
+    'https://deploy-preview-37--vermillion-pothos-520a34.netlify.app']){
+    const b=boot(t,{hash:'#/test-connection',origin});await settle();
+    assert(mainText(b).includes('only on the protected test site'));assert(!b.d.querySelector('#connection-check,#account-signin,[data-account-view]'));
+    assert.equal(b.calls.load,0);assert.equal(b.calls.check,0);assert.equal(b.calls.fetch.length,0);assert.deepEqual(b.errors,[]);
+  }
+  const normal=boot(t);await settle();assert(!normal.d.querySelector('a[href="#/test-connection"]'));
+  const approvedSite=boot(t,{origin:testOrigin});await settle();assert(approvedSite.d.querySelector('a[href="#/test-connection"]'));
+  assert.equal(approvedSite.calls.check,0);assert.deepEqual(approvedSite.errors,[]);
+});
+
+test('diagnostic errors use only safe actionable local copy in both languages, with no raw payload display or auto-retry',async t=>{
+  const b=boot(t,{hash:'#/test-connection',origin:testOrigin,initialUser:student});await settle();
+  const cases=[['tester_not_allowed','PAYMENTS_TESTER_UIDS'],['invalid_or_expired_session','Sign out'],
+    ['disable_test_checkout','both payment flags false'],['firestore_not_configured','missing or invalid'],
+    ['firestore_check_failed','could not read Firestore'],['connection_check_rate_limited','30 seconds'],
+    ['connection_timeout','No success is confirmed'],['connection_check_unavailable','current Production deployment'],
+    ['<img src=x onerror=alert(1)>','check is unavailable']];
+  for(const [code,phrase] of cases){
+    const count=b.calls.check;b.handlers.check=()=>Promise.resolve({ok:false,code,message:'NEVER_RENDER',private_key:'NEVER_RENDER'});
+    click(b,'#connection-check');await settle();
+    const result=b.d.querySelector('#connection-result');assert.equal(result.getAttribute('role'),'alert');assert(result.textContent.includes(phrase),code);
+    assert.equal(b.calls.check,count+1);assert(!mainText(b).includes('NEVER_RENDER'));assert(!b.d.querySelector('main img,main [onerror]'));
+    assert.equal(b.d.querySelector('#connection-check').disabled,false);
+  }
+  click(b,'#lang-toggle');await settle();b.handlers.check=()=>Promise.resolve({ok:false,code:'tester_not_allowed'});
+  click(b,'#connection-check');await settle();assert(b.d.querySelector('#connection-result').textContent.includes('મંજૂર ટેસ્ટર નથી'));
+  b.handlers.check=()=>Promise.reject(Error('NEVER_RENDER'));click(b,'#connection-check');await settle();
+  assert(!mainText(b).includes('NEVER_RENDER'));assert.deepEqual(b.errors,[]);
+});
+
+test('logout or account changes clear pending/results and cannot show a late diagnostic success',async t=>{
+  const b=boot(t,{hash:'#/test-connection',origin:testOrigin,initialUser:student});await settle();
+  const gate=deferred();b.handlers.check=()=>gate.promise;click(b,'#connection-check');
+  b.handlers.signOut=()=>{b.emit(null);return Promise.resolve();};click(b,'#account-signout');await settle();
+  gate.resolve({ok:true});await settle();assert.equal(b.d.querySelector('#connection-result').textContent,'');
+  assert.equal(b.d.querySelector('#connection-check').disabled,true);assert(!mainText(b).includes('read succeeded'));
+  b.emit(student);await settle();assert.equal(b.calls.check,1);
+  b.handlers.check=()=>Promise.resolve({ok:true});click(b,'#connection-check');await settle();assert(mainText(b).includes('read succeeded'));
+  b.emit({...student,uid:'a-different-account'});await settle();
+  assert.equal(b.d.querySelector('#connection-result').textContent,'');assert.equal(b.calls.check,2);assert.deepEqual(b.errors,[]);
+});
+
+test('navigation cancels diagnostics, ignores late success and never replays on return or a stale button',async t=>{
+  const b=boot(t,{hash:'#/test-connection',origin:testOrigin,initialUser:student});await settle();
+  const gate=deferred();b.handlers.check=()=>gate.promise;const button=click(b,'#connection-check');
+  await b.go('#/privacy');assert(mainText(b).includes('Protected test-site check'));assert(b.calls.cancel>0);
+  gate.resolve({ok:true});await settle();assert(!b.d.querySelector('[data-account-view]'));assert(!mainText(b).includes('read succeeded'));
+  await b.go('#/test-connection');assert.equal(b.calls.check,1);assert.equal(b.d.querySelector('#connection-result').textContent,'');
+  button.click();assert.equal(b.calls.check,1,'a detached old-route button must not start another query');
+  unchangedPreferences(b);assert.deepEqual(b.errors,[]);
 });
 
 test('privacy is bilingual, independent of the catalog, and does not initialize auth',async t=>{

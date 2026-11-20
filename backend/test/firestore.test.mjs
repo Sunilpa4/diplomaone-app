@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
 import {store,usingEmulator,DEMO_PROJECT} from './store.mjs';
 import {Repository} from '../src/repository.mjs';
+import {firestoreConnectionCheck} from '../src/connection.mjs';
 import {FIRESTORE_ROOT} from '../src/firestore-config.mjs';
 import {digest} from '../src/domain.mjs';
 const {database,repository,reset}=store();
@@ -107,6 +108,16 @@ test('Firestore import strips extra fields and refuses unbounded or unsafe metad
 test('existing imported source metadata cannot be silently replaced',async()=>{
   await assert.rejects(repository.importProduct({...product,title:'Replacement not reviewed'}),/product_already_imported_review_required/);
   assert.equal((await repository.product(id)).title,product.title);
+});
+
+test('read-only browser probe query leaves all product/order/purchase records unchanged',async()=>{
+  const before=await repository.collection('products').get();
+  const probe=firestoreConnectionCheck(()=>database);
+  assert.equal(await probe(),undefined,'no record or configuration is returned by the probe');
+  const after=await repository.collection('products').get();
+  assert.deepEqual(after.docs.map(d=>[d.id,d.data()]),before.docs.map(d=>[d.id,d.data()]));
+  for(const name of ['orders','users','events','limits','requests','payments','providerOrders'])
+    assert.equal((await repository.collection(name).get()).docs.length,0,name+' must not be seeded or written');
 });
 
 test('actual emulator denies anonymous and signed-in browser writes/reads to purchase records',{skip:!usingEmulator},async()=>{

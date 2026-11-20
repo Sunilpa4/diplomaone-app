@@ -53,6 +53,8 @@
   let routeCounter = 0;
   let toastTimer;
   let accountState={status:window.DiplomaOneAuth?'idle':'unavailable',user:null,busy:null,error:null};
+  let connectionState={status:'idle',code:null},connectionGeneration=0;
+  const isConnectionTestSite=()=>location.origin==='https://vermillion-pothos-520a34.netlify.app';
   const accountLabels={en:{signIn:'Sign in',account:'My account',purchases:'My purchases'},gu:{signIn:'સાઇન ઇન',account:'મારું ખાતું',purchases:'મારી ખરીદી'}};
   const tr = (key) => strings[lang][key] || strings.en[key] || key;
   const text = (value) => value == null ? '' : typeof value === 'object' ? String(value[lang] || value.en || value.gu || '') : String(value);
@@ -611,19 +613,68 @@
     };
   }
   const googleMark=()=>'<svg class="google-mark" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M21.6 12.23c0-.71-.06-1.39-.18-2.05H12v3.88h5.38a4.6 4.6 0 0 1-2 3.02v2.51h3.24c1.9-1.75 2.98-4.33 2.98-7.36Z"/><path fill="#34A853" d="M12 22c2.7 0 4.96-.9 6.62-2.41l-3.24-2.51c-.9.6-2.05.96-3.38.96-2.6 0-4.8-1.76-5.6-4.12H3.05v2.6A10 10 0 0 0 12 22Z"/><path fill="#FBBC05" d="M6.4 13.92a6 6 0 0 1 0-3.84v-2.6H3.05a10 10 0 0 0 0 9.04l3.35-2.6Z"/><path fill="#EA4335" d="M12 5.96c1.47 0 2.79.5 3.83 1.5L18.7 4.6A9.62 9.62 0 0 0 12 2a10 10 0 0 0-8.95 5.48l3.35 2.6A5.99 5.99 0 0 1 12 5.96Z"/></svg>';
-  function showAccount(purchases=false) {
-    const c=accountCopy(),s=accountState,user=s.user,busy=!!s.busy,preparing=['idle','loading'].includes(s.status);
-    const labels=accountLabels[lang],title=purchases?c.purchaseTitle:c.title;
+  function connectionCopy(){
+    const local=(en,gu)=>lang==='gu'?gu:en;
+    return {
+      title:local('Test database connection.','ટેસ્ટ ડેટાબેઝનું જોડાણ.'),
+      subtitle:local('A manual, read-only setup check for approved testers. Checkout stays OFF.','મંજૂર ટેસ્ટર માટે મેન્યુઅલ, માત્ર વાંચનની સેટઅપ તપાસ. ચેકઆઉટ બંધ રહે છે.'),
+      heading:local('Read-only Firestore check','માત્ર વાંચન માટે Firestore તપાસ'),
+      body:local('One manual check queries at most one test product’s metadata. No document contents are shown; no Firestore records are created or changed.','એક મેન્યુઅલ તપાસ વધુમાં વધુ એક ટેસ્ટ પ્રોડક્ટનું મેટાડેટા વાંચે છે. ડોક્યુમેન્ટની વિગતો બતાવાતી નથી; Firestore રેકોર્ડ બનાવાતા કે બદલાતા નથી.'),
+      warning:local('This does not test Razorpay, payments or purchases. Do not paste private keys or tokens.','આ Razorpay, પેમેન્ટ કે ખરીદીની તપાસ નથી. ખાનગી કી કે ટોકન ન મોકલો.'),
+      connected:local('Google account connected','Google એકાઉન્ટ જોડાયેલું છે'),
+      signedIn:local('The server will verify whether this Google account is an approved tester. Signing in alone does not grant access.','સર્વર તપાસશે કે આ Google એકાઉન્ટ મંજૂર ટેસ્ટર છે કે નહીં. માત્ર સાઇન ઇન કરવાથી પરવાનગી મળતી નથી.'),
+      check:local('Check Firestore connection','Firestore જોડાણ તપાસો'),
+      checking:local('Checking the server’s read-only Firestore connection…','સર્વરનું માત્ર વાંચન માટેનું Firestore જોડાણ તપાસાઈ રહ્યું છે…'),
+      success:local('Firestore read succeeded. Checkout remains OFF.','Firestore વાંચન સફળ થયું. ચેકઆઉટ બંધ જ છે.'),
+      limits:local('Run once when needed, not repeatedly. Wait at least 30 seconds before another attempt. Even an empty query can incur a read; closing the page or a timeout does not undo a server read. The per-server cooldown is not a billing cap.','જરૂર હોય ત્યારે એક વાર ચલાવો, વારંવાર નહીં. બીજા પ્રયાસ પહેલાં ઓછામાં ઓછી 30 સેકન્ડ રાહ જુઓ. ખાલી ક્વેરીનો પણ વાંચન ચાર્જ થઈ શકે છે; પેજ બંધ કરવાથી કે સમય પૂરો થવાથી સર્વરનું વાંચન રદ થતું નથી. સર્વરનો વિરામ બિલિંગ મર્યાદા નથી.'),
+      link:local('Test setup: Firestore connection','ટેસ્ટ સેટઅપ: Firestore જોડાણ'),
+      errors:{
+        sign_in_required:local('Sign in with your approved Google account before checking.','તપાસ પહેલાં મંજૂર કરેલા Google એકાઉન્ટથી સાઇન ઇન કરો.'),
+        invalid_or_expired_session:local('Your session has expired. Sign out, then sign in again.','સત્ર સમાપ્ત થયું છે. સાઇન આઉટ કરીને ફરી સાઇન ઇન કરો.'),
+        tester_not_allowed:local('This account is not an approved tester. Privately add its Firebase Authentication UID to PAYMENTS_TESTER_UIDS in the test site’s Production settings, then redeploy. Do not share tokens or keys.','આ એકાઉન્ટ મંજૂર ટેસ્ટર નથી. ટેસ્ટ સાઇટની Production સેટિંગમાં PAYMENTS_TESTER_UIDS માં તેનું Firebase Authentication UID ખાનગી રીતે ઉમેરો અને ફરી ડિપ્લોય કરો. ટોકન કે કી ન મોકલો.'),
+        disable_test_checkout:local('Keep both payment flags false, then redeploy the test site before checking.','બંને પેમેન્ટ ફ્લેગ false રાખો અને તપાસ પહેલાં ટેસ્ટ સાઇટ ફરી ડિપ્લોય કરો.'),
+        firestore_not_configured:local('The server’s private Firestore configuration is missing or invalid. Review it privately in the test site’s Production settings, then redeploy.','સર્વરની ખાનગી Firestore સેટિંગ અધૂરી અથવા અમાન્ય છે. ટેસ્ટ સાઇટની Production સેટિંગ ખાનગી રીતે તપાસીને ફરી ડિપ્લોય કરો.'),
+        firestore_check_failed:local('The server could not read Firestore. Privately review the replacement service account, its Firestore permission and the database settings. No provider details are displayed here.','સર્વર Firestore વાંચી શક્યું નથી. બદલેલા સર્વિસ એકાઉન્ટ, તેની Firestore પરવાનગી અને ડેટાબેઝ સેટિંગ ખાનગી રીતે તપાસો. પ્રોવાઇડરની વિગત અહીં બતાવાતી નથી.'),
+        connection_check_rate_limited:local('A check is already running or was just attempted. Wait at least 30 seconds before trying once more.','તપાસ ચાલુ છે અથવા હમણાં થઈ છે. ફરી પ્રયાસ કરતાં પહેલાં ઓછામાં ઓછી 30 સેકન્ડ રાહ જુઓ.'),
+        connection_timeout:local('The check timed out. No success is confirmed. Wait at least 30 seconds before retrying.','તપાસનો સમય પૂરો થયો. સફળતાની પુષ્ટિ નથી. ફરી પ્રયાસ કરતાં પહેલાં ઓછામાં ઓછી 30 સેકન્ડ રાહ જુઓ.'),
+        session_changed:local('Your account session changed. Sign in again before checking.','તમારા એકાઉન્ટનું સત્ર બદલાયું છે. તપાસ પહેલાં ફરી સાઇન ઇન કરો.'),
+        test_site_required:local('This check is available only on the protected test site.','આ તપાસ માત્ર સુરક્ષિત ટેસ્ટ સાઇટ પર ઉપલબ્ધ છે.'),
+        connection_check_unavailable:local('The check is unavailable. Confirm you are on the protected test site’s current Production deployment, then try again later.','તપાસ ઉપલબ્ધ નથી. સુરક્ષિત ટેસ્ટ સાઇટના હાલના Production ડિપ્લોયમેન્ટ પર છો તેની ખાતરી કરો અને પછી ફરી પ્રયાસ કરો.')
+      }
+    };
+  }
+  function showConnectionPanel(){
+    const c=connectionCopy(),s=connectionState,signedIn=accountState.status==='signed-in'&&!!accountState.user;
+    const status=s.status==='success'?c.success:s.status==='checking'?c.checking:
+      s.status==='error'?(c.errors[s.code]||c.errors.connection_check_unavailable):'';
+    return `<section class="account-phase-note connection-panel" aria-labelledby="connection-heading"><h2 id="connection-heading">${esc(c.heading)}</h2><p>${esc(c.body)}</p><p>${esc(c.warning)}</p>
+      ${!signedIn?`<p>${esc(c.errors.sign_in_required)}</p>`:''}
+      <button type="button" class="button-primary" id="connection-check" ${!signedIn||accountState.busy||s.status==='checking'?'disabled':''}>${esc(s.status==='checking'?c.checking:c.check)}</button>
+      <div id="connection-result" class="connection-result" role="${s.status==='error'?'alert':'status'}" aria-live="polite" tabindex="-1">${esc(status)}</div><p class="connection-limits">${esc(c.limits)}</p></section>`;
+  }
+  function resetConnection(cancel=false){
+    ++connectionGeneration;connectionState={status:'idle',code:null};
+    if(cancel)window.DiplomaOneAuth?.cancelTestConnection?.();
+  }
+  function showAccount(purchases=false,connection=false) {
+    const c=accountCopy(),check=connectionCopy(),s=accountState,user=s.user,busy=!!s.busy,preparing=['idle','loading'].includes(s.status);
+    if(connection&&!isConnectionTestSite())return `${shell(check.title,check.subtitle,[{label:check.heading}])}<section class="page-content"><div class="wrap"><p class="account-phase-note">${esc(check.errors.test_site_required)}</p></div></section>`;
+    const labels=accountLabels[lang],title=connection?check.title:purchases?c.purchaseTitle:c.title;
     const error=s.error?`<div class="account-message" role="alert"><p>${esc(c.errors[s.error.code]||c.fallback)}</p><small>${esc(s.error.code)}</small></div>`:'';
     const purchaseNotice=`<div class="account-phase-note"><strong>${esc(c.purchaseNotice)}</strong><p>${esc(c.purchaseBody)}</p></div>`;
     let content;
-    if(user) {
+    if(user&&connection){
+      // The diagnostic page/status deliberately does not echo profile, UID or
+      // email. The existing My account page still has its usual profile view.
+      content=`<div class="account-emblem">${icon('check')}</div><h2>${esc(check.connected)}</h2><p class="account-intro">${esc(check.signedIn)}</p><div class="account-actions"><button type="button" id="account-signout" class="save-button" ${busy?'disabled':''}>${esc(busy?c.working:c.signOut)}</button><a class="button-text" href="#/account">${esc(labels.account)} →</a></div>`;
+    }else if(user) {
       const display=user.displayName||c.student;
       content=`<div class="account-identity"><span class="account-avatar" aria-hidden="true">${esc(Array.from(display.trim())[0]||'D')}</span><div><p class="eyebrow">${esc(labels.account)}</p><h2>${esc(display)}</h2></div></div><dl class="account-details"><div><dt>${esc(c.email)}</dt><dd>${esc(user.email||'—')}</dd></div><div><dt>${esc(c.emailStatus)}</dt><dd>${esc(user.emailVerified?c.verified:c.unverified)}</dd></div></dl><div class="account-actions"><button type="button" id="account-signout" class="save-button" ${busy?'disabled':''}>${esc(busy?c.working:c.signOut)}</button><a class="button-text" href="#/${purchases?'account':'purchases'}">${esc(purchases?labels.account:labels.purchases)} →</a></div>`;
     } else {
-      content=`<div class="account-emblem">${icon('school')}</div><h2>${esc(c.heading)}</h2><p class="account-intro">${esc(purchases?c.purchaseSignIn:c.intro)}</p>${preparing?`<p class="account-preparing"><span class="spinner" aria-hidden="true"></span>${esc(c.loading)}</p>`:''}${s.status==='unavailable'?`<p>${esc(c.fallback)}</p><button type="button" id="account-retry" class="paper-control">${esc(c.retry)}</button>`:`<button type="button" id="account-signin" class="google-signin-button" ${preparing||busy?'disabled':''}>${googleMark()}<span>${esc(busy?c.working:c.google)}</span></button>`}`;
+      content=`<div class="account-emblem">${icon('school')}</div><h2>${esc(c.heading)}</h2><p class="account-intro">${esc(connection?check.errors.sign_in_required:purchases?c.purchaseSignIn:c.intro)}</p>${preparing?`<p class="account-preparing"><span class="spinner" aria-hidden="true"></span>${esc(c.loading)}</p>`:''}${s.status==='unavailable'?`<p>${esc(c.fallback)}</p><button type="button" id="account-retry" class="paper-control">${esc(c.retry)}</button>`:`<button type="button" id="account-signin" class="google-signin-button" ${preparing||busy?'disabled':''}>${googleMark()}<span>${esc(busy?c.working:c.google)}</span></button>`}`;
     }
-    return `${shell(title,purchases?c.purchaseBody:c.subtitle,[{label:labels.account,href:purchases?'#/account':undefined},...(purchases?[{label:labels.purchases}]:[])])}<section class="page-content"><div class="wrap account-layout" data-account-view><article class="account-card" aria-busy="${preparing||busy}">${content}${error}<p id="account-status" class="sr-only" role="status" aria-live="polite">${esc(preparing?c.loading:busy?c.working:user?c.connected:s.status==='signed-out'?c.ready:c.fallback)}</p><p class="account-session">${esc(c.session)}</p><a class="account-privacy" href="#/privacy">${esc(c.privacy)} ↗</a></article><aside class="account-sidebar">${purchaseNotice}<div class="account-reading-note"><p>${esc(c.local)}</p><a class="button-text" href="#/branches">${esc(c.read)} →</a></div></aside></div></section>`;
+    const setupLink=!connection&&isConnectionTestSite()?`<a class="button-text" href="#/test-connection">${esc(check.link)} →</a>`:'';
+    return `${shell(title,connection?check.subtitle:purchases?c.purchaseBody:c.subtitle,[{label:labels.account,href:purchases||connection?'#/account':undefined},...(connection?[{label:check.heading}]:purchases?[{label:labels.purchases}]:[])])}<section class="page-content"><div class="wrap account-layout" data-account-view><article class="account-card" aria-busy="${preparing||busy}">${content}${error}<p id="account-status" class="sr-only" role="status" aria-live="polite">${esc(preparing?c.loading:busy?c.working:user?c.connected:s.status==='signed-out'?c.ready:c.fallback)}</p><p class="account-session">${esc(c.session)}</p><a class="account-privacy" href="#/privacy">${esc(c.privacy)} ↗</a></article><aside class="account-sidebar">${connection?showConnectionPanel():purchaseNotice}${setupLink}<div class="account-reading-note"><p>${esc(c.local)}</p><a class="button-text" href="#/branches">${esc(c.read)} →</a></div></aside></div></section>`;
   }
   function updateAccountLinks() {
     // Before the optional SDK loads, the saved session is unknown, not signed out.
@@ -632,18 +683,31 @@
     document.querySelectorAll('[data-purchases-link]').forEach(a=>{a.textContent=labels.purchases;});
   }
   function bindAccount() {
+    if(!main.querySelector('[data-account-view]'))return;
     const service=window.DiplomaOneAuth;
     if(!service){main.querySelector('#account-retry')?.addEventListener('click',()=>location.reload());return;}
     const focusAction=()=>{if(main.querySelector('[data-account-view]'))main.querySelector('#account-signout,#account-signin,#account-retry')?.focus();};
     main.querySelector('#account-signin')?.addEventListener('click',()=>{service.signIn(lang).then(focusAction);});
     main.querySelector('#account-signout')?.addEventListener('click',()=>{service.signOut().then(focusAction);});
     main.querySelector('#account-retry')?.addEventListener('click',()=>{service.initialize().then(focusAction);});
+    main.querySelector('#connection-check')?.addEventListener('click',event=>{
+      if(!event.currentTarget.isConnected||!isConnectionTestSite()||location.hash!=='#/test-connection'||connectionState.status==='checking'||
+        accountState.status!=='signed-in'||!accountState.user||accountState.busy)return;
+      const generation=++connectionGeneration;connectionState={status:'checking',code:null};render();
+      let request;try{request=service.checkTestConnection();}catch(_){request=Promise.resolve({ok:false});}
+      Promise.resolve(request).catch(()=>({ok:false})).then(result=>{
+        if(generation!==connectionGeneration||location.hash!=='#/test-connection'||accountState.status!=='signed-in'||accountState.busy)return;
+        // Render only local allowlisted copy, not raw data/messages from a server.
+        connectionState=result?.ok===true?{status:'success',code:null}:{status:'error',code:result?.code};
+        render().then(()=>{if(generation===connectionGeneration&&location.hash==='#/test-connection')main.querySelector('#connection-result')?.focus();});
+      });
+    });
     if(accountState.status==='idle')service.initialize();
   }
   function startAccount() {
     if(!window.DiplomaOneAuth)return;
     window.DiplomaOneAuth.subscribe(state=>{
-      accountState=state;updateAccountLinks();
+      resetConnection();accountState=state;updateAccountLinks();
       if(main.querySelector('[data-account-view]'))render();
     });
   }
@@ -655,14 +719,16 @@
       ['ખાતા વગર અભ્યાસ', 'આ વેબસાઇટ પર નોટ્સ વાંચવા માટે ખાતું, નામ અથવા ઇમેઇલ જરૂરી નથી.'],
       ['વૈકલ્પિક Google સાઇન ઇન', 'મારું ખાતું અથવા મારી ખરીદી ખોલવાથી સ્થાનિક રીતે હોસ્ટ કરેલો Firebase Authentication ક્લાયન્ટ લોડ થાય છે. તમે સાઇન ઇન કરો ત્યારે Google અને Firebase તમારી ઓળખ, નામ, ઇમેઇલ અને ટેકનિકલ માહિતી પર પ્રક્રિયા કરે છે. Firebase Authentication ખાતાની ઓળખનો રેકોર્ડ રાખે છે; સાઇન આઉટ કરવાથી તે રેકોર્ડ કાઢી નાખવામાં આવતો નથી. આ વેબસાઇટ તમારો Google પાસવર્ડ મેળવતી નથી કે Drive માટે પરવાનગી માગતી નથી.'],
       ['આ ઉપકરણ પર સાચવેલી માહિતી', 'ભાષા અને સાચવેલી નોટ્સ બ્રાઉઝરના સ્થાનિક સ્ટોરેજમાં રહે છે; સાઇન ઇન કર્યા પછી પણ અન્ય ઉપકરણો પર સિંક થતી નથી. Firebase સાઇન ઇનને આ ટૅબના સેશન સ્ટોરેજમાં સંભાળે છે, લાંબા સમયના લૉગિન તરીકે નહીં. શેર કરેલા ઉપકરણ પર સાઇન આઉટ કરો; બ્રાઉઝર ક્યારેક બંધ ટૅબનું સત્ર પાછું લાવી શકે છે. અહીંથી સાઇન આઉટ કરવાથી અન્ય Google સેવાઓમાંથી સાઇન આઉટ થતું નથી. બ્રાઉઝર ડેટા દૂર કરવાથી સ્થાનિક પસંદગીઓ દૂર થાય છે.'],
-      ['ખરીદી હજી શરૂ નથી', 'આ તબક્કો ચુકવણી લેતો નથી, ખરીદીના રેકોર્ડ બનાવતો નથી કે ચૂકવેલા પેપરની પરવાનગી આપતો નથી. Firestore, Firebase Storage કે Analytics શરૂ કરાતાં નથી. સાઇન ઇન કરવું ખરીદીનો પુરાવો નથી.'],
+      ['ખરીદી હજી શરૂ નથી', 'આ તબક્કો ચુકવણી લેતો નથી, ખરીદીના રેકોર્ડ બનાવતો નથી કે ચૂકવેલા પેપરની પરવાનગી આપતો નથી. બ્રાઉઝરમાં Firestore, Firebase Storage કે Analytics SDK લોડ થતાં નથી. સાઇન ઇન કરવું ખરીદીનો પુરાવો નથી.'],
+      ['સુરક્ષિત ટેસ્ટ સાઇટની તપાસ', 'ટેસ્ટ સાઇટ પર મંજૂર Google ટેસ્ટર મેન્યુઅલ Firestore જોડાણ તપાસ ચલાવી શકે છે. Firebase ID ટોકન માત્ર આ જ સાઇટના સર્વરને Authorization હેડરમાં મોકલાય છે. સર્વર તેની ઓળખ અને મંજૂર UID યાદી ચકાસે છે, વધુમાં વધુ એક ટેસ્ટ પ્રોડક્ટનું મેટાડેટા વાંચે છે અને માત્ર સુરક્ષિત સ્થિતિ આપે છે. તપાસ કંઈ લખતી નથી કે ચુકવણી ચાલુ કરતી નથી. અમે ટોકન, ડેટાબેઝની વિગતો કે તપાસનું પરિણામ એપના સ્ટોરેજ અથવા લોગમાં સાચવતા નથી.'],
       ['હોસ્ટિંગ અને બહારની લિંક્સ', 'GitHub Pages આ સાઇટ અને નોટ્સ હોસ્ટ કરે છે અને સેવા તથા સુરક્ષા માટે IP એડ્રેસ જેવી ટેકનિકલ માહિતી મેળવી શકે છે. પેપરની યાદી GitHub API પરથી મેળવાય છે. Android એપ ડાઉનલોડની લિંક તમને GitHub પર લઈ જાય છે, જ્યાં તેમની પોતાની ગોપનીયતા નીતિ લાગુ પડે છે.'],
       ['Analytics અને જાહેરાતો', 'આ વેબસાઇટ હાલમાં કોઈ analytics અથવા જાહેરાત સેવા ઉમેરતી નથી. જો આ બદલાય, તો આ માહિતી અપડેટ કરવામાં આવશે.']
     ]:[
       ['No account needed', 'You can read notes without creating an account or giving us your name or email address.'],
       ['Optional Google sign-in', 'Opening My account or My purchases loads the self-hosted Firebase Authentication client. If you choose to sign in, Google and Firebase process your account identifier, name, email and technical information to authenticate you. Firebase Authentication keeps an account identity record; signing out does not delete that record. This website does not receive your Google password or request Drive access.'],
       ['Stored on this device', 'Your language preference and saved units are stored in your browser’s local storage. They do not sync across devices after sign-in. Firebase manages sign-in data in this tab’s session storage, not as a long-term login. Sign out on shared devices; browsers can sometimes restore closed-tab sessions. Signing out here clears this site’s authentication session, not your Google session in other services. Clearing browser data removes locally stored preferences.'],
-      ['Purchases are not active', 'This phase does not collect payments, create purchase records or grant access to paid content. It does not initialize a Firestore database, Firebase Storage or Analytics. Signing in is not proof of a purchase.'],
+      ['Purchases are not active', 'This phase does not collect payments, create purchase records or grant access to paid content. The browser does not load a Firestore, Firebase Storage or Analytics SDK. Signing in is not proof of a purchase.'],
+      ['Protected test-site check', 'On the protected test site, an approved Google tester can manually run a Firestore connection check. A Firebase ID token goes only to this same site’s server in an Authorization header. The server verifies that identity against the tester UID allowlist, queries at most one test product’s metadata and returns only a safe status. The check does not write records or enable payments. We do not copy tokens, database contents or check results into application storage or logs.'],
       ['Hosting and external links', 'GitHub Pages hosts this website and its notes and may receive technical information such as IP addresses to operate and secure its service. The paper list is requested from the GitHub API. The Android download link takes you to GitHub, where its own privacy policy applies.'],
       ['Analytics and advertising', 'This website does not currently include an analytics or advertising service. If that changes, this information will be updated.']
     ];
@@ -682,10 +748,10 @@
     const [route,arg,sub]=parts; let html='', bind=null;
     main.innerHTML='<div class="loading-page"><span class="spinner" aria-label="Loading"></span></div>';
     try {
-      // Account and privacy screens must remain usable if note data is offline.
-      if(!catalog&&!['account','purchases','privacy'].includes(route)) await loadCatalog();
+      // Account, setup and privacy screens must work without the public catalog.
+      if(!catalog&&!['account','purchases','test-connection','privacy'].includes(route)) await loadCatalog();
       if(!route)html=showHome();
-      else if(route==='account'||route==='purchases'){html=showAccount(route==='purchases');bind=bindAccount;}
+      else if(route==='account'||route==='purchases'||route==='test-connection'){html=showAccount(route==='purchases',route==='test-connection');bind=bindAccount;}
       else if(route==='branches'){html=showBranches();bind=bindBranchSearch;}
       else if(route==='branch'){await loadPaperIndex();html=sub?showSemester(arg,sub):showBranch(arg);}
       else if(route==='search'){html=showSearch();bind=bindSubjectSearch;}
@@ -723,7 +789,7 @@
   langButton.addEventListener('click',()=>{lang=lang==='en'?'gu':'en';writeStore('diplomaone.website.lang',lang);updateHeader();render();});
   menuButton.addEventListener('click',()=>{const open=mobileNav.hidden;mobileNav.hidden=!open;menuButton.setAttribute('aria-expanded',String(open));});
   mobileNav.addEventListener('click',e=>{if(e.target.closest('a')){mobileNav.hidden=true;menuButton.setAttribute('aria-expanded','false');}});
-  window.addEventListener('hashchange',()=>{activeTab='notes';window.scrollTo(0,0);render();});
+  window.addEventListener('hashchange',()=>{resetConnection(true);activeTab='notes';window.scrollTo(0,0);render();});
   startAccount();
   updateHeader();render();
 })();

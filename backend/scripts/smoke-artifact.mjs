@@ -43,6 +43,17 @@ const unauthorized=await mod.default(new Request(prefix+'/purchases'));
 assert.equal(unauthorized.status,configured?401:503);
 assert.equal((await unauthorized.json()).error,configured?'sign_in_required':'backend_not_configured');
 
+// The diagnostic must exist independently of Razorpay secrets, but never query
+// Firestore or fetch JWKs before an authorized identity. Network is still blocked.
+const testOrigin='https://vermillion-pothos-520a34.netlify.app';
+const connection=await mod.default(new Request(testOrigin+'/api/payments/test/connection',{
+  method:'POST',headers:{Origin:testOrigin,'Content-Type':'application/json'},body:'{}'}));
+assert.equal(connection.status,process.argv[3]==='no-secret'?404:401);
+assert.equal((await connection.json()).error,process.argv[3]==='no-secret'?'connection_check_unavailable':'sign_in_required');
+const wrongSite=await mod.default(new Request(prefix+'/connection',{
+  method:'POST',headers:{Origin:new URL(prefix).origin,'Content-Type':'application/json'},body:'{}'}));
+assert.equal(wrongSite.status,404);assert.equal((await wrongSite.json()).error,'connection_check_unavailable');
+
 // Exercise Netlify's generated Lambda v2 bootstrap/entry as well as our default
 // export. Only AWS's response-stream primitive is simulated, not the app code.
 globalThis.awslambda={streamifyResponse:fn=>fn,HttpResponseStream:{
@@ -59,4 +70,4 @@ await complete;
 assert.equal(stream.responseMetadata.statusCode,200);
 assert.deepEqual(JSON.parse(Buffer.concat(chunks).toString('utf8')),
   {mode:'test',enabled:false,reason:'setup_required',currency:'INR'});
-console.log(`Isolated Netlify ZIP: ${configured?'configured but disabled':'no-secret'} ESM import, bundled dependencies, route and native Lambda v2 bootstrap passed`);
+console.log(`Isolated Netlify ZIP: ${process.argv[3]} ESM import, bundled dependencies, disabled routes, diagnostic gates and native Lambda v2 bootstrap passed`);

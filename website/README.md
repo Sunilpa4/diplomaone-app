@@ -4,15 +4,23 @@ The website reads `data/catalog.json`, subject files and unit files published by
 
 ## Optional Google account (phase 1)
 
-`#/account` adds Google sign-in/out using the owner's **diplomaone-53b4e** Firebase web project, a locally bundled SDK and tab-session persistence. Reading remains available without sign-in, and signing in does not sync saved units or enable purchases. `#/purchases` explicitly says checkout/purchase records are not connected. No Analytics, database or payment SDK is initialized.
+`#/account` adds Google sign-in/out using the owner's **diplomaone-53b4e** Firebase web project, a locally bundled SDK and tab-session persistence. Reading remains available without sign-in, and signing in does not sync saved units or enable purchases. `#/purchases` explicitly says checkout/purchase records are not connected. No Analytics, database or payment SDK is initialized in the browser.
 
 See **[AUTH-SETUP.md](AUTH-SETUP.md)** for the exact Firebase provider/domain setup, the different earlier Android project, reproducible build/tests, deployment files, privacy/session details and the still-pending live OAuth checklist. Public web config is not a private key or purchase authorization. Do not charge for solutions until private content and verified server-side ownership are implemented.
 
 ## Test-payment backend foundation (not enabled in this website yet)
 
-The optional Netlify server code is documented in **[../backend/README.md](../backend/README.md)**. It uses the Free-plan-first approach selected by the owner, with test-only Razorpay orders, server-verified Firebase identity, a private Postgres schema and private blob delivery. Checkout stays disabled without explicit server configuration and reviewed private imports. The current browser still has **no Buy button or connected purchase history**; no new papers are locked by this change.
+The optional Netlify server code is documented in **[../backend/README.md](../backend/README.md)**. It uses the owner's existing **Firestore** project instead of paid Netlify Database/PostgreSQL, with test-only Razorpay orders, server-verified Firebase identity and private blob delivery. No plan upgrade or additional paid service is provisioned. Checkout stays disabled without explicit server configuration and reviewed private imports. The browser still has **no Buy button or connected purchase history**; no papers are newly locked.
 
-The existing manual ZIP remains a **frontend-only** package. Server functions/database migrations require a Git-connected Netlify build using root `netlify.toml`, not a drag/drop of that ZIP. Do not enter secrets in frontend files or change plans/enable paid billing to deploy the prototype. Private-content migration, safe browser checkout/reader integration, the updated payment privacy/refund/access policy and end-to-end provider testing are still launch gates.
+The manual ZIP remains a **frontend-only** package. Server Functions require a Git-connected Netlify build using root `netlify.toml`, not a drag/drop of that ZIP. Do not enter secrets in frontend files or change plans/enable additional paid services to deploy the prototype. Private-content migration, safe browser checkout/reader integration, the updated payment privacy/refund/access policy and end-to-end provider testing are still launch gates.
+
+### Protected test-site Firestore check
+
+**`https://vermillion-pothos-520a34.netlify.app/#/test-connection`** has a manual, read-only check. It uses Google sign-in, server tester-UID authorization, the exact test-site/Production context and both checkout flags OFF. One fixed `limit(1)` server query returns only safe status. No product/purchase/order is written or seeded; no provider or rules/account setting is changed, and no Razorpay secret is needed. The link appears on My account only on that test origin. Other origins do not initialize Auth for this route or fetch a token/query.
+
+The bundled adapter never exposes a generic token getter or authenticated fetch. Tokens go only to the fixed same-origin POST header, not app-managed storage, logs, URLs or DOM. No query runs automatically at page load/sign-in/language change; pending requests are deduplicated and invalidated/cancelled on session/navigation changes. A browser timeout/cancellation does not undo an accepted server read. The 30-second server-instance cooldown is not a billing cap.
+
+See **[owner browser-check setup](../backend/README.md#read-only-browser-check-selected-owner-flow)** for the private UID allowlist/redeploy steps and result limitations. Keep Netlify Team protection and Firebase client rules unchanged. This page does not verify payments or prove real-project connectivity until the owner actually runs it.
 
 ## Local preview
 

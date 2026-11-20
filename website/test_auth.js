@@ -9,13 +9,15 @@ const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve
 const tick=()=>new Promise(resolve=>setImmediate(resolve));
 const student={uid:'test-uid',displayName:'Test Student',email:'student@example.test',emailVerified:true};
 function fixture(initialUser=null) {
-  const calls={load:0,create:0,signIn:[],signOut:0,dispose:0},observers=[],handlers={};
+  const calls={load:0,create:0,signIn:[],signOut:0,dispose:0,check:0,cancel:0},observers=[],handlers={};
   const sdk={createClient(onUser,onError) {
     ++calls.create;observers.push({onUser,onError});
     return {
       ready(){onUser(initialUser);return handlers.ready?.()||Promise.resolve();},
       signIn(language){calls.signIn.push(language);return handlers.signIn?.()||Promise.resolve();},
       signOut(){++calls.signOut;return handlers.signOut?.()||Promise.resolve();},
+      checkTestConnection(){++calls.check;return handlers.check?.()||Promise.resolve({ok:true});},
+      cancelTestConnection(){++calls.cancel;handlers.cancel?.();},
       dispose(){++calls.dispose;handlers.dispose?.();},
     };
   }};
@@ -171,6 +173,50 @@ test('session observer errors expose a safe code, not tokens or an invented logo
   f.emit(null);assert.equal(auth.snapshot().user,null);assert.equal(auth.snapshot().error,null);
 });
 
+test('diagnostic controller does not initialize/authenticate automatically and returns only safe projected results',async()=>{
+  const f=fixture(),auth=createAuthController(f.loader);
+  assert.deepEqual(await auth.checkTestConnection(),{ok:false,code:'sign_in_required'});assert.equal(f.calls.load,0);
+  await auth.initialize();assert.deepEqual(await auth.checkTestConnection(),{ok:false,code:'sign_in_required'});assert.equal(f.calls.check,0);
+  f.emit(student);const gate=deferred();f.handlers.check=()=>gate.promise;
+  const first=auth.checkTestConnection(),second=auth.checkTestConnection();assert.equal(first,second);assert.equal(f.calls.check,1);
+  gate.resolve({ok:true,token:'NEVER_EXPOSE',uid:'NEVER_EXPOSE',documents:['NEVER_EXPOSE']});
+  const result=await first;assert.deepEqual(result,{ok:true});assert.equal(Object.isFrozen(result),true);
+  assert(!JSON.stringify(auth.snapshot()).includes('NEVER_EXPOSE'));assert.equal(auth.snapshot().busy,null);
+  for(const value of [{ok:false,code:'tester_not_allowed',message:'NEVER_EXPOSE'},
+    {ok:false,code:'NEVER_EXPOSE'}, {ok:false,code:'__proto__'},null,{}]){
+    f.handlers.check=()=>Promise.resolve(value);
+    const r=await auth.checkTestConnection();assert.deepEqual(r,{ok:false,code:value?.code==='tester_not_allowed'?'tester_not_allowed':'connection_check_unavailable'});
+    assert.equal(Object.isFrozen(r),true);
+  }
+  for(const operation of [()=>{throw {message:'NEVER_EXPOSE'};},()=>Promise.reject({token:'NEVER_EXPOSE'})]){
+    f.handlers.check=operation;assert.deepEqual(await auth.checkTestConnection(),{ok:false,code:'connection_check_unavailable'});
+  }
+});
+
+test('diagnostic results are invalidated by session/logout changes, including failed logout',async()=>{
+  const f=fixture(student),auth=createAuthController(f.loader);await auth.initialize();
+  let gate=deferred();f.handlers.check=()=>gate.promise;
+  const request=auth.checkTestConnection();f.emit(null);gate.resolve({ok:true});
+  assert.deepEqual(await request,{ok:false,code:'session_changed'});
+  f.emit(student);gate=deferred();const other=auth.checkTestConnection();f.emit({...student,uid:'other-user'});gate.resolve({ok:true});
+  assert.deepEqual(await other,{ok:false,code:'session_changed'});
+  gate=deferred();const failedLogout=auth.checkTestConnection();
+  f.handlers.signOut=()=>Promise.reject({code:'auth/network-request-failed'});await auth.signOut();gate.resolve({ok:true});
+  assert.deepEqual(await failedLogout,{ok:false,code:'session_changed'});assert.equal(auth.snapshot().status,'signed-in');
+  const count=f.calls.cancel;f.error({code:'auth/user-token-expired'});assert.equal(f.calls.cancel,count+1);
+});
+
+test('navigation cancellation invalidates a pending diagnostic without clearing a newer request',async()=>{
+  const f=fixture(student),auth=createAuthController(f.loader);await auth.initialize();
+  const old=deferred(),current=deferred();f.handlers.check=()=>old.promise;
+  const first=auth.checkTestConnection();auth.cancelTestConnection();
+  f.handlers.check=()=>current.promise;const second=auth.checkTestConnection();assert.notEqual(first,second);
+  old.resolve({ok:true});assert.deepEqual(await first,{ok:false,code:'session_changed'});
+  assert.equal(auth.checkTestConnection(),second);assert.equal(f.calls.check,2);
+  current.resolve({ok:true});assert.deepEqual(await second,{ok:true});
+  assert.equal(typeof auth.getIdToken,'undefined');assert.equal(typeof auth.fetch,'undefined');
+});
+
 // Exercise the real Firebase adapter with explicit SDK boundary doubles. This
 // verifies calls/scopes/persistence without a Firebase emulator or live project.
 test('Firebase adapter uses the owner web config, session persistence and Google only',async()=>{
@@ -197,17 +243,36 @@ test('Firebase adapter uses the owner web config, session persistence and Google
     signInWithPopup(received,provider){assert.equal(received,auth);calls.provider=provider;return Promise.resolve({accessToken:'not-exposed'});},
     signOut(received){assert.equal(received,auth);calls.signedOut=true;return Promise.resolve();},
   };
-  const context=vm.createContext({sdk});vm.runInContext(result.outputFiles[0].text,context);
-  const onUser=()=>{},onError=()=>{},client=context.ClientAdapter.createClient(onUser,onError);
+  const http=[],notifications=[],token='offlineFixture.onlyNotReal.signature';
+  let httpResponse=()=>Promise.resolve(Response.json({mode:'test',database:'firestore',readable:true,readOnly:true,checkoutEnabled:false,paymentsVerified:false}));
+  const context=vm.createContext({sdk,AbortController,TextDecoder,setTimeout,clearTimeout,
+    location:{origin:'https://vermillion-pothos-520a34.netlify.app',hash:'#/test-connection'},fetch:(...args)=>{http.push(args);return httpResponse();}});
+  vm.runInContext(result.outputFiles[0].text,context);
+  const onUser=value=>notifications.push(['user',value]),onError=value=>notifications.push(['error',value]);
+  const client=context.ClientAdapter.createClient(onUser,onError);
   assert.equal(calls.config.projectId,'diplomaone-53b4e');assert.equal(calls.config.authDomain,'diplomaone-53b4e.firebaseapp.com');
   assert.equal(calls.config.appId,'1:784760831297:web:4d682878a2efb0b4c075c0');assert.equal(calls.config.measurementId,undefined);
   assert.equal(calls.name,'diplomaone-website');assert.equal(calls.options.persistence,session);assert.equal(calls.options.popupRedirectResolver,resolver);
-  assert.equal(calls.onUser,onUser);assert.equal(calls.onError,onError);await client.ready();assert.equal(calls.ready,true);
+  assert.equal(typeof calls.onUser,'function');assert.equal(typeof calls.onError,'function');
+  await client.ready();assert.equal(calls.ready,true);
   const signIn=client.signIn('gu');assert(calls.provider,'popup must be invoked before returning to the event loop');
   assert.equal(JSON.stringify(calls.provider.parameters),JSON.stringify({prompt:'select_account'}));
   assert.equal(auth.languageCode,'gu');assert.equal(await signIn,undefined,'never return OAuth credentials to views');
   await client.signIn('unexpected-language');assert.equal(auth.languageCode,'en');
-  await client.signOut();assert.equal(calls.signedOut,true);client.dispose();assert.equal(calls.disposed,true);
+  assert.equal(http.length,0,'initialization/sign-in do not trigger a diagnostic');
+  calls.onUser(student);calls.onError('offline-error');assert.deepEqual(notifications,[['user',student],['error','offline-error']]);
+  auth.currentUser={getIdToken(){calls.token=(calls.token||0)+1;return Promise.resolve(token);}};
+  assert.equal(JSON.stringify(await client.checkTestConnection()),JSON.stringify({ok:true}));
+  assert.equal(calls.token,1);assert.equal(http[0][0],'/api/payments/test/connection');
+  assert.equal(http[0][1].headers.Authorization,'Bearer '+token);
+  assert(!Object.keys(client).some(key=>/get.*token|fetch|request/i.test(key)),'no generic token or authenticated-fetch export');
+  const gate=deferred();httpResponse=()=>gate.promise;
+  const pending=client.checkTestConnection();await tick();
+  await client.signOut();assert.equal(calls.signedOut,true);assert.equal(http[1][1].signal.aborted,true);
+  assert.equal(JSON.stringify(await pending),JSON.stringify({ok:false,code:'session_changed'}));
+  gate.resolve(Response.json({private:'NEVER_EXPOSE'}));await tick();
+  client.dispose();assert.equal(calls.disposed,true);
+  assert.equal(JSON.stringify(await client.checkTestConnection()),JSON.stringify({ok:false,code:'session_changed'}));
 });
 
 test('the checked-in SDK is ESM, self-hosted and exposes only createClient',()=>{

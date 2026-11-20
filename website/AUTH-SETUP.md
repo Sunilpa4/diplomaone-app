@@ -1,6 +1,16 @@
 # Google sign-in — phase 1
 
-## What this change does (and does not do)
+## Follow-up: protected read-only setup check
+
+The phase-1 sign-in baseline below now also supports one narrowly scoped **manual** request at **`https://vermillion-pothos-520a34.netlify.app/#/test-connection`**. It uses the same Auth-only SDK; no browser Firestore/payment SDK, generic authenticated fetch or token getter is exposed. Only this exact test origin/diagnostic route can request a token, and the server separately enforces Production context, verified Google identity, the tester UID allowlist and both checkout flags OFF. The server makes one fixed products query with `limit(1)` and returns a safe status, never document contents or profile/UID/email/configuration details. It requires no Razorpay secret.
+
+Tokens remain inside the bundled SDK/request helper and only in the fixed same-origin Authorization header, never app-managed storage, URLs, DOM or logs. Pending checks are deduplicated, bounded by a 15-second browser deadline and invalidated/cancelled on logout, account change or navigation. Cancellation cannot undo a server read already accepted. There is no automatic probe/retry/polling; the server's 30-second per-instance cooldown is **not a distributed billing cap**. Google/JWK/Firestore/hosting requests can still incur their applicable usage.
+
+For the owner-only UID/environment/redeploy steps and safe result interpretation, see **[backend setup](../backend/README.md#read-only-browser-check-selected-owner-flow)**. Keep Netlify Team protection, existing Firebase client rules and both payment flags OFF. A UI/mock/CI success still does not prove real OAuth, the owner's Firestore IAM/connectivity or any payment.
+
+The follow-up passed **44 offline controller/request/UI tests**, **9 new diagnostic Chromium scenarios** and the **33 existing account browser checks**. See **[the current validation record](../backend/VALIDATION.md)** for backend/artifact results and remaining owner/CI acceptance; the phase-1 numbers at the end of this document are historical.
+
+## What phase 1 does (and does not do)
 
 - Optional Google sign-in, profile display and real Firebase sign-out at `#/account`.
 - English/Gujarati account UI, session restoration, explicit loading states, popup/network/configuration error messages, and a retry for an unavailable SDK.
@@ -64,7 +74,7 @@ NODE_PATH="$PWD/website/node_modules" python3 tools/test_netlify_package.py
 
 ## Session and security choices
 
-- The small `auth.js` controller loads the SDK only on opening Account/Purchases. It does not contact Firebase just because someone reads a note. On a reload, the header uses a neutral **My account** until the optional SDK restores/knows the session; the site does not falsely infer a signed-out state from an unloaded SDK.
+- The small `auth.js` controller loads the SDK only on opening Account/Purchases or the diagnostic on the exact protected test origin. It does not contact Firebase just because someone reads a note or opens the unavailable diagnostic route on another host. On a reload, the header uses a neutral **My account** until the optional SDK restores/knows the session; the site does not falsely infer a signed-out state from an unloaded SDK.
 - `initializeAuth` explicitly uses **browser-session persistence**, not a long-term remembered login. The SDK, not application code, manages its session tokens. Browsers can restore/duplicate tab sessions, so shared-device users should explicitly sign out rather than rely on closing a tab. Sign-out does not erase the account's Firebase Authentication record or log the user out of other Google services.
 - Only UID/name/email/email-verification metadata reaches the controller; only escaped name/email/status appears in the UI. No user photo/tracking URL is loaded. OAuth credentials and raw errors are not logged, copied to custom storage, rendered in HTML or placed in URLs. There is no app-managed `purchased=true` flag.
 - The Google provider asks for its standard sign-in identity, selects an account explicitly, and requests **no Drive scopes**. Sign-in is called directly in the click path after the SDK is ready; an initial import/retry never opens a popup automatically. There is no silent redirect fallback.
@@ -83,8 +93,10 @@ The agreed later prices are **per individual subject/exam-session solution**, no
 Automated, offline:
 
 - `test_auth.js`: lazy/deduplicated initialization, projected profile only, direct click invocation, safe errors, observer-based identity, failed sign-out, import/session deadlines, stale callbacks, retry and the actual adapter's Firebase API boundary.
-- `test_account.js`: real controller plus DOM/router, both languages, profile XSS, loading/errors/retry, no invented purchases, local preferences, catalog failure and navigation races, and exact CSP/script ordering. It also runs against the extracted Netlify package.
+- `test_connection.js`: real narrow request helper with offline token/HTTP boundaries; exact origin/endpoint/header, no automatic requests/retries, pending-call deduplication, cancellation, timeouts, bounded JSON/status projection, malformed token/hosting/response failures and no raw payload/token exposure.
+- `test_account.js`: real controller plus DOM/router, both languages, profile XSS, loading/errors/retry, no invented purchases, local preferences, catalog failure and navigation races, manual-only diagnostic/sign-in/errors/session/navigation states, and exact CSP/script ordering. It also runs against the extracted Netlify package.
 - `test_account_browser.js`: optional Chromium checks of the shipped controller/app/CSP at **320, 390, 768, 1024 and 1365 px**, English/Gujarati, with an offline SDK double for success/failure UI. Separate smoke checks load the **real bundle** with external networking blocked (desktop/mobile user agent) and verify graceful GAPI-loading failure. A GitHub Pages-style subpath checks relative ESM resolution. Screenshots stay under ignored `build/account-browser/`. See the commands at the top of that script; `CHROMIUM_EXECUTABLE_PATH` can select a locally installed browser. These are **not** live Google OAuth tests or Safari-device certification.
+- `test_connection_browser.js`: optional fully intercepted Chromium scenarios at **320/390/1365 px**, English/Gujarati, using the real narrow request helper and explicit offline Auth/HTTP boundaries. Checks same-origin POST headers, manual-only requests, safe rejection/success/hosting errors, gesture/focus/layout/CSP and the late-token/navigation-event race. It serves local packaged files even under the fixture test hostname; it does not call the real site. See the commands at the top of the script; screenshots stay under ignored `build/connection-browser/`.
 - The existing question-card, Mechanical/Electrical placement/listing, saved-note link and Netlify package regressions remain applicable. The live `test_published_papers.js` needs outbound access to GitHub Pages; a sandbox without that access cannot certify public CORS/deployment.
 
 Still required after deploying and completing Console setup:
@@ -98,7 +110,7 @@ Still required after deploying and completing Console setup:
 
 Do not mark these live steps complete based on mocks, a generated ZIP, CI success or the presence of a public API key.
 
-### Local validation recorded for this change
+### Initial phase-1 validation (historical baseline)
 
 - Clean pinned `npm ci`, generated-bundle freshness check, **13 auth/adapter tests and 11 account/DOM tests passed**. The same 24 tests also passed against the controller/UI extracted from the manual Netlify ZIP.
 - **33 offline Chromium account checks passed**: 30 layout/state cases across five widths and two languages, two actual-SDK/network-blocked smoke cases, and one project-subpath case. Mock success is never substituted for live OAuth.

@@ -6,7 +6,7 @@ The owner chose **Cloud Firestore instead of Netlify Database** after Netlify re
 
 This backend uses **Netlify Functions + Firestore records + private Netlify Blobs files**, with existing Firebase Google sign-in. It no longer needs PostgreSQL, `pg`, `NETLIFY_DB_URL`, Netlify Database or a SQL migration. No old database was provisioned or contains purchases to migrate. No additional Firebase Storage/Functions service, plan upgrade, billing change or paid resource is provisioned by this code.
 
-**This is not a finished checkout.** No Buy button, connected My purchases screen, private browser reader, provider webhook, private paper import or actual Razorpay payment has been set up. There are no seeded products/fake purchases. Existing public reading access, publishers, paper sources and the frontend-only ZIP are unchanged. Both checkout flags remain **false**.
+**This is not a finished checkout.** No Buy button, connected My purchases screen, private browser reader, provider webhook, private paper import or actual Razorpay payment has been set up. There are no seeded products/fake purchases. Existing public reading access, publishers and paper sources are unchanged. The browser now has a **manual, tester-only read-only Firestore check** on the protected test site; the frontend-only ZIP is rebuilt with that UI but cannot deploy its API. Both checkout flags remain **false**.
 
 Firebase's free Firestore allowance can reduce initial costs, but an already billed project is **not a hard spending cap**. Reads, writes, retries, storage and usage above applicable allowances can incur charges. Review the project's actual usage/billing; do not upgrade Netlify just for a database. The small order budgets below do not limit all API/database traffic or prevent denial of service. [Firestore pricing](https://firebase.google.com/docs/firestore/pricing) / [quotas](https://firebase.google.com/docs/firestore/quotas).
 
@@ -16,13 +16,14 @@ Firebase's free Firestore allowance can reduce initial costs, but an already bil
 - **Server identity:** Google's public JWKs, RS256, exact Firebase audience/issuer/project, valid time/UID claims and Google provider. The older Android project `diplomaone` is not accepted. Verification of ID tokens does not use the database service-account private key. Disabled/revoked-account lookup is not implemented: already issued tokens may remain usable until expiry.
 - **Explicit server credentials:** Firestore's privileged Node client receives only validated same-project service-account email/RSA private key and the fixed Google endpoint/universe, using native gRPC over verified TLS. It does not discover an unrelated ADC project or accept a production emulator override. Public Firebase web config/API keys are **not** Admin credentials.
 - **Invite-only:** at most 10 Firebase tester UIDs; empty/invalid lists cannot enable checkout. Protected browser requests require an invited UID; provider-signed webhooks may fulfill previously created orders without browser login.
+- **Manual read-only setup check:** `POST /connection` is independent of Razorpay secrets. Only the exact HTTPS test-site URL, Netlify Production context, same-origin JSON POST, verified Google/Firebase identity, allowlisted tester UID and both flags OFF permit a fixed `diplomaone_test/v1/products` query with `limit(1)`. No repository writes, provider/storage calls, content import, seeding or rule/account changes. Its response is safe status only; no document, token, UID/email or configuration dump. In-flight/30-second **per-instance** protection is best-effort, not a distributed usage/billing cap.
 - **Prices:** one individual subject/exam-session, not a bundle. Computer **₹19 / 1900 paise**; Mechanical/Electrical/Civil **₹29 / 2900**; Chemical **₹39 / 3900**. Canonical product metadata/branch is re-read inside the reservation transaction; browser amount/UID/branch fields are refused. Common Maths-I `DI01000021`, Applied Physics `DI01000121` and existing notes remain free. Unknown branches fail closed; catalog overlap must not guess a branch.
 - **Durable transactions:** atomic request mappings, active-order pointers, unique provider-order/payment documents, grants/revocations and event-body hashes. UIDs and compound identity keys are hashed into safe document paths. All transaction reads precede writes; retried callbacks do not call Razorpay or storage. No production memory fallback.
 - **Rolling order budgets:** shared transactionally updated bounded timestamp arrays permit at most **5 new orders per UID/trailing hour** and **50 total/trailing 24 hours**. No background scan, TTL service, composite-index deployment or database count query is needed. These are pilot safeguards, not a billing or DDoS guarantee.
 - **Provider safety:** save reservation before provider creation; uncertain creation remains blocked for reconciliation by receipt, not blind duplicate retry. Missing private assets stop provider creation. Callback HMAC uses the stored order ID; canonical Razorpay order/payment reads must confirm the exact receipt, UID-bound local order, INR amount, fully paid order and captured/unrefunded payment. Browser success/notes alone never grant access.
 - **Webhooks/refunds:** raw-byte HMAC with separate secret, event-ID/hash replay checks and atomic writes. Unrelated merchant test orders cannot create local purchases. Any confirmed test refund, including a partial one, revokes that order. Refund-before-capture cannot later re-grant it; an old refunded order cannot revoke a newer repurchase. No capture, refund, payout or live-money request is implemented. This defensive test behavior is not an agreed customer refund policy.
 - **Private delivery:** Firestore stores bounded allowlisted metadata and purchase records, **not answer HTML/PDF/image bytes**. Files use the separate private **`diplomaone-private-test`** Blobs store. Every content request checks UID/ownership, allowed manifest asset, SHA256 and size. Maximum **4 MiB/file**, 300 metadata entries/paper. HTML is plain text/attachment with sandbox CSP, `nosniff` and `private, no-store`; a future reader must sanitize and authenticate image fetches. No public full-answer fallback.
-- **Safe errors/deployment:** no raw SDK/provider/JWT errors, credentials, tokens or customer email in API responses/application logs. Firestore records contain UID/product/order/payment IDs, amounts/status/timestamps, not card credentials or copied Google profiles. Database failure is an error, never invented purchase history. Same-origin relative URLs, HTTPS, no permissive CORS/cookies/token-in-query. Disabled config performs no database/provider/storage operation.
+- **Safe errors/deployment:** no raw SDK/provider/JWT errors, credentials, tokens or customer email in API responses/application logs. Firestore records contain UID/product/order/payment IDs, amounts/status/timestamps, not card credentials or copied Google profiles. Database failure is an error, never invented purchase history. Same-origin relative URLs, HTTPS, no permissive CORS or token-in-query. Cookies never authorize application access; hosting-gate cookies may accompany same-origin requests. Disabled config performs no database/provider/storage operation.
 
 ### Firestore is not a browser payment database
 
@@ -38,7 +39,7 @@ Do not disconnect GitHub, move the production domain or upgrade Netlify. Root `n
 
 Root `package.json`/lock own runtime dependencies (`@google-cloud/firestore`, `jose`, `@netlify/blobs`; `parse5` is used by the private importer). `backend/` is not a separate npm project. The real Netlify v2 tracer must resolve packages from the repository base. Static publish output is an explicit 12-file allowlist and excludes backend, dependencies, secrets, private content and test tooling.
 
-The manual **`DiplomaOne-Netlify.zip` is frontend-only**; drag-and-drop cannot deploy this API. It remains unchanged.
+The manual **`DiplomaOne-Netlify.zip` is frontend-only**; drag-and-drop cannot deploy this API. It includes the diagnostic UI, but that UI only works with the Git-connected API on the designated test site.
 
 ### 2. Verify the reported Firestore settings; keep rules locked
 
@@ -71,8 +72,8 @@ To create the owner-managed key, open the dedicated service account → **Keys �
 | `FIREBASE_CLIENT_EMAIL` | Dedicated same-project service-account `client_email`, not a Google login email |
 | `FIREBASE_PRIVATE_KEY` | Its PEM `private_key`, multiline or with literal `\n` escapes; never chat/Git/browser |
 | `RAZORPAY_KEY_ID` | Public Test ID `rzp_test_ToAdJ9DdVMFeM2` |
-| `RAZORPAY_KEY_SECRET` | Matching **Test** key secret, directly in Netlify |
-| `RAZORPAY_WEBHOOK_SECRET` | Separate strong secret, at least 32 characters; later match Razorpay's Test webhook setting |
+| `RAZORPAY_KEY_SECRET` | Later checkout only: matching **Test** secret, directly in Netlify; **not needed for the read-only check** |
+| `RAZORPAY_WEBHOOK_SECRET` | Later checkout only: separate strong secret, at least 32 characters; **not needed for the read-only check** |
 | `PAYMENTS_TESTER_UIDS` | 1–10 comma-separated Firebase Authentication **UIDs**, not tokens/emails/passwords |
 | `PAYMENTS_TEST_ENABLED` | **`false`** |
 | `PAYMENTS_PRIVATE_MIGRATION_CONFIRMED` | **`false`** |
@@ -85,16 +86,33 @@ After redeploy, `/api/payments/test/config` must still return:
 {"mode":"test","enabled":false,"reason":"setup_required","currency":"INR"}
 ```
 
-The owner already confirmed that response after the earlier packaging repair. It proves disabled function startup only, **not Firestore/Razorpay readiness**. Use the latest branch deployment/stable URL, not an immutable old deploy-ID URL. Agent-side requests remain behind Netlify Team protection; do not remove protection/share login just to expose setup status. A future provider webhook needs deliberately reviewed reachability.
+That response proves disabled function startup only, **not Firestore/Razorpay readiness**. The owner reports replacement credentials and redeployment; the latest real config/connection response has not been independently observed. Use the latest reviewed branch deployment/stable URL, not an immutable old deploy-ID URL. Agent-side requests remain behind Netlify Team protection; do not remove protection or share login. A future provider webhook needs deliberately reviewed reachability.
 
-For an independent **read-only Firestore check**, the owner may securely supply the three Firebase server values in their local environment and run from the repository root:
+### Read-only browser check (selected owner flow)
 
-```sh
-npm ci --include=dev --ignore-scripts --no-fund
-npm run check:firestore
-```
+Use **only `vermillion-pothos-520a34`**, keeping its existing Team protection and its Production branch on the reviewed `arena/7e6ec7f8-diplomaone-app` code. Do not change the public project's branch/domain, Firebase rules, account settings or either checkout flag for this check.
 
-This reads at most one product record; it never writes/seeds data, calls Razorpay, changes rules or enables checkout. Successful output says `readable: true` / `checkoutChanged: false`. Failed output is sanitized. Do not paste real environment values into a command committed to Git, shell history, chat or CI.
+1. Confirm any previously exposed service-account key is **deleted/revoked in Google Cloud**. Adding a replacement in Netlify does not revoke the old key. Keep the replacement private; no extra key is needed for this feature.
+2. Keep `PAYMENTS_TEST_ENABLED=false` and `PAYMENTS_PRIVATE_MIGRATION_CONFIRMED=false`. The existing three private Firebase server values and default database setting above are sufficient; no Razorpay secret, product import, collection seeding or write test is required.
+3. Privately find your approved Google account's **UID** in **`diplomaone-53b4e → Authentication → Users`**. If it has not signed in to this web project yet, first deploy the reviewed branch and sign in at the link below; signing in does **not** run a Firestore probe. The Auth SDK manages the usual account/session record, as described in the privacy notice.
+4. On the **test site's** environment page, set **`PAYMENTS_TESTER_UIDS`** to that UID (1–10 comma-separated UIDs if needed), **Production-only values**, not all-context/branch overrides. Use Functions-only scope if offered; on Free, all scopes also exposes values to the trusted Production build as explained above. Do not paste the UID's token, email, private key or JSON here or into frontend files.
+5. Redeploy that test site's **latest branch commit** so its Function receives the updated allowlist. Open this stable URL in a normal top-level tab; complete the existing Netlify protection gate if asked:
+
+   **https://vermillion-pothos-520a34.netlify.app/#/test-connection**
+
+6. Sign in with the approved Google account and click **Check Firestore connection** **once**. The page is also linked from My account on this exact test site only. Neither opening/reloading the page, signing in nor changing language automatically runs a query.
+
+A success displays **“Firestore read succeeded. Checkout remains OFF.”** It proves the deployed server could execute the fixed, read-only metadata query with its configured credentials, even if the products collection is empty. It does **not** prove write permission, private content availability, working checkout/My purchases, Razorpay/webhook setup, current billing limits or live-payment readiness.
+
+Only local, allowlisted status copy is displayed. The page/API never echo database records, credentials, tokens, UID/email, raw provider errors or a configuration dump. The bundled Auth adapter obtains a Firebase ID token only for this exact origin and sends it to the **fixed relative same-origin endpoint** as an Authorization header. It is not exposed through a generic token getter/fetch method or copied to app-managed storage/logs/URLs/DOM. The diagnostic page omits the ordinary account profile display. No browser Firestore/Admin/payment SDK is loaded.
+
+Safe failures explain missing tester approval, expired sign-in, invalid private server setup, disabled-checkout requirements, a failed read or an unavailable/old deployment. Keep Team protection enabled if its session expires: reopen the site and complete that gate, do not bypass it. Share **only the displayed status/error code**, never network Authorization headers or screenshots containing secrets. A `firestore_check_failed` status does not reveal or automatically repair IAM, credentials or network settings.
+
+The browser deduplicates pending checks and uses a **15-second deadline**, with best-effort cancellation on account/logout/navigation changes and no automatic retry. A server read may still finish after cancellation/timeout. Wait **at least 30 seconds** before another manual attempt; the server rejects in-flight/short-interval attempts with `429` / `Retry-After: 30`. This cooldown is **per Function instance**, can reset on cold starts, and is not a distributed billing cap. Even an empty query can incur a read; do not repeatedly probe a billed project.
+
+#### Optional local alternative (not required for the browser flow)
+
+An owner with a securely prepared local environment can still run `npm ci --include=dev --ignore-scripts --no-fund` and **`npm run check:firestore`** from the repository root. It also reads at most one product record, writes nothing and reports sanitized status. Do not paste real environment values into commands committed to Git, shell history, chat or CI.
 
 ### 5. Separately review private publishing/migration before importing
 
@@ -128,17 +146,18 @@ npm run import:paper -- /PRIVATE/path/paper.json --apply
 
 ### 6. Complete browser/provider/policy gates, then deliberately approve testers
 
-Still pending: SDK-contained ID-token access, same-origin Bearer requests, Razorpay Test Checkout UI/CSP, My purchases, sanitized ownership-checked card/image reader, real product/publisher migration, privacy/refund/access information and provider-backed acceptance tests.
+The narrow same-origin ID-token request helper is implemented **only for the read-only diagnostic**, not a generic payment API client. Still pending: Razorpay Test Checkout UI/CSP and authenticated payment requests, My purchases, sanitized ownership-checked card/image reader, real product/publisher migration, payment privacy/refund/access information and provider-backed acceptance tests.
 
 Later configure **Razorpay Test Mode** automatic capture plus signed **`payment.captured`** / **`refund.processed`** webhooks at `/api/payments/test/webhook`, after reviewing public reachability. No capture/refund/payout API is called by this code. Only after all gates are met should the owner intentionally set **both** checkout flags `true` on the selected test site's production context. Do not do that during database setup. [Razorpay integration guide](https://razorpay.com/docs/payments/payment-gateway/web-integration/standard/integration-steps/).
 
-## API contract for upcoming browser work
+## API contract (checkout browser work remains pending)
 
 All responses are test-mode, non-cacheable; protected browser calls require an invited Google UID and same-origin **Bearer ID token**. Never put tokens in DOM, URLs, logs or custom storage. POST bodies allow only the named fields.
 
 | Route under `/api/payments/test` | Contract |
 | --- | --- |
 | `GET /config` | Public; disabled by default. Only an enabled catalog exposes public metadata/prices/Test Key ID, not files/secrets. |
+| `POST /connection` | Exact protected test-site/Production only, same-origin JSON `{}`, verified Google/tester UID, both flags OFF. One fixed products `limit(1)` read, no writes/provider calls. Safe `{mode:"test",database:"firestore",readable:true,readOnly:true,checkoutEnabled:false,paymentsVerified:false}` only; never document/configuration contents. No Razorpay secret required. |
 | `POST /orders` | `{productId, requestId}` with UUID v4; server price, durable reservation/reuse. Creation-in-flight/uncertain orders fail closed. |
 | `POST /verify` | `{orderId, paymentId, signature}`; stored UID/order HMAC + canonical captured payment before grant. |
 | `POST /webhook` | Exact provider-signed raw body/event-ID; no Google login, no arbitrary order creation. |

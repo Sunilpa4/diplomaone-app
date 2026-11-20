@@ -3,6 +3,7 @@ import {firestoreOptions} from './firestore-config.mjs';
 
 export const MODE='test';
 export const PREFIX='/api/payments/test';
+export const TEST_SITE_ORIGIN='https://vermillion-pothos-520a34.netlify.app';
 export const PRICES=Object.freeze({computer:1900,mechanical:2900,electrical:2900,civil:2900,chemical:3900});
 export const FREE_CODES=Object.freeze(['DI01000021','DI01000121']); // Maths-I, Applied Physics only.
 export const MAX_ASSET_BYTES=4*1024*1024; // Below buffered Functions response limits.
@@ -34,13 +35,17 @@ export function readConfig(env=process.env){
   const context=env.CONTEXT||'';
   const testers=[...new Set((env.PAYMENTS_TESTER_UIDS||'').split(',').map(value=>value.trim()).filter(Boolean))];
   const validTesters=testers.length>0&&testers.length<=10&&testers.every(uid=>uid.length<=128&&!/[\x00-\x1f]/.test(uid));
+  const firestoreConfigured=!!firestoreOptions(env);
+  // Setup diagnostics must work without a Razorpay secret, but cannot be used
+  // while either checkout switch is on (including partial/invalid settings).
+  const checkoutFlagsOff=[env.PAYMENTS_TEST_ENABLED,env.PAYMENTS_PRIVATE_MIGRATION_CONFIRMED]
+    .every(value=>value===undefined||value===''||value==='false');
   // A preview must never inherit an enabled production checkout accidentally.
   const configured=env.RAZORPAY_KEY_ID===keyId&&/^rzp_test_[A-Za-z0-9]{10,50}$/.test(keyId)&&
     typeof env.RAZORPAY_KEY_SECRET==='string'&&env.RAZORPAY_KEY_SECRET.length>=16&&
-    typeof env.RAZORPAY_WEBHOOK_SECRET==='string'&&env.RAZORPAY_WEBHOOK_SECRET.length>=32&&
-    !!firestoreOptions(env);
+    typeof env.RAZORPAY_WEBHOOK_SECRET==='string'&&env.RAZORPAY_WEBHOOK_SECRET.length>=32&&firestoreConfigured;
   return Object.freeze({keyId,keySecret:env.RAZORPAY_KEY_SECRET,webhookSecret:env.RAZORPAY_WEBHOOK_SECRET,
-    firebaseProject:'diplomaone-53b4e',context,configured,testers:Object.freeze(validTesters?testers:[]),
+    firebaseProject:'diplomaone-53b4e',context,configured,firestoreConfigured,checkoutFlagsOff,testers:Object.freeze(validTesters?testers:[]),
     enabled:configured&&validTesters&&context==='production'&&env.PAYMENTS_TEST_ENABLED==='true'&&env.PAYMENTS_PRIVATE_MIGRATION_CONFIRMED==='true'});
 }
 export function confirmCaptured(order,payment,stored){
