@@ -1,0 +1,47 @@
+name: Test payment backend
+
+on:
+  pull_request:
+    paths:
+      - 'backend/**'
+      - 'netlify/**'
+      - 'netlify.toml'
+      - 'tools/build_netlify_site.py'
+      - 'tools/build_netlify_package.py'
+      - 'website/**'
+      - '.github/workflows/test-payments.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'backend/**'
+      - 'netlify/**'
+      - 'netlify.toml'
+      - 'tools/build_netlify_site.py'
+      - 'tools/build_netlify_package.py'
+      - 'website/**'
+      - '.github/workflows/test-payments.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-payments:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+      - name: Install pinned backend dependencies without lifecycle scripts
+        run: npm ci --prefix backend --ignore-scripts --no-fund
+      - name: Check API, SQL transactions, Firebase identity, private storage and disabled deployment
+        run: |
+          npm run check --prefix backend
+          npm test --prefix backend
+          npm run check:bundle --prefix backend
+          npm audit --prefix backend --audit-level=moderate
+      # No provider keys, Netlify credentials, payment calls or deploy commands.

@@ -8,6 +8,12 @@ The website reads `data/catalog.json`, subject files and unit files published by
 
 See **[AUTH-SETUP.md](AUTH-SETUP.md)** for the exact Firebase provider/domain setup, the different earlier Android project, reproducible build/tests, deployment files, privacy/session details and the still-pending live OAuth checklist. Public web config is not a private key or purchase authorization. Do not charge for solutions until private content and verified server-side ownership are implemented.
 
+## Test-payment backend foundation (not enabled in this website yet)
+
+The optional Netlify server code is documented in **[../backend/README.md](../backend/README.md)**. It uses the Free-plan-first approach selected by the owner, with test-only Razorpay orders, server-verified Firebase identity, a private Postgres schema and private blob delivery. Checkout stays disabled without explicit server configuration and reviewed private imports. The current browser still has **no Buy button or connected purchase history**; no new papers are locked by this change.
+
+The existing manual ZIP remains a **frontend-only** package. Server functions/database migrations require a Git-connected Netlify build using root `netlify.toml`, not a drag/drop of that ZIP. Do not enter secrets in frontend files or change plans/enable paid billing to deploy the prototype. Private-content migration, safe browser checkout/reader integration, the updated payment privacy/refund/access policy and end-to-end provider testing are still launch gates.
+
 ## Local preview
 
 From the repository root:
