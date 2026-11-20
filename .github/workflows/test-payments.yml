@@ -59,14 +59,15 @@ jobs:
         run: |
           npm ci --prefix website --include=dev --ignore-scripts --no-fund
           npm install --prefix build/auth-browser-tools --no-save --ignore-scripts --no-package-lock --no-fund playwright@1.56.1 @sparticuz/chromium@153.0.0
-      - name: Check packaged live purchase flow, English/Gujarati cards and responsive CSP with offline boundaries
-        env:
-          NODE_PATH: ${{ github.workspace }}/build/auth-browser-tools/node_modules:${{ github.workspace }}/website/node_modules
+      - name: Check Auth bundle and offline frontend controller, request and purchase UI suites
         run: |
           npm run check:auth --prefix website
           npm run test:auth --prefix website
           python3 tools/build_netlify_site.py
-          node website/test_payment_browser.js
+      - name: Check packaged Chromium live purchase flow, English/Gujarati cards and responsive CSP
+        env:
+          NODE_PATH: ${{ github.workspace }}/build/auth-browser-tools/node_modules:${{ github.workspace }}/website/node_modules
+        run: node website/test_payment_browser.js
       - uses: actions/setup-java@v4
         with:
           distribution: temurin

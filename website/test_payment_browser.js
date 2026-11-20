@@ -80,6 +80,7 @@ async function fixture(browser,bundle,{width=1365,language='en',enabled=true,pen
   start:()=>page.goto(pageOrigin+'/#/paper/'+code+'/'+session),
   callback:()=>page.evaluate(()=>window.__paymentFixture.checkout.handler({razorpay_order_id:'order_OfflineFixture',razorpay_payment_id:'pay_OfflineFixture',razorpay_signature:'0'.repeat(64)}))};
 }
+let scenario='browser startup';
 (async()=>{
  const bundle=await build({entryPoints:[path.join(__dirname,'auth/firebase-client.js')],write:false,bundle:true,platform:'browser',format:'esm',logLevel:'silent',plugins:[{
   name:'offline-firebase-boundary',setup(build){build.onResolve({filter:/^@firebase\//},args=>{assert(['@firebase/app','@firebase/auth'].includes(args.path));return {path:args.path,namespace:'fixture'};});
@@ -91,6 +92,7 @@ async function fixture(browser,bundle,{width=1365,language='en',enabled=true,pen
  fs.mkdirSync(path.join(root,'build/payment-browser'),{recursive:true});let checks=0;
  try{
   for(const width of [1365,390,320])for(const language of ['en','gu']){
+   scenario=width+'px '+language;
    const f=await fixture(browser,bundle.outputFiles[0].text,{width,language}),{page}=f;
    await f.start();await page.waitForFunction(()=>document.querySelector('#paper-signin')?.disabled===false);
    await page.evaluate(()=>document.fonts.ready);assert(await page.evaluate(()=>document.fonts.check('38px "Noto Gujarati"','₹')),'self-hosted rupee glyph must load');
@@ -116,6 +118,7 @@ async function fixture(browser,bundle,{width=1365,language='en',enabled=true,pen
    await f.safe();await f.context.close();++checks;console.log(`${width}px ${language}: locked → captured selected cards, images/PDF, reload, other-paper denial and CSP/layout passed`);
   }
   for(const mode of ['off','pending','navigation']){
+   scenario=mode;
    const f=await fixture(browser,bundle.outputFiles[0].text,{enabled:mode!=='off',pending:mode==='pending'}),{page}=f;
    await f.start();await page.waitForFunction(()=>document.querySelector('#paper-signin')?.disabled===false);await page.locator('#paper-signin').click();
    if(mode==='off'){
@@ -132,4 +135,8 @@ async function fixture(browser,bundle,{width=1365,language='en',enabled=true,pen
   }
   console.log(`${checks} offline Chromium live-flow scenarios passed; no real payment/cloud call was made.`);
  }finally{await browser.close();}
-})().catch(error=>{console.error(error);process.exitCode=1;});
+})().catch(error=>{
+ const detail=('Offline payment browser ('+scenario+'): '+String(error.stack||error)).slice(0,8000);
+ console.error('::error::'+detail.replaceAll('%','%25').replaceAll('\r','%0D').replaceAll('\n','%0A'));
+ console.error(error);process.exitCode=1;
+});

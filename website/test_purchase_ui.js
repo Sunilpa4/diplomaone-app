@@ -16,7 +16,14 @@ const catalog={branches:[{key:'mechanical',code:'19',name:{en:'Mechanical',gu:'�
  {key:'civil',code:'06',name:{en:'Civil'},semesters:{'3':['DI03006011']}},{key:'chemical',code:'05',name:{en:'Chemical'},semesters:{'3':['DI03005011']}}],
  subjects:{[code]:{code,name:{en:'Manufacturing I',gu:'મેન્યુફેક્ચરિંગ I'},status:'available'},[other]:{code:other,name:{en:'Metrology'},status:'available'},DI01000021:{code:'DI01000021',name:{en:'Maths I'}}}};
 const tick=()=>new Promise(resolve=>setImmediate(resolve));
-async function waitFor(fn,label='view'){for(let n=0;n<200;n++){if(fn())return;await tick();}throw Error('Timed out: '+label);}
+async function waitFor(fn,label='view'){
+ // Counting setImmediate turns is CPU-dependent: a fast runner can finish 200
+ // turns before jsdom's hashchange/toggle timers fire. Await real timer turns
+ // against a bounded deadline; this is test synchronization, not app polling.
+ const deadline=Date.now()+5000;
+ do{if(fn())return;await new Promise(resolve=>setTimeout(resolve,5));}while(Date.now()<deadline);
+ throw Error('Timed out: '+label);
+}
 const deferred=()=>{let resolve;const promise=new Promise(r=>{resolve=r;});return {resolve,promise};};
 async function boot(t,{initialUser=null,enabled=true,owned=new Set(),initialHash=hash,origin='https://www.diplomaone.in',verifyGate=null,captured=true,assetFailure=false,failTree=false,extraProduct=null}={}){
  const errors=[],vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e.message));

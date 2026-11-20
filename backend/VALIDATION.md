@@ -78,6 +78,12 @@ Local Java/emulator tooling is unavailable, so the local skipped client-rules ca
 
 The same implementation revision's [website validation 44721602013](https://github.com/Sunilpa4/diplomaone-app/actions/runs/44721602013), [free-only solved-paper publisher/source validation 44721601935](https://github.com/Sunilpa4/diplomaone-app/actions/runs/44721601935), [content validation 44721602157](https://github.com/Sunilpa4/diplomaone-app/actions/runs/44721602157) and both Netlify deploy-preview checks also passed. These were PR checks, not publication, source cleanup or a Production payment launch. Later validation-record-only commits do not change the tested implementation. Consult the latest checks on [draft PR #37](https://github.com/Sunilpa4/diplomaone-app/pull/37) for subsequent revisions.
 
+### Follow-up frontend check diagnostics
+
+The validation-record-only **`aa5b008`** run [44722137491 / job 136240289431](https://github.com/Sunilpa4/diplomaone-app/actions/runs/44722137491/job/136240289431) failed its combined frontend step before Java/emulator setup. Backend/package checks, the other three workflows and both previews passed. The API supplied only exit 1; external raw-log retrieval returned EOF, so the specific failed assertion was **not observed** and no production/emulator cause is claimed. Twenty standalone local purchase-UI repeats passed.
+
+The follow-up makes the unit/Chromium steps distinct, removes CPU-dependent fixed-count `setImmediate` waits from the jsdom purchase UI in favor of bounded timer/deadline synchronization, and adds safe fixture-only failure annotations to the purchase UI/browser tests. These changes do not alter production payment code, authorizations, assertions or retries. The latest PR checks/comment record the subsequent run; a historical green run is not substituted for a failing current check.
+
 ## Historical evidence (not current live acceptance)
 
 - Diagnostic revision **d0d185c**: [payment run 44706097903 / job 136185965007](https://github.com/Sunilpa4/diplomaone-app/actions/runs/44706097903/job/136185965007) reported SUCCESS, including the official-emulator/packaged-SDK step verified via the GitHub job API. Its 73-case/44-frontend diagnostic baseline is superseded locally above. The protected manual connection page remains available, but the owner's actual cloud read result was never independently observed.
