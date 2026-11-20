@@ -52,9 +52,17 @@ On the owner's machine/console only, use Google Cloud **IAM & Admin → Service 
 
 If an owner-managed service-account key is required for Netlify, create/download it **privately**, never into this repository/public Drive/chat. Transfer only its `client_email` and `private_key` values directly into the backend environment below; the public Firebase web API key cannot substitute. Do not share the JSON file, PEM, screenshots containing values, Razorpay secret, password, OTP or access token here. Secure/delete the local downloaded copy according to your credential policy; revoke/rotate the key if exposed. No key was created by the agent.
 
-### 4. Set Netlify Functions-only private environment values
+### 4. Set private server environment values — Production context only
 
-Use the selected test site's **production context** (the site's main deploy may track this feature branch), **Functions runtime scope**, not every PR/deploy preview. Keep secrets out of tracked `.env.example`, frontend/ZIP, build outputs and browser JavaScript. Preview/branch-deploy contexts cannot enable new checkout even if flags are inherited.
+Use **Project configuration → Environment variables** on the selected **test site**, not the public site's project or team-shared settings. Confirm that this test site's **Production branch** points to the reviewed backend branch (`arena/7e6ec7f8-diplomaone-app` during setup). This does not mean switching the public site's production branch or domain.
+
+Choose **different values per deploy context** and enter real credentials for **Production only**. Leave Deploy Previews, Branch deploys, Preview servers and Local development without these secrets. Do not choose the same value for all contexts or use a branch-specific override that can also apply to Deploy Previews. If context isolation is unavailable or asks for an upgrade, stop and review before adding a key.
+
+**Free-plan scope clarification:** Netlify documents the **Scopes** selector as a Pro/Enterprise feature. Use **Functions only** when it is already available, but **do not upgrade** just for that selector. On Free, site variables default to **all scopes**: Production-only secrets are therefore also readable by the trusted production build, not only Functions. Scope and deploy context are different controls. This is not a promise of build-time secret isolation. [Netlify scopes documentation](https://docs.netlify.com/build/environment-variables/overview/#scopes).
+
+The reviewed build disables dependency lifecycle scripts and copies an explicit, tested 12-file public allowlist without substituting these environment values. Never add a public environment export, snippet injection, `printenv`/secret logging, or unreviewed build code/plugins. Keep `.env`/service-account JSON out of Git/static assets, do not bypass secret-scanning warnings, and require another review if the build changes. Preview flags refusing checkout do **not** replace keeping credentials out of preview builds.
+
+To create the owner-managed key, open the dedicated service account → **Keys → Add key → Create new key → JSON** on the owner's own device. Open the downloaded file in a trusted local text editor, never an online formatter. Copy only the `client_email` and `private_key` field values directly into the corresponding Netlify variables, **without the JSON quotes or trailing comma**. The private key may retain literal `\n` escapes or use actual newlines; preserve its complete BEGIN/END lines. Do not upload the JSON file to Netlify's public deploy area, GitHub, Drive or chat. If key creation is blocked by an organization policy, stop rather than weakening that policy.
 
 | Variable | Private owner action |
 | --- | --- |
