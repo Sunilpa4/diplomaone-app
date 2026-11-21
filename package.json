@@ -1,0 +1,31 @@
+{
+  "name": "diplomaone-test-payments",
+  "version": "0.1.0",
+  "private": true,
+  "type": "commonjs",
+  "description": "Disabled-by-default isolated live/test Netlify backend for server-verified individual-paper purchases.",
+  "engines": {"node": ">=22.12.0"},
+  "scripts": {
+    "test": "node --test backend/test/*.test.mjs",
+    "test:firestore": "node backend/scripts/run-firestore-emulator.mjs",
+    "check": "node --check backend/src/api.mjs && node --check backend/src/connection.mjs && node --check backend/src/domain.mjs && node --check backend/src/firebase.mjs && node --check backend/src/runtime.mjs && node --check backend/src/repository.mjs && node --check backend/src/firestore-config.mjs && node --check backend/src/firestore.mjs && node --check backend/scripts/run-firestore-emulator.mjs && node --check netlify/functions/payments.mjs",
+    "check:bundle": "node backend/scripts/check-bundle.mjs",
+    "check:firestore": "node backend/scripts/check-firestore.mjs",
+    "import:paper": "node backend/scripts/import-paper.mjs",
+    "prepare:live-papers": "node backend/scripts/prepare-live-migration.mjs",
+    "audit:public-papers": "node backend/scripts/audit-public-papers.mjs"
+  },
+  "dependencies": {
+    "@google-cloud/firestore": "9.4.1",
+    "@netlify/blobs": "11.1.9",
+    "jose": "6.2.18",
+    "parse5": "8.0.0"
+  },
+  "devDependencies": {
+    "@netlify/zip-it-and-ship-it": "16.6.0"
+  },
+  "overrides": {
+    "glob": "14.0.6",
+    "minimatch": "11.0.9"
+  }
+}

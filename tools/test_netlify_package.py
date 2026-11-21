@@ -14,14 +14,17 @@ class NetlifyPackageTest(unittest.TestCase):
             path = build_package(Path(tmp) / 'site.zip')
             with ZipFile(path) as z:
                 files = set(z.namelist())
-                self.assertTrue({'index.html', 'app.js', 'styles.css', 'ads.txt', '_redirects',
+                self.assertTrue({'index.html', 'app.js', 'auth.js', 'styles.css', 'ads.txt', '_redirects',
+                                 'assets/firebase-auth.js', 'assets/firebase-auth.js.LEGAL.txt',
                                  'assets/study-illustration.webp', 'assets/noto-sans-gujarati.ttf'} <= files)
-                self.assertFalse(any(name.startswith('data/') for name in files))
+                self.assertFalse(any(name.startswith(('data/', 'auth/', 'scripts/', 'node_modules/')) for name in files))
                 self.assertFalse(any(name.startswith('.git/') or name.endswith('.py') for name in files))
                 self.assertEqual(z.read('_redirects').decode(), REDIRECTS)
                 self.assertEqual(REDIRECTS.splitlines(), [
                     f'/data/*  {CONTENT_BASE}/data/:splat  200',
-                    f'/papers/*  {CONTENT_BASE}/papers/:splat  302',
+                    f'/papers/DI01000021/*  {CONTENT_BASE}/papers/DI01000021/:splat  302',
+                    f'/papers/DI01000121/*  {CONTENT_BASE}/papers/DI01000121/:splat  302',
+                    '/papers/*  /index.html  404',
                 ])
                 packaged_app = Path(tmp) / 'packaged-app.js'
                 packaged_app.write_bytes(z.read('app.js'))
@@ -30,6 +33,13 @@ class NetlifyPackageTest(unittest.TestCase):
                 subprocess.run(['node', str(Path(__file__).resolve().parent.parent / 'website' / 'test_card_refresh.js'), str(packaged_app)], check=True)
                 subprocess.run(['node', str(Path(__file__).resolve().parent.parent / 'tools' / 'test_mechanical_refresh.js'), str(packaged_app)], check=True)
                 subprocess.run(['node', str(Path(__file__).resolve().parent.parent / 'website' / 'test_mechanical_listing.js'), str(packaged_app)], check=True)
+                unpacked = Path(tmp) / 'site'
+                z.extractall(unpacked)
+                subprocess.run(['node', str(Path(__file__).resolve().parent.parent / 'website' / 'test_navigation.js'), str(unpacked)], check=True)
+                subprocess.run(['node', str(Path(__file__).resolve().parent.parent / 'website' / 'test_account.js'), str(unpacked)], check=True)
+                subprocess.run(['node', str(Path(__file__).resolve().parent.parent / 'website' / 'test_auth.js'), str(unpacked / 'auth.js')], check=True)
+                for name in ('auth.js', 'assets/firebase-auth.js', 'assets/firebase-auth.js.LEGAL.txt'):
+                    self.assertEqual(z.read(name), (Path(__file__).resolve().parent.parent / 'website' / name).read_bytes())
                 with ZipFile(Path(__file__).resolve().parent.parent / 'DiplomaOne-Netlify.zip') as committed:
                     self.assertEqual(set(committed.namelist()), files, 'Rebuild the committed Netlify ZIP')
                     for name in files:
@@ -37,8 +47,12 @@ class NetlifyPackageTest(unittest.TestCase):
                 self.assertEqual(z.read('styles.css'), (Path(__file__).resolve().parent.parent / 'website/styles.css').read_bytes())
                 packaged_html = z.read('index.html').decode()
                 self.assertIn(f'href="{CONTENT_BASE}/app/"', packaged_html)
-                self.assertIn("frame-src 'none';", packaged_html)
-                self.assertIn("img-src 'self' data: https://sunilpa4.github.io/diplomaone-content/papers/;", packaged_html)
+                self.assertIn('src="auth.js" defer', packaged_html)
+                self.assertIn('frame-src https://diplomaone-53b4e.firebaseapp.com/__/auth/ https://api.razorpay.com https://checkout.razorpay.com;', packaged_html)
+                self.assertIn("object-src 'none';", packaged_html)
+                self.assertNotIn('<iframe', packaged_html)
+                self.assertNotIn('unsafe-eval', packaged_html)
+                self.assertIn("img-src 'self' data: blob: https://sunilpa4.github.io/diplomaone-content/papers/;", packaged_html)
                 packaged_js = z.read('app.js').decode()
                 self.assertIn('Netlify hosts this website', packaged_js)
                 self.assertNotIn('paperPdfCard', packaged_js)

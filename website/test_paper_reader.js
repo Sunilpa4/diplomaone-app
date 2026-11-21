@@ -47,12 +47,17 @@ for(const src of ['../summer-2026.assets/0001.webp','winter-2025.assets/0001.web
 }
 assert.equal(paperAssetUrl('summer-2026.assets/0001.webp',{code:'../DI01000021',session:'summer-2026'}),'');
 assert.equal(paperAssetUrl('summer-2026.assets/0001.webp',{code:'DI01000021',session:'../summer-2026'}),'');
+const protectedContext={code:'DI03000161',session:'summer-2026',private:true,readerPath:'summer-2026.html',assets:[{id:'a'.repeat(64),path:'summer-2026.assets/0001.webp',mime:'image/webp'}]};
+const privateImage=new dom.window.DOMParser().parseFromString(sanitizePaper(imagePaper('summer-2026.assets/0001.webp'),'en',protectedContext),'text/html').querySelector('img');
+assert(privateImage);assert.equal(privateImage.getAttribute('src'),null);assert.equal(privateImage.dataset.privateAsset,'a'.repeat(64));
+assert.equal(paperAssetUrl('summer-2026.assets/0001.webp',{code:'DI03000161',session:'summer-2026'}),'','paid images never resolve publicly');
+assert(!sanitizePaper(imagePaper('winter-2025.assets/0001.webp'),'en',protectedContext).includes('<img'),'only declared private images survive');
 (async()=>{
  let calls=0;
- dom.window.fetch=async(url,options)=>{calls++; assert(url.startsWith('https://sunilpa4.github.io/diplomaone-content/papers/DI03000141/summer-2026.html?'));assert.equal(options.redirect,'error');return {ok:true,text:async()=>sample}};
+ dom.window.fetch=async(url,options)=>{calls++; assert(url.startsWith('https://sunilpa4.github.io/diplomaone-content/papers/DI01000021/summer-2026.html?'));assert.equal(options.redirect,'error');return {ok:true,text:async()=>sample}};
  const entry={session:'summer-2026',pdf:'Question_Paper.pdf'};
- setLanguage('en');const first=await showPaper('DI03000141','summer-2026',{name:{en:'Machines'}},entry);
- setLanguage('gu');const second=await showPaper('DI03000141','summer-2026',{name:{en:'Machines'}},entry);
+ setLanguage('en');const first=await showPaper('DI01000021','summer-2026',{name:{en:'Machines'}},entry);
+ setLanguage('gu');const second=await showPaper('DI01000021','summer-2026',{name:{en:'Machines'}},entry);
  assert(first.includes('English question'));assert(second.includes('ગુજરાતી પ્રશ્ન'));assert.equal(calls,1,'language change should use cached source');
  assert(first.includes('Question_Paper.pdf'));assert(first.includes('rel="noopener noreferrer"'));
  assert(!first.includes('<iframe'));assert(first.includes('1 question part'));
@@ -72,6 +77,7 @@ assert.equal(paperAssetUrl('summer-2026.assets/0001.webp',{code:'DI01000021',ses
  assert.equal(calls,1,'PDF-only fallback does not request non-existent HTML');
  assert(fallback.includes('cards have not yet been prepared'));assert(fallback.includes('Optional solution PDF'));assert(!fallback.includes('<iframe'));
  await assert.rejects(()=>showPaper('../x','summer-2026',null,{}),/Invalid paper path/);
- assert.equal(calls,1);
+ const locked=await showPaper('DI03000141','summer-2026',{name:{en:'Paid Machines'}},entry);
+ assert(locked.includes('Unlock this paper'));assert(!locked.includes('English question'));assert(!locked.includes('Question_Paper.pdf'));assert.equal(calls,1,'paid reading cannot fall back to public answers/PDFs');
  console.log('Question cards, scoped assets, image enlargement, language caching, fractions and unsafe markup checks passed.');
 })().catch(e=>{console.error(e);process.exitCode=1});

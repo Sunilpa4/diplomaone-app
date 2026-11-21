@@ -1,0 +1,99 @@
+name: Test payment backend
+
+on:
+  pull_request:
+    paths:
+      - 'backend/**'
+      - 'papers-upload/**'
+      - 'tools/publish_solved_papers.py'
+      - 'tools/test_publish_solved_papers.py'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'netlify/**'
+      - 'netlify.toml'
+      - 'tools/build_netlify_site.py'
+      - 'tools/build_netlify_package.py'
+      - 'website/**'
+      - '.github/workflows/test-payments.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'backend/**'
+      - 'papers-upload/**'
+      - 'tools/publish_solved_papers.py'
+      - 'tools/test_publish_solved_papers.py'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'netlify/**'
+      - 'netlify.toml'
+      - 'tools/build_netlify_site.py'
+      - 'tools/build_netlify_package.py'
+      - 'website/**'
+      - '.github/workflows/test-payments.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-payments:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - name: Install pinned backend dependencies without lifecycle scripts
+        run: npm ci --include=dev --ignore-scripts --no-fund
+      - name: Check isolated live/test APIs, capture authorization, migration and disabled deployment
+        run: |
+          npm run check
+          npm test
+          npm run prepare:live-papers
+          npm run check:bundle
+          npm audit --audit-level=moderate
+      - name: Install pinned website and offline browser test tools
+        run: |
+          npm ci --prefix website --include=dev --ignore-scripts --no-fund
+          npm install --prefix build/auth-browser-tools --no-save --ignore-scripts --no-package-lock --no-fund playwright@1.56.1 @sparticuz/chromium@153.0.0
+      - name: Check Auth bundle and offline frontend controller, request and purchase UI suites
+        run: |
+          npm run check:auth --prefix website
+          npm run test:auth --prefix website
+          python3 tools/build_netlify_site.py
+      - name: Check redesigned navigation, five-branch scope and responsive English/Gujarati layout
+        env:
+          NODE_PATH: ${{ github.workspace }}/build/auth-browser-tools/node_modules:${{ github.workspace }}/website/node_modules
+        run: node website/test_navigation_browser.js
+      - name: Check packaged Chromium live purchase flow, English/Gujarati cards and responsive CSP
+        env:
+          NODE_PATH: ${{ github.workspace }}/build/auth-browser-tools/node_modules:${{ github.workspace }}/website/node_modules
+        run: node website/test_payment_browser.js
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Download pinned official Firestore emulator (test tooling only)
+        env:
+          FIRESTORE_EMULATOR_JAR: ${{ runner.temp }}/firestore-emulator.jar
+        run: |
+          EMULATOR_URL=$(node -p "require('./backend/test/firestore-emulator.json').url")
+          curl --fail --location --retry 3 --output "$FIRESTORE_EMULATOR_JAR" "$EMULATOR_URL"
+          # The runner verifies both the exact byte length and SHA-256 before execution.
+      - name: Verify real Firestore transactions, denied client rules and packaged SDK against DEMO emulator
+        env:
+          FIRESTORE_EMULATOR_JAR: ${{ runner.temp }}/firestore-emulator.jar
+        run: npm run test:firestore
+      - name: Keep emulator diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: firestore-demo-emulator-log
+          path: build/firestore-emulator.log
+          if-no-files-found: ignore
+          retention-days: 5
+      # No Firebase CLI login, service-account keys, Netlify credentials, provider
+      # calls, billable resources, rules deploys or real cloud project access.
