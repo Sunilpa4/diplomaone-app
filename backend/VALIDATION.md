@@ -12,8 +12,8 @@ The owner chose the real individual-paper flow rather than another separate test
 | --- | --- |
 | Node syntax / all server, importer, migration and test modules | Passed |
 | Backend API/domain/repository/security/import/migration tests | **88 cases: 87 passed, 1 emulator-only browser-rules case skipped locally** |
-| Frontend controller/request/account/purchase UI | **67 passed:** 16 Auth, 12 diagnostic helper, 14 payment helper, 16 account/router, 9 integrated purchase UI |
-| Actual packaged SPA in offline Chromium | **9 live-flow scenarios passed:** English/Gujarati at 1365/390/320 px, plus checkout OFF, pending capture and navigation-before-callback |
+| Frontend controller/request/navigation/account/purchase UI | **76 passed:** 16 Auth, 12 diagnostic helper, 14 payment helper, 9 navigation/scope, 16 account/router, 9 integrated purchase UI |
+| Actual packaged SPA in offline Chromium | **9 live-flow + 9 redesign scenarios passed:** purchase flow at 1365/390/320 px; navigation at 1440/1024/390/320 px in English/Gujarati, plus keyboard/reduced motion |
 | Retained offline Chromium regressions | **9 diagnostic scenarios + 33 account checks passed**, including actual bundled Firebase SDK readiness/network-failure smoke and project-subpath loading |
 | Existing offline reader/listing/source suites | **10 passed** across Mechanical/Electrical/Computer/common/refreshed papers; cards, text, supplied languages, diagrams, OR, fractions, grouping and exam/PDF identities preserved |
 | Frontend ZIP/package tests | **2 passed**, including extracted controller/reader/content tests and exact committed ZIP equality |
@@ -21,7 +21,17 @@ The owner chose the real individual-paper flow rather than another separate test
 | Unchanged source-PDF pixel audit | **3,129 excerpts match pixel for pixel** with pinned PyMuPDF/Pillow; no source bytes changed |
 | Ad declarations | **5 passed**; no ad script or invented unit added |
 | Auth bundle freshness / root and website audits | Passed; **0 vulnerabilities** in each production manifest's audit |
-| Workflow YAML/changed shell syntax / diff whitespace | Passed |
+| Workflow YAML/changed script syntax / diff whitespace | Passed |
+
+### Website simplification follow-up (2026-10-30)
+
+The redesigned homepage removes the decorative hero image, repeated marketing sections, sample-subject promotion and download banner. Search, notes/papers shortcuts, My purchases, five branch cards and the two free common papers take priority; optional app links stay in a collapsed footer. Existing readers, supplied content, Google auth, canonical prices and launch settings are unchanged.
+
+The presentation scope is **Computer/Civil/Chemical/Electrical/Mechanical, Semesters 1–5**. Raw catalog membership is retained separately from display filtering. Nine frozen-catalog SPA tests cover hidden branch/semester/direct-note routes, shared subject deduplication, code/Gujarati/escaped search, legacy and unregistered paper discovery, hidden-but-persisted saved units, a visible subject's sixth unit and a purchased historical paper outside the display scope. Visibility is not an entitlement rule: existing owners can still read privately while sales are OFF. These tests also run against the **extracted ZIP**, not only source code.
+
+Nine additional offline Chromium navigation scenarios exercise the actual built frontend in both languages at **1440/1024/390/320 px**, including the menu/active parent route, Escape/focus, skip link, reduced motion, unchanged prices, free Q&A controls, saved data and CSP/no horizontal overflow. Desktop and mobile English/Gujarati screenshots were visually reviewed. The local server was also checked with the **actual unmodified exported catalog**: exactly five branch cards, ready counts **22/22/25/21/21**, mobile layout and subject-code search; no external request was used for that check. The retained **9 payment, 9 diagnostic and 33 account** browser checks passed again. The payment test now scopes its question-summary assertion to `.solved-paper`, so the new footer disclosure is not mistaken for an answer.
+
+The source/reader/publisher/ad/package suites, **3,129 pixel-identical excerpts**, **88 backend cases (87 pass/one local emulator-only skip)**, migration dry run and actual NFT/four-disabled-config checks were rerun. Auth bundle freshness and both npm audits pass with **0 vulnerabilities**. Evidence is under ignored `build/redesign-*-validation.log`; screenshots/tool dependencies remain ignored. A first local package attempt lacked `NODE_PATH`; using the documented test dependency path passed without changing an assertion. The separate public-free-paper HTTP integration could not run locally (certificate/outbound-host limits); it remains required in website CI, never replaced by the offline fixtures. No cloud change, private import, source deletion, charge, merge or Production deploy was performed by this redesign.
 
 The purchase UI tests run the actual SPA, controller and narrow payment helper with only Auth/HTTP/Checkout boundaries doubled. They check agreed prices, sign-in, selected-paper capture and cards, failed/pending fulfillment, authenticated images/PDFs, purchases/reload/account denial, cancellation/revocation, no public fallback, free subjects and discovery during a GitHub outage. Neither sign-in nor a simulated browser callback is a real entitlement.
 
@@ -48,10 +58,10 @@ Four isolated ESM + **native Lambda v2 bootstrap** cases passed for both live/te
 
 These checks verify real artifact startup, disabled config/authentication/origin gates and existing-owner initialization without gateway keys. They do **not** prove owner credentials, real IAM/connectivity, storage availability, live Checkout provider/CSP behavior or reachable webhooks.
 
-The rebuilt **frontend-only** `DiplomaOne-Netlify.zip` contains exactly **12 public files**, **559,352 bytes**, SHA256:
+The rebuilt **frontend-only** `DiplomaOne-Netlify.zip` contains exactly **12 public files**, **560,695 bytes**, SHA256:
 
 ```text
-684ad333547676d29e073b8d31cf5e25e277e0d87cebef75b11b96c8322202cf
+5e8ddafc1520881da8133766bd14609ccca1f0f0d978ce79dcf0989d18b113a7
 ```
 
 Static output byte-matches the ZIP and excludes backend files, source papers, private imports, dependencies, tests/tooling and secrets. Auth bundle: **125,516 bytes**; license: **23,256 bytes**. Only Maths-I/Applied Physics legacy paper paths redirect publicly. Other `/papers/*` paths return a 404 frontend. **Drag/drop does not deploy Functions**; the real API requires the reviewed Git-connected root build.

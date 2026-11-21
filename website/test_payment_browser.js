@@ -111,7 +111,7 @@ let scenario='browser startup';
     {display:{sequence:['upi'],preferences:{show_default_blocks:true},hide:[{method:'upi',flows:['collect']},{method:'cod'}]}});
    assert.equal(await page.locator('.solved-paper').count(),0);await f.callback();await page.locator('.solved-paper details').waitFor();
    assert((await page.locator('.solved-paper').textContent()).includes(language==='en'?'PRIVATE SELECTED ANSWER':'ખાનગી પસંદ કરેલો જવાબ'));
-   assert((await page.locator('summary').textContent()).includes('OR'));if(language==='en')assert.equal(await page.locator('.frac .num').count(),1);
+   assert((await page.locator('.solved-paper summary').textContent()).includes('OR'));if(language==='en')assert.equal(await page.locator('.frac .num').count(),1);
    await page.locator('[data-paper-expand="true"]').click();await page.waitForFunction(()=>document.querySelector('img[data-private-asset]')?.naturalWidth>0);
    assert((await page.locator('img[data-private-asset]').getAttribute('src')).startsWith('blob:'));
    await page.locator('.paper-enlarge').click();await page.locator('dialog[open]').waitFor();await page.locator('.paper-image-toolbar button').last().click();

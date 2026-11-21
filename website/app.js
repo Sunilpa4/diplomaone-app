@@ -11,14 +11,15 @@
 
   const strings = {
     en: {
-      home:'Home', branches:'Explore branches', papers:'Solved papers', paperSet:'paper set', paperSets:'paper sets', examPrep:'EXAM PREPARATION', saved:'Saved notes', start:'Start learning', search:'Search subjects', allBranches:'All branches',
-      heroEye:'A LITTLE HELP FOR YOUR BIG GOALS', heroTitle:'Your diploma,<br><em>made simpler.</em>', heroText:'Thoughtful notes, clear diagrams, and everything you need to feel a little more ready for class and exams.', browse:'Explore your branch', find:'Find a subject', heroBadge:'Made for diploma students', heroBadgeSmall:'Your learning, your pace',
-      trust1:'Built for GTU diploma', trust1s:'Study with direction', trust2:'English & Gujarati', trust2s:'Learn your way', trust3:'Notes that make sense', trust3s:'Clear and easy to follow', trust4:'Free to explore', trust4s:'Your study space, always',
-      chooseEye:'LET’S FIND YOUR WAY', choose:'Start with your branch', chooseText:'Pick a branch and find the notes made for your journey.', viewAll:'View all branches', ready:'subjects ready', coming:'More notes coming soon', subject:'subject', subjects:'subjects', subjectReady:'subject ready', subjectsReady:'subjects ready', branch:'Branch',
-      howEye:'A SIMPLER WAY TO STUDY', howTitle:'Less searching.<br>More learning.', howText:'From the first chapter to the final revision, your next step is always easy to find.', step1:'Choose your branch', step1s:'Start where you belong, across all diploma branches.', step2:'Find your subject', step2s:'Browse by semester or search by name and code.', step3:'Learn at your pace', step3s:'Read clear notes, diagrams, questions and more.',
-      exploreEye:'PICK UP WHERE CURIOSITY STARTS', explore:'Ready when you are', exploreText:'A few subjects to get you started.', viewSubjects:'Search all subjects', units:'units', study:'Start studying',
-      ctaTitle:'A little support goes a long way.', ctaText:'Take your notes with you, wherever your learning happens.', download:'Get the Android app',
-      branchesTitle:'Every journey starts somewhere.', branchesText:'Find your branch and take the next step in your diploma journey.', searchBranches:'Search branches...', searchSubjects:'Search by subject name or code...', result:'results', semester:'Semester', semesters:'Semesters', semesterText:'Choose a semester to see the subjects available for this branch.', subjectList:'Subjects', subjectListText:'Choose a subject to explore its study material.',
+      home:'Home', branches:'Study notes', papers:'Solved papers', paperSet:'paper set', paperSets:'paper sets', examPrep:'EXAM PREPARATION', saved:'Saved notes', start:'Start learning', search:'Search subjects', allBranches:'All branches',
+      heroEye:'YOUR GTU DIPLOMA STUDY SPACE', heroTitle:'Your diploma,<br><em>made simpler.</em>', heroText:'Find free notes by branch and semester, or choose the exact exam paper you need. Less searching. More time to understand.', browse:'Choose your branch', find:'Find a subject',
+      searchPlaceholder:'Search a subject or code', searchAction:'Search', homeNote:'Notes are free. Sign in only for paper purchases.',
+      notesTag:'FREE STUDY MATERIAL', notesQuick:'Notes, unit by unit', notesQuickText:'Clear explanations, diagrams and revision material.', papersTag:'INDIVIDUAL PAPER ACCESS', papersQuickText:'Browse by subject and exam session. See each price first.', purchasesQuick:'Already purchased? Open your papers',
+      chooseEye:'FIND YOUR COURSE', choose:'Choose your branch', chooseText:'Your subjects, organised by semester.', semestersScope:'Semesters 1–5', viewAll:'View all branches', ready:'subjects ready', coming:'More notes coming soon', subject:'subject', subjects:'subjects', subjectReady:'subject ready', subjectsReady:'subjects ready', branch:'Branch', units:'units', study:'Start studying',
+      freeTitle:'Common papers stay free.', freeText:'Read Maths-I and Applied Physics solutions without signing in.', maths:'Maths-I', physics:'Applied Physics',
+      footerStudy:'STUDY', footerHelp:'HELP & ACCOUNT', footerText:'Free notes. Paper-specific solutions. A clearer way to study.', moreTools:'More resources', openWebApp:'Open web app', download:'Get the Android app', privacy:'Privacy', about:'About DiplomaOne', purchaseInfo:'Purchase information', skip:'Skip to content', openMenu:'Open navigation', closeMenu:'Close navigation',
+      notListedTitle:'Not in the current selection.', notListedText:'This part of the catalog is not shown on the website yet. Explore one of the available branches instead.', savedHidden:'Some saved units are outside the current website selection. Your saved list has not been deleted.',
+      branchesTitle:'Choose your branch.', branchesText:'Five diploma branches. Free notes organised by semester.', searchBranches:'Search branches...', searchSubjects:'Search by subject name or code...', result:'results', semester:'Semester', semesters:'Semesters', semesterText:'Choose a semester to see the subjects available for this branch.', subjectList:'Subjects', subjectListText:'Choose a subject to explore its study material.',
       noBranches:'No branches found', noSubjects:'No subjects found', noSearch:'Try another name or subject code.', emptyTitle:'A little more is on the way.', emptyText:'Notes for this selection haven’t been added yet. Explore another branch in the meantime.',
       available:'Available', notYet:'Coming soon', unitsTitle:'Choose a unit', unitsText:'Select a unit to start reading.', hours:'hours', weightage:'weightage', viewUnit:'Read unit',
       read:'Study notes', notes:'Notes', programs:'Programs', diagrams:'Diagrams', flowcharts:'Flowcharts', equations:'Formulas', numericals:'Numericals', syntax:'Syntax', algorithms:'Algorithms', viva:'Viva', exam:'Exam questions', sources:'References', sourceIntro:'References supplied with this unit. External links may lead to other websites.', suggestedMarks:'Marks shown are suggested for practice, not official marks.', englishOnly:'This unit is currently available in English.',
@@ -27,14 +28,15 @@
       searchTitle:'Find what you need.', searchText:'Search the catalog by subject name or code, in English or Gujarati.', searchPrompt:'What are you looking for?', searchPromptText:'Type a subject name or code to begin.', retry:'Try again', loadError:'We couldn’t load this content.', loadErrorText:'Please check your connection and try again.', noUnit:'This unit is not available yet.', aboutTitle:'Made for the journey.', aboutText:'DiplomaOne is an independent study resource created to help GTU diploma students find clear, accessible learning material in English and Gujarati.', aboutNote:'DiplomaOne is not affiliated with Gujarat Technological University. Always refer to your official syllabus and your institution for authoritative information.', remove:'Remove', back:'Back',
     },
     gu: {
-      home:'હોમ', branches:'બ્રાન્ચ જુઓ', papers:'ઉકેલેલા પેપર', paperSet:'પેપર સેટ', paperSets:'પેપર સેટ', examPrep:'પરીક્ષા તૈયારી', saved:'સાચવેલી નોટ્સ', start:'અભ્યાસ શરૂ કરો', search:'વિષય શોધો', allBranches:'બધી બ્રાન્ચ',
-      heroEye:'તમારા મોટા સપનાઓ માટે નાની મદદ', heroTitle:'તમારો ડિપ્લોમા,<br><em>હવે વધુ સરળ.</em>', heroText:'સરળ નોટ્સ, સ્પષ્ટ આકૃતિઓ અને વર્ગ તથા પરીક્ષાની તૈયારી માટે જરૂરી માર્ગદર્શન.', browse:'તમારી બ્રાન્ચ શોધો', find:'વિષય શોધો', heroBadge:'ડિપ્લોમા વિદ્યાર્થીઓ માટે', heroBadgeSmall:'તમારો અભ્યાસ, તમારી ગતિએ',
-      trust1:'GTU ડિપ્લોમા માટે', trust1s:'સાચી દિશામાં અભ્યાસ', trust2:'ગુજરાતી અને અંગ્રેજી', trust2s:'તમારી રીતે શીખો', trust3:'સરળ સમજાય તેવી નોટ્સ', trust3s:'સ્પષ્ટ અને સહેલી', trust4:'મફત અભ્યાસ', trust4s:'તમારી અભ્યાસની જગ્યા',
-      chooseEye:'ચાલો તમારી દિશા શોધીએ', choose:'તમારી બ્રાન્ચથી શરૂઆત કરો', chooseText:'તમારી બ્રાન્ચ પસંદ કરો અને તમારી નોટ્સ શોધો.', viewAll:'બધી બ્રાન્ચ જુઓ', ready:'વિષયો તૈયાર', coming:'વધુ નોટ્સ જલ્દી આવશે', subject:'વિષય', subjects:'વિષયો', subjectReady:'વિષય તૈયાર', subjectsReady:'વિષયો તૈયાર', branch:'બ્રાન્ચ',
-      howEye:'અભ્યાસની સરળ રીત', howTitle:'ઓછું શોધો.<br>વધુ શીખો.', howText:'પહેલા પ્રકરણથી અંતિમ પુનરાવર્તન સુધી, આગળનું પગલું શોધવું હવે સહેલું છે.', step1:'તમારી બ્રાન્ચ પસંદ કરો', step1s:'તમારી ડિપ્લોમા બ્રાન્ચથી શરૂઆત કરો.', step2:'તમારો વિષય શોધો', step2s:'સેમેસ્ટર, નામ અથવા કોડથી વિષય શોધો.', step3:'તમારી ગતિએ શીખો', step3s:'નોટ્સ, આકૃતિઓ અને પ્રશ્નો વાંચો.',
-      exploreEye:'શીખવાની શરૂઆત અહીંથી', explore:'અભ્યાસ માટે તૈયાર', exploreText:'શરૂઆત કરવા માટે થોડા વિષયો.', viewSubjects:'બધા વિષયો શોધો', units:'એકમો', study:'વાંચવાનું શરૂ કરો',
-      ctaTitle:'થોડી મદદથી ઘણો ફરક પડે છે.', ctaText:'અભ્યાસ જ્યાં પણ કરો, નોટ્સ તમારી સાથે રાખો.', download:'Android એપ મેળવો',
-      branchesTitle:'દરેક સફરની એક શરૂઆત હોય છે.', branchesText:'તમારી બ્રાન્ચ શોધો અને ડિપ્લોમાની સફરમાં આગળ વધો.', searchBranches:'બ્રાન્ચ શોધો...', searchSubjects:'વિષયનું નામ અથવા કોડ શોધો...', result:'પરિણામો', semester:'સેમેસ્ટર', semesters:'સેમેસ્ટર', semesterText:'વિષયો જોવા માટે સેમેસ્ટર પસંદ કરો.', subjectList:'વિષયો', subjectListText:'અભ્યાસ સામગ્રી માટે વિષય પસંદ કરો.',
+      home:'હોમ', branches:'અભ્યાસ નોટ્સ', papers:'ઉકેલેલા પેપર', paperSet:'પેપર સેટ', paperSets:'પેપર સેટ', examPrep:'પરીક્ષા તૈયારી', saved:'સાચવેલી નોટ્સ', start:'અભ્યાસ શરૂ કરો', search:'વિષય શોધો', allBranches:'બધી બ્રાન્ચ',
+      heroEye:'GTU ડિપ્લોમા માટે તમારી અભ્યાસની જગ્યા', heroTitle:'તમારો ડિપ્લોમા,<br><em>હવે વધુ સરળ.</em>', heroText:'બ્રાન્ચ અને સેમેસ્ટર પ્રમાણે મફત નોટ્સ શોધો અથવા જરૂરી પરીક્ષા પેપર પસંદ કરો. ઓછું શોધો, સમજવા માટે વધુ સમય આપો.', browse:'તમારી બ્રાન્ચ પસંદ કરો', find:'વિષય શોધો',
+      searchPlaceholder:'વિષય અથવા કોડ શોધો', searchAction:'શોધો', homeNote:'નોટ્સ મફત છે. માત્ર પેપરની ખરીદી માટે સાઇન ઇન કરો.',
+      notesTag:'મફત અભ્યાસ સામગ્રી', notesQuick:'એકમ પ્રમાણે નોટ્સ', notesQuickText:'સરળ સમજૂતી, આકૃતિઓ અને પુનરાવર્તન માટેની સામગ્રી.', papersTag:'અલગ પેપરની પરવાનગી', papersQuickText:'વિષય અને પરીક્ષા સત્ર પ્રમાણે જુઓ. પહેલાં દરેક પેપરની કિંમત તપાસો.', purchasesQuick:'પહેલેથી ખરીદ્યું છે? તમારા પેપર ખોલો',
+      chooseEye:'તમારો અભ્યાસક્રમ શોધો', choose:'તમારી બ્રાન્ચ પસંદ કરો', chooseText:'સેમેસ્ટર પ્રમાણે ગોઠવેલા તમારા વિષયો.', semestersScope:'સેમેસ્ટર 1–5', viewAll:'બધી બ્રાન્ચ જુઓ', ready:'વિષયો તૈયાર', coming:'વધુ નોટ્સ જલ્દી આવશે', subject:'વિષય', subjects:'વિષયો', subjectReady:'વિષય તૈયાર', subjectsReady:'વિષયો તૈયાર', branch:'બ્રાન્ચ', units:'એકમો', study:'વાંચવાનું શરૂ કરો',
+      freeTitle:'સામાન્ય પેપર મફત રહે છે.', freeText:'સાઇન ઇન વગર Maths-I અને Applied Physics ના ઉકેલ વાંચો.', maths:'Maths-I', physics:'Applied Physics',
+      footerStudy:'અભ્યાસ', footerHelp:'સહાય અને ખાતું', footerText:'મફત નોટ્સ. પસંદ કરેલા પેપરના ઉકેલ. અભ્યાસની વધુ સરળ રીત.', moreTools:'વધુ સાધનો', openWebApp:'વેબ એપ ખોલો', download:'Android એપ મેળવો', privacy:'ગોપનીયતા', about:'DiplomaOne વિશે', purchaseInfo:'ખરીદીની માહિતી', skip:'મુખ્ય સામગ્રી પર જાઓ', openMenu:'નેવિગેશન ખોલો', closeMenu:'નેવિગેશન બંધ કરો',
+      notListedTitle:'હાલની પસંદગીમાં નથી.', notListedText:'કેટલોગનો આ ભાગ હજી વેબસાઇટ પર બતાવવામાં આવતો નથી. ઉપલબ્ધ બ્રાન્ચમાંથી એક પસંદ કરો.', savedHidden:'કેટલાક સાચવેલા એકમો હાલની વેબસાઇટની પસંદગીમાં નથી. તમારી સાચવેલી યાદી કાઢી નાખવામાં આવી નથી.',
+      branchesTitle:'તમારી બ્રાન્ચ પસંદ કરો.', branchesText:'ડિપ્લોમાની પાંચ બ્રાન્ચ. સેમેસ્ટર પ્રમાણે ગોઠવેલી મફત નોટ્સ.', searchBranches:'બ્રાન્ચ શોધો...', searchSubjects:'વિષયનું નામ અથવા કોડ શોધો...', result:'પરિણામો', semester:'સેમેસ્ટર', semesters:'સેમેસ્ટર', semesterText:'વિષયો જોવા માટે સેમેસ્ટર પસંદ કરો.', subjectList:'વિષયો', subjectListText:'અભ્યાસ સામગ્રી માટે વિષય પસંદ કરો.',
       noBranches:'કોઈ બ્રાન્ચ મળી નથી', noSubjects:'કોઈ વિષય મળ્યો નથી', noSearch:'બીજું નામ અથવા વિષય કોડ અજમાવો.', emptyTitle:'વધુ સામગ્રી જલ્દી આવશે.', emptyText:'આ પસંદગી માટે નોટ્સ હજુ ઉમેરાઈ નથી. ત્યાં સુધી બીજી બ્રાન્ચ જુઓ.',
       available:'ઉપલબ્ધ', notYet:'જલ્દી આવશે', unitsTitle:'એકમ પસંદ કરો', unitsText:'વાંચવાનું શરૂ કરવા માટે એકમ પસંદ કરો.', hours:'કલાક', weightage:'વેઇટેજ', viewUnit:'એકમ વાંચો',
       read:'અભ્યાસ નોટ્સ', notes:'નોટ્સ', programs:'પ્રોગ્રામ્સ', diagrams:'આકૃતિઓ', flowcharts:'ફ્લોચાર્ટ્સ', equations:'સૂત્રો', numericals:'ગણિતના દાખલા', syntax:'સિન્ટેક્સ', algorithms:'અલ્ગોરિધમ્સ', viva:'વાઇવા', exam:'પરીક્ષા પ્રશ્નો', sources:'સંદર્ભો', sourceIntro:'આ એકમ સાથે આપેલા સંદર્ભો. બહારની લિંક્સ અન્ય વેબસાઇટ પર લઈ જઈ શકે છે.', suggestedMarks:'દર્શાવેલા ગુણ અભ્યાસ માટે સૂચિત છે; તે સત્તાવાર ગુણ નથી.', englishOnly:'આ એકમ હાલમાં અંગ્રેજીમાં ઉપલબ્ધ છે.',
@@ -56,6 +58,10 @@
   let connectionState={status:'idle',code:null},connectionGeneration=0;
   let paymentGeneration=0,paymentView={key:null,status:'idle'},purchaseView={uid:null,status:'idle'},privateObserver=null;
   const freePaperCodes=new Set(['DI01000021','DI01000121']);
+  // Presentation scope only. Keep the complete catalog/source bytes and the
+  // private owner-delivery routes; this is not a content authorization rule.
+  const visibleBranchKeys=Object.freeze(['computer','civil','chemical','electrical','mechanical']);
+  const visibleSemesters=Object.freeze(['1','2','3','4','5']);
   const paperPrices=Object.freeze({computer:1900,mechanical:2900,electrical:2900,civil:2900,chemical:3900});
   const isPaymentSite=()=>['https://www.diplomaone.in','https://vermillion-pothos-520a34.netlify.app'].includes(location.origin);
   const isConnectionTestSite=()=>location.origin==='https://vermillion-pothos-520a34.netlify.app';
@@ -66,6 +72,8 @@
   const icon = (name) => {
     const shapes = {
       search:'<circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/>',
+      arrow:'<path d="M7 17 17 7M7 7h10v10"/>',
+      arrowRight:'<path d="M5 12h14m-6-6 6 6-6 6"/>',
       computer:'<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>',
       settings:'<circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l1.8-1.4-1.7-3-2.2.8a7 7 0 0 0-1.8-1L14.7 4h-3.4L11 6.4a7 7 0 0 0-1.8 1L7 6.6l-1.7 3L7.1 11a7 7 0 0 0 0 2L5.3 14.4l1.7 3 2.2-.8a7 7 0 0 0 1.8 1l.3 2.4h3.4l.3-2.4a7 7 0 0 0 1.8-1l2.2.8 1.7-3-1.8-1.4c.1-.3.1-.7.1-1Z"/>',
       bolt:'<path d="m13 2-8 12h6l-1 8 9-13h-6z"/>',
@@ -188,9 +196,15 @@
   // retain their own exam identities under their reviewed related subject.
   function paperLocations(code) {
     const subject=legacyPaperSubjects[code]||code, locations=[];
-    for(const branch of branches())for(const [semester,codes] of Object.entries(branch.semesters||{}))
+    for(const branch of allBranches())for(const [semester,codes] of Object.entries(branch.semesters||{}))
       if(Array.isArray(codes)&&codes.includes(subject))locations.push({branch,semester});
     return locations;
+  }
+  const visiblePaperLocations=code=>paperLocations(code).filter(({branch,semester})=>visibleBranchKeys.includes(branch.key)&&visibleSemesters.includes(semester));
+  function isListedSubject(code){
+    // Hide only positively mapped, out-of-scope content. Do not guess a branch
+    // or semester for unregistered future papers from their filenames/codes.
+    return paperLocations(code).length===0||visiblePaperLocations(code).length>0;
   }
   function renderPaperGroups(groups, showLocation=false) {
     const subjects=new Map();
@@ -200,7 +214,7 @@
       subjects.get(subject).push(group);
     }
     return [...subjects].map(([subject,sources])=>{
-      const count=sources.reduce((n,g)=>n+g.entries.length,0), locations=paperLocations(subject);
+      const count=sources.reduce((n,g)=>n+g.entries.length,0), locations=visiblePaperLocations(subject);
       const allUploaded=subjectPaperGroups(subject).reduce((n,g)=>n+g.entries.length,0);
       const coverage=allUploaded===1?`<p class="paper-coverage-note">${lang==='gu'?'આ વિષય માટે હાલમાં આ એક જ પરીક્ષા સત્ર અપલોડ થયેલું છે. બીજા આપેલા સત્રો ઉમેરાશે ત્યારે અહીં આપમેળે દેખાશે.':'This is the only uploaded exam session currently available for this subject. Other supplied sessions will appear here when added.'}</p>`:'';
       const branchNames=[...new Set(locations.map(l=>text(l.branch.name)))], semesters=[...new Set(locations.map(l=>l.semester))].sort();
@@ -213,7 +227,8 @@
   function paperFilterResults(branchKey='', semester='', query='') {
     const q=query.trim().toLocaleLowerCase(), groups=[];
     for(const [code,entries] of Object.entries(paperIndex||{})) {
-      const locations=paperLocations(code);
+      if(!isListedSubject(code))continue;
+      const locations=visiblePaperLocations(code);
       if((branchKey||semester)&&!locations.some(l=>(!branchKey||l.branch.key===branchKey)&&(!semester||l.semester===semester)))continue;
       const meta=subjectMeta(legacyPaperSubjects[code]||code);
       const matched=entries.filter(p=>!q||`${code} ${legacyPaperSubjects[code]||''} ${meta?.name?.en||''} ${meta?.name?.gu||''} ${paperName(code)} ${p.session} ${paperSessionTitle(p.session)}`.toLocaleLowerCase().includes(q));
@@ -223,10 +238,10 @@
     return {count,html:groups.length?renderPaperGroups(groups,true):empty(lang==='gu'?'કોઈ પેપર મળ્યા નથી':'No matching papers',lang==='gu'?'બીજી બ્રાન્ચ, સેમેસ્ટર અથવા વિષય અજમાવો.':'Try another branch, semester or subject.',false)};
   }
   function showPapers(initialBranch='', initialSemester='') {
-    const selectedBranch=branches().some(b=>b.key===initialBranch)?initialBranch:'', selectedSemester=/^[1-6]$/.test(initialSemester)?initialSemester:'';
+    const selectedBranch=branches().some(b=>b.key===initialBranch)?initialBranch:'', selectedSemester=visibleSemesters.includes(initialSemester)?initialSemester:'';
     const result=paperFilterResults(selectedBranch,selectedSemester),title=tr('papers');
     const description=lang==='gu'?'બ્રાન્ચ અને સેમેસ્ટર પસંદ કરો. દરેક વિષય હેઠળ તેના બધા ઉપલબ્ધ પરીક્ષા સત્રો સાથે બતાવ્યા છે.':'Choose a branch and semester. All supplied exam sessions are grouped together under their subject.';
-    return `${shell(title,description,[{label:title}])}<section class="page-content"><div class="wrap">${paperListNotice()}<div class="paper-filter-bar"><label class="paper-filter-field">${esc(tr('branch'))}<select id="paper-branch-filter"><option value="">${esc(tr('allBranches'))}</option>${branches().map(b=>`<option value="${esc(b.key)}" ${b.key===selectedBranch?'selected':''}>${esc(text(b.name))}</option>`).join('')}</select></label><label class="paper-filter-field">${esc(tr('semester'))}<select id="paper-semester-filter"><option value="">${lang==='gu'?'બધા સેમેસ્ટર':'All semesters'}</option>${[1,2,3,4,5,6].map(s=>`<option value="${s}" ${String(s)===selectedSemester?'selected':''}>${esc(tr('semester'))} ${s}</option>`).join('')}</select></label><div class="search-box">${icon('search')}<label class="sr-only" for="paper-search-input">${esc(tr('searchSubjects'))}</label><input id="paper-search-input" type="search" placeholder="${esc(tr('searchSubjects'))}"></div></div><p id="paper-result-count" class="result-count" aria-live="polite">${esc(paperSetLabel(result.count))}</p><div id="paper-results">${result.html}</div></div></section>`;
+    return `${shell(title,description,[{label:title}])}<section class="page-content"><div class="wrap">${paperListNotice()}<div class="paper-filter-bar"><label class="paper-filter-field">${esc(tr('branch'))}<select id="paper-branch-filter"><option value="">${esc(tr('allBranches'))}</option>${branches().map(b=>`<option value="${esc(b.key)}" ${b.key===selectedBranch?'selected':''}>${esc(text(b.name))}</option>`).join('')}</select></label><label class="paper-filter-field">${esc(tr('semester'))}<select id="paper-semester-filter"><option value="">${lang==='gu'?'બધા સેમેસ્ટર':'All semesters'}</option>${visibleSemesters.map(s=>`<option value="${s}" ${s===selectedSemester?'selected':''}>${esc(tr('semester'))} ${s}</option>`).join('')}</select></label><div class="search-box">${icon('search')}<label class="sr-only" for="paper-search-input">${esc(tr('searchSubjects'))}</label><input id="paper-search-input" type="search" placeholder="${esc(tr('searchSubjects'))}"></div></div><p id="paper-result-count" class="result-count" aria-live="polite">${esc(paperSetLabel(result.count))}</p><div id="paper-results">${result.html}</div></div></section>`;
   }
   function bindPaperFilters() {
     const branch=main.querySelector('#paper-branch-filter'),semester=main.querySelector('#paper-semester-filter'),search=main.querySelector('#paper-search-input');
@@ -237,11 +252,12 @@
     };
     branch.addEventListener('change',update);semester.addEventListener('change',update);search.addEventListener('input',update);
   }
-  const branches = () => Array.isArray(catalog?.branches) ? catalog.branches : [];
+  const allBranches = () => Array.isArray(catalog?.branches) ? catalog.branches : [];
+  const branches = () => visibleBranchKeys.map(key=>allBranches().find(b=>b.key===key)).filter(Boolean);
   const subjectMeta = code => catalog?.subjects?.[code];
-  const allSubjects = () => Object.values(catalog?.subjects || {});
-  const readyInBranch = (branch) => Object.values(branch.semesters || {}).flat().filter(code => subjectMeta(code)?.status === 'available').length;
-  const whereIs = code => { for (const b of branches()) for (const [s,codes] of Object.entries(b.semesters || {})) if (Array.isArray(codes) && codes.includes(code)) return [b,s]; return null; };
+  const allSubjects = () => Object.values(catalog?.subjects || {}).filter(s=>isListedSubject(s.code));
+  const readyInBranch = branch => [...new Set(visibleSemesters.flatMap(s=>Array.isArray(branch.semesters?.[s])?branch.semesters[s]:[]))].filter(code=>subjectMeta(code)?.status==='available').length;
+  const whereIs = code => {const match=visiblePaperLocations(code)[0];return match?[match.branch,match.semester]:null;};
   const url = (path, hash) => `data/${path.split('/').map(encodeURIComponent).join('/')}${hash ? `?h=${encodeURIComponent(hash)}` : ''}`;
   async function fetchJson(path) {
     const hash = catalog?.files?.[path];
@@ -263,7 +279,7 @@
   }
   function branchCard(b) {
     const n=readyInBranch(b);
-    return `<a class="branch-card" href="#/branch/${encodeURIComponent(b.key)}"><div class="branch-top"><span class="branch-icon">${icon(b.icon)}</span><span class="branch-arrow">↗</span></div><h3>${esc(text(b.name))}</h3><p>${esc(tr('branch'))} ${esc(b.code)}</p><div class="branch-bottom"><span><i class="dot ${n?'':'soon'}"></i>${n?`${n} ${esc(tr('ready'))}`:esc(tr('coming'))}</span><b>→</b></div></a>`;
+    return `<a class="branch-card" href="#/branch/${encodeURIComponent(b.key)}" data-branch="${esc(b.key)}"><span class="branch-icon">${icon(b.icon)}</span><div class="branch-copy"><span class="branch-code">${esc(tr('branch'))} ${esc(b.code)}</span><h3>${esc(text(b.name))}</h3><p><i class="dot ${n?'':'soon'}" aria-hidden="true"></i>${n?`${n} ${esc(tr('ready'))}`:esc(tr('coming'))}</p></div><span class="branch-arrow" aria-hidden="true">${icon('arrow')}</span></a>`;
   }
   function subjectCard(m) {
     const location=whereIs(m.code), subtitle=location ? `${tr('semester')} ${location[1]} · ${text(location[0].name)}` : (m.category || '');
@@ -272,16 +288,16 @@
   }
   function searchBox(placeholder, value='') { return `<div class="search-box">${icon('search')}<label class="sr-only" for="search-input">${esc(placeholder)}</label><input id="search-input" type="search" autocomplete="off" placeholder="${esc(placeholder)}" value="${esc(value)}"></div>`; }
   function showHome() {
-    const ready=branches().filter(b=>readyInBranch(b)>0), subjects=allSubjects().filter(s=>s.status==='available');
-    const preferred=['DI01000131','DI03000021','DI01000191','DI01000081','DI01005011','DI02000101'];
-    const picks=preferred.map(subjectMeta).filter(x=>x?.status==='available');
-    for (const s of subjects) { if (picks.length>=6) break; if(!picks.includes(s)) picks.push(s); }
-    return `<section class="hero"><div class="wrap hero-inner"><div class="hero-copy"><div class="eyebrow">${esc(tr('heroEye'))}</div><h1>${tr('heroTitle')}</h1><p>${esc(tr('heroText'))}</p><div class="hero-actions"><a href="#/branches" class="button-primary large">${esc(tr('browse'))} <span>↗</span></a><a href="#/search" class="button-text">${esc(tr('find'))} →</a></div></div><div class="hero-image"><img src="assets/study-illustration.webp" alt="Students studying engineering together" fetchpriority="high"></div><span class="hero-sparkle" aria-hidden="true">✳</span><div class="hero-note"><span class="hero-note-icon">${icon('school')}</span><span><b>${esc(tr('heroBadge'))}</b>${esc(tr('heroBadgeSmall'))}</span></div></div></section>
-    <div class="trust-strip"><div class="wrap trust-inner">${[['school','trust1','trust1s'],['globe','trust2','trust2s'],['book','trust3','trust3s'],['heart','trust4','trust4s']].map(([ic,a,b])=>`<div class="trust-item"><span class="trust-icon">${icon(ic)}</span><span><b>${esc(tr(a))}</b>${esc(tr(b))}</span></div>`).join('')}</div></div>
-    <section class="section"><div class="wrap"><div class="section-heading"><div><div class="eyebrow">${esc(tr('chooseEye'))}</div><h2>${esc(tr('choose'))}</h2><p>${esc(tr('chooseText'))}</p></div><a href="#/branches" class="section-link">${esc(tr('viewAll'))} ↗</a></div><div class="branch-grid">${ready.slice(0,4).map(branchCard).join('')}</div></div></section>
-    <section class="section how-section"><div class="wrap how-grid"><div class="how-heading"><div class="eyebrow">${esc(tr('howEye'))}</div><h2>${tr('howTitle')}</h2><p>${esc(tr('howText'))}</p><a href="#/branches" class="button-text">${esc(tr('browse'))} →</a></div><div class="steps">${[1,2,3].map(i=>`<div class="step"><span class="step-number">0${i}</span><div><b>${esc(tr('step'+i))}</b><p>${esc(tr('step'+i+'s'))}</p></div></div>`).join('')}</div></div></section>
-    <section class="section section-white"><div class="wrap"><div class="section-heading"><div><div class="eyebrow">${esc(tr('exploreEye'))}</div><h2>${esc(tr('explore'))}</h2><p>${esc(tr('exploreText'))}</p></div><a class="section-link" href="#/search">${esc(tr('viewSubjects'))} ↗</a></div><div class="subject-grid">${picks.map(subjectCard).join('')}</div></div></section>
-    <section class="section"><div class="wrap"><div class="cta-band"><div><h2>${esc(tr('ctaTitle'))}</h2><p>${esc(tr('ctaText'))}</p></div><a class="button-light" href="https://github.com/Sunilpa4/diplomaone-content/releases/latest" target="_blank" rel="noopener noreferrer">${esc(tr('download'))} <span>↗</span></a></div></div></section>`;
+    const common=['DI01000021','DI01000121'].filter(code=>subjectMeta(code)&&isListedSubject(code));
+    return `<section class="hero"><div class="wrap hero-inner"><div class="hero-copy"><p class="eyebrow">${esc(tr('heroEye'))}</p><h1>${tr('heroTitle')}</h1><p class="hero-description">${esc(tr('heroText'))}</p><form id="home-search" class="home-search" role="search"><label class="sr-only" for="home-search-input">${esc(tr('searchSubjects'))}</label>${icon('search')}<input id="home-search-input" type="search" name="q" autocomplete="off" maxlength="120" placeholder="${esc(tr('searchPlaceholder'))}"><button type="submit">${esc(tr('searchAction'))}<span aria-hidden="true">${icon('arrowRight')}</span></button></form><p class="hero-free-note">${icon('check')}${esc(tr('homeNote'))}</p></div><aside class="study-shortcuts" aria-label="${esc(tr('start'))}"><a class="study-shortcut" href="#/branches"><span class="shortcut-icon">${icon('book')}</span><div><span class="shortcut-kind">${esc(tr('notesTag'))}</span><h2>${esc(tr('notesQuick'))}</h2><p>${esc(tr('notesQuickText'))}</p></div><span class="shortcut-arrow" aria-hidden="true">${icon('arrow')}</span></a><a class="study-shortcut shortcut-papers" href="#/papers"><span class="shortcut-icon">${icon('school')}</span><div><span class="shortcut-kind">${esc(tr('papersTag'))}</span><h2>${esc(tr('papers'))}</h2><p>${esc(tr('papersQuickText'))}</p></div><span class="shortcut-arrow" aria-hidden="true">${icon('arrow')}</span></a><a class="purchases-shortcut" href="#/purchases">${esc(tr('purchasesQuick'))}<span aria-hidden="true">${icon('arrowRight')}</span></a></aside></div></section><section class="section home-branches"><div class="wrap"><div class="section-heading"><div><p class="eyebrow">${esc(tr('chooseEye'))}</p><h2>${esc(tr('choose'))}</h2><p>${esc(tr('chooseText'))}</p></div><span class="scope-label">${esc(tr('semestersScope'))}</span></div><div class="branch-grid">${branches().map(branchCard).join('')}</div>${common.length?`<div class="common-resources"><span class="common-icon">${icon('heart')}</span><div><h3>${esc(tr('freeTitle'))}</h3><p>${esc(tr('freeText'))}</p></div><div class="common-links">${common.map(code=>`<a href="#/subject/${code}">${esc(tr(code==='DI01000021'?'maths':'physics'))} <span aria-hidden="true">${icon('arrow')}</span></a>`).join('')}</div></div>`:''}</div></section>`;
+  }
+  function bindHome(){
+    main.querySelector('#home-search')?.addEventListener('submit',event=>{
+      event.preventDefault();
+      const query=main.querySelector('#home-search-input').value.trim().slice(0,120);
+      if(!query){main.querySelector('#home-search-input').focus();return;}
+      location.hash='#/search/'+encodeURIComponent(query);
+    });
   }
   function showBranches() {
     return `${shell(tr('branchesTitle'),tr('branchesText'),[{label:tr('allBranches')}])}<section class="page-content"><div class="wrap"><div class="filter-bar">${searchBox(tr('searchBranches'))}<span class="result-count" id="result-count"></span></div><div class="branch-grid" id="results"></div></div></section>`;
@@ -295,6 +311,7 @@
   // appear in the semester of their matching subject instead of a hard-coded branch bucket.
   const branchSemesterPaperGroups = (key, sem) => {
     const branch=branches().find(x=>x.key===key), groups=[], seen=new Set();
+    if(!visibleSemesters.includes(sem))return groups;
     for(const code of branch?.semesters?.[sem]||[]) for(const group of subjectPaperGroups(code)) {
       if(seen.has(group.code))continue;
       seen.add(group.code);groups.push(group);
@@ -302,8 +319,8 @@
     return groups;
   };
   function showBranch(key) {
-    const b=branches().find(x=>x.key===key); if(!b) return missing();
-    const semesters=[1,2,3,4,5,6].map(s=>{
+    const b=branches().find(x=>x.key===key); if(!b) return notListed();
+    const semesters=visibleSemesters.map(s=>{
       const sem=String(s), codes=b.semesters?.[sem]||[], groups=branchSemesterPaperGroups(key,sem);
       const subjectCount=codes.filter(code=>subjectMeta(code)).length;
       const readyCount=codes.filter(code=>subjectMeta(code)?.status==='available').length;
@@ -316,7 +333,7 @@
     return `${shell(text(b.name),tr('semesterText'),[{label:tr('allBranches'),href:'#/branches'},{label:text(b.name)}])}<section class="page-content"><div class="wrap">${paperListNotice()}<div class="section-heading"><div><div class="eyebrow">${esc(tr('branch'))} ${esc(b.code)}</div><h2>${esc(tr('semesters'))}</h2></div><a class="section-link" href="#/papers/${encodeURIComponent(key)}">${lang==='gu'?'આ બ્રાન્ચના બધા પેપર':'All papers for this branch'} ↗</a></div><div class="semester-list">${semesters}</div></div></section>`;
   }
   function showSemester(key,sem) {
-    const b=branches().find(x=>x.key===key); if(!b || !/^[1-6]$/.test(sem)) return missing();
+    const b=branches().find(x=>x.key===key); if(!b||!visibleSemesters.includes(sem))return notListed();
     const list=(b.semesters?.[sem]||[]).map(subjectMeta).filter(Boolean).sort((a,b)=>Number(b.status==='available')-Number(a.status==='available'));
     const paperGroups=branchSemesterPaperGroups(key,sem);
     const subjectSection=list.length?`<div class="section-heading"><div><div class="eyebrow">${esc(text(b.name))}</div><h2>${esc(tr('subjectList'))}</h2></div></div><div class="subject-grid">${list.map(subjectCard).join('')}</div>`:'';
@@ -326,14 +343,16 @@
   }
   function empty(title, description, button=true) { return `<div class="empty-state"><h3>${esc(title)}</h3><p>${esc(description)}</p>${button?`<a href="#/branches" class="button-primary">${esc(tr('exploreBranches'))} →</a>`:''}</div>`; }
   function missing() { return `${shell(tr('loadError'),tr('loadErrorText'))}<section class="page-content"><div class="wrap">${empty(tr('loadError'),tr('loadErrorText'))}</div></section>`; }
-  function showSearch() { return `${shell(tr('searchTitle'),tr('searchText'),[{label:tr('search')}])}<section class="page-content"><div class="wrap"><div class="filter-bar">${searchBox(tr('searchSubjects'))}<span class="result-count" id="result-count"></span></div><div id="results"></div></div></section>`; }
+  function notListed(){return `${shell(tr('notListedTitle'),tr('notListedText'),[{label:tr('allBranches'),href:'#/branches'}])}<section class="page-content" data-catalog-limited><div class="wrap"><a class="button-primary" href="#/branches">${esc(tr('exploreBranches'))} →</a></div></section>`;}
+  function showSearch(query='') { return `${shell(tr('searchTitle'),tr('searchText'),[{label:tr('search')}])}<section class="page-content"><div class="wrap"><div class="filter-bar">${searchBox(tr('searchSubjects'),query.slice(0,120))}<span class="result-count" id="result-count"></span></div><div id="results"></div></div></section>`; }
   function bindSubjectSearch() {
     const input=document.querySelector('#search-input'),results=document.querySelector('#results'),count=document.querySelector('#result-count');
     const update=()=>{const q=input.value.trim().toLocaleLowerCase();if(!q){count.textContent='';results.innerHTML=empty(tr('searchPrompt'),tr('searchPromptText'),false);return;}const found=allSubjects().filter(s=>`${s.code||''} ${s.alt_code||''} ${s.name?.en||''} ${s.name?.gu||''}`.toLocaleLowerCase().includes(q)).sort((a,b)=>Number(b.status==='available')-Number(a.status==='available'));count.textContent=`${found.length} ${tr('result')}`;results.innerHTML=found.length?`<div class="subject-grid">${found.map(subjectCard).join('')}</div>`:empty(tr('noSubjects'),tr('noSearch'),false);};input.addEventListener('input',update);update();
   }
   function showSaved() {
-    const cards=saved.map(item=>{const meta=subjectMeta(item.code);if(!meta)return '';return `<a class="subject-card" href="#/unit/${encodeURIComponent(item.code)}/${Number(item.unit)}"><div class="subject-meta"><span>${esc(tr('read'))}</span><span class="subject-code">${esc(item.code)}</span></div><h3>${esc(tr('semester')==='Semester'?'Unit':'એકમ')} ${Number(item.unit)} · ${esc(text(item.title))}</h3><div class="subject-foot"><span>${esc(text(meta.name))}</span><strong>↗</strong></div></a>`}).filter(Boolean);
-    return `${shell(tr('savedTitle'),tr('savedText'),[{label:tr('saved')}])}<section class="page-content"><div class="wrap">${cards.length?`<div class="subject-grid">${cards.join('')}</div>`:empty(tr('savedEmpty'),tr('savedEmptyText'))}</div></section>`;
+    const hidden=saved.some(item=>subjectMeta(item?.code)&&!isListedSubject(item.code));
+    const cards=saved.filter(item=>item&&isListedSubject(item.code)).map(item=>{const meta=subjectMeta(item.code);if(!meta)return '';return `<a class="subject-card" href="#/unit/${encodeURIComponent(item.code)}/${Number(item.unit)}"><div class="subject-meta"><span>${esc(tr('read'))}</span><span class="subject-code">${esc(item.code)}</span></div><h3>${esc(tr('semester')==='Semester'?'Unit':'એકમ')} ${Number(item.unit)} · ${esc(text(item.title))}</h3><div class="subject-foot"><span>${esc(text(meta.name))}</span><strong>↗</strong></div></a>`}).filter(Boolean);
+    return `${shell(tr('savedTitle'),tr('savedText'),[{label:tr('saved')}])}<section class="page-content"><div class="wrap">${hidden?`<p class="reader-notice">${esc(tr('savedHidden'))}</p>`:''}${cards.length?`<div class="subject-grid">${cards.join('')}</div>`:empty(tr('savedEmpty'),tr('savedEmptyText'))}</div></section>`;
   }
   function showSubject(s, meta) {
     const location=whereIs(s.code), available=new Set(s.available_units||[]), units=Array.isArray(s.units)?s.units:[];
@@ -931,8 +950,9 @@
   function updateHeader() {
     document.documentElement.lang=lang;
     document.querySelectorAll('[data-nav]').forEach(a=>a.textContent=tr(a.dataset.nav));
+    document.querySelectorAll('[data-copy]').forEach(a=>a.textContent=tr(a.dataset.copy));
     updateAccountLinks();
-    const mobile=mobileNav.querySelectorAll('a');['home','branches','papers','saved'].forEach((key,i)=>mobile[i].textContent=tr(key));
+    menuButton.setAttribute('aria-label',tr(mobileNav.hidden?'openMenu':'closeMenu'));
     langButton.setAttribute('aria-label',lang==='en'?'Switch to Gujarati':'Switch to English');
     langButton.innerHTML=lang==='en'?'ગુ <span>/</span> <strong>EN</strong>':'<strong>ગુ</strong> <span>/</span> EN';
   }
@@ -945,11 +965,11 @@
     try {
       // Account, setup and privacy screens must work without the public catalog.
       if(!catalog&&!['account','purchases','test-connection','privacy','purchase-info'].includes(route)) await loadCatalog();
-      if(!route)html=showHome();
+      if(!route){html=showHome();bind=bindHome;}
       else if(route==='account'||route==='purchases'||route==='test-connection'){html=showAccount(route==='purchases',route==='test-connection');bind=bindAccount;}
       else if(route==='branches'){html=showBranches();bind=bindBranchSearch;}
       else if(route==='branch'){await loadPaperIndex();html=sub?showSemester(arg,sub):showBranch(arg);}
-      else if(route==='search'){html=showSearch();bind=bindSubjectSearch;}
+      else if(route==='search'){html=showSearch(arg||'');bind=bindSubjectSearch;}
       else if(route==='papers'){await loadPaperIndex();html=showPapers(arg,sub);bind=bindPaperFilters;}
       else if(route==='saved')html=showSaved();
       else if(route==='about')html=`${shell(tr('aboutTitle'),tr('aboutText'),[{label:'About'}])}<section class="page-content"><div class="wrap"><div class="reader-card"><p>${esc(tr('aboutNote'))}</p></div></div></section>`;
@@ -958,6 +978,7 @@
       else if(route==='subject'&&safeCode(arg)) {
         const meta=subjectMeta(arg);
         if(!meta)html=missing();
+        else if(!isListedSubject(arg))html=notListed();
         else {
           await loadPaperIndex();
           const subject=meta.status==='available'?await fetchJson(`subjects/${arg}.json`):{code:arg,name:meta.name,units:[],available_units:[]};
@@ -970,13 +991,20 @@
         html=available?await showPaper(arg,sub,subjectMeta(arg),entry||{}):missing();
         if(available)bind=()=>{bindPaperReader();bindPaidPaper(arg,sub);};
       } else if(route==='unit'&&safeCode(arg)&&/^(?:0|[1-9]\d*)$/.test(sub||'')&&subjectMeta(arg)?.status==='available') {
-        const [subject,unit]=await Promise.all([fetchJson(`subjects/${arg}.json`),fetchJson(`units/${arg}_u${sub}.json`)]);
-        html=showUnit(unit,subject);bind=()=>bindReader(unit,subject);
+        if(!isListedSubject(arg))html=notListed();
+        else {
+          const [subject,unit]=await Promise.all([fetchJson(`subjects/${arg}.json`),fetchJson(`units/${arg}_u${sub}.json`)]);
+          html=showUnit(unit,subject);bind=()=>bindReader(unit,subject);
+        }
       } else html=missing();
       if(id!==routeCounter||location.hash!==routeHash)return;
       main.innerHTML=html;if(bind)bind();
       document.title=route ? `${main.querySelector('h1')?.textContent || 'Study'} | DiplomaOne`:'DiplomaOne — Your diploma, made simpler';
-      document.querySelectorAll('[data-nav]').forEach(a=>a.classList.toggle('active',(route||'home')===a.dataset.nav));
+      const activeNav=({branch:'branches',subject:'branches',unit:'branches',paper:'papers'})[route]||route||'home';
+      document.querySelectorAll('[data-nav]').forEach(a=>{
+        const active=activeNav===a.dataset.nav;a.classList.toggle('active',active);
+        if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');
+      });
     } catch(error) {
       // Paid responses, identity and provider details never enter app logs.
       if(route!=='paper'&&route!=='purchases')console.error(error);
@@ -985,10 +1013,15 @@
       document.querySelector('#retry').addEventListener('click',render);
     }
   }
-  langButton.addEventListener('click',()=>{lang=lang==='en'?'gu':'en';writeStore('diplomaone.website.lang',lang);updateHeader();render();});
-  menuButton.addEventListener('click',()=>{const open=mobileNav.hidden;mobileNav.hidden=!open;menuButton.setAttribute('aria-expanded',String(open));});
-  mobileNav.addEventListener('click',e=>{if(e.target.closest('a')){mobileNav.hidden=true;menuButton.setAttribute('aria-expanded','false');}});
-  window.addEventListener('hashchange',()=>{resetConnection(true);resetPayments();activeTab='notes';window.scrollTo(0,0);render();});
+  function closeNavigation(focus=false){
+    mobileNav.hidden=true;menuButton.setAttribute('aria-expanded','false');menuButton.setAttribute('aria-label',tr('openMenu'));
+    if(focus)menuButton.focus();
+  }
+  langButton.addEventListener('click',()=>{lang=lang==='en'?'gu':'en';writeStore('diplomaone.website.lang',lang);closeNavigation();updateHeader();render();});
+  menuButton.addEventListener('click',()=>{const open=mobileNav.hidden;mobileNav.hidden=!open;menuButton.setAttribute('aria-expanded',String(open));menuButton.setAttribute('aria-label',tr(open?'closeMenu':'openMenu'));});
+  mobileNav.addEventListener('click',e=>{if(e.target.closest('a'))closeNavigation();});
+  window.addEventListener('keydown',e=>{if(e.key==='Escape'&&!mobileNav.hidden){closeNavigation(true);e.preventDefault();}});
+  window.addEventListener('hashchange',()=>{closeNavigation();resetConnection(true);resetPayments();activeTab='notes';window.scrollTo(0,0);render();});
   startAccount();
   updateHeader();render();
 })();

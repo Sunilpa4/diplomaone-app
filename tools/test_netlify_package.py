@@ -35,6 +35,7 @@ class NetlifyPackageTest(unittest.TestCase):
                 subprocess.run(['node', str(Path(__file__).resolve().parent.parent / 'website' / 'test_mechanical_listing.js'), str(packaged_app)], check=True)
                 unpacked = Path(tmp) / 'site'
                 z.extractall(unpacked)
+                subprocess.run(['node', str(Path(__file__).resolve().parent.parent / 'website' / 'test_navigation.js'), str(unpacked)], check=True)
                 subprocess.run(['node', str(Path(__file__).resolve().parent.parent / 'website' / 'test_account.js'), str(unpacked)], check=True)
                 subprocess.run(['node', str(Path(__file__).resolve().parent.parent / 'website' / 'test_auth.js'), str(unpacked / 'auth.js')], check=True)
                 for name in ('auth.js', 'assets/firebase-auth.js', 'assets/firebase-auth.js.LEGAL.txt'):

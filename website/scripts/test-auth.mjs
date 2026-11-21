@@ -4,7 +4,7 @@ import {spawnSync} from 'node:child_process';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 const website=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-for(const test of ['test_auth.js','test_connection.js','test_payments.js','test_account.js','test_purchase_ui.js']){
+for(const test of ['test_auth.js','test_connection.js','test_payments.js','test_navigation.js','test_account.js','test_purchase_ui.js']){
  const result=spawnSync(process.execPath,[path.join(website,test)],{cwd:website,encoding:'utf8',timeout:120000});
  process.stdout.write(result.stdout||'');process.stderr.write(result.stderr||'');
  if(result.status!==0){

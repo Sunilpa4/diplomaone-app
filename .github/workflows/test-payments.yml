@@ -64,6 +64,10 @@ jobs:
           npm run check:auth --prefix website
           npm run test:auth --prefix website
           python3 tools/build_netlify_site.py
+      - name: Check redesigned navigation, five-branch scope and responsive English/Gujarati layout
+        env:
+          NODE_PATH: ${{ github.workspace }}/build/auth-browser-tools/node_modules:${{ github.workspace }}/website/node_modules
+        run: node website/test_navigation_browser.js
       - name: Check packaged Chromium live purchase flow, English/Gujarati cards and responsive CSP
         env:
           NODE_PATH: ${{ github.workspace }}/build/auth-browser-tools/node_modules:${{ github.workspace }}/website/node_modules

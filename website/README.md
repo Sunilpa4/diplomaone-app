@@ -2,6 +2,16 @@
 
 The website reads the published `data/catalog.json`, subject files and free notes from the existing content pipeline. Saved units and language preferences remain device-local, not synced by signing in. Ads are not enabled.
 
+## Simplified website navigation
+
+The homepage has subject/code search, two clear notes/papers shortcuts, My purchases, five branch cards and links to the two common free papers. Repeated promotional sections, decorative hero imagery and the download banner are removed from the page. Optional web/Android app links remain under a collapsed **More resources** footer, not primary study navigation. English/Gujarati, keyboard focus, Escape-to-close mobile navigation and reduced-motion behavior are retained.
+
+The **website presentation** is limited to **Computer, Civil, Chemical, Electrical and Mechanical**, **Semesters 1–5**. The complete catalog, other branches, Semester 6 and original files are not edited/deleted. Branch/semester pages, paper filters/counts, subject search and saved-list display use that same scope. A subject shared with a current placement stays visible; unregistered papers remain discoverable without guessing their branch or semester. A sixth **unit** of a visible subject is not a sixth semester and remains readable.
+
+Deferred-only saved entries are hidden with a notice, never removed from device storage. Direct deferred note routes show a clear selection notice instead of fetching their content. **This is not a payment authorization rule:** an existing owner can still reopen a purchased historical/unlisted paper through My purchases or its direct paper route. The backend, price table, private delivery and all four OFF launch gates are unchanged. The separate optional Flutter/Android app is not redesigned by this website change.
+
+`test_navigation.js` exercises the actual SPA against a frozen full synthetic catalog, including shared/unknown/legacy papers, persisted hidden saves and an owned historical paper. `test_navigation_browser.js` uses the built Netlify frontend at 1440/1024/390/320 px in both languages, plus keyboard/reduced-motion checks. All requests are fulfilled locally or blocked; screenshots contain test data, not real purchases.
+
 ## Individual-paper purchases (implemented; sales NOT launched)
 
 The flow is **select a paper/price → Google sign-in → server order → Razorpay Checkout → verified full capture → only that account’s selected paper**. Prices per subject/exam-session paper: Computer **₹19**, Mechanical/Electrical/Civil **₹29**, Chemical **₹39**. **All notes, Maths-I `DI01000021` and Applied Physics `DI01000121` remain free.** No whole-subject bundle/subscription is implied.
@@ -49,11 +59,12 @@ npm ci --include=dev --ignore-scripts --no-fund
 npm ci --prefix website --include=dev --ignore-scripts --no-fund
 npm run build:auth --prefix website       # after changing bundled client sources
 npm run check:auth --prefix website
-npm run test:auth --prefix website       # auth, request, Checkout and SPA tests
-npm test                                # isolated test/live backend + migration
-npm run check:bundle                     # actual isolated Netlify Function ZIP
+npm run test:auth --prefix website       # Auth, navigation, Checkout and SPA tests
 python3 tools/build_netlify_package.py DiplomaOne-Netlify.zip
+python3 tools/build_netlify_site.py
 NODE_PATH="$PWD/website/node_modules" python3 tools/test_netlify_package.py
+npm test                                # after rebuilding the ZIP; includes exact artifact equality
+npm run check:bundle                     # actual isolated Netlify Function ZIP
 python3 tools/export_app_content.py
 python3 website/serve.py
 ```
