@@ -2,7 +2,7 @@
 
 ## Current revision — individual-paper LIVE flow (2026-10-30)
 
-The owner chose the real individual-paper flow rather than another separate test-setup walkthrough. The implementation connects **selected paper/price → Google → same-origin server order → Razorpay Checkout → server-verified full capture → only that UID/paper**, My purchases and private card/image/PDF delivery. Test routes/keys/records remain separate.
+The owner chose the real individual-paper flow rather than another separate test-setup walkthrough. The implementation connects **selected paper/price → Google → same-origin server order → UPI-first Razorpay Checkout → server-verified full capture → only that UID/paper**, My purchases and private card/image/PDF delivery. Test routes/keys/records remain separate.
 
 **Implemented is not launched. All four live switches stay OFF.** Actual public-source migration/private import, merchant activation/reachable webhook, approved customer support/refund/access terms and controlled real delivery acceptance are still required. See **[LIVE-LAUNCH.md](LIVE-LAUNCH.md)**. No automated result below certifies the owner's project or a real payment.
 
@@ -12,7 +12,7 @@ The owner chose the real individual-paper flow rather than another separate test
 | --- | --- |
 | Node syntax / all server, importer, migration and test modules | Passed |
 | Backend API/domain/repository/security/import/migration tests | **88 cases: 87 passed, 1 emulator-only browser-rules case skipped locally** |
-| Frontend controller/request/account/purchase UI | **65 passed:** 16 Auth, 12 diagnostic helper, 13 payment helper, 16 account/router, 8 integrated purchase UI |
+| Frontend controller/request/account/purchase UI | **67 passed:** 16 Auth, 12 diagnostic helper, 14 payment helper, 16 account/router, 9 integrated purchase UI |
 | Actual packaged SPA in offline Chromium | **9 live-flow scenarios passed:** English/Gujarati at 1365/390/320 px, plus checkout OFF, pending capture and navigation-before-callback |
 | Retained offline Chromium regressions | **9 diagnostic scenarios + 33 account checks passed**, including actual bundled Firebase SDK readiness/network-failure smoke and project-subpath loading |
 | Existing offline reader/listing/source suites | **10 passed** across Mechanical/Electrical/Computer/common/refreshed papers; cards, text, supplied languages, diagrams, OR, fractions, grouping and exam/PDF identities preserved |
@@ -29,6 +29,10 @@ The payment helper tests reject unapproved origins/routes, extra/malformed/test-
 
 The actual offline Chromium payment test uses the **built 12-file frontend** and real Auth/payment adapter bundled with an explicit Firebase boundary replacement. **Every network request is fulfilled locally or blocked**; it makes no Google/provider/cloud request or charge. It checks direct user gestures, Authorization/Origin boundaries, real object-URL images/PDF download, expandable cards/image dialog, purchases after reload, other-paper denial, expected warnings, CSP and horizontal layout in both languages. Screenshots are ignored test artifacts, not real customer purchases. The rupee glyph is explicitly covered by the existing self-hosted font.
 
+**Automatic UPI/QR follow-up:** the owner selected the verified gateway flow. New assertions check the exact standard UPI-first `config.display` sequence, hidden Collect/COD, retained default online methods, no custom block that bypasses Collect hiding, fresh per-Checkout options and the unchanged server-owned order ID/amount/key. English/Gujarati SPA/browser checks cover method/PIN guidance, desktop-vs-mobile/merchant availability caveats, no app-managed static QR/UPI URL/PIN/VPA form and rejection of a typed transaction/QR-success callback without valid signed verification. The nine packaged Chromium scenarios and all 33 account/nine diagnostic checks were rerun; the 390px English locked-paper screenshot was visually reviewed. These tests do **not** execute Razorpay itself, prove merchant UPI/QR availability, display an actual provider QR or complete an app handoff/payment.
+
+The refreshed local run also re-executed all 88 backend cases (87 pass/one official-emulator-only skip), the actual NFT archive/four disabled configurations, migration dry run, Auth freshness and both package tests. Evidence is under ignored `build/upi-*-validation*.log`. One preliminary local deployment assertion compared the new source with the not-yet-rebuilt tracked ZIP; rebuilding the ZIP before the dependent backend run resolved it without changing assertions or backend authorization.
+
 The local repository harness is an explicit **test-only document/transaction double**, not a production memory fallback or real Firestore engine. It checks atomic commits, conflicts/retries and read-before-write. The genuine emulator gate below remains mandatory for both fixed test/live namespaces and denied client reads/writes.
 
 ### Actual deployment artifact checks
@@ -44,13 +48,13 @@ Four isolated ESM + **native Lambda v2 bootstrap** cases passed for both live/te
 
 These checks verify real artifact startup, disabled config/authentication/origin gates and existing-owner initialization without gateway keys. They do **not** prove owner credentials, real IAM/connectivity, storage availability, live Checkout provider/CSP behavior or reachable webhooks.
 
-The rebuilt **frontend-only** `DiplomaOne-Netlify.zip` contains exactly **12 public files**, **558,595 bytes**, SHA256:
+The rebuilt **frontend-only** `DiplomaOne-Netlify.zip` contains exactly **12 public files**, **559,352 bytes**, SHA256:
 
 ```text
-f38eb376809e227848f4f694192ac25acb52fd59a84081739150cef697671b7a
+684ad333547676d29e073b8d31cf5e25e277e0d87cebef75b11b96c8322202cf
 ```
 
-Static output byte-matches the ZIP and excludes backend files, source papers, private imports, dependencies, tests/tooling and secrets. Auth bundle: **125,388 bytes**; license: **23,256 bytes**. Only Maths-I/Applied Physics legacy paper paths redirect publicly. Other `/papers/*` paths return a 404 frontend. **Drag/drop does not deploy Functions**; the real API requires the reviewed Git-connected root build.
+Static output byte-matches the ZIP and excludes backend files, source papers, private imports, dependencies, tests/tooling and secrets. Auth bundle: **125,516 bytes**; license: **23,256 bytes**. Only Maths-I/Applied Physics legacy paper paths redirect publicly. Other `/papers/*` paths return a 404 frontend. **Drag/drop does not deploy Functions**; the real API requires the reviewed Git-connected root build.
 
 ### Offline migration checks and known launch blocker
 
@@ -76,13 +80,13 @@ Local Java/emulator tooling is unavailable, so the local skipped client-rules ca
 
 **Passed for implementation commit `9a901fb46c13d3e78075753387d72f5737bdd985`:** [payment run 44721602034 / job 136238463106](https://github.com/Sunilpa4/diplomaone-app/actions/runs/44721602034/job/136238463106), **1m36s**. The GitHub job API independently reports SUCCESS for the required **real Firestore transactions/denied client rules/packaged SDK DEMO-emulator step**, the offline packaged Chromium purchase step and the actual-source migration dry run. The runner executes the complete 88-case suite on the real SDK/DEMO engine; the locally skipped browser-rules case is included. No raw provider or owner-cloud acceptance is inferred from that result.
 
-The same implementation revision's [website validation 44721602013](https://github.com/Sunilpa4/diplomaone-app/actions/runs/44721602013), [free-only solved-paper publisher/source validation 44721601935](https://github.com/Sunilpa4/diplomaone-app/actions/runs/44721601935), [content validation 44721602157](https://github.com/Sunilpa4/diplomaone-app/actions/runs/44721602157) and both Netlify deploy-preview checks also passed. These were PR checks, not publication, source cleanup or a Production payment launch. Later validation-record-only commits do not change the tested implementation. Consult the latest checks on [draft PR #37](https://github.com/Sunilpa4/diplomaone-app/pull/37) for subsequent revisions.
+The same implementation revision's [website validation 44721602013](https://github.com/Sunilpa4/diplomaone-app/actions/runs/44721602013), [free-only solved-paper publisher/source validation 44721601935](https://github.com/Sunilpa4/diplomaone-app/actions/runs/44721601935), [content validation 44721602157](https://github.com/Sunilpa4/diplomaone-app/actions/runs/44721602157) and both Netlify deploy-preview checks also passed. These were PR checks, not publication, source cleanup or a Production payment launch. That historical revision predates the UPI-first follow-up; consult the latest checks on [draft PR #37](https://github.com/Sunilpa4/diplomaone-app/pull/37) for subsequent revisions rather than treating an older run as validation of new code.
 
 ### Follow-up frontend check diagnostics
 
 The validation-record-only **`aa5b008`** run [44722137491 / job 136240289431](https://github.com/Sunilpa4/diplomaone-app/actions/runs/44722137491/job/136240289431) failed its combined frontend step before Java/emulator setup. Backend/package checks, the other three workflows and both previews passed. The API supplied only exit 1; external raw-log retrieval returned EOF, so the specific failed assertion was **not observed** and no production/emulator cause is claimed. Twenty standalone local purchase-UI repeats passed.
 
-The follow-up makes the unit/Chromium steps distinct, removes CPU-dependent fixed-count `setImmediate` waits from the jsdom purchase UI in favor of bounded timer/deadline synchronization, and adds safe fixture-only failure annotations to the purchase UI/browser tests. These changes do not alter production payment code, authorizations, assertions or retries. The latest PR checks/comment record the subsequent run; a historical green run is not substituted for a failing current check.
+The follow-up makes the unit/Chromium steps distinct, removes CPU-dependent fixed-count `setImmediate` waits from the jsdom purchase UI in favor of bounded timer/deadline synchronization, and adds safe fixture-only failure annotations to the purchase UI/browser tests. Those diagnostic changes do not alter production payment code, authorizations, assertions or retries. The subsequent **`aa4981d52a9e71d3389d29564a101d1076dd0e6f`** revision passed [payment run 44723253153 / job 136244104602](https://github.com/Sunilpa4/diplomaone-app/actions/runs/44723253153/job/136244104602), [website run 44723253161](https://github.com/Sunilpa4/diplomaone-app/actions/runs/44723253161), [source/publisher run 44723253172](https://github.com/Sunilpa4/diplomaone-app/actions/runs/44723253172) and [content run 44723253175](https://github.com/Sunilpa4/diplomaone-app/actions/runs/44723253175), plus both Netlify previews, independently verified with the PR checks API. That confirms the post-diagnostics revision, not the exact cause of the older failure or real provider acceptance. The current UPI-first follow-up is a further frontend change and has its own local results above/PR checks; historical green runs are never substituted for its current checks.
 
 ## Historical evidence (not current live acceptance)
 
@@ -93,7 +97,7 @@ The follow-up makes the unit/Chromium steps distinct, removes CPU-dependent fixe
 ## Not completed / no claims made
 
 - No agent-operated real Firestore read/write acceptance, private Blobs import, credential/IAM/rules/key change, Netlify environment/account inspection or billing/plan change. Owner-reported database/replacement credentials are not independent verification. Prior exposed-key revocation and Production-only isolation remain owner-private checks.
-- No real Google OAuth, merchant live/KYC/key acceptance, provider charge/capture/refund/payout, webhook delivery/replay or actual customer delivery acceptance. Offline Checkout doubles and the DEMO emulator cannot prove these.
+- No real Google OAuth, independently verified merchant live/KYC/key/UPI/QR acceptance, provider charge/capture/refund/payout, webhook delivery/replay or actual customer delivery acceptance. The owner reports Live/KYC activated and selected Netlify project `sunilpa4` for `diplomaone.in`/`www.diplomaone.in`; Production Live secrets saving/mapping has not been inspected. Offline Checkout doubles and the DEMO emulator cannot prove these.
 - No current/public-history solution migration or Drive move/edit/delete. Existing public materials cannot become never-public by hiding links, copying privately or deleting current files.
 - No invented support contact, refund eligibility, access duration, legal/tax/invoice promise, ad unit, extra paid service or unlimited free/cost-cap claim. The order budgets do not cap all database reads, bandwidth or invocations.
 - No immediate JWT revocation, DRM, screenshot/copy prevention, general DDoS protection or production availability guarantee.

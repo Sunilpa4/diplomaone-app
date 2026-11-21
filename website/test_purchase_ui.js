@@ -25,10 +25,11 @@ async function waitFor(fn,label='view'){
  throw Error('Timed out: '+label);
 }
 const deferred=()=>{let resolve;const promise=new Promise(r=>{resolve=r;});return {resolve,promise};};
-async function boot(t,{initialUser=null,enabled=true,owned=new Set(),initialHash=hash,origin='https://www.diplomaone.in',verifyGate=null,captured=true,assetFailure=false,failTree=false,extraProduct=null}={}){
+async function boot(t,{initialUser=null,enabled=true,owned=new Set(),initialHash=hash,origin='https://www.diplomaone.in',verifyGate=null,captured=true,assetFailure=false,failTree=false,extraProduct=null,language='en'}={}){
  const errors=[],vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e.message));
  const dom=new JSDOM(fs.readFileSync(path.join(site,'index.html'),'utf8'),{url:origin+'/'+initialHash,runScripts:'outside-only',virtualConsole:vc});
  const w=dom.window,d=w.document,calls={http:[],public:[],orders:0,verify:0,load:0,signIn:0,checkout:[],blobs:[],revoked:[]};
+ if(language==='gu')w.localStorage.setItem('diplomaone.website.lang',JSON.stringify(language));
  const state={user:initialUser,enabled,owned,captured},on={};w.scrollTo=()=>{};w.console.error=e=>errors.push(e?.message||String(e));
  const product=(productId=id)=>({id:productId,title:'Manufacturing I · Summer 2026',branch:'mechanical',amount:2900,currency:'INR'});
  const config=()=>({mode:'live',enabled:state.enabled,keyId,currency:'INR',products:state.enabled?[product(),product(other+'--'+session),...(extraProduct?[{...product(extraProduct),title:'New private import'}]:[])]:[]});
@@ -86,6 +87,26 @@ test('price labels are per real selected paper; all paid answer fetches stay loc
  assert(b.d.querySelector('.paper-price').textContent.includes('₹29'));assert(!b.d.querySelector('.solved-paper'));
  assert.equal(b.calls.orders,0);assert(!b.calls.public.some(url=>url.includes('/papers/'+code+'/')));
  assert.equal(b.w.sessionStorage.length,0);assert.equal(b.w.localStorage.length,0);assert.deepEqual(b.errors,[]);
+});
+test('bilingual UPI/QR guidance uses the selected server order and never collects a PIN, VPA, screenshot or static QR',async t=>{
+ for(const language of ['en','gu']){
+  const b=await boot(t,{initialUser:user('alice'),language});await waitFor(()=>b.d.querySelector('#buy-paper')&&!b.d.querySelector('#buy-paper').disabled);
+  const guide=b.d.querySelector('.paper-payment-guide').textContent;
+  assert(guide.includes(language==='en'?'QR via Razorpay':'Razorpay દ્વારા'));
+  assert(guide.includes(language==='en'?'mobile':'મોબાઇલ'));assert(guide.includes(language==='en'?'desktop':'કમ્પ્યુટર'));
+  assert(guide.includes(language==='en'?'merchant settings':'વેપારીની સેટિંગ'));assert(guide.includes('UPI PIN'));
+  assert.equal(b.d.querySelector('#buy-paper').textContent,language==='en'?'Pay ₹29 · UPI / QR':'₹29 ચૂકવો · UPI / QR');
+  assert.equal(b.d.querySelectorAll('[data-paid-paper] input,[data-paid-paper] form,[data-paid-paper] img,a[href^="upi:"]').length,0);
+  assert.equal(b.calls.orders,0);assert.equal(b.calls.checkout.length,0);
+  b.click('#buy-paper');await waitFor(()=>b.calls.checkout.length===1);
+  const options=b.calls.checkout[0].settings;
+  assert.equal(options.order_id,'order_OfflineFixture');assert.equal(options.amount,2900);
+  assert.deepEqual(options.config,{display:{sequence:['upi'],preferences:{show_default_blocks:true},hide:[{method:'upi',flows:['collect']},{method:'cod'}]}});
+  await options.handler({method:'upi',qr_paid:true,upi_transaction_id:'TYPED_FIXTURE',status:'success'});
+  await waitFor(()=>b.d.querySelector('#buy-paper')?.disabled===false);
+  assert.equal(b.calls.verify,0);assert(!b.d.querySelector('.solved-paper'),'UPI/QR status without signed server verification is not access');
+  assert.deepEqual(b.errors,[]);
+ }
 });
 test('Google → server order → Checkout → server capture → only selected cards; purchases persist after navigation/reload',async t=>{
  const gate=deferred(),b=await boot(t,{verifyGate:gate});await waitFor(()=>b.d.querySelector('#paper-signin')&&!b.d.querySelector('#paper-signin').disabled);
@@ -160,5 +181,9 @@ test('unapproved hosts remain locked without loading auth, and purchase informat
  assert.equal(b.calls.load,0);assert.equal(b.calls.orders,0);assert(!b.d.querySelector('#buy-paper'));
  assert(b.d.querySelector('a[href^="https://www.diplomaone.in/#/paper/"]'));
  await b.go('#/purchase-info');await waitFor(()=>b.d.querySelector('h2')?.textContent==='Sales are not open yet');
- assert(b.d.querySelector('#main').textContent.includes('access duration'));assert.equal(b.calls.load,0);assert.deepEqual(b.errors,[]);
+ assert(b.d.querySelector('#main').textContent.includes('access duration'));
+ assert(b.d.querySelector('#main').textContent.includes('order-linked QR'));assert(b.d.querySelector('#main').textContent.includes('UPI PIN'));
+ b.click('#lang-toggle');await waitFor(()=>b.d.querySelector('h2')?.textContent==='વેચાણ હજી શરૂ નથી');
+ assert(b.d.querySelector('#main').textContent.includes('તે ઓર્ડરનો QR'));assert(b.d.querySelector('#main').textContent.includes('UPI PIN'));
+ assert.equal(b.calls.load,0);assert.equal(b.calls.orders,0);assert.deepEqual(b.errors,[]);
 });

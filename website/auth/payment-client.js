@@ -163,8 +163,14 @@ export function createPaymentClient(currentUser,{fetcher=globalThis.fetch,locati
    const result=await new Promise(resolve=>{
     let settled=false,verifying=false;
     const finish=value=>{if(!settled){settled=true;checkout=null;resolve(value);}};
+    // Provider-managed Intent / QR, never an app-created UPI URI/static QR.
+    // Reorder the standard UPI method, not a custom block: provider `hide`
+    // rules do not remove instruments reintroduced inside custom blocks.
+    // This is presentation only; the captured-payment server check is unchanged.
     const instance=new Razorpay({key:order.keyId,order_id:order.orderId,amount:order.amount,currency:'INR',name:'DiplomaOne',
-     description:selected.title,modal:{ondismiss:()=>{if(!verifying)finish(failure('checkout_closed'));}},
+     description:selected.title,config:{display:{sequence:['upi'],preferences:{show_default_blocks:true},
+      hide:[{method:'upi',flows:['collect']},{method:'cod'}]}},
+     modal:{ondismiss:()=>{if(!verifying)finish(failure('checkout_closed'));}},
      handler:async value=>{
       if(settled||verifying)return;verifying=true;
       try{

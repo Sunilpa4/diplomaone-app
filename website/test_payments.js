@@ -42,7 +42,7 @@ async function fixture(options={}){
   fetcher(url,init){calls.http.push([url,init]);return options.fetch?options.fetch(url,init,defaultResponse):Promise.resolve(defaultResponse(url));}});
  return {client,calls,state,location,window:win};
 }
-async function checkout(f){const result=f.client.buy(id);await tick();assert.equal(f.calls.checkout.length,1);return {result,instance:f.calls.checkout[0]};}
+async function checkout(f){const before=f.calls.checkout.length,result=f.client.buy(id);await tick();assert.equal(f.calls.checkout.length,before+1);return {result,instance:f.calls.checkout.at(-1)};}
 
 test('helper is lazy, narrow and sends Google tokens only in fixed same-origin Authorization headers',async()=>{
  const f=await fixture();assert.equal(f.calls.token,0);assert.equal(f.calls.http.length,0);
@@ -87,6 +87,17 @@ test('buy uses only the server order/price/live key; duplicate clicks share one 
  assert.deepEqual(Object.keys(body).sort(),['productId','requestId']);assert.equal(body.productId,id);
  assert.match(body.requestId,/^[a-f0-9-]{36}$/);assert.equal(f.calls.http.filter(([url])=>url.endsWith('/orders')).length,1);
  options.modal.ondismiss();assert.deepEqual(await promise,failure('checkout_closed'));f.client.dispose();
+});
+test('UPI is first with provider-managed Intent/QR, Collect and COD hidden, without static UPI details or disabling other online methods',async()=>{
+ const expected={display:{sequence:['upi'],preferences:{show_default_blocks:true},hide:[{method:'upi',flows:['collect']},{method:'cod'}]}};
+ const f=await fixture(),first=await checkout(f),options=first.instance.settings;
+ assert.deepEqual(options.config,expected);assert.equal(options.config.display.blocks,undefined,'custom UPI blocks would bypass the Collect hide rule');
+ assert.equal(options.method,undefined,'do not force a device-specific UPI flow or disable other available online methods');
+ assert(!/upi:\/\/|pa=|vpa|qr_code/i.test(JSON.stringify(options)),'no personal VPA, static QR or client-created transfer URL');
+ assert.equal(options.order_id,order.orderId);assert.equal(options.amount,order.amount);assert.equal(options.key,order.keyId);
+ options.config.display.sequence.push('untrusted-mutation');options.modal.ondismiss();await first.result;
+ const second=await checkout(f);assert.deepEqual(second.instance.settings.config,expected,'a fresh Checkout gets fresh fixed display options');
+ second.instance.settings.modal.ondismiss();await second.result;f.client.dispose();
 });
 test('a Checkout callback cannot unlock until the server confirms this exact selected paper',async()=>{
  const gate=deferred(),f=await fixture({fetch:async(url,init,defaultResponse)=>url.endsWith('/verify')?gate.promise:defaultResponse(url)});
